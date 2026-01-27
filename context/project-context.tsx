@@ -28,6 +28,7 @@ type ProjectContextType = {
     isCollected: (projectId: string | number) => boolean;
     completeProject: (projectId: string | number, proof: ProjectCompletionProof) => Promise<void>;
     uncompleteProject: (projectId: string | number) => Promise<void>;
+    toggleProjectCompleted: (projectId: string | number) => Promise<void>;
     isCompleted: (projectId: string | number) => boolean;
     deleteComment: (commentId: string | number) => Promise<void>;
     isLoading: boolean;
@@ -359,6 +360,17 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     const isCollected = useCallback((projectId: string | number) => collectedProjects.has(projectId), [collectedProjects]);
     const isCompleted = useCallback((projectId: string | number) => completedProjects.has(projectId), [completedProjects]);
 
+    const toggleProjectCompleted = useCallback(async (projectId: string | number) => {
+        if (isCompleted(projectId)) {
+            await uncompleteProject(projectId);
+        } else {
+            await completeProject(projectId, {
+                images: ["auto_toggle"],
+                notes: "Quick completed via toggle"
+            });
+        }
+    }, [isCompleted, uncompleteProject, completeProject]);
+
     const deleteComment = useCallback(async (commentId: string | number) => {
         if (!user) return;
         const cid = commentId;
@@ -397,6 +409,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         isCollected,
         completeProject,
         uncompleteProject,
+        toggleProjectCompleted,
         isCompleted,
         deleteComment,
         isLoading
@@ -413,6 +426,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         isCollected,
         completeProject,
         uncompleteProject,
+        toggleProjectCompleted,
         isCompleted,
         deleteComment,
         isLoading

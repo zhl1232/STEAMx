@@ -89,8 +89,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      // 调用 Supabase 退出登录
-      await supabase.auth.signOut()
+      // 尝试调用 Supabase 退出登录，但限制等待时间，防止网络问题导致卡死
+      const signOutPromise = supabase.auth.signOut()
+      const timeoutPromise = new Promise(resolve => setTimeout(resolve, 500)) // 500ms 超时
+
+      await Promise.race([signOutPromise, timeoutPromise])
+    } catch (error) {
+      console.error('Error signing out:', error)
+    } finally {
+      // 无论 Supabase 调用是否成功，都执行本地清理和跳转
 
       // 清除所有 Supabase 相关的 localStorage 数据
       if (typeof window !== 'undefined') {
@@ -99,6 +106,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             localStorage.removeItem(key)
           }
         })
+
+        // 尝试清除 Cookies (以 sb- 开头的)
+        document.cookie.split(";").forEach((c) => {
+          const key = c.trim().split("=")[0];
+          if (key.startsWith("sb-")) {
+            document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          }
+        });
       }
 
       // 清除状态
@@ -106,12 +121,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setProfile(null)
 
       // 刷新页面以确保所有状态被清除
-      window.location.href = '/'
-    } catch (error) {
-      console.error('Error signing out:', error)
-      // 即使出错也尝试清除本地状态
-      setUser(null)
-      setProfile(null)
       window.location.href = '/'
     }
   }

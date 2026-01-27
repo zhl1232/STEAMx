@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
+import NextImage from "next/image";
 import { Input } from "@/components/ui/input";
 
 interface CompleteProjectDialogProps {
@@ -173,14 +174,15 @@ export function CompleteProjectDialog({
                             <div className="grid grid-cols-3 gap-3">
                                 {proofImages.map((url, index) => (
                                     <div key={index} className="relative group aspect-square">
-                                        <img
+                                        <NextImage
                                             src={url}
                                             alt={`作品 ${index + 1}`}
-                                            className="w-full h-full object-cover rounded-lg"
+                                            fill
+                                            className="object-cover rounded-lg"
                                         />
                                         <button
                                             onClick={() => removeImage(index)}
-                                            className="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
                                         >
                                             <X className="h-4 w-4 text-white" />
                                         </button>
