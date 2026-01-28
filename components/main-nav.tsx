@@ -4,9 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/context/auth-context";
 
 export function MainNav() {
     const pathname = usePathname();
+    const { user } = useAuth();
 
     const routes = [
         {
@@ -34,7 +36,12 @@ export function MainNav() {
             label: "个人中心",
             active: pathname === "/profile",
         },
-    ];
+    ].filter(route => {
+        if (!user && (route.href === '/leaderboard' || route.href === '/share' || route.href === '/profile')) {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <nav className="flex items-center gap-6 text-sm font-medium">

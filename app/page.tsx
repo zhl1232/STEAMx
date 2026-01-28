@@ -62,11 +62,7 @@ export default function Home() {
                                 开始旅程 <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         </Link>
-                        <Link href="/share">
-                            <Button size="lg" variant="outline" className="h-12 px-8 text-base rounded-full border-purple-200 bg-purple-50 text-purple-600 hover:bg-purple-100 dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 backdrop-blur-sm transition-all hover:scale-105">
-                                分享灵感
-                            </Button>
-                        </Link>
+
                     </motion.div>
                 </div>
             </section>
@@ -82,7 +78,7 @@ export default function Home() {
                     </p>
                 </div>
 
-                <div className="mx-auto grid justify-center gap-8 grid-cols-2 md:max-w-[64rem] md:grid-cols-3 lg:gap-12">
+                <div className="mx-auto grid justify-center gap-4 sm:gap-6 md:gap-8 grid-cols-2 md:max-w-[64rem] md:grid-cols-3 lg:gap-12">
                     <CategoryPortal
                         href="/explore?category=科学"
                         icon={<FlaskConical className="h-10 w-10 text-blue-400" />}

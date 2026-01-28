@@ -7,11 +7,11 @@ import { LoginPromptProvider } from "@/context/login-prompt-context";
 import { GamificationProvider } from "@/context/gamification-context";
 import Link from "next/link";
 import { Rocket } from "lucide-react";
-import { GlobalSearch } from "@/components/features/global-search";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { UserButton } from "@/components/user-button";
 import { MainNav } from "@/components/main-nav";
+import { MobileNav } from "@/components/mobile-nav";
 import { NotificationProvider } from "@/context/notification-context";
 import { NotificationBell } from "@/components/notification-bell";
 import { ErrorBoundary } from "@/components/error-boundary";
@@ -73,7 +73,16 @@ export default function RootLayout({
                                                 {/* Header */}
                                                 <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                                                     <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
-                                                        {/* Logo */}
+                                                        <MobileNav />
+
+                                                        <div className="md:hidden mr-auto flex items-center">
+                                                            <Link href="/" className="flex items-center space-x-2">
+                                                                <Rocket className="h-5 w-5 text-primary" />
+                                                                <span className="font-bold">STEAM</span>
+                                                            </Link>
+                                                        </div>
+
+                                                        {/* Logo & Desktop Nav */}
                                                         <div className="mr-4 hidden md:flex items-center">
                                                             <Link className="mr-6 flex items-center space-x-2" href="/">
                                                                 <Rocket className="h-6 w-6 text-primary" />
@@ -84,10 +93,7 @@ export default function RootLayout({
                                                         </div>
                                                         {/* 右侧搜索和通知 */}
                                                         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                                                            <div className="w-full flex-1 md:w-auto md:flex-none">
-                                                                <GlobalSearch />
-                                                            </div>
-                                                            <nav className="flex items-center gap-2">
+                                                            <nav className="flex items-center gap-2 ml-auto">
                                                                 <NotificationBell />
                                                                 <UserButton />
                                                             </nav>

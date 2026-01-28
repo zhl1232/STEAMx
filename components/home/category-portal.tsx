@@ -30,7 +30,7 @@ export function CategoryPortal({
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay }}
                 whileHover={{ scale: 1.05 }}
-                className="relative aspect-square flex flex-col items-center justify-center text-center p-6"
+                className="relative aspect-square flex flex-col items-center justify-center text-center p-3 sm:p-6"
             >
                 {/* Portal Ring Effect */}
                 <div className={cn(
@@ -46,16 +46,17 @@ export function CategoryPortal({
 
                 {/* Icon Container */}
                 <div className={cn(
-                    "relative z-10 mb-4 rounded-full p-4 transition-transform duration-500 group-hover:-translate-y-2",
-                    "bg-black/50 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                    "relative z-10 mb-2 sm:mb-4 rounded-full p-3 sm:p-4 transition-transform duration-500 group-hover:-translate-y-2",
+                    "bg-black/50 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]",
+                    "[&_svg]:!h-8 [&_svg]:!w-8 sm:[&_svg]:!h-10 sm:[&_svg]:!w-10"
                 )}>
                     {icon}
                 </div>
 
                 {/* Text Content */}
-                <div className="relative z-10 space-y-2 transition-transform duration-500 group-hover:translate-y-1">
-                    <h3 className="font-bold text-lg tracking-wide">{title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2 px-2">
+                <div className="relative z-10 space-y-1 sm:space-y-2 transition-transform duration-500 group-hover:translate-y-1 px-1">
+                    <h3 className="font-bold text-base sm:text-lg tracking-wide">{title}</h3>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 px-1 sm:px-2 leading-tight">
                         {description}
                     </p>
                 </div>

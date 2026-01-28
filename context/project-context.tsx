@@ -90,24 +90,92 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     }, [user?.id, fetchUserInteractions]);
 
     const getUserStats = useCallback(async () => {
-        if (!user) return { projectsPublished: 0, projectsLiked: 0, projectsCompleted: 0, commentsCount: 0 };
-
-        const { count: publishedCount } = await supabase
-            .from('projects')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        const { count: commentsCount } = await supabase
-            .from('comments')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        return {
-            projectsPublished: publishedCount || 0,
-            projectsLiked: likedProjectsRef.current.size,
-            projectsCompleted: completedProjectsRef.current.size,
-            commentsCount: commentsCount || 0
+        const defaultStats = {
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            // 扩展的统计维度
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 0,
+            consecutiveDays: 0,
+            discussionsCreated: 0,
+            repliesCount: 0
         };
+
+        if (!user) return defaultStats;
+
+        try {
+            // 并行查询所有统计数据
+            const [
+                publishedResult,
+                commentsResult,
+                likesGivenResult,
+                challengesResult,
+                discussionsResult,
+                repliesResult,
+                completedResult
+            ] = await Promise.all([
+                supabase.from('projects').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                supabase.from('comments').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                supabase.from('likes').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+                supabase.from('challenge_participants').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+                supabase.from('discussions').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                supabase.from('discussion_replies').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                supabase.from('completed_projects')
+                    .select('project_id, projects(category)')
+                    .eq('user_id', user.id)
+            ]);
+
+            // 计算分类完成数
+            let scienceCompleted = 0, techCompleted = 0, engineeringCompleted = 0, artCompleted = 0, mathCompleted = 0;
+            if (completedResult.data) {
+                for (const item of completedResult.data) {
+                    const project = item.projects as unknown as { category: string } | null;
+                    const category = project?.category;
+                    switch (category) {
+                        case '科学': scienceCompleted++; break;
+                        case '技术': techCompleted++; break;
+                        case '工程': engineeringCompleted++; break;
+                        case '艺术': artCompleted++; break;
+                        case '数学': mathCompleted++; break;
+                    }
+                }
+            }
+
+            return {
+                projectsPublished: publishedResult.count || 0,
+                projectsLiked: likedProjectsRef.current.size,
+                projectsCompleted: completedProjectsRef.current.size,
+                commentsCount: commentsResult.count || 0,
+                scienceCompleted,
+                techCompleted,
+                engineeringCompleted,
+                artCompleted,
+                mathCompleted,
+                likesGiven: likesGivenResult.count || 0,
+                likesReceived: 0, // TODO: 需要聚合查询用户项目的总点赞数
+                collectionsCount: collectedProjectsRef.current.size,
+                challengesJoined: challengesResult.count || 0,
+                level: 1, // TODO: 从 profile 获取
+                loginDays: 0, // TODO: 需要登录记录表
+                consecutiveDays: 0, // TODO: 需要登录记录表
+                discussionsCreated: discussionsResult.count || 0,
+                repliesCount: repliesResult.count || 0
+            };
+        } catch (error) {
+            console.error('Error fetching user stats:', error);
+            return defaultStats;
+        }
     }, [supabase, user]);
 
     const addProject = useCallback(async (project: Project) => {

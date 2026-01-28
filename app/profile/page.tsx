@@ -257,32 +257,32 @@ export default function ProfilePage() {
       </div>
 
       {/* 标签页切换 */}
-      <div className="flex gap-2 mb-6 border-b overflow-x-auto">
+      <div className="flex gap-2 mb-6 border-b overflow-x-auto pb-1 scrollbar-none snap-x">
         <Button
           variant={activeTab === 'my-projects' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('my-projects')}
-          className="rounded-b-none whitespace-nowrap"
+          className="rounded-b-none whitespace-nowrap flex-shrink-0 px-4 snap-start"
         >
           我的发布 ({myProjects.length})
         </Button>
         <Button
           variant={activeTab === 'collected' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('collected')}
-          className="rounded-b-none whitespace-nowrap"
+          className="rounded-b-none whitespace-nowrap flex-shrink-0 px-4 snap-start"
         >
           我的收藏 ({collectedProjects.size})
         </Button>
         <Button
           variant={activeTab === 'liked' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('liked')}
-          className="rounded-b-none whitespace-nowrap"
+          className="rounded-b-none whitespace-nowrap flex-shrink-0 px-4 snap-start"
         >
           我点赞的 ({likedProjects.size})
         </Button>
         <Button
           variant={activeTab === 'completed' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('completed')}
-          className="rounded-b-none whitespace-nowrap"
+          className="rounded-b-none whitespace-nowrap flex-shrink-0 px-4 snap-start"
         >
           我做过的 ({completedProjects.size})
         </Button>
