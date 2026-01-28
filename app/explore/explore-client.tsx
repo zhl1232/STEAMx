@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ChevronDown, ChevronUp, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { AdvancedSearch } from '@/components/features/advanced-search'
@@ -9,12 +10,30 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 
-const categories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]  // fallback
+// 类别配置：主分类 -> 子分类映射
+const CATEGORY_CONFIG: Record<string, string[]> = {
+    "科学": ["物理实验", "化学实验", "生物观察", "天文地理"],
+    "技术": ["编程入门", "电子制作", "机器人", "3D打印"],
+    "工程": ["机械结构", "桥梁建造", "简易机器", "模型制作"],
+    "艺术": ["绘画", "手工", "雕塑"],
+    "数学": ["几何探索", "数学游戏", "逻辑谜题"],
+    "其他": [],
+}
+
+// 难度选项
+const DIFFICULTY_OPTIONS = [
+    { value: "all", label: "全部难度" },
+    { value: "1-2", label: "⭐⭐ 入门 (1-2星)" },
+    { value: "3-4", label: "⭐⭐⭐ 进阶 (3-4星)" },
+    { value: "5-6", label: "⭐⭐⭐⭐⭐ 挑战 (5-6星)" },
+]
+
+const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
 
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
-    categories?: string[]  // 从服务端传入的分类
+    categories?: string[]
 }
 
 export function ExploreClient({ initialProjects, initialHasMore, categories: propCategories }: ExploreClientProps) {
@@ -22,11 +41,13 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
 
-    // 使用传入的分类或回退到默认值
-    const displayCategories = propCategories || categories
+    const displayCategories = propCategories || defaultCategories
 
+    // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
     const initialCategory = searchParams.get("category") || "全部"
+    const initialSubCategory = searchParams.get("subCategory") || ""
+    const initialDifficulty = searchParams.get("difficulty") || "all"
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
     const [page, setPage] = useState(1)
@@ -35,30 +56,50 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const observer = useRef<IntersectionObserver | null>(null)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
+    const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
+    const [selectedDifficulty, setSelectedDifficulty] = useState(initialDifficulty)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
-    const [searchKey, setSearchKey] = useState(0) // 用于强制重置 AdvancedSearch
-    const [advancedFilters, setAdvancedFilters] = useState({
-        difficulty: "all",
-        duration: [0, 120],
-        materials: [] as string[]
-    })
+    const [showAdvancedFilters, setShowAdvancedFilters] = useState(
+        !!initialSubCategory || initialDifficulty !== "all"
+    )
 
-    // 加载更多项目（客户端分页）
+    // 获取当前主分类对应的子分类
+    const currentSubCategories = selectedCategory === "全部"
+        ? Object.values(CATEGORY_CONFIG).flat()
+        : CATEGORY_CONFIG[selectedCategory] || []
+
+    // 构建 URL 参数
+    const buildSearchParams = (overrides: {
+        query?: string
+        category?: string
+        subCategory?: string
+        difficulty?: string
+    } = {}) => {
+        const params = new URLSearchParams()
+        const query = overrides.query ?? searchQuery
+        const category = overrides.category ?? selectedCategory
+        const subCategory = overrides.subCategory ?? selectedSubCategory
+        const difficulty = overrides.difficulty ?? selectedDifficulty
+
+        if (query) params.set('q', query)
+        if (category !== '全部') params.set('category', category)
+        if (subCategory) params.set('subCategory', subCategory)
+        if (difficulty !== 'all') params.set('difficulty', difficulty)
+
+        return params
+    }
+
+    // 加载更多项目
     const loadMore = useCallback(async () => {
         if (isLoadingMore || !hasMore) return
 
         setIsLoadingMore(true)
-
-        const params = new URLSearchParams()
-        if (searchQuery) params.set('q', searchQuery)
-        if (selectedCategory !== '全部') params.set('category', selectedCategory)
-        if (advancedFilters.difficulty !== 'all') params.set('difficulty', advancedFilters.difficulty)
+        const params = buildSearchParams()
         params.set('page', String(page))
 
         try {
             const response = await fetch(`/api/projects?${params.toString()}`)
             const data = await response.json()
-
             setProjects(prev => [...prev, ...data.projects])
             setHasMore(data.hasMore)
             setPage(prev => prev + 1)
@@ -67,7 +108,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         } finally {
             setIsLoadingMore(false)
         }
-    }, [isLoadingMore, hasMore, page, searchQuery, selectedCategory, advancedFilters])
+    }, [isLoadingMore, hasMore, page, searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
@@ -83,27 +124,11 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         if (node) observer.current.observe(node)
     }, [isLoadingMore, hasMore, loadMore])
 
-    // 处理筛选变化（触发服务端重新获取）
-    const handleFilterChange = async (category?: string, query?: string, filters?: any) => {
-        const params = new URLSearchParams()
-
-        const newCategory = category !== undefined ? category : selectedCategory
-        const newQuery = query !== undefined ? query : searchQuery
-        const newFilters = filters !== undefined ? filters : advancedFilters
-
-        if (newQuery) params.set('q', newQuery)
-        if (newCategory !== '全部') params.set('category', newCategory)
-        if (newFilters.difficulty !== 'all') params.set('difficulty', newFilters.difficulty)
-
-        if (category !== undefined) setSelectedCategory(category)
-        if (query !== undefined) setSearchQuery(query)
-        if (filters !== undefined) setAdvancedFilters(filters)
-
-        // 重置分页和项目列表
+    // 执行筛选
+    const executeFilter = (params: URLSearchParams) => {
         setPage(1)
         setProjects([])
 
-        // 从服务端获取新的数据
         startTransition(async () => {
             try {
                 const response = await fetch(`/api/projects?${params.toString()}`)
@@ -113,35 +138,52 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             } catch (error) {
                 console.error('Error fetching projects:', error)
             }
-
-            // 同时更新 URL（用于刷新页面时保持状态）
             router.push(`/explore?${params.toString()}`)
         })
     }
 
-    const handleSearch = (query: string, filters: any) => {
-        handleFilterChange(undefined, query, filters)
+    // 处理搜索
+    const handleSearch = (query: string) => {
+        setSearchQuery(query)
+        const params = buildSearchParams({ query })
+        executeFilter(params)
     }
 
+    // 处理主分类点击
     const handleCategoryClick = (category: string) => {
-        handleFilterChange(category, undefined, undefined)
+        setSelectedCategory(category)
+        // 切换主分类时清空子分类选择
+        setSelectedSubCategory("")
+        const params = buildSearchParams({ category, subCategory: "" })
+        executeFilter(params)
     }
 
-    const handleClearFilters = async () => {
+    // 处理子分类点击（单选）
+    const handleSubCategoryClick = (subCategory: string) => {
+        const newSubCategory = selectedSubCategory === subCategory ? "" : subCategory
+        setSelectedSubCategory(newSubCategory)
+        const params = buildSearchParams({ subCategory: newSubCategory })
+        executeFilter(params)
+    }
+
+    // 处理难度筛选
+    const handleDifficultyClick = (difficulty: string) => {
+        setSelectedDifficulty(difficulty)
+        const params = buildSearchParams({ difficulty })
+        executeFilter(params)
+    }
+
+    // 清除所有筛选
+    const handleClearFilters = () => {
         setSearchQuery("")
         setSelectedCategory("全部")
-        setAdvancedFilters({
-            difficulty: "all",
-            duration: [0, 120],
-            materials: []
-        })
+        setSelectedSubCategory("")
+        setSelectedDifficulty("all")
         setPage(1)
         setProjects([])
-        setSearchKey(prev => prev + 1) // 强制 AdvancedSearch 重新挂载
 
         startTransition(async () => {
             try {
-                // 获取所有项目（无筛选）
                 const response = await fetch('/api/projects')
                 const data = await response.json()
                 setProjects(data.projects)
@@ -149,25 +191,34 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             } catch (error) {
                 console.error('Error fetching projects:', error)
             }
-
             router.push('/explore')
         })
     }
 
+    // 清除子分类选择
+    const handleClearSubCategory = () => {
+        setSelectedSubCategory("")
+        const params = buildSearchParams({ subCategory: "" })
+        executeFilter(params)
+    }
+
+    const hasActiveFilters = !!selectedSubCategory || selectedDifficulty !== "all"
+
     return (
         <div className="container mx-auto py-8">
             <div className="flex flex-col gap-6 mb-8">
+                {/* 标题和搜索栏 */}
                 <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:items-center">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">探索项目</h1>
                         <p className="text-muted-foreground">探索社区中最酷的 STEAM 创意。</p>
                     </div>
                     <div className="flex w-full items-center space-x-2 md:w-auto md:min-w-[400px]">
-                        <AdvancedSearch key={searchKey} onSearch={handleSearch} />
+                        <AdvancedSearch onSearch={handleSearch} defaultValue={searchQuery} />
                     </div>
                 </div>
 
-                {/* Category Filter Chips */}
+                {/* 主分类标签 */}
                 <div className="flex flex-wrap gap-2">
                     {displayCategories.map((category) => (
                         <button
@@ -186,8 +237,92 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                         </button>
                     ))}
                 </div>
+
+                {/* 更多筛选折叠区域 */}
+                <div className="space-y-4">
+                    <button
+                        onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        {showAdvancedFilters ? (
+                            <ChevronUp className="h-4 w-4" />
+                        ) : (
+                            <ChevronDown className="h-4 w-4" />
+                        )}
+                        更多筛选
+                        {hasActiveFilters && (
+                            <span className="inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full">
+                                {(selectedSubCategory ? 1 : 0) + (selectedDifficulty !== "all" ? 1 : 0)}
+                            </span>
+                        )}
+                    </button>
+
+                    {showAdvancedFilters && (
+                        <div className="space-y-4 p-4 rounded-lg border bg-muted/30">
+                            {/* 子分类筛选 */}
+                            {currentSubCategories.length > 0 && (
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm font-medium">子分类</span>
+                                        {selectedSubCategory && (
+                                            <button
+                                                onClick={handleClearSubCategory}
+                                                className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                            >
+                                                <X className="h-3 w-3" />
+                                                清除
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {currentSubCategories.map((sub) => (
+                                            <button
+                                                key={sub}
+                                                onClick={() => handleSubCategoryClick(sub)}
+                                                disabled={isPending}
+                                                className={cn(
+                                                    "px-3 py-1 rounded-full text-sm font-medium transition-all border",
+                                                    selectedSubCategory === sub
+                                                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                                                        : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5",
+                                                    isPending && "opacity-50 cursor-not-allowed"
+                                                )}
+                                            >
+                                                {sub}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* 难度筛选 */}
+                            <div className="space-y-2">
+                                <span className="text-sm font-medium">难度等级</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {DIFFICULTY_OPTIONS.map((option) => (
+                                        <button
+                                            key={option.value}
+                                            onClick={() => handleDifficultyClick(option.value)}
+                                            disabled={isPending}
+                                            className={cn(
+                                                "px-3 py-1 rounded-full text-sm font-medium transition-all border",
+                                                selectedDifficulty === option.value
+                                                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                                                    : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5",
+                                                isPending && "opacity-50 cursor-not-allowed"
+                                            )}
+                                        >
+                                            {option.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
+            {/* 项目列表 */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => {
                     if (projects.length === index + 1) {
@@ -210,6 +345,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 )}
             </div>
 
+            {/* 空状态 */}
             {!isLoadingMore && !isPending && projects.length === 0 && (
                 <div className="text-center py-20">
                     <div className="text-4xl mb-4">🔍</div>

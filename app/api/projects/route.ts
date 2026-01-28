@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
 
   const filters: ProjectFilters = {
     category: searchParams.get('category') || undefined,
+    subCategory: searchParams.get('subCategory') || undefined,
     difficulty: (searchParams.get('difficulty') as any) || 'all',
     searchQuery: searchParams.get('q') || undefined,
   }

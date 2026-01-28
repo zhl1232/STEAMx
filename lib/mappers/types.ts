@@ -18,6 +18,7 @@ type DbDiscussionReply = Database['public']['Tables']['discussion_replies']['Row
 type DbChallenge = Database['public']['Tables']['challenges']['Row']
 type DbProjectMaterial = Database['public']['Tables']['project_materials']['Row']
 type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
+type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
 
 // ============================================================
 // 前端类型定义
@@ -35,6 +36,7 @@ export interface Project {
     image: string
     category: string
     sub_category_id?: number
+    sub_category?: string // 子分类名称
     likes: number
     description?: string
     materials?: string[]
@@ -125,6 +127,7 @@ export function mapDbProject(
         profiles?: Pick<DbProfile, 'display_name'> | null
         project_materials?: DbProjectMaterial[]
         project_steps?: DbProjectStep[]
+        sub_categories?: Pick<DbSubCategory, 'name'> | null
         comments?: any[]
     }
 ): Project {
@@ -136,6 +139,7 @@ export function mapDbProject(
         image: dbProject.image_url || '',
         category: dbProject.category || '',
         sub_category_id: dbProject.sub_category_id || undefined,
+        sub_category: dbProject.sub_categories?.name || undefined,
         likes: dbProject.likes_count,
         description: dbProject.description || '',
         materials: dbProject.project_materials

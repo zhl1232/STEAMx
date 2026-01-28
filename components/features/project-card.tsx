@@ -93,6 +93,11 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                             <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
                                 {project.category}
                             </span>
+                            {project.sub_category && (
+                                <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300">
+                                    {project.sub_category}
+                                </span>
+                            )}
                             {project.difficulty_stars && (
                                 <DifficultyStars stars={project.difficulty_stars} size="sm" />
                             )}

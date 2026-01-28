@@ -48,6 +48,7 @@ description: 批量生成项目内容并导入数据库
   "difficulty_stars": 3,
   "duration": 60,
   "materials": ["材料1", "材料2", "材料3"],
+  "tags": ["一年级", "人教版", "科学"],
   "steps": [
     {"title": "步骤标题", "description": "详细说明"},
     {"title": "步骤标题", "description": "详细说明"}
@@ -62,6 +63,18 @@ description: 批量生成项目内容并导入数据库
 - **materials**: 3-8个常见易获取的材料
 - **steps**: 4-10个步骤，每步描述清晰具体
 - **duration**: 预计完成时间（分钟）
+- **tags**: 项目标签，必填，例如 ["一年级", "人教版"]
+- **cover_image**: 项目封面图（需调用 AI 生成）
+
+## 图片生成说明
+
+在生成项目时，请同时为每个项目生成一张封面图。
+
+1. **构思提示词**: 根据项目标题和描述，构思一个生动、色彩明亮、适合儿童/学生的封面图提示词（Prompt）。风格建议为：3D 卡通风格，高饱和度，清晰的主体。
+2. **调用工具**: 使用 `generate_image` 工具生成图片 (若支持)。
+   - 如果用户提到使用 "Banana" 或其他 AI，请按用户要求处理。
+   - 生成的图片应保存到 `public/projects/` 目录下（需确认目录存在）。
+3. **获取路径**: 将生成的图片路径（或上传后的 URL）填入 SQL 的 `image_url` 字段。
 
 ## 生成 SQL 示例
 
@@ -74,7 +87,7 @@ description: 批量生成项目内容并导入数据库
 -- ============================================
 
 -- 插入项目
-INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status)
+INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags)
 VALUES 
   (
     '制作简易电磁铁',
@@ -83,7 +96,9 @@ VALUES
     (SELECT id FROM public.sub_categories WHERE name = '物理实验'),
     2,
     30,
-    'approved'
+    'approved',
+    '/projects/electromagnet_cover.png',
+    ARRAY['一年级', '人教版', '物理']
   )
 RETURNING id;
 

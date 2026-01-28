@@ -11,7 +11,8 @@ import { mapDbProject, type Project } from '@/lib/mappers/types'
  */
 export interface ProjectFilters {
     category?: string
-    difficulty?: 'easy' | 'medium' | 'hard' | 'all'
+    subCategory?: string // 按子分类筛选（单选）
+    difficulty?: 'easy' | 'medium' | 'hard' | 'all' | '1-2' | '3-4' | '5-6'
     minDuration?: number
     maxDuration?: number
     materials?: string[]
@@ -41,6 +42,7 @@ export async function getProjects(
 
     const {
         category,
+        subCategory,
         difficulty,
         minDuration,
         maxDuration,
@@ -57,14 +59,28 @@ export async function getProjects(
     const to = from + pageSize - 1
 
     // 构建查询
-    let query = supabase
-        .from('projects')
-        .select(`
+    let selectStatement = `
       *,
       profiles:author_id (display_name),
       project_materials (*),
-      project_steps (*)
-    `, { count: 'exact' })
+      project_steps (*),
+      sub_categories (name)
+    `
+
+    // 如果有子分类筛选，需要使用 inner join
+    if (subCategory) {
+        selectStatement = `
+          *,
+          profiles:author_id (display_name),
+          project_materials (*),
+          project_steps (*),
+          sub_categories!inner (name)
+        `
+    }
+
+    let query = supabase
+        .from('projects')
+        .select(selectStatement, { count: 'exact' })
         .eq('status', 'approved')
         .order('created_at', { ascending: false })
         .range(from, to)
@@ -78,8 +94,21 @@ export async function getProjects(
         query = query.eq('category', category)
     }
 
+    if (subCategory) {
+        query = query.eq('sub_categories.name', subCategory)
+    }
+
+    // 难度筛选：支持星级范围
     if (difficulty && difficulty !== 'all') {
-        query = query.eq('difficulty', difficulty)
+        if (difficulty === '1-2') {
+            query = query.gte('difficulty_stars', 1).lte('difficulty_stars', 2)
+        } else if (difficulty === '3-4') {
+            query = query.gte('difficulty_stars', 3).lte('difficulty_stars', 4)
+        } else if (difficulty === '5-6') {
+            query = query.gte('difficulty_stars', 5).lte('difficulty_stars', 6)
+        } else {
+            query = query.eq('difficulty', difficulty)
+        }
     }
 
     if (minDuration !== undefined || maxDuration !== undefined) {
@@ -137,6 +166,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
       profiles:author_id (display_name),
       project_materials (*),
       project_steps (*),
+      sub_categories (name),
       comments (
         *,
         profiles:author_id (display_name, avatar_url)
@@ -174,7 +204,8 @@ export async function getRelatedProjects(
       *,
       profiles:author_id (display_name),
       project_materials (*),
-      project_steps (*)
+      project_steps (*),
+      sub_categories (name)
     `)
         .eq('category', category)
         .eq('status', 'approved')
