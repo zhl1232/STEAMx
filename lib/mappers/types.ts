@@ -34,12 +34,14 @@ export interface Project {
     author_id: string
     image: string
     category: string
+    sub_category_id?: number
     likes: number
     description?: string
     materials?: string[]
     steps?: ProjectStep[]
     comments?: Comment[]
     difficulty?: 'easy' | 'medium' | 'hard'
+    difficulty_stars?: number  // 1-6 星
     duration?: number
     tags?: string[]
     status?: 'draft' | 'pending' | 'approved' | 'rejected'
@@ -133,6 +135,7 @@ export function mapDbProject(
         author_id: dbProject.author_id || '',
         image: dbProject.image_url || '',
         category: dbProject.category || '',
+        sub_category_id: dbProject.sub_category_id || undefined,
         likes: dbProject.likes_count,
         description: dbProject.description || '',
         materials: dbProject.project_materials
@@ -147,6 +150,7 @@ export function mapDbProject(
             })) || [],
         comments: dbProject.comments?.map(c => mapDbComment(c)) || [],
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
+        difficulty_stars: dbProject.difficulty_stars || 3,
         duration: dbProject.duration || undefined,
         tags: [], // tags 需要从另外的关联查询
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending'

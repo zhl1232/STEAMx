@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/sheet"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Slider } from "@/components/ui/slider"
-import { Badge } from "@/components/ui/badge"
 
 interface AdvancedSearchProps {
   onSearch: (query: string, filters: any) => void
@@ -26,22 +24,14 @@ interface AdvancedSearchProps {
 export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
   const [query, setQuery] = React.useState("")
   const [difficulty, setDifficulty] = React.useState("all")
-  const [duration, setDuration] = React.useState([0, 120])
-  const [materials, setMaterials] = React.useState<string[]>([])
-  
+
   const handleSearch = () => {
-    onSearch(query, {
-      difficulty,
-      duration,
-      materials
-    })
+    onSearch(query, { difficulty })
   }
 
   const clearFilters = () => {
     setDifficulty("all")
-    setDuration([0, 120])
-    setMaterials([])
-    onSearch(query, { difficulty: "all", duration: [0, 120], materials: [] })
+    onSearch(query, { difficulty: "all" })
   }
 
   return (
@@ -59,21 +49,21 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
           className="pl-8"
         />
         {query && (
-            <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                    setQuery("")
-                    onSearch("", { difficulty, duration, materials })
-                }}
-                className="absolute right-2 top-2 h-6 w-6"
-            >
-                <X className="h-4 w-4" />
-            </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              setQuery("")
+              onSearch("", { difficulty })
+            }}
+            className="absolute right-2 top-2 h-6 w-6"
+          >
+            <X className="h-4 w-4" />
+          </Button>
         )}
       </div>
       <Button onClick={handleSearch}>搜索</Button>
-      
+
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon">
@@ -96,56 +86,18 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
                   <Label htmlFor="all">全部</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="easy" id="easy" />
-                  <Label htmlFor="easy">简单 (适合初学者)</Label>
+                  <RadioGroupItem value="1-2" id="easy" />
+                  <Label htmlFor="easy">⭐⭐ 入门/简单 (1-2星)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="medium" id="medium" />
-                  <Label htmlFor="medium">中等 (需要一定基础)</Label>
+                  <RadioGroupItem value="3-4" id="medium" />
+                  <Label htmlFor="medium">⭐⭐⭐ 中等/进阶 (3-4星)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="hard" id="hard" />
-                  <Label htmlFor="hard">困难 (挑战自我)</Label>
+                  <RadioGroupItem value="5-6" id="hard" />
+                  <Label htmlFor="hard">⭐⭐⭐⭐⭐ 挑战/传说 (5-6星)</Label>
                 </div>
               </RadioGroup>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="flex justify-between">
-                <Label>预计耗时 (分钟)</Label>
-                <span className="text-sm text-muted-foreground">
-                  {duration[0]} - {duration[1]} 分钟
-                </span>
-              </div>
-              <Slider
-                defaultValue={[0, 120]}
-                max={180}
-                step={10}
-                value={duration}
-                onValueChange={setDuration}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>常用材料</Label>
-              <div className="flex flex-wrap gap-2">
-                {["纸板", "电池", "LED", "马达", "吸管", "胶水"].map((material) => (
-                  <Badge
-                    key={material}
-                    variant={materials.includes(material) ? "default" : "outline"}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setMaterials(prev => 
-                        prev.includes(material) 
-                          ? prev.filter(m => m !== material)
-                          : [...prev, material]
-                      )
-                    }}
-                  >
-                    {material}
-                  </Badge>
-                ))}
-              </div>
             </div>
           </div>
           <SheetFooter>

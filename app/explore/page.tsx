@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { ExploreClient } from './explore-client'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
+import { createClient } from '@/lib/supabase/server'
 
 interface ExplorePageProps {
     searchParams: Promise<{
@@ -15,6 +16,15 @@ interface ExplorePageProps {
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     // Await searchParams (required in Next.js 15)
     const params = await searchParams
+
+    // 获取分类数据
+    const supabase = await createClient()
+    const { data: categoriesData } = await supabase
+        .from('categories')
+        .select('name')
+        .order('sort_order') as { data: { name: string }[] | null }
+
+    const categories = ['全部', ...(categoriesData?.map(c => c.name) || [])]
 
     // 构建筛选条件
     const filters: ProjectFilters = {
@@ -31,6 +41,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
             <ExploreClient
                 initialProjects={projects}
                 initialHasMore={hasMore}
+                categories={categories}
             />
         </Suspense>
     )

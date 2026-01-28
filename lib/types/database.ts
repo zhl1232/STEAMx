@@ -18,6 +18,28 @@ export interface Profile {
 }
 
 /**
+ * 主分类
+ */
+export interface Category {
+  id: number;
+  name: string;
+  icon?: string;
+  sort_order: number;
+  created_at?: string;
+}
+
+/**
+ * 子分类
+ */
+export interface SubCategory {
+  id: number;
+  category_id: number;
+  name: string;
+  sort_order: number;
+  created_at?: string;
+}
+
+/**
  * 项目状态
  */
 export type ProjectStatus = 'draft' | 'pending' | 'approved' | 'rejected';
@@ -32,7 +54,11 @@ export interface Project {
   author_id: string;
   image_url?: string;
   category?: string;
+  sub_category_id?: number;
+  difficulty_stars: number;
+  duration?: number;
   likes_count: number;
+  views_count?: number;
   status?: ProjectStatus;
   reviewed_by?: string;
   reviewed_at?: string;

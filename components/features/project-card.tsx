@@ -10,7 +10,7 @@ import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
-
+import { DifficultyStars } from "@/components/ui/difficulty-stars";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 
 interface ProjectCardProps {
@@ -89,9 +89,14 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                 </div>
                 <div className="p-4 bg-gradient-to-br from-background to-background/95">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
-                            {project.category}
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
+                                {project.category}
+                            </span>
+                            {project.difficulty_stars && (
+                                <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                            )}
+                        </div>
                         <span className="text-xs text-muted-foreground flex items-center gap-1">
                             <Heart className={cn("h-3 w-3", liked && "fill-red-500 text-red-500")} />
                             {likesCount}

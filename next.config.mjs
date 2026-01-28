@@ -22,6 +22,8 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // 最小缓存时间（秒）
     minimumCacheTTL: 60,
+    // 允许的图片质量值
+    qualities: [85],
   },
 };
 

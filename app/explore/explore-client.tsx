@@ -9,17 +9,21 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 
-const categories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
+const categories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]  // fallback
 
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
+    categories?: string[]  // 从服务端传入的分类
 }
 
-export function ExploreClient({ initialProjects, initialHasMore }: ExploreClientProps) {
+export function ExploreClient({ initialProjects, initialHasMore, categories: propCategories }: ExploreClientProps) {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
+
+    // 使用传入的分类或回退到默认值
+    const displayCategories = propCategories || categories
 
     const initialQuery = searchParams.get("q") || ""
     const initialCategory = searchParams.get("category") || "全部"
@@ -165,7 +169,7 @@ export function ExploreClient({ initialProjects, initialHasMore }: ExploreClient
 
                 {/* Category Filter Chips */}
                 <div className="flex flex-wrap gap-2">
-                    {categories.map((category) => (
+                    {displayCategories.map((category) => (
                         <button
                             key={category}
                             onClick={() => handleCategoryClick(category)}

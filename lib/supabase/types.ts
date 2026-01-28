@@ -50,6 +50,52 @@ export interface Database {
           role?: string
         }
       }
+      categories: {
+        Row: {
+          id: number
+          name: string
+          icon: string | null
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          icon?: string | null
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          icon?: string | null
+          sort_order?: number
+          created_at?: string
+        }
+      }
+      sub_categories: {
+        Row: {
+          id: number
+          category_id: number
+          name: string
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          category_id: number
+          name: string
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          category_id?: number
+          name?: string
+          sort_order?: number
+          created_at?: string
+        }
+      }
       projects: {
         Row: {
           id: number
@@ -58,7 +104,9 @@ export interface Database {
           author_id: string | null
           image_url: string | null
           category: string | null
+          sub_category_id: number | null
           difficulty: string | null
+          difficulty_stars: number
           duration: number | null
           likes_count: number
           views_count: number
@@ -74,7 +122,9 @@ export interface Database {
           author_id?: string | null
           image_url?: string | null
           category?: string | null
+          sub_category_id?: number | null
           difficulty?: string | null
+          difficulty_stars?: number
           duration?: number | null
           likes_count?: number
           views_count?: number
@@ -90,7 +140,9 @@ export interface Database {
           author_id?: string | null
           image_url?: string | null
           category?: string | null
+          sub_category_id?: number | null
           difficulty?: string | null
+          difficulty_stars?: number
           duration?: number | null
           likes_count?: number
           views_count?: number
