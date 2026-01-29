@@ -16,7 +16,7 @@ interface ProjectInteractionsProps {
 }
 
 export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes }: ProjectInteractionsProps) {
-    const { toggleLike, isLiked, toggleCollection, isCollected, uncompleteProject, isCompleted } = useProjects()
+    const { toggleLike, isLiked, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
     const [showCompleteDialog, setShowCompleteDialog] = useState(false)
@@ -56,19 +56,18 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             return
         }
 
+        // 已完成状态下不允许再次点击（已上传作品证明，不应随意取消）
         if (isProjectCompleted) {
-            // 如果已完成，点击则是取消完成
-            // 这里可以加一个确认对话框，目前直接取消
-            uncompleteProject(projectId)
-        } else {
-            // 未完成，打开对话框
-            setShowCompleteDialog(true)
+            return
         }
+
+        // 未完成，打开对话框
+        setShowCompleteDialog(true)
     }
 
     return (
         <>
-            <div className="rounded-lg border p-4 space-y-4 sticky top-24">
+            <div className="rounded-lg border p-4 space-y-4 sticky top-24 bg-background">
                 <div className="flex items-center justify-between">
                     <div className="flex gap-2">
                         <Button
@@ -99,8 +98,9 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                     className="w-full"
                     isCompleted={isProjectCompleted}
                     onClick={handleCompleteClick}
+                    disabled={isProjectCompleted}
                 >
-                    {isProjectCompleted ? "已完成 (Marked as Done)" : "我做过这个！(Mark as Done)"}
+                    {isProjectCompleted ? "✅ 已完成" : "我做过这个！(Mark as Done)"}
                 </ConfettiButton>
             </div>
 

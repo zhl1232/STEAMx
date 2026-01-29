@@ -6,6 +6,7 @@ import { callRpc } from "@/lib/supabase/rpc";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { useNotifications } from "@/context/notification-context";
+import { useToast } from "@/hooks/use-toast";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
 
@@ -31,6 +32,7 @@ type ProjectContextType = {
     toggleProjectCompleted: (projectId: string | number) => Promise<void>;
     isCompleted: (projectId: string | number) => boolean;
     deleteComment: (commentId: string | number) => Promise<void>;
+    updateProject: (projectId: string | number, project: Project) => Promise<void>;
     isLoading: boolean;
 };
 
@@ -47,6 +49,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     const { user, profile } = useAuth();
     const { addXp, checkBadges } = useGamification();
     const { createNotification } = useNotifications();
+    const { toast } = useToast();
 
     // Refs for stable callbacks
     const likedProjectsRef = useRef(likedProjects);
@@ -134,7 +137,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 supabase.from('discussions').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
                 supabase.from('discussion_replies').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
                 supabase.from('completed_projects')
-                    .select('project_id, projects(category)')
+                    .select('project_id')
                     .eq('user_id', user.id),
                 // 聚合用户所有项目的总点赞数
                 supabase.from('projects').select('likes_count').eq('author_id', user.id),
@@ -144,16 +147,25 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
             // 计算分类完成数
             let scienceCompleted = 0, techCompleted = 0, engineeringCompleted = 0, artCompleted = 0, mathCompleted = 0;
-            if (completedResult.data) {
-                for (const item of completedResult.data) {
-                    const project = item.projects as unknown as { category: string } | null;
-                    const category = project?.category;
-                    switch (category) {
-                        case '科学': scienceCompleted++; break;
-                        case '技术': techCompleted++; break;
-                        case '工程': engineeringCompleted++; break;
-                        case '艺术': artCompleted++; break;
-                        case '数学': mathCompleted++; break;
+            if (completedResult.data && completedResult.data.length > 0) {
+                // 获取所有完成项目的 project_ids
+                const projectIds = completedResult.data.map((c: any) => c.project_id);
+
+                // 单独查询这些项目的分类
+                const { data: projectCategories } = await supabase
+                    .from('projects')
+                    .select('id, category')
+                    .in('id', projectIds);
+
+                if (projectCategories) {
+                    for (const project of projectCategories) {
+                        switch (project.category) {
+                            case '科学': scienceCompleted++; break;
+                            case '技术': techCompleted++; break;
+                            case '工程': engineeringCompleted++; break;
+                            case '艺术': artCompleted++; break;
+                            case '数学': mathCompleted++; break;
+                        }
                     }
                 }
             }
@@ -161,7 +173,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             return {
                 projectsPublished: publishedResult.count || 0,
                 projectsLiked: likedProjectsRef.current.size,
-                projectsCompleted: completedProjectsRef.current.size,
+                projectsCompleted: completedResult.data?.length || 0,
                 commentsCount: commentsResult.count || 0,
                 scienceCompleted,
                 techCompleted,
@@ -245,6 +257,67 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             projectsPublished: stats.projectsPublished + 1
         });
     }, [supabase, user, addXp, checkBadges, getUserStats]);
+
+    const updateProject = useCallback(async (projectId: string | number, project: Project) => {
+        if (!user) return;
+
+        const pid = typeof projectId === 'string' ? parseInt(projectId) : projectId;
+
+        // 1. Update Project Basic Info
+        const { error: projectError } = await supabase
+            .from('projects')
+            .update({
+                title: project.title,
+                description: project.description,
+                image_url: project.image,
+                category: project.category,
+                // sub_category_id: project.sub_category_id, // If needed
+                difficulty: project.difficulty,
+                duration: project.duration,
+                tags: project.tags || [],
+                status: 'pending', // Re-submit for review
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', pid)
+            .eq('author_id', user.id);
+
+        if (projectError) {
+            console.error('Error updating project:', projectError);
+            throw new Error('Failed to update project');
+        }
+
+        // 2. Update Materials
+        await supabase.from('project_materials').delete().eq('project_id', pid);
+        if (project.materials && project.materials.length > 0) {
+            await supabase
+                .from('project_materials')
+                .insert(project.materials.map((m, index) => ({
+                    project_id: pid,
+                    material: m,
+                    sort_order: index
+                })));
+        }
+
+        // 3. Update Steps
+        await supabase.from('project_steps').delete().eq('project_id', pid);
+        if (project.steps && project.steps.length > 0) {
+            await supabase
+                .from('project_steps')
+                .insert(project.steps.map((s, index) => ({
+                    project_id: pid,
+                    title: s.title,
+                    description: s.description,
+                    image_url: s.image_url || null,
+                    sort_order: index
+                })));
+        }
+
+        toast({
+            title: "Project updated",
+            description: "Your project has been updated and submitted for review.",
+        });
+
+    }, [supabase, user]);
 
     const addComment = useCallback(async (projectId: string | number, comment: Comment, parentId?: number) => {
         if (!user) return null;
@@ -398,10 +471,40 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
             // Check badges
             const stats = await getUserStats();
-            checkBadges({
-                ...stats,
-                projectsCompleted: completedProjectsRef.current.size + 1
-            });
+
+            // 确保统计数据包含当前项目（处理数据库延迟）
+            // 如果 stats.projectsCompleted 还没增加，我们手动增加
+            const currentTotal = completedProjectsRef.current.size; // 这是旧值（react state update pending）
+            // 实际上这里的 ref 还是旧的，所以我们期望 stats.projectsCompleted 应该比 ref 大 1
+            // 如果相等（说明数据库没查到），我们需要手动补
+
+            const isDbUpdated = stats.projectsCompleted > currentTotal;
+
+            let finalStats = { ...stats };
+
+            if (!isDbUpdated) {
+                // 数据库没更新，手动补
+                finalStats.projectsCompleted = stats.projectsCompleted + 1;
+
+                // 还要手动补分类
+                const { data: project } = await supabase
+                    .from('projects')
+                    .select('category')
+                    .eq('id', pid)
+                    .single();
+
+                if (project?.category) {
+                    switch (project.category) {
+                        case '科学': finalStats.scienceCompleted++; break;
+                        case '技术': finalStats.techCompleted++; break;
+                        case '工程': finalStats.engineeringCompleted++; break;
+                        case '艺术': finalStats.artCompleted++; break;
+                        case '数学': finalStats.mathCompleted++; break;
+                    }
+                }
+            }
+
+            checkBadges(finalStats);
         } catch (error) {
             // Revert on error
             setCompletedProjects(prev => {
@@ -500,6 +603,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         toggleProjectCompleted,
         isCompleted,
         deleteComment,
+        updateProject,
         isLoading
     }), [
         projects,
@@ -517,6 +621,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         toggleProjectCompleted,
         isCompleted,
         deleteComment,
+        updateProject,
         isLoading
     ]);
 

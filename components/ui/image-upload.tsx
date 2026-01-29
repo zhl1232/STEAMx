@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -32,6 +32,11 @@ export function ImageUpload({
   const [isUploading, setIsUploading] = useState(false)
   const [previewUrl, setPreviewUrl] = useState<string | null>(value || null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Sync previewUrl with external value changes
+  useEffect(() => {
+    setPreviewUrl(value || null)
+  }, [value])
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

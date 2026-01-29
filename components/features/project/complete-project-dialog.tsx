@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "@/context/auth-context";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -43,6 +43,7 @@ export function CompleteProjectDialog({
     const [notes, setNotes] = useState("");
     const [isUploading, setIsUploading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -193,8 +194,8 @@ export function CompleteProjectDialog({
 
                         {/* 上传按钮 */}
                         <div>
-                            <Input
-                                id="proof-images"
+                            <input
+                                ref={fileInputRef}
                                 type="file"
                                 accept="image/*"
                                 multiple
@@ -205,7 +206,7 @@ export function CompleteProjectDialog({
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={() => document.getElementById('proof-images')?.click()}
+                                onClick={() => fileInputRef.current?.click()}
                                 disabled={isUploading}
                                 className="w-full"
                             >

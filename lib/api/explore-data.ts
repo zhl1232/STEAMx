@@ -241,26 +241,39 @@ export async function getProjectCompletions(
 ): Promise<ProjectCompletion[]> {
     const supabase = await createClient()
 
-    // 注意：proof_images 是 text[] 类型，Supabase JS client 会正确处理
-    // 默认只获取公开的记录 (is_public = true)
-
-    // 由于我们还没有更新本地 Database types，这里使用 any 绕过类型检查
-    // 实际上我们在 migration 002 中已经添加了 proof_images 等字段
-    const { data, error } = await supabase
+    // 先查询 completed_projects
+    // 使用类型断言因为本地 types.ts 可能未同步数据库最新 schema
+    const { data: completions, error } = await supabase
         .from('completed_projects')
-        .select(`
-            *,
-            profiles:user_id (display_name, avatar_url)
-        `)
+        .select('*')
         .eq('project_id', projectId)
         .eq('is_public', true)
         .order('completed_at', { ascending: false })
-        .limit(limit)
+        .limit(limit) as { data: any[] | null; error: any }
 
-    if (error) {
+    if (error || !completions) {
         console.error('Error fetching completions:', error)
         return []
     }
 
-    return (data || []).map((item: any) => mapDbCompletion(item))
+    // 获取所有 user_ids
+    const userIds = [...new Set(completions.map((c: any) => c.user_id))]
+
+    // 单独查询 profiles
+    const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, display_name, avatar_url')
+        .in('id', userIds)
+
+    // 创建 profiles 映射
+    const profilesMap = new Map((profiles || []).map((p: any) => [p.id, p]))
+
+    // 组合数据
+    return completions.map((item: any) => {
+        const profile = profilesMap.get(item.user_id)
+        return mapDbCompletion({
+            ...item,
+            profiles: profile || null
+        })
+    })
 }

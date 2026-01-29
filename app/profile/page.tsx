@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ProjectCard } from '@/components/features/project-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
+import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { Award } from 'lucide-react'
@@ -227,15 +228,25 @@ export default function ProfilePage() {
 
       {/* 徽章展示 */}
       <div className="bg-card rounded-lg border p-6 mb-8">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <Award className="h-5 w-5 text-primary" />
-          我的成就徽章
-          <span className="text-sm font-normal text-muted-foreground">
-            ({unlockedBadges.size}/{BADGES.length})
-          </span>
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold flex items-center gap-2">
+            <Award className="h-5 w-5 text-primary" />
+            我的成就徽章
+            <span className="text-sm font-normal text-muted-foreground">
+              ({unlockedBadges.size}/{BADGES.length})
+            </span>
+          </h2>
+          <div className="md:hidden">
+            {/* Mobile View: Simple link or button if needed, but Dialog covers it */}
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {BADGES.map((badge) => {
+          {/* 只显示前 5 个已解锁的徽章，或者如果没有解锁的，显示前 5 个未解锁的 */}
+          {(unlockedBadges.size > 0
+            ? BADGES.filter(b => unlockedBadges.has(b.id)).slice(0, 5)
+            : BADGES.slice(0, 5)
+          ).map((badge) => {
             const isUnlocked = unlockedBadges.has(badge.id);
             return (
               <div
@@ -249,10 +260,21 @@ export default function ProfilePage() {
                   {badge.icon}
                 </div>
                 <div className="font-medium text-sm mb-1">{badge.name}</div>
-                <div className="text-xs text-muted-foreground">{badge.description}</div>
+                <div className="text-xs text-muted-foreground line-clamp-1">{badge.description}</div>
               </div>
             )
           })}
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges}>
+            <Button variant="outline" className="w-full md:w-auto gap-2">
+              查看全部徽章
+              <span className="bg-muted px-2 py-0.5 rounded-full text-xs">
+                {BADGES.length}
+              </span>
+            </Button>
+          </BadgeGalleryDialog>
         </div>
       </div>
 

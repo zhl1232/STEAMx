@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { ImageUpload } from "@/components/ui/image-upload";
-import { Upload, Save, CheckCircle2, Plus, Trash2 } from "lucide-react";
+import { Upload, Save, CheckCircle2, Plus, Trash2, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Project } from "@/lib/types";
 import { useProjects } from "@/context/project-context";
@@ -17,20 +17,14 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProjectCoverImage } from "@/lib/config/category-images";
 
-const CATEGORIES = ["科学", "技术", "工程", "艺术", "数学", "其他"];
-const DIFFICULTIES = [
-    { value: "beginner", label: "初级", description: "适合新手" },
-    { value: "intermediate", label: "中级", description: "有一定基础" },
-    { value: "advanced", label: "高级", description: "需要专业知识" }
-];
+import { CATEGORY_CONFIG, DIFFICULTY_LEVELS } from "@/lib/config/categories";
+import { Badge } from "@/components/ui/badge";
+import { useSearchParams } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { mapDbProject } from "@/lib/mappers/types";
+import { Suspense } from "react";
 
-// 时长配置常量
-const DURATION_CONFIG = {
-    MIN: 10,        // 最小10分钟
-    MAX: 720,       // 最大12小时（720分钟）
-    STEP: 15,       // 步长15分钟
-    DEFAULT: 60     // 默认1小时
-};
+const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 
 interface StepFormData {
     title: string;
@@ -41,30 +35,36 @@ interface StepFormData {
 interface FormData {
     title: string;
     category: string;
+    subCategory: string;
     difficulty: string;
-    duration: number;
     materials: string;
     coverImage: string | null;
     steps: StepFormData[];
+    tags: string[];
 }
 
 const DRAFT_KEY = "project_draft";
 
-export default function SharePage() {
-    const { addProject } = useProjects();
+function ShareForm() {
+    const { addProject, updateProject } = useProjects();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
+    const supabase = createClient();
     const { user } = useAuth();
     const router = useRouter();
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
     const [isSavingDraft, setIsSavingDraft] = useState(false);
+    const [tagInput, setTagInput] = useState("");
     const [formData, setFormData] = useState<FormData>({
         title: "",
         category: "科学",
-        difficulty: "beginner",
-        duration: DURATION_CONFIG.DEFAULT,
+        subCategory: "",
+        difficulty: "easy",
         materials: "",
         coverImage: null,
-        steps: [{ title: "步骤 1", description: "", image_url: null }]
+        steps: [{ title: "步骤 1", description: "", image_url: null }],
+        tags: []
     });
 
     // 检查登录状态
@@ -74,16 +74,76 @@ export default function SharePage() {
         }
     }, [user, router]);
 
-    // 加载草稿
+    // 加载编辑数据
     useEffect(() => {
-        if (user) {
+        const loadProjectToEdit = async () => {
+            if (!editId || !user) return;
+
+            // setIsLoading(true); // Don't block whole UI, just maybe show loading state
+            const { data, error } = await supabase
+                .from('projects')
+                .select(`
+                    *,
+                    project_materials (*),
+                    project_steps (*),
+                    sub_categories (name)
+                `)
+                .eq('id', editId)
+                .single();
+
+            if (data) {
+                // Check if user is author
+                if (data.author_id !== user.id) {
+                    toast({ title: "无权编辑", variant: "destructive" });
+                    router.push('/share');
+                    return;
+                }
+
+                const project = mapDbProject(data);
+                setFormData({
+                    title: project.title,
+                    category: project.category,
+                    subCategory: project.sub_category || "",
+                    difficulty: project.difficulty || "easy",
+                    materials: project.materials?.join('\n') || "",
+                    coverImage: project.image,
+                    steps: project.steps?.map(s => ({
+                        title: s.title,
+                        description: s.description,
+                        image_url: s.image_url || null
+                    })) || [{ title: "步骤 1", description: "", image_url: null }],
+                    tags: project.tags || []
+                });
+
+                toast({ title: "已加载项目数据", description: "您可以修改并重新提交审核" });
+            }
+        };
+
+        if (editId) {
+            loadProjectToEdit();
+        }
+    }, [editId, user, supabase, toast, router]);
+
+    // 加载草稿 (仅在不是编辑模式时)
+    useEffect(() => {
+        if (user && !editId) {
             const savedDraft = localStorage.getItem(`${DRAFT_KEY}_${user.id}`);
             if (savedDraft) {
                 try {
                     const draft = JSON.parse(savedDraft);
                     // 兼容旧格式的草稿，确保必需字段存在
+                    // 兼容旧格式的草稿
+                    const difficultyMap: Record<string, string> = {
+                        "beginner": "easy",
+                        "intermediate": "medium",
+                        "advanced": "hard"
+                    };
+
                     setFormData({
                         ...draft,
+                        difficulty: difficultyMap[draft.difficulty] || draft.difficulty || "easy",
+                        subCategory: draft.subCategory || "",
+                        tags: draft.tags || [],
                         coverImage: draft.coverImage || null,
                         steps: draft.steps || [{ title: "步骤 1", description: "", image_url: null }]
                     });
@@ -109,8 +169,30 @@ export default function SharePage() {
         return () => clearTimeout(timer);
     }, [formData, user]);
 
-    const handleInputChange = (field: keyof Omit<FormData, 'steps' | 'coverImage'>, value: string | number) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+    const handleInputChange = (field: keyof Omit<FormData, 'steps' | 'coverImage' | 'tags'>, value: string) => {
+        if (field === 'category') {
+            setFormData(prev => ({ ...prev, category: value, subCategory: "" }));
+        } else {
+            setFormData(prev => ({ ...prev, [field]: value }));
+        }
+    };
+
+    const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            const val = tagInput.trim();
+            if (val && !formData.tags.includes(val)) {
+                setFormData(prev => ({ ...prev, tags: [...prev.tags, val] }));
+            }
+            setTagInput("");
+        }
+    };
+
+    const removeTag = (tagToRemove: string) => {
+        setFormData(prev => ({
+            ...prev,
+            tags: prev.tags.filter(tag => tag !== tagToRemove)
+        }));
     };
 
     const handleCoverImageChange = (url: string | null) => {
@@ -188,6 +270,10 @@ export default function SharePage() {
             // 获取封面图片（用户上传的或类别主题图）
             const coverImage = getProjectCoverImage(formData.category, formData.coverImage);
 
+            // 默认值 - 改由管理员设置
+            const defaultDifficulty = 'easy';
+            const defaultStars = 3;
+
             const newProject: Project = {
                 id: Date.now(),
                 title: formData.title,
@@ -195,8 +281,10 @@ export default function SharePage() {
                 author_id: user!.id,
                 image: coverImage,
                 category: formData.category,
-                difficulty: formData.difficulty === "beginner" ? "easy" : formData.difficulty === "intermediate" ? "medium" : "hard",
-                duration: formData.duration,
+                sub_category: formData.subCategory, // 传递子分类
+                difficulty: defaultDifficulty,
+                difficulty_stars: defaultStars,
+                duration: 60, // 默认给个值，或者数据库允许为空
                 likes: 0,
                 description: formData.steps.length > 0 ? formData.steps[0].description.slice(0, 100) + "..." : "",
                 materials: formData.materials.split("\n").filter(item => item.trim() !== ""),
@@ -205,22 +293,32 @@ export default function SharePage() {
                     description: step.description,
                     image_url: step.image_url || undefined
                 })),
-                tags: [],
+                tags: [], // 默认空标签，由管理员添加
                 status: 'pending'
             };
 
-            addProject(newProject);
 
-            // 清除草稿
-            if (user) {
-                localStorage.removeItem(`${DRAFT_KEY}_${user.id}`);
+
+            if (editId) {
+                await updateProject(editId, newProject);
+                toast({
+                    title: "项目已更新！",
+                    description: "您的项目已重新提交审核",
+                    duration: 5000,
+                });
+            } else {
+                addProject(newProject);
+                // 清除草稿
+                if (user) {
+                    localStorage.removeItem(`${DRAFT_KEY}_${user.id}`);
+                }
+
+                toast({
+                    title: "项目已提交审核！",
+                    description: "您的项目将在审核通过后公开展示，请在个人中心查看审核状态",
+                    duration: 5000,
+                });
             }
-
-            toast({
-                title: "项目已提交审核！",
-                description: "您的项目将在审核通过后公开展示，请在个人中心查看审核状态",
-                duration: 5000,
-            });
 
             setTimeout(() => {
                 router.push("/profile");  // 跳转到个人中心页面
@@ -245,11 +343,12 @@ export default function SharePage() {
     return (
         <div className="container mx-auto py-8 max-w-4xl">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight mb-2">分享你的创意</h1>
-                <p className="text-muted-foreground">将你的 STEAM 项目展示给全世界。</p>
+                <h1 className="text-3xl font-bold tracking-tight mb-2">{editId ? "编辑项目" : "分享你的创意"}</h1>
+                <p className="text-muted-foreground">{editId ? "修改已发布或被拒绝的项目内容" : "将你的 STEAM 项目展示给全世界。"}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+
                 {/* 基本信息卡片 */}
                 <Card>
                     <CardHeader>
@@ -289,6 +388,29 @@ export default function SharePage() {
                             </div>
                         </div>
 
+                        {/* 子分类 */}
+                        <div className="space-y-2">
+                            <Label>子分类</Label>
+                            <div className="flex flex-wrap gap-2">
+                                {CATEGORY_CONFIG[formData.category]?.map((sub) => (
+                                    <button
+                                        key={sub}
+                                        type="button"
+                                        onClick={() => handleInputChange("subCategory", sub)}
+                                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${formData.subCategory === sub
+                                            ? "bg-primary text-primary-foreground border-primary"
+                                            : "bg-background hover:bg-muted text-muted-foreground border-input"
+                                            }`}
+                                    >
+                                        {sub}
+                                    </button>
+                                ))}
+                                {(!CATEGORY_CONFIG[formData.category] || CATEGORY_CONFIG[formData.category].length === 0) && (
+                                    <span className="text-sm text-muted-foreground">该分类下暂无子分类</span>
+                                )}
+                            </div>
+                        </div>
+
                         {/* 项目封面图片 */}
                         <div className="space-y-2">
                             <Label>项目封面图片（可选）</Label>
@@ -304,54 +426,8 @@ export default function SharePage() {
                             />
                         </div>
 
-                        {/* 难度等级 */}
-                        <div className="space-y-3">
-                            <Label>难度等级 *</Label>
-                            <RadioGroup
-                                value={formData.difficulty}
-                                onValueChange={(value) => handleInputChange("difficulty", value)}
-                            >
-                                {DIFFICULTIES.map((diff) => (
-                                    <div key={diff.value} className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted/50 transition-colors">
-                                        <RadioGroupItem value={diff.value} id={diff.value} />
-                                        <Label htmlFor={diff.value} className="flex-1 cursor-pointer">
-                                            <div className="font-medium">{diff.label}</div>
-                                            <div className="text-sm text-muted-foreground">{diff.description}</div>
-                                        </Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        </div>
-
-                        {/* 预计时长 */}
-                        <div className="space-y-3">
-                            <Label>
-                                预计时长：
-                                {formData.duration < 60
-                                    ? `${formData.duration} 分钟`
-                                    : `${(formData.duration / 60).toFixed(1)} 小时 (${formData.duration} 分钟)`
-                                }
-                            </Label>
-                            <Slider
-                                value={[formData.duration]}
-                                onValueChange={([value]) => handleInputChange("duration", value)}
-                                min={DURATION_CONFIG.MIN}
-                                max={DURATION_CONFIG.MAX}
-                                step={DURATION_CONFIG.STEP}
-                                className="w-full"
-                            />
-                            <div className="flex justify-between text-xs text-muted-foreground">
-                                <span>{DURATION_CONFIG.MIN}分钟</span>
-                                <span className="text-center">
-                                    <div>6小时</div>
-                                    <div className="text-[10px]">(360分钟)</div>
-                                </span>
-                                <span>{DURATION_CONFIG.MAX / 60}小时</span>
-                            </div>
-                            <p className="text-xs text-muted-foreground">
-                                💡 提示：快速实验10-60分钟，标准项目1-3小时，复杂项目可设置更长时间
-                            </p>
-                        </div>
+                        {/* 难度等级 - Removed as per user request to be handled by admin */}
+                        {/* 标签 - Removed as per user request to be handled by admin */}
                     </CardContent>
                 </Card>
 
@@ -476,5 +552,13 @@ export default function SharePage() {
                 </div>
             </form>
         </div>
+    );
+}
+
+export default function SharePage() {
+    return (
+        <Suspense fallback={<div className="container mx-auto py-8 text-center">Loading...</div>}>
+            <ShareForm />
+        </Suspense>
     );
 }

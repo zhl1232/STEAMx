@@ -13,7 +13,7 @@ export default function Home() {
             <TechBackground />
 
             {/* Hero Section */}
-            <section className="relative space-y-6 pb-16 pt-20 md:pb-32 md:pt-32 lg:py-48 overflow-hidden">
+            <section className="relative space-y-6 pb-8 pt-20 md:pb-12 md:pt-28 lg:pt-36 lg:pb-12 overflow-hidden">
                 {/* Background Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse-glow" />
 
@@ -68,7 +68,7 @@ export default function Home() {
             </section>
 
             {/* Portals Section */}
-            <section className="container mx-auto space-y-12 py-12 md:py-24 lg:py-32 relative z-10">
+            <section className="container mx-auto space-y-12 py-8 md:py-16 lg:py-20 relative z-10">
                 <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
                     <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl font-bold">
                         穿越知识星门

@@ -40,13 +40,8 @@ export function MobileNav() {
             label: "分享",
             active: pathname === "/share",
         },
-        {
-            href: "/profile",
-            label: "个人中心",
-            active: pathname === "/profile",
-        },
     ].filter(route => {
-        if (!user && (route.href === '/leaderboard' || route.href === '/share' || route.href === '/profile')) {
+        if (!user && (route.href === '/leaderboard' || route.href === '/share')) {
             return false;
         }
         return true;

@@ -244,19 +244,34 @@ export interface Database {
       }
       completed_projects: {
         Row: {
+          id: number
           user_id: string
           project_id: number
           completed_at: string
+          proof_images: string[]
+          proof_video_url: string | null
+          notes: string | null
+          is_public: boolean
         }
         Insert: {
+          id?: number
           user_id: string
           project_id: number
           completed_at?: string
+          proof_images?: string[]
+          proof_video_url?: string | null
+          notes?: string | null
+          is_public?: boolean
         }
         Update: {
+          id?: number
           user_id?: string
           project_id?: number
           completed_at?: string
+          proof_images?: string[]
+          proof_video_url?: string | null
+          notes?: string | null
+          is_public?: boolean
         }
       }
       discussions: {

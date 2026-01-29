@@ -12,14 +12,7 @@ import type { Project } from '@/lib/mappers/types'
 import { useAuth } from '@/context/auth-context'
 
 // 类别配置：主分类 -> 子分类映射
-const CATEGORY_CONFIG: Record<string, string[]> = {
-    "科学": ["物理实验", "化学实验", "生物观察", "天文地理"],
-    "技术": ["编程入门", "电子制作", "机器人", "3D打印"],
-    "工程": ["机械结构", "桥梁建造", "简易机器", "模型制作"],
-    "艺术": ["绘画", "手工", "雕塑"],
-    "数学": ["几何探索", "数学游戏", "逻辑谜题"],
-    "其他": [],
-}
+import { CATEGORY_CONFIG } from '@/lib/config/categories'
 
 // 难度选项
 const DIFFICULTY_OPTIONS = [

@@ -8,6 +8,9 @@ import { ProjectInteractions } from '@/components/features/project-interactions'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { getProjectById, getRelatedProjects, getProjectCompletions } from '@/lib/api/explore-data'
+import { createClient } from '@/lib/supabase/server'
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertTriangle, Edit } from 'lucide-react'
 
 interface ProjectDetailPageProps {
     params: Promise<{ id: string }>
@@ -22,6 +25,28 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     if (!project) {
         notFound()
     }
+
+    // 访问控制
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    const isAuthor = user?.id === project.author_id
+
+    // 如果项目不是已发布状态
+    if (project.status && project.status !== 'approved') {
+        // 如果不是作者且不是管理员(目前简化为作者判断)，则无法访问
+        if (!isAuthor) {
+            // 对于非作者，Rejected/Pending 项目视为不存在或审核中
+            // 这里选择显示“审核中”或 404，这取决于产品策略
+            // 用户反馈是 "bug"，意味这应该是私有的
+
+            // 为了更好的体验，可以返回一个 "Project Under Review" 页面，或者直接 404
+            // 这里选择 404 以保护隐私，除非是 Pending 状态可能显示 "Coming Soon"
+            notFound()
+        }
+    }
+
+    // 如果是作者且状态异常，显示提示条
+    const showStatusAlert = isAuthor && (project.status === 'pending' || project.status === 'rejected');
 
     // 获取相关项目
     const relatedProjects = project.category
@@ -40,6 +65,29 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 >
                     <ArrowLeft className="mr-2 h-4 w-4" /> 返回探索
                 </Link>
+
+                {showStatusAlert && (
+                    <Alert className={`mb-6 ${project.status === 'rejected' ? 'border-red-500 bg-red-50 text-red-900 dark:bg-red-950/30 dark:text-red-200' : 'border-yellow-500 bg-yellow-50 text-yellow-900 dark:bg-yellow-950/30 dark:text-yellow-200'}`}>
+                        <AlertTriangle className="h-4 w-4" />
+                        <AlertTitle>
+                            {project.status === 'rejected' ? '项目未通过审核' : '项目正在审核中'}
+                        </AlertTitle>
+                        <AlertDescription className="mt-2 flex items-center justify-between">
+                            <span>
+                                {project.status === 'rejected'
+                                    ? '您的项目未通过审核，请根据反馈修改后重新提交。'
+                                    : '您的项目正在审核中，仅即您可见。'}
+                            </span>
+                            <Link href={`/share?edit=${project.id}`}>
+                                <Button variant={project.status === 'rejected' ? "destructive" : "outline"} size="sm" className="gap-2">
+                                    <Edit className="h-4 w-4" />
+                                    编辑项目
+                                </Button>
+                            </Link>
+                        </AlertDescription>
+                    </Alert>
+                )}
+
                 <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted relative group">
                     <Image
                         src={project.image}

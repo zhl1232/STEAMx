@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ProjectCompletion } from "@/lib/mappers/types"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Quote, X } from "lucide-react"
@@ -62,6 +62,9 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
 
             <Dialog open={!!selectedCompletion} onOpenChange={(open) => !open && setSelectedCompletion(null)}>
                 <DialogContent className="max-w-4xl overflow-hidden p-0 gap-0 border-none sm:rounded-2xl">
+                    <DialogTitle className="sr-only">
+                        {selectedCompletion?.author} 的作品详情
+                    </DialogTitle>
                     <div className="flex flex-col md:flex-row h-[85vh] md:h-[600px] w-full bg-background relative">
                         {/* Close button for mobile */}
                         <button
