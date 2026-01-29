@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
     category: searchParams.get('category') || undefined,
     subCategory: searchParams.get('subCategory') || undefined,
     difficulty: (searchParams.get('difficulty') as any) || 'all',
+    tags: searchParams.get('tags')?.split(',').filter(Boolean) || undefined,
     searchQuery: searchParams.get('q') || undefined,
   }
 

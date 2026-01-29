@@ -16,6 +16,7 @@ export interface ProjectFilters {
     minDuration?: number
     maxDuration?: number
     materials?: string[]
+    tags?: string[]  // 标签筛选（多选）
     searchQuery?: string
 }
 
@@ -47,6 +48,7 @@ export async function getProjects(
         minDuration,
         maxDuration,
         materials,
+        tags,
         searchQuery
     } = filters
 
@@ -109,6 +111,12 @@ export async function getProjects(
         } else {
             query = query.eq('difficulty', difficulty)
         }
+    }
+
+    // 标签筛选：匹配包含所有选中标签的项目（AND 关系）
+    if (tags && tags.length > 0) {
+        // 使用 contains 操作符检查 tags 数组是否包含所有指定的标签
+        query = query.contains('tags', tags)
     }
 
     if (minDuration !== undefined || maxDuration !== undefined) {

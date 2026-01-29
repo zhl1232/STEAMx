@@ -11,14 +11,21 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "@/context/notification-context";
+import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistance } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 
 export function NotificationBell() {
+    const { user } = useAuth();
     const { notifications, unreadCount, markAsRead, markAllAsRead, clearAll } = useNotifications();
     const router = useRouter();
+
+    // 未登录时不显示通知图标
+    if (!user) {
+        return null;
+    }
 
     const handleNotificationClick = async (notification: any) => {
         // Mark as read
@@ -68,10 +75,10 @@ export function NotificationBell() {
                             </Button>
                         )}
                         {notifications.length > 0 && (
-                            <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                className="h-auto p-0 text-xs text-destructive hover:text-destructive" 
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-auto p-0 text-xs text-destructive hover:text-destructive"
                                 onClick={clearAll}
                             >
                                 <Trash2 className="h-3 w-3 mr-1" />
@@ -90,9 +97,8 @@ export function NotificationBell() {
                         notifications.map((notification) => (
                             <DropdownMenuItem
                                 key={notification.id}
-                                className={`flex gap-3 p-3 cursor-pointer ${
-                                    !notification.is_read ? 'bg-accent/50' : ''
-                                }`}
+                                className={`flex gap-3 p-3 cursor-pointer ${!notification.is_read ? 'bg-accent/50' : ''
+                                    }`}
                                 onClick={() => handleNotificationClick(notification)}
                             >
                                 {getNotificationIcon(notification)}

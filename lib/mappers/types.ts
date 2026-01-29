@@ -156,7 +156,7 @@ export function mapDbProject(
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
         difficulty_stars: dbProject.difficulty_stars || 3,
         duration: dbProject.duration || undefined,
-        tags: [], // tags 需要从另外的关联查询
+        tags: (dbProject as any).tags || [],  // 从数据库获取标签
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending'
     }
 }

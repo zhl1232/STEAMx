@@ -89,7 +89,7 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                 </div>
                 <div className="p-4 bg-gradient-to-br from-background to-background/95">
                     <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                             <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
                                 {project.category}
                             </span>
@@ -98,11 +98,17 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                                     {project.sub_category}
                                 </span>
                             )}
+                            {/* 显示其他标签（如一年级、人教版等）*/}
+                            {project.tags?.slice(0, 2).map((tag) => (
+                                <span key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-secondary/50 text-secondary-foreground border-secondary/30">
+                                    {tag}
+                                </span>
+                            ))}
                             {project.difficulty_stars && (
                                 <DifficultyStars stars={project.difficulty_stars} size="sm" />
                             )}
                         </div>
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <span className="text-xs text-muted-foreground flex items-center gap-1 shrink-0">
                             <Heart className={cn("h-3 w-3", liked && "fill-red-500 text-red-500")} />
                             {likesCount}
                         </span>

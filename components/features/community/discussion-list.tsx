@@ -41,19 +41,19 @@ export function DiscussionList() {
 
     const fetchDiscussions = useCallback(async (reset = false) => {
         if (isLoadingRef.current && !reset) return;
-        
+
         try {
             setIsLoading(true);
 
             const PAGE_SIZE = 10;
             let currentPage = 0;
-            
+
             // Use functional update to get the latest page value
             setPage(prev => {
                 currentPage = reset ? 0 : prev;
                 return currentPage;
             });
-            
+
             const from = currentPage * PAGE_SIZE;
             const to = from + PAGE_SIZE - 1;
 
@@ -139,7 +139,7 @@ export function DiscussionList() {
             const { data } = await supabase
                 .from('discussions')
                 .select('tags');
-            
+
             if (data) {
                 const allTags = data.flatMap(d => d.tags || []);
                 const uniqueTags = Array.from(new Set(allTags)).slice(0, 10); // Limit to 10 most common
@@ -199,7 +199,7 @@ export function DiscussionList() {
             .from('discussions')
             .delete()
             .eq('id', id);
-        
+
         if (!error) {
             setDiscussions(prev => prev.filter(d => d.id !== id));
         }
@@ -216,23 +216,16 @@ export function DiscussionList() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">讨论区</h2>
-                <Button onClick={() => {
-                    if (!user && !isCreating) {
-                        promptLogin(() => setIsCreating(true), {
-                            title: '登录以发起讨论',
-                            description: '登录后即可发起新的讨论话题'
-                        });
-                        return;
-                    }
-                    setIsCreating(!isCreating);
-                }}>
-                    {isCreating ? "取消" : "发起讨论"}
-                </Button>
+                {user && (
+                    <Button onClick={() => setIsCreating(!isCreating)}>
+                        {isCreating ? "取消" : "发起讨论"}
+                    </Button>
+                )}
             </div>
 
             {/* Search Component */}
-            <DiscussionSearch 
-                onSearch={handleSearch} 
+            <DiscussionSearch
+                onSearch={handleSearch}
                 availableTags={availableTags}
             />
 
@@ -271,7 +264,7 @@ export function DiscussionList() {
             <div className="space-y-4">
                 {discussions.map((discussion, index) => {
                     const content = (
-                        <div className="border rounded-lg p-6 hover:shadow-md transition-shadow bg-white/70 dark:bg-gray-800/70 backdrop-blur-md hover:scale-105 transition-transform cursor-pointer group relative">
+                        <div className="border rounded-lg p-6 hover:shadow-md transition-all bg-white/70 dark:bg-gray-800/70 backdrop-blur-md hover:scale-105 cursor-pointer group relative">
                             <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0" />
                             <div className="flex justify-between items-start mb-4">
                                 <div>
@@ -329,7 +322,7 @@ export function DiscussionList() {
                         return <div key={discussion.id}>{content}</div>;
                     }
                 })}
-                
+
                 {isLoading && (
                     <div className="text-center py-4 text-muted-foreground">加载中...</div>
                 )}

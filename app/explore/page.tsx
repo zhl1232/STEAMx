@@ -26,6 +26,21 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
 
     const categories = ['全部', ...(categoriesData?.map(c => c.name) || [])]
 
+    // 获取所有可用的 tags
+    const { data: tagsData } = await supabase
+        .from('projects')
+        .select('tags')
+        .eq('status', 'approved')
+        .not('tags', 'is', null) as { data: { tags: string[] | null }[] | null }
+
+    // 提取并去重所有 tags，排除与主分类重复的标签
+    const categoryNames = new Set(categories)
+    const allTags = Array.from(new Set(
+        (tagsData || [])
+            .flatMap(p => p.tags || [])
+            .filter(tag => tag && !categoryNames.has(tag))
+    )).sort() as string[]
+
     // 构建筛选条件
     const filters: ProjectFilters = {
         searchQuery: params.q,
@@ -42,6 +57,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
                 initialProjects={projects}
                 initialHasMore={hasMore}
                 categories={categories}
+                availableTags={allTags}
             />
         </Suspense>
     )
