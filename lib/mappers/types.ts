@@ -19,6 +19,7 @@ type DbChallenge = Database['public']['Tables']['challenges']['Row']
 type DbProjectMaterial = Database['public']['Tables']['project_materials']['Row']
 type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
 type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
+type DbCompletedProject = Database['public']['Tables']['completed_projects']['Row']
 
 // ============================================================
 // 前端类型定义
@@ -113,6 +114,21 @@ export interface Profile {
     bio: string | null
     xp: number
     role: 'user' | 'moderator' | 'admin'
+}
+
+/**
+ * 项目完成记录类型
+ */
+export interface ProjectCompletion {
+    userId: string
+    projectId: string | number
+    author: string
+    avatar?: string
+    completedAt: string
+    proofImages: string[]
+    proofVideoUrl?: string
+    notes?: string
+    isPublic: boolean
 }
 
 // ============================================================
@@ -248,5 +264,27 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
         bio: dbProfile.bio,
         xp: dbProfile.xp,
         role: (dbProfile.role as 'user' | 'moderator' | 'admin') || 'user'
+    }
+}
+
+/**
+ * 将数据库 CompletedProject 类型映射为前端 ProjectCompletion 类型
+ */
+export function mapDbCompletion(
+    dbCompletion: DbCompletedProject & {
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url'> | null
+    }
+): ProjectCompletion {
+    const data = dbCompletion as any;
+    return {
+        userId: data.user_id,
+        projectId: data.project_id,
+        author: dbCompletion.profiles?.display_name || 'Unknown',
+        avatar: dbCompletion.profiles?.avatar_url || undefined,
+        completedAt: new Date(data.completed_at || '').toLocaleDateString('zh-CN'),
+        proofImages: data.proof_images || [],
+        proofVideoUrl: data.proof_video_url || undefined,
+        notes: data.notes || undefined,
+        isPublic: data.is_public ?? true
     }
 }

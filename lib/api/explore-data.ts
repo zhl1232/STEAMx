@@ -4,7 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server'
-import { mapDbProject, type Project } from '@/lib/mappers/types'
+import { mapDbProject, mapDbCompletion, type Project, type ProjectCompletion } from '@/lib/mappers/types'
 
 /**
  * 项目筛选参数
@@ -226,4 +226,41 @@ export async function getRelatedProjects(
     }
 
     return data.map(mapDbProject)
+}
+
+/**
+ * 获取项目的完成记录（作品墙）
+ * 
+ * @param projectId - 项目 ID
+ * @param limit - 返回数量
+ * @returns 完成记录列表
+ */
+export async function getProjectCompletions(
+    projectId: string | number,
+    limit: number = 4
+): Promise<ProjectCompletion[]> {
+    const supabase = await createClient()
+
+    // 注意：proof_images 是 text[] 类型，Supabase JS client 会正确处理
+    // 默认只获取公开的记录 (is_public = true)
+
+    // 由于我们还没有更新本地 Database types，这里使用 any 绕过类型检查
+    // 实际上我们在 migration 002 中已经添加了 proof_images 等字段
+    const { data, error } = await supabase
+        .from('completed_projects')
+        .select(`
+            *,
+            profiles:user_id (display_name, avatar_url)
+        `)
+        .eq('project_id', projectId)
+        .eq('is_public', true)
+        .order('completed_at', { ascending: false })
+        .limit(limit)
+
+    if (error) {
+        console.error('Error fetching completions:', error)
+        return []
+    }
+
+    return (data || []).map((item: any) => mapDbCompletion(item))
 }

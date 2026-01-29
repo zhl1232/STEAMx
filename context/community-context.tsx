@@ -31,7 +31,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
     const [supabase] = useState(() => createClient());
     const { user, profile } = useAuth();
-    const { addXp } = useGamification();
+    const { addXp, checkBadges } = useGamification();
     const { createNotification } = useNotifications();
 
     // Refs for stable callbacks
@@ -90,15 +90,57 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const addDiscussion = useCallback(async (discussion: Discussion) => {
         if (!user) return;
 
-        await supabase
+        const { data: newDiscussion, error } = await supabase
             .from('discussions')
             .insert({
                 title: discussion.title,
                 content: discussion.content,
                 author_id: user.id,
                 tags: discussion.tags
-            });
-    }, [supabase, user]);
+            })
+            .select()
+            .single();
+
+        if (error || !newDiscussion) {
+            console.error('Error adding discussion:', error);
+            return;
+        }
+
+        // 奖励 XP
+        addXp(5, "发起讨论", "create_discussion", newDiscussion.id);
+
+        // 检查讨论相关徽章
+        const { count: discussionCount } = await supabase
+            .from('discussions')
+            .select('*', { count: 'exact', head: true })
+            .eq('author_id', user.id);
+
+        const { count: replyCount } = await supabase
+            .from('discussion_replies')
+            .select('*', { count: 'exact', head: true })
+            .eq('author_id', user.id);
+
+        checkBadges({
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 0,
+            consecutiveDays: 0,
+            discussionsCreated: (discussionCount || 0) + 1,
+            repliesCount: replyCount || 0
+        });
+    }, [supabase, user, addXp, checkBadges]);
 
     const addReply = useCallback(async (discussionId: string | number, reply: Comment, parentId?: number) => {
         if (!user) return null;
@@ -142,9 +184,41 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         // Award XP for replying
         addXp(1, "回复讨论", "reply_discussion", newReply.id);
 
+        // 检查回复相关徽章
+        const { count: replyCount } = await supabase
+            .from('discussion_replies')
+            .select('*', { count: 'exact', head: true })
+            .eq('author_id', user.id);
+
+        const { count: discussionCount } = await supabase
+            .from('discussions')
+            .select('*', { count: 'exact', head: true })
+            .eq('author_id', user.id);
+
+        checkBadges({
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 0,
+            consecutiveDays: 0,
+            discussionsCreated: discussionCount || 0,
+            repliesCount: (replyCount || 0) + 1
+        });
+
         // 使用统一的映射函数
         return mapComment(newReply as unknown as DbComment);
-    }, [supabase, user, profile, createNotification, addXp]);
+    }, [supabase, user, profile, createNotification, addXp, checkBadges]);
 
     const joinChallenge = useCallback(async (challengeId: string | number) => {
         if (!user) return;
@@ -172,8 +246,38 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             // Join
             await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid });
             await callRpc(supabase, 'increment_challenge_participants', { challenge_id: cid });
+
+            // 奖励 XP
+            addXp(10, "参加挑战赛", "join_challenge", cid);
+
+            // 检查挑战赛相关徽章
+            const { count: challengeCount } = await supabase
+                .from('challenge_participants')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_id', user.id);
+
+            checkBadges({
+                projectsPublished: 0,
+                projectsLiked: 0,
+                projectsCompleted: 0,
+                commentsCount: 0,
+                scienceCompleted: 0,
+                techCompleted: 0,
+                engineeringCompleted: 0,
+                artCompleted: 0,
+                mathCompleted: 0,
+                likesGiven: 0,
+                likesReceived: 0,
+                collectionsCount: 0,
+                challengesJoined: (challengeCount || 0) + 1,
+                level: 1,
+                loginDays: 0,
+                consecutiveDays: 0,
+                discussionsCreated: 0,
+                repliesCount: 0
+            });
         }
-    }, [supabase, user]);
+    }, [supabase, user, addXp, checkBadges]);
 
     const deleteReply = useCallback(async (replyId: string | number) => {
         if (!user) return;

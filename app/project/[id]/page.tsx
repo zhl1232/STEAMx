@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { ProjectComments } from '@/components/features/project-comments'
-import { getProjectById, getRelatedProjects } from '@/lib/api/explore-data'
+import { ProjectShowcase } from '@/components/features/project-showcase'
+import { getProjectById, getRelatedProjects, getProjectCompletions } from '@/lib/api/explore-data'
 
 interface ProjectDetailPageProps {
     params: Promise<{ id: string }>
@@ -26,6 +27,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     const relatedProjects = project.category
         ? await getRelatedProjects(project.id, project.category, 3)
         : []
+
+    // 获取完成记录
+    const completions = await getProjectCompletions(project.id, 8)
 
     return (
         <div className="container mx-auto py-8 max-w-4xl">
@@ -91,7 +95,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                                         />
                                                     </div>
                                                 )}
-                                                
+
                                                 {/* 步骤内容 - 文下 */}
                                                 <div className="p-4 space-y-2">
                                                     <div className="flex items-center gap-3">
@@ -109,6 +113,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             )}
                         </div>
                     </div>
+
+                    {/* Showcase Section */}
+                    {completions.length > 0 && (
+                        <div className="border-t pt-8">
+                            <ProjectShowcase completions={completions} />
+                        </div>
+                    )}
 
                     {/* Comments Section - Client Component */}
                     <ProjectComments
@@ -148,16 +159,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
 
             {/* Related Projects */}
-            {relatedProjects.length > 0 && (
-                <div className="mt-16 border-t pt-12">
-                    <h2 className="text-2xl font-bold mb-6">你可能也喜欢</h2>
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {relatedProjects.map((p) => (
-                            <ProjectCard key={p.id} project={p} />
-                        ))}
+            {
+                relatedProjects.length > 0 && (
+                    <div className="mt-16 border-t pt-12">
+                        <h2 className="text-2xl font-bold mb-6">你可能也喜欢</h2>
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {relatedProjects.map((p) => (
+                                <ProjectCard key={p.id} project={p} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     )
 }

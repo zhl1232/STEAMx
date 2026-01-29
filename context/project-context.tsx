@@ -123,7 +123,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 challengesResult,
                 discussionsResult,
                 repliesResult,
-                completedResult
+                completedResult,
+                likesReceivedResult,
+                loginStatsResult
             ] = await Promise.all([
                 supabase.from('projects').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
                 supabase.from('comments').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
@@ -133,7 +135,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 supabase.from('discussion_replies').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
                 supabase.from('completed_projects')
                     .select('project_id, projects(category)')
-                    .eq('user_id', user.id)
+                    .eq('user_id', user.id),
+                // 聚合用户所有项目的总点赞数
+                supabase.from('projects').select('likes_count').eq('author_id', user.id),
+                // 查询登录统计
+                supabase.rpc('get_user_login_stats', { target_user_id: user.id })
             ]);
 
             // 计算分类完成数
@@ -163,12 +169,12 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 artCompleted,
                 mathCompleted,
                 likesGiven: likesGivenResult.count || 0,
-                likesReceived: 0, // TODO: 需要聚合查询用户项目的总点赞数
+                likesReceived: likesReceivedResult.data?.reduce((sum, p) => sum + (p.likes_count || 0), 0) || 0,
                 collectionsCount: collectedProjectsRef.current.size,
                 challengesJoined: challengesResult.count || 0,
-                level: 1, // TODO: 从 profile 获取
-                loginDays: 0, // TODO: 需要登录记录表
-                consecutiveDays: 0, // TODO: 需要登录记录表
+                level: 1, // 等级由 gamification context 计算，这里仅做占位
+                loginDays: loginStatsResult.data?.[0]?.login_days || 0,
+                consecutiveDays: loginStatsResult.data?.[0]?.consecutive_days || 0,
                 discussionsCreated: discussionsResult.count || 0,
                 repliesCount: repliesResult.count || 0
             };
@@ -321,8 +327,15 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('likes').insert({ user_id: user.id, project_id: pid });
             await callRpc(supabase, 'increment_project_likes', { project_id: pid });
             addXp(1, "点赞项目", "like_project", pid);
+
+            // 检查点赞相关徽章
+            const stats = await getUserStats();
+            checkBadges({
+                ...stats,
+                likesGiven: stats.likesGiven + 1
+            });
         }
-    }, [supabase, user, addXp]);
+    }, [supabase, user, addXp, checkBadges, getUserStats]);
 
     const toggleCollection = useCallback(async (projectId: string | number) => {
         if (!user) return;
@@ -342,8 +355,15 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('collections').delete().eq('user_id', user.id).eq('project_id', pid);
         } else {
             await supabase.from('collections').insert({ user_id: user.id, project_id: pid });
+
+            // 检查收藏相关徽章
+            const stats = await getUserStats();
+            checkBadges({
+                ...stats,
+                collectionsCount: stats.collectionsCount + 1
+            });
         }
-    }, [supabase, user]);
+    }, [supabase, user, checkBadges, getUserStats]);
 
     const completeProject = useCallback(async (projectId: string | number, proof: ProjectCompletionProof) => {
         if (!user) return;
