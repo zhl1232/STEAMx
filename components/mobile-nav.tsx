@@ -37,7 +37,7 @@ export function MobileNav() {
         },
         {
             href: "/share",
-            label: "分享",
+            label: "分享项目",
             active: pathname === "/share",
         },
     ].filter(route => {

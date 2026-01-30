@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
-import { AdvancedSearch } from '@/components/features/advanced-search'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
@@ -143,12 +142,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         })
     }
 
-    // 处理搜索
-    const handleSearch = (query: string) => {
-        setSearchQuery(query)
-        const params = buildSearchParams({ query })
-        executeFilter(params)
-    }
+
 
     // 处理主分类点击
     const handleCategoryClick = (category: string) => {
@@ -232,11 +226,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                         <h1 className="text-3xl font-bold tracking-tight">探索项目</h1>
                         <p className="text-muted-foreground">探索社区中最酷的 STEAM 创意。</p>
                     </div>
-                    {user && (
-                        <div className="flex w-full items-center space-x-2 md:w-auto md:min-w-[400px]">
-                            <AdvancedSearch onSearch={handleSearch} defaultValue={searchQuery} />
-                        </div>
-                    )}
+                    {/* Global search is now in the header */}
                 </div>
 
                 {/* 主分类标签 */}

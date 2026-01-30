@@ -5,7 +5,8 @@ import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trophy, Medal, Crown } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Trophy, Medal, Crown, Star, Award, Hammer } from "lucide-react";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -15,80 +16,102 @@ interface LeaderboardUser {
     name: string;
     xp: number;
     level: number;
-    badges: number;
+    value: number; // 通用的数值字段（XP/徽章数/项目数）
     avatar: string | null | undefined;
     isCurrentUser?: boolean;
 }
+
+type LeaderboardType = "xp" | "badges" | "projects";
 
 export default function LeaderboardPage() {
     const { user, profile } = useAuth();
     const { xp, level, unlockedBadges } = useGamification();
     const [isLoading, setIsLoading] = useState(true);
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+    const [currentTab, setCurrentTab] = useState<LeaderboardType>("xp");
     const supabase = createClient();
 
     // 获取真实排行榜数据
     useEffect(() => {
         const fetchLeaderboard = async () => {
             setIsLoading(true);
+            setLeaderboardData([]);
 
             try {
-                // 1. 查询 Top 20 用户（按 XP 降序）
-                const { data: topProfiles, error: profilesError } = await supabase
-                    .from('profiles')
-                    .select('id, display_name, avatar_url, xp')
-                    .order('xp', { ascending: false })
-                    .limit(20);
+                let users: LeaderboardUser[] = [];
 
-                if (profilesError) throw profilesError;
+                if (currentTab === "xp") {
+                    // 1. 积分榜 (原有逻辑)
+                    const { data: topProfiles, error } = await supabase
+                        .from('profiles')
+                        .select('id, display_name, avatar_url, xp')
+                        .order('xp', { ascending: false })
+                        .limit(20);
 
-                if (!topProfiles || topProfiles.length === 0) {
-                    setLeaderboardData([]);
-                    setIsLoading(false);
-                    return;
+                    if (error) throw error;
+
+                    users = (topProfiles || []).map(p => ({
+                        id: p.id,
+                        name: p.display_name || '匿名用户',
+                        xp: p.xp || 0,
+                        level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
+                        value: p.xp || 0,
+                        avatar: p.avatar_url,
+                        isCurrentUser: user?.id === p.id
+                    }));
+
+                    // 如果当前用户不在 Top 20，且已登录，添加到列表底部用于展示（可选）
+                    // 为了简化，这里遵循原逻辑，尝试把当前用户加入比较
+                    if (user && !users.some(u => u.id === user.id)) {
+                        users.push({
+                            id: user.id,
+                            name: profile?.display_name || '我',
+                            xp,
+                            level,
+                            value: xp,
+                            avatar: profile?.avatar_url,
+                            isCurrentUser: true
+                        });
+                    }
+                    // 再次排序
+                    users.sort((a, b) => b.value - a.value);
+
+                } else if (currentTab === "badges") {
+                    // 2. 徽章榜 (调用 RPC)
+                    const { data, error } = await supabase
+                        .rpc('get_badge_leaderboard', { limit_count: 20 });
+
+                    if (error) throw error;
+
+                    users = (data || []).map((p: any) => ({
+                        id: p.id,
+                        name: p.display_name || '匿名用户',
+                        xp: p.xp || 0,
+                        level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
+                        value: Number(p.badge_count || 0),
+                        avatar: p.avatar_url,
+                        isCurrentUser: user?.id === p.id
+                    }));
+
+                    // 当前用户逻辑（如果不在榜单中，需要单独查询徽章数，这里暂时简化，若不在榜则不显示或显示0）
+                    // 如果当前用户在榜单中，标记一下
+                } else if (currentTab === "projects") {
+                    // 3. 实干榜 (调用 RPC)
+                    const { data, error } = await supabase
+                        .rpc('get_project_leaderboard', { limit_count: 20 });
+
+                    if (error) throw error;
+
+                    users = (data || []).map((p: any) => ({
+                        id: p.id,
+                        name: p.display_name || '匿名用户',
+                        xp: p.xp || 0,
+                        level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
+                        value: Number(p.project_count || 0),
+                        avatar: p.avatar_url,
+                        isCurrentUser: user?.id === p.id
+                    }));
                 }
-
-                // 2. 批量查询这些用户的徽章数量
-                const userIds = topProfiles.map(p => p.id);
-                const { data: badgesData, error: badgesError } = await supabase
-                    .from('user_badges')
-                    .select('user_id, badge_id')
-                    .in('user_id', userIds);
-
-                if (badgesError) throw badgesError;
-
-                // 3. 统计每个用户的徽章数
-                const badgeCounts = new Map<string, number>();
-                badgesData?.forEach(({ user_id }) => {
-                    badgeCounts.set(user_id, (badgeCounts.get(user_id) || 0) + 1);
-                });
-
-                // 4. 组合数据
-                const users: LeaderboardUser[] = topProfiles.map(p => ({
-                    id: p.id,
-                    name: p.display_name || '匿名用户',
-                    xp: p.xp || 0,
-                    level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
-                    badges: badgeCounts.get(p.id) || 0,
-                    avatar: p.avatar_url,
-                    isCurrentUser: user?.id === p.id
-                }));
-
-                // 5. 如果当前用户不在 Top 20，添加到列表
-                if (user && !users.some(u => u.id === user.id)) {
-                    users.push({
-                        id: user.id,
-                        name: profile?.display_name || '我',
-                        xp,
-                        level,
-                        badges: unlockedBadges.size,
-                        avatar: profile?.avatar_url,
-                        isCurrentUser: true
-                    });
-                }
-
-                // 6. 重新按 XP 排序
-                users.sort((a, b) => b.xp - a.xp);
 
                 setLeaderboardData(users);
             } catch (error) {
@@ -100,7 +123,7 @@ export default function LeaderboardPage() {
         };
 
         fetchLeaderboard();
-    }, [user, profile, xp, level, unlockedBadges, supabase]);
+    }, [user, profile, xp, level, currentTab, supabase]);
 
     const getRankIcon = (index: number) => {
         switch (index) {
@@ -110,6 +133,16 @@ export default function LeaderboardPage() {
             default: return <span className="text-lg font-bold text-muted-foreground w-6 text-center">{index + 1}</span>;
         }
     };
+
+    const getTabConfig = (tab: LeaderboardType) => {
+        switch (tab) {
+            case "xp": return { label: "积分榜", icon: <Star className="w-4 h-4 mr-2" />, valueLabel: "XP" };
+            case "badges": return { label: "徽章榜", icon: <Award className="w-4 h-4 mr-2" />, valueLabel: "枚徽章" };
+            case "projects": return { label: "实干榜", icon: <Hammer className="w-4 h-4 mr-2" />, valueLabel: "个项目" };
+        }
+    };
+
+    const config = getTabConfig(currentTab);
 
     return (
         <div className="container mx-auto py-8 max-w-4xl">
@@ -125,59 +158,79 @@ export default function LeaderboardPage() {
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>积分榜</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                        {isLoading ? (
-                            <>
-                                {[1, 2, 3, 4, 5].map((i) => (
-                                    <LeaderboardItemSkeleton key={i} />
-                                ))}
-                            </>
-                        ) : leaderboardData.length === 0 ? (
-                            <div className="text-center py-8 text-muted-foreground">
-                                暂无排行榜数据
-                            </div>
-                        ) : (
-                            <>
-                                {leaderboardData.map((user, index) => (
-                                    <div
-                                        key={user.id}
-                                        className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${user.isCurrentUser ? "bg-primary/5 border-primary/50" : "bg-card hover:bg-accent/50"
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="flex items-center justify-center w-8">
-                                                {getRankIcon(index)}
+            <Tabs defaultValue="xp" className="w-full" onValueChange={(v) => setCurrentTab(v as LeaderboardType)}>
+                <TabsList className="grid w-full grid-cols-3 mb-8">
+                    <TabsTrigger value="xp" className="flex items-center justify-center">
+                        <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                        积分榜
+                    </TabsTrigger>
+                    <TabsTrigger value="badges" className="flex items-center justify-center">
+                        <Award className="w-4 h-4 mr-2 text-purple-500" />
+                        徽章榜
+                    </TabsTrigger>
+                    <TabsTrigger value="projects" className="flex items-center justify-center">
+                        <Hammer className="w-4 h-4 mr-2 text-blue-500" />
+                        实干榜
+                    </TabsTrigger>
+                </TabsList>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center">
+                            {config.icon}
+                            {config.label}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            {isLoading ? (
+                                <>
+                                    {[1, 2, 3, 4, 5].map((i) => (
+                                        <LeaderboardItemSkeleton key={i} />
+                                    ))}
+                                </>
+                            ) : leaderboardData.length === 0 ? (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    暂无排行榜数据
+                                </div>
+                            ) : (
+                                <>
+                                    {leaderboardData.map((user, index) => (
+                                        <div
+                                            key={user.id}
+                                            className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${user.isCurrentUser ? "bg-primary/5 border-primary/50" : "bg-card hover:bg-accent/50"
+                                                }`}
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="flex items-center justify-center w-8">
+                                                    {getRankIcon(index)}
+                                                </div>
+                                                <Avatar className="h-10 w-10 border-2 border-background">
+                                                    <AvatarImage src={user.avatar || undefined} />
+                                                    <AvatarFallback>{user.name[0]}</AvatarFallback>
+                                                </Avatar>
+                                                <div>
+                                                    <div className="font-semibold flex items-center gap-2">
+                                                        {user.name}
+                                                        {user.isCurrentUser && <Badge variant="secondary" className="text-xs">你</Badge>}
+                                                    </div>
+                                                    <div className="text-sm text-muted-foreground">
+                                                        Lv.{user.level}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <Avatar className="h-10 w-10 border-2 border-background">
-                                                <AvatarImage src={user.avatar || undefined} />
-                                                <AvatarFallback>{user.name[0]}</AvatarFallback>
-                                            </Avatar>
-                                            <div>
-                                                <div className="font-semibold flex items-center gap-2">
-                                                    {user.name}
-                                                    {user.isCurrentUser && <Badge variant="secondary" className="text-xs">你</Badge>}
-                                                </div>
-                                                <div className="text-sm text-muted-foreground">
-                                                    Lv.{user.level} • {user.badges} 枚徽章
-                                                </div>
+                                            <div className="text-right">
+                                                <div className="text-xl font-bold text-primary">{user.value.toLocaleString()}</div>
+                                                <div className="text-xs text-muted-foreground">{config.valueLabel}</div>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="text-xl font-bold text-primary">{user.xp.toLocaleString()}</div>
-                                            <div className="text-xs text-muted-foreground">XP</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
+                                    ))}
+                                </>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </Tabs>
         </div>
     );
 }

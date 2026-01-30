@@ -54,6 +54,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     return (
         <Suspense fallback={<LoadingSkeleton />}>
             <ExploreClient
+                key={JSON.stringify(params)}
                 initialProjects={projects}
                 initialHasMore={hasMore}
                 categories={categories}

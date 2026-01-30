@@ -26,13 +26,9 @@ export function MainNav() {
             label: "排行榜",
             active: pathname === "/leaderboard",
         },
-        {
-            href: "/share",
-            label: "分享",
-            active: pathname === "/share",
-        },
+
     ].filter(route => {
-        if (!user && (route.href === '/leaderboard' || route.href === '/share')) {
+        if (!user && route.href === '/leaderboard') {
             return false;
         }
         return true;

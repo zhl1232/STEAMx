@@ -15,6 +15,9 @@ import { MobileNav } from "@/components/mobile-nav";
 import { NotificationProvider } from "@/context/notification-context";
 import { NotificationBell } from "@/components/notification-bell";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { HeaderSearch } from "@/components/header-search";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -75,10 +78,10 @@ export default function RootLayout({
                                                     <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
                                                         <MobileNav />
 
-                                                        <div className="md:hidden mr-auto flex items-center">
+                                                        <div className="md:hidden flex items-center mr-2">
                                                             <Link href="/" className="flex items-center space-x-2">
                                                                 <Rocket className="h-5 w-5 text-primary" />
-                                                                <span className="font-bold">STEAM</span>
+                                                                <span className="font-bold hidden sm:inline-block">STEAM</span>
                                                             </Link>
                                                         </div>
 
@@ -91,9 +94,24 @@ export default function RootLayout({
                                                             {/* 主导航 */}
                                                             <MainNav />
                                                         </div>
-                                                        {/* 右侧搜索和通知 */}
+
+                                                        {/* 右侧搜索和操作区 */}
                                                         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                                                            <nav className="flex items-center gap-2 ml-auto">
+                                                            <div className="w-full flex-1 md:w-auto md:flex-none">
+                                                                <HeaderSearch />
+                                                            </div>
+                                                            <nav className="flex items-center gap-2">
+                                                                <Link href="/share">
+                                                                    {/* 仅在桌面端显示 "发布作品" 文字，移动端可以考虑只显示图标或在菜单中 */}
+                                                                    <Button size="sm" className="hidden md:flex gap-1 h-9">
+                                                                        <PlusCircle className="w-4 h-4" />
+                                                                        <span>分享项目</span>
+                                                                    </Button>
+                                                                    {/* 移动端图标版本（可选，或者已经有了 MobileNav） */}
+                                                                    <Button size="icon" variant="ghost" className="md:hidden h-8 w-8">
+                                                                        <PlusCircle className="w-5 h-5" />
+                                                                    </Button>
+                                                                </Link>
                                                                 <NotificationBell />
                                                                 <UserButton />
                                                             </nav>
