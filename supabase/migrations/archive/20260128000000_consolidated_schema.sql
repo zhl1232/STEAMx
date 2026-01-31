@@ -439,7 +439,77 @@ create or replace trigger on_auth_user_created
 ALTER TABLE public.profiles 
 ADD COLUMN IF NOT EXISTS xp int DEFAULT 0;
 
+-- Add login tracking columns to profiles table
+ALTER TABLE public.profiles
+ADD COLUMN IF NOT EXISTS last_check_in date DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS login_streak int DEFAULT 0,
+ADD COLUMN IF NOT EXISTS total_login_days int DEFAULT 0;
+
 COMMENT ON COLUMN public.profiles.xp IS '用户经验值';
+COMMENT ON COLUMN public.profiles.last_check_in IS '上次登录打卡日期';
+COMMENT ON COLUMN public.profiles.login_streak IS '连续登录天数';
+COMMENT ON COLUMN public.profiles.total_login_days IS '累计登录天数';
+
+-- ============================================
+-- Daily Check-in Function
+-- ============================================
+CREATE OR REPLACE FUNCTION public.daily_check_in()
+RETURNS jsonb AS $$
+DECLARE
+  current_date date := CURRENT_DATE;
+  user_last_check_in date;
+  user_streak int;
+  user_total_days int;
+  result jsonb;
+BEGIN
+  -- 获取用户当前状态
+  SELECT last_check_in, login_streak, total_login_days
+  INTO user_last_check_in, user_streak, user_total_days
+  FROM public.profiles
+  WHERE id = auth.uid();
+
+  -- 如果已经打卡，直接返回
+  IF user_last_check_in = current_date THEN
+    RETURN jsonb_build_object(
+      'streak', user_streak,
+      'total_days', user_total_days,
+      'checked_in_today', true,
+      'is_new_day', false
+    );
+  END IF;
+
+  -- 计算新的连续天数
+  IF user_last_check_in = current_date - 1 THEN
+    -- 昨天打卡了，连续 + 1
+    user_streak := COALESCE(user_streak, 0) + 1;
+  ELSE
+    -- 昨天没打卡（或者从未打卡），重置为 1
+    user_streak := 1;
+  END IF;
+
+  -- 累计天数 + 1
+  user_total_days := COALESCE(user_total_days, 0) + 1;
+
+  -- 更新数据库
+  UPDATE public.profiles
+  SET 
+    last_check_in = current_date,
+    login_streak = user_streak,
+    total_login_days = user_total_days
+  WHERE id = auth.uid();
+
+  -- 返回新状态
+  RETURN jsonb_build_object(
+    'streak', user_streak,
+    'total_days', user_total_days,
+    'checked_in_today', true,
+    'is_new_day', true
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+COMMENT ON FUNCTION public.daily_check_in() IS '每日签到函数，自动处理连续登录和累计登录逻辑';
+
 -- ============================================
 -- 权限系统迁移脚本
 -- ============================================

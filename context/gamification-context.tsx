@@ -983,7 +983,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     const [supabase] = useState(() => createClient());
     const { user } = useAuth();
 
-    // Load from Supabase
+    // Load from Supabase and Auto-Check Badges
     useEffect(() => {
         if (!user) {
             setXp(0);
@@ -992,30 +992,174 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         }
 
         const fetchData = async () => {
-            // Fetch XP
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('xp')
-                .eq('id', user.id)
-                .single();
+            try {
+                // 1. Fetch Profile (XP)
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('xp')
+                    .eq('id', user.id)
+                    .single();
 
-            if (profile) {
-                setXp(profile.xp || 0);
-            }
+                if (profile) {
+                    setXp(profile.xp || 0);
+                }
 
-            // Fetch Badges
-            const { data: badges } = await supabase
-                .from('user_badges')
-                .select('badge_id')
-                .eq('user_id', user.id);
+                // 2. Fetch Unlocked Badges
+                const { data: badges } = await supabase
+                    .from('user_badges')
+                    .select('badge_id')
+                    .eq('user_id', user.id);
 
-            if (badges) {
-                setUnlockedBadges(new Set(badges.map(b => b.badge_id)));
+                const currentBadgesConfigured = new Set(badges?.map(b => b.badge_id) || []);
+                setUnlockedBadges(currentBadgesConfigured);
+
+                // 3. Daily Check-in & Login Stats
+                let loginDays = 1;
+                let consecutiveDays = 1;
+
+                try {
+                    const { data: checkin, error: checkinError } = await supabase.rpc('daily_check_in');
+                    if (!checkinError && checkin) {
+                        const checkinData = checkin as { streak: number; total_days: number; checked_in_today: boolean; is_new_day: boolean };
+                        loginDays = checkinData.total_days;
+                        consecutiveDays = checkinData.streak;
+
+                        if (checkinData.is_new_day) {
+                            toast({
+                                description: (
+                                    <AchievementToast
+                                        title="每日签到成功！"
+                                        description={`连续登录 ${checkinData.streak} 天，累计 ${checkinData.total_days} 天`}
+                                        icon="📅"
+                                    />
+                                ),
+                                duration: 3000,
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.error("Daily check-in failed", e);
+                }
+
+                // 4. Fetch Global Stats for Badge Checking
+                // Run these in parallel for performance
+                const [
+                    { count: projectsPublished },
+                    { count: likesGiven },
+                    { count: commentsCount },
+                    { count: collectionsCount },
+                    { count: challengesJoined },
+                    { count: discussionsCreated },
+                    { count: repliesCount },
+                    { data: myProjects },
+                    { data: completedProjects }
+                ] = await Promise.all([
+                    supabase.from('projects').select('*', { count: 'exact', head: true }).eq('author_id', user.id).eq('status', 'approved'),
+                    supabase.from('likes').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+                    supabase.from('comments').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                    supabase.from('collections').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+                    supabase.from('challenge_participants').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+                    supabase.from('discussions').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                    supabase.from('discussion_replies').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
+                    supabase.from('projects').select('likes_count').eq('author_id', user.id), // For likesReceived
+                    supabase.from('completed_projects').select('project_id, projects(category)').eq('user_id', user.id) // For category stats
+                ]);
+
+                // Calculate Likes Received
+                const likesReceived = myProjects?.reduce((sum, p) => sum + (p.likes_count || 0), 0) || 0;
+
+                // Calculate Category Completions
+                const categoryStats = {
+                    science: 0,
+                    tech: 0,
+                    engineering: 0,
+                    art: 0,
+                    math: 0
+                };
+
+                // Parse nested data
+                if (completedProjects) {
+                    completedProjects.forEach((cp: any) => {
+                        const cat = cp.projects?.category;
+                        if (cat === '科学') categoryStats.science++;
+                        else if (cat === '技术') categoryStats.tech++;
+                        else if (cat === '工程') categoryStats.engineering++;
+                        else if (cat === '艺术') categoryStats.art++;
+                        else if (cat === '数学') categoryStats.math++;
+                    });
+                }
+
+                // Construct Full UserStats
+                const currentLevel = Math.floor(Math.sqrt((profile?.xp || 0) / 100)) + 1;
+
+                const fullStats: UserStats = {
+                    projectsPublished: projectsPublished || 0,
+                    projectsLiked: likesGiven || 0,
+                    projectsCompleted: completedProjects?.length || 0,
+                    commentsCount: commentsCount || 0,
+                    scienceCompleted: categoryStats.science,
+                    techCompleted: categoryStats.tech,
+                    engineeringCompleted: categoryStats.engineering,
+                    artCompleted: categoryStats.art,
+                    mathCompleted: categoryStats.math,
+                    likesGiven: likesGiven || 0,
+                    likesReceived: likesReceived,
+                    collectionsCount: collectionsCount || 0,
+                    challengesJoined: challengesJoined || 0,
+                    level: currentLevel,
+                    loginDays: loginDays,
+                    consecutiveDays: consecutiveDays,
+                    discussionsCreated: discussionsCreated || 0,
+                    repliesCount: repliesCount || 0
+                };
+
+                // 5. Check All Badges
+                let newBadgesFound = false;
+                const newUnlocked = new Set(currentBadgesConfigured);
+
+                for (const badge of BADGES) {
+                    if (!newUnlocked.has(badge.id)) {
+                        try {
+                            if (badge.condition(fullStats)) {
+                                // Insert to DB
+                                const { error } = await supabase.from('user_badges').insert({
+                                    user_id: user.id,
+                                    badge_id: badge.id,
+                                    unlocked_at: new Date().toISOString()
+                                });
+
+                                if (!error) {
+                                    toast({
+                                        description: (
+                                            <AchievementToast
+                                                title="解锁新徽章！"
+                                                description={`你获得了 "${badge.name}" 徽章`}
+                                                icon={badge.icon}
+                                            />
+                                        ),
+                                        duration: 5000,
+                                    });
+                                    newUnlocked.add(badge.id);
+                                    newBadgesFound = true;
+                                }
+                            }
+                        } catch (err) {
+                            console.error(`Error checking badge ${badge.id}`, err);
+                        }
+                    }
+                }
+
+                if (newBadgesFound) {
+                    setUnlockedBadges(newUnlocked);
+                }
+
+            } catch (error) {
+                console.error('Error in Gamification Initialization:', error);
             }
         };
 
         fetchData();
-    }, [supabase, user]);
+    }, [user, supabase, toast]);
 
     // Level Calculation: Level = floor(sqrt(XP / 100)) + 1
     // XP = 100 * (Level - 1)^2

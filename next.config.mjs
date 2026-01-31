@@ -9,9 +9,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+
       {
         protocol: 'https',
         hostname: 'lulfybqiiamdvbtdpqha.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
       },
     ],
     // 图片格式优化
