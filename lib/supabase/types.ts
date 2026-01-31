@@ -252,6 +252,7 @@ export interface Database {
           proof_video_url: string | null
           notes: string | null
           is_public: boolean
+          likes_count: number
         }
         Insert: {
           id?: number
@@ -262,6 +263,7 @@ export interface Database {
           proof_video_url?: string | null
           notes?: string | null
           is_public?: boolean
+          likes_count?: number
         }
         Update: {
           id?: number
@@ -272,6 +274,47 @@ export interface Database {
           proof_video_url?: string | null
           notes?: string | null
           is_public?: boolean
+          likes_count?: number
+        }
+      }
+      completion_comments: {
+        Row: {
+          id: number
+          completed_project_id: number
+          author_id: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          completed_project_id: number
+          author_id: string
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          completed_project_id?: number
+          author_id?: string
+          content?: string
+          created_at?: string
+        }
+      }
+      completion_likes: {
+        Row: {
+          user_id: string
+          completed_project_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          completed_project_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          completed_project_id?: number
+          created_at?: string
         }
       }
       discussions: {
@@ -444,6 +487,14 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      increment_completion_likes: {
+        Args: { completion_id: number }
+        Returns: void
+      }
+      decrement_completion_likes: {
+        Args: { completion_id: number }
+        Returns: void
+      }
       increment_project_likes: {
         Args: { project_id: number }
         Returns: void

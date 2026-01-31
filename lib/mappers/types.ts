@@ -120,6 +120,7 @@ export interface Profile {
  * 项目完成记录类型
  */
 export interface ProjectCompletion {
+    id: number
     userId: string
     projectId: string | number
     author: string
@@ -129,6 +130,7 @@ export interface ProjectCompletion {
     proofVideoUrl?: string
     notes?: string
     isPublic: boolean
+    likes: number
 }
 
 // ============================================================
@@ -277,6 +279,7 @@ export function mapDbCompletion(
 ): ProjectCompletion {
     const data = dbCompletion as any;
     return {
+        id: data.id,
         userId: data.user_id,
         projectId: data.project_id,
         author: dbCompletion.profiles?.display_name || 'Unknown',
@@ -285,6 +288,7 @@ export function mapDbCompletion(
         proofImages: data.proof_images || [],
         proofVideoUrl: data.proof_video_url || undefined,
         notes: data.notes || undefined,
-        isPublic: data.is_public ?? true
+        isPublic: data.is_public ?? true,
+        likes: data.likes_count ?? 0
     }
 }
