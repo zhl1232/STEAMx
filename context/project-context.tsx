@@ -118,78 +118,40 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         if (!user) return defaultStats;
 
         try {
-            // 并行查询所有统计数据
-            const [
-                publishedResult,
-                commentsResult,
-                likesGivenResult,
-                challengesResult,
-                discussionsResult,
-                repliesResult,
-                completedResult,
-                likesReceivedResult,
-                loginStatsResult
-            ] = await Promise.all([
-                supabase.from('projects').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
-                supabase.from('comments').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
-                supabase.from('likes').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
-                supabase.from('challenge_participants').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
-                supabase.from('discussions').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
-                supabase.from('discussion_replies').select('*', { count: 'exact', head: true }).eq('author_id', user.id),
-                supabase.from('completed_projects')
-                    .select('project_id')
-                    .eq('user_id', user.id),
-                // 聚合用户所有项目的总点赞数
-                supabase.from('projects').select('likes_count').eq('author_id', user.id),
-                // 查询登录统计
-                supabase.rpc('get_user_login_stats', { target_user_id: user.id })
-            ]);
+            // 1. 使用优化的 RPC 获取所有统计数据 (1个请求替代原来的 9 个)
+            const { data: statsData, error } = await supabase.rpc('get_user_stats_summary', {
+                target_user_id: user.id
+            });
 
-            // 计算分类完成数
-            let scienceCompleted = 0, techCompleted = 0, engineeringCompleted = 0, artCompleted = 0, mathCompleted = 0;
-            if (completedResult.data && completedResult.data.length > 0) {
-                // 获取所有完成项目的 project_ids
-                const projectIds = completedResult.data.map((c: any) => c.project_id);
-
-                // 单独查询这些项目的分类
-                const { data: projectCategories } = await supabase
-                    .from('projects')
-                    .select('id, category')
-                    .in('id', projectIds);
-
-                if (projectCategories) {
-                    for (const project of projectCategories) {
-                        switch (project.category) {
-                            case '科学': scienceCompleted++; break;
-                            case '技术': techCompleted++; break;
-                            case '工程': engineeringCompleted++; break;
-                            case '艺术': artCompleted++; break;
-                            case '数学': mathCompleted++; break;
-                        }
-                    }
-                }
+            if (error) {
+                console.error('RPC error fetching user stats:', error);
+                throw error;
             }
 
+            if (!statsData) return defaultStats;
+
+            // statsData 是 JSONB 类型，直接匹配我们的结构
             return {
-                projectsPublished: publishedResult.count || 0,
-                projectsLiked: likedProjectsRef.current.size,
-                projectsCompleted: completedResult.data?.length || 0,
-                commentsCount: commentsResult.count || 0,
-                scienceCompleted,
-                techCompleted,
-                engineeringCompleted,
-                artCompleted,
-                mathCompleted,
-                likesGiven: likesGivenResult.count || 0,
-                likesReceived: likesReceivedResult.data?.reduce((sum, p) => sum + (p.likes_count || 0), 0) || 0,
-                collectionsCount: collectedProjectsRef.current.size,
-                challengesJoined: challengesResult.count || 0,
-                level: 1, // 等级由 gamification context 计算，这里仅做占位
-                loginDays: loginStatsResult.data?.[0]?.login_days || 0,
-                consecutiveDays: loginStatsResult.data?.[0]?.consecutive_days || 0,
-                discussionsCreated: discussionsResult.count || 0,
-                repliesCount: repliesResult.count || 0
+                projectsPublished: statsData.projectsPublished || 0,
+                projectsLiked: statsData.projectsLiked || 0,
+                projectsCompleted: statsData.projectsCompleted || 0,
+                commentsCount: statsData.commentsCount || 0,
+                scienceCompleted: statsData.scienceCompleted || 0,
+                techCompleted: statsData.techCompleted || 0,
+                engineeringCompleted: statsData.engineeringCompleted || 0,
+                artCompleted: statsData.artCompleted || 0,
+                mathCompleted: statsData.mathCompleted || 0,
+                likesGiven: statsData.likesGiven || 0,
+                likesReceived: statsData.likesReceived || 0,
+                collectionsCount: statsData.collectionsCount || 0,
+                challengesJoined: statsData.challengesJoined || 0,
+                level: 1, // gamification context handles this
+                loginDays: statsData.loginDays || 0,
+                consecutiveDays: statsData.consecutiveDays || 0,
+                discussionsCreated: statsData.discussionsCreated || 0,
+                repliesCount: statsData.repliesCount || 0
             };
+
         } catch (error) {
             console.error('Error fetching user stats:', error);
             return defaultStats;

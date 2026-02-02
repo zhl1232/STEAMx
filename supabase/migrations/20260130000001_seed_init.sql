@@ -514,7 +514,7 @@ SELECT
     ARRAY['https://storage.googleapis.com/codeskulptor-assets/lathrop/nebula_blue.png'], 
     '这是我第一次做这个实验，非常成功！磁铁真的把回形针吸起来了。', 
     true,
-    5
+    0
 FROM public.projects 
 ORDER BY id ASC
 LIMIT 1

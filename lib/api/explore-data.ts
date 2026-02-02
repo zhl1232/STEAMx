@@ -4,7 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server'
-import { mapDbProject, mapDbCompletion, type Project, type ProjectCompletion } from '@/lib/mappers/types'
+import { mapDbProject, mapDbCompletion, mapDbComment, type Project, type ProjectCompletion, type Comment } from '@/lib/mappers/types'
 
 /**
  * 项目筛选参数
@@ -174,11 +174,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
       profiles:author_id (display_name),
       project_materials (*),
       project_steps (*),
-      sub_categories (name),
-      comments (
-        *,
-        profiles:author_id (display_name, avatar_url)
-      )
+      sub_categories (name)
     `)
         .eq('id', id)
         .single()
@@ -189,6 +185,67 @@ export async function getProjectById(id: string | number): Promise<Project | nul
     }
 
     return mapDbProject(data)
+}
+
+/**
+ * 分页获取项目评论
+ * 
+ * @param projectId - 项目 ID
+ * @param page - 页码 (0-indexed)
+ * @param pageSize - 每页数量
+ * @returns 评论列表和总数
+ */
+export async function getProjectComments(
+    projectId: string | number,
+    page: number = 0,
+    pageSize: number = 10
+): Promise<{ comments: Comment[]; total: number; hasMore: boolean }> {
+    const supabase = await createClient()
+
+    const from = page * pageSize
+    const to = from + pageSize - 1
+
+    const { data: roots, error, count } = await supabase
+        .from('comments')
+        .select(`
+            *,
+            profiles:author_id (display_name, avatar_url)
+        `, { count: 'exact' })
+        .eq('project_id', projectId)
+        .is('parent_id', null)  // Only fetch root comments
+        .order('created_at', { ascending: false }) // Newest first
+        .range(from, to)
+
+    if (error) {
+        console.error('Error fetching project comments:', error)
+        return { comments: [], total: 0, hasMore: false }
+    }
+
+    let allComments = (roots || []).map(mapDbComment)
+
+    // Fetch replies for these roots
+    if (roots && roots.length > 0) {
+        const rootIds = roots.map(r => r.id)
+        const { data: replies } = await supabase
+            .from('comments')
+            .select(`
+                *,
+                profiles:author_id (display_name, avatar_url)
+            `)
+            .in('parent_id', rootIds)
+            .order('created_at', { ascending: true }) // Oldest first for replies
+
+        if (replies) {
+            const mappedReplies = replies.map(mapDbComment)
+            allComments = [...allComments, ...mappedReplies]
+        }
+    }
+
+    return {
+        comments: allComments,
+        total: count || 0,
+        hasMore: (count || 0) > to + 1
+    }
 }
 
 /**

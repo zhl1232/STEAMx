@@ -4,28 +4,96 @@ import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MessageCircle, Send, Trash2, ThumbsUp, MessageSquare } from "lucide-react"
+import { MessageCircle, Send, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
-import type { Comment } from "@/lib/mappers/types"
+import { type Comment, mapDbComment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
+import { createClient } from "@/lib/supabase/client"
 
 interface ProjectCommentsProps {
     projectId: string | number
     initialComments: Comment[]
+    initialTotal?: number
+    initialHasMore?: boolean
 }
 
-export function ProjectComments({ projectId, initialComments }: ProjectCommentsProps) {
+export function ProjectComments({ projectId, initialComments, initialTotal = 0, initialHasMore = false }: ProjectCommentsProps) {
     const { addComment, deleteComment } = useProjects()
     const { user, profile } = useAuth()
     const { promptLogin } = useLoginPrompt()
+    const supabase = createClient()
 
     const [comments, setComments] = useState<Comment[]>(initialComments)
+    const [total, setTotal] = useState(initialTotal || initialComments.length)
+    const [hasMore, setHasMore] = useState(initialHasMore)
+    const [isLoadingMore, setIsLoadingMore] = useState(false)
+    const [page, setPage] = useState(1) // 0-indexed page 0 is initial, so next is 1
+    const PAGE_SIZE = 5 // Should match initial fetch size usually, or be larger
+
     const [newComment, setNewComment] = useState("")
     const [replyingTo, setReplyingTo] = useState<number | string | null>(null)
     const [replyContent, setReplyContent] = useState("")
     const [isFocused, setIsFocused] = useState(false)
+
+    const handleLoadMore = async () => {
+        if (isLoadingMore || !hasMore) return
+        setIsLoadingMore(true)
+
+        try {
+            const from = page * PAGE_SIZE
+            const to = from + PAGE_SIZE - 1
+
+            // 1. Fetch Root Comments
+            const { data: roots, error, count } = await supabase
+                .from('comments')
+                .select(`
+                    *,
+                    profiles:author_id (display_name, avatar_url)
+                `, { count: 'exact' })
+                .eq('project_id', projectId)
+                .is('parent_id', null)
+                .order('created_at', { ascending: false })
+                .range(from, to)
+
+            if (error) throw error
+
+            let newComments = (roots || []).map(mapDbComment)
+
+            // 2. Fetch Replies for these roots
+            if (roots && roots.length > 0) {
+                const rootIds = roots.map(r => r.id)
+                const { data: replies } = await supabase
+                    .from('comments')
+                    .select(`
+                        *,
+                        profiles:author_id (display_name, avatar_url)
+                    `)
+                    .in('parent_id', rootIds)
+                    .order('created_at', { ascending: true })
+
+                if (replies) {
+                    const mappedReplies = replies.map(mapDbComment)
+                    newComments = [...newComments, ...mappedReplies]
+                }
+            }
+
+            setComments(prev => [...prev, ...newComments])
+            setPage(prev => prev + 1)
+            setHasMore((count || 0) > to + 1)
+            // Update total just in case
+            if (count !== null) setTotal(count) // This count is for root comments only, not total comments.
+            // We rely on initialTotal for overall count.
+            // If a new comment is added, we increment total.
+            // If a comment is deleted, we decrement total.
+            // So, we should not overwrite total here with root count.
+        } catch (error) {
+            console.error('Error loading more comments:', error)
+        } finally {
+            setIsLoadingMore(false)
+        }
+    }
 
     const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -41,6 +109,7 @@ export function ProjectComments({ projectId, initialComments }: ProjectCommentsP
 
             if (addedComment) {
                 setComments((prev) => [addedComment, ...prev])
+                setTotal(prev => prev + 1) // Increment total
                 setNewComment("")
                 setIsFocused(false)
             }
@@ -84,6 +153,7 @@ export function ProjectComments({ projectId, initialComments }: ProjectCommentsP
 
             if (addedReply) {
                 setComments((prev) => [addedReply, ...prev])
+                setTotal(prev => prev + 1)
                 setReplyContent("")
                 setReplyingTo(null)
             }
@@ -258,15 +328,37 @@ export function ProjectComments({ projectId, initialComments }: ProjectCommentsP
             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <span className="text-primary">|</span>
                 评论
-                <span className="text-base font-normal text-muted-foreground ml-1">{comments.length}</span>
+                <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
             </h3>
 
             {/* Comments List */}
             <div className="space-y-2 mb-8">
                 {comments.length > 0 ? (
-                    topLevelComments.map((comment) => (
-                        <CommentItem key={comment.id} comment={comment} />
-                    ))
+                    <>
+                        {topLevelComments.map((comment) => (
+                            <CommentItem key={comment.id} comment={comment} />
+                        ))}
+
+                        {hasMore && (
+                            <div className="text-center pt-4">
+                                <Button
+                                    variant="outline"
+                                    onClick={handleLoadMore}
+                                    disabled={isLoadingMore}
+                                    className="w-full sm:w-auto"
+                                >
+                                    {isLoadingMore ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            加载中...
+                                        </>
+                                    ) : (
+                                        "加载更多评论"
+                                    )}
+                                </Button>
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
                         <MessageCircle className="h-10 w-10 mb-2 opacity-20" />

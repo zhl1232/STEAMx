@@ -22,6 +22,7 @@ interface DanmakuItem {
     color: string
     duration: string
     startTime: number
+    uniqueKey?: string
 }
 
 interface ProjectShowcaseProps {
@@ -87,7 +88,7 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
             </div>
 
             <Dialog open={!!selectedCompletion} onOpenChange={(open) => !open && setSelectedCompletion(null)}>
-                <DialogContent className="max-w-4xl overflow-hidden p-0 gap-0 border-none sm:rounded-2xl bg-black">
+                <DialogContent className="max-w-4xl overflow-hidden p-0 gap-0 border-none sm:rounded-2xl bg-black [&>button]:hidden">
                     <DialogTitle className="sr-only">
                         {selectedCompletion?.author} 的作品详情
                     </DialogTitle>
@@ -111,12 +112,41 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     // State
     const [likes, setLikes] = useState(completion.likes || 0)
     const [isLiked, setIsLiked] = useState(false)
-    const [danmakuList, setDanmakuList] = useState<DanmakuItem[]>([])
+    // const [danmakuList, setDanmakuList] = useState<DanmakuItem[]>([]) // Removed simple list
+    const [totalDanmakuCount, setTotalDanmakuCount] = useState(0)
+    const [activeDanmaku, setActiveDanmaku] = useState<DanmakuItem[]>([])
     const [inputText, setInputText] = useState("")
     const [showDanmaku, setShowDanmaku] = useState(true)
 
+    const pendingDanmakuRef = useRef<DanmakuItem[]>([])
+    const [isPendingLoaded, setIsPendingLoaded] = useState(false)
+
     // Derived state for optimistic UI
     const [sending, setSending] = useState(false)
+
+    // Danmaku System: Ticker to feed active danmaku
+    useEffect(() => {
+        if (!showDanmaku || !isPendingLoaded) return
+
+        const interval = setInterval(() => {
+            if (pendingDanmakuRef.current.length === 0) return
+
+            // Pick a batch (e.g., 2-5 items at a time depending on backlog)
+            const batchSize = Math.min(pendingDanmakuRef.current.length, 3)
+            const batch = pendingDanmakuRef.current.splice(0, batchSize)
+
+            // Add start timestamp to ensure unique keys if recycled (though IDs should be unique)
+            const now = Date.now()
+            const newActive = batch.map(b => ({
+                ...b,
+                uniqueKey: `${b.id}-${now}` // Prevent key collision if same comment loops
+            }))
+
+            setActiveDanmaku(prev => [...prev, ...newActive])
+        }, 800) // Every 800ms release a batch
+
+        return () => clearInterval(interval)
+    }, [showDanmaku, isPendingLoaded])
 
     // Fetch initial data
     useEffect(() => {
@@ -151,15 +181,19 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                 .order('created_at', { ascending: true })
 
             if (comments) {
+                setTotalDanmakuCount(comments.length)
                 const formattedDanmaku: DanmakuItem[] = comments.map((c, i) => ({
                     id: c.id,
                     content: c.content,
                     top: `${Math.random() * 80 + 5}%`, // Random top 5-85%
                     color: DANMAKU_COLORS[Math.floor(Math.random() * DANMAKU_COLORS.length)],
-                    duration: `${Math.random() * 4 + 6}s`, // 6-10s
-                    startTime: Date.now() + i * 500 // Stagger initial load
+                    duration: `${Math.random() * 4 + 8}s`, // Slower: 8-12s for better reading
+                    startTime: 0 // Not used for delay anymore
                 }))
-                setDanmakuList(formattedDanmaku)
+
+                // Shuffle for variety? Or keep chronological. Let's keep chronological.
+                pendingDanmakuRef.current = formattedDanmaku
+                setIsPendingLoaded(true)
             }
         }
 
@@ -180,25 +214,44 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
         setLikes(isLiked ? likes - 1 : likes + 1)
 
         try {
+            let error;
             if (previousIsLiked) {
-                await supabase
+                const { error: delError } = await supabase
                     .from('completion_likes')
                     .delete()
                     .eq('completed_project_id', completion.id)
                     .eq('user_id', user.id)
+                error = delError
             } else {
-                await supabase
+                const { error: insError } = await supabase
                     .from('completion_likes')
                     .insert({
                         completed_project_id: completion.id,
                         user_id: user.id
                     })
+                error = insError
             }
+
+            if (error) {
+                console.error('Supabase error in handleLike:', error)
+                throw error
+            }
+
         } catch (error) {
             // Revert on error
             setIsLiked(previousIsLiked)
             setLikes(previousLikes)
-            console.error('Like failed', error)
+            console.error('Like failed caught:', error)
+        } finally {
+            // 4. Eventually consistency: Fetch real count to ensure UI is correct
+            const { count } = await supabase
+                .from('completion_likes')
+                .select('*', { count: 'exact', head: true })
+                .eq('completed_project_id', completion.id)
+
+            if (count !== null) {
+                setLikes(count)
+            }
         }
     }
 
@@ -220,18 +273,18 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             id: optimisticId,
             content: content,
             top: `${Math.random() * 80 + 5}%`,
-            color: '#FFFFFF',
-            duration: '8s',
+            color: '#FFFFFF', // New comments are white/highlighted
+            duration: '10s',
             startTime: Date.now()
         }
 
-        setDanmakuList(prev => [...prev, newDanmaku])
+        // Insert at FRONT of Active immediately so user sees it
+        setActiveDanmaku(prev => [...prev, { ...newDanmaku, uniqueKey: `new-${optimisticId}` }])
+        setTotalDanmakuCount(prev => prev + 1)
         setInputText("")
 
         // 2. Unlock UI after cooldown (independent of network)
         setTimeout(() => setSending(false), 500)
-
-        console.log('Sending danmaku...', { completed_project_id: completion.id, author_id: user.id, content })
 
         // 3. Network Request (Fire and Forget but handle error)
         try {
@@ -244,13 +297,15 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                 })
                 .select()
 
-            if (error) throw error
-            console.log('Danmaku sent successfully', data)
+            if (error) {
+                console.error('Supabase error in handleSendDanmaku:', error)
+                throw error
+            }
         } catch (error) {
             console.error('Failed to send danmaku:', error)
-            setDanmakuList(prev => prev.filter(d => d.id !== optimisticId))
-            setInputText(content) // Restore text on failure
-            alert('发送失败，请重试') // Temporary simple feedback
+            // Remove the failed one? It's hard to find without unique ID in active list easily
+            // For now just alert
+            alert('发送失败，请重试')
         }
     }
 
@@ -259,20 +314,19 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             {/* Styling for Danmaku Animation */}
             <style jsx>{`
                 @keyframes danmaku-slide {
-                    from { transform: translateX(100%); }
-                    to { transform: translateX(-400%); } /* Ensure it goes way off screen */
+                    from { left: 100%; transform: translateX(0); }
+                    to { left: 0%; transform: translateX(-100%); }
                 }
                 .danmaku-item {
                     position: absolute;
                     white-space: nowrap;
-                    will-change: transform;
+                    will-change: left, transform;
                     animation-name: danmaku-slide;
                     animation-timing-function: linear;
                     animation-fill-mode: forwards;
                     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-                    pointer-events: none; /* Let clicks pass through to image/video */
+                    pointer-events: none;
                     z-index: 10;
-                    right: 0; 
                 }
             `}</style>
 
@@ -297,16 +351,17 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                         {/* Danmaku Layer */}
                         {showDanmaku && (
                             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                {danmakuList.map((item) => (
+                                {activeDanmaku.map((item) => (
                                     <div
-                                        key={item.id}
+                                        key={item.uniqueKey || item.id}
                                         className="danmaku-item text-lg font-bold opacity-90"
                                         style={{
                                             top: item.top,
                                             color: item.color,
                                             animationDuration: item.duration,
-                                            // Consider adding animationDelay if we want to stagger re-renders, 
-                                            // but for new items they start immediately
+                                        }}
+                                        onAnimationEnd={() => {
+                                            setActiveDanmaku(prev => prev.filter(p => (p.uniqueKey || p.id) !== (item.uniqueKey || item.id)))
                                         }}
                                     >
                                         {item.content}
@@ -381,10 +436,10 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                             <Heart className={cn("h-4 w-4", isLiked ? "fill-current" : "")} />
                             {isLiked ? "已点赞" : "点赞"} ({likes})
                         </Button>
-                        <Button variant="outline" className="flex-1 gap-2" onClick={() => setShowDanmaku(!showDanmaku)}>
+                        <div className="flex-1 flex items-center justify-center gap-2 border rounded-md text-sm font-medium h-10">
                             <MessageCircle className="h-4 w-4" />
-                            弹幕 {danmakuList.length}
-                        </Button>
+                            弹幕 {totalDanmakuCount > 0 ? `${totalDanmakuCount}` : 0}
+                        </div>
                     </div>
 
                     {completion.notes ? (

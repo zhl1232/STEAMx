@@ -7,7 +7,7 @@ import { ProjectCard } from '@/components/features/project-card'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
-import { getProjectById, getRelatedProjects, getProjectCompletions } from '@/lib/api/explore-data'
+import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangle, Edit } from 'lucide-react'
@@ -55,6 +55,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     // 获取完成记录
     const completions = await getProjectCompletions(project.id, 8)
+
+    // 获取评论 (分页)
+    const { comments: initialComments, total: totalComments, hasMore: hasMoreComments } = await getProjectComments(project.id, 0, 5)
 
     return (
         <div className="container mx-auto py-8 max-w-4xl">
@@ -172,7 +175,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     {/* Comments Section - Client Component */}
                     <ProjectComments
                         projectId={project.id}
-                        initialComments={project.comments || []}
+                        initialComments={initialComments}
+                        initialTotal={totalComments}
+                        initialHasMore={hasMoreComments}
                     />
                 </div>
 
