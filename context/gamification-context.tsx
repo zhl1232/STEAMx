@@ -972,6 +972,8 @@ interface GamificationContextType {
     checkBadges: (stats: UserStats) => void;
     nextLevelXp: number;
     progress: number;
+    levelTotalNeeded: number;
+    levelProgress: number;
 }
 
 const GamificationContext = createContext<GamificationContextType | undefined>(undefined);
@@ -1025,11 +1027,22 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                         consecutiveDays = checkinData.streak;
 
                         if (checkinData.is_new_day) {
+                            // Calculate daily login XP: Base 5 + Streak Bonus (max 20)
+                            const baseLoginXp = 5;
+                            const streakBonus = Math.min(checkinData.streak, 20); // Cap bonus at 20
+                            const totalLoginXp = baseLoginXp + streakBonus;
+
+                            // Add XP for daily login
+                            // Note: We use a fire-and-forget approach here inside the effect, 
+                            // but we should verify if 'addXp' is reliable enough. 
+                            // Since we are inside fetch logic, calling addXp (which updates state and DB) is safe.
+                            addXp(totalLoginXp, "每日登录奖励", "daily_login", new Date().toISOString().split('T')[0]);
+
                             toast({
                                 description: (
                                     <AchievementToast
                                         title="每日签到成功！"
-                                        description={`连续登录 ${checkinData.streak} 天，累计 ${checkinData.total_days} 天`}
+                                        description={`连续登录 ${checkinData.streak} 天，获得 +${totalLoginXp} XP`}
                                         icon="📅"
                                     />
                                 ),
@@ -1173,33 +1186,91 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     const addXp = useCallback(async (amount: number, reason?: string, actionType?: string, resourceId?: string | number) => {
         if (!user) return;
 
-        // If actionType and resourceId are provided, check for duplicates
+        // Configuration for daily limits
+        const DAILY_XP_LIMITS: Record<string, number> = {
+            'reply_discussion': 50,
+            'comment_project': 50
+        };
+
+        // 1. Check strict unique constraints first (Anti-farming: same resource)
         if (actionType && resourceId) {
             const rId = String(resourceId);
 
-            // Try to insert into xp_logs
-            // We use ignoreDuplicates: false to let it fail if constraint is violated
-            // But Supabase JS client doesn't throw on unique constraint violation by default with insert, it returns error
+            // Check if already awarded for this specific resource
+            // We can rely on the unique constraint of database insert, OR check beforehand.
+            // Check beforehand is friendlier for "daily limit" logic separation, but insert is atomic.
+            // Let's stick to insert for uniqueness.
+
+            // However, we need to know if we SHOULD insert based on daily limit.
+            // If I've reached daily limit, I should NOT get XP, but should I log it? 
+            // If I don't log it, I can come back tomorrow and get XP for the SAME reply? 
+            // NO. XP for a specific reply should be "claimed" or "voided".
+            // Ideally, the "action" happened. The "reward" depends on limit.
+            // Designing this:
+            // If daily limit reached -> Insert log with 0 XP? Or just don't insert and don't award?
+            // If don't insert -> User replies today (0 XP), deletes reply, replies tomorrow -> Gets XP. This is "farming" time.
+            // So we MUST record the action even if 0 XP.
+
+            // Revised Flow:
+            // 1. Check if action+resource exists. If yes, return (already handled).
+            // 2. Calculate actual XP to award based on daily limits.
+            // 3. Insert log (with calculated XP, could be 0).
+            // 4. Update Profile XP if > 0.
+
+            // Step 1: Check existence
+            const { data: existing } = await supabase
+                .from('xp_logs')
+                .select('id')
+                .eq('user_id', user.id)
+                .eq('action_type', actionType)
+                .eq('resource_id', rId)
+                .single();
+
+            if (existing) {
+                console.log('XP action already recorded:', actionType, resourceId);
+                return;
+            }
+
+            // Step 2: Check Daily Limit
+            let xpToAward = amount;
+            if (DAILY_XP_LIMITS[actionType]) {
+                const today = new Date().toISOString().split('T')[0];
+                const { data: todayLogs } = await supabase
+                    .from('xp_logs')
+                    .select('xp_amount')
+                    .eq('user_id', user.id)
+                    .eq('action_type', actionType)
+                    .gte('created_at', today);
+
+                const todayTotal = (todayLogs || []).reduce((acc, log) => acc + log.xp_amount, 0);
+
+                if (todayTotal >= DAILY_XP_LIMITS[actionType]) {
+                    xpToAward = 0;
+                    console.log(`Daily limit reached for ${actionType}. Awarding 0 XP.`);
+                } else if (todayTotal + amount > DAILY_XP_LIMITS[actionType]) {
+                    // Cap it to fit the limit? Or just 0? Let's cap it.
+                    xpToAward = Math.max(0, DAILY_XP_LIMITS[actionType] - todayTotal);
+                }
+            }
+
+            // Step 3: Insert Log
             const { error: logError } = await supabase
                 .from('xp_logs')
                 .insert({
                     user_id: user.id,
                     action_type: actionType,
                     resource_id: rId,
-                    xp_amount: amount
+                    xp_amount: xpToAward
                 });
 
-            // If there's an error (likely unique constraint violation), we assume XP was already awarded
             if (logError) {
-                if (logError.code === '23505') { // Unique violation code
-                    console.log('XP already awarded for this action:', actionType, resourceId);
-                    return;
-                }
                 console.error('Error logging XP:', logError);
-                // For other errors, we might still want to proceed or halt? 
-                // Let's halt to be safe and consistent.
                 return;
             }
+
+            // Step 4: Award if > 0
+            if (xpToAward === 0) return;
+            amount = xpToAward; // Update amount for subsequent updating logic
         }
 
         const newXp = xp + amount;
@@ -1221,7 +1292,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             });
         }
 
-        // Update Supabase
+        // Update Supabase Profile
         const { error } = await supabase
             .from('profiles')
             .update({ xp: newXp })
@@ -1229,7 +1300,6 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         if (error) {
             console.error('Failed to update XP:', error);
-            // Revert optimistic update if needed, but for XP it might be okay to just log error
         }
     }, [user, xp, supabase, toast]);
 
@@ -1278,8 +1348,10 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         addXp,
         checkBadges,
         nextLevelXp,
-        progress
-    }), [xp, level, unlockedBadges, addXp, checkBadges, nextLevelXp, progress]);
+        progress,
+        levelTotalNeeded,
+        levelProgress
+    }), [xp, level, unlockedBadges, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
 
     return (
         <GamificationContext.Provider value={contextValue}>

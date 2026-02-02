@@ -10,7 +10,7 @@ interface LevelProgressProps {
 }
 
 export function LevelProgress({ className, showLabel = true }: LevelProgressProps) {
-    const { level, progress, xp } = useGamification();
+    const { level, progress, xp, levelProgress, levelTotalNeeded } = useGamification();
 
     return (
         <div className={cn("flex flex-col gap-2 w-full max-w-xs", className)}>
@@ -18,10 +18,15 @@ export function LevelProgress({ className, showLabel = true }: LevelProgressProp
                 <div className="flex justify-between items-end">
                     <div className="flex items-baseline gap-2">
                         <span className="text-2xl font-bold text-primary">Lv.{level}</span>
-                        <span className="text-xs text-muted-foreground">总经验: {xp}</span>
+                        <span className="text-xs text-muted-foreground hidden sm:inline">
+                            ({levelProgress}/{levelTotalNeeded})
+                        </span>
                     </div>
-                    <span className="text-xs text-muted-foreground">
-                        {Math.floor(progress)}%
+                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <span className="font-medium text-primary">{Math.floor(progress)}%</span>
+                        <span className="text-[10px] text-muted-foreground/80 sm:hidden">
+                            ({levelProgress}/{levelTotalNeeded})
+                        </span>
                     </span>
                 </div>
             )}

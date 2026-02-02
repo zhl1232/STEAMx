@@ -11,11 +11,12 @@ import { EditProfileDialog } from '@/components/features/profile/edit-profile-di
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
-import { Award } from 'lucide-react'
+import { Award, Zap } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
+import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { createClient } from '@/lib/supabase/client'
 import type { Project } from '@/lib/types'
 import { mapProject } from '@/lib/mappers/project'
@@ -177,6 +178,14 @@ export default function ProfilePage() {
               </div>
               <div className="w-full md:w-64 mt-4 md:mt-0">
                 <LevelProgress />
+                <div className="mt-2 flex justify-end">
+                  <LevelGuideDialog>
+                    <button className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+                      <Zap className="h-3 w-3" />
+                      如何快速升级？
+                    </button>
+                  </LevelGuideDialog>
+                </div>
               </div>
             </div>
           </div>
