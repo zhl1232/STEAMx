@@ -225,7 +225,7 @@ export async function getProjectComments(
 
     // Fetch replies for these roots
     if (roots && roots.length > 0) {
-        const rootIds = roots.map(r => r.id)
+        const rootIds = (roots as any[]).map(r => r.id)
         const { data: replies } = await supabase
             .from('comments')
             .select(`
