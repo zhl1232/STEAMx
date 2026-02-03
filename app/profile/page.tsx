@@ -23,7 +23,7 @@ import { mapProject } from '@/lib/mappers/project'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
-  const { likedProjects, completedProjects, collectedProjects } = useProjects()
+  const { likedProjects, completedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges } = useGamification()
   const router = useRouter()
@@ -45,7 +45,8 @@ export default function ProfilePage() {
 
   // 加载用户的项目数据
   useEffect(() => {
-    if (!user) return
+    // Wait for both user authentication and project context (interactions) to be ready
+    if (!user || projectsLoading) return
 
     const loadUserProjects = async () => {
       try {
@@ -130,7 +131,7 @@ export default function ProfilePage() {
 
     loadUserProjects()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, likedProjects, collectedProjects, completedProjects, profile?.display_name])
+  }, [user?.id, likedProjects, collectedProjects, completedProjects, profile?.display_name, projectsLoading])
 
 
   if (authLoading) {

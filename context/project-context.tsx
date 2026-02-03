@@ -60,14 +60,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => { completedProjectsRef.current = completedProjects; }, [completedProjects]);
     useEffect(() => { collectedProjectsRef.current = collectedProjects; }, [collectedProjects]);
 
+    const userId = user?.id;
+
     const fetchUserInteractions = useCallback(async () => {
-        if (!user) return;
+        if (!userId) return;
 
         try {
             const [likesResponse, completedResponse, collectionsResponse] = await Promise.all([
-                supabase.from('likes').select('project_id').eq('user_id', user.id),
-                supabase.from('completed_projects').select('project_id').eq('user_id', user.id),
-                supabase.from('collections').select('project_id').eq('user_id', user.id)
+                supabase.from('likes').select('project_id').eq('user_id', userId),
+                supabase.from('completed_projects').select('project_id').eq('user_id', userId),
+                supabase.from('collections').select('project_id').eq('user_id', userId)
             ]);
 
             if (likesResponse.data) {
@@ -84,7 +86,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setIsLoading(false);
         }
-    }, [user, supabase]);
+    }, [userId, supabase]);
 
     useEffect(() => {
         if (user?.id) {

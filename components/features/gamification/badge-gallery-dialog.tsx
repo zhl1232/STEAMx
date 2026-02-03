@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { Badge as BadgeIcon, Lock, Trophy } from "lucide-react" // 避免与 UI 组件 Badge 冲突
-import { Badge } from "@/context/gamification-context" // 徽章类型定义
+import { Badge } from "@/lib/gamification/types" // 徽章类型定义
 
 interface BadgeGalleryDialogProps {
     badges: Badge[];

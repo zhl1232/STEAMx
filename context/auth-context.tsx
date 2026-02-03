@@ -71,11 +71,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // 监听认证状态变化
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setUser(session?.user ?? null)
         if (session?.user) {
+          // Only update if user ID changed or we don't have user yet
+          // Actually, profile might need refresh if role changed etc, but simpler to just fetch
+          setUser(session.user)
           const profileData = await fetchProfile(session.user.id)
           setProfile(profileData)
         } else {
+          setUser(null)
           setProfile(null)
         }
         setLoading(false)

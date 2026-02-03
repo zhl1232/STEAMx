@@ -63,9 +63,9 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     };
 
     useEffect(() => {
-        fetchNotifications();
+        if (!user?.id) return;
 
-        if (!user) return;
+        fetchNotifications();
 
         // Subscribe to realtime changes
         const channel = supabase
@@ -88,7 +88,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
             supabase.removeChannel(channel);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
+    }, [user?.id]);
 
     const unreadCount = notifications.filter(n => !n.is_read).length;
 

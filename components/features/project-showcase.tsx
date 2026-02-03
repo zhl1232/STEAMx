@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
@@ -12,32 +12,12 @@ import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { cn } from "@/lib/utils"
-// import { useToast } from "@/components/ui/use-toast" // Assuming this exists, or use simple alert/log
-
-// Danmaku helper types
-interface DanmakuItem {
-    id: number | string
-    content: string
-    top: string
-    color: string
-    duration: string
-    startTime: number
-    uniqueKey?: string
-}
+import { useDanmaku } from "@/hooks/use-danmaku"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface ProjectShowcaseProps {
     completions: ProjectCompletion[]
 }
-
-const DANMAKU_COLORS = [
-    "#FEF3C7", // amber-100
-    "#D1FAE5", // emerald-100
-    "#DBEAFE", // blue-100
-    "#FCE7F3", // pink-100
-    "#FFFFFF", // white
-    "#F3F4F6", // gray-100
-    "#FFEDD5", // orange-100
-]
 
 export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
     const [selectedCompletion, setSelectedCompletion] = useState<ProjectCompletion | null>(null)
@@ -108,228 +88,154 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const supabase = createClient()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
+    const queryClient = useQueryClient()
 
-    // State
-    const [likes, setLikes] = useState(completion.likes || 0)
-    const [isLiked, setIsLiked] = useState(false)
-    // const [danmakuList, setDanmakuList] = useState<DanmakuItem[]>([]) // Removed simple list
-    const [totalDanmakuCount, setTotalDanmakuCount] = useState(0)
-    const [activeDanmaku, setActiveDanmaku] = useState<DanmakuItem[]>([])
-    const [inputText, setInputText] = useState("")
-    const [showDanmaku, setShowDanmaku] = useState(true)
+    // -- React Query Data Fetching --
 
-    const pendingDanmakuRef = useRef<DanmakuItem[]>([])
-    const [isPendingLoaded, setIsPendingLoaded] = useState(false)
+    // 1. Fetch Like Status
+    const { data: isLiked } = useQuery({
+        queryKey: ['completion_like', completion.id, user?.id],
+        queryFn: async () => {
+            if (!user) return false;
+            const { data } = await supabase
+                .from('completion_likes')
+                .select('*')
+                .eq('completed_project_id', completion.id)
+                .eq('user_id', user.id)
+                .single();
+            return !!data;
+        },
+        enabled: !!user,
+        initialData: false
+    });
 
-    // Derived state for optimistic UI
-    const [sending, setSending] = useState(false)
-
-    // Danmaku System: Ticker to feed active danmaku
-    useEffect(() => {
-        if (!showDanmaku || !isPendingLoaded) return
-
-        const interval = setInterval(() => {
-            if (pendingDanmakuRef.current.length === 0) return
-
-            // Pick a batch (e.g., 2-5 items at a time depending on backlog)
-            const batchSize = Math.min(pendingDanmakuRef.current.length, 3)
-            const batch = pendingDanmakuRef.current.splice(0, batchSize)
-
-            // Add start timestamp to ensure unique keys if recycled (though IDs should be unique)
-            const now = Date.now()
-            const newActive = batch.map(b => ({
-                ...b,
-                uniqueKey: `${b.id}-${now}` // Prevent key collision if same comment loops
-            }))
-
-            setActiveDanmaku(prev => [...prev, ...newActive])
-        }, 800) // Every 800ms release a batch
-
-        return () => clearInterval(interval)
-    }, [showDanmaku, isPendingLoaded])
-
-    // Fetch initial data
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!completion.id) return // Should not happen ideally
-
-            // 1. Fetch Likes status
-            if (user) {
-                const { data: likeData } = await supabase
-                    .from('completion_likes')
-                    .select('*')
-                    .eq('completed_project_id', completion.id)
-                    .eq('user_id', user.id)
-                    .single()
-
-                setIsLiked(!!likeData)
-            }
-
-            // 2. Fetch Likes count (optional, can simplify by just trusting props initially, but real-time is better)
+    // 2. Fetch Like Count
+    const { data: likesCount = completion.likes || 0 } = useQuery({
+        queryKey: ['completion_likes_count', completion.id],
+        queryFn: async () => {
             const { count } = await supabase
                 .from('completion_likes')
                 .select('*', { count: 'exact', head: true })
-                .eq('completed_project_id', completion.id)
+                .eq('completed_project_id', completion.id);
+            return count || 0;
+        },
+        initialData: completion.likes || 0
+    });
 
-            if (count !== null) setLikes(count)
-
-            // 3. Fetch Comments for Danmaku
-            const { data: comments } = await supabase
+    // 3. Fetch Comments (Danmaku)
+    const { data: comments = [] } = useQuery({
+        queryKey: ['completion_comments', completion.id],
+        queryFn: async () => {
+            const { data } = await supabase
                 .from('completion_comments')
                 .select('*')
                 .eq('completed_project_id', completion.id)
-                .order('created_at', { ascending: true })
-
-            if (comments) {
-                setTotalDanmakuCount(comments.length)
-                const formattedDanmaku: DanmakuItem[] = comments.map((c, i) => ({
-                    id: c.id,
-                    content: c.content,
-                    top: `${Math.random() * 80 + 5}%`, // Random top 5-85%
-                    color: DANMAKU_COLORS[Math.floor(Math.random() * DANMAKU_COLORS.length)],
-                    duration: `${Math.random() * 4 + 8}s`, // Slower: 8-12s for better reading
-                    startTime: 0 // Not used for delay anymore
-                }))
-
-                // Shuffle for variety? Or keep chronological. Let's keep chronological.
-                pendingDanmakuRef.current = formattedDanmaku
-                setIsPendingLoaded(true)
-            }
+                .order('created_at', { ascending: true });
+            return data || [];
         }
+    });
 
-        fetchData()
-    }, [completion.id, user, supabase])
+    // -- Mutations --
 
-    const handleLike = async () => {
-        if (!user) {
-            promptLogin(() => { }, { title: '点赞', description: '登录后即可点赞喜欢的作品' })
-            return
-        }
-
-        // Optimistic update
-        const previousIsLiked = isLiked
-        const previousLikes = likes
-
-        setIsLiked(!isLiked)
-        setLikes(isLiked ? likes - 1 : likes + 1)
-
-        try {
-            let error;
-            if (previousIsLiked) {
-                const { error: delError } = await supabase
-                    .from('completion_likes')
-                    .delete()
-                    .eq('completed_project_id', completion.id)
-                    .eq('user_id', user.id)
-                error = delError
+    const likeMutation = useMutation({
+        mutationFn: async (vars: { isLiked: boolean }) => {
+            if (!user) throw new Error("Unauthorized");
+            if (vars.isLiked) {
+                // Was liked, delete it
+                await supabase.from('completion_likes').delete()
+                    .eq('completed_project_id', completion.id).eq('user_id', user.id);
             } else {
-                const { error: insError } = await supabase
-                    .from('completion_likes')
-                    .insert({
-                        completed_project_id: completion.id,
-                        user_id: user.id
-                    })
-                error = insError
+                // Not liked, insert it
+                await supabase.from('completion_likes').insert({
+                    completed_project_id: completion.id,
+                    user_id: user.id
+                });
             }
+        },
+        onMutate: async (vars) => {
+            // Cancel outgoing refetches
+            await queryClient.cancelQueries({ queryKey: ['completion_like', completion.id, user?.id] });
+            await queryClient.cancelQueries({ queryKey: ['completion_likes_count', completion.id] });
 
-            if (error) {
-                console.error('Supabase error in handleLike:', error)
-                throw error
-            }
+            // Snapshot previous values
+            const prevLikeStatus = queryClient.getQueryData(['completion_like', completion.id, user?.id]);
+            const prevCount: number = queryClient.getQueryData(['completion_likes_count', completion.id]) || 0;
 
-        } catch (error) {
-            // Revert on error
-            setIsLiked(previousIsLiked)
-            setLikes(previousLikes)
-            console.error('Like failed caught:', error)
-        } finally {
-            // 4. Eventually consistency: Fetch real count to ensure UI is correct
-            const { count } = await supabase
-                .from('completion_likes')
-                .select('*', { count: 'exact', head: true })
-                .eq('completed_project_id', completion.id)
+            // Optimistic update
+            queryClient.setQueryData(['completion_like', completion.id, user?.id], !vars.isLiked);
+            queryClient.setQueryData(['completion_likes_count', completion.id], vars.isLiked ? prevCount - 1 : prevCount + 1);
 
-            if (count !== null) {
-                setLikes(count)
-            }
+            return { prevLikeStatus, prevCount };
+        },
+        onError: (err, newTodo, context) => {
+            queryClient.setQueryData(['completion_like', completion.id, user?.id], context?.prevLikeStatus);
+            queryClient.setQueryData(['completion_likes_count', completion.id], context?.prevCount);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['completion_like', completion.id, user?.id] });
+            queryClient.invalidateQueries({ queryKey: ['completion_likes_count', completion.id] });
         }
-    }
+    });
 
-    const handleSendDanmaku = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (!inputText.trim() || sending) return
-
-        if (!user) {
-            promptLogin(() => { }, { title: '发送弹幕', description: '登录后即可发送弹幕' })
-            return
-        }
-
-        // 1. Lock and Reset UI immediately
-        setSending(true)
-        const content = inputText
-        const optimisticId = Date.now()
-
-        const newDanmaku: DanmakuItem = {
-            id: optimisticId,
-            content: content,
-            top: `${Math.random() * 80 + 5}%`,
-            color: '#FFFFFF', // New comments are white/highlighted
-            duration: '10s',
-            startTime: Date.now()
-        }
-
-        // Insert at FRONT of Active immediately so user sees it
-        setActiveDanmaku(prev => [...prev, { ...newDanmaku, uniqueKey: `new-${optimisticId}` }])
-        setTotalDanmakuCount(prev => prev + 1)
-        setInputText("")
-
-        // 2. Unlock UI after cooldown (independent of network)
-        setTimeout(() => setSending(false), 500)
-
-        // 3. Network Request (Fire and Forget but handle error)
-        try {
-            const { data, error } = await supabase
+    const commentMutation = useMutation({
+        mutationFn: async (content: string) => {
+            if (!user) throw new Error("Unauthorized");
+            return await supabase
                 .from('completion_comments')
                 .insert({
                     completed_project_id: completion.id,
                     author_id: user.id,
                     content: content
-                })
-                .select()
-
-            if (error) {
-                console.error('Supabase error in handleSendDanmaku:', error)
-                throw error
-            }
-        } catch (error) {
-            console.error('Failed to send danmaku:', error)
-            // Remove the failed one? It's hard to find without unique ID in active list easily
-            // For now just alert
-            alert('发送失败，请重试')
+                });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['completion_comments', completion.id] });
         }
-    }
+    });
+
+    // -- Danmaku Hook --
+    const {
+        activeDanmaku,
+        sendDanmaku: displayDanmaku,
+        removeDanmaku,
+        isPlaying,
+        togglePlay,
+        danmakuClass
+    } = useDanmaku({
+        initialComments: comments.map((c: any) => ({ id: c.id, content: c.content })),
+        autoPlay: true
+    });
+
+    const [inputText, setInputText] = useState("");
+
+    const handleLike = () => {
+        if (!user) {
+            promptLogin(() => { }, { title: '点赞', description: '登录后即可点赞喜欢的作品' });
+            return;
+        }
+        likeMutation.mutate({ isLiked: !!isLiked });
+    };
+
+    const handleSendDanmaku = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!inputText.trim()) return;
+
+        if (!user) {
+            promptLogin(() => { }, { title: '发送弹幕', description: '登录后即可发送弹幕' });
+            return;
+        }
+
+        const content = inputText;
+        // 1. 本地展示
+        displayDanmaku(content);
+        setInputText("");
+
+        // 2. 提交到服务器
+        commentMutation.mutate(content);
+    };
 
     return (
         <div className="flex flex-col md:flex-row h-[85vh] md:h-[600px] w-full bg-background relative">
-            {/* Styling for Danmaku Animation */}
-            <style jsx>{`
-                @keyframes danmaku-slide {
-                    from { left: 100%; transform: translateX(0); }
-                    to { left: 0%; transform: translateX(-100%); }
-                }
-                .danmaku-item {
-                    position: absolute;
-                    white-space: nowrap;
-                    will-change: left, transform;
-                    animation-name: danmaku-slide;
-                    animation-timing-function: linear;
-                    animation-fill-mode: forwards;
-                    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-                    pointer-events: none;
-                    z-index: 10;
-                }
-            `}</style>
-
             {/* Close button for mobile */}
             <button
                 onClick={onClose}
@@ -349,20 +255,18 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                             className="object-contain"
                         />
                         {/* Danmaku Layer */}
-                        {showDanmaku && (
+                        {isPlaying && (
                             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                 {activeDanmaku.map((item) => (
                                     <div
                                         key={item.uniqueKey || item.id}
-                                        className="danmaku-item text-lg font-bold opacity-90"
+                                        className={danmakuClass}
                                         style={{
                                             top: item.top,
                                             color: item.color,
                                             animationDuration: item.duration,
                                         }}
-                                        onAnimationEnd={() => {
-                                            setActiveDanmaku(prev => prev.filter(p => (p.uniqueKey || p.id) !== (item.uniqueKey || item.id)))
-                                        }}
+                                        onAnimationEnd={() => removeDanmaku(item.uniqueKey!)}
                                     >
                                         {item.content}
                                     </div>
@@ -378,13 +282,13 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                         size="sm"
                         variant="outline"
                         className="bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white backdrop-blur-sm transition-colors"
-                        onClick={() => setShowDanmaku(!showDanmaku)}
+                        onClick={togglePlay}
                     >
-                        <MessageCircle className={cn("h-4 w-4 mr-2", showDanmaku ? "text-green-400" : "text-white/70")} />
-                        {showDanmaku ? "弹幕开" : "弹幕关"}
+                        <MessageCircle className={cn("h-4 w-4 mr-2", isPlaying ? "text-green-400" : "text-white/70")} />
+                        {isPlaying ? "弹幕开" : "弹幕关"}
                     </Button>
 
-                    {/* Danmaku Input - Integrated into image area for "immersive" feel */}
+                    {/* Danmaku Input */}
                     <form onSubmit={handleSendDanmaku} className="flex-1 flex gap-2 max-w-md">
                         <Input
                             value={inputText}
@@ -395,7 +299,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                         <Button
                             type="submit"
                             size="sm"
-                            disabled={!inputText.trim() || sending}
+                            disabled={!inputText.trim() || commentMutation.isPending}
                             className="bg-primary/90 hover:bg-primary h-9"
                         >
                             <Send className="h-4 w-4" />
@@ -432,13 +336,14 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                             variant={isLiked ? "default" : "outline"}
                             className={cn("flex-1 gap-2", isLiked && "bg-pink-500 hover:bg-pink-600 text-white border-pink-600")}
                             onClick={handleLike}
+                            disabled={likeMutation.isPending}
                         >
                             <Heart className={cn("h-4 w-4", isLiked ? "fill-current" : "")} />
-                            {isLiked ? "已点赞" : "点赞"} ({likes})
+                            {isLiked ? "已点赞" : "点赞"} ({likesCount})
                         </Button>
                         <div className="flex-1 flex items-center justify-center gap-2 border rounded-md text-sm font-medium h-10">
                             <MessageCircle className="h-4 w-4" />
-                            弹幕 {totalDanmakuCount > 0 ? `${totalDanmakuCount}` : 0}
+                            弹幕 {comments.length}
                         </div>
                     </div>
 
