@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -97,7 +98,9 @@ export default function RootLayout({
                                                         {/* 右侧搜索和操作区 */}
                                                         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                                                             <div className="w-full flex-1 md:w-auto md:flex-none">
-                                                                <HeaderSearch />
+                                                                <Suspense fallback={<div className="w-[200px]" />}>
+                                                                    <HeaderSearch />
+                                                                </Suspense>
                                                             </div>
                                                             <nav className="flex items-center gap-2">
                                                                 <ShareButton />
