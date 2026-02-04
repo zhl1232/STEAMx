@@ -13,7 +13,7 @@ export function LevelProgress({ className, showLabel = true }: LevelProgressProp
     const { level, progress, xp, levelProgress, levelTotalNeeded } = useGamification();
 
     return (
-        <div className={cn("flex flex-col gap-2 w-full max-w-xs", className)}>
+        <div className={cn("flex flex-col gap-2 w-full", className)}>
             {showLabel && (
                 <div className="flex justify-between items-end">
                     <div className="flex items-baseline gap-2">

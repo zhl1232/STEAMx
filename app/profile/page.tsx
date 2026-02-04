@@ -20,6 +20,7 @@ import { LevelGuideDialog } from '@/components/features/gamification/level-guide
 import { createClient } from '@/lib/supabase/client'
 import type { Project } from '@/lib/types'
 import { mapProject } from '@/lib/mappers/project'
+import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -148,7 +149,19 @@ export default function ProfilePage() {
   const userEmail = user.email || ''
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-6xl">
+    <>
+        <div className="md:hidden">
+            <MobileProfilePage 
+                user={user}
+                profile={profile}
+                myProjects={myProjects}
+                likedProjectsList={likedProjectsList}
+                collectedProjectsList={collectedProjectsList}
+                completedProjectsList={completedProjectsList}
+            />
+        </div>
+
+        <div className="hidden md:block container mx-auto py-8 px-4 max-w-6xl">
       {/* 用户信息卡片 */}
       <div className="bg-gradient-to-br from-primary/10 via-secondary/10 to-background rounded-2xl p-8 mb-8 border">
         <div className="flex flex-col md:flex-row items-center gap-6">
@@ -378,5 +391,6 @@ export default function ProfilePage() {
         )}
       </div>
     </div>
+    </>
   )
 }

@@ -59,16 +59,16 @@ export function DiscussionSearch({ onSearch, availableTags = [] }: DiscussionSea
 
   return (
     <div className="space-y-4">
-      <div className="flex w-full items-center space-x-2">
+      <div className="flex w-full items-center gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="搜索讨论标题或内容..."
+            placeholder="搜索讨论..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
             }}
-            className="pl-8"
+            className="pl-9 h-10 rounded-full bg-muted/40 border-transparent focus:bg-background focus:border-input transition-all"
           />
           {query && (
             <Button
@@ -77,19 +77,21 @@ export function DiscussionSearch({ onSearch, availableTags = [] }: DiscussionSea
               onClick={() => {
                 setQuery("");
               }}
-              className="absolute right-2 top-2 h-6 w-6"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full hover:bg-transparent"
             >
               <X className="h-4 w-4" />
             </Button>
           )}
         </div>
 
-        {/* Sort Dropdown */}
+        {/* Sort Dropdown - Icon only on mobile, text on desktop */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="min-w-[100px]">
-              <SlidersHorizontal className="mr-2 h-4 w-4" />
-              {sortOptions.find((opt) => opt.value === sortBy)?.label}
+            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full shrink-0 md:w-auto md:px-4 md:rounded-md md:border">
+              <SlidersHorizontal className="h-5 w-5 md:mr-2 md:h-4 md:w-4" />
+              <span className="hidden md:inline">
+                  {sortOptions.find((opt) => opt.value === sortBy)?.label}
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

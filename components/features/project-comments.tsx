@@ -368,8 +368,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             </div>
 
             {/* Main Input Area - Sticky Bottom */}
-            <div className="sticky bottom-0 z-20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 border-t -mx-4 px-4 md:px-0 md:mx-0">
-                <div className="flex gap-4 max-w-4xl mx-auto">
+            <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none">
+                <div className="flex gap-4 max-w-4xl mx-auto w-full">
                     <Avatar className="h-10 w-10 border shadow-sm">
                         <AvatarImage src={profile?.avatar_url || user?.user_metadata?.avatar_url || ""} />
                         <AvatarFallback className="bg-muted">

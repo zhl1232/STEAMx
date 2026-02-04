@@ -215,13 +215,29 @@ export function DiscussionList() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">讨论区</h2>
+                <h2 className="text-2xl font-bold hidden md:block">讨论区</h2>
                 {user && (
-                    <Button onClick={() => setIsCreating(!isCreating)}>
+                    <Button onClick={() => setIsCreating(!isCreating)} className="hidden md:flex">
                         {isCreating ? "取消" : "发起讨论"}
                     </Button>
                 )}
             </div>
+
+            {/* Mobile FAB for Creating Discussion */}
+            {user && !isCreating && (
+                <Button
+                    onClick={() => {
+                        setIsCreating(true);
+                        // Optional: Scroll to form
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    size="icon"
+                    className="md:hidden fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg z-50 bg-primary text-primary-foreground hover:scale-105 transition-transform"
+                >
+                    <MessageSquare className="h-6 w-6" />
+                    <span className="sr-only">发起讨论</span>
+                </Button>
+            )}
 
             {/* Search Component */}
             <DiscussionSearch
@@ -257,7 +273,10 @@ export function DiscussionList() {
                             placeholder="例如: 科学, 实验, 求助"
                         />
                     </div>
-                    <Button type="submit">发布</Button>
+                    <div className="flex gap-2 justify-end">
+                        <Button type="button" variant="ghost" onClick={() => setIsCreating(false)}>取消</Button>
+                        <Button type="submit">发布</Button>
+                    </div>
                 </form>
             )}
 

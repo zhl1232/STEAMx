@@ -170,9 +170,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             if (!currentUnlocked.has(badge.id)) {
                 try {
                     if (badge.condition(stats)) {
-                        // Check if we are already mutating this badge to double-prevent
-                        // (Though React Query mutation state de-dupe should handle it, we want to be safe)
-                        
+                        // CRITICAL FIX: Optimistically mark as unlocked locally immediately 
+                        // to prevent multiple fire/infinite loops while mutation is pending
+                        currentUnlocked.add(badge.id); 
+                        unlockedBadgesRef.current = new Set(currentUnlocked);
+
                         // Trigger Mutation
                         unlockBadgeMutation.mutate(badge.id, {
                             onSuccess: () => {
@@ -194,6 +196,28 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                         origin: { y: 0.6 }
                                     });
                                 });
+                            },
+                            onError: (error: any) => {
+                                // CRITICAL FIX: If error is 409 (Conflict/Duplicate), it means badge is ALREADY unlocked in DB.
+                                // In this case, we should TREAT IT AS SUCCESS and KEEP the optimistic update.
+                                // Only revert if it's a genuine failure (e.g., network error other than conflict).
+                                
+                                const isDuplicate = 
+                                    error?.message?.includes('duplicate') || 
+                                    error?.message?.includes('409') ||
+                                    error?.code === '23505' || // Postgres unique violation
+                                    error?.status === 409;
+
+                                if (isDuplicate) {
+                                    console.log(`Badge ${badge.id} already exists (409), keeping optimistic update.`);
+                                    // Treat as success: ensure it remains in the set (it already is due to optimistic update)
+                                    // We prevent the loop because next checkBadges will see it in the Ref.
+                                } else {
+                                    // Revert optimistic update only for real errors
+                                    console.error(`Failed to unlock badge ${badge.id}`, error);
+                                    currentUnlocked.delete(badge.id);
+                                    unlockedBadgesRef.current = new Set(currentUnlocked);
+                                }
                             }
                         });
                     }
@@ -202,7 +226,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 }
             }
         });
-    }, [user, unlockBadgeMutation, toast]);
+    }, [user?.id, unlockBadgeMutation, toast]);
 
     // 4. Auto-Run Checks on Stats Update
     useEffect(() => {

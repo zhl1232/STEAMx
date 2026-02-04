@@ -6,6 +6,7 @@ import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
+import { MobileCommunityPage } from "@/components/community/mobile-community-page";
 
 import { MessageSquare, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,14 @@ export default function CommunityPage() {
                 <title>STEAM 创客社区 - 讨论与挑战</title>
                 <meta name="description" content="加入 STEAM 创客社区，参与讨论和挑战，分享创意，赢取徽章。" />
             </Head>
-            <div className="container mx-auto py-12 max-w-5xl bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-black">
+
+            {/* Mobile View */}
+            <div className="block md:hidden">
+                <MobileCommunityPage />
+            </div>
+
+            {/* Desktop View */}
+            <div className="hidden md:block container mx-auto py-12 max-w-5xl bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-black">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-4">STEAM 创客社区</h1>
                     <p className="text-xl text-muted-foreground">
@@ -87,3 +95,4 @@ export default function CommunityPage() {
         </>
     );
 }
+
