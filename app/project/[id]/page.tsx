@@ -116,7 +116,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         <div>
                             <h1 className="text-3xl font-bold mb-2">{project.title}</h1>
                             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                <span>By {project.author}</span>
+                                <span className="flex items-center gap-1">
+                                    By{" "}
+                                    {project.author_id ? (
+                                        <Link 
+                                            href={`/users/${project.author_id}`}
+                                            className="hover:text-primary hover:underline transition-colors font-medium"
+                                        >
+                                            {project.author}
+                                        </Link>
+                                    ) : (
+                                        project.author
+                                    )}
+                                </span>
                                 <span>•</span>
                                 <span>{project.category}</span>
                             </div>

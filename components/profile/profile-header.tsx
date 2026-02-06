@@ -17,6 +17,8 @@ interface ProfileHeaderProps {
     likedProjectsCount: number;
     collectedProjectsCount: number;
     totalLikesReceived: number;
+    followerCount: number;
+    followingCount: number;
 }
 
 export function ProfileHeader({
@@ -26,6 +28,8 @@ export function ProfileHeader({
     likedProjectsCount: _likedProjectsCount,
     collectedProjectsCount,
     totalLikesReceived,
+    followerCount,
+    followingCount,
 }: ProfileHeaderProps) {
     const { unlockedBadges } = useGamification();
     
@@ -103,14 +107,18 @@ export function ProfileHeader({
                     </div>
 
                     {/* Compact Stats Row */}
-                    <div className="flex items-center gap-5 shrink-0 pt-2">
+                    <div className="flex items-center gap-4 shrink-0 pt-2">
                         <div className="text-center cursor-pointer group">
                             <div className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{myProjectsCount}</div>
                             <div className="text-[10px] text-muted-foreground font-medium">作品</div>
                         </div>
                         <div className="text-center cursor-pointer group">
-                            <div className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{collectedProjectsCount}</div>
-                            <div className="text-[10px] text-muted-foreground font-medium">收藏</div>
+                             <div className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{followerCount}</div>
+                             <div className="text-[10px] text-muted-foreground font-medium">粉丝</div>
+                        </div>
+                        <div className="text-center cursor-pointer group">
+                             <div className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{followingCount}</div>
+                             <div className="text-[10px] text-muted-foreground font-medium">关注</div>
                         </div>
                         <div className="text-center cursor-pointer group">
                             <div className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{totalLikesReceived}</div>

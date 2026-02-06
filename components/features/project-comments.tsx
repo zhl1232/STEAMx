@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link"
 
 import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
@@ -63,7 +64,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
             // 2. Fetch Replies for these roots
             if (roots && roots.length > 0) {
-                const rootIds = roots.map(r => r.id)
+                const rootIds = (roots as any[]).map(r => r.id)
                 const { data: replies } = await supabase
                     .from('comments')
                     .select(`
@@ -102,9 +103,11 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         const submitComment = async () => {
             const addedComment = await addComment(projectId, {
                 id: 0,
-                author: "Me",
+                author: profile?.display_name || user?.email?.split('@')[0] || "Me",
+                userId: user?.id,
+                avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
                 content: newComment,
-                date: "",
+                date: "刚刚",
             })
 
             if (addedComment) {
@@ -142,9 +145,11 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 projectId,
                 {
                     id: 0,
-                    author: "Me",
+                    author: profile?.display_name || user?.email?.split('@')[0] || "Me",
+                    userId: user?.id,
+                    avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
                     content: replyContent,
-                    date: "",
+                    date: "刚刚",
                     reply_to_user_id: replyToUserId,
                     reply_to_username: replyToUsername,
                 },
@@ -196,25 +201,38 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
         const displayedComments = isExpanded ? nestedComments : nestedComments.slice(0, DISPLAY_LIMIT)
         const hiddenCount = nestedComments.length - displayedComments.length
+        
+        const UserLink = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+            if (comment.userId) {
+                return (
+                    <Link href={`/users/${comment.userId}`} className={className}>
+                        {children}
+                    </Link>
+                )
+            }
+            return <span className={className}>{children}</span>
+        }
 
         return (
             <div className={cn("group flex gap-4", isNested ? "mt-4" : "py-6 border-b last:border-0")}>
                 {/* Avatar */}
-                <Avatar className={cn("shrink-0 border", isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}>
-                    <AvatarImage src={comment.avatar || ""} />
-                    <AvatarFallback className="bg-primary/5 text-primary">
-                        {comment.author[0]?.toUpperCase()}
-                    </AvatarFallback>
-                </Avatar>
+                <UserLink>
+                    <Avatar className={cn("shrink-0 border transition-transform hover:scale-105", isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}>
+                        <AvatarImage src={comment.avatar || ""} />
+                        <AvatarFallback className="bg-primary/5 text-primary">
+                            {comment.author[0]?.toUpperCase()}
+                        </AvatarFallback>
+                    </Avatar>
+                </UserLink>
 
                 <div className="flex-1 min-w-0">
                     {/* User Info */}
                     <div className="flex items-center gap-2 mb-1">
-                        <span className={cn("font-semibold cursor-pointer hover:text-primary transition-colors",
+                        <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors",
                             isNested ? "text-sm" : "text-base"
                         )}>
                             {comment.author}
-                        </span>
+                        </UserLink>
                     </div>
 
                     {/* Content */}

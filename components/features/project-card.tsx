@@ -38,11 +38,17 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
             }}
             style={{ transformStyle: "preserve-3d" }}
         >
-            <Link
-                href={project.id === "color-lab" ? "/project/color-lab" : `/project/${project.id}`}
+            <div
                 className="group relative block overflow-hidden rounded-lg border bg-background transition-all hover:shadow-2xl hover:shadow-primary/20"
             >
-                <div className="aspect-video w-full overflow-hidden bg-muted relative">
+                {/* Main Card Link Overlay */}
+                <Link
+                    href={project.id === "color-lab" ? "/project/color-lab" : `/project/${project.id}`}
+                    className="absolute inset-0 z-0"
+                    aria-label={`View project ${project.title}`}
+                />
+
+                <div className="aspect-video w-full overflow-hidden bg-muted relative pointer-events-none">
                     {!imageError ? (
                         <Image
                             src={project.image}
@@ -87,7 +93,7 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
 
 
                 </div>
-                <div className="p-4 bg-gradient-to-br from-background to-background/95">
+                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none">
                     <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2 flex-wrap">
                             <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
@@ -116,9 +122,23 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                     <h3 className="font-semibold leading-none tracking-tight mb-1 group-hover:text-primary transition-colors">
                         <SearchHighlight text={project.title} query={searchQuery} />
                     </h3>
-                    <p className="text-sm text-muted-foreground">by {project.author}</p>
+                    <div className="pointer-events-auto relative z-10 inline-block">
+                         <span className="text-sm text-muted-foreground">
+                            by{" "}
+                            {project.author_id ? (
+                                <Link 
+                                    href={`/users/${project.author_id}`}
+                                    className="hover:underline hover:text-primary transition-colors"
+                                >
+                                    {project.author}
+                                </Link>
+                            ) : (
+                                project.author
+                            )}
+                         </span>
+                    </div>
                 </div>
-            </Link>
+            </div>
         </motion.div>
     );
 }

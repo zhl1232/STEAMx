@@ -66,21 +66,23 @@ export default function LoginPage() {
         if (error) throw error
         setMessage('重置密码链接已发送到你的邮箱，请查收。')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // 不要在生产环境暴露敏感信息
       if (process.env.NODE_ENV === 'development') {
-        console.error('Auth error:', error.message)
+        console.error('Auth error:', error)
       }
       
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
       // 优化错误提示
-      if (error.message === 'Invalid login credentials') {
+      if (errorMessage === 'Invalid login credentials') {
         setError('邮箱或密码错误，请重试。')
-      } else if (error.message.includes('User already registered')) {
+      } else if (errorMessage.includes('User already registered')) {
         setError('该邮箱已被注册，请直接登录。')
-      } else if (error.message.includes('Password should be at least')) {
+      } else if (errorMessage.includes('Password should be at least')) {
         setError('密码长度至少需要 6 位。')
       } else {
-        setError(error.message || '发生错误，请稍后重试。')
+        setError(errorMessage || '发生错误，请稍后重试。')
       }
     } finally {
       setLoading(false)

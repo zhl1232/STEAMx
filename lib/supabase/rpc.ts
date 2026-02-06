@@ -28,5 +28,12 @@ export async function callRpc<FnName extends keyof Functions>(
 ): Promise<{ data: Functions[FnName]['Returns'] | null; error: unknown }> {
   // 使用类型断言来绕过 Supabase 客户端的类型限制
   // 虽然这里使用了 as any，但外部调用者会获得完整的类型安全
-  return await (supabase.rpc as any)(functionName, args)
+  // Supabase rpc usually returns a PostgrestFilterBuilder which is then awaited.
+  // We cast to a generic function type to avoid "any" and complex overload mismatch.
+  const rpcFn = supabase.rpc as unknown as (
+    fn: string, 
+    args: unknown
+  ) => PromiseLike<{ data: Functions[FnName]['Returns'] | null; error: unknown }>;
+  
+  return await rpcFn(functionName, args)
 }

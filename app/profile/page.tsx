@@ -36,6 +36,8 @@ export default function ProfilePage() {
   const [likedProjectsList, setLikedProjectsList] = useState<Project[]>([])
   const [collectedProjectsList, setCollectedProjectsList] = useState<Project[]>([])
   const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
+  const [followerCount, setFollowerCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
   const [isInitialLoad, setIsInitialLoad] = useState(true)
 
   // 使用 ref 追踪是否已经加载过，避免重复请求
@@ -65,7 +67,7 @@ export default function ProfilePage() {
     const loadUserProjects = async () => {
       try {
         // 并行执行所有查询，提升性能
-        const [myProjectsData, likedData, collectedData, completedData] = await Promise.all([
+        const [myProjectsData, likedData, collectedData, completedData, followersData, followingData] = await Promise.all([
           // 查询用户发布的项目
           supabase
             .from('projects')
@@ -111,13 +113,30 @@ export default function ProfilePage() {
               .in('id', Array.from(completedProjects))
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
-            : Promise.resolve(null)
+            : Promise.resolve(null),
+
+          // 查询粉丝数
+          supabase
+            .from('follows')
+            .select('follower_id', { count: 'exact', head: true })
+            .eq('following_id', user.id)
+            .then(({ count }) => count),
+
+          // 查询关注数
+          supabase
+            .from('follows')
+            .select('following_id', { count: 'exact', head: true })
+            .eq('follower_id', user.id)
+            .then(({ count }) => count)
         ])
 
         // 使用统一的映射函数处理数据
         if (myProjectsData) {
           setMyProjects(myProjectsData.map(p => mapProject(p as DbProject, profile?.display_name || undefined)))
         }
+        
+        setFollowerCount(followersData || 0)
+        setFollowingCount(followingData || 0)
 
         if (likedData) {
           setLikedProjectsList(likedData.map((p) => mapProject(p as DbProject)))
@@ -148,7 +167,7 @@ export default function ProfilePage() {
 
     loadUserProjects()
     // 使用稳定的字符串 key 作为依赖，而不是 Set 对象本身
-  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
+  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad, supabase, likedProjects, collectedProjects, completedProjects, user])
 
 
   if (authLoading) {
@@ -174,6 +193,8 @@ export default function ProfilePage() {
                 likedProjectsList={likedProjectsList}
                 collectedProjectsList={collectedProjectsList}
                 completedProjectsList={completedProjectsList}
+                followerCount={followerCount}
+                followingCount={followingCount}
             />
         </div>
 
@@ -249,18 +270,18 @@ export default function ProfilePage() {
         </Card>
         <Card>
           <CardHeader className="p-4 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">收藏项目</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">粉丝</CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-2xl font-bold">{collectedProjects.size}</div>
+            <div className="text-2xl font-bold">{followerCount}</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="p-4 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">已完成挑战</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">关注</CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-2xl font-bold">{completedProjects.size}</div>
+            <div className="text-2xl font-bold">{followingCount}</div>
           </CardContent>
         </Card>
       </div>

@@ -5,7 +5,7 @@ import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Trophy, Medal, Crown, Star, Award, Hammer } from "lucide-react";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
 import { useState, useEffect } from "react";
@@ -25,7 +25,7 @@ type LeaderboardType = "xp" | "badges" | "projects";
 
 export default function LeaderboardPage() {
     const { user, profile } = useAuth();
-    const { xp, level, unlockedBadges } = useGamification();
+    const { xp, level } = useGamification();
     const [isLoading, setIsLoading] = useState(true);
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
     const [currentTab, setCurrentTab] = useState<LeaderboardType>("xp");
@@ -50,7 +50,14 @@ export default function LeaderboardPage() {
 
                     if (error) throw error;
 
-                    users = (topProfiles || []).map(p => ({
+                    interface ProfileRow {
+                        id: string;
+                        display_name: string | null;
+                        avatar_url: string | null;
+                        xp: number | null;
+                    }
+
+                    users = ((topProfiles as unknown as ProfileRow[]) || []).map(p => ({
                         id: p.id,
                         name: p.display_name || '匿名用户',
                         xp: p.xp || 0,
@@ -83,7 +90,15 @@ export default function LeaderboardPage() {
 
                     if (error) throw error;
 
-                    users = (data || []).map((p: any) => ({
+                    interface BadgeLeaderboardItem {
+                        id: string;
+                        display_name: string | null;
+                        xp: number;
+                        badge_count: number;
+                        avatar_url: string | null;
+                    }
+
+                    users = ((data as unknown as BadgeLeaderboardItem[]) || []).map((p) => ({
                         id: p.id,
                         name: p.display_name || '匿名用户',
                         xp: p.xp || 0,
@@ -102,7 +117,15 @@ export default function LeaderboardPage() {
 
                     if (error) throw error;
 
-                    users = (data || []).map((p: any) => ({
+                    interface ProjectLeaderboardItem {
+                        id: string;
+                        display_name: string | null;
+                        xp: number;
+                        project_count: number;
+                        avatar_url: string | null;
+                    }
+
+                    users = ((data as unknown as ProjectLeaderboardItem[]) || []).map((p) => ({
                         id: p.id,
                         name: p.display_name || '匿名用户',
                         xp: p.xp || 0,

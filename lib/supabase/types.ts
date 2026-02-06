@@ -153,6 +153,37 @@ export interface Database {
         }
         Relationships: []
       }
+      follows: {
+        Row: {
+          follower_id: string
+          following_id: string
+          created_at: string
+        }
+        Insert: {
+          follower_id: string
+          following_id: string
+          created_at?: string
+        }
+        Update: {
+          follower_id?: string
+          following_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follows_follower_id_fkey"
+            columns: ["follower_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follows_following_id_fkey"
+            columns: ["following_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       project_materials: {
         Row: {
           id: number
@@ -522,6 +553,26 @@ export interface Database {
       reject_project: {
         Args: { project_id: number; reason: string }
         Returns: void
+      }
+      get_badge_leaderboard: {
+        Args: { limit_count: number }
+        Returns: {
+          id: string
+          display_name: string | null
+          avatar_url: string | null
+          xp: number
+          badge_count: number
+        }[]
+      }
+      get_project_leaderboard: {
+        Args: { limit_count: number }
+        Returns: {
+          id: string
+          display_name: string | null
+          avatar_url: string | null
+          xp: number
+          project_count: number
+        }[]
       }
     }
     Enums: {

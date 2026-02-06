@@ -15,6 +15,8 @@ interface MobileProfilePageProps {
   likedProjectsList: Project[];
   collectedProjectsList: Project[];
   completedProjectsList: Project[];
+  followerCount: number;
+  followingCount: number;
 }
 
 export function MobileProfilePage({
@@ -24,6 +26,8 @@ export function MobileProfilePage({
   likedProjectsList,
   collectedProjectsList,
   completedProjectsList,
+  followerCount,
+  followingCount,
 }: MobileProfilePageProps) {
   const [_activeTab, setActiveTab] = useState("works");
 
@@ -43,6 +47,8 @@ export function MobileProfilePage({
         likedProjectsCount={likedProjectsCount}
         collectedProjectsCount={collectedProjectsCount}
         totalLikesReceived={totalLikesReceived}
+        followerCount={followerCount}
+        followingCount={followingCount}
       />
 
       {/* Tabs Content */}

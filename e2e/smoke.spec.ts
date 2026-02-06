@@ -8,7 +8,7 @@ test('首页加载测试', async ({ page }) => {
 
 test('探索页面加载', async ({ page }) => {
     await page.goto('/explore');
-    await expect(page.getByPlaceholder('搜索项目...')).toBeVisible();
+    await expect(page.getByPlaceholder('搜索项目、创意...')).toBeVisible();
 });
 
 // 模拟已获取徽章的场景
