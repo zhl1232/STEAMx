@@ -8,7 +8,7 @@ import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
-import { useAuth } from '@/context/auth-context'
+// import { useAuth } from '@/context/auth-context'
 
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG } from '@/lib/config/categories'
@@ -34,7 +34,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const router = useRouter()
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
-    const { user } = useAuth()
+    // const { user } = useAuth()
 
     const displayCategories = propCategories || defaultCategories
 
@@ -66,7 +66,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         : CATEGORY_CONFIG[selectedCategory] || []
 
     // 构建 URL 参数
-    const buildSearchParams = (overrides: {
+    const buildSearchParams = useCallback((overrides: {
         query?: string
         category?: string
         subCategory?: string
@@ -87,7 +87,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         if (tags.length > 0) params.set('tags', tags.join(','))
 
         return params
-    }
+    }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags])
 
     // 加载更多项目
     const loadMore = useCallback(async () => {
@@ -108,7 +108,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         } finally {
             setIsLoadingMore(false)
         }
-    }, [isLoadingMore, hasMore, page, searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags])
+    }, [isLoadingMore, hasMore, page, buildSearchParams])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
@@ -218,15 +218,14 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const hasActiveFilters = !!selectedSubCategory || selectedDifficulty !== "all" || selectedTags.length > 0
 
     return (
-        <div className="container mx-auto py-8">
-            <div className="flex flex-col gap-6 mb-8">
+        <div className="container mx-auto py-4 md:py-8 px-4">
+            <div className="flex flex-col gap-6 mb-6 md:mb-8">
                 {/* 标题和搜索栏 */}
                 <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:items-center">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">探索项目</h1>
-                        <p className="text-muted-foreground">探索社区中最酷的 STEAM 创意。</p>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">探索项目</h1>
+                        <p className="text-sm md:text-base text-muted-foreground">探索社区中最酷的 STEAM 创意。</p>
                     </div>
-                    {/* Global search is now in the header */}
                 </div>
 
                 {/* 主分类标签 */}
@@ -370,7 +369,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             </div>
 
             {/* 项目列表 */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => {
                     if (projects.length === index + 1) {
                         return (

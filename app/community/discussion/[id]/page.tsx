@@ -3,10 +3,11 @@
 import * as React from "react";
 
 import { useCommunity } from "@/context/community-context";
-import { Discussion, Comment as ProjectComment } from "@/lib/types";
+import { Discussion, Comment as ProjectComment, Profile } from "@/lib/types";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Heart, Tag, ArrowLeft, User, Calendar, Trash2, Reply } from "lucide-react";
+import { MessageSquare, Heart, Tag, ArrowLeft, User, Calendar, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
@@ -19,8 +20,8 @@ import { formatRelativeTime } from "@/lib/date-utils";
 interface ReplyItemProps {
     reply: ProjectComment;
     isNested?: boolean;
-    user: any;
-    profile: any;
+    user: SupabaseUser | null;
+    profile: Profile | null;
     replyingTo: number | null;
     setReplyingTo: (id: number | null) => void;
     replyContent: string;
@@ -252,7 +253,16 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     date: formatRelativeTime(data.created_at),
                     likes: data.likes_count,
                     tags: data.tags || [],
-                    replies: data.discussion_replies?.map((r: any) => ({
+                    replies: (data.discussion_replies || []).map((r: {
+                        id: number;
+                        profiles?: { display_name?: string; avatar_url?: string } | null;
+                        author_id: string;
+                        content: string;
+                        created_at: string;
+                        parent_id?: number | null;
+                        reply_to_user_id?: string | null;
+                        reply_to_username?: string | null;
+                    }) => ({
                         id: r.id,
                         author: r.profiles?.display_name || 'Unknown',
                         userId: r.author_id,
@@ -262,7 +272,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         parent_id: r.parent_id,
                         reply_to_user_id: r.reply_to_user_id,
                         reply_to_username: r.reply_to_username
-                    })) || []
+                    }))
                 };
 
                 setDiscussion(mappedDiscussion);

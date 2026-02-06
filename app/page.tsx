@@ -1,12 +1,9 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { FlaskConical, Rocket, Palette, Calculator, Cpu, Sparkles, ArrowRight } from "lucide-react";
+import { FlaskConical, Rocket, Palette, Calculator, Cpu, Sparkles } from "lucide-react";
 import { TechBackground } from "@/components/ui/tech-background";
 import { CategoryPortal } from "@/components/home/category-portal";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { MobileHome } from "@/components/home/mobile-home";
 import { getProjects } from "@/lib/api/explore-data";
-import { Suspense } from "react";
 
 // Client component wrapper for animations
 import { HomeClient } from "./home-client";

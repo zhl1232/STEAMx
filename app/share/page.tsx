@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
 import { ImageUpload } from "@/components/ui/image-upload";
-import { Upload, Save, CheckCircle2, Plus, Trash2, X } from "lucide-react";
+import { Upload, Save, CheckCircle2, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Project } from "@/lib/types";
 import { useProjects } from "@/context/project-context";
@@ -17,8 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProjectCoverImage } from "@/lib/config/category-images";
 
-import { CATEGORY_CONFIG, DIFFICULTY_LEVELS } from "@/lib/config/categories";
-import { Badge } from "@/components/ui/badge";
+import { CATEGORY_CONFIG } from "@/lib/config/categories";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { mapDbProject } from "@/lib/mappers/types";
@@ -55,7 +52,6 @@ function ShareForm() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
     const [isSavingDraft, setIsSavingDraft] = useState(false);
-    const [tagInput, setTagInput] = useState("");
     const [formData, setFormData] = useState<FormData>({
         title: "",
         category: "科学",
@@ -80,7 +76,7 @@ function ShareForm() {
             if (!editId || !user) return;
 
             // setIsLoading(true); // Don't block whole UI, just maybe show loading state
-            const { data, error } = await supabase
+            const { data, error: _error } = await supabase
                 .from('projects')
                 .select(`
                     *,
@@ -156,7 +152,7 @@ function ShareForm() {
                 }
             }
         }
-    }, [user, toast]);
+    }, [user, toast, editId]);
 
     // 自动保存草稿（防抖）
     useEffect(() => {
@@ -177,23 +173,7 @@ function ShareForm() {
         }
     };
 
-    const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' || e.key === ',') {
-            e.preventDefault();
-            const val = tagInput.trim();
-            if (val && !formData.tags.includes(val)) {
-                setFormData(prev => ({ ...prev, tags: [...prev.tags, val] }));
-            }
-            setTagInput("");
-        }
-    };
 
-    const removeTag = (tagToRemove: string) => {
-        setFormData(prev => ({
-            ...prev,
-            tags: prev.tags.filter(tag => tag !== tagToRemove)
-        }));
-    };
 
     const handleCoverImageChange = (url: string | null) => {
         setFormData(prev => ({ ...prev, coverImage: url }));

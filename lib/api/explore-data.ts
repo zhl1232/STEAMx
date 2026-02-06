@@ -136,7 +136,8 @@ export async function getProjects(
             .in('material', materials)
 
         if (projectsWithMaterials && projectsWithMaterials.length > 0) {
-            const projectIds = Array.from(new Set(projectsWithMaterials.map((m: any) => m.project_id)))
+            // 类型断言：数据库查询返回的类型可能与本地类型定义不同步
+            const projectIds = Array.from(new Set((projectsWithMaterials as { project_id: number }[]).map((m) => m.project_id)))
             query = query.in('id', projectIds)
         } else {
             // 没有匹配的项目
@@ -225,7 +226,7 @@ export async function getProjectComments(
 
     // Fetch replies for these roots
     if (roots && roots.length > 0) {
-        const rootIds = (roots as any[]).map(r => r.id)
+        const rootIds = (roots as { id: number }[]).map(r => r.id)
         const { data: replies } = await supabase
             .from('comments')
             .select(`
@@ -306,15 +307,16 @@ export async function getProjectCompletions(
         .eq('project_id', projectId)
         .eq('is_public', true)
         .order('completed_at', { ascending: false })
-        .limit(limit) as { data: any[] | null; error: any }
+        .limit(limit)
 
     if (error || !completions) {
         console.error('Error fetching completions:', error)
         return []
     }
 
-    // 获取所有 user_ids
-    const userIds = [...new Set(completions.map((c: any) => c.user_id))]
+    // 获取所有 user_ids（类型断言：Supabase 类型可能未同步）
+    type CompletionRow = { user_id: string; [key: string]: unknown }
+    const userIds = [...new Set((completions as CompletionRow[]).map((c) => c.user_id))]
 
     // 单独查询 profiles
     const { data: profiles } = await supabase
@@ -323,10 +325,12 @@ export async function getProjectCompletions(
         .in('id', userIds)
 
     // 创建 profiles 映射
-    const profilesMap = new Map((profiles || []).map((p: any) => [p.id, p]))
+    type ProfileRow = { id: string; display_name: string | null; avatar_url: string | null }
+    const profilesMap = new Map((profiles as ProfileRow[] || []).map((p) => [p.id, p]))
 
     // 组合数据
-    return completions.map((item: any) => {
+    type CompletionData = { user_id: string; id: number; project_id: number; completed_at: string; proof_images: string[]; proof_video_url: string | null; notes: string | null; is_public: boolean; likes_count: number }
+    return (completions as CompletionData[]).map((item) => {
         const profile = profilesMap.get(item.user_id)
         return mapDbCompletion({
             ...item,

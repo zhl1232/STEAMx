@@ -12,14 +12,29 @@ import type { Database } from '@/lib/supabase/types'
 
 type DbProject = Database['public']['Tables']['projects']['Row']
 type DbProfile = Database['public']['Tables']['profiles']['Row']
-type DbComment = Database['public']['Tables']['comments']['Row']
+type _DbComment = Database['public']['Tables']['comments']['Row']
 type DbDiscussion = Database['public']['Tables']['discussions']['Row']
-type DbDiscussionReply = Database['public']['Tables']['discussion_replies']['Row']
+type _DbDiscussionReply = Database['public']['Tables']['discussion_replies']['Row']
 type DbChallenge = Database['public']['Tables']['challenges']['Row']
 type DbProjectMaterial = Database['public']['Tables']['project_materials']['Row']
 type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
 type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
 type DbCompletedProject = Database['public']['Tables']['completed_projects']['Row']
+
+// 评论/回复的数据库查询结果类型
+interface DbCommentWithProfile {
+    id: number
+    author_id: string
+    content: string
+    created_at: string
+    parent_id?: number | null
+    reply_to_user_id?: string | null
+    reply_to_username?: string | null
+    profiles?: {
+        display_name?: string | null
+        avatar_url?: string | null
+    } | null
+}
 
 // ============================================================
 // 前端类型定义
@@ -146,7 +161,8 @@ export function mapDbProject(
         project_materials?: DbProjectMaterial[]
         project_steps?: DbProjectStep[]
         sub_categories?: Pick<DbSubCategory, 'name'> | null
-        comments?: any[]
+        comments?: DbCommentWithProfile[]
+        tags?: string[]
     }
 ): Project {
     return {
@@ -174,7 +190,7 @@ export function mapDbProject(
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
         difficulty_stars: dbProject.difficulty_stars || 3,
         duration: dbProject.duration || undefined,
-        tags: (dbProject as any).tags || [],  // 从数据库获取标签
+        tags: dbProject.tags || [],
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending'
     }
 }
@@ -183,7 +199,7 @@ export function mapDbProject(
  * 将数据库 Comment 类型映射为前端 Comment 类型
  */
 export function mapDbComment(
-    dbComment: any
+    dbComment: DbCommentWithProfile
 ): Comment {
     return {
         id: dbComment.id,
@@ -210,7 +226,7 @@ export function mapDbComment(
 export function mapDbDiscussion(
     dbDiscussion: DbDiscussion & {
         profiles?: Pick<DbProfile, 'display_name'> | null
-        discussion_replies?: any[]
+        discussion_replies?: DbCommentWithProfile[]
     }
 ): Discussion {
     return {
@@ -277,18 +293,17 @@ export function mapDbCompletion(
         profiles?: Pick<DbProfile, 'display_name' | 'avatar_url'> | null
     }
 ): ProjectCompletion {
-    const data = dbCompletion as any;
     return {
-        id: data.id,
-        userId: data.user_id,
-        projectId: data.project_id,
+        id: dbCompletion.id,
+        userId: dbCompletion.user_id,
+        projectId: dbCompletion.project_id,
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
-        completedAt: new Date(data.completed_at || '').toLocaleDateString('zh-CN'),
-        proofImages: data.proof_images || [],
-        proofVideoUrl: data.proof_video_url || undefined,
-        notes: data.notes || undefined,
-        isPublic: data.is_public ?? true,
-        likes: data.likes_count ?? 0
+        completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
+        proofImages: dbCompletion.proof_images || [],
+        proofVideoUrl: dbCompletion.proof_video_url || undefined,
+        notes: dbCompletion.notes || undefined,
+        isPublic: dbCompletion.is_public ?? true,
+        likes: dbCompletion.likes_count ?? 0
     }
 }

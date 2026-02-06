@@ -21,14 +21,14 @@ export const createClient = async (): Promise<SupabaseClient<Database>> => {
         set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options })
-          } catch (error) {
+          } catch {
             // 在 Server Component 中可能会失败，可以安全忽略
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options })
-          } catch (error) {
+          } catch {
             // 在 Server Component 中可能会失败，可以安全忽略
           }
         },

@@ -10,7 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNotifications } from "@/context/notification-context";
+import { useNotifications, type Notification } from "@/context/notification-context";
 import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistance } from "date-fns";
@@ -27,7 +27,7 @@ export function NotificationBell() {
         return null;
     }
 
-    const handleNotificationClick = async (notification: any) => {
+    const handleNotificationClick = async (notification: Notification) => {
         // Mark as read
         if (!notification.is_read) {
             await markAsRead(notification.id);
@@ -41,7 +41,7 @@ export function NotificationBell() {
         }
     };
 
-    const getNotificationIcon = (notification: any) => {
+    const getNotificationIcon = (notification: Notification) => {
         if (notification.from_username) {
             return (
                 <Avatar className="h-8 w-8">

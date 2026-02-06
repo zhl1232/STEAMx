@@ -39,7 +39,7 @@ export async function getCategories(): Promise<Category[]> {
         return []
     }
 
-    return data || []
+    return (data as Category[]) || []
 }
 
 /**
@@ -59,7 +59,7 @@ export async function getSubCategories(categoryId: number): Promise<SubCategory[
         return []
     }
 
-    return data || []
+    return (data as SubCategory[]) || []
 }
 
 /**
@@ -87,13 +87,13 @@ export async function getCategoriesWithSubs(): Promise<CategoryWithSubs[]> {
 
     if (subError || !subCategories) {
         console.error('Error fetching sub categories:', subError)
-        return categories.map(c => ({ ...c, sub_categories: [] }))
+        return (categories as Category[]).map(c => ({ ...c, sub_categories: [] }))
     }
 
     // 组合成嵌套结构
-    return categories.map(category => ({
+    return (categories as Category[]).map(category => ({
         ...category,
-        sub_categories: subCategories.filter(sub => sub.category_id === category.id)
+        sub_categories: (subCategories as SubCategory[]).filter(sub => sub.category_id === category.id)
     }))
 }
 
@@ -117,12 +117,12 @@ export async function getCategoryBySubId(subCategoryId: number): Promise<{
     }
 
     return {
-        category: (subCategory as any).categories as Category,
+        category: (subCategory as unknown as { categories: Category }).categories,
         subCategory: {
-            id: subCategory.id,
-            category_id: subCategory.category_id,
-            name: subCategory.name,
-            sort_order: subCategory.sort_order
+            id: (subCategory as unknown as SubCategory).id,
+            category_id: (subCategory as unknown as SubCategory).category_id,
+            name: (subCategory as unknown as SubCategory).name,
+            sort_order: (subCategory as unknown as SubCategory).sort_order
         }
     }
 }

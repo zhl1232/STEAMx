@@ -16,7 +16,7 @@ export class ValidationError extends Error {
  * @throws ValidationError 如果验证失败
  */
 export function validateRequiredString(
-  value: any,
+  value: unknown,
   fieldName: string,
   maxLength?: number
 ): string {
@@ -43,16 +43,16 @@ export function validateRequiredString(
  * @throws ValidationError 如果验证失败
  */
 export function validateEnum<T extends string>(
-  value: any,
+  value: unknown,
   fieldName: string,
   allowedValues: readonly T[]
 ): T {
-  if (!allowedValues.includes(value)) {
+  if (!allowedValues.includes(value as T)) {
     throw new ValidationError(
       `${fieldName} must be one of: ${allowedValues.join(', ')}`
     )
   }
-  return value
+  return value as T
 }
 
 /**
@@ -64,7 +64,7 @@ export function validateEnum<T extends string>(
  * @throws ValidationError 如果验证失败
  */
 export function validateOptionalString(
-  value: any,
+  value: unknown,
   fieldName: string,
   maxLength?: number
 ): string | undefined {
@@ -94,11 +94,11 @@ export function validateOptionalString(
  * @param maxLength 最大长度（可选）
  * @throws ValidationError 如果验证失败
  */
-export function validateArray(
-  value: any,
+export function validateArray<T = unknown>(
+  value: unknown,
   fieldName: string,
   maxLength?: number
-): any[] {
+): T[] {
   if (!Array.isArray(value)) {
     throw new ValidationError(`${fieldName} must be an array`)
   }
@@ -109,7 +109,7 @@ export function validateArray(
     )
   }
 
-  return value
+  return value as T[]
 }
 
 /**
@@ -118,7 +118,7 @@ export function validateArray(
  * @param fieldName 字段名称
  * @throws ValidationError 如果验证失败
  */
-export function validateUrl(value: any, fieldName: string): string {
+export function validateUrl(value: unknown, fieldName: string): string {
   if (typeof value !== 'string') {
     throw new ValidationError(`${fieldName} must be a string`)
   }

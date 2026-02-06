@@ -12,15 +12,16 @@ import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gal
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { Award, Zap } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { createClient } from '@/lib/supabase/client'
 import type { Project } from '@/lib/types'
-import { mapProject } from '@/lib/mappers/project'
+import { mapProject, type DbProject } from '@/lib/mappers/project'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
+import React from 'react'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -37,6 +38,10 @@ export default function ProfilePage() {
   const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
   const [isInitialLoad, setIsInitialLoad] = useState(true)
 
+  // 使用 ref 追踪是否已经加载过，避免重复请求
+  const hasLoadedRef = useRef(false)
+
+
   // 如果未登录，重定向到登录页
   useEffect(() => {
     if (!authLoading && !user) {
@@ -44,10 +49,18 @@ export default function ProfilePage() {
     }
   }, [user, authLoading, router])
 
+  // 将 Set 转换为稳定的字符串作为依赖，避免引用变化导致的重复执行
+  const likedIdsKey = React.useMemo(() => Array.from(likedProjects).sort().join(','), [likedProjects])
+  const collectedIdsKey = React.useMemo(() => Array.from(collectedProjects).sort().join(','), [collectedProjects])
+  const completedIdsKey = React.useMemo(() => Array.from(completedProjects).sort().join(','), [completedProjects])
+
   // 加载用户的项目数据
   useEffect(() => {
     // Wait for both user authentication and project context (interactions) to be ready
     if (!user || projectsLoading) return
+
+    // 如果已经加载过且交互数据没有变化，跳过
+    if (hasLoadedRef.current && !isInitialLoad) return
 
     const loadUserProjects = async () => {
       try {
@@ -103,26 +116,29 @@ export default function ProfilePage() {
 
         // 使用统一的映射函数处理数据
         if (myProjectsData) {
-          setMyProjects(myProjectsData.map(p => mapProject(p as any, profile?.display_name || undefined)))
+          setMyProjects(myProjectsData.map(p => mapProject(p as DbProject, profile?.display_name || undefined)))
         }
 
         if (likedData) {
-          setLikedProjectsList(likedData.map((p: any) => mapProject(p)))
+          setLikedProjectsList(likedData.map((p) => mapProject(p as DbProject)))
         } else {
           setLikedProjectsList([])
         }
 
         if (collectedData) {
-          setCollectedProjectsList(collectedData.map((p: any) => mapProject(p)))
+          setCollectedProjectsList(collectedData.map((p) => mapProject(p as DbProject)))
         } else {
           setCollectedProjectsList([])
         }
 
         if (completedData) {
-          setCompletedProjectsList(completedData.map((p: any) => mapProject(p)))
+          setCompletedProjectsList(completedData.map((p) => mapProject(p as DbProject)))
         } else {
           setCompletedProjectsList([])
         }
+
+        // 标记已加载完成
+        hasLoadedRef.current = true
       } catch (err) {
         console.error('Exception in loadUserProjects:', err)
       } finally {
@@ -131,8 +147,8 @@ export default function ProfilePage() {
     }
 
     loadUserProjects()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, likedProjects, collectedProjects, completedProjects, profile?.display_name, projectsLoading])
+    // 使用稳定的字符串 key 作为依赖，而不是 Set 对象本身
+  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
 
 
   if (authLoading) {

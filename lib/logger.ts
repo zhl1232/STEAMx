@@ -82,7 +82,7 @@ class Logger {
     /**
      * 发送到监控服务(预留接口)
      */
-    private sendToMonitoring(level: LogLevel, message: string, context?: LogContext) {
+    private sendToMonitoring(_level: LogLevel, _message: string, _context?: LogContext) {
         // 这里可以集成其他监控服务
         // 例如: Google Analytics, 自定义API等
 
@@ -91,7 +91,7 @@ class Logger {
             // fetch('/api/logs', {
             //   method: 'POST',
             //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify({ level, message, context, timestamp: new Date().toISOString() })
+            //   body: JSON.stringify({ level: _level, message: _message, context: _context, timestamp: new Date().toISOString() })
             // }).catch(console.error)
         }
     }

@@ -67,8 +67,8 @@ export async function requireRole(
     throw new PermissionError('Failed to fetch user profile')
   }
 
-  // Type assertion for profile role
-  const userRole = (profile as any).role as 'user' | 'moderator' | 'admin'
+  // 类型断言：Supabase 生成的类型可能未包含 role 字段
+  const userRole = (profile as { role: string }).role as 'user' | 'moderator' | 'admin'
 
   if (!allowedRoles.includes(userRole)) {
     throw new PermissionError(
@@ -84,7 +84,7 @@ export async function requireRole(
  * @param error 错误对象
  * @returns NextResponse
  */
-export function handleApiError(error: any): NextResponse {
+export function handleApiError(error: unknown): NextResponse {
   // 开发环境记录详细错误
   if (process.env.NODE_ENV === 'development') {
     console.error('API Error:', error)
@@ -106,7 +106,7 @@ export function handleApiError(error: any): NextResponse {
   // 其他错误 - 生产环境隐藏详细信息
   const errorMessage =
     process.env.NODE_ENV === 'development'
-      ? error.message || 'Internal server error'
+      ? (error instanceof Error ? error.message : 'Internal server error')
       : 'Internal server error'
 
   return NextResponse.json({ error: errorMessage }, { status: 500 })

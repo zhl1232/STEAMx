@@ -12,7 +12,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { UserButton } from "@/components/user-button";
 import { MainNav } from "@/components/main-nav";
-import { MobileNav } from "@/components/mobile-nav";
 import { NotificationProvider } from "@/context/notification-context";
 import { NotificationBell } from "@/components/notification-bell";
 import { ErrorBoundary } from "@/components/error-boundary";

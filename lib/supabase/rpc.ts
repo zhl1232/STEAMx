@@ -25,7 +25,7 @@ export async function callRpc<FnName extends keyof Functions>(
   supabase: SupabaseClient<Database>,
   functionName: FnName,
   args: Functions[FnName]['Args']
-): Promise<{ data: Functions[FnName]['Returns'] | null; error: any }> {
+): Promise<{ data: Functions[FnName]['Returns'] | null; error: unknown }> {
   // 使用类型断言来绕过 Supabase 客户端的类型限制
   // 虽然这里使用了 as any，但外部调用者会获得完整的类型安全
   return await (supabase.rpc as any)(functionName, args)

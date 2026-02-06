@@ -88,20 +88,24 @@ export function LoginDialog({
           setError('注册成功！请检查邮箱以确认账号。')
         }
       }
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : (typeof err === 'string' ? err : (err as { message?: string })?.message || '发生错误，请稍后重试。')
+
       if (process.env.NODE_ENV === 'development') {
-        console.error('Auth error:', error.message)
+        console.error('Auth error:', errorMessage)
       }
       
       // 优化错误提示
-      if (error.message === 'Invalid login credentials') {
+      if (errorMessage === 'Invalid login credentials') {
         setError('邮箱或密码错误，请重试。')
-      } else if (error.message.includes('User already registered')) {
+      } else if (errorMessage.includes('User already registered')) {
         setError('该邮箱已被注册，请直接登录。')
-      } else if (error.message.includes('Password should be at least')) {
+      } else if (errorMessage.includes('Password should be at least')) {
         setError('密码长度至少需要 6 位。')
       } else {
-        setError(error.message || '发生错误，请稍后重试。')
+        setError(errorMessage)
       }
     } finally {
       setLoading(false)
