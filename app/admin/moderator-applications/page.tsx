@@ -103,8 +103,8 @@ export default function ModeratorApplicationsPage() {
 
         try {
             // 1. 更新用户角色为 moderator
-            const { error: roleError } = await supabase
-                .from('profiles')
+            const { error: roleError } = await (supabase
+                .from('profiles') as any)
                 .update({ role: 'moderator' })
                 .eq('id', app.user_id);
 
@@ -112,8 +112,8 @@ export default function ModeratorApplicationsPage() {
 
             // 2. 更新申请状态
             const { data: { user } } = await supabase.auth.getUser();
-            const { error: appError } = await supabase
-                .from('moderator_applications')
+            const { error: appError } = await (supabase
+                .from('moderator_applications') as any)
                 .update({
                     status: 'approved',
                     reviewed_by: user?.id,

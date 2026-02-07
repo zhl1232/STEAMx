@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context";
 export type Notification = {
     id: number;
     user_id: string;
-    type: 'mention' | 'reply' | 'like' | 'follow' | 'system';
+    type: 'mention' | 'reply' | 'like' | 'follow' | 'system' | 'creator_update';
     content: string;
     related_type?: 'comment' | 'discussion_reply' | 'project' | 'discussion';
     related_id?: number;
@@ -95,8 +95,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const markAsRead = async (id: number) => {
         if (!user) return;
 
-        const { error } = await supabase
-            .from('notifications')
+        const { error } = await (supabase
+            .from('notifications') as any)
             .update({ is_read: true })
             .eq('id', id);
 
@@ -113,8 +113,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const markAllAsRead = async () => {
         if (!user) return;
 
-        const { error } = await supabase
-            .from('notifications')
+        const { error } = await (supabase
+            .from('notifications') as any)
             .update({ is_read: true })
             .eq('user_id', user.id)
             .eq('is_read', false);
@@ -130,8 +130,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     };
 
     const createNotification = async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
-        const { error } = await supabase
-            .from('notifications')
+        const { error } = await (supabase
+            .from('notifications') as any)
             .insert(notification);
 
         if (error) {

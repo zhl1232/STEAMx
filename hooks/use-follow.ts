@@ -5,12 +5,14 @@ import { useToast } from "@/hooks/use-toast";
 
 export function useFollow(targetUserId: string) {
     const supabase = createClient();
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const queryClient = useQueryClient();
     const { toast } = useToast();
 
-    // 1. Check if following
-    const { data: isFollowing, isLoading } = useQuery({
+    const isSelf = !!targetUserId && !!user && user.id === targetUserId;
+
+    // 1. Check if following（仅在看他人主页且已登录后请求，避免未登录时误显示「关注」）
+    const { data: isFollowing = false, isLoading: isFollowQueryLoading } = useQuery({
         queryKey: ['is_following', targetUserId, user?.id],
         queryFn: async () => {
             if (!user) return false;
@@ -26,12 +28,11 @@ export function useFollow(targetUserId: string) {
             }
             return !!data;
         },
-        enabled: !!user && !!targetUserId && user.id !== targetUserId,
-        initialData: false
+        enabled: !!targetUserId && !!user && !isSelf && !authLoading,
     });
 
-    // 2. Fetch follower count
-    const { data: followerCount } = useQuery({
+    // 2. Fetch follower count（有目标用户 ID 就请求，不依赖登录）
+    const { data: followerCount, isLoading: isFollowerCountLoading } = useQuery({
         queryKey: ['follower_count', targetUserId],
         queryFn: async () => {
              const { count, error } = await supabase
@@ -40,8 +41,9 @@ export function useFollow(targetUserId: string) {
                 .eq('following_id', targetUserId);
              
              if (error) console.error("Error fetching follower count:", error);
-             return count || 0;
+             return count ?? 0;
         },
+        enabled: !!targetUserId,
         initialData: 0
     });
 
@@ -94,10 +96,14 @@ export function useFollow(targetUserId: string) {
         }
     });
 
+    // 未登录或看自己时不显示关注状态；等 auth 完成后再显示，避免先显示「关注」再闪成「已关注」
+    const isLoading = authLoading ? true : (isSelf ? false : isFollowQueryLoading);
+
     return {
         isFollowing,
         isLoading,
-        followerCount,
+        isFollowerCountLoading,
+        followerCount: followerCount ?? 0,
         follow: () => followMutation.mutate(true),
         unfollow: () => followMutation.mutate(false),
         isPending: followMutation.isPending

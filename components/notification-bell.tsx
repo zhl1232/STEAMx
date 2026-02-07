@@ -34,7 +34,9 @@ export function NotificationBell() {
         }
 
         // Navigate to related content with hash anchor
-        if (notification.related_type === 'comment' && notification.project_id && notification.related_id) {
+        if (notification.type === 'creator_update' && notification.project_id) {
+            router.push(`/project/${notification.project_id}`);
+        } else if (notification.related_type === 'comment' && notification.project_id && notification.related_id) {
             router.push(`/project/${notification.project_id}#comment-${notification.related_id}`);
         } else if (notification.related_type === 'discussion_reply' && notification.discussion_id && notification.related_id) {
             router.push(`/community/discussion/${notification.discussion_id}#reply-${notification.related_id}`);

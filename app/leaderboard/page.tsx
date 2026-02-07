@@ -85,8 +85,7 @@ export default function LeaderboardPage() {
 
                 } else if (currentTab === "badges") {
                     // 2. 徽章榜 (调用 RPC)
-                    const { data, error } = await supabase
-                        .rpc('get_badge_leaderboard', { limit_count: 20 });
+                    const { data, error } = await (supabase.rpc as any)('get_badge_leaderboard', { limit_count: 20 });
 
                     if (error) throw error;
 

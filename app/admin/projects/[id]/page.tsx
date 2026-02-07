@@ -92,7 +92,7 @@ export default function EditProjectPage() {
             setDbSubCategories(subCats || [])
 
             // 2. Fetch Project
-            const { data, error } = await supabase
+            const { data, error } = await (supabase
                 .from('projects')
                 .select(`
           *,
@@ -108,7 +108,7 @@ export default function EditProjectPage() {
           )
         `)
                 .eq('id', id)
-                .single()
+                .single() as any)
 
             if (error) throw error
 
@@ -148,8 +148,8 @@ export default function EditProjectPage() {
         setSaving(true)
         try {
             // 1. Update Project Basic Info
-            const { error: projectError } = await supabase
-                .from('projects')
+            const { error: projectError } = await (supabase
+                .from('projects') as any)
                 .update({
                     title: formData.title,
                     description: formData.description,
@@ -175,7 +175,7 @@ export default function EditProjectPage() {
                     image_url: step.image_url,
                     sort_order: index + 1
                 }))
-                const { error: stepsError } = await supabase.from('project_steps').insert(stepsToInsert)
+                const { error: stepsError } = await ((supabase.from('project_steps') as any).insert(stepsToInsert))
                 if (stepsError) throw stepsError
             }
 
@@ -187,7 +187,7 @@ export default function EditProjectPage() {
                     material: mat.material,
                     sort_order: index + 1
                 }))
-                const { error: materialsError } = await supabase.from('project_materials').insert(materialsToInsert)
+                const { error: materialsError } = await ((supabase.from('project_materials') as any).insert(materialsToInsert))
                 if (materialsError) throw materialsError
             }
 

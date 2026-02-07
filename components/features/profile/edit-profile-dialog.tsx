@@ -47,10 +47,10 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       .single()
 
     if (data) {
-      setUsername(data.username || "")
-      setDisplayName(data.display_name || "")
-      setBio(data.bio || "")
-      setAvatarUrl(data.avatar_url || "")
+      setUsername((data as any).username || "")
+      setDisplayName((data as any).display_name || "")
+      setBio((data as any).bio || "")
+      setAvatarUrl((data as any).avatar_url || "")
     }
     setFetching(false)
   }

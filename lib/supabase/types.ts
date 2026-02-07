@@ -26,6 +26,7 @@ export interface Database {
           updated_at: string
           xp: number
           role: string
+          notify_followed_creator_updates: boolean
         }
         Insert: {
           id: string
@@ -37,6 +38,7 @@ export interface Database {
           updated_at?: string
           xp?: number
           role?: string
+          notify_followed_creator_updates?: boolean
         }
         Update: {
           id?: string
@@ -47,6 +49,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           xp?: number
+          notify_followed_creator_updates?: boolean
           role?: string
         }
       }
@@ -513,6 +516,173 @@ export interface Database {
         }
         Relationships: []
       }
+      xp_logs: {
+        Row: {
+          id: number
+          user_id: string
+          action_type: string
+          resource_id: string | null
+          xp_amount: number
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          action_type: string
+          resource_id?: string | null
+          xp_amount: number
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          action_type?: string
+          resource_id?: string | null
+          xp_amount?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          id: number
+          user_id: string
+          type: string
+          content: string
+          related_type: string | null
+          related_id: number | null
+          project_id: number | null
+          discussion_id: number | null
+          from_user_id: string | null
+          is_read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          type: string
+          content: string
+          related_type?: string | null
+          related_id?: number | null
+          project_id?: number | null
+          discussion_id?: number | null
+          from_user_id?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          type?: string
+          content?: string
+          related_type?: string | null
+          related_id?: number | null
+          project_id?: number | null
+          discussion_id?: number | null
+          from_user_id?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+        Relationships: []
+      },
+      moderator_applications: {
+        Row: {
+          id: number
+          user_id: string
+          level_at_application: number
+          xp_at_application: number
+          projects_published: number
+          projects_completed: number
+          comments_count: number
+          badges_count: number
+          account_age_days: number
+          motivation: string
+          status: string
+          reviewed_by: string | null
+          reviewed_at: string | null
+          rejection_reason: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          level_at_application: number
+          xp_at_application: number
+          projects_published: number
+          projects_completed: number
+          comments_count: number
+          badges_count: number
+          account_age_days: number
+          motivation: string
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          level_at_application?: number
+          xp_at_application?: number
+          projects_published?: number
+          projects_completed?: number
+          comments_count?: number
+          badges_count?: number
+          account_age_days?: number
+          motivation?: string
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "moderator_applications_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "moderator_applications_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      },
+      collections: {
+        Row: {
+          user_id: string
+          project_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          project_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          project_id?: number
+          created_at?: string
+        }
+        Relationships: [
+           {
+            foreignKeyName: "collections_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collections_project_id_fkey"
+            columns: ["project_id"]
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -573,6 +743,32 @@ export interface Database {
           xp: number
           project_count: number
         }[]
+      }
+      get_user_stats_summary: {
+        Args: { target_user_id: string }
+        Returns: {
+            projectsPublished: number
+            projectsLiked: number
+            projectsCompleted: number
+            commentsCount: number
+            scienceCompleted: number
+            techCompleted: number
+            engineeringCompleted: number
+            artCompleted: number
+            mathCompleted: number
+            likesGiven: number
+            likesReceived: number
+            collectionsCount: number
+            challengesJoined: number
+            loginDays: number
+            consecutiveDays: number
+            discussionsCreated: number
+            repliesCount: number
+        }
+      }
+      daily_check_in: {
+        Args: Record<string, never>
+        Returns: void
       }
     }
     Enums: {

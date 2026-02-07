@@ -11,13 +11,14 @@ import { EditProfileDialog } from '@/components/features/profile/edit-profile-di
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
-import { Award, Zap } from 'lucide-react'
+import { Award, Zap, Bell } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { createClient } from '@/lib/supabase/client'
+import { Checkbox } from '@/components/ui/checkbox'
 import type { Project } from '@/lib/types'
 import { mapProject, type DbProject } from '@/lib/mappers/project'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
@@ -39,6 +40,8 @@ export default function ProfilePage() {
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
   const [isInitialLoad, setIsInitialLoad] = useState(true)
+  const [notifyFollowedCreatorUpdates, setNotifyFollowedCreatorUpdates] = useState(true)
+  const [notifySettingSaving, setNotifySettingSaving] = useState(false)
 
   // 使用 ref 追踪是否已经加载过，避免重复请求
   const hasLoadedRef = useRef(false)
@@ -50,6 +53,21 @@ export default function ProfilePage() {
       router.push('/login')
     }
   }, [user, authLoading, router])
+
+  // 加载通知偏好（关注的人发布新作品时是否站内信通知）
+  useEffect(() => {
+    if (!user?.id) return
+    supabase
+      .from('profiles')
+      .select('notify_followed_creator_updates')
+      .eq('id', user.id)
+      .single()
+      .then(({ data }) => {
+        if (data && typeof (data as { notify_followed_creator_updates?: boolean }).notify_followed_creator_updates === 'boolean') {
+          setNotifyFollowedCreatorUpdates((data as { notify_followed_creator_updates: boolean }).notify_followed_creator_updates)
+        }
+      })
+  }, [user?.id])
 
   // 将 Set 转换为稳定的字符串作为依赖，避免引用变化导致的重复执行
   const likedIdsKey = React.useMemo(() => Array.from(likedProjects).sort().join(','), [likedProjects])
@@ -284,6 +302,37 @@ export default function ProfilePage() {
             <div className="text-2xl font-bold">{followingCount}</div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* 通知设置 */}
+      <div className="bg-card rounded-lg border p-6 mb-8">
+        <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
+          <Bell className="h-5 w-5 text-primary" />
+          通知设置
+        </h2>
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="notify-followed-creator"
+            checked={notifyFollowedCreatorUpdates}
+            disabled={notifySettingSaving}
+            onCheckedChange={async (checked) => {
+              const value = checked === true
+              setNotifySettingSaving(true)
+              const { error } = await supabase
+                .from('profiles')
+                .update({ notify_followed_creator_updates: value })
+                .eq('id', user!.id)
+              setNotifySettingSaving(false)
+              if (!error) setNotifyFollowedCreatorUpdates(value)
+            }}
+          />
+          <label
+            htmlFor="notify-followed-creator"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+          >
+            关注的人发布新作品时，在站内信通知我
+          </label>
+        </div>
       </div>
 
       {/* 徽章展示 */}

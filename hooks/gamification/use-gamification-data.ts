@@ -20,11 +20,11 @@ export function useGamificationData() {
     const { data: unlockedBadges } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
         queryFn: async () => {
-            const { data } = await supabase
-                .from('user_badges')
+            const { data } = await (supabase
+                .from('user_badges') as any)
                 .select('badge_id')
                 .eq('user_id', user!.id);
-            return new Set(data?.map(b => b.badge_id) || []);
+            return new Set(data?.map((b: any) => b.badge_id) || []);
         },
         enabled,
         staleTime: 1000 * 60 * 30, // 30 minutes (badges don't change often without action)
@@ -35,7 +35,7 @@ export function useGamificationData() {
         queryKey: ['gamification', 'stats', user?.id],
         queryFn: async (): Promise<UserStats> => {
             // Efficiently fetch all stats using the dedicated RPC
-            const { data, error } = await supabase.rpc('get_user_stats_summary', {
+            const { data, error } = await (supabase.rpc as any)('get_user_stats_summary', {
                 target_user_id: user!.id
             });
 
@@ -76,8 +76,8 @@ export function useGamificationData() {
     // Mutations
     const updateXpMutation = useMutation({
         mutationFn: async (newXp: number) => {
-            const { error } = await supabase
-                .from('profiles')
+            const { error } = await (supabase
+                .from('profiles') as any)
                 .update({ xp: newXp })
                 .eq('id', user!.id);
             if (error) throw error;
@@ -103,8 +103,8 @@ export function useGamificationData() {
 
     const unlockBadgeMutation = useMutation({
         mutationFn: async (badgeId: string) => {
-            const { error } = await supabase
-                .from('user_badges')
+            const { error } = await (supabase
+                .from('user_badges') as any)
                 .insert({
                     user_id: user!.id,
                     badge_id: badgeId,

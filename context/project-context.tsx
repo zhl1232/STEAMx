@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { type Database } from "@/lib/supabase/types";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { callRpc } from "@/lib/supabase/rpc";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
@@ -45,7 +47,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     const [collectedProjects, setCollectedProjects] = useState<Set<string | number>>(new Set());
     const [isLoading, setIsLoading] = useState(true);
 
-    const [supabase] = useState(() => createClient());
+    const [supabase] = useState<SupabaseClient<Database>>(() => createClient());
     const { user, profile } = useAuth();
     const { addXp, checkBadges } = useGamification();
     const { createNotification } = useNotifications();
@@ -73,13 +75,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             ]);
 
             if (likesResponse.data) {
-                setLikedProjects(new Set(likesResponse.data.map(l => l.project_id)));
+                setLikedProjects(new Set((likesResponse.data as any[]).map((l: any) => l.project_id)));
             }
             if (completedResponse.data) {
-                setCompletedProjects(new Set(completedResponse.data.map(c => c.project_id)));
+                setCompletedProjects(new Set((completedResponse.data as any[]).map((c: any) => c.project_id)));
             }
             if (collectionsResponse.data) {
-                setCollectedProjects(new Set(collectionsResponse.data.map(c => c.project_id)));
+                setCollectedProjects(new Set((collectionsResponse.data as any[]).map((c: any) => c.project_id)));
             }
         } catch (error) {
             console.error('Error fetching user interactions:', error);
@@ -121,9 +123,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
         try {
             // 1. 使用优化的 RPC 获取所有统计数据 (1个请求替代原来的 9 个)
-            const { data: statsData, error } = await supabase.rpc('get_user_stats_summary', {
+            const { data: statsData, error } = await ((supabase.rpc as any)('get_user_stats_summary', {
                 target_user_id: user.id
-            });
+            }));
 
             if (error) {
                 console.error('RPC error fetching user stats:', error);
@@ -133,25 +135,26 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             if (!statsData) return defaultStats;
 
             // statsData 是 JSONB 类型，直接匹配我们的结构
+            const data = statsData as any;
             return {
-                projectsPublished: statsData.projectsPublished || 0,
-                projectsLiked: statsData.projectsLiked || 0,
-                projectsCompleted: statsData.projectsCompleted || 0,
-                commentsCount: statsData.commentsCount || 0,
-                scienceCompleted: statsData.scienceCompleted || 0,
-                techCompleted: statsData.techCompleted || 0,
-                engineeringCompleted: statsData.engineeringCompleted || 0,
-                artCompleted: statsData.artCompleted || 0,
-                mathCompleted: statsData.mathCompleted || 0,
-                likesGiven: statsData.likesGiven || 0,
-                likesReceived: statsData.likesReceived || 0,
-                collectionsCount: statsData.collectionsCount || 0,
-                challengesJoined: statsData.challengesJoined || 0,
+                projectsPublished: data.projectsPublished || 0,
+                projectsLiked: data.projectsLiked || 0,
+                projectsCompleted: data.projectsCompleted || 0,
+                commentsCount: data.commentsCount || 0,
+                scienceCompleted: data.scienceCompleted || 0,
+                techCompleted: data.techCompleted || 0,
+                engineeringCompleted: data.engineeringCompleted || 0,
+                artCompleted: data.artCompleted || 0,
+                mathCompleted: data.mathCompleted || 0,
+                likesGiven: data.likesGiven || 0,
+                likesReceived: data.likesReceived || 0,
+                collectionsCount: data.collectionsCount || 0,
+                challengesJoined: data.challengesJoined || 0,
                 level: 1, // gamification context handles this
-                loginDays: statsData.loginDays || 0,
-                consecutiveDays: statsData.consecutiveDays || 0,
-                discussionsCreated: statsData.discussionsCreated || 0,
-                repliesCount: statsData.repliesCount || 0
+                loginDays: data.loginDays || 0,
+                consecutiveDays: data.consecutiveDays || 0,
+                discussionsCreated: data.discussionsCreated || 0,
+                repliesCount: data.repliesCount || 0
             };
 
         } catch (error) {
@@ -164,8 +167,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         if (!user) return;
 
         // 1. Insert Project
-        const { data: newProject, error } = await supabase
-            .from('projects')
+        const { data: newProject, error } = await (supabase
+            .from('projects') as any)
             .insert({
                 title: project.title,
                 description: project.description,
@@ -188,8 +191,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
         // 2. Insert Materials
         if (project.materials && project.materials.length > 0) {
-            await supabase
-                .from('project_materials')
+            await (supabase
+                .from('project_materials') as any)
                 .insert(project.materials.map((m, index) => ({
                     project_id: newProject.id,
                     material: m,
@@ -199,8 +202,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
         // 3. Insert Steps
         if (project.steps && project.steps.length > 0) {
-            await supabase
-                .from('project_steps')
+            await (supabase
+                .from('project_steps') as any)
                 .insert(project.steps.map((s, index) => ({
                     project_id: newProject.id,
                     title: s.title,
@@ -220,7 +223,35 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             ...stats,
             projectsPublished: stats.projectsPublished + 1
         });
-    }, [supabase, user, addXp, checkBadges, getUserStats]);
+
+        // 通知关注者：仅通知开启了「关注的人发布新作品」的用户
+        const authorName = profile?.display_name || user.email?.split("@")[0] || "某用户";
+        const { data: followRows } = await supabase
+            .from("follows")
+            .select("follower_id")
+            .eq("following_id", user.id);
+        if (followRows?.length) {
+            const { data: prefs } = await supabase
+                .from("profiles")
+                .select("id")
+                .in("id", followRows.map((r) => r.follower_id))
+                .or("notify_followed_creator_updates.eq.true,notify_followed_creator_updates.is.null");
+            const recipientIds = new Set((prefs || []).map((p) => p.id));
+            const notifications = Array.from(recipientIds).map((userId) =>
+                createNotification({
+                    user_id: userId,
+                    type: "creator_update",
+                    content: `${authorName} 发布了新作品：${project.title}`,
+                    related_type: "project",
+                    project_id: newProject.id,
+                    from_user_id: user.id,
+                    from_username: authorName,
+                    from_avatar: profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined),
+                })
+            );
+            await Promise.all(notifications);
+        }
+    }, [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification]);
 
     const updateProject = useCallback(async (projectId: string | number, project: Project) => {
         if (!user) return;
@@ -228,8 +259,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         const pid = typeof projectId === 'string' ? parseInt(projectId) : projectId;
 
         // 1. Update Project Basic Info
-        const { error: projectError } = await supabase
-            .from('projects')
+        const { error: projectError } = await (supabase
+            .from('projects') as any)
             .update({
                 title: project.title,
                 description: project.description,
@@ -253,8 +284,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         // 2. Update Materials
         await supabase.from('project_materials').delete().eq('project_id', pid);
         if (project.materials && project.materials.length > 0) {
-            await supabase
-                .from('project_materials')
+            await (supabase
+                .from('project_materials') as any)
                 .insert(project.materials.map((m, index) => ({
                     project_id: pid,
                     material: m,
@@ -265,8 +296,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         // 3. Update Steps
         await supabase.from('project_steps').delete().eq('project_id', pid);
         if (project.steps && project.steps.length > 0) {
-            await supabase
-                .from('project_steps')
+            await (supabase
+                .from('project_steps') as any)
                 .insert(project.steps.map((s, index) => ({
                     project_id: pid,
                     title: s.title,
@@ -286,8 +317,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     const addComment = useCallback(async (projectId: string | number, comment: Comment, parentId?: number) => {
         if (!user) return null;
 
-        const { data: newComment, error } = await supabase
-            .from('comments')
+        const { data: newComment, error } = await (supabase
+            .from('comments') as any)
             .insert({
                 project_id: projectId,
                 author_id: user.id,
@@ -361,7 +392,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('likes').delete().eq('user_id', user.id).eq('project_id', pid);
             await callRpc(supabase, 'decrement_project_likes', { project_id: pid });
         } else {
-            await supabase.from('likes').insert({ user_id: user.id, project_id: pid });
+            await ((supabase.from('likes') as any).insert({ user_id: user.id, project_id: pid }));
             await callRpc(supabase, 'increment_project_likes', { project_id: pid });
             addXp(1, "点赞项目", "like_project", pid);
 
@@ -391,7 +422,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         if (isCollected) {
             await supabase.from('collections').delete().eq('user_id', user.id).eq('project_id', pid);
         } else {
-            await supabase.from('collections').insert({ user_id: user.id, project_id: pid });
+            await ((supabase.from('collections') as any).insert({ user_id: user.id, project_id: pid }));
 
             // 检查收藏相关徽章
             const stats = await getUserStats();
@@ -420,7 +451,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         });
 
         try {
-            const { error } = await supabase.from('completed_projects').insert({
+            const { error } = await (supabase.from('completed_projects') as any).insert({
                 user_id: user.id,
                 project_id: pid,
                 proof_images: proof.images,
@@ -451,11 +482,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 finalStats.projectsCompleted = stats.projectsCompleted + 1;
 
                 // 还要手动补分类
-                const { data: project } = await supabase
+                const { data: project } = await (supabase
                     .from('projects')
                     .select('category')
                     .eq('id', pid)
-                    .single();
+                    .single() as any);
 
                 if (project?.category) {
                     switch (project.category) {
@@ -535,7 +566,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             if (p.comments?.some(c => c.id === cid)) {
                 return {
                     ...p,
-                    comments: p.comments.filter(c => c.id !== cid)
+                    comments: p.comments ? p.comments.filter(c => c.id !== cid) : []
                 };
             }
             return p;
