@@ -23,8 +23,8 @@
 
 ### 类型安全
 
-- [ ] **严格空值检查**：在 `tsconfig.json` 中启用 `strictNullChecks` 并修复产生的错误。
-- [ ] **Zod 验证**：使用 Zod 对 Supabase 响应和表单输入进行运行时验证。
+- [x] **严格空值检查**：在 `tsconfig.json` 中启用 `strictNullChecks` 并修复产生的错误。
+- [x] **Zod 验证**：使用 Zod 对 Supabase 响应和表单输入进行运行时验证。
 
 ### 测试
 

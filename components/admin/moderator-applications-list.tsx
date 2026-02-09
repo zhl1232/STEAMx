@@ -58,8 +58,8 @@ export function ModeratorApplicationsList() {
     const fetchApplications = useCallback(async () => {
         setIsLoading(true);
         try {
-            const { data, error } = await supabase
-                .from('moderator_applications')
+            const { data, error } = await (supabase
+                .from('moderator_applications') as any)
                 .select(`
           *,
           profiles:user_id (display_name, avatar_url)
@@ -90,8 +90,8 @@ export function ModeratorApplicationsList() {
 
         try {
             // 1. 更新用户角色为 moderator
-            const { error: roleError } = await supabase
-                .from('profiles')
+            const { error: roleError } = await (supabase
+                .from('profiles') as any)
                 .update({ role: 'moderator' })
                 .eq('id', app.user_id);
 
@@ -99,8 +99,8 @@ export function ModeratorApplicationsList() {
 
             // 2. 更新申请状态
             const { data: { user } } = await supabase.auth.getUser();
-            const { error: appError } = await supabase
-                .from('moderator_applications')
+            const { error: appError } = await (supabase
+                .from('moderator_applications') as any)
                 .update({
                     status: 'approved',
                     reviewed_by: user?.id,
@@ -146,8 +146,8 @@ export function ModeratorApplicationsList() {
 
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            const { error } = await supabase
-                .from('moderator_applications')
+            const { error } = await (supabase
+                .from('moderator_applications') as any)
                 .update({
                     status: 'rejected',
                     reviewed_by: user?.id,

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle2, Mail, Lock } from 'lucide-react'
 import Link from 'next/link'
+import { LoginSchema, ResetPasswordSchema } from '@/lib/schemas'
 
 type AuthView = 'sign_in' | 'sign_up' | 'forgot_password'
 
@@ -25,7 +26,13 @@ export default function LoginPage() {
     setMessage(null)
 
     try {
+      // Zod Validation
       if (view === 'sign_in') {
+        const result = LoginSchema.safeParse({ email, password });
+        if (!result.success) {
+          throw new Error(result.error.issues[0].message);
+        }
+
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -36,6 +43,11 @@ export default function LoginPage() {
         window.location.href = '/'
         return // 不需要 setLoading(false)，因为页面会刷新
       } else if (view === 'sign_up') {
+        const result = LoginSchema.safeParse({ email, password });
+        if (!result.success) {
+          throw new Error(result.error.issues[0].message);
+        }
+
         // Auto-generate username (Account ID)
         const username = `user_${Math.random().toString(36).slice(2, 10)}`
         
@@ -60,6 +72,11 @@ export default function LoginPage() {
           return
         }
       } else if (view === 'forgot_password') {
+        const result = ResetPasswordSchema.safeParse({ email });
+        if (!result.success) {
+          throw new Error(result.error.issues[0].message);
+        }
+
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/auth/callback?next=/profile/reset-password`,
         })

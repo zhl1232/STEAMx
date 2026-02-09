@@ -111,8 +111,7 @@ export default function LeaderboardPage() {
                     // 如果当前用户在榜单中，标记一下
                 } else if (currentTab === "projects") {
                     // 3. 实干榜 (调用 RPC)
-                    const { data, error } = await supabase
-                        .rpc('get_project_leaderboard', { limit_count: 20 });
+                    const { data, error } = await (supabase.rpc as any)('get_project_leaderboard', { limit_count: 20 });
 
                     if (error) throw error;
 

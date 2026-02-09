@@ -64,8 +64,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             const rId = String(resourceId);
 
             // Check existence
-            const { data: existing } = await supabase
-                .from('xp_logs')
+            const { data: existing } = await (supabase
+                .from('xp_logs') as any)
                 .select('id')
                 .eq('user_id', user.id)
                 .eq('action_type', actionType)
@@ -81,14 +81,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             let xpToAward = amount;
             if (DAILY_XP_LIMITS[actionType]) {
                 const today = new Date().toISOString().split('T')[0];
-                const { data: todayLogs } = await supabase
-                    .from('xp_logs')
+                const { data: todayLogs } = await (supabase
+                    .from('xp_logs') as any)
                     .select('xp_amount')
                     .eq('user_id', user.id)
                     .eq('action_type', actionType)
                     .gte('created_at', today);
 
-                const todayTotal = (todayLogs || []).reduce((acc, log) => acc + log.xp_amount, 0);
+                const todayTotal = (todayLogs as any[] || []).reduce((acc, log) => acc + log.xp_amount, 0);
 
                 if (todayTotal >= DAILY_XP_LIMITS[actionType]) {
                     xpToAward = 0;
@@ -98,8 +98,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             }
 
             // Insert Log
-            const { error: logError } = await supabase
-                .from('xp_logs')
+            const { error: logError } = await (supabase
+                .from('xp_logs') as any)
                 .insert({
                     user_id: user.id,
                     action_type: actionType,

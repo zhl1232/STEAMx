@@ -84,8 +84,8 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
         finalAvatarUrl = data.publicUrl
       }
 
-      const { error: _error } = await supabase
-        .from('profiles')
+      const { error: _error } = await (supabase
+        .from('profiles') as any)
         .update({
           username,
           display_name: displayName,

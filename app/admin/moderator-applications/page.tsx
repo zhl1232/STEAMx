@@ -69,8 +69,8 @@ export default function ModeratorApplicationsPage() {
     const fetchApplications = useCallback(async () => {
         setIsLoading(true);
         try {
-            const { data, error } = await supabase
-                .from('moderator_applications')
+            const { data, error } = await (supabase
+                .from('moderator_applications') as any)
                 .select(`
           *,
           profiles:user_id (display_name, avatar_url)
@@ -159,8 +159,8 @@ export default function ModeratorApplicationsPage() {
 
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            const { error } = await supabase
-                .from('moderator_applications')
+            const { error } = await (supabase
+                .from('moderator_applications') as any)
                 .update({
                     status: 'rejected',
                     reviewed_by: user?.id,

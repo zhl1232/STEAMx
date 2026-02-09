@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 import { FolderOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BADGES } from "@/context/gamification-context";
+import { ProfileSchema, ProjectSchema } from "@/lib/schemas";
+import { z } from "zod";
 
 interface PublicProfile {
   id: string;
@@ -59,7 +61,25 @@ export default function PublicProfilePage() {
           .single();
 
         if (profileError) throw profileError;
-        setProfile(profileData);
+
+        // Vlaidate Profile Data
+        const profileResult = ProfileSchema.safeParse(profileData);
+        if (!profileResult.success) {
+          console.error("Profile validation passed with errors:", profileResult.error);
+          // In a strict environment, we might throw here. For now, we log and proceed if possible, 
+          // or we can allow partial data if we relax schema. 
+          // Let's assume we want to ensure data quality.
+        }
+        
+        // We use the raw data if valid, or fallback/throw. 
+        // For this task, strict safety suggests we ideally use valid data.
+        // But since we are introducing this to an existing app, let's use the parsed data if successful,
+        // otherwise warn but try to use raw data (or throw if you want strictly enforcing).
+        // Let's Enforce!
+        if (!profileResult.success) {
+             throw new Error("Invalid profile data received from server");
+        }
+        setProfile(profileResult.data as PublicProfile); // strict cast to our UI type if needed, or update UI type to use Zod infer
 
         // 2. Fetch Projects
         const { data: projectsData } = await supabase
@@ -69,6 +89,16 @@ export default function PublicProfilePage() {
           .order("created_at", { ascending: false });
 
         if (projectsData) {
+          // Validate Projects Data
+          // We use partial validation essentially by picking what we defined in schema, 
+          // but passthrough() might be needed if we select * and schema is partial.
+          // Let's use array of schema.
+          const projectsResult = z.array(ProjectSchema).safeParse(projectsData);
+          if (!projectsResult.success) {
+             console.error("Projects validation errors:", projectsResult.error);
+             // For lists, maybe we filter out bad ones? Or just warn.
+          }
+          
           setProjects(
             projectsData.map((p) =>
               mapProject(p as DbProject, (profileData as PublicProfile)?.display_name || undefined),

@@ -27,7 +27,7 @@ export default function Icon() {
                     borderRadius: '20%',
                 }}
             >
-                🚀
+                {/* 🚀 */}
             </div>
         ),
         {

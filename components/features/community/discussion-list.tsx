@@ -141,7 +141,7 @@ export function DiscussionList() {
                 .select('tags');
 
             if (data) {
-                const allTags = data.flatMap(d => d.tags || []);
+                const allTags = (data as any[]).flatMap(d => d.tags || []);
                 const uniqueTags = Array.from(new Set(allTags)).slice(0, 10); // Limit to 10 most common
                 setAvailableTags(uniqueTags);
             }
@@ -176,8 +176,8 @@ export function DiscussionList() {
         e.preventDefault();
         if (!newTitle.trim() || !newContent.trim() || !user) return;
 
-        const { error } = await supabase
-            .from('discussions')
+        const { error } = await (supabase
+            .from('discussions') as any)
             .insert({
                 title: newTitle,
                 content: newContent,

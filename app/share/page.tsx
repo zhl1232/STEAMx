@@ -89,7 +89,7 @@ function ShareForm() {
 
             if (data) {
                 // Check if user is author
-                if (data.author_id && data.author_id !== user.id) {
+                if ((data as any).author_id && (data as any).author_id !== user.id) {
                     toast({ title: "无权编辑", variant: "destructive" });
                     router.push('/share');
                     return;

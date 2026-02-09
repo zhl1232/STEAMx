@@ -19,12 +19,12 @@ export function useGamificationData() {
     // 2. Fetch Unlocked Badges
     const { data: unlockedBadges } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
-        queryFn: async () => {
+        queryFn: async (): Promise<Set<string>> => {
             const { data } = await (supabase
                 .from('user_badges') as any)
                 .select('badge_id')
                 .eq('user_id', user!.id);
-            return new Set(data?.map((b: any) => b.badge_id) || []);
+            return new Set((data?.map((b: any) => b.badge_id) || []) as string[]);
         },
         enabled,
         staleTime: 1000 * 60 * 30, // 30 minutes (badges don't change often without action)

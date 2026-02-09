@@ -38,7 +38,7 @@ export function FollowingFeed() {
 
                 if (followingError) throw followingError;
 
-                const followingIds = followingData?.map((f) => f.following_id) || [];
+                const followingIds = (followingData as any[])?.map((f) => f.following_id) || [];
                 setFollowingCount(followingIds.length);
 
                 if (followingIds.length === 0) {
@@ -59,8 +59,8 @@ export function FollowingFeed() {
                 if (projectsError) throw projectsError;
 
                 if (projectsData) {
-                    const mapped = projectsData.map((p) => {
-                        const authorName = (p.profiles as { display_name: string | null } | null)?.display_name || undefined;
+                    const mapped = projectsData.map((p: any) => {
+                        const authorName = p.profiles?.display_name || undefined;
                         return mapProject(p as DbProject, authorName);
                     });
                     setProjects(mapped);

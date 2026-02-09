@@ -234,9 +234,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             const { data: prefs } = await supabase
                 .from("profiles")
                 .select("id")
-                .in("id", followRows.map((r) => r.follower_id))
+                .in("id", (followRows as any[]).map((r) => r.follower_id))
                 .or("notify_followed_creator_updates.eq.true,notify_followed_creator_updates.is.null");
-            const recipientIds = new Set((prefs || []).map((p) => p.id));
+            const prefsData = prefs as { id: string }[] | null;
+            const recipientIds = new Set((prefsData || []).map((p) => p.id));
             const notifications = Array.from(recipientIds).map((userId) =>
                 createNotification({
                     user_id: userId,

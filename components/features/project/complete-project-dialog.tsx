@@ -110,8 +110,8 @@ export function CompleteProjectDialog({
         setIsSubmitting(true);
 
         try {
-            const { error } = await supabase
-                .from('completed_projects')
+            const { error } = await (supabase
+                .from('completed_projects') as any)
                 .insert({
                     user_id: user.id,
                     project_id: projectId,

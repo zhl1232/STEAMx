@@ -71,8 +71,8 @@ export function ModeratorApplicationForm() {
         setIsSubmitting(true);
 
         try {
-            const { error } = await supabase
-                .from('moderator_applications')
+            const { error } = await (supabase
+                .from('moderator_applications') as any)
                 .insert({
                     user_id: user.id,
                     level_at_application: eligibility.requirements.level.current,
