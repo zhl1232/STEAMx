@@ -166,3 +166,14 @@ export interface ChallengeParticipant {
   challenge_id: number;
   joined_at?: string;
 }
+
+/**
+ * 私信消息
+ */
+export interface Message {
+  id: number;
+  sender_id: string;
+  receiver_id: string;
+  content: string;
+  created_at: string;
+}

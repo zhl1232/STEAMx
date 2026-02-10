@@ -187,6 +187,43 @@ export interface Database {
           }
         ]
       }
+      messages: {
+        Row: {
+          id: number
+          sender_id: string
+          receiver_id: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          sender_id: string
+          receiver_id: string
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          sender_id?: string
+          receiver_id?: string
+          content?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_receiver_id_fkey"
+            columns: ["receiver_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       project_materials: {
         Row: {
           id: number

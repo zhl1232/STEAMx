@@ -244,10 +244,15 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* 编辑按钮 */}
-          <EditProfileDialog>
-            <Button variant="outline">编辑资料</Button>
-          </EditProfileDialog>
+          {/* 编辑与私信 */}
+          <div className="flex items-center gap-2">
+            <EditProfileDialog>
+              <Button variant="outline">编辑资料</Button>
+            </EditProfileDialog>
+            <Button variant="outline" asChild>
+              <Link href="/messages?tab=dm">私信</Link>
+            </Button>
+          </div>
         </div>
       </div>
 

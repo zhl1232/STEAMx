@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Settings, Zap, ChevronRight } from "lucide-react";
+import { Settings, Zap, ChevronRight, MessageCircle } from "lucide-react";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
 import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
@@ -82,13 +83,19 @@ export function ProfileHeader({
                         <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full bg-green-500 border-[3px] border-background" />
                     </div>
 
-                    {/* Edit Button */}
-                    <div className="mb-2">
+                    {/* Edit & Messages */}
+                    <div className="mb-2 flex items-center gap-2">
                         <EditProfileDialog>
                             <Button variant="outline" size="sm" className="rounded-full px-6 font-medium shadow-sm active:scale-95 transition-transform h-9">
                                 编辑资料
                             </Button>
                         </EditProfileDialog>
+                        <Button variant="outline" size="sm" className="rounded-full px-6 font-medium shadow-sm active:scale-95 transition-transform h-9" asChild>
+                            <Link href="/messages?tab=dm">
+                                <MessageCircle className="h-4 w-4 mr-1.5" />
+                                私信
+                            </Link>
+                        </Button>
                     </div>
                 </div>
 

@@ -50,6 +50,15 @@ export const CreateProjectSchema = z.object({
   steps: z.array(ProjectStepSchema).max(50).optional().default([]),
 });
 
+// 私信消息（Supabase 响应校验）
+export const MessageSchema = z.object({
+  id: z.number().int(),
+  sender_id: z.string().uuid(),
+  receiver_id: z.string().uuid(),
+  content: z.string().min(1).max(2000),
+  created_at: z.string(),
+});
+
 // --- Form Schemas ---
 
 export const LoginSchema = z.object({

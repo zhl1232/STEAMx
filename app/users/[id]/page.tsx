@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Project } from "@/lib/types";
 import { mapProject, DbProject } from "@/lib/mappers/project";
+import { Button } from "@/components/ui/button";
 import { ProfileSkeleton } from "@/components/features/profile/profile-skeleton";
 import { ProjectCard } from "@/components/features/project-card";
 import { FollowButton } from "@/components/features/social/follow-button";
@@ -13,7 +15,7 @@ import { FollowButton } from "@/components/features/social/follow-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
-import { FolderOpen } from "lucide-react";
+import { FolderOpen, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BADGES } from "@/context/gamification-context";
 import { ProfileSchema, ProjectSchema } from "@/lib/schemas";
@@ -194,12 +196,20 @@ export default function PublicProfilePage() {
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-2">
               <FollowButton
                 targetUserId={profile.id}
                 showCount={false}
                 className="w-full md:w-auto px-8"
               />
+              {currentUser && currentUser.id !== userId && (
+                <Button variant="outline" className="w-full md:w-auto px-8" asChild>
+                  <Link href={`/messages/${userId}`}>
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    发私信
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>

@@ -22,13 +22,17 @@ export function MainNav() {
             active: pathname === "/community",
         },
         {
+            href: "/messages?tab=dm",
+            label: "私信",
+            active: pathname === "/messages" || pathname?.startsWith("/messages/"),
+        },
+        {
             href: "/leaderboard",
             label: "排行榜",
             active: pathname === "/leaderboard",
         },
-
     ].filter(route => {
-        if (!user && route.href === '/leaderboard') {
+        if (!user && (route.href === '/leaderboard' || route.href === '/messages')) {
             return false;
         }
         return true;

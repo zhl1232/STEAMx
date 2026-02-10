@@ -6,7 +6,8 @@ import {
   LogOut,
   User as UserIcon,
   Loader2,
-  LayoutDashboard
+  LayoutDashboard,
+  MessageCircle
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -73,6 +74,12 @@ export function UserButton() {
           <Link href="/profile" className="cursor-pointer">
             <UserIcon className="mr-2 h-4 w-4" />
             <span>个人中心</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/messages?tab=dm" className="cursor-pointer">
+            <MessageCircle className="mr-2 h-4 w-4" />
+            <span>私信</span>
           </Link>
         </DropdownMenuItem>
 

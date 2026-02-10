@@ -113,9 +113,7 @@ export default function RootLayout({
                                                                             <ShareButton />
                                                                         </div>
                                                                         <NotificationBell />
-                                                                        <div className="hidden md:block">
-                                                                            <UserButton />
-                                                                        </div>
+                                                                        <UserButton />
                                                                     </nav>
                                                                 </div>
                                                             </div>
