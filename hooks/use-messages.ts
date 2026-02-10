@@ -33,9 +33,11 @@ export function useConversations() {
       if (msgError) throw msgError;
       if (!messages?.length) return [];
 
+      type MsgRow = { sender_id: string; receiver_id: string; content: string; created_at: string };
+      const rows = messages as MsgRow[];
       const peerIds = new Set<string>();
       const latestByPeer = new Map<string, { content: string; created_at: string }>();
-      for (const m of messages) {
+      for (const m of rows) {
         const peer = m.sender_id === user.id ? m.receiver_id : m.sender_id;
         if (peerIds.has(peer)) continue;
         peerIds.add(peer);
@@ -49,8 +51,9 @@ export function useConversations() {
         .in("id", ids);
 
       if (profError) throw profError;
+      type ProfRow = { id: string; display_name: string | null; avatar_url: string | null };
       const profileMap = new Map(
-        (profiles || []).map((p) => [p.id, { displayName: p.display_name, avatarUrl: p.avatar_url }])
+        ((profiles || []) as ProfRow[]).map((p) => [p.id, { displayName: p.display_name, avatarUrl: p.avatar_url }])
       );
 
       return ids
@@ -102,7 +105,9 @@ export function useConversationMessages(otherUserId: string | undefined) {
 
       if (res1.error) throw res1.error;
       if (res2.error) throw res2.error;
-      const merged = [...(res1.data || []), ...(res2.data || [])].sort(
+      type MsgRow = { id: number; sender_id: string; receiver_id: string; content: string; created_at: string };
+      const merged = [...(res1.data || []), ...(res2.data || [])] as MsgRow[];
+      merged.sort(
         (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       );
       const parsed = merged.map((row) => {
@@ -144,7 +149,7 @@ export function useSendMessage(options?: { onSuccess?: () => void }) {
           sender_id: user.id,
           receiver_id: receiverId,
           content: trimmed,
-        })
+        } as never)
         .select("id, sender_id, receiver_id, content, created_at")
         .single();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
@@ -41,7 +41,7 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
   return [];
 }
 
-export default function MessagesPage() {
+function MessagesContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -274,5 +274,21 @@ export default function MessagesPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function MessagesPage() {
+  return (
+    <Suspense fallback={
+      <div className="container max-w-2xl mx-auto py-8 px-4">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 w-48 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
+        </div>
+      </div>
+    }>
+      <MessagesContent />
+    </Suspense>
   );
 }

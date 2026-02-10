@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Settings, Zap, ChevronRight } from "lucide-react";
@@ -45,10 +45,11 @@ export function ProfileHeader({
         <>
             {/* 1. Cover Image Area */}
             <div className="relative h-32 w-full overflow-hidden">
-                <Image
+                <OptimizedImage
                     src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2000&auto=format&fit=crop"
                     alt="Cover"
                     fill
+                    variant="cover"
                     className="object-cover"
                     priority
                 />
@@ -68,11 +69,12 @@ export function ProfileHeader({
                     {/* Avatar (Overlapping) */}
                     <div className="relative">
                         {userAvatar ? (
-                            <Image
+                            <OptimizedImage
                                 src={userAvatar}
                                 alt={userName}
                                 width={96}
                                 height={96}
+                                variant="avatar"
                                 className="rounded-full border-4 border-background shadow-lg object-cover bg-background"
                             />
                         ) : (

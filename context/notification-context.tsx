@@ -97,7 +97,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
         const { error } = await supabase
             .from('notifications')
-            .update({ is_read: true })
+            .update({ is_read: true } as never)
             .eq('id', id);
 
         if (error) {
@@ -115,7 +115,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
         const { error } = await supabase
             .from('notifications')
-            .update({ is_read: true })
+            .update({ is_read: true } as never)
             .eq('user_id', user.id)
             .eq('is_read', false);
 
@@ -132,7 +132,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const createNotification = async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
         const { error } = await supabase
             .from('notifications')
-            .insert(notification);
+            .insert(notification as never);
 
         if (error) {
             console.error('Error creating notification:', error);

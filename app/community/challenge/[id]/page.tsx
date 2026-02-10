@@ -9,7 +9,7 @@ import { Users, Trophy, ArrowLeft, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { CountdownTimer } from "@/components/ui/countdown-timer";
@@ -51,10 +51,11 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-                        <Image
+                        <OptimizedImage
                             src={challenge.image}
                             alt={challenge.title}
                             fill
+                            variant="cover"
                             className="object-cover"
                         />
                         {challenge.endDate && (

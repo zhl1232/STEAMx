@@ -49,8 +49,8 @@ class Logger {
         })
 
         // 如果集成了 Sentry
-        if (typeof window !== 'undefined' && (window as Window & { Sentry?: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry) {
-            const Sentry = (window as Window & { Sentry: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry
+        if (typeof window !== 'undefined' && (window as unknown as { Sentry?: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry) {
+            const Sentry = (window as unknown as { Sentry: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry
             if (error instanceof Error) {
                 Sentry.captureException(error, { extra: context })
             } else {

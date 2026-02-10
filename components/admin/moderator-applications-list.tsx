@@ -92,7 +92,7 @@ export function ModeratorApplicationsList() {
             // 1. 更新用户角色为 moderator
             const { error: roleError } = await supabase
                 .from('profiles')
-                .update({ role: 'moderator' })
+                .update({ role: 'moderator' } as never)
                 .eq('id', app.user_id);
 
             if (roleError) throw roleError;
@@ -105,7 +105,7 @@ export function ModeratorApplicationsList() {
                     status: 'approved',
                     reviewed_by: user?.id,
                     reviewed_at: new Date().toISOString()
-                })
+                } as never)
                 .eq('id', app.id);
 
             if (appError) throw appError;
@@ -153,7 +153,7 @@ export function ModeratorApplicationsList() {
                     reviewed_by: user?.id,
                     reviewed_at: new Date().toISOString(),
                     rejection_reason: rejectReason.trim()
-                })
+                } as never)
                 .eq('id', selectedApp.id);
 
             if (error) throw error;

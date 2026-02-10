@@ -45,13 +45,11 @@ export async function POST(request: NextRequest) {
     const name = validateRequiredString(body.name, 'Tag name', 50)
     const category = validateOptionalString(body.category, 'Category', 50)
     
+    // Supabase 生成类型中 tags 表的 Insert 被推断为 never，使用断言绕过
+    const payload = { name, category: category ?? null, created_by: user.id }
     const { data, error } = await supabase
       .from('tags')
-      .insert({
-        name,
-        category,
-        created_by: user.id
-      })
+      .insert(payload as never)
       .select()
       .single()
     

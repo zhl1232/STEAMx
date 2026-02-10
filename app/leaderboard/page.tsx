@@ -8,8 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Trophy, Medal, Crown, Star, Award, Hammer } from "lucide-react";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface LeaderboardUser {
     id: string;
@@ -22,6 +23,89 @@ interface LeaderboardUser {
 }
 
 type LeaderboardType = "xp" | "badges" | "projects";
+
+const ROW_HEIGHT = 72;
+const LIST_MAX_HEIGHT = 480;
+
+function LeaderboardVirtualList({
+    users,
+    getRankIcon,
+    valueLabel,
+}: {
+    users: LeaderboardUser[];
+    getRankIcon: (index: number) => React.ReactNode;
+    valueLabel: string;
+}) {
+    const parentRef = useRef<HTMLDivElement>(null);
+    const virtualizer = useVirtualizer({
+        count: users.length,
+        getScrollElement: () => parentRef.current,
+        estimateSize: () => ROW_HEIGHT,
+        overscan: 5,
+    });
+
+    return (
+        <div
+            ref={parentRef}
+            className="overflow-auto rounded-lg"
+            style={{ maxHeight: LIST_MAX_HEIGHT }}
+        >
+            <div
+                style={{
+                    height: `${virtualizer.getTotalSize()}px`,
+                    width: "100%",
+                    position: "relative",
+                }}
+            >
+                {virtualizer.getVirtualItems().map((virtualRow) => {
+                    const user = users[virtualRow.index];
+                    const index = virtualRow.index;
+                    return (
+                        <div
+                            key={user.id}
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                transform: `translateY(${virtualRow.start}px)`,
+                            }}
+                            className="py-1"
+                        >
+                            <div
+                                className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${user.isCurrentUser ? "bg-primary/5 border-primary/50" : "bg-card hover:bg-accent/50"
+                                    }`}
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center justify-center w-8">
+                                        {getRankIcon(index)}
+                                    </div>
+                                    <Avatar className="h-10 w-10 border-2 border-background">
+                                        <AvatarImage src={user.avatar || undefined} />
+                                        <AvatarFallback>{user.name[0]}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <div className="font-semibold flex items-center gap-2">
+                                            {user.name}
+                                            {user.isCurrentUser && <Badge variant="secondary" className="text-xs">你</Badge>}
+                                        </div>
+                                        <div className="text-sm text-muted-foreground">
+                                            Lv.{user.level}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-xl font-bold text-primary">{user.value.toLocaleString()}</div>
+                                    <div className="text-xs text-muted-foreground">{valueLabel}</div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
 
 export default function LeaderboardPage() {
     const { user, profile } = useAuth();
@@ -85,7 +169,7 @@ export default function LeaderboardPage() {
 
                 } else if (currentTab === "badges") {
                     // 2. 徽章榜 (调用 RPC)
-                    const { data, error } = await supabase.rpc('get_badge_leaderboard', { limit_count: 20 });
+                    const { data, error } = await supabase.rpc('get_badge_leaderboard', { limit_count: 20 } as never);
 
                     if (error) throw error;
 
@@ -111,7 +195,7 @@ export default function LeaderboardPage() {
                     // 如果当前用户在榜单中，标记一下
                 } else if (currentTab === "projects") {
                     // 3. 实干榜 (调用 RPC)
-                    const { data, error } = await supabase.rpc('get_project_leaderboard', { limit_count: 20 });
+                    const { data, error } = await supabase.rpc('get_project_leaderboard', { limit_count: 20 } as never);
 
                     if (error) throw error;
 
@@ -215,38 +299,11 @@ export default function LeaderboardPage() {
                                     暂无排行榜数据
                                 </div>
                             ) : (
-                                <>
-                                    {leaderboardData.map((user, index) => (
-                                        <div
-                                            key={user.id}
-                                            className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${user.isCurrentUser ? "bg-primary/5 border-primary/50" : "bg-card hover:bg-accent/50"
-                                                }`}
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <div className="flex items-center justify-center w-8">
-                                                    {getRankIcon(index)}
-                                                </div>
-                                                <Avatar className="h-10 w-10 border-2 border-background">
-                                                    <AvatarImage src={user.avatar || undefined} />
-                                                    <AvatarFallback>{user.name[0]}</AvatarFallback>
-                                                </Avatar>
-                                                <div>
-                                                    <div className="font-semibold flex items-center gap-2">
-                                                        {user.name}
-                                                        {user.isCurrentUser && <Badge variant="secondary" className="text-xs">你</Badge>}
-                                                    </div>
-                                                    <div className="text-sm text-muted-foreground">
-                                                        Lv.{user.level}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="text-xl font-bold text-primary">{user.value.toLocaleString()}</div>
-                                                <div className="text-xs text-muted-foreground">{config.valueLabel}</div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </>
+                                <LeaderboardVirtualList
+                                    users={leaderboardData}
+                                    getRankIcon={getRankIcon}
+                                    valueLabel={config.valueLabel}
+                                />
                             )}
                         </div>
                     </CardContent>

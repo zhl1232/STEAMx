@@ -83,7 +83,7 @@ export function ModeratorApplicationForm() {
                     badges_count: eligibility.requirements.badges.current,
                     account_age_days: eligibility.requirements.accountAge.current,
                     motivation: motivation.trim()
-                });
+                } as never);
 
             if (error) throw error;
 

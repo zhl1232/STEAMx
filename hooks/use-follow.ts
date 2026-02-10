@@ -60,7 +60,7 @@ export function useFollow(targetUserId: string) {
                     .insert({
                         follower_id: user.id,
                         following_id: targetUserId
-                    });
+                    } as never);
                 if (error) throw error;
                 // 给被关注者发送「新增粉丝」通知
                 const followerName = profile?.display_name ?? (user.email?.split("@")[0]) ?? "某人";

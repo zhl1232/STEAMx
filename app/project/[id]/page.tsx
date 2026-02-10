@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 import { ArrowLeft, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
@@ -92,10 +92,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 )}
 
                 <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted relative group">
-                    <Image
+                    <OptimizedImage
                         src={project.image}
                         alt={project.title}
                         fill
+                        variant="cover"
                         className="object-cover"
                         priority
                     />
@@ -159,10 +160,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                                 {/* 步骤图片 - 图上 */}
                                                 {step.image_url && (
                                                     <div className="aspect-video w-full relative bg-muted">
-                                                        <Image
+                                                        <OptimizedImage
                                                             src={step.image_url}
                                                             alt={step.title}
                                                             fill
+                                                            variant="cover"
                                                             className="object-cover"
                                                         />
                                                     </div>

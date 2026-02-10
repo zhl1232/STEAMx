@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Project } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
@@ -43,10 +43,11 @@ function MobileProjectItem({ project }: { project: Project }) {
     return (
         <Link href={`/project/${project.id}`} className="flex gap-3 p-3 bg-card rounded-xl border shadow-sm transition-colors hover:bg-accent/5">
             <div className="w-24 h-24 shrink-0 bg-muted rounded-lg overflow-hidden relative">
-                <Image
+                <OptimizedImage
                     src={project.image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop'}
                     alt={project.title}
                     fill
+                    variant="thumbnail"
                     className="object-cover"
                 />
             </div>

@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 
 import { useAuth } from '@/context/auth-context'
 import { useProjects } from '@/context/project-context'
@@ -208,11 +208,12 @@ export default function ProfilePage() {
           {/* 头像 */}
           <div className="relative">
             {userAvatar ? (
-              <Image
+              <OptimizedImage
                 src={userAvatar}
                 alt={userName}
                 width={96}
                 height={96}
+                variant="avatar"
                 className="rounded-full border-4 border-background shadow-lg object-cover"
               />
             ) : (

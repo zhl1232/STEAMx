@@ -29,8 +29,8 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     // 图片尺寸断点
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // 最小缓存时间（秒）
-    minimumCacheTTL: 60,
+    // 用户上传图片缓存 1 天，减少重复请求与带宽
+    minimumCacheTTL: 86400,
     // 允许的图片质量值
     qualities: [85],
   },

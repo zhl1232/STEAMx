@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from 'react'
-import Image from 'next/image'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { uploadFile, generateFilePath, validateFileType, validateFileSize } from '@/lib/utils/upload'
@@ -107,10 +107,11 @@ export function ImageUpload({
       <div className={`relative ${aspectRatio} w-full overflow-hidden rounded-lg border-2 border-dashed bg-muted/50 transition-colors hover:bg-muted`}>
         {previewUrl ? (
           <>
-            <Image
+            <OptimizedImage
               src={previewUrl}
               alt="Preview"
               fill
+              variant="cover"
               className="object-cover"
             />
             <div className="absolute top-2 right-2 z-10">

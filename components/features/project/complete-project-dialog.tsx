@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, X } from "lucide-react";
-import NextImage from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Input } from "@/components/ui/input";
 
 interface CompleteProjectDialogProps {
@@ -118,7 +118,7 @@ export function CompleteProjectDialog({
                     proof_images: proofImages,
                     proof_video_url: videoUrl || null,
                     notes: notes || null
-                });
+                } as never);
 
             if (error) throw error;
 
@@ -175,10 +175,11 @@ export function CompleteProjectDialog({
                             <div className="grid grid-cols-3 gap-3">
                                 {proofImages.map((url, index) => (
                                     <div key={index} className="relative group aspect-square">
-                                        <NextImage
+                                        <OptimizedImage
                                             src={url}
                                             alt={`作品 ${index + 1}`}
                                             fill
+                                            variant="grid"
                                             className="object-cover rounded-lg"
                                         />
                                         <button

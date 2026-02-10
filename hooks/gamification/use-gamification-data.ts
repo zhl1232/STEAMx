@@ -37,7 +37,7 @@ export function useGamificationData() {
             // Efficiently fetch all stats using the dedicated RPC
             const { data, error } = await supabase.rpc('get_user_stats_summary', {
                 target_user_id: user!.id
-            });
+            } as never);
 
             if (error) throw error;
 
@@ -77,7 +77,7 @@ export function useGamificationData() {
         mutationFn: async (newXp: number) => {
             const { error } = await supabase
                 .from('profiles')
-                .update({ xp: newXp })
+                .update({ xp: newXp } as never)
                 .eq('id', user!.id);
             if (error) throw error;
         },
@@ -108,7 +108,7 @@ export function useGamificationData() {
                     user_id: user!.id,
                     badge_id: badgeId,
                     unlocked_at: new Date().toISOString()
-                });
+                } as never);
             if (error) throw error;
         },
         onSuccess: () => {

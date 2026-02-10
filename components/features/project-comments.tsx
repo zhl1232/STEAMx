@@ -1,7 +1,8 @@
 "use client"
 import Link from "next/link"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { useVirtualizer } from "@tanstack/react-virtual"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -192,6 +193,14 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         return comments.filter((c) => c.parent_id === parentId)
     }
 
+    const commentsListRef = useRef<HTMLDivElement>(null)
+    const virtualizer = useVirtualizer({
+        count: topLevelComments.length,
+        getScrollElement: () => commentsListRef.current,
+        estimateSize: () => 120,
+        overscan: 3,
+    })
+
     // New Bilibili-style comment item
     const CommentItem = ({ comment, isNested = false }: { comment: Comment, isNested?: boolean }) => {
         const nestedComments = getNestedComments(comment.id)
@@ -349,13 +358,43 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
             </h3>
 
-            {/* Comments List */}
-            <div className="space-y-2 mb-8">
+            {/* Comments List - 虚拟化长列表 */}
+            <div className="mb-8">
                 {comments.length > 0 ? (
                     <>
-                        {topLevelComments.map((comment) => (
-                            <CommentItem key={comment.id} comment={comment} />
-                        ))}
+                        <div
+                            ref={commentsListRef}
+                            className="overflow-auto rounded-lg"
+                            style={{ maxHeight: "60vh" }}
+                        >
+                            <div
+                                style={{
+                                    height: `${virtualizer.getTotalSize()}px`,
+                                    width: "100%",
+                                    position: "relative",
+                                }}
+                            >
+                                {virtualizer.getVirtualItems().map((virtualRow) => {
+                                    const comment = topLevelComments[virtualRow.index]
+                                    return (
+                                        <div
+                                            key={comment.id}
+                                            data-index={virtualRow.index}
+                                            style={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                width: "100%",
+                                                transform: `translateY(${virtualRow.start}px)`,
+                                            }}
+                                            className="pb-2"
+                                        >
+                                            <CommentItem comment={comment} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
 
                         {hasMore && (
                             <div className="text-center pt-4">

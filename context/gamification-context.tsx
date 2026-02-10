@@ -104,7 +104,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     action_type: actionType,
                     resource_id: rId,
                     xp_amount: xpToAward
-                });
+                } as never);
 
             if (logError) {
                 console.error('Error logging XP:', logError);

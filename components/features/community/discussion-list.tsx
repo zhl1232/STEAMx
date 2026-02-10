@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { Discussion } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,9 @@ import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
+
+const DISCUSSION_ROW_ESTIMATE = 180;
+const LIST_MAX_HEIGHT = "70vh";
 
 export function DiscussionList() {
     const { user, profile } = useAuth();
@@ -25,7 +29,6 @@ export function DiscussionList() {
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const isLoadingRef = useRef(false);
-    const observer = useRef<IntersectionObserver | null>(null);
     const supabase = createClient();
 
     // Search and filter states
@@ -162,16 +165,24 @@ export function DiscussionList() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchQuery, selectedTag, sortBy]);
 
-    const lastDiscussionElementRef = useCallback((node: HTMLDivElement) => {
-        if (isLoading) return;
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                fetchDiscussions(false);
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [isLoading, hasMore, fetchDiscussions]);
+    const listParentRef = useRef<HTMLDivElement>(null);
+    const virtualizer = useVirtualizer({
+        count: discussions.length,
+        getScrollElement: () => listParentRef.current,
+        estimateSize: () => DISCUSSION_ROW_ESTIMATE,
+        overscan: 3,
+    });
+    const virtualItems = virtualizer.getVirtualItems();
+
+    // 当滚动到底部附近时加载更多
+    useEffect(() => {
+        if (isLoading || !hasMore || discussions.length === 0) return;
+        const lastIndex = discussions.length - 1;
+        const lastVisible = virtualItems[virtualItems.length - 1]?.index;
+        if (lastVisible !== undefined && lastVisible >= lastIndex - 2) {
+            fetchDiscussions(false);
+        }
+    }, [virtualItems, discussions.length, hasMore, isLoading, fetchDiscussions]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -184,7 +195,7 @@ export function DiscussionList() {
                 content: newContent,
                 author_id: user.id,
                 tags: newTags.split(",").map(t => t.trim()).filter(t => t)
-            });
+            } as never);
 
         if (!error) {
             setNewTitle("");
@@ -282,72 +293,95 @@ export function DiscussionList() {
             )}
 
             <div className="space-y-4">
-                {discussions.map((discussion, index) => {
-                    const content = (
-                        <div className="border rounded-lg p-6 hover:shadow-md transition-all bg-white/70 dark:bg-gray-800/70 backdrop-blur-md hover:scale-105 cursor-pointer group relative">
-                            <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0" />
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                                        <SearchHighlight text={discussion.title} query={searchQuery} />
-                                    </h3>
-                                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                        <span className="flex items-center gap-1">
-                                            👤 {discussion.author}
-                                        </span>
-                                        <span>{discussion.date}</span>
-                                    </div>
-                                </div>
-                                <div className="flex gap-2">
-                                    {discussion.tags.map(tag => (
-                                        <span key={tag} className="px-2 py-1 bg-secondary text-secondary-foreground rounded-full text-xs flex items-center gap-1">
-                                            <Tag className="h-3 w-3" /> {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <p className="text-muted-foreground mb-4 line-clamp-2">
-                                <SearchHighlight text={discussion.content} query={searchQuery} />
-                            </p>
-                            <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4 relative z-10">
-                                <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
-                                    <MessageSquare className="h-4 w-4" />
-                                    {discussion.replies.length} 回复
-                                </Button>
-                                <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
-                                    <Heart className="h-4 w-4" />
-                                    {discussion.likes} 赞
-                                </Button>
-                                {(profile?.role === 'admin' || profile?.role === 'moderator') && (
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto relative z-20"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            handleDelete(discussion.id);
-                                        }}
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                )}
+                {discussions.length > 0 ? (
+                    <>
+                        <div
+                            ref={listParentRef}
+                            className="overflow-auto rounded-lg"
+                            style={{ maxHeight: LIST_MAX_HEIGHT }}
+                        >
+                            <div
+                                style={{
+                                    height: `${virtualizer.getTotalSize()}px`,
+                                    width: "100%",
+                                    position: "relative",
+                                }}
+                            >
+                                {virtualItems.map((virtualRow) => {
+                                    const discussion = discussions[virtualRow.index];
+                                    return (
+                                        <div
+                                            key={discussion.id}
+                                            data-index={virtualRow.index}
+                                            style={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                width: "100%",
+                                                transform: `translateY(${virtualRow.start}px)`,
+                                            }}
+                                            className="pb-4"
+                                        >
+                                            <div className="border rounded-lg p-6 hover:shadow-md transition-all bg-white/70 dark:bg-gray-800/70 backdrop-blur-md hover:scale-105 cursor-pointer group relative">
+                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0" />
+                                                <div className="flex justify-between items-start mb-4">
+                                                    <div>
+                                                        <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                                                            <SearchHighlight text={discussion.title} query={searchQuery} />
+                                                        </h3>
+                                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                            <span className="flex items-center gap-1">
+                                                                👤 {discussion.author}
+                                                            </span>
+                                                            <span>{discussion.date}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        {discussion.tags.map(tag => (
+                                                            <span key={tag} className="px-2 py-1 bg-secondary text-secondary-foreground rounded-full text-xs flex items-center gap-1">
+                                                                <Tag className="h-3 w-3" /> {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <p className="text-muted-foreground mb-4 line-clamp-2">
+                                                    <SearchHighlight text={discussion.content} query={searchQuery} />
+                                                </p>
+                                                <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4 relative z-10">
+                                                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
+                                                        <MessageSquare className="h-4 w-4" />
+                                                        {discussion.replies.length} 回复
+                                                    </Button>
+                                                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
+                                                        <Heart className="h-4 w-4" />
+                                                        {discussion.likes} 赞
+                                                    </Button>
+                                                    {(profile?.role === 'admin' || profile?.role === 'moderator') && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto relative z-20"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                handleDelete(discussion.id);
+                                                            }}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
-                    );
-
-                    if (discussions.length === index + 1) {
-                        return <div ref={lastDiscussionElementRef} key={discussion.id}>{content}</div>;
-                    } else {
-                        return <div key={discussion.id}>{content}</div>;
-                    }
-                })}
-
-                {isLoading && (
-                    <div className="text-center py-4 text-muted-foreground">加载中...</div>
-                )}
-
-                {!isLoading && discussions.length === 0 && (
+                        {isLoading && (
+                            <div className="text-center py-4 text-muted-foreground">加载中...</div>
+                        )}
+                    </>
+                ) : !isLoading ? (
                     <div className="text-center py-20">
                         <div className="text-4xl mb-4">🔍</div>
                         <h3 className="text-lg font-semibold mb-2">没有找到相关讨论</h3>
@@ -355,6 +389,8 @@ export function DiscussionList() {
                             {searchQuery || selectedTag ? '换个关键词或标签试试看？' : '还没有讨论，来发起第一个吧！'}
                         </p>
                     </div>
+                ) : (
+                    <div className="text-center py-4 text-muted-foreground">加载中...</div>
                 )}
             </div>
         </div>

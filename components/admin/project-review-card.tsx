@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
-import Image from 'next/image'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Eye } from 'lucide-react'
 
@@ -200,10 +200,11 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
           <div className="flex gap-4 mb-4">
             {project.image_url && (
               <div className="relative w-32 h-24 shrink-0">
-                <Image
+                <OptimizedImage
                   src={project.image_url}
                   alt={project.title}
                   fill
+                  variant="thumbnail"
                   className="object-cover rounded-md"
                 />
               </div>
@@ -236,10 +237,11 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                       <h3 className="font-semibold text-lg border-b pb-2">基本信息</h3>
                       {project.image_url && (
                         <div className="relative w-full h-64 rounded-lg overflow-hidden border">
-                          <Image
+                          <OptimizedImage
                             src={project.image_url}
                             alt={project.title}
                             fill
+                            variant="cover"
                             className="object-cover"
                           />
                         </div>
@@ -249,7 +251,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                           <span className="text-muted-foreground">作者:</span>
                           <div className="flex items-center gap-2">
                             {project.profiles.avatar_url && (
-                              <Image src={project.profiles.avatar_url} width={20} height={20} alt="avatar" className="rounded-full" />
+                              <OptimizedImage src={project.profiles.avatar_url} width={20} height={20} alt="avatar" variant="avatar" className="rounded-full" />
                             )}
                             <span>{project.profiles.display_name}</span>
                           </div>
@@ -296,10 +298,11 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                                 <p className="text-sm text-muted-foreground mb-3">{step.description}</p>
                                 {step.image_url && (
                                   <div className="relative w-full h-48 rounded-md overflow-hidden bg-muted">
-                                    <Image
+                                    <OptimizedImage
                                       src={step.image_url}
                                       alt={step.title}
                                       fill
+                                      variant="cover"
                                       className="object-cover"
                                     />
                                   </div>

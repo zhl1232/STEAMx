@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { Upload } from "lucide-react"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 
 interface AvatarUploadProps {
@@ -52,10 +52,11 @@ export function AvatarUpload({ value, onFileSelect, disabled }: AvatarUploadProp
       <div className="relative group cursor-pointer" onClick={() => !disabled && fileInputRef.current?.click()}>
         <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-background shadow-lg bg-gradient-to-tr from-primary to-secondary flex items-center justify-center transition-all group-hover:opacity-90">
           {value ? (
-            <Image
+            <OptimizedImage
               src={value}
               alt="Avatar"
               fill
+              variant="avatar"
               className="object-cover"
             />
           ) : (

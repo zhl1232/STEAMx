@@ -93,7 +93,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
           bio,
           avatar_url: finalAvatarUrl,
           updated_at: new Date().toISOString(),
-        })
+        } as never)
         .eq('id', user.id)
 
       if (_error) throw _error

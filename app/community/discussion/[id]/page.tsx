@@ -226,7 +226,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     return;
                 }
 
-                const { data, error } = await (supabase
+                const { data: rawData, error } = await (supabase
                     .from('discussions')
                     .select(`
                         *,
@@ -239,11 +239,23 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     .eq('id', id)
                     .single());
 
-                if (error || !data) {
+                if (error || !rawData) {
                     console.error('Error fetching discussion:', error);
                     setNotFound(true);
                     return;
                 }
+
+                type DiscussionRow = {
+                    id: number;
+                    title: string;
+                    content: string;
+                    created_at: string;
+                    likes_count: number;
+                    tags: string[] | null;
+                    profiles?: { display_name: string | null };
+                    discussion_replies?: Array<{ id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null } }>;
+                };
+                const data = rawData as unknown as DiscussionRow;
 
                 const mappedDiscussion: Discussion = {
                     id: data.id,
@@ -258,7 +270,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         id: r.id,
                         author: r.profiles?.display_name || 'Unknown',
                         userId: r.author_id,
-                        avatar: r.profiles?.avatar_url,
+                        avatar: r.profiles?.avatar_url ?? undefined,
                         content: r.content,
                         date: formatRelativeTime(r.created_at),
                         parent_id: r.parent_id,

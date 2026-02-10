@@ -88,14 +88,16 @@ function ShareForm() {
                 .single();
 
             if (data) {
+                type ProjectRow = Parameters<typeof mapDbProject>[0];
+                const projectData = data as unknown as ProjectRow;
                 // Check if user is author
-                if (data.author_id && data.author_id !== user.id) {
+                if (projectData.author_id && projectData.author_id !== user.id) {
                     toast({ title: "无权编辑", variant: "destructive" });
                     router.push('/share');
                     return;
                 }
 
-                const project = mapDbProject(data);
+                const project = mapDbProject(projectData);
                 setFormData({
                     title: project.title,
                     category: project.category,

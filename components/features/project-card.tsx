@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Heart, ImageOff } from "lucide-react";
 import { useProjects } from "@/context/project-context";
 import { Project } from "@/lib/types";
@@ -30,7 +30,7 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
 
     return (
         <motion.div
-            variants={variants}
+            variants={variants as Variants | undefined}
             whileHover={shouldReduceMotion ? {} : {
                 y: -8,
                 transition: { duration: 0.3 }
@@ -49,14 +49,12 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
 
                 <div className="aspect-video w-full overflow-hidden bg-muted relative pointer-events-none">
                     {!imageError ? (
-                        <Image
+                        <OptimizedImage
                             src={project.image}
                             alt={project.title}
                             fill
+                            variant="card"
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            quality={85}
-                            priority={false}
                             onError={() => setImageError(true)}
                         />
                     ) : (

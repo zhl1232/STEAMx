@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -160,7 +160,7 @@ export default function PublicProfilePage() {
           <div className="relative">
             <div className="h-32 w-32 rounded-full border-4 border-background shadow-xl overflow-hidden bg-muted">
               {profile.avatar_url ? (
-                <Image src={profile.avatar_url} alt={userName} fill className="object-cover" />
+                <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
               ) : (
                 <div className="h-full w-full flex items-center justify-center text-5xl bg-gradient-to-br from-primary/20 to-secondary/20 font-bold text-primary">
                   {userName[0].toUpperCase()}

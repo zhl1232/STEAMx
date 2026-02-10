@@ -1,7 +1,7 @@
 import { useCommunity } from "@/context/community-context";
 import { Challenge } from "@/lib/types";
 import Link from "next/link";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
 import { Users, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,10 +18,11 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
         <div className="group relative overflow-hidden rounded-xl border bg-white/70 dark:bg-gray-800/70 backdrop-blur-md text-card-foreground shadow-sm transition-all hover:shadow-lg hover:scale-105 transform">
             <Link href={`/community/challenge/${challenge.id}`} className="block">
                 <div className="aspect-video w-full overflow-hidden relative">
-                    <Image
+                    <OptimizedImage
                         src={challenge.image}
                         alt={challenge.title}
                         fill
+                        variant="card"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     {challenge.endDate && (

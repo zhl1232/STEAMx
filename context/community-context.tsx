@@ -71,7 +71,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             image: c.image_url || '',
             participants: c.participants_count,
             daysLeft: c.end_date ? Math.ceil((new Date(c.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 0,
-            endDate: c.end_date, // 添加原始日期用于倒计时组件
+            endDate: c.end_date ?? undefined, // 添加原始日期用于倒计时组件
             joined: joinedChallengeIds.has(c.id),
             tags: c.tags || []
         }));
@@ -98,7 +98,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 content: discussion.content,
                 author_id: user.id,
                 tags: discussion.tags
-            })
+            } as never)
             .select()
             .single();
 
@@ -107,8 +107,9 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
+        const created = newDiscussion as { id: number };
         // 奖励 XP
-        addXp(5, "发起讨论", "create_discussion", newDiscussion.id);
+        addXp(5, "发起讨论", "create_discussion", created.id);
 
         // 检查讨论相关徽章
         const { count: discussionCount } = await supabase
@@ -155,7 +156,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 parent_id: parentId || null,
                 reply_to_user_id: reply.reply_to_user_id || null,
                 reply_to_username: reply.reply_to_username || null
-            })
+            } as never)
             .select(`
                 *,
                 profiles:author_id (display_name, avatar_url)
@@ -167,6 +168,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return null;
         }
 
+        const replyRow = newReply as { id: number };
         // Create notification if replying to someone
         if (reply.reply_to_user_id) {
             await createNotification({
@@ -174,7 +176,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 type: 'mention',
                 content: `${profile?.display_name || '某人'} 在讨论中@了你`,
                 related_type: 'discussion_reply',
-                related_id: newReply.id,
+                related_id: replyRow.id,
                 discussion_id: Number(discussionId),
                 from_user_id: user.id,
                 from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
@@ -183,7 +185,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Award XP for replying
-        addXp(1, "回复讨论", "reply_discussion", newReply.id);
+        addXp(1, "回复讨论", "reply_discussion", replyRow.id);
 
         // 检查回复相关徽章
         const { count: replyCount } = await supabase
@@ -245,7 +247,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             await callRpc(supabase, 'decrement_challenge_participants', { challenge_id: cid });
         } else {
             // Join
-            await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid });
+            await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid } as never);
             await callRpc(supabase, 'increment_challenge_participants', { challenge_id: cid });
 
             // 奖励 XP

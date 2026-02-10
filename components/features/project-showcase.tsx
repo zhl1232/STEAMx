@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -43,10 +43,11 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
                         onClick={() => setSelectedCompletion(completion)}
                     >
                         {completion.proofImages[0] ? (
-                            <Image
+                            <OptimizedImage
                                 src={completion.proofImages[0]}
                                 alt={`${completion.author}的作品`}
                                 fill
+                                variant="grid"
                                 className="object-cover transition-transform group-hover:scale-105"
                             />
                         ) : (
@@ -149,7 +150,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                 await supabase.from('completion_likes').insert({
                     completed_project_id: completion.id,
                     user_id: user.id
-                });
+                } as never);
             }
         },
         onMutate: async (vars) => {
@@ -186,7 +187,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     completed_project_id: completion.id,
                     author_id: user.id,
                     content: content
-                });
+                } as never);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['completion_comments', completion.id] });
@@ -248,10 +249,11 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             <div className="flex-1 bg-black relative overflow-hidden flex flex-col justify-center items-center group">
                 {completion.proofImages[0] && (
                     <div className="relative w-full h-full">
-                        <Image
+                        <OptimizedImage
                             src={completion.proofImages[0]}
                             alt=""
                             fill
+                            variant="cover"
                             className="object-contain"
                         />
                         {/* Danmaku Layer */}

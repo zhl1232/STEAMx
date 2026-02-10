@@ -125,7 +125,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             // 1. 使用优化的 RPC 获取所有统计数据 (1个请求替代原来的 9 个)
             const { data: statsData, error } = await supabase.rpc('get_user_stats_summary', {
                 target_user_id: user.id
-            });
+            } as never);
 
             if (error) {
                 console.error('RPC error fetching user stats:', error);
@@ -185,7 +185,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 duration: project.duration,
                 tags: project.tags || [],
                 status: project.status || 'pending'  // 默认为待审核状态
-            })
+            } as never)
             .select()
             .single();
 
@@ -194,15 +194,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
+        const createdProject = newProject as { id: number };
         // 2. Insert Materials
         if (project.materials && project.materials.length > 0) {
             await supabase
                 .from('project_materials')
                 .insert(project.materials.map((m, index) => ({
-                    project_id: newProject.id,
+                    project_id: createdProject.id,
                     material: m,
                     sort_order: index
-                })));
+                })) as never);
         }
 
         // 3. Insert Steps
@@ -210,16 +211,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase
                 .from('project_steps')
                 .insert(project.steps.map((s, index) => ({
-                    project_id: newProject.id,
+                    project_id: createdProject.id,
                     title: s.title,
                     description: s.description,
                     image_url: s.image_url || null,  // ✅ 添加image_url字段
                     sort_order: index
-                })));
+                })) as never);
         }
 
         // Award XP for publishing a project
-        addXp(50, "发布新项目", "publish_project", newProject.id);
+        addXp(50, "发布新项目", "publish_project", createdProject.id);
 
         // Check badges
         const stats = await getUserStats();
@@ -249,7 +250,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                     type: "creator_update",
                     content: `${authorName} 发布了新作品：${project.title}`,
                     related_type: "project",
-                    project_id: newProject.id,
+                    project_id: createdProject.id,
                     from_user_id: user.id,
                     from_username: authorName,
                     from_avatar: profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined),
@@ -278,7 +279,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 tags: project.tags || [],
                 status: 'pending', // Re-submit for review
                 updated_at: new Date().toISOString()
-            })
+            } as never)
             .eq('id', pid)
             .eq('author_id', user.id);
 
@@ -296,7 +297,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                     project_id: pid,
                     material: m,
                     sort_order: index
-                })));
+                })) as never);
         }
 
         // 3. Update Steps
@@ -310,7 +311,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                     description: s.description,
                     image_url: s.image_url || null,
                     sort_order: index
-                })));
+                })) as never);
         }
 
         toast({
@@ -332,7 +333,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 parent_id: parentId || null,
                 reply_to_user_id: comment.reply_to_user_id || null,
                 reply_to_username: comment.reply_to_username || null
-            })
+            } as never)
             .select(`
                 *,
                 profiles:author_id (display_name, avatar_url)
@@ -344,6 +345,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             return null;
         }
 
+        const commentRow = newComment as { id: number };
         // Create notification if replying to someone
         if (comment.reply_to_user_id) {
             await createNotification({
@@ -351,7 +353,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 type: 'mention',
                 content: `${profile?.display_name || '某人'} 在评论中@了你`,
                 related_type: 'comment',
-                related_id: newComment.id,
+                related_id: commentRow.id,
                 project_id: Number(projectId),
                 from_user_id: user.id,
                 from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
@@ -360,7 +362,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Award XP for commenting
-        addXp(1, "发表评论", "comment_project", newComment.id);
+        addXp(1, "发表评论", "comment_project", commentRow.id);
 
         // Check badges
         const stats = await getUserStats();
@@ -398,7 +400,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('likes').delete().eq('user_id', user.id).eq('project_id', pid);
             await callRpc(supabase, 'decrement_project_likes', { project_id: pid });
         } else {
-            await supabase.from('likes').insert({ user_id: user.id, project_id: pid });
+            await supabase.from('likes').insert({ user_id: user.id, project_id: pid } as never);
             await callRpc(supabase, 'increment_project_likes', { project_id: pid });
 
             // 给作品作者发送「收到喜欢」通知（不通知自己给自己点赞的情况）
@@ -409,15 +411,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                     .eq('id', pid)
                     .single();
 
-                if (!projectError && projectRow && projectRow.author_id && projectRow.author_id !== user.id) {
-                    const authorId = projectRow.author_id as string;
-                    const authorProfile = (projectRow as any).profiles as { display_name?: string | null, avatar_url?: string | null } | null;
+                const row = projectRow as { author_id?: string; title?: string } | null;
+                if (!projectError && row && row.author_id && row.author_id !== user.id) {
+                    const authorId = row.author_id;
+                    const authorProfile = (projectRow as { profiles?: { display_name?: string | null; avatar_url?: string | null } | null })?.profiles ?? null;
                     const likerName = profile?.display_name || user.email?.split('@')[0] || '某人';
 
                     await createNotification({
                         user_id: authorId,
                         type: 'like',
-                        content: `${likerName} 赞了你的项目「${projectRow.title}」`,
+                        content: `${likerName} 赞了你的项目「${row.title}」`,
                         related_type: 'project',
                         related_id: pid,
                         project_id: pid,
@@ -458,7 +461,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         if (isCollected) {
             await supabase.from('collections').delete().eq('user_id', user.id).eq('project_id', pid);
         } else {
-            await supabase.from('collections').insert({ user_id: user.id, project_id: pid });
+            await supabase.from('collections').insert({ user_id: user.id, project_id: pid } as never);
 
             // 检查收藏相关徽章
             const stats = await getUserStats();
@@ -493,7 +496,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 proof_images: proof.images,
                 proof_video_url: proof.videoUrl || null,
                 notes: proof.notes || null
-            });
+            } as never);
 
             if (error) throw error;
 
@@ -524,8 +527,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                     .eq('id', pid)
                     .single();
 
-                if (project?.category) {
-                    switch (project.category) {
+                const proj = project as { category?: string } | null;
+                if (proj?.category) {
+                    switch (proj.category) {
                         case '科学': finalStats.scienceCompleted++; break;
                         case '技术': finalStats.techCompleted++; break;
                         case '工程': finalStats.engineeringCompleted++; break;
