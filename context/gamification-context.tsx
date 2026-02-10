@@ -64,8 +64,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             const rId = String(resourceId);
 
             // Check existence
-            const { data: existing } = await (supabase
-                .from('xp_logs') as any)
+            const { data: existing } = await supabase
+                .from('xp_logs')
                 .select('id')
                 .eq('user_id', user.id)
                 .eq('action_type', actionType)
@@ -73,7 +73,6 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 .single();
 
             if (existing) {
-                console.log('XP action already recorded:', actionType, resourceId);
                 return;
             }
 
@@ -81,14 +80,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             let xpToAward = amount;
             if (DAILY_XP_LIMITS[actionType]) {
                 const today = new Date().toISOString().split('T')[0];
-                const { data: todayLogs } = await (supabase
-                    .from('xp_logs') as any)
+                const { data: todayLogs } = await supabase
+                    .from('xp_logs')
                     .select('xp_amount')
                     .eq('user_id', user.id)
                     .eq('action_type', actionType)
                     .gte('created_at', today);
 
-                const todayTotal = (todayLogs as any[] || []).reduce((acc, log) => acc + log.xp_amount, 0);
+                const todayTotal = (todayLogs as { xp_amount: number }[] || []).reduce((acc, log) => acc + log.xp_amount, 0);
 
                 if (todayTotal >= DAILY_XP_LIMITS[actionType]) {
                     xpToAward = 0;
@@ -98,8 +97,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             }
 
             // Insert Log
-            const { error: logError } = await (supabase
-                .from('xp_logs') as any)
+            const { error: logError } = await supabase
+                .from('xp_logs')
                 .insert({
                     user_id: user.id,
                     action_type: actionType,
@@ -197,19 +196,18 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                     });
                                 });
                             },
-                            onError: (error: any) => {
+                            onError: (error: unknown) => {
                                 // CRITICAL FIX: If error is 409 (Conflict/Duplicate), it means badge is ALREADY unlocked in DB.
                                 // In this case, we should TREAT IT AS SUCCESS and KEEP the optimistic update.
                                 // Only revert if it's a genuine failure (e.g., network error other than conflict).
-                                
+                                const err = error as { message?: string; code?: string; status?: number };
                                 const isDuplicate = 
-                                    error?.message?.includes('duplicate') || 
-                                    error?.message?.includes('409') ||
-                                    error?.code === '23505' || // Postgres unique violation
-                                    error?.status === 409;
+                                    err?.message?.includes('duplicate') || 
+                                    err?.message?.includes('409') ||
+                                    err?.code === '23505' || // Postgres unique violation
+                                    err?.status === 409;
 
                                 if (isDuplicate) {
-                                    console.log(`Badge ${badge.id} already exists (409), keeping optimistic update.`);
                                     // Treat as success: ensure it remains in the set (it already is due to optimistic update)
                                     // We prevent the loop because next checkBadges will see it in the Ref.
                                 } else {
@@ -226,6 +224,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 }
             }
         });
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- user intentionally excluded to avoid unnecessary callback churn
     }, [user?.id, unlockBadgeMutation, toast]);
 
     // 4. Auto-Run Checks on Stats Update

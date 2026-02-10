@@ -40,7 +40,7 @@ export default function MigratePage() {
 
       const data = await response.json()
       setResult(data)
-    } catch (error: any) {
+    } catch (error: unknown) {
       setResult({
         success: false,
         results: {
@@ -48,7 +48,7 @@ export default function MigratePage() {
           discussions: { success: 0, failed: 0, errors: [] },
           challenges: { success: 0, failed: 0, errors: [] },
         },
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
       })
     } finally {
       setLoading(false)

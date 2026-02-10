@@ -1,24 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
-import {
-  validateRequiredString,
-  validateEnum,
-  validateArray,
-} from '@/lib/api/validation'
-import type {
-  ProjectStep
-} from '@/lib/api/types'
+import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database } from '@/lib/supabase/types'
-import type { SupabaseClient } from '@supabase/supabase-js'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
 type MaterialInsert = Database['public']['Tables']['project_materials']['Insert']
 type StepInsert = Database['public']['Tables']['project_steps']['Insert']
-
-const VALID_CATEGORIES = ['科学', '技术', '工程', '艺术', '数学'] as const
 
 /**
  * GET /api/projects
@@ -27,10 +17,18 @@ const VALID_CATEGORIES = ['科学', '技术', '工程', '艺术', '数学'] as c
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
 
+  const difficultyParam = searchParams.get('difficulty');
+  const validDifficulties = ['easy', 'medium', 'hard', 'all', '1-2', '3-4', '5-6'] as const;
+  
+  // Type predicate or just check
+  const difficulty: ProjectFilters['difficulty'] = (validDifficulties as readonly string[]).includes(difficultyParam || '')
+    ? (difficultyParam as ProjectFilters['difficulty'])
+    : 'all';
+
   const filters: ProjectFilters = {
     category: searchParams.get('category') || undefined,
     subCategory: searchParams.get('subCategory') || undefined,
-    difficulty: (searchParams.get('difficulty') as any) || 'all',
+    difficulty,
     tags: searchParams.get('tags')?.split(',').filter(Boolean) || undefined,
     searchQuery: searchParams.get('q') || undefined,
   }
@@ -60,7 +58,7 @@ export async function GET(request: NextRequest) {
  * 需要认证
  */
 export async function POST(request: Request) {
-  const supabase: SupabaseClient<Database> = await createClient()
+  const supabase = await createClient()
 
   try {
     // 检查用户认证
@@ -69,31 +67,15 @@ export async function POST(request: Request) {
     const body = await request.json()
 
     // 验证输入
-    const title = validateRequiredString(body.title, 'Title', 200)
-    const description = validateRequiredString(body.description, 'Description', 2000)
-    const category = validateEnum(body.category, 'Category', VALID_CATEGORIES)
-    const image_url = validateRequiredString(body.image_url, 'Image URL', 500)
+    const parseResult = CreateProjectSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
 
-    // 验证材料和步骤 - 使用明确的类型定义
-    const materials: string[] = body.materials
-      ? validateArray(body.materials, 'Materials', 50).map((m: unknown) =>
-        validateRequiredString(m, 'Material', 200)
-      )
-      : []
-
-    const steps: ProjectStep[] = body.steps
-      ? validateArray(body.steps, 'Steps', 50).map((step: unknown) => {
-        // 类型守卫：确保step是对象
-        if (typeof step !== 'object' || step === null) {
-          throw new Error('Invalid step format')
-        }
-        const stepObj = step as { title?: unknown; description?: unknown }
-        return {
-          title: validateRequiredString(stepObj.title, 'Step title', 200),
-          description: validateRequiredString(stepObj.description, 'Step description', 1000),
-        }
-      })
-      : []
+    const { title, description, category, image_url, materials, steps } = parseResult.data;
 
     // 创建项目
     const newProject: ProjectInsert = {
@@ -105,13 +87,20 @@ export async function POST(request: Request) {
       status: 'pending',
     }
 
-    const { data: project, error: projectError } = await supabase
+    const { data: project, error: projectError } = (await supabase
       .from('projects')
+      // Supabase type inference is failing for Insert, casting to any to proceed while ensuring runtime safety via Zod
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .insert(newProject as any)
       .select()
-      .single() as unknown as { data: ProjectRow | null, error: any }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .single()) as { data: ProjectRow | null, error: any };
 
     if (projectError || !project) {
+      // 检查 Supabase 错误代码，如果需要
+      if (projectError?.code) {
+          console.error('Supabase error code:', projectError.code);
+      }
       throw projectError || new Error('Failed to create project')
     }
 
@@ -119,7 +108,7 @@ export async function POST(request: Request) {
     const promises: Promise<void>[] = []
 
     // 添加材料
-    if (materials.length > 0) {
+    if (materials && materials.length > 0) {
       const materialInserts: MaterialInsert[] = materials.map((material, index) => ({
         project_id: project.id,
         material,
@@ -130,6 +119,7 @@ export async function POST(request: Request) {
         (async () => {
           const { error } = await supabase
             .from('project_materials')
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .insert(materialInserts as any)
           if (error) throw error
         })()
@@ -137,7 +127,7 @@ export async function POST(request: Request) {
     }
 
     // 添加步骤
-    if (steps.length > 0) {
+    if (steps && steps.length > 0) {
       const stepInserts: StepInsert[] = steps.map((step, index) => ({
         project_id: project.id,
         title: step.title,
@@ -149,6 +139,7 @@ export async function POST(request: Request) {
         (async () => {
           const { error } = await supabase
             .from('project_steps')
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .insert(stepInserts as any)
           if (error) throw error
         })()

@@ -58,7 +58,7 @@ export function useFollow(targetUserId: string) {
                     .insert({
                         follower_id: user.id,
                         following_id: targetUserId
-                    } as any);
+                    });
                 if (error) throw error;
             } else {
                 const { error } = await supabase

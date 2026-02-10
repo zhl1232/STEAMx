@@ -47,10 +47,11 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       .single()
 
     if (data) {
-      setUsername((data as any).username || "")
-      setDisplayName((data as any).display_name || "")
-      setBio((data as any).bio || "")
-      setAvatarUrl((data as any).avatar_url || "")
+      const row = data as { username: string | null; display_name: string | null; bio: string | null; avatar_url: string | null }
+      setUsername(row.username || "")
+      setDisplayName(row.display_name || "")
+      setBio(row.bio || "")
+      setAvatarUrl(row.avatar_url || "")
     }
     setFetching(false)
   }
@@ -84,8 +85,8 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
         finalAvatarUrl = data.publicUrl
       }
 
-      const { error: _error } = await (supabase
-        .from('profiles') as any)
+      const { error: _error } = await supabase
+        .from('profiles')
         .update({
           username,
           display_name: displayName,

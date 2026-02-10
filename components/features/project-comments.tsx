@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MessageCircle, Send, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
+import { MessageCircle, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -64,7 +64,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
             // 2. Fetch Replies for these roots
             if (roots && roots.length > 0) {
-                const rootIds = (roots as any[]).map(r => r.id)
+                const rootIds = (roots as { id: number }[]).map(r => r.id)
                 const { data: replies } = await supabase
                     .from('comments')
                     .select(`

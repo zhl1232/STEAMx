@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, X, Image as ImageIcon } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import NextImage from "next/image";
 import { Input } from "@/components/ui/input";
 
@@ -80,10 +80,10 @@ export function CompleteProjectDialog({
                 title: "上传成功",
                 description: `已上传 ${uploadedUrls.length} 张图片`
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast({
                 title: "上传失败",
-                description: error.message,
+                description: error instanceof Error ? error.message : "上传失败",
                 variant: "destructive"
             });
         } finally {
@@ -110,8 +110,8 @@ export function CompleteProjectDialog({
         setIsSubmitting(true);
 
         try {
-            const { error } = await (supabase
-                .from('completed_projects') as any)
+            const { error } = await supabase
+                .from('completed_projects')
                 .insert({
                     user_id: user.id,
                     project_id: projectId,
@@ -134,10 +134,10 @@ export function CompleteProjectDialog({
             setProofImages([]);
             setVideoUrl("");
             setNotes("");
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast({
                 title: "提交失败",
-                description: error.message,
+                description: error instanceof Error ? error.message : "提交失败",
                 variant: "destructive"
             });
         } finally {

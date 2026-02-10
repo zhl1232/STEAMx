@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
     const name = validateRequiredString(body.name, 'Tag name', 50)
     const category = validateOptionalString(body.category, 'Category', 50)
     
-    const { data, error } = await (supabase
-      .from('tags') as any)
+    const { data, error } = await supabase
+      .from('tags')
       .insert({
         name,
         category,

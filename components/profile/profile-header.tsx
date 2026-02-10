@@ -26,7 +26,7 @@ export function ProfileHeader({
     profile,
     myProjectsCount,
     likedProjectsCount: _likedProjectsCount,
-    collectedProjectsCount,
+    collectedProjectsCount: _collectedProjectsCount,
     totalLikesReceived,
     followerCount,
     followingCount,

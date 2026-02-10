@@ -20,11 +20,11 @@ export function useGamificationData() {
     const { data: unlockedBadges } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
         queryFn: async (): Promise<Set<string>> => {
-            const { data } = await (supabase
-                .from('user_badges') as any)
+            const { data } = await supabase
+                .from('user_badges')
                 .select('badge_id')
                 .eq('user_id', user!.id);
-            return new Set((data?.map((b: any) => b.badge_id) || []) as string[]);
+            return new Set((data?.map((b: { badge_id: string }) => b.badge_id) || []) as string[]);
         },
         enabled,
         staleTime: 1000 * 60 * 30, // 30 minutes (badges don't change often without action)
@@ -35,15 +35,14 @@ export function useGamificationData() {
         queryKey: ['gamification', 'stats', user?.id],
         queryFn: async (): Promise<UserStats> => {
             // Efficiently fetch all stats using the dedicated RPC
-            const { data, error } = await (supabase.rpc as any)('get_user_stats_summary', {
+            const { data, error } = await supabase.rpc('get_user_stats_summary', {
                 target_user_id: user!.id
             });
 
             if (error) throw error;
 
             // Map the RPC result to our UserStats interface
-            // transform nulls to 0s if necessary, although RPC handles most
-            const stats = data as any;
+            const stats = data as Partial<UserStats>;
 
             // Calculate current level based on XP from profile (already fetched in step 1) or pass it in
             const currentLevel = Math.floor(Math.sqrt((xp || 0) / 100)) + 1;
@@ -76,8 +75,8 @@ export function useGamificationData() {
     // Mutations
     const updateXpMutation = useMutation({
         mutationFn: async (newXp: number) => {
-            const { error } = await (supabase
-                .from('profiles') as any)
+            const { error } = await supabase
+                .from('profiles')
                 .update({ xp: newXp })
                 .eq('id', user!.id);
             if (error) throw error;
@@ -103,8 +102,8 @@ export function useGamificationData() {
 
     const unlockBadgeMutation = useMutation({
         mutationFn: async (badgeId: string) => {
-            const { error } = await (supabase
-                .from('user_badges') as any)
+            const { error } = await supabase
+                .from('user_badges')
                 .insert({
                     user_id: user!.id,
                     badge_id: badgeId,

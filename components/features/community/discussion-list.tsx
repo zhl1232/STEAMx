@@ -14,14 +14,14 @@ import { SearchHighlight } from "@/components/ui/search-highlight";
 
 export function DiscussionList() {
     const { user, profile } = useAuth();
-    const { promptLogin } = useLoginPrompt();
+    const { promptLogin: _promptLogin } = useLoginPrompt();
     const [isCreating, setIsCreating] = useState(false);
     const [newTitle, setNewTitle] = useState("");
     const [newContent, setNewContent] = useState("");
     const [newTags, setNewTags] = useState("");
 
     const [discussions, setDiscussions] = useState<Discussion[]>([]);
-    const [page, setPage] = useState(0);
+    const [_page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const isLoadingRef = useRef(false);
@@ -105,7 +105,8 @@ export function DiscussionList() {
                 return;
             }
 
-            const mappedDiscussions: Discussion[] = data.map((d: any) => ({
+            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null } }
+            const mappedDiscussions: Discussion[] = data.map((d: DiscussionRow) => ({
                 id: d.id,
                 title: d.title,
                 author: d.profiles?.display_name || 'Unknown',
@@ -141,7 +142,7 @@ export function DiscussionList() {
                 .select('tags');
 
             if (data) {
-                const allTags = (data as any[]).flatMap(d => d.tags || []);
+                const allTags = (data as { tags: string[] | null }[]).flatMap(d => d.tags || []);
                 const uniqueTags = Array.from(new Set(allTags)).slice(0, 10); // Limit to 10 most common
                 setAvailableTags(uniqueTags);
             }
@@ -176,8 +177,8 @@ export function DiscussionList() {
         e.preventDefault();
         if (!newTitle.trim() || !newContent.trim() || !user) return;
 
-        const { error } = await (supabase
-            .from('discussions') as any)
+        const { error } = await supabase
+            .from('discussions')
             .insert({
                 title: newTitle,
                 content: newContent,

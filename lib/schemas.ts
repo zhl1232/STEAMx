@@ -11,6 +11,14 @@ export const ProfileSchema = z.object({
   created_at: z.string().datetime(),
 });
 
+// Basic schemas for parts
+export const ProjectStepSchema = z.object({
+  title: z.string().min(1, "Step title is required").max(200),
+  description: z.string().max(1000).optional(),
+  image_url: z.string().url().nullable().optional(),
+  sort_order: z.number().int().optional(),
+});
+
 export const ProjectSchema = z.object({
   id: z.string().uuid(),
   title: z.string().min(1, "Title is required"),
@@ -20,6 +28,26 @@ export const ProjectSchema = z.object({
   updated_at: z.string().datetime().nullable().optional(),
   // Add other fields as necessary based on your actual table structure
   // e.g., is_public, view_count, etc.
+});
+
+// Schema for creating/updating a project
+export const CreateProjectSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200),
+  description: z.string().min(1, "Description is required").max(2000),
+  category: z.enum(['科学', '技术', '工程', '艺术', '数学'], {
+    message: "Invalid category", 
+  }),
+  sub_category_id: z.number().nullable().optional(),
+  difficulty_stars: z.number().min(1).max(5).default(1),
+  duration: z.number().min(0).default(60),
+  status: z.enum(['draft', 'pending', 'approved', 'rejected']).default('draft'),
+  image_url: z.string().url("Invalid image URL").max(500).nullable().optional(),
+  materials: z.array(z.string().min(1).max(200)).max(50).optional().default([]), // For simple array of strings (POST API format)
+  // Or handle project_materials array of objects if needed, but POST API uses string array for simplicity?
+  // Let's check API usage. API expects `materials: string[]`. Admin page uses objects.
+  // We need a schema that supports both or distinct schemas.
+  // Let's stick to API schema for now, but Admin page might need transformation.
+  steps: z.array(ProjectStepSchema).max(50).optional().default([]),
 });
 
 // --- Form Schemas ---
@@ -42,5 +70,6 @@ export const ResetPasswordSchema = z.object({
 
 export type Profile = z.infer<typeof ProfileSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
+export type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;

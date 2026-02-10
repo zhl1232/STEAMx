@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Eraser, Trash2, Download, Undo } from "lucide-react";
+import { Eraser, Trash2, Undo } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -33,7 +32,7 @@ export function PixelEditor() {
         }
     };
 
-    const handleMouseUp = () => {
+    const _handleMouseUp = () => {
         setIsDrawing(false);
     };
 

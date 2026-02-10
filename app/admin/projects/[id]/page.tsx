@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { Database } from '@/lib/supabase/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,24 +12,18 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ImageUpload } from '@/components/ui/image-upload'
 import { useToast } from '@/hooks/use-toast'
-import { CATEGORIES, DIFFICULTY_LEVELS } from '@/lib/config/categories'
+import { CATEGORIES } from '@/lib/config/categories'
+import { CreateProjectSchema } from '@/lib/schemas'
 import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
+
+type ProjectUpdate = Database['public']['Tables']['projects']['Update']
+type StepInsert = Database['public']['Tables']['project_steps']['Insert']
+type MaterialInsert = Database['public']['Tables']['project_materials']['Insert']
 
 interface SubCategory {
     id: number
     name: string
-    category_id: number // Assuming there is a link, or we filter by name? 
-    // Actually, usually sub_categories have a category_id pointing to a categories table, or just a category string if categories are hardcoded.
-    // database.ts says: category_id: number. But we don't have a categories table in the config (it's hardcoded strings). 
-    // Let's assume sub_categories table has a 'category' column (string) or we just fetch all and filter?
-    // Checking database.ts again from memory... "category_id: number".
-    // This implies there IS a categories table. But CATEGORIES is hardcoded strings. 
-    // Let's check if we can fetch categories too, OR if the projects table uses string for main category.
-    // The error said `sub_category` column missing, but `category` exists.
-    // The code has `category: formData.category`. 
-    // If `projects` has `category` string, and `sub_categories` has `category_id`, there's a mismatch.
-    // OR `sub_categories` might have `category` as string?
-    // Let's safe-fetch specific columns or *.
+    category?: string
 }
 
 interface ProjectFormData {
@@ -74,7 +69,7 @@ export default function EditProjectPage() {
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [formData, setFormData] = useState<ProjectFormData>(INITIAL_DATA)
-    const [dbSubCategories, setDbSubCategories] = useState<any[]>([])
+    const [dbSubCategories, setDbSubCategories] = useState<SubCategory[]>([])
     const supabase = createClient()
 
     const fetchData = useCallback(async () => {
@@ -82,8 +77,6 @@ export default function EditProjectPage() {
 
         try {
             // 1. Fetch Sub-categories
-            // We fetch all for now to filter client-side or we could fetch by category if we knew it.
-            // But we need to load the project first to know the category.
             const { data: subCats, error: subCatsError } = await supabase
                 .from('sub_categories')
                 .select('*')
@@ -92,7 +85,7 @@ export default function EditProjectPage() {
             setDbSubCategories(subCats || [])
 
             // 2. Fetch Project
-            const { data, error } = await (supabase
+            const { data, error } = await supabase
                 .from('projects')
                 .select(`
           *,
@@ -108,22 +101,25 @@ export default function EditProjectPage() {
           )
         `)
                 .eq('id', id)
-                .single() as any)
+                .single()
 
             if (error) throw error
 
             if (data) {
+                // Cast data to allow access to joined arrays which might not be in the inferred type
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const project = data as any; 
                 setFormData({
-                    title: data.title,
-                    description: data.description || '',
-                    category: data.category || '',
-                    sub_category_id: data.sub_category_id || null, // Use ID
-                    difficulty_stars: data.difficulty_stars,
-                    duration: data.duration || 60,
-                    status: data.status || 'draft',
-                    image_url: data.image_url,
-                    project_steps: (data.project_steps || []).sort((a: any, b: any) => a.sort_order - b.sort_order),
-                    project_materials: (data.project_materials || []).sort((a: any, b: any) => a.sort_order - b.sort_order),
+                    title: project.title,
+                    description: project.description || '',
+                    category: project.category || '',
+                    sub_category_id: project.sub_category_id || null, 
+                    difficulty_stars: project.difficulty_stars,
+                    duration: project.duration || 60,
+                    status: project.status || 'draft',
+                    image_url: project.image_url,
+                    project_steps: (project.project_steps || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
+                    project_materials: (project.project_materials || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
                 })
             }
         } catch (error) {
@@ -145,22 +141,45 @@ export default function EditProjectPage() {
     const handleSave = async () => {
         if (!id) return
 
+        // Validate Form Data with Zod
+        const validationPayload = {
+            ...formData,
+            materials: formData.project_materials.map(m => m.material),
+            steps: formData.project_steps,
+        };
+
+        const validationResult = CreateProjectSchema.safeParse(validationPayload);
+
+        if (!validationResult.success) {
+            console.error("Validation failed:", validationResult.error);
+            const errorMessages = validationResult.error.issues.map(e => e.message).join(', ');
+            toast({
+                title: "表单验证失败",
+                description: errorMessages,
+                variant: "destructive"
+            });
+            return;
+        }
+
         setSaving(true)
         try {
             // 1. Update Project Basic Info
+            const updatePayload: ProjectUpdate = {
+                title: formData.title,
+                description: formData.description,
+                category: formData.category,
+                sub_category_id: formData.sub_category_id,
+                difficulty_stars: formData.difficulty_stars,
+                image_url: formData.image_url,
+                duration: formData.duration,
+                status: formData.status,
+                updated_at: new Date().toISOString()
+            };
+
+            // 1. Update Project Basic Info
             const { error: projectError } = await (supabase
-                .from('projects') as any)
-                .update({
-                    title: formData.title,
-                    description: formData.description,
-                    category: formData.category,
-                    sub_category_id: formData.sub_category_id, // Send ID
-                    difficulty_stars: formData.difficulty_stars,
-                    image_url: formData.image_url,
-                    duration: formData.duration,
-                    status: formData.status,
-                    updated_at: new Date().toISOString()
-                })
+                .from('projects') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+                .update(updatePayload) 
                 .eq('id', id)
 
             if (projectError) throw projectError
@@ -168,26 +187,26 @@ export default function EditProjectPage() {
             // 2. Refresh Steps
             await supabase.from('project_steps').delete().eq('project_id', id)
             if (formData.project_steps.length > 0) {
-                const stepsToInsert = formData.project_steps.map((step, index) => ({
-                    project_id: id,
+                const stepsToInsert: StepInsert[] = formData.project_steps.map((step, index) => ({
+                    project_id: Number(id), // project_id is number in schema
                     title: step.title,
                     description: step.description,
                     image_url: step.image_url,
                     sort_order: index + 1
                 }))
-                const { error: stepsError } = await ((supabase.from('project_steps') as any).insert(stepsToInsert))
+                const { error: stepsError } = await ((supabase.from('project_steps') as any).insert(stepsToInsert)) // eslint-disable-line @typescript-eslint/no-explicit-any
                 if (stepsError) throw stepsError
             }
 
             // 3. Refresh Materials
             await supabase.from('project_materials').delete().eq('project_id', id)
             if (formData.project_materials.length > 0) {
-                const materialsToInsert = formData.project_materials.map((mat, index) => ({
-                    project_id: id,
+                const materialsToInsert: MaterialInsert[] = formData.project_materials.map((mat, index) => ({
+                    project_id: Number(id),
                     material: mat.material,
                     sort_order: index + 1
                 }))
-                const { error: materialsError } = await ((supabase.from('project_materials') as any).insert(materialsToInsert))
+                const { error: materialsError } = await ((supabase.from('project_materials') as any).insert(materialsToInsert)) // eslint-disable-line @typescript-eslint/no-explicit-any
                 if (materialsError) throw materialsError
             }
 
@@ -196,11 +215,11 @@ export default function EditProjectPage() {
                 description: '项目已更新',
             })
 
-        } catch (error: any) {
+        } catch (error) {
             console.error('Error saving project:', error)
             toast({
                 title: '保存失败',
-                description: error.message || '更新项目时发生错误',
+                description: (error as Error).message || '更新项目时发生错误',
                 variant: 'destructive',
             })
         } finally {
@@ -225,7 +244,7 @@ export default function EditProjectPage() {
         }))
     }
 
-    const updateStep = (index: number, field: string, value: any) => {
+    const updateStep = (index: number, field: string, value: string | null) => {
         setFormData(prev => {
             const newSteps = [...prev.project_steps]
             newSteps[index] = { ...newSteps[index], [field]: value }
@@ -403,7 +422,7 @@ export default function EditProjectPage() {
                             <Label>状态</Label>
                             <Select
                                 value={formData.status}
-                                onValueChange={(val: any) => setFormData({ ...formData, status: val })}
+                                onValueChange={(val) => setFormData({ ...formData, status: val as ProjectFormData['status'] })}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="选择状态" />

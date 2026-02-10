@@ -69,8 +69,8 @@ export default function ModeratorApplicationsPage() {
     const fetchApplications = useCallback(async () => {
         setIsLoading(true);
         try {
-            const { data, error } = await (supabase
-                .from('moderator_applications') as any)
+            const { data, error } = await supabase
+                .from('moderator_applications')
                 .select(`
           *,
           profiles:user_id (display_name, avatar_url)
@@ -80,11 +80,12 @@ export default function ModeratorApplicationsPage() {
 
             if (error) throw error;
 
-            setApplications(data || []);
-        } catch (error: any) {
+            // Cast the result because Supabase type inference for joins might be tricky or imperfect
+            setApplications((data as unknown) as ModeratorApplication[]);
+        } catch (error) {
             toast({
                 title: "加载失败",
-                description: error.message,
+                description: (error as Error).message || "未知错误",
                 variant: "destructive"
             });
         } finally {
@@ -101,10 +102,12 @@ export default function ModeratorApplicationsPage() {
     const handleApprove = async (app: ModeratorApplication) => {
         setIsProcessing(true);
 
+
+
         try {
             // 1. 更新用户角色为 moderator
             const { error: roleError } = await (supabase
-                .from('profiles') as any)
+                .from('profiles') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
                 .update({ role: 'moderator' })
                 .eq('id', app.user_id);
 
@@ -113,7 +116,7 @@ export default function ModeratorApplicationsPage() {
             // 2. 更新申请状态
             const { data: { user } } = await supabase.auth.getUser();
             const { error: appError } = await (supabase
-                .from('moderator_applications') as any)
+                .from('moderator_applications') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
                 .update({
                     status: 'approved',
                     reviewed_by: user?.id,
@@ -127,13 +130,13 @@ export default function ModeratorApplicationsPage() {
                 title: "已批准",
                 description: `${app.profiles.display_name || '用户'} 已成为审核员`
             });
-
+            
             // 刷新列表
             fetchApplications();
-        } catch (error: any) {
+        } catch (error) {
             toast({
                 title: "批准失败",
-                description: error.message,
+                description: (error as Error).message || "未知错误",
                 variant: "destructive"
             });
         } finally {
@@ -160,7 +163,7 @@ export default function ModeratorApplicationsPage() {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             const { error } = await (supabase
-                .from('moderator_applications') as any)
+                .from('moderator_applications') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
                 .update({
                     status: 'rejected',
                     reviewed_by: user?.id,
@@ -181,10 +184,10 @@ export default function ModeratorApplicationsPage() {
             setShowRejectDialog(false);
             setRejectReason("");
             setSelectedApp(null);
-        } catch (error: any) {
+        } catch (error) {
             toast({
                 title: "拒绝失败",
-                description: error.message,
+                description: (error as Error).message || "未知错误",
                 variant: "destructive"
             });
         } finally {

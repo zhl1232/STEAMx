@@ -9,13 +9,12 @@ import { useProjects } from "@/context/project-context";
 import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-import { Badge } from "@/components/ui/badge";
 import { DifficultyStars } from "@/components/ui/difficulty-stars";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 
 interface ProjectCardProps {
     project: Project;
-    variants?: any;
+    variants?: Record<string, unknown>;
     searchQuery?: string;
     showStatus?: boolean;  // 是否显示状态Badge，默认false
 }
@@ -23,7 +22,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project, variants, searchQuery = "", showStatus = false }: ProjectCardProps) {
     const { isLiked } = useProjects();
     const liked = isLiked(project.id);
-    const [likesCount, setLikesCount] = useState(project.likes);
+    const [likesCount, _setLikesCount] = useState(project.likes);
     const [imageError, setImageError] = useState(false);
     const shouldReduceMotion = useReducedMotion();
 

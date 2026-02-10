@@ -89,6 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       subscription.unsubscribe()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetchProfile/supabase.auth intentionally excluded to run once on mount
   }, [])
 
   const signOut = async () => {

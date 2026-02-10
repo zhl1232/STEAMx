@@ -71,8 +71,8 @@ export function ModeratorApplicationForm() {
         setIsSubmitting(true);
 
         try {
-            const { error } = await (supabase
-                .from('moderator_applications') as any)
+            const { error } = await supabase
+                .from('moderator_applications')
                 .insert({
                     user_id: user.id,
                     level_at_application: eligibility.requirements.level.current,
@@ -94,10 +94,10 @@ export function ModeratorApplicationForm() {
 
             // 重置表单
             setMotivation('');
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast({
                 title: "申请失败",
-                description: error.message,
+                description: error instanceof Error ? error.message : "申请失败",
                 variant: "destructive"
             });
         } finally {

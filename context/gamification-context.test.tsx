@@ -1,7 +1,6 @@
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import { GamificationProvider, useGamification } from './gamification-context'
 import '@testing-library/jest-dom'
-import { BADGES } from '@/lib/gamification/badges'
 
 // Mock dependencies
 const mockUpdateXpMutation = { mutate: jest.fn() }

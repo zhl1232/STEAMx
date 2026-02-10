@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
-import { Settings, PenBox } from "lucide-react";
+import { Settings } from "lucide-react";
 
 interface ProjectListProps {
     projects: Project[];
@@ -57,7 +57,7 @@ function MobileProjectItem({ project }: { project: Project }) {
                 </div>
                 <div className="flex gap-3 text-xs text-muted-foreground">
                     <span>❤️ {project.likes}</span>
-                    <span>👀 {(project as any).views || 0}</span>
+                    <span>👀 {'views' in project ? Number(project.views) || 0 : 0}</span>
                 </div>
             </div>
         </Link>

@@ -53,17 +53,18 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         // Check joined status if user is logged in
         let joinedChallengeIds = new Set<number>();
         if (user) {
-            const { data: participants } = await (supabase
-                .from('challenge_participants') as any)
+            const { data: participants } = await supabase
+                .from('challenge_participants')
                 .select('challenge_id')
                 .eq('user_id', user.id);
 
             if (participants) {
-                participants.forEach((p: any) => joinedChallengeIds.add(p.challenge_id));
+                participants.forEach((p: { challenge_id: number }) => joinedChallengeIds.add(p.challenge_id));
             }
         }
 
-        const mappedChallenges: Challenge[] = (data || []).map((c: any) => ({
+        interface ChallengeRow { id: number; title: string; description: string | null; image_url: string | null; participants_count: number; end_date: string | null; tags: string[] | null }
+        const mappedChallenges: Challenge[] = (data || []).map((c: ChallengeRow) => ({
             id: c.id,
             title: c.title,
             description: c.description || '',
@@ -90,8 +91,8 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const addDiscussion = useCallback(async (discussion: Discussion) => {
         if (!user) return;
 
-        const { data: newDiscussion, error } = await (supabase
-            .from('discussions') as any)
+        const { data: newDiscussion, error } = await supabase
+            .from('discussions')
             .insert({
                 title: discussion.title,
                 content: discussion.content,
@@ -145,8 +146,8 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const addReply = useCallback(async (discussionId: string | number, reply: Comment, parentId?: number) => {
         if (!user) return null;
 
-        const { data: newReply, error } = await (supabase
-            .from('discussion_replies') as any)
+        const { data: newReply, error } = await supabase
+            .from('discussion_replies')
             .insert({
                 discussion_id: discussionId,
                 author_id: user.id,
@@ -240,11 +241,11 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
         if (isJoined) {
             // Leave
-            await ((supabase.from('challenge_participants') as any).delete().eq('user_id', user.id).eq('challenge_id', cid));
+            await supabase.from('challenge_participants').delete().eq('user_id', user.id).eq('challenge_id', cid);
             await callRpc(supabase, 'decrement_challenge_participants', { challenge_id: cid });
         } else {
             // Join
-            await ((supabase.from('challenge_participants') as any).insert({ user_id: user.id, challenge_id: cid }));
+            await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid });
             await callRpc(supabase, 'increment_challenge_participants', { challenge_id: cid });
 
             // 奖励 XP

@@ -45,7 +45,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     const filters: ProjectFilters = {
         searchQuery: params.q,
         category: params.category,
-        difficulty: params.difficulty as any,
+        difficulty: params.difficulty as ProjectFilters['difficulty'],
     }
 
     // 服务端获取首屏数据

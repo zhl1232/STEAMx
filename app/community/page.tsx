@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 export default function CommunityPage() {
     const { challenges } = useCommunity();
     const [activeTab, setActiveTab] = useState<"discussions" | "challenges">("discussions");
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, _setIsLoading] = useState(false);
 
     return (
         <>

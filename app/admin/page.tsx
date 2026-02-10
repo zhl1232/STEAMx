@@ -92,7 +92,7 @@ export default function AdminPage() {
       .limit(50)
 
     if (!error && data) {
-      setAllProjects(data as any[]) // Type casting as simplified Project
+      setAllProjects(data as Project[]) // Type casting as simplified Project
     }
   }, [supabase])
 

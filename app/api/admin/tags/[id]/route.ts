@@ -20,8 +20,8 @@ export async function DELETE(
     const { id } = await params
     const tagId = parseInt(id)
     
-    const { error } = await (supabase
-      .from('tags') as any)
+    const { error } = await supabase
+      .from('tags')
       .delete()
       .eq('id', tagId)
     

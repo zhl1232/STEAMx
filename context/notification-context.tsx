@@ -95,8 +95,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const markAsRead = async (id: number) => {
         if (!user) return;
 
-        const { error } = await (supabase
-            .from('notifications') as any)
+        const { error } = await supabase
+            .from('notifications')
             .update({ is_read: true })
             .eq('id', id);
 
@@ -113,8 +113,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const markAllAsRead = async () => {
         if (!user) return;
 
-        const { error } = await (supabase
-            .from('notifications') as any)
+        const { error } = await supabase
+            .from('notifications')
             .update({ is_read: true })
             .eq('user_id', user.id)
             .eq('is_read', false);
@@ -130,8 +130,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     };
 
     const createNotification = async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
-        const { error } = await (supabase
-            .from('notifications') as any)
+        const { error } = await supabase
+            .from('notifications')
             .insert(notification);
 
         if (error) {

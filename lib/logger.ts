@@ -4,7 +4,7 @@
  */
 
 type LogLevel = 'info' | 'warn' | 'error'
-type LogContext = Record<string, any>
+type LogContext = Record<string, unknown>
 
 class Logger {
     private isDevelopment = process.env.NODE_ENV === 'development'
@@ -14,7 +14,7 @@ class Logger {
      */
     info(message: string, context?: LogContext) {
         if (this.isDevelopment) {
-            console.info(`[INFO] ${message}`, context || '')
+            console.warn(`[INFO] ${message}`, context || '')
         }
 
         // 生产环境可以发送到监控服务
@@ -49,14 +49,12 @@ class Logger {
         })
 
         // 如果集成了 Sentry
-        if (typeof window !== 'undefined' && (window as any).Sentry) {
+        if (typeof window !== 'undefined' && (window as Window & { Sentry?: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry) {
+            const Sentry = (window as Window & { Sentry: { captureException: (e: Error, o?: object) => void; captureMessage: (m: string, o?: object) => void } }).Sentry
             if (error instanceof Error) {
-                (window as any).Sentry.captureException(error, { extra: context })
+                Sentry.captureException(error, { extra: context })
             } else {
-                (window as any).Sentry.captureMessage(error, {
-                    level: 'error',
-                    extra: context,
-                })
+                Sentry.captureMessage(error, { level: 'error', extra: context } as { level: string; extra: LogContext })
             }
         }
     }
@@ -65,8 +63,9 @@ class Logger {
      * 设置用户上下文(用于错误追踪)
      */
     setUser(userId: string, email?: string, username?: string) {
-        if (typeof window !== 'undefined' && (window as any).Sentry) {
-            (window as any).Sentry.setUser({ id: userId, email, username })
+        const w = window as Window & { Sentry?: { setUser: (u: object | null) => void } }
+        if (typeof window !== 'undefined' && w.Sentry) {
+            w.Sentry.setUser({ id: userId, email, username })
         }
     }
 
@@ -74,8 +73,9 @@ class Logger {
      * 清除用户上下文
      */
     clearUser() {
-        if (typeof window !== 'undefined' && (window as any).Sentry) {
-            (window as any).Sentry.setUser(null)
+        const w = window as Window & { Sentry?: { setUser: (u: null) => void } }
+        if (typeof window !== 'undefined' && w.Sentry) {
+            w.Sentry.setUser(null)
         }
     }
 

@@ -237,7 +237,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         )
                     `)
                     .eq('id', id)
-                    .single() as any);
+                    .single());
 
                 if (error || !data) {
                     console.error('Error fetching discussion:', error);
@@ -253,7 +253,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     date: formatRelativeTime(data.created_at),
                     likes: data.likes_count,
                     tags: data.tags || [],
-                    replies: ((data.discussion_replies as any[]) || []).map((r: any) => ({
+                    replies: ((data.discussion_replies as Array<{ id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null } }>) || []).map((r) => ({
 
                         id: r.id,
                         author: r.profiles?.display_name || 'Unknown',

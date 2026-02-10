@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
@@ -97,8 +97,8 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
         queryKey: ['completion_like', completion.id, user?.id],
         queryFn: async () => {
             if (!user) return false;
-            const { data } = await (supabase
-                .from('completion_likes') as any)
+            const { data } = await supabase
+                .from('completion_likes')
                 .select('*')
                 .eq('completed_project_id', completion.id)
                 .eq('user_id', user.id)
@@ -126,8 +126,8 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const { data: comments = [] } = useQuery({
         queryKey: ['completion_comments', completion.id],
         queryFn: async () => {
-            const { data } = await (supabase
-                .from('completion_comments') as any)
+            const { data } = await supabase
+                .from('completion_comments')
                 .select('*')
                 .eq('completed_project_id', completion.id)
                 .order('created_at', { ascending: true });
@@ -142,11 +142,11 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             if (!user) throw new Error("Unauthorized");
             if (vars.isLiked) {
                 // Was liked, delete it
-                await (supabase.from('completion_likes') as any).delete()
+                await supabase.from('completion_likes').delete()
                     .eq('completed_project_id', completion.id).eq('user_id', user.id);
             } else {
                 // Not liked, insert it
-                await (supabase.from('completion_likes') as any).insert({
+                await supabase.from('completion_likes').insert({
                     completed_project_id: completion.id,
                     user_id: user.id
                 });
@@ -180,8 +180,8 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const commentMutation = useMutation({
         mutationFn: async (content: string) => {
             if (!user) throw new Error("Unauthorized");
-            return await (supabase
-                .from('completion_comments') as any)
+            return await supabase
+                .from('completion_comments')
                 .insert({
                     completed_project_id: completion.id,
                     author_id: user.id,
@@ -202,7 +202,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
         togglePlay,
         danmakuClass
     } = useDanmaku({
-        initialComments: comments.map((c: any) => ({ id: c.id, content: c.content })),
+        initialComments: comments.map((c: { id: number; content: string }) => ({ id: c.id, content: c.content })),
         autoPlay: true
     });
 

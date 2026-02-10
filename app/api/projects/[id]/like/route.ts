@@ -47,7 +47,7 @@ export async function POST(
       // 添加点赞
       const { error: insertError } = await supabase
         .from('likes')
-        .insert({ user_id: user.id, project_id: projectId } as any)
+        .insert({ user_id: user.id, project_id: projectId })
       
       if (insertError) {
         throw insertError

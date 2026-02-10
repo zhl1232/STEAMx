@@ -71,7 +71,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
       })
       onReview()
       setIsDetailOpen(false)
-    } catch (error) {
+    } catch {
       toast({
         title: '操作失败',
         description: '审核项目时发生错误',
@@ -114,7 +114,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
       setShowRejectInput(false)
       setRejectionReason('')
       setIsDetailOpen(false)
-    } catch (error) {
+    } catch {
       toast({
         title: '操作失败',
         description: '拒绝项目时发生错误',

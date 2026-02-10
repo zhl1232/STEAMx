@@ -10,7 +10,7 @@ interface LevelProgressProps {
 }
 
 export function LevelProgress({ className, showLabel = true }: LevelProgressProps) {
-    const { level, progress, xp, levelProgress, levelTotalNeeded } = useGamification();
+    const { level, progress, xp: _xp, levelProgress, levelTotalNeeded } = useGamification();
 
     return (
         <div className={cn("flex flex-col gap-2 w-full", className)}>
