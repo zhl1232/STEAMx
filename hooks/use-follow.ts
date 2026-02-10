@@ -1,11 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
+import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
 
 export function useFollow(targetUserId: string) {
     const supabase = createClient();
-    const { user, loading: authLoading } = useAuth();
+    const { user, profile, loading: authLoading } = useAuth();
+    const { createNotification } = useNotifications();
     const queryClient = useQueryClient();
     const { toast } = useToast();
 
@@ -60,6 +62,16 @@ export function useFollow(targetUserId: string) {
                         following_id: targetUserId
                     });
                 if (error) throw error;
+                // 给被关注者发送「新增粉丝」通知
+                const followerName = profile?.display_name ?? (user.email?.split("@")[0]) ?? "某人";
+                await createNotification({
+                    user_id: targetUserId,
+                    type: "follow",
+                    content: `${followerName} 关注了你`,
+                    from_user_id: user.id,
+                    from_username: followerName,
+                    from_avatar: profile?.avatar_url ?? (user.user_metadata?.avatar_url as string | undefined),
+                });
             } else {
                 const { error } = await supabase
                     .from('follows')

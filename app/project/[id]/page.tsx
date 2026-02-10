@@ -134,6 +134,15 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             </div>
                         </div>
 
+                        {/* 移动端：交互区紧跟标题，便于操作 */}
+                        <div className="block md:hidden">
+                            <ProjectInteractions
+                                projectId={project.id}
+                                projectTitle={project.title}
+                                likes={project.likes}
+                            />
+                        </div>
+
                         <div className="prose max-w-none">
                             <h3>项目介绍</h3>
                             <p>{project.description || "暂无介绍"}</p>
@@ -195,12 +204,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
                 <div className="space-y-8">
                     <div className="space-y-6">
-                        {/* Interactions - Client Component */}
-                        <ProjectInteractions
-                            projectId={project.id}
-                            projectTitle={project.title}
-                            likes={project.likes}
-                        />
+                        {/* 桌面端：侧边栏交互区（移动端在标题下方显示） */}
+                        <div className="hidden md:block">
+                            <ProjectInteractions
+                                projectId={project.id}
+                                projectTitle={project.title}
+                                likes={project.likes}
+                            />
+                        </div>
 
                         <div className="rounded-lg border p-4">
                             <h3 className="font-semibold mb-3">所需材料</h3>

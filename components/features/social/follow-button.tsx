@@ -11,9 +11,11 @@ interface FollowButtonProps {
     targetUserId: string;
     className?: string;
     showCount?: boolean;
+    /** 在「新增粉丝」等场景下显示为「回关」而非「关注」 */
+    followBack?: boolean;
 }
 
-export function FollowButton({ targetUserId, className, showCount = false }: FollowButtonProps) {
+export function FollowButton({ targetUserId, className, showCount = false, followBack = false }: FollowButtonProps) {
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { isFollowing, isLoading, follow, unfollow, isPending, followerCount } = useFollow(targetUserId);
@@ -49,7 +51,7 @@ export function FollowButton({ targetUserId, className, showCount = false }: Fol
             size="sm"
             onClick={handleClick}
             disabled={isLoading || isPending}
-            className={cn("gap-2 transition-all min-w-[80px]", className, isFollowing && "text-muted-foreground hover:text-destructive hover:border-destructive hover:bg-destructive/10")}
+            className={cn("group gap-2 transition-all min-w-[80px]", className, isFollowing && "text-muted-foreground hover:text-destructive hover:border-destructive hover:bg-destructive/10")}
         >
             {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -62,7 +64,7 @@ export function FollowButton({ targetUserId, className, showCount = false }: Fol
             ) : (
                 <>
                     <UserPlus className="h-4 w-4" />
-                    关注
+                    {followBack ? "回关" : "关注"}
                 </>
             )}
             {showCount && <span className="text-xs opacity-80 min-w-[2ch]">{followerCount}</span>}

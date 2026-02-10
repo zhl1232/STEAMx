@@ -400,6 +400,36 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         } else {
             await supabase.from('likes').insert({ user_id: user.id, project_id: pid });
             await callRpc(supabase, 'increment_project_likes', { project_id: pid });
+
+            // 给作品作者发送「收到喜欢」通知（不通知自己给自己点赞的情况）
+            try {
+                const { data: projectRow, error: projectError } = await supabase
+                    .from('projects')
+                    .select('id, title, author_id, profiles:author_id (display_name, avatar_url)')
+                    .eq('id', pid)
+                    .single();
+
+                if (!projectError && projectRow && projectRow.author_id && projectRow.author_id !== user.id) {
+                    const authorId = projectRow.author_id as string;
+                    const authorProfile = (projectRow as any).profiles as { display_name?: string | null, avatar_url?: string | null } | null;
+                    const likerName = profile?.display_name || user.email?.split('@')[0] || '某人';
+
+                    await createNotification({
+                        user_id: authorId,
+                        type: 'like',
+                        content: `${likerName} 赞了你的项目「${projectRow.title}」`,
+                        related_type: 'project',
+                        related_id: pid,
+                        project_id: pid,
+                        from_user_id: user.id,
+                        from_username: likerName,
+                        from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url || undefined
+                    });
+                }
+            } catch (err) {
+                console.error('Error creating like notification:', err);
+            }
+
             addXp(1, "点赞项目", "like_project", pid);
 
             // 检查点赞相关徽章

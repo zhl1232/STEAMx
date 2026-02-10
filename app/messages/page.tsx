@@ -16,6 +16,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FollowButton } from "@/components/features/social/follow-button";
 
 const TABS = [
   { key: "replies", label: "回复与@", icon: MessageSquare },
@@ -64,6 +65,8 @@ export default function MessagesPage() {
     if (!n.is_read) await markAsRead(n.id);
     if (n.type === "creator_update" && n.project_id) {
       router.push(`/project/${n.project_id}`);
+    } else if (n.type === "follow" && n.from_user_id) {
+      router.push(`/users/${n.from_user_id}`);
     } else if (n.related_type === "comment" && n.project_id && n.related_id) {
       router.push(`/project/${n.project_id}#comment-${n.related_id}`);
     } else if (
@@ -72,6 +75,8 @@ export default function MessagesPage() {
       n.related_id
     ) {
       router.push(`/community/discussion/${n.discussion_id}#reply-${n.related_id}`);
+    } else if (n.type === "like" && n.project_id) {
+      router.push(`/project/${n.project_id}`);
     }
   };
 
@@ -157,39 +162,50 @@ export default function MessagesPage() {
             <ul className="space-y-1">
               {filteredNotifications.map((n) => (
                 <li key={n.id}>
-                  <button
-                    type="button"
+                  <div
                     className={cn(
-                      "w-full flex items-center gap-3 min-h-14 py-4 px-3 rounded-xl hover:bg-muted/60 active:bg-muted/80 transition-colors text-left md:min-h-0 md:py-3 md:rounded-lg",
+                      "w-full flex items-center gap-3 min-h-14 py-4 px-3 rounded-xl md:min-h-0 md:py-3 md:rounded-lg",
                       !n.is_read && "bg-accent/40"
                     )}
-                    onClick={() => handleNotificationClick(n)}
                   >
-                    {n.from_username ? (
-                      <Avatar className="h-10 w-10 shrink-0">
-                        <AvatarImage src={n.from_avatar ?? undefined} alt={n.from_username} />
-                        <AvatarFallback className="bg-primary/10">
-                          {n.from_username[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                    ) : (
-                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <MessageSquare className="h-5 w-5 text-primary" />
+                    <button
+                      type="button"
+                      className={cn(
+                        "flex items-center gap-3 min-w-0 flex-1 text-left hover:bg-muted/60 active:bg-muted/80 transition-colors rounded-lg -m-1 p-1 md:py-2 md:px-2"
+                      )}
+                      onClick={() => handleNotificationClick(n)}
+                    >
+                      {n.from_username ? (
+                        <Avatar className="h-10 w-10 shrink-0">
+                          <AvatarImage src={n.from_avatar ?? undefined} alt={n.from_username} />
+                          <AvatarFallback className="bg-primary/10">
+                            {n.from_username[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <MessageSquare className="h-5 w-5 text-primary" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm truncate">{n.content}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {formatDistanceToNow(new Date(n.created_at), {
+                            addSuffix: true,
+                            locale: zhCN,
+                          })}
+                        </p>
+                      </div>
+                      {!n.is_read && (
+                        <span className="h-2 w-2 rounded-full bg-primary shrink-0" />
+                      )}
+                    </button>
+                    {tab === "follows" && n.from_user_id && (
+                      <div onClick={(e) => e.stopPropagation()} className="shrink-0">
+                        <FollowButton targetUserId={n.from_user_id} followBack className="min-w-[72px]" />
                       </div>
                     )}
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm truncate">{n.content}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {formatDistanceToNow(new Date(n.created_at), {
-                          addSuffix: true,
-                          locale: zhCN,
-                        })}
-                      </p>
-                    </div>
-                    {!n.is_read && (
-                      <span className="h-2 w-2 rounded-full bg-primary shrink-0" />
-                    )}
-                  </button>
+                  </div>
                 </li>
               ))}
             </ul>

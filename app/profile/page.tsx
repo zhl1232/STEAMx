@@ -170,7 +170,7 @@ export default function ProfilePage() {
 
     loadUserProjects()
     // 使用稳定的字符串 key 作为依赖，而不是 Set 对象本身
-  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad, supabase, likedProjects, collectedProjects, completedProjects, user])
+  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
 
 
   if (authLoading) {
@@ -244,14 +244,11 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* 编辑与私信 */}
+          {/* 编辑资料 */}
           <div className="flex items-center gap-2">
             <EditProfileDialog>
               <Button variant="outline">编辑资料</Button>
             </EditProfileDialog>
-            <Button variant="outline" asChild>
-              <Link href="/messages?tab=dm">私信</Link>
-            </Button>
           </div>
         </div>
       </div>

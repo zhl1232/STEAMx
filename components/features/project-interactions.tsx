@@ -67,9 +67,9 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
 
     return (
         <>
-            <div className="rounded-lg border p-4 space-y-4 sticky top-24 bg-background">
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
+            <div className="rounded-lg border p-3 space-y-3 md:p-4 md:space-y-4 md:sticky md:top-24 bg-background">
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex gap-2 shrink-0">
                         <Button
                             variant={isProjectLiked ? "default" : "outline"}
                             size="icon"
@@ -92,7 +92,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                             <Share2 className="h-4 w-4" />
                         </Button>
                     </div>
-                    <span className="font-bold text-lg">{initialLikes} 赞</span>
+                    <span className="font-bold text-base md:text-lg whitespace-nowrap">{initialLikes} 赞</span>
                 </div>
                 <ConfettiButton
                     className="w-full"

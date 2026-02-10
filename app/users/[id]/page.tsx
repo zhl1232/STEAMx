@@ -64,7 +64,7 @@ export default function PublicProfilePage() {
 
         if (profileError) throw profileError;
 
-        // Vlaidate Profile Data
+        // Validate Profile Data
         const profileResult = ProfileSchema.safeParse(profileData);
         if (!profileResult.success) {
           console.error("Profile validation passed with errors:", profileResult.error);

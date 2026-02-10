@@ -83,7 +83,9 @@ cp .env.example .env.local
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
-
+```
+   set -a && source .env.local && set +a && pnpm exec supabase db push
+```
 4. 运行数据库迁移：
 
 ```bash

@@ -12,6 +12,7 @@ BEGIN;
 
 DELETE FROM public.discussion_replies;
 DELETE FROM public.discussions;
+DELETE FROM public.messages;
 DELETE FROM public.user_badges;
 DELETE FROM public.completed_projects;
 DELETE FROM public.comments;

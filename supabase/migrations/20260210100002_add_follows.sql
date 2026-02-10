@@ -29,8 +29,7 @@ create policy "Users can delete their own follows"
   on public.follows for delete
   using ( auth.uid() = follower_id );
 
--- 4. Grants (Permissions)
--- Ensure 'authenticated' and 'anon' roles have permission to access the table
+-- Grants (Permissions)
 grant select, insert, delete on table public.follows to authenticated;
 grant select on table public.follows to anon;
 grant select, insert, update, delete on table public.follows to service_role;
