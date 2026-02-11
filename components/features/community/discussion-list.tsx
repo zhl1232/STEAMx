@@ -297,7 +297,7 @@ export function DiscussionList() {
                     <>
                         <div
                             ref={listParentRef}
-                            className="overflow-auto rounded-lg"
+                            className="overflow-auto rounded-xl"
                             style={{ maxHeight: LIST_MAX_HEIGHT }}
                         >
                             <div
@@ -322,32 +322,36 @@ export function DiscussionList() {
                                             }}
                                             className="pb-4"
                                         >
-                                            <div className="border rounded-lg p-6 hover:shadow-md transition-all bg-white/70 dark:bg-gray-800/70 backdrop-blur-md hover:scale-105 cursor-pointer group relative">
-                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0" />
-                                                <div className="flex justify-between items-start mb-4">
-                                                    <div>
-                                                        <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                                                            <SearchHighlight text={discussion.title} query={searchQuery} />
-                                                        </h3>
-                                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                            <span className="flex items-center gap-1">
-                                                                👤 {discussion.author}
-                                                            </span>
-                                                            <span>{discussion.date}</span>
+                                            <div className="border border-border/60 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow transition-all bg-card cursor-pointer group relative">
+                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-[1]" />
+                                                <div className="relative z-10">
+                                                    <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors pr-2">
+                                                        <SearchHighlight text={discussion.title} query={searchQuery} />
+                                                    </h3>
+                                                    <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className="size-4 rounded-full bg-muted-foreground/20 flex items-center justify-center text-[10px]">👤</span>
+                                                            {discussion.author}
+                                                        </span>
+                                                        <span>{discussion.date}</span>
+                                                    </div>
+                                                    {discussion.tags.length > 0 && (
+                                                        <div className="flex flex-wrap gap-1.5 mb-3">
+                                                            {discussion.tags.map((tag) => (
+                                                                <span
+                                                                    key={tag}
+                                                                    className="inline-flex items-center gap-1 rounded-full bg-pink-100 px-2.5 py-1 text-xs font-medium text-pink-800 dark:bg-pink-900/35 dark:text-pink-200"
+                                                                >
+                                                                    <Tag className="h-3 w-3 shrink-0" />
+                                                                    {tag}
+                                                                </span>
+                                                            ))}
                                                         </div>
-                                                    </div>
-                                                    <div className="flex gap-2">
-                                                        {discussion.tags.map(tag => (
-                                                            <span key={tag} className="px-2 py-1 bg-secondary text-secondary-foreground rounded-full text-xs flex items-center gap-1">
-                                                                <Tag className="h-3 w-3" /> {tag}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <p className="text-muted-foreground mb-4 line-clamp-2">
-                                                    <SearchHighlight text={discussion.content} query={searchQuery} />
-                                                </p>
-                                                <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4 relative z-10">
+                                                    )}
+                                                    <p className="text-muted-foreground line-clamp-2 text-sm sm:text-base mb-4">
+                                                        <SearchHighlight text={discussion.content} query={searchQuery} />
+                                                    </p>
+                                                    <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4">
                                                     <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
                                                         <MessageSquare className="h-4 w-4" />
                                                         {discussion.replies.length} 回复
@@ -355,21 +359,22 @@ export function DiscussionList() {
                                                     <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
                                                         <Heart className="h-4 w-4" />
                                                         {discussion.likes} 赞
-                                                    </Button>
-                                                    {(profile?.role === 'admin' || profile?.role === 'moderator') && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto relative z-20"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                                handleDelete(discussion.id);
-                                                            }}
-                                                        >
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </Button>
-                                                    )}
+                                                            </Button>
+                                                            {(profile?.role === 'admin' || profile?.role === 'moderator') && (
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto relative z-20"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        handleDelete(discussion.id);
+                                                                    }}
+                                                                >
+                                                                    <Trash2 className="h-4 w-4" />
+                                                                </Button>
+                                                            )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

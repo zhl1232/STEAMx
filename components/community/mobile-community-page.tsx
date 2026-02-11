@@ -5,11 +5,12 @@ import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
+import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { cn } from "@/lib/utils";
 
 export function MobileCommunityPage() {
     const { challenges } = useCommunity();
-    const [activeTab, setActiveTab] = useState<"discussions" | "challenges">("discussions");
+    const [activeTab, setActiveTab] = useState<"discussions" | "challenges" | "leaderboard">("discussions");
     const [isLoading] = useState(false);
 
     return (
@@ -39,12 +40,27 @@ export function MobileCommunityPage() {
                         挑战赛
                         {activeTab === "challenges" && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />}
                     </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab("leaderboard")}
+                        className={cn(
+                            "pb-3 text-sm font-medium transition-colors relative",
+                            activeTab === "leaderboard" ? "text-primary text-base font-bold" : "text-muted-foreground"
+                        )}
+                    >
+                        排行榜
+                        {activeTab === "leaderboard" && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />}
+                    </button>
                 </div>
             </div>
 
-            <div className="flex-1 px-4 py-4">
+            <div className="flex-1 px-4 py-4 overflow-auto">
                 {activeTab === "discussions" ? (
                     <DiscussionList />
+                ) : activeTab === "leaderboard" ? (
+                    <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                        <LeaderboardContent compact listMaxHeight={420} className="w-full" />
+                    </div>
                 ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="mb-4">

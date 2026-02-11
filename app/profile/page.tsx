@@ -12,7 +12,7 @@ import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gal
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { Award, Zap } from 'lucide-react'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
@@ -33,7 +33,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges } = useGamification()
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   // 独立加载的项目列表
   const [myProjects, setMyProjects] = useState<Project[]>([])
@@ -172,8 +172,8 @@ export default function ProfilePage() {
     }
 
     loadUserProjects()
-    // 使用稳定的字符串 key 作为依赖，而不是 Set 对象本身
-  }, [user?.id, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
+    // likedIdsKey/collectedIdsKey/completedIdsKey 为 Set 内容的稳定表示，避免 Set 引用变化导致重复执行
+  }, [user, supabase, likedProjects, collectedProjects, completedProjects, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
 
 
   if (authLoading) {

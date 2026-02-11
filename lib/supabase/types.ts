@@ -781,6 +781,24 @@ export interface Database {
           project_count: number
         }[]
       }
+      get_leaderboard_xp_weekly: {
+        Args: { limit_count: number }
+        Returns: {
+          id: string
+          display_name: string | null
+          avatar_url: string | null
+          xp: number
+        }[]
+      }
+      get_leaderboard_xp_monthly: {
+        Args: { limit_count: number }
+        Returns: {
+          id: string
+          display_name: string | null
+          avatar_url: string | null
+          xp: number
+        }[]
+      }
       get_user_stats_summary: {
         Args: { target_user_id: string }
         Returns: {

@@ -184,19 +184,19 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         <TabsList className="w-full justify-between bg-transparent p-0 sm:justify-start sm:gap-6">
                             <TabsTrigger
                                 value="all"
-                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
+                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
                             >
                                 全部 <span className="ml-1 text-muted-foreground">{badges.length}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="unlocked"
-                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
+                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
                             >
                                 已拥有 <span className="ml-1 text-muted-foreground">{unlockedList.length}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="locked"
-                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
+                                className="flex-1 rounded-none border-b-2 border-transparent px-0 pb-3 pt-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:text-sm"
                             >
                                 未解锁 <span className="ml-1 text-muted-foreground">{lockedList.length}</span>
                             </TabsTrigger>

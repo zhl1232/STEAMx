@@ -1,6 +1,7 @@
 "use client";
 
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
@@ -8,7 +9,7 @@ import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
 import { MobileCommunityPage } from "@/components/community/mobile-community-page";
 
-import { MessageSquare, Trophy } from "lucide-react";
+import { MessageSquare, Trophy, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function CommunityPage() {
@@ -63,6 +64,13 @@ export default function CommunityPage() {
                             <Trophy className="mr-2 h-4 w-4" />
                             挑战赛
                         </button>
+                        <Link
+                            href="/leaderboard"
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-8 py-2 text-sm font-medium ring-offset-background transition-all hover:bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        >
+                            <Award className="mr-2 h-4 w-4" />
+                            排行榜
+                        </Link>
                     </div>
                 </div>
 

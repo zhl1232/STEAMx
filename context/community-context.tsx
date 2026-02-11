@@ -8,6 +8,7 @@ import { useGamification } from "@/context/gamification-context";
 import { useNotifications } from "@/context/notification-context";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Comment, Discussion, Challenge } from "@/lib/types";
+import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 
 
 
@@ -185,7 +186,27 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Award XP for replying
-        addXp(1, "回复讨论", "reply_discussion", replyRow.id);
+        await addXp(1, "回复讨论", "reply_discussion", replyRow.id);
+
+        // 每周小目标：评论/回复满 5 次 → 额外 +5 XP（当周仅一次）
+        const weekStart = getWeekStartISO();
+        const weekKey = getWeekKey();
+        const { data: weekComments } = await supabase
+            .from("xp_logs")
+            .select("id")
+            .eq("user_id", user.id)
+            .in("action_type", ["comment_project", "reply_discussion"])
+            .gte("created_at", weekStart);
+        const { data: alreadyAwarded } = await supabase
+            .from("xp_logs")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("action_type", "weekly_goal_comments_5")
+            .eq("resource_id", weekKey)
+            .maybeSingle();
+        if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
+            addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
+        }
 
         // 检查回复相关徽章
         const { count: replyCount } = await supabase

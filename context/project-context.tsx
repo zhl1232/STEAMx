@@ -11,6 +11,7 @@ import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
+import { getTodayKey, getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 
 export interface ProjectCompletionProof {
     images: string[];
@@ -362,7 +363,27 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Award XP for commenting
-        addXp(1, "发表评论", "comment_project", commentRow.id);
+        await addXp(1, "发表评论", "comment_project", commentRow.id);
+
+        // 每周小目标：评论/回复满 5 次 → 额外 +5 XP（当周仅一次）
+        const weekStart = getWeekStartISO();
+        const weekKey = getWeekKey();
+        const { data: weekComments } = await supabase
+            .from("xp_logs")
+            .select("id")
+            .eq("user_id", user.id)
+            .in("action_type", ["comment_project", "reply_discussion"])
+            .gte("created_at", weekStart);
+        const { data: alreadyAwarded } = await supabase
+            .from("xp_logs")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("action_type", "weekly_goal_comments_5")
+            .eq("resource_id", weekKey)
+            .maybeSingle();
+        if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
+            addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
+        }
 
         // Check badges
         const stats = await getUserStats();
@@ -501,7 +522,19 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             if (error) throw error;
 
             // Award XP for completing a project
-            addXp(20, "完成项目", "complete_project", pid);
+            await addXp(20, "完成项目", "complete_project", pid);
+
+            // 每日小目标：今日完成第 1 个项目 → 额外 +10 XP
+            const today = getTodayKey();
+            const { data: todayCompletes } = await supabase
+                .from("xp_logs")
+                .select("id")
+                .eq("user_id", user.id)
+                .eq("action_type", "complete_project")
+                .gte("created_at", `${today}T00:00:00.000Z`);
+            if (todayCompletes?.length === 1) {
+                addXp(10, "每日目标：完成1个项目", "daily_goal_first_complete", today);
+            }
 
             // Check badges
             const stats = await getUserStats();

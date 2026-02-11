@@ -9,6 +9,7 @@ import { useAuth } from "@/context/auth-context";
 import { BADGES } from "@/lib/gamification/badges";
 import { UserStats, Badge } from "@/lib/gamification/types";
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data";
+import { getTodayKey } from "@/lib/date-utils";
 
 export type { UserStats, Badge };
 export { BADGES };
@@ -247,17 +248,23 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             hasCheckedIn.current = true; // Mark as checked in immediately
 
             try {
-                // Call RPC to record check-in
-                const { error } = await supabase.rpc('daily_check_in');
+                // Call RPC to record check-in (DB returns jsonb: streak, total_days, checked_in_today, is_new_day)
+                const { data, error } = await supabase.rpc('daily_check_in');
 
                 if (error) {
                     console.error('Check-in error:', error);
                     return;
                 }
 
-                // If check-in resulted in XP gain or new day streak, we might want to notify user.
-                // The current RPC response structure needs to be known to do this precisely.
-                // For now, refresh stats to reflect new login days/streaks immediately
+                // 连续打卡加成：新一天打卡时发放 5 + min(连续天数, 20) XP，封顶 25
+                const result = data as { streak?: number; is_new_day?: boolean } | null;
+                if (result?.is_new_day) {
+                    const streak = result.streak ?? 0;
+                    const bonus = Math.min(streak, 20);
+                    const today = getTodayKey();
+                    addXp(5 + bonus, "每日登录", "daily_login", today);
+                }
+
                 refetchStats();
             } catch (err) {
                 console.error('Check-in failed:', err);
@@ -266,7 +273,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         performCheckIn();
         // We only want to run this once per session/mount effectively, or when user changes
-    }, [user, supabase, refetchStats]);
+    }, [user, supabase, refetchStats, addXp]);
 
     const contextValue = useMemo(() => ({
         xp,

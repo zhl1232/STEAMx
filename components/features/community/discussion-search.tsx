@@ -110,18 +110,26 @@ export function DiscussionSearch({ onSearch, availableTags = [] }: DiscussionSea
 
       {/* Tag Filter Chips */}
       {availableTags.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm text-muted-foreground">标签筛选：</span>
-          {availableTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant={selectedTag === tag ? "default" : "outline"}
-              className="cursor-pointer hover:bg-primary/80 transition-colors"
-              onClick={() => handleTagClick(tag)}
-            >
-              {tag}
-            </Badge>
-          ))}
+        <div className="space-y-2">
+          <span className="text-sm font-medium text-muted-foreground block">标签筛选</span>
+          <div className="flex flex-wrap gap-2">
+            {availableTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => handleTagClick(tag)}
+                className={`
+                  inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-all
+                  ${selectedTag === tag
+                    ? "bg-primary text-primary-foreground shadow-sm ring-2 ring-primary/30"
+                    : "bg-muted/70 text-muted-foreground hover:bg-muted border border-transparent hover:border-border"
+                  }
+                `}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
