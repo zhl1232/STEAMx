@@ -16,19 +16,31 @@ export function useGamificationData() {
     // 1. Use XP from Auth Context (already fetched)
     const xp = profile?.xp || 0;
 
-    // 2. Fetch Unlocked Badges
-    const { data: unlockedBadges } = useQuery({
+    // 2. Fetch Unlocked Badges with Timestamp
+    const { data: badgeData } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
-        queryFn: async (): Promise<Set<string>> => {
+        queryFn: async () => {
             const { data } = await supabase
                 .from('user_badges')
-                .select('badge_id')
+                .select('badge_id, unlocked_at')
                 .eq('user_id', user!.id);
-            return new Set((data?.map((b: { badge_id: string }) => b.badge_id) || []) as string[]);
+            
+            const badgesMap = new Map<string, { unlockedAt: string }>();
+            const badgesSet = new Set<string>();
+            
+            data?.forEach((b: { badge_id: string; unlocked_at: string }) => {
+                badgesSet.add(b.badge_id);
+                badgesMap.set(b.badge_id, { unlockedAt: b.unlocked_at });
+            });
+
+            return { set: badgesSet, map: badgesMap };
         },
         enabled,
-        staleTime: 1000 * 60 * 30, // 30 minutes (badges don't change often without action)
+        staleTime: 1000 * 60 * 30, // 30 minutes
     });
+
+    const unlockedBadges = badgeData?.set || new Set<string>();
+    const userBadgeDetails = badgeData?.map || new Map<string, { unlockedAt: string }>();
 
     // 3. Fetch Full User Stats (Expensive, calculate strictly when needed or for periodic checks)
     const { data: userStats } = useQuery({
@@ -122,7 +134,8 @@ export function useGamificationData() {
 
     return {
         xp,
-        unlockedBadges: unlockedBadges || new Set<string>(),
+        unlockedBadges,
+        userBadgeDetails,
         userStats,
         updateXpMutation,
         unlockBadgeMutation,

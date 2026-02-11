@@ -1,15 +1,16 @@
 "use client";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Settings, Zap, ChevronRight } from "lucide-react";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
 import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
 import { useGamification, BADGES } from "@/context/gamification-context";
+import { getBadgesForDisplay } from "@/lib/gamification/badges";
 import { Profile } from "@/lib/mappers/types";
 import { User } from "@supabase/supabase-js";
+import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 
 interface ProfileHeaderProps {
     user: User;
@@ -32,7 +33,7 @@ export function ProfileHeader({
     followerCount,
     followingCount,
 }: ProfileHeaderProps) {
-    const { unlockedBadges } = useGamification();
+    const { unlockedBadges, userBadgeDetails } = useGamification();
     
     // Derived state
     const userName = profile?.display_name || user.user_metadata?.full_name || '未命名用户';
@@ -144,7 +145,7 @@ export function ProfileHeader({
                     <div className="h-px bg-border/50" />
 
                     {/* Badges */}
-                    <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges}>
+                    <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
                         <div className="flex items-center justify-between cursor-pointer group">
                             <div className="flex items-center gap-2">
                                 <span className="text-sm font-bold text-foreground">成就徽章</span>
@@ -155,11 +156,18 @@ export function ProfileHeader({
                             <div className="flex items-center gap-1 text-muted-foreground group-hover:text-foreground transition-colors">
                                 <div className="flex -space-x-1.5">
                                     {(unlockedBadges.size > 0
-                                        ? BADGES.filter(b => unlockedBadges.has(b.id)).slice(0, 4)
+                                        ? getBadgesForDisplay(BADGES, unlockedBadges, 4)
                                         : BADGES.slice(0, 4)
-                                    ).map(b => (
-                                        <div key={b.id} className="w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center text-xs shadow-sm">
-                                            {b.icon}
+                                    ).map((b) => (
+                                        <div key={b.id} className="relative z-0 hover:z-10 transition-all">
+                                            <BadgeIcon 
+                                                icon={b.icon} 
+                                                tier={b.tier} 
+                                                size="sm" 
+                                                className="w-6 h-6 border-background"
+                                                showGlow={false}
+                                                locked={!unlockedBadges.has(b.id)}
+                                            />
                                         </div>
                                     ))}
                                 </div>

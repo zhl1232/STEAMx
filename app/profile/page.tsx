@@ -15,6 +15,7 @@ import { Award, Zap } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
+import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { createClient } from '@/lib/supabase/client'
@@ -23,6 +24,8 @@ import type { Project } from '@/lib/types'
 import { mapProject, type DbProject } from '@/lib/mappers/project'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
 import React from 'react'
+import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { cn } from "@/lib/utils";
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -310,25 +313,38 @@ export default function ProfilePage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {/* 只显示前 5 个已解锁的徽章，或者如果没有解锁的，显示前 5 个未解锁的 */}
+          {/* 按系列显示最高档 + 首步/稀有限定，最多 5 枚；无解锁时显示前 5 个 */}
+
           {(unlockedBadges.size > 0
-            ? BADGES.filter(b => unlockedBadges.has(b.id)).slice(0, 5)
+            ? getBadgesForDisplay(BADGES, unlockedBadges, 5)
             : BADGES.slice(0, 5)
           ).map((badge) => {
             const isUnlocked = unlockedBadges.has(badge.id);
             return (
               <div
                 key={badge.id}
-                className={`p-4 rounded-lg border text-center transition-all ${isUnlocked
-                  ? 'bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 scale-100'
-                  : 'bg-muted/30 opacity-50 grayscale'
+                className={`p-4 rounded-lg border text-center transition-all flex flex-col items-center gap-2 ${isUnlocked
+                  ? 'bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20'
+                  : 'bg-muted/30 border-muted'
                   }`}
               >
-                <div className="text-3xl mb-2 flex justify-center">
-                  {badge.icon}
+                <div className="flex justify-center">
+                  <BadgeIcon 
+                    icon={badge.icon} 
+                    tier={badge.tier} 
+                    size="md" 
+                    locked={!isUnlocked}
+                  />
                 </div>
-                <div className="font-medium text-sm mb-1">{badge.name}</div>
-                <div className="text-xs text-muted-foreground line-clamp-1">{badge.description}</div>
+                <div className="w-full">
+                  <div className={cn(
+                    "font-medium text-sm mb-1 truncate",
+                    !isUnlocked && "text-muted-foreground"
+                  )}>
+                    {badge.name}
+                  </div>
+                  <div className="text-xs text-muted-foreground line-clamp-1">{badge.description}</div>
+                </div>
               </div>
             )
           })}

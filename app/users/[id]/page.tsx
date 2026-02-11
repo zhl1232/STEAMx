@@ -17,6 +17,7 @@ import { useAuth } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
 import { FolderOpen, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { BADGES } from "@/context/gamification-context";
 import { ProfileSchema, ProjectSchema } from "@/lib/schemas";
 import { z } from "zod";
@@ -248,10 +249,15 @@ export default function PublicProfilePage() {
                     "p-6 rounded-xl border flex flex-col items-center justify-center text-center gap-3 transition-all",
                     isUnlocked
                       ? "bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20"
-                      : "opacity-40 grayscale bg-muted/50",
+                      : "bg-muted/30 border-muted",
                   )}
                 >
-                  <div className="text-4xl">{badge.icon}</div>
+                  <BadgeIcon 
+                    icon={badge.icon} 
+                    tier={badge.tier} 
+                    size="lg" 
+                    locked={!isUnlocked}
+                  />
                   <div>
                     <div className="font-bold text-sm">{badge.name}</div>
                     <div className="text-xs text-muted-foreground mt-1 line-clamp-2">

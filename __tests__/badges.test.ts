@@ -1,8 +1,6 @@
-
 import { BADGES } from "../lib/gamification/badges";
 import { UserStats } from "../lib/gamification/types";
 
-// Helper to create a base stats object
 const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
     projectsPublished: 0,
     projectsLiked: 0,
@@ -22,89 +20,79 @@ const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
     consecutiveDays: 1,
     discussionsCreated: 0,
     repliesCount: 0,
-    ...overrides
+    ...overrides,
 });
 
-describe('Badge System Logic', () => {
-
-    // 1. Initial Badge
-    test('First Step badge should always be true', () => {
-        const badge = BADGES.find(b => b.id === 'first_step');
+describe("Badge System Logic (Dynamic Badges)", () => {
+    test("first_step badge should always be true", () => {
+        const badge = BADGES.find((b) => b.id === "first_step");
         expect(badge).toBeDefined();
         expect(badge!.condition(createStats())).toBe(true);
     });
 
-    // 2. Project Completion Badges
-    test('Explorer badge requires 1 project completion', () => {
-        const badge = BADGES.find(b => b.id === 'explorer');
+    test("explorer badge requires 1 project completion", () => {
+        const badge = BADGES.find((b) => b.id === "explorer");
         expect(badge).toBeDefined();
-
         expect(badge!.condition(createStats({ projectsCompleted: 0 }))).toBe(false);
         expect(badge!.condition(createStats({ projectsCompleted: 1 }))).toBe(true);
-        expect(badge!.condition(createStats({ projectsCompleted: 5 }))).toBe(true);
     });
 
-    // 3. Category Specific Badges (Science)
-    test('Science Beginner requires 1 science project', () => {
-        const badge = BADGES.find(b => b.id === 'science_beginner');
-        expect(badge!.condition(createStats({ scienceCompleted: 0 }))).toBe(false);
-        expect(badge!.condition(createStats({ scienceCompleted: 1 }))).toBe(true);
+    test("intro_likes_bronze requires likesGiven >= 1", () => {
+        const badge = BADGES.find((b) => b.id === "intro_likes_bronze");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ likesGiven: 0 }))).toBe(false);
+        expect(badge!.condition(createStats({ likesGiven: 1 }))).toBe(true);
     });
 
-    test('Science Master requires 30 science projects', () => {
-        const badge = BADGES.find(b => b.id === 'science_master');
-        expect(badge!.condition(createStats({ scienceCompleted: 29 }))).toBe(false);
-        expect(badge!.condition(createStats({ scienceCompleted: 30 }))).toBe(true);
+    test("intro_likes_silver requires likesGiven >= 10", () => {
+        const badge = BADGES.find((b) => b.id === "intro_likes_silver");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ likesGiven: 9 }))).toBe(false);
+        expect(badge!.condition(createStats({ likesGiven: 10 }))).toBe(true);
     });
 
-    // 4. Social Badges
-    test('Social Butterfly requires discussion or reply', () => {
-        const badge = BADGES.find(b => b.id === 'social_butterfly');
+    test("science_expert_gold requires scienceCompleted >= 50", () => {
+        const badge = BADGES.find((b) => b.id === "science_expert_gold");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ scienceCompleted: 49 }))).toBe(false);
+        expect(badge!.condition(createStats({ scienceCompleted: 50 }))).toBe(true);
+    });
 
-        // Neither
+    test("social_butterfly requires discussion or reply", () => {
+        const badge = BADGES.find((b) => b.id === "social_butterfly");
+        expect(badge).toBeDefined();
         expect(badge!.condition(createStats())).toBe(false);
-        // Only discussion
         expect(badge!.condition(createStats({ discussionsCreated: 1 }))).toBe(true);
-        // Only reply
         expect(badge!.condition(createStats({ repliesCount: 1 }))).toBe(true);
     });
 
-    test('Community Pillar requires sum of comments and replies >= 200', () => {
-        const badge = BADGES.find(b => b.id === 'community_pillar');
-
-        expect(badge!.condition(createStats({ commentsCount: 100, repliesCount: 99 }))).toBe(false); // 199
-        expect(badge!.condition(createStats({ commentsCount: 100, repliesCount: 100 }))).toBe(true); // 200
-        expect(badge!.condition(createStats({ commentsCount: 0, repliesCount: 200 }))).toBe(true); // 200
+    test("social_platinum requires comments + replies >= 500", () => {
+        const badge = BADGES.find((b) => b.id === "social_platinum");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ commentsCount: 250, repliesCount: 249 }))).toBe(false);
+        expect(badge!.condition(createStats({ commentsCount: 250, repliesCount: 250 }))).toBe(true);
     });
 
-    // 5. Level Badges
-    test('Level 5 Badge', () => {
-        const badge = BADGES.find(b => b.id === 'level_5');
+    test("level_bronze requires level >= 5", () => {
+        const badge = BADGES.find((b) => b.id === "level_bronze");
+        expect(badge).toBeDefined();
         expect(badge!.condition(createStats({ level: 4 }))).toBe(false);
         expect(badge!.condition(createStats({ level: 5 }))).toBe(true);
     });
 
-    // 6. All Rounder (Category Variety)
-    test('All Rounder requires 1 of each category', () => {
-        const badge = BADGES.find(b => b.id === 'all_rounder');
+    test("rare badges have condition that always returns false", () => {
+        const rareIds = ["early_bird", "bug_hunter", "contributor", "beta_tester", "anniversary"];
+        for (const id of rareIds) {
+            const badge = BADGES.find((b) => b.id === id);
+            expect(badge).toBeDefined();
+            expect(badge!.condition(createStats({ projectsCompleted: 999, level: 100 }))).toBe(false);
+        }
+    });
 
-        const almostThere = createStats({
-            scienceCompleted: 1,
-            techCompleted: 1,
-            engineeringCompleted: 1,
-            artCompleted: 1,
-            mathCompleted: 0 // Missing Math
-        });
-
-        const done = createStats({
-            scienceCompleted: 1,
-            techCompleted: 1,
-            engineeringCompleted: 1,
-            artCompleted: 1,
-            mathCompleted: 1
-        });
-
-        expect(badge!.condition(almostThere)).toBe(false);
-        expect(badge!.condition(done)).toBe(true);
+    test("streak_platinum requires consecutiveDays >= 90", () => {
+        const badge = BADGES.find((b) => b.id === "streak_platinum");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ consecutiveDays: 89 }))).toBe(false);
+        expect(badge!.condition(createStats({ consecutiveDays: 90 }))).toBe(true);
     });
 });

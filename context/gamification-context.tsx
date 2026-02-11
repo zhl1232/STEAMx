@@ -17,6 +17,7 @@ interface GamificationContextType {
     xp: number;
     level: number;
     unlockedBadges: Set<string>;
+    userBadgeDetails: Map<string, { unlockedAt: string }>;
     addXp: (amount: number, reason?: string, actionType?: string, resourceId?: string | number) => void;
     checkBadges: (stats: UserStats) => void;
     nextLevelXp: number;
@@ -36,6 +37,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     const {
         xp,
         unlockedBadges,
+        userBadgeDetails,
         userStats,
         updateXpMutation,
         unlockBadgeMutation,
@@ -183,6 +185,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                             title="解锁新徽章！"
                                             description={`你获得了 "${badge.name}" 徽章`}
                                             icon={badge.icon}
+                                            tier={badge.tier}
                                         />
                                     ),
                                     duration: 5000,
@@ -269,13 +272,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         xp,
         level,
         unlockedBadges,
+        userBadgeDetails,
         addXp,
         checkBadges,
         nextLevelXp,
         progress,
         levelTotalNeeded,
         levelProgress
-    }), [xp, level, unlockedBadges, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
+    }), [xp, level, unlockedBadges, userBadgeDetails, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
 
     return (
         <GamificationContext.Provider value={contextValue}>

@@ -34,14 +34,18 @@ export function OptimizedImage({
   quality = 85,
   className,
   loading,
+  priority,
   ...rest
 }: OptimizedImageProps) {
   const sizes = sizesProp ?? SIZE_PRESETS[variant]
+  // priority 与 loading="lazy" 互斥，只能二选一
+  const loadingProp = priority ? undefined : (loading ?? "lazy")
   return (
     <Image
       sizes={sizes}
       quality={quality}
-      loading={loading ?? "lazy"}
+      loading={loadingProp}
+      priority={priority}
       className={cn(className)}
       {...rest}
     />
