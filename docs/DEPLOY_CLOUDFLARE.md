@@ -36,7 +36,7 @@ pnpm install
 
 ### 在 Cloudflare 控制台要填什么
 
-1. 打开 [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → 点击你的 Worker（名字是 `steam-explore-share`，或你部署后看到的那个）
+1. 打开 [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → 点击你的 Worker（名字是 `steam`，或你部署后看到的那个）
 2. 进入 **Settings** → **Variables and Secrets**
 3. 在 **Environment Variables** 里点 **Add**，按下面**逐条添加**：
 
@@ -95,7 +95,8 @@ Supabase 控制台路径：<https://app.supabase.com> → 选你的项目 → **
 
 | 文件 | 说明 |
 |------|------|
-| `wrangler.jsonc` | Wrangler 配置：Worker 名、兼容性、静态资源、自引用 Service 等（CI 构建时会用） |
+| `wrangler.jsonc` | Wrangler 配置：Worker 名 `steam`、兼容性、静态资源、自引用 Service 等（CI 构建时会用） |
+| `open-next.config.ts` | OpenNext 配置（空配置即可，避免 CI 构建时交互提示） |
 | `public/_headers` | 静态资源缓存：`/_next/static/*` 长期缓存 |
 | `.gitignore` | 已加入 `.open-next`（构建产物，不提交） |
 
