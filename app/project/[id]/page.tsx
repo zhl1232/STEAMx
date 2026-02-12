@@ -9,6 +9,7 @@ import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
+import { callRpc } from '@/lib/supabase/rpc'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangle, Edit, Coins } from 'lucide-react'
 
@@ -60,10 +61,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     const { comments: initialComments, total: totalComments, hasMore: hasMoreComments } = await getProjectComments(project.id, 0, 5)
 
     // 该项目收到的投币总数（项目维度）
-    const { data: projectCoinsReceived = 0 } = await supabase.rpc('get_tip_received_for_resource', {
+    const { data } = await callRpc(supabase, 'get_tip_received_for_resource', {
         p_resource_type: 'project',
         p_resource_id: Number(project.id)
     })
+    const projectCoinsReceived = data ?? 0
 
     return (
         <div className="container mx-auto py-8 max-w-4xl">

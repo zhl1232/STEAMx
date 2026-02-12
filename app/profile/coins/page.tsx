@@ -3,8 +3,11 @@
 import { useAuth } from '@/context/auth-context'
 import { useGamification } from '@/context/gamification-context'
 import { createClient } from '@/lib/supabase/client'
+import type { Database } from '@/lib/supabase/types'
 import { getShopItemById } from '@/lib/shop/items'
 import { useQuery } from '@tanstack/react-query'
+
+type CoinLogRow = Database['public']['Tables']['coin_logs']['Row']
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import Link from 'next/link'
@@ -48,7 +51,7 @@ export default function ProfileCoinsPage() {
     isError,
     error,
     refetch,
-  } = useQuery({
+  } = useQuery<CoinLogRow[]>({
     queryKey: ['coin_logs', user?.id],
     queryFn: async () => {
       if (!user) return []
