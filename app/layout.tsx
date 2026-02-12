@@ -63,6 +63,11 @@ export default function RootLayout({
     return (
         <html lang="zh" suppressHydrationWarning>
             <body className={inter.className}>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `window.__name = (n) => n;`,
+                    }}
+                />
                 <QueryProvider>
                     <AuthProvider>
                         <LoginPromptProvider>

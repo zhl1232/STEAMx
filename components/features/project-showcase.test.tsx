@@ -11,7 +11,8 @@ jest.mock('@/lib/supabase/client', () => ({
             eq: jest.fn().mockReturnThis(),
             single: jest.fn().mockResolvedValue({ data: null, error: null }),
             order: jest.fn().mockReturnThis(),
-        }))
+        })),
+        rpc: jest.fn().mockResolvedValue({ data: 0, error: null })
     }))
 }))
 
@@ -21,6 +22,10 @@ jest.mock('@/context/auth-context', () => ({
 
 jest.mock('@/context/login-prompt-context', () => ({
     useLoginPrompt: jest.fn(() => ({ promptLogin: jest.fn() }))
+}))
+
+jest.mock('@/context/gamification-context', () => ({
+    useGamification: jest.fn(() => ({ coins: 100, level: 1 }))
 }))
 
 jest.mock('@/hooks/use-danmaku', () => ({
