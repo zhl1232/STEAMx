@@ -7,14 +7,15 @@ import { Discussion, Comment as ProjectComment, Profile } from "@/lib/types";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Heart, Tag, ArrowLeft, User, Calendar, Trash2 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { MessageSquare, Heart, Tag, ArrowLeft, User, Calendar, Trash2, Loader2 } from "lucide-react";
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
 
 // Reply Item Component to match ProjectComments style
 interface ReplyItemProps {
@@ -55,36 +56,37 @@ const ReplyItem = ({
     const hiddenCount = nestedReplies.length - displayedReplies.length;
 
     return (
-        <div className={`group flex gap-4 ${isNested ? "mt-4" : "py-6 border-b last:border-0"}`} id={`reply-${reply.id}`}>
-            <Avatar className={`shrink-0 border ${isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"}`}>
-                <AvatarImage src={reply.avatar || ""} />
-                <AvatarFallback className="bg-primary/5 text-primary">
-                    {reply.author[0]?.toUpperCase()}
-                </AvatarFallback>
-            </Avatar>
+        <div className={cn("group flex gap-3 sm:gap-4 px-3", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")} id={`reply-${reply.id}`}>
+            <AvatarWithFrame
+                src={reply.avatar}
+                fallback={reply.author[0]?.toUpperCase()}
+                avatarFrameId={reply.avatarFrameId}
+                className={cn("shrink-0 border", isNested ? "h-7 w-7 sm:h-8 sm:w-8" : "h-9 w-9 sm:h-10 sm:w-10")}
+            />
 
-            <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                    <span className={`font-semibold cursor-pointer hover:text-primary transition-colors ${isNested ? "text-sm" : "text-base"
-                        }`}>
+            <div className="flex-1 min-w-0 overflow-hidden">
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1">
+                    <span className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
+                        isNested ? "text-sm" : "text-sm sm:text-base"
+                    )}>
                         {reply.author}
                     </span>
+                    <span className="text-xs text-muted-foreground shrink-0">{reply.date}</span>
                 </div>
 
                 <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
                     {reply.reply_to_username && (
-                        <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-2 align-middle">
+                        <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-1.5 align-middle">
                             回复 @{reply.reply_to_username}
                         </span>
                     )}
                     {reply.content}
                 </p>
 
-                <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                    <span>{reply.date}</span>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2 text-xs text-muted-foreground">
 
                     <button
-                        className="flex items-center gap-1 hover:text-primary transition-colors"
+                        className="flex items-center gap-1 shrink-0 hover:text-primary transition-colors"
                         onClick={() => { /* Like logic */ }}
                     >
                         <Heart className="h-3.5 w-3.5" />
@@ -92,7 +94,7 @@ const ReplyItem = ({
                     </button>
 
                     <button
-                        className={`flex items-center gap-1 hover:text-primary transition-colors ${isReplying ? "text-primary" : ""}`}
+                        className={cn("flex items-center gap-1 shrink-0 hover:text-primary transition-colors", isReplying && "text-primary")}
                         onClick={() => setReplyingTo(Number(reply.id))}
                     >
                         <MessageSquare className="h-3.5 w-3.5" />
@@ -101,7 +103,7 @@ const ReplyItem = ({
 
                     {(user?.id === reply.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
                         <button
-                            className="flex items-center gap-1 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                            className="flex items-center gap-1 shrink-0 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                             onClick={(e) => {
                                 e.preventDefault();
                                 onDeleteReply(Number(reply.id));
@@ -119,10 +121,12 @@ const ReplyItem = ({
                             onSubmit={(e) => onSubmitReply(e, Number(reply.id), reply.userId, reply.author)}
                             className="flex gap-3 items-start"
                         >
-                            <Avatar className="h-8 w-8 shrink-0">
-                                <AvatarImage src={profile?.avatar_url || user?.user_metadata?.avatar_url || ""} />
-                                <AvatarFallback>M</AvatarFallback>
-                            </Avatar>
+                            <AvatarWithFrame
+                                src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                                fallback="M"
+                                avatarFrameId={profile?.equipped_avatar_frame_id}
+                                className="h-8 w-8 shrink-0"
+                            />
                             <div className="flex-1 space-y-2">
                                 <Textarea
                                     value={replyContent}
@@ -145,7 +149,7 @@ const ReplyItem = ({
                 )}
 
                 {nestedReplies.length > 0 && (
-                    <div className="mt-3 bg-muted/30 rounded-lg p-3 space-y-4">
+                    <div className="mt-3 sm:mt-4 bg-muted/30 rounded-lg p-2.5 sm:p-3 space-y-3 sm:space-y-4">
                         {displayedReplies.map(nestedReply => (
                             <ReplyItem
                                 key={nestedReply.id}
@@ -190,7 +194,7 @@ const ReplyItem = ({
 
 export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const unwrappedParams = React.use(params);
-    const { discussions, addReply, deleteReply } = useCommunity();
+    const { addReply, deleteReply } = useCommunity();
     const { user, profile } = useAuth();
     const { promptLogin } = useLoginPrompt();
 
@@ -198,12 +202,20 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     const [replyContent, setReplyContent] = useState("");
     const [replyingTo, setReplyingTo] = useState<number | null>(null);
     const [id, setId] = useState<string | number | null>(null);
+    const [isFocused, setIsFocused] = useState(false);
 
     // Local state
     const [discussion, setDiscussion] = useState<Discussion | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
     const supabase = createClient();
+
+    // Pagination state for replies
+    const REPLY_PAGE_SIZE = 10;
+    const [replyPage, setReplyPage] = useState(0);
+    const [hasMoreReplies, setHasMoreReplies] = useState(false);
+    const [isLoadingMoreReplies, setIsLoadingMoreReplies] = useState(false);
+    const [totalReplies, setTotalReplies] = useState(0);
 
     // Handle params unwrapping
     useEffect(() => {
@@ -212,7 +224,22 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         }
     }, [unwrappedParams]);
 
-    // Fetch discussion
+    type ReplyRow = { id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null; equipped_avatar_frame_id?: string | null } };
+
+    const mapReplyRow = (r: ReplyRow): ProjectComment => ({
+        id: r.id,
+        author: r.profiles?.display_name || 'Unknown',
+        userId: r.author_id,
+        avatar: r.profiles?.avatar_url ?? undefined,
+        avatarFrameId: r.profiles?.equipped_avatar_frame_id ?? undefined,
+        content: r.content,
+        date: formatRelativeTime(r.created_at),
+        parent_id: r.parent_id,
+        reply_to_user_id: r.reply_to_user_id,
+        reply_to_username: r.reply_to_username
+    });
+
+    // Fetch discussion (without replies) + first page of replies
     useEffect(() => {
         const fetchDiscussion = async () => {
             if (!id) return;
@@ -220,21 +247,12 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             try {
                 setIsLoading(true);
 
-                const cached = discussions.find(d => d.id.toString() === id.toString());
-                if (cached) {
-                    setDiscussion(cached);
-                    return;
-                }
-
+                // Fetch discussion data without replies
                 const { data: rawData, error } = await (supabase
                     .from('discussions')
                     .select(`
                         *,
-                        profiles:author_id (display_name),
-                        discussion_replies (
-                            *,
-                            profiles:author_id (display_name, avatar_url)
-                        )
+                        profiles:author_id (display_name)
                     `)
                     .eq('id', id)
                     .single());
@@ -252,10 +270,46 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     created_at: string;
                     likes_count: number;
                     tags: string[] | null;
+                    replies_count?: number;
                     profiles?: { display_name: string | null };
-                    discussion_replies?: Array<{ id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null } }>;
                 };
                 const data = rawData as unknown as DiscussionRow;
+
+                // Fetch first page of root replies + count
+                const { data: rootReplies, count: rootCount } = await supabase
+                    .from('discussion_replies')
+                    .select(`
+                        *,
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                    `, { count: 'exact' })
+                    .eq('discussion_id', data.id)
+                    .is('parent_id', null)
+                    .order('created_at', { ascending: false })
+                    .range(0, REPLY_PAGE_SIZE - 1);
+
+                let mappedReplies: ProjectComment[] = (rootReplies as ReplyRow[] || []).map(mapReplyRow);
+
+                // Fetch nested replies for these roots
+                if (rootReplies && rootReplies.length > 0) {
+                    const rootIds = (rootReplies as { id: number }[]).map(r => r.id);
+                    const { data: nestedReplies } = await supabase
+                        .from('discussion_replies')
+                        .select(`
+                            *,
+                            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                        `)
+                        .in('parent_id', rootIds)
+                        .order('created_at', { ascending: true });
+
+                    if (nestedReplies) {
+                        mappedReplies = [...mappedReplies, ...(nestedReplies as ReplyRow[]).map(mapReplyRow)];
+                    }
+                }
+
+                const total = rootCount || 0;
+                setTotalReplies(total);
+                setHasMoreReplies(total > REPLY_PAGE_SIZE);
+                setReplyPage(1);
 
                 const mappedDiscussion: Discussion = {
                     id: data.id,
@@ -265,18 +319,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     date: formatRelativeTime(data.created_at),
                     likes: data.likes_count,
                     tags: data.tags || [],
-                    replies: ((data.discussion_replies as Array<{ id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null } }>) || []).map((r) => ({
-
-                        id: r.id,
-                        author: r.profiles?.display_name || 'Unknown',
-                        userId: r.author_id,
-                        avatar: r.profiles?.avatar_url ?? undefined,
-                        content: r.content,
-                        date: formatRelativeTime(r.created_at),
-                        parent_id: r.parent_id,
-                        reply_to_user_id: r.reply_to_user_id,
-                        reply_to_username: r.reply_to_username
-                    }))
+                    replies: mappedReplies,
                 };
 
                 setDiscussion(mappedDiscussion);
@@ -289,7 +332,60 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         };
 
         fetchDiscussion();
-    }, [id, discussions, supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
+
+    // Load more replies
+    const handleLoadMoreReplies = async () => {
+        if (!discussion || isLoadingMoreReplies || !hasMoreReplies) return;
+        setIsLoadingMoreReplies(true);
+
+        try {
+            const from = replyPage * REPLY_PAGE_SIZE;
+            const to = from + REPLY_PAGE_SIZE - 1;
+
+            const { data: rootReplies } = await supabase
+                .from('discussion_replies')
+                .select(`
+                    *,
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                `)
+                .eq('discussion_id', discussion.id)
+                .is('parent_id', null)
+                .order('created_at', { ascending: false })
+                .range(from, to);
+
+            let newReplies: ProjectComment[] = (rootReplies as ReplyRow[] || []).map(mapReplyRow);
+
+            // Fetch nested for new roots
+            if (rootReplies && rootReplies.length > 0) {
+                const rootIds = (rootReplies as { id: number }[]).map(r => r.id);
+                const { data: nestedReplies } = await supabase
+                    .from('discussion_replies')
+                    .select(`
+                        *,
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                    `)
+                    .in('parent_id', rootIds)
+                    .order('created_at', { ascending: true });
+
+                if (nestedReplies) {
+                    newReplies = [...newReplies, ...(nestedReplies as ReplyRow[]).map(mapReplyRow)];
+                }
+            }
+
+            setDiscussion(prev => {
+                if (!prev) return null;
+                return { ...prev, replies: [...prev.replies, ...newReplies] };
+            });
+            setReplyPage(prev => prev + 1);
+            setHasMoreReplies(totalReplies > to + 1);
+        } catch (error) {
+            console.error('Error loading more replies:', error);
+        } finally {
+            setIsLoadingMoreReplies(false);
+        }
+    };
 
     // Scroll to hash anchor on load
     useEffect(() => {
@@ -320,10 +416,10 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
     if (isLoading) {
         return (
-            <div className="container mx-auto py-12 max-w-4xl">
-                <div className="space-y-8">
+            <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl">
+                <div className="space-y-6 sm:space-y-8">
                     <div className="h-8 w-32 bg-muted animate-pulse rounded" />
-                    <div className="bg-card border rounded-xl p-8 shadow-sm">
+                    <div className="bg-card border rounded-xl p-4 sm:p-8 shadow-sm">
                         <div className="h-6 w-48 bg-muted animate-pulse rounded mb-4" />
                         <div className="h-10 w-3/4 bg-muted animate-pulse rounded mb-4" />
                         <div className="h-6 w-full bg-muted animate-pulse rounded" />
@@ -335,7 +431,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
     if (notFound || !discussion) {
         return (
-            <div className="container mx-auto py-12 text-center">
+            <div className="container mx-auto py-12 px-4 text-center">
                 <h1 className="text-2xl font-bold mb-4">讨论不存在</h1>
                 <Button onClick={() => router.back()}>返回列表</Button>
             </div>
@@ -406,49 +502,51 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
 
     return (
-        <div className="container mx-auto py-12 max-w-4xl">
-            <Button variant="ghost" onClick={() => router.back()} className="mb-6 pl-0 hover:pl-2 transition-all">
+        <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl pb-28 md:pb-8">
+            <Button variant="ghost" onClick={() => router.back()} className="mb-4 sm:mb-6 pl-0 hover:pl-2 transition-all text-sm">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 返回讨论列表
             </Button>
 
-            <div className="bg-card border rounded-xl p-8 shadow-sm mb-8">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    {discussion.tags.map(tag => (
-                        <span key={tag} className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium flex items-center gap-1">
-                            <Tag className="h-3 w-3" /> {tag}
-                        </span>
-                    ))}
-                </div>
+            <div className="bg-card border rounded-xl p-4 sm:p-8 shadow-sm mb-6 sm:mb-8">
+                {discussion.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                        {discussion.tags.map(tag => (
+                            <span key={tag} className="px-2 sm:px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium flex items-center gap-1">
+                                <Tag className="h-3 w-3" /> {tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
 
-                <h1 className="text-3xl font-bold mb-4">{discussion.title}</h1>
+                <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-4">{discussion.title}</h1>
 
-                <div className="flex items-center gap-6 text-sm text-muted-foreground mb-8 border-b pb-6">
-                    <span className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-                            <User className="h-4 w-4" />
+                <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8 border-b pb-4 sm:pb-6">
+                    <span className="flex items-center gap-1.5 sm:gap-2">
+                        <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-muted flex items-center justify-center">
+                            <User className="h-3 w-3 sm:h-4 sm:w-4" />
                         </div>
                         {discussion.author}
                     </span>
-                    <span className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
+                    <span className="flex items-center gap-1.5 sm:gap-2">
+                        <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         {discussion.date}
                     </span>
-                    <span className="flex items-center gap-2 text-red-500">
-                        <Heart className="h-4 w-4 fill-current" />
+                    <span className="flex items-center gap-1.5 sm:gap-2 text-red-500">
+                        <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
                         {discussion.likes}
                     </span>
                 </div>
 
-                <div className="prose dark:prose-invert max-w-none mb-8">
-                    <p className="text-lg leading-relaxed whitespace-pre-wrap">{discussion.content}</p>
+                <div className="prose dark:prose-invert max-w-none">
+                    <p className="text-sm sm:text-lg leading-relaxed whitespace-pre-wrap">{discussion.content}</p>
                 </div>
             </div>
 
-            <div className="space-y-8">
-                <h3 className="text-2xl font-bold flex items-center gap-2">
-                    <MessageSquare className="h-6 w-6" />
-                    回复 ({discussion.replies.length})
+            <div className="space-y-4 sm:space-y-8">
+                <h3 className="text-lg sm:text-2xl font-bold flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
+                    回复 ({totalReplies})
                 </h3>
 
                 {/* 顶级回复列表 */}
@@ -470,35 +568,78 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                                 getNestedReplies={getNestedReplies}
                             />
                         ))}
+
+                        {/* 加载更多按钮 */}
+                        {hasMoreReplies && (
+                            <div className="text-center py-4">
+                                <Button
+                                    variant="outline"
+                                    onClick={handleLoadMoreReplies}
+                                    disabled={isLoadingMoreReplies}
+                                    className="w-full sm:w-auto"
+                                >
+                                    {isLoadingMoreReplies ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            加载中...
+                                        </>
+                                    ) : (
+                                        "加载更多回复"
+                                    )}
+                                </Button>
+                            </div>
+                        )}
+
+                        {!hasMoreReplies && topLevelReplies.length > 0 && (
+                            <div className="text-center py-3 text-muted-foreground text-xs">没有更多了</div>
+                        )}
                     </div>
                 ) : (
-                    <div className="text-center py-12 text-muted-foreground bg-muted/10 rounded-lg border border-dashed">
-                        暂无回复，快来抢沙发吧！
+                    <div className="flex flex-col items-center justify-center py-12 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
+                        <MessageSquare className="h-10 w-10 mb-2 opacity-20" />
+                        <p className="text-sm">暂无回复，快来抢沙发吧！</p>
                     </div>
                 )}
+            </div>
 
-                {/* 全局回复框 */}
-                <div className="bg-card border rounded-xl p-6 shadow-sm">
-                    <h4 className="font-semibold mb-4">发表回复</h4>
-                    <form onSubmit={(e) => handleSubmitReply(e)} className="space-y-4">
-                        <Textarea
-                            value={replyingTo === null ? replyContent : ""}
-                            onChange={(e) => setReplyContent(e.target.value)}
-                            placeholder="分享你的观点..."
-                            className="min-h-[120px]"
-                            disabled={replyingTo !== null}
-                        />
-                        <div className="flex justify-end">
-                            <Button type="submit" disabled={!replyContent.trim() || replyingTo !== null}>
-                                发送回复
-                            </Button>
+            {/* 回复框 - 移动端固定在底部导航上方，桌面端 sticky */}
+            <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 sm:py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none md:mt-8">
+                <div className="flex gap-3 sm:gap-4 max-w-4xl mx-auto w-full">
+                    <AvatarWithFrame
+                        src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                        fallback={profile?.display_name?.[0]?.toUpperCase() || "U"}
+                        avatarFrameId={profile?.equipped_avatar_frame_id}
+                        className="h-9 w-9 sm:h-10 sm:w-10 border shadow-sm shrink-0"
+                    />
+                    <form onSubmit={(e) => handleSubmitReply(e)} className="flex-1 relative">
+                        <div className={cn(
+                            "rounded-xl border bg-background transition-all duration-200 ease-in-out overflow-hidden focus-within:ring-2 focus-within:ring-primary/20",
+                            isFocused || replyContent ? "shadow-md" : "shadow-sm hover:shadow-md"
+                        )}>
+                            <Textarea
+                                placeholder={replyingTo !== null ? "正在回复他人，请在上方回复框中输入..." : "分享你的观点..."}
+                                value={replyingTo === null ? replyContent : ""}
+                                onChange={(e) => setReplyContent(e.target.value)}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => !replyContent && setIsFocused(false)}
+                                disabled={replyingTo !== null}
+                                className="min-h-[44px] border-none resize-none focus-visible:ring-0 p-3 text-sm bg-transparent"
+                            />
+                            <div className={cn(
+                                "flex justify-between items-center px-3 pb-2 transition-all duration-200",
+                                isFocused || replyContent ? "opacity-100 max-h-12" : "opacity-0 max-h-0 overflow-hidden"
+                            )}>
+                                <div className="text-xs text-muted-foreground" />
+                                <Button
+                                    type="submit"
+                                    disabled={!replyContent.trim() || replyingTo !== null}
+                                    className="h-7 px-4 rounded-full text-xs"
+                                >
+                                    发布
+                                </Button>
+                            </div>
                         </div>
                     </form>
-                    {replyingTo !== null && (
-                        <p className="text-sm text-muted-foreground mt-2">
-                            正在回复他人，请在上方对应的回复框中输入内容
-                        </p>
-                    )}
                 </div>
             </div>
         </div>

@@ -57,7 +57,7 @@ export function ProfileHeader({
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
 
         <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-          <Link href="/profile/coins">
+          <Link href="/coins">
             <div className="flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-primary-foreground shadow-md">
               <Coins className="h-4 w-4" />
               <span className="text-sm font-bold">{coins}</span>

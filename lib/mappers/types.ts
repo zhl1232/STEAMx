@@ -98,6 +98,8 @@ export interface Discussion {
     id: string | number
     title: string
     author: string
+    authorAvatar?: string
+    authorAvatarFrameId?: string | null
     content: string
     date: string
     replies: Comment[]
@@ -144,6 +146,7 @@ export interface ProjectCompletion {
     projectId: string | number
     author: string
     avatar?: string
+    avatarFrameId?: string | null
     completedAt: string
     proofImages: string[]
     proofVideoUrl?: string
@@ -230,7 +233,7 @@ export function mapDbComment(
  */
 export function mapDbDiscussion(
     dbDiscussion: DbDiscussion & {
-        profiles?: Pick<DbProfile, 'display_name'> | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> | null
         discussion_replies?: DbCommentWithProfile[]
     }
 ): Discussion {
@@ -238,6 +241,8 @@ export function mapDbDiscussion(
         id: dbDiscussion.id,
         title: dbDiscussion.title,
         author: dbDiscussion.profiles?.display_name || 'Unknown',
+        authorAvatar: dbDiscussion.profiles?.avatar_url || undefined,
+        authorAvatarFrameId: dbDiscussion.profiles?.equipped_avatar_frame_id ?? undefined,
         content: dbDiscussion.content,
         date: new Date(dbDiscussion.created_at).toLocaleString('zh-CN', {
             year: 'numeric',
@@ -297,7 +302,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
  */
 export function mapDbCompletion(
     dbCompletion: DbCompletedProject & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url'> | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> | null
     }
 ): ProjectCompletion {
     return {
@@ -306,6 +311,7 @@ export function mapDbCompletion(
         projectId: dbCompletion.project_id,
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
+        avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,
         completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
         proofImages: dbCompletion.proof_images || [],
         proofVideoUrl: dbCompletion.proof_video_url || undefined,

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { Discussion } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,26 +11,86 @@ import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
-import { cn } from "@/lib/utils";
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 
-const DISCUSSION_ROW_ESTIMATE = 180;
-const LIST_MAX_HEIGHT = "70vh";
-
-function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(false);
-    useEffect(() => {
-        const m = window.matchMedia("(max-width: 768px)");
-        setIsMobile(m.matches);
-        const f = () => setIsMobile(m.matches);
-        m.addEventListener("change", f);
-        return () => m.removeEventListener("change", f);
-    }, []);
-    return isMobile;
+/** 讨论卡片组件 */
+function DiscussionCard({
+    discussion,
+    searchQuery,
+    canDelete,
+    onDelete,
+}: {
+    discussion: Discussion;
+    searchQuery: string;
+    canDelete: boolean;
+    onDelete: (id: string | number) => void;
+}) {
+    return (
+        <div className="border border-border/60 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow transition-all bg-card cursor-pointer group relative">
+            <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-10 rounded-xl" aria-label={`进入讨论：${discussion.title}`} />
+            <div className="relative z-0 pointer-events-none">
+                <h3 className="text-base sm:text-xl font-semibold mb-1.5 sm:mb-2 group-hover:text-primary transition-colors pr-2 leading-snug">
+                    <SearchHighlight text={discussion.title} query={searchQuery} />
+                </h3>
+                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">
+                    <span className="flex items-center gap-1 sm:gap-1.5">
+                        <AvatarWithFrame
+                            src={discussion.authorAvatar}
+                            fallback={discussion.author[0]}
+                            avatarFrameId={discussion.authorAvatarFrameId}
+                            className="size-5 sm:size-6"
+                        />
+                        {discussion.author}
+                    </span>
+                    <span>{discussion.date}</span>
+                </div>
+                {discussion.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-2 sm:mb-3">
+                        {discussion.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="inline-flex items-center gap-1 rounded-full bg-pink-100 px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs font-medium text-pink-800 dark:bg-pink-900/35 dark:text-pink-200"
+                            >
+                                <Tag className="h-3 w-3 shrink-0" />
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
+                <p className="text-muted-foreground line-clamp-2 text-sm sm:text-base mb-3 sm:mb-4">
+                    <SearchHighlight text={discussion.content} query={searchQuery} />
+                </p>
+                <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground border-t pt-3 sm:pt-4 pointer-events-auto relative z-20">
+                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-xs sm:text-sm">
+                        <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        {discussion.replies.length} 回复
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500 text-xs sm:text-sm">
+                        <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        {discussion.likes} 赞
+                    </Button>
+                    {canDelete && (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onDelete(discussion.id);
+                            }}
+                        >
+                            <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export function DiscussionList() {
     const { user, profile } = useAuth();
-    const isMobile = useIsMobile();
     const { promptLogin: _promptLogin } = useLoginPrompt();
     const [isCreating, setIsCreating] = useState(false);
     const [newTitle, setNewTitle] = useState("");
@@ -65,7 +124,6 @@ export function DiscussionList() {
             const PAGE_SIZE = 10;
             let currentPage = 0;
 
-            // Use functional update to get the latest page value
             setPage(prev => {
                 currentPage = reset ? 0 : prev;
                 return currentPage;
@@ -78,20 +136,17 @@ export function DiscussionList() {
                 .from('discussions')
                 .select(`
                     *,
-                    profiles:author_id (display_name)
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
                 `);
 
-            // Text search - search in title and content
             if (searchQuery) {
                 query = query.or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`);
             }
 
-            // Tag filter
             if (selectedTag) {
                 query = query.contains('tags', [selectedTag]);
             }
 
-            // Sorting
             switch (sortBy) {
                 case 'hottest':
                     query = query.order('likes_count', { ascending: false });
@@ -122,11 +177,13 @@ export function DiscussionList() {
                 return;
             }
 
-            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null } }
+            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null; avatar_url?: string | null; equipped_avatar_frame_id?: string | null } }
             const mappedDiscussions: Discussion[] = data.map((d: DiscussionRow) => ({
                 id: d.id,
                 title: d.title,
                 author: d.profiles?.display_name || 'Unknown',
+                authorAvatar: d.profiles?.avatar_url || undefined,
+                authorAvatarFrameId: d.profiles?.equipped_avatar_frame_id ?? undefined,
                 content: d.content,
                 date: formatRelativeTime(d.created_at),
                 likes: d.likes_count,
@@ -146,7 +203,6 @@ export function DiscussionList() {
         } catch (err) {
             console.error('Exception in fetchDiscussions:', err);
         } finally {
-            // 确保无论成功失败都重置loading状态
             setIsLoading(false);
         }
     }, [supabase, searchQuery, selectedTag, sortBy]);
@@ -160,13 +216,12 @@ export function DiscussionList() {
 
             if (data) {
                 const allTags = (data as { tags: string[] | null }[]).flatMap(d => d.tags || []);
-                const uniqueTags = Array.from(new Set(allTags)).slice(0, 10); // Limit to 10 most common
+                const uniqueTags = Array.from(new Set(allTags)).slice(0, 10);
                 setAvailableTags(uniqueTags);
             }
         };
         fetchTags();
     }, [supabase]);
-
 
     // Trigger fetch when search/filter changes
     useEffect(() => {
@@ -174,24 +229,23 @@ export function DiscussionList() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchQuery, selectedTag, sortBy]);
 
-    const listParentRef = useRef<HTMLDivElement>(null);
-    const virtualizer = useVirtualizer({
-        count: discussions.length,
-        getScrollElement: () => (isMobile ? document.documentElement : listParentRef.current),
-        estimateSize: () => DISCUSSION_ROW_ESTIMATE,
-        overscan: 3,
-    });
-    const virtualItems = virtualizer.getVirtualItems();
-
-    // 当滚动到底部附近时加载更多
+    // Scroll sentinel for infinite loading
+    const sentinelRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (isLoading || !hasMore || discussions.length === 0) return;
-        const lastIndex = discussions.length - 1;
-        const lastVisible = virtualItems[virtualItems.length - 1]?.index;
-        if (lastVisible !== undefined && lastVisible >= lastIndex - 2) {
-            fetchDiscussions(false);
-        }
-    }, [virtualItems, discussions.length, hasMore, isLoading, fetchDiscussions]);
+        const sentinel = sentinelRef.current;
+        if (!sentinel) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !isLoadingRef.current) {
+                    fetchDiscussions(false);
+                }
+            },
+            { rootMargin: '200px' }
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [hasMore, fetchDiscussions]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -230,11 +284,12 @@ export function DiscussionList() {
         setSearchQuery(query);
         setSelectedTag(tag);
         setSortBy(sort);
-        // fetchDiscussions will be triggered by useEffect
     };
 
+    const canDelete = profile?.role === 'admin' || profile?.role === 'moderator';
+
     return (
-        <div className="space-y-6 pb-24 md:pb-0">
+        <div className="space-y-4 sm:space-y-6 pb-24 md:pb-0">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold hidden md:block">讨论区</h2>
                 {user && (
@@ -249,7 +304,6 @@ export function DiscussionList() {
                 <Button
                     onClick={() => {
                         setIsCreating(true);
-                        // Optional: Scroll to form
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     size="icon"
@@ -301,103 +355,27 @@ export function DiscussionList() {
                 </form>
             )}
 
-            <div className="space-y-4">
+            <div>
                 {discussions.length > 0 ? (
-                    <>
-                        <div
-                            ref={listParentRef}
-                            className={cn("rounded-xl", !isMobile && "overflow-auto")}
-                            style={{
-                                maxHeight: isMobile ? undefined : LIST_MAX_HEIGHT,
-                                minHeight: isMobile ? virtualizer.getTotalSize() : undefined,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    height: `${virtualizer.getTotalSize()}px`,
-                                    width: "100%",
-                                    position: "relative",
-                                }}
-                            >
-                                {virtualItems.map((virtualRow) => {
-                                    const discussion = discussions[virtualRow.index];
-                                    return (
-                                        <div
-                                            key={discussion.id}
-                                            data-index={virtualRow.index}
-                                            style={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: "100%",
-                                                transform: `translateY(${virtualRow.start}px)`,
-                                            }}
-                                            className="pb-4"
-                                        >
-                                            <div className="border border-border/60 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow transition-all bg-card cursor-pointer group relative">
-                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-10 rounded-xl" aria-label={`进入讨论：${discussion.title}`} />
-                                                <div className="relative z-0 pointer-events-none">
-                                                    <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors pr-2">
-                                                        <SearchHighlight text={discussion.title} query={searchQuery} />
-                                                    </h3>
-                                                    <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
-                                                        <span className="flex items-center gap-1.5">
-                                                            <span className="size-4 rounded-full bg-muted-foreground/20 flex items-center justify-center text-[10px]">👤</span>
-                                                            {discussion.author}
-                                                        </span>
-                                                        <span>{discussion.date}</span>
-                                                    </div>
-                                                    {discussion.tags.length > 0 && (
-                                                        <div className="flex flex-wrap gap-1.5 mb-3">
-                                                            {discussion.tags.map((tag) => (
-                                                                <span
-                                                                    key={tag}
-                                                                    className="inline-flex items-center gap-1 rounded-full bg-pink-100 px-2.5 py-1 text-xs font-medium text-pink-800 dark:bg-pink-900/35 dark:text-pink-200"
-                                                                >
-                                                                    <Tag className="h-3 w-3 shrink-0" />
-                                                                    {tag}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                    <p className="text-muted-foreground line-clamp-2 text-sm sm:text-base mb-4">
-                                                        <SearchHighlight text={discussion.content} query={searchQuery} />
-                                                    </p>
-                                                    <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4 pointer-events-auto relative z-20">
-                                                        <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
-                                                            <MessageSquare className="h-4 w-4" />
-                                                            {discussion.replies.length} 回复
-                                                        </Button>
-                                                        <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
-                                                            <Heart className="h-4 w-4" />
-                                                            {discussion.likes} 赞
-                                                        </Button>
-                                                        {(profile?.role === 'admin' || profile?.role === 'moderator') && (
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    e.stopPropagation();
-                                                                    handleDelete(discussion.id);
-                                                                }}
-                                                            >
-                                                                <Trash2 className="h-4 w-4" />
-                                                            </Button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
+                    <div className="space-y-3 sm:space-y-4">
+                        {discussions.map((discussion) => (
+                            <DiscussionCard
+                                key={discussion.id}
+                                discussion={discussion}
+                                searchQuery={searchQuery}
+                                canDelete={!!canDelete}
+                                onDelete={handleDelete}
+                            />
+                        ))}
+                        {/* Scroll sentinel for infinite loading */}
+                        <div ref={sentinelRef} className="h-1" />
                         {isLoading && (
-                            <div className="text-center py-4 text-muted-foreground">加载中...</div>
+                            <div className="text-center py-4 text-muted-foreground text-sm">加载中...</div>
                         )}
-                    </>
+                        {!hasMore && discussions.length > 0 && (
+                            <div className="text-center py-4 text-muted-foreground text-xs">没有更多了</div>
+                        )}
+                    </div>
                 ) : !isLoading ? (
                     <div className="text-center py-20">
                         <div className="text-4xl mb-4">🔍</div>

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins } from "lucide-react"
@@ -58,10 +58,12 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
                         )}
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 opacity-0 transition-opacity group-hover:opacity-100">
                             <div className="flex items-center gap-2 text-white">
-                                <Avatar className="h-6 w-6 border border-white/50">
-                                    <AvatarImage src={completion.avatar || ""} />
-                                    <AvatarFallback>{completion.author[0]}</AvatarFallback>
-                                </Avatar>
+                                <AvatarWithFrame
+                                    src={completion.avatar}
+                                    fallback={completion.author[0]}
+                                    avatarFrameId={completion.avatarFrameId}
+                                    className="h-6 w-6 border border-white/50"
+                                />
                                 <span className="text-xs font-medium truncate">{completion.author}</span>
                             </div>
                         </div>
@@ -358,10 +360,12 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
 
                 <div className="p-6 flex-1 overflow-y-auto">
                     <div className="flex items-center gap-3 mb-6">
-                        <Avatar className="h-10 w-10 border">
-                            <AvatarImage src={completion.avatar || ""} />
-                            <AvatarFallback>{completion.author[0]}</AvatarFallback>
-                        </Avatar>
+                        <AvatarWithFrame
+                            src={completion.avatar}
+                            fallback={completion.author[0]}
+                            avatarFrameId={completion.avatarFrameId}
+                            className="h-10 w-10 border"
+                        />
                         <div>
                             <h3 className="font-semibold">{completion.author}</h3>
                             <p className="text-xs text-muted-foreground">

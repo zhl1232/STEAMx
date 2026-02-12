@@ -217,7 +217,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         }
 
         return (
-            <div className={cn("group flex gap-3 sm:gap-4", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
+            <div className={cn("group flex gap-3 sm:gap-4 px-3", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
                 {/* Avatar - 固定宽度避免与正文重叠 */}
                 <UserLink className="shrink-0">
                     <AvatarWithFrame

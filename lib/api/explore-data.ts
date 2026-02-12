@@ -321,11 +321,11 @@ export async function getProjectCompletions(
     // 单独查询 profiles
     const { data: profiles } = await supabase
         .from('profiles')
-        .select('id, display_name, avatar_url')
+        .select('id, display_name, avatar_url, equipped_avatar_frame_id')
         .in('id', userIds)
 
     // 创建 profiles 映射
-    type ProfileRow = { id: string; display_name: string | null; avatar_url: string | null }
+    type ProfileRow = { id: string; display_name: string | null; avatar_url: string | null; equipped_avatar_frame_id: string | null }
     const profilesMap = new Map((profiles as ProfileRow[] || []).map((p) => [p.id, p]))
 
     // 组合数据

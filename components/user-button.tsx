@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 
 export function UserButton() {
   const { user, profile, loading, signOut, canReview } = useAuth()
@@ -52,12 +52,13 @@ export function UserButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
-          <Avatar className="h-9 w-9">
-            <AvatarImage src={avatarUrl || ''} alt={displayName} />
-            <AvatarFallback className="bg-primary/10">
-              <UserIcon className="h-4 w-4" />
-            </AvatarFallback>
-          </Avatar>
+          <AvatarWithFrame
+            src={avatarUrl}
+            alt={displayName}
+            fallback={<UserIcon className="h-4 w-4" />}
+            avatarFrameId={profile?.equipped_avatar_frame_id}
+            className="h-9 w-9"
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

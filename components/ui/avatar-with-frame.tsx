@@ -27,9 +27,15 @@ export function AvatarWithFrame({
   avatarClassName,
 }: AvatarWithFrameProps) {
   const frameClass = getAvatarFrameClassName(avatarFrameId ?? null);
+  const isPixel = avatarFrameId === 'pixel_border';
 
   return (
-    <div className={cn("relative inline-flex shrink-0 items-center justify-center rounded-full overflow-hidden", frameClass, className)}>
+    <div className={cn(
+      "relative inline-flex shrink-0 items-center justify-center",
+      isPixel ? "rounded-lg" : "rounded-full overflow-hidden",
+      frameClass,
+      className,
+    )}>
       <Avatar className={cn(avatarClassName, "!h-full !w-full shrink-0 rounded-full ring-2 ring-background")}>
         <AvatarImage src={src ?? undefined} alt={alt} />
         <AvatarFallback>{fallback}</AvatarFallback>

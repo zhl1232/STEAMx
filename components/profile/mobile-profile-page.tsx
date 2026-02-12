@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PenBox, Sparkles } from "lucide-react";
+import { PenBox } from "lucide-react";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
 import { Project, Profile } from "@/lib/mappers/types";
@@ -52,13 +51,7 @@ export function MobileProfilePage({
         followingCount={followingCount}
       />
 
-      {/* 进入商店入口（参考图「进入我的直播间」） */}
-      <div className="px-4 mb-4">
-        <Link href="/shop" className="flex items-center justify-center gap-2 w-full rounded-xl border border-dashed border-border bg-muted/30 py-3 text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors">
-          <Sparkles className="h-5 w-5" />
-          <span className="text-sm font-medium">进入商店</span>
-        </Link>
-      </div>
+
 
       {/* Tabs Content */}
       <Tabs defaultValue="works" className="w-full flex-1" onValueChange={setActiveTab}>

@@ -150,6 +150,19 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
             setIsLoading(true);
             setLeaderboardData([]);
 
+            // 辅助：批量补全 avatarFrameId
+            const fillAvatarFrameIds = async (users: LeaderboardUser[]) => {
+                const ids = users.filter(u => !u.avatarFrameId).map(u => u.id);
+                if (ids.length === 0) return users;
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('id, equipped_avatar_frame_id')
+                    .in('id', ids);
+                if (!data) return users;
+                const map = new Map((data as { id: string; equipped_avatar_frame_id: string | null }[]).map(p => [p.id, p.equipped_avatar_frame_id]));
+                return users.map(u => ({ ...u, avatarFrameId: u.avatarFrameId || map.get(u.id) || undefined }));
+            };
+
             try {
                 let users: LeaderboardUser[] = [];
 
@@ -252,7 +265,7 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                     }));
                 }
 
-                setLeaderboardData(users);
+                setLeaderboardData(await fillAvatarFrameIds(users));
             } catch (error) {
                 console.error("Error fetching leaderboard:", error);
                 setLeaderboardData([]);
