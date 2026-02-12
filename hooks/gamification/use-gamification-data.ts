@@ -1,10 +1,14 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { UserStats } from "@/lib/gamification/types";
 import { useAuth } from "@/context/auth-context";
+
+// 稳定的默认值，避免每次渲染创建新对象
+const EMPTY_SET = new Set<string>();
+const EMPTY_MAP = new Map<string, { unlockedAt: string }>();
 
 export function useGamificationData() {
     const { user, profile, refreshProfile } = useAuth();
@@ -17,7 +21,7 @@ export function useGamificationData() {
     const xp = profile?.xp || 0;
 
     // 2. Fetch Unlocked Badges with Timestamp
-    const { data: badgeData } = useQuery({
+    const { data: badgeData, isFetched: badgesLoaded } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
         queryFn: async () => {
             const { data } = await supabase
@@ -39,8 +43,26 @@ export function useGamificationData() {
         staleTime: 1000 * 60 * 30, // 30 minutes
     });
 
-    const unlockedBadges = badgeData?.set || new Set<string>();
-    const userBadgeDetails = badgeData?.map || new Map<string, { unlockedAt: string }>();
+    // 使用 ref 缓存上一次的 Set/Map 实例，只有内容变化时才更新引用，避免下游 effect 不必要地重新触发
+    const prevBadgesRef = useRef<{ set: Set<string>; map: Map<string, { unlockedAt: string }> }>({ set: EMPTY_SET, map: EMPTY_MAP });
+
+    const { unlockedBadges, userBadgeDetails } = useMemo(() => {
+        if (!badgeData) return { unlockedBadges: prevBadgesRef.current.set, userBadgeDetails: prevBadgesRef.current.map };
+
+        const prev = prevBadgesRef.current;
+        const newSet = badgeData.set;
+        const newMap = badgeData.map;
+
+        // 内容相同则复用旧引用
+        const sameSet = prev.set.size === newSet.size && [...newSet].every(id => prev.set.has(id));
+        const sameMap = prev.map.size === newMap.size && [...newMap.keys()].every(id => prev.map.has(id));
+
+        const stableSet = sameSet ? prev.set : newSet;
+        const stableMap = sameMap ? prev.map : newMap;
+
+        prevBadgesRef.current = { set: stableSet, map: stableMap };
+        return { unlockedBadges: stableSet, userBadgeDetails: stableMap };
+    }, [badgeData]);
 
     // 3. Fetch Full User Stats (Expensive, calculate strictly when needed or for periodic checks)
     const { data: userStats } = useQuery({
@@ -94,48 +116,47 @@ export function useGamificationData() {
             if (error) throw error;
         },
         onSuccess: () => {
-            // We need to refresh the profile in AuthContext since that's where XP lives now
-            // Note: In a real app we might pass refreshProfile down or use a global query cache for profile.
-            // For now, let's try to invalidate the 'gamification', 'profile' key just in case other components use it,
-            // although we just removed the listener.
-            // Actually, the cleanest way is if AuthProvider exposed a way to update, or we moved Auth to React Query.
-            // Given AuthContext is legacy useEffect style, the UI for XP might not update immediately without a reload 
-            // unless we manually refetch. 
-            // Strategy: The gamification context CONSUMES xp. If we update DB, we must update the consumed value.
-            // Let's rely on the fact that we might need to expose `refreshProfile` to this hook?
-            // Or better: Revert to using a Query for XP if real-time update is critical and AuthContext is slow.
-            // BUT, user asked to optimize requests. 
-            // Let's invalidate 'profile' related queries if any exists, but primarily we depend on AuthContext.
-            // Let's assume AuthContext might re-fetch if we tell it to? No strictly provided method here to pass to onSuccess easily without prop drilling.
-            // actually `useAuth` provides `refreshProfile`.
             refreshProfile();
         }
     });
 
     const unlockBadgeMutation = useMutation({
         mutationFn: async (badgeId: string) => {
+            // 使用 upsert + ignoreDuplicates 避免 badge 已存在时返回 409
             const { error } = await supabase
                 .from('user_badges')
-                .insert({
+                .upsert({
                     user_id: user!.id,
                     badge_id: badgeId,
                     unlocked_at: new Date().toISOString()
-                } as never);
+                } as never, {
+                    onConflict: 'user_id,badge_id',
+                    ignoreDuplicates: true
+                });
             if (error) throw error;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['gamification', 'badges', user?.id] });
+        onSuccess: (_data, badgeId) => {
+            // 不使用 invalidateQueries（会导致重新 fetch → Set 引用变化 → checkBadges 再次执行 → 循环）
+            // 改为直接更新缓存，将新 badge 合并进已有数据
+            queryClient.setQueryData(
+                ['gamification', 'badges', user?.id],
+                (old: { set: Set<string>; map: Map<string, { unlockedAt: string }> } | undefined) => {
+                    if (!old) return old;
+                    const newSet = new Set(old.set);
+                    const newMap = new Map(old.map);
+                    newSet.add(badgeId);
+                    newMap.set(badgeId, { unlockedAt: new Date().toISOString() });
+                    return { set: newSet, map: newMap };
+                }
+            );
         }
     });
-
-    // Check-in Side Effect Wrapper (Separate from reading stats)
-    // We already called RPC in query, which MIGHT execute the check-in side effect depending on DB function implementation.
-    // Assuming `daily_check_in` RPC handles "if already checked in, do nothing, just return stats".
 
     return {
         xp,
         unlockedBadges,
         userBadgeDetails,
+        badgesLoaded,
         userStats,
         updateXpMutation,
         unlockBadgeMutation,

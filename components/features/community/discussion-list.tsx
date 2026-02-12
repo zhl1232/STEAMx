@@ -43,7 +43,7 @@ export function DiscussionList() {
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const isLoadingRef = useRef(false);
-    const supabase = createClient();
+    const [supabase] = useState(() => createClient());
 
     // Search and filter states
     const [searchQuery, setSearchQuery] = useState("");
@@ -167,11 +167,6 @@ export function DiscussionList() {
         fetchTags();
     }, [supabase]);
 
-    // Initial load
-    useEffect(() => {
-        fetchDiscussions(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Empty array = only run on mount
 
     // Trigger fetch when search/filter changes
     useEffect(() => {

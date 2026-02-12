@@ -41,6 +41,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         xp,
         unlockedBadges,
         userBadgeDetails,
+        badgesLoaded,
         userStats,
         updateXpMutation,
         unlockBadgeMutation,
@@ -162,6 +163,9 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     // 3. Check Badges Logic
     // Use Ref to break dependency cycle and prevent infinite loops when badges are unlocked
     const unlockedBadgesRef = useRef(unlockedBadges);
+    // Track badges currently being processed to prevent duplicate requests/loops
+    const processingBadgesRef = useRef(new Set<string>());
+
     useEffect(() => {
         unlockedBadgesRef.current = unlockedBadges;
     }, [unlockedBadges]);
@@ -171,11 +175,15 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         // Use the ref value to avoid recreating this function when badges change
         const currentUnlocked = unlockedBadgesRef.current;
+        const processing = processingBadgesRef.current;
 
         BADGES.forEach((badge) => {
-            if (!currentUnlocked.has(badge.id)) {
+            if (!currentUnlocked.has(badge.id) && !processing.has(badge.id)) {
                 try {
                     if (badge.condition(stats)) {
+                        // Mark as processing immediately
+                        processing.add(badge.id);
+                        
                         // CRITICAL FIX: Optimistically mark as unlocked locally immediately 
                         // to prevent multiple fire/infinite loops while mutation is pending
                         currentUnlocked.add(badge.id); 
@@ -184,11 +192,12 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                         // Trigger Mutation
                         unlockBadgeMutation.mutate(badge.id, {
                             onSuccess: () => {
+                                processing.delete(badge.id); // Clear processing flag
                                 toast({
                                     description: (
                                         <AchievementToast
                                             title="解锁新徽章！"
-                                            description={`你获得了 "${badge.name}" 徽章`}
+                                            description={`恭喜你获得了 "${badge.name}" 徽章`} // Fixed wording
                                             icon={badge.icon}
                                             tier={badge.tier}
                                         />
@@ -205,30 +214,17 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                 });
                             },
                             onError: (error: unknown) => {
-                                // CRITICAL FIX: If error is 409 (Conflict/Duplicate), it means badge is ALREADY unlocked in DB.
-                                // In this case, we should TREAT IT AS SUCCESS and KEEP the optimistic update.
-                                // Only revert if it's a genuine failure (e.g., network error other than conflict).
-                                const err = error as { message?: string; code?: string; status?: number };
-                                const isDuplicate = 
-                                    err?.message?.includes('duplicate') || 
-                                    err?.message?.includes('409') ||
-                                    err?.code === '23505' || // Postgres unique violation
-                                    err?.status === 409;
-
-                                if (isDuplicate) {
-                                    // Treat as success: ensure it remains in the set (it already is due to optimistic update)
-                                    // We prevent the loop because next checkBadges will see it in the Ref.
-                                } else {
-                                    // Revert optimistic update only for real errors
-                                    console.error(`Failed to unlock badge ${badge.id}`, error);
-                                    currentUnlocked.delete(badge.id);
-                                    unlockedBadgesRef.current = new Set(currentUnlocked);
-                                }
+                                processing.delete(badge.id); // Clear processing flag
+                                // upsert + ignoreDuplicates 不会报 409，此处仅处理真正的网络错误
+                                console.error(`Failed to unlock badge ${badge.id}`, error);
+                                currentUnlocked.delete(badge.id);
+                                unlockedBadgesRef.current = new Set(currentUnlocked);
                             }
                         });
                     }
                 } catch (err) {
                     console.error(`Error checking badge ${badge.id}`, err);
+                    processing.delete(badge.id);
                 }
             }
         });
@@ -236,11 +232,12 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     }, [user?.id, unlockBadgeMutation, toast]);
 
     // 4. Auto-Run Checks on Stats Update
+    // 仅在 badges 已从 DB 加载后才执行 checkBadges，避免在空 Set 上误判
     useEffect(() => {
-        if (userStats) {
+        if (userStats && badgesLoaded) {
             checkBadges(userStats);
         }
-    }, [userStats, checkBadges]);
+    }, [userStats, badgesLoaded, checkBadges]);
 
     // 5. Daily Check-in Side Effect
     const hasCheckedIn = useRef(false);
@@ -253,7 +250,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
             try {
                 // Call RPC to record check-in (DB returns jsonb: streak, total_days, checked_in_today, is_new_day)
-                const { data, error } = await supabase.rpc('daily_check_in');
+                const { error } = await supabase.rpc('daily_check_in');
 
                 if (error) {
                     console.error('Check-in error:', error);

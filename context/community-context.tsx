@@ -84,28 +84,23 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         setChallenges(mappedChallenges);
     }, [supabase]);
 
-    // 仅在 auth 就绪后拉取一次，避免因 user 从 null 变为已登录导致 effect 重复跑
+    // 统一处理数据加载：初始化或用户变化时加载
     useEffect(() => {
         if (authLoading) return;
-        const initData = async () => {
-            setIsLoading(true);
-            await fetchChallenges();
-            setIsLoading(false);
-        };
-        initData();
-    }, [authLoading, fetchChallenges]);
 
-    // 用户登录/登出后重拉一次以更新「已参加」状态，且仅在非首次（避免与上面重复）
-    useEffect(() => {
-        if (authLoading) return;
         const userId = user?.id ?? null;
-        if (lastFetchedUserIdRef.current === undefined) {
+        
+        // 如果是首次加载（ref为undefined）或用户发生变化，则拉取数据
+        if (lastFetchedUserIdRef.current === undefined || lastFetchedUserIdRef.current !== userId) {
             lastFetchedUserIdRef.current = userId;
-            return;
+            
+            const loadData = async () => {
+                setIsLoading(true);
+                await fetchChallenges();
+                setIsLoading(false);
+            };
+            loadData();
         }
-        if (lastFetchedUserIdRef.current === userId) return;
-        lastFetchedUserIdRef.current = userId;
-        fetchChallenges();
     }, [authLoading, user?.id, fetchChallenges]);
 
     const addDiscussion = useCallback(async (discussion: Discussion) => {

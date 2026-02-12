@@ -1,6 +1,7 @@
 import { render, screen, act } from '@testing-library/react'
 import { GamificationProvider, useGamification } from './gamification-context'
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 // Mock dependencies
 const mockUpdateXpMutation = { mutate: jest.fn() }
@@ -61,11 +62,22 @@ describe('GamificationContext', () => {
         jest.clearAllMocks()
     })
 
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+        },
+    })
+
+
     it('provides initial gamification data', () => {
         render(
-            <GamificationProvider>
-                <TestComponent />
-            </GamificationProvider>
+            <QueryClientProvider client={queryClient}>
+                <GamificationProvider>
+                    <TestComponent />
+                </GamificationProvider>
+            </QueryClientProvider>
         )
         expect(screen.getByTestId('xp')).toHaveTextContent('XP: 100')
         // sqrt(100/100) + 1 = 2
@@ -74,9 +86,11 @@ describe('GamificationContext', () => {
 
     it('addXp triggers mutation', async () => {
         render(
-            <GamificationProvider>
-                <TestComponent />
-            </GamificationProvider>
+            <QueryClientProvider client={queryClient}>
+                <GamificationProvider>
+                    <TestComponent />
+                </GamificationProvider>
+            </QueryClientProvider>
         )
 
         await act(async () => {
