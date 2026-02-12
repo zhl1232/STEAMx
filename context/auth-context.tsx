@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 
@@ -14,6 +14,8 @@ interface Profile {
   avatar_url: string | null
   bio: string | null
   xp: number
+  coins: number
+  equipped_avatar_frame_id: string | null
   created_at: string
 }
 
@@ -37,11 +39,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
+  /** 避免同一用户被重复拉 profile（getUser + onAuthStateChange 会触发多次） */
+  const lastFetchedUserIdRef = useRef<string | null>(null)
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
       .from('profiles')
-      .select('id, role, username, display_name, avatar_url, bio, xp, created_at')
+      .select('id, role, username, display_name, avatar_url, bio, xp, coins, equipped_avatar_frame_id, created_at')
       .eq('id', userId)
       .single()
 
@@ -56,29 +60,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    // 获取当前登录用户
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      if (user) {
-        const profileData = await fetchProfile(user.id)
-        setProfile(profileData)
-      }
-      setLoading(false)
-    }
-
-    getUser()
-
-    // 监听认证状态变化
+    // 仅通过 onAuthStateChange 获取 session + profile，避免 getUser() 与首次回调重复请求
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session?.user) {
-          // Only update if user ID changed or we don't have user yet
-          // Actually, profile might need refresh if role changed etc, but simpler to just fetch
+          const userId = session.user.id
           setUser(session.user)
-          const profileData = await fetchProfile(session.user.id)
-          setProfile(profileData)
+          // 同一用户在同一会话内只拉一次 profile，除非是登出后重新登录（userId 会变）
+          if (lastFetchedUserIdRef.current !== userId) {
+            lastFetchedUserIdRef.current = userId
+            const profileData = await fetchProfile(userId)
+            setProfile(profileData)
+          }
         } else {
+          lastFetchedUserIdRef.current = null
           setUser(null)
           setProfile(null)
         }
@@ -89,7 +84,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       subscription.unsubscribe()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetchProfile/supabase.auth intentionally excluded to run once on mount
   }, [])
 
   const signOut = async () => {

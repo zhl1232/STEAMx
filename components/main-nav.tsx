@@ -31,8 +31,13 @@ export function MainNav() {
             label: "排行榜",
             active: pathname === "/leaderboard",
         },
+        {
+            href: "/shop",
+            label: "商店",
+            active: pathname === "/shop",
+        },
     ].filter(route => {
-        if (!user && (route.href === '/leaderboard' || route.href === '/messages')) {
+        if (!user && (route.href === '/leaderboard' || route.href === '/messages' || route.href === '/shop')) {
             return false;
         }
         return true;

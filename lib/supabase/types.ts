@@ -25,6 +25,8 @@ export interface Database {
           created_at: string
           updated_at: string
           xp: number
+          coins: number
+          equipped_avatar_frame_id: string | null
           role: string
           notify_followed_creator_updates: boolean
         }
@@ -37,6 +39,8 @@ export interface Database {
           created_at?: string
           updated_at?: string
           xp?: number
+          coins?: number
+          equipped_avatar_frame_id?: string | null
           role?: string
           notify_followed_creator_updates?: boolean
         }
@@ -49,6 +53,8 @@ export interface Database {
           created_at?: string
           updated_at?: string
           xp?: number
+          coins?: number
+          equipped_avatar_frame_id?: string | null
           notify_followed_creator_updates?: boolean
           role?: string
         }
@@ -720,6 +726,49 @@ export interface Database {
           }
         ]
       }
+      user_inventory: {
+        Row: {
+          user_id: string
+          item_id: string
+          unlocked_at: string
+        }
+        Insert: {
+          user_id: string
+          item_id: string
+          unlocked_at?: string
+        }
+        Update: {
+          user_id?: string
+          item_id?: string
+          unlocked_at?: string
+        }
+      }
+      coin_logs: {
+        Row: {
+          id: number
+          user_id: string
+          amount: number
+          action_type: string
+          resource_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          amount: number
+          action_type: string
+          resource_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          amount?: number
+          action_type?: string
+          resource_id?: string | null
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -823,7 +872,39 @@ export interface Database {
       }
       daily_check_in: {
         Args: Record<string, never>
-        Returns: void
+        Returns: { streak?: number; total_days?: number; checked_in_today?: boolean; is_new_day?: boolean; xp_granted?: number; coins_granted?: number }
+      }
+      tip_creator: {
+        Args: { p_from_user_id: string; p_to_user_id: string; p_completed_project_id: number; p_amount: number }
+        Returns: { ok: boolean; error?: string; amount?: number; remaining_for_project?: number; received?: number; limit?: number }
+      }
+      tip_resource: {
+        Args: { p_resource_type: string; p_resource_id: number; p_amount: number }
+        Returns: { ok: boolean; error?: string; amount?: number; new_my_tipped?: number; my_tipped?: number; limit?: number }
+      }
+      get_tip_received_for_completion: {
+        Args: { p_completed_project_id: number }
+        Returns: number
+      }
+      get_tip_received_for_resource: {
+        Args: { p_resource_type: string; p_resource_id: number }
+        Returns: number
+      }
+      get_my_tip_for_resource: {
+        Args: { p_resource_type: string; p_resource_id: number }
+        Returns: number
+      }
+      purchase_item: {
+        Args: { p_item_id: string }
+        Returns: { ok: boolean; error?: string; item_id?: string; price?: number }
+      }
+      equip_avatar_frame: {
+        Args: { p_item_id: string | null }
+        Returns: { ok: boolean; error?: string; equipped?: string | null }
+      }
+      get_shop_item_price: {
+        Args: { p_item_id: string }
+        Returns: number | null
       }
     }
     Enums: {

@@ -10,7 +10,7 @@ import { ProjectShowcase } from '@/components/features/project-showcase'
 import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertTriangle, Edit } from 'lucide-react'
+import { AlertTriangle, Edit, Coins } from 'lucide-react'
 
 interface ProjectDetailPageProps {
     params: Promise<{ id: string }>
@@ -58,6 +58,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     // 获取评论 (分页)
     const { comments: initialComments, total: totalComments, hasMore: hasMoreComments } = await getProjectComments(project.id, 0, 5)
+
+    // 该项目收到的投币总数（项目维度）
+    const { data: projectCoinsReceived = 0 } = await supabase.rpc('get_tip_received_for_resource', {
+        p_resource_type: 'project',
+        p_resource_id: Number(project.id)
+    })
 
     return (
         <div className="container mx-auto py-8 max-w-4xl">
@@ -116,7 +122,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     <div className="space-y-8">
                         <div>
                             <h1 className="text-3xl font-bold mb-2">{project.title}</h1>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
                                 <span className="flex items-center gap-1">
                                     By{" "}
                                     {project.author_id ? (
@@ -132,6 +138,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                 </span>
                                 <span>•</span>
                                 <span>{project.category}</span>
+                                <span>•</span>
+                                <span className="flex items-center gap-1" title="该项目收到的投币">
+                                    <Coins className="h-4 w-4" />
+                                    <span>{projectCoinsReceived} 硬币</span>
+                                </span>
                             </div>
                         </div>
 
@@ -141,6 +152,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                 projectId={project.id}
                                 projectTitle={project.title}
                                 likes={project.likes}
+                                completions={completions}
+                                projectOwnerId={project.author_id}
                             />
                         </div>
 
@@ -212,6 +225,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                 projectId={project.id}
                                 projectTitle={project.title}
                                 likes={project.likes}
+                                completions={completions}
+                                projectOwnerId={project.author_id}
                             />
                         </div>
 

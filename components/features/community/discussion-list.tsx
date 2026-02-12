@@ -12,12 +12,26 @@ import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
+import { cn } from "@/lib/utils";
 
 const DISCUSSION_ROW_ESTIMATE = 180;
 const LIST_MAX_HEIGHT = "70vh";
 
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const m = window.matchMedia("(max-width: 768px)");
+        setIsMobile(m.matches);
+        const f = () => setIsMobile(m.matches);
+        m.addEventListener("change", f);
+        return () => m.removeEventListener("change", f);
+    }, []);
+    return isMobile;
+}
+
 export function DiscussionList() {
     const { user, profile } = useAuth();
+    const isMobile = useIsMobile();
     const { promptLogin: _promptLogin } = useLoginPrompt();
     const [isCreating, setIsCreating] = useState(false);
     const [newTitle, setNewTitle] = useState("");
@@ -168,7 +182,7 @@ export function DiscussionList() {
     const listParentRef = useRef<HTMLDivElement>(null);
     const virtualizer = useVirtualizer({
         count: discussions.length,
-        getScrollElement: () => listParentRef.current,
+        getScrollElement: () => (isMobile ? document.documentElement : listParentRef.current),
         estimateSize: () => DISCUSSION_ROW_ESTIMATE,
         overscan: 3,
     });
@@ -225,7 +239,7 @@ export function DiscussionList() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 pb-24 md:pb-0">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold hidden md:block">讨论区</h2>
                 {user && (
@@ -297,8 +311,11 @@ export function DiscussionList() {
                     <>
                         <div
                             ref={listParentRef}
-                            className="overflow-auto rounded-xl"
-                            style={{ maxHeight: LIST_MAX_HEIGHT }}
+                            className={cn("rounded-xl", !isMobile && "overflow-auto")}
+                            style={{
+                                maxHeight: isMobile ? undefined : LIST_MAX_HEIGHT,
+                                minHeight: isMobile ? virtualizer.getTotalSize() : undefined,
+                            }}
                         >
                             <div
                                 style={{
@@ -323,8 +340,8 @@ export function DiscussionList() {
                                             className="pb-4"
                                         >
                                             <div className="border border-border/60 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow transition-all bg-card cursor-pointer group relative">
-                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-[1]" />
-                                                <div className="relative z-10">
+                                                <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-10 rounded-xl" aria-label={`进入讨论：${discussion.title}`} />
+                                                <div className="relative z-0 pointer-events-none">
                                                     <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors pr-2">
                                                         <SearchHighlight text={discussion.title} query={searchQuery} />
                                                     </h3>
@@ -351,29 +368,29 @@ export function DiscussionList() {
                                                     <p className="text-muted-foreground line-clamp-2 text-sm sm:text-base mb-4">
                                                         <SearchHighlight text={discussion.content} query={searchQuery} />
                                                     </p>
-                                                    <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4">
-                                                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
-                                                        <MessageSquare className="h-4 w-4" />
-                                                        {discussion.replies.length} 回复
-                                                    </Button>
-                                                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
-                                                        <Heart className="h-4 w-4" />
-                                                        {discussion.likes} 赞
+                                                    <div className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-4 pointer-events-auto relative z-20">
+                                                        <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent">
+                                                            <MessageSquare className="h-4 w-4" />
+                                                            {discussion.replies.length} 回复
+                                                        </Button>
+                                                        <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500">
+                                                            <Heart className="h-4 w-4" />
+                                                            {discussion.likes} 赞
+                                                        </Button>
+                                                        {(profile?.role === 'admin' || profile?.role === 'moderator') && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto"
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                    handleDelete(discussion.id);
+                                                                }}
+                                                            >
+                                                                <Trash2 className="h-4 w-4" />
                                                             </Button>
-                                                            {(profile?.role === 'admin' || profile?.role === 'moderator') && (
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="sm"
-                                                                    className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto relative z-20"
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault();
-                                                                        e.stopPropagation();
-                                                                        handleDelete(discussion.id);
-                                                                    }}
-                                                                >
-                                                                    <Trash2 className="h-4 w-4" />
-                                                                </Button>
-                                                            )}
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>

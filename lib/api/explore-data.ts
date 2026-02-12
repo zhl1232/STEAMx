@@ -210,7 +210,7 @@ export async function getProjectComments(
         .from('comments')
         .select(`
             *,
-            profiles:author_id (display_name, avatar_url)
+            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
         `, { count: 'exact' })
         .eq('project_id', projectId)
         .is('parent_id', null)  // Only fetch root comments
@@ -231,7 +231,7 @@ export async function getProjectComments(
             .from('comments')
             .select(`
                 *,
-                profiles:author_id (display_name, avatar_url)
+                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
             `)
             .in('parent_id', rootIds)
             .order('created_at', { ascending: true }) // Oldest first for replies

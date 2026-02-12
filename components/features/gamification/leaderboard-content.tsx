@@ -2,7 +2,7 @@
 
 import { useGamification } from "@/context/gamification-context";
 import { useAuth } from "@/context/auth-context";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Medal, Crown, Star, Award, Hammer, Calendar } from "lucide-react";
@@ -19,6 +19,7 @@ export interface LeaderboardUser {
     level: number;
     value: number;
     avatar: string | null | undefined;
+    avatarFrameId?: string | null;
     isCurrentUser?: boolean;
 }
 
@@ -89,10 +90,13 @@ function LeaderboardVirtualList({
                                     <div className="flex items-center justify-center w-8 shrink-0">
                                         {getRankIcon(index)}
                                     </div>
-                                    <Avatar className="h-10 w-10 shrink-0 border-2 border-background shadow-sm ring-1 ring-border/50">
-                                        <AvatarImage src={user.avatar || undefined} />
-                                        <AvatarFallback className="text-sm font-medium">{user.name[0]}</AvatarFallback>
-                                    </Avatar>
+                                    <AvatarWithFrame
+                                        src={user.avatar}
+                                        fallback={user.name[0]}
+                                        avatarFrameId={user.avatarFrameId}
+                                        className="h-10 w-10 shrink-0 border-2 border-background shadow-sm ring-1 ring-border/50"
+                                        avatarClassName="h-10 w-10"
+                                    />
                                     <div className="min-w-0">
                                         <div className="font-semibold flex items-center gap-2 flex-wrap">
                                             <span className="truncate">{user.name}</span>
@@ -179,11 +183,11 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                     } else {
                         const { data: topProfiles, error } = await supabase
                             .from("profiles")
-                            .select("id, display_name, avatar_url, xp")
+                            .select("id, display_name, avatar_url, xp, equipped_avatar_frame_id")
                             .order("xp", { ascending: false })
                             .limit(20);
                         if (error) throw error;
-                        const rows = (topProfiles as { id: string; display_name: string | null; avatar_url: string | null; xp: number | null }[]) || [];
+                        const rows = (topProfiles as { id: string; display_name: string | null; avatar_url: string | null; xp: number | null; equipped_avatar_frame_id?: string | null }[]) || [];
                         users = rows.map((p) => ({
                             id: p.id,
                             name: p.display_name || "匿名用户",
@@ -191,6 +195,7 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                             level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
                             value: p.xp || 0,
                             avatar: p.avatar_url,
+                            avatarFrameId: p.equipped_avatar_frame_id ?? undefined,
                             isCurrentUser: user?.id === p.id
                         }));
                     }
@@ -213,6 +218,7 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                             level: Math.floor(Math.sqrt(myValue / 100)) + 1,
                             value: myValue,
                             avatar: profile?.avatar_url,
+                            avatarFrameId: (profile as { equipped_avatar_frame_id?: string | null } | null)?.equipped_avatar_frame_id ?? undefined,
                             isCurrentUser: true
                         });
                         users.sort((a, b) => b.value - a.value);

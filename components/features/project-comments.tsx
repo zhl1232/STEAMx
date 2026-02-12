@@ -2,10 +2,10 @@
 import Link from "next/link"
 
 import { useState, useRef } from "react"
-import { useVirtualizer } from "@tanstack/react-virtual"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { MessageCircle, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
@@ -52,7 +52,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 .from('comments')
                 .select(`
                     *,
-                    profiles:author_id (display_name, avatar_url)
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
                 `, { count: 'exact' })
                 .eq('project_id', projectId)
                 .is('parent_id', null)
@@ -70,7 +70,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                     .from('comments')
                     .select(`
                         *,
-                        profiles:author_id (display_name, avatar_url)
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
                     `)
                     .in('parent_id', rootIds)
                     .order('created_at', { ascending: true })
@@ -194,12 +194,6 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     }
 
     const commentsListRef = useRef<HTMLDivElement>(null)
-    const virtualizer = useVirtualizer({
-        count: topLevelComments.length,
-        getScrollElement: () => commentsListRef.current,
-        estimateSize: () => 120,
-        overscan: 3,
-    })
 
     // New Bilibili-style comment item
     const CommentItem = ({ comment, isNested = false }: { comment: Comment, isNested?: boolean }) => {
@@ -223,25 +217,27 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         }
 
         return (
-            <div className={cn("group flex gap-4", isNested ? "mt-4" : "py-6 border-b last:border-0")}>
-                {/* Avatar */}
-                <UserLink>
-                    <Avatar className={cn("shrink-0 border transition-transform hover:scale-105", isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}>
-                        <AvatarImage src={comment.avatar || ""} />
-                        <AvatarFallback className="bg-primary/5 text-primary">
-                            {comment.author[0]?.toUpperCase()}
-                        </AvatarFallback>
-                    </Avatar>
+            <div className={cn("group flex gap-3 sm:gap-4", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
+                {/* Avatar - 固定宽度避免与正文重叠 */}
+                <UserLink className="shrink-0">
+                    <AvatarWithFrame
+                        src={comment.avatar}
+                        fallback={comment.author[0]?.toUpperCase()}
+                        avatarFrameId={comment.avatarFrameId}
+                        className={cn("shrink-0 border transition-transform hover:scale-105", isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}
+                        avatarClassName={cn(isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}
+                    />
                 </UserLink>
 
-                <div className="flex-1 min-w-0">
-                    {/* User Info */}
-                    <div className="flex items-center gap-2 mb-1">
-                        <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors",
+                <div className="flex-1 min-w-0 overflow-hidden">
+                    {/* User Info：姓名与日期分行或留足间距，避免重叠 */}
+                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1.5">
+                        <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
                             isNested ? "text-sm" : "text-base"
                         )}>
                             {comment.author}
                         </UserLink>
+                        <span className="text-xs text-muted-foreground shrink-0">{comment.date}</span>
                     </div>
 
                     {/* Content */}
@@ -254,12 +250,10 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                         {comment.content}
                     </p>
 
-                    {/* Footer Actions */}
-                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                        <span>{comment.date}</span>
-
+                    {/* Footer Actions：换行 + 固定间距，防止与上方文字重叠 */}
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-xs text-muted-foreground">
                         <button
-                            className="flex items-center gap-1 hover:text-primary transition-colors"
+                            className="flex items-center gap-1 shrink-0 hover:text-primary transition-colors"
                             onClick={() => {/* Like logic would go here */ }}
                         >
                             <ThumbsUp className="h-3.5 w-3.5" />
@@ -267,7 +261,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                         </button>
 
                         <button
-                            className={cn("flex items-center gap-1 hover:text-primary transition-colors", isReplying && "text-primary")}
+                            className={cn("flex items-center gap-1 shrink-0 hover:text-primary transition-colors", isReplying && "text-primary")}
                             onClick={() => setReplyingTo(comment.id)}
                         >
                             <MessageSquare className="h-3.5 w-3.5" />
@@ -276,7 +270,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
                         {(user?.id === comment.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
                             <button
-                                className="flex items-center gap-1 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                                className="flex items-center gap-1 shrink-0 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                                 onClick={() => handleDeleteComment(comment.id)}
                             >
                                 <Trash2 className="h-3.5 w-3.5" />
@@ -294,10 +288,13 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                                 }
                                 className="flex gap-3 items-start"
                             >
-                                <Avatar className="h-8 w-8 shrink-0">
-                                    <AvatarImage src={profile?.avatar_url || user?.user_metadata?.avatar_url || ""} />
-                                    <AvatarFallback>M</AvatarFallback>
-                                </Avatar>
+                                <AvatarWithFrame
+                                    src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                                    fallback="M"
+                                    avatarFrameId={profile?.equipped_avatar_frame_id}
+                                    className="h-8 w-8 shrink-0"
+                                    avatarClassName="h-8 w-8"
+                                />
                                 <div className="flex-1 space-y-2">
                                     <Textarea
                                         value={replyContent}
@@ -321,7 +318,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
                     {/* Nested Comments with Collapse Logic */}
                     {nestedComments.length > 0 && (
-                        <div className="mt-3 bg-muted/30 rounded-lg p-3 space-y-4">
+                        <div className="mt-3 sm:mt-4 bg-muted/30 rounded-lg p-3 space-y-3 sm:space-y-4">
                             {displayedComments.map((nested) => (
                                 <CommentItem key={nested.id} comment={nested} isNested={true} />
                             ))}
@@ -351,14 +348,14 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     }
 
     return (
-        <div className="border-t pt-8 relative pb-20">
+        <div className="border-t pt-8 relative pb-20 md:px-6 lg:px-8">
             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <span className="text-primary">|</span>
                 评论
                 <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
             </h3>
 
-            {/* Comments List - 虚拟化长列表 */}
+            {/* Comments List - 不用虚拟列表，评论+回复高度不固定，用文档流避免重叠 */}
             <div className="mb-8">
                 {comments.length > 0 ? (
                     <>
@@ -367,32 +364,12 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                             className="overflow-auto rounded-lg"
                             style={{ maxHeight: "60vh" }}
                         >
-                            <div
-                                style={{
-                                    height: `${virtualizer.getTotalSize()}px`,
-                                    width: "100%",
-                                    position: "relative",
-                                }}
-                            >
-                                {virtualizer.getVirtualItems().map((virtualRow) => {
-                                    const comment = topLevelComments[virtualRow.index]
-                                    return (
-                                        <div
-                                            key={comment.id}
-                                            data-index={virtualRow.index}
-                                            style={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: "100%",
-                                                transform: `translateY(${virtualRow.start}px)`,
-                                            }}
-                                            className="pb-2"
-                                        >
-                                            <CommentItem comment={comment} />
-                                        </div>
-                                    )
-                                })}
+                            <div className="space-y-0">
+                                {topLevelComments.map((comment) => (
+                                    <div key={comment.id} className="pb-0">
+                                        <CommentItem comment={comment} />
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
@@ -427,12 +404,13 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             {/* Main Input Area - Sticky Bottom */}
             <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none">
                 <div className="flex gap-4 max-w-4xl mx-auto w-full">
-                    <Avatar className="h-10 w-10 border shadow-sm">
-                        <AvatarImage src={profile?.avatar_url || user?.user_metadata?.avatar_url || ""} />
-                        <AvatarFallback className="bg-muted">
-                            {profile?.display_name?.[0]?.toUpperCase() || "Me"}
-                        </AvatarFallback>
-                    </Avatar>
+                    <AvatarWithFrame
+                        src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                        fallback={profile?.display_name?.[0]?.toUpperCase() || "Me"}
+                        avatarFrameId={profile?.equipped_avatar_frame_id}
+                        className="h-10 w-10 border shadow-sm"
+                        avatarClassName="h-10 w-10"
+                    />
                     <form onSubmit={handleSubmitComment} className="flex-1 relative group">
                         <div className={cn(
                             "rounded-xl border bg-background transition-all duration-200 ease-in-out overflow-hidden focus-within:ring-2 focus-within:ring-primary/20",

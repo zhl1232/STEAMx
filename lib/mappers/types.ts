@@ -33,6 +33,7 @@ interface DbCommentWithProfile {
     profiles?: {
         display_name?: string | null
         avatar_url?: string | null
+        equipped_avatar_frame_id?: string | null
     } | null
 }
 
@@ -82,6 +83,7 @@ export interface Comment {
     author: string
     userId?: string
     avatar?: string
+    avatarFrameId?: string | null
     content: string
     date: string
     parent_id?: number | null
@@ -128,6 +130,8 @@ export interface Profile {
     avatar_url: string | null
     bio: string | null
     xp: number
+    coins?: number
+    equipped_avatar_frame_id?: string | null
     role: 'user' | 'moderator' | 'admin'
 }
 
@@ -206,6 +210,7 @@ export function mapDbComment(
         author: dbComment.profiles?.display_name || 'Unknown',
         userId: dbComment.author_id,
         avatar: dbComment.profiles?.avatar_url || undefined,
+        avatarFrameId: dbComment.profiles?.equipped_avatar_frame_id ?? undefined,
         content: dbComment.content,
         date: new Date(dbComment.created_at).toLocaleString('zh-CN', {
             year: 'numeric',
@@ -281,6 +286,8 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
         avatar_url: dbProfile.avatar_url,
         bio: dbProfile.bio,
         xp: dbProfile.xp,
+        coins: 'coins' in dbProfile ? (dbProfile as { coins: number }).coins : undefined,
+        equipped_avatar_frame_id: 'equipped_avatar_frame_id' in dbProfile ? (dbProfile as { equipped_avatar_frame_id: string | null }).equipped_avatar_frame_id : undefined,
         role: (dbProfile.role as 'user' | 'moderator' | 'admin') || 'user'
     }
 }

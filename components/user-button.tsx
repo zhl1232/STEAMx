@@ -7,6 +7,7 @@ import {
   User as UserIcon,
   Loader2,
   LayoutDashboard,
+  Coins,
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -73,6 +74,12 @@ export function UserButton() {
           <Link href="/profile" className="cursor-pointer">
             <UserIcon className="mr-2 h-4 w-4" />
             <span>个人中心</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/shop" className="cursor-pointer">
+            <Coins className="mr-2 h-4 w-4" />
+            <span>商店</span>
           </Link>
         </DropdownMenuItem>
 

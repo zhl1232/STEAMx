@@ -7,9 +7,10 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Quote, X, Heart, Send, MessageCircle } from "lucide-react"
+import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/context/auth-context"
+import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { cn } from "@/lib/utils"
 import { useDanmaku } from "@/hooks/use-danmaku"
@@ -87,9 +88,12 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
 
 function CompletionDetail({ completion, onClose }: { completion: ProjectCompletion, onClose: () => void }) {
     const supabase = createClient()
-    const { user } = useAuth()
+    const { user, refreshProfile } = useAuth()
+    const gamification = useGamification()
+    const coins = gamification?.coins ?? 0
     const { promptLogin } = useLoginPrompt()
     const queryClient = useQueryClient()
+    const isOwnCompletion = user?.id === completion.userId
 
     // -- React Query Data Fetching --
 
@@ -135,6 +139,20 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             return data || [];
         }
     });
+
+    // 4. Tip received for this completion (for "已收到 x/2 硬币")
+    const { data: tipReceived = 0 } = useQuery({
+        queryKey: ['completion_tip_received', completion.id],
+        queryFn: async () => {
+            const { data, error } = await supabase.rpc('get_tip_received_for_resource', {
+                p_resource_type: 'completion',
+                p_resource_id: completion.id
+            } as never);
+            if (error) return 0;
+            return (data as number) ?? 0;
+        }
+    });
+    const tipRemaining = Math.max(0, 2 - tipReceived);
 
     // -- Mutations --
 
@@ -191,6 +209,25 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['completion_comments', completion.id] });
+        }
+    });
+
+    const tipMutation = useMutation({
+        mutationFn: async (amount: number) => {
+            if (!user) throw new Error("Unauthorized");
+            const { data, error } = await supabase.rpc('tip_resource', {
+                p_resource_type: 'completion',
+                p_resource_id: completion.id,
+                p_amount: amount
+            } as never);
+            if (error) throw error;
+            const res = data as { ok?: boolean; error?: string };
+            if (!res?.ok) throw new Error(res?.error || 'tip_failed');
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['completion_tip_received', completion.id] });
+            queryClient.invalidateQueries({ queryKey: ['my_tip_for_resource', 'completion', completion.id] });
+            refreshProfile();
         }
     });
 
@@ -348,6 +385,38 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                             弹幕 {comments.length}
                         </div>
                     </div>
+
+                    {!isOwnCompletion && (
+                        <div className="flex items-center gap-2 mb-6">
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                <Coins className="h-3.5 w-3.5" />
+                                已收到 {tipReceived}/2 硬币
+                            </span>
+                            {tipRemaining > 0 && (
+                                <div className="flex gap-1 ml-auto">
+                                    {[1, 2].filter((a) => a <= tipRemaining && coins >= a).map((amount) => (
+                                        <Button
+                                            key={amount}
+                                            variant="outline"
+                                            size="sm"
+                                            className="gap-1"
+                                            disabled={tipMutation.isPending || coins < amount}
+                                            onClick={() => {
+                                                if (!user) {
+                                                    promptLogin(() => {}, { title: '赞赏', description: '登录后即可用硬币赞赏创作者' });
+                                                    return;
+                                                }
+                                                tipMutation.mutate(amount);
+                                            }}
+                                        >
+                                            <Coins className="h-3.5 w-3.5" />
+                                            赞赏 {amount}
+                                        </Button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {completion.notes ? (
                         <div className="space-y-2 p-4 bg-muted/30 rounded-lg">

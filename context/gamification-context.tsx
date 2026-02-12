@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { createClient } from "@/lib/supabase/client";
@@ -9,13 +10,13 @@ import { useAuth } from "@/context/auth-context";
 import { BADGES } from "@/lib/gamification/badges";
 import { UserStats, Badge } from "@/lib/gamification/types";
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data";
-import { getTodayKey } from "@/lib/date-utils";
 
 export type { UserStats, Badge };
 export { BADGES };
 
 interface GamificationContextType {
     xp: number;
+    coins: number;
     level: number;
     unlockedBadges: Set<string>;
     userBadgeDetails: Map<string, { unlockedAt: string }>;
@@ -31,7 +32,8 @@ const GamificationContext = createContext<GamificationContextType | undefined>(u
 
 export function GamificationProvider({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
-    const { user } = useAuth();
+    const queryClient = useQueryClient();
+    const { user, profile, refreshProfile } = useAuth();
     const [supabase] = useState(() => createClient());
 
     // Use our new hook to manage data fetching
@@ -44,6 +46,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         unlockBadgeMutation,
         refetchStats
     } = useGamificationData();
+
+    const coins = profile?.coins ?? 0;
 
     // 1. Level Calculation
     const level = Math.floor(Math.sqrt(xp / 100)) + 1;
@@ -256,16 +260,10 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     return;
                 }
 
-                // 连续打卡加成：新一天打卡时发放 5 + min(连续天数, 20) XP，封顶 25
-                const result = data as { streak?: number; is_new_day?: boolean } | null;
-                if (result?.is_new_day) {
-                    const streak = result.streak ?? 0;
-                    const bonus = Math.min(streak, 20);
-                    const today = getTodayKey();
-                    addXp(5 + bonus, "每日登录", "daily_login", today);
-                }
-
+                // 新一天打卡时 XP 与硬币已由服务端 daily_check_in() 在同一事务内发放，此处仅刷新本地状态
                 refetchStats();
+                await refreshProfile();
+                queryClient.invalidateQueries({ queryKey: ['coin_logs'] });
             } catch (err) {
                 console.error('Check-in failed:', err);
             }
@@ -273,10 +271,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         performCheckIn();
         // We only want to run this once per session/mount effectively, or when user changes
-    }, [user, supabase, refetchStats, addXp]);
+    }, [user, supabase, refetchStats, refreshProfile, queryClient, addXp]);
 
     const contextValue = useMemo(() => ({
         xp,
+        coins,
         level,
         unlockedBadges,
         userBadgeDetails,
@@ -286,7 +285,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         progress,
         levelTotalNeeded,
         levelProgress
-    }), [xp, level, unlockedBadges, userBadgeDetails, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
+    }), [xp, coins, level, unlockedBadges, userBadgeDetails, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
 
     return (
         <GamificationContext.Provider value={contextValue}>

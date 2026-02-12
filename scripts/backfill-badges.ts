@@ -26,15 +26,18 @@ const supabase = createClient<Database>(url, serviceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
+type ProfileRow = { id: string; xp: number | null };
+
 async function main() {
-  const { data: profiles, error: profilesError } = await supabase
+  const { data, error: profilesError } = await supabase
     .from("profiles")
     .select("id, xp");
   if (profilesError) {
     console.error("Failed to fetch profiles:", profilesError);
     process.exit(1);
   }
-  if (!profiles?.length) {
+  const profiles: ProfileRow[] = (data ?? []) as ProfileRow[];
+  if (!profiles.length) {
     process.stdout.write("No profiles found.\n");
     return;
   }

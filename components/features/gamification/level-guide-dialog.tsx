@@ -80,8 +80,8 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
+            <DialogContent className="flex max-h-[85vh] w-[calc(100vw-2rem)] max-w-[425px] flex-col overflow-hidden sm:max-h-[90vh] sm:max-w-[425px]">
+                <DialogHeader className="shrink-0">
                     <DialogTitle className="flex items-center gap-2">
                         <Zap className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                         等级提升攻略
@@ -91,13 +91,13 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
                     </DialogDescription>
                 </DialogHeader>
 
-                <Tabs defaultValue="earn" className="w-full mt-2">
-                    <TabsList className="grid w-full grid-cols-2">
+                <Tabs defaultValue="earn" className="mt-2 flex min-h-0 w-full flex-1 flex-col overflow-hidden">
+                    <TabsList className="grid w-full shrink-0 grid-cols-2">
                         <TabsTrigger value="earn">获取经验</TabsTrigger>
                         <TabsTrigger value="levels">等级体系</TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="earn" className="py-4">
+                    <TabsContent value="earn" className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden">
                         <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
                             <div className="p-0">
                                 <div className="grid grid-cols-[1fr_auto] gap-4 p-4 font-medium text-sm text-muted-foreground border-b bg-muted/30">
@@ -136,7 +136,7 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
                         </div>
                     </TabsContent>
 
-                    <TabsContent value="levels" className="py-4">
+                    <TabsContent value="levels" className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden">
                         <div className="rounded-lg border bg-card text-card-foreground shadow-sm mb-4">
                             <div className="p-4 bg-muted/30 border-b">
                                 <div className="flex items-center gap-2 mb-2">

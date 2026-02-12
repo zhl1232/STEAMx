@@ -54,7 +54,7 @@ export function MobileCommunityPage() {
                 </div>
             </div>
 
-            <div className="flex-1 px-4 py-4 overflow-auto">
+            <div className="flex-1 px-4 py-4 min-h-0">
                 {activeTab === "discussions" ? (
                     <DiscussionList />
                 ) : activeTab === "leaderboard" ? (

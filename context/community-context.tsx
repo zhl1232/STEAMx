@@ -31,14 +31,17 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     const [supabase] = useState(() => createClient());
-    const { user, profile } = useAuth();
+    const { user, profile, loading: authLoading } = useAuth();
     const { addXp, checkBadges } = useGamification();
     const { createNotification } = useNotifications();
 
     // Refs for stable callbacks
     const challengesRef = useRef(challenges);
+    const userRef = useRef(user);
+    const lastFetchedUserIdRef = useRef<string | null | undefined>(undefined);
 
     useEffect(() => { challengesRef.current = challenges; }, [challenges]);
+    useEffect(() => { userRef.current = user; }, [user]);
 
     const fetchChallenges = useCallback(async () => {
         const { data, error } = await supabase
@@ -51,13 +54,14 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        // Check joined status if user is logged in
+        // Check joined status if user is logged in（用 ref 读取当前 user，避免 fetchChallenges 因 user 变化而重建导致重复请求）
+        const currentUser = userRef.current;
         let joinedChallengeIds = new Set<number>();
-        if (user) {
+        if (currentUser) {
             const { data: participants } = await supabase
                 .from('challenge_participants')
                 .select('challenge_id')
-                .eq('user_id', user.id);
+                .eq('user_id', currentUser.id);
 
             if (participants) {
                 participants.forEach((p: { challenge_id: number }) => joinedChallengeIds.add(p.challenge_id));
@@ -78,16 +82,31 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         }));
 
         setChallenges(mappedChallenges);
-    }, [supabase, user]);
+    }, [supabase]);
 
+    // 仅在 auth 就绪后拉取一次，避免因 user 从 null 变为已登录导致 effect 重复跑
     useEffect(() => {
+        if (authLoading) return;
         const initData = async () => {
             setIsLoading(true);
             await fetchChallenges();
             setIsLoading(false);
         };
         initData();
-    }, [fetchChallenges]);
+    }, [authLoading, fetchChallenges]);
+
+    // 用户登录/登出后重拉一次以更新「已参加」状态，且仅在非首次（避免与上面重复）
+    useEffect(() => {
+        if (authLoading) return;
+        const userId = user?.id ?? null;
+        if (lastFetchedUserIdRef.current === undefined) {
+            lastFetchedUserIdRef.current = userId;
+            return;
+        }
+        if (lastFetchedUserIdRef.current === userId) return;
+        lastFetchedUserIdRef.current = userId;
+        fetchChallenges();
+    }, [authLoading, user?.id, fetchChallenges]);
 
     const addDiscussion = useCallback(async (discussion: Discussion) => {
         if (!user) return;

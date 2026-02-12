@@ -2,24 +2,42 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Heart, Share2, Bookmark } from "lucide-react"
+import { Heart, Bookmark, Coins } from "lucide-react"
 import { ConfettiButton } from "@/components/ui/confetti-button"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
+import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
+import type { ProjectCompletion } from "@/lib/mappers/types"
 
 interface ProjectInteractionsProps {
     projectId: number | string
     projectTitle: string
     likes: number
+    /** 本项目的完成作品列表，用于投币弹窗内直接赞赏 */
+    completions?: ProjectCompletion[]
+    /** 项目作者 ID，用于直接投给项目 */
+    projectOwnerId: string
 }
 
-export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes }: ProjectInteractionsProps) {
+export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId }: ProjectInteractionsProps) {
     const { toggleLike, isLiked, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
     const [showCompleteDialog, setShowCompleteDialog] = useState(false)
+    const [showTipDialog, setShowTipDialog] = useState(false)
+
+    const handleTipClick = () => {
+        if (!user) {
+            promptLogin(() => setShowTipDialog(true), {
+                title: "投币",
+                description: "登录后即可用硬币赞赏本项目的完成作品"
+            })
+            return
+        }
+        setShowTipDialog(true)
+    }
 
     const isProjectLiked = isLiked(projectId)
     const isProjectCompleted = isCompleted(projectId)
@@ -88,8 +106,13 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                         >
                             <Bookmark className={`h-4 w-4 ${isProjectCollected ? "fill-current" : ""}`} />
                         </Button>
-                        <Button variant="outline" size="icon" title="分享">
-                            <Share2 className="h-4 w-4" />
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            title="投币"
+                            onClick={handleTipClick}
+                        >
+                            <Coins className="h-4 w-4" />
                         </Button>
                     </div>
                     <span className="font-bold text-base md:text-lg whitespace-nowrap">{initialLikes} 赞</span>
@@ -109,9 +132,16 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                 projectTitle={projectTitle}
                 open={showCompleteDialog}
                 onOpenChange={setShowCompleteDialog}
-                onSuccess={() => {
-                    // 成功后的回调，ConfettiButton 会自动更新状态因为 isCompleted 会变
-                }}
+                onSuccess={() => {}}
+            />
+
+            <TipProjectDialog
+                open={showTipDialog}
+                onOpenChange={setShowTipDialog}
+                completions={completions}
+                projectTitle={projectTitle}
+                projectOwnerId={projectOwnerId}
+                projectId={projectId}
             />
         </>
     )
