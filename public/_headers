@@ -1,0 +1,4 @@
+# 静态资源缓存（Cloudflare / OpenNext 推荐）
+# https://opennext.js.org/cloudflare/caching#static-assets-caching
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

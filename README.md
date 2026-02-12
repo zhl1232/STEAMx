@@ -217,9 +217,13 @@ Husky 会在提交时自动检查提交信息格式。
 
 查看 [NEXT_STEPS.md](./NEXT_STEPS.md) 了解后续开发计划。
 
+## ☁️ 部署
+
+- **Cloudflare (Workers)**：见 [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md)，使用 OpenNext 适配器部署到 Cloudflare Workers。
+
 ## 📚 相关文档
 
-- [AUTH_USER_GUIDE.md](./AUTH_USER_GUIDE.md) - 用户认证指南
+- [AUTH_USER_GUIDE.md](./docs/archive/AUTH_USER_GUIDE.md) - 用户认证指南
 - [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) - 数据迁移指南
 - [SUPABASE_AUTH_SETUP.md](./SUPABASE_AUTH_SETUP.md) - Supabase 认证设置
 - [SUPABASE_TABLE_SETUP.md](./SUPABASE_TABLE_SETUP.md) - Supabase 数据表设置
