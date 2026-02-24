@@ -32,7 +32,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
     const [supabase] = useState(() => createClient());
     const { user, profile, loading: authLoading } = useAuth();
-    const { addXp, checkBadges } = useGamification();
+    const { addXp } = useGamification();
     const { createNotification } = useNotifications();
 
     // Refs for stable callbacks
@@ -122,42 +122,10 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
+        // 副作用异步执行（addXp 内的 refetchStats 会自动触发 checkBadges）
         const created = newDiscussion as { id: number };
-        // 奖励 XP
         addXp(5, "发起讨论", "create_discussion", created.id);
-
-        // 检查讨论相关徽章
-        const { count: discussionCount } = await supabase
-            .from('discussions')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        const { count: replyCount } = await supabase
-            .from('discussion_replies')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        checkBadges({
-            projectsPublished: 0,
-            projectsLiked: 0,
-            projectsCompleted: 0,
-            commentsCount: 0,
-            scienceCompleted: 0,
-            techCompleted: 0,
-            engineeringCompleted: 0,
-            artCompleted: 0,
-            mathCompleted: 0,
-            likesGiven: 0,
-            likesReceived: 0,
-            collectionsCount: 0,
-            challengesJoined: 0,
-            level: 1,
-            loginDays: 0,
-            consecutiveDays: 0,
-            discussionsCreated: (discussionCount || 0) + 1,
-            repliesCount: replyCount || 0
-        });
-    }, [supabase, user, addXp, checkBadges]);
+    }, [supabase, user, addXp]);
 
     const addReply = useCallback(async (discussionId: string | number, reply: Comment, parentId?: number) => {
         if (!user) return null;
@@ -174,7 +142,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             } as never)
             .select(`
                 *,
-                profiles:author_id (display_name, avatar_url)
+                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
             `)
             .single();
 
@@ -183,80 +151,47 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return null;
         }
 
+        // 副作用异步执行，不阻塞 UI（addXp 内的 refetchStats 会自动触发 checkBadges）
         const replyRow = newReply as { id: number };
-        // Create notification if replying to someone
-        if (reply.reply_to_user_id) {
-            await createNotification({
-                user_id: reply.reply_to_user_id,
-                type: 'mention',
-                content: `${profile?.display_name || '某人'} 在讨论中@了你`,
-                related_type: 'discussion_reply',
-                related_id: replyRow.id,
-                discussion_id: Number(discussionId),
-                from_user_id: user.id,
-                from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
-                from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url
-            });
-        }
+        (async () => {
+            try {
+                // 通知
+                if (reply.reply_to_user_id) {
+                    createNotification({
+                        user_id: reply.reply_to_user_id,
+                        type: 'mention',
+                        content: `${profile?.display_name || '某人'} 在讨论中@了你`,
+                        related_type: 'discussion_reply',
+                        related_id: replyRow.id,
+                        discussion_id: Number(discussionId),
+                        from_user_id: user.id,
+                        from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
+                        from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url
+                    });
+                }
 
-        // Award XP for replying
-        await addXp(1, "回复讨论", "reply_discussion", replyRow.id);
+                // XP（内部会 refetchStats → 自动 checkBadges）
+                await addXp(1, "回复讨论", "reply_discussion", replyRow.id);
 
-        // 每周小目标：评论/回复满 5 次 → 额外 +5 XP（当周仅一次）
-        const weekStart = getWeekStartISO();
-        const weekKey = getWeekKey();
-        const { data: weekComments } = await supabase
-            .from("xp_logs")
-            .select("id")
-            .eq("user_id", user.id)
-            .in("action_type", ["comment_project", "reply_discussion"])
-            .gte("created_at", weekStart);
-        const { data: alreadyAwarded } = await supabase
-            .from("xp_logs")
-            .select("id")
-            .eq("user_id", user.id)
-            .eq("action_type", "weekly_goal_comments_5")
-            .eq("resource_id", weekKey)
-            .maybeSingle();
-        if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
-            addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
-        }
+                // 每周小目标（并行查询）
+                const weekStart = getWeekStartISO();
+                const weekKey = getWeekKey();
+                const [{ data: weekComments }, { data: alreadyAwarded }] = await Promise.all([
+                    supabase.from("xp_logs").select("id").eq("user_id", user.id)
+                        .in("action_type", ["comment_project", "reply_discussion"]).gte("created_at", weekStart),
+                    supabase.from("xp_logs").select("id").eq("user_id", user.id)
+                        .eq("action_type", "weekly_goal_comments_5").eq("resource_id", weekKey).maybeSingle()
+                ]);
+                if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
+                    addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
+                }
+            } catch (err) {
+                console.error("Reply side effects error:", err);
+            }
+        })();
 
-        // 检查回复相关徽章
-        const { count: replyCount } = await supabase
-            .from('discussion_replies')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        const { count: discussionCount } = await supabase
-            .from('discussions')
-            .select('*', { count: 'exact', head: true })
-            .eq('author_id', user.id);
-
-        checkBadges({
-            projectsPublished: 0,
-            projectsLiked: 0,
-            projectsCompleted: 0,
-            commentsCount: 0,
-            scienceCompleted: 0,
-            techCompleted: 0,
-            engineeringCompleted: 0,
-            artCompleted: 0,
-            mathCompleted: 0,
-            likesGiven: 0,
-            likesReceived: 0,
-            collectionsCount: 0,
-            challengesJoined: 0,
-            level: 1,
-            loginDays: 0,
-            consecutiveDays: 0,
-            discussionsCreated: discussionCount || 0,
-            repliesCount: (replyCount || 0) + 1
-        });
-
-        // 使用统一的映射函数
         return mapComment(newReply as unknown as DbComment);
-    }, [supabase, user, profile, createNotification, addXp, checkBadges]);
+    }, [supabase, user, profile, createNotification, addXp]);
 
     const joinChallenge = useCallback(async (challengeId: string | number) => {
         if (!user) return;
@@ -285,37 +220,10 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid } as never);
             await callRpc(supabase, 'increment_challenge_participants', { challenge_id: cid });
 
-            // 奖励 XP
+            // XP（内部会 refetchStats → 自动 checkBadges）
             addXp(10, "参加挑战赛", "join_challenge", cid);
-
-            // 检查挑战赛相关徽章
-            const { count: challengeCount } = await supabase
-                .from('challenge_participants')
-                .select('*', { count: 'exact', head: true })
-                .eq('user_id', user.id);
-
-            checkBadges({
-                projectsPublished: 0,
-                projectsLiked: 0,
-                projectsCompleted: 0,
-                commentsCount: 0,
-                scienceCompleted: 0,
-                techCompleted: 0,
-                engineeringCompleted: 0,
-                artCompleted: 0,
-                mathCompleted: 0,
-                likesGiven: 0,
-                likesReceived: 0,
-                collectionsCount: 0,
-                challengesJoined: (challengeCount || 0) + 1,
-                level: 1,
-                loginDays: 0,
-                consecutiveDays: 0,
-                discussionsCreated: 0,
-                repliesCount: 0
-            });
         }
-    }, [supabase, user, addXp, checkBadges]);
+    }, [supabase, user, addXp]);
 
     const deleteReply = useCallback(async (replyId: string | number) => {
         if (!user) return;

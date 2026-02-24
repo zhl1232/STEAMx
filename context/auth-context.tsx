@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 
@@ -16,6 +16,7 @@ interface Profile {
   xp: number
   coins: number
   equipped_avatar_frame_id: string | null
+  equipped_name_color_id: string | null
   created_at: string
 }
 
@@ -45,19 +46,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
       .from('profiles')
-      .select('id, role, username, display_name, avatar_url, bio, xp, coins, equipped_avatar_frame_id, created_at')
+      .select('id, role, username, display_name, avatar_url, bio, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, created_at')
       .eq('id', userId)
       .single()
 
     return data as Profile | null
   }
 
-  const refreshProfile = async () => {
+  const refreshProfile = useCallback(async () => {
     if (user) {
       const profileData = await fetchProfile(user.id)
       setProfile(profileData)
     }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id])
 
   useEffect(() => {
     // 仅通过 onAuthStateChange 获取 session + profile，避免 getUser() 与首次回调重复请求
@@ -84,9 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       subscription.unsubscribe()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       // 尝试调用 Supabase 退出登录，但限制等待时间，防止网络问题导致卡死
       const signOutPromise = supabase.auth.signOut()
@@ -122,7 +125,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // 刷新页面以确保所有状态被清除
       window.location.href = '/'
     }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const isAdmin = profile?.role === 'admin'
   const isModerator = profile?.role === 'moderator'
@@ -130,19 +134,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const canDeleteComments = isAdmin || isModerator
   const canManageTags = isAdmin || isModerator
 
+  const contextValue = useMemo(() => ({
+    user,
+    profile,
+    loading,
+    isAdmin,
+    isModerator,
+    canReview,
+    canDeleteComments,
+    canManageTags,
+    signOut,
+    refreshProfile,
+  }), [user, profile, loading, isAdmin, isModerator, canReview, canDeleteComments, canManageTags, signOut, refreshProfile])
+
   return (
-    <AuthContext.Provider value={{
-      user,
-      profile,
-      loading,
-      isAdmin,
-      isModerator,
-      canReview,
-      canDeleteComments,
-      canManageTags,
-      signOut,
-      refreshProfile,
-    }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   )

@@ -1,10 +1,9 @@
 "use client"
 import Link from "next/link"
 
-import { useState, useRef } from "react"
-import { Textarea } from "@/components/ui/textarea"
+import { useState, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { MessageCircle, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
 import { useProjects } from "@/context/project-context"
@@ -13,6 +12,7 @@ import { useLoginPrompt } from "@/context/login-prompt-context"
 import { type Comment, mapDbComment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
+import { getNameColorClassName } from "@/lib/shop/items"
 
 interface ProjectCommentsProps {
     projectId: string | number
@@ -31,12 +31,14 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     const [total, setTotal] = useState(initialTotal || initialComments.length)
     const [hasMore, setHasMore] = useState(initialHasMore)
     const [isLoadingMore, setIsLoadingMore] = useState(false)
-    const [page, setPage] = useState(1) // 0-indexed page 0 is initial, so next is 1
-    const PAGE_SIZE = 5 // Should match initial fetch size usually, or be larger
+    const [page, setPage] = useState(1)
+    const PAGE_SIZE = 5
 
-    const [newComment, setNewComment] = useState("")
     const [replyingTo, setReplyingTo] = useState<number | string | null>(null)
-    const [replyContent, setReplyContent] = useState("")
+
+    // 底部评论框 ref（非受控）
+    const mainTextareaRef = useRef<HTMLTextAreaElement>(null)
+    const [mainHasContent, setMainHasContent] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
 
     const handleLoadMore = async () => {
@@ -47,12 +49,11 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             const from = page * PAGE_SIZE
             const to = from + PAGE_SIZE - 1
 
-            // 1. Fetch Root Comments
             const { data: roots, error, count } = await supabase
                 .from('comments')
                 .select(`
                     *,
-                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                 `, { count: 'exact' })
                 .eq('project_id', projectId)
                 .is('parent_id', null)
@@ -63,14 +64,13 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
             let newComments = (roots || []).map(mapDbComment)
 
-            // 2. Fetch Replies for these roots
             if (roots && roots.length > 0) {
                 const rootIds = (roots as { id: number }[]).map(r => r.id)
                 const { data: replies } = await supabase
                     .from('comments')
                     .select(`
                         *,
-                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                     `)
                     .in('parent_id', rootIds)
                     .order('created_at', { ascending: true })
@@ -84,12 +84,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             setComments(prev => [...prev, ...newComments])
             setPage(prev => prev + 1)
             setHasMore((count || 0) > to + 1)
-            // Update total just in case
-            if (count !== null) setTotal(count) // This count is for root comments only, not total comments.
-            // We rely on initialTotal for overall count.
-            // If a new comment is added, we increment total.
-            // If a comment is deleted, we decrement total.
-            // So, we should not overwrite total here with root count.
+            if (count !== null) setTotal(count)
         } catch (error) {
             console.error('Error loading more comments:', error)
         } finally {
@@ -99,7 +94,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
     const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!newComment.trim()) return
+        const content = mainTextareaRef.current?.value || ""
+        if (!content.trim()) return
 
         const submitComment = async () => {
             const addedComment = await addComment(projectId, {
@@ -107,14 +103,17 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 author: profile?.display_name || user?.email?.split('@')[0] || "Me",
                 userId: user?.id,
                 avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-                content: newComment,
+                content: content,
                 date: "刚刚",
             })
 
             if (addedComment) {
                 setComments((prev) => [addedComment, ...prev])
-                setTotal(prev => prev + 1) // Increment total
-                setNewComment("")
+                setTotal(prev => prev + 1)
+                if (mainTextareaRef.current) {
+                    mainTextareaRef.current.value = ""
+                    setMainHasContent(false)
+                }
                 setIsFocused(false)
             }
         }
@@ -132,14 +131,15 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         submitComment()
     }
 
-    const handleSubmitReply = async (
+    const handleSubmitReply = useCallback(async (
         e: React.FormEvent,
+        content: string,
         parentId: number,
         replyToUserId?: string,
         replyToUsername?: string
     ) => {
         e.preventDefault()
-        if (!replyContent.trim()) return
+        if (!content.trim()) return
 
         const submitReply = async () => {
             const addedReply = await addComment(
@@ -149,7 +149,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                     author: profile?.display_name || user?.email?.split('@')[0] || "Me",
                     userId: user?.id,
                     avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-                    content: replyContent,
+                    content: content,
                     date: "刚刚",
                     reply_to_user_id: replyToUserId,
                     reply_to_username: replyToUsername,
@@ -160,7 +160,6 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             if (addedReply) {
                 setComments((prev) => [addedReply, ...prev])
                 setTotal(prev => prev + 1)
-                setReplyContent("")
                 setReplyingTo(null)
             }
         }
@@ -176,17 +175,16 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         }
 
         submitReply()
-    }
+    }, [addComment, projectId, user, profile, promptLogin])
 
     const handleDeleteComment = async (commentId: string | number) => {
         await deleteComment(commentId)
         setComments((prev) => prev.filter((c) => c.id !== commentId))
     }
 
-    const handleCancelReply = () => {
-        setReplyContent("")
+    const handleCancelReply = useCallback(() => {
         setReplyingTo(null)
-    }
+    }, [])
 
     const topLevelComments = comments.filter((c) => !c.parent_id)
     const getNestedComments = (parentId: number | string) => {
@@ -195,11 +193,14 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
     const commentsListRef = useRef<HTMLDivElement>(null)
 
-    // New Bilibili-style comment item
+    // CommentItem 定义在内部（因为它依赖闭包访问 comments/replyingTo 等），
+    // 关键修改：行内回复框使用原生 textarea + ref，不使用受控状态，
+    // 这样即使 CommentItem 被重建，textarea 的输入也不会被干扰
     const CommentItem = ({ comment, isNested = false }: { comment: Comment, isNested?: boolean }) => {
         const nestedComments = getNestedComments(comment.id)
         const isReplying = replyingTo === comment.id
         const [isExpanded, setIsExpanded] = useState(false)
+        const replyTextareaRef = useRef<HTMLTextAreaElement>(null)
         const DISPLAY_LIMIT = 2
 
         const displayedComments = isExpanded ? nestedComments : nestedComments.slice(0, DISPLAY_LIMIT)
@@ -217,8 +218,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         }
 
         return (
-            <div className={cn("group flex gap-3 sm:gap-4 px-3", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
-                {/* Avatar - 固定宽度避免与正文重叠 */}
+            <div className={cn("group flex gap-3 sm:gap-4", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
+                {/* Avatar */}
                 <UserLink className="shrink-0">
                     <AvatarWithFrame
                         src={comment.avatar}
@@ -230,10 +231,11 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 </UserLink>
 
                 <div className="flex-1 min-w-0 overflow-hidden">
-                    {/* User Info：姓名与日期分行或留足间距，避免重叠 */}
+                    {/* User Info */}
                     <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1.5">
                         <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
-                            isNested ? "text-sm" : "text-base"
+                            isNested ? "text-sm" : "text-base",
+                            getNameColorClassName(comment.nameColorId ?? null)
                         )}>
                             {comment.author}
                         </UserLink>
@@ -250,7 +252,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                         {comment.content}
                     </p>
 
-                    {/* Footer Actions：换行 + 固定间距，防止与上方文字重叠 */}
+                    {/* Footer Actions */}
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-xs text-muted-foreground">
                         <button
                             className="flex items-center gap-1 shrink-0 hover:text-primary transition-colors"
@@ -279,13 +281,19 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                         )}
                     </div>
 
-                    {/* Reply Input Box */}
+                    {/* Reply Input Box - 使用原生非受控 textarea，避免受控状态导致组件重建 */}
                     {isReplying && (
                         <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
                             <form
-                                onSubmit={(e) =>
-                                    handleSubmitReply(e, Number(comment.id), comment.userId, comment.author)
-                                }
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    const content = replyTextareaRef.current?.value || ""
+                                    if (!content.trim()) return
+                                    handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author)
+                                    if (replyTextareaRef.current) {
+                                        replyTextareaRef.current.value = ""
+                                    }
+                                }}
                                 className="flex gap-3 items-start"
                             >
                                 <AvatarWithFrame
@@ -296,18 +304,17 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                                     avatarClassName="h-8 w-8"
                                 />
                                 <div className="flex-1 space-y-2">
-                                    <Textarea
-                                        value={replyContent}
-                                        onChange={(e) => setReplyContent(e.target.value)}
+                                    <textarea
+                                        ref={replyTextareaRef}
                                         placeholder={`回复 @${comment.author}...`}
-                                        className="min-h-[80px] text-sm resize-none bg-background focus-visible:ring-1"
+                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                                         autoFocus
                                     />
                                     <div className="flex justify-end gap-2">
                                         <Button type="button" variant="ghost" size="sm" onClick={handleCancelReply} className="h-8">
                                             取消
                                         </Button>
-                                        <Button type="submit" size="sm" className="h-8" disabled={!replyContent.trim()}>
+                                        <Button type="submit" size="sm" className="h-8">
                                             发布
                                         </Button>
                                     </div>
@@ -347,6 +354,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         )
     }
 
+    const isExpanded = isFocused || mainHasContent
+
     return (
         <div className="border-t pt-8 relative pb-20 md:px-6 lg:px-8">
             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
@@ -355,7 +364,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
             </h3>
 
-            {/* Comments List - 不用虚拟列表，评论+回复高度不固定，用文档流避免重叠 */}
+            {/* Comments List */}
             <div className="mb-8">
                 {comments.length > 0 ? (
                     <>
@@ -401,7 +410,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 )}
             </div>
 
-            {/* Main Input Area - Sticky Bottom */}
+            {/* Main Input Area - Sticky Bottom - 非受控 textarea */}
             <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none">
                 <div className="flex gap-4 max-w-4xl mx-auto w-full">
                     <AvatarWithFrame
@@ -413,32 +422,29 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                     />
                     <form onSubmit={handleSubmitComment} className="flex-1 relative group">
                         <div className={cn(
-                            "rounded-xl border bg-background transition-all duration-200 ease-in-out overflow-hidden focus-within:ring-2 focus-within:ring-primary/20",
-                            isFocused || newComment ? "shadow-md" : "shadow-sm hover:shadow-md"
+                            "rounded-xl border bg-background overflow-hidden transition-shadow duration-200 focus-within:ring-2 focus-within:ring-primary/20",
+                            isExpanded ? "shadow-md" : "shadow-sm hover:shadow-md"
                         )}>
-                            <Textarea
+                            <textarea
+                                ref={mainTextareaRef}
                                 placeholder="发一条友善的评论..."
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
+                                onChange={(e) => setMainHasContent(e.target.value.trim().length > 0)}
                                 onFocus={() => setIsFocused(true)}
-                                onBlur={() => !newComment && setIsFocused(false)}
-                                className="min-h-[50px] border-none resize-none focus-visible:ring-0 p-3 text-sm bg-transparent"
+                                onBlur={() => { if (!mainTextareaRef.current?.value) setIsFocused(false) }}
+                                className="flex min-h-[50px] w-full border-none bg-transparent px-3 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 resize-none"
                             />
-                            <div className={cn(
-                                "flex justify-between items-center px-3 pb-2 transition-all duration-200",
-                                isFocused || newComment ? "opacity-100 max-h-12" : "opacity-0 max-h-0 overflow-hidden"
-                            )}>
-                                <div className="text-xs text-muted-foreground">
-                                    {/* Optional: Emoji trigger or limits could go here */}
+                            {isExpanded && (
+                                <div className="flex justify-between items-center px-3 pb-2">
+                                    <div className="text-xs text-muted-foreground" />
+                                    <Button
+                                        type="submit"
+                                        disabled={!mainHasContent}
+                                        className="h-7 px-4 rounded-full text-xs"
+                                    >
+                                        发布
+                                    </Button>
                                 </div>
-                                <Button
-                                    type="submit"
-                                    disabled={!newComment.trim()}
-                                    className="h-7 px-4 rounded-full text-xs"
-                                >
-                                    发布
-                                </Button>
-                            </div>
+                            )}
                         </div>
                     </form>
                 </div>
@@ -446,5 +452,3 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         </div>
     )
 }
-
-

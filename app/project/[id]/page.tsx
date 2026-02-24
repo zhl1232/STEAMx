@@ -159,6 +159,25 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             />
                         </div>
 
+                        {/* 移动端：所需材料放在介绍和步骤之间 */}
+                        <div className="block md:hidden rounded-lg border p-4">
+                            <h3 className="font-semibold mb-3">所需材料</h3>
+                            {project.materials && project.materials.length > 0 ? (
+                                <ul className="space-y-2 text-sm">
+                                    {project.materials.map((material, index) => (
+                                        <li
+                                            key={index}
+                                            className="flex justify-between border-b last:border-0 pb-2 last:pb-0 border-dashed"
+                                        >
+                                            <span>{material}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-sm text-muted-foreground">暂无材料清单</p>
+                            )}
+                        </div>
+
                         <div className="prose max-w-none">
                             <h3>项目介绍</h3>
                             <p>{project.description || "暂无介绍"}</p>
@@ -232,7 +251,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             />
                         </div>
 
-                        <div className="rounded-lg border p-4">
+                        {/* 桌面端：侧边栏所需材料（移动端在介绍下方显示） */}
+                        <div className="hidden md:block rounded-lg border p-4">
                             <h3 className="font-semibold mb-3">所需材料</h3>
                             {project.materials && project.materials.length > 0 ? (
                                 <ul className="space-y-2 text-sm">

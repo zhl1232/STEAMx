@@ -78,7 +78,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 .eq('user_id', user.id)
                 .eq('action_type', actionType)
                 .eq('resource_id', rId)
-                .single();
+                .maybeSingle();
 
             if (existing) {
                 return;

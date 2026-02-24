@@ -7,7 +7,7 @@ import { Discussion, Comment as ProjectComment, Profile } from "@/lib/types";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Heart, Tag, ArrowLeft, User, Calendar, Trash2, Loader2 } from "lucide-react";
+import { MessageSquare, Heart, Tag, ArrowLeft, Calendar, Trash2, Loader2 } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
@@ -16,6 +16,71 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
+import { getNameColorClassName } from "@/lib/shop/items";
+
+// 完全隔离的行内回复表单 —— React.memo + 原生 textarea + 零受控状态
+// 父组件的任何重渲染都不会影响此组件内部的 DOM 和输入状态
+interface InlineReplyFormProps {
+    replyId: number;
+    replyAuthor: string;
+    replyUserId?: string;
+    userAvatar?: string;
+    userAvatarFrameId?: string;
+    onSubmit: (e: React.FormEvent, content: string, parentId: number, replyToUserId?: string, replyToUsername?: string) => void;
+    onCancel: () => void;
+}
+
+const InlineReplyForm = React.memo(({ replyId, replyAuthor, replyUserId, userAvatar, userAvatarFrameId, onSubmit, onCancel }: InlineReplyFormProps) => {
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+    // === 诊断日志 ===
+    useEffect(() => {
+        console.warn('[InlineReplyForm] MOUNTED for reply', replyId);
+        return () => console.warn('[InlineReplyForm] UNMOUNTED for reply', replyId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <div className="mt-4">
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    const content = textareaRef.current?.value || "";
+                    if (!content.trim()) return;
+                    onSubmit(e, content, replyId, replyUserId, replyAuthor);
+                    if (textareaRef.current) {
+                        textareaRef.current.value = "";
+                    }
+                }}
+                className="flex gap-3 items-start"
+            >
+                <AvatarWithFrame
+                    src={userAvatar}
+                    fallback="M"
+                    avatarFrameId={userAvatarFrameId}
+                    className="h-8 w-8 shrink-0"
+                />
+                <div className="flex-1 space-y-2">
+                    <textarea
+                        ref={textareaRef}
+                        placeholder={`回复 @${replyAuthor}...`}
+                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                        autoFocus
+                    />
+                    <div className="flex justify-end gap-2">
+                        <Button type="button" variant="ghost" size="sm" onClick={onCancel} className="h-8">
+                            取消
+                        </Button>
+                        <Button type="submit" size="sm" className="h-8">
+                            发布
+                        </Button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
+});
+InlineReplyForm.displayName = "InlineReplyForm";
 
 // Reply Item Component to match ProjectComments style
 interface ReplyItemProps {
@@ -25,9 +90,7 @@ interface ReplyItemProps {
     profile: Profile | null;
     replyingTo: number | null;
     setReplyingTo: (id: number | null) => void;
-    replyContent: string;
-    setReplyContent: (content: string) => void;
-    onSubmitReply: (e: React.FormEvent, parentId: number, replyToUserId?: string, replyToUsername?: string) => void;
+    onSubmitReply: (e: React.FormEvent, content: string, parentId: number, replyToUserId?: string, replyToUsername?: string) => void;
     onCancelReply: () => void;
     onDeleteReply: (id: number) => void;
     getNestedReplies: (parentId: number) => ProjectComment[];
@@ -40,8 +103,6 @@ const ReplyItem = ({
     profile,
     replyingTo,
     setReplyingTo,
-    replyContent,
-    setReplyContent,
     onSubmitReply,
     onCancelReply,
     onDeleteReply,
@@ -67,7 +128,8 @@ const ReplyItem = ({
             <div className="flex-1 min-w-0 overflow-hidden">
                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1">
                     <span className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
-                        isNested ? "text-sm" : "text-sm sm:text-base"
+                        isNested ? "text-sm" : "text-sm sm:text-base",
+                        getNameColorClassName(reply.nameColorId ?? null)
                     )}>
                         {reply.author}
                     </span>
@@ -116,36 +178,15 @@ const ReplyItem = ({
                 </div>
 
                 {isReplying && (
-                    <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <form
-                            onSubmit={(e) => onSubmitReply(e, Number(reply.id), reply.userId, reply.author)}
-                            className="flex gap-3 items-start"
-                        >
-                            <AvatarWithFrame
-                                src={profile?.avatar_url || user?.user_metadata?.avatar_url}
-                                fallback="M"
-                                avatarFrameId={profile?.equipped_avatar_frame_id}
-                                className="h-8 w-8 shrink-0"
-                            />
-                            <div className="flex-1 space-y-2">
-                                <Textarea
-                                    value={replyContent}
-                                    onChange={(e) => setReplyContent(e.target.value)}
-                                    placeholder={`回复 @${reply.author}...`}
-                                    className="min-h-[80px] text-sm resize-none bg-background focus-visible:ring-1"
-                                    autoFocus
-                                />
-                                <div className="flex justify-end gap-2">
-                                    <Button type="button" variant="ghost" size="sm" onClick={onCancelReply} className="h-8">
-                                        取消
-                                    </Button>
-                                    <Button type="submit" size="sm" className="h-8" disabled={!replyContent.trim()}>
-                                        发布
-                                    </Button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <InlineReplyForm
+                        replyId={Number(reply.id)}
+                        replyAuthor={reply.author}
+                        replyUserId={reply.userId}
+                        userAvatar={profile?.avatar_url || user?.user_metadata?.avatar_url || undefined}
+                        userAvatarFrameId={profile?.equipped_avatar_frame_id || undefined}
+                        onSubmit={onSubmitReply}
+                        onCancel={onCancelReply}
+                    />
                 )}
 
                 {nestedReplies.length > 0 && (
@@ -159,8 +200,6 @@ const ReplyItem = ({
                                 profile={profile}
                                 replyingTo={replyingTo}
                                 setReplyingTo={setReplyingTo}
-                                replyContent={replyContent}
-                                setReplyContent={setReplyContent}
                                 onSubmitReply={onSubmitReply}
                                 onCancelReply={onCancelReply}
                                 onDeleteReply={onDeleteReply}
@@ -192,6 +231,83 @@ const ReplyItem = ({
     );
 };
 
+// 独立的底部回复框组件，拥有自己的局部状态，避免整页重渲染
+interface BottomReplyBoxProps {
+    user: SupabaseUser | null;
+    profile: Profile | null;
+    replyingTo: number | null;
+    onSubmit: (e: React.FormEvent, content: string) => void;
+}
+
+const BottomReplyBox = React.memo(({ user, profile, replyingTo, onSubmit }: BottomReplyBoxProps) => {
+    const [content, setContent] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
+    const isComposingRef = React.useRef(false);
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContent(e.target.value);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!content.trim() || replyingTo !== null) return;
+        onSubmit(e, content);
+        setContent("");
+    };
+
+    const isExpanded = isFocused || content.length > 0;
+
+    return (
+        <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 sm:py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none md:mt-8">
+            <div className="flex gap-3 sm:gap-4 max-w-4xl mx-auto w-full">
+                <AvatarWithFrame
+                    src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                    fallback={profile?.display_name?.[0]?.toUpperCase() || "U"}
+                    avatarFrameId={profile?.equipped_avatar_frame_id}
+                    className="h-9 w-9 sm:h-10 sm:w-10 border shadow-sm shrink-0"
+                />
+                <form onSubmit={handleSubmit} className="flex-1 relative">
+                    <div className={cn(
+                        "rounded-xl border bg-background overflow-hidden transition-shadow duration-200 focus-within:ring-2 focus-within:ring-primary/20",
+                        isExpanded ? "shadow-md" : "shadow-sm hover:shadow-md"
+                    )}>
+                        <Textarea
+                            ref={textareaRef}
+                            placeholder={replyingTo !== null ? "正在回复他人，请在上方回复框中输入..." : "分享你的观点..."}
+                            value={replyingTo === null ? content : ""}
+                            onChange={handleChange}
+                            onCompositionStart={() => { isComposingRef.current = true; }}
+                            onCompositionEnd={(e) => {
+                                isComposingRef.current = false;
+                                // 确保组合结束后触发一次更新（部分浏览器 compositionEnd 后不触发 onChange）
+                                setContent((e.target as HTMLTextAreaElement).value);
+                            }}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => { if (!content) setIsFocused(false); }}
+                            disabled={replyingTo !== null}
+                            className="min-h-[44px] border-none resize-none focus-visible:ring-0 p-3 text-sm bg-transparent"
+                        />
+                        {isExpanded && (
+                            <div className="flex justify-between items-center px-3 pb-2">
+                                <div className="text-xs text-muted-foreground" />
+                                <Button
+                                    type="submit"
+                                    disabled={!content.trim() || replyingTo !== null}
+                                    className="h-7 px-4 rounded-full text-xs"
+                                >
+                                    发布
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+});
+BottomReplyBox.displayName = "BottomReplyBox";
+
 export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const unwrappedParams = React.use(params);
     const { addReply, deleteReply } = useCommunity();
@@ -199,16 +315,14 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     const { promptLogin } = useLoginPrompt();
 
     const router = useRouter();
-    const [replyContent, setReplyContent] = useState("");
     const [replyingTo, setReplyingTo] = useState<number | null>(null);
     const [id, setId] = useState<string | number | null>(null);
-    const [isFocused, setIsFocused] = useState(false);
 
     // Local state
     const [discussion, setDiscussion] = useState<Discussion | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
-    const supabase = createClient();
+    const [supabase] = useState(() => createClient());
 
     // Pagination state for replies
     const REPLY_PAGE_SIZE = 10;
@@ -222,9 +336,9 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         if (unwrappedParams.id) {
             setId(unwrappedParams.id);
         }
-    }, [unwrappedParams]);
+    }, [unwrappedParams.id]);
 
-    type ReplyRow = { id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null; equipped_avatar_frame_id?: string | null } };
+    type ReplyRow = { id: number; author_id: string; content: string; created_at: string; parent_id: number | null; reply_to_user_id: string | null; reply_to_username: string | null; profiles?: { display_name: string | null; avatar_url: string | null; equipped_avatar_frame_id?: string | null; equipped_name_color_id?: string | null } };
 
     const mapReplyRow = (r: ReplyRow): ProjectComment => ({
         id: r.id,
@@ -236,7 +350,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         date: formatRelativeTime(r.created_at),
         parent_id: r.parent_id,
         reply_to_user_id: r.reply_to_user_id,
-        reply_to_username: r.reply_to_username
+        reply_to_username: r.reply_to_username,
+        nameColorId: r.profiles?.equipped_name_color_id ?? undefined
     });
 
     // Fetch discussion (without replies) + first page of replies
@@ -252,7 +367,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     .from('discussions')
                     .select(`
                         *,
-                        profiles:author_id (display_name)
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                     `)
                     .eq('id', id)
                     .single());
@@ -271,7 +386,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     likes_count: number;
                     tags: string[] | null;
                     replies_count?: number;
-                    profiles?: { display_name: string | null };
+                    profiles?: { display_name: string | null; avatar_url: string | null; equipped_avatar_frame_id?: string | null; equipped_name_color_id?: string | null };
                 };
                 const data = rawData as unknown as DiscussionRow;
 
@@ -280,7 +395,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     .from('discussion_replies')
                     .select(`
                         *,
-                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                     `, { count: 'exact' })
                     .eq('discussion_id', data.id)
                     .is('parent_id', null)
@@ -296,7 +411,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         .from('discussion_replies')
                         .select(`
                             *,
-                            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                         `)
                         .in('parent_id', rootIds)
                         .order('created_at', { ascending: true });
@@ -315,6 +430,9 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     id: data.id,
                     title: data.title,
                     author: data.profiles?.display_name || 'Unknown',
+                    authorAvatar: data.profiles?.avatar_url || undefined,
+                    authorAvatarFrameId: data.profiles?.equipped_avatar_frame_id || undefined,
+                    authorNameColorId: data.profiles?.equipped_name_color_id || undefined,
                     content: data.content,
                     date: formatRelativeTime(data.created_at),
                     likes: data.likes_count,
@@ -348,7 +466,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                 .from('discussion_replies')
                 .select(`
                     *,
-                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                 `)
                 .eq('discussion_id', discussion.id)
                 .is('parent_id', null)
@@ -364,7 +482,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     .from('discussion_replies')
                     .select(`
                         *,
-                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                     `)
                     .in('parent_id', rootIds)
                     .order('created_at', { ascending: true });
@@ -438,15 +556,15 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         );
     }
 
-    const handleSubmitReply = async (e: React.FormEvent, parentId?: number, replyToUserId?: string, replyToUsername?: string) => {
+    const handleSubmitReply = async (e: React.FormEvent, content: string, parentId?: number, replyToUserId?: string, replyToUsername?: string) => {
         e.preventDefault();
-        if (!replyContent.trim()) return;
+        if (!content.trim()) return;
 
         const submitReply = async () => {
             const addedReply = await addReply(discussion.id, {
                 id: 0,
                 author: "Me",
-                content: replyContent,
+                content: content,
                 date: "",
                 reply_to_user_id: replyToUserId,
                 reply_to_username: replyToUsername,
@@ -460,7 +578,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         replies: [addedReply, ...prev.replies]
                     };
                 });
-                setReplyContent("");
+                // 行内回复的 content 清理在 ReplyItem 内部完成
                 setReplyingTo(null);
             }
         };
@@ -479,7 +597,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     };
 
     const handleCancelReply = () => {
-        setReplyContent("");
         setReplyingTo(null);
     };
 
@@ -523,10 +640,15 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
                 <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8 border-b pb-4 sm:pb-6">
                     <span className="flex items-center gap-1.5 sm:gap-2">
-                        <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-muted flex items-center justify-center">
-                            <User className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </div>
-                        {discussion.author}
+                        <AvatarWithFrame
+                            src={discussion.authorAvatar}
+                            fallback={discussion.author[0]?.toUpperCase()}
+                            avatarFrameId={discussion.authorAvatarFrameId}
+                            className="h-6 w-6 sm:h-8 sm:w-8 rounded-full shrink-0"
+                        />
+                        <span className={cn("font-medium", getNameColorClassName(discussion.authorNameColorId ?? null))}>
+                            {discussion.author}
+                        </span>
                     </span>
                     <span className="flex items-center gap-1.5 sm:gap-2">
                         <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -560,8 +682,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                                 profile={profile}
                                 replyingTo={replyingTo}
                                 setReplyingTo={setReplyingTo}
-                                replyContent={replyContent}
-                                setReplyContent={setReplyContent}
                                 onSubmitReply={handleSubmitReply}
                                 onCancelReply={handleCancelReply}
                                 onDeleteReply={handleDeleteReply}
@@ -602,46 +722,13 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                 )}
             </div>
 
-            {/* 回复框 - 移动端固定在底部导航上方，桌面端 sticky */}
-            <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 sm:py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none md:mt-8">
-                <div className="flex gap-3 sm:gap-4 max-w-4xl mx-auto w-full">
-                    <AvatarWithFrame
-                        src={profile?.avatar_url || user?.user_metadata?.avatar_url}
-                        fallback={profile?.display_name?.[0]?.toUpperCase() || "U"}
-                        avatarFrameId={profile?.equipped_avatar_frame_id}
-                        className="h-9 w-9 sm:h-10 sm:w-10 border shadow-sm shrink-0"
-                    />
-                    <form onSubmit={(e) => handleSubmitReply(e)} className="flex-1 relative">
-                        <div className={cn(
-                            "rounded-xl border bg-background transition-all duration-200 ease-in-out overflow-hidden focus-within:ring-2 focus-within:ring-primary/20",
-                            isFocused || replyContent ? "shadow-md" : "shadow-sm hover:shadow-md"
-                        )}>
-                            <Textarea
-                                placeholder={replyingTo !== null ? "正在回复他人，请在上方回复框中输入..." : "分享你的观点..."}
-                                value={replyingTo === null ? replyContent : ""}
-                                onChange={(e) => setReplyContent(e.target.value)}
-                                onFocus={() => setIsFocused(true)}
-                                onBlur={() => !replyContent && setIsFocused(false)}
-                                disabled={replyingTo !== null}
-                                className="min-h-[44px] border-none resize-none focus-visible:ring-0 p-3 text-sm bg-transparent"
-                            />
-                            <div className={cn(
-                                "flex justify-between items-center px-3 pb-2 transition-all duration-200",
-                                isFocused || replyContent ? "opacity-100 max-h-12" : "opacity-0 max-h-0 overflow-hidden"
-                            )}>
-                                <div className="text-xs text-muted-foreground" />
-                                <Button
-                                    type="submit"
-                                    disabled={!replyContent.trim() || replyingTo !== null}
-                                    className="h-7 px-4 rounded-full text-xs"
-                                >
-                                    发布
-                                </Button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            {/* 底部回复框（独立组件，避免输入时全页重渲染） */}
+            <BottomReplyBox
+                user={user}
+                profile={profile}
+                replyingTo={replyingTo}
+                onSubmit={handleSubmitReply}
+            />
         </div>
     );
 }

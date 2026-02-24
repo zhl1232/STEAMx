@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 
@@ -92,7 +92,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     const unreadCount = notifications.filter(n => !n.is_read).length;
 
-    const markAsRead = async (id: number) => {
+    const markAsRead = useCallback(async (id: number) => {
         if (!user) return;
 
         const { error } = await supabase
@@ -108,9 +108,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(prev =>
             prev.map(n => n.id === id ? { ...n, is_read: true } : n)
         );
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.id]);
 
-    const markAllAsRead = async () => {
+    const markAllAsRead = useCallback(async () => {
         if (!user) return;
 
         const { error } = await supabase
@@ -127,9 +128,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(prev =>
             prev.map(n => ({ ...n, is_read: true }))
         );
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.id]);
 
-    const createNotification = async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
+    const createNotification = useCallback(async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
         const { error } = await supabase
             .from('notifications')
             .insert(notification as never);
@@ -137,9 +139,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         if (error) {
             console.error('Error creating notification:', error);
         }
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    const clearAll = async () => {
+    const clearAll = useCallback(async () => {
         if (!user) return;
 
         const { error } = await supabase
@@ -153,18 +156,21 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         }
 
         setNotifications([]);
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.id]);
+
+    const contextValue = useMemo(() => ({
+        notifications,
+        unreadCount,
+        markAsRead,
+        markAllAsRead,
+        clearAll,
+        createNotification,
+        isLoading
+    }), [notifications, unreadCount, markAsRead, markAllAsRead, clearAll, createNotification, isLoading]);
 
     return (
-        <NotificationContext.Provider value={{
-            notifications,
-            unreadCount,
-            markAsRead,
-            markAllAsRead,
-            clearAll,
-            createNotification,
-            isLoading
-        }}>
+        <NotificationContext.Provider value={contextValue}>
             {children}
         </NotificationContext.Provider>
     );

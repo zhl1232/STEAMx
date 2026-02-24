@@ -22,8 +22,9 @@ import type { Project } from '@/lib/types'
 import { mapProject, type DbProject } from '@/lib/mappers/project'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
 import React from 'react'
-import { BadgeIcon } from "@/components/features/gamification/badge-icon";
-
+import { BadgeIcon } from "@/components/features/gamification/badge-icon"
+import { cn } from '@/lib/utils'
+import { getNameColorClassName } from '@/lib/shop/items'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -230,7 +231,7 @@ export default function ProfilePage() {
             {/* 用户名 + 等级 */}
             <div className="px-6 pt-3 pb-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-xl font-bold text-foreground tracking-tight">{userName}</h1>
+                <h1 className={cn("text-xl font-bold tracking-tight", getNameColorClassName(profile?.equipped_name_color_id ?? null) || "text-foreground")}>{userName}</h1>
                 <div className="flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-sm uppercase tracking-wider select-none">
                   <Zap className="h-3 w-3 fill-current" />
                   Lv.{Math.floor(Math.sqrt((profile?.xp || 0) / 100)) + 1}

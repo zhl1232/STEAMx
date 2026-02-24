@@ -34,6 +34,7 @@ interface DbCommentWithProfile {
         display_name?: string | null
         avatar_url?: string | null
         equipped_avatar_frame_id?: string | null
+        equipped_name_color_id?: string | null
     } | null
 }
 
@@ -84,6 +85,7 @@ export interface Comment {
     userId?: string
     avatar?: string
     avatarFrameId?: string | null
+    nameColorId?: string | null
     content: string
     date: string
     parent_id?: number | null
@@ -100,6 +102,7 @@ export interface Discussion {
     author: string
     authorAvatar?: string
     authorAvatarFrameId?: string | null
+    authorNameColorId?: string | null
     content: string
     date: string
     replies: Comment[]
@@ -134,6 +137,7 @@ export interface Profile {
     xp: number
     coins?: number
     equipped_avatar_frame_id?: string | null
+    equipped_name_color_id?: string | null
     role: 'user' | 'moderator' | 'admin'
 }
 
@@ -147,6 +151,7 @@ export interface ProjectCompletion {
     author: string
     avatar?: string
     avatarFrameId?: string | null
+    nameColorId?: string | null
     completedAt: string
     proofImages: string[]
     proofVideoUrl?: string
@@ -214,6 +219,7 @@ export function mapDbComment(
         userId: dbComment.author_id,
         avatar: dbComment.profiles?.avatar_url || undefined,
         avatarFrameId: dbComment.profiles?.equipped_avatar_frame_id ?? undefined,
+        nameColorId: dbComment.profiles?.equipped_name_color_id ?? undefined,
         content: dbComment.content,
         date: new Date(dbComment.created_at).toLocaleString('zh-CN', {
             year: 'numeric',
@@ -233,7 +239,7 @@ export function mapDbComment(
  */
 export function mapDbDiscussion(
     dbDiscussion: DbDiscussion & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
         discussion_replies?: DbCommentWithProfile[]
     }
 ): Discussion {
@@ -243,6 +249,7 @@ export function mapDbDiscussion(
         author: dbDiscussion.profiles?.display_name || 'Unknown',
         authorAvatar: dbDiscussion.profiles?.avatar_url || undefined,
         authorAvatarFrameId: dbDiscussion.profiles?.equipped_avatar_frame_id ?? undefined,
+        authorNameColorId: dbDiscussion.profiles?.equipped_name_color_id ?? undefined,
         content: dbDiscussion.content,
         date: new Date(dbDiscussion.created_at).toLocaleString('zh-CN', {
             year: 'numeric',
@@ -293,6 +300,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
         xp: dbProfile.xp,
         coins: 'coins' in dbProfile ? (dbProfile as { coins: number }).coins : undefined,
         equipped_avatar_frame_id: 'equipped_avatar_frame_id' in dbProfile ? (dbProfile as { equipped_avatar_frame_id: string | null }).equipped_avatar_frame_id : undefined,
+        equipped_name_color_id: 'equipped_name_color_id' in dbProfile ? (dbProfile as { equipped_name_color_id: string | null }).equipped_name_color_id : undefined,
         role: (dbProfile.role as 'user' | 'moderator' | 'admin') || 'user'
     }
 }
@@ -302,7 +310,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
  */
 export function mapDbCompletion(
     dbCompletion: DbCompletedProject & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
     }
 ): ProjectCompletion {
     return {
@@ -312,6 +320,7 @@ export function mapDbCompletion(
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,
+        nameColorId: dbCompletion.profiles?.equipped_name_color_id ?? undefined,
         completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
         proofImages: dbCompletion.proof_images || [],
         proofVideoUrl: dbCompletion.proof_video_url || undefined,

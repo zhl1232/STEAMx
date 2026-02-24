@@ -337,7 +337,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             } as never)
             .select(`
                 *,
-                profiles:author_id (display_name, avatar_url)
+                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
             `)
             .single();
 
@@ -346,55 +346,47 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             return null;
         }
 
+        // 副作用异步执行，不阻塞 UI（addXp 内的 refetchStats 会自动触发 checkBadges）
         const commentRow = newComment as { id: number };
-        // Create notification if replying to someone
-        if (comment.reply_to_user_id) {
-            await createNotification({
-                user_id: comment.reply_to_user_id,
-                type: 'mention',
-                content: `${profile?.display_name || '某人'} 在评论中@了你`,
-                related_type: 'comment',
-                related_id: commentRow.id,
-                project_id: Number(projectId),
-                from_user_id: user.id,
-                from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
-                from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url
-            });
-        }
+        (async () => {
+            try {
+                // 通知
+                if (comment.reply_to_user_id) {
+                    createNotification({
+                        user_id: comment.reply_to_user_id,
+                        type: 'mention',
+                        content: `${profile?.display_name || '某人'} 在评论中@了你`,
+                        related_type: 'comment',
+                        related_id: commentRow.id,
+                        project_id: Number(projectId),
+                        from_user_id: user.id,
+                        from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
+                        from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url
+                    });
+                }
 
-        // Award XP for commenting
-        await addXp(1, "发表评论", "comment_project", commentRow.id);
+                // XP（内部会 refetchStats → 自动 checkBadges）
+                await addXp(1, "发表评论", "comment_project", commentRow.id);
 
-        // 每周小目标：评论/回复满 5 次 → 额外 +5 XP（当周仅一次）
-        const weekStart = getWeekStartISO();
-        const weekKey = getWeekKey();
-        const { data: weekComments } = await supabase
-            .from("xp_logs")
-            .select("id")
-            .eq("user_id", user.id)
-            .in("action_type", ["comment_project", "reply_discussion"])
-            .gte("created_at", weekStart);
-        const { data: alreadyAwarded } = await supabase
-            .from("xp_logs")
-            .select("id")
-            .eq("user_id", user.id)
-            .eq("action_type", "weekly_goal_comments_5")
-            .eq("resource_id", weekKey)
-            .maybeSingle();
-        if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
-            addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
-        }
+                // 每周小目标（并行查询）
+                const weekStart = getWeekStartISO();
+                const weekKey = getWeekKey();
+                const [{ data: weekComments }, { data: alreadyAwarded }] = await Promise.all([
+                    supabase.from("xp_logs").select("id").eq("user_id", user.id)
+                        .in("action_type", ["comment_project", "reply_discussion"]).gte("created_at", weekStart),
+                    supabase.from("xp_logs").select("id").eq("user_id", user.id)
+                        .eq("action_type", "weekly_goal_comments_5").eq("resource_id", weekKey).maybeSingle()
+                ]);
+                if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
+                    addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
+                }
+            } catch (err) {
+                console.error("Comment side effects error:", err);
+            }
+        })();
 
-        // Check badges
-        const stats = await getUserStats();
-        checkBadges({
-            ...stats,
-            commentsCount: stats.commentsCount + 1
-        });
-
-        // 使用统一的映射函数
         return mapComment(newComment as unknown as DbComment);
-    }, [supabase, user, profile, createNotification, addXp, checkBadges, getUserStats]);
+    }, [supabase, user, profile, createNotification, addXp]);
 
     const toggleLike = useCallback(async (projectId: string | number) => {
         if (!user) return;
@@ -435,7 +427,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 const row = projectRow as { author_id?: string; title?: string } | null;
                 if (!projectError && row && row.author_id && row.author_id !== user.id) {
                     const authorId = row.author_id;
-                    const authorProfile = (projectRow as { profiles?: { display_name?: string | null; avatar_url?: string | null } | null })?.profiles ?? null;
+
                     const likerName = profile?.display_name || user.email?.split('@')[0] || '某人';
 
                     await createNotification({
@@ -454,16 +446,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 console.error('Error creating like notification:', err);
             }
 
+            // XP（内部会 refetchStats → 自动 checkBadges）
             addXp(1, "点赞项目", "like_project", pid);
-
-            // 检查点赞相关徽章
-            const stats = await getUserStats();
-            checkBadges({
-                ...stats,
-                likesGiven: stats.likesGiven + 1
-            });
         }
-    }, [supabase, user, addXp, checkBadges, getUserStats]);
+    }, [supabase, user, profile, addXp, createNotification]);
 
     const toggleCollection = useCallback(async (projectId: string | number) => {
         if (!user) return;
@@ -483,15 +469,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             await supabase.from('collections').delete().eq('user_id', user.id).eq('project_id', pid);
         } else {
             await supabase.from('collections').insert({ user_id: user.id, project_id: pid } as never);
-
-            // 检查收藏相关徽章
-            const stats = await getUserStats();
-            checkBadges({
-                ...stats,
-                collectionsCount: stats.collectionsCount + 1
-            });
         }
-    }, [supabase, user, checkBadges, getUserStats]);
+    }, [supabase, user]);
 
     const completeProject = useCallback(async (projectId: string | number, proof: ProjectCompletionProof) => {
         if (!user) return;

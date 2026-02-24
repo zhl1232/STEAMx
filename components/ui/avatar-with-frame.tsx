@@ -32,7 +32,7 @@ export function AvatarWithFrame({
   return (
     <div className={cn(
       "relative inline-flex shrink-0 items-center justify-center",
-      isPixel ? "rounded-lg" : "rounded-full overflow-hidden",
+      isPixel ? "rounded-lg" : "rounded-full",
       frameClass,
       className,
     )}>

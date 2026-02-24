@@ -12,6 +12,8 @@ import { formatRelativeTime } from "@/lib/date-utils";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
+import { getNameColorClassName } from "@/lib/shop/items";
+import { cn } from "@/lib/utils";
 
 /** 讨论卡片组件 */
 function DiscussionCard({
@@ -40,7 +42,9 @@ function DiscussionCard({
                             avatarFrameId={discussion.authorAvatarFrameId}
                             className="size-5 sm:size-6"
                         />
-                        {discussion.author}
+                        <span className={cn(getNameColorClassName(discussion.authorNameColorId ?? null))}>
+                            {discussion.author}
+                        </span>
                     </span>
                     <span>{discussion.date}</span>
                 </div>
@@ -136,7 +140,7 @@ export function DiscussionList() {
                 .from('discussions')
                 .select(`
                     *,
-                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id)
+                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                 `);
 
             if (searchQuery) {
@@ -177,13 +181,14 @@ export function DiscussionList() {
                 return;
             }
 
-            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null; avatar_url?: string | null; equipped_avatar_frame_id?: string | null } }
+            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null; avatar_url?: string | null; equipped_avatar_frame_id?: string | null; equipped_name_color_id?: string | null } }
             const mappedDiscussions: Discussion[] = data.map((d: DiscussionRow) => ({
                 id: d.id,
                 title: d.title,
                 author: d.profiles?.display_name || 'Unknown',
                 authorAvatar: d.profiles?.avatar_url || undefined,
                 authorAvatarFrameId: d.profiles?.equipped_avatar_frame_id ?? undefined,
+                authorNameColorId: d.profiles?.equipped_name_color_id ?? undefined,
                 content: d.content,
                 date: formatRelativeTime(d.created_at),
                 likes: d.likes_count,

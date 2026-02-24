@@ -13,6 +13,9 @@ export interface Profile {
   avatar_url?: string;
   role: 'user' | 'moderator' | 'admin';
   xp: number;
+  coins?: number;
+  equipped_avatar_frame_id?: string;
+  equipped_name_color_id?: string;
   created_at?: string;
   updated_at?: string;
 }

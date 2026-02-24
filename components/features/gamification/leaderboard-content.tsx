@@ -11,6 +11,8 @@ import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { getWeekStartISO, getMonthStartISO } from "@/lib/date-utils";
+import { getNameColorClassName } from "@/lib/shop/items";
+import { cn } from "@/lib/utils";
 
 export interface LeaderboardUser {
     id: string;
@@ -20,6 +22,7 @@ export interface LeaderboardUser {
     value: number;
     avatar: string | null | undefined;
     avatarFrameId?: string | null;
+    nameColorId?: string | null;
     isCurrentUser?: boolean;
 }
 
@@ -99,7 +102,7 @@ function LeaderboardVirtualList({
                                     />
                                     <div className="min-w-0">
                                         <div className="font-semibold flex items-center gap-2 flex-wrap">
-                                            <span className="truncate">{user.name}</span>
+                                            <span className={cn("truncate", getNameColorClassName(user.nameColorId ?? null))}>{user.name}</span>
                                             {user.isCurrentUser && (
                                                 <span className="shrink-0 rounded-full bg-violet-500 px-2 py-0.5 text-[10px] font-medium text-white">
                                                     你
