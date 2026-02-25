@@ -13,8 +13,49 @@ import { callRpc } from '@/lib/supabase/rpc'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangle, Edit, Coins } from 'lucide-react'
 
+import { Metadata, ResolvingMetadata } from 'next'
+
 interface ProjectDetailPageProps {
     params: Promise<{ id: string }>
+}
+
+export async function generateMetadata(
+    { params }: ProjectDetailPageProps,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const { id } = await params
+    const project = await getProjectById(id)
+    if (!project) return { title: '项目未找到' }
+    
+    const previousImages = (await parent).openGraph?.images || []
+
+    return {
+        title: `${project.title} | Steam Explore & Share`,
+        description: project.description?.substring(0, 160) || 'Steam Explore & Share 上的探索与分享项目。',
+        openGraph: {
+            title: project.title,
+            description: project.description?.substring(0, 160) || 'Steam Explore & Share 上的探索与分享项目。',
+            url: `/project/${id}`,
+            siteName: 'Steam Explore & Share',
+            images: [
+                {
+                    url: project.image || '',
+                    width: 1200,
+                    height: 630,
+                    alt: project.title,
+                },
+                ...previousImages,
+            ],
+            type: 'article',
+            authors: [project.author || ''],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: project.title,
+            description: project.description?.substring(0, 160) || 'Steam Explore & Share 上的探索与分享项目。',
+            images: [project.image || ''],
+        },
+    }
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {

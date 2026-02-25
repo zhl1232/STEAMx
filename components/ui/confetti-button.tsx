@@ -1,15 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import confetti from "canvas-confetti";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 
 interface ConfettiButtonProps extends React.ComponentProps<typeof Button> {
     isCompleted?: boolean;
 }
-
-import { useEffect } from "react";
 
 export function ConfettiButton({ children, className, isCompleted, ...props }: ConfettiButtonProps) {
     const [isDone, setIsDone] = useState(isCompleted || false);
@@ -20,7 +17,7 @@ export function ConfettiButton({ children, className, isCompleted, ...props }: C
         }
     }, [isCompleted]);
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         // Allow clicking even if done (to toggle off)
 
         if (!isDone) {
@@ -29,12 +26,18 @@ export function ConfettiButton({ children, className, isCompleted, ...props }: C
             const x = (rect.left + rect.width / 2) / window.innerWidth;
             const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { x, y },
-                colors: ['#6366f1', '#ec4899', '#14b8a6', '#f59e0b'],
-            });
+            try {
+                // 动态懒加载 canvas-confetti 避免阻断首屏解析
+                const confetti = (await import("canvas-confetti")).default;
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { x, y },
+                    colors: ['#6366f1', '#ec4899', '#14b8a6', '#f59e0b'],
+                });
+            } catch (err) {
+                console.error("Failed to load confetti", err);
+            }
         }
 
         // Optimistic update for UI responsiveness

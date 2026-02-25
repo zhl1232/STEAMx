@@ -7,12 +7,19 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
     const [queryClient] = useState(() => new QueryClient({
         defaultOptions: {
             queries: {
-                // 默认缓存时间，避免频繁请求，但在开发环境下可以设短一点以便调试
+                // 更合理的 staleTime：数据视作新鲜的时间（1分钟）
                 staleTime: 60 * 1000,
-                // 窗口聚焦时重新获取数据，保证数据实时性
+                // v5 特性 gcTime（原 cacheTime）：闲置缓存垃圾回收前存活多久（24小时更适合 PWA/离线浏览应用）
+                gcTime: 24 * 60 * 60 * 1000,
+                // PWA/离线模式重要配置：在离线状态下也正常读取缓存甚至报错暂停直到有网再重试
+                networkMode: 'offlineFirst',
                 refetchOnWindowFocus: false,
                 retry: 1,
             },
+            mutations: {
+                // mutation 也启用离线优先
+                networkMode: 'offlineFirst',
+            }
         },
     }));
 

@@ -48,7 +48,7 @@
   - **多维度视图**: 支持 **本周 (Weekly)** / **本月 (Monthly)** / **总榜 (All-time)** 切换（积分榜 Tab 下）。
   - **技术方案**: 使用物化视图 `mv_leaderboard_weekly_xp` / `mv_leaderboard_monthly_xp` 缓存本周/本月 XP 聚合；RPC `get_leaderboard_xp_weekly` / `get_leaderboard_xp_monthly` 供前端调用。刷新：`SELECT refresh_leaderboard_mvs();`，建议每小时执行（如 pg_cron 或定时任务）。
   - **讨论结论（头像光环）**: 不做「仅在排行榜内可见」的前三头像光环——离开排行榜就消失，身份感与收藏价值弱。改为将 **头像光环/头像框** 纳入 **积分商店与成就体系**：用户兑换或解锁后装备，在个人页、评论、动态、排行榜等所有出现头像处统一展示（见下「积分商店」商品规划）。
-- [ ] **积分商店系统与双货币**
+- [x] **积分商店系统与双货币**
   - **设计结论**: 积分商店若直接消耗当前 XP，会与「等级 = f(当前 XP)」冲突（花 XP 会掉级）。采用 **双货币** 更清晰：
     - **XP（经验）**：只增不减，仅用于升级与等级，不参与消费、不参与投币。
     - **第二货币（如硬币/积分）**：可增可减，用于 **商店兑换** 与 **投币支持创作者**。
@@ -70,17 +70,18 @@
   - 连续打卡 XP 加成、每日/每周小目标（见上）。
   - 可选：称号、徽章稀有度展示（全站 X% 拥有）、等级权益（如某级解锁高级筛选）、社区集体目标（如本周社区完成 1000 个项目达成奖励）。
 
-### 内容
+### STEAM 游乐场 (STEAM Playground)
 
-- [ ] **原生视频上传 (Native Video)**
-  - **MVP 方案**: 使用 Supabase Storage 存储短视频 (限制 < 50MB)，客户端直接播放。
-  - **进阶方案**: 对接 Mux 或 Cloudflare Stream 处理转码和流式传输 (HLS)，适应弱网环境。
-- [ ] **富文本编辑器 (Rich Text Editor)**
-  - **技术选型**: 推荐 **Tiptap** (基于 ProseMirror)。它无头(Headless)且灵活，完美适配 React。
-  - **功能增强**:
-    - 支持 **Markdown** 快捷语法输入。
-    - **拖拽上传图片** (集成 Supabase Storage)。
-    - **代码块高亮** (集成 PrismJS/Lowlight)。
+- [ ] **游乐场基础设施与经典游戏 (Phase 1)**
+  - **定位**: 融合“游玩”与“学习”的互动空间。不仅提供游戏，更解析背后的 STEAM 原理。
+  - **首发阵容**:
+    - **扫雷 (Minesweeper)**：结合概率学、矩阵运算与逻辑推理。提供“1-2 定式”、“1-2-1 定式”等高级扫雷技巧教程，解析“洪水漫水算法 (Flood Fill)”。
+    - **五子棋 (Gomoku)**：结合博弈论。展示基础的必胜阵型，并浅析 AI 对战背后的“极小极大算法 (Minimax)”与“评估函数”。
+  - **功能要求**: 纯前端状态驱动（React Hooks），结合目前项目的 Glassmorphism UI，提供沉浸式体验；支持通关耗时/高分记录，并与成长体系（XP、徽章）挂钩。
+
+- [ ] **硬核关卡与编程对抗 (Phase 2 & 3 远期)**
+  - 加入代码对抗（AI Arena）：允许用户上传自己的算法（例如五子棋 AI），在虚拟竞技场与官方 AI 或其他用户的 AI 自动对战。
+  - 引入更多品类：如编程解谜类（类似光效路由、指令方块）、元胞自动机（生命游戏）探索等。
 
 ## 🛠 技术债与改进
 
@@ -95,8 +96,33 @@
   - **工具链**: 使用 **Playwright** 进行端到端 (E2E) 测试。
   - **策略**: 针对本地 Supabase 实例运行测试，覆盖核心路径 (注册 -> 创建项目 -> 评论互动)。
   - **数据模拟**: 编写 Seed 脚本，确保测试环境数据一致性。
-- [ ] **CI/CD 流水线 (Automation)**
+- [x] **CI/CD 流水线 (Automation)**
   - **GitHub Actions**:
     - **PR Check**: 自动运行 `Type Check`, `Lint`, `Build` 检查。
-    - **Preview**: 自动部署 Vercel 预览环境 (针对每个 PR)。
-    - **Release**:合并到 main 分支后自动打 Tag 并部署生产环境。
+    - **Preview**: 自动部署 Cloudflare Pages 预览环境 (针对每个 PR)。
+    - **Release**:合并到 main 分支后自动打 Tag 并部署到 Cloudflare 生产环境。
+
+### 性能与体验优化 (Performance & UX)
+
+- [x] **加载性能缓存与骨架屏 (Suspense & Caching)**
+  - 根据 React Server Components (RSC) 特性，全面审查数据获取层，通过 `<Suspense>` 提供骨架屏平滑加载 (优化 LCP 与 CLS)。
+  - 对 `framer-motion`, `canvas-confetti` 以及富文本渲染器等重依赖利用 `next/dynamic` 实施路由或组件级懒加载。
+- [x] **图片与多媒体加载优化**
+  - 在 `next/config` 中全面检查 Cloudflare / Supabase Storage 的图片白名单配置。
+  - 分离或接入 Cloudflare Images 等服务，确保用户上传的图片经过自动压缩，统一以 WebP/AVIF 等现代格式响应。
+- [x] **离线化支持与状态管理 (TanStack Query v5)**
+  - 深入结合使用的 TanStack Query V5 特性，配置更好的 `staleTime` 和 `gcTime`，在适当处引入乐观更新 (Optimistic Updates)。
+  - 考虑添加 Web App Manifest 提供轻量级的 PWA/Service Worker 支持。
+
+### 搜索引擎优化与分析 (SEO & Analytics)
+
+- [x] **SEO 与 OpenGraph (动态 Meta tags)**
+  - 为个人主页和项目详情页动态生成 Meta Tags 与 OpenGraph/Twitter 卡片标签，提升在外部社交群体的分享访问点击率。
+  - 添加自动生成的 `sitemap.xml` 和 `robots.txt`，优化各大搜索引擎收录。
+
+### 安全与生产环境稳定性 (Security & Stability)
+
+- [x] **访问控制深度审计 (RLS & 鉴权)**
+  - 对 Supabase 的 Row Level Security (RLS) 策略进行全面二次审计，确保零越权隐患（尤其是涉及用户金币和 XP 变动的核心业务表）。
+- [x] **限流防刷 (Rate Limiting)**
+  - 针对高频写入接口（如点赞、评论、打卡、投币业务），在系统边界（Cloudflare WAF 或 Next Proxy）增加限流过滤机制，防止脚本恶意刷量。

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Compass, PlusCircle, MessageSquare, User } from "lucide-react";
+import { Home, Compass, PlusCircle, MessageSquare, User, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
@@ -75,7 +75,7 @@ export function BottomNav() {
                     {item.primary ? (
                         <div className={cn(
                             "absolute -top-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 border-4 border-background",
-                             item.active && "ring-2 ring-primary"
+                            item.active && "ring-2 ring-primary"
                         )}>
                             <item.icon className="h-7 w-7" />
                         </div>

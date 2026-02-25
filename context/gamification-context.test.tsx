@@ -13,6 +13,8 @@ jest.mock('@/hooks/gamification/use-gamification-data', () => ({
     useGamificationData: jest.fn(() => ({
         xp: 100,
         unlockedBadges: new Set(),
+        userBadgeDetails: new Map(),
+        badgesLoaded: true,
         userStats: { totalProjects: 0, totalLikes: 0 },
         updateXpMutation: mockUpdateXpMutation,
         unlockBadgeMutation: mockUnlockBadgeMutation,
@@ -29,6 +31,7 @@ jest.mock('@/lib/supabase/client', () => ({
         from: jest.fn(() => ({
             select: jest.fn().mockReturnThis(),
             eq: jest.fn().mockReturnThis(),
+            maybeSingle: jest.fn().mockResolvedValue({ data: null }),
             gte: jest.fn().mockReturnThis(),
             single: jest.fn().mockResolvedValue({ data: null }),
             insert: jest.fn().mockResolvedValue({ error: null })
@@ -38,7 +41,11 @@ jest.mock('@/lib/supabase/client', () => ({
 }))
 
 jest.mock('@/context/auth-context', () => ({
-    useAuth: () => ({ user: { id: 'test-user' } })
+    useAuth: () => ({
+        user: { id: 'test-user' },
+        profile: { coins: 0 },
+        refreshProfile: jest.fn()
+    })
 }))
 
 // Mock canvas-confetti
@@ -52,7 +59,7 @@ function TestComponent() {
         <div>
             <div data-testid="xp">XP: {xp}</div>
             <div data-testid="level">Level: {level}</div>
-            <button onClick={() => addXp(50, 'Test', 'test_action', '1')}>Add XP</button>
+            <button onClick={() => addXp(50)}>Add XP</button>
         </div>
     )
 }
@@ -97,6 +104,6 @@ describe('GamificationContext', () => {
             screen.getByText('Add XP').click()
         })
 
-        expect(mockUpdateXpMutation.mutate).toHaveBeenCalledWith(150) // 100 + 50
+        expect(mockUpdateXpMutation.mutate).toHaveBeenCalledWith(150)
     })
 })

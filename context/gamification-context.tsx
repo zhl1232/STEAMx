@@ -183,10 +183,10 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     if (badge.condition(stats)) {
                         // Mark as processing immediately
                         processing.add(badge.id);
-                        
+
                         // CRITICAL FIX: Optimistically mark as unlocked locally immediately 
                         // to prevent multiple fire/infinite loops while mutation is pending
-                        currentUnlocked.add(badge.id); 
+                        currentUnlocked.add(badge.id);
                         unlockedBadgesRef.current = new Set(currentUnlocked);
 
                         // Trigger Mutation
@@ -228,7 +228,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 }
             }
         });
-      // eslint-disable-next-line react-hooks/exhaustive-deps -- user intentionally excluded to avoid unnecessary callback churn
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- user intentionally excluded to avoid unnecessary callback churn
     }, [user?.id, unlockBadgeMutation, toast]);
 
     // 4. Auto-Run Checks on Stats Update
@@ -253,7 +253,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 const { error } = await supabase.rpc('daily_check_in');
 
                 if (error) {
-                    console.error('Check-in error:', error);
+                    // 23505 是 PostgreSQL 的 unique_violation 错误码
+                    // 由于 React StrictMode 或多标签页可能会并发调用
+                    if (error.code !== '23505') {
+                        console.error('Check-in error:', error);
+                    }
                     return;
                 }
 

@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { Heart, ImageOff } from "lucide-react";
+import { Heart, ImageOff, Eye, CircleStop } from "lucide-react";
 import { useProjects } from "@/context/project-context";
 import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -14,31 +13,20 @@ import { SearchHighlight } from "@/components/ui/search-highlight";
 
 interface ProjectCardProps {
     project: Project;
-    variants?: Record<string, unknown>;
     searchQuery?: string;
     showStatus?: boolean;  // 是否显示状态Badge，默认false
 }
 
-export function ProjectCard({ project, variants, searchQuery = "", showStatus = false }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false }: ProjectCardProps) {
     const { isLiked } = useProjects();
     const liked = isLiked(project.id);
     const [likesCount, _setLikesCount] = useState(project.likes);
     const [imageError, setImageError] = useState(false);
-    const shouldReduceMotion = useReducedMotion();
-
-
 
     return (
-        <motion.div
-            variants={variants as Variants | undefined}
-            whileHover={shouldReduceMotion ? {} : {
-                y: -8,
-                transition: { duration: 0.3 }
-            }}
-            style={{ transformStyle: "preserve-3d" }}
-        >
+        <div className="transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20">
             <div
-                className="group relative block overflow-hidden rounded-lg border bg-background transition-all hover:shadow-2xl hover:shadow-primary/20"
+                className="group relative block overflow-hidden rounded-lg border bg-background transition-all"
             >
                 {/* Main Card Link Overlay */}
                 <Link
@@ -85,57 +73,54 @@ export function ProjectCard({ project, variants, searchQuery = "", showStatus = 
                             )}
                         </div>
                     )}
-
-                    {/* 收藏按钮 - 右上角 */}
-
-
                 </div>
-                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none">
-                    <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-primary/10 text-primary border-primary/20">
-                                {project.category}
+                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none flex flex-col gap-2.5">
+                    {/* 1. 标题放在最上方，与统计数据并列 */}
+                    <div className="flex items-start justify-between gap-3">
+                        <h3 className="font-semibold text-base line-clamp-2 leading-tight group-hover:text-primary transition-colors flex-1">
+                            <SearchHighlight text={project.title} query={searchQuery} />
+                        </h3>
+
+                        {/* 统计数据放在标题右侧 */}
+                        <div className="flex items-center gap-2.5 text-xs text-muted-foreground shrink-0 pt-0.5">
+                            <span className="flex items-center gap-1 group/stat" title="浏览数">
+                                <Eye className="h-3.5 w-3.5 group-hover/stat:text-primary transition-colors" />
+                                <span>{project.views_count || 0}</span>
                             </span>
-                            {project.sub_category && (
-                                <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300">
-                                    {project.sub_category}
-                                </span>
-                            )}
-                            {/* 显示其他标签（如一年级、人教版等）*/}
-                            {project.tags?.slice(0, 2).map((tag) => (
-                                <span key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-secondary/50 text-secondary-foreground border-secondary/30">
-                                    {tag}
-                                </span>
-                            ))}
-                            {project.difficulty_stars && (
-                                <DifficultyStars stars={project.difficulty_stars} size="sm" />
-                            )}
+                            <span className="flex items-center gap-1 group/stat" title="投币数">
+                                <CircleStop className="h-3.5 w-3.5 group-hover/stat:text-yellow-500 transition-colors" />
+                                <span>{project.coins_count || 0}</span>
+                            </span>
+                            <span className="flex items-center gap-1 group/stat" title="点赞数">
+                                <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500 group-hover/stat:text-red-600" : "group-hover/stat:text-red-500")} />
+                                <span>{likesCount}</span>
+                            </span>
                         </div>
-                        <span className="text-xs text-muted-foreground flex items-center gap-1 shrink-0">
-                            <Heart className={cn("h-3 w-3", liked && "fill-red-500 text-red-500")} />
-                            {likesCount}
-                        </span>
                     </div>
-                    <h3 className="font-semibold leading-none tracking-tight mb-1 group-hover:text-primary transition-colors">
-                        <SearchHighlight text={project.title} query={searchQuery} />
-                    </h3>
-                    <div className="pointer-events-auto relative z-10 inline-block">
-                         <span className="text-sm text-muted-foreground">
-                            by{" "}
-                            {project.author_id ? (
-                                <Link 
-                                    href={`/users/${project.author_id}`}
-                                    className="hover:underline hover:text-primary transition-colors"
-                                >
-                                    {project.author}
-                                </Link>
-                            ) : (
-                                project.author
-                            )}
-                         </span>
+
+                    {/* 2. 弱化并重新排列标签和难度 */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-primary/10 text-primary">
+                            {project.category}
+                        </span>
+                        {project.sub_category && (
+                            <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                {project.sub_category}
+                            </span>
+                        )}
+                        {project.tags?.slice(0, 2).map((tag) => (
+                            <span key={tag} className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-muted text-muted-foreground">
+                                {tag}
+                            </span>
+                        ))}
+                        {project.difficulty_stars && (
+                            <div className="ml-1 flex items-center">
+                                <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

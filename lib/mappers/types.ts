@@ -56,6 +56,8 @@ export interface Project {
     sub_category_id?: number
     sub_category?: string // 子分类名称
     likes: number
+    views_count?: number
+    coins_count?: number
     description?: string
     materials?: string[]
     steps?: ProjectStep[]
@@ -187,6 +189,8 @@ export function mapDbProject(
         sub_category_id: dbProject.sub_category_id || undefined,
         sub_category: dbProject.sub_categories?.name || undefined,
         likes: dbProject.likes_count,
+        views_count: dbProject.views_count || 0,
+        coins_count: ('coins_count' in dbProject ? Number((dbProject as Record<string, unknown>).coins_count) : 0),
         description: dbProject.description || '',
         materials: dbProject.project_materials
             ?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))

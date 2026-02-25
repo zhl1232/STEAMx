@@ -7,7 +7,7 @@ import { AuthProvider } from "@/context/auth-context";
 import { LoginPromptProvider } from "@/context/login-prompt-context";
 import { GamificationProvider } from "@/context/gamification-context";
 import Link from "next/link";
-import { Rocket } from "lucide-react";
+import { SteamLogo } from "@/components/logo";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { UserButton } from "@/components/user-button";
@@ -89,7 +89,7 @@ export default function RootLayout({
 
                                                             <div className="md:hidden flex items-center mr-2">
                                                                 <Link href="/" className="flex items-center space-x-2">
-                                                                    <Rocket className="h-5 w-5 text-primary" />
+                                                                    <SteamLogo className="h-6 w-6" />
                                                                     <span className="font-bold hidden sm:inline-block">STEAM</span>
                                                                 </Link>
                                                             </div>
@@ -97,7 +97,7 @@ export default function RootLayout({
                                                             {/* Logo & Desktop Nav */}
                                                             <div className="mr-4 hidden md:flex items-center">
                                                                 <Link className="mr-6 flex items-center space-x-2" href="/">
-                                                                    <Rocket className="h-6 w-6 text-primary" />
+                                                                    <SteamLogo className="h-6 w-6 md:h-8 md:w-8" />
                                                                     <span className="hidden font-bold sm:inline-block text-lg">STEAM 探索</span>
                                                                 </Link>
                                                                 {/* 主导航 */}

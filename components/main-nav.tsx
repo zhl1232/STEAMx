@@ -17,6 +17,11 @@ export function MainNav() {
             active: pathname === "/explore",
         },
         {
+            href: "/playground",
+            label: "游乐场",
+            active: pathname === "/playground" || pathname?.startsWith("/playground/"),
+        },
+        {
             href: "/community",
             label: "社区",
             active: pathname === "/community",
