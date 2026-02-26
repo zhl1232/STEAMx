@@ -1,9 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { useMinesweeper } from "@/hooks/useMinesweeper"
-import { Flag, Bomb, Timer, RefreshCw, Trophy } from "lucide-react"
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { useMinesweeper, DIFFICULTIES } from "@/hooks/useMinesweeper"
+import { useGamification } from "@/context/gamification-context"
+import { Bomb, Flag, Timer, Trophy, RefreshCw, BookOpen, ChevronRight, MousePointerClick, Medal, Star } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+
+const DIFF_LABELS: Record<string, { label: string; color: string; xp: number }> = {
+    beginner: { label: "初级", color: "text-green-500", xp: 10 },
+    intermediate: { label: "中级", color: "text-yellow-500", xp: 15 },
+    expert: { label: "高级", color: "text-red-500", xp: 20 },
+}
+
+function formatTime(s: number) {
+    if (s < 60) return `${s}s`
+    return `${Math.floor(s / 60)}m${(s % 60).toString().padStart(2, "0")}s`
+}
 
 export default function MinesweeperPage() {
     const {
@@ -16,11 +29,37 @@ export default function MinesweeperPage() {
         resetGame,
         changeDifficulty,
         difficultyName,
+        autoReveal,
+        bestTimes,
+        isNewRecord,
     } = useMinesweeper("intermediate")
 
-    const [activeTab, setActiveTab] = useState<"tutorial" | "leaderboard">("tutorial")
+    const { checkBadges } = useGamification()
 
-    // 获取对应的数字颜色
+    const [activeTab, setActiveTab] = useState<"course" | "leaderboard">("course")
+    const [isFlagMode, setIsFlagMode] = useState(false)
+
+    // 胜利时触发扫雷徽章检测
+    useEffect(() => {
+        if (status !== "won") return
+        const allBestTimes = Object.values(bestTimes)
+        const overallBest = allBestTimes.length > 0 ? Math.min(...allBestTimes) : 999
+        checkBadges({
+            // 非扫雷字段传 0，checkBadges 只关心条件满足与否
+            projectsPublished: 0, projectsLiked: 0, projectsCompleted: 0,
+            commentsCount: 0, scienceCompleted: 0, techCompleted: 0,
+            engineeringCompleted: 0, artCompleted: 0, mathCompleted: 0,
+            likesGiven: 0, likesReceived: 0, collectionsCount: 0,
+            challengesJoined: 0, level: 1, loginDays: 0, consecutiveDays: 0,
+            discussionsCreated: 0, repliesCount: 0,
+            // 扫雷专属字段
+            minesweeperWins: Object.keys(bestTimes).length,
+            minesweeperExpertWins: bestTimes["expert"] !== undefined ? 1 : 0,
+            minesweeperBestTime: overallBest,
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [status])
+
     const getNumberColor = (num: number) => {
         switch (num) {
             case 1: return "text-blue-400"
@@ -35,106 +74,159 @@ export default function MinesweeperPage() {
         }
     }
 
+    const currentBest = difficultyName ? bestTimes[difficultyName] : undefined
+
     return (
         <div className="flex flex-col xl:flex-row h-full">
             {/* 左侧游戏区 */}
             <div className="flex-1 p-2 sm:p-6 xl:p-12 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] w-full overflow-hidden">
-                <div className="max-w-full lg:max-w-max w-full bg-zinc-900/40 p-3 sm:p-6 rounded-3xl border border-white/10 backdrop-blur-xl shadow-2xl relative overflow-x-auto scrollbar-thin">
+                <div className="max-w-full lg:max-w-max w-full bg-card/60 p-3 sm:p-6 rounded-3xl border border-border backdrop-blur-xl shadow-2xl relative">
 
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row items-center justify-between min-w-max gap-4 mb-4 sm:mb-8 bg-black/40 p-4 rounded-xl border border-white/5">
-                        <div className="flex gap-1 sm:gap-2 bg-zinc-800/50 p-1 rounded-lg">
+                    <div className="flex flex-col md:flex-row items-center justify-between min-w-full gap-4 mb-4 sm:mb-8 bg-background/60 p-4 rounded-xl border border-border shadow-inner">
+                        <div className="flex gap-1 sm:gap-2 bg-primary/10 p-1.5 rounded-lg border border-primary/20">
                             {(["beginner", "intermediate", "expert"] as const).map((level) => (
                                 <button
                                     key={level}
                                     onClick={() => changeDifficulty(level)}
-                                    className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${difficultyName === level
-                                        ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/25"
-                                        : "text-zinc-400 hover:text-white hover:bg-white/5"
+                                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${difficultyName === level
+                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
                                         }`}
                                 >
-                                    {level === "beginner" ? "初级" : level === "intermediate" ? "中级" : "高级"}
+                                    {DIFF_LABELS[level].label}
                                 </button>
                             ))}
                         </div>
 
                         <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-red-400 font-mono text-xl bg-black/50 px-3 py-1 rounded-lg border border-white/5">
-                                <Flag className="w-4 h-4" />
+                            <div className="flex items-center gap-2 text-destructive font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-lg border border-border">
+                                <Flag className="w-5 h-5" />
                                 {minesLeft.toString().padStart(3, "0")}
                             </div>
                             <button
                                 onClick={resetGame}
-                                className="w-10 h-10 flex items-center justify-center bg-indigo-500 hover:bg-indigo-400 text-white rounded-full transition-all hover:rotate-180 duration-500 shadow-lg shadow-indigo-500/25"
+                                className="w-12 h-12 flex items-center justify-center bg-primary hover:opacity-90 text-primary-foreground rounded-full transition-all hover:rotate-180 duration-500 shadow-xl shadow-primary/30 animate-pulse-glow"
                             >
-                                {status === "lost" ? <Bomb size={18} /> : status === "won" ? <Trophy size={18} /> : <RefreshCw size={18} />}
+                                {status === "lost" ? <Bomb size={22} /> : status === "won" ? <Trophy size={22} /> : <RefreshCw size={22} />}
                             </button>
-                            <div className="flex items-center gap-2 text-indigo-400 font-mono text-xl bg-black/50 px-3 py-1 rounded-lg border border-white/5">
-                                <Timer className="w-4 h-4" />
-                                {time.toString().padStart(3, "0")}
+                            <div className="flex flex-col items-center gap-0.5">
+                                <div className="flex items-center gap-2 text-primary font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-lg border border-border">
+                                    <Timer className="w-5 h-5" />
+                                    {time.toString().padStart(3, "0")}
+                                </div>
+                                {currentBest !== undefined && (
+                                    <span className="text-[10px] text-muted-foreground font-mono">
+                                        最佳 {formatTime(currentBest)}
+                                        {isNewRecord && status === "won" && (
+                                            <span className="ml-1 text-yellow-500 font-bold animate-pulse">★新纪录!</span>
+                                        )}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
 
-                    {/* Board */}
-                    <div className="relative">
-                        <AnimatePresence>
-                            {status === "lost" && (
-                                <motion.div
-                                    initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                                    animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
-                                    className="absolute inset-0 z-10 flex items-center justify-center bg-red-950/30 rounded-xl"
-                                >
-                                    <div className="bg-black/80 px-8 py-4 rounded-2xl border border-red-500/50 text-red-500 font-bold text-2xl shadow-2xl flex items-center gap-3">
-                                        <Bomb className="w-8 h-8 animate-bounce" /> 游戏结束
-                                    </div>
-                                </motion.div>
-                            )}
-                            {status === "won" && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="absolute inset-0 z-10 flex items-center justify-center bg-green-950/30 backdrop-blur-sm rounded-xl"
-                                >
-                                    <div className="bg-black/90 px-8 py-4 rounded-2xl border border-green-500/50 text-green-400 font-bold text-2xl shadow-2xl flex items-center gap-3">
-                                        <Trophy className="w-8 h-8 text-yellow-500" /> 恭喜通关！
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                    {/* 移动端操作切换 & 提示 */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 animate-in fade-in slide-in-from-top-2 duration-500 w-full">
+                        <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-xl border border-border/50">
+                            <button
+                                onClick={() => setIsFlagMode(false)}
+                                className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${!isFlagMode ? "bg-background text-foreground shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
+                            >
+                                <MousePointerClick className="w-4 h-4" />
+                                <span>挖掘</span>
+                            </button>
+                            <button
+                                onClick={() => setIsFlagMode(true)}
+                                className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
+                            >
+                                <Flag className="w-4 h-4" />
+                                <span>标记</span>
+                            </button>
+                        </div>
+                        <div className="text-xs text-muted-foreground bg-muted/30 py-2.5 px-5 rounded-full border border-border/50 hidden md:flex items-center gap-2 shadow-inner">
+                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                            <span>电脑端可直接 <strong className="text-foreground">右键</strong> 快速标记，移动端推荐使用 <strong className="text-foreground">上方切换</strong> 模式</span>
+                        </div>
+                    </div>
 
-                        {/* Grid 渲染，避免 React Context 性能警告 */}
-                        <div className="inline-block p-1 sm:p-2 bg-zinc-950/50 rounded-xl border border-white/5 mx-auto">
+                    {/* Board Wrapper */}
+                    <div className="w-full overflow-x-auto no-scrollbar touch-pan-x touch-pan-y pb-2">
+                        <div className="relative w-max p-2 bg-background/40 rounded-2xl border border-border mx-auto shadow-xl">
+                            <AnimatePresence>
+                                {status === "lost" && (
+                                    <motion.div
+                                        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                                        animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-xl"
+                                    >
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-3xl border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-2xl flex items-center gap-4">
+                                            <Bomb className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" /> 游戏结束
+                                        </div>
+                                    </motion.div>
+                                )}
+                                {status === "won" && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-xl"
+                                    >
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-3xl border border-primary/50 shadow-2xl flex flex-col items-center gap-2">
+                                            <div className="flex items-center gap-3 text-primary font-black text-xl sm:text-3xl">
+                                                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500 animate-bounce" /> 恭喜通关！
+                                            </div>
+                                            <div className="text-sm text-muted-foreground font-medium">
+                                                耗时 <span className="text-primary font-bold">{formatTime(time)}</span>
+                                                {isNewRecord && (
+                                                    <span className="ml-2 text-yellow-500 font-black animate-pulse">★ 新纪录！</span>
+                                                )}
+                                                {!isNewRecord && currentBest !== undefined && (
+                                                    <span className="ml-2 text-muted-foreground">最佳 {formatTime(currentBest)}</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                             {board.map((row, rIdx) => (
-                                <div key={rIdx} className="flex min-w-max">
+                                <div key={rIdx} className="flex">
                                     {row.map((cell, cIdx) => (
                                         <div
                                             key={`${rIdx}-${cIdx}`}
-                                            onClick={() => revealCell(rIdx, cIdx)}
+                                            onClick={() => {
+                                                if (cell.isRevealed) {
+                                                    autoReveal(rIdx, cIdx)
+                                                } else if (isFlagMode) {
+                                                    toggleFlag(rIdx, cIdx)
+                                                } else {
+                                                    revealCell(rIdx, cIdx)
+                                                }
+                                            }}
                                             onContextMenu={(e: React.MouseEvent<HTMLDivElement>) => {
                                                 e.preventDefault()
                                                 toggleFlag(rIdx, cIdx, e)
                                             }}
                                             className={`
-                        w-8 h-8 sm:w-10 sm:h-10 border border-black/20 flex items-center justify-center text-sm sm:text-lg font-extrabold cursor-pointer transition-colors duration-100 select-none
+                        w-9 h-9 sm:w-11 sm:h-11 border border-border/50 flex items-center justify-center text-base sm:text-xl font-black cursor-pointer transition-all duration-150 select-none
                         ${cell.isRevealed
                                                     ? cell.isMine
-                                                        ? "bg-red-500/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]"
-                                                        : "bg-zinc-800/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]"
-                                                    : "bg-zinc-700/80 hover:bg-zinc-600/80 shadow-[inset_0_2px_0_rgba(255,255,255,0.1)] border-t-white/10 border-l-white/10"
+                                                        ? "bg-destructive text-destructive-foreground shadow-inner"
+                                                        : "bg-muted/50 text-foreground shadow-inner"
+                                                    : "bg-accent hover:bg-accent/80 hover:scale-[1.02] active:scale-95 shadow-sm border-t-white/10 border-l-white/10 dark:border-t-white/5 dark:border-l-white/5"
                                                 }
                       `}
                                         >
                                             {cell.isRevealed ? (
                                                 cell.isMine ? (
-                                                    <Bomb size={18} className="text-zinc-900" />
+                                                    <Bomb size={20} />
                                                 ) : (
-                                                    <span className={getNumberColor(cell.neighborMines)}>
+                                                    <span className={`${getNumberColor(cell.neighborMines)} drop-shadow-sm`}>
                                                         {cell.neighborMines > 0 ? cell.neighborMines : ""}
                                                     </span>
                                                 )
                                             ) : cell.isFlagged ? (
-                                                <Flag size={16} className="text-red-500 drop-shadow-md" />
+                                                <Flag size={18} className="text-destructive transition-transform scale-110 drop-shadow-sm" />
                                             ) : (
                                                 ""
                                             )}
@@ -148,79 +240,90 @@ export default function MinesweeperPage() {
             </div>
 
             {/* 右侧知识面板 */}
-            <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-white/10 bg-black/40 backdrop-blur-xl flex flex-col h-full z-20">
-                <div className="flex border-b border-white/10">
+            <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
+                <div className="flex border-b border-border">
                     <button
-                        onClick={() => setActiveTab("tutorial")}
-                        className={`flex-1 py-4 text-sm font-semibold transition-colors ${activeTab === "tutorial" ? "text-indigo-400 border-b-2 border-indigo-500" : "text-zinc-500 hover:text-zinc-300"
-                            }`}
+                        onClick={() => setActiveTab("course")}
+                        className={`flex-1 py-5 text-sm font-bold transition-all ${activeTab === "course" ? "text-primary bg-primary/5 border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
                     >
-                        STEAM原理解析
+                        课程
                     </button>
                     <button
                         onClick={() => setActiveTab("leaderboard")}
-                        className={`flex-1 py-4 text-sm font-semibold transition-colors ${activeTab === "leaderboard" ? "text-indigo-400 border-b-2 border-indigo-500" : "text-zinc-500 hover:text-zinc-300"
-                            }`}
+                        className={`flex-1 py-5 text-sm font-bold transition-all ${activeTab === "leaderboard" ? "text-primary bg-primary/5 border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
                     >
-                        全服榜单
+                        个人记录
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                    {activeTab === "tutorial" ? (
-                        <div className="space-y-6 animate-in fade-in duration-300">
-                            <div>
-                                <h3 className="text-xl font-bold text-white mb-2">排雷：算术与逻辑的艺术</h3>
-                                <p className="text-sm text-zinc-400 leading-relaxed">
-                                    扫雷看似依靠直觉，但这其实是一个经典的<strong className="text-indigo-300">约束满足问题 (Constraint Satisfaction Problem)</strong>。每一个露出的数字都在告诉你周边空间雷分布的方程组。
-                                </p>
+                <div className="flex-1 overflow-y-auto p-6 scrollbar-thin flex flex-col">
+                    {activeTab === "course" ? (
+                        <div className="flex flex-col items-center justify-center flex-1 text-center p-4">
+                            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                                <BookOpen className="w-8 h-8 text-primary" />
                             </div>
-
-                            <div className="p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl space-y-3">
-                                <h4 className="font-semibold text-indigo-300 flex items-center gap-2">
-                                    <span className="bg-indigo-500/20 px-2 py-0.5 rounded text-xs">M</span>
-                                    数学与逻辑推演
-                                </h4>
-                                <p className="text-xs text-zinc-300 leading-relaxed">
-                                    <strong>基础定式 1-1：</strong> 当数字 <span className="text-blue-400 font-bold">1</span> 旁边有两个未知方块，而它又与另一个 <span className="text-blue-400 font-bold">1</span> 相邻时，可以通过差值相减，确定第三个方块必然是安全的。
-                                </p>
-                            </div>
-
-                            <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl space-y-3">
-                                <h4 className="font-semibold text-blue-300 flex items-center gap-2">
-                                    <span className="bg-blue-500/20 px-2 py-0.5 rounded text-xs">T</span>
-                                    洪水漫水算法 (Flood Fill)
-                                </h4>
-                                <p className="text-xs text-zinc-300 leading-relaxed">
-                                    当你点击到空白区（数字为 0），周围一大片区域会瞬间翻开。这是因为游戏内核运用了图的
-                                    <strong className="text-white">深度优先搜索 (DFS)</strong> 或 <strong className="text-white">广度优先搜索 (BFS)</strong>。
-                                    它犹如水滴落入海绵，不断向四面八方扩散，直到遇到含有数字的边缘。
-                                </p>
-                                <div className="bg-black/50 p-3 rounded border border-white/5 font-mono text-[10px] text-zinc-400 overflow-x-auto">
-                                    <pre>{`function revealEmpty(r, c) {
-  stack.push([r, c]);
-  while(stack.length) {
-    let [cr, cc] = stack.pop();
-    if (board[cr][cc] === 0) {
-      // reveal neighbors...
-      stack.push(neighbors);
-    }
-  }
-}`}</pre>
-                                </div>
-                            </div>
-
-                            <div className="pt-4 border-t border-white/10">
-                                <p className="text-xs text-zinc-500 text-center">
-                                    完成无伤通关高级扫雷，可获得「雷区清道夫」大师徽章与 +100 XP。
-                                </p>
-                            </div>
+                            <h3 className="text-lg font-bold text-foreground mb-2">扫雷解局学</h3>
+                            <p className="text-sm text-muted-foreground mb-6 max-w-[240px]">9 课图解 + 每课练习，从"法则一"到"1-2-1定式"。</p>
+                            <Link
+                                href="/playground/minesweeper/course"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity"
+                            >
+                                进入课程
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
                         </div>
                     ) : (
-                        <div className="space-y-4 animate-in fade-in duration-300">
-                            <div className="text-center text-sm text-zinc-500 py-8">
-                                <Trophy className="w-8 h-8 text-zinc-600 mx-auto mb-2" />
-                                排行榜功能即将上线（Phase 2）
+                        <div className="space-y-4">
+                            <div>
+                                <h3 className="text-sm font-bold text-foreground mb-1">本地最佳记录</h3>
+                                <p className="text-xs text-muted-foreground mb-4">记录保存在浏览器本地，刷新后依然有效。</p>
+                            </div>
+
+                            {(["beginner", "intermediate", "expert"] as const).map((level) => {
+                                const best = bestTimes[level]
+                                const info = DIFF_LABELS[level]
+                                const diffInfo = DIFFICULTIES[level]
+                                const isCurrent = difficultyName === level
+                                return (
+                                    <div
+                                        key={level}
+                                        className={`p-4 rounded-2xl border transition-all ${isCurrent ? "bg-primary/5 border-primary/30" : "bg-muted/20 border-border"}`}
+                                    >
+                                        <div className="flex items-center justify-between mb-2">
+                                            <div className="flex items-center gap-2">
+                                                <span className={`text-sm font-bold ${info.color}`}>{info.label}</span>
+                                                {isCurrent && (
+                                                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">当前</span>
+                                                )}
+                                            </div>
+                                            <span className="text-xs text-muted-foreground">{diffInfo.rows}×{diffInfo.cols} · {diffInfo.mines}雷</span>
+                                        </div>
+                                        {best !== undefined ? (
+                                            <div className="flex items-center gap-2">
+                                                <Medal className="w-4 h-4 text-yellow-500" />
+                                                <span className="font-mono font-black text-lg text-foreground">{formatTime(best)}</span>
+                                                <span className="text-xs text-muted-foreground ml-auto">历史最佳</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-2 text-muted-foreground/60">
+                                                <Star className="w-4 h-4" />
+                                                <span className="text-sm">暂无记录，通关后解锁</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                )
+                            })}
+
+                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                                <div className="flex items-start gap-3">
+                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold text-muted-foreground/70">全服排行榜</h4>
+                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
+                                            和全球玩家竞速即将上线！完成更多课程关卡、解锁扫雷专属徽章吧。
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}

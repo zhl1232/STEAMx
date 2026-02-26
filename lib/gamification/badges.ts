@@ -47,23 +47,16 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "点赞",
         icon: "thumbs_up",
         getValue: (s) => s.likesGiven,
-        thresholds: [1, 10, 50, 200],
+        thresholds: [1, 50, 200, 1000],
         descriptionTemplate: (_, v) => `累计点赞 ${v} 次`,
     },
-    {
-        seriesKey: "intro_comments",
-        label: "评论",
-        icon: "message_circle",
-        getValue: (s) => s.commentsCount,
-        thresholds: [1, 10, 50, 200],
-        descriptionTemplate: (_, v) => `累计评论 ${v} 条`,
-    },
+
     {
         seriesKey: "intro_publish",
         label: "发布",
         icon: "share_2",
         getValue: (s) => s.projectsPublished,
-        thresholds: [1, 5, 10, 30],
+        thresholds: [1, 5, 10, 50],
         descriptionTemplate: (_, v) => `累计发布 ${v} 个项目`,
     },
     {
@@ -71,7 +64,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "收藏",
         icon: "bookmark",
         getValue: (s) => s.collectionsCount,
-        thresholds: [1, 10, 50, 200],
+        thresholds: [1, 50, 200, 1000],
         descriptionTemplate: (_, v) => `累计收藏 ${v} 个项目`,
     },
     {
@@ -79,7 +72,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "科学专家",
         icon: "zap",
         getValue: (s) => s.scienceCompleted,
-        thresholds: [5, 20, 50, 100],
+        thresholds: [3, 10, 20, 50],
         descriptionTemplate: (_, v) => `完成科学类项目 ${v} 个`,
     },
     {
@@ -87,7 +80,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "技术达人",
         icon: "code_2",
         getValue: (s) => s.techCompleted,
-        thresholds: [5, 20, 50, 100],
+        thresholds: [3, 10, 20, 50],
         descriptionTemplate: (_, v) => `完成技术类项目 ${v} 个`,
     },
     {
@@ -95,7 +88,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "工程师",
         icon: "pen_tool",
         getValue: (s) => s.engineeringCompleted,
-        thresholds: [5, 20, 50, 100],
+        thresholds: [3, 10, 20, 50],
         descriptionTemplate: (_, v) => `完成工程类项目 ${v} 个`,
     },
     {
@@ -103,7 +96,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "艺术家",
         icon: "palette",
         getValue: (s) => s.artCompleted,
-        thresholds: [5, 20, 50, 100],
+        thresholds: [3, 10, 20, 50],
         descriptionTemplate: (_, v) => `完成艺术类项目 ${v} 个`,
     },
     {
@@ -111,23 +104,15 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "数学家",
         icon: "calculator",
         getValue: (s) => s.mathCompleted,
-        thresholds: [5, 20, 50, 100],
+        thresholds: [3, 10, 20, 50],
         descriptionTemplate: (_, v) => `完成数学类项目 ${v} 个`,
-    },
-    {
-        seriesKey: "creator",
-        label: "创作者",
-        icon: "users",
-        getValue: (s) => s.projectsPublished,
-        thresholds: [1, 5, 10, 50],
-        descriptionTemplate: (_, v) => `发布项目 ${v} 个`,
     },
     {
         seriesKey: "social",
         label: "社交达人",
         icon: "message_circle",
         getValue: (s) => s.commentsCount + s.repliesCount,
-        thresholds: [10, 50, 200, 500],
+        thresholds: [1, 30, 150, 500],
         descriptionTemplate: (_, v) => `评论与回复合计 ${v} 条`,
     },
     {
@@ -143,7 +128,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "成就里程碑",
         icon: "trophy",
         getValue: (s) => s.projectsCompleted,
-        thresholds: [5, 25, 100, 500],
+        thresholds: [5, 20, 50, 100],
         descriptionTemplate: (_, v) => `完成项目 ${v} 个`,
     },
     {
@@ -151,7 +136,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "等级晋升",
         icon: "award",
         getValue: (s) => s.level,
-        thresholds: [5, 25, 50, 100],
+        thresholds: [5, 20, 50, 100],
         descriptionTemplate: (_, v) => `达到等级 ${v}`,
     },
     {
@@ -159,7 +144,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "挑战赛",
         icon: "target",
         getValue: (s) => s.challengesJoined,
-        thresholds: [3, 10, 50, 100],
+        thresholds: [2, 6, 15, 30],
         descriptionTemplate: (_, v) => `参加挑战赛 ${v} 次`,
     },
     {
@@ -177,12 +162,12 @@ const TIERED_BADGES: Badge[] = TIERED_SERIES.flatMap(buildTieredBadges);
 const SINGLE_BADGES: Badge[] = [
     { id: "first_step", name: "第一步", description: "完成注册账号", icon: "footprints", kind: "single", seriesKey: "first_steps", condition: () => true },
     { id: "explorer", name: "初级探索者", description: "完成 1 个项目", icon: "sparkles", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.projectsCompleted >= 1 },
-    { id: "first_like", name: "点赞新手", description: "首次给项目点赞", icon: "thumbs_up", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.likesGiven >= 1 },
-    { id: "first_comment", name: "发言新秀", description: "发表首条评论", icon: "message_circle", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.commentsCount >= 1 },
-    { id: "first_publish", name: "首次发布", description: "发布第一个项目", icon: "share_2", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.projectsPublished >= 1 },
-    { id: "first_collection", name: "收藏入门", description: "首次收藏项目", icon: "bookmark", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.collectionsCount >= 1 },
-    { id: "social_butterfly", name: "社交蝴蝶", description: "首次参与讨论", icon: "users", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.discussionsCreated >= 1 || stats.repliesCount >= 1 },
+    { id: "social_butterfly", name: "社交蝴蝶", description: "首次参与讨论", icon: "users", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.commentsCount >= 1 || stats.discussionsCreated >= 1 || stats.repliesCount >= 1 },
     { id: "challenge_rookie", name: "挑战新人", description: "首次参加挑战赛", icon: "flag", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.challengesJoined >= 1 },
+    // 扫雷专属徽章
+    { id: "minesweeper_rookie", name: "排雷新兵", description: "首次通关扫雷（任意难度）", icon: "bomb", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperWins >= 1 },
+    { id: "minesweeper_expert", name: "排雷专家", description: "完成高级难度扫雷通关", icon: "shield", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperExpertWins >= 1 },
+    { id: "minesweeper_speedster", name: "极速拆弹", description: "在 60 秒内通关扫雷（任意难度）", icon: "zap", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperBestTime > 0 && stats.minesweeperBestTime <= 60 },
 ];
 
 const RARE_BADGES: Badge[] = [
@@ -199,7 +184,9 @@ export const BADGES: Badge[] = [...TIERED_BADGES, ...SINGLE_BADGES, ...RARE_BADG
 export const SERIES_ORDER: { key: string; label: string }[] = [
     ...TIERED_SERIES.map((s) => ({ key: s.seriesKey, label: s.label })),
     { key: "first_steps", label: "首步成就" },
+    { key: "minesweeper", label: "扫雷游乐场" },
     { key: "rare", label: "稀有限定" },
+
 ];
 
 /**
@@ -214,7 +201,7 @@ export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, m
         const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleUnlocked = badges.filter((b) => (b.seriesKey === "first_steps" || b.seriesKey === "rare") && unlockedIds.has(b.id));
+    const singleUnlocked = badges.filter((b) => (b.seriesKey === "first_steps" || b.seriesKey === "minesweeper" || b.seriesKey === "rare") && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;
         result.push(b);

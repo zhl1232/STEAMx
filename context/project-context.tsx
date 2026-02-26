@@ -117,7 +117,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             loginDays: 0,
             consecutiveDays: 0,
             discussionsCreated: 0,
-            repliesCount: 0
+            repliesCount: 0,
+            minesweeperWins: 0,
+            minesweeperExpertWins: 0,
+            minesweeperBestTime: 999,
         };
 
         if (!user) return defaultStats;
@@ -160,7 +163,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 loginDays: data.loginDays || 0,
                 consecutiveDays: data.consecutiveDays || 0,
                 discussionsCreated: data.discussionsCreated || 0,
-                repliesCount: data.repliesCount || 0
+                repliesCount: data.repliesCount || 0,
+                minesweeperWins: 0,
+                minesweeperExpertWins: 0,
+                minesweeperBestTime: 999,
             };
 
         } catch (error) {

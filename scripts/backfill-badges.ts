@@ -73,6 +73,10 @@ async function main() {
       consecutiveDays: (raw as Record<string, number>)?.consecutiveDays ?? 0,
       discussionsCreated: (raw as Record<string, number>)?.discussionsCreated ?? 0,
       repliesCount: (raw as Record<string, number>)?.repliesCount ?? 0,
+      // 扫雷徽章由前端胜利时触发，服务端 backfill 无法获取 localStorage，统一给默认值
+      minesweeperWins: 0,
+      minesweeperExpertWins: 0,
+      minesweeperBestTime: 999,
     };
 
     for (const badge of BADGES) {

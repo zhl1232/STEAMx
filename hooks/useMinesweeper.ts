@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 export type CellState = {
     row: number;
@@ -36,12 +36,30 @@ const getNeighbors = (row: number, col: number, maxRow: number, maxCol: number) 
     return neighbors;
 };
 
+const BEST_TIMES_KEY = 'minesweeper_best_times';
+
+type BestTimes = Record<string, number>; // difficulty -> best seconds
+
+function loadBestTimes(): BestTimes {
+    if (typeof window === 'undefined') return {};
+    try {
+        const raw = localStorage.getItem(BEST_TIMES_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch {
+        return {};
+    }
+}
+
 export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'beginner') {
     const [difficulty, setDifficulty] = useState<DifficultyInfo>(DIFFICULTIES[initialDifficulty]);
+    const [difficultyKey, setDifficultyKey] = useState<string>(initialDifficulty);
     const [board, setBoard] = useState<CellState[][]>([]);
     const [status, setStatus] = useState<GameStatus>('idle');
     const [flagsCount, setFlagsCount] = useState(0);
     const [time, setTime] = useState(0);
+    const [bestTimes, setBestTimes] = useState<BestTimes>(loadBestTimes);
+    const [isNewRecord, setIsNewRecord] = useState(false);
+    const timeRef = useRef(0);
 
     // 初始化空盘面（没有雷，点第一下时才布雷）
     const initBoard = useCallback((diff: DifficultyInfo) => {
@@ -70,16 +88,34 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         initBoard(difficulty);
     }, [difficulty, initBoard]);
 
-    // 计时器
+    // 计时器（用 ref 同步时间，方便 checkWinCondition 读取准确值）
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (status === 'playing') {
             timer = setInterval(() => {
-                setTime((prev) => prev + 1);
+                setTime((prev) => {
+                    const next = prev + 1;
+                    timeRef.current = next;
+                    return next;
+                });
             }, 1000);
         }
         return () => clearInterval(timer);
     }, [status]);
+
+    const updateBestTime = useCallback((key: string, finalTime: number) => {
+        setBestTimes((prev) => {
+            const current = prev[key];
+            if (current === undefined || finalTime < current) {
+                const next = { ...prev, [key]: finalTime };
+                try { localStorage.setItem(BEST_TIMES_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+                setIsNewRecord(true);
+                return next;
+            }
+            setIsNewRecord(false);
+            return prev;
+        });
+    }, []);
 
     // 布雷并计算数字（规避首次点击位置及其周围）
     const placeMines = (firstClickRow: number, firstClickCol: number) => {
@@ -168,8 +204,8 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         checkWinCondition(newBoard);
     };
 
-    const toggleFlag = (row: number, col: number, e: React.MouseEvent) => {
-        e.preventDefault(); // 阻止默认右键菜单
+    const toggleFlag = (row: number, col: number, e?: React.MouseEvent | React.TouchEvent) => {
+        if (e) e.preventDefault(); // 阻止默认右键菜单
         if (status === 'idle' || status === 'won' || status === 'lost') return;
         if (board[row][col].isRevealed) return;
 
@@ -199,12 +235,54 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         const flaggedCount = neighbors.filter(([r, c]) => board[r][c].isFlagged).length;
 
         if (flaggedCount === cell.neighborMines) {
-            // 旗子数满足，翻开其它所有未翻开未标记的格子
+            let currentBoard = JSON.parse(JSON.stringify(board)) as CellState[][];
+            let hasChanged = false;
+            let lost = false;
+
+            const revealEmpty = (r: number, c: number) => {
+                const stack = [[r, c]];
+                while (stack.length > 0) {
+                    const [currR, currC] = stack.pop()!;
+                    const currentCell = currentBoard[currR][currC];
+
+                    if (!currentCell.isRevealed && !currentCell.isFlagged) {
+                        currentCell.isRevealed = true;
+                        hasChanged = true;
+                        if (currentCell.neighborMines === 0 && !currentCell.isMine) {
+                            const currentNeighbors = getNeighbors(currR, currC, difficulty.rows, difficulty.cols);
+                            for (const [nr, nc] of currentNeighbors) {
+                                if (!currentBoard[nr][nc].isRevealed && !currentBoard[nr][nc].isFlagged) {
+                                    stack.push([nr, nc]);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
             neighbors.forEach(([r, c]) => {
-                if (!board[r][c].isRevealed && !board[r][c].isFlagged) {
-                    revealCell(r, c); // 注意，这里如果在闭包里不能直接用外部的最新的 board，但我们目前是单次点击。优化版先用直接调用
+                const neighborCell = currentBoard[r][c];
+                if (!neighborCell.isRevealed && !neighborCell.isFlagged) {
+                    if (neighborCell.isMine) {
+                        lost = true;
+                        // Reveal all mines on loss
+                        currentBoard.forEach(row => row.forEach(cell => {
+                            if (cell.isMine) cell.isRevealed = true;
+                        }));
+                    } else {
+                        revealEmpty(r, c);
+                    }
                 }
             });
+
+            if (hasChanged || lost) {
+                setBoard(currentBoard);
+                if (lost) {
+                    setStatus('lost');
+                } else {
+                    checkWinCondition(currentBoard);
+                }
+            }
         }
     };
 
@@ -221,15 +299,19 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
 
         if (unrevealedSafeCells === 0) {
             setStatus('won');
+            updateBestTime(difficultyKey, timeRef.current);
         }
     };
 
     const changeDifficulty = (level: keyof typeof DIFFICULTIES) => {
         setDifficulty(DIFFICULTIES[level]);
+        setDifficultyKey(level);
     };
 
     const resetGame = () => {
         initBoard(difficulty);
+        setIsNewRecord(false);
+        timeRef.current = 0;
     };
 
     return {
@@ -243,8 +325,8 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         autoReveal,
         resetGame,
         changeDifficulty,
-        difficultyName: Object.keys(DIFFICULTIES).find(
-            key => DIFFICULTIES[key].rows === difficulty.rows
-        ),
+        difficultyName: difficultyKey,
+        bestTimes,
+        isNewRecord,
     };
 }

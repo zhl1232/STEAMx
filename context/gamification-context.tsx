@@ -8,6 +8,16 @@ import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 
 import { BADGES } from "@/lib/gamification/badges";
+
+interface CheckInResult {
+    streak: number;
+    total_days: number;
+    checked_in_today: boolean;
+    is_new_day: boolean;
+    xp_granted: number;
+    coins_granted: number;
+    error?: string;
+}
 import { UserStats, Badge } from "@/lib/gamification/types";
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data";
 
@@ -250,7 +260,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
             try {
                 // Call RPC to record check-in (DB returns jsonb: streak, total_days, checked_in_today, is_new_day)
-                const { error } = await supabase.rpc('daily_check_in');
+                const { data, error } = await supabase.rpc('daily_check_in') as { data: CheckInResult | null; error: { code: string; message: string } | null };
 
                 if (error) {
                     // 23505 是 PostgreSQL 的 unique_violation 错误码
@@ -261,10 +271,28 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     return;
                 }
 
-                // 新一天打卡时 XP 与硬币已由服务端 daily_check_in() 在同一事务内发放，此处仅刷新本地状态
+                // 今天已打卡（is_new_day = false），无需刷新，直接返回
+                if (!data?.is_new_day) return;
+
+                // 新一天打卡：XP 与硬币已由服务端在同一事务内发放，刷新本地状态
                 refetchStats();
                 await refreshProfile();
                 queryClient.invalidateQueries({ queryKey: ['coin_logs'] });
+
+                // 显示打卡成功 Toast
+                const streak = data.streak ?? 1;
+                const xpGranted = data.xp_granted ?? 0;
+                const coinsGranted = data.coins_granted ?? 0;
+                toast({
+                    description: (
+                        <AchievementToast
+                            title="每日登录奖励"
+                            description={`+${xpGranted} XP · +${coinsGranted} 硬币${streak > 1 ? ` · 连续 ${streak} 天 🔥` : ''}`}
+                            icon="📅"
+                        />
+                    ),
+                    duration: 4000,
+                });
             } catch (err) {
                 console.error('Check-in failed:', err);
             }
@@ -272,7 +300,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         performCheckIn();
         // We only want to run this once per session/mount effectively, or when user changes
-    }, [user, supabase, refetchStats, refreshProfile, queryClient, addXp]);
+    }, [user, supabase, refetchStats, refreshProfile, queryClient, toast]);
 
     const contextValue = useMemo(() => ({
         xp,

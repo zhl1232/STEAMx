@@ -28,10 +28,10 @@ export function useGamificationData() {
                 .from('user_badges')
                 .select('badge_id, unlocked_at')
                 .eq('user_id', user!.id);
-            
+
             const badgesMap = new Map<string, { unlockedAt: string }>();
             const badgesSet = new Set<string>();
-            
+
             data?.forEach((b: { badge_id: string; unlocked_at: string }) => {
                 badgesSet.add(b.badge_id);
                 badgesMap.set(b.badge_id, { unlockedAt: b.unlocked_at });
@@ -99,7 +99,11 @@ export function useGamificationData() {
                 loginDays: stats.loginDays || 0,
                 consecutiveDays: stats.consecutiveDays || 0,
                 discussionsCreated: stats.discussionsCreated || 0,
-                repliesCount: stats.repliesCount || 0
+                repliesCount: stats.repliesCount || 0,
+                // 扫雷属于纯前端 localStorage 状态，服务端统计不存在，一律给默认值
+                minesweeperWins: 0,
+                minesweeperExpertWins: 0,
+                minesweeperBestTime: 999,
             };
         },
         enabled,

@@ -160,6 +160,10 @@
   animation: twinkle 4s ease-in-out infinite;
 }
 
+.animate-text-gradient {
+  animation: text-gradient-flow 4s ease-in-out infinite;
+}
+
 /* Utility for glassmorphism */
 .glass {
   @apply bg-background/60 backdrop-blur-md border border-white/10;

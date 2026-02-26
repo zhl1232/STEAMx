@@ -18,6 +18,10 @@ export interface UserStats {
     consecutiveDays: number;      // 连续登录天数
     discussionsCreated: number;   // 发起的讨论数
     repliesCount: number;         // 回复数
+    // 扫雷专属（通关徽章触发，由前端 localStorage 传入）
+    minesweeperWins: number;       // 任意难度通关次数（有记录即有过通关）
+    minesweeperExpertWins: number; // 高级难度通关次数
+    minesweeperBestTime: number;   // 历史最快时间（秒），999 = 无记录
 }
 
 export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";
