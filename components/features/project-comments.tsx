@@ -66,23 +66,42 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
             if (roots && roots.length > 0) {
                 const rootIds = (roots as { id: number }[]).map(r => r.id)
+
+                // 第 1 层：顶层评论的直接子评论
                 const { data: replies } = await supabase
                     .from('comments')
                     .select(`
                         *,
                         profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
                     `)
+                    .eq('project_id', projectId)
                     .in('parent_id', rootIds)
                     .order('created_at', { ascending: true })
 
-                if (replies) {
+                if (replies && replies.length > 0) {
                     const mappedReplies = replies.map(mapDbComment)
                     newComments = [...newComments, ...mappedReplies]
+
+                    // 第 2 层：回复的回复
+                    const firstLevelIds = (replies as { id: number }[]).map(r => r.id)
+                    const { data: nestedReplies } = await supabase
+                        .from('comments')
+                        .select(`
+                            *,
+                            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
+                        `)
+                        .eq('project_id', projectId)
+                        .in('parent_id', firstLevelIds)
+                        .order('created_at', { ascending: true })
+
+                    if (nestedReplies && nestedReplies.length > 0) {
+                        newComments = [...newComments, ...nestedReplies.map(mapDbComment)]
+                    }
                 }
             }
 
-            setComments(prev => [...prev, ...newComments])
-            setPage(prev => prev + 1)
+            setComments((prev: Comment[]) => [...prev, ...newComments])
+            setPage((prev: number) => prev + 1)
             setHasMore((count || 0) > to + 1)
             if (count !== null) setTotal(count)
         } catch (error) {
@@ -108,8 +127,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             })
 
             if (addedComment) {
-                setComments((prev) => [addedComment, ...prev])
-                setTotal(prev => prev + 1)
+                setComments((prev: Comment[]) => [addedComment, ...prev])
+                setTotal((prev: number) => prev + 1)
                 if (mainTextareaRef.current) {
                     mainTextareaRef.current.value = ""
                     setMainHasContent(false)
@@ -158,8 +177,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
             )
 
             if (addedReply) {
-                setComments((prev) => [addedReply, ...prev])
-                setTotal(prev => prev + 1)
+                setComments((prev: Comment[]) => [addedReply, ...prev])
+                setTotal((prev: number) => prev + 1)
                 setReplyingTo(null)
             }
         }
@@ -179,16 +198,19 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
     const handleDeleteComment = async (commentId: string | number) => {
         await deleteComment(commentId)
-        setComments((prev) => prev.filter((c) => c.id !== commentId))
+        setComments((prev: Comment[]) => prev.filter((c: Comment) => c.id !== commentId))
     }
 
     const handleCancelReply = useCallback(() => {
         setReplyingTo(null)
     }, [])
 
-    const topLevelComments = comments.filter((c) => !c.parent_id)
+    const topLevelComments = comments.filter((c: Comment) => !c.parent_id)
     const getNestedComments = (parentId: number | string) => {
-        return comments.filter((c) => c.parent_id === parentId)
+        const pid = Number(parentId)
+        if (Number.isNaN(pid)) return []
+        // 统一用数字比较，避免 string/number 类型不一致导致匹配不到
+        return comments.filter((c: Comment) => c.parent_id != null && Number(c.parent_id) === pid)
     }
 
     const commentsListRef = useRef<HTMLDivElement>(null)
@@ -196,7 +218,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     // CommentItem 定义在内部（因为它依赖闭包访问 comments/replyingTo 等），
     // 关键修改：行内回复框使用原生 textarea + ref，不使用受控状态，
     // 这样即使 CommentItem 被重建，textarea 的输入也不会被干扰
-    const CommentItem = ({ comment, isNested = false }: { comment: Comment, isNested?: boolean }) => {
+    const CommentItem = ({ comment, isNested = false, rootId }: { comment: Comment, isNested?: boolean, rootId?: number | string }) => {
+        const currentRootId = rootId ?? comment.id
         const nestedComments = getNestedComments(comment.id)
         const isReplying = replyingTo === comment.id
         const [isExpanded, setIsExpanded] = useState(false)
@@ -205,7 +228,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
 
         const displayedComments = isExpanded ? nestedComments : nestedComments.slice(0, DISPLAY_LIMIT)
         const hiddenCount = nestedComments.length - displayedComments.length
-        
+
         const UserLink = ({ children, className }: { children: React.ReactNode, className?: string }) => {
             if (comment.userId) {
                 return (
@@ -289,7 +312,9 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                                     e.preventDefault()
                                     const content = replyTextareaRef.current?.value || ""
                                     if (!content.trim()) return
-                                    handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author)
+                                    // 以当前被回复的这条评论作为 parent_id，保证二级回复关系正确
+                                    const parentIdForInsert = Number(comment.id)
+                                    handleSubmitReply(e, content, parentIdForInsert, comment.userId, comment.author)
                                     if (replyTextareaRef.current) {
                                         replyTextareaRef.current.value = ""
                                     }
@@ -326,8 +351,8 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                     {/* Nested Comments with Collapse Logic */}
                     {nestedComments.length > 0 && (
                         <div className="mt-3 sm:mt-4 bg-muted/30 rounded-lg p-3 space-y-3 sm:space-y-4">
-                            {displayedComments.map((nested) => (
-                                <CommentItem key={nested.id} comment={nested} isNested={true} />
+                            {displayedComments.map((nested: Comment) => (
+                                <CommentItem key={nested.id} comment={nested} isNested={true} rootId={currentRootId} />
                             ))}
 
                             {!isExpanded && hiddenCount > 0 && (
@@ -374,7 +399,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                             style={{ maxHeight: "60vh" }}
                         >
                             <div className="space-y-0">
-                                {topLevelComments.map((comment) => (
+                                {topLevelComments.map((comment: Comment) => (
                                     <div key={comment.id} className="pb-0">
                                         <CommentItem comment={comment} />
                                     </div>

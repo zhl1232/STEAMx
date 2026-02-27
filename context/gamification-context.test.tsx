@@ -104,6 +104,6 @@ describe('GamificationContext', () => {
             screen.getByText('Add XP').click()
         })
 
-        expect(mockUpdateXpMutation.mutate).toHaveBeenCalledWith(150)
+        expect(mockUpdateXpMutation.mutate).toHaveBeenCalledWith(50)
     })
 })

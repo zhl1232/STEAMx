@@ -213,8 +213,8 @@ export async function getProjectComments(
             profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
         `, { count: 'exact' })
         .eq('project_id', projectId)
-        .is('parent_id', null)  // Only fetch root comments
-        .order('created_at', { ascending: false }) // Newest first
+        .is('parent_id', null)  // 只取顶层评论
+        .order('created_at', { ascending: false }) // 最新在前
         .range(from, to)
 
     if (error) {
@@ -224,22 +224,21 @@ export async function getProjectComments(
 
     let allComments = (roots || []).map(mapDbComment)
 
-    // Fetch replies for these roots
-    if (roots && roots.length > 0) {
-        const rootIds = (roots as { id: number }[]).map(r => r.id)
-        const { data: replies } = await supabase
-            .from('comments')
-            .select(`
-                *,
-                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
-            `)
-            .in('parent_id', rootIds)
-            .order('created_at', { ascending: true }) // Oldest first for replies
+    // 为了支持「任意层级」的嵌套回复，这里直接拉取该项目下所有非顶层评论，
+    // 然后交给前端通过 parent_id 递归构建树。
+    // 这样回复 A、回复 A 的回复、回复回复…… 只要 parent_id 正确，都会在前端显示出来。
+    const { data: replies } = await supabase
+        .from('comments')
+        .select(`
+            *,
+            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
+        `)
+        .eq('project_id', projectId)
+        .not('parent_id', 'is', null)
+        .order('created_at', { ascending: true })
 
-        if (replies) {
-            const mappedReplies = replies.map(mapDbComment)
-            allComments = [...allComments, ...mappedReplies]
-        }
+    if (replies && replies.length > 0) {
+        allComments = [...allComments, ...replies.map(mapDbComment)]
     }
 
     return {

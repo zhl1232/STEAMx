@@ -112,11 +112,10 @@ export function useGamificationData() {
 
     // Mutations
     const updateXpMutation = useMutation({
-        mutationFn: async (newXp: number) => {
-            const { error } = await supabase
-                .from('profiles')
-                .update({ xp: newXp } as never)
-                .eq('id', user!.id);
+        mutationFn: async (amount: number) => {
+            const { error } = await supabase.rpc('increment_client_xp', {
+                amount: amount
+            } as never);
             if (error) throw error;
         },
         onSuccess: () => {

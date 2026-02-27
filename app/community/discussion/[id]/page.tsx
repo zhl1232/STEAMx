@@ -37,7 +37,7 @@ const InlineReplyForm = React.memo(({ replyId, replyAuthor, replyUserId, userAva
     useEffect(() => {
         console.warn('[InlineReplyForm] MOUNTED for reply', replyId);
         return () => console.warn('[InlineReplyForm] UNMOUNTED for reply', replyId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -94,6 +94,7 @@ interface ReplyItemProps {
     onCancelReply: () => void;
     onDeleteReply: (id: number) => void;
     getNestedReplies: (parentId: number) => ProjectComment[];
+    rootId?: number | string;
 }
 
 const ReplyItem = ({
@@ -106,8 +107,10 @@ const ReplyItem = ({
     onSubmitReply,
     onCancelReply,
     onDeleteReply,
-    getNestedReplies
+    getNestedReplies,
+    rootId
 }: ReplyItemProps) => {
+    const currentRootId = rootId ?? reply.id;
     const nestedReplies = getNestedReplies(Number(reply.id));
     const isReplying = replyingTo === Number(reply.id);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -179,7 +182,7 @@ const ReplyItem = ({
 
                 {isReplying && (
                     <InlineReplyForm
-                        replyId={Number(reply.id)}
+                        replyId={Number(currentRootId)}
                         replyAuthor={reply.author}
                         replyUserId={reply.userId}
                         userAvatar={profile?.avatar_url || user?.user_metadata?.avatar_url || undefined}
@@ -204,6 +207,7 @@ const ReplyItem = ({
                                 onCancelReply={onCancelReply}
                                 onDeleteReply={onDeleteReply}
                                 getNestedReplies={getNestedReplies}
+                                rootId={currentRootId}
                             />
                         ))}
 
@@ -278,7 +282,7 @@ const BottomReplyBox = React.memo(({ user, profile, replyingTo, onSubmit }: Bott
                             value={replyingTo === null ? content : ""}
                             onChange={handleChange}
                             onCompositionStart={() => { isComposingRef.current = true; }}
-                            onCompositionEnd={(e) => {
+                            onCompositionEnd={(e: React.CompositionEvent<HTMLTextAreaElement>) => {
                                 isComposingRef.current = false;
                                 // 确保组合结束后触发一次更新（部分浏览器 compositionEnd 后不触发 onChange）
                                 setContent((e.target as HTMLTextAreaElement).value);
@@ -450,7 +454,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         };
 
         fetchDiscussion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     // Load more replies
@@ -492,11 +496,11 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                 }
             }
 
-            setDiscussion(prev => {
+            setDiscussion((prev: Discussion | null) => {
                 if (!prev) return null;
                 return { ...prev, replies: [...prev.replies, ...newReplies] };
             });
-            setReplyPage(prev => prev + 1);
+            setReplyPage((prev: number) => prev + 1);
             setHasMoreReplies(totalReplies > to + 1);
         } catch (error) {
             console.error('Error loading more replies:', error);
@@ -571,7 +575,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             }, parentId);
 
             if (addedReply) {
-                setDiscussion((prev) => {
+                setDiscussion((prev: Discussion | null) => {
                     if (!prev) return null;
                     return {
                         ...prev,
@@ -602,19 +606,19 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
     const handleDeleteReply = async (replyId: number) => {
         await deleteReply(replyId);
-        setDiscussion((prev) => {
+        setDiscussion((prev: Discussion | null) => {
             if (!prev) return null;
             return {
                 ...prev,
-                replies: prev.replies.filter((r) => r.id !== replyId)
+                replies: prev.replies.filter((r: ProjectComment) => r.id !== replyId)
             };
         });
     };
 
     // 分离顶级回复和嵌套回复
-    const topLevelReplies = discussion.replies.filter(r => !r.parent_id);
+    const topLevelReplies = discussion.replies.filter((r: ProjectComment) => !r.parent_id);
     const getNestedReplies = (parentId: number | string) => {
-        return discussion.replies.filter(r => r.parent_id === parentId);
+        return discussion.replies.filter((r: ProjectComment) => r.parent_id === parentId);
     };
 
 
@@ -628,7 +632,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             <div className="bg-card border rounded-xl p-4 sm:p-8 shadow-sm mb-6 sm:mb-8">
                 {discussion.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                        {discussion.tags.map(tag => (
+                        {discussion.tags.map((tag: string) => (
                             <span key={tag} className="px-2 sm:px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium flex items-center gap-1">
                                 <Tag className="h-3 w-3" /> {tag}
                             </span>
@@ -674,7 +678,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                 {/* 顶级回复列表 */}
                 {topLevelReplies.length > 0 ? (
                     <div className="bg-card rounded-lg">
-                        {topLevelReplies.map(reply => (
+                        {topLevelReplies.map((reply: ProjectComment) => (
                             <ReplyItem
                                 key={reply.id}
                                 reply={reply}

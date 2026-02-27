@@ -161,8 +161,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             });
         }
 
-        // Commit via mutation
-        updateXpMutation.mutate(newXp);
+        // Commit via mutation (now expects the increment amount, not absolute newXp)
+        updateXpMutation.mutate(amount);
 
         // If action implies a stat change (not just passive XP), refresh stats to trigger badge checks
         if (actionType && !['daily_login', 'visit'].includes(actionType)) {
