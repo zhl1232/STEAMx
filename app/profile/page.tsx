@@ -249,7 +249,7 @@ export default function ProfilePage() {
                       icon={b.icon}
                       tier={b.tier}
                       size="sm"
-                      className="w-7 h-7 border-2 border-card ring-1 ring-border/10"
+                      className="w-7 h-7"
                       showGlow={false}
                       locked={!unlockedBadges.has(b.id)}
                     />
