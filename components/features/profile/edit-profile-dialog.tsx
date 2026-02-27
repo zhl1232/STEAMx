@@ -34,12 +34,23 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
   const router = useRouter()
 
+  const [phone, setPhone] = useState("")
+  const [originalPhone, setOriginalPhone] = useState("")
+  const [bindStep, setBindStep] = useState<'idle' | 'input' | 'verify'>('idle')
+  const [otp, setOtp] = useState("")
+  const [bindingLoading, setBindingLoading] = useState(false)
+  const [bindMessage, setBindMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
   // Load profile data when dialog opens
   const loadProfile = async () => {
     if (!user) return
     setFetching(true)
     setSelectedFile(null) // Reset selected file
-    
+    setBindStep('idle')
+    setOtp('')
+    setBindMessage(null)
+
+    // Fetch profile data
     const { data } = await supabase
       .from('profiles')
       .select('username, display_name, bio, avatar_url')
@@ -53,12 +64,77 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       setBio(row.bio || "")
       setAvatarUrl(row.avatar_url || "")
     }
+
+    // Refresh user session to get latest phone
+    const { data: { user: currentUser } } = await supabase.auth.getUser()
+    if (currentUser?.phone) {
+      // Show masked phone number for privacy
+      const masked = currentUser.phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3')
+      setPhone(masked)
+      setOriginalPhone(currentUser.phone)
+    } else {
+      setPhone("")
+      setOriginalPhone("")
+    }
+
     setFetching(false)
   }
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
     setAvatarUrl(URL.createObjectURL(file))
+  }
+
+  const handleBindPhone = async () => {
+    if (!phone || phone === originalPhone) return
+    setBindingLoading(true)
+    setBindMessage(null)
+
+    try {
+      const formattedPhone = phone.startsWith('+') ? phone : `+86${phone}`
+      const { error } = await supabase.auth.updateUser({
+        phone: formattedPhone
+      })
+      if (error) throw error
+
+      setBindStep('verify')
+      setBindMessage({ type: 'success', text: '验证码已发送，请注意查收短信' })
+    } catch (error: unknown) {
+      const err = error as Error
+      setBindMessage({ type: 'error', text: err.message || '发送验证码失败' })
+    } finally {
+      setBindingLoading(false)
+    }
+  }
+
+  const handleVerifyBindOtp = async () => {
+    if (!otp) return
+    setBindingLoading(true)
+    setBindMessage(null)
+
+    try {
+      const formattedPhone = phone.startsWith('+') ? phone : `+86${phone}`
+      const { error } = await supabase.auth.verifyOtp({
+        phone: formattedPhone,
+        token: otp,
+        type: 'phone_change'
+      })
+      if (error) throw error
+
+      setBindStep('idle')
+      setOriginalPhone(formattedPhone)
+      // fetch latest mapped phone
+      const { data: { user: currentUser } } = await supabase.auth.getUser()
+      if (currentUser?.phone) {
+        setPhone(currentUser.phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3'))
+      }
+      setBindMessage({ type: 'success', text: '手机号绑定成功！' })
+    } catch (error: unknown) {
+      const err = error as Error
+      setBindMessage({ type: 'error', text: err.message || '验证失败，请检查验证码' })
+    } finally {
+      setBindingLoading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -157,6 +233,106 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                   />
                 )}
               </div>
+
+              {/* 手机号绑定区域 */}
+              <div className="grid gap-2 mt-4 pt-4 border-t">
+                <Label>手机号绑定</Label>
+                {fetching ? (
+                  <Skeleton className="h-10 w-full" />
+                ) : (
+                  <div className="space-y-3">
+                    {bindStep === 'idle' && (
+                      <div className="flex gap-2">
+                        <Input
+                          value={phone}
+                          disabled={true}
+                          placeholder="暂未绑定手机号"
+                          className="bg-muted text-muted-foreground"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            setPhone("") // 清空显示内容，准备输入新手机号
+                            setBindStep('input')
+                            setBindMessage(null)
+                          }}
+                        >
+                          {originalPhone ? '更换' : '绑定'}
+                        </Button>
+                      </div>
+                    )}
+
+                    {bindStep === 'input' && (
+                      <div className="flex gap-2">
+                        <div className="relative flex flex-1">
+                          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
+                            +86
+                          </span>
+                          <Input
+                            type="tel"
+                            placeholder="输入新手机号"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                            className="rounded-l-none"
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          disabled={!phone || bindingLoading}
+                          onClick={handleBindPhone}
+                        >
+                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : '发送验证码'}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={() => {
+                            setBindStep('idle')
+                            setPhone(originalPhone ? originalPhone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3') : "")
+                            setBindMessage(null)
+                          }}
+                        >
+                          取消
+                        </Button>
+                      </div>
+                    )}
+
+                    {bindStep === 'verify' && (
+                      <div className="flex gap-2">
+                        <Input
+                          type="text"
+                          placeholder="输入6位验证码"
+                          value={otp}
+                          maxLength={6}
+                          onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                        />
+                        <Button
+                          type="button"
+                          disabled={!otp || bindingLoading}
+                          onClick={handleVerifyBindOtp}
+                        >
+                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : '验证'}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={() => setBindStep('input')}
+                        >
+                          返回
+                        </Button>
+                      </div>
+                    )}
+
+                    {bindMessage && (
+                      <p className={`text-sm ${bindMessage.type === 'error' ? 'text-destructive' : 'text-green-600'}`}>
+                        {bindMessage.text}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
             </div>
 
             <div className="flex flex-col items-center justify-start pt-2">
