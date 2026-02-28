@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Heart, ImageOff, Eye, CircleStop } from "lucide-react";
+import { Heart, ImageOff, MessageCircle, CircleStop } from "lucide-react";
 import { useProjects } from "@/context/project-context";
 import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -15,12 +15,14 @@ interface ProjectCardProps {
     project: Project;
     searchQuery?: string;
     showStatus?: boolean;  // 是否显示状态Badge，默认false
+    /** 首屏优先加载（用于探索页前几张卡片，提升 LCP） */
+    priority?: boolean;
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false }: ProjectCardProps) {
-    const { isLiked } = useProjects();
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false }: ProjectCardProps) {
+    const { isLiked, getLikesDelta } = useProjects();
     const liked = isLiked(project.id);
-    const [likesCount, _setLikesCount] = useState(project.likes);
+    const likesCount = project.likes + getLikesDelta(project.id);
     const [imageError, setImageError] = useState(false);
 
     return (
@@ -44,6 +46,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false }: P
                             variant="card"
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={() => setImageError(true)}
+                            priority={priority}
+                            blurPlaceholder
                         />
                     ) : (
                         <div className="flex items-center justify-center h-full bg-muted">
@@ -83,9 +87,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false }: P
 
                         {/* 统计数据放在标题右侧 */}
                         <div className="flex items-center gap-2.5 text-xs text-muted-foreground shrink-0 pt-0.5">
-                            <span className="flex items-center gap-1 group/stat" title="浏览数">
-                                <Eye className="h-3.5 w-3.5 group-hover/stat:text-primary transition-colors" />
-                                <span>{project.views_count || 0}</span>
+                            <span className="flex items-center gap-1 group/stat" title="评论数">
+                                <MessageCircle className="h-3.5 w-3.5 group-hover/stat:text-primary transition-colors" />
+                                <span>{project.comments_count ?? 0}</span>
                             </span>
                             <span className="flex items-center gap-1 group/stat" title="投币数">
                                 <CircleStop className="h-3.5 w-3.5 group-hover/stat:text-yellow-500 transition-colors" />

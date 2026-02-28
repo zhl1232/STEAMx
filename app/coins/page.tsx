@@ -14,7 +14,12 @@ import Link from 'next/link'
 import { Coins, ArrowLeft, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-function getActionLabel(actionType: string, resourceId: string | null): string {
+function getActionLabel(
+  actionType: string,
+  resourceId: string | null,
+  counterpartyDisplayText: string | null,
+  amount: number
+): string {
   switch (actionType) {
     case 'daily_login':
       return '每日签到'
@@ -22,8 +27,12 @@ function getActionLabel(actionType: string, resourceId: string | null): string {
       const item = resourceId ? getShopItemById(resourceId) : null
       return item ? `兑换「${item.name}」` : '兑换商品'
     }
-    case 'tip':
+    case 'tip': {
+      if (counterpartyDisplayText) {
+        return amount < 0 ? `打赏给 ${counterpartyDisplayText}` : `收到 ${counterpartyDisplayText} 的打赏`
+      }
       return resourceId ? `打赏 ${resourceId}` : '打赏'
+    }
     default:
       return actionType || '其他'
   }
@@ -57,7 +66,7 @@ export default function CoinsPage() {
       if (!user) return []
       const { data, error } = await supabase
         .from('coin_logs')
-        .select('id, user_id, amount, action_type, resource_id, created_at')
+        .select('id, user_id, amount, action_type, resource_id, created_at, counterparty_display_text')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
       if (error) throw error
@@ -160,7 +169,7 @@ export default function CoinsPage() {
                   >
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-                        {getActionLabel(log.action_type, log.resource_id)}
+                        {getActionLabel(log.action_type, log.resource_id, log.counterparty_display_text ?? null, log.amount)}
                       </p>
                       <p className="text-xs text-muted-foreground tabular-nums">
                         {formatDate(log.created_at)}

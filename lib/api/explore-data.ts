@@ -152,10 +152,26 @@ export async function getProjects(
         return { projects: [], total: 0, hasMore: false }
     }
 
-    const projects = (data || []).map(mapDbProject)
+    const rows = data || []
+    const projectIds = rows.map((p: { id: string | number }) => p.id)
+
+    if (projectIds.length > 0) {
+        const { data: countRows } = await supabase.rpc('get_projects_comments_count_batch', {
+            p_project_ids: projectIds.map((id) => Number(id))
+        })
+        const countByProjectId = new Map(
+            (countRows as { project_id: number; comment_count: number }[] || []).map((r) => [r.project_id, r.comment_count])
+        )
+        for (const row of rows) {
+            ;(row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0
+        }
+    }
+
+    const projects = rows.map(mapDbProject)
     const total = count || 0
     const hasMore = total > to + 1
 
+    // 列表只展示项目自身的投币数（作品在各自展示）
     return { projects, total, hasMore }
 }
 
@@ -282,7 +298,21 @@ export async function getRelatedProjects(
         return []
     }
 
-    return data.map(mapDbProject)
+    const rows = data
+    const projectIds = rows.map((p: { id: string | number }) => p.id)
+    if (projectIds.length > 0) {
+        const { data: countRows } = await supabase.rpc('get_projects_comments_count_batch', {
+            p_project_ids: projectIds.map((id) => Number(id))
+        })
+        const countByProjectId = new Map(
+            (countRows as { project_id: number; comment_count: number }[] || []).map((r) => [r.project_id, r.comment_count])
+        )
+        for (const row of rows) {
+            ;(row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0
+        }
+    }
+
+    return rows.map(mapDbProject)
 }
 
 /**

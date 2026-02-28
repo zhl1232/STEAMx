@@ -19,12 +19,9 @@ export default function Loading() {
                     <div className="space-y-8">
                         <div>
                             <Skeleton className="h-10 w-2/3 mb-4 rounded-md" />
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center justify-between gap-3">
                                 <Skeleton className="h-4 w-24 rounded-md" />
-                                <span>•</span>
-                                <Skeleton className="h-4 w-16 rounded-md" />
-                                <span>•</span>
-                                <Skeleton className="h-4 w-20 rounded-md" />
+                                <Skeleton className="h-5 w-14 rounded-md shrink-0" />
                             </div>
                         </div>
 

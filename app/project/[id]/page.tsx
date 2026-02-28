@@ -5,13 +5,13 @@ import { ArrowLeft, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProjectInteractions } from '@/components/features/project-interactions'
+import { ProjectMarkDone } from '@/components/features/project/project-mark-done'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
-import { callRpc } from '@/lib/supabase/rpc'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertTriangle, Edit, Coins } from 'lucide-react'
+import { AlertTriangle, Edit } from 'lucide-react'
 
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -101,15 +101,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     // 获取评论 (分页)
     const { comments: initialComments, total: totalComments, hasMore: hasMoreComments } = await getProjectComments(project.id, 0, 5)
 
-    // 该项目收到的投币总数（项目维度）
-    const { data } = await callRpc(supabase, 'get_tip_received_for_resource', {
-        p_resource_type: 'project',
-        p_resource_id: Number(project.id)
-    })
-    const projectCoinsReceived = data ?? 0
+    // 项目展示的硬币仅项目本身，作品各自显示
+    const projectCoinsReceived = project.coins_count ?? 0
 
     return (
-        <div className="container mx-auto py-8 max-w-4xl">
+        <div className="container mx-auto pt-8 pb-24 md:pb-10 max-w-4xl">
             <div className="mb-8">
                 <Link
                     href="/explore"
@@ -165,11 +161,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     <div className="space-y-8">
                         <div>
                             <h1 className="text-3xl font-bold mb-2">{project.title}</h1>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                                <span className="flex items-center gap-1">
-                                    By{" "}
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                                <span className="text-sm text-muted-foreground">
                                     {project.author_id ? (
-                                        <Link 
+                                        <Link
                                             href={`/users/${project.author_id}`}
                                             className="hover:text-primary hover:underline transition-colors font-medium"
                                         >
@@ -179,25 +174,17 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                         project.author
                                     )}
                                 </span>
-                                <span>•</span>
-                                <span>{project.category}</span>
-                                <span>•</span>
-                                <span className="flex items-center gap-1" title="该项目收到的投币">
-                                    <Coins className="h-4 w-4" />
-                                    <span>{projectCoinsReceived} 硬币</span>
-                                </span>
+                                {project.category && (
+                                    <span className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary shrink-0">
+                                        {project.category}
+                                    </span>
+                                )}
                             </div>
                         </div>
 
-                        {/* 移动端：交互区紧跟标题，便于操作 */}
+                        {/* 移动端：「我做过这个」放在标题下方 */}
                         <div className="block md:hidden">
-                            <ProjectInteractions
-                                projectId={project.id}
-                                projectTitle={project.title}
-                                likes={project.likes}
-                                completions={completions}
-                                projectOwnerId={project.author_id}
-                            />
+                            <ProjectMarkDone projectId={project.id} projectTitle={project.title} />
                         </div>
 
                         {/* 移动端：所需材料放在介绍和步骤之间 */}
@@ -270,28 +257,33 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         </div>
                     )}
 
-                    {/* Comments Section - Client Component */}
+                    {/* Comments Section - 回复框与操作（点赞/收藏/评论数/投币）同行，参考社交应用底部栏 */}
                     <ProjectComments
                         projectId={project.id}
                         initialComments={initialComments}
                         initialTotal={totalComments}
                         initialHasMore={hasMoreComments}
-                    />
-                </div>
-
-                <div className="space-y-8">
-                    <div className="space-y-6">
-                        {/* 桌面端：侧边栏交互区（移动端在标题下方显示） */}
-                        <div className="hidden md:block">
+                        actionsSlot={
                             <ProjectInteractions
                                 projectId={project.id}
                                 projectTitle={project.title}
                                 likes={project.likes}
                                 completions={completions}
                                 projectOwnerId={project.author_id}
+                                embedded
+                                commentsCount={totalComments}
+                                projectCoinsReceived={projectCoinsReceived}
                             />
-                        </div>
+                        }
+                    />
+                </div>
 
+                <div className="space-y-8">
+                    <div className="space-y-6">
+                        {/* 桌面端：侧边栏「我做过这个」+ 所需材料 */}
+                        <div className="hidden md:block space-y-4">
+                            <ProjectMarkDone projectId={project.id} projectTitle={project.title} />
+                        </div>
                         {/* 桌面端：侧边栏所需材料（移动端在介绍下方显示） */}
                         <div className="hidden md:block rounded-lg border p-4">
                             <h3 className="font-semibold mb-3">所需材料</h3>
@@ -317,7 +309,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {/* Related Projects */}
             {
                 relatedProjects.length > 0 && (
-                    <div className="mt-16 border-t pt-12">
+                    <div className="mt-8">
                         <h2 className="text-2xl font-bold mb-6">你可能也喜欢</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             {relatedProjects.map((p) => (

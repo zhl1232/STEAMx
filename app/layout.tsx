@@ -61,6 +61,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="zh" suppressHydrationWarning>
+            <head>
+                {/* 提前连接图片源，减少首屏图片加载延迟 */}
+                <link rel="preconnect" href="https://lulfybqiiamdvbtdpqha.supabase.co" crossOrigin="anonymous" />
+                <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+            </head>
             <body className={inter.className}>
                 <script
                     dangerouslySetInnerHTML={{
@@ -87,9 +92,9 @@ export default function RootLayout({
                                                             {/* MobileNav removed in favor of BottomNav */}
 
 
-                                                            <div className="md:hidden flex items-center mr-2">
+                                                            <div className="md:hidden flex h-9 items-center shrink-0 mr-2">
                                                                 <Link href="/" className="flex items-center space-x-2">
-                                                                    <SteamLogo className="h-6 w-6" />
+                                                                    <SteamLogo className="h-6 w-6 shrink-0" />
                                                                     <span className="font-bold hidden sm:inline-block">STEAM</span>
                                                                 </Link>
                                                             </div>
@@ -104,14 +109,14 @@ export default function RootLayout({
                                                                 <MainNav />
                                                             </div>
 
-                                                            {/* 右侧搜索和操作区 */}
-                                                            <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                                                                <div className="w-full flex-1 md:w-auto md:flex-none">
-                                                                    <Suspense fallback={<div className="w-[200px]" />}>
+                                                            {/* 右侧搜索和操作区：统一垂直居中对齐 */}
+                                                            <div className="flex flex-1 items-center justify-between gap-2 md:justify-end min-h-9">
+                                                                <div className="flex items-center w-full flex-1 min-w-0 md:w-auto md:flex-none">
+                                                                    <Suspense fallback={<div className="w-[200px] h-9" />}>
                                                                         <HeaderSearch />
                                                                     </Suspense>
                                                                 </div>
-                                                                <nav className="flex items-center gap-2">
+                                                                <nav className="flex items-center gap-2 shrink-0">
                                                                     <div className="hidden md:block">
                                                                         <ShareButton />
                                                                     </div>

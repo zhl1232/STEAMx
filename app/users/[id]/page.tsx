@@ -159,7 +159,7 @@ export default function PublicProfilePage() {
         <div className="flex flex-col md:flex-row items-center gap-8">
           {/* Avatar */}
           <div className="relative">
-            <div className="h-32 w-32 rounded-full border-4 border-background shadow-xl overflow-hidden bg-muted">
+            <div className="relative h-32 w-32 rounded-full border-4 border-background shadow-xl overflow-hidden bg-muted">
               {profile.avatar_url ? (
                 <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
               ) : (

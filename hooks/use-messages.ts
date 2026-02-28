@@ -28,7 +28,7 @@ export function useConversations() {
         .select("id, sender_id, receiver_id, content, created_at")
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order("created_at", { ascending: false })
-        .limit(200);
+        .limit(80);
 
       if (msgError) throw msgError;
       if (!messages?.length) return [];

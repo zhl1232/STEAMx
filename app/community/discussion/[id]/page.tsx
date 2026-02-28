@@ -7,7 +7,7 @@ import { Discussion, Comment as ProjectComment, Profile } from "@/lib/types";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Heart, Tag, ArrowLeft, Calendar, Trash2, Loader2 } from "lucide-react";
+import { MessageSquare, Heart, Tag, ArrowLeft, Calendar, Trash2, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
@@ -17,6 +17,7 @@ import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 // 完全隔离的行内回复表单 —— React.memo + 原生 textarea + 零受控状态
 // 父组件的任何重渲染都不会影响此组件内部的 DOM 和输入状态
@@ -82,10 +83,36 @@ const InlineReplyForm = React.memo(({ replyId, replyAuthor, replyUserId, userAva
 });
 InlineReplyForm.displayName = "InlineReplyForm";
 
-// Reply Item Component to match ProjectComments style
-interface ReplyItemProps {
+/** 某条回复下的全部回复（含多级），平铺列表 */
+function getRepliesUnderRoot(replies: ProjectComment[], rootId: number | string): ProjectComment[] {
+    const rid = Number(rootId);
+    if (Number.isNaN(rid)) return [];
+    const byParent = new Map<number, ProjectComment[]>();
+    for (const r of replies) {
+        if (r.parent_id == null) continue;
+        const pid = Number(r.parent_id);
+        if (!byParent.has(pid)) byParent.set(pid, []);
+        byParent.get(pid)!.push(r);
+    }
+    const result: ProjectComment[] = [];
+    const queue = [rid];
+    while (queue.length > 0) {
+        const id = queue.shift()!;
+        const children = byParent.get(id) || [];
+        for (const child of children) {
+            result.push(child);
+            queue.push(Number(child.id));
+        }
+    }
+    return result;
+}
+
+// 单条回复卡片：展示 + 可选回复框，无嵌套列表
+interface ReplyCardProps {
     reply: ProjectComment;
-    isNested?: boolean;
+    showReplyForm?: boolean;
+    readOnly?: boolean;
+    noBorder?: boolean;
     user: SupabaseUser | null;
     profile: Profile | null;
     replyingTo: number | null;
@@ -93,52 +120,37 @@ interface ReplyItemProps {
     onSubmitReply: (e: React.FormEvent, content: string, parentId: number, replyToUserId?: string, replyToUsername?: string) => void;
     onCancelReply: () => void;
     onDeleteReply: (id: number) => void;
-    getNestedReplies: (parentId: number) => ProjectComment[];
-    rootId?: number | string;
 }
 
-const ReplyItem = ({
+const ReplyCard = ({
     reply,
-    isNested = false,
+    showReplyForm = true,
+    readOnly = false,
+    noBorder = false,
     user,
     profile,
     replyingTo,
     setReplyingTo,
     onSubmitReply,
     onCancelReply,
-    onDeleteReply,
-    getNestedReplies,
-    rootId
-}: ReplyItemProps) => {
-    const currentRootId = rootId ?? reply.id;
-    const nestedReplies = getNestedReplies(Number(reply.id));
+    onDeleteReply
+}: ReplyCardProps) => {
     const isReplying = replyingTo === Number(reply.id);
-    const [isExpanded, setIsExpanded] = useState(false);
-    const DISPLAY_LIMIT = 2;
-
-    const displayedReplies = isExpanded ? nestedReplies : nestedReplies.slice(0, DISPLAY_LIMIT);
-    const hiddenCount = nestedReplies.length - displayedReplies.length;
 
     return (
-        <div className={cn("group flex gap-3 sm:gap-4 px-3", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")} id={`reply-${reply.id}`}>
+        <div className={cn("group flex gap-2 sm:gap-4 px-3 py-4 sm:py-6", !noBorder && "border-b border-border/60 last:border-0")} id={`reply-${reply.id}`}>
             <AvatarWithFrame
                 src={reply.avatar}
                 fallback={reply.author[0]?.toUpperCase()}
                 avatarFrameId={reply.avatarFrameId}
-                className={cn("shrink-0 border", isNested ? "h-7 w-7 sm:h-8 sm:w-8" : "h-9 w-9 sm:h-10 sm:w-10")}
+                className="shrink-0 border h-9 w-9 sm:h-10 sm:w-10"
             />
-
             <div className="flex-1 min-w-0 overflow-hidden">
-                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1">
-                    <span className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
-                        isNested ? "text-sm" : "text-sm sm:text-base",
-                        getNameColorClassName(reply.nameColorId ?? null)
-                    )}>
+                <div className="mb-1">
+                    <span className={cn("font-semibold cursor-pointer hover:text-primary transition-colors text-sm sm:text-base", getNameColorClassName(reply.nameColorId ?? null))}>
                         {reply.author}
                     </span>
-                    <span className="text-xs text-muted-foreground shrink-0">{reply.date}</span>
                 </div>
-
                 <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
                     {reply.reply_to_username && (
                         <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-1.5 align-middle">
@@ -147,42 +159,42 @@ const ReplyItem = ({
                     )}
                     {reply.content}
                 </p>
-
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2 text-xs text-muted-foreground">
-
-                    <button
-                        className="flex items-center gap-1 shrink-0 hover:text-primary transition-colors"
-                        onClick={() => { /* Like logic */ }}
-                    >
-                        <Heart className="h-3.5 w-3.5" />
-                        <span>赞</span>
-                    </button>
-
-                    <button
-                        className={cn("flex items-center gap-1 shrink-0 hover:text-primary transition-colors", isReplying && "text-primary")}
-                        onClick={() => setReplyingTo(Number(reply.id))}
-                    >
-                        <MessageSquare className="h-3.5 w-3.5" />
-                        <span>回复</span>
-                    </button>
-
-                    {(user?.id === reply.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
-                        <button
-                            className="flex items-center gap-1 shrink-0 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                onDeleteReply(Number(reply.id));
-                            }}
-                        >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            <span>删除</span>
-                        </button>
-                    )}
-                </div>
-
-                {isReplying && (
+                {!readOnly && (
+                    <div className="flex justify-between items-center gap-2 mt-2 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-3 shrink-0 min-w-0">
+                            <span className="shrink-0">{reply.date}</span>
+                            {showReplyForm && (
+                                <button
+                                    type="button"
+                                    className={cn("shrink-0 flex items-center gap-1 hover:text-primary transition-colors", isReplying && "text-primary")}
+                                    onClick={() => setReplyingTo(Number(reply.id))}
+                                >
+                                    <MessageSquare className="h-3.5 w-3.5" />
+                                    <span>回复</span>
+                                </button>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-x-4 shrink-0">
+                            <button type="button" className="flex items-center gap-1 hover:text-primary transition-colors" title="赞" aria-label="赞">
+                                <Heart className="h-3.5 w-3.5" />
+                            </button>
+                            {(user?.id === reply.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
+                                <button
+                                    type="button"
+                                    className="flex items-center gap-1 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                                    onClick={(e) => { e.preventDefault(); onDeleteReply(Number(reply.id)); }}
+                                    title="删除"
+                                    aria-label="删除"
+                                >
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+                {showReplyForm && !readOnly && isReplying && (
                     <InlineReplyForm
-                        replyId={Number(currentRootId)}
+                        replyId={Number(reply.id)}
                         replyAuthor={reply.author}
                         replyUserId={reply.userId}
                         userAvatar={profile?.avatar_url || user?.user_metadata?.avatar_url || undefined}
@@ -190,45 +202,6 @@ const ReplyItem = ({
                         onSubmit={onSubmitReply}
                         onCancel={onCancelReply}
                     />
-                )}
-
-                {nestedReplies.length > 0 && (
-                    <div className="mt-3 sm:mt-4 bg-muted/30 rounded-lg p-2.5 sm:p-3 space-y-3 sm:space-y-4">
-                        {displayedReplies.map(nestedReply => (
-                            <ReplyItem
-                                key={nestedReply.id}
-                                reply={nestedReply}
-                                isNested={true}
-                                user={user}
-                                profile={profile}
-                                replyingTo={replyingTo}
-                                setReplyingTo={setReplyingTo}
-                                onSubmitReply={onSubmitReply}
-                                onCancelReply={onCancelReply}
-                                onDeleteReply={onDeleteReply}
-                                getNestedReplies={getNestedReplies}
-                                rootId={currentRootId}
-                            />
-                        ))}
-
-                        {!isExpanded && hiddenCount > 0 && (
-                            <button
-                                onClick={() => setIsExpanded(true)}
-                                className="text-xs text-primary hover:underline font-medium"
-                            >
-                                查看全部 {nestedReplies.length} 条回复
-                            </button>
-                        )}
-
-                        {isExpanded && nestedReplies.length > DISPLAY_LIMIT && (
-                            <button
-                                onClick={() => setIsExpanded(false)}
-                                className="text-xs text-muted-foreground hover:underline font-medium"
-                            >
-                                收起回复
-                            </button>
-                        )}
-                    </div>
                 )}
             </div>
         </div>
@@ -320,6 +293,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
     const router = useRouter();
     const [replyingTo, setReplyingTo] = useState<number | null>(null);
+    const [detailRootIdStack, setDetailRootIdStack] = useState<number[]>([]);
+    const sheetReplyRef = React.useRef<HTMLTextAreaElement>(null);
     const [id, setId] = useState<string | number | null>(null);
 
     // Local state
@@ -615,11 +590,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         });
     };
 
-    // 分离顶级回复和嵌套回复
     const topLevelReplies = discussion.replies.filter((r: ProjectComment) => !r.parent_id);
-    const getNestedReplies = (parentId: number | string) => {
-        return discussion.replies.filter((r: ProjectComment) => r.parent_id === parentId);
-    };
 
 
     return (
@@ -675,23 +646,39 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     回复 ({totalReplies})
                 </h3>
 
-                {/* 顶级回复列表 */}
+                {/* 顶级回复列表（平铺，无嵌套；共 N 条回复 入口打开详情 Sheet） */}
                 {topLevelReplies.length > 0 ? (
                     <div className="bg-card rounded-lg">
-                        {topLevelReplies.map((reply: ProjectComment) => (
-                            <ReplyItem
-                                key={reply.id}
-                                reply={reply}
-                                user={user}
-                                profile={profile}
-                                replyingTo={replyingTo}
-                                setReplyingTo={setReplyingTo}
-                                onSubmitReply={handleSubmitReply}
-                                onCancelReply={handleCancelReply}
-                                onDeleteReply={handleDeleteReply}
-                                getNestedReplies={getNestedReplies}
-                            />
-                        ))}
+                        {topLevelReplies.map((reply: ProjectComment) => {
+                            const replyCount = getRepliesUnderRoot(discussion.replies, reply.id).length;
+                            return (
+                                <div key={reply.id} className="border-b border-border/60 last:border-0">
+                                    <ReplyCard
+                                        reply={reply}
+                                        showReplyForm={true}
+                                        readOnly={false}
+                                        noBorder
+                                        user={user}
+                                        profile={profile}
+                                        replyingTo={replyingTo}
+                                        setReplyingTo={setReplyingTo}
+                                        onSubmitReply={handleSubmitReply}
+                                        onCancelReply={handleCancelReply}
+                                        onDeleteReply={handleDeleteReply}
+                                    />
+                                    {replyCount > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => { setDetailRootIdStack([Number(reply.id)]); setReplyingTo(null); }}
+                                            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
+                                        >
+                                            共 {replyCount} 条回复
+                                            <ChevronRight className="h-4 w-4" />
+                                        </button>
+                                    )}
+                                </div>
+                            );
+                        })}
 
                         {/* 加载更多按钮 */}
                         {hasMoreReplies && (
@@ -725,6 +712,100 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     </div>
                 )}
             </div>
+
+            {/* 回复详情 Sheet：栈式钻取 + 查看对话 + 返回 */}
+            <Sheet open={detailRootIdStack.length > 0} onOpenChange={(open) => { if (!open) { setDetailRootIdStack([]); setReplyingTo(null); } }}>
+                <SheetContent side="bottom" className="h-[70vh] flex flex-col p-0">
+                    <SheetHeader className="px-4 pt-4 pb-2 border-b shrink-0 flex flex-row items-center gap-2">
+                        {detailRootIdStack.length > 1 && (
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="shrink-0 -ml-2"
+                                onClick={() => setDetailRootIdStack(prev => prev.slice(0, -1))}
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                                <span className="sr-only">返回</span>
+                            </Button>
+                        )}
+                        <SheetTitle className="flex-1">回复详情</SheetTitle>
+                    </SheetHeader>
+                    {detailRootIdStack.length > 0 && (() => {
+                        const currentRootId = detailRootIdStack[detailRootIdStack.length - 1];
+                        const rootReply = discussion.replies.find((r: ProjectComment) => Number(r.id) === Number(currentRootId));
+                        const detailReplies = getRepliesUnderRoot(discussion.replies, currentRootId);
+                        if (!rootReply) return null;
+                        return (
+                            <>
+                                <div className="flex-1 overflow-auto px-4">
+                                    <ReplyCard
+                                        reply={rootReply}
+                                        showReplyForm={false}
+                                        readOnly={true}
+                                        user={user}
+                                        profile={profile}
+                                        replyingTo={replyingTo}
+                                        setReplyingTo={setReplyingTo}
+                                        onSubmitReply={handleSubmitReply}
+                                        onCancelReply={handleCancelReply}
+                                        onDeleteReply={handleDeleteReply}
+                                    />
+                                    <p className="text-sm text-muted-foreground py-2">相关回复共 {detailReplies.length} 条</p>
+                                    {detailReplies.map((r: ProjectComment) => {
+                                        const childCount = getRepliesUnderRoot(discussion.replies, r.id).length;
+                                        return (
+                                            <div key={r.id} className="border-b border-border/60 last:border-0">
+                                                <ReplyCard
+                                                    reply={r}
+                                                    showReplyForm={true}
+                                                    readOnly={false}
+                                                    noBorder
+                                                    user={user}
+                                                    profile={profile}
+                                                    replyingTo={replyingTo}
+                                                    setReplyingTo={setReplyingTo}
+                                                    onSubmitReply={handleSubmitReply}
+                                                    onCancelReply={handleCancelReply}
+                                                    onDeleteReply={handleDeleteReply}
+                                                />
+                                                {childCount > 0 && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setDetailRootIdStack(prev => [...prev, Number(r.id)])}
+                                                        className="text-sm text-primary hover:underline py-2 px-0"
+                                                    >
+                                                        查看对话
+                                                    </button>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="shrink-0 border-t p-4 bg-background">
+                                    <form
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            const content = sheetReplyRef.current?.value?.trim();
+                                            if (!content) return;
+                                            handleSubmitReply(e, content, Number(currentRootId), rootReply.userId, rootReply.author);
+                                            if (sheetReplyRef.current) sheetReplyRef.current.value = "";
+                                        }}
+                                        className="flex gap-2 items-end"
+                                    >
+                                        <textarea
+                                            ref={sheetReplyRef}
+                                            placeholder={`回复 @${rootReply.author}...`}
+                                            className="min-h-[60px] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm resize-none"
+                                        />
+                                        <Button type="submit" size="sm" className="shrink-0 h-9">发布</Button>
+                                    </form>
+                                </div>
+                            </>
+                        );
+                    })()}
+                </SheetContent>
+            </Sheet>
 
             {/* 底部回复框（独立组件，避免输入时全页重渲染） */}
             <BottomReplyBox

@@ -30,7 +30,11 @@ DELETE FROM public.likes WHERE user_id IN ('66020423-0000-0000-0000-000000000000
 DELETE FROM public.collections WHERE user_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
 DELETE FROM public.completed_projects WHERE user_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
 DELETE FROM public.user_badges WHERE user_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
-DELETE FROM public.projects WHERE author_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
+DELETE FROM public.projects WHERE author_id IN ('66020423-0000-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
+-- 讨论回复引用 profiles 和 discussions，先删回复再删讨论再删 profiles
+DELETE FROM public.discussion_replies WHERE discussion_id IN (SELECT id FROM public.discussions WHERE author_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000'));
+DELETE FROM public.discussion_replies WHERE author_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
+DELETE FROM public.discussions WHERE author_id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
 DELETE FROM public.profiles WHERE id IN ('66020423-0000-0000-0000-000000000000', '11111111-0000-0000-0000-000000000000', '22222222-0000-0000-0000-000000000000', 'a1111111-0000-0000-0000-000000000000', 'b2222222-0000-0000-0000-000000000000', 'c3333333-0000-0000-0000-000000000000', 'd4444444-0000-0000-0000-000000000000', 'e5555555-0000-0000-0000-000000000000');
 DELETE FROM auth.users WHERE email IN ('66020423@qq.com', 'student@example.com', 'teacher@example.com', 'alice@example.com', 'bob@example.com', 'charlie@example.com', 'david@example.com', 'eve@example.com');
 
@@ -64,7 +68,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Admin User","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=admin"}',
+    '{"full_name":"Admin User","avatar_url":"/avatars/default-1.svg"}',
     now(),
     now(),
     '',
@@ -83,7 +87,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Student S","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=student"}',
+    '{"full_name":"Student S","avatar_url":"/avatars/default-2.svg"}',
     now(),
     now(),
     '',
@@ -102,7 +106,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Teacher T","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=teacher"}',
+    '{"full_name":"Teacher T","avatar_url":"/avatars/default-3.svg"}',
     now(),
     now(),
     '',
@@ -121,7 +125,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Alice W","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=alice"}',
+    '{"full_name":"Alice W","avatar_url":"/avatars/default-4.svg"}',
     now(),
     now(),
     '',
@@ -140,7 +144,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Bob B","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=bob"}',
+    '{"full_name":"Bob B","avatar_url":"/avatars/default-5.svg"}',
     now(),
     now(),
     '',
@@ -159,7 +163,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Charlie C","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=charlie"}',
+    '{"full_name":"Charlie C","avatar_url":"/avatars/default-6.svg"}',
     now(),
     now(),
     '',
@@ -178,7 +182,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"David D","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=david"}',
+    '{"full_name":"David D","avatar_url":"/avatars/default-7.svg"}',
     now(),
     now(),
     '',
@@ -197,7 +201,7 @@ INSERT INTO auth.users (
     now(),
     now(),
     '{"provider":"email","providers":["email"]}',
-    '{"full_name":"Eve E","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=eve"}',
+    '{"full_name":"Eve E","avatar_url":"/avatars/default-8.svg"}',
     now(),
     now(),
     '',
@@ -213,14 +217,14 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.profiles (id, username, display_name, role, avatar_url, xp, level)
 VALUES
-('66020423-0000-0000-0000-000000000000', 'admin', 'Admin User', 'admin', 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin', 9999, 100),
-('11111111-0000-0000-0000-000000000000', 'student', 'Student S', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=student', 150, 3),
-('22222222-0000-0000-0000-000000000000', 'teacher', 'Teacher T', 'moderator', 'https://api.dicebear.com/7.x/avataaars/svg?seed=teacher', 500, 10),
-('a1111111-0000-0000-0000-000000000000', 'alice', 'Alice W', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=alice', 200, 4),
-('b2222222-0000-0000-0000-000000000000', 'bob', 'Bob B', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=bob', 350, 6),
-('c3333333-0000-0000-0000-000000000000', 'charlie', 'Charlie C', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=charlie', 120, 2),
-('d4444444-0000-0000-0000-000000000000', 'david', 'David D', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=david', 800, 15),
-('e5555555-0000-0000-0000-000000000000', 'eve', 'Eve E', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=eve', 450, 8)
+('66020423-0000-0000-0000-000000000000', 'admin', 'Admin User', 'admin', '/avatars/default-1.svg', 9999, 100),
+('11111111-0000-0000-0000-000000000000', 'student', 'Student S', 'user', '/avatars/default-2.svg', 150, 3),
+('22222222-0000-0000-0000-000000000000', 'teacher', 'Teacher T', 'moderator', '/avatars/default-3.svg', 500, 10),
+('a1111111-0000-0000-0000-000000000000', 'alice', 'Alice W', 'user', '/avatars/default-4.svg', 200, 4),
+('b2222222-0000-0000-0000-000000000000', 'bob', 'Bob B', 'user', '/avatars/default-5.svg', 350, 6),
+('c3333333-0000-0000-0000-000000000000', 'charlie', 'Charlie C', 'user', '/avatars/default-6.svg', 120, 2),
+('d4444444-0000-0000-0000-000000000000', 'david', 'David D', 'user', '/avatars/default-7.svg', 800, 15),
+('e5555555-0000-0000-0000-000000000000', 'eve', 'Eve E', 'user', '/avatars/default-8.svg', 450, 8)
 ON CONFLICT (id) DO UPDATE SET
     role = EXCLUDED.role,
     display_name = EXCLUDED.display_name,

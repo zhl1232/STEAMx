@@ -5,7 +5,7 @@ import { useState, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
-import { MessageCircle, Trash2, ThumbsUp, MessageSquare, Loader2 } from "lucide-react"
+import { MessageCircle, Trash2, ThumbsUp, MessageSquare, Loader2, ChevronRight, ChevronLeft } from "lucide-react"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -13,15 +13,18 @@ import { type Comment, mapDbComment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
 import { getNameColorClassName } from "@/lib/shop/items"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 
 interface ProjectCommentsProps {
     projectId: string | number
     initialComments: Comment[]
     initialTotal?: number
     initialHasMore?: boolean
+    /** 与回复框同行的操作区（服务端不能传函数给客户端，故仅支持 ReactNode） */
+    actionsSlot?: React.ReactNode
 }
 
-export function ProjectComments({ projectId, initialComments, initialTotal = 0, initialHasMore = false }: ProjectCommentsProps) {
+export function ProjectComments({ projectId, initialComments, initialTotal = 0, initialHasMore = false, actionsSlot }: ProjectCommentsProps) {
     const { addComment, deleteComment } = useProjects()
     const { user, profile } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -35,6 +38,7 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     const PAGE_SIZE = 5
 
     const [replyingTo, setReplyingTo] = useState<number | string | null>(null)
+    const [detailRootIdStack, setDetailRootIdStack] = useState<(number | string)[]>([])
 
     // 底部评论框 ref（非受控）
     const mainTextareaRef = useRef<HTMLTextAreaElement>(null)
@@ -206,28 +210,43 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     }, [])
 
     const topLevelComments = comments.filter((c: Comment) => !c.parent_id)
-    const getNestedComments = (parentId: number | string) => {
-        const pid = Number(parentId)
-        if (Number.isNaN(pid)) return []
-        // 统一用数字比较，避免 string/number 类型不一致导致匹配不到
-        return comments.filter((c: Comment) => c.parent_id != null && Number(c.parent_id) === pid)
-    }
+
+    /** 某条评论下的全部回复（含多级），平铺列表，用于「共 N 条」与详情页 */
+    const getRepliesUnderRoot = useCallback((rootId: number | string): Comment[] => {
+        const rid = Number(rootId)
+        if (Number.isNaN(rid)) return []
+        const byParent = new Map<number, Comment[]>()
+        for (const c of comments) {
+            if (c.parent_id == null) continue
+            const pid = Number(c.parent_id)
+            if (!byParent.has(pid)) byParent.set(pid, [])
+            byParent.get(pid)!.push(c)
+        }
+        const result: Comment[] = []
+        const queue = [rid]
+        while (queue.length > 0) {
+            const id = queue.shift()!
+            const children = byParent.get(id) || []
+            for (const child of children) {
+                result.push(child)
+                queue.push(Number(child.id))
+            }
+        }
+        return result
+    }, [comments])
 
     const commentsListRef = useRef<HTMLDivElement>(null)
+    const sheetReplyRef = useRef<HTMLTextAreaElement>(null)
 
-    // CommentItem 定义在内部（因为它依赖闭包访问 comments/replyingTo 等），
-    // 关键修改：行内回复框使用原生 textarea + ref，不使用受控状态，
-    // 这样即使 CommentItem 被重建，textarea 的输入也不会被干扰
-    const CommentItem = ({ comment, isNested = false, rootId }: { comment: Comment, isNested?: boolean, rootId?: number | string }) => {
-        const currentRootId = rootId ?? comment.id
-        const nestedComments = getNestedComments(comment.id)
+    /** 单条评论卡片：展示 + 可选回复框，无嵌套列表 */
+    const CommentCard = ({ comment, showReplyForm = true, readOnly = false, noBorder = false }: {
+        comment: Comment
+        showReplyForm?: boolean
+        readOnly?: boolean
+        noBorder?: boolean
+    }) => {
         const isReplying = replyingTo === comment.id
-        const [isExpanded, setIsExpanded] = useState(false)
         const replyTextareaRef = useRef<HTMLTextAreaElement>(null)
-        const DISPLAY_LIMIT = 2
-
-        const displayedComments = isExpanded ? nestedComments : nestedComments.slice(0, DISPLAY_LIMIT)
-        const hiddenCount = nestedComments.length - displayedComments.length
 
         const UserLink = ({ children, className }: { children: React.ReactNode, className?: string }) => {
             if (comment.userId) {
@@ -241,31 +260,24 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
         }
 
         return (
-            <div className={cn("group flex gap-3 sm:gap-4", isNested ? "mt-3 sm:mt-4" : "py-4 sm:py-6 border-b border-border/60 last:border-0")}>
-                {/* Avatar */}
+            <div className={cn("group flex gap-2 sm:gap-4 py-4 sm:py-6", !noBorder && "border-b border-border/60 last:border-0")}>
                 <UserLink className="shrink-0">
                     <AvatarWithFrame
                         src={comment.avatar}
                         fallback={comment.author[0]?.toUpperCase()}
                         avatarFrameId={comment.avatarFrameId}
-                        className={cn("shrink-0 border transition-transform hover:scale-105", isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}
-                        avatarClassName={cn(isNested ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12")}
+                        className="shrink-0 border transition-transform hover:scale-105 h-10 w-10 sm:h-12 sm:w-12"
+                        avatarClassName="h-10 w-10 sm:h-12 sm:w-12"
                     />
                 </UserLink>
 
                 <div className="flex-1 min-w-0 overflow-hidden">
-                    {/* User Info */}
-                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-1.5">
-                        <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors shrink-0",
-                            isNested ? "text-sm" : "text-base",
-                            getNameColorClassName(comment.nameColorId ?? null)
-                        )}>
+                    <div className="mb-1.5">
+                        <UserLink className={cn("font-semibold cursor-pointer hover:text-primary transition-colors text-base", getNameColorClassName(comment.nameColorId ?? null))}>
                             {comment.author}
                         </UserLink>
-                        <span className="text-xs text-muted-foreground shrink-0">{comment.date}</span>
                     </div>
 
-                    {/* Content */}
                     <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
                         {comment.reply_to_username && (
                             <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-2 align-middle">
@@ -275,49 +287,49 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                         {comment.content}
                     </p>
 
-                    {/* Footer Actions */}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-xs text-muted-foreground">
-                        <button
-                            className="flex items-center gap-1 shrink-0 hover:text-primary transition-colors"
-                            onClick={() => {/* Like logic would go here */ }}
-                        >
-                            <ThumbsUp className="h-3.5 w-3.5" />
-                            <span>赞</span>
-                        </button>
-
-                        <button
-                            className={cn("flex items-center gap-1 shrink-0 hover:text-primary transition-colors", isReplying && "text-primary")}
-                            onClick={() => setReplyingTo(comment.id)}
-                        >
-                            <MessageSquare className="h-3.5 w-3.5" />
-                            <span>回复</span>
-                        </button>
-
-                        {(user?.id === comment.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
-                            <button
-                                className="flex items-center gap-1 shrink-0 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
-                                onClick={() => handleDeleteComment(comment.id)}
-                            >
-                                <Trash2 className="h-3.5 w-3.5" />
-                                <span>删除</span>
+                    {!readOnly && (
+                        <div className="flex justify-between items-center gap-2 mt-2.5 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-3 shrink-0 min-w-0">
+                                <span className="shrink-0">{comment.date}</span>
+                                {showReplyForm && (
+                                    <button
+                                        type="button"
+                                        className={cn("shrink-0 flex items-center gap-1 hover:text-primary transition-colors", isReplying && "text-primary")}
+                                        onClick={() => setReplyingTo(comment.id)}
+                                    >
+                                        <MessageSquare className="h-3.5 w-3.5" />
+                                        <span>回复</span>
+                                    </button>
+                                )}
+                            </div>
+                            <div className="flex items-center gap-x-4 shrink-0">
+<button type="button" className="flex items-center gap-1 hover:text-primary transition-colors" title="赞" aria-label="赞">
+                                <ThumbsUp className="h-3.5 w-3.5" />
                             </button>
-                        )}
-                    </div>
+                                {(user?.id === comment.userId || profile?.role === 'admin' || profile?.role === 'moderator') && (
+                                    <button
+                                        type="button"
+                                        className="flex items-center gap-1 hover:text-destructive transition-colors text-muted-foreground hover:text-destructive"
+                                        onClick={() => handleDeleteComment(comment.id)}
+                                        title="删除"
+                                        aria-label="删除"
+                                    >
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
-                    {/* Reply Input Box - 使用原生非受控 textarea，避免受控状态导致组件重建 */}
-                    {isReplying && (
+                    {showReplyForm && !readOnly && isReplying && (
                         <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault()
                                     const content = replyTextareaRef.current?.value || ""
                                     if (!content.trim()) return
-                                    // 以当前被回复的这条评论作为 parent_id，保证二级回复关系正确
-                                    const parentIdForInsert = Number(comment.id)
-                                    handleSubmitReply(e, content, parentIdForInsert, comment.userId, comment.author)
-                                    if (replyTextareaRef.current) {
-                                        replyTextareaRef.current.value = ""
-                                    }
+                                    handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author)
+                                    if (replyTextareaRef.current) replyTextareaRef.current.value = ""
                                 }}
                                 className="flex gap-3 items-start"
                             >
@@ -336,42 +348,11 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                                         autoFocus
                                     />
                                     <div className="flex justify-end gap-2">
-                                        <Button type="button" variant="ghost" size="sm" onClick={handleCancelReply} className="h-8">
-                                            取消
-                                        </Button>
-                                        <Button type="submit" size="sm" className="h-8">
-                                            发布
-                                        </Button>
+                                        <Button type="button" variant="ghost" size="sm" onClick={handleCancelReply} className="h-8">取消</Button>
+                                        <Button type="submit" size="sm" className="h-8">发布</Button>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    )}
-
-                    {/* Nested Comments with Collapse Logic */}
-                    {nestedComments.length > 0 && (
-                        <div className="mt-3 sm:mt-4 bg-muted/30 rounded-lg p-3 space-y-3 sm:space-y-4">
-                            {displayedComments.map((nested: Comment) => (
-                                <CommentItem key={nested.id} comment={nested} isNested={true} rootId={currentRootId} />
-                            ))}
-
-                            {!isExpanded && hiddenCount > 0 && (
-                                <button
-                                    onClick={() => setIsExpanded(true)}
-                                    className="text-xs text-primary hover:underline font-medium"
-                                >
-                                    查看全部 {nestedComments.length} 条回复
-                                </button>
-                            )}
-
-                            {isExpanded && nestedComments.length > DISPLAY_LIMIT && (
-                                <button
-                                    onClick={() => setIsExpanded(false)}
-                                    className="text-xs text-muted-foreground hover:underline font-medium"
-                                >
-                                    收起回复
-                                </button>
-                            )}
                         </div>
                     )}
                 </div>
@@ -382,28 +363,37 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
     const isExpanded = isFocused || mainHasContent
 
     return (
-        <div className="border-t pt-8 relative pb-20 md:px-6 lg:px-8">
+        <div className="border-t pt-8 relative md:px-6 lg:px-8">
             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <span className="text-primary">|</span>
                 评论
                 <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
             </h3>
 
-            {/* Comments List */}
+            {/* Comments List - 不设固定高度，随内容增高，整页滚动，避免内部滚动条与多余空白 */}
             <div className="mb-8">
                 {comments.length > 0 ? (
                     <>
-                        <div
-                            ref={commentsListRef}
-                            className="overflow-auto rounded-lg"
-                            style={{ maxHeight: "60vh" }}
-                        >
+                        <div ref={commentsListRef} className="rounded-lg">
                             <div className="space-y-0">
-                                {topLevelComments.map((comment: Comment) => (
-                                    <div key={comment.id} className="pb-0">
-                                        <CommentItem comment={comment} />
-                                    </div>
-                                ))}
+                                {topLevelComments.map((comment: Comment) => {
+                                    const replyCount = getRepliesUnderRoot(comment.id).length
+                                    return (
+                                        <div key={comment.id} className="border-b border-border/60 last:border-0">
+                                            <CommentCard comment={comment} showReplyForm={true} readOnly={false} noBorder />
+                                            {replyCount > 0 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => { setDetailRootIdStack([comment.id]); setReplyingTo(null); }}
+                                                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
+                                                >
+                                                    共 {replyCount} 条回复
+                                                    <ChevronRight className="h-4 w-4" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
 
@@ -435,43 +425,125 @@ export function ProjectComments({ projectId, initialComments, initialTotal = 0, 
                 )}
             </div>
 
-            {/* Main Input Area - Sticky Bottom - 非受控 textarea */}
-            <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none">
-                <div className="flex gap-4 max-w-4xl mx-auto w-full">
+            {/* 评论详情 Sheet：栈式钻取 + 查看对话 + 返回 */}
+            <Sheet open={detailRootIdStack.length > 0} onOpenChange={(open) => { if (!open) setDetailRootIdStack([]); setReplyingTo(null) }}>
+                <SheetContent side="bottom" className="h-[70vh] flex flex-col p-0">
+                    <SheetHeader className="px-4 pt-4 pb-2 border-b shrink-0 flex flex-row items-center gap-2">
+                        {detailRootIdStack.length > 1 && (
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="shrink-0 -ml-2"
+                                onClick={() => setDetailRootIdStack(prev => prev.slice(0, -1))}
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                                <span className="sr-only">返回</span>
+                            </Button>
+                        )}
+                        <SheetTitle className="flex-1">评论详情</SheetTitle>
+                    </SheetHeader>
+                    {detailRootIdStack.length > 0 && (() => {
+                        const currentRootId = detailRootIdStack[detailRootIdStack.length - 1]
+                        const rootComment = comments.find((c: Comment) => Number(c.id) === Number(currentRootId))
+                        const detailReplies = getRepliesUnderRoot(currentRootId)
+                        if (!rootComment) return null
+                        return (
+                            <>
+                                <div className="flex-1 overflow-auto px-4">
+                                    <CommentCard comment={rootComment} showReplyForm={false} readOnly={true} />
+                                    <p className="text-sm text-muted-foreground py-2">相关回复共 {detailReplies.length} 条</p>
+                                    {detailReplies.map((c: Comment) => {
+                                        const childCount = getRepliesUnderRoot(c.id).length
+                                        return (
+                                            <div key={c.id} className="border-b border-border/60 last:border-0">
+                                                <CommentCard comment={c} showReplyForm={true} readOnly={false} noBorder />
+                                                {childCount > 0 && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setDetailRootIdStack(prev => [...prev, c.id])}
+                                                        className="text-sm text-primary hover:underline py-2 px-0"
+                                                    >
+                                                        查看对话
+                                                    </button>
+                                                )}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                <div className="shrink-0 border-t p-4 bg-background">
+                                    <form
+                                        onSubmit={(e) => {
+                                            e.preventDefault()
+                                            const content = sheetReplyRef.current?.value?.trim()
+                                            if (!content) return
+                                            handleSubmitReply(e, content, Number(currentRootId), rootComment.userId, rootComment.author)
+                                            if (sheetReplyRef.current) sheetReplyRef.current.value = ""
+                                        }}
+                                        className="flex gap-2 items-end"
+                                    >
+                                        <textarea
+                                            ref={sheetReplyRef}
+                                            placeholder={`回复 @${rootComment.author}...`}
+                                            className="min-h-[60px] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm resize-none"
+                                        />
+                                        <Button type="submit" size="sm" className="shrink-0 h-9">发布</Button>
+                                    </form>
+                                </div>
+                            </>
+                        )
+                    })()}
+                </SheetContent>
+            </Sheet>
+
+            {/* 底部固定悬浮栏：单行 [头像] [胶囊输入框] [心][收藏][硬币]，顶部细线+柔和上投影 */}
+            <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-[#F0F0F0] dark:border-border md:border-t-0 px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.03)] md:shadow-none">
+                <div className="flex items-center gap-3 max-w-4xl mx-auto w-full">
                     <AvatarWithFrame
                         src={profile?.avatar_url || user?.user_metadata?.avatar_url}
                         fallback={profile?.display_name?.[0]?.toUpperCase() || "Me"}
                         avatarFrameId={profile?.equipped_avatar_frame_id}
-                        className="h-10 w-10 border shadow-sm"
-                        avatarClassName="h-10 w-10"
+                        className="h-9 w-9 border shrink-0"
+                        avatarClassName="h-9 w-9"
                     />
-                    <form onSubmit={handleSubmitComment} className="flex-1 relative group">
+                    <form onSubmit={handleSubmitComment} className="flex-1 min-w-0 flex items-center mr-4">
                         <div className={cn(
-                            "rounded-xl border bg-background overflow-hidden transition-shadow duration-200 focus-within:ring-2 focus-within:ring-primary/20",
-                            isExpanded ? "shadow-md" : "shadow-sm hover:shadow-md"
+                            "flex items-center w-full min-w-0 bg-[#F0F2F5] dark:bg-muted/90 overflow-hidden transition-all duration-200 ease-out",
+                            "focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-0",
+                            "min-w-[160px]",
+                            isExpanded ? "rounded-xl" : "rounded-3xl"
                         )}>
                             <textarea
                                 ref={mainTextareaRef}
-                                placeholder="发一条友善的评论..."
+                                placeholder="说点什么..."
+                                rows={1}
                                 onChange={(e) => setMainHasContent(e.target.value.trim().length > 0)}
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => { if (!mainTextareaRef.current?.value) setIsFocused(false) }}
-                                className="flex min-h-[50px] w-full border-none bg-transparent px-3 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 resize-none"
+                                className={cn(
+                                    "py-3 px-4 w-full bg-transparent text-base placeholder:text-muted-foreground focus-visible:outline-none resize-none leading-normal",
+                                    isExpanded ? "min-h-[88px] max-h-[200px]" : "min-h-[44px] max-h-[120px]"
+                                )}
                             />
                             {isExpanded && (
-                                <div className="flex justify-between items-center px-3 pb-2">
-                                    <div className="text-xs text-muted-foreground" />
-                                    <Button
-                                        type="submit"
-                                        disabled={!mainHasContent}
-                                        className="h-7 px-4 rounded-full text-xs"
-                                    >
-                                        发布
-                                    </Button>
-                                </div>
+                                <Button
+                                    type="submit"
+                                    disabled={!mainHasContent}
+                                    size="sm"
+                                    className="shrink-0 h-9 px-4 mr-2 rounded-lg text-sm font-medium"
+                                >
+                                    发布
+                                </Button>
                             )}
                         </div>
                     </form>
+                    {/* 聚焦时隐藏右侧操作区，让回复区域更宽 */}
+                    {!isFocused && <div className="min-w-2 shrink-0" aria-hidden />}
+                    {actionsSlot != null && !isFocused && (
+                        <div className="shrink-0 flex items-center">
+                            {actionsSlot}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

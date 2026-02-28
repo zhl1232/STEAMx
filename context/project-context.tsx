@@ -24,6 +24,11 @@ type ProjectContextType = {
     likedProjects: Set<string | number>;
     completedProjects: Set<string | number>;
     collectedProjects: Set<string | number>;
+    /** 自页面加载以来点赞数的变化量，用于详情页/卡片等显示实时点赞数 */
+    getLikesDelta: (projectId: string | number) => number;
+    /** 拿到服务端最新 likes 后调用，避免与 delta 重复计算导致多算一次 */
+    clearLikesDelta: (projectId: string | number) => void;
+    clearLikesDeltaForProjects: (projectIds: (string | number)[]) => void;
     addProject: (project: Project) => void;
     addComment: (projectId: string | number, comment: Comment, parentId?: number) => Promise<Comment | null>;
     toggleLike: (projectId: string | number) => void;
@@ -46,6 +51,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     const [likedProjects, setLikedProjects] = useState<Set<string | number>>(new Set());
     const [completedProjects, setCompletedProjects] = useState<Set<string | number>>(new Set());
     const [collectedProjects, setCollectedProjects] = useState<Set<string | number>>(new Set());
+    /** 项目点赞数相对服务端初始值的增量（key: projectId），用于详情页等未在 projects 列表中的项目也能实时更新数字 */
+    const [projectLikesDelta, setProjectLikesDelta] = useState<Record<string, number>>({});
     const [isLoading, setIsLoading] = useState(true);
 
     const [supabase] = useState<SupabaseClient<Database>>(() => createClient());
@@ -408,12 +415,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             return newSet;
         });
 
-        setProjects(prev => prev.map(p => {
-            if (p.id === projectId) {
-                return { ...p, likes: p.likes + (isLiked ? -1 : 1) };
-            }
-            return p;
-        }));
+        const delta = isLiked ? -1 : 1;
+        setProjectLikesDelta(prev => ({ ...prev, [String(projectId)]: (prev[String(projectId)] ?? 0) + delta }));
+
+        // 不再在这里改 setProjects 的 likes，避免与 getLikesDelta 双重计算；展示处统一用 project.likes + getLikesDelta(id)
 
         if (isLiked) {
             await supabase.from('likes').delete().eq('user_id', user.id).eq('project_id', pid);
@@ -600,6 +605,22 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
     }, [supabase, user]);
 
+    const getLikesDelta = useCallback((projectId: string | number) => projectLikesDelta[String(projectId)] ?? 0, [projectLikesDelta]);
+    const clearLikesDelta = useCallback((projectId: string | number) => {
+        setProjectLikesDelta(prev => {
+            const next = { ...prev };
+            delete next[String(projectId)];
+            return next;
+        });
+    }, []);
+    const clearLikesDeltaForProjects = useCallback((projectIds: (string | number)[]) => {
+        if (projectIds.length === 0) return;
+        setProjectLikesDelta(prev => {
+            const next = { ...prev };
+            projectIds.forEach(id => delete next[String(id)]);
+            return next;
+        });
+    }, []);
     const isLiked = useCallback((projectId: string | number) => likedProjects.has(projectId), [likedProjects]);
     const isCollected = useCallback((projectId: string | number) => collectedProjects.has(projectId), [collectedProjects]);
     const isCompleted = useCallback((projectId: string | number) => completedProjects.has(projectId), [completedProjects]);
@@ -645,6 +666,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         likedProjects,
         completedProjects,
         collectedProjects,
+        getLikesDelta,
+        clearLikesDelta,
+        clearLikesDeltaForProjects,
         addProject,
         addComment,
         toggleLike,
@@ -663,6 +687,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         likedProjects,
         completedProjects,
         collectedProjects,
+        getLikesDelta,
+        clearLikesDelta,
+        clearLikesDeltaForProjects,
         addProject,
         addComment,
         toggleLike,

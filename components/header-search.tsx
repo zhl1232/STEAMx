@@ -38,7 +38,7 @@ export function HeaderSearch({ className }: { className?: string }) {
     }
 
     return (
-        <div className={cn("relative w-full max-w-sm", className)}>
+        <div className={cn("relative flex h-9 w-full max-w-sm items-center", className)}>
             <Input
                 type="search"
                 placeholder="搜索项目、创意..."

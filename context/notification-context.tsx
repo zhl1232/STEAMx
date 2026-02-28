@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 
@@ -20,9 +20,14 @@ export type Notification = {
     created_at: string;
 };
 
+const NOTIFICATION_PAGE_SIZE = 20;
+
 type NotificationContextType = {
     notifications: Notification[];
     unreadCount: number;
+    hasMore: boolean;
+    isLoadingMore: boolean;
+    loadMore: () => Promise<void>;
     markAsRead: (id: number) => Promise<void>;
     markAllAsRead: () => Promise<void>;
     clearAll: () => Promise<void>;
@@ -34,40 +39,87 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const notificationsRef = useRef<Notification[]>([]);
     const supabase = createClient();
     const { user } = useAuth();
 
-    const fetchNotifications = async () => {
+    notificationsRef.current = notifications;
+
+    const fetchUnreadCount = useCallback(async () => {
+        if (!user) return;
+        const { count, error } = await supabase
+            .from('notifications')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', user.id)
+            .eq('is_read', false);
+        if (!error) setUnreadCount(count ?? 0);
+    }, [user?.id, supabase]);
+
+    const fetchNotifications = useCallback(async (reset = true) => {
         if (!user) {
             setNotifications([]);
             setIsLoading(false);
             return;
         }
-
+        if (reset) setIsLoading(true);
         const { data, error } = await supabase
             .from('notifications')
             .select('*')
             .eq('user_id', user.id)
             .order('created_at', { ascending: false })
-            .limit(50);
+            .limit(NOTIFICATION_PAGE_SIZE);
 
         if (error) {
             console.error('Error fetching notifications:', error);
             setIsLoading(false);
             return;
         }
-
-        setNotifications(data || []);
+        const list = data || [];
+        setNotifications(list);
+        setHasMore(list.length === NOTIFICATION_PAGE_SIZE);
         setIsLoading(false);
-    };
+    }, [user?.id, supabase]);
+
+    const loadMore = useCallback(async () => {
+        const list = notificationsRef.current;
+        if (!user || !hasMore || isLoadingMore || list.length === 0) return;
+        const last = list[list.length - 1];
+        const lastCreated = last?.created_at;
+        if (!lastCreated) return;
+        setIsLoadingMore(true);
+        const { data, error } = await supabase
+            .from('notifications')
+            .select('*')
+            .eq('user_id', user.id)
+            .lt('created_at', lastCreated)
+            .order('created_at', { ascending: false })
+            .limit(NOTIFICATION_PAGE_SIZE);
+
+        if (error) {
+            console.error('Error loading more notifications:', error);
+            setIsLoadingMore(false);
+            return;
+        }
+        const next = data || [];
+        setNotifications((prev) => [...prev, ...next]);
+        setHasMore(next.length === NOTIFICATION_PAGE_SIZE);
+        setIsLoadingMore(false);
+    }, [user?.id, hasMore, isLoadingMore]);
 
     useEffect(() => {
         if (!user?.id) return;
 
-        fetchNotifications();
+        fetchNotifications(true);
+        fetchUnreadCount();
+    }, [user?.id, fetchNotifications, fetchUnreadCount]);
 
-        // Subscribe to realtime changes
+    useEffect(() => {
+        if (!user?.id) return;
+
         const channel = supabase
             .channel('notifications')
             .on(
@@ -79,7 +131,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                     filter: `user_id=eq.${user.id}`
                 },
                 () => {
-                    fetchNotifications();
+                    fetchNotifications(true);
+                    fetchUnreadCount();
                 }
             )
             .subscribe();
@@ -87,10 +140,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         return () => {
             supabase.removeChannel(channel);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.id]);
-
-    const unreadCount = notifications.filter(n => !n.is_read).length;
+    }, [user?.id, fetchNotifications, fetchUnreadCount, supabase]);
 
     const markAsRead = useCallback(async (id: number) => {
         if (!user) return;
@@ -108,8 +158,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(prev =>
             prev.map(n => n.id === id ? { ...n, is_read: true } : n)
         );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.id]);
+        setUnreadCount((c) => Math.max(0, c - 1));
+    }, [user?.id, supabase]);
 
     const markAllAsRead = useCallback(async () => {
         if (!user) return;
@@ -128,8 +178,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(prev =>
             prev.map(n => ({ ...n, is_read: true }))
         );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.id]);
+        setUnreadCount(0);
+    }, [user?.id, supabase]);
 
     const createNotification = useCallback(async (notification: Omit<Notification, 'id' | 'is_read' | 'created_at'>) => {
         const { error } = await supabase
@@ -156,18 +206,22 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         }
 
         setNotifications([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.id]);
+        setUnreadCount(0);
+        setHasMore(true);
+    }, [user?.id, supabase]);
 
     const contextValue = useMemo(() => ({
         notifications,
         unreadCount,
+        hasMore,
+        isLoadingMore,
+        loadMore,
         markAsRead,
         markAllAsRead,
         clearAll,
         createNotification,
         isLoading
-    }), [notifications, unreadCount, markAsRead, markAllAsRead, clearAll, createNotification, isLoading]);
+    }), [notifications, unreadCount, hasMore, isLoadingMore, loadMore, markAsRead, markAllAsRead, clearAll, createNotification, isLoading]);
 
     return (
         <NotificationContext.Provider value={contextValue}>

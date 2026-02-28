@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Coins, User as UserIcon } from "lucide-react"
@@ -19,6 +20,8 @@ interface TipProjectDialogProps {
   projectTitle: string
   projectOwnerId: string
   projectId: string | number
+  /** 为 true 时仅展示「投给项目」入口（如底部栏），不展示完成作品列表 */
+  projectOnly?: boolean
 }
 
 type TipTarget = {
@@ -36,6 +39,7 @@ export function TipProjectDialog({
   projectTitle,
   projectOwnerId,
   projectId,
+  projectOnly = false,
 }: TipProjectDialogProps) {
   const supabase = createClient()
   const { user, refreshProfile } = useAuth()
@@ -43,6 +47,7 @@ export function TipProjectDialog({
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   // 构建打赏目标列表
   const targets: TipTarget[] = []
@@ -54,22 +59,24 @@ export function TipProjectDialog({
       id: Number(projectId),
       userId: projectOwnerId,
       label: `项目作者`,
-      desc: '感谢项目的创意与分享',
+      desc: projectOnly ? '投币支持本项目' : '感谢项目的创意与分享',
     })
   }
 
-  // 2. 完成作品作者 (排除自己)
-  completions.forEach((c) => {
-    if (user && c.userId !== user.id) {
-      targets.push({
-        type: 'completion',
-        id: c.id,
-        userId: c.userId,
-        label: c.author,
-        desc: '完成作品',
-      })
-    }
-  })
+  // 2. 完成作品作者 (仅当非 projectOnly 时展示)
+  if (!projectOnly) {
+    completions.forEach((c) => {
+      if (user && c.userId !== user.id) {
+        targets.push({
+          type: 'completion',
+          id: c.id,
+          userId: c.userId,
+          label: c.author,
+          desc: '完成作品',
+        })
+      }
+    })
+  }
 
   // 统一打赏处理
   const handleTip = (target: TipTarget, amount: number) => {
@@ -97,6 +104,7 @@ export function TipProjectDialog({
           }
           queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
           refreshProfile()
+          router.refresh()
           toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` })
         } else {
           const msg = res?.error === "insufficient_coins" ? "硬币余额不足" : res?.error === "tip_limit_reached" ? "已达该对象投币上限" : res?.error === "cannot_tip_self" ? "不能给自己投币" : "投币失败"
@@ -110,18 +118,21 @@ export function TipProjectDialog({
       <DialogContent className="max-w-sm">
         <DialogTitle className="flex items-center gap-2">
           <Coins className="h-5 w-5 text-amber-500" />
-          为本项目投币
+          {projectOnly ? '投币支持项目' : '为本项目投币'}
         </DialogTitle>
         <p className="text-sm text-muted-foreground">
-          对「{projectTitle}」及完成作品赞赏。每人对每个对象最多投 2 硬币。<br/>
+          {projectOnly
+            ? <>投币给「{projectTitle}」的项目作者。每人对本项目最多投 2 硬币。</>
+            : <>对「{projectTitle}」及完成作品赞赏。每人对每个对象最多投 2 硬币。</>}
+          <br />
           当前余额：<strong>{coins}</strong> 硬币
         </p>
-        
+
         {targets.length === 0 ? (
            <p className="text-sm text-muted-foreground py-4 text-center">
-             {((!user || user.id === projectOwnerId) && completions.length === 0) 
-               ? "暂无对象可赞赏" 
-               : "不能给自己投币"}
+             {(!user || user.id === projectOwnerId)
+               ? "不能给自己投币"
+               : "暂无对象可赞赏"}
            </p>
         ) : (
           <ul className="space-y-3 max-h-[60vh] overflow-y-auto">

@@ -751,6 +751,7 @@ export interface Database {
           action_type: string
           resource_id: string | null
           created_at: string
+          counterparty_display_text: string | null
         }
         Insert: {
           id?: number
@@ -759,6 +760,7 @@ export interface Database {
           action_type: string
           resource_id?: string | null
           created_at?: string
+          counterparty_display_text?: string | null
         }
         Update: {
           id?: number
@@ -767,6 +769,7 @@ export interface Database {
           action_type?: string
           resource_id?: string | null
           created_at?: string
+          counterparty_display_text?: string | null
         }
       }
     }
@@ -787,10 +790,6 @@ export interface Database {
         Returns: void
       }
       decrement_project_likes: {
-        Args: { project_id: number }
-        Returns: void
-      }
-      increment_project_views: {
         Args: { project_id: number }
         Returns: void
       }
@@ -889,6 +888,18 @@ export interface Database {
       get_tip_received_for_resource: {
         Args: { p_resource_type: string; p_resource_id: number }
         Returns: number
+      }
+      get_project_total_coins_received: {
+        Args: { p_project_id: number }
+        Returns: number
+      }
+      get_projects_total_coins_received_batch: {
+        Args: { p_project_ids: number[] }
+        Returns: { project_id: number; total_coins: number }[]
+      }
+      get_projects_comments_count_batch: {
+        Args: { p_project_ids: number[] }
+        Returns: { project_id: number; comment_count: number }[]
       }
       get_my_tip_for_resource: {
         Args: { p_resource_type: string; p_resource_id: number }

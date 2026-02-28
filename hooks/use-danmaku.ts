@@ -24,14 +24,20 @@ const DANMAKU_COLORS = [
 interface UseDanmakuOptions {
     initialComments?: { id: number | string; content: string }[];
     autoPlay?: boolean;
+    /** 同一资源只跑一轮初始弹幕，不因 initialComments 引用变化而重复播放 */
+    runOnce?: boolean;
+    /** 资源标识（如 completion.id），切换时重新种子队列 */
+    resourceId?: number | string;
 }
 
-export function useDanmaku({ initialComments = [], autoPlay = true }: UseDanmakuOptions = {}) {
+export function useDanmaku({ initialComments = [], autoPlay = true, runOnce = false, resourceId }: UseDanmakuOptions = {}) {
     const [activeDanmaku, setActiveDanmaku] = useState<DanmakuItem[]>([]);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
 
     // 使用 ref 存储待播放队列，避免频繁更新 state 导致不必要的渲染
     const pendingQueueRef = useRef<DanmakuItem[]>([]);
+    // 仅 runOnce 时：当前资源是否已种子过，避免重复跑
+    const seededForRef = useRef<number | string | null>(null);
 
     // Track management
     const TRACK_COUNT = 8;
@@ -67,20 +73,22 @@ export function useDanmaku({ initialComments = [], autoPlay = true }: UseDanmaku
         return bestTrack;
     }, []);
 
-    // 初始化弹幕队列
+    // 初始化弹幕队列（runOnce 时同一 resourceId 只种子一次，弹幕只跑一轮）
     useEffect(() => {
-        if (initialComments.length > 0) {
-            const formatted: DanmakuItem[] = initialComments.map((c) => ({
-                id: c.id,
-                content: c.content,
-                top: '0%', // Placeholder, computed on dispatch
-                color: DANMAKU_COLORS[Math.floor(Math.random() * DANMAKU_COLORS.length)],
-                duration: `${Math.random() * 4 + 8}s`, // 8-12s
-                startTime: 0
-            }));
-            pendingQueueRef.current = formatted;
-        }
-    }, [initialComments]);
+        if (initialComments.length === 0) return;
+        const key = resourceId ?? "default";
+        if (runOnce && seededForRef.current === key) return;
+        seededForRef.current = key;
+        const formatted: DanmakuItem[] = initialComments.map((c) => ({
+            id: c.id,
+            content: c.content,
+            top: '0%',
+            color: DANMAKU_COLORS[Math.floor(Math.random() * DANMAKU_COLORS.length)],
+            duration: `${Math.random() * 4 + 8}s`,
+            startTime: 0
+        }));
+        pendingQueueRef.current = formatted;
+    }, [initialComments, runOnce, resourceId]);
 
     // 弹幕投放定时器
     useEffect(() => {

@@ -9,19 +9,19 @@
 
 -- 1. 插入新用户 (如果不存在)
 INSERT INTO auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_user_meta_data) VALUES
-('a1111111-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'alice@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Alice W","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=alice"}'),
-('b2222222-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'bob@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Bob B","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=bob"}'),
-('c3333333-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'charlie@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Charlie C","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=charlie"}'),
-('d4444444-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'david@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"David D","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=david"}'),
-('e5555555-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'eve@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Eve E","avatar_url":"https://api.dicebear.com/7.x/avataaars/svg?seed=eve"}')
+('a1111111-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'alice@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Alice W","avatar_url":"/avatars/default-4.svg"}'),
+('b2222222-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'bob@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Bob B","avatar_url":"/avatars/default-5.svg"}'),
+('c3333333-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'charlie@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Charlie C","avatar_url":"/avatars/default-6.svg"}'),
+('d4444444-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'david@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"David D","avatar_url":"/avatars/default-7.svg"}'),
+('e5555555-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'eve@example.com', crypt('123456', gen_salt('bf')), now(), '{"full_name":"Eve E","avatar_url":"/avatars/default-8.svg"}')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.profiles (id, username, display_name, role, avatar_url, xp, level) VALUES
-('a1111111-0000-0000-0000-000000000000', 'alice', 'Alice W', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=alice', 200, 4),
-('b2222222-0000-0000-0000-000000000000', 'bob', 'Bob B', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=bob', 350, 6),
-('c3333333-0000-0000-0000-000000000000', 'charlie', 'Charlie C', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=charlie', 120, 2),
-('d4444444-0000-0000-0000-000000000000', 'david', 'David D', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=david', 800, 15),
-('e5555555-0000-0000-0000-000000000000', 'eve', 'Eve E', 'user', 'https://api.dicebear.com/7.x/avataaars/svg?seed=eve', 450, 8)
+('a1111111-0000-0000-0000-000000000000', 'alice', 'Alice W', 'user', '/avatars/default-4.svg', 200, 4),
+('b2222222-0000-0000-0000-000000000000', 'bob', 'Bob B', 'user', '/avatars/default-5.svg', 350, 6),
+('c3333333-0000-0000-0000-000000000000', 'charlie', 'Charlie C', 'user', '/avatars/default-6.svg', 120, 2),
+('d4444444-0000-0000-0000-000000000000', 'david', 'David D', 'user', '/avatars/default-7.svg', 800, 15),
+('e5555555-0000-0000-0000-000000000000', 'eve', 'Eve E', 'user', '/avatars/default-8.svg', 450, 8)
 ON CONFLICT (id) DO UPDATE SET role = EXCLUDED.role, display_name = EXCLUDED.display_name, xp = EXCLUDED.xp, level = EXCLUDED.level;
 
 -- 2. 插入大量评论数据 (及讨论回复)

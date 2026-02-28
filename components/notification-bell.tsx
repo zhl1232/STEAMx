@@ -19,7 +19,7 @@ export function NotificationBell() {
   }
 
   return (
-    <Button variant="ghost" size="icon" className="relative" asChild>
+    <Button variant="ghost" size="icon" className="relative h-9 w-9 shrink-0" asChild>
       <Link href="/messages" aria-label="消息">
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (

@@ -40,11 +40,11 @@ export function getMonthStartISO(d: Date = new Date()): string {
 export function formatRelativeTime(date: string | Date): string {
   try {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
-    
-    return formatDistanceToNow(dateObj, {
+    const str = formatDistanceToNow(dateObj, {
       addSuffix: true,
       locale: zhCN
     });
+    return str.replace(/^大约\s*/, '');
   } catch (error) {
     console.error('Error formatting date:', error);
     return String(date);

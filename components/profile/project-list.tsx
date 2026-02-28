@@ -43,8 +43,9 @@ export function ProjectList({ projects, emptyState }: ProjectListProps) {
 }
 
 function MobileProjectItem({ project }: { project: Project }) {
-    const { isLiked } = useProjects();
+    const { isLiked, getLikesDelta } = useProjects();
     const liked = isLiked(project.id);
+    const likesCount = project.likes + getLikesDelta(project.id);
 
     return (
         <Link href={`/project/${project.id}`} className="flex gap-3 p-3 bg-card rounded-xl border shadow-sm transition-colors hover:bg-accent/5">
@@ -65,7 +66,7 @@ function MobileProjectItem({ project }: { project: Project }) {
                 <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
                     <span className="flex items-center gap-1">
                         <Heart className={cn("w-3.5 h-3.5", liked && "fill-red-500 text-red-500")} />
-                        {project.likes}
+                        {likesCount}
                     </span>
                     {project.difficulty_stars ? (
                         <DifficultyStars stars={project.difficulty_stars} size="sm" />

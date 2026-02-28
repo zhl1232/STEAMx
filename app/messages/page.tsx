@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
@@ -14,6 +14,7 @@ import {
   MessageCircle,
   Heart,
   UserPlus,
+  CheckCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FollowButton } from "@/components/features/social/follow-button";
@@ -41,6 +42,22 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
   return [];
 }
 
+/** 各 tab 的未读数量（回复与@、收到喜欢、新增粉丝；私信暂无未读统计） */
+function getUnreadByTab(notifications: Notification[]) {
+  const unread = notifications.filter((n) => !n.is_read);
+  return {
+    replies: unread.filter(
+      (n) =>
+        n.type === "mention" ||
+        n.type === "reply" ||
+        n.type === "creator_update"
+    ).length,
+    likes: unread.filter((n) => n.type === "like").length,
+    follows: unread.filter((n) => n.type === "follow").length,
+    dm: 0,
+  };
+}
+
 function MessagesContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
@@ -50,10 +67,25 @@ function MessagesContent() {
     router.replace(`/messages?tab=${key}`, { scroll: false });
   };
 
-  const { notifications, unreadCount, markAsRead, isLoading: notificationsLoading } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, loadMore, hasMore, isLoadingMore, isLoading: notificationsLoading } = useNotifications();
   const { conversations, isLoading: conversationsLoading } = useConversations();
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
+  const unreadByTab = getUnreadByTab(notifications);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el || tab === "dm") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && hasMore && !isLoadingMore) loadMore();
+      },
+      { rootMargin: "100px", threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [tab, hasMore, isLoadingMore, loadMore]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -94,7 +126,20 @@ function MessagesContent() {
 
   return (
     <div className="container max-w-2xl mx-auto py-4 px-4 pb-24 md:pb-8">
-      <h1 className="text-xl font-bold mb-4 md:mb-4">消息</h1>
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <h1 className="text-xl font-bold">消息</h1>
+        {unreadCount > 0 && (
+          <button
+            type="button"
+            onClick={() => markAllAsRead()}
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
+            aria-label="全部标为已读"
+          >
+            <CheckCheck className="h-4 w-4" />
+            <span>全部已读</span>
+          </button>
+        )}
+      </div>
 
       {/* 移动端：一排 4 个紧凑入口 */}
       <div className="grid grid-cols-4 gap-2 mb-6 md:hidden">
@@ -111,7 +156,15 @@ function MessagesContent() {
                 : "bg-muted/50 text-muted-foreground"
             )}
           >
-            <Icon className="h-5 w-5 shrink-0" />
+            <span className="relative inline-flex shrink-0">
+              <Icon className="h-5 w-5" />
+              {unreadByTab[key] > 0 && (
+                <span
+                  className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-destructive"
+                  aria-hidden
+                />
+              )}
+            </span>
             <span className="text-[11px] font-medium leading-tight text-center line-clamp-2">{label}</span>
           </button>
         ))}
@@ -131,7 +184,15 @@ function MessagesContent() {
                 : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted/70"
             )}
           >
-            <Icon className="h-4 w-4" />
+            <span className="relative inline-flex">
+              <Icon className="h-4 w-4" />
+              {unreadByTab[key] > 0 && (
+                <span
+                  className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-destructive"
+                  aria-hidden
+                />
+              )}
+            </span>
             {label}
           </button>
         ))}
@@ -159,8 +220,8 @@ function MessagesContent() {
               {tab === "follows" && "暂无新增粉丝"}
             </div>
           ) : (
-            <ul className="space-y-1">
-              {filteredNotifications.map((n) => (
+            <ul className="space-y-0">
+              {filteredNotifications.map((n, index) => (
                 <li key={n.id}>
                   <div
                     className={cn(
@@ -206,8 +267,23 @@ function MessagesContent() {
                       </div>
                     )}
                   </div>
+                  {index < filteredNotifications.length - 1 && (
+                    <div
+                      className="ml-[3.25rem] border-b border-black/[0.06] my-4"
+                      aria-hidden
+                    />
+                  )}
                 </li>
               ))}
+              {tab !== "dm" && hasMore && (
+                <li key="_load-more" className="flex justify-center py-4" ref={loadMoreRef}>
+                  {isLoadingMore ? (
+                    <span className="text-sm text-muted-foreground">加载中…</span>
+                  ) : (
+                    <span className="text-sm text-muted-foreground" aria-hidden />
+                  )}
+                </li>
+              )}
             </ul>
           )}
         </>
@@ -238,8 +314,8 @@ function MessagesContent() {
               <p className="text-sm mt-1">去用户主页发起私信，与创作者协作交流吧。</p>
             </div>
           ) : (
-            <ul className="space-y-1">
-              {conversations.map((conv) => (
+            <ul className="space-y-0">
+              {conversations.map((conv, index) => (
                 <li key={conv.peerId}>
                   <Link
                     href={`/messages/${conv.peerId}`}
@@ -267,6 +343,12 @@ function MessagesContent() {
                       })}
                     </span>
                   </Link>
+                  {index < conversations.length - 1 && (
+                    <div
+                      className="ml-[3.75rem] border-b border-black/[0.06] my-4"
+                      aria-hidden
+                    />
+                  )}
                 </li>
               ))}
             </ul>

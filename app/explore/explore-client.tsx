@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useRef, useCallback, useTransition } from 'react'
+import { useState, useRef, useCallback, useTransition, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
+import { useProjects } from '@/context/project-context'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -34,9 +35,15 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const router = useRouter()
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
+    const { clearLikesDeltaForProjects } = useProjects()
     // const { user } = useAuth()
 
     const displayCategories = propCategories || defaultCategories
+
+    // 用服务端列表展示时清除这些项目的点赞 delta，避免与乐观更新重复计算
+    useEffect(() => {
+        clearLikesDeltaForProjects(initialProjects.map(p => p.id))
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps -- 仅首屏 initial 时同步一次
 
     // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
@@ -101,6 +108,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             const response = await fetch(`/api/projects?${params.toString()}`)
             const data = await response.json()
             setProjects(prev => [...prev, ...data.projects])
+            clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
             setPage(prev => prev + 1)
         } catch (error) {
@@ -108,7 +116,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         } finally {
             setIsLoadingMore(false)
         }
-    }, [isLoadingMore, hasMore, page, buildSearchParams])
+    }, [isLoadingMore, hasMore, page, buildSearchParams, clearLikesDeltaForProjects])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
@@ -134,6 +142,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 const response = await fetch(`/api/projects?${params.toString()}`)
                 const data = await response.json()
                 setProjects(data.projects)
+                clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
             } catch (error) {
                 console.error('Error fetching projects:', error)
@@ -193,6 +202,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 const response = await fetch('/api/projects')
                 const data = await response.json()
                 setProjects(data.projects)
+                clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
             } catch (error) {
                 console.error('Error fetching projects:', error)
@@ -371,14 +381,15 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             {/* 项目列表 */}
             <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => {
+                    const isPriority = index < 6
                     if (projects.length === index + 1) {
                         return (
                             <div ref={lastProjectElementRef} key={project.id}>
-                                <ProjectCard project={project} searchQuery={searchQuery} />
+                                <ProjectCard project={project} searchQuery={searchQuery} priority={isPriority} />
                             </div>
                         )
                     } else {
-                        return <ProjectCard key={project.id} project={project} searchQuery={searchQuery} />
+                        return <ProjectCard key={project.id} project={project} searchQuery={searchQuery} priority={isPriority} />
                     }
                 })}
 

@@ -5,6 +5,7 @@
  */
 
 import type { Database } from '@/lib/supabase/types'
+import { formatRelativeTime } from '@/lib/date-utils'
 
 // ============================================================
 // 数据库表类型提取
@@ -56,8 +57,8 @@ export interface Project {
     sub_category_id?: number
     sub_category?: string // 子分类名称
     likes: number
-    views_count?: number
     coins_count?: number
+    comments_count?: number
     description?: string
     materials?: string[]
     steps?: ProjectStep[]
@@ -189,8 +190,8 @@ export function mapDbProject(
         sub_category_id: dbProject.sub_category_id || undefined,
         sub_category: dbProject.sub_categories?.name || undefined,
         likes: dbProject.likes_count,
-        views_count: dbProject.views_count || 0,
         coins_count: ('coins_count' in dbProject ? Number((dbProject as Record<string, unknown>).coins_count) : 0),
+        comments_count: ('comments_count' in dbProject ? Number((dbProject as Record<string, unknown>).comments_count) : 0),
         description: dbProject.description || '',
         materials: dbProject.project_materials
             ?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
@@ -225,13 +226,7 @@ export function mapDbComment(
         avatarFrameId: dbComment.profiles?.equipped_avatar_frame_id ?? undefined,
         nameColorId: dbComment.profiles?.equipped_name_color_id ?? undefined,
         content: dbComment.content,
-        date: new Date(dbComment.created_at).toLocaleString('zh-CN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        }),
+        date: formatRelativeTime(dbComment.created_at),
         parent_id: dbComment.parent_id || null,
         reply_to_user_id: dbComment.reply_to_user_id || null,
         reply_to_username: dbComment.reply_to_username || null
