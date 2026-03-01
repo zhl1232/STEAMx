@@ -220,6 +220,7 @@ Husky 会在提交时自动检查提交信息格式。
 ## ☁️ 部署
 
 - **Cloudflare (Workers)**：见 [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md)，使用 OpenNext 适配器部署到 Cloudflare Workers。
+  - **注意**：部署到 Cloudflare 时不能使用 Next.js 16 的 `proxy.ts`，OpenNext 仅支持 Edge 的 `middleware.ts`。项目已使用 `middleware.ts` 以兼容 Cloudflare 部署。
 
 ## 📚 相关文档
 

@@ -63,7 +63,7 @@ export function ProfileHeader({
               <span className="text-sm font-bold">{coins}</span>
             </div>
           </Link>
-          <Link href="/settings">
+          <Link href="/settings" className="md:hidden">
             <Button
               variant="ghost"
               size="icon"

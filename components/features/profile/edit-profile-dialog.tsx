@@ -12,25 +12,38 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import { useAuth } from "@/context/auth-context"
+import { useToast } from "@/hooks/use-toast"
 import { AvatarUpload } from "./avatar-upload"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
 export function EditProfileDialog({ children }: { children: React.ReactNode }) {
   const { user, refreshProfile } = useAuth()
+  const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(false)
   const [username, setUsername] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [bio, setBio] = useState("")
+  const [gender, setGender] = useState("")
   const [avatarUrl, setAvatarUrl] = useState("")
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  /** 已上传的头像 URL，在选择器里始终保留一格，不随切换预设而消失 */
+  const [persistedUploadUrl, setPersistedUploadUrl] = useState("")
   const supabase = createClient()
   const router = useRouter()
 
@@ -50,19 +63,25 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     setOtp('')
     setBindMessage(null)
 
-    // Fetch profile data
+    // Fetch profile data（含 last_uploaded_avatar_url，用于选择器里始终保留「已上传」一格）
     const { data } = await supabase
       .from('profiles')
-      .select('username, display_name, bio, avatar_url')
+      .select('username, display_name, bio, gender, avatar_url, last_uploaded_avatar_url')
       .eq('id', user.id)
       .single()
 
     if (data) {
-      const row = data as { username: string | null; display_name: string | null; bio: string | null; avatar_url: string | null }
+      const row = data as { username: string | null; display_name: string | null; bio: string | null; gender: string | null; avatar_url: string | null; last_uploaded_avatar_url?: string | null }
       setUsername(row.username || "")
       setDisplayName(row.display_name || "")
       setBio(row.bio || "")
-      setAvatarUrl(row.avatar_url || "")
+      setGender(row.gender || "")
+      const url = row.avatar_url || ""
+      setAvatarUrl(url)
+      // 已上传头像：当前是自定义则用当前；否则用库里的 last_uploaded_avatar_url，保存后也会一直存在
+      const uploadUrl = (url && !url.startsWith("/avatars/")) ? url : (row.last_uploaded_avatar_url || "")
+      if (uploadUrl) setPersistedUploadUrl(uploadUrl)
+      else setPersistedUploadUrl("")
     }
 
     // Refresh user session to get latest phone
@@ -82,7 +101,15 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
-    setAvatarUrl(URL.createObjectURL(file))
+    const blobUrl = URL.createObjectURL(file)
+    setAvatarUrl(blobUrl)
+    setPersistedUploadUrl(blobUrl) // 新上传的也始终占一格
+  }
+
+  /** 选择本地默认头像（如 /avatars/default-8.svg），不上传文件 */
+  const handleDefaultAvatarSelect = (url: string) => {
+    setSelectedFile(null)
+    setAvatarUrl(url)
   }
 
   const handleBindPhone = async () => {
@@ -145,7 +172,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     try {
       let finalAvatarUrl = avatarUrl
 
-      // Upload avatar if changed
+      // 仅当用户上传了新文件时才上传到 Storage；选择默认头像或未改头像时直接使用当前 avatarUrl
       if (selectedFile) {
         const fileExt = selectedFile.name.split(".").pop()
         const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`
@@ -155,21 +182,35 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
           .from("avatars")
           .upload(filePath, selectedFile)
 
-        if (uploadError) throw uploadError
+        if (uploadError) {
+          toast({
+            title: "图片上传失败，请重试",
+            variant: "destructive",
+          })
+          return
+        }
 
         const { data } = supabase.storage.from("avatars").getPublicUrl(filePath)
         finalAvatarUrl = data.publicUrl
       }
+      // 若为本地默认头像（如 /avatars/default-8.svg），finalAvatarUrl 已是相对路径，直接存库即可
+      // 本次是上传时：记入 last_uploaded_avatar_url，之后即使用户改回预设，选择器里仍可显示「已上传」一格
+      const isCustomUpload = !finalAvatarUrl.startsWith("/avatars/")
+      const updatePayload = {
+        username,
+        display_name: displayName,
+        bio,
+        gender: gender || null,
+        avatar_url: finalAvatarUrl,
+        updated_at: new Date().toISOString(),
+        ...(isCustomUpload ? { last_uploaded_avatar_url: finalAvatarUrl } : {}),
+      } as { username: string; display_name: string; bio: string; gender: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
+      // 选预设时只改 avatar_url，不覆盖 last_uploaded_avatar_url，所以已上传的那格会一直存在
+      if (!isCustomUpload) delete updatePayload.last_uploaded_avatar_url
 
       const { error: _error } = await supabase
         .from('profiles')
-        .update({
-          username,
-          display_name: displayName,
-          bio,
-          avatar_url: finalAvatarUrl,
-          updated_at: new Date().toISOString(),
-        } as never)
+        .update(updatePayload as never)
         .eq('id', user.id)
 
       if (_error) throw _error
@@ -196,76 +237,121 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
         <DialogHeader>
           <DialogTitle>编辑资料</DialogTitle>
           <DialogDescription>
-            在这里修改你的个人信息。完成后点击保存。
+            完善资料，让大家更好地认识你
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr,200px] gap-6 py-4">
-            <div className="space-y-4">
+          <div className="space-y-6 py-4">
+            {/* 1. 头像 + 账号ID（最上方） */}
+            <div className="flex flex-col items-center gap-2">
+              {fetching ? (
+                <Skeleton className="h-24 w-24 rounded-full" />
+              ) : (
+                <AvatarUpload
+                  value={avatarUrl}
+                  persistedUploadUrl={persistedUploadUrl}
+                  onFileSelect={handleFileSelect}
+                  onDefaultSelect={handleDefaultAvatarSelect}
+                  disabled={loading}
+                  showCameraBadge
+                />
+              )}
+              {fetching ? (
+                <Skeleton className="h-4 w-20" />
+              ) : (
+                <span className="text-xs text-muted-foreground">账号ID：{username || "未设置"}</span>
+              )}
+            </div>
 
-              <div className="grid gap-2">
-                <Label htmlFor="display_name">
-                  昵称
-                </Label>
-                {fetching ? (
-                  <Skeleton className="h-10 w-full" />
-                ) : (
-                  <Input
-                    id="display_name"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    placeholder="显示的名称"
-                  />
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="bio">
-                  简介
-                </Label>
-                {fetching ? (
-                  <Skeleton className="h-10 w-full" />
-                ) : (
-                  <Input
+            {/* 2. 昵称 */}
+            <div className="grid gap-2">
+              <Label htmlFor="display_name">昵称</Label>
+              {fetching ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Input
+                  id="display_name"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="显示的名称"
+                />
+              )}
+            </div>
+
+            {/* 3. 简介（多行 + 字数限制） */}
+            <div className="grid gap-2">
+              <Label htmlFor="bio">简介</Label>
+              {fetching ? (
+                <Skeleton className="h-20 w-full" />
+              ) : (
+                <div className="relative">
+                  <Textarea
                     id="bio"
                     value={bio}
-                    onChange={(e) => setBio(e.target.value)}
+                    onChange={(e) => setBio(e.target.value.slice(0, 30))}
                     placeholder="一句话介绍自己"
+                    className="min-h-[88px] resize-none pr-12"
+                    maxLength={30}
+                    rows={3}
                   />
-                )}
-              </div>
+                  <span className="absolute bottom-2 right-3 text-xs text-muted-foreground">
+                    {bio.length}/30
+                  </span>
+                </div>
+              )}
+            </div>
 
-              {/* 手机号绑定区域 */}
-              <div className="grid gap-2 mt-4 pt-4 border-t">
-                <Label>手机号绑定</Label>
-                {fetching ? (
-                  <Skeleton className="h-10 w-full" />
-                ) : (
-                  <div className="space-y-3">
-                    {bindStep === 'idle' && (
-                      <div className="flex gap-2">
-                        <Input
-                          value={phone}
-                          disabled={true}
-                          placeholder="暂未绑定手机号"
-                          className="bg-muted text-muted-foreground"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => {
-                            setPhone("") // 清空显示内容，准备输入新手机号
-                            setBindStep('input')
-                            setBindMessage(null)
-                          }}
-                        >
-                          {originalPhone ? '更换' : '绑定'}
-                        </Button>
-                      </div>
-                    )}
+            {/* 4. 性别 */}
+            <div className="grid gap-2">
+              <Label htmlFor="gender">性别</Label>
+              {fetching ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Select value={gender || undefined} onValueChange={(v) => setGender(v)}>
+                  <SelectTrigger id="gender">
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="男">男</SelectItem>
+                    <SelectItem value="女">女</SelectItem>
+                    <SelectItem value="其他">其他</SelectItem>
+                    <SelectItem value="不愿透露">不愿透露</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
 
-                    {bindStep === 'input' && (
-                      <div className="flex gap-2">
-                        <div className="relative flex flex-1">
+            {/* 5. 账号安全 - 手机号绑定（列表项样式） */}
+            <div className="space-y-3 pt-2 border-t">
+              <p className="text-sm font-medium text-muted-foreground">账号安全</p>
+              {fetching ? (
+                <Skeleton className="h-12 w-full" />
+              ) : (
+                <div className="space-y-3">
+                  {bindStep === "idle" && (
+                    <div className="flex items-center justify-between rounded-lg py-2">
+                      <span className="text-sm text-muted-foreground">
+                        手机号绑定：{phone ? phone : "暂未绑定"}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => {
+                          setPhone("")
+                          setBindStep("input")
+                          setBindMessage(null)
+                        }}
+                      >
+                        {originalPhone ? "更换" : "去绑定"}
+                      </Button>
+                    </div>
+                  )}
+
+                  {bindStep === "input" && (
+                    <div className="space-y-2 rounded-lg border border-input bg-muted/30 p-3">
+                      <div className="flex flex-wrap gap-2">
+                        <div className="relative flex flex-1 min-w-[140px]">
                           <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
                             +86
                           </span>
@@ -273,86 +359,76 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                             type="tel"
                             placeholder="输入新手机号"
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                             className="rounded-l-none"
                           />
                         </div>
                         <Button
                           type="button"
+                          size="sm"
                           disabled={!phone || bindingLoading}
                           onClick={handleBindPhone}
                         >
-                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : '发送验证码'}
+                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发送验证码"}
                         </Button>
                         <Button
                           type="button"
                           variant="ghost"
+                          size="sm"
                           onClick={() => {
-                            setBindStep('idle')
-                            setPhone(originalPhone ? originalPhone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3') : "")
+                            setBindStep("idle")
+                            setPhone(
+                              originalPhone
+                                ? originalPhone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, "$1 $2****$3")
+                                : ""
+                            )
                             setBindMessage(null)
                           }}
                         >
                           取消
                         </Button>
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {bindStep === 'verify' && (
-                      <div className="flex gap-2">
-                        <Input
-                          type="text"
-                          placeholder="输入6位验证码"
-                          value={otp}
-                          maxLength={6}
-                          onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                        />
-                        <Button
-                          type="button"
-                          disabled={!otp || bindingLoading}
-                          onClick={handleVerifyBindOtp}
-                        >
-                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : '验证'}
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={() => setBindStep('input')}
-                        >
-                          返回
-                        </Button>
-                      </div>
-                    )}
+                  {bindStep === "verify" && (
+                    <div className="flex flex-wrap gap-2 rounded-lg border border-input bg-muted/30 p-3">
+                      <Input
+                        type="text"
+                        placeholder="输入6位验证码"
+                        value={otp}
+                        maxLength={6}
+                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                        className="max-w-[120px]"
+                      />
+                      <Button
+                        type="button"
+                        size="sm"
+                        disabled={!otp || bindingLoading}
+                        onClick={handleVerifyBindOtp}
+                      >
+                        {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "验证"}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setBindStep("input")}
+                      >
+                        返回
+                      </Button>
+                    </div>
+                  )}
 
-                    {bindMessage && (
-                      <p className={`text-sm ${bindMessage.type === 'error' ? 'text-destructive' : 'text-green-600'}`}>
-                        {bindMessage.text}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-
-            </div>
-
-            <div className="flex flex-col items-center justify-start pt-2">
-              <Label className="mb-4 text-muted-foreground">头像</Label>
-              {fetching ? (
-                <Skeleton className="h-32 w-32 rounded-full" />
-              ) : (
-                <AvatarUpload
-                  value={avatarUrl}
-                  onFileSelect={handleFileSelect}
-                  disabled={loading}
-                />
+                  {bindMessage && (
+                    <p
+                      className={`text-sm ${bindMessage.type === "error" ? "text-destructive" : "text-green-600"}`}
+                    >
+                      {bindMessage.text}
+                    </p>
+                  )}
+                </div>
               )}
-              <div className="mt-6 w-full text-center">
-                {fetching ? (
-                  <Skeleton className="h-4 w-20 mx-auto" />
-                ) : (
-                  <span className="text-sm text-muted-foreground">账号ID： {username || "未设置"}</span>
-                )}
-              </div>
             </div>
           </div>
           <DialogFooter>

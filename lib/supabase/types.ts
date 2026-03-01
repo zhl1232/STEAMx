@@ -22,6 +22,7 @@ export interface Database {
           display_name: string | null
           avatar_url: string | null
           bio: string | null
+          gender: string | null
           created_at: string
           updated_at: string
           xp: number
@@ -36,6 +37,7 @@ export interface Database {
           display_name?: string | null
           avatar_url?: string | null
           bio?: string | null
+          gender?: string | null
           created_at?: string
           updated_at?: string
           xp?: number
@@ -50,6 +52,7 @@ export interface Database {
           display_name?: string | null
           avatar_url?: string | null
           bio?: string | null
+          gender?: string | null
           created_at?: string
           updated_at?: string
           xp?: number

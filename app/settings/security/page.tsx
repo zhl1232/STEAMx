@@ -1,55 +1,143 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mail, Smartphone, KeyRound } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Mail, Smartphone, KeyRound, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/context/auth-context";
+import { createClient } from "@/lib/supabase/client";
+import { toE164 } from "@/lib/utils/phone";
+
+function maskPhone(phone: string) {
+  return phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, "$1 $2****$3");
+}
 
 export default function SecuritySettingsPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const supabase = createClient();
 
-  const handlePhoneBinding = () => {
-    toast({
-      title: "短信服务暂未上线",
-      description: "当前平台尚未配置短信服务商，暂时无法绑定手机号。",
-      variant: "default",
-    });
+  const [authPhone, setAuthPhone] = useState<string | null>(null);
+  const [phoneExpand, setPhoneExpand] = useState(false);
+  const [phoneInput, setPhoneInput] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [phoneStep, setPhoneStep] = useState<"idle" | "verify">("idle");
+  const [phoneLoading, setPhoneLoading] = useState(false);
+
+  useEffect(() => {
+    const loadPhone = async () => {
+      const {
+        data: { user: u },
+      } = await supabase.auth.getUser();
+      setAuthPhone(u?.phone ?? null);
+    };
+    if (user) loadPhone();
+  }, [user]);
+
+  const emailDisplay = user?.email ?? "未绑定";
+
+  const handleSendResetPassword = async () => {
+    if (!user?.email) {
+      toast({ title: "无法发送", description: "当前账号未绑定邮箱。", variant: "destructive" });
+      return;
+    }
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+        redirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=/profile`,
+      });
+      if (error) throw error;
+      toast({
+        title: "已发送",
+        description: "重置链接已发送到你的邮箱，请查收。",
+      });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "发送失败";
+      toast({ title: "发送失败", description: msg, variant: "destructive" });
+    }
+  };
+
+  const handleSendPhoneOtp = async () => {
+    const formatted = toE164(phoneInput);
+    if (!formatted) {
+      toast({ title: "请输入手机号", variant: "destructive" });
+      return;
+    }
+    setPhoneLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ phone: formatted });
+      if (error) throw error;
+      setPhoneStep("verify");
+      toast({ title: "验证码已发送", description: "请查收短信并输入验证码。" });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "发送失败";
+      toast({
+        title: "发送失败",
+        description: "请检查手机号或联系管理员。",
+        variant: "destructive",
+      });
+    } finally {
+      setPhoneLoading(false);
+    }
+  };
+
+  const handleVerifyPhoneOtp = async () => {
+    const formatted = toE164(phoneInput);
+    if (!otpInput.trim()) {
+      toast({ title: "请输入验证码", variant: "destructive" });
+      return;
+    }
+    setPhoneLoading(true);
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        phone: formatted,
+        token: otpInput.trim(),
+        type: "phone_change",
+      });
+      if (error) throw error;
+      const {
+        data: { user: u },
+      } = await supabase.auth.getUser();
+      setAuthPhone(u?.phone ?? null);
+      setPhoneExpand(false);
+      setPhoneStep("idle");
+      setPhoneInput("");
+      setOtpInput("");
+      toast({ title: "绑定成功", description: "手机号已更新。" });
+    } catch (e: unknown) {
+      toast({
+        title: "验证失败",
+        description: "请检查验证码或联系管理员。",
+        variant: "destructive",
+      });
+    } finally {
+      setPhoneLoading(false);
+    }
   };
 
   const menuItems = [
     {
       icon: Mail,
-      label: "邮箱绑定",
-      value: "user@example.com", // TODO: 获取真实邮箱
-      action: () => toast({ title: "功能开发中" }),
-    },
-    {
-      icon: Smartphone,
-      label: "手机号绑定",
-      value: "未绑定",
-      action: handlePhoneBinding,
+      label: "邮箱",
+      value: emailDisplay,
+      action: undefined as (() => void) | undefined,
     },
     {
       icon: KeyRound,
       label: "修改密码",
-      value: "********",
-      action: () => toast({ title: "功能开发中" }),
+      value: "通过邮件重置",
+      action: handleSendResetPassword,
     },
   ];
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
-      {/* 顶部导航 */}
       <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9"
-          onClick={() => router.back()}
-        >
+        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
           <span className="sr-only">返回</span>
         </Button>
@@ -62,22 +150,87 @@ export default function SecuritySettingsPage() {
             {menuItems.map((item, index) => (
               <div key={item.label}>
                 <button
+                  type="button"
                   onClick={item.action}
-                  className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
+                  disabled={!item.action && true}
+                  className={`flex w-full items-center justify-between bg-card p-4 transition-colors ${item.action ? "hover:bg-accent/50 active:bg-accent" : "cursor-default"}`}
                 >
                   <div className="flex items-center gap-3">
-                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <item.icon className="h-4 w-4" />
                     </div>
                     <span className="font-medium text-sm">{item.label}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">{item.value}</span>
-                  </div>
+                  <span className="text-sm text-muted-foreground">{item.value}</span>
                 </button>
                 {index < menuItems.length - 1 && <Separator className="ml-14" />}
               </div>
             ))}
+
+            <Separator className="ml-14" />
+            <div>
+              <button
+                type="button"
+                onClick={() => setPhoneExpand(!phoneExpand)}
+                className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Smartphone className="h-4 w-4" />
+                  </div>
+                  <span className="font-medium text-sm">手机号绑定</span>
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  {authPhone ? maskPhone(authPhone) : "未绑定"}
+                </span>
+              </button>
+
+              {phoneExpand && (
+                <div className="border-t px-4 py-4 space-y-3 bg-muted/30">
+                  <div className="flex gap-2">
+                    <span className="inline-flex items-center rounded-md border bg-background px-2 text-sm text-muted-foreground">+86</span>
+                    <Input
+                      placeholder="手机号"
+                      value={phoneInput}
+                      onChange={(e) => setPhoneInput(e.target.value)}
+                      className="flex-1"
+                      disabled={phoneStep === "verify"}
+                    />
+                    {phoneStep === "idle" ? (
+                      <Button
+                        size="sm"
+                        onClick={handleSendPhoneOtp}
+                        disabled={phoneLoading}
+                      >
+                        {phoneLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发送验证码"}
+                      </Button>
+                    ) : null}
+                  </div>
+                  {phoneStep === "verify" && (
+                    <>
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="验证码"
+                          value={otpInput}
+                          onChange={(e) => setOtpInput(e.target.value)}
+                          className="flex-1"
+                        />
+                        <Button
+                          size="sm"
+                          onClick={handleVerifyPhoneOtp}
+                          disabled={phoneLoading}
+                        >
+                          {phoneLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "确认"}
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        未收到？检查手机号是否正确，或稍后重试。
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </ScrollArea>

@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, LogOut, ChevronRight, User, Shield, Bell, Eye, HelpCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, LogOut, ChevronRight, Shield, Bell, Eye, HelpCircle, Palette } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -38,13 +39,13 @@ export default function SettingsPage() {
     {
       title: "账号管理",
       items: [
-        { icon: User, label: "个人资料设置", href: "/settings/profile" },
         { icon: Shield, label: "账号与安全", href: "/settings/security" },
       ],
     },
     {
       title: "通用",
       items: [
+        { icon: Palette, label: "外观", href: "/settings/appearance" },
         { icon: Bell, label: "消息与通知", href: "/settings/notifications" },
         { icon: Eye, label: "隐私设置", href: "/settings/privacy" },
       ],
@@ -83,8 +84,8 @@ export default function SettingsPage() {
               <div className="overflow-hidden rounded-2xl border bg-card">
                 {group.items.map((item, itemIdx) => (
                   <div key={item.label}>
-                    <button
-                      onClick={() => toast({ title: "功能开发中", description: "该页面的具体功能正在紧急开发中..."})}
+                    <Link
+                      href={item.href}
                       className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
                     >
                       <div className="flex items-center gap-3">
@@ -94,7 +95,7 @@ export default function SettingsPage() {
                         <span className="font-medium text-sm">{item.label}</span>
                       </div>
                       <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Link>
                     {itemIdx < group.items.length - 1 && (
                       <Separator className="ml-14" />
                     )}

@@ -137,6 +137,7 @@ export interface Profile {
     display_name: string | null
     avatar_url: string | null
     bio: string | null
+    gender: string | null
     xp: number
     coins?: number
     equipped_avatar_frame_id?: string | null
@@ -296,6 +297,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
         display_name: dbProfile.display_name,
         avatar_url: dbProfile.avatar_url,
         bio: dbProfile.bio,
+        gender: dbProfile.gender ?? null,
         xp: dbProfile.xp,
         coins: 'coins' in dbProfile ? (dbProfile as { coins: number }).coins : undefined,
         equipped_avatar_frame_id: 'equipped_avatar_frame_id' in dbProfile ? (dbProfile as { equipped_avatar_frame_id: string | null }).equipped_avatar_frame_id : undefined,

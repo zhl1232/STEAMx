@@ -10,6 +10,7 @@ export const ProfileSchema = z.object({
     .nullable()
     .optional(),
   bio: z.string().nullable().optional(),
+  gender: z.string().nullable().optional(),
   xp: z.number().int().default(0),
   // Supabase/Postgres 返回 "YYYY-MM-DD HH:mm:ss..." 或带时区，非严格 ISO 8601，用 string 接受
   created_at: z.string().min(1),

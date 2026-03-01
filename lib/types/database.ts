@@ -11,6 +11,7 @@ export interface Profile {
   username: string;
   display_name: string;
   avatar_url?: string;
+  gender?: string | null;
   role: 'user' | 'moderator' | 'admin';
   xp: number;
   coins?: number;

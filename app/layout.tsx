@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -6,18 +5,11 @@ import { ProjectProvider } from "@/context/project-context";
 import { AuthProvider } from "@/context/auth-context";
 import { LoginPromptProvider } from "@/context/login-prompt-context";
 import { GamificationProvider } from "@/context/gamification-context";
-import Link from "next/link";
-import { SteamLogo } from "@/components/logo";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
-import { UserButton } from "@/components/user-button";
-import { MainNav } from "@/components/main-nav";
 import { NotificationProvider } from "@/context/notification-context";
-import { NotificationBell } from "@/components/notification-bell";
 import { ErrorBoundary } from "@/components/error-boundary";
-import { HeaderSearch } from "@/components/header-search";
-import { ShareButton } from "@/components/share-button";
-import { BottomNav } from "@/components/bottom-nav";
+import { ConditionalAppShell } from "@/components/conditional-app-shell";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -85,51 +77,7 @@ export default function RootLayout({
                                             disableTransitionOnChange
                                         >
                                             <ErrorBoundary>
-                                                <div className="flex min-h-screen flex-col bg-background">
-                                                    {/* Header */}
-                                                    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                                                        <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
-                                                            {/* MobileNav removed in favor of BottomNav */}
-
-
-                                                            <div className="md:hidden flex h-9 items-center shrink-0 mr-2">
-                                                                <Link href="/" className="flex items-center space-x-2">
-                                                                    <SteamLogo className="h-6 w-6 shrink-0" />
-                                                                    <span className="font-bold hidden sm:inline-block">STEAM</span>
-                                                                </Link>
-                                                            </div>
-
-                                                            {/* Logo & Desktop Nav */}
-                                                            <div className="mr-4 hidden md:flex items-center">
-                                                                <Link className="mr-6 flex items-center space-x-2" href="/">
-                                                                    <SteamLogo className="h-6 w-6 md:h-8 md:w-8" />
-                                                                    <span className="hidden font-bold sm:inline-block text-lg">STEAM 探索</span>
-                                                                </Link>
-                                                                {/* 主导航 */}
-                                                                <MainNav />
-                                                            </div>
-
-                                                            {/* 右侧搜索和操作区：统一垂直居中对齐 */}
-                                                            <div className="flex flex-1 items-center justify-between gap-2 md:justify-end min-h-9">
-                                                                <div className="flex items-center w-full flex-1 min-w-0 md:w-auto md:flex-none">
-                                                                    <Suspense fallback={<div className="w-[200px] h-9" />}>
-                                                                        <HeaderSearch />
-                                                                    </Suspense>
-                                                                </div>
-                                                                <nav className="flex items-center gap-2 shrink-0">
-                                                                    <div className="hidden md:block">
-                                                                        <ShareButton />
-                                                                    </div>
-                                                                    <NotificationBell />
-                                                                    <UserButton />
-                                                                </nav>
-                                                            </div>
-                                                        </div>
-                                                    </header>
-                                                    {/* Main content */}
-                                                    <main className="flex-1 pb-20 md:pb-0">{children}</main>
-                                                    <BottomNav />
-                                                </div>
+                                                <ConditionalAppShell>{children}</ConditionalAppShell>
                                             </ErrorBoundary>
                                             <Toaster />
                                         </ThemeProvider>

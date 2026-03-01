@@ -13,6 +13,7 @@ interface Profile {
   display_name: string | null
   avatar_url: string | null
   bio: string | null
+  gender: string | null
   xp: number
   coins: number
   equipped_avatar_frame_id: string | null
@@ -46,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
       .from('profiles')
-      .select('id, role, username, display_name, avatar_url, bio, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, created_at')
+      .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, created_at')
       .eq('id', userId)
       .single()
 

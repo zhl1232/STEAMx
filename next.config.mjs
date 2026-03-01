@@ -17,6 +17,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "spb-l3q6k3bebzxrok83.supabase.opentrust.net",
+      },
+      {
+        protocol: "https",
         hostname: "api.dicebear.com",
       },
       {
