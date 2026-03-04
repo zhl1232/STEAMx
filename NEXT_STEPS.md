@@ -123,3 +123,88 @@
   - 对 Supabase 的 Row Level Security (RLS) 策略进行全面二次审计，确保零越权隐患（尤其是涉及用户金币和 XP 变动的核心业务表）。
 - [x] **限流防刷 (Rate Limiting)**
   - 针对高频写入接口（如点赞、评论、打卡、投币业务），在系统边界（Cloudflare WAF 或 Next Proxy）增加限流过滤机制，防止脚本恶意刷量。
+
+
+  1. 将现有的 Challenge 升级为“PBL 任务中心” (Mission Hub)
+涉及代码: app/community/challenge/，components/features/community/challenge-card.tsx
+
+现状： 您已经有了 Challenge（挑战）模块。
+
+PBL改造： 传统的挑战可能是“画一个苹果”或“写一个贪吃蛇”。PBL 的挑战必须是真实场景下的问题（Ill-structured Problem）。
+
+落地建议：
+
+在 Challenge 的数据结构中增加字段：scenario（真实场景描述）、constraints（限制条件，如材料、时间、预算）、resources（脚手架资源链接）。
+
+界面呈现： 当用户点进 /community/challenge/[id] 时，首先看到的不是生硬的任务要求，而是一段情境故事（例如：“城市里的流浪猫冬天没有地方取暖，请利用废旧纸箱和开源电子硬件设计一个智能猫窝”）。
+
+2. 改造 Project (项目) 的数据结构，记录“试错迭代”过程
+涉及代码: lib/types/database.ts，app/project/[id]/page.tsx，components/features/project/
+
+现状： 您的项目展示目前看起来更注重“最终成品”。
+
+PBL改造： PBL 强调过程大于结果。学生需要展示他们是如何拆解问题、经历了哪些失败以及如何改进的。
+
+落地建议：
+
+在 Supabase 的 projects 表中扩展 schema。除了 title, description, image_url，增加 PBL 专属字段：
+
+problem_statement (我们要解决什么问题？)
+
+iterations (JSONB 类型，记录 V1.0 失败原因，V2.0 改进了什么)
+
+reflection (项目反思：我学到了什么新知识？)
+
+在 project-showcase.tsx 中增加一个**“研发日志 (Devlog) / 试错历史”**的 Tab，让其他用户不仅能给成品点赞，还能看到创作者克服困难的过程。
+
+3. 将 Playground 重新定位为 PBL 的“知识脚手架” (Scaffolding)
+涉及代码: app/playground/minesweeper, app/playground/color-lab, app/playground/pixel-art
+
+现状： 游乐场目前看起来像是一个个独立的小工具或课程（如扫雷教程）。
+
+PBL改造： 在 PBL 中，我们提倡“Just-in-Time Learning”（需要用时才学），而不是“Just-in-Case Learning”（以防万一先学）。
+
+落地建议：
+
+建立关联： 当用户在做一个“像素风视觉错觉设计”的 PBL 挑战时，如果他不知道怎么配色，系统在这个 Challenge 页面里动态推荐 /playground/color-lab 让他去学习色彩混合；如果涉及逻辑判断，推荐他去玩 minesweeper 课程。
+
+游乐场不再是漫无目的的玩耍，而是学生在解决复杂 PBL 问题卡壳时，获取特定技能的“训练营”。
+
+4. 升级 Gamification 系统，奖励“PBL 行为”
+涉及代码: lib/gamification/badges.ts, hooks/gamification/use-gamification-data.ts, supabase/migrations/...
+
+现状： 您已经有了非常棒的签到、硬币、经验值、徽章系统。
+
+PBL改造： 将奖励机制与 PBL 的核心精神（团队协作、勇敢试错、帮助他人）绑定。
+
+落地建议：
+
+在 lib/gamification/badges.ts 中新增 PBL 专属徽章：
+
+🏆 试错达人 (Resilient Innovator): 奖励那些在项目中记录了至少 3 次迭代失败并最终完成的用户。
+
+💡 提问专家 (Curious Mind): 奖励在 Discussions 中提出高质量“为什么”和“怎么做”问题的用户。
+
+🤝 乐于助人 (Peer Reviewer): 奖励在别人的项目下给出实质性改进建议（不仅是“赞”，而是具体的建设性评论）的用户。
+
+5. 引入“同行评审” (Peer Review) 机制
+涉及代码: components/features/project-comments.tsx, app/api/comments/
+
+现状： 目前拥有评论功能。
+
+PBL改造： 传统的打分由老师完成，而 PBL 极其看重同行评审（Peer Evaluation）和多维度评价。
+
+落地建议：
+
+在发布评论时，允许用户选择评论类型（例如：“👏 夸夸”、“🛠️ 建议改进”、“❓ 疑问”）。
+
+为项目引入一个多维度雷达图评价系统（取代单一的点赞）。允许社区用户给项目在几个维度打分（例如：创意性 Creativity、实用性 Practicality、技术难度 Technicality、呈现度 Presentation）。
+
+🚀 第一步：MVP 建议 (Minimum Viable Product)
+建议您先从您的代码中挑选 一个挑战 (Challenge) 和 一个项目提交流程 (Project Submission) 动手：
+
+去 Supabase 数据库为 projects 加上 reflection（反思）和 challenge_id（关联的现实问题）字段。
+
+在前端发布项目时，增加引导：“你解决的真实问题是什么？你遇到了什么困难？”
+
+将现有的徽章系统连入这个行为，当用户完整填写了反思日志，奖励 50 Coins 和一个“思考者”徽章。
