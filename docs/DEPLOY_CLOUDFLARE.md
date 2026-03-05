@@ -87,6 +87,19 @@ Supabase 控制台路径：<https://app.supabase.com> → 选你的项目 → **
 4. 环境变量已在控制台配好的话，CI 会用同一套；若在 Git 集成里也有 **Variables**，变量名同上（`NEXT_PUBLIC_SUPABASE_URL`、`NEXT_PUBLIC_SUPABASE_ANON_KEY`）。
 5. 保存后，推送到该分支即自动构建并部署。
 
+### 使用仓库内的 GitHub Actions（`.github/workflows/cd.yml`）
+
+若通过「推送到 main 触发部署」的 GitHub Action 部署，需在仓库 **Settings → Secrets and variables → Actions** 中配置：
+
+| Secret 名称 | 说明 |
+|-------------|------|
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API Token（需 Workers 写入权限） |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账号 ID |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 项目 URL（构建时会被内联到前端） |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key（同上） |
+
+未配置上述 Secret 时，构建或部署会报错。
+
 ---
 
 ## 五、配置说明

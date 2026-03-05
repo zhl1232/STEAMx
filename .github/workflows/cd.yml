@@ -27,11 +27,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build and Deploy (OpenNext Cloudflare)
+      - name: Build and Deploy (OpenNext Cloudflare Workers)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .worker-next/app --project-name steam-explore-share
-          # 假设部署命令使用了 opennext，因此预构建命令设为 package.json 中的 deploy:cf 或是只构建
-          preCommands: pnpm run deploy:cf
+          # 仅构建：产出在 .open-next/，由下方 wrangler deploy 部署
+          preCommands: pnpm exec opennextjs-cloudflare build
+          command: deploy
+        env:
+          # 构建时 Next 会内联 NEXT_PUBLIC_*，需在仓库 Settings → Secrets and variables → Actions 中配置
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

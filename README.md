@@ -101,10 +101,13 @@ supabase db push
 # seed_data.sql 文件
 ```
 
+6. **测试环境数据一致性**：种子数据已包含在 **migrations** 中（见 `supabase/migrations/20260130000001_seed_init.sql` 等）；在远程/自建 Supabase 上应用这些 migration 后即可得到一致初始数据。测试账号与说明见 **supabase/seed.sql** 顶部注释。若使用阿里云 AnalyticDB（不支持 Supabase CLI），执行 migration 或「重置」方式见 [docs/database-psql.md](./docs/database-psql.md)。
+
 详细的数据库设置说明请参考：
 - [SUPABASE_AUTH_SETUP.md](./SUPABASE_AUTH_SETUP.md) - 认证设置
 - [SUPABASE_TABLE_SETUP.md](./SUPABASE_TABLE_SETUP.md) - 数据表设置
 - [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) - 迁移指南
+- [docs/database-psql.md](./docs/database-psql.md) - 阿里云 AnalyticDB 版：使用 psql 直连（不支持 Supabase CLI 时的迁移与重置）
 
 ### 启动开发服务器
 

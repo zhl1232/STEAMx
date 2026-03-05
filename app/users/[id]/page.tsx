@@ -179,7 +179,7 @@ export default function PublicProfilePage() {
           <div className="flex-1 text-center md:text-left space-y-4">
             <div>
               <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-                {profile.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="lg" />}
+                {profile.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="md" />}
                 {userName}
               </h1>
               <p className="text-muted-foreground max-w-xl mx-auto md:mx-0">

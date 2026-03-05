@@ -1,0 +1,29 @@
+-- ============================================
+-- Seed 约定与测试账号说明 (Seed Convention & Test Accounts)
+-- ============================================
+--
+-- 主种子数据来自 migrations，不在此文件重复 INSERT，避免主键冲突。
+-- 种子数据所在 migration 文件：
+--   - 20260130000001_seed_init.sql           (初始用户、徽章、示例项目、交互数据)
+--   - 20260130000003_seed_more_users_and_discussions.sql (扩展用户与讨论)
+--   - 20260210100001_seed_example_messages.sql           (示例私信)
+--
+-- 若使用本地 Supabase CLI，官方会在 supabase db reset 的 migration 全部跑完后执行本文件；
+-- 若使用远程/阿里云 AnalyticDB，请用 psql 按顺序执行 migrations，详见 docs/database-psql.md。
+--
+-- ============================================
+-- 测试用账号 (统一密码: 123456)
+-- ============================================
+--   Admin:    66020423@qq.com
+--   Student:  student@example.com
+--   Teacher:  teacher@example.com
+--   Alice:    alice@example.com
+--   Bob:      bob@example.com
+--   Charlie:  charlie@example.com
+--   David:    david@example.com
+--   Eve:      eve@example.com
+--
+-- 用于手动测试或日后 E2E；核心路径（注册 -> 创建项目 -> 评论互动）可选用上述任一号登录验证。
+--
+-- 若将来需要「仅测试环境」的额外数据，可在此文件下方追加 SQL（建议使用 ON CONFLICT DO NOTHING 等保证可重复执行）。
+-- ============================================

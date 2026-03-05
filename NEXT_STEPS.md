@@ -90,9 +90,8 @@
 ### 测试
 
 - [ ] **集成测试 (Integration Tests)**
-  - **工具链**: 使用 **Playwright** 进行端到端 (E2E) 测试。
-  - **策略**: 针对本地 Supabase 实例运行测试，覆盖核心路径 (注册 -> 创建项目 -> 评论互动)。
-  - **数据模拟**: 编写 Seed 脚本，确保测试环境数据一致性。
+  - **策略**: 针对本地 Supabase 实例运行测试，覆盖核心路径 (注册 -> 创建项目 -> 评论互动)。**E2E（Playwright 核心路径）暂不实施。**
+  - [x] **数据模拟**: 编写 Seed 脚本，确保测试环境数据一致性。
 - [x] **CI/CD 流水线 (Automation)**
   - **GitHub Actions**:
     - **PR Check**: 自动运行 `Type Check`, `Lint`, `Build` 检查。
