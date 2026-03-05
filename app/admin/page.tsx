@@ -71,7 +71,7 @@ export default function AdminPage() {
       .order('created_at', { ascending: false })
 
     if (!error && data) {
-      setPendingProjects(data as Project[])
+      setPendingProjects(data as unknown as Project[])
     }
     // setIsLoading(false)
   }, [supabase])
@@ -92,7 +92,7 @@ export default function AdminPage() {
       .limit(50)
 
     if (!error && data) {
-      setAllProjects(data as Project[]) // Type casting as simplified Project
+      setAllProjects(data as unknown as Project[])
     }
   }, [supabase])
 

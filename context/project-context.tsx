@@ -339,7 +339,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           status: "pending", // Re-submit for review
           updated_at: new Date().toISOString(),
         } as never)
-        .eq("id", pid)
+        .eq("id", Number(pid))
         .eq("author_id", user.id);
 
       if (projectError) {
@@ -348,11 +348,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }
 
       // 2. Update Materials
-      await supabase.from("project_materials").delete().eq("project_id", pid);
+      await supabase.from("project_materials").delete().eq("project_id", Number(pid));
       if (project.materials && project.materials.length > 0) {
         await supabase.from("project_materials").insert(
           project.materials.map((m, index) => ({
-            project_id: pid,
+            project_id: Number(pid),
             material: m,
             sort_order: index,
           })) as never,
@@ -360,11 +360,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }
 
       // 3. Update Steps
-      await supabase.from("project_steps").delete().eq("project_id", pid);
+      await supabase.from("project_steps").delete().eq("project_id", Number(pid));
       if (project.steps && project.steps.length > 0) {
         await supabase.from("project_steps").insert(
           project.steps.map((s, index) => ({
-            project_id: pid,
+            project_id: Number(pid),
             title: s.title,
             description: s.description,
             image_url: s.image_url || null,
@@ -483,18 +483,18 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       // 不再在这里改 setProjects 的 likes，避免与 getLikesDelta 双重计算；展示处统一用 project.likes + getLikesDelta(id)
 
       if (isLiked) {
-        await supabase.from("likes").delete().eq("user_id", user.id).eq("project_id", pid);
-        await callRpc(supabase, "decrement_project_likes", { project_id: pid });
+        await supabase.from("likes").delete().eq("user_id", user.id).eq("project_id", Number(pid));
+        await callRpc(supabase, "decrement_project_likes", { project_id: Number(pid) });
       } else {
-        await supabase.from("likes").insert({ user_id: user.id, project_id: pid } as never);
-        await callRpc(supabase, "increment_project_likes", { project_id: pid });
+        await supabase.from("likes").insert({ user_id: user.id, project_id: Number(pid) } as never);
+        await callRpc(supabase, "increment_project_likes", { project_id: Number(pid) });
 
         // 给作品作者发送「收到喜欢」通知（不通知自己给自己点赞的情况）
         try {
           const { data: projectRow, error: projectError } = await supabase
             .from("projects")
             .select("id, title, author_id, profiles:author_id (display_name, avatar_url)")
-            .eq("id", pid)
+            .eq("id", Number(pid))
             .single();
 
           const row = projectRow as { author_id?: string; title?: string } | null;
@@ -509,7 +509,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
               content: `${likerName} 赞了你的项目「${row.title}」`,
               related_type: "project",
               related_id: pid,
-              project_id: pid,
+              project_id: Number(pid),
               from_user_id: user.id,
               from_username: likerName,
               from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url || undefined,
@@ -542,9 +542,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (isCollected) {
-        await supabase.from("collections").delete().eq("user_id", user.id).eq("project_id", pid);
+        await supabase.from("collections").delete().eq("user_id", user.id).eq("project_id", Number(pid));
       } else {
-        await supabase.from("collections").insert({ user_id: user.id, project_id: pid } as never);
+        await supabase.from("collections").insert({ user_id: user.id, project_id: Number(pid) } as never);
       }
     },
     [supabase, user],
@@ -571,7 +571,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       try {
         const { error } = await supabase.from("completed_projects").insert({
           user_id: user.id,
-          project_id: pid,
+          project_id: Number(pid),
           proof_images: proof.images,
           proof_video_url: proof.videoUrl || null,
           notes: proof.notes || null,
@@ -615,7 +615,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           const { data: project } = await supabase
             .from("projects")
             .select("category")
-            .eq("id", pid)
+            .eq("id", Number(pid))
             .single();
 
           const proj = project as { category?: string } | null;
@@ -672,7 +672,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           .from("completed_projects")
           .delete()
           .eq("user_id", user.id)
-          .eq("project_id", pid);
+          .eq("project_id", Number(pid));
 
         if (error) throw error;
       } catch (error) {

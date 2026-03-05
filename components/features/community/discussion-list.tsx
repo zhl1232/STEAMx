@@ -182,7 +182,8 @@ export function DiscussionList() {
             }
 
             interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null; avatar_url?: string | null; equipped_avatar_frame_id?: string | null; equipped_name_color_id?: string | null } }
-            const mappedDiscussions: Discussion[] = data.map((d: DiscussionRow) => ({
+            const rows = data as unknown as DiscussionRow[];
+            const mappedDiscussions: Discussion[] = rows.map((d) => ({
                 id: d.id,
                 title: d.title,
                 author: d.profiles?.display_name || 'Unknown',
@@ -200,11 +201,11 @@ export function DiscussionList() {
                 setDiscussions(mappedDiscussions);
                 setPage(1);
             } else {
-                setDiscussions(prev => [...prev, ...mappedDiscussions]);
+                setDiscussions((prev) => [...prev, ...mappedDiscussions]);
                 setPage(prev => prev + 1);
             }
 
-            setHasMore(data.length === PAGE_SIZE);
+            setHasMore(rows.length === PAGE_SIZE);
         } catch (err) {
             console.error('Exception in fetchDiscussions:', err);
         } finally {
@@ -278,7 +279,7 @@ export function DiscussionList() {
         const { error } = await supabase
             .from('discussions')
             .delete()
-            .eq('id', id);
+            .eq('id', Number(id));
 
         if (!error) {
             setDiscussions(prev => prev.filter(d => d.id !== id));

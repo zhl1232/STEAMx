@@ -59,7 +59,8 @@ export function FollowingFeed() {
                 if (projectsError) throw projectsError;
 
                 if (projectsData) {
-                    const mapped = projectsData.map((p: DbProject & { profiles?: { display_name?: string | null } }) => {
+                    const list = projectsData as unknown as (DbProject & { profiles?: { display_name?: string | null } })[];
+                    const mapped = list.map((p) => {
                         const authorName = p.profiles?.display_name || undefined;
                         return mapProject(p as DbProject, authorName);
                     });

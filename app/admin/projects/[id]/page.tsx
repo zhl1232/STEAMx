@@ -100,7 +100,7 @@ export default function EditProjectPage() {
             sort_order
           )
         `)
-                .eq('id', id)
+                .eq('id', Number(id))
                 .single()
 
             if (error) throw error
@@ -185,7 +185,7 @@ export default function EditProjectPage() {
             if (projectError) throw projectError
 
             // 2. Refresh Steps
-            await supabase.from('project_steps').delete().eq('project_id', id)
+            await supabase.from('project_steps').delete().eq('project_id', Number(id))
             if (formData.project_steps.length > 0) {
                 const stepsToInsert: StepInsert[] = formData.project_steps.map((step, index) => ({
                     project_id: Number(id), // project_id is number in schema
@@ -199,7 +199,7 @@ export default function EditProjectPage() {
             }
 
             // 3. Refresh Materials
-            await supabase.from('project_materials').delete().eq('project_id', id)
+            await supabase.from('project_materials').delete().eq('project_id', Number(id))
             if (formData.project_materials.length > 0) {
                 const materialsToInsert: MaterialInsert[] = formData.project_materials.map((mat, index) => ({
                     project_id: Number(id),

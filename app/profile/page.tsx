@@ -89,7 +89,7 @@ export default function ProfilePage() {
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(likedProjects))
+              .in('id', Array.from(likedProjects).map((id) => Number(id)))
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),
@@ -102,7 +102,7 @@ export default function ProfilePage() {
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(collectedProjects))
+              .in('id', Array.from(collectedProjects).map((id) => Number(id)))
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),
@@ -115,7 +115,7 @@ export default function ProfilePage() {
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(completedProjects))
+              .in('id', Array.from(completedProjects).map((id) => Number(id)))
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),

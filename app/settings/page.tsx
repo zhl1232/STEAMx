@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -24,10 +24,10 @@ export default function SettingsPage() {
       if (error) throw error;
       router.push("/login");
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "退出登录失败",
-        description: error.message,
+        description: error instanceof Error ? error.message : "退出登录失败",
         variant: "destructive",
       });
     } finally {
@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4 pb-20">
-          {menuGroups.map((group, index) => (
+          {menuGroups.map((group) => (
             <div key={group.title} className="space-y-3">
               <h2 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.title}

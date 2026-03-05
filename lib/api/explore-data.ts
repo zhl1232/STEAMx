@@ -13,6 +13,9 @@ import {
   type Comment,
 } from "@/lib/mappers/types";
 
+/** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
+type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
+
 /**
  * 项目筛选参数
  */
@@ -158,8 +161,8 @@ export async function getProjects(
     return { projects: [], total: 0, hasMore: false };
   }
 
-  const rows = data || [];
-  const projectIds = rows.map((p: { id: string | number }) => p.id);
+  const rows = (data || []) as unknown as ProjectRowForMapper[];
+  const projectIds = rows.map((p) => p.id);
 
   if (projectIds.length > 0) {
     const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
@@ -202,7 +205,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
       project_steps (*),
       sub_categories (name)
     `)
-    .eq("id", id)
+    .eq("id", Number(id))
     .single();
 
   if (error || !data) {
@@ -210,7 +213,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
     return null;
   }
 
-  return mapDbProject(data);
+  return mapDbProject(data as unknown as ProjectRowForMapper);
 }
 
 /**
@@ -244,7 +247,7 @@ export async function getProjectComments(
         `,
       { count: "exact" },
     )
-    .eq("project_id", projectId)
+    .eq("project_id", Number(projectId))
     .is("parent_id", null) // 只取顶层评论
     .order("created_at", { ascending: false }) // 最新在前
     .range(from, to);
@@ -265,7 +268,7 @@ export async function getProjectComments(
             *,
             profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
         `)
-    .eq("project_id", projectId)
+    .eq("project_id", Number(projectId))
     .not("parent_id", "is", null)
     .order("created_at", { ascending: true });
 
@@ -306,7 +309,7 @@ export async function getRelatedProjects(
     `)
     .eq("category", category)
     .eq("status", "approved")
-    .neq("id", projectId)
+    .neq("id", Number(projectId))
     .limit(limit);
 
   if (error || !data) {
@@ -314,8 +317,8 @@ export async function getRelatedProjects(
     return [];
   }
 
-  const rows = data;
-  const projectIds = rows.map((p: { id: string | number }) => p.id);
+  const rows = data as unknown as ProjectRowForMapper[];
+  const projectIds = rows.map((p) => p.id);
   if (projectIds.length > 0) {
     const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: projectIds.map((id) => Number(id)),
@@ -352,7 +355,7 @@ export async function getProjectCompletions(
   const { data: completions, error } = await supabase
     .from("completed_projects")
     .select("*")
-    .eq("project_id", projectId)
+    .eq("project_id", Number(projectId))
     .eq("is_public", true)
     .order("completed_at", { ascending: false })
     .limit(limit);

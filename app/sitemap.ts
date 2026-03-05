@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             .limit(500);
 
         if (projects) {
-            projects.forEach((project: { id: string; updated_at: string | null }) => {
+            projects.forEach((project: { id: number; updated_at: string | null }) => {
                 routes.push({
                     url: `${baseUrl}/project/${project.id}`,
                     lastModified: new Date(project.updated_at || new Date()),

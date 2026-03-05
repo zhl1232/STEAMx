@@ -37,7 +37,7 @@ export default function SecuritySettingsPage() {
       setAuthPhone(u?.phone ?? null);
     };
     if (user) loadPhone();
-  }, [user]);
+  }, [user, supabase.auth]);
 
   const emailDisplay = user?.email ?? "未绑定";
 
@@ -73,8 +73,7 @@ export default function SecuritySettingsPage() {
       if (error) throw error;
       setPhoneStep("verify");
       toast({ title: "验证码已发送", description: "请查收短信并输入验证码。" });
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "发送失败";
+    } catch {
       toast({
         title: "发送失败",
         description: "请检查手机号或联系管理员。",
@@ -108,7 +107,7 @@ export default function SecuritySettingsPage() {
       setPhoneInput("");
       setOtpInput("");
       toast({ title: "绑定成功", description: "手机号已更新。" });
-    } catch (e: unknown) {
+    } catch {
       toast({
         title: "验证失败",
         description: "请检查验证码或联系管理员。",

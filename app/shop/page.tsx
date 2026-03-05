@@ -71,7 +71,7 @@ export default function ShopPage() {
   const equipMutation = useMutation({
     mutationFn: async ({ itemId, type }: { itemId: string | null; type: ShopItemType }) => {
       const rpcName = type === 'avatar_frame' ? 'equip_avatar_frame' : 'equip_name_color'
-      const { data, error } = await supabase.rpc(rpcName, { p_item_id: itemId ?? '' } as never)
+      const { data, error } = await (supabase.rpc as (name: string, args: { p_item_id: string }) => ReturnType<typeof supabase.rpc>)(rpcName, { p_item_id: itemId ?? '' })
       if (error) throw error
       const res = data as { ok?: boolean; error?: string }
       if (!res?.ok) throw new Error(res?.error || 'equip_failed')

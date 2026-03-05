@@ -84,7 +84,7 @@ function ShareForm() {
                     project_steps (*),
                     sub_categories (name)
                 `)
-                .eq('id', editId)
+                .eq('id', Number(editId))
                 .single();
 
             if (data) {

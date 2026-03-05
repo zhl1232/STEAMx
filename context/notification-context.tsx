@@ -67,7 +67,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       .eq("user_id", user.id)
       .eq("is_read", false);
     if (!error) setUnreadCount(count ?? 0);
-  }, [user?.id, supabase]);
+  }, [user, supabase]);
 
   const fetchNotifications = useCallback(
     async (reset = true) => {
@@ -89,12 +89,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setIsLoading(false);
         return;
       }
-      const list = data || [];
+      const list = (data || []) as Notification[];
       setNotifications(list);
       setHasMore(list.length === NOTIFICATION_PAGE_SIZE);
       setIsLoading(false);
     },
-    [user?.id, supabase],
+    [user, supabase],
   );
 
   const loadMore = useCallback(async () => {
@@ -117,11 +117,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setIsLoadingMore(false);
       return;
     }
-    const next = data || [];
+    const next = (data || []) as Notification[];
     setNotifications((prev) => [...prev, ...next]);
     setHasMore(next.length === NOTIFICATION_PAGE_SIZE);
     setIsLoadingMore(false);
-  }, [user?.id, hasMore, isLoadingMore]);
+  }, [user, supabase, hasMore, isLoadingMore]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -172,7 +172,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
       setUnreadCount((c) => Math.max(0, c - 1));
     },
-    [user?.id, supabase],
+    [user, supabase],
   );
 
   const markAllAsRead = useCallback(async () => {
@@ -191,7 +191,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
-  }, [user?.id, supabase]);
+  }, [user, supabase]);
 
   const createNotification = useCallback(
     async (notification: Omit<Notification, "id" | "is_read" | "created_at">) => {
@@ -201,7 +201,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         console.error("Error creating notification:", error);
       }
     },
-    [],
+    [supabase],
   );
 
   const clearAll = useCallback(async () => {
@@ -217,7 +217,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     setNotifications([]);
     setUnreadCount(0);
     setHasMore(true);
-  }, [user?.id, supabase]);
+  }, [user, supabase]);
 
   const contextValue = useMemo(
     () => ({

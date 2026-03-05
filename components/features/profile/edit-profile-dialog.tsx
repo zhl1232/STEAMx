@@ -71,7 +71,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       .single()
 
     if (data) {
-      const row = data as { username: string | null; display_name: string | null; bio: string | null; gender: string | null; avatar_url: string | null; last_uploaded_avatar_url?: string | null }
+      const row = data as unknown as { username: string | null; display_name: string | null; bio: string | null; gender: string | null; avatar_url: string | null; last_uploaded_avatar_url?: string | null }
       setUsername(row.username || "")
       setDisplayName(row.display_name || "")
       setBio(row.bio || "")

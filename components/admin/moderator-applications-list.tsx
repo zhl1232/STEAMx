@@ -69,7 +69,7 @@ export function ModeratorApplicationsList() {
 
             if (error) throw error;
 
-            setApplications(data || []);
+            setApplications((data || []) as unknown as ModeratorApplication[]);
         } catch (error: unknown) {
             toast({
                 title: "加载失败",

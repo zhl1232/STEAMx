@@ -29,7 +29,7 @@ interface ProjectInteractionsProps {
     projectCoinsReceived?: number
 }
 
-export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount = 0, projectCoinsReceived = 0 }: ProjectInteractionsProps) {
+export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0 }: ProjectInteractionsProps) {
     const supabase = createClient()
     const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
@@ -148,7 +148,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
         </>
     )
 
-    const markDoneButton = (
+    const _markDoneButton = (
         <ConfettiButton
             className="shrink-0"
             isCompleted={isProjectCompleted}
