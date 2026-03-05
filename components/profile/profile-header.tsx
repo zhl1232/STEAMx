@@ -14,6 +14,7 @@ import { getBadgesForDisplay } from "@/lib/gamification/badges";
 import { Profile } from "@/lib/mappers/types";
 import { User } from "@supabase/supabase-js";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { RoleBadge } from "@/components/ui/role-badge";
 
 interface ProfileHeaderProps {
   user: User;
@@ -133,6 +134,7 @@ export function ProfileHeader({
 
         {/* 3. 用户名 + 等级（点等级进入升级说明）+ 徽章（点徽章进入全部） */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          {profile?.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="lg" />}
           <h1 className="text-xl font-bold text-foreground truncate">{userName}</h1>
           <LevelGuideDialog>
             <button

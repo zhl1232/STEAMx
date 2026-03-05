@@ -72,7 +72,7 @@ function MessagesContent() {
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
   const unreadByTab = getUnreadByTab(notifications);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const el = loadMoreRef.current;
@@ -275,7 +275,7 @@ function MessagesContent() {
                   )}
                 </li>
               ))}
-              {tab !== "dm" && hasMore && (
+              {hasMore && (
                 <li key="_load-more" className="flex justify-center py-4" ref={loadMoreRef}>
                   {isLoadingMore ? (
                     <span className="text-sm text-muted-foreground">加载中…</span>

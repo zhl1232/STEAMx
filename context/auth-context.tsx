@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useRef, useState, useMemo, useCal
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 
-type UserRole = 'user' | 'moderator' | 'admin'
+type UserRole = 'user' | 'teacher' | 'moderator' | 'admin'
 
 interface Profile {
   id: string
@@ -27,7 +27,9 @@ interface AuthContextType {
   loading: boolean
   isAdmin: boolean
   isModerator: boolean
+  isTeacher: boolean
   canReview: boolean
+  canExpertReview: boolean
   canDeleteComments: boolean
   canManageTags: boolean
   signOut: () => Promise<void>
@@ -131,8 +133,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const isAdmin = profile?.role === 'admin'
   const isModerator = profile?.role === 'moderator'
+  const isTeacher = profile?.role === 'teacher'
   const canReview = isAdmin || isModerator
-  const canDeleteComments = isAdmin || isModerator
+  const canExpertReview = isAdmin || isTeacher
+  const canDeleteComments = isAdmin || isModerator || isTeacher
   const canManageTags = isAdmin || isModerator
 
   const contextValue = useMemo(() => ({
@@ -141,12 +145,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     isAdmin,
     isModerator,
+    isTeacher,
     canReview,
+    canExpertReview,
     canDeleteComments,
     canManageTags,
     signOut,
     refreshProfile,
-  }), [user, profile, loading, isAdmin, isModerator, canReview, canDeleteComments, canManageTags, signOut, refreshProfile])
+  }), [user, profile, loading, isAdmin, isModerator, isTeacher, canReview, canExpertReview, canDeleteComments, canManageTags, signOut, refreshProfile])
 
   return (
     <AuthContext.Provider value={contextValue}>

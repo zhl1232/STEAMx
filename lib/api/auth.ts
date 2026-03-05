@@ -53,7 +53,7 @@ export async function requireAuth(
  */
 export async function requireRole(
   supabase: SupabaseClient<Database>,
-  allowedRoles: ('user' | 'moderator' | 'admin')[]
+  allowedRoles: ('user' | 'teacher' | 'moderator' | 'admin')[]
 ): Promise<{ user: User; role: string }> {
   const user = await requireAuth(supabase)
 
@@ -68,7 +68,7 @@ export async function requireRole(
   }
 
   // 类型断言：Supabase 生成的类型可能未包含 role 字段
-  const userRole = (profile as { role: string }).role as 'user' | 'moderator' | 'admin'
+  const userRole = (profile as { role: string }).role as 'user' | 'teacher' | 'moderator' | 'admin'
 
   if (!allowedRoles.includes(userRole)) {
     throw new PermissionError(

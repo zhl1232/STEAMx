@@ -12,7 +12,7 @@ export interface Profile {
   display_name: string;
   avatar_url?: string;
   gender?: string | null;
-  role: 'user' | 'moderator' | 'admin';
+  role: "user" | "teacher" | "moderator" | "admin";
   xp: number;
   coins?: number;
   equipped_avatar_frame_id?: string;
@@ -46,7 +46,7 @@ export interface SubCategory {
 /**
  * 项目状态
  */
-export type ProjectStatus = 'draft' | 'pending' | 'approved' | 'rejected';
+export type ProjectStatus = "draft" | "pending" | "approved" | "rejected";
 
 /**
  * 项目

@@ -28,6 +28,7 @@ export interface Database {
           xp: number
           coins: number
           equipped_avatar_frame_id: string | null
+          equipped_name_color_id: string | null
           role: string
           notify_followed_creator_updates: boolean
         }
@@ -43,6 +44,7 @@ export interface Database {
           xp?: number
           coins?: number
           equipped_avatar_frame_id?: string | null
+          equipped_name_color_id?: string | null
           role?: string
           notify_followed_creator_updates?: boolean
         }
@@ -58,9 +60,11 @@ export interface Database {
           xp?: number
           coins?: number
           equipped_avatar_frame_id?: string | null
+          equipped_name_color_id?: string | null
           notify_followed_creator_updates?: boolean
           role?: string
         }
+        Relationships: []
       }
       categories: {
         Row: {
@@ -84,6 +88,7 @@ export interface Database {
           sort_order?: number
           created_at?: string
         }
+        Relationships: []
       }
       sub_categories: {
         Row: {
@@ -107,6 +112,7 @@ export interface Database {
           sort_order?: number
           created_at?: string
         }
+        Relationships: []
       }
       projects: {
         Row: {
@@ -252,6 +258,7 @@ export interface Database {
           material?: string
           sort_order?: number | null
         }
+        Relationships: []
       }
       project_steps: {
         Row: {
@@ -278,6 +285,7 @@ export interface Database {
           image_url?: string | null
           sort_order?: number | null
         }
+        Relationships: []
       }
       comments: {
         Row: {
@@ -304,6 +312,14 @@ export interface Database {
           parent_id?: number | null
           created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "comments_author_id_fkey"
+            columns: ["author_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       likes: {
         Row: {
@@ -321,6 +337,7 @@ export interface Database {
           project_id?: number
           created_at?: string
         }
+        Relationships: []
       }
       completed_projects: {
         Row: {
@@ -356,6 +373,7 @@ export interface Database {
           is_public?: boolean
           likes_count?: number
         }
+        Relationships: []
       }
       completion_comments: {
         Row: {
@@ -379,6 +397,7 @@ export interface Database {
           content?: string
           created_at?: string
         }
+        Relationships: []
       }
       completion_likes: {
         Row: {
@@ -396,6 +415,7 @@ export interface Database {
           completed_project_id?: number
           created_at?: string
         }
+        Relationships: []
       }
       discussions: {
         Row: {
@@ -425,6 +445,7 @@ export interface Database {
           likes_count?: number
           created_at?: string
         }
+        Relationships: []
       }
       discussion_replies: {
         Row: {
@@ -448,6 +469,7 @@ export interface Database {
           content?: string
           created_at?: string
         }
+        Relationships: []
       }
       challenges: {
         Row: {
@@ -480,6 +502,7 @@ export interface Database {
           end_date?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       challenge_participants: {
         Row: {
@@ -497,6 +520,7 @@ export interface Database {
           challenge_id?: number
           joined_at?: string
         }
+        Relationships: []
       }
       badges: {
         Row: {
@@ -520,6 +544,7 @@ export interface Database {
           icon?: string | null
           condition?: Json | null
         }
+        Relationships: []
       }
       user_badges: {
         Row: {
@@ -537,6 +562,7 @@ export interface Database {
           badge_id?: string
           unlocked_at?: string
         }
+        Relationships: []
       }
       tags: {
         Row: {
@@ -745,6 +771,7 @@ export interface Database {
           item_id?: string
           unlocked_at?: string
         }
+        Relationships: []
       }
       coin_logs: {
         Row: {
@@ -774,6 +801,7 @@ export interface Database {
           created_at?: string
           counterparty_display_text?: string | null
         }
+        Relationships: []
       }
     }
     Views: {

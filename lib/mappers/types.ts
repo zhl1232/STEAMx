@@ -22,8 +22,8 @@ type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
 type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
 type DbCompletedProject = Database['public']['Tables']['completed_projects']['Row']
 
-// 评论/回复的数据库查询结果类型
-interface DbCommentWithProfile {
+// 评论/回复的数据库查询结果类型（comments 或 discussion_replies 联表 profiles 后的形状）
+export interface DbCommentWithProfile {
     id: number
     author_id: string
     content: string
@@ -36,7 +36,13 @@ interface DbCommentWithProfile {
         avatar_url?: string | null
         equipped_avatar_frame_id?: string | null
         equipped_name_color_id?: string | null
+        role?: string | null
     } | null
+}
+
+// 讨论详情联表 author 后的查询结果类型（不含 replies）
+export type DbDiscussionWithProfile = DbDiscussion & {
+    profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
 }
 
 // ============================================================
@@ -89,8 +95,11 @@ export interface Comment {
     avatar?: string
     avatarFrameId?: string | null
     nameColorId?: string | null
+    role?: 'user' | 'teacher' | 'moderator' | 'admin'
     content: string
     date: string
+    /** ISO 时间字符串，用于排序（如按时间正序/倒序） */
+    created_at?: string
     parent_id?: number | null
     reply_to_user_id?: string | null
     reply_to_username?: string | null
@@ -142,7 +151,7 @@ export interface Profile {
     coins?: number
     equipped_avatar_frame_id?: string | null
     equipped_name_color_id?: string | null
-    role: 'user' | 'moderator' | 'admin'
+    role: 'user' | 'teacher' | 'moderator' | 'admin'
 }
 
 /**
@@ -226,8 +235,10 @@ export function mapDbComment(
         avatar: dbComment.profiles?.avatar_url || undefined,
         avatarFrameId: dbComment.profiles?.equipped_avatar_frame_id ?? undefined,
         nameColorId: dbComment.profiles?.equipped_name_color_id ?? undefined,
+        role: (dbComment.profiles?.role as Comment['role']) || 'user',
         content: dbComment.content,
         date: formatRelativeTime(dbComment.created_at),
+        created_at: dbComment.created_at,
         parent_id: dbComment.parent_id || null,
         reply_to_user_id: dbComment.reply_to_user_id || null,
         reply_to_username: dbComment.reply_to_username || null
@@ -259,6 +270,25 @@ export function mapDbDiscussion(
         replies: dbDiscussion.discussion_replies?.map(mapDbComment) || [],
         likes: dbDiscussion.likes_count,
         tags: dbDiscussion.tags || []
+    }
+}
+
+/**
+ * 仅从讨论行 + 已映射的回复列表组装 Discussion（用于详情页分页拉取讨论头与回复时）
+ */
+export function mapDiscussionFromRow(row: DbDiscussionWithProfile, replies: Comment[]): Discussion {
+    return {
+        id: row.id,
+        title: row.title,
+        author: row.profiles?.display_name || 'Unknown',
+        authorAvatar: row.profiles?.avatar_url || undefined,
+        authorAvatarFrameId: row.profiles?.equipped_avatar_frame_id ?? undefined,
+        authorNameColorId: row.profiles?.equipped_name_color_id ?? undefined,
+        content: row.content,
+        date: formatRelativeTime(row.created_at),
+        likes: row.likes_count,
+        tags: row.tags || [],
+        replies,
     }
 }
 
@@ -302,7 +332,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
         coins: 'coins' in dbProfile ? (dbProfile as { coins: number }).coins : undefined,
         equipped_avatar_frame_id: 'equipped_avatar_frame_id' in dbProfile ? (dbProfile as { equipped_avatar_frame_id: string | null }).equipped_avatar_frame_id : undefined,
         equipped_name_color_id: 'equipped_name_color_id' in dbProfile ? (dbProfile as { equipped_name_color_id: string | null }).equipped_name_color_id : undefined,
-        role: (dbProfile.role as 'user' | 'moderator' | 'admin') || 'user'
+        role: (dbProfile.role as 'user' | 'teacher' | 'moderator' | 'admin') || 'user'
     }
 }
 

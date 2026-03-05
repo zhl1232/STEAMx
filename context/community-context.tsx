@@ -142,7 +142,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             } as never)
             .select(`
                 *,
-                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id)
+                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
             `)
             .single();
 

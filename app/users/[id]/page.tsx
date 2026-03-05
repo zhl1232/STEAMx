@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { FolderOpen, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from "@/context/gamification-context";
 import { ProfileSchema, ProjectSchema } from "@/lib/schemas";
 import { z } from "zod";
@@ -28,6 +29,7 @@ interface PublicProfile {
   avatar_url: string | null;
   bio: string | null;
   xp: number;
+  role?: 'user' | 'teacher' | 'moderator' | 'admin';
   created_at: string;
 }
 
@@ -176,7 +178,10 @@ export default function PublicProfilePage() {
           {/* Info */}
           <div className="flex-1 text-center md:text-left space-y-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{userName}</h1>
+              <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+                {profile.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="lg" />}
+                {userName}
+              </h1>
               <p className="text-muted-foreground max-w-xl mx-auto md:mx-0">
                 {profile.bio || "这个人很懒，什么都没写~"}
               </p>
