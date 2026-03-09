@@ -4,8 +4,8 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 
 /**
  * DELETE /api/discussions/[id]
- * 删除讨论回复
- * 用户可以删除自己的回复,管理员/版主可以删除任何回复
+ * 删除讨论主题
+ * 用户可以删除自己的讨论，管理员/版主可以删除任何讨论
  * 权限由 RLS 策略控制
  */
 export async function DELETE(
@@ -21,16 +21,16 @@ export async function DELETE(
     const discussionId = parseInt(id)
     
     // 直接执行删除,RLS 策略会自动检查权限
-    // 策略: "Authors and moderators can delete discussion replies"
+    // 策略: 仅讨论作者或管理员/版主可删除 discussion 记录
     const { error } = await supabase
-      .from('discussion_replies')
+      .from('discussions')
       .delete()
       .eq('id', discussionId)
     
     if (error) {
       if (error.code === 'PGRST301' || error.message.includes('permission')) {
         return NextResponse.json(
-          { error: 'You do not have permission to delete this discussion reply' },
+          { error: 'You do not have permission to delete this discussion' },
           { status: 403 }
         )
       }
@@ -38,7 +38,7 @@ export async function DELETE(
     }
     
     return NextResponse.json({ 
-      message: 'Discussion reply deleted successfully' 
+      message: 'Discussion deleted successfully' 
     })
   } catch (error) {
     return handleApiError(error)

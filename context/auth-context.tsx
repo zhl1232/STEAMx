@@ -1,8 +1,10 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+
 import { createClient } from '@/lib/supabase/client'
+import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 
 type UserRole = 'user' | 'teacher' | 'moderator' | 'admin'
 
@@ -39,14 +41,18 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const smokeMode = isPlaywrightSmokeClient()
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
-  /** 避免同一用户被重复拉 profile（getUser + onAuthStateChange 会触发多次） */
+  const [supabase] = useState(() => (smokeMode ? null : createClient()))
   const lastFetchedUserIdRef = useRef<string | null>(null)
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string) => {
+    if (!supabase) {
+      return null
+    }
+
     const { data } = await supabase
       .from('profiles')
       .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, created_at')
@@ -54,24 +60,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .single()
 
     return data as Profile | null
-  }
+  }, [supabase])
 
   const refreshProfile = useCallback(async () => {
-    if (user) {
-      const profileData = await fetchProfile(user.id)
-      setProfile(profileData)
+    if (!user || !supabase) {
+      return
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id])
+
+    const profileData = await fetchProfile(user.id)
+    setProfile(profileData)
+  }, [fetchProfile, supabase, user])
 
   useEffect(() => {
-    // 仅通过 onAuthStateChange 获取 session + profile，避免 getUser() 与首次回调重复请求
+    if (smokeMode || !supabase) {
+      setLoading(false)
+      return
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         if (session?.user) {
           const userId = session.user.id
           setUser(session.user)
-          // 同一用户在同一会话内只拉一次 profile，除非是登出后重新登录（userId 会变）
           if (lastFetchedUserIdRef.current !== userId) {
             lastFetchedUserIdRef.current = userId
             const profileData = await fetchProfile(userId)
@@ -89,47 +99,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       subscription.unsubscribe()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchProfile, smokeMode, supabase])
 
   const signOut = useCallback(async () => {
     try {
-      // 尝试调用 Supabase 退出登录，但限制等待时间，防止网络问题导致卡死
-      const signOutPromise = supabase.auth.signOut()
-      const timeoutPromise = new Promise(resolve => setTimeout(resolve, 500)) // 500ms 超时
-
-      await Promise.race([signOutPromise, timeoutPromise])
+      if (supabase) {
+        const signOutPromise = supabase.auth.signOut()
+        const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 500))
+        await Promise.race([signOutPromise, timeoutPromise])
+      }
     } catch (error) {
       console.error('Error signing out:', error)
     } finally {
-      // 无论 Supabase 调用是否成功，都执行本地清理和跳转
-
-      // 清除所有 Supabase 相关的 localStorage 数据
       if (typeof window !== 'undefined') {
-        Object.keys(localStorage).forEach(key => {
+        Object.keys(localStorage).forEach((key) => {
           if (key.startsWith('sb-')) {
             localStorage.removeItem(key)
           }
         })
 
-        // 尝试清除 Cookies (以 sb- 开头的)
-        document.cookie.split(";").forEach((c) => {
-          const key = c.trim().split("=")[0];
-          if (key.startsWith("sb-")) {
-            document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie.split(';').forEach((cookie) => {
+          const key = cookie.trim().split('=')[0]
+          if (key.startsWith('sb-')) {
+            document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
           }
-        });
+        })
       }
 
-      // 清除状态
       setUser(null)
       setProfile(null)
-
-      // 刷新页面以确保所有状态被清除
       window.location.href = '/'
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [supabase])
 
   const isAdmin = profile?.role === 'admin'
   const isModerator = profile?.role === 'moderator'
@@ -152,7 +153,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     canManageTags,
     signOut,
     refreshProfile,
-  }), [user, profile, loading, isAdmin, isModerator, isTeacher, canReview, canExpertReview, canDeleteComments, canManageTags, signOut, refreshProfile])
+  }), [
+    canDeleteComments,
+    canExpertReview,
+    canManageTags,
+    canReview,
+    isAdmin,
+    isModerator,
+    isTeacher,
+    loading,
+    profile,
+    refreshProfile,
+    signOut,
+    user,
+  ])
 
   return (
     <AuthContext.Provider value={contextValue}>

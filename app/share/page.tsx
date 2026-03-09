@@ -63,13 +63,6 @@ function ShareForm() {
         tags: []
     });
 
-    // 检查登录状态
-    useEffect(() => {
-        if (!user) {
-            router.push('/login');
-        }
-    }, [user, router]);
-
     // 加载编辑数据
     useEffect(() => {
         const loadProjectToEdit = async () => {

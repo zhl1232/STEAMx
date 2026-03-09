@@ -8,7 +8,6 @@ import { getShopItemById } from '@/lib/shop/items'
 import { useQuery } from '@tanstack/react-query'
 
 type CoinLogRow = Database['public']['Tables']['coin_logs']['Row']
-import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import Link from 'next/link'
 import { Coins, ArrowLeft, Loader2, AlertCircle } from 'lucide-react'
@@ -51,7 +50,6 @@ function formatDate(iso: string): string {
 export default function CoinsPage() {
   const { user, loading: authLoading } = useAuth()
   const { coins = 0 } = useGamification()
-  const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
   const {
@@ -76,12 +74,7 @@ export default function CoinsPage() {
     refetchOnWindowFocus: true,
   })
 
-  if (!authLoading && !user) {
-    router.replace('/login')
-    return null
-  }
-
-  if (authLoading) {
+  if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />

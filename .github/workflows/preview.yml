@@ -1,0 +1,134 @@
+name: Preview Deploy
+
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    environment: preview
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.22.0
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate required deployment secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            CLOUDFLARE_API_TOKEN
+            CLOUDFLARE_ACCOUNT_ID
+            NEXT_PUBLIC_SUPABASE_URL
+            NEXT_PUBLIC_SUPABASE_ANON_KEY
+          )
+
+          for name in "${required[@]}"; do
+            if [ -z "${!name:-}" ]; then
+              echo "Missing required GitHub Actions secret: $name" >&2
+              exit 1
+            fi
+          done
+
+      - name: Build preview worker
+        run: pnpm exec opennextjs-cloudflare build --env preview
+
+      - name: Sync preview runtime secrets to Cloudflare
+        run: |
+          node - <<'NODE'
+          const fs = require('fs')
+          const secrets = {
+            NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+            NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          }
+
+          if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            secrets.SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+          }
+
+          fs.writeFileSync('cloudflare-secrets.preview.json', JSON.stringify(secrets))
+          NODE
+          pnpm exec wrangler secret bulk cloudflare-secrets.preview.json --env preview
+
+      - name: Deploy preview worker
+        id: deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec opennextjs-cloudflare deploy --env preview 2>&1 | tee deploy-preview.log
+          deploy_url=$(grep -Eo 'https://[^[:space:]]+' deploy-preview.log | tail -n1)
+
+          if [ -z "$deploy_url" ]; then
+            echo 'Preview deployment succeeded but no URL was detected in output.' >&2
+            exit 1
+          fi
+
+          echo "deploy_url=$deploy_url" >> "$GITHUB_OUTPUT"
+          {
+            echo '### Preview Deployment'
+            echo "- URL: $deploy_url"
+            echo '- Worker: `steam-preview`'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment preview URL on pull request
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_URL: ${{ steps.deploy.outputs.deploy_url }}
+        with:
+          script: |
+            const marker = '<!-- steam-preview-url -->'
+            const body = `${marker}\n🚀 Preview 已更新：${process.env.DEPLOY_URL}\n\n环境：\`steam-preview\``
+            const { owner, repo } = context.repo
+            const issue_number = context.issue.number
+            const { data: comments } = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            })
+            const existing = comments.find((comment) => comment.body?.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              })
+            }

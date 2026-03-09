@@ -87,12 +87,6 @@ function MessagesContent() {
     return () => observer.disconnect();
   }, [tab, hasMore, isLoadingMore, loadMore]);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push("/login");
-    }
-  }, [user, authLoading, router]);
-
   const handleNotificationClick = async (n: Notification) => {
     if (!n.is_read) await markAsRead(n.id);
     if (n.type === "creator_update" && n.project_id) {

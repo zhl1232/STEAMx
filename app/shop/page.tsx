@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import Link from 'next/link'
 import { Coins, Loader2, Sparkles, ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast'
 import { useMemo } from 'react'
@@ -20,7 +19,6 @@ import type { Profile } from '@/lib/types/database'
 export default function ShopPage() {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth()
   const { coins = 0 } = useGamification()
-  const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
   const queryClient = useQueryClient()
   const { toast } = useToast()
@@ -86,10 +84,7 @@ export default function ShopPage() {
     },
   })
 
-  if (!authLoading && !user) {
-    router.replace('/login')
-    return null
-  }
+  if (authLoading || !user) return null
 
   return (
     <div className="container max-w-4xl py-8 px-4">

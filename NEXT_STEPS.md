@@ -90,38 +90,41 @@
 ### 测试
 
 - [ ] **集成测试 (Integration Tests)**
-  - **策略**: 针对本地 Supabase 实例运行测试，覆盖核心路径 (注册 -> 创建项目 -> 评论互动)。**E2E（Playwright 核心路径）暂不实施。**
-  - [x] **数据模拟**: 编写 Seed 脚本，确保测试环境数据一致性。
-- [x] **CI/CD 流水线 (Automation)**
-  - **GitHub Actions**:
-    - **PR Check**: 自动运行 `Type Check`, `Lint`, `Build` 检查。
-    - **Preview**: 自动部署 Cloudflare Pages 预览环境 (针对每个 PR)。
-    - **Release**:合并到 main 分支后自动打 Tag 并部署到 Cloudflare 生产环境。
+  - **现状**: 已有 Jest 单测与 Playwright 核心烟测；尚未接入基于本地 Supabase 的端到端业务集成测试。
+  - **下一步**: 覆盖注册 -> 创建项目 -> 评论互动等核心链路。
+  - [x] **数据模拟**: 已有 seed / migration 保障测试数据一致性。
+- [x] **CI / PR 校验**
+  - **已完成**: `.github/workflows/ci.yml` 已运行 `Lint`、`Type Check`、`Jest`、`Build`、`OpenNext Cloudflare build` 与 Playwright smoke。
+  - **已完成**: `.github/workflows/preview.yml` 与 `.github/workflows/release.yml` 已落地，分别覆盖 Preview 与生产部署。
+  - **现状**: Preview 目前使用共享 Worker `steam-preview`，满足内部协作；若未来 PR 数量增加，再评估按 PR 动态命名。
 
 ### 性能与体验优化 (Performance & UX)
 
-- [x] **加载性能缓存与骨架屏 (Suspense & Caching)**
-  - 根据 React Server Components (RSC) 特性，全面审查数据获取层，通过 `<Suspense>` 提供骨架屏平滑加载 (优化 LCP 与 CLS)。
-  - 对 `framer-motion`, `canvas-confetti` 以及富文本渲染器等重依赖利用 `next/dynamic` 实施路由或组件级懒加载。
+- [~] **加载性能缓存与骨架屏 (持续优化中)**
+  - **已完成**: 已引入骨架屏、部分 Suspense 与 TanStack Query 缓存。
+  - **本轮新增**: 首页公开数据改为并行请求，`ProjectProvider` 从根布局下沉为按路由挂载。
+  - **本轮新增**: Playwright smoke 已切到稳定 fixture 模式，公开页离线可重复运行。
+  - **待补充**: 继续收敛公开首屏数据到 Server Components，减少客户端直连 Supabase 面积。
 - [x] **图片与多媒体加载优化**
   - 在 `next/config` 中全面检查 Cloudflare / Supabase Storage 的图片白名单配置。
   - 分离或接入 Cloudflare Images 等服务，确保用户上传的图片经过自动压缩，统一以 WebP/AVIF 等现代格式响应。
-- [x] **离线化支持与状态管理 (TanStack Query v5)**
-  - 深入结合使用的 TanStack Query V5 特性，配置更好的 `staleTime` 和 `gcTime`，在适当处引入乐观更新 (Optimistic Updates)。
-  - 考虑添加 Web App Manifest 提供轻量级的 PWA/Service Worker 支持。
+- [~] **离线化支持与状态管理 (TanStack Query v5)**
+  - **已完成**: Query Provider 已配置 `staleTime` / `gcTime` / `offlineFirst`，局部交互已使用 optimistic update。
+  - **待补充**: PWA / Service Worker 尚未落地，更多只读数据仍可迁回服务端。
 
 ### 搜索引擎优化与分析 (SEO & Analytics)
 
-- [x] **SEO 与 OpenGraph (动态 Meta tags)**
-  - 为个人主页和项目详情页动态生成 Meta Tags 与 OpenGraph/Twitter 卡片标签，提升在外部社交群体的分享访问点击率。
-  - 添加自动生成的 `sitemap.xml` 和 `robots.txt`，优化各大搜索引擎收录。
+- [~] **SEO 与 OpenGraph (动态 Meta tags)**
+  - **已完成**: 已提供 `sitemap.xml`、`robots.txt` 与基础站点 metadata。
+  - **待补充**: 继续补齐更多页面级动态 metadata 与分享卡片细节。
 
 ### 安全与生产环境稳定性 (Security & Stability)
 
 - [x] **访问控制深度审计 (RLS & 鉴权)**
   - 对 Supabase 的 Row Level Security (RLS) 策略进行全面二次审计，确保零越权隐患（尤其是涉及用户金币和 XP 变动的核心业务表）。
-- [x] **限流防刷 (Rate Limiting)**
-  - 针对高频写入接口（如点赞、评论、打卡、投币业务），在系统边界（Cloudflare WAF 或 Next Proxy）增加限流过滤机制，防止脚本恶意刷量。
+- [ ] **限流防刷 (Rate Limiting)**
+  - **现状**: 仓库内尚未落地统一的 Cloudflare WAF / Edge 限流实现。
+  - **注意**: Cloudflare 目标下继续保留 `middleware.ts` 做 session 刷新；限流策略需单独设计，不与 Next 16 `proxy.ts` 迁移绑定。
 
 ### PBL (项目式学习) 核心体验升级
 

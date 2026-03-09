@@ -13,12 +13,12 @@ STEAM Explore & Share 是一个互动式学习平台，让孩子们能够：
 
 ## 🚀 技术栈
 
-- **前端框架**: Next.js 14 (React 18)
-- **样式**: Tailwind CSS + shadcn/ui
-- **后端服务**: Supabase (数据库 + 认证 + 存储)
-- **动画**: Framer Motion
-- **类型检查**: TypeScript
-- **代码质量**: ESLint + Commitlint + Husky
+- **前端框架**: Next.js 16 + React 19
+- **样式系统**: Tailwind CSS + shadcn/ui
+- **服务端与数据**: Supabase (数据库 + 认证 + 存储)
+- **客户端状态**: TanStack Query v5
+- **部署目标**: OpenNext Cloudflare + Cloudflare Workers
+- **工程质量**: TypeScript / ESLint / Jest / Playwright / Husky
 
 ## ✨ 主要功能
 
@@ -103,11 +103,9 @@ supabase db push
 
 6. **测试环境数据一致性**：种子数据已包含在 **migrations** 中（见 `supabase/migrations/20260130000001_seed_init.sql` 等）；在远程/自建 Supabase 上应用这些 migration 后即可得到一致初始数据。测试账号与说明见 **supabase/seed.sql** 顶部注释。若使用阿里云 AnalyticDB（不支持 Supabase CLI），执行 migration 或「重置」方式见 [docs/database-psql.md](./docs/database-psql.md)。
 
-详细的数据库设置说明请参考：
-- [SUPABASE_AUTH_SETUP.md](./SUPABASE_AUTH_SETUP.md) - 认证设置
-- [SUPABASE_TABLE_SETUP.md](./SUPABASE_TABLE_SETUP.md) - 数据表设置
-- [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) - 迁移指南
+数据库迁移与特殊环境说明请参考：
 - [docs/database-psql.md](./docs/database-psql.md) - 阿里云 AnalyticDB 版：使用 psql 直连（不支持 Supabase CLI 时的迁移与重置）
+- [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md) - Cloudflare / OpenNext 部署说明与兼容约束
 
 ### 启动开发服务器
 
@@ -128,27 +126,14 @@ pnpm start
 
 ```
 steam-explore-share/
-├── app/                      # Next.js App Router
-│   ├── (auth)/              # 认证相关页面
-│   ├── admin/               # 管理员页面
-│   ├── api/                 # API 路由
-│   ├── community/           # 社区页面
-│   ├── profile/             # 用户资料页面
-│   └── projects/            # 项目相关页面
-├── components/              # React 组件
-│   ├── admin/              # 管理组件
-│   ├── features/           # 功能组件
-│   └── ui/                 # UI 基础组件 (shadcn/ui)
-├── context/                # React Context
-│   ├── auth-context.tsx    # 认证上下文
-│   └── project-context.tsx # 项目数据上下文
-├── lib/                    # 工具库
-│   ├── supabase/          # Supabase 客户端
-│   └── utils.ts           # 通用工具函数
-├── supabase/              # Supabase 配置
-│   └── migrations/        # 数据库迁移文件
-├── public/                # 静态资源
-└── hooks/                 # 自定义 React Hooks
+├── app/                    # App Router 页面、路由处理与 route layouts
+├── components/             # UI 基础组件与业务组件
+├── context/                # 客户端状态与跨页上下文
+├── hooks/                  # 自定义 hooks
+├── lib/                    # Supabase、mapper、schema、工具函数
+├── supabase/               # 迁移、seed、脚本
+├── docs/                   # 部署与历史文档
+└── e2e/                    # Playwright 核心路径测试
 ```
 
 ## 🗄️ 数据库架构
@@ -167,7 +152,7 @@ steam-explore-share/
 - `user_badges` - 用户徽章
 - `tags` - 标签系统
 
-完整的数据库架构请查看 [supabase-schema.sql](./supabase-schema.sql)
+完整结构以 `supabase/migrations/` 与生成类型 `lib/supabase/types.ts` 为准。
 
 ## 🔒 权限系统
 
@@ -222,15 +207,16 @@ Husky 会在提交时自动检查提交信息格式。
 
 ## ☁️ 部署
 
-- **Cloudflare (Workers)**：见 [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md)，使用 OpenNext 适配器部署到 Cloudflare Workers。
-  - **注意**：部署到 Cloudflare 时不能使用 Next.js 16 的 `proxy.ts`，OpenNext 仅支持 Edge 的 `middleware.ts`。项目已使用 `middleware.ts` 以兼容 Cloudflare 部署。
+- **Cloudflare (Workers)**：见 [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md)，正式部署路径为 GitHub Actions + OpenNext Cloudflare。
+  - **Preview**：`.github/workflows/preview.yml` 部署到 `steam-preview` 并回写 PR 预览地址。
+  - **Release**：`.github/workflows/release.yml` 在 `main` / `v*` tag 上部署生产 Worker `steam`。
+  - **注意**：当前 Cloudflare 目标下保留 `middleware.ts`，不迁移到 `proxy.ts`。原因见部署文档中的 OpenNext 兼容说明。
 
 ## 📚 相关文档
 
-- [AUTH_USER_GUIDE.md](./docs/archive/AUTH_USER_GUIDE.md) - 用户认证指南
-- [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) - 数据迁移指南
-- [SUPABASE_AUTH_SETUP.md](./SUPABASE_AUTH_SETUP.md) - Supabase 认证设置
-- [SUPABASE_TABLE_SETUP.md](./SUPABASE_TABLE_SETUP.md) - Supabase 数据表设置
+- [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md) - Cloudflare / OpenNext 部署说明
+- [docs/database-psql.md](./docs/database-psql.md) - psql 迁移与重置说明
+- [docs/archive/AUTH_USER_GUIDE.md](./docs/archive/AUTH_USER_GUIDE.md) - 认证历史说明
 
 ## 🤝 贡献
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -48,7 +47,6 @@ interface ModeratorApplication {
 }
 
 export default function ModeratorApplicationsPage() {
-    const router = useRouter();
     const { canReview, loading: authLoading } = useAuth();
     const { toast } = useToast();
     const [applications, setApplications] = useState<ModeratorApplication[]>([]);
@@ -58,13 +56,6 @@ export default function ModeratorApplicationsPage() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [showRejectDialog, setShowRejectDialog] = useState(false);
     const supabase = createClient();
-
-    // 检查权限
-    useEffect(() => {
-        if (!authLoading && !canReview) {
-            router.push('/');
-        }
-    }, [authLoading, canReview, router]);
 
     const fetchApplications = useCallback(async () => {
         setIsLoading(true);

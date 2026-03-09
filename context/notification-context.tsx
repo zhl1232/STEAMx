@@ -54,7 +54,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const notificationsRef = useRef<Notification[]>([]);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
   const { user } = useAuth();
 
   notificationsRef.current = notifications;

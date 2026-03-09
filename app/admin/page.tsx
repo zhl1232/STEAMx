@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
@@ -45,7 +44,6 @@ interface Project {
 }
 
 export default function AdminPage() {
-  const router = useRouter()
   const { canReview, loading } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>([])
@@ -103,15 +101,10 @@ export default function AdminPage() {
   }, [fetchPendingProjects, fetchAllProjects])
 
   useEffect(() => {
-    if (!loading && !canReview) {
-      router.push('/')
-      return
-    }
-
     if (!loading && canReview) {
       loadData()
     }
-  }, [loading, canReview, router, loadData])
+  }, [loading, canReview, loadData])
 
 
   if (loading || isLoading) {

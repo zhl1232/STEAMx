@@ -1,0 +1,100 @@
+name: Release Deploy
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.22.0
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate required deployment secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            CLOUDFLARE_API_TOKEN
+            CLOUDFLARE_ACCOUNT_ID
+            NEXT_PUBLIC_SUPABASE_URL
+            NEXT_PUBLIC_SUPABASE_ANON_KEY
+          )
+
+          for name in "${required[@]}"; do
+            if [ -z "${!name:-}" ]; then
+              echo "Missing required GitHub Actions secret: $name" >&2
+              exit 1
+            fi
+          done
+
+      - name: Build production worker
+        run: pnpm exec opennextjs-cloudflare build
+
+      - name: Sync production runtime secrets to Cloudflare
+        run: |
+          node - <<'NODE'
+          const fs = require('fs')
+          const secrets = {
+            NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+            NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          }
+
+          if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            secrets.SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+          }
+
+          fs.writeFileSync('cloudflare-secrets.production.json', JSON.stringify(secrets))
+          NODE
+          pnpm exec wrangler secret bulk cloudflare-secrets.production.json
+
+      - name: Deploy production worker
+        id: deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec opennextjs-cloudflare deploy 2>&1 | tee deploy-production.log
+          deploy_url=$(grep -Eo 'https://[^[:space:]]+' deploy-production.log | tail -n1)
+
+          if [ -z "$deploy_url" ]; then
+            echo 'Production deployment succeeded but no URL was detected in output.' >&2
+            exit 1
+          fi
+
+          echo "deploy_url=$deploy_url" >> "$GITHUB_OUTPUT"
+          {
+            echo '### Production Deployment'
+            echo "- URL: $deploy_url"
+            echo '- Worker: `steam`'
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -9,12 +9,10 @@ import { getProjects } from "@/lib/api/explore-data";
 import { HomeClient } from "./home-client";
 
 export default async function Home() {
-    // 1. Fetch featured/popular projects (e.g., sort by likes or curated)
-    // For now, reuse the same fetch but ideally this would be sorted by popularity
-    const { projects: popularProjects } = await getProjects({}, { page: 0, pageSize: 6 });
-
-    // 2. Fetch latest projects
-    const { projects: latestProjects } = await getProjects({}, { page: 0, pageSize: 10 });
+    const [{ projects: popularProjects }, { projects: latestProjects }] = await Promise.all([
+        getProjects({}, { page: 0, pageSize: 6, sortBy: "popular" }),
+        getProjects({}, { page: 0, pageSize: 10, sortBy: "latest" }),
+    ]);
 
     return (
         <>
@@ -109,5 +107,4 @@ export default async function Home() {
         </>
     );
 }
-
 

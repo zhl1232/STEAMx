@@ -228,6 +228,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const deleteReply = useCallback(async (replyId: string | number) => {
         if (!user) return;
         const rid = replyId;
+        const previousDiscussions = discussions;
 
         // Optimistic update
         setDiscussions(prev => prev.map(d => {
@@ -245,13 +246,15 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         });
 
         if (!response.ok) {
+            setDiscussions(previousDiscussions);
             console.error('Error deleting reply:', await response.text());
         }
-    }, [user]);
+    }, [user, discussions]);
 
     const deleteDiscussion = useCallback(async (discussionId: string | number) => {
         if (!user) return;
         const did = discussionId;
+        const previousDiscussions = discussions;
 
         // Optimistic update
         setDiscussions(prev => prev.filter(d => d.id !== did));
@@ -261,9 +264,10 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         });
 
         if (!response.ok) {
+            setDiscussions(previousDiscussions);
             console.error('Error deleting discussion:', await response.text());
         }
-    }, [user]);
+    }, [user, discussions]);
 
     const contextValue = useMemo(() => ({
         discussions,

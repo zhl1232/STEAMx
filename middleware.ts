@@ -1,11 +1,27 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { getSupabaseEnv } from '@/lib/supabase/env'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
+
 /**
  * Next.js Edge Middleware
- * 用于在每个请求中刷新 Supabase 认证 token (必须是Edge兼容的)
+ * 用于在每个请求中刷新 Supabase 认证 token (必须是 Edge 兼容的)
+ *
+ * 注意：当前保留 `middleware.ts` 是有意为之。
+ * 在 OpenNext Cloudflare 目标下仍需使用 Edge middleware，
+ * 暂不迁移到 Next.js 16 的 `proxy.ts`。
  */
 export async function middleware(request: NextRequest) {
+  if (isPlaywrightSmoke()) {
+    return NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    })
+  }
+
+  const { url, anonKey } = getSupabaseEnv()
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -13,8 +29,8 @@ export async function middleware(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
+    url,
+    anonKey,
     {
       cookies: {
         get(name: string) {
@@ -58,25 +74,13 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // 刷新 session（如果有的话）
   await supabase.auth.getUser()
 
   return response
 }
 
-/**
- * 配置中间件匹配规则
- * 匹配所有路由，但排除静态文件
- */
 export const config = {
   matcher: [
-    /*
-     * 匹配所有请求路径，除了：
-     * - _next/static (静态文件)
-     * - _next/image (图片优化文件)
-     * - favicon.ico (网站图标)
-     * - 静态资源文件 (svg, png, jpg, jpeg, gif, webp)
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

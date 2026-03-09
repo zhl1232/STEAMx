@@ -4,6 +4,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
+import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
 import {
   mapDbProject,
   mapDbCompletion,
@@ -15,6 +16,89 @@ import {
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
+
+type SmokeProject = Project & {
+  createdAt: string;
+};
+
+const SMOKE_CATEGORIES = ["全部", "科学", "工程", "艺术"];
+
+const SMOKE_PROJECTS: SmokeProject[] = [
+  {
+    id: 101,
+    title: "磁力寻宝实验",
+    author: "Smoke Teacher",
+    author_id: "smoke-user-1",
+    image: "/projects/magnet_fishing.png",
+    category: "科学",
+    sub_category: "物理",
+    likes: 42,
+    comments_count: 6,
+    coins_count: 2,
+    description: "用磁铁观察不同材料的吸附差异，记录实验结果。",
+    materials: ["磁铁", "水桶", "金属小物件"],
+    steps: [
+      { title: "准备材料", description: "准备磁铁和待观察的材料。" },
+      { title: "开始实验", description: "记录哪些材料会被吸附。" },
+    ],
+    difficulty: "easy",
+    difficulty_stars: 2,
+    duration: 20,
+    tags: ["磁力", "观察"],
+    status: "approved",
+    createdAt: "2026-03-06T09:00:00.000Z",
+  },
+  {
+    id: 102,
+    title: "翻滚杯玩具",
+    author: "Maker Lab",
+    author_id: "smoke-user-2",
+    image: "/projects/tumbler_toy.png",
+    category: "工程",
+    sub_category: "结构",
+    likes: 58,
+    comments_count: 9,
+    coins_count: 4,
+    description: "用重心和平衡原理制作一个会自动站起来的小玩具。",
+    materials: ["纸杯", "橡皮泥", "贴纸"],
+    steps: [
+      { title: "搭主体", description: "制作外壳并预留配重空间。" },
+      { title: "调重心", description: "不断调整底部配重。" },
+    ],
+    difficulty: "medium",
+    difficulty_stars: 4,
+    duration: 35,
+    tags: ["平衡", "结构"],
+    status: "approved",
+    createdAt: "2026-03-08T10:30:00.000Z",
+  },
+  {
+    id: 103,
+    title: "手工杯垫编织",
+    author: "Creative Corner",
+    author_id: "smoke-user-3",
+    image: "/projects/handmade_coaster.png",
+    category: "艺术",
+    sub_category: "手工",
+    likes: 27,
+    comments_count: 3,
+    coins_count: 1,
+    description: "从配色到编织，完成一个可重复制作的家居小物件。",
+    materials: ["毛线", "针", "剪刀"],
+    steps: [
+      { title: "选择配色", description: "准备主色与点缀色。" },
+      { title: "完成编织", description: "按顺序完成杯垫。" },
+    ],
+    difficulty: "easy",
+    difficulty_stars: 3,
+    duration: 25,
+    tags: ["编织", "配色"],
+    status: "approved",
+    createdAt: "2026-03-04T08:15:00.000Z",
+  },
+];
+
+const SMOKE_TAGS = Array.from(new Set(SMOKE_PROJECTS.flatMap((project) => project.tags || []))).sort();
 
 /**
  * 项目筛选参数
@@ -36,6 +120,114 @@ export interface ProjectFilters {
 export interface PaginationOptions {
   page?: number;
   pageSize?: number;
+  sortBy?: "latest" | "popular";
+}
+
+function getSmokeProjects(
+  filters: ProjectFilters = {},
+  pagination: PaginationOptions = {},
+): { projects: Project[]; total: number; hasMore: boolean } {
+  const { page = 0, pageSize = 12, sortBy = "latest" } = pagination;
+
+  const filteredProjects = SMOKE_PROJECTS.filter((project) => {
+    if (filters.category && filters.category !== "全部" && project.category !== filters.category) {
+      return false;
+    }
+
+    if (filters.subCategory && project.sub_category !== filters.subCategory) {
+      return false;
+    }
+
+    if (filters.difficulty && filters.difficulty !== "all") {
+      const stars = project.difficulty_stars || 0;
+      if (filters.difficulty === "1-2" && (stars < 1 || stars > 2)) return false;
+      if (filters.difficulty === "3-4" && (stars < 3 || stars > 4)) return false;
+      if (filters.difficulty === "5-6" && (stars < 5 || stars > 6)) return false;
+      if (["easy", "medium", "hard"].includes(filters.difficulty) && project.difficulty !== filters.difficulty) {
+        return false;
+      }
+    }
+
+    if (filters.minDuration !== undefined && (project.duration || 0) < filters.minDuration) {
+      return false;
+    }
+
+    if (filters.maxDuration !== undefined && (project.duration || 0) > filters.maxDuration) {
+      return false;
+    }
+
+    if (filters.materials?.length) {
+      const materials = new Set(project.materials || []);
+      if (!filters.materials.some((material) => materials.has(material))) {
+        return false;
+      }
+    }
+
+    if (filters.tags?.length) {
+      const tags = new Set(project.tags || []);
+      if (!filters.tags.every((tag) => tags.has(tag))) {
+        return false;
+      }
+    }
+
+    if (filters.searchQuery) {
+      const keyword = filters.searchQuery.toLowerCase();
+      const haystack = `${project.title} ${project.description || ""}`.toLowerCase();
+      if (!haystack.includes(keyword)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  const sortedProjects = [...filteredProjects].sort((left, right) => {
+    if (sortBy === "popular" && right.likes !== left.likes) {
+      return right.likes - left.likes;
+    }
+
+    return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
+  });
+
+  const from = page * pageSize;
+  const to = from + pageSize;
+  const projects = sortedProjects.slice(from, to).map(({ createdAt: _createdAt, ...project }) => project);
+
+  return {
+    projects,
+    total: sortedProjects.length,
+    hasMore: to < sortedProjects.length,
+  };
+}
+
+export async function getExploreFilterOptions(): Promise<{
+  categories: string[];
+  availableTags: string[];
+}> {
+  if (isPlaywrightSmoke()) {
+    return {
+      categories: SMOKE_CATEGORIES,
+      availableTags: SMOKE_TAGS,
+    };
+  }
+
+  const supabase = await createClient();
+  const [{ data: categoriesData }, { data: tagsData }] = await Promise.all([
+    supabase.from("categories").select("name").order("sort_order"),
+    supabase.from("projects").select("tags").eq("status", "approved").not("tags", "is", null),
+  ]);
+
+  const categories = ["全部", ...((categoriesData as { name: string }[] | null)?.map((category) => category.name) || [])];
+  const categoryNames = new Set(categories);
+  const availableTags = Array.from(
+    new Set(
+      (((tagsData as { tags: string[] | null }[] | null) || [])
+        .flatMap((project) => project.tags || [])
+        .filter((tag) => tag && !categoryNames.has(tag))),
+    ),
+  ).sort();
+
+  return { categories, availableTags };
 }
 
 /**
@@ -49,6 +241,10 @@ export async function getProjects(
   filters: ProjectFilters = {},
   pagination: PaginationOptions = {},
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
+  if (isPlaywrightSmoke()) {
+    return getSmokeProjects(filters, pagination);
+  }
+
   const supabase = await createClient();
 
   const {
@@ -62,39 +258,33 @@ export async function getProjects(
     searchQuery,
   } = filters;
 
-  const { page = 0, pageSize = 12 } = pagination;
+  const { page = 0, pageSize = 12, sortBy = "latest" } = pagination;
 
   const from = page * pageSize;
   const to = from + pageSize - 1;
 
-  // 构建查询
-  let selectStatement = `
+  const materialsJoin = materials && materials.length > 0 ? "project_materials!inner (*)" : "project_materials (*)";
+  const subCategoriesJoin = subCategory ? "sub_categories!inner (name)" : "sub_categories (name)";
+  const selectStatement = `
       *,
       profiles:author_id (display_name),
-      project_materials (*),
+      ${materialsJoin},
       project_steps (*),
-      sub_categories (name)
+      ${subCategoriesJoin}
     `;
-
-  // 如果有子分类筛选，需要使用 inner join
-  if (subCategory) {
-    selectStatement = `
-          *,
-          profiles:author_id (display_name),
-          project_materials (*),
-          project_steps (*),
-          sub_categories!inner (name)
-        `;
-  }
 
   let query = supabase
     .from("projects")
     .select(selectStatement, { count: "exact" })
     .eq("status", "approved")
-    .order("created_at", { ascending: false })
     .range(from, to);
 
-  // 应用筛选条件
+  if (sortBy === "popular") {
+    query = query.order("likes_count", { ascending: false }).order("created_at", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
   if (searchQuery) {
     query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
   }
@@ -107,7 +297,6 @@ export async function getProjects(
     query = query.eq("sub_categories.name", subCategory);
   }
 
-  // 难度筛选：支持星级范围
   if (difficulty && difficulty !== "all") {
     if (difficulty === "1-2") {
       query = query.gte("difficulty_stars", 1).lte("difficulty_stars", 2);
@@ -120,9 +309,7 @@ export async function getProjects(
     }
   }
 
-  // 标签筛选：匹配包含所有选中标签的项目（AND 关系）
   if (tags && tags.length > 0) {
-    // 使用 contains 操作符检查 tags 数组是否包含所有指定的标签
     query = query.contains("tags", tags);
   }
 
@@ -135,23 +322,8 @@ export async function getProjects(
     }
   }
 
-  // 材料筛选需要特殊处理
   if (materials && materials.length > 0) {
-    const { data: projectsWithMaterials } = await supabase
-      .from("project_materials")
-      .select("project_id")
-      .in("material", materials);
-
-    if (projectsWithMaterials && projectsWithMaterials.length > 0) {
-      // 类型断言：数据库查询返回的类型可能与本地类型定义不同步
-      const projectIds = Array.from(
-        new Set((projectsWithMaterials as { project_id: number }[]).map((m) => m.project_id)),
-      );
-      query = query.in("id", projectIds);
-    } else {
-      // 没有匹配的项目
-      return { projects: [], total: 0, hasMore: false };
-    }
+    query = query.in("project_materials.material", materials);
   }
 
   const { data, error, count } = await query;
@@ -162,16 +334,16 @@ export async function getProjects(
   }
 
   const rows = (data || []) as unknown as ProjectRowForMapper[];
-  const projectIds = rows.map((p) => p.id);
+  const projectIds = rows.map((project) => project.id);
 
   if (projectIds.length > 0) {
     const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: projectIds.map((id) => Number(id)),
     });
     const countByProjectId = new Map(
-      ((countRows as { project_id: number; comment_count: number }[]) || []).map((r) => [
-        r.project_id,
-        r.comment_count,
+      ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
+        row.project_id,
+        row.comment_count,
       ]),
     );
     for (const row of rows) {
@@ -183,7 +355,6 @@ export async function getProjects(
   const total = count || 0;
   const hasMore = total > to + 1;
 
-  // 列表只展示项目自身的投币数（作品在各自展示）
   return { projects, total, hasMore };
 }
 
@@ -248,8 +419,8 @@ export async function getProjectComments(
       { count: "exact" },
     )
     .eq("project_id", Number(projectId))
-    .is("parent_id", null) // 只取顶层评论
-    .order("created_at", { ascending: false }) // 最新在前
+    .is("parent_id", null)
+    .order("created_at", { ascending: false })
     .range(from, to);
 
   if (error) {
@@ -259,9 +430,6 @@ export async function getProjectComments(
 
   let allComments = (roots || []).map(mapDbComment);
 
-  // 为了支持「任意层级」的嵌套回复，这里直接拉取该项目下所有非顶层评论，
-  // 然后交给前端通过 parent_id 递归构建树。
-  // 这样回复 A、回复 A 的回复、回复回复…… 只要 parent_id 正确，都会在前端显示出来。
   const { data: replies } = await supabase
     .from("comments")
     .select(`
@@ -318,15 +486,15 @@ export async function getRelatedProjects(
   }
 
   const rows = data as unknown as ProjectRowForMapper[];
-  const projectIds = rows.map((p) => p.id);
+  const projectIds = rows.map((project) => project.id);
   if (projectIds.length > 0) {
     const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: projectIds.map((id) => Number(id)),
     });
     const countByProjectId = new Map(
-      ((countRows as { project_id: number; comment_count: number }[]) || []).map((r) => [
-        r.project_id,
-        r.comment_count,
+      ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
+        row.project_id,
+        row.comment_count,
       ]),
     );
     for (const row of rows) {
@@ -350,8 +518,6 @@ export async function getProjectCompletions(
 ): Promise<ProjectCompletion[]> {
   const supabase = await createClient();
 
-  // 先查询 completed_projects
-  // 使用类型断言因为本地 types.ts 可能未同步数据库最新 schema
   const { data: completions, error } = await supabase
     .from("completed_projects")
     .select("*")
@@ -365,26 +531,22 @@ export async function getProjectCompletions(
     return [];
   }
 
-  // 获取所有 user_ids（类型断言：Supabase 类型可能未同步）
   type CompletionRow = { user_id: string; [key: string]: unknown };
-  const userIds = [...new Set((completions as CompletionRow[]).map((c) => c.user_id))];
+  const userIds = [...new Set((completions as CompletionRow[]).map((completion) => completion.user_id))];
 
-  // 单独查询 profiles
   const { data: profiles } = await supabase
     .from("profiles")
     .select("id, display_name, avatar_url, equipped_avatar_frame_id")
     .in("id", userIds);
 
-  // 创建 profiles 映射
   type ProfileRow = {
     id: string;
     display_name: string | null;
     avatar_url: string | null;
     equipped_avatar_frame_id: string | null;
   };
-  const profilesMap = new Map(((profiles as ProfileRow[]) || []).map((p) => [p.id, p]));
+  const profilesMap = new Map(((profiles as ProfileRow[]) || []).map((profile) => [profile.id, profile]));
 
-  // 组合数据
   type CompletionData = {
     user_id: string;
     id: number;

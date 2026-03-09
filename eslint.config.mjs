@@ -10,6 +10,7 @@ export default [
     ignores: [
       "node_modules/**",
       ".next/**",
+      ".open-next/**",
       "out/**",
       "public/**",
       "*.config.js",

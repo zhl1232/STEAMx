@@ -17,6 +17,17 @@
       "service": "steam"
     }
   ],
+  "env": {
+    "preview": {
+      "name": "steam-preview",
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "steam-preview"
+        }
+      ]
+    }
+  }
   // 可选：启用 Next.js 图片优化（需在 Cloudflare 控制台配置 Images）
   // "images": {
   //   "binding": "IMAGES"

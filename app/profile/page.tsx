@@ -11,7 +11,6 @@ import { ProjectListSkeleton } from '@/components/features/profile/project-list-
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Zap, Coins, ChevronRight } from 'lucide-react'
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
@@ -31,7 +30,6 @@ export default function ProfilePage() {
   const { likedProjects, completedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
-  const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
   // 独立加载的项目列表
@@ -45,15 +43,6 @@ export default function ProfilePage() {
 
   // 使用 ref 追踪是否已经加载过，避免重复请求
   const hasLoadedRef = useRef(false)
-
-
-  // 如果未登录，重定向到登录页
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login')
-    }
-  }, [user, authLoading, router])
-
 
 
   // 将 Set 转换为稳定的字符串作为依赖，避免引用变化导致的重复执行

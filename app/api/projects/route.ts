@@ -35,9 +35,10 @@ export async function GET(request: NextRequest) {
 
   const page = parseInt(searchParams.get('page') || '0', 10)
   const pageSize = parseInt(searchParams.get('pageSize') || '12', 10)
+  const sortBy = searchParams.get('sortBy') === 'popular' ? 'popular' : 'latest'
 
   try {
-    const { projects, hasMore } = await getProjects(filters, { page, pageSize })
+    const { projects, hasMore } = await getProjects(filters, { page, pageSize, sortBy })
 
     return NextResponse.json({
       projects,

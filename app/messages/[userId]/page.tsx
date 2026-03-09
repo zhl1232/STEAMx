@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { ArrowLeft } from "lucide-react";
-import { useLoginPrompt } from "@/context/login-prompt-context";
 import type { Message } from "@/lib/types/database";
 
 export default function ConversationPage() {
@@ -22,7 +21,6 @@ export default function ConversationPage() {
 
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const { promptLogin } = useLoginPrompt();
   const { messages, isLoading } = useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
   const [input, setInput] = useState("");
@@ -30,18 +28,11 @@ export default function ConversationPage() {
   const [otherUser, setOtherUser] = useState<{ display_name: string | null; avatar_url: string | null } | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      promptLogin(() => router.push("/messages"), {
-        title: "需要登录",
-        description: "登录后即可查看和发送私信",
-      });
-      return;
-    }
     if (user && otherUserId && otherUserId === user.id) {
       router.replace("/messages");
       return;
     }
-  }, [user, authLoading, otherUserId, router, promptLogin]);
+  }, [user, otherUserId, router]);
 
   useEffect(() => {
     if (!otherUserId) return;
