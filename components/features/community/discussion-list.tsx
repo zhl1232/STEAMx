@@ -7,8 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Heart, Tag, Trash2 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
-import { createClient } from "@/lib/supabase/client";
-import { formatRelativeTime } from "@/lib/date-utils";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
@@ -16,13 +14,15 @@ import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
 
 /** 讨论卡片组件 */
+type DiscussionListItem = Omit<Discussion, "replies"> & { repliesCount: number };
+
 function DiscussionCard({
     discussion,
     searchQuery,
     canDelete,
     onDelete,
 }: {
-    discussion: Discussion;
+    discussion: DiscussionListItem;
     searchQuery: string;
     canDelete: boolean;
     onDelete: (id: string | number) => void;
@@ -67,7 +67,7 @@ function DiscussionCard({
                 <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground border-t pt-3 sm:pt-4 pointer-events-auto relative z-20">
                     <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-xs sm:text-sm">
                         <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        {discussion.replies.length} 回复
+                        {discussion.repliesCount} 回复
                     </Button>
                     <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500 text-xs sm:text-sm">
                         <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -101,12 +101,11 @@ export function DiscussionList() {
     const [newContent, setNewContent] = useState("");
     const [newTags, setNewTags] = useState("");
 
-    const [discussions, setDiscussions] = useState<Discussion[]>([]);
-    const [_page, setPage] = useState(0);
+    const [discussions, setDiscussions] = useState<DiscussionListItem[]>([]);
+    const pageRef = useRef(0);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const isLoadingRef = useRef(false);
-    const [supabase] = useState(() => createClient());
 
     // Search and filter states
     const [searchQuery, setSearchQuery] = useState("");
@@ -126,108 +125,49 @@ export function DiscussionList() {
             setIsLoading(true);
 
             const PAGE_SIZE = 10;
-            let currentPage = 0;
-
-            setPage(prev => {
-                currentPage = reset ? 0 : prev;
-                return currentPage;
+            const currentPage = reset ? 0 : pageRef.current;
+            const params = new URLSearchParams({
+                page: String(currentPage),
+                pageSize: String(PAGE_SIZE),
+                sort: sortBy,
             });
+            if (searchQuery) params.set("q", searchQuery);
+            if (selectedTag) params.set("tag", selectedTag);
 
-            const from = currentPage * PAGE_SIZE;
-            const to = from + PAGE_SIZE - 1;
-
-            let query = supabase
-                .from('discussions')
-                .select(`
-                    *,
-                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-                `);
-
-            if (searchQuery) {
-                query = query.or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`);
+            const response = await fetch(`/api/discussions?${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(await response.text());
             }
 
-            if (selectedTag) {
-                query = query.contains('tags', [selectedTag]);
-            }
-
-            switch (sortBy) {
-                case 'hottest':
-                    query = query.order('likes_count', { ascending: false });
-                    break;
-                case 'most_replies':
-                    query = query.order('replies_count', { ascending: false });
-                    break;
-                case 'latest_reply':
-                    query = query.order('last_reply_at', { ascending: false, nullsFirst: false });
-                    break;
-                case 'newest':
-                default:
-                    query = query.order('created_at', { ascending: false });
-                    break;
-            }
-
-            query = query.range(from, to);
-
-            const { data, error } = await query;
-
-            if (error) {
-                console.error('Error fetching discussions:', error);
-                return;
-            }
-
-            if (!data) {
-                console.warn('No data returned from discussions query');
-                return;
-            }
-
-            interface DiscussionRow { id: number; title: string; content: string; created_at: string; likes_count: number; tags: string[] | null; replies_count?: number; profiles?: { display_name: string | null; avatar_url?: string | null; equipped_avatar_frame_id?: string | null; equipped_name_color_id?: string | null } }
-            const rows = data as unknown as DiscussionRow[];
-            const mappedDiscussions: Discussion[] = rows.map((d) => ({
-                id: d.id,
-                title: d.title,
-                author: d.profiles?.display_name || 'Unknown',
-                authorAvatar: d.profiles?.avatar_url || undefined,
-                authorAvatarFrameId: d.profiles?.equipped_avatar_frame_id ?? undefined,
-                authorNameColorId: d.profiles?.equipped_name_color_id ?? undefined,
-                content: d.content,
-                date: formatRelativeTime(d.created_at),
-                likes: d.likes_count,
-                tags: d.tags || [],
-                replies: Array(d.replies_count || 0).fill({}),
-            }));
+            const payload = await response.json();
+            const mappedDiscussions: DiscussionListItem[] = (payload?.discussions as DiscussionListItem[]) || [];
 
             if (reset) {
                 setDiscussions(mappedDiscussions);
-                setPage(1);
+                pageRef.current = 1;
             } else {
                 setDiscussions((prev) => [...prev, ...mappedDiscussions]);
-                setPage(prev => prev + 1);
+                pageRef.current += 1;
             }
 
-            setHasMore(rows.length === PAGE_SIZE);
+            setHasMore(Boolean(payload?.hasMore));
         } catch (err) {
             console.error('Exception in fetchDiscussions:', err);
         } finally {
             setIsLoading(false);
         }
-    }, [supabase, searchQuery, selectedTag, sortBy]);
+    }, [searchQuery, selectedTag, sortBy]);
 
     // Fetch all discussions tags for filter
     useEffect(() => {
         const fetchTags = async () => {
-            const { data } = await supabase
-                .from('discussions')
-                .select('tags');
-
-            if (data) {
-                const allTags = (data as { tags: string[] | null }[]).flatMap(d => d.tags || []);
-                const uniqueTags = Array.from(new Set(allTags)).slice(0, 10);
-                setAvailableTags(uniqueTags);
-            }
+            const response = await fetch("/api/discussions/tags");
+            if (!response.ok) return;
+            const payload = await response.json();
+            setAvailableTags((payload?.tags as string[]) || []);
         };
         fetchTags();
-    }, [supabase]);
+    }, []);
 
     // Trigger fetch when search/filter changes
     useEffect(() => {
@@ -257,16 +197,17 @@ export function DiscussionList() {
         e.preventDefault();
         if (!newTitle.trim() || !newContent.trim() || !user) return;
 
-        const { error } = await supabase
-            .from('discussions')
-            .insert({
+        const response = await fetch("/api/discussions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 title: newTitle,
                 content: newContent,
-                author_id: user.id,
-                tags: newTags.split(",").map(t => t.trim()).filter(t => t)
-            } as never);
+                tags: newTags.split(",").map(t => t.trim()).filter(t => t),
+            }),
+        });
 
-        if (!error) {
+        if (response.ok) {
             setNewTitle("");
             setNewContent("");
             setNewTags("");
@@ -276,12 +217,11 @@ export function DiscussionList() {
     };
 
     const handleDelete = async (id: string | number) => {
-        const { error } = await supabase
-            .from('discussions')
-            .delete()
-            .eq('id', Number(id));
+        const response = await fetch(`/api/discussions/${id}`, {
+            method: "DELETE",
+        });
 
-        if (!error) {
+        if (response.ok) {
             setDiscussions(prev => prev.filter(d => d.id !== id));
         }
     };

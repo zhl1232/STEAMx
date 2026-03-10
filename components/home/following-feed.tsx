@@ -2,11 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { Project } from "@/lib/mappers/types";
-import { mapProject, DbProject } from "@/lib/mappers/project";
 import { ProjectCard } from "@/components/features/project-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,9 +16,9 @@ export function FollowingFeed() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [followingCount, setFollowingCount] = useState(0);
-    const supabase = createClient();
 
     useEffect(() => {
+        const controller = new AbortController();
         const fetchFollowingProjects = async () => {
             if (authLoading) return;
             
@@ -30,51 +28,31 @@ export function FollowingFeed() {
             }
 
             try {
-                // 1. 获取当前用户关注的所有用户 ID
-                const { data: followingData, error: followingError } = await supabase
-                    .from("follows")
-                    .select("following_id")
-                    .eq("follower_id", user.id);
-
-                if (followingError) throw followingError;
-
-                const followingIds = (followingData as { following_id: string }[])?.map((f) => f.following_id) || [];
-                setFollowingCount(followingIds.length);
-
-                if (followingIds.length === 0) {
+                const response = await fetch("/api/following-feed", { signal: controller.signal });
+                if (response.status === 401) {
                     setProjects([]);
-                    setIsLoading(false);
+                    setFollowingCount(0);
                     return;
                 }
-
-                // 2. 获取这些用户发布的项目
-                const { data: projectsData, error: projectsError } = await supabase
-                    .from("projects")
-                    .select("*, profiles:author_id(display_name)")
-                    .in("author_id", followingIds)
-                    .eq("status", "approved")
-                    .order("created_at", { ascending: false })
-                    .limit(20);
-
-                if (projectsError) throw projectsError;
-
-                if (projectsData) {
-                    const list = projectsData as unknown as (DbProject & { profiles?: { display_name?: string | null } })[];
-                    const mapped = list.map((p) => {
-                        const authorName = p.profiles?.display_name || undefined;
-                        return mapProject(p as DbProject, authorName);
-                    });
-                    setProjects(mapped);
+                if (!response.ok) {
+                    throw new Error(await response.text());
                 }
+                const payload = await response.json();
+                setProjects((payload?.projects as Project[]) || []);
+                setFollowingCount(payload?.followingCount || 0);
             } catch (err) {
+                if ((err as { name?: string }).name === "AbortError") return;
                 console.error("Error fetching following projects:", err);
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchFollowingProjects();
-    }, [user, authLoading, supabase]);
+        return () => controller.abort();
+    }, [user, authLoading]);
 
     // 加载中
     if (authLoading || isLoading) {

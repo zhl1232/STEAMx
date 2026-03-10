@@ -1,5 +1,3 @@
-"use client";
-
 import { Trophy } from "lucide-react";
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 

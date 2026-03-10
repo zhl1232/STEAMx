@@ -3,8 +3,6 @@
 import * as React from "react";
 import { useCommunity } from "@/context/community-context";
 import type { Discussion, Comment } from "@/lib/mappers/types";
-import { mapDbComment, mapDiscussionFromRow } from "@/lib/mappers/types";
-import type { DbCommentWithProfile, DbDiscussionWithProfile } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import {
   MessageSquare,
@@ -21,26 +19,12 @@ import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ReplyCard } from "@/components/features/community/reply-card";
 import { BottomReplyBox } from "@/components/features/community/bottom-reply-box";
 import { getRepliesUnderRoot } from "@/lib/community/reply-utils";
-
-const DISCUSSION_SELECT = `
-  *,
-  profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-`;
-const REPLY_SELECT = `
-  *,
-  profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-`;
-
-function mapReplyRows(rows: DbCommentWithProfile[] | null): Comment[] {
-  return (rows || []).map(mapDbComment);
-}
 
 export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params);
@@ -58,7 +42,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   const [discussion, setDiscussion] = useState<Discussion | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [supabase] = useState(() => createClient());
 
   // Pagination state for replies
   const REPLY_PAGE_SIZE = 10;
@@ -76,63 +59,53 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
   // Fetch discussion (without replies) + first page of replies
   useEffect(() => {
+    const controller = new AbortController();
     const fetchDiscussion = async () => {
       if (!id) return;
 
       try {
         setIsLoading(true);
+        setNotFound(false);
 
-        const { data: rawData, error } = await supabase
-          .from("discussions")
-          .select(DISCUSSION_SELECT)
-          .eq("id", Number(id))
-          .single();
+        const response = await fetch(`/api/discussions/${id}?page=0&pageSize=${REPLY_PAGE_SIZE}`, {
+          signal: controller.signal,
+        });
 
-        if (error || !rawData) {
-          console.error("Error fetching discussion:", error);
+        if (response.status === 404) {
           setNotFound(true);
           return;
         }
 
-        const data = rawData as unknown as DbDiscussionWithProfile;
-
-        const { data: rootReplies, count: rootCount } = await supabase
-          .from("discussion_replies")
-          .select(REPLY_SELECT, { count: "exact" })
-          .eq("discussion_id", data.id)
-          .is("parent_id", null)
-          .order("created_at", { ascending: false })
-          .range(0, REPLY_PAGE_SIZE - 1);
-
-        let mappedReplies = mapReplyRows((rootReplies as unknown) as DbCommentWithProfile[] | null);
-
-        if (rootReplies && rootReplies.length > 0) {
-          const rootIds = (rootReplies as { id: number }[]).map((r) => r.id);
-          const { data: nestedReplies } = await supabase
-            .from("discussion_replies")
-            .select(REPLY_SELECT)
-            .in("parent_id", rootIds)
-            .order("created_at", { ascending: false });
-
-          mappedReplies = [...mappedReplies, ...mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null)];
+        if (!response.ok) {
+          throw new Error(await response.text());
         }
 
-        const total = rootCount || 0;
-        setTotalReplies(total);
-        setHasMoreReplies(total > REPLY_PAGE_SIZE);
-        setReplyPage(1);
+        const payload = await response.json();
+        const discussionData = payload?.discussion as Discussion | null;
+        if (!discussionData) {
+          setNotFound(true);
+          return;
+        }
 
-        setDiscussion(mapDiscussionFromRow(data, mappedReplies));
+        setDiscussion(discussionData);
+        const total = payload?.totalReplies ?? 0;
+        setTotalReplies(total);
+        setHasMoreReplies(Boolean(payload?.hasMore));
+        setReplyPage(1);
       } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
         console.error("Exception in fetchDiscussion:", err);
         setNotFound(true);
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchDiscussion();
-  }, [id, supabase]);
+    return () => controller.abort();
+  }, [id]);
 
   // Load more replies
   const handleLoadMoreReplies = async () => {
@@ -140,36 +113,22 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     setIsLoadingMoreReplies(true);
 
     try {
-      const from = replyPage * REPLY_PAGE_SIZE;
-      const to = from + REPLY_PAGE_SIZE - 1;
-
-      const { data: rootReplies } = await supabase
-        .from("discussion_replies")
-        .select(REPLY_SELECT)
-        .eq("discussion_id", Number(discussion.id))
-        .is("parent_id", null)
-        .order("created_at", { ascending: false })
-        .range(from, to);
-
-      let newReplies = mapReplyRows((rootReplies as unknown) as DbCommentWithProfile[] | null);
-
-      if (rootReplies && rootReplies.length > 0) {
-        const rootIds = (rootReplies as { id: number }[]).map((r) => r.id);
-        const { data: nestedReplies } = await supabase
-          .from("discussion_replies")
-          .select(REPLY_SELECT)
-          .in("parent_id", rootIds)
-          .order("created_at", { ascending: false });
-
-        newReplies = [...newReplies, ...mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null)];
+      const response = await fetch(
+        `/api/discussions/${discussion.id}?page=${replyPage}&pageSize=${REPLY_PAGE_SIZE}`
+      );
+      if (!response.ok) {
+        throw new Error(await response.text());
       }
+      const payload = await response.json();
+      const newReplies = (payload?.discussion?.replies as Comment[]) || [];
 
       setDiscussion((prev: Discussion | null) => {
         if (!prev) return null;
         return { ...prev, replies: [...prev.replies, ...newReplies] };
       });
       setReplyPage((prev: number) => prev + 1);
-      setHasMoreReplies(totalReplies > to + 1);
+      setHasMoreReplies(Boolean(payload?.hasMore));
+      setTotalReplies(payload?.totalReplies ?? totalReplies);
     } catch (error) {
       console.error("Error loading more replies:", error);
     } finally {

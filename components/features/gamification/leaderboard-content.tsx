@@ -1,6 +1,5 @@
 "use client";
 
-import { useGamification } from "@/context/gamification-context";
 import { useAuth } from "@/context/auth-context";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,9 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Medal, Crown, Star, Award, Hammer, Calendar } from "lucide-react";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
 import { useState, useEffect, useRef } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { getWeekStartISO, getMonthStartISO } from "@/lib/date-utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
 
@@ -140,145 +137,50 @@ export interface LeaderboardContentProps {
 }
 
 export function LeaderboardContent({ compact, listMaxHeight = 480, className }: LeaderboardContentProps) {
-    const { user, profile } = useAuth();
-    const { xp, level } = useGamification();
+    const { user } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
     const [currentTab, setCurrentTab] = useState<LeaderboardType>("xp");
     const [xpTimeRange, setXpTimeRange] = useState<XpTimeRange>("alltime");
-    const supabase = createClient();
 
     useEffect(() => {
+        const controller = new AbortController();
         const fetchLeaderboard = async () => {
-            setIsLoading(true);
-            setLeaderboardData([]);
-
-            // 辅助：批量补全 avatarFrameId
-            const fillAvatarFrameIds = async (users: LeaderboardUser[]) => {
-                const ids = users.filter(u => !u.avatarFrameId).map(u => u.id);
-                if (ids.length === 0) return users;
-                const { data } = await supabase
-                    .from('profiles')
-                    .select('id, equipped_avatar_frame_id')
-                    .in('id', ids);
-                if (!data) return users;
-                const map = new Map((data as { id: string; equipped_avatar_frame_id: string | null }[]).map(p => [p.id, p.equipped_avatar_frame_id]));
-                return users.map(u => ({ ...u, avatarFrameId: u.avatarFrameId || map.get(u.id) || undefined }));
-            };
-
             try {
-                let users: LeaderboardUser[] = [];
+                setIsLoading(true);
+                setLeaderboardData([]);
 
-                if (currentTab === "xp") {
-                    if (xpTimeRange === "weekly") {
-                        const { data, error } = await supabase.rpc("get_leaderboard_xp_weekly", { limit_count: 20 } as never);
-                        if (error) throw error;
-                        const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number }[]) || [];
-                        users = rows.map((p) => ({
-                            id: p.id,
-                            name: p.display_name || "匿名用户",
-                            xp: Number(p.xp) || 0,
-                            level: Math.floor(Math.sqrt(Number(p.xp || 0) / 100)) + 1,
-                            value: Number(p.xp) || 0,
-                            avatar: p.avatar_url,
-                            isCurrentUser: user?.id === p.id
-                        }));
-                    } else if (xpTimeRange === "monthly") {
-                        const { data, error } = await supabase.rpc("get_leaderboard_xp_monthly", { limit_count: 20 } as never);
-                        if (error) throw error;
-                        const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number }[]) || [];
-                        users = rows.map((p) => ({
-                            id: p.id,
-                            name: p.display_name || "匿名用户",
-                            xp: Number(p.xp) || 0,
-                            level: Math.floor(Math.sqrt(Number(p.xp || 0) / 100)) + 1,
-                            value: Number(p.xp) || 0,
-                            avatar: p.avatar_url,
-                            isCurrentUser: user?.id === p.id
-                        }));
-                    } else {
-                        const { data: topProfiles, error } = await supabase
-                            .from("profiles")
-                            .select("id, display_name, avatar_url, xp, equipped_avatar_frame_id")
-                            .order("xp", { ascending: false })
-                            .limit(20);
-                        if (error) throw error;
-                        const rows = (topProfiles as { id: string; display_name: string | null; avatar_url: string | null; xp: number | null; equipped_avatar_frame_id?: string | null }[]) || [];
-                        users = rows.map((p) => ({
-                            id: p.id,
-                            name: p.display_name || "匿名用户",
-                            xp: p.xp || 0,
-                            level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
-                            value: p.xp || 0,
-                            avatar: p.avatar_url,
-                            avatarFrameId: p.equipped_avatar_frame_id ?? undefined,
-                            isCurrentUser: user?.id === p.id
-                        }));
-                    }
-
-                    if (user && !users.some((u) => u.id === user.id)) {
-                        let myValue = xp;
-                        if (xpTimeRange === "weekly" || xpTimeRange === "monthly") {
-                            const since = xpTimeRange === "weekly" ? getWeekStartISO() : getMonthStartISO();
-                            const { data: myLogs } = await supabase
-                                .from("xp_logs")
-                                .select("xp_amount")
-                                .eq("user_id", user.id)
-                                .gte("created_at", since);
-                            myValue = (myLogs as { xp_amount: number }[] || []).reduce((s, r) => s + (r.xp_amount || 0), 0);
-                        }
-                        users.push({
-                            id: user.id,
-                            name: profile?.display_name || "我",
-                            xp: myValue,
-                            level: Math.floor(Math.sqrt(myValue / 100)) + 1,
-                            value: myValue,
-                            avatar: profile?.avatar_url,
-                            avatarFrameId: (profile as { equipped_avatar_frame_id?: string | null } | null)?.equipped_avatar_frame_id ?? undefined,
-                            isCurrentUser: true
-                        });
-                        users.sort((a, b) => b.value - a.value);
-                    }
-
-                } else if (currentTab === "badges") {
-                    const { data, error } = await supabase.rpc("get_badge_leaderboard", { limit_count: 20 } as never);
-                    if (error) throw error;
-                    const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number; badge_count: number }[]) || [];
-                    users = rows.map((p) => ({
-                        id: p.id,
-                        name: p.display_name || "匿名用户",
-                        xp: p.xp || 0,
-                        level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
-                        value: Number(p.badge_count || 0),
-                        avatar: p.avatar_url,
-                        isCurrentUser: user?.id === p.id
-                    }));
-                } else if (currentTab === "projects") {
-                    const { data, error } = await supabase.rpc("get_project_leaderboard", { limit_count: 20 } as never);
-                    if (error) throw error;
-                    const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number; project_count: number }[]) || [];
-                    users = rows.map((p) => ({
-                        id: p.id,
-                        name: p.display_name || "匿名用户",
-                        xp: p.xp || 0,
-                        level: Math.floor(Math.sqrt((p.xp || 0) / 100)) + 1,
-                        value: Number(p.project_count || 0),
-                        avatar: p.avatar_url,
-                        isCurrentUser: user?.id === p.id
-                    }));
+                const params = new URLSearchParams({
+                    type: currentTab,
+                    range: xpTimeRange,
+                    limit: "20",
+                });
+                const response = await fetch(`/api/leaderboard?${params.toString()}`, {
+                    signal: controller.signal,
+                });
+                if (!response.ok) {
+                    throw new Error(await response.text());
                 }
-
-                setLeaderboardData(await fillAvatarFrameIds(users));
+                const data = await response.json();
+                const users = (data?.users as LeaderboardUser[] | undefined) || [];
+                setLeaderboardData(users.map((row) => ({
+                    ...row,
+                    isCurrentUser: row.isCurrentUser ?? (user?.id === row.id),
+                })));
             } catch (error) {
+                if ((error as { name?: string }).name === "AbortError") return;
                 console.error("Error fetching leaderboard:", error);
                 setLeaderboardData([]);
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchLeaderboard();
-    }, [user, profile, xp, level, currentTab, xpTimeRange, supabase]);
+        return () => controller.abort();
+    }, [user, currentTab, xpTimeRange]);
 
     const getRankIcon = (index: number) => {
         switch (index) {

@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
 import { useConversationMessages, useSendMessage } from "@/hooks/use-messages";
-import { createClient } from "@/lib/supabase/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,11 +20,10 @@ export default function ConversationPage() {
 
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const { messages, isLoading } = useConversationMessages(otherUserId);
+  const { messages, peer, isLoading } = useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [otherUser, setOtherUser] = useState<{ display_name: string | null; avatar_url: string | null } | null>(null);
 
   useEffect(() => {
     if (user && otherUserId && otherUserId === user.id) {
@@ -33,17 +31,6 @@ export default function ConversationPage() {
       return;
     }
   }, [user, otherUserId, router]);
-
-  useEffect(() => {
-    if (!otherUserId) return;
-    const supabase = createClient();
-    supabase
-      .from("profiles")
-      .select("display_name, avatar_url")
-      .eq("id", otherUserId)
-      .single()
-      .then(({ data }) => setOtherUser(data ?? null));
-  }, [otherUserId]);
 
   useEffect(() => {
     if (messages.length && scrollRef.current) {
@@ -77,7 +64,7 @@ export default function ConversationPage() {
     return null;
   }
 
-  const displayName = otherUser?.display_name || "用户";
+  const displayName = peer?.display_name || "用户";
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-h-[800px] container max-w-2xl mx-auto md:rounded-lg border bg-card overflow-hidden">
@@ -89,7 +76,7 @@ export default function ConversationPage() {
           </Link>
         </Button>
         <Avatar className="h-9 w-9">
-          <AvatarImage src={otherUser?.avatar_url ?? undefined} alt={displayName} />
+          <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
           <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
         </Avatar>
         <span className="font-medium truncate">{displayName}</span>

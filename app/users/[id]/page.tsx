@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import { Project } from "@/lib/types";
-import { mapProject, DbProject } from "@/lib/mappers/project";
 import { Button } from "@/components/ui/button";
 import { ProfileSkeleton } from "@/components/features/profile/profile-skeleton";
 import { ProjectCard } from "@/components/features/project-card";
@@ -20,8 +18,6 @@ import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from "@/context/gamification-context";
-import { ProfileSchema, ProjectSchema } from "@/lib/schemas";
-import { z } from "zod";
 
 interface PublicProfile {
   id: string;
@@ -40,7 +36,6 @@ export default function PublicProfilePage() {
   const userId = typeof rawId === 'string' ? rawId : Array.isArray(rawId) ? rawId[0] : undefined;
   
   const { user: currentUser } = useAuth();
-  const [supabase] = useState(() => createClient());
 
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -50,6 +45,7 @@ export default function PublicProfilePage() {
   const [unlockedBadgeIds, setUnlockedBadgeIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchProfileData = async () => {
       if (!userId) {
         setIsLoading(false);
@@ -58,90 +54,34 @@ export default function PublicProfilePage() {
       setIsLoading(true);
 
       try {
-        // 1. Fetch Profile
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", userId)
-          .single();
-
-        if (profileError) throw profileError;
-
-        // Validate Profile Data
-        const profileResult = ProfileSchema.safeParse(profileData);
-        if (!profileResult.success) {
-          console.error("Profile validation passed with errors:", profileResult.error);
-          // In a strict environment, we might throw here. For now, we log and proceed if possible, 
-          // or we can allow partial data if we relax schema. 
-          // Let's assume we want to ensure data quality.
+        const response = await fetch(`/api/users/${userId}`, { signal: controller.signal });
+        if (response.status === 404) {
+          setProfile(null);
+          return;
         }
-        
-        // We use the raw data if valid, or fallback/throw. 
-        // For this task, strict safety suggests we ideally use valid data.
-        // But since we are introducing this to an existing app, let's use the parsed data if successful,
-        // otherwise warn but try to use raw data (or throw if you want strictly enforcing).
-        // Let's Enforce!
-        if (!profileResult.success) {
-             throw new Error("Invalid profile data received from server");
+        if (!response.ok) {
+          throw new Error(await response.text());
         }
-        setProfile(profileResult.data as PublicProfile); // strict cast to our UI type if needed, or update UI type to use Zod infer
+        const payload = await response.json();
 
-        // 2. Fetch Projects
-        const { data: projectsData } = await supabase
-          .from("projects")
-          .select("*")
-          .eq("author_id", userId)
-          .order("created_at", { ascending: false });
-
-        if (projectsData) {
-          // Validate Projects Data
-          // We use partial validation essentially by picking what we defined in schema, 
-          // but passthrough() might be needed if we select * and schema is partial.
-          // Let's use array of schema.
-          const projectsResult = z.array(ProjectSchema).safeParse(projectsData);
-          if (!projectsResult.success) {
-             console.error("Projects validation errors:", projectsResult.error);
-             // For lists, maybe we filter out bad ones? Or just warn.
-          }
-          
-          setProjects(
-            projectsData.map((p) =>
-              mapProject(p as DbProject, (profileData as PublicProfile)?.display_name || undefined),
-            ),
-          );
-        }
-
-        // 3. Fetch Follow Stats (粉丝数和关注数)
-        const { count: followers } = await supabase
-            .from('follows')
-            .select('follower_id', { count: 'exact', head: true })
-            .eq('following_id', userId);
-        setFollowerCount(followers || 0);
-
-        const { count: following } = await supabase
-            .from('follows')
-            .select('following_id', { count: 'exact', head: true })
-            .eq('follower_id', userId);
-        setFollowingCount(following || 0);
-
-        // 4. Fetch Badges
-        const { data: userBadges } = await supabase
-          .from("user_badges")
-          .select("badge_id")
-          .eq("user_id", userId);
-
-        if (userBadges) {
-          setUnlockedBadgeIds(new Set(userBadges.map((b: { badge_id: string }) => b.badge_id)));
-        }
+        setProfile((payload?.profile as PublicProfile) || null);
+        setProjects((payload?.projects as Project[]) || []);
+        setFollowerCount(payload?.followerCount || 0);
+        setFollowingCount(payload?.followingCount || 0);
+        setUnlockedBadgeIds(new Set((payload?.badgeIds as string[]) || []));
       } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
         console.error("Error fetching profile:", err);
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchProfileData();
-  }, [userId, supabase]);
+    return () => controller.abort();
+  }, [userId]);
 
   if (isLoading) return <ProfileSkeleton />;
   if (!profile) return <div className="container py-20 text-center">用户不存在</div>;

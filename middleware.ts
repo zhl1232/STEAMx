@@ -3,6 +3,15 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 import { getSupabaseEnv } from '@/lib/supabase/env'
 import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
+import { consumeRateLimit } from '@/lib/rate-limit'
+
+type RateLimitRule = {
+  id: string
+  methods: ('GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE')[]
+  pathPrefix: string
+  limit: number
+  windowMs: number
+}
 
 /**
  * Next.js Edge Middleware
@@ -19,6 +28,19 @@ export async function middleware(request: NextRequest) {
         headers: request.headers,
       },
     })
+  }
+
+  if (request.method === 'OPTIONS') {
+    return NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    })
+  }
+
+  const rateLimited = applyRateLimit(request)
+  if (rateLimited) {
+    return rateLimited
   }
 
   const { url, anonKey } = getSupabaseEnv()
@@ -77,6 +99,72 @@ export async function middleware(request: NextRequest) {
   await supabase.auth.getUser()
 
   return response
+}
+
+const RATE_LIMIT_RULES: RateLimitRule[] = [
+  {
+    id: 'api-read',
+    methods: ['GET'],
+    pathPrefix: '/api/',
+    limit: 120,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-write',
+    methods: ['POST', 'PUT', 'PATCH', 'DELETE'],
+    pathPrefix: '/api/',
+    limit: 30,
+    windowMs: 60_000,
+  },
+]
+
+function getClientIp(request: NextRequest): string {
+  const cfIp = request.headers.get('cf-connecting-ip')
+  if (cfIp) return cfIp
+
+  const xff = request.headers.get('x-forwarded-for')
+  if (xff) return xff.split(',')[0]?.trim() || 'unknown'
+
+  const realIp = request.headers.get('x-real-ip')
+  if (realIp) return realIp
+
+  return request.ip || 'unknown'
+}
+
+function applyRateLimit(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl
+  if (!pathname.startsWith('/api/')) return null
+
+  const ip = getClientIp(request)
+  if (ip === 'unknown') return null
+  for (const rule of RATE_LIMIT_RULES) {
+    if (!request.method || !rule.methods.includes(request.method as RateLimitRule['methods'][number])) {
+      continue
+    }
+    if (!pathname.startsWith(rule.pathPrefix)) continue
+
+    const key = `${rule.id}:${ip}`
+    const result = consumeRateLimit(key, rule.limit, rule.windowMs)
+    if (!result.allowed) {
+      const retryAfterSeconds = Math.max(0, Math.ceil((result.resetAt - Date.now()) / 1000))
+      const resetSeconds = Math.ceil(result.resetAt / 1000)
+      return new NextResponse(
+        JSON.stringify({ error: 'Too many requests' }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(retryAfterSeconds),
+            'X-RateLimit-Limit': String(result.limit),
+            'X-RateLimit-Remaining': String(result.remaining),
+            'X-RateLimit-Reset': String(resetSeconds),
+          },
+        }
+      )
+    }
+  }
+
+  return null
 }
 
 export const config = {

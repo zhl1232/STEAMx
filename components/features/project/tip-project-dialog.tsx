@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Coins, User as UserIcon } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -41,7 +40,6 @@ export function TipProjectDialog({
   projectId,
   projectOnly = false,
 }: TipProjectDialogProps) {
-  const supabase = createClient()
   const { user, refreshProfile } = useAuth()
   const { coins = 0 } = useGamification()
   const { promptLogin } = useLoginPrompt()
@@ -85,22 +83,26 @@ export function TipProjectDialog({
       return
     }
 
-    supabase.rpc("tip_resource", {
-      p_resource_type: target.type,
-      p_resource_id: target.id,
-      p_amount: amount
-    } as never)
-      .then(({ data, error }) => {
-        if (error) {
-          console.error(error)
-          toast({ variant: "destructive", title: "投币失败", description: error.message })
-          return
+    fetch("/api/tips", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        resourceType: target.type,
+        resourceId: target.id,
+        amount,
+      }),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(await response.text())
         }
-        const res = data as { ok?: boolean; error?: string }
+        return response.json()
+      })
+      .then((res: { ok?: boolean; error?: string }) => {
         if (res?.ok) {
-          queryClient.invalidateQueries({ queryKey: ["my_tip_for_resource", target.type, target.id] })
+          queryClient.invalidateQueries({ queryKey: ["tip_my", target.type, target.id] })
           if (target.type === "completion") {
-            queryClient.invalidateQueries({ queryKey: ["completion_tip_received", target.id] })
+            queryClient.invalidateQueries({ queryKey: ["completion_tips", target.id] })
           }
           queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
           refreshProfile()
@@ -110,6 +112,9 @@ export function TipProjectDialog({
           const msg = res?.error === "insufficient_coins" ? "硬币余额不足" : res?.error === "tip_limit_reached" ? "已达该对象投币上限" : res?.error === "cannot_tip_self" ? "不能给自己投币" : "投币失败"
           toast({ variant: "destructive", title: "投币失败", description: msg })
         }
+      })
+      .catch((error: Error) => {
+        toast({ variant: "destructive", title: "投币失败", description: error.message })
       })
   }
 
@@ -139,13 +144,12 @@ export function TipProjectDialog({
             {targets.map((t) => (
               <TipRow
                 key={`${t.type}-${t.id}`}
-                target={t}
-                coins={coins}
-                onTip={handleTip}
-                supabase={supabase}
-              />
-            ))}
-          </ul>
+        target={t}
+        coins={coins}
+        onTip={handleTip}
+      />
+    ))}
+  </ul>
         )}
       </DialogContent>
     </Dialog>
@@ -156,23 +160,25 @@ function TipRow({
   target,
   coins,
   onTip,
-  supabase,
 }: {
   target: TipTarget
   coins: number
   onTip: (target: TipTarget, amount: number) => void
-  supabase: ReturnType<typeof createClient>
 }) {
   // 查询我看这个资源已经投了多少
   const { data: myTipped = 0 } = useQuery({
-    queryKey: ["my_tip_for_resource", target.type, target.id],
+    queryKey: ["tip_my", target.type, target.id],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_my_tip_for_resource", {
-        p_resource_type: target.type,
-        p_resource_id: target.id,
-      } as never)
-      if (error) return 0
-      return (data as number) ?? 0
+      const params = new URLSearchParams({
+        resourceType: target.type,
+        resourceId: String(target.id),
+      })
+      const response = await fetch(`/api/tips/my?${params.toString()}`)
+      if (!response.ok) {
+        return 0
+      }
+      const payload = await response.json()
+      return (payload?.myTipped as number) ?? 0
     },
   })
 
@@ -218,4 +224,3 @@ function TipRow({
     </li>
   )
 }
-

@@ -37,52 +37,19 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
     // Refs for stable callbacks
     const challengesRef = useRef(challenges);
-    const userRef = useRef(user);
     const lastFetchedUserIdRef = useRef<string | null | undefined>(undefined);
 
     useEffect(() => { challengesRef.current = challenges; }, [challenges]);
-    useEffect(() => { userRef.current = user; }, [user]);
 
     const fetchChallenges = useCallback(async () => {
-        const { data, error } = await supabase
-            .from('challenges')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
-            console.error('Error fetching challenges:', error);
-            return;
+        const response = await fetch('/api/challenges')
+        if (!response.ok) {
+            console.error('Error fetching challenges:', await response.text())
+            return
         }
-
-        // Check joined status if user is logged in（用 ref 读取当前 user，避免 fetchChallenges 因 user 变化而重建导致重复请求）
-        const currentUser = userRef.current;
-        let joinedChallengeIds = new Set<number>();
-        if (currentUser) {
-            const { data: participants } = await supabase
-                .from('challenge_participants')
-                .select('challenge_id')
-                .eq('user_id', currentUser.id);
-
-            if (participants) {
-                participants.forEach((p: { challenge_id: number }) => joinedChallengeIds.add(p.challenge_id));
-            }
-        }
-
-        interface ChallengeRow { id: number; title: string; description: string | null; image_url: string | null; participants_count: number; end_date: string | null; tags: string[] | null }
-        const mappedChallenges: Challenge[] = (data || []).map((c: ChallengeRow) => ({
-            id: c.id,
-            title: c.title,
-            description: c.description || '',
-            image: c.image_url || '',
-            participants: c.participants_count,
-            daysLeft: c.end_date ? Math.ceil((new Date(c.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 0,
-            endDate: c.end_date ?? undefined, // 添加原始日期用于倒计时组件
-            joined: joinedChallengeIds.has(c.id),
-            tags: c.tags || []
-        }));
-
-        setChallenges(mappedChallenges);
-    }, [supabase]);
+        const payload = await response.json()
+        setChallenges((payload?.challenges as Challenge[]) || [])
+    }, []);
 
     // 统一处理数据加载：初始化或用户变化时加载
     useEffect(() => {

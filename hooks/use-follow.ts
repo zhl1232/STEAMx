@@ -1,11 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
 
 export function useFollow(targetUserId: string) {
-    const supabase = createClient();
     const { user, profile, loading: authLoading } = useAuth();
     const { createNotification } = useNotifications();
     const queryClient = useQueryClient();
@@ -18,17 +16,15 @@ export function useFollow(targetUserId: string) {
         queryKey: ['is_following', targetUserId, user?.id],
         queryFn: async () => {
             if (!user) return false;
-            const { data, error } = await supabase
-                .from('follows')
-                .select('*')
-                .eq('follower_id', user.id)
-                .eq('following_id', targetUserId)
-                .single();
-            
-            if (error && error.code !== 'PGRST116') {
-               console.error("Error checking follow status:", error);
+            const params = new URLSearchParams({ targetUserId });
+            const response = await fetch(`/api/follows/status?${params.toString()}`);
+            if (response.status === 401) return false;
+            if (!response.ok) {
+                console.error("Error checking follow status:", await response.text());
+                return false;
             }
-            return !!data;
+            const payload = await response.json();
+            return Boolean(payload?.isFollowing);
         },
         enabled: !!targetUserId && !!user && !isSelf && !authLoading,
     });
@@ -37,13 +33,14 @@ export function useFollow(targetUserId: string) {
     const { data: followerCount, isLoading: isFollowerCountLoading } = useQuery({
         queryKey: ['follower_count', targetUserId],
         queryFn: async () => {
-             const { count, error } = await supabase
-                .from('follows')
-                .select('*', { count: 'exact', head: true })
-                .eq('following_id', targetUserId);
-             
-             if (error) console.error("Error fetching follower count:", error);
-             return count ?? 0;
+             const params = new URLSearchParams({ targetUserId });
+             const response = await fetch(`/api/follows/count?${params.toString()}`);
+             if (!response.ok) {
+                 console.error("Error fetching follower count:", await response.text());
+                 return 0;
+             }
+             const payload = await response.json();
+             return payload?.count ?? 0;
         },
         enabled: !!targetUserId,
         initialData: 0
@@ -55,13 +52,12 @@ export function useFollow(targetUserId: string) {
             if (!user) throw new Error("Unauthorized");
             
             if (shouldFollow) {
-                const { error } = await supabase
-                    .from('follows')
-                    .insert({
-                        follower_id: user.id,
-                        following_id: targetUserId
-                    } as never);
-                if (error) throw error;
+                const response = await fetch("/api/follows", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ targetUserId, action: "follow" }),
+                });
+                if (!response.ok) throw new Error(await response.text());
                 // 给被关注者发送「新增粉丝」通知
                 const followerName = profile?.display_name ?? (user.email?.split("@")[0]) ?? "某人";
                 await createNotification({
@@ -73,12 +69,12 @@ export function useFollow(targetUserId: string) {
                     from_avatar: profile?.avatar_url ?? (user.user_metadata?.avatar_url as string | undefined),
                 });
             } else {
-                const { error } = await supabase
-                    .from('follows')
-                    .delete()
-                    .eq('follower_id', user.id)
-                    .eq('following_id', targetUserId);
-                if (error) throw error;
+                const response = await fetch("/api/follows", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ targetUserId, action: "unfollow" }),
+                });
+                if (!response.ok) throw new Error(await response.text());
             }
         },
         onMutate: async (shouldFollow) => {

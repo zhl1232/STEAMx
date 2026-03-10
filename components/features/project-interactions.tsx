@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Heart, Bookmark, Coins } from "lucide-react"
 import { ConfettiButton } from "@/components/ui/confetti-button"
@@ -30,7 +29,6 @@ interface ProjectInteractionsProps {
 }
 
 export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0 }: ProjectInteractionsProps) {
-    const supabase = createClient()
     const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -38,14 +36,16 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const [showTipDialog, setShowTipDialog] = useState(false)
 
     const { data: myTippedProject = 0 } = useQuery({
-        queryKey: ["my_tip_for_resource", "project", Number(projectId)],
+        queryKey: ["tip_my", "project", Number(projectId)],
         queryFn: async () => {
-            const { data, error } = await supabase.rpc("get_my_tip_for_resource", {
-                p_resource_type: "project",
-                p_resource_id: Number(projectId),
-            } as never)
-            if (error) return 0
-            return (data as number) ?? 0
+            const params = new URLSearchParams({
+                resourceType: "project",
+                resourceId: String(Number(projectId)),
+            })
+            const response = await fetch(`/api/tips/my?${params.toString()}`)
+            if (!response.ok) return 0
+            const payload = await response.json()
+            return (payload?.myTipped as number) ?? 0
         },
         enabled: !!user,
     })

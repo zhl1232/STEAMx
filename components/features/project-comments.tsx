@@ -18,9 +18,8 @@ import {
 import { useProjects } from "@/context/project-context";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
-import { type Comment, type DbCommentWithProfile, mapDbComment } from "@/lib/mappers/types";
+import { type Comment } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
@@ -43,7 +42,6 @@ export function ProjectComments({
   const { addComment, deleteComment } = useProjects();
   const { user, profile } = useAuth();
   const { promptLogin } = useLoginPrompt();
-  const supabase = createClient();
 
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [total, setTotal] = useState(initialTotal || initialComments.length);
@@ -65,72 +63,19 @@ export function ProjectComments({
     setIsLoadingMore(true);
 
     try {
-      const from = page * PAGE_SIZE;
-      const to = from + PAGE_SIZE - 1;
-      const projectIdNum = Number(projectId);
-
-      const {
-        data: roots,
-        error,
-        count,
-      } = await supabase
-        .from("comments")
-        .select(
-          `
-                    *,
-                    profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-                `,
-          { count: "exact" },
-        )
-        .eq("project_id", projectIdNum)
-        .is("parent_id", null)
-        .order("created_at", { ascending: false })
-        .range(from, to);
-
-      if (error) throw error;
-
-      let newComments = (roots || []).map((r) => mapDbComment(r as DbCommentWithProfile));
-
-      if (roots && roots.length > 0) {
-        const rootIds: number[] = (roots as { id: number }[]).map((r) => Number(r.id));
-
-        // 第 1 层：顶层评论的直接子评论
-        const { data: replies } = await supabase
-          .from("comments")
-          .select(`
-                        *,
-                        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-                    `)
-          .eq("project_id", projectIdNum)
-          .in("parent_id", rootIds)
-          .order("created_at", { ascending: false });
-
-        if (replies && replies.length > 0) {
-          const mappedReplies = replies.map((r) => mapDbComment(r as DbCommentWithProfile));
-          newComments = [...newComments, ...mappedReplies];
-
-          // 第 2 层：回复的回复
-          const firstLevelIds: number[] = (replies as { id: number }[]).map((r) => Number(r.id));
-          const { data: nestedReplies } = await supabase
-            .from("comments")
-            .select(`
-                            *,
-                            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-                        `)
-            .eq("project_id", projectIdNum)
-            .in("parent_id", firstLevelIds)
-            .order("created_at", { ascending: false });
-
-          if (nestedReplies && nestedReplies.length > 0) {
-            newComments = [...newComments, ...nestedReplies.map((r) => mapDbComment(r as DbCommentWithProfile))];
-          }
-        }
+      const response = await fetch(
+        `/api/projects/${projectId}/comments?page=${page}&pageSize=${PAGE_SIZE}`
+      );
+      if (!response.ok) {
+        throw new Error(await response.text());
       }
+      const payload = await response.json();
+      const newComments = (payload?.comments as Comment[]) || [];
 
       setComments((prev: Comment[]) => [...prev, ...newComments]);
       setPage((prev: number) => prev + 1);
-      setHasMore((count || 0) > to + 1);
-      if (count !== null) setTotal(count);
+      setHasMore(Boolean(payload?.hasMore));
+      if (payload?.total !== undefined) setTotal(payload.total);
     } catch (error) {
       console.error("Error loading more comments:", error);
     } finally {

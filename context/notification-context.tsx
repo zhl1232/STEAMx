@@ -9,7 +9,6 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 
 export type Notification = {
@@ -27,8 +26,6 @@ export type Notification = {
   is_read: boolean;
   created_at: string;
 };
-
-const NOTIFICATION_PAGE_SIZE = 20;
 
 type NotificationContextType = {
   notifications: Notification[];
@@ -54,47 +51,65 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const notificationsRef = useRef<Notification[]>([]);
-  const [supabase] = useState(() => createClient());
   const { user } = useAuth();
 
   notificationsRef.current = notifications;
 
   const fetchUnreadCount = useCallback(async () => {
-    if (!user) return;
-    const { count, error } = await supabase
-      .from("notifications")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id)
-      .eq("is_read", false);
-    if (!error) setUnreadCount(count ?? 0);
-  }, [user, supabase]);
+    if (!user) {
+      setUnreadCount(0);
+      return;
+    }
+    try {
+      const response = await fetch("/api/notifications/unread-count");
+      if (response.status === 401) {
+        setUnreadCount(0);
+        return;
+      }
+      if (!response.ok) {
+        console.error("Error fetching unread count:", await response.text());
+        return;
+      }
+      const payload = await response.json();
+      setUnreadCount(Number(payload?.count ?? 0));
+    } catch (error) {
+      console.error("Error fetching unread count:", error);
+    }
+  }, [user]);
 
   const fetchNotifications = useCallback(
     async (reset = true) => {
       if (!user) {
         setNotifications([]);
+        setUnreadCount(0);
+        setHasMore(true);
         setIsLoading(false);
         return;
       }
       if (reset) setIsLoading(true);
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(NOTIFICATION_PAGE_SIZE);
-
-      if (error) {
+      try {
+        const response = await fetch("/api/notifications");
+        if (response.status === 401) {
+          setNotifications([]);
+          setUnreadCount(0);
+          setHasMore(true);
+          return;
+        }
+        if (!response.ok) {
+          console.error("Error fetching notifications:", await response.text());
+          return;
+        }
+        const payload = await response.json();
+        const list = (payload?.notifications || []) as Notification[];
+        setNotifications(list);
+        setHasMore(Boolean(payload?.hasMore));
+      } catch (error) {
         console.error("Error fetching notifications:", error);
-        setIsLoading(false);
-        return;
+      } finally {
+        if (reset) setIsLoading(false);
       }
-      const list = (data || []) as Notification[];
-      setNotifications(list);
-      setHasMore(list.length === NOTIFICATION_PAGE_SIZE);
-      setIsLoading(false);
     },
-    [user, supabase],
+    [user],
   );
 
   const loadMore = useCallback(async () => {
@@ -104,27 +119,37 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const lastCreated = last?.created_at;
     if (!lastCreated) return;
     setIsLoadingMore(true);
-    const { data, error } = await supabase
-      .from("notifications")
-      .select("*")
-      .eq("user_id", user.id)
-      .lt("created_at", lastCreated)
-      .order("created_at", { ascending: false })
-      .limit(NOTIFICATION_PAGE_SIZE);
-
-    if (error) {
+    try {
+      const params = new URLSearchParams({ before: lastCreated });
+      const response = await fetch(`/api/notifications?${params.toString()}`);
+      if (response.status === 401) {
+        setIsLoadingMore(false);
+        return;
+      }
+      if (!response.ok) {
+        console.error("Error loading more notifications:", await response.text());
+        setIsLoadingMore(false);
+        return;
+      }
+      const payload = await response.json();
+      const next = (payload?.notifications || []) as Notification[];
+      setNotifications((prev) => [...prev, ...next]);
+      setHasMore(Boolean(payload?.hasMore));
+    } catch (error) {
       console.error("Error loading more notifications:", error);
+    } finally {
       setIsLoadingMore(false);
-      return;
     }
-    const next = (data || []) as Notification[];
-    setNotifications((prev) => [...prev, ...next]);
-    setHasMore(next.length === NOTIFICATION_PAGE_SIZE);
-    setIsLoadingMore(false);
-  }, [user, supabase, hasMore, isLoadingMore]);
+  }, [user, hasMore, isLoadingMore]);
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      setNotifications([]);
+      setUnreadCount(0);
+      setHasMore(true);
+      setIsLoading(false);
+      return;
+    }
 
     fetchNotifications(true);
     fetchUnreadCount();
@@ -133,91 +158,86 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!user?.id) return;
 
-    const channel = supabase
-      .channel("notifications")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "notifications",
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          fetchNotifications(true);
-          fetchUnreadCount();
-        },
-      )
-      .subscribe();
+    const interval = window.setInterval(() => {
+      fetchUnreadCount();
+    }, 60000);
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user?.id, fetchNotifications, fetchUnreadCount, supabase]);
+    return () => window.clearInterval(interval);
+  }, [user?.id, fetchUnreadCount]);
 
   const markAsRead = useCallback(
     async (id: number) => {
       if (!user) return;
 
-      const { error } = await supabase
-        .from("notifications")
-        .update({ is_read: true } as never)
-        .eq("id", id);
+      const response = await fetch("/api/notifications/mark-read", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
 
-      if (error) {
-        console.error("Error marking notification as read:", error);
+      if (!response.ok) {
+        console.error("Error marking notification as read:", await response.text());
         return;
       }
 
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
       setUnreadCount((c) => Math.max(0, c - 1));
     },
-    [user, supabase],
+    [user],
   );
 
   const markAllAsRead = useCallback(async () => {
     if (!user) return;
 
-    const { error } = await supabase
-      .from("notifications")
-      .update({ is_read: true } as never)
-      .eq("user_id", user.id)
-      .eq("is_read", false);
+    const response = await fetch("/api/notifications/mark-all-read", {
+      method: "POST",
+    });
 
-    if (error) {
-      console.error("Error marking all notifications as read:", error);
+    if (!response.ok) {
+      console.error("Error marking all notifications as read:", await response.text());
       return;
     }
 
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
-  }, [user, supabase]);
+  }, [user]);
 
   const createNotification = useCallback(
     async (notification: Omit<Notification, "id" | "is_read" | "created_at">) => {
-      const { error } = await supabase.from("notifications").insert(notification as never);
+      if (!user) return;
 
-      if (error) {
-        console.error("Error creating notification:", error);
+      const response = await fetch("/api/notifications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(notification),
+      });
+
+      if (!response.ok) {
+        console.error("Error creating notification:", await response.text());
+      } else if (notification.user_id === user.id) {
+        fetchNotifications(true);
+        fetchUnreadCount();
       }
     },
-    [supabase],
+    [user, fetchNotifications, fetchUnreadCount],
   );
 
   const clearAll = useCallback(async () => {
     if (!user) return;
 
-    const { error } = await supabase.from("notifications").delete().eq("user_id", user.id);
+    const response = await fetch("/api/notifications/clear", {
+      method: "POST",
+    });
 
-    if (error) {
-      console.error("Error clearing notifications:", error);
+    if (!response.ok) {
+      console.error("Error clearing notifications:", await response.text());
       return;
     }
 
     setNotifications([]);
     setUnreadCount(0);
     setHasMore(true);
-  }, [user, supabase]);
+  }, [user]);
 
   const contextValue = useMemo(
     () => ({

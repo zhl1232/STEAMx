@@ -8,7 +8,6 @@ import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -90,7 +89,6 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
 }
 
 function CompletionDetail({ completion, onClose }: { completion: ProjectCompletion, onClose: () => void }) {
-    const supabase = createClient()
     const { user, refreshProfile } = useAuth()
     const gamification = useGamification()
     const coins = gamification?.coins ?? 0
@@ -101,75 +99,50 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
 
     // -- React Query Data Fetching --
 
-    // 1. Fetch Like Status
-    const { data: isLiked } = useQuery({
-        queryKey: ['completion_like', completion.id, user?.id],
+    // 1. Fetch Like Status + Count
+    const { data: likeStats } = useQuery({
+        queryKey: ['completion_likes', completion.id, user?.id],
         queryFn: async () => {
-            if (!user) return false;
-            const { data } = await supabase
-                .from('completion_likes')
-                .select('*')
-                .eq('completed_project_id', completion.id)
-                .eq('user_id', user.id)
-                .single();
-            return !!data;
+            const response = await fetch(`/api/completions/${completion.id}/likes`);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            return await response.json();
         },
-        enabled: !!user,
-        initialData: false
-    });
-
-    // 2. Fetch Like Count
-    const { data: likesCount = completion.likes || 0 } = useQuery({
-        queryKey: ['completion_likes_count', completion.id],
-        queryFn: async () => {
-            const { count } = await supabase
-                .from('completion_likes')
-                .select('*', { count: 'exact', head: true })
-                .eq('completed_project_id', completion.id);
-            return count || 0;
+        initialData: {
+            count: completion.likes || 0,
+            isLiked: false,
         },
-        initialData: completion.likes || 0
     });
+    const likesCount = likeStats?.count ?? completion.likes ?? 0;
+    const isLiked = likeStats?.isLiked ?? false;
 
     // 3. Fetch Comments (Danmaku)
     const { data: comments = [] } = useQuery({
         queryKey: ['completion_comments', completion.id],
         queryFn: async () => {
-            const { data } = await supabase
-                .from('completion_comments')
-                .select('*')
-                .eq('completed_project_id', completion.id)
-                .order('created_at', { ascending: true });
-            return data || [];
+            const response = await fetch(`/api/completions/${completion.id}/comments`);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            const payload = await response.json();
+            return (payload?.comments as { id: number; content: string }[]) || [];
         }
     });
 
     // 4. 作品收到的总硬币数（展示用）
-    const { data: tipReceived = 0 } = useQuery({
-        queryKey: ['completion_tip_received', completion.id],
+    const { data: tipStats } = useQuery({
+        queryKey: ['completion_tips', completion.id, user?.id],
         queryFn: async () => {
-            const { data, error } = await supabase.rpc('get_tip_received_for_resource', {
-                p_resource_type: 'completion',
-                p_resource_id: completion.id
-            } as never);
-            if (error) return 0;
-            return (data as number) ?? 0;
+            const response = await fetch(`/api/completions/${completion.id}/tips`);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            return await response.json();
         }
     });
-    // 5. 当前用户对该作品已投多少（每人最多 2，用于显示投币按钮）
-    const { data: myTipped = 0 } = useQuery({
-        queryKey: ['my_tip_for_resource', 'completion', completion.id, user?.id],
-        queryFn: async () => {
-            if (!user) return 0;
-            const { data, error } = await supabase.rpc('get_my_tip_for_resource', {
-                p_resource_type: 'completion',
-                p_resource_id: completion.id
-            } as never);
-            if (error) return 0;
-            return (data as number) ?? 0;
-        },
-        enabled: !!user
-    });
+    const tipReceived = tipStats?.received ?? 0;
+    const myTipped = tipStats?.myTipped ?? 0;
     const tipRemaining = Math.max(0, 2 - myTipped);
 
     // -- Mutations --
@@ -179,51 +152,52 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             if (!user) throw new Error("Unauthorized");
             if (vars.isLiked) {
                 // Was liked, delete it
-                await supabase.from('completion_likes').delete()
-                    .eq('completed_project_id', completion.id).eq('user_id', user.id);
+                const response = await fetch(`/api/completions/${completion.id}/likes`, { method: "DELETE" });
+                if (!response.ok) throw new Error(await response.text());
             } else {
                 // Not liked, insert it
-                await supabase.from('completion_likes').insert({
-                    completed_project_id: completion.id,
-                    user_id: user.id
-                } as never);
+                const response = await fetch(`/api/completions/${completion.id}/likes`, { method: "POST" });
+                if (!response.ok) throw new Error(await response.text());
             }
         },
         onMutate: async (vars) => {
             // Cancel outgoing refetches
-            await queryClient.cancelQueries({ queryKey: ['completion_like', completion.id, user?.id] });
-            await queryClient.cancelQueries({ queryKey: ['completion_likes_count', completion.id] });
+            await queryClient.cancelQueries({ queryKey: ['completion_likes', completion.id, user?.id] });
 
             // Snapshot previous values
-            const prevLikeStatus = queryClient.getQueryData(['completion_like', completion.id, user?.id]);
-            const prevCount: number = queryClient.getQueryData(['completion_likes_count', completion.id]) || 0;
+            const prev = queryClient.getQueryData<{ count: number; isLiked: boolean }>(['completion_likes', completion.id, user?.id]);
+            const prevCount = prev?.count ?? (completion.likes || 0);
+            const prevLiked = prev?.isLiked ?? false;
 
             // Optimistic update
-            queryClient.setQueryData(['completion_like', completion.id, user?.id], !vars.isLiked);
-            queryClient.setQueryData(['completion_likes_count', completion.id], vars.isLiked ? prevCount - 1 : prevCount + 1);
+            queryClient.setQueryData(['completion_likes', completion.id, user?.id], {
+                count: vars.isLiked ? Math.max(0, prevCount - 1) : prevCount + 1,
+                isLiked: !vars.isLiked,
+            });
 
-            return { prevLikeStatus, prevCount };
+            return { prevCount, prevLiked };
         },
         onError: (err, newTodo, context) => {
-            queryClient.setQueryData(['completion_like', completion.id, user?.id], context?.prevLikeStatus);
-            queryClient.setQueryData(['completion_likes_count', completion.id], context?.prevCount);
+            queryClient.setQueryData(['completion_likes', completion.id, user?.id], {
+                count: context?.prevCount ?? (completion.likes || 0),
+                isLiked: context?.prevLiked ?? false,
+            });
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ['completion_like', completion.id, user?.id] });
-            queryClient.invalidateQueries({ queryKey: ['completion_likes_count', completion.id] });
+            queryClient.invalidateQueries({ queryKey: ['completion_likes', completion.id, user?.id] });
         }
     });
 
     const commentMutation = useMutation({
         mutationFn: async (content: string) => {
             if (!user) throw new Error("Unauthorized");
-            return await supabase
-                .from('completion_comments')
-                .insert({
-                    completed_project_id: completion.id,
-                    author_id: user.id,
-                    content: content
-                } as never);
+            const response = await fetch(`/api/completions/${completion.id}/comments`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content }),
+            });
+            if (!response.ok) throw new Error(await response.text());
+            return await response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['completion_comments', completion.id] });
@@ -233,18 +207,21 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const tipMutation = useMutation({
         mutationFn: async (amount: number) => {
             if (!user) throw new Error("Unauthorized");
-            const { data, error } = await supabase.rpc('tip_resource', {
-                p_resource_type: 'completion',
-                p_resource_id: completion.id,
-                p_amount: amount
-            } as never);
-            if (error) throw error;
-            const res = data as { ok?: boolean; error?: string };
+            const response = await fetch("/api/tips", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    resourceType: "completion",
+                    resourceId: completion.id,
+                    amount,
+                }),
+            });
+            if (!response.ok) throw new Error(await response.text());
+            const res = await response.json();
             if (!res?.ok) throw new Error(res?.error || 'tip_failed');
         },
         onSuccess: (_, amount) => {
-            queryClient.invalidateQueries({ queryKey: ['completion_tip_received', completion.id] });
-            queryClient.invalidateQueries({ queryKey: ['my_tip_for_resource', 'completion', completion.id] });
+            queryClient.invalidateQueries({ queryKey: ['completion_tips', completion.id] });
             refreshProfile();
             toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` });
         },
