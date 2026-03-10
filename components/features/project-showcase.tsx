@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectCompletion } from "@/lib/mappers/types"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -76,6 +76,9 @@ export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
                     <DialogTitle className="sr-only">
                         {selectedCompletion?.author} 的作品详情
                     </DialogTitle>
+                    <DialogDescription className="sr-only">
+                        查看作品图片、点赞、评论与投币。
+                    </DialogDescription>
                     {selectedCompletion && (
                         <CompletionDetail
                             completion={selectedCompletion}
