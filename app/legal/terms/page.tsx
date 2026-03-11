@@ -21,7 +21,7 @@ export default function TermsPage() {
         <div className="p-4 pb-20 prose prose-sm dark:prose-invert max-w-none">
           <h2 className="text-base font-semibold mt-4">一、服务说明</h2>
           <p className="text-muted-foreground mt-2">
-            本平台为青少年 STEAM 项目分享与交流提供服务。使用本服务即表示您同意遵守本协议及相关规则。
+            本平台「STEAM 探索」为青少年基于项目学习（PBL）的探索与交流提供服务。使用本服务即表示您同意遵守本协议及相关规则。
           </p>
           <h2 className="text-base font-semibold mt-6">二、用户行为规范</h2>
           <p className="text-muted-foreground mt-2">

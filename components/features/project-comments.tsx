@@ -22,6 +22,7 @@ import { type Comment } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { getDisplayName } from "@/lib/utils/user";
 
 interface ProjectCommentsProps {
   projectId: string | number;
@@ -89,9 +90,16 @@ export function ProjectComments({
     if (!content.trim()) return;
 
     const submitComment = async () => {
-      const addedComment = await addComment(projectId, {
+        const addedComment = await addComment(projectId, {
         id: 0,
-        author: profile?.display_name || user?.email?.split("@")[0] || "Me",
+        author: getDisplayName({
+          profileName: profile?.display_name,
+          metadataFullName: user?.user_metadata?.full_name,
+          metadataName: user?.user_metadata?.name,
+          phone: user?.phone ?? null,
+          email: user?.email,
+          fallback: "Me",
+        }),
         userId: user?.id,
         avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
         content: content,
@@ -141,7 +149,14 @@ export function ProjectComments({
           projectId,
           {
             id: 0,
-            author: profile?.display_name || user?.email?.split("@")[0] || "Me",
+            author: getDisplayName({
+              profileName: profile?.display_name,
+              metadataFullName: user?.user_metadata?.full_name,
+              metadataName: user?.user_metadata?.name,
+              phone: user?.phone ?? null,
+              email: user?.email,
+              fallback: "Me",
+            }),
             userId: user?.id,
             avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
             content: content,

@@ -11,7 +11,7 @@ export default function LeaderboardPage() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">社区排行榜</h1>
                     <p className="text-muted-foreground">
-                        看看谁是 STEAM 社区最活跃的探索者！
+                        看看谁是 STEAM 探索 社区最活跃的探索者！
                     </p>
                 </div>
             </div>

@@ -90,6 +90,40 @@ export interface Database {
         }
         Relationships: []
       }
+      phone_otps: {
+        Row: {
+          id: string
+          phone: string
+          code: string
+          type: string
+          user_id: string | null
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          phone: string
+          code: string
+          type?: string
+          user_id?: string | null
+          expires_at: string
+          created_at?: string
+        }
+        Update: {
+          phone?: string
+          code?: string
+          type?: string
+          user_id?: string | null
+          expires_at?: string
+        }
+        Relationships: []
+      }
+      phone_to_user: {
+        Row: { phone: string; user_id: string }
+        Insert: { phone: string; user_id: string }
+        Update: { user_id?: string }
+        Relationships: []
+      }
       sub_categories: {
         Row: {
           id: number

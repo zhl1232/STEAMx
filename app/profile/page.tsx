@@ -24,6 +24,7 @@ import React from 'react'
 import { BadgeIcon } from "@/components/features/gamification/badge-icon"
 import { cn } from '@/lib/utils'
 import { getNameColorClassName } from '@/lib/shop/items'
+import { getDisplayName } from '@/lib/utils/user'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -173,7 +174,14 @@ export default function ProfilePage() {
   }
 
   // 获取用户信息
-  const userName = profile?.display_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || '未命名用户'
+  const userName = getDisplayName({
+    profileName: profile?.display_name,
+    metadataFullName: user.user_metadata?.full_name,
+    metadataName: user.user_metadata?.name,
+    phone: user.phone ?? null,
+    email: user.email,
+    fallback: '未命名用户',
+  })
   const userAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || null
 
 

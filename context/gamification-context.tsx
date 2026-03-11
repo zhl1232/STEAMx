@@ -264,7 +264,45 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
                 if (error) {
                     // 23505 是 PostgreSQL 的 unique_violation 错误码
-                    // 由于 React StrictMode 或多标签页可能会并发调用
+                    // 23503 是外键缺失（profile 不存在）
+                    if (error.code === '23503' && user) {
+                        try {
+                            const displayName = user.user_metadata?.full_name || user.user_metadata?.name || (user.phone ? user.phone.replace(/^\+86/, '') : null)
+                            const avatarUrl = user.user_metadata?.avatar_url || '/avatars/default-1.svg'
+                            await supabase
+                                .from('profiles')
+                                .upsert(
+                                    { id: user.id, display_name: displayName, avatar_url: avatarUrl },
+                                    { onConflict: 'id', ignoreDuplicates: true }
+                                )
+
+                            const { data: retryData, error: retryError } = await supabase.rpc('daily_check_in') as { data: CheckInResult | null; error: { code: string; message: string } | null };
+                            if (!retryError && retryData?.is_new_day) {
+                                refetchStats();
+                                await refreshProfile();
+                                queryClient.invalidateQueries({ queryKey: ['coin_logs'] });
+
+                                const streak = retryData.streak ?? 1;
+                                const xpGranted = retryData.xp_granted ?? 0;
+                                const coinsGranted = retryData.coins_granted ?? 0;
+                                toast({
+                                    description: (
+                                        <AchievementToast
+                                            title="每日登录奖励"
+                                            description={`+${xpGranted} XP · +${coinsGranted} 硬币${streak > 1 ? ` · 连续 ${streak} 天 🔥` : ''}`}
+                                            icon="📅"
+                                        />
+                                    ),
+                                    duration: 4000,
+                                });
+                            } else if (retryError && retryError.code !== '23505') {
+                                console.error('Check-in error:', retryError);
+                            }
+                        } catch (retryErr) {
+                            console.error('Check-in failed after profile recovery:', retryErr);
+                        }
+                        return;
+                    }
                     if (error.code !== '23505') {
                         console.error('Check-in error:', error);
                     }

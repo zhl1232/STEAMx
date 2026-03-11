@@ -20,6 +20,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { mapDbProject } from "@/lib/mappers/types";
 import { Suspense } from "react";
+import { getDisplayName } from "@/lib/utils/user";
 
 const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 
@@ -252,7 +253,14 @@ function ShareForm() {
             const newProject: Project = {
                 id: Date.now(),
                 title: formData.title,
-                author: user?.user_metadata?.display_name || user?.email || "匿名用户",
+                author: getDisplayName({
+                    profileName: null,
+                    metadataFullName: user?.user_metadata?.display_name,
+                    metadataName: user?.user_metadata?.username,
+                    phone: user?.phone ?? null,
+                    email: user?.email,
+                    fallback: "匿名用户",
+                }),
                 author_id: user!.id,
                 image: coverImage,
                 category: formData.category,

@@ -1,5 +1,7 @@
 # Supabase 手机号注册与绑定说明
 
+> **当前实现已改为自建短信登录/绑定**：登录/注册与绑定均走 `/api/auth/sms/send` + `/api/auth/sms/verify`，仅支持首次绑定，不支持换绑/解绑。以下 Supabase 官方流程保留作为参考。
+
 ## 1. supabase-js 安装与使用
 
 项目已安装 `@supabase/supabase-js`（见 `package.json`）。使用前创建客户端：
@@ -92,8 +94,8 @@ const { data, error } = await supabase.auth.verifyOtp({
 
 | 场景           | 发码 API                    | 验证 API                          |
 |----------------|-----------------------------|------------------------------------|
-| 登录页-手机号  | `signInWithOtp({ phone })`  | `verifyOtp({ phone, token, type: 'sms' })` |
-| 设置-绑定手机  | `updateUser({ phone })`     | `verifyOtp({ phone, token, type: 'phone_change' })` |
-| 资料弹窗-绑定  | `updateUser({ phone })`     | `verifyOtp({ phone, token, type: 'phone_change' })` |
+| 登录页-手机号  | `POST /api/auth/sms/send`（`type=login`） | `POST /api/auth/sms/verify`（`type=login`） |
+| 设置-绑定手机  | `POST /api/auth/sms/send`（`type=phone_change`） | `POST /api/auth/sms/verify`（`type=phone_change`） |
+| 资料弹窗-绑定  | `POST /api/auth/sms/send`（`type=phone_change`） | `POST /api/auth/sms/verify`（`type=phone_change`） |
 
-当前实现中，**登录页**使用 `type: 'sms'`，**绑定/更换手机**使用 `type: 'phone_change'`，与上述规则一致。若仍报错，请按 3.1～3.6 逐项检查，并优先查看 Supabase 控制台与浏览器中的 `error.message`。
+当前实现中，**登录页**与**绑定手机号**均走自建接口；绑定仅支持首次绑定，不支持换绑/解绑。

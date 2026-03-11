@@ -64,7 +64,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
             <div className="md:hidden flex h-9 items-center shrink-0 mr-2">
               <Link href="/" className="flex items-center space-x-2">
                 <SteamLogo className="h-6 w-6 shrink-0" />
-                <span className="font-bold hidden sm:inline-block">STEAM</span>
+                <span className="font-bold hidden sm:inline-block">STEAM 探索</span>
               </Link>
             </div>
             <div className="mr-4 hidden md:flex items-center">

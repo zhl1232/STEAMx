@@ -14,24 +14,24 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | STEAM Explore & Share',
-    default: 'STEAM Explore & Share - 青少年STEAM项目分享平台',
+    template: '%s | STEAM 探索',
+    default: 'STEAM 探索 - 青少年基于项目学习（PBL）的探索平台',
   },
-  description: '发现、分享和学习STEAM项目。为青少年提供科学、技术、工程、艺术和数学领域的创意项目展示和交流平台。',
-  keywords: ['STEAM', '教育', '项目分享', '青少年', '科学', '技术', '工程', '艺术', '数学', 'DIY', '创客'],
-  authors: [{ name: 'STEAM Explore & Share Team' }],
+  description: '基于项目学习（PBL）的 STEAM 探索平台。青少年在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
+  keywords: ['STEAM', 'PBL', '项目式学习', '教育', '项目分享', '青少年', '科学', '技术', '工程', '艺术', '数学', 'DIY', '创客'],
+  authors: [{ name: 'STEAM 探索团队' }],
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
     url: 'https://steam-explore.com',
-    title: 'STEAM Explore & Share - 青少年STEAM项目分享平台',
-    description: '发现、分享和学习STEAM项目。为青少年提供科学、技术、工程、艺术和数学领域的创意项目展示和交流平台。',
-    siteName: 'STEAM Explore & Share',
+    title: 'STEAM 探索 - 青少年基于项目学习（PBL）的探索平台',
+    description: '基于项目学习（PBL）的 STEAM 探索平台。青少年在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
+    siteName: 'STEAM 探索',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'STEAM Explore & Share',
-    description: '发现、分享和学习STEAM项目',
+    title: 'STEAM 探索',
+    description: '基于项目学习（PBL）的 STEAM 探索平台',
   },
   robots: {
     index: true,

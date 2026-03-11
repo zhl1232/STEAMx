@@ -27,6 +27,7 @@ import { Loader2 } from "lucide-react"
 import { useAuth } from "@/context/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { AvatarUpload } from "./avatar-upload"
+import { toE164 } from "@/lib/utils/phone"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -88,7 +89,8 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     const { data: { user: currentUser } } = await supabase.auth.getUser()
     if (currentUser?.phone) {
       // Show masked phone number for privacy
-      const masked = currentUser.phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3')
+      const local = currentUser.phone.replace(/^\+?86/, "")
+      const masked = local.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")
       setPhone(masked)
       setOriginalPhone(currentUser.phone)
     } else {
@@ -118,11 +120,14 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     setBindMessage(null)
 
     try {
-      const formattedPhone = phone.startsWith('+') ? phone : `+86${phone}`
-      const { error } = await supabase.auth.updateUser({
-        phone: formattedPhone
+      const formattedPhone = toE164(phone)
+      const res = await fetch('/api/auth/sms/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: formattedPhone, type: 'phone_change' }),
       })
-      if (error) throw error
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || '发送验证码失败')
 
       setBindStep('verify')
       setBindMessage({ type: 'success', text: '验证码已发送，请注意查收短信' })
@@ -140,20 +145,26 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     setBindMessage(null)
 
     try {
-      const formattedPhone = phone.startsWith('+') ? phone : `+86${phone}`
-      const { error } = await supabase.auth.verifyOtp({
-        phone: formattedPhone,
-        token: otp,
-        type: 'phone_change'
+      const formattedPhone = toE164(phone)
+      const res = await fetch('/api/auth/sms/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: formattedPhone,
+          code: otp,
+          type: 'phone_change',
+        }),
       })
-      if (error) throw error
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || '验证失败，请检查验证码')
 
       setBindStep('idle')
-      setOriginalPhone(formattedPhone)
       // fetch latest mapped phone
       const { data: { user: currentUser } } = await supabase.auth.getUser()
       if (currentUser?.phone) {
-        setPhone(currentUser.phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, '$1 $2****$3'))
+        const local = currentUser.phone.replace(/^\+?86/, "")
+        setPhone(local.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2"))
+        setOriginalPhone(currentUser.phone)
       }
       setBindMessage({ type: 'success', text: '手机号绑定成功！' })
     } catch (error: unknown) {
@@ -196,15 +207,16 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       // 若为本地默认头像（如 /avatars/default-8.svg），finalAvatarUrl 已是相对路径，直接存库即可
       // 本次是上传时：记入 last_uploaded_avatar_url，之后即使用户改回预设，选择器里仍可显示「已上传」一格
       const isCustomUpload = !finalAvatarUrl.startsWith("/avatars/")
+      const trimmedUsername = username.trim()
       const updatePayload = {
-        username,
+        ...(trimmedUsername.length >= 3 ? { username: trimmedUsername } : {}),
         display_name: displayName,
         bio,
         gender: gender || null,
         avatar_url: finalAvatarUrl,
         updated_at: new Date().toISOString(),
         ...(isCustomUpload ? { last_uploaded_avatar_url: finalAvatarUrl } : {}),
-      } as { username: string; display_name: string; bio: string; gender: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
+      } as { username?: string; display_name: string; bio: string; gender: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
       // 选预设时只改 avatar_url，不覆盖 last_uploaded_avatar_url，所以已上传的那格会一直存在
       if (!isCustomUpload) delete updatePayload.last_uploaded_avatar_url
 
@@ -333,18 +345,20 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                       <span className="text-sm text-muted-foreground">
                         手机号绑定：{phone ? phone : "暂未绑定"}
                       </span>
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => {
-                          setPhone("")
-                          setBindStep("input")
-                          setBindMessage(null)
-                        }}
-                      >
-                        {originalPhone ? "更换" : "去绑定"}
-                      </Button>
+                      {!originalPhone ? (
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => {
+                            setPhone("")
+                            setBindStep("input")
+                            setBindMessage(null)
+                          }}
+                        >
+                          去绑定
+                        </Button>
+                      ) : null}
                     </div>
                   )}
 
@@ -379,7 +393,10 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                             setBindStep("idle")
                             setPhone(
                               originalPhone
-                                ? originalPhone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, "$1 $2****$3")
+                                ? (() => {
+                                    const local = originalPhone.replace(/^\+?86/, "")
+                                    return local.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")
+                                  })()
                                 : ""
                             )
                             setBindMessage(null)

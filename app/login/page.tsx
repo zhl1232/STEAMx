@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useToast } from '@/hooks/use-toast'
-import { ArrowLeft, Loader2, AlertCircle, CheckCircle2, Mail, Lock, ChevronDown, X } from 'lucide-react'
+import { ArrowLeft, Loader2, AlertCircle, CheckCircle2, Mail, Lock } from 'lucide-react'
 import Link from 'next/link'
 import { LoginSchema, ResetPasswordSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
@@ -31,18 +31,16 @@ function getOtpErrorMessage(error: unknown, defaultMessage = OTP_SEND_FAIL_DEFAU
 }
 
 type AuthView = 'sign_in' | 'sign_up' | 'forgot_password'
-type AuthMethod = 'email' | 'phone'
-
 export default function LoginPage() {
   const supabase = createClient()
   const { toast } = useToast()
   const [view, setView] = useState<AuthView>('sign_in')
-  const [method, setMethod] = useState<AuthMethod>('email')
+  const [useOtpLogin, setUseOtpLogin] = useState(false)
 
-  const [email, setEmail] = useState('')
+  const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
-  const [phone, setPhone] = useState('')
   const [otp, setOtp] = useState('')
+  const [otpStep, setOtpStep] = useState<'input' | 'verify'>('input')
 
   const [termsAgreed, setTermsAgreed] = useState(false)
   const [checkboxShake, setCheckboxShake] = useState(false)
@@ -59,6 +57,19 @@ export default function LoginPage() {
     return () => clearInterval(t)
   }, [otpCooldown])
 
+  const identifierValue = identifier.trim()
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifierValue)
+  const phoneDigits = identifierValue.replace(/\D/g, '')
+  const isPhoneInput = !isEmail && phoneDigits.length >= 11
+  const formattedPhone = isPhoneInput ? toE164(identifierValue) : ''
+  const isPhone = !!formattedPhone
+  const otpMode = isPhone && (view !== 'sign_in' || useOtpLogin)
+
+  useEffect(() => {
+    setOtp('')
+    setOtpStep('input')
+  }, [identifierValue, view, useOtpLogin])
+
   const requireTermsAgreed = (_action: 'send_otp' | 'submit'): boolean => {
     if (termsAgreed) return true
     toast({
@@ -73,39 +84,33 @@ export default function LoginPage() {
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!requireTermsAgreed('send_otp')) return
+    if (view !== 'forgot_password' && !requireTermsAgreed('send_otp')) return
     if (otpCooldown > 0) return
     setLoading(true)
     setError(null)
     setMessage(null)
 
     try {
-      if (!phone) throw new Error('请输入手机号码')
-      const formattedPhone = toE164(phone)
-
-      if (view === 'sign_up') {
-        if (!password || password.length < 6) throw new Error('请设置至少 6 位密码')
-        const username = `user_${Math.random().toString(36).slice(2, 10)}`
-        const { error } = await supabase.auth.signUp({
-          phone: formattedPhone,
-          password,
-          options: {
-            data: {
-              username,
-              full_name: formattedPhone.replace(/^\+86/, '') || '用户',
-            },
-          },
-        })
-        if (error) throw error
-        setMessage('验证码已发送，请输入收到的短信验证码完成注册。')
-      } else {
-        const { error } = await supabase.auth.signInWithOtp({
-          phone: formattedPhone,
-        })
-        if (error) throw error
-        setMessage('验证码已发送，请输入收到的短信验证码。')
+      if (!isPhone) throw new Error('请输入有效的手机号')
+      const res = await fetch('/api/auth/sms/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: formattedPhone, type: 'login' }),
+      })
+      const text = await res.text()
+      let data: { error?: string } = {}
+      try {
+        if (text) data = JSON.parse(text)
+      } catch {
+        if (process.env.NODE_ENV === 'development') console.warn('[OTP] 响应非 JSON:', text?.slice(0, 200))
       }
+      if (!res.ok) {
+        const msg = (data && typeof data.error === 'string') ? data.error : `请求失败 ${res.status}`
+        throw new Error(msg)
+      }
+      setMessage('验证码已发送，请输入收到的短信验证码。')
       setOtpCooldown(OTP_COOLDOWN_SECONDS)
+      setOtpStep('verify')
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') console.error('OTP send error:', err)
       setError(getOtpErrorMessage(err))
@@ -121,15 +126,31 @@ export default function LoginPage() {
     setMessage(null)
     try {
       if (!otp) throw new Error('请输入验证码')
-      const formattedPhone = toE164(phone)
-      const { error } = await supabase.auth.verifyOtp({
-        phone: formattedPhone,
-        token: otp,
-        type: 'sms',
+      if (!isPhone) throw new Error('请输入有效的手机号')
+      const res = await fetch('/api/auth/sms/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: formattedPhone,
+          code: otp,
+        }),
       })
-      if (error) throw error
-      window.location.href = '/'
-      return
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || '验证失败')
+      if (data.tokenHash) {
+        const { error: verifyError } = await supabase.auth.verifyOtp({
+          type: 'magiclink',
+          token_hash: data.tokenHash,
+        })
+        if (verifyError) throw verifyError
+        window.location.href = data.redirectTo || '/'
+        return
+      }
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl
+        return
+      }
+      window.location.href = data.redirectTo || '/'
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') console.error('OTP verify error:', err)
       setError(getOtpErrorMessage(err, OTP_VERIFY_FAIL_DEFAULT))
@@ -141,12 +162,46 @@ export default function LoginPage() {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (method === 'phone') {
+    if (view === 'forgot_password') {
+      if (isEmail) {
+        setLoading(true)
+        setError(null)
+        setMessage(null)
+        try {
+          const result = ResetPasswordSchema.safeParse({ email: identifierValue })
+          if (!result.success) throw new Error(result.error.issues[0].message)
+          const { error } = await supabase.auth.resetPasswordForEmail(identifierValue, {
+            redirectTo: `${window.location.origin}/auth/callback?next=/profile/reset-password`,
+          })
+          if (error) throw error
+          setMessage('重置密码链接已发送到你的邮箱，请查收。')
+        } catch (err: unknown) {
+          if (process.env.NODE_ENV === 'development') console.error('Auth error:', err)
+          const msg = err instanceof Error ? err.message : 'Unknown error'
+          setError(msg || '发生错误，请稍后重试。')
+        } finally {
+          setLoading(false)
+        }
+        return
+      }
+      if (otpMode) {
+        if (otpStep === 'input') {
+          await handleSendOtp(e)
+        } else {
+          await handleVerifyOtp(e)
+        }
+        return
+      }
+      setError('请输入有效的邮箱或手机号')
+      return
+    }
+
+    if (otpMode) {
       if (!requireTermsAgreed('submit')) return
-      if (otp.trim()) {
-        await handleVerifyOtp(e)
-      } else {
+      if (otpStep === 'input') {
         await handleSendOtp(e)
+      } else {
+        await handleVerifyOtp(e)
       }
       return
     }
@@ -158,47 +213,51 @@ export default function LoginPage() {
     setMessage(null)
 
     try {
-      if (view === 'sign_in') {
-        const result = LoginSchema.safeParse({ email, password })
-        if (!result.success) throw new Error(result.error.issues[0].message)
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
-        if (error) throw error
-        window.location.href = '/'
-        return
-      }
-      if (view === 'sign_up') {
-        const result = LoginSchema.safeParse({ email, password })
-        if (!result.success) throw new Error(result.error.issues[0].message)
-        const username = `user_${Math.random().toString(36).slice(2, 10)}`
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-            data: { username, full_name: email.split('@')[0] },
-          },
-        })
-        if (error) throw error
-        setMessage('注册成功！请检查你的邮箱以确认账号。')
-        const { data: { session } } = await supabase.auth.getSession()
-        if (session) {
+      if (isEmail) {
+        if (view === 'sign_in') {
+          const result = LoginSchema.safeParse({ email: identifierValue, password })
+          if (!result.success) throw new Error(result.error.issues[0].message)
+          const { error } = await supabase.auth.signInWithPassword({ email: identifierValue, password })
+          if (error) throw error
           window.location.href = '/'
           return
         }
-      }
-      if (view === 'forgot_password') {
-        const result = ResetPasswordSchema.safeParse({ email })
-        if (!result.success) throw new Error(result.error.issues[0].message)
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/auth/callback?next=/profile/reset-password`,
-        })
-        if (error) throw error
-        setMessage('重置密码链接已发送到你的邮箱，请查收。')
+        if (view === 'sign_up') {
+          const result = LoginSchema.safeParse({ email: identifierValue, password })
+          if (!result.success) throw new Error(result.error.issues[0].message)
+          const username = `user_${Math.random().toString(36).slice(2, 10)}`
+          const { error } = await supabase.auth.signUp({
+            email: identifierValue,
+            password,
+            options: {
+              emailRedirectTo: `${window.location.origin}/auth/callback`,
+              data: { username, full_name: identifierValue.split('@')[0] },
+            },
+          })
+          if (error) throw error
+          setMessage('注册成功！请检查你的邮箱以确认账号。')
+          const { data: { session } } = await supabase.auth.getSession()
+          if (session) {
+            window.location.href = '/'
+            return
+          }
+        }
+      } else if (isPhone) {
+        if (view === 'sign_in') {
+          if (!password) throw new Error('请输入密码或使用短信验证码登录')
+          const { error } = await supabase.auth.signInWithPassword({ phone: formattedPhone, password })
+          if (error) throw error
+          window.location.href = '/'
+          return
+        }
+        setError('手机号注册请使用短信验证码')
+      } else {
+        setError('请输入有效的邮箱或手机号')
       }
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') console.error('Auth error:', err)
       const msg = err instanceof Error ? err.message : 'Unknown error'
-      if (msg === 'Invalid login credentials') setError('邮箱或密码错误，请重试。')
+      if (msg === 'Invalid login credentials') setError('账号或密码错误，请重试。')
       else if (msg.includes('User already registered')) setError('该邮箱已被注册，请直接登录。')
       else if (msg.includes('Password should be at least')) setError('密码长度至少需要 6 位。')
       else setError(msg || '发生错误，请稍后重试。')
@@ -211,15 +270,8 @@ export default function LoginPage() {
     setView(v)
     setError(null)
     setMessage(null)
+    setUseOtpLogin(false)
   }
-  const toggleMethod = (m: AuthMethod) => {
-    setMethod(m)
-    setError(null)
-    setMessage(null)
-  }
-
-  const phoneDisplay = phone.replace(/^\+86/, '')
-  const setPhoneDisplay = (v: string) => setPhone('+86' + v.replace(/\D/g, ''))
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/50 p-4">
@@ -239,9 +291,9 @@ export default function LoginPage() {
               {view === 'forgot_password' && '重置密码'}
             </h1>
             <p className="text-muted-foreground">
-              {view === 'sign_in' && '登录你的 STEAM 账号，继续探索之旅'}
+              {view === 'sign_in' && '登录 STEAM 探索，继续探索之旅'}
               {view === 'sign_up' && '创建账号，开始你的创意之旅'}
-              {view === 'forgot_password' && '输入邮箱，我们将发送重置链接'}
+              {view === 'forgot_password' && '输入邮箱或手机号，我们将发送重置邮件或短信验证码'}
             </p>
           </div>
 
@@ -258,160 +310,103 @@ export default function LoginPage() {
             </div>
           )}
 
-          {view !== 'forgot_password' && (
-            <div className="flex p-1 mb-6 bg-muted rounded-lg shadow-inner">
-              <button
-                type="button"
-                onClick={() => toggleMethod('email')}
-                className={cn(
-                  'flex-1 py-2 text-sm font-medium rounded-md transition-all',
-                  method === 'email'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted-foreground/10'
-                )}
-              >
-                邮箱{view === 'sign_in' ? '登录' : '注册'}
-              </button>
-              <button
-                type="button"
-                onClick={() => toggleMethod('phone')}
-                className={cn(
-                  'flex-1 py-2 text-sm font-medium rounded-md transition-all',
-                  method === 'phone'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted-foreground/10'
-                )}
-              >
-                手机号{view === 'sign_in' ? '快速登录' : '注册'}
-              </button>
-            </div>
-          )}
-
           <form onSubmit={handleAuth} className="space-y-4">
-            {method === 'email' || view === 'forgot_password' ? (
-              <>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium leading-none text-muted-foreground">邮箱地址</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      type="email"
-                      placeholder="name@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
-                      required
-                    />
-                  </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none text-muted-foreground">邮箱或手机号</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="name@example.com / 13800138000"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+              {view === 'forgot_password' && (
+                <p className="text-xs text-muted-foreground">
+                  邮箱将发送重置邮件，手机号将发送验证码直接登录。
+                </p>
+              )}
+            </div>
+
+            {view !== 'forgot_password' && !otpMode && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium leading-none text-muted-foreground">密码</label>
+                  {view === 'sign_in' && (
+                    <button type="button" onClick={() => toggleView('forgot_password')} className="text-sm text-primary hover:underline">
+                      忘记密码？
+                    </button>
+                  )}
                 </div>
-                {view !== 'forgot_password' && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-sm font-medium leading-none text-muted-foreground">密码</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10"
+                    required={view !== 'sign_up' || isEmail}
+                    minLength={6}
+                    autoComplete={view === 'sign_in' ? 'current-password' : 'new-password'}
+                  />
+                </div>
+                {isPhone && view === 'sign_in' && (
+                  <button
+                    type="button"
+                    onClick={() => setUseOtpLogin(true)}
+                    className="text-sm text-primary hover:underline"
+                  >
+                    使用短信验证码登录
+                  </button>
+                )}
+              </div>
+            )}
+
+            {otpMode && (
+              <div className="space-y-2">
+                {otpStep === 'verify' ? (
+                  <>
+                    <label className="text-sm font-medium leading-none text-muted-foreground">短信验证码</label>
+                    <div className="flex rounded-md border border-input bg-background overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="请输入验证码"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                        className="flex-1 min-w-0 h-10 px-3 text-sm outline-none placeholder:text-muted-foreground"
+                        maxLength={6}
+                        autoComplete="one-time-code"
+                      />
+                      <span className="h-10 w-px bg-border" aria-hidden />
+                      <button
+                        type="button"
+                        disabled={otpCooldown > 0 || loading}
+                        onClick={handleSendOtp}
+                        className="shrink-0 px-4 text-sm font-medium text-primary hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap"
+                      >
+                        {otpCooldown > 0 ? `${otpCooldown}s 后重发` : '重新发送'}
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>未收到验证码？可重新发送</span>
                       {view === 'sign_in' && (
-                        <button type="button" onClick={() => toggleView('forgot_password')} className="text-sm text-primary hover:underline">
-                          忘记密码？
+                        <button type="button" onClick={() => setUseOtpLogin(false)} className="text-primary hover:underline">
+                          使用密码登录
                         </button>
                       )}
                     </div>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10"
-                        required
-                        minLength={6}
-                        autoComplete={view === 'sign_in' ? 'current-password' : 'new-password'}
-                      />
-                    </div>
-                  </div>
+                  </>
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    点击下方按钮获取短信验证码。
+                  </p>
                 )}
-              </>
-            ) : (
-              <>
-                {/* 手机号：统一大框 +86 | 输入区 + 清除 */}
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">手机号码</label>
-                  <div
-                    className={cn(
-                      'flex items-center rounded-md border border-input bg-background text-sm ring-offset-background',
-                      'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'
-                    )}
-                  >
-                    <span className="inline-flex items-center gap-0.5 pl-3 pr-2 text-muted-foreground">
-                      +86
-                      <ChevronDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
-                    </span>
-                    <span className="h-5 w-px bg-border" aria-hidden />
-                    <input
-                      type="tel"
-                      placeholder="请输入手机号码"
-                      value={phoneDisplay}
-                      onChange={(e) => setPhoneDisplay(e.target.value)}
-                      className="flex-1 min-w-0 h-10 px-3 bg-transparent outline-none placeholder:text-muted-foreground"
-                      maxLength={11}
-                    />
-                    {phoneDisplay && (
-                      <button
-                        type="button"
-                        onClick={() => setPhone('+86')}
-                        className="p-2 text-muted-foreground hover:text-foreground rounded"
-                        aria-label="清除"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* 验证码：输入框 + 右侧内嵌「获取验证码」 */}
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">验证码</label>
-                  <div className="flex rounded-md border border-input bg-background overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="请输入验证码"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                      className="flex-1 min-w-0 h-10 px-3 text-sm outline-none placeholder:text-muted-foreground"
-                      maxLength={6}
-                      autoComplete="one-time-code"
-                    />
-                    <span className="h-10 w-px bg-border" aria-hidden />
-                    <button
-                      type="button"
-                      disabled={otpCooldown > 0 || loading}
-                      onClick={handleSendOtp}
-                      className="shrink-0 px-4 text-sm font-medium text-primary hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap"
-                    >
-                      {otpCooldown > 0 ? `${otpCooldown}s 后重发` : '获取验证码'}
-                    </button>
-                  </div>
-                </div>
-
-                {view === 'sign_up' && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium leading-none text-muted-foreground">设置密码</label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        type="password"
-                        placeholder="至少 6 位"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10"
-                        required
-                        minLength={6}
-                        autoComplete="new-password"
-                      />
-                    </div>
-                  </div>
-                )}
-              </>
+              </div>
             )}
 
             {/* 合规：条款勾选框 */}
@@ -435,20 +430,24 @@ export default function LoginPage() {
               </label>
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading || (otpMode && otpStep === 'input' && otpCooldown > 0)}
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   处理中...
                 </>
-              ) : method === 'phone' ? (
-                '登录 / 注册'
+              ) : view === 'forgot_password' ? (
+                otpMode
+                  ? (otpStep === 'input' ? '获取验证码' : '验证并登录')
+                  : '发送重置链接'
+              ) : otpMode ? (
+                otpStep === 'input' ? '获取验证码' : '验证并登录'
               ) : (
-                <>
-                  {view === 'sign_in' && '登录'}
-                  {view === 'sign_up' && '注册'}
-                  {view === 'forgot_password' && '发送重置链接'}
-                </>
+                view === 'sign_in' ? '登录' : '注册'
               )}
             </Button>
           </form>

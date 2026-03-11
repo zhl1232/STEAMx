@@ -42,7 +42,7 @@
 1. 访问 https://github.com/settings/developers
 2. 点击 **New OAuth App**
 3. 填写信息：
-   - **Application name**: STEAM Explore (或你喜欢的名字)
+   - **Application name**: STEAM 探索 (或你喜欢的名字)
    - **Homepage URL**: `http://localhost:3000` (开发) 或你的域名
    - **Authorization callback URL**: 
      ```
@@ -76,7 +76,7 @@
 4. 点击 **Create Credentials** → **OAuth client ID**
 5. 选择 **Application type**: Web application
 6. 填写：
-   - **Name**: STEAM Explore
+   - **Name**: STEAM 探索
    - **Authorized redirect URIs**: 
      ```
      https://你的项目ID.supabase.co/auth/v1/callback

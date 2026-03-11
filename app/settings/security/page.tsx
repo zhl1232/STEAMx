@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Mail, Smartphone, KeyRound, Loader2 } from "lucide-react";
+import { ArrowLeft, Smartphone, KeyRound, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,8 @@ import { createClient } from "@/lib/supabase/client";
 import { toE164 } from "@/lib/utils/phone";
 
 function maskPhone(phone: string) {
-  return phone.replace(/(\+\d{2})(\d{3})\d{4}(\d{4})/, "$1 $2****$3");
+  const local = phone.replace(/^\+?86/, "");
+  return local.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
 }
 
 export default function SecuritySettingsPage() {
@@ -28,6 +29,10 @@ export default function SecuritySettingsPage() {
   const [otpInput, setOtpInput] = useState("");
   const [phoneStep, setPhoneStep] = useState<"idle" | "verify">("idle");
   const [phoneLoading, setPhoneLoading] = useState(false);
+  const [passwordExpand, setPasswordExpand] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   useEffect(() => {
     const loadPhone = async () => {
@@ -39,29 +44,43 @@ export default function SecuritySettingsPage() {
     if (user) loadPhone();
   }, [user, supabase.auth]);
 
-  const emailDisplay = user?.email ?? "未绑定";
-
-  const handleSendResetPassword = async () => {
-    if (!user?.email) {
-      toast({ title: "无法发送", description: "当前账号未绑定邮箱。", variant: "destructive" });
+  const handleChangePassword = async () => {
+    if (!newPassword || newPassword.length < 6) {
+      toast({ title: "新密码至少 6 位", variant: "destructive" });
       return;
     }
+    if (newPassword !== confirmPassword) {
+      toast({ title: "两次输入的密码不一致", variant: "destructive" });
+      return;
+    }
+    setPasswordLoading(true);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
-        redirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=/profile`,
+      const res = await fetch("/api/auth/password/change", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newPassword }),
       });
-      if (error) throw error;
-      toast({
-        title: "已发送",
-        description: "重置链接已发送到你的邮箱，请查收。",
-      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || `请求失败 ${res.status}`);
+      }
+      toast({ title: "修改成功", description: "密码已更新。" });
+      setNewPassword("");
+      setConfirmPassword("");
+      setPasswordExpand(false);
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "发送失败";
-      toast({ title: "发送失败", description: msg, variant: "destructive" });
+      const msg = e instanceof Error ? e.message : "修改失败";
+      toast({ title: "修改失败", description: msg, variant: "destructive" });
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
   const handleSendPhoneOtp = async () => {
+    if (authPhone) {
+      toast({ title: "已绑定", description: "手机号已绑定，暂不支持换绑。", variant: "destructive" });
+      return;
+    }
     const formatted = toE164(phoneInput);
     if (!formatted) {
       toast({ title: "请输入手机号", variant: "destructive" });
@@ -69,14 +88,20 @@ export default function SecuritySettingsPage() {
     }
     setPhoneLoading(true);
     try {
-      const { error } = await supabase.auth.updateUser({ phone: formatted });
-      if (error) throw error;
+      const res = await fetch("/api/auth/sms/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: formatted, type: "phone_change" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "发送失败");
       setPhoneStep("verify");
       toast({ title: "验证码已发送", description: "请查收短信并输入验证码。" });
-    } catch {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "发送失败";
       toast({
         title: "发送失败",
-        description: "请检查手机号或联系管理员。",
+        description: msg || "请检查手机号或联系管理员。",
         variant: "destructive",
       });
     } finally {
@@ -92,12 +117,17 @@ export default function SecuritySettingsPage() {
     }
     setPhoneLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: formatted,
-        token: otpInput.trim(),
-        type: "phone_change",
+      const res = await fetch("/api/auth/sms/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: formatted,
+          code: otpInput.trim(),
+          type: "phone_change",
+        }),
       });
-      if (error) throw error;
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "验证失败");
       const {
         data: { user: u },
       } = await supabase.auth.getUser();
@@ -107,10 +137,11 @@ export default function SecuritySettingsPage() {
       setPhoneInput("");
       setOtpInput("");
       toast({ title: "绑定成功", description: "手机号已更新。" });
-    } catch {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "验证失败";
       toast({
         title: "验证失败",
-        description: "请检查验证码或联系管理员。",
+        description: msg || "请检查验证码或联系管理员。",
         variant: "destructive",
       });
     } finally {
@@ -118,20 +149,7 @@ export default function SecuritySettingsPage() {
     }
   };
 
-  const menuItems = [
-    {
-      icon: Mail,
-      label: "邮箱",
-      value: emailDisplay,
-      action: undefined as (() => void) | undefined,
-    },
-    {
-      icon: KeyRound,
-      label: "修改密码",
-      value: "通过邮件重置",
-      action: handleSendResetPassword,
-    },
-  ];
+  const menuItems: Array<{ label: string; value: string; action?: () => void }> = [];
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
@@ -155,9 +173,6 @@ export default function SecuritySettingsPage() {
                   className={`flex w-full items-center justify-between bg-card p-4 transition-colors ${item.action ? "hover:bg-accent/50 active:bg-accent" : "cursor-default"}`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <item.icon className="h-4 w-4" />
-                    </div>
                     <span className="font-medium text-sm">{item.label}</span>
                   </div>
                   <span className="text-sm text-muted-foreground">{item.value}</span>
@@ -166,12 +181,56 @@ export default function SecuritySettingsPage() {
               </div>
             ))}
 
+            {menuItems.length > 0 ? <Separator className="ml-14" /> : null}
+            <div>
+              <button
+                type="button"
+                onClick={() => setPasswordExpand(!passwordExpand)}
+                className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <KeyRound className="h-4 w-4" />
+                  </div>
+                  <span className="font-medium text-sm">修改密码</span>
+                </div>
+              </button>
+
+              {passwordExpand && (
+                <div className="border-t px-4 py-4 space-y-3 bg-muted/30">
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      placeholder="新密码（至少 6 位）"
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <Input
+                      placeholder="确认新密码"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <Button
+                      size="sm"
+                      onClick={handleChangePassword}
+                      disabled={passwordLoading}
+                    >
+                      {passwordLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "确认修改"}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Separator className="ml-14" />
             <div>
               <button
                 type="button"
-                onClick={() => setPhoneExpand(!phoneExpand)}
-                className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
+                onClick={() => {
+                  if (!authPhone) setPhoneExpand(!phoneExpand);
+                }}
+                className={`flex w-full items-center justify-between bg-card p-4 transition-colors ${authPhone ? "cursor-default" : "hover:bg-accent/50 active:bg-accent"}`}
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -184,7 +243,7 @@ export default function SecuritySettingsPage() {
                 </span>
               </button>
 
-              {phoneExpand && (
+              {!authPhone && phoneExpand && (
                 <div className="border-t px-4 py-4 space-y-3 bg-muted/30">
                   <div className="flex gap-2">
                     <span className="inline-flex items-center rounded-md border bg-background px-2 text-sm text-muted-foreground">+86</span>

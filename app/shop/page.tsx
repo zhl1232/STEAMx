@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useMemo } from 'react'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { cn } from '@/lib/utils'
+import { getDisplayName } from '@/lib/utils/user'
 import type { ShopItemType } from '@/lib/shop/items'
 import type { Profile } from '@/lib/types/database'
 
@@ -141,7 +142,14 @@ export default function ShopPage() {
                     <AvatarWithFrame
                       avatarFrameId={item.id}
                       src={user?.user_metadata?.avatar_url}
-                      fallback={user?.user_metadata?.username?.charAt(0) || user?.email?.charAt(0) || '?'}
+                      fallback={getDisplayName({
+                        profileName: null,
+                        metadataFullName: user?.user_metadata?.full_name,
+                        metadataName: user?.user_metadata?.username,
+                        phone: user?.phone ?? null,
+                        email: user?.email,
+                        fallback: "?",
+                      }).charAt(0)}
                       className="w-20 h-20"
                     />
                   ) : (
