@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@/lib/types/database";
@@ -36,16 +36,36 @@ export function useConversations() {
 /** 与指定用户的对话消息（按时间升序） */
 export function useConversationMessages(otherUserId: string | undefined) {
   const { user, loading: authLoading } = useAuth();
+  const PAGE_SIZE = 40;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["messages", user?.id, otherUserId],
-    queryFn: async (): Promise<{ messages: Message[]; peer: { id: string; display_name: string | null; avatar_url: string | null } | null }> => {
+  const {
+    data,
+    isPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["messages", user?.id, otherUserId, "infinite"],
+    queryFn: async ({ pageParam }): Promise<{
+      messages: Message[];
+      peer: { id: string; display_name: string | null; avatar_url: string | null } | null;
+      hasMore: boolean;
+      nextCursor?: string;
+    }> => {
       if (!user || !otherUserId || otherUserId === user.id) {
-        return { messages: [], peer: null };
+        return { messages: [], peer: null, hasMore: false };
       }
 
-      const response = await fetch(`/api/messages/threads/${otherUserId}`);
-      if (response.status === 401 || response.status === 404) return { messages: [], peer: null };
+      const params = new URLSearchParams({ limit: String(PAGE_SIZE) });
+      if (typeof pageParam === "string" && pageParam) {
+        params.set("before", pageParam);
+      }
+
+      const url = `/api/messages/threads/${otherUserId}?${params.toString()}`;
+      const response = await fetch(url);
+      if (response.status === 401 || response.status === 404) {
+        return { messages: [], peer: null, hasMore: false };
+      }
       if (!response.ok) throw new Error(await response.text());
       const payload = await response.json();
       const raw = (payload?.messages as Message[]) || [];
@@ -53,15 +73,32 @@ export function useConversationMessages(otherUserId: string | undefined) {
         const result = MessageSchema.safeParse(row);
         return result.success ? result.data : null;
       });
+      const messages = parsed.filter((x): x is Message => x !== null);
+      const nextCursor = messages.length > 0 ? messages[0]?.created_at : undefined;
       return {
-        messages: parsed.filter((x): x is Message => x !== null),
+        messages,
         peer: payload?.peer || null,
+        hasMore: messages.length === PAGE_SIZE,
+        nextCursor,
       };
     },
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.nextCursor : undefined),
     enabled: !!user && !!otherUserId && otherUserId !== user.id && !authLoading,
   });
 
-  return { messages: data?.messages ?? [], peer: data?.peer ?? null, isLoading };
+  const pages = data?.pages ?? [];
+  const peer = pages[0]?.peer ?? null;
+  const messages = [...pages].reverse().flatMap((page) => page.messages);
+
+  return {
+    messages,
+    peer,
+    isLoading: isPending,
+    hasMore: Boolean(hasNextPage),
+    isLoadingMore: isFetchingNextPage,
+    loadMore: fetchNextPage,
+  };
 }
 
 /** 发送私信 */
@@ -97,7 +134,7 @@ export function useSendMessage(options?: { onSuccess?: () => void }) {
     },
     onSuccess: (_data, { receiverId }) => {
       queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
-      queryClient.invalidateQueries({ queryKey: ["messages", user?.id, receiverId] });
+      queryClient.invalidateQueries({ queryKey: ["messages", user?.id, receiverId, "infinite"] });
       options?.onSuccess?.();
     },
     onError: (err: Error) => {

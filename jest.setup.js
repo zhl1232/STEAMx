@@ -6,7 +6,19 @@ jest.mock('next/image', () => {
     return {
         __esModule: true,
         default: (props) => {
-            const { src, alt, ...rest } = props
+            const {
+                src,
+                alt,
+                blurDataURL: _blurDataURL,
+                fill: _fill,
+                placeholder: _placeholder,
+                quality: _quality,
+                sizes: _sizes,
+                priority: _priority,
+                loader: _loader,
+                unoptimized: _unoptimized,
+                ...rest
+            } = props
             const resolvedSrc = typeof src === 'string' ? src : (src?.src ?? '')
             return React.createElement('img', { src: resolvedSrc, alt, ...rest })
         },

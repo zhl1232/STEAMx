@@ -13,48 +13,64 @@ export async function POST(
 ) {
   const supabase = await createClient()
   const { id } = await params
-  const projectId = parseInt(id)
+  const projectId = parseInt(id, 10)
+  if (Number.isNaN(projectId)) {
+    return NextResponse.json({ error: 'Invalid project id' }, { status: 400 })
+  }
   
   try {
     // 检查用户认证
     const user = await requireAuth(supabase)
     
     // 检查是否已点赞
-    const { data: existingLike } = await supabase
+    const { data: existingLike, error: existingLikeError } = await supabase
       .from('likes')
-      .select()
+      .select('id')
       .eq('user_id', user.id)
       .eq('project_id', projectId)
-      .single()
+      .maybeSingle()
+    
+    if (existingLikeError) {
+      throw existingLikeError
+    }
     
     if (existingLike) {
       // 取消点赞
-      const { error: deleteError } = await supabase
+      const { data: deletedRows, error: deleteError } = await supabase
         .from('likes')
         .delete()
         .eq('user_id', user.id)
         .eq('project_id', projectId)
+        .select('id')
       
       if (deleteError) {
         throw deleteError
       }
       
       // 减少点赞数
-      await callRpc(supabase, 'decrement_project_likes', { project_id: projectId })
+      if (deletedRows && deletedRows.length > 0) {
+        await callRpc(supabase, 'decrement_project_likes', { project_id: projectId })
+      }
       
       return NextResponse.json({ liked: false, action: 'unliked' })
     } else {
       // 添加点赞
-      const { error: insertError } = await supabase
+      const { data: insertedRows, error: insertError } = await supabase
         .from('likes')
         .insert({ user_id: user.id, project_id: projectId } as never)
+        .select('id')
       
       if (insertError) {
+        if ((insertError as { code?: string }).code === '23505') {
+          return NextResponse.json({ liked: true, action: 'liked' })
+        }
         throw insertError
       }
       
       // 增加点赞数
-      await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
+      if (insertedRows && insertedRows.length > 0) {
+        await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
+      }
       
       return NextResponse.json({ liked: true, action: 'liked' })
     }
@@ -73,7 +89,10 @@ export async function GET(
 ) {
   const supabase = await createClient()
   const { id } = await params
-  const projectId = parseInt(id)
+  const projectId = parseInt(id, 10)
+  if (Number.isNaN(projectId)) {
+    return NextResponse.json({ error: 'Invalid project id' }, { status: 400 })
+  }
   
   const { data: { user } } = await supabase.auth.getUser()
   
@@ -81,12 +100,16 @@ export async function GET(
     return NextResponse.json({ liked: false })
   }
   
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('likes')
-    .select()
+    .select('id')
     .eq('user_id', user.id)
     .eq('project_id', projectId)
-    .single()
+    .maybeSingle()
+
+  if (error) {
+    return handleApiError(error)
+  }
   
   return NextResponse.json({ liked: !!data })
 }

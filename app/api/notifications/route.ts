@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
 
 const PAGE_SIZE = 20
+const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
 const ALLOWED_TYPES = new Set([
-  'mention',
-  'reply',
-  'like',
-  'follow',
+  ...USER_ALLOWED_TYPES,
   'system',
   'creator_update',
 ])
@@ -69,11 +67,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid type' }, { status: 400 })
     }
 
-    if (body?.from_user_id && body.from_user_id !== user.id) {
-      return NextResponse.json(
-        { error: 'Invalid from_user_id' },
-        { status: 403 }
-      )
+    const isSystem = type === 'system'
+    const isCreatorUpdate = type === 'creator_update'
+    if (isSystem) {
+      await requireRole(supabase, ['moderator', 'admin'])
+    } else if (isCreatorUpdate) {
+      await requireRole(supabase, ['teacher', 'moderator', 'admin'])
     }
 
     const relatedType =
@@ -91,6 +90,29 @@ export async function POST(request: NextRequest) {
       return Number.isNaN(num) ? null : num
     }
 
+    let fromUsername: string | null = null
+    let fromAvatar: string | null = null
+    if (isSystem) {
+      fromUsername = '系统'
+    } else {
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('display_name, avatar_url')
+        .eq('id', user.id)
+        .single()
+
+      if (profileError) throw profileError
+
+      const fallbackName = user.email?.split('@')[0] || null
+      const fallbackAvatar =
+        typeof user.user_metadata?.avatar_url === 'string'
+          ? user.user_metadata.avatar_url
+          : null
+
+      fromUsername = profile?.display_name || fallbackName
+      fromAvatar = profile?.avatar_url || fallbackAvatar
+    }
+
     const payload = {
       user_id: userId,
       type,
@@ -99,11 +121,9 @@ export async function POST(request: NextRequest) {
       related_id: toNumber(body?.related_id),
       project_id: toNumber(body?.project_id),
       discussion_id: toNumber(body?.discussion_id),
-      from_user_id: user.id,
-      from_username:
-        typeof body?.from_username === 'string' ? body.from_username : null,
-      from_avatar:
-        typeof body?.from_avatar === 'string' ? body.from_avatar : null,
+      from_user_id: isSystem ? null : user.id,
+      from_username: fromUsername,
+      from_avatar: fromAvatar,
     }
 
     const { data, error } = await supabase

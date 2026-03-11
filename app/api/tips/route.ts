@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createClient()
 
   try {
-    const user = await requireAuth(supabase)
+    await requireAuth(supabase)
     const body = await request.json()
 
     const resourceType = typeof body?.resourceType === 'string' ? body.resourceType : ''

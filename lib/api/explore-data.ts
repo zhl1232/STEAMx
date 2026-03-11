@@ -13,6 +13,7 @@ import {
   type ProjectCompletion,
   type Comment,
 } from "@/lib/mappers/types";
+import { sanitizeSearch } from "@/lib/api/validation";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
@@ -257,6 +258,7 @@ export async function getProjects(
     tags,
     searchQuery,
   } = filters;
+  const sanitizedSearch = searchQuery ? sanitizeSearch(searchQuery) : "";
 
   const { page = 0, pageSize = 12, sortBy = "latest" } = pagination;
 
@@ -285,8 +287,8 @@ export async function getProjects(
     query = query.order("created_at", { ascending: false });
   }
 
-  if (searchQuery) {
-    query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+  if (sanitizedSearch) {
+    query = query.or(`title.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%`);
   }
 
   if (category && category !== "全部") {

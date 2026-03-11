@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
@@ -20,10 +20,13 @@ export default function ConversationPage() {
 
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const { messages, peer, isLoading } = useConversationMessages(otherUserId);
+  const { messages, peer, isLoading, hasMore, isLoadingMore, loadMore } =
+    useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isLoadingOlderRef = useRef(false);
+  const prevScrollHeightRef = useRef(0);
 
   useEffect(() => {
     if (user && otherUserId && otherUserId === user.id) {
@@ -33,10 +36,43 @@ export default function ConversationPage() {
   }, [user, otherUserId, router]);
 
   useEffect(() => {
-    if (messages.length && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    const el = scrollRef.current;
+    if (!el || messages.length === 0) return;
+    if (isLoadingOlderRef.current) {
+      const prevHeight = prevScrollHeightRef.current;
+      requestAnimationFrame(() => {
+        const nextHeight = el.scrollHeight;
+        el.scrollTop = nextHeight - prevHeight;
+        isLoadingOlderRef.current = false;
+      });
+      return;
     }
+    el.scrollTop = el.scrollHeight;
   }, [messages.length]);
+
+  const handleLoadMore = useCallback(async () => {
+    const el = scrollRef.current;
+    if (!el || isLoadingMore || isLoadingOlderRef.current) return;
+    prevScrollHeightRef.current = el.scrollHeight;
+    isLoadingOlderRef.current = true;
+    await loadMore();
+  }, [isLoadingMore, loadMore]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      if (el.scrollTop <= 80 && hasMore && !isLoadingMore && !isLoading) {
+        handleLoadMore();
+      }
+    };
+
+    el.addEventListener("scroll", onScroll);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, [hasMore, isLoadingMore, isLoading, handleLoadMore]);
 
   const handleSend = async () => {
     const trimmed = input.trim();
@@ -83,11 +119,13 @@ export default function ConversationPage() {
       </div>
 
       {/* Messages */}
-      <div
-        className="flex-1 overflow-y-auto px-4"
-        ref={scrollRef}
-      >
-        <div className="py-4 space-y-3 min-h-full flex flex-col justify-end">
+      <div className="flex-1 overflow-y-auto px-4" ref={scrollRef}>
+        <div className="py-4 min-h-full flex flex-col">
+          {hasMore && !isLoading ? (
+            <div className="text-xs text-muted-foreground text-center mb-3">
+              {isLoadingMore ? "加载中..." : "上滑加载更多"}
+            </div>
+          ) : null}
           {isLoading ? (
             <div className="space-y-3">
               {[1, 2].map((i) => (
@@ -97,11 +135,15 @@ export default function ConversationPage() {
               ))}
             </div>
           ) : messages.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-8">暂无消息，发一条打个招呼吧～</p>
+            <p className="text-sm text-muted-foreground text-center py-8">
+              暂无消息，发一条打个招呼吧～
+            </p>
           ) : (
-            messages.map((msg) => (
-              <MessageBubble key={msg.id} message={msg} isMe={msg.sender_id === user.id} />
-            ))
+            <div className="flex flex-col gap-3 mt-auto">
+              {messages.map((msg) => (
+                <MessageBubble key={msg.id} message={msg} isMe={msg.sender_id === user.id} />
+              ))}
+            </div>
           )}
         </div>
       </div>

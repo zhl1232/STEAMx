@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime } from '@/lib/date-utils'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { sanitizeSearch } from '@/lib/api/validation'
 type DiscussionListItem = {
   id: string | number
   title: string
@@ -37,7 +38,8 @@ export async function GET(request: NextRequest) {
 
   const page = parseNumber(searchParams.get('page'), 0)
   const pageSize = Math.min(50, Math.max(1, parseNumber(searchParams.get('pageSize'), 10)))
-  const searchQuery = searchParams.get('q') || ''
+  const rawQuery = searchParams.get('q') || ''
+  const searchQuery = rawQuery ? sanitizeSearch(rawQuery) : ''
   const selectedTag = searchParams.get('tag') || ''
   const sortBy = parseSort(searchParams.get('sort'))
 

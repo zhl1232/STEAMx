@@ -8,7 +8,8 @@ import { consumeRateLimit } from '@/lib/rate-limit'
 type RateLimitRule = {
   id: string
   methods: ('GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE')[]
-  pathPrefix: string
+  pathPrefix?: string
+  pathRegex?: RegExp
   limit: number
   windowMs: number
 }
@@ -103,6 +104,63 @@ export async function middleware(request: NextRequest) {
 
 const RATE_LIMIT_RULES: RateLimitRule[] = [
   {
+    id: 'api-tips',
+    methods: ['POST'],
+    pathPrefix: '/api/tips',
+    limit: 10,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-messages-send',
+    methods: ['POST'],
+    pathPrefix: '/api/messages/send',
+    limit: 20,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-projects-create',
+    methods: ['POST'],
+    pathPrefix: '/api/projects',
+    pathRegex: /^\/api\/projects$/,
+    limit: 6,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-discussions-write',
+    methods: ['POST', 'DELETE'],
+    pathPrefix: '/api/discussions',
+    limit: 20,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-comments-delete',
+    methods: ['DELETE'],
+    pathPrefix: '/api/comments',
+    limit: 30,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-replies-delete',
+    methods: ['DELETE'],
+    pathPrefix: '/api/replies',
+    limit: 30,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-follows-write',
+    methods: ['POST', 'DELETE'],
+    pathPrefix: '/api/follows',
+    limit: 60,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-notifications-write',
+    methods: ['POST'],
+    pathPrefix: '/api/notifications',
+    limit: 30,
+    windowMs: 60_000,
+  },
+  {
     id: 'api-read',
     methods: ['GET'],
     pathPrefix: '/api/',
@@ -131,6 +189,12 @@ function getClientIp(request: NextRequest): string {
   return 'unknown'
 }
 
+function matchesRule(rule: RateLimitRule, pathname: string): boolean {
+  if (rule.pathPrefix && !pathname.startsWith(rule.pathPrefix)) return false
+  if (rule.pathRegex && !rule.pathRegex.test(pathname)) return false
+  return true
+}
+
 function applyRateLimit(request: NextRequest): NextResponse | null {
   const { pathname } = request.nextUrl
   if (!pathname.startsWith('/api/')) return null
@@ -141,7 +205,7 @@ function applyRateLimit(request: NextRequest): NextResponse | null {
     if (!request.method || !rule.methods.includes(request.method as RateLimitRule['methods'][number])) {
       continue
     }
-    if (!pathname.startsWith(rule.pathPrefix)) continue
+    if (!matchesRule(rule, pathname)) continue
 
     const key = `${rule.id}:${ip}`
     const result = consumeRateLimit(key, rule.limit, rule.windowMs)

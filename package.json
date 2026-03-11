@@ -22,6 +22,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:e2e": "playwright test",
+    "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
     "prepare": "husky",
     "compress:images": "node scripts/compress-project-images.mjs"
   },

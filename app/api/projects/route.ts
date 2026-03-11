@@ -147,9 +147,23 @@ export async function POST(request: Request) {
       )
     }
 
-    // 等待所有子资源创建完成
+    // 等待所有子资源创建完成，失败时回滚主记录
     if (promises.length > 0) {
-      await Promise.all(promises)
+      try {
+        await Promise.all(promises)
+      } catch (childError) {
+        const { error: rollbackError } = await supabase
+          .from('projects')
+          .delete()
+          .eq('id', project.id)
+          .eq('author_id', user.id)
+
+        if (rollbackError) {
+          console.error('Failed to rollback project after child insert error:', rollbackError)
+        }
+
+        throw childError
+      }
     }
 
     return NextResponse.json(project, { status: 201 })

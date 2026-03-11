@@ -125,7 +125,15 @@ Cloudflare Dashboard 仍可用于查看当前 Worker 配置或临时排查，但
 
 ---
 
-## 六、本地开发、CI smoke 与 Cloudflare 预览的差异
+## 六、Rate Limiting（生产建议）
+
+本仓库已在 `middleware.ts` 内对 `/api/*` 做基础限流，但这是**每个 Worker 实例的内存级**防护，仍建议在 Cloudflare WAF 侧加一层全局限流规则。
+
+规则建议与说明见：`docs/SECURITY_RATE_LIMIT.md`
+
+---
+
+## 七、本地开发、CI smoke 与 Cloudflare 预览的差异
 
 ### 本地日常开发
 
@@ -161,7 +169,7 @@ Playwright 会自动给自启 dev server 注入：
 
 ---
 
-## 七、常用命令
+## 八、常用命令
 
 | 命令 | 说明 |
 | --- | --- |
@@ -172,7 +180,7 @@ Playwright 会自动给自启 dev server 注入：
 
 ---
 
-## 八、参考链接
+## 九、参考链接
 
 - [OpenNext - Cloudflare](https://opennext.js.org/cloudflare)
 - [Next.js 16 Upgrade Guide](https://nextjs.org/docs/app/guides/upgrading/version-16)

@@ -11,6 +11,8 @@ export async function GET() {
   const supabase = await createClient()
   
   try {
+    await requireRole(supabase, ['moderator', 'admin'])
+
     const { data, error } = await supabase
       .from('tags')
       .select('*')
