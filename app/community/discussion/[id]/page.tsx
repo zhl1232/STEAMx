@@ -18,7 +18,7 @@ import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -49,6 +49,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   const [hasMoreReplies, setHasMoreReplies] = useState(false);
   const [isLoadingMoreReplies, setIsLoadingMoreReplies] = useState(false);
   const [totalReplies, setTotalReplies] = useState(0);
+  const [likedReplies, setLikedReplies] = useState<Set<string>>(new Set());
 
   // Handle params unwrapping
   useEffect(() => {
@@ -56,6 +57,10 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       setId(unwrappedParams.id);
     }
   }, [unwrappedParams.id]);
+
+  useEffect(() => {
+    setLikedReplies(new Set());
+  }, [id]);
 
   // Fetch discussion (without replies) + first page of replies
   useEffect(() => {
@@ -135,6 +140,53 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       setIsLoadingMoreReplies(false);
     }
   };
+
+  const handleToggleReplyLike = useCallback(
+    async (replyId: number | string) => {
+      if (!user) {
+        promptLogin(
+          () => {},
+          {
+            title: "登录以点赞回复",
+            description: "登录后即可点赞喜欢的回复",
+          },
+        );
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/replies/${replyId}/like`, { method: "POST" });
+        if (!response.ok) throw new Error(await response.text());
+        const payload = await response.json();
+        const liked = Boolean(payload?.liked);
+        const action = payload?.action as "liked" | "unliked" | undefined;
+        const delta = action === "liked" ? 1 : action === "unliked" ? -1 : liked ? 1 : -1;
+        const key = String(replyId);
+
+        setDiscussion((prev: Discussion | null) => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            replies: prev.replies.map((r) => {
+              if (String(r.id) !== key) return r;
+              const nextCount = Math.max(0, (r.likes_count ?? 0) + delta);
+              return { ...r, likes_count: nextCount };
+            }),
+          };
+        });
+
+        setLikedReplies((prev) => {
+          const next = new Set(prev);
+          if (liked) next.add(key);
+          else next.delete(key);
+          return next;
+        });
+      } catch (error) {
+        console.error("Error toggling reply like:", error);
+      }
+    },
+    [user, promptLogin],
+  );
 
   // Scroll to hash anchor on load
   useEffect(() => {
@@ -343,6 +395,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     onSubmitReply={handleSubmitReply}
                     onCancelReply={handleCancelReply}
                     onDeleteReply={handleDeleteReply}
+                    isLiked={likedReplies.has(String(reply.id))}
+                    onToggleLike={handleToggleReplyLike}
                   />
                   {replyCount > 0 && (
                     <button
@@ -462,6 +516,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                             onSubmitReply={handleSubmitReply}
                             onCancelReply={handleCancelReply}
                             onDeleteReply={handleDeleteReply}
+                            isLiked={likedReplies.has(String(r.id))}
+                            onToggleLike={handleToggleReplyLike}
                           />
                           {childCount > 0 && (
                             <button

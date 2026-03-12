@@ -61,9 +61,9 @@ function MobileProjectItem({ project }: { project: Project }) {
             <div className="flex-1 flex flex-col justify-between py-1">
                 <div>
                     <h3 className="font-bold line-clamp-1">{project.title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{project.description}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1.5 leading-relaxed">{project.description}</p>
                 </div>
-                <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
                     <span className="flex items-center gap-1">
                         <Heart className={cn("w-3.5 h-3.5", liked && "fill-red-500 text-red-500")} />
                         {likesCount}

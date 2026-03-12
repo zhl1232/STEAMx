@@ -27,12 +27,10 @@ export function AvatarWithFrame({
   avatarClassName,
 }: AvatarWithFrameProps) {
   const frameClass = getAvatarFrameClassName(avatarFrameId ?? null);
-  const isPixel = avatarFrameId === 'pixel_border';
 
   return (
     <div className={cn(
-      "relative inline-flex shrink-0 items-center justify-center",
-      isPixel ? "rounded-lg" : "rounded-full",
+      "relative inline-flex shrink-0 items-center justify-center rounded-full",
       frameClass,
       className,
     )}>

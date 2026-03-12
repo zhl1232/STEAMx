@@ -30,7 +30,7 @@ export function LevelProgress({ className, showLabel = true }: LevelProgressProp
                     </span>
                 </div>
             )}
-            <Progress value={progress} className="h-2" />
+            <Progress value={progress} className="h-2.5" />
         </div>
     );
 }

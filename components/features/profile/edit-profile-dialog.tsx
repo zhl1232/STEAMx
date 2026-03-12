@@ -363,28 +363,20 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                   )}
 
                   {bindStep === "input" && (
-                    <div className="space-y-2 rounded-lg border border-input bg-muted/30 p-3">
-                      <div className="flex flex-wrap gap-2">
-                        <div className="relative flex flex-1 min-w-[140px]">
-                          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
-                            +86
-                          </span>
-                          <Input
-                            type="tel"
-                            placeholder="输入新手机号"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                            className="rounded-l-none"
-                          />
-                        </div>
-                        <Button
-                          type="button"
-                          size="sm"
-                          disabled={!phone || bindingLoading}
-                          onClick={handleBindPhone}
-                        >
-                          {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发送验证码"}
-                        </Button>
+                    <div className="space-y-3 rounded-lg border border-input bg-muted/30 p-3">
+                      <div className="flex">
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-background text-muted-foreground text-sm whitespace-nowrap">
+                          +86
+                        </span>
+                        <Input
+                          type="tel"
+                          placeholder="输入新手机号"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                          className="rounded-l-none flex-1 bg-background"
+                        />
+                      </div>
+                      <div className="flex items-center justify-end gap-2">
                         <Button
                           type="button"
                           variant="ghost"
@@ -404,36 +396,48 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                         >
                           取消
                         </Button>
+                        <Button
+                          type="button"
+                          size="sm"
+                          disabled={!phone || bindingLoading}
+                          onClick={handleBindPhone}
+                        >
+                          {bindingLoading && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
+                          发送验证码
+                        </Button>
                       </div>
                     </div>
                   )}
 
                   {bindStep === "verify" && (
-                    <div className="flex flex-wrap gap-2 rounded-lg border border-input bg-muted/30 p-3">
+                    <div className="space-y-3 rounded-lg border border-input bg-muted/30 p-3">
                       <Input
                         type="text"
                         placeholder="输入6位验证码"
                         value={otp}
                         maxLength={6}
                         onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                        className="max-w-[120px]"
+                        className="w-full bg-background tracking-widest text-center"
                       />
-                      <Button
-                        type="button"
-                        size="sm"
-                        disabled={!otp || bindingLoading}
-                        onClick={handleVerifyBindOtp}
-                      >
-                        {bindingLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "验证"}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setBindStep("input")}
-                      >
-                        返回
-                      </Button>
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setBindStep("input")}
+                        >
+                          返回
+                        </Button>
+                        <Button
+                          type="button"
+                          size="sm"
+                          disabled={!otp || bindingLoading}
+                          onClick={handleVerifyBindOtp}
+                        >
+                          {bindingLoading && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
+                          验证
+                        </Button>
+                      </div>
                     </div>
                   )}
 

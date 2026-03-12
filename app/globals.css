@@ -220,8 +220,8 @@
     hsl(var(--primary))
   );
   animation:
-    neon-rotate 3s linear infinite,
-    neon-glow-pulse 2.5s ease-in-out infinite;
+    neon-rotate 6s linear infinite,
+    neon-glow-pulse 3.5s ease-in-out infinite;
 }
 
 /* --- 像素边框 --- */
@@ -233,22 +233,28 @@
   100% { border-color: hsl(var(--chart-1)); }
 }
 
-@keyframes pixel-shadow-cycle {
-  0% { box-shadow: 4px 4px 0 0 hsl(var(--chart-1)), -4px -4px 0 0 hsl(var(--chart-3)), 4px -4px 0 0 hsl(var(--chart-2)), -4px 4px 0 0 hsl(var(--chart-4)); }
-  25% { box-shadow: 4px 4px 0 0 hsl(var(--chart-3)), -4px -4px 0 0 hsl(var(--chart-2)), 4px -4px 0 0 hsl(var(--chart-4)), -4px 4px 0 0 hsl(var(--chart-1)); }
-  50% { box-shadow: 4px 4px 0 0 hsl(var(--chart-2)), -4px -4px 0 0 hsl(var(--chart-4)), 4px -4px 0 0 hsl(var(--chart-1)), -4px 4px 0 0 hsl(var(--chart-3)); }
-  75% { box-shadow: 4px 4px 0 0 hsl(var(--chart-4)), -4px -4px 0 0 hsl(var(--chart-1)), 4px -4px 0 0 hsl(var(--chart-3)), -4px 4px 0 0 hsl(var(--chart-2)); }
-  100% { box-shadow: 4px 4px 0 0 hsl(var(--chart-1)), -4px -4px 0 0 hsl(var(--chart-3)), 4px -4px 0 0 hsl(var(--chart-2)), -4px 4px 0 0 hsl(var(--chart-4)); }
-}
-
 .avatar-frame-pixel-border {
   padding: 4px;
-  border-radius: 8px; /* Slightly more rounded */
+  border-radius: 50%;
+  position: relative;
+  image-rendering: auto;
+}
+
+.avatar-frame-pixel-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
   border: 3px dashed hsl(var(--chart-1));
   animation:
-    pixel-color-cycle 1.5s steps(4) infinite,
-    pixel-shadow-cycle 1.5s steps(4) infinite;
-  image-rendering: auto;
+    pixel-spin 12s linear infinite,
+    pixel-color-cycle 1.5s steps(4) infinite;
+  pointer-events: none;
+}
+
+@keyframes pixel-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* --- 黄金王冠 --- */
@@ -284,17 +290,16 @@
   position: relative;
 }
 
-/* 顶部星芒光点 */
+/* 顶部星芒光点 -> 皇冠图标 */
 .avatar-frame-golden-crown::after {
-  content: '';
+  content: '👑';
   position: absolute;
-  top: -4px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #ffffff 0%, #ffd700 40%, transparent 70%);
-  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
   animation: gold-pulse 2s ease-in-out infinite reverse;
   z-index: 10;
 }
@@ -314,7 +319,7 @@
   border-radius: 9999px;
   background: linear-gradient(45deg, #00ffff, #ff00ff);
   position: relative;
-  box-shadow: 0 0 4px rgba(0,255,255,0.6), 0 0 4px rgba(255,0,255,0.6);
+  box-shadow: 0 0 8px rgba(0,255,255,0.8), 0 0 8px rgba(255,0,255,0.8), 0 0 16px rgba(0,255,255,0.3);
 }
 
 .avatar-frame-cyber-glitch::before,
@@ -381,7 +386,7 @@
 .name-color-neon {
   background-image: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
   background-size: 200% auto;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: text-gradient-flow 3s linear infinite;
   filter: drop-shadow(0 0 2px rgba(255, 0, 255, 0.5));
@@ -391,20 +396,19 @@
 .name-color-cherry {
   background-image: linear-gradient(90deg, #ff9a9e, #fecfef, #ff9a9e);
   background-size: 200% auto;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: text-gradient-flow 3s linear infinite;
   font-weight: 700;
 }
 
 .name-color-abyss {
-  /* 使用更显眼且深邃的荧光蓝紫渐变，代替原本过暗的黑色调 */
+  /* 低阶精品：纯渐变无发光，深邃但克制 */
   background-image: linear-gradient(90deg, #0052D4, #4364F7, #6FB1FC, #4364F7, #0052D4);
   background-size: 200% auto;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: text-gradient-flow 3s linear infinite;
-  filter: drop-shadow(0 0 2px rgba(67, 100, 247, 0.5));
+  animation: text-gradient-flow 4s linear infinite;
   font-weight: 700;
 }
 
@@ -425,23 +429,60 @@
 }
 
 .name-color-gold {
-  /* 更华丽的尊贵 20 金币特供材质：多段高光过渡 */
+  /* 传说至尊：多段金属高光 + 强烈脉冲发光 */
   background-image: linear-gradient(
     -45deg, 
     #b38728 0%, 
-    #fbf5b7 25%, 
-    #bf953f 50%, 
-    #fcf6ba 75%, 
+    #fbf5b7 20%, 
+    #bf953f 40%, 
+    #fcf6ba 60%, 
+    #bf953f 80%, 
     #b38728 100%
   );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
+  background-size: 300% auto;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* 专属闪耀呼吸帧动画更平滑地展示其尊贵感 */
-  animation: gold-shimmer 3s ease-in-out infinite;
-  /* 相比普通的 700 字重，金闪加粗一点更能承载光泽 */
+  animation: gold-shimmer 2.5s ease-in-out infinite;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+@keyframes gold-star-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  20% { opacity: 1; transform: scale(1) rotate(15deg); }
+  40% { opacity: 0.6; transform: scale(0.8) rotate(-10deg); }
+  60% { opacity: 1; transform: scale(1.1) rotate(10deg); }
+  80% { opacity: 0.3; transform: scale(0.6) rotate(-5deg); }
+}
+
+.name-color-gold::before,
+.name-color-gold::after {
+  -webkit-text-fill-color: initial;
+  background: none;
+  position: absolute;
+  pointer-events: none;
+  font-size: 0.5em;
+  animation: gold-star-twinkle 2.5s ease-in-out infinite;
+}
+
+.name-color-gold::before {
+  content: '✦';
+  top: -4px;
+  right: -12px;
+  color: #ffd700;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+  animation-delay: 0s;
+}
+
+.name-color-gold::after {
+  content: '✦';
+  bottom: -2px;
+  left: -10px;
+  color: #fcf6ba;
+  text-shadow: 0 0 3px rgba(255, 215, 0, 0.6);
+  font-size: 0.4em;
+  animation-delay: -1.2s;
 }
 
 /* 登录页条款未勾选时的提示抖动 */

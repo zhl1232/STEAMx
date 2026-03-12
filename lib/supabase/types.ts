@@ -328,6 +328,8 @@ export interface Database {
           author_id: string
           content: string
           parent_id: number | null
+          image_url: string | null
+          likes_count: number
           created_at: string
         }
         Insert: {
@@ -336,6 +338,8 @@ export interface Database {
           author_id: string
           content: string
           parent_id?: number | null
+          image_url?: string | null
+          likes_count?: number
           created_at?: string
         }
         Update: {
@@ -344,6 +348,8 @@ export interface Database {
           author_id?: string
           content?: string
           parent_id?: number | null
+          image_url?: string | null
+          likes_count?: number
           created_at?: string
         }
         Relationships: [
@@ -354,6 +360,24 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      comment_likes: {
+        Row: {
+          user_id: string
+          comment_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          comment_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          comment_id?: number
+          created_at?: string
+        }
+        Relationships: []
       }
       likes: {
         Row: {
@@ -487,6 +511,8 @@ export interface Database {
           discussion_id: number
           author_id: string
           content: string
+          image_url: string | null
+          likes_count: number
           created_at: string
         }
         Insert: {
@@ -494,6 +520,8 @@ export interface Database {
           discussion_id: number
           author_id: string
           content: string
+          image_url?: string | null
+          likes_count?: number
           created_at?: string
         }
         Update: {
@@ -501,6 +529,26 @@ export interface Database {
           discussion_id?: number
           author_id?: string
           content?: string
+          image_url?: string | null
+          likes_count?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      discussion_reply_likes: {
+        Row: {
+          user_id: string
+          reply_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          reply_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          reply_id?: number
           created_at?: string
         }
         Relationships: []
@@ -848,6 +896,22 @@ export interface Database {
       }
       decrement_completion_likes: {
         Args: { completion_id: number }
+        Returns: void
+      }
+      increment_comment_likes: {
+        Args: { comment_id: number }
+        Returns: void
+      }
+      decrement_comment_likes: {
+        Args: { comment_id: number }
+        Returns: void
+      }
+      increment_discussion_reply_likes: {
+        Args: { reply_id: number }
+        Returns: void
+      }
+      decrement_discussion_reply_likes: {
+        Args: { reply_id: number }
         Returns: void
       }
       increment_project_likes: {

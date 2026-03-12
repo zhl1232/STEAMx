@@ -78,10 +78,10 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         </div>
                     )}
                 </div>
-                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none flex flex-col gap-2.5">
+                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none flex flex-col gap-3.5">
                     {/* 1. 标题放在最上方，与统计数据并列 */}
                     <div className="flex items-start justify-between gap-3">
-                        <h3 className="font-semibold text-base line-clamp-2 leading-tight group-hover:text-primary transition-colors flex-1">
+                        <h3 className="font-semibold text-base line-clamp-2 leading-snug group-hover:text-primary transition-colors flex-1">
                             <SearchHighlight text={project.title} query={searchQuery} />
                         </h3>
 

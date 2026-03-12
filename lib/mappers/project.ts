@@ -48,6 +48,8 @@ export type DbComment = {
   parent_id: number | null
   reply_to_user_id: string | null
   reply_to_username: string | null
+  likes_count?: number | null
+  image_url?: string | null
   profiles?: {
     display_name?: string
     username?: string
@@ -111,6 +113,9 @@ export function mapComment(c: DbComment): Comment {
       hour: '2-digit',
       minute: '2-digit'
     }),
+    created_at: c.created_at,
+    image_url: c.image_url ?? null,
+    likes_count: c.likes_count ?? 0,
     parent_id: c.parent_id,
     reply_to_user_id: c.reply_to_user_id,
     reply_to_username: c.reply_to_username

@@ -29,8 +29,10 @@ export interface DbCommentWithProfile {
     content: string
     created_at: string
     parent_id?: number | null
+    likes_count?: number | null
     reply_to_user_id?: string | null
     reply_to_username?: string | null
+    image_url?: string | null
     profiles?: {
         display_name?: string | null
         avatar_url?: string | null
@@ -97,6 +99,10 @@ export interface Comment {
     nameColorId?: string | null
     role?: 'user' | 'teacher' | 'moderator' | 'admin'
     content: string
+    /** 评论附图 URL（Lv.2+ 特权） */
+    image_url?: string | null
+    /** 点赞数 */
+    likes_count?: number
     date: string
     /** ISO 时间字符串，用于排序（如按时间正序/倒序） */
     created_at?: string
@@ -237,6 +243,8 @@ export function mapDbComment(
         nameColorId: dbComment.profiles?.equipped_name_color_id ?? undefined,
         role: (dbComment.profiles?.role as Comment['role']) || 'user',
         content: dbComment.content,
+        image_url: dbComment.image_url ?? null,
+        likes_count: dbComment.likes_count ?? 0,
         date: formatRelativeTime(dbComment.created_at),
         created_at: dbComment.created_at,
         parent_id: dbComment.parent_id || null,

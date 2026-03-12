@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
@@ -14,15 +15,174 @@ import {
   Loader2,
   ChevronRight,
   ChevronLeft,
+  ImagePlus,
+  X,
 } from "lucide-react";
 import { useProjects } from "@/context/project-context";
 import { useAuth } from "@/context/auth-context";
+import { useGamification } from "@/context/gamification-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { type Comment } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";
+import { uploadCommentImage, CommentImageError } from "@/lib/comment-image";
+import { useToast } from "@/hooks/use-toast";
+
+/** 内联回复框 - 支持图片上传 */
+function ReplyWithImage({
+  comment,
+  canUploadImage,
+  user,
+  profile,
+  handleSubmitReply,
+  handleCancelReply,
+  toast,
+}: {
+  comment: Comment;
+  canUploadImage: boolean;
+  user: ReturnType<typeof useAuth>["user"];
+  profile: ReturnType<typeof useAuth>["profile"];
+  handleSubmitReply: (
+    e: React.FormEvent,
+    content: string,
+    parentId: number,
+    replyToUserId?: string,
+    replyToUsername?: string,
+    imageUrl?: string,
+  ) => void;
+  handleCancelReply: () => void;
+  toast: ReturnType<typeof useToast>["toast"];
+}) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast({ title: "图片大小不能超过 2MB", variant: "destructive" });
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const clearImage = () => {
+    setImageFile(null);
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const content = textareaRef.current?.value || "";
+    if (!content.trim() && !imageFile) return;
+
+    setSubmitting(true);
+    try {
+      let imageUrl: string | undefined;
+      if (imageFile && user) {
+        try {
+          imageUrl = await uploadCommentImage(imageFile, user.id);
+        } catch (err) {
+          toast({
+            title: err instanceof CommentImageError ? err.message : "图片上传失败",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+      handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author, imageUrl);
+      if (textareaRef.current) textareaRef.current.value = "";
+      clearImage();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
+      <form onSubmit={onSubmit} className="flex gap-3 items-start">
+        <AvatarWithFrame
+          src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+          fallback="M"
+          avatarFrameId={profile?.equipped_avatar_frame_id}
+          className="h-8 w-8 shrink-0"
+          avatarClassName="h-8 w-8"
+        />
+        <div className="flex-1 space-y-2">
+          <textarea
+            ref={textareaRef}
+            placeholder={`回复 @${comment.author}...`}
+            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+            autoFocus
+          />
+          {imagePreview && (
+            <div className="relative inline-block">
+              <Image
+                src={imagePreview}
+                alt="待发送图片"
+                width={64}
+                height={64}
+                className="rounded-md border border-border/60 object-cover h-16 w-16"
+              />
+              <button
+                type="button"
+                onClick={clearImage}
+                className="absolute -top-1.5 -right-1.5 h-4.5 w-4.5 rounded-full bg-foreground/70 text-background flex items-center justify-center hover:bg-foreground/90 transition-colors"
+              >
+                <X className="h-2.5 w-2.5" />
+              </button>
+            </div>
+          )}
+          <div className="flex justify-between items-center">
+            <div>
+              {canUploadImage && (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="hidden"
+                    onChange={handleImageSelect}
+                  />
+                  <button
+                    type="button"
+                    className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="插入图片 (Lv.2 特权)"
+                  >
+                    <ImagePlus className="h-4 w-4" />
+                  </button>
+                </>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleCancelReply}
+                className="h-8"
+              >
+                取消
+              </Button>
+              <Button type="submit" size="sm" className="h-8" disabled={submitting}>
+                {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "发布"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
 
 interface ProjectCommentsProps {
   projectId: string | number;
@@ -42,7 +202,11 @@ export function ProjectComments({
 }: ProjectCommentsProps) {
   const { addComment, deleteComment } = useProjects();
   const { user, profile } = useAuth();
+  const { level } = useGamification();
   const { promptLogin } = useLoginPrompt();
+  const { toast } = useToast();
+
+  const canUploadImage = level >= 2;
 
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [total, setTotal] = useState(initialTotal || initialComments.length);
@@ -50,14 +214,45 @@ export function ProjectComments({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 5;
+  const PREVIEW_REPLY_MAX = 3;
+  const PREVIEW_LIKES_SHOW_2 = 3;
+  const PREVIEW_LIKES_SHOW_3 = 8;
 
   const [replyingTo, setReplyingTo] = useState<number | string | null>(null);
   const [detailRootIdStack, setDetailRootIdStack] = useState<(number | string)[]>([]);
+  const [likedComments, setLikedComments] = useState<Set<string>>(new Set());
 
   // 底部评论框 ref（非受控）
   const mainTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [mainHasContent, setMainHasContent] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  // 评论附图状态
+  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
+  const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
+  const mainFileInputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // 图片预览弹窗
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+
+  const handleMainImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast({ title: "图片大小不能超过 2MB", variant: "destructive" });
+      return;
+    }
+    setMainImageFile(file);
+    setMainImagePreview(URL.createObjectURL(file));
+  };
+
+  const clearMainImage = () => {
+    setMainImageFile(null);
+    if (mainImagePreview) URL.revokeObjectURL(mainImagePreview);
+    setMainImagePreview(null);
+    if (mainFileInputRef.current) mainFileInputRef.current.value = "";
+  };
 
   const handleLoadMore = async () => {
     if (isLoadingMore || !hasMore) return;
@@ -73,7 +268,13 @@ export function ProjectComments({
       const payload = await response.json();
       const newComments = (payload?.comments as Comment[]) || [];
 
-      setComments((prev: Comment[]) => [...prev, ...newComments]);
+      setComments((prev: Comment[]) => {
+        const merged = new Map<string, Comment>();
+        for (const c of [...prev, ...newComments]) {
+          merged.set(String(c.id), c);
+        }
+        return Array.from(merged.values());
+      });
       setPage((prev: number) => prev + 1);
       setHasMore(Boolean(payload?.hasMore));
       if (payload?.total !== undefined) setTotal(payload.total);
@@ -87,33 +288,60 @@ export function ProjectComments({
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
     const content = mainTextareaRef.current?.value || "";
-    if (!content.trim()) return;
+    if (!content.trim() && !mainImageFile) return;
 
     const submitComment = async () => {
-        const addedComment = await addComment(projectId, {
-        id: 0,
-        author: getDisplayName({
-          profileName: profile?.display_name,
-          metadataFullName: user?.user_metadata?.full_name,
-          metadataName: user?.user_metadata?.name,
-          phone: user?.phone ?? null,
-          email: user?.email,
-          fallback: "Me",
-        }),
-        userId: user?.id,
-        avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-        content: content,
-        date: "刚刚",
-      });
-
-      if (addedComment) {
-        setComments((prev: Comment[]) => [addedComment, ...prev]);
-        setTotal((prev: number) => prev + 1);
-        if (mainTextareaRef.current) {
-          mainTextareaRef.current.value = "";
-          setMainHasContent(false);
+      setIsSubmitting(true);
+      try {
+        // 上传附图
+        let imageUrl: string | undefined;
+        if (mainImageFile && user) {
+          try {
+            imageUrl = await uploadCommentImage(mainImageFile, user.id);
+          } catch (err) {
+            toast({
+              title: err instanceof CommentImageError ? err.message : "图片上传失败",
+              variant: "destructive",
+            });
+            return;
+          }
         }
-        setIsFocused(false);
+
+        const addedComment = await addComment(projectId, {
+          id: 0,
+          author: getDisplayName({
+            profileName: profile?.display_name,
+            metadataFullName: user?.user_metadata?.full_name,
+            metadataName: user?.user_metadata?.name,
+            phone: user?.phone ?? null,
+            email: user?.email,
+            fallback: "Me",
+          }),
+          userId: user?.id,
+          avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
+          content: content || "",
+          image_url: imageUrl || null,
+          date: "刚刚",
+        });
+
+        if (addedComment) {
+          setComments((prev: Comment[]) => {
+            const merged = new Map<string, Comment>();
+            for (const c of [addedComment, ...prev]) {
+              merged.set(String(c.id), c);
+            }
+            return Array.from(merged.values());
+          });
+          setTotal((prev: number) => prev + 1);
+          if (mainTextareaRef.current) {
+            mainTextareaRef.current.value = "";
+            setMainHasContent(false);
+          }
+          clearMainImage();
+          setIsFocused(false);
+        }
+      } finally {
+        setIsSubmitting(false);
       }
     };
 
@@ -140,9 +368,10 @@ export function ProjectComments({
       parentId: number,
       replyToUserId?: string,
       replyToUsername?: string,
+      imageUrl?: string,
     ) => {
       e.preventDefault();
-      if (!content.trim()) return;
+      if (!content.trim() && !imageUrl) return;
 
       const submitReply = async () => {
         const addedReply = await addComment(
@@ -159,7 +388,8 @@ export function ProjectComments({
             }),
             userId: user?.id,
             avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-            content: content,
+            content: content || "",
+            image_url: imageUrl || null,
             date: "刚刚",
             reply_to_user_id: replyToUserId,
             reply_to_username: replyToUsername,
@@ -168,7 +398,13 @@ export function ProjectComments({
         );
 
         if (addedReply) {
-          setComments((prev: Comment[]) => [addedReply, ...prev]);
+          setComments((prev: Comment[]) => {
+            const merged = new Map<string, Comment>();
+            for (const c of [addedReply, ...prev]) {
+              merged.set(String(c.id), c);
+            }
+            return Array.from(merged.values());
+          });
           setTotal((prev: number) => prev + 1);
           setReplyingTo(null);
         }
@@ -201,40 +437,150 @@ export function ProjectComments({
     setReplyingTo(null);
   }, []);
 
-  const topLevelComments = comments.filter((c: Comment) => !c.parent_id);
+  const handleToggleLike = useCallback(
+    async (commentId: string | number) => {
+      if (!user) {
+        promptLogin(
+          () => {},
+          {
+            title: "登录以点赞评论",
+            description: "登录后即可点赞喜欢的评论",
+          },
+        );
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/comments/${commentId}/like`, { method: "POST" });
+        if (!response.ok) throw new Error(await response.text());
+        const payload = await response.json();
+        const liked = Boolean(payload?.liked);
+        const action = payload?.action as "liked" | "unliked" | undefined;
+        const delta = action === "liked" ? 1 : action === "unliked" ? -1 : liked ? 1 : -1;
+        const key = String(commentId);
+
+        setComments((prev: Comment[]) =>
+          prev.map((c) => {
+            if (String(c.id) !== key) return c;
+            const nextCount = Math.max(0, (c.likes_count ?? 0) + delta);
+            return { ...c, likes_count: nextCount };
+          }),
+        );
+
+        setLikedComments((prev) => {
+          const next = new Set(prev);
+          if (liked) next.add(key);
+          else next.delete(key);
+          return next;
+        });
+      } catch (error) {
+        console.error("Error toggling comment like:", error);
+      }
+    },
+    [user, promptLogin],
+  );
+
+  const childrenByParent = useMemo(() => {
+    const map = new Map<number, Comment[]>();
+    for (const c of comments) {
+      if (c.parent_id == null) continue;
+      const pid = Number(c.parent_id);
+      if (Number.isNaN(pid)) continue;
+      if (!map.has(pid)) map.set(pid, []);
+      map.get(pid)!.push(c);
+    }
+    return map;
+  }, [comments]);
+
+  const sortByTimeAsc = useCallback((items: Comment[]) => {
+    return [...items].sort((a, b) => {
+      const t1 = a.created_at ?? "";
+      const t2 = b.created_at ?? "";
+      return t1.localeCompare(t2);
+    });
+  }, []);
+
+  const getDescendantCount = useMemo(() => {
+    const memo = new Map<number, number>();
+    const count = (id: number): number => {
+      if (memo.has(id)) return memo.get(id)!;
+      const children = childrenByParent.get(id) || [];
+      let total = 0;
+      for (const child of children) {
+        total += 1 + count(Number(child.id));
+      }
+      memo.set(id, total);
+      return total;
+    };
+    return count;
+  }, [childrenByParent]);
 
   /** 某条评论下的全部回复（含多级），平铺列表，用于「共 N 条」与详情页 */
   const getRepliesUnderRoot = useCallback(
     (rootId: number | string): Comment[] => {
       const rid = Number(rootId);
       if (Number.isNaN(rid)) return [];
-      const byParent = new Map<number, Comment[]>();
-      for (const c of comments) {
-        if (c.parent_id == null) continue;
-        const pid = Number(c.parent_id);
-        if (!byParent.has(pid)) byParent.set(pid, []);
-        byParent.get(pid)!.push(c);
-      }
       const result: Comment[] = [];
       const queue = [rid];
       while (queue.length > 0) {
         const id = queue.shift()!;
-        const children = byParent.get(id) || [];
-        // 同一父节点下按时间倒序（新的在前），与社区回复详情一致
-        const sorted = [...children].sort((a, b) => {
-          const t1 = a.created_at ?? "";
-          const t2 = b.created_at ?? "";
-          return t2.localeCompare(t1);
-        });
-        for (const child of sorted) {
+        const children = sortByTimeAsc(childrenByParent.get(id) || []);
+        // 同一父节点下按时间正序（新的在后）
+        for (const child of children) {
           result.push(child);
           queue.push(Number(child.id));
         }
       }
       return result;
     },
-    [comments],
+    [childrenByParent, sortByTimeAsc],
   );
+
+  const getDirectReplies = useCallback(
+    (rootId: number | string): Comment[] => {
+      const rid = Number(rootId);
+      if (Number.isNaN(rid)) return [];
+      return sortByTimeAsc(childrenByParent.get(rid) || []);
+    },
+    [childrenByParent, sortByTimeAsc],
+  );
+
+  const getPreviewCount = useCallback(
+    (replies: Comment[]) => {
+      if (replies.length === 0) return 0;
+      const totalLikes = replies.reduce((sum, r) => sum + (r.likes_count ?? 0), 0);
+      if (totalLikes <= 0) return 0;
+      if (totalLikes >= PREVIEW_LIKES_SHOW_3) return Math.min(PREVIEW_REPLY_MAX, replies.length);
+      if (totalLikes >= PREVIEW_LIKES_SHOW_2) return Math.min(2, replies.length);
+      return 1;
+    },
+    [PREVIEW_LIKES_SHOW_2, PREVIEW_LIKES_SHOW_3, PREVIEW_REPLY_MAX],
+  );
+
+  const topLevelComments = useMemo(() => {
+    const roots = comments.filter((c: Comment) => !c.parent_id);
+    const getLikeCount = (comment: Comment): number => {
+      const raw = comment as Comment & {
+        likes_count?: number;
+        likes?: number;
+        like_count?: number;
+        likeCount?: number;
+      };
+      const value =
+        raw.likes_count ?? raw.likes ?? raw.like_count ?? raw.likeCount ?? 0;
+      const num = Number(value);
+      return Number.isFinite(num) && num > 0 ? num : 0;
+    };
+    return [...roots].sort((a, b) => {
+      const heatA = getLikeCount(a) + getDescendantCount(Number(a.id));
+      const heatB = getLikeCount(b) + getDescendantCount(Number(b.id));
+      if (heatB !== heatA) return heatB - heatA;
+      const t1 = a.created_at ?? "";
+      const t2 = b.created_at ?? "";
+      if (t2 !== t1) return t2.localeCompare(t1);
+      return Number(b.id) - Number(a.id);
+    });
+  }, [comments, getDescendantCount]);
 
   const commentsListRef = useRef<HTMLDivElement>(null);
   const sheetReplyRef = useRef<HTMLTextAreaElement>(null);
@@ -245,14 +591,18 @@ export function ProjectComments({
     showReplyForm = true,
     readOnly = false,
     noBorder = false,
+    compact = false,
   }: {
     comment: Comment;
     showReplyForm?: boolean;
     readOnly?: boolean;
     noBorder?: boolean;
+    compact?: boolean;
   }) => {
     const isReplying = replyingTo === comment.id;
-    const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+    const isLiked = likedComments.has(String(comment.id));
+    const likesCount = comment.likes_count ?? 0;
+
 
     const UserLink = ({
       children,
@@ -274,7 +624,8 @@ export function ProjectComments({
     return (
       <div
         className={cn(
-          "group flex gap-2 sm:gap-4 py-4 sm:py-6",
+          "group flex gap-2",
+          compact ? "py-3" : "py-4 sm:py-6 sm:gap-4",
           !noBorder && "border-b border-border/60 last:border-0",
         )}
       >
@@ -283,8 +634,11 @@ export function ProjectComments({
             src={comment.avatar}
             fallback={comment.author[0]?.toUpperCase()}
             avatarFrameId={comment.avatarFrameId}
-            className="shrink-0 border transition-transform hover:scale-105 h-10 w-10 sm:h-12 sm:w-12"
-            avatarClassName="h-10 w-10 sm:h-12 sm:w-12"
+            className={cn(
+              "shrink-0 border transition-transform hover:scale-105",
+              compact ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12",
+            )}
+            avatarClassName={compact ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"}
           />
         </UserLink>
 
@@ -293,7 +647,8 @@ export function ProjectComments({
             {comment.role && comment.role !== "user" && <RoleBadge role={comment.role} size="sm" />}
             <UserLink
               className={cn(
-                "font-semibold cursor-pointer hover:text-primary transition-colors text-base",
+                "font-semibold cursor-pointer hover:text-primary transition-colors",
+                compact ? "text-sm" : "text-base",
                 getNameColorClassName(comment.nameColorId ?? null),
               )}
             >
@@ -309,6 +664,21 @@ export function ProjectComments({
             )}
             {comment.content}
           </p>
+          {comment.image_url && (
+            <button
+              type="button"
+              className="mt-2 block"
+              onClick={() => setPreviewImageUrl(comment.image_url!)}
+            >
+              <Image
+                src={comment.image_url}
+                alt="评论附图"
+                width={200}
+                height={200}
+                className="rounded-lg border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
+              />
+            </button>
+          )}
 
           {!readOnly && (
             <div className="flex justify-between items-center gap-2 mt-2.5 text-xs text-muted-foreground">
@@ -331,11 +701,16 @@ export function ProjectComments({
               <div className="flex items-center gap-x-4 shrink-0">
                 <button
                   type="button"
-                  className="flex items-center gap-1 hover:text-primary transition-colors"
+                  className={cn(
+                    "flex items-center gap-1 transition-colors",
+                    isLiked ? "text-primary" : "hover:text-primary",
+                  )}
                   title="赞"
                   aria-label="赞"
+                  onClick={() => handleToggleLike(comment.id)}
                 >
-                  <ThumbsUp className="h-3.5 w-3.5" />
+                  <ThumbsUp className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
+                  <span className="tabular-nums">{likesCount}</span>
                 </button>
                 {(user?.id === comment.userId ||
                   profile?.role === "admin" ||
@@ -356,55 +731,22 @@ export function ProjectComments({
           )}
 
           {showReplyForm && !readOnly && isReplying && (
-            <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const content = replyTextareaRef.current?.value || "";
-                  if (!content.trim()) return;
-                  handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author);
-                  if (replyTextareaRef.current) replyTextareaRef.current.value = "";
-                }}
-                className="flex gap-3 items-start"
-              >
-                <AvatarWithFrame
-                  src={profile?.avatar_url || user?.user_metadata?.avatar_url}
-                  fallback="M"
-                  avatarFrameId={profile?.equipped_avatar_frame_id}
-                  className="h-8 w-8 shrink-0"
-                  avatarClassName="h-8 w-8"
-                />
-                <div className="flex-1 space-y-2">
-                  <textarea
-                    ref={replyTextareaRef}
-                    placeholder={`回复 @${comment.author}...`}
-                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                    autoFocus
-                  />
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={handleCancelReply}
-                      className="h-8"
-                    >
-                      取消
-                    </Button>
-                    <Button type="submit" size="sm" className="h-8">
-                      发布
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <ReplyWithImage
+              comment={comment}
+              canUploadImage={canUploadImage}
+              user={user}
+              profile={profile}
+              handleSubmitReply={handleSubmitReply}
+              handleCancelReply={handleCancelReply}
+              toast={toast}
+            />
           )}
         </div>
       </div>
     );
   };
 
-  const isExpanded = isFocused || mainHasContent;
+  const isExpanded = isFocused || mainHasContent || !!mainImageFile;
 
   return (
     <div className="border-t pt-8 relative md:px-6 lg:px-8">
@@ -421,7 +763,10 @@ export function ProjectComments({
             <div ref={commentsListRef} className="rounded-lg">
               <div className="space-y-0">
                 {topLevelComments.map((comment: Comment) => {
-                  const replyCount = getRepliesUnderRoot(comment.id).length;
+                  const replyCount = getDescendantCount(Number(comment.id));
+                  const directReplies = getDirectReplies(comment.id);
+                  const previewCount = getPreviewCount(directReplies);
+                  const previewReplies = directReplies.slice(0, previewCount);
                   return (
                     <div key={comment.id} className="border-b border-border/60 last:border-0">
                       <CommentCard
@@ -430,6 +775,24 @@ export function ProjectComments({
                         readOnly={false}
                         noBorder
                       />
+                      {previewReplies.length > 0 && (
+                        <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
+                          {previewReplies.map((reply) => (
+                            <div
+                              key={reply.id}
+                              className="border-b border-border/60 last:border-0"
+                            >
+                              <CommentCard
+                                comment={reply}
+                                showReplyForm={true}
+                                readOnly={false}
+                                noBorder
+                                compact
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       {replyCount > 0 && (
                         <button
                           type="button"
@@ -437,9 +800,9 @@ export function ProjectComments({
                             setDetailRootIdStack([comment.id]);
                             setReplyingTo(null);
                           }}
-                          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
+                          className="ml-12 sm:ml-16 flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
                         >
-                          共 {replyCount} 条回复
+                          展开全部 {replyCount} 条回复
                           <ChevronRight className="h-4 w-4" />
                         </button>
                       )}
@@ -577,10 +940,20 @@ export function ProjectComments({
             className="h-9 w-9 border shrink-0"
             avatarClassName="h-9 w-9"
           />
-          <form onSubmit={handleSubmitComment} className="flex-1 min-w-0 flex items-center mr-4">
+          <form onSubmit={handleSubmitComment} className="flex-1 min-w-0 mr-4">
+            {/* file input 始终挂载，避免文件选择器打开时 DOM 卸载导致 onChange 丢失 */}
+            {canUploadImage && (
+              <input
+                ref={mainFileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="hidden"
+                onChange={handleMainImageSelect}
+              />
+            )}
             <div
               className={cn(
-                "flex items-center w-full min-w-0 bg-[#F0F2F5] dark:bg-muted/90 overflow-hidden transition-all duration-200 ease-out",
+                "w-full min-w-0 bg-[#F0F2F5] dark:bg-muted/90 overflow-hidden transition-all duration-200 ease-out",
                 "focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-0",
                 "min-w-[160px]",
                 isExpanded ? "rounded-xl" : "rounded-3xl",
@@ -593,23 +966,65 @@ export function ProjectComments({
                 onChange={(e) => setMainHasContent(e.target.value.trim().length > 0)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => {
-                  if (!mainTextareaRef.current?.value) setIsFocused(false);
+                  if (!mainTextareaRef.current?.value && !mainImageFile) setIsFocused(false);
                 }}
                 className={cn(
                   "py-3 px-4 w-full bg-transparent text-base placeholder:text-muted-foreground focus-visible:outline-none resize-none leading-normal",
-                  isExpanded ? "min-h-[88px] max-h-[200px]" : "min-h-[44px] max-h-[120px]",
+                  isExpanded ? "min-h-[80px] max-h-[200px]" : "min-h-[44px] max-h-[120px]",
                 )}
               />
+              {/* 展开后：图片预览 + 底部工具栏 */}
               {isExpanded && (
-                <Button
-                  type="submit"
-                  disabled={!mainHasContent}
-                  size="sm"
-                  className="shrink-0 h-9 px-4 mr-2 rounded-lg text-sm font-medium"
-                >
-                  发布
-                </Button>
+                <>
+                  {mainImagePreview && (
+                    <div className="px-3 pb-2">
+                      <div className="relative inline-block">
+                        <Image
+                          src={mainImagePreview}
+                          alt="待发送图片"
+                          width={72}
+                          height={72}
+                          className="rounded-md border border-border/60 object-cover h-[72px] w-[72px]"
+                        />
+                        <button
+                          type="button"
+                          onClick={clearMainImage}
+                          className="absolute -top-1.5 -right-1.5 h-4.5 w-4.5 rounded-full bg-foreground/70 text-background flex items-center justify-center hover:bg-foreground/90 transition-colors"
+                        >
+                          <X className="h-2.5 w-2.5" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between px-2 pb-2">
+                    <div className="flex items-center">
+                      {canUploadImage && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => mainFileInputRef.current?.click()}
+                          title="插入图片 (Lv.2 特权)"
+                        >
+                          <ImagePlus className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                    <Button
+                      type="submit"
+                      disabled={(!mainHasContent && !mainImageFile) || isSubmitting}
+                      size="sm"
+                      className="h-8 px-4 rounded-full text-xs font-medium"
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      {isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "发布"}
+                    </Button>
+                  </div>
+                </>
               )}
+
             </div>
           </form>
           {/* 聚焦时隐藏右侧操作区，让回复区域更宽 */}
@@ -619,6 +1034,30 @@ export function ProjectComments({
           )}
         </div>
       </div>
+
+      {/* 图片预览弹窗 */}
+      {previewImageUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+          onClick={() => setPreviewImageUrl(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setPreviewImageUrl(null)}
+            className="absolute top-4 right-4 h-10 w-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition-colors"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <Image
+            src={previewImageUrl}
+            alt="图片预览"
+            width={800}
+            height={800}
+            className="max-w-full max-h-[85vh] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

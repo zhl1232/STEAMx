@@ -12,21 +12,23 @@ export interface ShopItem {
   type: ShopItemType
   /** 前端边框样式 key，用于 CSS 或 AvatarWithFrame */
   styleKey: string
+  /** 兑换所需最低等级，0 或 undefined 表示无门槛 */
+  minLevel?: number
 }
 
 export const AVATAR_FRAME_ITEMS: ShopItem[] = [
-  { id: 'neon_halo', name: '霓虹光环', price: 10, type: 'avatar_frame', styleKey: 'neon_halo' },
-  { id: 'pixel_border', name: '像素边框', price: 8, type: 'avatar_frame', styleKey: 'pixel_border' },
-  { id: 'golden_crown', name: '黄金王冠', price: 20, type: 'avatar_frame', styleKey: 'golden_crown' },
-  { id: 'cyber_glitch', name: '赛博故障', price: 15, type: 'avatar_frame', styleKey: 'cyber_glitch' },
-  { id: 'crystal_glass', name: '深海琉璃', price: 12, type: 'avatar_frame', styleKey: 'crystal_glass' },
+  { id: 'pixel_border', name: '像素边框', price: 15, type: 'avatar_frame', styleKey: 'pixel_border' },
+  { id: 'crystal_glass', name: '深海琉璃', price: 50, type: 'avatar_frame', styleKey: 'crystal_glass', minLevel: 5 },
+  { id: 'neon_halo', name: '霓虹光环', price: 150, type: 'avatar_frame', styleKey: 'neon_halo', minLevel: 10 },
+  { id: 'cyber_glitch', name: '赛博故障', price: 300, type: 'avatar_frame', styleKey: 'cyber_glitch', minLevel: 20 },
+  { id: 'golden_crown', name: '黄金王冠', price: 800, type: 'avatar_frame', styleKey: 'golden_crown', minLevel: 30 },
 ]
 
 export const NAME_COLOR_ITEMS: ShopItem[] = [
-  { id: 'name_color_neon', name: '赛博霓虹', price: 10, type: 'name_color', styleKey: 'name_color_neon' },
-  { id: 'name_color_cherry', name: '樱花粉波', price: 10, type: 'name_color', styleKey: 'name_color_cherry' },
-  { id: 'name_color_abyss', name: '深渊幽蓝', price: 10, type: 'name_color', styleKey: 'name_color_abyss' },
-  { id: 'name_color_gold', name: '真命暗金', price: 20, type: 'name_color', styleKey: 'name_color_gold' },
+  { id: 'name_color_cherry', name: '樱花粉波', price: 15, type: 'name_color', styleKey: 'name_color_cherry' },
+  { id: 'name_color_abyss', name: '深渊幽蓝', price: 50, type: 'name_color', styleKey: 'name_color_abyss', minLevel: 5 },
+  { id: 'name_color_neon', name: '赛博霓虹', price: 150, type: 'name_color', styleKey: 'name_color_neon', minLevel: 10 },
+  { id: 'name_color_gold', name: '真命暗金', price: 500, type: 'name_color', styleKey: 'name_color_gold', minLevel: 20 },
 ]
 
 export const SHOP_ITEMS: ShopItem[] = [...AVATAR_FRAME_ITEMS, ...NAME_COLOR_ITEMS]

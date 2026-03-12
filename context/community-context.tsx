@@ -105,7 +105,8 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 content: reply.content,
                 parent_id: parentId || null,
                 reply_to_user_id: reply.reply_to_user_id || null,
-                reply_to_username: reply.reply_to_username || null
+                reply_to_username: reply.reply_to_username || null,
+                image_url: reply.image_url || null,
             } as never)
             .select(`
                 *,

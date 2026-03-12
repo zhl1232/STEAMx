@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { MessageSquare, Heart, Trash2 } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
@@ -18,6 +20,8 @@ export interface ReplyCardProps {
   profile: Profile | null;
   replyingTo: number | null;
   setReplyingTo: (id: number | null) => void;
+  isLiked?: boolean;
+  onToggleLike?: (id: number) => void;
   onSubmitReply: (
     e: React.FormEvent,
     content: string,
@@ -41,8 +45,11 @@ export function ReplyCard({
   onSubmitReply,
   onCancelReply,
   onDeleteReply,
+  isLiked = false,
+  onToggleLike,
 }: ReplyCardProps) {
   const isReplying = replyingTo === Number(reply.id);
+  const likesCount = reply.likes_count ?? 0;
 
   return (
     <div
@@ -78,6 +85,22 @@ export function ReplyCard({
           )}
           {reply.content}
         </p>
+        {reply.image_url && (
+          <a
+            href={reply.image_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 block"
+          >
+            <Image
+              src={reply.image_url}
+              alt="回复附图"
+              width={200}
+              height={200}
+              className="rounded-lg border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
+            />
+          </a>
+        )}
         {!readOnly && (
           <div className="flex justify-between items-center gap-2 mt-2 text-xs text-muted-foreground">
             <div className="flex items-center gap-3 shrink-0 min-w-0">
@@ -99,11 +122,16 @@ export function ReplyCard({
             <div className="flex items-center gap-x-4 shrink-0">
               <button
                 type="button"
-                className="flex items-center gap-1 hover:text-primary transition-colors"
+                className={cn(
+                  "flex items-center gap-1 transition-colors",
+                  isLiked ? "text-primary" : "hover:text-primary",
+                )}
                 title="赞"
                 aria-label="赞"
+                onClick={() => onToggleLike?.(Number(reply.id))}
               >
-                <Heart className="h-3.5 w-3.5" />
+                <Heart className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
+                <span className="tabular-nums">{likesCount}</span>
               </button>
               {(user?.id === reply.userId ||
                 profile?.role === "admin" ||

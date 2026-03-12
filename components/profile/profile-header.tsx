@@ -4,7 +4,7 @@ import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
-import { Settings, Zap, Coins } from "lucide-react";
+import { Settings, Zap, Coins, ChevronRight } from "lucide-react";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
@@ -59,9 +59,9 @@ export function ProfileHeader({
 
         <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           <Link href="/coins">
-            <div className="flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-primary-foreground shadow-md">
+            <div className="flex items-center h-9 gap-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 text-white shadow-sm transition-colors">
               <Coins className="h-4 w-4" />
-              <span className="text-sm font-bold">{coins}</span>
+              <span className="text-sm font-medium">{coins}</span>
             </div>
           </Link>
           <Link href="/settings" className="md:hidden">
@@ -132,7 +132,7 @@ export function ProfileHeader({
           </div>
         </div>
 
-        {/* 3. 用户名 + 等级（点等级进入升级说明）+ 徽章（点徽章进入全部） */}
+        {/* 3. 用户名 + 等级（仅保留核心标识） */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {profile?.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="md" />}
           <h1 className="text-xl font-bold text-foreground truncate">{userName}</h1>
@@ -145,17 +145,41 @@ export function ProfileHeader({
               Lv.{level}
             </button>
           </LevelGuideDialog>
-          <BadgeGalleryDialog
-            badges={BADGES}
-            unlockedBadges={unlockedBadges}
-            userBadgeDetails={userBadgeDetails}
-          >
-            <div className="flex -space-x-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+        </div>
+
+        {/* 4. 等级进度条（增粗 + 对比度提升） */}
+        <div className="mt-3">
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-xs text-muted-foreground">等级进度</span>
+            <span className="text-xs font-semibold text-foreground/80">
+              {currentXP}/{nextLevelXP}
+            </span>
+          </div>
+          <LevelProgress showLabel={false} />
+        </div>
+
+        {/* 5. 个人描述（增加上下间距） */}
+        <div className="mt-4 mb-3">
+          {profile?.bio ? (
+            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{profile.bio}</p>
+          ) : (
+            <p className="text-sm text-muted-foreground/60 italic">这个人很懒，什么都没写~</p>
+          )}
+        </div>
+
+        {/* 6. 我的成就（独立展示区） */}
+        <BadgeGalleryDialog
+          badges={BADGES}
+          unlockedBadges={unlockedBadges}
+          userBadgeDetails={userBadgeDetails}
+        >
+          <div className="flex items-center gap-2.5 cursor-pointer group mb-2">
+            <div className="flex -space-x-1">
               {(unlockedBadges.size > 0
-                ? getBadgesForDisplay(BADGES, unlockedBadges, 3)
-                : BADGES.slice(0, 3)
+                ? getBadgesForDisplay(BADGES, unlockedBadges, 5)
+                : BADGES.slice(0, 5)
               ).map((b) => (
-                <div key={b.id} className="relative z-0">
+                <div key={b.id} className="relative z-0 hover:z-10 transition-transform hover:scale-110">
                   <BadgeIcon
                     icon={b.icon}
                     tier={b.tier}
@@ -167,24 +191,12 @@ export function ProfileHeader({
                 </div>
               ))}
             </div>
-          </BadgeGalleryDialog>
-        </div>
-
-        {/* 4. 等级进度条 */}
-        <div className="mt-3">
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-[10px] text-muted-foreground">等级进度</span>
-            <span className="text-[10px] font-medium text-primary">
-              {currentXP}/{nextLevelXP}
+            <span className="flex items-center text-[11px] text-muted-foreground/70 group-hover:text-primary transition-colors">
+              查看全部
+              <ChevronRight className="h-3 w-3 ml-0.5 shrink-0" />
             </span>
           </div>
-          <LevelProgress showLabel={false} className="h-1.5 rounded-full" />
-        </div>
-
-        {/* 5. 个人描述 */}
-        {profile?.bio && (
-          <p className="text-sm text-muted-foreground mt-3 line-clamp-2">{profile.bio}</p>
-        )}
+        </BadgeGalleryDialog>
       </div>
     </>
   );

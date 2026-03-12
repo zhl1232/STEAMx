@@ -5,9 +5,9 @@ import { useGamification } from '@/context/gamification-context'
 import { createClient } from '@/lib/supabase/client'
 import { SHOP_ITEMS, getShopItemById, getNameColorClassName } from '@/lib/shop/items'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { Coins, Loader2, Sparkles, ArrowLeft } from 'lucide-react'
+import { Coins, Loader2, ArrowLeft, Lock } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast'
 import { useMemo } from 'react'
@@ -19,7 +19,7 @@ import type { Profile } from '@/lib/types/database'
 
 export default function ShopPage() {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth()
-  const { coins = 0 } = useGamification()
+  const { coins = 0, level = 1 } = useGamification()
   const supabase = useMemo(() => createClient(), [])
   const queryClient = useQueryClient()
   const { toast } = useToast()
@@ -89,56 +89,68 @@ export default function ShopPage() {
 
   return (
     <div className="container max-w-4xl py-8 px-4">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3 min-w-0">
           <Button variant="ghost" size="icon" className="shrink-0 md:h-9 md:w-9" asChild>
             <Link href="/profile" className="rounded-full" aria-label="返回">
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold flex items-center gap-2 truncate">
-            <Sparkles className="h-7 w-7 text-primary shrink-0" />
+          <h1 className="text-2xl font-bold truncate">
             商店
           </h1>
         </div>
-        <div className="flex items-center gap-2 rounded-lg border bg-muted/50 px-4 py-2 shrink-0">
-          <Coins className="h-5 w-5 text-amber-500" />
-          <span className="font-semibold">{coins}</span>
-          <span className="text-muted-foreground text-sm">硬币</span>
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-sm font-medium text-muted-foreground">Lv.{level}</span>
+          <div className="flex items-center gap-1.5 rounded-lg border bg-muted/50 px-3 py-1.5">
+            <Coins className="h-4 w-4 text-amber-500" />
+            <span className="font-semibold text-sm">{coins}</span>
+          </div>
         </div>
       </div>
 
-      <p className="text-muted-foreground mb-6">
-        用每日登录获得的硬币兑换特效，在个人中心与排行榜中展示。已拥有的商品在本页点击「装备」即可更换展示，点击「卸下」可取消装备。
+      <p className="text-sm text-muted-foreground mb-8">
+        用硬币兑换装扮特效，展示在个人中心与排行榜中。部分商品需达到对应等级才可兑换。
       </p>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {SHOP_ITEMS.map((item) => {
-          const owned = ownedItemIds.includes(item.id)
-          const equipped = (item.type === 'avatar_frame' && equippedAvatarFrameId === item.id) ||
-                           (item.type === 'name_color' && equippedNameColorId === item.id)
-          const canBuy = !owned && coins >= item.price
-          
-          return (
-            <Card key={item.id} className="overflow-visible flex flex-col relative group">
-              <CardHeader className="pb-4 relative z-10 flex-none">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-lg">{item.name}</CardTitle>
-                    <CardDescription className="text-xs uppercase tracking-wider mt-1">
-                      {item.type === 'avatar_frame' ? '头像框' : '名字颜色'}
-                    </CardDescription>
-                  </div>
-                  {equipped && (
-                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded shadow-sm">正在装备</span>
-                  )}
-                </div>
-              </CardHeader>
+      {/* 头像框区块 */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold mb-4">
+          头像框
+        </h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SHOP_ITEMS.filter(i => i.type === 'avatar_frame').map((item) => {
+            const owned = ownedItemIds.includes(item.id)
+            const equipped = equippedAvatarFrameId === item.id
+            const canBuy = !owned && coins >= item.price
+            const levelLocked = (item.minLevel ?? 0) > level
 
-              <CardContent className="flex flex-col flex-1 space-y-4">
-                <div className="flex items-center justify-center flex-1 py-8 mb-2 bg-gradient-to-b from-muted/50 to-muted/10 rounded-xl border border-border/50">
-                  {/* 预览区域 */}
-                  {item.type === 'avatar_frame' ? (
+            return (
+              <Card key={item.id} className={cn('overflow-visible flex flex-col relative group', levelLocked && 'grayscale-[10%] saturate-[90%]')}>
+                <CardHeader className="pb-3 relative z-10 flex-none">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base">{item.name}</CardTitle>
+                    <div className="flex items-center gap-1.5">
+                      {item.minLevel ? (
+                        <span className={cn(
+                          'text-[10px] font-medium px-1.5 py-0.5 rounded',
+                          levelLocked
+                            ? 'text-muted-foreground bg-muted'
+                            : 'text-primary bg-primary/10'
+                        )}>
+                          {levelLocked ? <Lock className="inline h-3 w-3 mr-0.5 -mt-0.5" /> : null}
+                          Lv.{item.minLevel}
+                        </span>
+                      ) : null}
+                      {equipped && (
+                        <span className="text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded">使用中</span>
+                      )}
+                    </div>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="flex flex-col flex-1 space-y-3">
+                  <div className="flex items-center justify-center flex-1 py-6 bg-gradient-to-b from-muted/50 to-muted/10 rounded-xl border border-border/50">
                     <AvatarWithFrame
                       avatarFrameId={item.id}
                       src={user?.user_metadata?.avatar_url}
@@ -152,55 +164,156 @@ export default function ShopPage() {
                       }).charAt(0)}
                       className="w-20 h-20"
                     />
-                  ) : (
-                    <span className={cn('text-2xl', getNameColorClassName(item.id))}>
-                      {user?.user_metadata?.username || '测试昵称'}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-1.5">
+                      <Coins className="h-4 w-4 text-amber-500" />
+                      <span className="font-semibold text-sm">{item.price}</span>
+                    </div>
+                    <div className="w-24">
+                      {owned ? (
+                        equipped ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                            onClick={() => equipMutation.mutate({ itemId: null, type: item.type })}
+                            disabled={equipMutation.isPending}
+                          >
+                            卸下
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            className="w-full"
+                            onClick={() => equipMutation.mutate({ itemId: item.id, type: item.type })}
+                            disabled={equipMutation.isPending}
+                          >
+                            {equipMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
+                            装备
+                          </Button>
+                        )
+                      ) : levelLocked ? (
+                        <Button size="sm" className="w-full" disabled>
+                          <Lock className="h-3 w-3 mr-1" />
+                          Lv.{item.minLevel}
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="w-full"
+                          disabled={!canBuy || purchaseMutation.isPending}
+                          onClick={() => purchaseMutation.mutate(item.id)}
+                        >
+                          {purchaseMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
+                          兑换
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* 昵称颜色区块 */}
+      <section>
+        <h2 className="text-lg font-semibold mb-4">
+          昵称颜色
+        </h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SHOP_ITEMS.filter(i => i.type === 'name_color').map((item) => {
+            const owned = ownedItemIds.includes(item.id)
+            const equipped = equippedNameColorId === item.id
+            const canBuy = !owned && coins >= item.price
+            const levelLocked = (item.minLevel ?? 0) > level
+
+            return (
+              <Card key={item.id} className={cn('overflow-visible flex flex-col relative group', levelLocked && 'grayscale-[10%] saturate-[90%]')}>
+                <CardHeader className="pb-3 relative z-10 flex-none">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base">{item.name}</CardTitle>
+                    <div className="flex items-center gap-1.5">
+                      {item.minLevel ? (
+                        <span className={cn(
+                          'text-[10px] font-medium px-1.5 py-0.5 rounded',
+                          levelLocked
+                            ? 'text-muted-foreground bg-muted'
+                            : 'text-primary bg-primary/10'
+                        )}>
+                          {levelLocked ? <Lock className="inline h-3 w-3 mr-0.5 -mt-0.5" /> : null}
+                          Lv.{item.minLevel}
+                        </span>
+                      ) : null}
+                      {equipped && (
+                        <span className="text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded">使用中</span>
+                      )}
+                    </div>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="flex flex-col flex-1 space-y-3">
+                  <div className="flex items-center justify-center flex-1 py-6 bg-gradient-to-b from-muted/50 to-muted/10 rounded-xl border border-border/50">
+                    <span className={cn('text-2xl font-bold', getNameColorClassName(item.id))}>
+                      {profile?.display_name || user?.user_metadata?.username || '测试昵称'}
                     </span>
-                  )}
-                </div>
+                  </div>
 
-                <div className="flex items-center gap-2 text-muted-foreground font-medium pt-2">
-                  <Coins className="h-5 w-5 text-amber-500" />
-                  <span>{item.price} 硬币</span>
-                </div>
-
-                <div className="flex flex-wrap gap-2 w-full pt-1">
-                  {owned ? (
-                    equipped ? (
-                      <Button
-                        variant="outline"
-                        className="w-full flex-1"
-                        onClick={() => equipMutation.mutate({ itemId: null, type: item.type })}
-                        disabled={equipMutation.isPending}
-                      >
-                        卸下
-                      </Button>
-                    ) : (
-                      <Button
-                        className="w-full flex-1"
-                        onClick={() => equipMutation.mutate({ itemId: item.id, type: item.type })}
-                        disabled={equipMutation.isPending}
-                      >
-                        {equipMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                        装备
-                      </Button>
-                    )
-                  ) : (
-                    <Button
-                      className="w-full flex-1"
-                      disabled={!canBuy || purchaseMutation.isPending}
-                      onClick={() => purchaseMutation.mutate(item.id)}
-                    >
-                      {purchaseMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                      兑换
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-1.5">
+                      <Coins className="h-4 w-4 text-amber-500" />
+                      <span className="font-semibold text-sm">{item.price}</span>
+                    </div>
+                    <div className="w-24">
+                      {owned ? (
+                        equipped ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                            onClick={() => equipMutation.mutate({ itemId: null, type: item.type })}
+                            disabled={equipMutation.isPending}
+                          >
+                            卸下
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            className="w-full"
+                            onClick={() => equipMutation.mutate({ itemId: item.id, type: item.type })}
+                            disabled={equipMutation.isPending}
+                          >
+                            {equipMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
+                            装备
+                          </Button>
+                        )
+                      ) : levelLocked ? (
+                        <Button size="sm" className="w-full" disabled>
+                          <Lock className="h-3 w-3 mr-1" />
+                          Lv.{item.minLevel}
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="w-full"
+                          disabled={!canBuy || purchaseMutation.isPending}
+                          onClick={() => purchaseMutation.mutate(item.id)}
+                        >
+                          {purchaseMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
+                          兑换
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      </section>
     </div>
   )
 }

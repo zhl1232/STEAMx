@@ -293,9 +293,9 @@ export async function POST(req: Request) {
     })
     const props =
       linkData?.properties ??
-      (linkData as { properties?: { action_link?: string; hashed_token?: string } } | undefined)
+      (linkData as unknown as { properties?: { action_link?: string; hashed_token?: string } } | undefined)
         ?.properties ??
-      (linkData as { action_link?: string; hashed_token?: string } | undefined)
+      (linkData as unknown as { action_link?: string; hashed_token?: string } | undefined)
     let actionLink = props?.action_link
     const tokenHash = props?.hashed_token
     if (linkError || (!actionLink && !tokenHash)) {
@@ -306,9 +306,11 @@ export async function POST(req: Request) {
     }
 
     try {
-      const url = new URL(actionLink)
-      url.searchParams.set('redirect_to', redirectTo)
-      actionLink = url.toString()
+      if (actionLink) {
+        const url = new URL(actionLink)
+        url.searchParams.set('redirect_to', redirectTo)
+        actionLink = url.toString()
+      }
     } catch {
       // 若拼链失败则用原链接
     }

@@ -101,6 +101,7 @@ export interface Comment {
   discussion_id?: number;
   author_id: string;
   content: string;
+  likes_count?: number;
   created_at?: string;
 }
 

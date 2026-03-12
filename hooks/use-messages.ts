@@ -82,7 +82,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
         nextCursor,
       };
     },
-    initialPageParam: null,
+    initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.nextCursor : undefined),
     enabled: !!user && !!otherUserId && otherUserId !== user.id && !authLoading,
   });

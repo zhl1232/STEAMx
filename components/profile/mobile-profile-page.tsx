@@ -55,31 +55,31 @@ export function MobileProfilePage({
 
       {/* Tabs Content */}
       <Tabs defaultValue="works" className="w-full flex-1" onValueChange={setActiveTab}>
-        <div className="sticky top-0 z-20 bg-background/95 backdrop-blur border-b px-4">
+        <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b px-4">
             <TabsList className="w-full h-11 bg-transparent p-0 justify-start gap-4 overflow-x-auto scrollbar-none">
                 <TabsTrigger 
                     value="works" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-medium text-sm shrink-0"
+                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
                 >
-                    作品 <span className="ml-1 text-xs text-muted-foreground">{myProjectsCount}</span>
+                    作品 <span className="ml-1 text-xs text-muted-foreground font-normal">{myProjectsCount}</span>
                 </TabsTrigger>
                 <TabsTrigger 
                     value="collected" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-medium text-sm shrink-0"
+                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
                 >
-                    收藏 <span className="ml-1 text-xs text-muted-foreground">{collectedProjectsCount}</span>
+                    收藏 <span className="ml-1 text-xs text-muted-foreground font-normal">{collectedProjectsCount}</span>
                 </TabsTrigger>
                 <TabsTrigger 
                     value="likes" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-medium text-sm shrink-0"
+                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
                 >
-                    喜欢 <span className="ml-1 text-xs text-muted-foreground">{likedProjectsCount}</span>
+                    喜欢 <span className="ml-1 text-xs text-muted-foreground font-normal">{likedProjectsCount}</span>
                 </TabsTrigger>
                  <TabsTrigger 
                     value="completed" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-medium text-sm shrink-0"
+                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
                 >
-                    完成 <span className="ml-1 text-xs text-muted-foreground">{completedProjectsCount}</span>
+                    完成 <span className="ml-1 text-xs text-muted-foreground font-normal">{completedProjectsCount}</span>
                 </TabsTrigger>
             </TabsList>
         </div>

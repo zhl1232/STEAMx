@@ -421,16 +421,15 @@ export async function getProjectComments(
       { count: "exact" },
     )
     .eq("project_id", Number(projectId))
-    .is("parent_id", null)
-    .order("created_at", { ascending: false })
-    .range(from, to);
+    .is("parent_id", null);
 
   if (error) {
     console.error("Error fetching project comments:", error);
     return { comments: [], total: 0, hasMore: false };
   }
 
-  let allComments = (roots || []).map(mapDbComment);
+  // Fetch all root comments to support hotness sorting (likes + reply count) before pagination.
+  const rootComments = (roots || []).map(mapDbComment);
 
   const { data: replies } = await supabase
     .from("comments")
@@ -442,12 +441,58 @@ export async function getProjectComments(
     .not("parent_id", "is", null)
     .order("created_at", { ascending: true });
 
-  if (replies && replies.length > 0) {
-    allComments = [...allComments, ...replies.map(mapDbComment)];
+  const replyComments = (replies || []).map(mapDbComment);
+  const allComments = [...rootComments, ...replyComments];
+
+  // Build reply graph for heat calculation (reply count as part of hotness)
+  const childrenByParent = new Map<number, Comment[]>();
+  for (const c of allComments) {
+    if (c.parent_id == null) continue;
+    const pid = Number(c.parent_id);
+    if (Number.isNaN(pid)) continue;
+    if (!childrenByParent.has(pid)) childrenByParent.set(pid, []);
+    childrenByParent.get(pid)!.push(c);
   }
 
+  const replyCountMemo = new Map<number, number>();
+  const countDescendants = (id: number): number => {
+    if (replyCountMemo.has(id)) return replyCountMemo.get(id)!;
+    const children = childrenByParent.get(id) || [];
+    let total = 0;
+    for (const child of children) {
+      total += 1 + countDescendants(Number(child.id));
+    }
+    replyCountMemo.set(id, total);
+    return total;
+  };
+
+  const getLikeCount = (comment: Comment): number => {
+    const raw = comment as Comment & {
+      likes_count?: number;
+      likes?: number;
+      like_count?: number;
+      likeCount?: number;
+    };
+    const value =
+      raw.likes_count ?? raw.likes ?? raw.like_count ?? raw.likeCount ?? 0;
+    const num = Number(value);
+    return Number.isFinite(num) && num > 0 ? num : 0;
+  };
+
+  const sortedRoots = [...rootComments].sort((a, b) => {
+    const heatA = getLikeCount(a) + countDescendants(Number(a.id));
+    const heatB = getLikeCount(b) + countDescendants(Number(b.id));
+    if (heatB !== heatA) return heatB - heatA;
+    const t1 = a.created_at ?? "";
+    const t2 = b.created_at ?? "";
+    if (t2 !== t1) return t2.localeCompare(t1);
+    return Number(b.id) - Number(a.id);
+  });
+
+  const pagedRoots = sortedRoots.slice(from, to + 1);
+
   return {
-    comments: allComments,
+    comments: [...pagedRoots, ...replyComments],
     total: count || 0,
     hasMore: (count || 0) > to + 1,
   };

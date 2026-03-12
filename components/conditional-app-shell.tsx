@@ -32,6 +32,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const smokeMode = isPlaywrightSmokeClient()
   const isAuthPage = pathname === '/login'
+  const isProfilePage = pathname === '/profile'
   const needsProjectProvider =
     pathname === '/' ||
     pathname.startsWith('/explore') ||
@@ -59,7 +60,12 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   return (
     <AppProviders>
       <div className="flex min-h-screen flex-col bg-background">
-        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className={cn(
+          "sticky top-0 z-50 w-full backdrop-blur transition-colors duration-300",
+          isProfilePage
+            ? "border-b border-white/10 bg-background/30 backdrop-blur-xl md:border-border/40 md:bg-background/95 md:supports-[backdrop-filter]:bg-background/60"
+            : "border-b border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60"
+        )}>
           <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
             <div className="md:hidden flex h-9 items-center shrink-0 mr-2">
               <Link href="/" className="flex items-center space-x-2">

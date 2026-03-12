@@ -394,6 +394,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           parent_id: parentId || null,
           reply_to_user_id: comment.reply_to_user_id || null,
           reply_to_username: comment.reply_to_username || null,
+          image_url: comment.image_url || null,
         } as never)
         .select(`
                 *,
