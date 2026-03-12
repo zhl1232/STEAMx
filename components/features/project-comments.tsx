@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
@@ -29,6 +29,31 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { getDisplayName } from "@/lib/utils/user";
 import { uploadCommentImage, CommentImageError } from "@/lib/comment-image";
 import { useToast } from "@/hooks/use-toast";
+
+const getRootOrderFromComments = (items: Comment[]): string[] => {
+  const order: string[] = [];
+  const seen = new Set<string>();
+  for (const item of items) {
+    if (item.parent_id != null) continue;
+    const key = String(item.id);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    order.push(key);
+  }
+  return order;
+};
+
+const mergeRootOrder = (current: string[], incoming: Comment[]): string[] => {
+  if (incoming.length === 0) return current;
+  const next = [...current];
+  const seen = new Set(current);
+  for (const id of getRootOrderFromComments(incoming)) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    next.push(id);
+  }
+  return next;
+};
 
 /** 内联回复框 - 支持图片上传 */
 function ReplyWithImage({
@@ -189,6 +214,7 @@ interface ProjectCommentsProps {
   initialComments: Comment[];
   initialTotal?: number;
   initialHasMore?: boolean;
+  initialLikedCommentIds?: Array<string | number>;
   /** 与回复框同行的操作区（服务端不能传函数给客户端，故仅支持 ReactNode） */
   actionsSlot?: React.ReactNode;
 }
@@ -198,6 +224,7 @@ export function ProjectComments({
   initialComments,
   initialTotal = 0,
   initialHasMore = false,
+  initialLikedCommentIds = [],
   actionsSlot,
 }: ProjectCommentsProps) {
   const { addComment, deleteComment } = useProjects();
@@ -211,8 +238,12 @@ export function ProjectComments({
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [total, setTotal] = useState(initialTotal || initialComments.length);
   const [hasMore, setHasMore] = useState(initialHasMore);
+  const [rootOrder, setRootOrder] = useState<string[]>(() =>
+    getRootOrderFromComments(initialComments),
+  );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
+  const isLoadingMoreRef = useRef(false);
   const PAGE_SIZE = 5;
   const PREVIEW_REPLY_MAX = 3;
   const PREVIEW_LIKES_SHOW_2 = 3;
@@ -220,7 +251,9 @@ export function ProjectComments({
 
   const [replyingTo, setReplyingTo] = useState<number | string | null>(null);
   const [detailRootIdStack, setDetailRootIdStack] = useState<(number | string)[]>([]);
-  const [likedComments, setLikedComments] = useState<Set<string>>(new Set());
+  const [likedComments, setLikedComments] = useState<Set<string>>(
+    () => new Set(initialLikedCommentIds.map((id) => String(id))),
+  );
 
   // 底部评论框 ref（非受控）
   const mainTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -254,8 +287,9 @@ export function ProjectComments({
     if (mainFileInputRef.current) mainFileInputRef.current.value = "";
   };
 
-  const handleLoadMore = async () => {
-    if (isLoadingMore || !hasMore) return;
+  const handleLoadMore = useCallback(async () => {
+    if (isLoadingMoreRef.current || !hasMore) return;
+    isLoadingMoreRef.current = true;
     setIsLoadingMore(true);
 
     try {
@@ -267,7 +301,18 @@ export function ProjectComments({
       }
       const payload = await response.json();
       const newComments = (payload?.comments as Comment[]) || [];
+      const likedIds = (payload?.likedCommentIds as Array<string | number>) || [];
 
+      setRootOrder((prev) => mergeRootOrder(prev, newComments));
+      if (likedIds.length > 0) {
+        setLikedComments((prev) => {
+          const next = new Set(prev);
+          for (const id of likedIds) {
+            next.add(String(id));
+          }
+          return next;
+        });
+      }
       setComments((prev: Comment[]) => {
         const merged = new Map<string, Comment>();
         for (const c of [...prev, ...newComments]) {
@@ -281,9 +326,26 @@ export function ProjectComments({
     } catch (error) {
       console.error("Error loading more comments:", error);
     } finally {
+      isLoadingMoreRef.current = false;
       setIsLoadingMore(false);
     }
-  };
+  }, [hasMore, page, projectId, PAGE_SIZE]);
+
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const target = loadMoreRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) handleLoadMore();
+      },
+      { root: null, rootMargin: "200px 0px", threshold: 0.1 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [handleLoadMore, hasMore]);
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -332,6 +394,10 @@ export function ProjectComments({
             }
             return Array.from(merged.values());
           });
+          if (!addedComment.parent_id) {
+            const key = String(addedComment.id);
+            setRootOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
+          }
           setTotal((prev: number) => prev + 1);
           if (mainTextareaRef.current) {
             mainTextareaRef.current.value = "";
@@ -430,7 +496,14 @@ export function ProjectComments({
 
   const handleDeleteComment = async (commentId: string | number) => {
     await deleteComment(commentId);
-    setComments((prev: Comment[]) => prev.filter((c: Comment) => c.id !== commentId));
+    const key = String(commentId);
+    setComments((prev: Comment[]) => {
+      const removed = prev.find((c) => String(c.id) === key);
+      if (removed && !removed.parent_id) {
+        setRootOrder((order) => order.filter((id) => id !== key));
+      }
+      return prev.filter((c: Comment) => String(c.id) !== key);
+    });
   };
 
   const handleCancelReply = useCallback(() => {
@@ -479,6 +552,12 @@ export function ProjectComments({
     },
     [user, promptLogin],
   );
+
+  const rootOrderIndex = useMemo(() => {
+    const map = new Map<string, number>();
+    rootOrder.forEach((id, index) => map.set(id, index));
+    return map;
+  }, [rootOrder]);
 
   const childrenByParent = useMemo(() => {
     const map = new Map<number, Comment[]>();
@@ -559,28 +638,21 @@ export function ProjectComments({
 
   const topLevelComments = useMemo(() => {
     const roots = comments.filter((c: Comment) => !c.parent_id);
-    const getLikeCount = (comment: Comment): number => {
-      const raw = comment as Comment & {
-        likes_count?: number;
-        likes?: number;
-        like_count?: number;
-        likeCount?: number;
-      };
-      const value =
-        raw.likes_count ?? raw.likes ?? raw.like_count ?? raw.likeCount ?? 0;
-      const num = Number(value);
-      return Number.isFinite(num) && num > 0 ? num : 0;
-    };
+    if (roots.length <= 1) return roots;
     return [...roots].sort((a, b) => {
-      const heatA = getLikeCount(a) + getDescendantCount(Number(a.id));
-      const heatB = getLikeCount(b) + getDescendantCount(Number(b.id));
-      if (heatB !== heatA) return heatB - heatA;
+      const aKey = String(a.id);
+      const bKey = String(b.id);
+      const aIndex = rootOrderIndex.get(aKey);
+      const bIndex = rootOrderIndex.get(bKey);
+      if (aIndex != null && bIndex != null) return aIndex - bIndex;
+      if (aIndex != null) return -1;
+      if (bIndex != null) return 1;
       const t1 = a.created_at ?? "";
       const t2 = b.created_at ?? "";
       if (t2 !== t1) return t2.localeCompare(t1);
       return Number(b.id) - Number(a.id);
     });
-  }, [comments, getDescendantCount]);
+  }, [comments, rootOrderIndex]);
 
   const commentsListRef = useRef<HTMLDivElement>(null);
   const sheetReplyRef = useRef<HTMLTextAreaElement>(null);
@@ -643,8 +715,8 @@ export function ProjectComments({
         </UserLink>
 
         <div className="flex-1 min-w-0 overflow-hidden">
-          <div className="mb-1.5 flex items-center gap-1.5">
-            {comment.role && comment.role !== "user" && <RoleBadge role={comment.role} size="sm" />}
+          <div className="mb-0 flex items-center gap-1.5">
+            {comment.role && comment.role !== "user" && <RoleBadge role={comment.role} size="sm" className="shrink-0" />}
             <UserLink
               className={cn(
                 "font-semibold cursor-pointer hover:text-primary transition-colors",
@@ -681,8 +753,8 @@ export function ProjectComments({
           )}
 
           {!readOnly && (
-            <div className="flex justify-between items-center gap-2 mt-2.5 text-xs text-muted-foreground">
-              <div className="flex items-center gap-3 shrink-0 min-w-0">
+            <div className="flex justify-between items-center gap-2 mt-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-4 shrink-0 min-w-0">
                 <span className="shrink-0">{comment.date}</span>
                 {showReplyForm && (
                   <button
@@ -800,7 +872,7 @@ export function ProjectComments({
                             setDetailRootIdStack([comment.id]);
                             setReplyingTo(null);
                           }}
-                          className="ml-12 sm:ml-16 flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
+                          className="ml-12 sm:ml-16 flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2.5 pl-0 pr-3 pb-3 rounded-md hover:bg-muted/40 active:bg-muted/60"
                         >
                           展开全部 {replyCount} 条回复
                           <ChevronRight className="h-4 w-4" />
@@ -813,22 +885,18 @@ export function ProjectComments({
             </div>
 
             {hasMore && (
-              <div className="text-center pt-4">
-                <Button
-                  variant="outline"
-                  onClick={handleLoadMore}
-                  disabled={isLoadingMore}
-                  className="w-full sm:w-auto"
-                >
-                  {isLoadingMore ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      加载中...
-                    </>
-                  ) : (
-                    "加载更多评论"
-                  )}
-                </Button>
+              <div
+                ref={loadMoreRef}
+                className="flex justify-center pt-4 text-sm text-muted-foreground"
+              >
+                {isLoadingMore ? (
+                  <span className="inline-flex items-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    加载中...
+                  </span>
+                ) : (
+                  "上滑加载更多"
+                )}
               </div>
             )}
           </>
@@ -930,8 +998,8 @@ export function ProjectComments({
         </SheetContent>
       </Sheet>
 
-      {/* 底部固定悬浮栏：单行 [头像] [胶囊输入框] [心][收藏][硬币]，顶部细线+柔和上投影 */}
-      <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-[#F0F0F0] dark:border-border md:border-t-0 px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.03)] md:shadow-none">
+      {/* 底部固定悬浮栏：顶部极细灰线+轻微上投影，区分滚动内容与固定输入区 */}
+      <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-border/80 dark:border-border md:border-t-0 px-4 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:shadow-none">
         <div className="flex items-center gap-3 max-w-4xl mx-auto w-full">
           <AvatarWithFrame
             src={profile?.avatar_url || user?.user_metadata?.avatar_url}

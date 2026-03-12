@@ -35,5 +35,16 @@ test.describe('核心业务链路', () => {
     await page.getByRole('button', { name: '发布' }).click()
 
     await expect(page.getByText(commentText)).toBeVisible({ timeout: 10000 })
+
+    const commentContainer = page.getByText(commentText, { exact: true }).locator('..')
+    const likeButton = commentContainer.getByRole('button', { name: '赞' })
+    await likeButton.click()
+    await expect(likeButton.locator('svg')).toHaveClass(/fill-current/)
+
+    await page.reload({ waitUntil: 'domcontentloaded' })
+    const commentAfterReload = page.getByText(commentText, { exact: true })
+    await expect(commentAfterReload).toBeVisible({ timeout: 10000 })
+    const likeAfterReload = commentAfterReload.locator('..').getByRole('button', { name: '赞' })
+    await expect(likeAfterReload.locator('svg')).toHaveClass(/fill-current/)
   })
 })

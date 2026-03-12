@@ -401,8 +401,19 @@ export async function getProjectComments(
   projectId: string | number,
   page: number = 0,
   pageSize: number = 10,
-): Promise<{ comments: Comment[]; total: number; hasMore: boolean }> {
+  options?: { userId?: string | null },
+): Promise<{
+  comments: Comment[];
+  total: number;
+  hasMore: boolean;
+  likedCommentIds: number[];
+}> {
   const supabase = await createClient();
+  let resolvedUserId = options?.userId ?? null;
+  if (!resolvedUserId) {
+    const { data } = await supabase.auth.getUser();
+    resolvedUserId = data.user?.id ?? null;
+  }
 
   const from = page * pageSize;
   const to = from + pageSize - 1;
@@ -425,7 +436,7 @@ export async function getProjectComments(
 
   if (error) {
     console.error("Error fetching project comments:", error);
-    return { comments: [], total: 0, hasMore: false };
+    return { comments: [], total: 0, hasMore: false, likedCommentIds: [] };
   }
 
   // Fetch all root comments to support hotness sorting (likes + reply count) before pagination.
@@ -490,11 +501,34 @@ export async function getProjectComments(
   });
 
   const pagedRoots = sortedRoots.slice(from, to + 1);
+  const responseComments = [...pagedRoots, ...replyComments];
+
+  let likedCommentIds: number[] = [];
+  if (resolvedUserId && allComments.length > 0) {
+    const commentIds = allComments
+      .map((c) => Number(c.id))
+      .filter((id) => Number.isFinite(id));
+    if (commentIds.length > 0) {
+      const { data: likes, error: likesError } = await supabase
+        .from("comment_likes")
+        .select("comment_id")
+        .eq("user_id", resolvedUserId)
+        .in("comment_id", commentIds);
+      if (likesError) {
+        console.error("Error fetching comment likes:", likesError);
+      } else if (likes) {
+        likedCommentIds = likes
+          .map((row) => row.comment_id)
+          .filter((id): id is number => Number.isFinite(Number(id)));
+      }
+    }
+  }
 
   return {
-    comments: [...pagedRoots, ...replyComments],
+    comments: responseComments,
     total: count || 0,
     hasMore: (count || 0) > to + 1,
+    likedCommentIds,
   };
 }
 

@@ -66,8 +66,8 @@ export function ReplyCard({
         className="shrink-0 border h-9 w-9 sm:h-10 sm:w-10"
       />
       <div className="flex-1 min-w-0 overflow-hidden">
-        <div className="mb-1 flex items-center gap-1.5">
-          {reply.role && reply.role !== "user" && <RoleBadge role={reply.role} size="sm" />}
+        <div className="mb-0 flex items-center gap-1.5">
+          {reply.role && reply.role !== "user" && <RoleBadge role={reply.role} size="sm" className="shrink-0" />}
           <span
             className={cn(
               "font-semibold cursor-pointer hover:text-primary transition-colors text-sm sm:text-base",
@@ -103,7 +103,7 @@ export function ReplyCard({
         )}
         {!readOnly && (
           <div className="flex justify-between items-center gap-2 mt-2 text-xs text-muted-foreground">
-            <div className="flex items-center gap-3 shrink-0 min-w-0">
+            <div className="flex items-center gap-4 shrink-0 min-w-0">
               <span className="shrink-0">{reply.date}</span>
               {showReplyForm && (
                 <button

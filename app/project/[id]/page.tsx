@@ -99,7 +99,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     const completions = await getProjectCompletions(project.id, 8)
 
     // 获取评论 (分页)
-    const { comments: initialComments, total: totalComments, hasMore: hasMoreComments } = await getProjectComments(project.id, 0, 5)
+    const {
+        comments: initialComments,
+        total: totalComments,
+        hasMore: hasMoreComments,
+        likedCommentIds: initialLikedCommentIds,
+    } = await getProjectComments(project.id, 0, 5, { userId: user?.id })
 
     // 项目展示的硬币仅项目本身，作品各自显示
     const projectCoinsReceived = project.coins_count ?? 0
@@ -263,6 +268,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         initialComments={initialComments}
                         initialTotal={totalComments}
                         initialHasMore={hasMoreComments}
+                        initialLikedCommentIds={initialLikedCommentIds}
                         actionsSlot={
                             <ProjectInteractions
                                 projectId={project.id}

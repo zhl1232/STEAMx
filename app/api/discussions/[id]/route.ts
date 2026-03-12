@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
-import { mapDbComment, mapDiscussionFromRow, type DbCommentWithProfile, type DbDiscussionWithProfile } from '@/lib/mappers/types'
+import { mapDbComment, mapDiscussionFromRow, type DbCommentWithProfile, type DbDiscussionWithProfile, type Comment } from '@/lib/mappers/types'
 
 const REPLY_SELECT = `
   *,
@@ -60,24 +60,117 @@ export async function GET(
       .select(REPLY_SELECT, { count: 'exact' })
       .eq('discussion_id', discussionId)
       .is('parent_id', null)
-      .order('created_at', { ascending: false })
-      .range(from, to)
 
     if (replyError) throw replyError
 
-    let mappedReplies = mapReplyRows((rootReplies as unknown) as DbCommentWithProfile[] | null)
+    const { data: nestedReplies, error: nestedError } = await supabase
+      .from('discussion_replies')
+      .select(REPLY_SELECT)
+      .eq('discussion_id', discussionId)
+      .not('parent_id', 'is', null)
+      .order('created_at', { ascending: false })
 
-    if (rootReplies && rootReplies.length > 0) {
-      const rootIds = (rootReplies as { id: number }[]).map((reply) => reply.id)
-      const { data: nestedReplies } = await supabase
-        .from('discussion_replies')
-        .select(REPLY_SELECT)
-        .in('parent_id', rootIds)
-        .order('created_at', { ascending: false })
-      mappedReplies = [
-        ...mappedReplies,
-        ...mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null),
-      ]
+    if (nestedError) throw nestedError
+
+    const rootMapped = mapReplyRows((rootReplies as unknown) as DbCommentWithProfile[] | null)
+    const nestedMapped = mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null)
+    const allReplies = [...rootMapped, ...nestedMapped]
+
+    // Build reply graph for heat calculation (likes + reply count)
+    const childrenByParent = new Map<number, Comment[]>()
+    for (const reply of allReplies) {
+      if (reply.parent_id == null) continue
+      const pid = Number(reply.parent_id)
+      if (Number.isNaN(pid)) continue
+      if (!childrenByParent.has(pid)) childrenByParent.set(pid, [])
+      childrenByParent.get(pid)!.push(reply)
+    }
+
+    const replyCountMemo = new Map<number, number>()
+    const countDescendants = (id: number): number => {
+      if (replyCountMemo.has(id)) return replyCountMemo.get(id)!
+      const children = childrenByParent.get(id) || []
+      let total = 0
+      for (const child of children) {
+        total += 1 + countDescendants(Number(child.id))
+      }
+      replyCountMemo.set(id, total)
+      return total
+    }
+
+    const getLikeCount = (reply: Comment): number => {
+      const raw = reply as Comment & {
+        likes_count?: number
+        likes?: number
+        like_count?: number
+        likeCount?: number
+      }
+      const value = raw.likes_count ?? raw.likes ?? raw.like_count ?? raw.likeCount ?? 0
+      const num = Number(value)
+      return Number.isFinite(num) && num > 0 ? num : 0
+    }
+
+    const sortedRoots = [...rootMapped].sort((a, b) => {
+      const heatA = getLikeCount(a) + countDescendants(Number(a.id))
+      const heatB = getLikeCount(b) + countDescendants(Number(b.id))
+      if (heatB !== heatA) return heatB - heatA
+      const t1 = a.created_at ?? ''
+      const t2 = b.created_at ?? ''
+      if (t2 !== t1) return t2.localeCompare(t1)
+      return Number(b.id) - Number(a.id)
+    })
+
+    const pagedRoots = sortedRoots.slice(from, to + 1)
+    const pagedReplies: Comment[] = []
+    const seen = new Set<string>()
+
+    const collectDescendants = (rootId: number) => {
+      const queue = [rootId]
+      while (queue.length > 0) {
+        const id = queue.shift()!
+        const children = childrenByParent.get(id) || []
+        for (const child of children) {
+          const key = String(child.id)
+          if (seen.has(key)) continue
+          seen.add(key)
+          pagedReplies.push(child)
+          queue.push(Number(child.id))
+        }
+      }
+    }
+
+    for (const root of pagedRoots) {
+      const key = String(root.id)
+      if (!seen.has(key)) {
+        seen.add(key)
+        pagedReplies.push(root)
+      }
+      collectDescendants(Number(root.id))
+    }
+
+    const mappedReplies = pagedReplies
+
+    let likedReplyIds: number[] = []
+    const { data: authData } = await supabase.auth.getUser()
+    const userId = authData.user?.id
+    if (userId && mappedReplies.length > 0) {
+      const replyIds = mappedReplies
+        .map((reply) => Number(reply.id))
+        .filter((rid) => Number.isFinite(rid))
+      if (replyIds.length > 0) {
+        const { data: likes, error: likesError } = await supabase
+          .from('discussion_reply_likes')
+          .select('reply_id')
+          .eq('user_id', userId)
+          .in('reply_id', replyIds)
+        if (likesError) {
+          console.error('Error fetching reply likes:', likesError)
+        } else if (likes) {
+          likedReplyIds = likes
+            .map((row) => row.reply_id)
+            .filter((rid): rid is number => Number.isFinite(Number(rid)))
+        }
+      }
     }
 
     const totalReplies = rootCount || 0
@@ -92,6 +185,7 @@ export async function GET(
       discussion,
       totalReplies,
       hasMore,
+      likedReplyIds,
     })
   } catch (error) {
     return handleApiError(error)

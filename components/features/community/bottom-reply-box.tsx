@@ -41,7 +41,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
   const isExpanded = isFocused || content.length > 0;
 
   return (
-    <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 sm:py-4 border-t md:border-t-0 px-4 md:px-0 shadow-[0_-1px_3px_rgba(0,0,0,0.05)] md:shadow-none md:mt-8">
+    <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 sm:py-4 border-t border-border/80 md:border-t-0 px-4 md:px-0 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] md:shadow-none md:mt-8">
       <div className="flex gap-3 sm:gap-4 max-w-4xl mx-auto w-full">
         <AvatarWithFrame
           src={profile?.avatar_url || user?.user_metadata?.avatar_url}

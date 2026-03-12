@@ -18,13 +18,38 @@ import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ReplyCard } from "@/components/features/community/reply-card";
 import { BottomReplyBox } from "@/components/features/community/bottom-reply-box";
 import { getRepliesUnderRoot } from "@/lib/community/reply-utils";
+
+const getRootReplyOrder = (items: Comment[]): string[] => {
+  const order: string[] = [];
+  const seen = new Set<string>();
+  for (const item of items) {
+    if (item.parent_id != null) continue;
+    const key = String(item.id);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    order.push(key);
+  }
+  return order;
+};
+
+const mergeRootReplyOrder = (current: string[], incoming: Comment[]): string[] => {
+  if (incoming.length === 0) return current;
+  const next = [...current];
+  const seen = new Set(current);
+  for (const id of getRootReplyOrder(incoming)) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    next.push(id);
+  }
+  return next;
+};
 
 export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params);
@@ -36,6 +61,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [detailRootIdStack, setDetailRootIdStack] = useState<number[]>([]);
   const sheetReplyRef = React.useRef<HTMLTextAreaElement>(null);
+  const loadMoreRef = React.useRef<HTMLDivElement>(null);
+  const isLoadingMoreRepliesRef = React.useRef(false);
   const [id, setId] = useState<string | number | null>(null);
 
   // Local state
@@ -50,6 +77,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   const [isLoadingMoreReplies, setIsLoadingMoreReplies] = useState(false);
   const [totalReplies, setTotalReplies] = useState(0);
   const [likedReplies, setLikedReplies] = useState<Set<string>>(new Set());
+  const [rootReplyOrder, setRootReplyOrder] = useState<string[]>([]);
 
   // Handle params unwrapping
   useEffect(() => {
@@ -93,6 +121,9 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         }
 
         setDiscussion(discussionData);
+        setRootReplyOrder(getRootReplyOrder(discussionData.replies || []));
+        const likedIds = (payload?.likedReplyIds as Array<string | number>) || [];
+        setLikedReplies(new Set(likedIds.map((rid) => String(rid))));
         const total = payload?.totalReplies ?? 0;
         setTotalReplies(total);
         setHasMoreReplies(Boolean(payload?.hasMore));
@@ -113,8 +144,9 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   }, [id]);
 
   // Load more replies
-  const handleLoadMoreReplies = async () => {
-    if (!discussion || isLoadingMoreReplies || !hasMoreReplies) return;
+  const handleLoadMoreReplies = useCallback(async () => {
+    if (!discussion || isLoadingMoreRepliesRef.current || !hasMoreReplies) return;
+    isLoadingMoreRepliesRef.current = true;
     setIsLoadingMoreReplies(true);
 
     try {
@@ -126,20 +158,46 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       }
       const payload = await response.json();
       const newReplies = (payload?.discussion?.replies as Comment[]) || [];
+      const likedIds = (payload?.likedReplyIds as Array<string | number>) || [];
 
+      setRootReplyOrder((prev) => mergeRootReplyOrder(prev, newReplies));
       setDiscussion((prev: Discussion | null) => {
         if (!prev) return null;
         return { ...prev, replies: [...prev.replies, ...newReplies] };
       });
+      if (likedIds.length > 0) {
+        setLikedReplies((prev) => {
+          const next = new Set(prev);
+          for (const id of likedIds) {
+            next.add(String(id));
+          }
+          return next;
+        });
+      }
       setReplyPage((prev: number) => prev + 1);
       setHasMoreReplies(Boolean(payload?.hasMore));
-      setTotalReplies(payload?.totalReplies ?? totalReplies);
+      setTotalReplies((prev) => payload?.totalReplies ?? prev);
     } catch (error) {
       console.error("Error loading more replies:", error);
     } finally {
+      isLoadingMoreRepliesRef.current = false;
       setIsLoadingMoreReplies(false);
     }
-  };
+  }, [discussion, hasMoreReplies, replyPage, REPLY_PAGE_SIZE]);
+
+  useEffect(() => {
+    if (!hasMoreReplies) return;
+    const target = loadMoreRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) handleLoadMoreReplies();
+      },
+      { root: null, rootMargin: "200px 0px", threshold: 0.1 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [handleLoadMoreReplies, hasMoreReplies]);
 
   const handleToggleReplyLike = useCallback(
     async (replyId: number | string) => {
@@ -187,6 +245,12 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     },
     [user, promptLogin],
   );
+
+  const rootReplyOrderIndex = useMemo(() => {
+    const map = new Map<string, number>();
+    rootReplyOrder.forEach((id, index) => map.set(id, index));
+    return map;
+  }, [rootReplyOrder]);
 
   // Scroll to hash anchor on load
   useEffect(() => {
@@ -271,6 +335,10 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             replies: [addedReply, ...prev.replies],
           };
         });
+        if (!addedReply.parent_id) {
+          const key = String(addedReply.id);
+          setRootReplyOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
+        }
         // 行内回复的 content 清理在 ReplyItem 内部完成
         setReplyingTo(null);
       }
@@ -298,16 +366,38 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
   const handleDeleteReply = async (replyId: number) => {
     await deleteReply(replyId);
+    const key = String(replyId);
     setDiscussion((prev: Discussion | null) => {
       if (!prev) return null;
+      const removed = prev.replies.find((r) => String(r.id) === key);
+      if (removed && !removed.parent_id) {
+        setRootReplyOrder((order) => order.filter((id) => id !== key));
+      }
       return {
         ...prev,
-        replies: prev.replies.filter((r) => r.id !== replyId),
+        replies: prev.replies.filter((r) => String(r.id) !== key),
       };
     });
   };
 
-  const topLevelReplies = discussion.replies.filter((r) => !r.parent_id);
+  const topLevelReplies = useMemo(() => {
+    if (!discussion) return [];
+    const roots = discussion.replies.filter((r) => !r.parent_id);
+    if (roots.length <= 1) return roots;
+    return [...roots].sort((a, b) => {
+      const aKey = String(a.id);
+      const bKey = String(b.id);
+      const aIndex = rootReplyOrderIndex.get(aKey);
+      const bIndex = rootReplyOrderIndex.get(bKey);
+      if (aIndex != null && bIndex != null) return aIndex - bIndex;
+      if (aIndex != null) return -1;
+      if (bIndex != null) return 1;
+      const t1 = a.created_at ?? "";
+      const t2 = b.created_at ?? "";
+      if (t2 !== t1) return t2.localeCompare(t1);
+      return Number(b.id) - Number(a.id);
+    });
+  }, [discussion, rootReplyOrderIndex]);
 
   return (
     <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl pb-28 md:pb-8">
@@ -405,7 +495,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                         setDetailRootIdStack([Number(reply.id)]);
                         setReplyingTo(null);
                       }}
-                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-3"
+                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2.5 pl-3 pr-3 pb-3 rounded-md hover:bg-muted/40 active:bg-muted/60"
                     >
                       共 {replyCount} 条回复
                       <ChevronRight className="h-4 w-4" />
@@ -415,24 +505,20 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
               );
             })}
 
-            {/* 加载更多按钮 */}
+            {/* 自动加载更多 */}
             {hasMoreReplies && (
-              <div className="text-center py-4">
-                <Button
-                  variant="outline"
-                  onClick={handleLoadMoreReplies}
-                  disabled={isLoadingMoreReplies}
-                  className="w-full sm:w-auto"
-                >
-                  {isLoadingMoreReplies ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      加载中...
-                    </>
-                  ) : (
-                    "加载更多回复"
-                  )}
-                </Button>
+              <div
+                ref={loadMoreRef}
+                className="flex justify-center py-4 text-sm text-muted-foreground"
+              >
+                {isLoadingMoreReplies ? (
+                  <span className="inline-flex items-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    加载中...
+                  </span>
+                ) : (
+                  "上滑加载更多"
+                )}
               </div>
             )}
 
