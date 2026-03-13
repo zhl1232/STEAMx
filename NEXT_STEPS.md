@@ -87,10 +87,10 @@
   | Lv.20 | 解锁「真命暗金」传说昵称颜色兑换权 | ✅ 已实现 | `minLevel: 20`, price: 500                                              |
   | Lv.20 | 帖子获得额外曝光加权               | ❌ 未实现 | 需在首页/推荐算法中加入作者等级权重                                     |
   | Lv.30 | 解锁「黄金王冠」传说头像框兑换权   | ✅ 已实现 | `minLevel: 30`, price: 800                                              |
-  | Lv.30 | 商店全场商品 8 折兑换              | ❌ 未实现 | 需在 `purchase_item` RPC 中加折扣逻辑                                   |
+  | Lv.30 | 商店全场商品 8 折兑换              | ✅ 已实现 | `purchase_item` RPC 已加入 Lv.30 折扣逻辑                               |
   | Lv.50 | 「传说元老」专属黑金界面主题       | ❌ 未实现 | 需设计与实现全新主题样式                                                |
   | Lv.50 | 社区核心自治提案参与权             | ❌ 未实现 | 需设计社区治理提案系统                                                  |
-  - **商店等级拦截**: 前端 `app/shop/page.tsx` 已根据 `item.minLevel` 对商品做按钮置灰+「Lv.XX 解锁」展示，但 **后端 `purchase_item` RPC 尚未增加 `minLevel` 校验**，若用户绕过前端仍可购买。需追加服务端校验。
+  - [x] **商店等级拦截**: 前端 `app/shop/page.tsx` 已根据 `item.minLevel` 对商品做按钮置灰+「Lv.XX 解锁」展示，后端 `purchase_item` RPC 已增加 `minLevel` 校验，无法绕过前端直接购买。
 
 ### STEAM 游乐场 (STEAM Playground)
 
@@ -110,9 +110,9 @@
 
 ### 测试
 
-- [ ] **集成测试 (Integration Tests)**
-  - **现状**: 已有 Jest 单测与 Playwright 核心烟测；尚未接入基于本地 Supabase 的端到端业务集成测试。
-  - **下一步**: 覆盖注册 -> 创建项目 -> 评论互动等核心链路。
+- [x] **集成测试 (Integration Tests)**
+  - **现状**: 已接入基于 Supabase 的端到端业务集成测试（Playwright integration），覆盖注册 -> 创建项目 -> 评论互动等核心链路。
+  - **下一步**: 覆盖打赏、购买、私信等高频写入链路。
   - [x] **数据模拟**: 已有 seed / migration 保障测试数据一致性。
 - [x] **CI / PR 校验**
   - **已完成**: `.github/workflows/ci.yml` 已运行 `Lint`、`Type Check`、`Jest`、`Build`、`OpenNext Cloudflare build` 与 Playwright smoke。
@@ -143,9 +143,9 @@
 
 - [x] **访问控制深度审计 (RLS & 鉴权)**
   - 对 Supabase 的 Row Level Security (RLS) 策略进行全面二次审计，确保零越权隐患（尤其是涉及用户金币和 XP 变动的核心业务表）。
-- [ ] **限流防刷 (Rate Limiting)**
-  - **现状**: 仓库内尚未落地统一的 Cloudflare WAF / Edge 限流实现。
-  - **注意**: Cloudflare 目标下继续保留 `middleware.ts` 做 session 刷新；限流策略需单独设计，不与 Next 16 `proxy.ts` 迁移绑定。
+- [x] **限流防刷 (Rate Limiting)**
+  - **现状**: 已完成应用层 + 数据库层限流（关键写接口），并提供 Cloudflare WAF 配置脚本（见 `docs/SECURITY_RATE_LIMIT.md`）。
+  - **注意**: Cloudflare 目标下继续保留 `middleware.ts` 做 session 刷新；WAF 规则与 Next 16 `proxy.ts` 迁移解耦。
 
 ### PBL (项目式学习) 核心体验升级
 

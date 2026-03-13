@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 type Action = 'follow' | 'unfollow'
 
@@ -9,6 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-follows-write', limit: 60, windowMs: 60_000 })
     const body = await request.json()
 
     const targetUserId = typeof body?.targetUserId === 'string' ? body.targetUserId : ''

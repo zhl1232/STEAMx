@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-messages-send', limit: 20, windowMs: 60_000 })
     const body = await request.json()
 
     const receiverId = typeof body?.receiverId === 'string' ? body.receiverId : ''

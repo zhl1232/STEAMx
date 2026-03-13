@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 /**
  * DELETE /api/comments/[id]
@@ -17,6 +18,7 @@ export async function DELETE(
   try {
     // 检查用户认证
     await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-comments-delete', limit: 30, windowMs: 60_000 })
     const { id } = await params
     const commentId = parseInt(id)
     

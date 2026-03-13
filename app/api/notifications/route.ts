@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 const PAGE_SIZE = 20
 const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
@@ -21,6 +22,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-notifications-write', limit: 30, windowMs: 60_000 })
     const searchParams = request.nextUrl.searchParams
     const before = searchParams.get('before')
 

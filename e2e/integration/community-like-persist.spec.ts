@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { signUpAndLogin } from './helpers/auth-flow'
 
-const E2E_USER_EMAIL = process.env.E2E_USER_EMAIL ?? 'student@example.com'
-const E2E_USER_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
+const DEFAULT_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
 
 test.describe('社区回复点赞状态', () => {
   test('刷新后仍显示已点赞', async ({ page }) => {
@@ -10,12 +10,8 @@ test.describe('社区回复点赞状态', () => {
     const discussionContent = `E2E 讨论内容 ${nonce}`
     const replyText = `E2E 回复 ${nonce}`
 
-    await page.goto('/login')
-    await page.getByPlaceholder('name@example.com').fill(E2E_USER_EMAIL)
-    await page.getByPlaceholder('••••••••').fill(E2E_USER_PASSWORD)
-    await page.locator('#terms').click()
-    await page.getByRole('button', { name: '登录' }).click()
-    await page.waitForURL('**/')
+    const email = process.env.E2E_USER_EMAIL ?? `e2e_${nonce}@example.com`
+    await signUpAndLogin(page, { email, password: DEFAULT_PASSWORD })
 
     await page.goto('/community')
     await page.getByRole('button', { name: '发起讨论' }).click()

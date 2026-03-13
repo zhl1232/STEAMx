@@ -1038,6 +1038,10 @@ export interface Database {
         Args: { p_item_id: string }
         Returns: { ok: boolean; error?: string; item_id?: string; price?: number }
       }
+      consume_rate_limit: {
+        Args: { p_key: string; p_limit: number; p_window_seconds: number }
+        Returns: { ok?: boolean; error?: string; limit?: number; remaining?: number; reset_at?: number }
+      }
       equip_avatar_frame: {
         Args: { p_item_id: string | null }
         Returns: { ok: boolean; error?: string; equipped?: string | null }

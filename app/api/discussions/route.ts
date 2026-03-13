@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime } from '@/lib/date-utils'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 import { sanitizeSearch } from '@/lib/api/validation'
 type DiscussionListItem = {
   id: string | number
@@ -128,6 +129,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-discussions-write', limit: 20, windowMs: 60_000 })
     const body = await request.json()
 
     const title = typeof body?.title === 'string' ? body.title.trim() : ''

@@ -1,20 +1,17 @@
 import { expect, test } from '@playwright/test'
+import { signUpAndLogin } from './helpers/auth-flow'
 
-const E2E_USER_EMAIL = process.env.E2E_USER_EMAIL ?? 'student@example.com'
-const E2E_USER_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
+const DEFAULT_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
 
 test.describe('核心业务链路', () => {
-  test('登录 -> 创建项目 -> 评论互动', async ({ page }) => {
+  test('注册 -> 创建项目 -> 评论互动', async ({ page }) => {
     const nonce = Date.now()
+    const email = process.env.E2E_USER_EMAIL ?? `e2e_${nonce}@example.com`
+    const password = DEFAULT_PASSWORD
     const projectTitle = `E2E 项目 ${nonce}`
     const commentText = `E2E 评论 ${nonce}`
 
-    await page.goto('/login')
-    await page.getByPlaceholder('name@example.com').fill(E2E_USER_EMAIL)
-    await page.getByPlaceholder('••••••••').fill(E2E_USER_PASSWORD)
-    await page.locator('#terms').click()
-    await page.getByRole('button', { name: '登录' }).click()
-    await page.waitForURL('**/')
+    await signUpAndLogin(page, { email, password })
 
     await page.goto('/share')
     await expect(page).toHaveURL(/\/share$/)

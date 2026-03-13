@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
   try {
     // 检查用户认证
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-projects-create', limit: 6, windowMs: 60_000 })
 
     const body = await request.json()
 

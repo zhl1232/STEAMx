@@ -23,6 +23,29 @@ export class PermissionError extends Error {
 }
 
 /**
+ * 限流错误类
+ */
+export class RateLimitError extends Error {
+  statusCode = 429
+  limit: number
+  remaining: number
+  resetAt: number
+  retryAfterSeconds: number
+
+  constructor(
+    message: string,
+    context: { limit: number; remaining: number; resetAt: number; retryAfterSeconds: number }
+  ) {
+    super(message)
+    this.name = 'RateLimitError'
+    this.limit = context.limit
+    this.remaining = context.remaining
+    this.resetAt = context.resetAt
+    this.retryAfterSeconds = context.retryAfterSeconds
+  }
+}
+
+/**
  * 要求用户已认证
  * @param supabase Supabase 客户端
  * @returns 已认证的用户对象
@@ -101,6 +124,21 @@ export function handleApiError(error: unknown): NextResponse {
   // 权限错误
   if (error instanceof PermissionError) {
     return NextResponse.json({ error: error.message }, { status: 403 })
+  }
+
+  if (error instanceof RateLimitError) {
+    return NextResponse.json(
+      { error: error.message },
+      {
+        status: error.statusCode,
+        headers: {
+          'Retry-After': String(error.retryAfterSeconds),
+          'X-RateLimit-Limit': String(error.limit),
+          'X-RateLimit-Remaining': String(error.remaining),
+          'X-RateLimit-Reset': String(error.resetAt),
+        },
+      }
+    )
   }
 
   // 其他错误 - 生产环境隐藏详细信息

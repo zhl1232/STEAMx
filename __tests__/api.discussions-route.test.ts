@@ -17,6 +17,10 @@ jest.mock('@/lib/api/auth', () => {
   }
 })
 
+jest.mock('@/lib/api/rate-limit', () => ({
+  requireRateLimit: jest.fn().mockResolvedValue(undefined),
+}))
+
 describe('DELETE /api/discussions/[id]', () => {
   const createClientMock = createClient as jest.MockedFunction<typeof createClient>
   const requireAuthMock = requireAuth as jest.MockedFunction<typeof requireAuth>
