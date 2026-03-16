@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { mapDbComment, mapDiscussionFromRow, type DbCommentWithProfile, type DbDiscussionWithProfile, type Comment } from '@/lib/mappers/types'
+import { logger } from '@/lib/logger'
 
 const REPLY_SELECT = `
   *,
@@ -165,7 +166,7 @@ export async function GET(
           .eq('user_id', userId)
           .in('reply_id', replyIds)
         if (likesError) {
-          console.error('Error fetching reply likes:', likesError)
+          logger.error('Error fetching reply likes', { error: likesError })
         } else if (likes) {
           likedReplyIds = likes
             .map((row) => row.reply_id)

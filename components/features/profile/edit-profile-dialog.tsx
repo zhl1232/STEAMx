@@ -28,6 +28,7 @@ import { useAuth } from "@/context/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { AvatarUpload } from "./avatar-upload"
 import { toE164 } from "@/lib/utils/phone"
+import { logger } from "@/lib/logger"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -231,7 +232,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       setOpen(false)
       router.refresh()
     } catch (error) {
-      console.error("Error updating profile:", error)
+      logger.error("Error updating profile", { error })
     } finally {
       setLoading(false)
     }

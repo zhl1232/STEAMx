@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 export interface LeaderboardUser {
     id: string;
@@ -169,7 +170,7 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                 })));
             } catch (error) {
                 if ((error as { name?: string }).name === "AbortError") return;
-                console.error("Error fetching leaderboard:", error);
+                logger.error("Error fetching leaderboard", { error });
                 setLeaderboardData([]);
             } finally {
                 if (!controller.signal.aborted) {

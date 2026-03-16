@@ -21,6 +21,7 @@ import { createClient } from "@/lib/supabase/client";
 import { mapDbProject } from "@/lib/mappers/types";
 import { Suspense } from "react";
 import { getDisplayName } from "@/lib/utils/user";
+import { logger } from "@/lib/logger";
 
 const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 
@@ -144,7 +145,7 @@ function ShareForm() {
                         description: "自动恢复了您上次保存的内容",
                     });
                 } catch (e) {
-                    console.error("Failed to load draft:", e);
+                    logger.error("Failed to load draft", { error: e });
                 }
             }
         }
@@ -307,7 +308,7 @@ function ShareForm() {
                 router.push("/profile");  // 跳转到个人中心页面
             }, 1500);
         } catch (error) {
-            console.error('Project submission error:', error);
+            logger.error('Project submission error', { error });
             toast({
                 title: "提交失败",
                 description: "请稍后再试",

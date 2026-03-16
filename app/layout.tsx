@@ -49,12 +49,15 @@ export default function RootLayout({
       <head>
         {!smokeMode && (
           <>
-            <link rel="preconnect" href="https://lulfybqiiamdvbtdpqha.supabase.co" crossOrigin="anonymous" />
+            {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+              <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
+            )}
             <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
           </>
         )}
       </head>
       <body className={inter.className}>
+        {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <script
           dangerouslySetInnerHTML={{
             __html: 'window.__name = (n) => n;',

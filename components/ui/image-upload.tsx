@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { uploadFile, generateFilePath, validateFileType, validateFileSize } from '@/lib/utils/upload'
 import { useAuth } from '@/context/auth-context'
 import { useToast } from '@/hooks/use-toast'
+import { logger } from '@/lib/logger'
 
 interface ImageUploadProps {
   value?: string | null
@@ -82,7 +83,7 @@ export function ImageUpload({
         throw new Error('Upload failed')
       }
     } catch (error) {
-      console.error('Upload error:', error)
+      logger.error('Upload error', { error })
       toast({
         title: '上传失败',
         description: '图片上传失败，请重试',

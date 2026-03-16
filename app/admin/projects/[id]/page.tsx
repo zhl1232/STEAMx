@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast'
 import { CATEGORIES } from '@/lib/config/categories'
 import { CreateProjectSchema } from '@/lib/schemas'
 import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
+import { logger } from '@/lib/logger'
 
 type ProjectUpdate = Database['public']['Tables']['projects']['Update']
 type StepInsert = Database['public']['Tables']['project_steps']['Insert']
@@ -123,7 +124,7 @@ export default function EditProjectPage() {
                 })
             }
         } catch (error) {
-            console.error('Error fetching data:', error)
+            logger.error('Error fetching data', { error })
             toast({
                 title: '获取数据失败',
                 description: '无法加载项目详情',
@@ -151,7 +152,7 @@ export default function EditProjectPage() {
         const validationResult = CreateProjectSchema.safeParse(validationPayload);
 
         if (!validationResult.success) {
-            console.error("Validation failed:", validationResult.error);
+            logger.error("Validation failed", { error: validationResult.error });
             const errorMessages = validationResult.error.issues.map(e => e.message).join(', ');
             toast({
                 title: "表单验证失败",
@@ -216,7 +217,7 @@ export default function EditProjectPage() {
             })
 
         } catch (error) {
-            console.error('Error saving project:', error)
+            logger.error('Error saving project', { error })
             toast({
                 title: '保存失败',
                 description: (error as Error).message || '更新项目时发生错误',

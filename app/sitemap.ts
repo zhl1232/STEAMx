@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             });
         }
     } catch (error) {
-        console.error('Error generating sitemap for projects:', error);
+        logger.error('Error generating sitemap for projects', { error });
     }
 
     return routes;

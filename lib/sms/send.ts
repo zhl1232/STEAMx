@@ -5,6 +5,8 @@
  * 环境变量：SMS_ALIYUN_ACCESS_KEY_ID + SMS_ALIYUN_ACCESS_KEY_SECRET 即走阿里云（签名/模板在代码内写死）
  */
 
+import { logger } from '@/lib/logger'
+
 export type SmsResult = { ok: true } | { ok: false; error: string }
 
 function hasAliyunConfig(): boolean {
@@ -22,7 +24,7 @@ export async function sendVerificationSms(phone: string, code: string): Promise<
   if (process.env.SMS_PROVIDER === 'custom' && process.env.SMS_CUSTOM_URL) return sendCustom(phone, code)
 
   if (process.env.NODE_ENV === 'development') {
-    console.warn(`[SMS] log 模式，未真实发送: ${phone} code=${code}`)
+    logger.warn(`[SMS] log 模式，未真实发送: ${phone} code=${code}`)
   }
   return { ok: true }
 }

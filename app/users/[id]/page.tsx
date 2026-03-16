@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from "@/context/gamification-context";
+import { logger } from "@/lib/logger";
 
 interface PublicProfile {
   id: string;
@@ -71,7 +72,7 @@ export default function PublicProfilePage() {
         setUnlockedBadgeIds(new Set((payload?.badgeIds as string[]) || []));
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
-        console.error("Error fetching profile:", err);
+        logger.error("Error fetching profile", { error: err });
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);

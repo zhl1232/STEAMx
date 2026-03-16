@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 
 import { createClient } from '@/lib/supabase/client'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
+import { logger } from '@/lib/logger'
 
 type UserRole = 'user' | 'teacher' | 'moderator' | 'admin'
 
@@ -109,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await Promise.race([signOutPromise, timeoutPromise])
       }
     } catch (error) {
-      console.error('Error signing out:', error)
+      logger.error(error, { context: 'Error signing out' })
     } finally {
       if (typeof window !== 'undefined') {
         Object.keys(localStorage).forEach((key) => {

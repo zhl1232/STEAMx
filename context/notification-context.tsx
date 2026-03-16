@@ -10,6 +10,7 @@ import React, {
   useRef,
 } from "react";
 import { useAuth } from "@/context/auth-context";
+import { logger } from "@/lib/logger";
 
 export type Notification = {
   id: number;
@@ -67,13 +68,13 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         return;
       }
       if (!response.ok) {
-        console.error("Error fetching unread count:", await response.text());
+        logger.error("Error fetching unread count:", { detail: await response.text() });
         return;
       }
       const payload = await response.json();
       setUnreadCount(Number(payload?.count ?? 0));
     } catch (error) {
-      console.error("Error fetching unread count:", error);
+      logger.error(error, { context: "Error fetching unread count" });
     }
   }, [user]);
 
@@ -96,7 +97,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
           return;
         }
         if (!response.ok) {
-          console.error("Error fetching notifications:", await response.text());
+          logger.error("Error fetching notifications:", { detail: await response.text() });
           return;
         }
         const payload = await response.json();
@@ -104,7 +105,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(list);
         setHasMore(Boolean(payload?.hasMore));
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        logger.error(error, { context: "Error fetching notifications" });
       } finally {
         if (reset) setIsLoading(false);
       }
@@ -127,7 +128,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         return;
       }
       if (!response.ok) {
-        console.error("Error loading more notifications:", await response.text());
+        logger.error("Error loading more notifications:", { detail: await response.text() });
         setIsLoadingMore(false);
         return;
       }
@@ -136,7 +137,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setNotifications((prev) => [...prev, ...next]);
       setHasMore(Boolean(payload?.hasMore));
     } catch (error) {
-      console.error("Error loading more notifications:", error);
+      logger.error(error, { context: "Error loading more notifications" });
     } finally {
       setIsLoadingMore(false);
     }
@@ -176,7 +177,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       });
 
       if (!response.ok) {
-        console.error("Error marking notification as read:", await response.text());
+        logger.error("Error marking notification as read:", { detail: await response.text() });
         return;
       }
 
@@ -194,7 +195,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     });
 
     if (!response.ok) {
-      console.error("Error marking all notifications as read:", await response.text());
+      logger.error("Error marking all notifications as read:", { detail: await response.text() });
       return;
     }
 
@@ -213,7 +214,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       });
 
       if (!response.ok) {
-        console.error("Error creating notification:", await response.text());
+        logger.error("Error creating notification:", { detail: await response.text() });
       } else if (notification.user_id === user.id) {
         fetchNotifications(true);
         fetchUnreadCount();
@@ -230,7 +231,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     });
 
     if (!response.ok) {
-      console.error("Error clearing notifications:", await response.text());
+      logger.error("Error clearing notifications:", { detail: await response.text() });
       return;
     }
 

@@ -4,6 +4,7 @@ import { formatRelativeTime } from '@/lib/date-utils'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { sanitizeSearch } from '@/lib/api/validation'
+import { logger } from '@/lib/logger'
 type DiscussionListItem = {
   id: string | number
   title: string
@@ -119,7 +120,7 @@ export async function GET(request: NextRequest) {
       hasMore: rows.length === pageSize,
     })
   } catch (error) {
-    console.error('Error in GET /api/discussions:', error)
+    logger.error('Error in GET /api/discussions', { error })
     return NextResponse.json({ error: 'Failed to fetch discussions' }, { status: 500 })
   }
 }

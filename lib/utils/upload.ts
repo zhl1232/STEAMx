@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
+import { logger } from '@/lib/logger'
 
 /**
  * 上传文件到 Supabase Storage
@@ -24,7 +25,7 @@ export async function uploadFile(
       })
 
     if (error) {
-      console.error('File upload error:', error)
+      logger.error('File upload error', { error })
       return null
     }
 
@@ -35,7 +36,7 @@ export async function uploadFile(
 
     return publicUrl
   } catch (error) {
-    console.error('Unexpected error during file upload:', error)
+    logger.error('Unexpected error during file upload', { error })
     return null
   }
 }
@@ -58,13 +59,13 @@ export async function deleteFile(
       .remove([path])
 
     if (error) {
-      console.error('File deletion error:', error)
+      logger.error('File deletion error', { error })
       return false
     }
 
     return true
   } catch (error) {
-    console.error('Unexpected error during file deletion:', error)
+    logger.error('Unexpected error during file deletion', { error })
     return false
   }
 }

@@ -5,6 +5,7 @@ import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
+import { logger } from '@/lib/logger'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
       hasMore
     })
   } catch (error) {
-    console.error('Error in GET /api/projects:', error)
+    logger.error('Error in GET /api/projects', { error })
     return NextResponse.json(
       { error: 'Failed to fetch projects' },
       { status: 500 }
@@ -102,7 +103,7 @@ export async function POST(request: Request) {
     if (projectError || !project) {
       // 检查 Supabase 错误代码，如果需要
       if (projectError?.code) {
-          console.error('Supabase error code:', projectError.code);
+          logger.error('Supabase error code', { detail: projectError.code });
       }
       throw projectError || new Error('Failed to create project')
     }
@@ -161,7 +162,7 @@ export async function POST(request: Request) {
           .eq('author_id', user.id)
 
         if (rollbackError) {
-          console.error('Failed to rollback project after child insert error:', rollbackError)
+          logger.error('Failed to rollback project after child insert error', { error: rollbackError })
         }
 
         throw childError

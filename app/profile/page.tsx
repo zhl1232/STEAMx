@@ -25,6 +25,7 @@ import { BadgeIcon } from "@/components/features/gamification/badge-icon"
 import { cn } from '@/lib/utils'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { getDisplayName } from '@/lib/utils/user'
+import { logger } from '@/lib/logger'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -154,7 +155,7 @@ export default function ProfilePage() {
         // 标记已加载完成
         hasLoadedRef.current = true
       } catch (err) {
-        console.error('Exception in loadUserProjects:', err)
+        logger.error('Exception in loadUserProjects', { error: err })
       } finally {
         setIsInitialLoad(false)
       }

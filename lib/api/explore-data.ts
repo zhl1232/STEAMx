@@ -14,6 +14,7 @@ import {
   type Comment,
 } from "@/lib/mappers/types";
 import { sanitizeSearch } from "@/lib/api/validation";
+import { logger } from "@/lib/logger";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
@@ -331,7 +332,7 @@ export async function getProjects(
   const { data, error, count } = await query;
 
   if (error) {
-    console.error("Error fetching projects:", error);
+    logger.error("Error fetching projects", { error });
     return { projects: [], total: 0, hasMore: false };
   }
 
@@ -382,7 +383,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
     .single();
 
   if (error || !data) {
-    console.error("Error fetching project:", error);
+    logger.error("Error fetching project", { error });
     return null;
   }
 
@@ -435,7 +436,7 @@ export async function getProjectComments(
     .is("parent_id", null);
 
   if (error) {
-    console.error("Error fetching project comments:", error);
+    logger.error("Error fetching project comments", { error });
     return { comments: [], total: 0, hasMore: false, likedCommentIds: [] };
   }
 
@@ -515,7 +516,7 @@ export async function getProjectComments(
         .eq("user_id", resolvedUserId)
         .in("comment_id", commentIds);
       if (likesError) {
-        console.error("Error fetching comment likes:", likesError);
+        logger.error("Error fetching comment likes", { error: likesError });
       } else if (likes) {
         likedCommentIds = likes
           .map((row) => row.comment_id)
@@ -562,7 +563,7 @@ export async function getRelatedProjects(
     .limit(limit);
 
   if (error || !data) {
-    console.error("Error fetching related projects:", error);
+    logger.error("Error fetching related projects", { error });
     return [];
   }
 
@@ -608,7 +609,7 @@ export async function getProjectCompletions(
     .limit(limit);
 
   if (error || !completions) {
-    console.error("Error fetching completions:", error);
+    logger.error("Error fetching completions", { error });
     return [];
   }
 

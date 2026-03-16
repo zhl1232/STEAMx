@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
+import { logger } from '@/lib/logger';
 
 /** 今日日期 YYYY-MM-DD（UTC），用于每日目标等 */
 export function getTodayKey(d: Date = new Date()): string {
@@ -46,7 +47,7 @@ export function formatRelativeTime(date: string | Date): string {
     });
     return str.replace(/^大约\s*/, '');
   } catch (error) {
-    console.error('Error formatting date:', error);
+    logger.error('Error formatting date', { error });
     return String(date);
   }
 }
@@ -66,7 +67,7 @@ export function formatFullDateTime(date: string | Date): string {
       minute: '2-digit'
     });
   } catch (error) {
-    console.error('Error formatting date:', error);
+    logger.error('Error formatting date', { error });
     return String(date);
   }
 }

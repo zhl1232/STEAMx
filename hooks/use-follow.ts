@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/context/auth-context";
 import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
+import { logger } from "@/lib/logger";
 
 export function useFollow(targetUserId: string) {
     const { user, profile, loading: authLoading } = useAuth();
@@ -20,7 +21,7 @@ export function useFollow(targetUserId: string) {
             const response = await fetch(`/api/follows/status?${params.toString()}`);
             if (response.status === 401) return false;
             if (!response.ok) {
-                console.error("Error checking follow status:", await response.text());
+                logger.error("Error checking follow status", { detail: await response.text() });
                 return false;
             }
             const payload = await response.json();
@@ -36,7 +37,7 @@ export function useFollow(targetUserId: string) {
              const params = new URLSearchParams({ targetUserId });
              const response = await fetch(`/api/follows/count?${params.toString()}`);
              if (!response.ok) {
-                 console.error("Error fetching follower count:", await response.text());
+                 logger.error("Error fetching follower count", { detail: await response.text() });
                  return 0;
              }
              const payload = await response.json();

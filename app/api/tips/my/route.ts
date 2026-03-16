@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { logger } from '@/lib/logger'
 
 const ALLOWED_TYPES = new Set(['project', 'completion'])
 
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ myTipped: (data as number) ?? 0 })
   } catch (error) {
-    console.error('Error in GET /api/tips/my:', error)
+    logger.error('Error in GET /api/tips/my', { error })
     return NextResponse.json({ error: 'Failed to fetch tips' }, { status: 500 })
   }
 }

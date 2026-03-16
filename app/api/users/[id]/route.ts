@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { mapProject, type DbProject } from '@/lib/mappers/project'
+import { logger } from '@/lib/logger'
 
 export async function GET(
   _request: NextRequest,
@@ -62,7 +63,7 @@ export async function GET(
       badgeIds,
     })
   } catch (error) {
-    console.error('Error in GET /api/users/[id]:', error)
+    logger.error('Error in GET /api/users/[id]', { error })
     return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 })
   }
 }

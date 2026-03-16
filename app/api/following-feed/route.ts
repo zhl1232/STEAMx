@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { mapProject, type DbProject } from '@/lib/mappers/project'
+import { logger } from '@/lib/logger'
 
 export async function GET() {
   const supabase = await createClient()
@@ -47,7 +48,7 @@ export async function GET() {
 
     return NextResponse.json({ projects, followingCount: followingIds.length })
   } catch (error) {
-    console.error('Error in GET /api/following-feed:', error)
+    logger.error('Error in GET /api/following-feed', { error })
     return NextResponse.json({ error: 'Failed to fetch following feed' }, { status: 500 })
   }
 }

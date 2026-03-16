@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { SupabaseClient, User } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/types'
+import { logger } from '@/lib/logger'
 
 /**
  * 认证错误类
@@ -110,7 +111,7 @@ export async function requireRole(
 export function handleApiError(error: unknown): NextResponse {
   // 开发环境记录详细错误
   if (process.env.NODE_ENV === 'development') {
-    console.error('API Error:', error)
+    logger.error('API Error', { error })
   }
 
   // 认证错误

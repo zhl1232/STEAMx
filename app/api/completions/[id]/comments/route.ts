@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { logger } from '@/lib/logger'
 
 function parseNumber(value: string | null, fallback: number) {
   const parsed = Number.parseInt(value || '', 10)
@@ -34,7 +35,7 @@ export async function GET(
 
     return NextResponse.json({ comments: data || [] })
   } catch (error) {
-    console.error('Error in GET /api/completions/[id]/comments:', error)
+    logger.error('Error in GET /api/completions/[id]/comments', { error })
     return NextResponse.json({ error: 'Failed to fetch comments' }, { status: 500 })
   }
 }

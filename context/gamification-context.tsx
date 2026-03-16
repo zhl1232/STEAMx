@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
+import { logger } from "@/lib/logger";
 
 import { BADGES } from "@/lib/gamification/badges";
 
@@ -125,7 +126,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 } as never);
 
             if (logError) {
-                console.error('Error logging XP:', logError);
+                logger.error('Error logging XP:', { error: logError });
                 return;
             }
 
@@ -226,14 +227,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                             onError: (error: unknown) => {
                                 processing.delete(badge.id); // Clear processing flag
                                 // upsert + ignoreDuplicates 不会报 409，此处仅处理真正的网络错误
-                                console.error(`Failed to unlock badge ${badge.id}`, error);
+                                logger.error(error, { context: `Failed to unlock badge ${badge.id}` });
                                 currentUnlocked.delete(badge.id);
                                 unlockedBadgesRef.current = new Set(currentUnlocked);
                             }
                         });
                     }
                 } catch (err) {
-                    console.error(`Error checking badge ${badge.id}`, err);
+                    logger.error(err, { context: `Error checking badge ${badge.id}` });
                     processing.delete(badge.id);
                 }
             }
@@ -296,15 +297,15 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                     duration: 4000,
                                 });
                             } else if (retryError && retryError.code !== '23505') {
-                                console.error('Check-in error:', retryError);
+                                logger.error('Check-in error:', { error: retryError });
                             }
                         } catch (retryErr) {
-                            console.error('Check-in failed after profile recovery:', retryErr);
+                            logger.error(retryErr, { context: 'Check-in failed after profile recovery' });
                         }
                         return;
                     }
                     if (error.code !== '23505') {
-                        console.error('Check-in error:', error);
+                        logger.error('Check-in error:', { error });
                     }
                     return;
                 }
@@ -332,7 +333,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     duration: 4000,
                 });
             } catch (err) {
-                console.error('Check-in failed:', err);
+                logger.error(err, { context: 'Check-in failed' });
             }
         };
 

@@ -12,6 +12,7 @@ import { SearchHighlight } from "@/components/ui/search-highlight";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 /** 讨论卡片组件 */
 type DiscussionListItem = Omit<Discussion, "replies"> & { repliesCount: number };
@@ -152,7 +153,7 @@ export function DiscussionList() {
 
             setHasMore(Boolean(payload?.hasMore));
         } catch (err) {
-            console.error('Exception in fetchDiscussions:', err);
+            logger.error('Exception in fetchDiscussions', { error: err });
         } finally {
             setIsLoading(false);
         }

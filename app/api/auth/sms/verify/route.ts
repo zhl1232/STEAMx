@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
+import { logger } from '@/lib/logger'
 
 const PHONE_EMAIL_PREFIX = 'p_'
 const PHONE_EMAIL_SUFFIX = '@phone.local'
@@ -317,7 +318,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ tokenHash, redirectTo, redirectUrl: actionLink })
   } catch (e) {
-    console.error('[auth/sms/verify]', e)
+    logger.error('[auth/sms/verify]', { error: e })
     return NextResponse.json(
       { error: '验证失败，请稍后重试' },
       { status: 500 }

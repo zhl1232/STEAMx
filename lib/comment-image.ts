@@ -3,6 +3,7 @@
  * 上传评论附图至 Supabase Storage 的 comment-images bucket
  */
 import { createClient } from "@/lib/supabase/client";
+import { logger } from "@/lib/logger";
 
 const BUCKET = "comment-images";
 const MAX_SIZE = 2 * 1024 * 1024; // 2MB
@@ -37,7 +38,7 @@ export async function uploadCommentImage(
   const { error } = await supabase.storage.from(BUCKET).upload(fileName, file);
 
   if (error) {
-    console.error("Upload comment image error:", error);
+    logger.error("Upload comment image error", { error });
     throw new CommentImageError("图片上传失败，请重试");
   }
 

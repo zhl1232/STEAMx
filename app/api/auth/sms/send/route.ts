@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendVerificationSms } from '@/lib/sms/send'
 import { createClient } from '@/lib/supabase/server'
+import { logger } from '@/lib/logger'
 
 const OTP_EXPIRY_MINUTES = 10
 const OTP_LENGTH = 6
@@ -116,7 +117,7 @@ export async function POST(req: Request) {
       expires_at: expiresAt.toISOString(),
     })
     if (insertError) {
-      console.error('[auth/sms/send] insert phone_otps:', insertError)
+      logger.error('[auth/sms/send] insert phone_otps', { error: insertError })
       const msg =
         process.env.NODE_ENV === 'development'
           ? `存储验证码失败: ${insertError.message}（若提示 relation "phone_otps" 不存在，请执行 supabase db push 或应用迁移）`
@@ -131,7 +132,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true })
   } catch (e) {
-    console.error('[auth/sms/send]', e)
+    logger.error('[auth/sms/send]', { error: e })
     const message = e instanceof Error ? e.message : String(e)
     return jsonError(message || '发送失败，请稍后重试', 500)
   }

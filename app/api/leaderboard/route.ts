@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getMonthStartISO, getWeekStartISO } from '@/lib/date-utils'
+import { logger } from '@/lib/logger'
 
 type LeaderboardType = 'xp' | 'badges' | 'projects'
 type XpTimeRange = 'weekly' | 'monthly' | 'alltime'
@@ -202,7 +203,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ users })
   } catch (error) {
-    console.error('Error in GET /api/leaderboard:', error)
+    logger.error('Error in GET /api/leaderboard', { error })
     return NextResponse.json({ error: 'Failed to fetch leaderboard' }, { status: 500 })
   }
 }

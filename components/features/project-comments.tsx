@@ -29,6 +29,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { getDisplayName } from "@/lib/utils/user";
 import { uploadCommentImage, CommentImageError } from "@/lib/comment-image";
 import { useToast } from "@/hooks/use-toast";
+import { logger } from "@/lib/logger";
 
 const getRootOrderFromComments = (items: Comment[]): string[] => {
   const order: string[] = [];
@@ -324,7 +325,7 @@ export function ProjectComments({
       setHasMore(Boolean(payload?.hasMore));
       if (payload?.total !== undefined) setTotal(payload.total);
     } catch (error) {
-      console.error("Error loading more comments:", error);
+      logger.error("Error loading more comments", { error });
     } finally {
       isLoadingMoreRef.current = false;
       setIsLoadingMore(false);
@@ -547,7 +548,7 @@ export function ProjectComments({
           return next;
         });
       } catch (error) {
-        console.error("Error toggling comment like:", error);
+        logger.error("Error toggling comment like", { error });
       }
     },
     [user, promptLogin],

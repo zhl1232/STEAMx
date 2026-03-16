@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   turbopack: {
     // Turbopack-specific options can be added here if needed
   },
@@ -13,11 +13,11 @@ const nextConfig = {
 
       {
         protocol: "https",
-        hostname: "lulfybqiiamdvbtdpqha.supabase.co",
+        hostname: "**.supabase.co",
       },
       {
         protocol: "https",
-        hostname: "spb-l3q6k3bebzxrok83.supabase.opentrust.net",
+        hostname: "**.supabase.opentrust.net",
       },
       {
         protocol: "https",
@@ -40,18 +40,5 @@ const nextConfig = {
     qualities: [72, 75, 80, 85],
   },
 };
-
-// Debug: Check if env vars are loaded during build
-if (process.env.NODE_ENV === "production") {
-  console.log("Build-time Env Check:");
-  console.log(
-    "NEXT_PUBLIC_SUPABASE_URL:",
-    process.env.NEXT_PUBLIC_SUPABASE_URL ? "Set" : "Missing",
-  );
-  console.log(
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY:",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "Set" : "Missing",
-  );
-}
 
 export default nextConfig;

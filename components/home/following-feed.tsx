@@ -9,6 +9,7 @@ import { ProjectCard } from "@/components/features/project-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserPlus, Compass } from "lucide-react";
+import { logger } from "@/lib/logger";
 
 export function FollowingFeed() {
     const { user, loading: authLoading } = useAuth();
@@ -42,7 +43,7 @@ export function FollowingFeed() {
                 setFollowingCount(payload?.followingCount || 0);
             } catch (err) {
                 if ((err as { name?: string }).name === "AbortError") return;
-                console.error("Error fetching following projects:", err);
+                logger.error("Error fetching following projects", { error: err });
             } finally {
                 if (!controller.signal.aborted) {
                     setIsLoading(false);

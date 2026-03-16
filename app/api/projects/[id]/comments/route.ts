@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getProjectComments } from '@/lib/api/explore-data'
+import { logger } from '@/lib/logger'
 
 function parseNumber(value: string | null, fallback: number) {
   const parsed = Number.parseInt(value || '', 10)
@@ -28,7 +29,7 @@ export async function GET(
     const data = await getProjectComments(projectId, page, pageSize)
     return NextResponse.json(data)
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/comments:', error)
+    logger.error('Error in GET /api/projects/[id]/comments', { error })
     return NextResponse.json({ error: 'Failed to fetch comments' }, { status: 500 })
   }
 }

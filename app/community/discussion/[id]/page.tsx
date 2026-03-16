@@ -20,6 +20,7 @@ import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ReplyCard } from "@/components/features/community/reply-card";
@@ -130,7 +131,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         setReplyPage(1);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
-        console.error("Exception in fetchDiscussion:", err);
+        logger.error("Exception in fetchDiscussion", { error: err });
         setNotFound(true);
       } finally {
         if (!controller.signal.aborted) {
@@ -178,7 +179,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       setHasMoreReplies(Boolean(payload?.hasMore));
       setTotalReplies((prev) => payload?.totalReplies ?? prev);
     } catch (error) {
-      console.error("Error loading more replies:", error);
+      logger.error("Error loading more replies", { error });
     } finally {
       isLoadingMoreRepliesRef.current = false;
       setIsLoadingMoreReplies(false);
@@ -240,7 +241,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           return next;
         });
       } catch (error) {
-        console.error("Error toggling reply like:", error);
+        logger.error("Error toggling reply like", { error });
       }
     },
     [user, promptLogin],
@@ -251,6 +252,25 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     rootReplyOrder.forEach((id, index) => map.set(id, index));
     return map;
   }, [rootReplyOrder]);
+
+  const topLevelReplies = useMemo(() => {
+    if (!discussion) return [];
+    const roots = discussion.replies.filter((r) => !r.parent_id);
+    if (roots.length <= 1) return roots;
+    return [...roots].sort((a, b) => {
+      const aKey = String(a.id);
+      const bKey = String(b.id);
+      const aIndex = rootReplyOrderIndex.get(aKey);
+      const bIndex = rootReplyOrderIndex.get(bKey);
+      if (aIndex != null && bIndex != null) return aIndex - bIndex;
+      if (aIndex != null) return -1;
+      if (bIndex != null) return 1;
+      const t1 = a.created_at ?? "";
+      const t2 = b.created_at ?? "";
+      if (t2 !== t1) return t2.localeCompare(t1);
+      return Number(b.id) - Number(a.id);
+    });
+  }, [discussion, rootReplyOrderIndex]);
 
   // Scroll to hash anchor on load
   useEffect(() => {
@@ -379,25 +399,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       };
     });
   };
-
-  const topLevelReplies = useMemo(() => {
-    if (!discussion) return [];
-    const roots = discussion.replies.filter((r) => !r.parent_id);
-    if (roots.length <= 1) return roots;
-    return [...roots].sort((a, b) => {
-      const aKey = String(a.id);
-      const bKey = String(b.id);
-      const aIndex = rootReplyOrderIndex.get(aKey);
-      const bIndex = rootReplyOrderIndex.get(bKey);
-      if (aIndex != null && bIndex != null) return aIndex - bIndex;
-      if (aIndex != null) return -1;
-      if (bIndex != null) return 1;
-      const t1 = a.created_at ?? "";
-      const t2 = b.created_at ?? "";
-      if (t2 !== t1) return t2.localeCompare(t1);
-      return Number(b.id) - Number(a.id);
-    });
-  }, [discussion, rootReplyOrderIndex]);
 
   return (
     <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl pb-28 md:pb-8">

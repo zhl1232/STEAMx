@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ count: count ?? 0 })
   } catch (error) {
-    console.error('Error in GET /api/follows/count:', error)
+    logger.error('Error in GET /api/follows/count', { error })
     return NextResponse.json({ error: 'Failed to fetch follower count' }, { status: 500 })
   }
 }

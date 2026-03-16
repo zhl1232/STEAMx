@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
 import { getTodayKey, getWeekKey, getWeekStartISO } from "@/lib/date-utils";
+import { logger } from "@/lib/logger";
 
 export interface ProjectCompletionProof {
   images: string[];
@@ -116,7 +117,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         );
       }
     } catch (error) {
-      console.error("Error fetching user interactions:", error);
+      logger.error(error, { context: "Error fetching user interactions" });
     } finally {
       setIsLoading(false);
     }
@@ -163,7 +164,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       } as never);
 
       if (error) {
-        console.error("RPC error fetching user stats:", error);
+        logger.error("RPC error fetching user stats:", { error });
         throw error;
       }
 
@@ -214,7 +215,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         minesweeperBestTime: 999,
       };
     } catch (error) {
-      console.error("Error fetching user stats:", error);
+      logger.error(error, { context: "Error fetching user stats" });
       return defaultStats;
     }
   }, [supabase, user]);
@@ -242,7 +243,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         .single();
 
       if (error || !newProject) {
-        console.error("Error adding project:", error);
+        logger.error("Error adding project:", { error });
         return;
       }
 
@@ -343,7 +344,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         .eq("author_id", user.id);
 
       if (projectError) {
-        console.error("Error updating project:", projectError);
+        logger.error("Error updating project:", { error: projectError });
         throw new Error("Failed to update project");
       }
 
@@ -403,7 +404,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         .single();
 
       if (error || !newComment) {
-        console.error("Error adding comment:", error);
+        logger.error("Error adding comment:", { error });
         return null;
       }
 
@@ -451,7 +452,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
           }
         } catch (err) {
-          console.error("Comment side effects error:", err);
+          logger.error(err, { context: "Comment side effects error" });
         }
       })();
 
@@ -517,7 +518,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             });
           }
         } catch (err) {
-          console.error("Error creating like notification:", err);
+          logger.error(err, { context: "Error creating like notification" });
         }
 
         // XP（内部会 refetchStats → 自动 checkBadges）
@@ -758,7 +759,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (!response.ok) {
-        console.error("Error deleting comment:", await response.text());
+        logger.error("Error deleting comment:", { detail: await response.text() });
       }
     },
     [user],

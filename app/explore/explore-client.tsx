@@ -9,6 +9,7 @@ import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
+import { logger } from '@/lib/logger'
 // import { useAuth } from '@/context/auth-context'
 
 // 类别配置：主分类 -> 子分类映射
@@ -112,7 +113,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             setHasMore(data.hasMore)
             setPage(prev => prev + 1)
         } catch (error) {
-            console.error('Error loading more projects:', error)
+            logger.error('Error loading more projects', { error })
         } finally {
             setIsLoadingMore(false)
         }
@@ -145,7 +146,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
             } catch (error) {
-                console.error('Error fetching projects:', error)
+                logger.error('Error fetching projects', { error })
             }
             router.push(`/explore?${params.toString()}`)
         })
@@ -205,7 +206,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
             } catch (error) {
-                console.error('Error fetching projects:', error)
+                logger.error('Error fetching projects', { error })
             }
             router.push('/explore')
         })

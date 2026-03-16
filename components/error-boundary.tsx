@@ -4,6 +4,7 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, Home, RefreshCw } from "lucide-react"
 import Link from "next/link"
+import { logger } from '@/lib/logger'
 
 interface ErrorBoundaryProps {
   children: React.ReactNode
@@ -26,7 +27,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo)
+    logger.error('Uncaught error', { error, errorInfo })
     // 可以在这里添加错误日志服务，比如 Sentry
   }
 

@@ -4,6 +4,7 @@
  */
 
 import { createClient } from "@/lib/supabase/client";
+import { logger } from "@/lib/logger";
 
 export interface Category {
   id: number;
@@ -32,7 +33,7 @@ export async function getCategories(): Promise<Category[]> {
   const { data, error } = await supabase.from("categories").select("*").order("sort_order");
 
   if (error) {
-    console.error("Error fetching categories:", error);
+    logger.error("Error fetching categories", { error });
     return [];
   }
 
@@ -52,7 +53,7 @@ export async function getSubCategories(categoryId: number): Promise<SubCategory[
     .order("sort_order");
 
   if (error) {
-    console.error("Error fetching sub categories:", error);
+    logger.error("Error fetching sub categories", { error });
     return [];
   }
 
@@ -72,7 +73,7 @@ export async function getCategoriesWithSubs(): Promise<CategoryWithSubs[]> {
     .order("sort_order");
 
   if (catError || !categories) {
-    console.error("Error fetching categories:", catError);
+    logger.error("Error fetching categories", { error: catError });
     return [];
   }
 
@@ -83,7 +84,7 @@ export async function getCategoriesWithSubs(): Promise<CategoryWithSubs[]> {
     .order("sort_order");
 
   if (subError || !subCategories) {
-    console.error("Error fetching sub categories:", subError);
+    logger.error("Error fetching sub categories", { error: subError });
     return (categories as Category[]).map((c) => ({ ...c, sub_categories: [] }));
   }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/auth-context";
+import { logger } from "@/lib/logger";
 
 export interface ModeratorEligibility {
     isEligible: boolean;
@@ -48,7 +49,7 @@ export function useModeratorEligibility() {
                 const payload = await response.json();
                 setEligibility((payload?.eligibility as ModeratorEligibility) || null);
             } catch (error) {
-                console.error('Error checking eligibility:', error);
+                logger.error('Error checking eligibility', { error });
                 setEligibility(null);
             } finally {
                 setIsLoading(false);

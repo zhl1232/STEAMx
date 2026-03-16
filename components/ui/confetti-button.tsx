@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Check } from "lucide-react";
+import { logger } from "@/lib/logger";
 
 interface ConfettiButtonProps extends React.ComponentProps<typeof Button> {
     isCompleted?: boolean;
@@ -36,7 +37,7 @@ export function ConfettiButton({ children, className, isCompleted, ...props }: C
                     colors: ['#6366f1', '#ec4899', '#14b8a6', '#f59e0b'],
                 });
             } catch (err) {
-                console.error("Failed to load confetti", err);
+                logger.error("Failed to load confetti", { error: err });
             }
         }
 

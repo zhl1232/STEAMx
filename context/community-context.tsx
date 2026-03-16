@@ -9,6 +9,7 @@ import { useNotifications } from "@/context/notification-context";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Comment, Discussion, Challenge } from "@/lib/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
+import { logger } from "@/lib/logger";
 
 
 
@@ -44,7 +45,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const fetchChallenges = useCallback(async () => {
         const response = await fetch('/api/challenges')
         if (!response.ok) {
-            console.error('Error fetching challenges:', await response.text())
+            logger.error('Error fetching challenges:', { detail: await response.text() })
             return
         }
         const payload = await response.json()
@@ -85,7 +86,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             .single();
 
         if (error || !newDiscussion) {
-            console.error('Error adding discussion:', error);
+            logger.error('Error adding discussion:', { error });
             return;
         }
 
@@ -115,7 +116,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             .single();
 
         if (error || !newReply) {
-            console.error('Error adding reply:', error);
+            logger.error('Error adding reply:', { error });
             return null;
         }
 
@@ -154,7 +155,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                     addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
                 }
             } catch (err) {
-                console.error("Reply side effects error:", err);
+                logger.error(err, { context: "Reply side effects error" });
             }
         })();
 
@@ -215,7 +216,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
         if (!response.ok) {
             setDiscussions(previousDiscussions);
-            console.error('Error deleting reply:', await response.text());
+            logger.error('Error deleting reply:', { detail: await response.text() });
         }
     }, [user, discussions]);
 
@@ -233,7 +234,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
         if (!response.ok) {
             setDiscussions(previousDiscussions);
-            console.error('Error deleting discussion:', await response.text());
+            logger.error('Error deleting discussion:', { detail: await response.text() });
         }
     }, [user, discussions]);
 
