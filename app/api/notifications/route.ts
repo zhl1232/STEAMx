@@ -66,6 +66,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
     }
 
+    if (content.length > 500) {
+      return NextResponse.json({ error: 'Content must not exceed 500 characters' }, { status: 400 })
+    }
+
     if (!ALLOWED_TYPES.has(type)) {
       return NextResponse.json({ error: 'Invalid type' }, { status: 400 })
     }

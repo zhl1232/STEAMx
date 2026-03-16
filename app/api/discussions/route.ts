@@ -143,6 +143,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
     }
 
+    if (title.length > 200) {
+      return NextResponse.json({ error: 'Title must not exceed 200 characters' }, { status: 400 })
+    }
+    if (content.length > 5000) {
+      return NextResponse.json({ error: 'Content must not exceed 5000 characters' }, { status: 400 })
+    }
+    if (tags.some((t: string) => t.length > 30)) {
+      return NextResponse.json({ error: 'Each tag must not exceed 30 characters' }, { status: 400 })
+    }
+
     const { data, error } = await supabase
       .from('discussions')
       .insert({

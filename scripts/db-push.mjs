@@ -76,6 +76,10 @@ function dim(msg) {
 if (!SUPABASE_URL) die("NEXT_PUBLIC_SUPABASE_URL 未设置");
 if (!SERVICE_KEY) die("SUPABASE_SERVICE_ROLE_KEY 未设置");
 
+function escapeSqlLiteral(str) {
+  return str.replace(/'/g, "''");
+}
+
 // ── SQL execution via pg-meta API ────────────────────
 
 async function execSQL(sql) {
@@ -205,7 +209,7 @@ async function push() {
       warn(`跳过空文件: ${m.file}`);
       await execSQL(
         `INSERT INTO public.${TRACKING_TABLE} (version, name)
-         VALUES ('${m.version}', '${m.file}')
+         VALUES ('${escapeSqlLiteral(m.version)}', '${escapeSqlLiteral(m.file)}')
          ON CONFLICT (version) DO NOTHING;`
       );
       continue;
@@ -220,7 +224,7 @@ async function push() {
       // 记录已执行
       await execSQL(
         `INSERT INTO public.${TRACKING_TABLE} (version, name)
-         VALUES ('${m.version}', '${m.file}')
+         VALUES ('${escapeSqlLiteral(m.version)}', '${escapeSqlLiteral(m.file)}')
          ON CONFLICT (version) DO NOTHING;`
       );
     } catch (err) {
@@ -253,7 +257,7 @@ async function baseline() {
   );
 
   const values = toMark
-    .map((m) => `('${m.version}', '${m.file}')`)
+    .map((m) => `('${escapeSqlLiteral(m.version)}', '${escapeSqlLiteral(m.file)}')`)
     .join(",\n    ");
   await execSQL(
     `INSERT INTO public.${TRACKING_TABLE} (version, name)

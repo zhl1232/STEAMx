@@ -38,3 +38,7 @@ next-env.d.ts
 # tests
 playwright-report/
 test-results/
+
+# CI/CD artifacts
+cloudflare-secrets*.json
+deploy-*.log

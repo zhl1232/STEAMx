@@ -19,7 +19,11 @@ export async function DELETE(
     
     const { id } = await params
     const tagId = parseInt(id)
-    
+
+    if (Number.isNaN(tagId)) {
+      return NextResponse.json({ error: 'Invalid tag id' }, { status: 400 })
+    }
+
     const { error } = await supabase
       .from('tags')
       .delete()

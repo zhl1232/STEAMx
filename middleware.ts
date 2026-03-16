@@ -104,6 +104,20 @@ export async function middleware(request: NextRequest) {
 
 const RATE_LIMIT_RULES: RateLimitRule[] = [
   {
+    id: 'api-sms-send',
+    methods: ['POST'],
+    pathPrefix: '/api/auth/sms/send',
+    limit: 3,
+    windowMs: 60_000,
+  },
+  {
+    id: 'api-sms-verify',
+    methods: ['POST'],
+    pathPrefix: '/api/auth/sms/verify',
+    limit: 5,
+    windowMs: 60_000,
+  },
+  {
     id: 'api-tips',
     methods: ['POST'],
     pathPrefix: '/api/tips',
@@ -200,14 +214,14 @@ function applyRateLimit(request: NextRequest): NextResponse | null {
   if (!pathname.startsWith('/api/')) return null
 
   const ip = getClientIp(request)
-  if (ip === 'unknown') return null
+  const rateLimitIp = ip === 'unknown' ? '__no_ip__' : ip
   for (const rule of RATE_LIMIT_RULES) {
     if (!request.method || !rule.methods.includes(request.method as RateLimitRule['methods'][number])) {
       continue
     }
     if (!matchesRule(rule, pathname)) continue
 
-    const key = `${rule.id}:${ip}`
+    const key = `${rule.id}:${rateLimitIp}`
     const result = consumeRateLimit(key, rule.limit, rule.windowMs)
     if (!result.allowed) {
       const retryAfterSeconds = Math.max(0, Math.ceil((result.resetAt - Date.now()) / 1000))

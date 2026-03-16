@@ -77,7 +77,7 @@ jobs:
 
           fs.writeFileSync('cloudflare-secrets.production.json', JSON.stringify(secrets))
           NODE
-          pnpm exec wrangler secret bulk cloudflare-secrets.production.json
+          pnpm exec wrangler secret bulk cloudflare-secrets.production.json --env=""
 
       - name: Deploy production worker
         id: deploy
