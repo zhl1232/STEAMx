@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { validateUUID } from '@/lib/api/validation'
 import { MessageSchema } from '@/lib/schemas'
 import type { Message } from '@/lib/types/database'
 
@@ -19,7 +20,8 @@ export async function GET(
   try {
     const user = await requireAuth(supabase)
     const { userId } = await params
-    if (!userId || userId === user.id) {
+    validateUUID(userId, 'userId')
+    if (userId === user.id) {
       return NextResponse.json({ error: 'Invalid user id' }, { status: 400 })
     }
 

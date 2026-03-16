@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import { logger } from '@/lib/logger'
+import { useToast } from '@/hooks/use-toast'
 // import { useAuth } from '@/context/auth-context'
 
 // 类别配置：主分类 -> 子分类映射
@@ -35,6 +36,7 @@ interface ExploreClientProps {
 export function ExploreClient({ initialProjects, initialHasMore, categories: propCategories, availableTags = [] }: ExploreClientProps) {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const { toast } = useToast()
     const [isPending, startTransition] = useTransition()
     const { clearLikesDeltaForProjects } = useProjects()
     // const { user } = useAuth()
@@ -114,10 +116,11 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
             setPage(prev => prev + 1)
         } catch (error) {
             logger.error('Error loading more projects', { error })
+            toast({ title: '加载失败', description: '无法加载更多项目，请稍后重试', variant: 'destructive' })
         } finally {
             setIsLoadingMore(false)
         }
-    }, [isLoadingMore, hasMore, page, buildSearchParams, clearLikesDeltaForProjects])
+    }, [isLoadingMore, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, toast])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
@@ -147,6 +150,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 setHasMore(data.hasMore)
             } catch (error) {
                 logger.error('Error fetching projects', { error })
+                toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
             }
             router.push(`/explore?${params.toString()}`)
         })
@@ -207,6 +211,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
                 setHasMore(data.hasMore)
             } catch (error) {
                 logger.error('Error fetching projects', { error })
+                toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
             }
             router.push('/explore')
         })

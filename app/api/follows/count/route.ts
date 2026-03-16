@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
+import { validateUUID } from '@/lib/api/validation'
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   try {
-    const targetUserId = request.nextUrl.searchParams.get('targetUserId') || ''
-    if (!targetUserId) {
-      return NextResponse.json({ error: 'Invalid target user' }, { status: 400 })
-    }
+    const targetUserId = validateUUID(
+      request.nextUrl.searchParams.get('targetUserId'),
+      'targetUserId'
+    )
 
     const { count, error } = await supabase
       .from('follows')

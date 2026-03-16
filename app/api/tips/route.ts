@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
     if (!ALLOWED_TYPES.has(resourceType) || Number.isNaN(resourceId)) {
       return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 })
     }
-    if (Number.isNaN(amount) || amount <= 0) {
-      return NextResponse.json({ error: 'Invalid amount' }, { status: 400 })
+    if (Number.isNaN(amount) || !Number.isInteger(amount) || amount <= 0 || amount > 2) {
+      return NextResponse.json({ error: 'Invalid amount (1–2)' }, { status: 400 })
     }
 
     const { data, error } = await supabase.rpc('tip_resource', {

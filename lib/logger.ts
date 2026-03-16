@@ -35,8 +35,8 @@ class Logger {
     /**
      * 记录错误日志
      */
-    error(error: Error | string, context?: LogContext) {
-        const errorMessage = error instanceof Error ? error.message : error
+    error(error: unknown, context?: LogContext) {
+        const errorMessage = error instanceof Error ? error.message : String(error)
         const errorStack = error instanceof Error ? error.stack : undefined
 
         if (this.isDevelopment) {
@@ -54,7 +54,7 @@ class Logger {
             if (error instanceof Error) {
                 Sentry.captureException(error, { extra: context })
             } else {
-                Sentry.captureMessage(error, { level: 'error', extra: context } as { level: string; extra: LogContext })
+                Sentry.captureMessage(errorMessage, { level: 'error', extra: context } as { level: string; extra: LogContext })
             }
         }
     }

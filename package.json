@@ -24,7 +24,10 @@
     "test:e2e": "playwright test",
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
     "prepare": "husky",
-    "compress:images": "node scripts/compress-project-images.mjs"
+    "compress:images": "node scripts/compress-project-images.mjs",
+    "db:push": "node scripts/db-push.mjs push",
+    "db:status": "node scripts/db-push.mjs status",
+    "db:baseline": "node scripts/db-push.mjs baseline"
   },
   "dependencies": {
     "@alicloud/dypnsapi20170525": "^2.0.0",

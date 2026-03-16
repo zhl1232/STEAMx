@@ -131,6 +131,44 @@ export function validateUrl(value: unknown, fieldName: string): string {
   }
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/**
+ * 验证 UUID 格式
+ * @throws ValidationError 如果不是合法 UUID
+ */
+export function validateUUID(value: unknown, fieldName: string): string {
+  if (typeof value !== 'string' || !UUID_RE.test(value)) {
+    throw new ValidationError(`${fieldName} must be a valid UUID`)
+  }
+  return value
+}
+
+/**
+ * 验证数字范围
+ * @throws ValidationError 如果不在范围内
+ */
+export function validateNumber(
+  value: unknown,
+  fieldName: string,
+  opts?: { min?: number; max?: number; integer?: boolean }
+): number {
+  const num = typeof value === 'string' ? Number(value) : value
+  if (typeof num !== 'number' || Number.isNaN(num)) {
+    throw new ValidationError(`${fieldName} must be a number`)
+  }
+  if (opts?.integer && !Number.isInteger(num)) {
+    throw new ValidationError(`${fieldName} must be an integer`)
+  }
+  if (opts?.min !== undefined && num < opts.min) {
+    throw new ValidationError(`${fieldName} must be at least ${opts.min}`)
+  }
+  if (opts?.max !== undefined && num > opts.max) {
+    throw new ValidationError(`${fieldName} must be at most ${opts.max}`)
+  }
+  return num
+}
+
 /**
  * 清理和限制搜索字符串
  * @param search 搜索字符串

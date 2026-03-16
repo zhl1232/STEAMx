@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { validateUUID } from '@/lib/api/validation'
 
 const PAGE_SIZE = 20
 const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
@@ -56,12 +57,12 @@ export async function POST(request: NextRequest) {
     const user = await requireAuth(supabase)
     const body = await request.json()
 
-    const userId = typeof body?.user_id === 'string' ? body.user_id : null
+    const userId = validateUUID(body?.user_id, 'user_id')
     const type = typeof body?.type === 'string' ? body.type : null
     const content =
       typeof body?.content === 'string' ? body.content.trim() : ''
 
-    if (!userId || !type || !content) {
+    if (!type || !content) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
     }
 

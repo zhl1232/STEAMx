@@ -57,47 +57,33 @@ export async function GET(
     const from = page * pageSize
     const to = from + pageSize - 1
 
+    // Phase 1: fetch root replies with counts for heat sorting
+    const MAX_ROOTS = 500
     const { data: rootReplies, count: rootCount, error: replyError } = await supabase
       .from('discussion_replies')
       .select(REPLY_SELECT, { count: 'exact' })
       .eq('discussion_id', discussionId)
       .is('parent_id', null)
+      .order('created_at', { ascending: false })
+      .limit(MAX_ROOTS)
 
     if (replyError) throw replyError
 
-    const { data: nestedReplies, error: nestedError } = await supabase
-      .from('discussion_replies')
-      .select(REPLY_SELECT)
-      .eq('discussion_id', discussionId)
-      .not('parent_id', 'is', null)
-      .order('created_at', { ascending: false })
-
-    if (nestedError) throw nestedError
-
     const rootMapped = mapReplyRows((rootReplies as unknown) as DbCommentWithProfile[] | null)
-    const nestedMapped = mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null)
-    const allReplies = [...rootMapped, ...nestedMapped]
 
-    // Build reply graph for heat calculation (likes + reply count)
-    const childrenByParent = new Map<number, Comment[]>()
-    for (const reply of allReplies) {
-      if (reply.parent_id == null) continue
-      const pid = Number(reply.parent_id)
-      if (Number.isNaN(pid)) continue
-      if (!childrenByParent.has(pid)) childrenByParent.set(pid, [])
-      childrenByParent.get(pid)!.push(reply)
-    }
-
-    const replyCountMemo = new Map<number, number>()
-    const countDescendants = (id: number): number => {
-      if (replyCountMemo.has(id)) return replyCountMemo.get(id)!
-      const children = childrenByParent.get(id) || []
-      let total = 0
-      for (const child of children) {
-        total += 1 + countDescendants(Number(child.id))
+    // Lightweight descendant count via a single aggregate query
+    const rootIds = rootMapped.map((r) => Number(r.id)).filter(Number.isFinite)
+    const childCountByRoot = new Map<number, number>()
+    if (rootIds.length > 0) {
+      const { data: countRows } = await supabase
+        .from('discussion_replies')
+        .select('parent_id')
+        .eq('discussion_id', discussionId)
+        .in('parent_id', rootIds) as { data: { parent_id: number }[] | null }
+      for (const row of countRows || []) {
+        const pid = Number(row.parent_id)
+        childCountByRoot.set(pid, (childCountByRoot.get(pid) || 0) + 1)
       }
-      replyCountMemo.set(id, total)
-      return total
     }
 
     const getLikeCount = (reply: Comment): number => {
@@ -113,8 +99,8 @@ export async function GET(
     }
 
     const sortedRoots = [...rootMapped].sort((a, b) => {
-      const heatA = getLikeCount(a) + countDescendants(Number(a.id))
-      const heatB = getLikeCount(b) + countDescendants(Number(b.id))
+      const heatA = getLikeCount(a) + (childCountByRoot.get(Number(a.id)) || 0)
+      const heatB = getLikeCount(b) + (childCountByRoot.get(Number(b.id)) || 0)
       if (heatB !== heatA) return heatB - heatA
       const t1 = a.created_at ?? ''
       const t2 = b.created_at ?? ''
@@ -123,34 +109,24 @@ export async function GET(
     })
 
     const pagedRoots = sortedRoots.slice(from, to + 1)
-    const pagedReplies: Comment[] = []
-    const seen = new Set<string>()
 
-    const collectDescendants = (rootId: number) => {
-      const queue = [rootId]
-      while (queue.length > 0) {
-        const id = queue.shift()!
-        const children = childrenByParent.get(id) || []
-        for (const child of children) {
-          const key = String(child.id)
-          if (seen.has(key)) continue
-          seen.add(key)
-          pagedReplies.push(child)
-          queue.push(Number(child.id))
-        }
-      }
+    // Phase 2: only fetch nested replies for the paginated roots
+    const pagedRootIds = pagedRoots.map((r) => Number(r.id)).filter(Number.isFinite)
+    let nestedMapped: Comment[] = []
+    if (pagedRootIds.length > 0) {
+      const { data: nestedReplies, error: nestedError } = await supabase
+        .from('discussion_replies')
+        .select(REPLY_SELECT)
+        .eq('discussion_id', discussionId)
+        .in('parent_id', pagedRootIds)
+        .order('created_at', { ascending: true })
+        .limit(200)
+
+      if (nestedError) throw nestedError
+      nestedMapped = mapReplyRows((nestedReplies as unknown) as DbCommentWithProfile[] | null)
     }
 
-    for (const root of pagedRoots) {
-      const key = String(root.id)
-      if (!seen.has(key)) {
-        seen.add(key)
-        pagedReplies.push(root)
-      }
-      collectDescendants(Number(root.id))
-    }
-
-    const mappedReplies = pagedReplies
+    const mappedReplies = [...pagedRoots, ...nestedMapped]
 
     let likedReplyIds: number[] = []
     const { data: authData } = await supabase.auth.getUser()

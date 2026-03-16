@@ -26,9 +26,11 @@ import { cn } from '@/lib/utils'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { getDisplayName } from '@/lib/utils/user'
 import { logger } from '@/lib/logger'
+import { useToast } from '@/hooks/use-toast'
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
+  const { toast } = useToast()
   const { likedProjects, completedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
@@ -156,6 +158,7 @@ export default function ProfilePage() {
         hasLoadedRef.current = true
       } catch (err) {
         logger.error('Exception in loadUserProjects', { error: err })
+        toast({ title: '加载失败', description: '无法加载个人资料数据，请稍后重试', variant: 'destructive' })
       } finally {
         setIsInitialLoad(false)
       }

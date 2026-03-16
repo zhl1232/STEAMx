@@ -340,9 +340,12 @@ export async function getProjects(
   const projectIds = rows.map((project) => project.id);
 
   if (projectIds.length > 0) {
-    const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
+    const { data: countRows, error: countError } = await supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: projectIds.map((id) => Number(id)),
     });
+    if (countError) {
+      logger.error("Error fetching comments count batch", { error: countError });
+    }
     const countByProjectId = new Map(
       ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
         row.project_id,
@@ -419,6 +422,8 @@ export async function getProjectComments(
   const from = page * pageSize;
   const to = from + pageSize - 1;
 
+  // Phase 1: fetch root comments (capped) for heat sorting
+  const MAX_ROOTS = 500;
   const {
     data: roots,
     error,
@@ -433,50 +438,31 @@ export async function getProjectComments(
       { count: "exact" },
     )
     .eq("project_id", Number(projectId))
-    .is("parent_id", null);
+    .is("parent_id", null)
+    .order("created_at", { ascending: false })
+    .limit(MAX_ROOTS);
 
   if (error) {
     logger.error("Error fetching project comments", { error });
     return { comments: [], total: 0, hasMore: false, likedCommentIds: [] };
   }
 
-  // Fetch all root comments to support hotness sorting (likes + reply count) before pagination.
   const rootComments = (roots || []).map(mapDbComment);
 
-  const { data: replies } = await supabase
-    .from("comments")
-    .select(`
-            *,
-            profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-        `)
-    .eq("project_id", Number(projectId))
-    .not("parent_id", "is", null)
-    .order("created_at", { ascending: true });
-
-  const replyComments = (replies || []).map(mapDbComment);
-  const allComments = [...rootComments, ...replyComments];
-
-  // Build reply graph for heat calculation (reply count as part of hotness)
-  const childrenByParent = new Map<number, Comment[]>();
-  for (const c of allComments) {
-    if (c.parent_id == null) continue;
-    const pid = Number(c.parent_id);
-    if (Number.isNaN(pid)) continue;
-    if (!childrenByParent.has(pid)) childrenByParent.set(pid, []);
-    childrenByParent.get(pid)!.push(c);
-  }
-
-  const replyCountMemo = new Map<number, number>();
-  const countDescendants = (id: number): number => {
-    if (replyCountMemo.has(id)) return replyCountMemo.get(id)!;
-    const children = childrenByParent.get(id) || [];
-    let total = 0;
-    for (const child of children) {
-      total += 1 + countDescendants(Number(child.id));
+  // Lightweight child count for heat sorting (only direct children)
+  const rootIds = rootComments.map((c) => Number(c.id)).filter(Number.isFinite);
+  const childCountByRoot = new Map<number, number>();
+  if (rootIds.length > 0) {
+    const { data: countRows } = await supabase
+      .from("comments")
+      .select("parent_id")
+      .eq("project_id", Number(projectId))
+      .in("parent_id", rootIds);
+    for (const row of countRows || []) {
+      const pid = Number(row.parent_id);
+      childCountByRoot.set(pid, (childCountByRoot.get(pid) || 0) + 1);
     }
-    replyCountMemo.set(id, total);
-    return total;
-  };
+  }
 
   const getLikeCount = (comment: Comment): number => {
     const raw = comment as Comment & {
@@ -492,8 +478,8 @@ export async function getProjectComments(
   };
 
   const sortedRoots = [...rootComments].sort((a, b) => {
-    const heatA = getLikeCount(a) + countDescendants(Number(a.id));
-    const heatB = getLikeCount(b) + countDescendants(Number(b.id));
+    const heatA = getLikeCount(a) + (childCountByRoot.get(Number(a.id)) || 0);
+    const heatB = getLikeCount(b) + (childCountByRoot.get(Number(b.id)) || 0);
     if (heatB !== heatA) return heatB - heatA;
     const t1 = a.created_at ?? "";
     const t2 = b.created_at ?? "";
@@ -502,11 +488,30 @@ export async function getProjectComments(
   });
 
   const pagedRoots = sortedRoots.slice(from, to + 1);
+
+  // Phase 2: only fetch replies for the paginated root comments
+  const pagedRootIds = pagedRoots.map((c) => Number(c.id)).filter(Number.isFinite);
+  let replyComments: Comment[] = [];
+  if (pagedRootIds.length > 0) {
+    const { data: replies } = await supabase
+      .from("comments")
+      .select(`
+              *,
+              profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
+          `)
+      .eq("project_id", Number(projectId))
+      .in("parent_id", pagedRootIds)
+      .order("created_at", { ascending: true })
+      .limit(200);
+
+    replyComments = (replies || []).map(mapDbComment);
+  }
+
   const responseComments = [...pagedRoots, ...replyComments];
 
   let likedCommentIds: number[] = [];
-  if (resolvedUserId && allComments.length > 0) {
-    const commentIds = allComments
+  if (resolvedUserId && responseComments.length > 0) {
+    const commentIds = responseComments
       .map((c) => Number(c.id))
       .filter((id) => Number.isFinite(id));
     if (commentIds.length > 0) {
@@ -570,9 +575,12 @@ export async function getRelatedProjects(
   const rows = data as unknown as ProjectRowForMapper[];
   const projectIds = rows.map((project) => project.id);
   if (projectIds.length > 0) {
-    const { data: countRows } = await supabase.rpc("get_projects_comments_count_batch", {
+    const { data: countRows, error: countError } = await supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: projectIds.map((id) => Number(id)),
     });
+    if (countError) {
+      logger.error("Error fetching comments count batch (related)", { error: countError });
+    }
     const countByProjectId = new Map(
       ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
         row.project_id,

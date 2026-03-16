@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { validateUUID } from '@/lib/api/validation'
 
 type Action = 'follow' | 'unfollow'
 
@@ -13,10 +14,10 @@ export async function POST(request: NextRequest) {
     await requireRateLimit(supabase, { key: 'api-follows-write', limit: 60, windowMs: 60_000 })
     const body = await request.json()
 
-    const targetUserId = typeof body?.targetUserId === 'string' ? body.targetUserId : ''
+    const targetUserId = validateUUID(body?.targetUserId, 'targetUserId')
     const action = typeof body?.action === 'string' ? (body.action as Action) : 'follow'
 
-    if (!targetUserId || targetUserId === user.id) {
+    if (targetUserId === user.id) {
       return NextResponse.json({ error: 'Invalid target user' }, { status: 400 })
     }
     if (action !== 'follow' && action !== 'unfollow') {

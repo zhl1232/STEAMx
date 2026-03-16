@@ -13,6 +13,7 @@ import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
+import { useToast } from "@/hooks/use-toast";
 
 /** 讨论卡片组件 */
 type DiscussionListItem = Omit<Discussion, "replies"> & { repliesCount: number };
@@ -96,6 +97,7 @@ function DiscussionCard({
 
 export function DiscussionList() {
     const { user, profile } = useAuth();
+    const { toast } = useToast();
     const { promptLogin: _promptLogin } = useLoginPrompt();
     const [isCreating, setIsCreating] = useState(false);
     const [newTitle, setNewTitle] = useState("");
@@ -154,10 +156,11 @@ export function DiscussionList() {
             setHasMore(Boolean(payload?.hasMore));
         } catch (err) {
             logger.error('Exception in fetchDiscussions', { error: err });
+            toast({ title: '加载失败', description: '无法加载讨论列表，请稍后重试', variant: 'destructive' });
         } finally {
             setIsLoading(false);
         }
-    }, [searchQuery, selectedTag, sortBy]);
+    }, [searchQuery, selectedTag, sortBy, toast]);
 
     // Fetch all discussions tags for filter
     useEffect(() => {

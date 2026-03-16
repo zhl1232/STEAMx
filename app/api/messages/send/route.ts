@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { validateUUID } from '@/lib/api/validation'
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -11,10 +12,10 @@ export async function POST(request: NextRequest) {
     await requireRateLimit(supabase, { key: 'api-messages-send', limit: 20, windowMs: 60_000 })
     const body = await request.json()
 
-    const receiverId = typeof body?.receiverId === 'string' ? body.receiverId : ''
+    const receiverId = validateUUID(body?.receiverId, 'receiverId')
     const content = typeof body?.content === 'string' ? body.content.trim() : ''
 
-    if (!receiverId || receiverId === user.id) {
+    if (receiverId === user.id) {
       return NextResponse.json({ error: 'Invalid receiver' }, { status: 400 })
     }
     if (!content) {
