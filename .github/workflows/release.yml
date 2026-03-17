@@ -47,6 +47,7 @@ jobs:
             -t steam-app:latest \
             .
           docker save steam-app:latest -o steam-app.tar
+          chmod 644 steam-app.tar
 
       - name: Copy image to server
         uses: appleboy/scp-action@v0.1.7
