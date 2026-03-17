@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { 
+import {
   PiThumbsUpDuotone,
   PiChatCircleTextDuotone,
   PiShareNetworkDuotone,
@@ -27,7 +27,13 @@ import {
   PiStarDuotone,
   PiHashDuotone,
   PiCrownDuotone,
-  PiGraduationCapDuotone
+  PiGraduationCapDuotone,
+  PiBrainDuotone,
+  PiShieldCheckDuotone,
+  PiSquaresFourDuotone,
+  PiEyeDuotone,
+  PiDnaDuotone,
+  PiStackDuotone,
 } from "react-icons/pi";
 
 export const PREMIUM_ICONS_MAP: Record<string, React.ElementType> = {
@@ -59,4 +65,12 @@ export const PREMIUM_ICONS_MAP: Record<string, React.ElementType> = {
   graduation_cap: PiGraduationCapDuotone,
   medal: PiMedalDuotone,
   default: PiSparkleDuotone,
+  // 游乐场游戏徽章
+  bomb: PiBugDuotone,
+  shield: PiShieldCheckDuotone,
+  "grid_3x3": PiSquaresFourDuotone,
+  brain: PiBrainDuotone,
+  dna: PiDnaDuotone,
+  eye: PiEyeDuotone,
+  layers: PiStackDuotone,
 };

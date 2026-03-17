@@ -5,11 +5,13 @@ import { BadgeTier } from "@/lib/gamification/types";
 import { cn } from "@/lib/utils";
 import { PREMIUM_ICONS_MAP } from "./premium-icons";
 
-export type BadgeIconKey = 
-  | "trophy" | "star" | "thumbs_up" | "message_circle" | "share_2" | "bookmark" 
-  | "zap" | "code_2" | "pen_tool" | "calculator" | "palette" | "users" | "heart" 
+export type BadgeIconKey =
+  | "trophy" | "star" | "thumbs_up" | "message_circle" | "share_2" | "bookmark"
+  | "zap" | "code_2" | "pen_tool" | "calculator" | "palette" | "users" | "heart"
   | "flame" | "target" | "footprints" | "shield_alert" | "award" | "hash" | "crown"
-  | "graduation_cap" | "medal" | "sparkles" | "box" | "rocket" | "bug" | "flag" | "flask" | "cake" | "default";
+  | "graduation_cap" | "medal" | "sparkles" | "box" | "rocket" | "bug" | "flag" | "flask" | "cake"
+  | "bomb" | "shield" | "grid_3x3" | "brain" | "dna" | "eye" | "layers"
+  | "default";
 
 export interface BadgeIconProps {
   icon: string; // Map string to icon

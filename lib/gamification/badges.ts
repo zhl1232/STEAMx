@@ -168,6 +168,35 @@ const SINGLE_BADGES: Badge[] = [
     { id: "minesweeper_rookie", name: "排雷新兵", description: "首次通关扫雷（任意难度）", icon: "bomb", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperWins >= 1 },
     { id: "minesweeper_expert", name: "排雷专家", description: "完成高级难度扫雷通关", icon: "shield", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperExpertWins >= 1 },
     { id: "minesweeper_speedster", name: "极速拆弹", description: "在 60 秒内通关扫雷（任意难度）", icon: "zap", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperBestTime > 0 && stats.minesweeperBestTime <= 60 },
+    // 五子棋专属徽章
+    { id: "gomoku_rookie", name: "开局先锋", description: "首次赢下一局五子棋", icon: "grid_3x3", kind: "single", seriesKey: "gomoku", condition: (stats) => (stats.gomokuWins ?? 0) >= 1 },
+    { id: "gomoku_strategist", name: "博弈策士", description: "在对战 AI 模式中取得胜利", icon: "brain", kind: "single", seriesKey: "gomoku", condition: (stats) => (stats.gomokuPvEWins ?? 0) >= 1 },
+    { id: "gomoku_master", name: "连珠大师", description: "累计赢下 10 局五子棋", icon: "trophy", kind: "single", seriesKey: "gomoku", condition: (stats) => (stats.gomokuWins ?? 0) >= 10 },
+    // 2048 专属徽章
+    { id: "game2048_first_win", name: "2048 达成", description: "首次合成 2048 方块", icon: "grid_3x3", kind: "single", seriesKey: "game2048", condition: (stats) => (stats.game2048Wins ?? 0) >= 1 },
+    { id: "game2048_4096", name: "超越极限", description: "合成 4096 方块", icon: "sparkles", kind: "single", seriesKey: "game2048", condition: (stats) => (stats.game2048MaxTile ?? 0) >= 4096 },
+    { id: "game2048_8192", name: "数字传说", description: "合成 8192 方块", icon: "crown", kind: "single", seriesKey: "game2048", condition: (stats) => (stats.game2048MaxTile ?? 0) >= 8192 },
+    { id: "game2048_high_scorer", name: "分数霸主", description: "单局得分超过 20000", icon: "trophy", kind: "single", seriesKey: "game2048", condition: (stats) => (stats.game2048BestScore ?? 0) >= 20000 },
+    // 24 点专属徽章
+    { id: "game24_first_solve", name: "心算入门", description: "首次算出 24 点", icon: "calculator", kind: "single", seriesKey: "game24", condition: (stats) => (stats.game24Solved ?? 0) >= 1 },
+    { id: "game24_streak_5", name: "连胜达人", description: "24 点连续解出 5 题", icon: "flame", kind: "single", seriesKey: "game24", condition: (stats) => (stats.game24BestStreak ?? 0) >= 5 },
+    { id: "game24_streak_10", name: "心算大师", description: "24 点连续解出 10 题", icon: "brain", kind: "single", seriesKey: "game24", condition: (stats) => (stats.game24BestStreak ?? 0) >= 10 },
+    { id: "game24_speed", name: "闪电速算", description: "在 10 秒内解出 24 点", icon: "zap", kind: "single", seriesKey: "game24", condition: (stats) => (stats.game24BestTime ?? 999) <= 10 },
+    { id: "game24_50", name: "数学达人", description: "累计解出 50 题 24 点", icon: "award", kind: "single", seriesKey: "game24", condition: (stats) => (stats.game24Solved ?? 0) >= 50 },
+    // 生命游戏专属徽章
+    { id: "life_explorer", name: "涌现探索者", description: "首次运行生命游戏", icon: "dna", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeSessions ?? 0) >= 1 },
+    { id: "life_observer", name: "永恒观测者", description: "生命游戏演化超过 1000 代", icon: "eye", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeMaxGen ?? 0) >= 1000 },
+    // 汉诺塔专属徽章
+    { id: "hanoi_first_win", name: "塔之初见", description: "首次通关汉诺塔", icon: "layers", kind: "single", seriesKey: "hanoi", condition: (stats) => (stats.hanoiWins ?? 0) >= 1 },
+    { id: "hanoi_perfect", name: "最优解", description: "以最少步数（2ⁿ−1）通关汉诺塔", icon: "sparkles", kind: "single", seriesKey: "hanoi", condition: (stats) => (stats.hanoiPerfect ?? 0) >= 1 },
+    { id: "hanoi_master", name: "递归大师", description: "通关 8 层汉诺塔", icon: "brain", kind: "single", seriesKey: "hanoi", condition: (stats) => (stats.hanoiWins ?? 0) >= 5 },
+    // 数独专属徽章
+    { id: "sudoku_first_win", name: "数独入门", description: "首次通关数独", icon: "hash", kind: "single", seriesKey: "sudoku", condition: (stats) => (stats.sudokuWins ?? 0) >= 1 },
+    { id: "sudoku_hard", name: "数独高手", description: "通关困难难度数独", icon: "sparkles", kind: "single", seriesKey: "sudoku", condition: (stats) => (stats.sudokuHardWins ?? 0) >= 1 },
+    { id: "sudoku_master", name: "约束大师", description: "累计通关 10 次数独", icon: "brain", kind: "single", seriesKey: "sudoku", condition: (stats) => (stats.sudokuWins ?? 0) >= 10 },
+    // N 皇后专属徽章
+    { id: "nqueens_first_solve", name: "皇后之手", description: "首次手动解出 N 皇后", icon: "crown", kind: "single", seriesKey: "nqueens", condition: (stats) => (stats.nqueensManualSolves ?? 0) >= 1 },
+    { id: "nqueens_master", name: "回溯专家", description: "累计手动解出 5 次 N 皇后", icon: "brain", kind: "single", seriesKey: "nqueens", condition: (stats) => (stats.nqueensManualSolves ?? 0) >= 5 },
 ];
 
 const RARE_BADGES: Badge[] = [
@@ -185,8 +214,14 @@ export const SERIES_ORDER: { key: string; label: string }[] = [
     ...TIERED_SERIES.map((s) => ({ key: s.seriesKey, label: s.label })),
     { key: "first_steps", label: "首步成就" },
     { key: "minesweeper", label: "扫雷游乐场" },
+    { key: "gomoku", label: "五子棋战局" },
+    { key: "game2048", label: "2048 挑战" },
+    { key: "game24", label: "24 点速算" },
+    { key: "life", label: "生命游戏" },
+    { key: "hanoi", label: "汉诺塔" },
+    { key: "sudoku", label: "数独" },
+    { key: "nqueens", label: "N 皇后" },
     { key: "rare", label: "稀有限定" },
-
 ];
 
 /**
@@ -201,7 +236,8 @@ export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, m
         const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleUnlocked = badges.filter((b) => (b.seriesKey === "first_steps" || b.seriesKey === "minesweeper" || b.seriesKey === "rare") && unlockedIds.has(b.id));
+    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "rare"]);
+    const singleUnlocked = badges.filter((b) => b.seriesKey && singleSeries.has(b.seriesKey) && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;
         result.push(b);

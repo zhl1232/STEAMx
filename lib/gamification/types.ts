@@ -22,6 +22,28 @@ export interface UserStats {
     minesweeperWins: number;       // 任意难度通关次数（有记录即有过通关）
     minesweeperExpertWins: number; // 高级难度通关次数
     minesweeperBestTime: number;   // 历史最快时间（秒），999 = 无记录
+    // 五子棋专属（本地战绩用于前端触发徽章）
+    gomokuWins?: number;           // 对局胜利场次
+    gomokuPvEWins?: number;        // 对战 AI 获胜次数
+    // 2048 专属
+    game2048BestScore?: number;    // 历史最高分
+    game2048MaxTile?: number;      // 达到过的最大方块
+    game2048Wins?: number;         // 达到 2048+ 的次数
+    // 24 点专属
+    game24Solved?: number;         // 累计解出题数
+    game24BestStreak?: number;     // 最长连胜
+    game24BestTime?: number | null; // 最快解题时间（秒）
+    // 生命游戏专属
+    gameOfLifeSessions?: number;   // 运行次数
+    gameOfLifeMaxGen?: number;     // 最高演化代数
+    // 汉诺塔专属
+    hanoiWins?: number;            // 通关次数
+    hanoiPerfect?: number;         // 以最优步数（2^n-1）通关次数
+    // 数独专属
+    sudokuWins?: number;           // 通关次数
+    sudokuHardWins?: number;       // 困难难度通关次数
+    // N 皇后专属
+    nqueensManualSolves?: number;  // 手动求解次数
 }
 
 export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";
