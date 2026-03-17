@@ -39,17 +39,14 @@ jobs:
             exit 1
           fi
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Build Docker image
         run: |
           docker build \
             --build-arg NEXT_PUBLIC_SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" \
             --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
             -t steam-app:latest \
-            -o type=docker,dest=steam-app.tar \
             .
+          docker save steam-app:latest -o steam-app.tar
 
       - name: Copy image to server
         uses: appleboy/scp-action@v0.1.7
