@@ -5,8 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PenBox } from "lucide-react";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
+import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart";
 import { Project, Profile } from "@/lib/mappers/types";
 import { User } from "@supabase/supabase-js";
+import type { UserStats } from "@/lib/gamification/types";
 
 interface MobileProfilePageProps {
   user: User;
@@ -17,6 +19,7 @@ interface MobileProfilePageProps {
   completedProjectsList: Project[];
   followerCount: number;
   followingCount: number;
+  userStats?: UserStats | null;
 }
 
 export function MobileProfilePage({
@@ -28,6 +31,7 @@ export function MobileProfilePage({
   completedProjectsList,
   followerCount,
   followingCount,
+  userStats,
 }: MobileProfilePageProps) {
   const [_activeTab, setActiveTab] = useState("works");
 
@@ -51,7 +55,10 @@ export function MobileProfilePage({
         followingCount={followingCount}
       />
 
-
+      {/* STEAM 雷达图 */}
+      <div className="px-4 pt-3">
+        <SteamRadarChart stats={userStats ?? null} />
+      </div>
 
       {/* Tabs Content */}
       <Tabs defaultValue="works" className="w-full flex-1" onValueChange={setActiveTab}>

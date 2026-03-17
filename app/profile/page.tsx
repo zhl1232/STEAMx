@@ -27,6 +27,8 @@ import { getNameColorClassName } from '@/lib/shop/items'
 import { getDisplayName } from '@/lib/utils/user'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
+import { useGamificationData } from "@/hooks/gamification/use-gamification-data"
+import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart"
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
@@ -34,6 +36,7 @@ export default function ProfilePage() {
   const { likedProjects, completedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
+  const { userStats } = useGamificationData()
   const supabase = useMemo(() => createClient(), [])
 
   // 独立加载的项目列表
@@ -201,6 +204,7 @@ export default function ProfilePage() {
                 completedProjectsList={completedProjectsList}
                 followerCount={followerCount}
                 followingCount={followingCount}
+                userStats={userStats}
             />
         </div>
 
@@ -321,17 +325,20 @@ export default function ProfilePage() {
 
         {/* ===== 右栏：主内容区 ===== */}
         <div className="flex-1 min-w-0">
-          {/* 等级进度卡片 */}
-          <div className="bg-card rounded-2xl border shadow-sm p-6 mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-muted-foreground">当前等级进度</span>
-              <LevelGuideDialog>
-                <button className="text-xs text-primary hover:text-primary/80 transition-colors hover:underline flex items-center gap-1">
-                  如何快速升级?
-                </button>
-              </LevelGuideDialog>
+          {/* 等级进度 + STEAM 雷达图 */}
+          <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-4 xl:gap-6 mb-6">
+            <div className="bg-card rounded-2xl border shadow-sm p-6">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-muted-foreground">当前等级进度</span>
+                <LevelGuideDialog>
+                  <button className="text-xs text-primary hover:text-primary/80 transition-colors hover:underline flex items-center gap-1">
+                    如何快速升级?
+                  </button>
+                </LevelGuideDialog>
+              </div>
+              <LevelProgress className="w-full" />
             </div>
-            <LevelProgress className="w-full" />
+            <SteamRadarChart stats={userStats ?? null} />
           </div>
 
           {/* 标签页切换 */}
