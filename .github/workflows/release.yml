@@ -17,85 +17,60 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.22.0
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Validate required deployment secrets
+      - name: Validate required secrets
         shell: bash
         run: |
           set -euo pipefail
-          required=(
-            CLOUDFLARE_API_TOKEN
-            CLOUDFLARE_ACCOUNT_ID
-            NEXT_PUBLIC_SUPABASE_URL
-            NEXT_PUBLIC_SUPABASE_ANON_KEY
-          )
-
-          for name in "${required[@]}"; do
-            if [ -z "${!name:-}" ]; then
-              echo "Missing required GitHub Actions secret: $name" >&2
-              exit 1
-            fi
+          missing=()
+          for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY; do
+            if [ -z "${!name:-}" ]; then missing+=("$name"); fi
           done
-
-      - name: Build production worker
-        run: pnpm exec opennextjs-cloudflare build
-
-      - name: Sync production runtime secrets to Cloudflare
-        continue-on-error: true
-        run: |
-          node - <<'NODE'
-          const fs = require('fs')
-          const secrets = {
-            NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-            NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-          }
-
-          if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-            secrets.SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-          }
-
-          fs.writeFileSync('cloudflare-secrets.production.json', JSON.stringify(secrets))
-          NODE
-          pnpm exec wrangler secret bulk cloudflare-secrets.production.json --env="" || echo "::warning::wrangler secret bulk 失败，请用「Edit Cloudflare Workers」预设创建 Token 或在 Cloudflare 控制台手动配置 Worker 的 Secrets"
-
-      - name: Deploy production worker
-        id: deploy
-        shell: bash
-        run: |
-          set -euo pipefail
-          pnpm exec opennextjs-cloudflare deploy 2>&1 | tee deploy-production.log
-          deploy_url=$(grep -Eo 'https://[^[:space:]]+' deploy-production.log | tail -n1)
-
-          if [ -z "$deploy_url" ]; then
-            echo 'Production deployment succeeded but no URL was detected in output.' >&2
+          if [ -z "${{ secrets.SERVER_HOST }}" ]; then missing+=("SERVER_HOST"); fi
+          if [ -z "${{ secrets.SERVER_USER }}" ]; then missing+=("SERVER_USER"); fi
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then missing+=("SSH_PRIVATE_KEY"); fi
+          if [ ${#missing[@]} -gt 0 ]; then
+            printf 'Missing secrets: %s\n' "${missing[*]}" >&2
             exit 1
           fi
 
-          echo "deploy_url=$deploy_url" >> "$GITHUB_OUTPUT"
-          {
-            echo '### Production Deployment'
-            echo "- URL: $deploy_url"
-            echo '- Worker: `steam`'
-          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
+            -t steam-app:latest \
+            -o type=docker,dest=steam-app.tar \
+            .
+
+      - name: Copy image to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: steam-app.tar
+          target: /tmp/
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            docker load -i /tmp/steam-app.tar
+            rm -f /tmp/steam-app.tar
+            cd /opt/steam-app
+            docker compose up -d --force-recreate --no-build
+            docker image prune -f

@@ -1,0 +1,15 @@
+node_modules
+.next
+.git
+.github
+.husky
+.cursor
+.env*.local
+*.log
+docs
+__tests__
+e2e
+coverage
+playwright-report
+supabase
+scripts
