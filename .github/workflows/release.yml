@@ -63,6 +63,7 @@ jobs:
         run: pnpm exec opennextjs-cloudflare build
 
       - name: Sync production runtime secrets to Cloudflare
+        continue-on-error: true
         run: |
           node - <<'NODE'
           const fs = require('fs')
@@ -77,7 +78,7 @@ jobs:
 
           fs.writeFileSync('cloudflare-secrets.production.json', JSON.stringify(secrets))
           NODE
-          pnpm exec wrangler secret bulk cloudflare-secrets.production.json --env=""
+          pnpm exec wrangler secret bulk cloudflare-secrets.production.json --env="" || echo "::warning::wrangler secret bulk 失败，请用「Edit Cloudflare Workers」预设创建 Token 或在 Cloudflare 控制台手动配置 Worker 的 Secrets"
 
       - name: Deploy production worker
         id: deploy
