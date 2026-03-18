@@ -166,6 +166,7 @@ export interface Database {
           updated_at: string
           status: string
           rejection_reason: string | null
+          challenge_id: number | null
         }
         Insert: {
           id?: number
@@ -184,6 +185,7 @@ export interface Database {
           updated_at?: string
           status?: string
           rejection_reason?: string | null
+          challenge_id?: number | null
         }
         Update: {
           id?: number
@@ -202,6 +204,7 @@ export interface Database {
           updated_at?: string
           status?: string
           rejection_reason?: string | null
+          challenge_id?: number | null
         }
         Relationships: []
       }
@@ -501,6 +504,24 @@ export interface Database {
           author_id?: string
           tags?: string[] | null
           likes_count?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      discussion_likes: {
+        Row: {
+          user_id: string
+          discussion_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          discussion_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          discussion_id?: number
           created_at?: string
         }
         Relationships: []
@@ -904,6 +925,14 @@ export interface Database {
       }
       decrement_comment_likes: {
         Args: { comment_id: number }
+        Returns: void
+      }
+      increment_discussion_likes: {
+        Args: { discussion_id: number }
+        Returns: void
+      }
+      decrement_discussion_likes: {
+        Args: { discussion_id: number }
         Returns: void
       }
       increment_discussion_reply_likes: {

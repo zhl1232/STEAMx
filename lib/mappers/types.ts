@@ -76,6 +76,8 @@ export interface Project {
     duration?: number
     tags?: string[]
     status?: 'draft' | 'pending' | 'approved' | 'rejected'
+    rejection_reason?: string | null
+    challenge_id?: number | null
 }
 
 /**
@@ -85,6 +87,15 @@ export interface ProjectStep {
     title: string
     description: string
     image_url?: string
+}
+
+/**
+ * 回复目标，用于底部输入框切换"回复 @xxx"模式
+ */
+export interface ReplyTarget {
+    id: number | string
+    author: string
+    userId?: string
 }
 
 /**
@@ -224,7 +235,9 @@ export function mapDbProject(
         difficulty_stars: dbProject.difficulty_stars || 3,
         duration: dbProject.duration || undefined,
         tags: dbProject.tags || [],
-        status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending'
+        status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
+        rejection_reason: dbProject.rejection_reason ?? null,
+        challenge_id: ('challenge_id' in dbProject ? (dbProject as Record<string, unknown>).challenge_id as number | null : null),
     }
 }
 

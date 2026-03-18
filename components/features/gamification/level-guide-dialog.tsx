@@ -134,45 +134,45 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
   const xpRules = [
     {
       action: "发布项目",
-      xp: 50,
+      reward: "+50",
       icon: <Sparkles className="h-4 w-4 text-yellow-500" />,
       desc: "分享你的创意作品",
     },
     {
       action: "完成项目",
-      xp: 20,
+      reward: "+20",
       icon: <Trophy className="h-4 w-4 text-orange-500" />,
       desc: "动手完成他人的项目",
     },
     {
       action: "参加挑战赛",
-      xp: 10,
+      reward: "+10",
       icon: <Target className="h-4 w-4 text-red-500" />,
       desc: "报名参与主题挑战",
     },
     {
       action: "发起讨论",
-      xp: 5,
+      reward: "+5",
       icon: <MessageSquare className="h-4 w-4 text-blue-500" />,
       desc: "在社区分享观点",
     },
     {
       action: "发表评论/回复",
-      xp: 1,
+      reward: "+1",
       icon: <FileText className="h-4 w-4 text-green-500" />,
-      desc: "参与互动交流 (每日上限 50 XP)",
+      desc: "参与互动交流（评论与回复分别每日上限 50 XP）",
     },
     {
       action: "点赞项目",
-      xp: 1,
+      reward: "+1",
       icon: <Heart className="h-4 w-4 text-pink-500" />,
       desc: "鼓励优秀作品 (每天无上限)",
     },
     {
       action: "每日登录",
-      xp: 5,
+      reward: "11~50+",
       icon: <Zap className="h-4 w-4 text-purple-500" />,
-      desc: "基础奖励 + 连签加成 (最高+20)",
+      desc: "基础 10 XP + 连签加成 + 连签节点奖励；累计登录里程碑另有额外奖励",
     },
   ];
 
@@ -230,7 +230,7 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="font-bold text-primary">+{rule.xp}</span>
+                        <span className="font-bold text-primary">{rule.reward}</span>
                         <span className="text-xs text-muted-foreground">XP</span>
                       </div>
                     </div>
@@ -244,8 +244,9 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
                 <Info className="h-4 w-4 mt-0.5 shrink-0" />
                 <p>
                   <strong>升级小贴士：</strong>{" "}
-                  坚持每日登录是获取经验最轻松的方式！连续登录天数越多，每日获得的额外加成越高（+1
-                  XP/天，封顶 +20 XP）。
+                  坚持每日登录是获取经验最稳定的方式。当前签到为基础 10 XP，连续登录每天额外
+                  +1 XP（封顶 +20），且连签达到 7/15/30 天后会进入更高奖励档；累计登录达到
+                  30/90/180/365 天时，还会获得额外里程碑 XP。
                 </p>
               </div>
             </div>

@@ -1,35 +1,26 @@
 "use client";
-import Link from "next/link";
 import Image from "next/image";
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
-import { RoleBadge } from "@/components/ui/role-badge";
 import {
   MessageCircle,
-  Trash2,
-  ThumbsUp,
-  MessageSquare,
   Loader2,
   ChevronRight,
   ChevronLeft,
-  ImagePlus,
   X,
 } from "lucide-react";
 import { useProjects } from "@/context/project-context";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
-import { type Comment } from "@/lib/mappers/types";
-import { cn } from "@/lib/utils";
-import { getNameColorClassName } from "@/lib/shop/items";
+import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";
-import { uploadCommentImage, CommentImageError } from "@/lib/comment-image";
-import { useToast } from "@/hooks/use-toast";
 import { logger } from "@/lib/logger";
+import { CommentCard } from "@/components/features/shared/comment-card";
+import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
 
 const getRootOrderFromComments = (items: Comment[]): string[] => {
   const order: string[] = [];
@@ -56,167 +47,12 @@ const mergeRootOrder = (current: string[], incoming: Comment[]): string[] => {
   return next;
 };
 
-/** 内联回复框 - 支持图片上传 */
-function ReplyWithImage({
-  comment,
-  canUploadImage,
-  user,
-  profile,
-  handleSubmitReply,
-  handleCancelReply,
-  toast,
-}: {
-  comment: Comment;
-  canUploadImage: boolean;
-  user: ReturnType<typeof useAuth>["user"];
-  profile: ReturnType<typeof useAuth>["profile"];
-  handleSubmitReply: (
-    e: React.FormEvent,
-    content: string,
-    parentId: number,
-    replyToUserId?: string,
-    replyToUsername?: string,
-    imageUrl?: string,
-  ) => void;
-  handleCancelReply: () => void;
-  toast: ReturnType<typeof useToast>["toast"];
-}) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      toast({ title: "图片大小不能超过 2MB", variant: "destructive" });
-      return;
-    }
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
-  };
-
-  const clearImage = () => {
-    setImageFile(null);
-    if (imagePreview) URL.revokeObjectURL(imagePreview);
-    setImagePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const content = textareaRef.current?.value || "";
-    if (!content.trim() && !imageFile) return;
-
-    setSubmitting(true);
-    try {
-      let imageUrl: string | undefined;
-      if (imageFile && user) {
-        try {
-          imageUrl = await uploadCommentImage(imageFile, user.id);
-        } catch (err) {
-          toast({
-            title: err instanceof CommentImageError ? err.message : "图片上传失败",
-            variant: "destructive",
-          });
-          return;
-        }
-      }
-      handleSubmitReply(e, content, Number(comment.id), comment.userId, comment.author, imageUrl);
-      if (textareaRef.current) textareaRef.current.value = "";
-      clearImage();
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
-      <form onSubmit={onSubmit} className="flex gap-3 items-start">
-        <AvatarWithFrame
-          src={profile?.avatar_url || user?.user_metadata?.avatar_url}
-          fallback="M"
-          avatarFrameId={profile?.equipped_avatar_frame_id}
-          className="h-8 w-8 shrink-0"
-          avatarClassName="h-8 w-8"
-        />
-        <div className="flex-1 space-y-2">
-          <textarea
-            ref={textareaRef}
-            placeholder={`回复 @${comment.author}...`}
-            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-            autoFocus
-          />
-          {imagePreview && (
-            <div className="relative inline-block">
-              <Image
-                src={imagePreview}
-                alt="待发送图片"
-                width={64}
-                height={64}
-                className="rounded-md border border-border/60 object-cover h-16 w-16"
-              />
-              <button
-                type="button"
-                onClick={clearImage}
-                className="absolute -top-1.5 -right-1.5 h-4.5 w-4.5 rounded-full bg-foreground/70 text-background flex items-center justify-center hover:bg-foreground/90 transition-colors"
-              >
-                <X className="h-2.5 w-2.5" />
-              </button>
-            </div>
-          )}
-          <div className="flex justify-between items-center">
-            <div>
-              {canUploadImage && (
-                <>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    className="hidden"
-                    onChange={handleImageSelect}
-                  />
-                  <button
-                    type="button"
-                    className="text-muted-foreground hover:text-foreground transition-colors p-1"
-                    onClick={() => fileInputRef.current?.click()}
-                    title="插入图片 (Lv.2 特权)"
-                  >
-                    <ImagePlus className="h-4 w-4" />
-                  </button>
-                </>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={handleCancelReply}
-                className="h-8"
-              >
-                取消
-              </Button>
-              <Button type="submit" size="sm" className="h-8" disabled={submitting}>
-                {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "发布"}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  );
-}
-
 interface ProjectCommentsProps {
   projectId: string | number;
   initialComments: Comment[];
   initialTotal?: number;
   initialHasMore?: boolean;
   initialLikedCommentIds?: Array<string | number>;
-  /** 与回复框同行的操作区（服务端不能传函数给客户端，故仅支持 ReactNode） */
   actionsSlot?: React.ReactNode;
 }
 
@@ -232,7 +68,6 @@ export function ProjectComments({
   const { user, profile } = useAuth();
   const { level } = useGamification();
   const { promptLogin } = useLoginPrompt();
-  const { toast } = useToast();
 
   const canUploadImage = level >= 2;
 
@@ -250,43 +85,14 @@ export function ProjectComments({
   const PREVIEW_LIKES_SHOW_2 = 3;
   const PREVIEW_LIKES_SHOW_3 = 8;
 
-  const [replyingTo, setReplyingTo] = useState<number | string | null>(null);
+  const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
+  const [sheetReplyTarget, setSheetReplyTarget] = useState<ReplyTarget | null>(null);
   const [detailRootIdStack, setDetailRootIdStack] = useState<(number | string)[]>([]);
   const [likedComments, setLikedComments] = useState<Set<string>>(
     () => new Set(initialLikedCommentIds.map((id) => String(id))),
   );
 
-  // 底部评论框 ref（非受控）
-  const mainTextareaRef = useRef<HTMLTextAreaElement>(null);
-  const [mainHasContent, setMainHasContent] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-
-  // 评论附图状态
-  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
-  const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
-  const mainFileInputRef = useRef<HTMLInputElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // 图片预览弹窗
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
-
-  const handleMainImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      toast({ title: "图片大小不能超过 2MB", variant: "destructive" });
-      return;
-    }
-    setMainImageFile(file);
-    setMainImagePreview(URL.createObjectURL(file));
-  };
-
-  const clearMainImage = () => {
-    setMainImageFile(null);
-    if (mainImagePreview) URL.revokeObjectURL(mainImagePreview);
-    setMainImagePreview(null);
-    if (mainFileInputRef.current) mainFileInputRef.current.value = "";
-  };
 
   const handleLoadMore = useCallback(async () => {
     if (isLoadingMoreRef.current || !hasMore) return;
@@ -348,91 +154,33 @@ export function ProjectComments({
     return () => observer.disconnect();
   }, [handleLoadMore, hasMore]);
 
-  const handleSubmitComment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const content = mainTextareaRef.current?.value || "";
-    if (!content.trim() && !mainImageFile) return;
+  const buildCommentPayload = useCallback(
+    (content: string, imageUrl?: string, replyToUserId?: string, replyToUsername?: string) => ({
+      id: 0,
+      author: getDisplayName({
+        profileName: profile?.display_name,
+        metadataFullName: user?.user_metadata?.full_name,
+        metadataName: user?.user_metadata?.name,
+        phone: user?.phone ?? null,
+        email: user?.email,
+        fallback: "Me",
+      }),
+      userId: user?.id,
+      avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
+      content: content || "",
+      image_url: imageUrl || null,
+      date: "刚刚",
+      reply_to_user_id: replyToUserId,
+      reply_to_username: replyToUsername,
+    }),
+    [profile, user],
+  );
 
-    const submitComment = async () => {
-      setIsSubmitting(true);
-      try {
-        // 上传附图
-        let imageUrl: string | undefined;
-        if (mainImageFile && user) {
-          try {
-            imageUrl = await uploadCommentImage(mainImageFile, user.id);
-          } catch (err) {
-            toast({
-              title: err instanceof CommentImageError ? err.message : "图片上传失败",
-              variant: "destructive",
-            });
-            return;
-          }
-        }
-
-        const addedComment = await addComment(projectId, {
-          id: 0,
-          author: getDisplayName({
-            profileName: profile?.display_name,
-            metadataFullName: user?.user_metadata?.full_name,
-            metadataName: user?.user_metadata?.name,
-            phone: user?.phone ?? null,
-            email: user?.email,
-            fallback: "Me",
-          }),
-          userId: user?.id,
-          avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-          content: content || "",
-          image_url: imageUrl || null,
-          date: "刚刚",
-        });
-
-        if (addedComment) {
-          setComments((prev: Comment[]) => {
-            const merged = new Map<string, Comment>();
-            for (const c of [addedComment, ...prev]) {
-              merged.set(String(c.id), c);
-            }
-            return Array.from(merged.values());
-          });
-          if (!addedComment.parent_id) {
-            const key = String(addedComment.id);
-            setRootOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
-          }
-          setTotal((prev: number) => prev + 1);
-          if (mainTextareaRef.current) {
-            mainTextareaRef.current.value = "";
-            setMainHasContent(false);
-          }
-          clearMainImage();
-          setIsFocused(false);
-        }
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
-
-    if (!user) {
-      promptLogin(
-        () => {
-          submitComment();
-        },
-        {
-          title: "登录以发表评论",
-          description: "登录后即可参与讨论，分享你的想法",
-        },
-      );
-      return;
-    }
-
-    submitComment();
-  };
-
-  const handleSubmitReply = useCallback(
+  const handleSubmit = useCallback(
     async (
       e: React.FormEvent,
       content: string,
-      parentId: number,
+      parentId?: number,
       replyToUserId?: string,
       replyToUsername?: string,
       imageUrl?: string,
@@ -440,59 +188,59 @@ export function ProjectComments({
       e.preventDefault();
       if (!content.trim() && !imageUrl) return;
 
-      const submitReply = async () => {
-        const addedReply = await addComment(
-          projectId,
-          {
-            id: 0,
-            author: getDisplayName({
-              profileName: profile?.display_name,
-              metadataFullName: user?.user_metadata?.full_name,
-              metadataName: user?.user_metadata?.name,
-              phone: user?.phone ?? null,
-              email: user?.email,
-              fallback: "Me",
-            }),
-            userId: user?.id,
-            avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
-            content: content || "",
-            image_url: imageUrl || null,
-            date: "刚刚",
-            reply_to_user_id: replyToUserId,
-            reply_to_username: replyToUsername,
-          },
-          parentId,
-        );
-
-        if (addedReply) {
-          setComments((prev: Comment[]) => {
-            const merged = new Map<string, Comment>();
-            for (const c of [addedReply, ...prev]) {
-              merged.set(String(c.id), c);
+      const doSubmit = async () => {
+        if (parentId != null) {
+          const addedReply = await addComment(
+            projectId,
+            buildCommentPayload(content, imageUrl, replyToUserId, replyToUsername),
+            parentId,
+          );
+          if (addedReply) {
+            setComments((prev: Comment[]) => {
+              const merged = new Map<string, Comment>();
+              for (const c of [addedReply, ...prev]) merged.set(String(c.id), c);
+              return Array.from(merged.values());
+            });
+            setTotal((prev: number) => prev + 1);
+            setReplyTarget(null);
+            setSheetReplyTarget(null);
+          }
+        } else {
+          const addedComment = await addComment(
+            projectId,
+            buildCommentPayload(content, imageUrl),
+          );
+          if (addedComment) {
+            setComments((prev: Comment[]) => {
+              const merged = new Map<string, Comment>();
+              for (const c of [addedComment, ...prev]) merged.set(String(c.id), c);
+              return Array.from(merged.values());
+            });
+            if (!addedComment.parent_id) {
+              const key = String(addedComment.id);
+              setRootOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
             }
-            return Array.from(merged.values());
-          });
-          setTotal((prev: number) => prev + 1);
-          setReplyingTo(null);
+            setTotal((prev: number) => prev + 1);
+          }
         }
       };
 
       if (!user) {
         promptLogin(
-          () => {
-            submitReply();
-          },
+          () => { doSubmit(); },
           {
-            title: "登录以回复评论",
-            description: "登录后即可参与讨论，回复其他用户",
+            title: parentId != null ? "登录以回复评论" : "登录以发表评论",
+            description: parentId != null
+              ? "登录后即可参与讨论，回复其他用户"
+              : "登录后即可参与讨论，分享你的想法",
           },
         );
         return;
       }
 
-      submitReply();
+      doSubmit();
     },
-    [addComment, projectId, user, profile, promptLogin],
+    [addComment, projectId, user, promptLogin, buildCommentPayload],
   );
 
   const handleDeleteComment = async (commentId: string | number) => {
@@ -506,10 +254,6 @@ export function ProjectComments({
       return prev.filter((c: Comment) => String(c.id) !== key);
     });
   };
-
-  const handleCancelReply = useCallback(() => {
-    setReplyingTo(null);
-  }, []);
 
   const handleToggleLike = useCallback(
     async (commentId: string | number) => {
@@ -595,7 +339,6 @@ export function ProjectComments({
     return count;
   }, [childrenByParent]);
 
-  /** 某条评论下的全部回复（含多级），平铺列表，用于「共 N 条」与详情页 */
   const getRepliesUnderRoot = useCallback(
     (rootId: number | string): Comment[] => {
       const rid = Number(rootId);
@@ -605,7 +348,6 @@ export function ProjectComments({
       while (queue.length > 0) {
         const id = queue.shift()!;
         const children = sortByTimeAsc(childrenByParent.get(id) || []);
-        // 同一父节点下按时间正序（新的在后）
         for (const child of children) {
           result.push(child);
           queue.push(Number(child.id));
@@ -656,170 +398,14 @@ export function ProjectComments({
   }, [comments, rootOrderIndex]);
 
   const commentsListRef = useRef<HTMLDivElement>(null);
-  const sheetReplyRef = useRef<HTMLTextAreaElement>(null);
 
-  /** 单条评论卡片：展示 + 可选回复框，无嵌套列表 */
-  const CommentCard = ({
-    comment,
-    showReplyForm = true,
-    readOnly = false,
-    noBorder = false,
-    compact = false,
-  }: {
-    comment: Comment;
-    showReplyForm?: boolean;
-    readOnly?: boolean;
-    noBorder?: boolean;
-    compact?: boolean;
-  }) => {
-    const isReplying = replyingTo === comment.id;
-    const isLiked = likedComments.has(String(comment.id));
-    const likesCount = comment.likes_count ?? 0;
-
-
-    const UserLink = ({
-      children,
-      className,
-    }: {
-      children: React.ReactNode;
-      className?: string;
-    }) => {
-      if (comment.userId) {
-        return (
-          <Link href={`/users/${comment.userId}`} className={className}>
-            {children}
-          </Link>
-        );
-      }
-      return <span className={className}>{children}</span>;
-    };
-
-    return (
-      <div
-        className={cn(
-          "group flex gap-2",
-          compact ? "py-3" : "py-4 sm:py-6 sm:gap-4",
-          !noBorder && "border-b border-border/60 last:border-0",
-        )}
-      >
-        <UserLink className="shrink-0">
-          <AvatarWithFrame
-            src={comment.avatar}
-            fallback={comment.author[0]?.toUpperCase()}
-            avatarFrameId={comment.avatarFrameId}
-            className={cn(
-              "shrink-0 border transition-transform hover:scale-105",
-              compact ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12",
-            )}
-            avatarClassName={compact ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"}
-          />
-        </UserLink>
-
-        <div className="flex-1 min-w-0 overflow-hidden">
-          <div className="mb-0 flex items-center gap-1.5">
-            {comment.role && comment.role !== "user" && <RoleBadge role={comment.role} size="sm" className="shrink-0" />}
-            <UserLink
-              className={cn(
-                "font-semibold cursor-pointer hover:text-primary transition-colors",
-                compact ? "text-sm" : "text-base",
-                getNameColorClassName(comment.nameColorId ?? null),
-              )}
-            >
-              {comment.author}
-            </UserLink>
-          </div>
-
-          <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
-            {comment.reply_to_username && (
-              <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-2 align-middle">
-                回复 @{comment.reply_to_username}
-              </span>
-            )}
-            {comment.content}
-          </p>
-          {comment.image_url && (
-            <button
-              type="button"
-              className="mt-2 block"
-              onClick={() => setPreviewImageUrl(comment.image_url!)}
-            >
-              <Image
-                src={comment.image_url}
-                alt="评论附图"
-                width={200}
-                height={200}
-                className="rounded-lg border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
-              />
-            </button>
-          )}
-
-          {!readOnly && (
-            <div className="flex justify-between items-center gap-2 mt-2 text-xs text-muted-foreground">
-              <div className="flex items-center gap-4 shrink-0 min-w-0">
-                <span className="shrink-0">{comment.date}</span>
-                {showReplyForm && (
-                  <button
-                    type="button"
-                    className={cn(
-                      "shrink-0 flex items-center gap-1 hover:text-primary transition-colors",
-                      isReplying && "text-primary",
-                    )}
-                    onClick={() => setReplyingTo(comment.id)}
-                  >
-                    <MessageSquare className="h-3.5 w-3.5" />
-                    <span>回复</span>
-                  </button>
-                )}
-              </div>
-              <div className="flex items-center gap-x-4 shrink-0">
-                <button
-                  type="button"
-                  className={cn(
-                    "flex items-center gap-1 transition-colors",
-                    isLiked ? "text-primary" : "hover:text-primary",
-                  )}
-                  title="赞"
-                  aria-label="赞"
-                  onClick={() => handleToggleLike(comment.id)}
-                >
-                  <ThumbsUp className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
-                  <span className="tabular-nums">{likesCount}</span>
-                </button>
-                {(user?.id === comment.userId ||
-                  profile?.role === "admin" ||
-                  profile?.role === "moderator" ||
-                  profile?.role === "teacher") && (
-                  <button
-                    type="button"
-                    className="flex items-center gap-1 transition-colors text-muted-foreground hover:text-destructive"
-                    onClick={() => handleDeleteComment(comment.id)}
-                    title="删除"
-                    aria-label="删除"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {showReplyForm && !readOnly && isReplying && (
-            <ReplyWithImage
-              comment={comment}
-              canUploadImage={canUploadImage}
-              user={user}
-              profile={profile}
-              handleSubmitReply={handleSubmitReply}
-              handleCancelReply={handleCancelReply}
-              toast={toast}
-            />
-          )}
-        </div>
-      </div>
-    );
+  const handleReply = (target: ReplyTarget) => {
+    setReplyTarget(target);
   };
 
-  const isExpanded = isFocused || mainHasContent || !!mainImageFile;
+  const handleSheetReply = (target: ReplyTarget) => {
+    setSheetReplyTarget(target);
+  };
 
   return (
     <div className="border-t pt-8 relative md:px-6 lg:px-8">
@@ -829,7 +415,6 @@ export function ProjectComments({
         <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
       </h3>
 
-      {/* Comments List - 不设固定高度，随内容增高，整页滚动，避免内部滚动条与多余空白 */}
       <div className="mb-8">
         {comments.length > 0 ? (
           <>
@@ -844,9 +429,17 @@ export function ProjectComments({
                     <div key={comment.id} className="border-b border-border/60 last:border-0">
                       <CommentCard
                         comment={comment}
-                        showReplyForm={true}
-                        readOnly={false}
+                        showReplyButton
                         noBorder
+                        enableUserLink
+                        user={user}
+                        profile={profile}
+                        isLiked={likedComments.has(String(comment.id))}
+                        replyTarget={replyTarget}
+                        onToggleLike={handleToggleLike}
+                        onDelete={handleDeleteComment}
+                        onReply={handleReply}
+                        onImageClick={setPreviewImageUrl}
                       />
                       {previewReplies.length > 0 && (
                         <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
@@ -857,10 +450,18 @@ export function ProjectComments({
                             >
                               <CommentCard
                                 comment={reply}
-                                showReplyForm={true}
-                                readOnly={false}
+                                showReplyButton
                                 noBorder
                                 compact
+                                enableUserLink
+                                user={user}
+                                profile={profile}
+                                isLiked={likedComments.has(String(reply.id))}
+                                replyTarget={replyTarget}
+                                onToggleLike={handleToggleLike}
+                                onDelete={handleDeleteComment}
+                                onReply={handleReply}
+                                onImageClick={setPreviewImageUrl}
                               />
                             </div>
                           ))}
@@ -871,7 +472,8 @@ export function ProjectComments({
                           type="button"
                           onClick={() => {
                             setDetailRootIdStack([comment.id]);
-                            setReplyingTo(null);
+                            setReplyTarget(null);
+                            setSheetReplyTarget(null);
                           }}
                           className="ml-12 sm:ml-16 flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2.5 pl-0 pr-3 pb-3 rounded-md hover:bg-muted/40 active:bg-muted/60"
                         >
@@ -909,12 +511,15 @@ export function ProjectComments({
         )}
       </div>
 
-      {/* 评论详情 Sheet：栈式钻取 + 查看对话 + 返回 */}
+      {/* 评论详情 Sheet */}
       <Sheet
         open={detailRootIdStack.length > 0}
         onOpenChange={(open) => {
-          if (!open) setDetailRootIdStack([]);
-          setReplyingTo(null);
+          if (!open) {
+            setDetailRootIdStack([]);
+            setSheetReplyTarget(null);
+          }
+          setReplyTarget(null);
         }}
       >
         <SheetContent side="bottom" className="h-[70vh] flex flex-col p-0">
@@ -941,10 +546,23 @@ export function ProjectComments({
               );
               const detailReplies = getRepliesUnderRoot(currentRootId);
               if (!rootComment) return null;
+              const defaultTarget: ReplyTarget = {
+                id: rootComment.id,
+                author: rootComment.author,
+                userId: rootComment.userId,
+              };
               return (
                 <>
                   <div className="flex-1 overflow-auto px-4">
-                    <CommentCard comment={rootComment} showReplyForm={false} readOnly={true} />
+                    <CommentCard
+                      comment={rootComment}
+                      showReplyButton={false}
+                      readOnly
+                      enableUserLink
+                      user={user}
+                      profile={profile}
+                      onImageClick={setPreviewImageUrl}
+                    />
                     <p className="text-sm text-muted-foreground py-2">
                       相关回复共 {detailReplies.length} 条
                     </p>
@@ -952,7 +570,20 @@ export function ProjectComments({
                       const childCount = getRepliesUnderRoot(c.id).length;
                       return (
                         <div key={c.id} className="border-b border-border/60 last:border-0">
-                          <CommentCard comment={c} showReplyForm={true} readOnly={false} noBorder />
+                          <CommentCard
+                            comment={c}
+                            showReplyButton
+                            noBorder
+                            enableUserLink
+                            user={user}
+                            profile={profile}
+                            isLiked={likedComments.has(String(c.id))}
+                            replyTarget={sheetReplyTarget}
+                            onToggleLike={handleToggleLike}
+                            onDelete={handleDeleteComment}
+                            onReply={handleSheetReply}
+                            onImageClick={setPreviewImageUrl}
+                          />
                           {childCount > 0 && (
                             <button
                               type="button"
@@ -966,143 +597,34 @@ export function ProjectComments({
                       );
                     })}
                   </div>
-                  <div className="shrink-0 border-t p-4 bg-background">
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        const content = sheetReplyRef.current?.value?.trim();
-                        if (!content) return;
-                        handleSubmitReply(
-                          e,
-                          content,
-                          Number(currentRootId),
-                          rootComment.userId,
-                          rootComment.author,
-                        );
-                        if (sheetReplyRef.current) sheetReplyRef.current.value = "";
-                      }}
-                      className="flex gap-2 items-end"
-                    >
-                      <textarea
-                        ref={sheetReplyRef}
-                        placeholder={`回复 @${rootComment.author}...`}
-                        className="min-h-[60px] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm resize-none"
-                      />
-                      <Button type="submit" size="sm" className="shrink-0 h-9">
-                        发布
-                      </Button>
-                    </form>
-                  </div>
+                  <BottomReplyBox
+                    variant="sheet"
+                    user={user}
+                    profile={profile}
+                    defaultTarget={defaultTarget}
+                    replyTarget={sheetReplyTarget}
+                    onCancelReply={() => setSheetReplyTarget(null)}
+                    canUploadImage={canUploadImage}
+                    onSubmit={handleSubmit}
+                  />
                 </>
               );
             })()}
         </SheetContent>
       </Sheet>
 
-      {/* 底部固定悬浮栏：顶部极细灰线+轻微上投影，区分滚动内容与固定输入区 */}
-      <div className="fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-border/80 dark:border-border md:border-t-0 px-4 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:shadow-none">
-        <div className="flex items-center gap-3 max-w-4xl mx-auto w-full">
-          <AvatarWithFrame
-            src={profile?.avatar_url || user?.user_metadata?.avatar_url}
-            fallback={profile?.display_name?.[0]?.toUpperCase() || "Me"}
-            avatarFrameId={profile?.equipped_avatar_frame_id}
-            className="h-9 w-9 border shrink-0"
-            avatarClassName="h-9 w-9"
-          />
-          <form onSubmit={handleSubmitComment} className="flex-1 min-w-0 mr-4">
-            {/* file input 始终挂载，避免文件选择器打开时 DOM 卸载导致 onChange 丢失 */}
-            {canUploadImage && (
-              <input
-                ref={mainFileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                className="hidden"
-                onChange={handleMainImageSelect}
-              />
-            )}
-            <div
-              className={cn(
-                "w-full min-w-0 bg-[#F0F2F5] dark:bg-muted/90 overflow-hidden transition-all duration-200 ease-out",
-                "focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-0",
-                "min-w-[160px]",
-                isExpanded ? "rounded-xl" : "rounded-3xl",
-              )}
-            >
-              <textarea
-                ref={mainTextareaRef}
-                placeholder="说点什么..."
-                rows={1}
-                onChange={(e) => setMainHasContent(e.target.value.trim().length > 0)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => {
-                  if (!mainTextareaRef.current?.value && !mainImageFile) setIsFocused(false);
-                }}
-                className={cn(
-                  "py-3 px-4 w-full bg-transparent text-base placeholder:text-muted-foreground focus-visible:outline-none resize-none leading-normal",
-                  isExpanded ? "min-h-[80px] max-h-[200px]" : "min-h-[44px] max-h-[120px]",
-                )}
-              />
-              {/* 展开后：图片预览 + 底部工具栏 */}
-              {isExpanded && (
-                <>
-                  {mainImagePreview && (
-                    <div className="px-3 pb-2">
-                      <div className="relative inline-block">
-                        <Image
-                          src={mainImagePreview}
-                          alt="待发送图片"
-                          width={72}
-                          height={72}
-                          className="rounded-md border border-border/60 object-cover h-[72px] w-[72px]"
-                        />
-                        <button
-                          type="button"
-                          onClick={clearMainImage}
-                          className="absolute -top-1.5 -right-1.5 h-4.5 w-4.5 rounded-full bg-foreground/70 text-background flex items-center justify-center hover:bg-foreground/90 transition-colors"
-                        >
-                          <X className="h-2.5 w-2.5" />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between px-2 pb-2">
-                    <div className="flex items-center">
-                      {canUploadImage && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-                          onMouseDown={(e) => e.preventDefault()}
-                          onClick={() => mainFileInputRef.current?.click()}
-                          title="插入图片 (Lv.2 特权)"
-                        >
-                          <ImagePlus className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                    <Button
-                      type="submit"
-                      disabled={(!mainHasContent && !mainImageFile) || isSubmitting}
-                      size="sm"
-                      className="h-8 px-4 rounded-full text-xs font-medium"
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "发布"}
-                    </Button>
-                  </div>
-                </>
-              )}
-
-            </div>
-          </form>
-          {/* 聚焦时隐藏右侧操作区，让回复区域更宽 */}
-          {!isFocused && <div className="min-w-2 shrink-0" aria-hidden />}
-          {actionsSlot != null && !isFocused && (
-            <div className="shrink-0 flex items-center">{actionsSlot}</div>
-          )}
-        </div>
-      </div>
+      {/* 底部固定输入栏 */}
+      <BottomReplyBox
+        variant="fixed"
+        user={user}
+        profile={profile}
+        replyTarget={replyTarget}
+        onCancelReply={() => setReplyTarget(null)}
+        canUploadImage={canUploadImage}
+        placeholder="说点什么..."
+        actionsSlot={actionsSlot}
+        onSubmit={handleSubmit}
+      />
 
       {/* 图片预览弹窗 */}
       {previewImageUrl && (

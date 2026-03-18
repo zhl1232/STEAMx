@@ -128,9 +128,19 @@ export async function GET(
 
     const mappedReplies = [...pagedRoots, ...nestedMapped]
 
+    let discussionLiked = false
     let likedReplyIds: number[] = []
     const { data: authData } = await supabase.auth.getUser()
     const userId = authData.user?.id
+    if (userId) {
+      const { data: dLike } = await supabase
+        .from('discussion_likes')
+        .select('discussion_id')
+        .eq('user_id', userId)
+        .eq('discussion_id', discussionId)
+        .maybeSingle()
+      discussionLiked = !!dLike
+    }
     if (userId && mappedReplies.length > 0) {
       const replyIds = mappedReplies
         .map((reply) => Number(reply.id))
@@ -164,6 +174,7 @@ export async function GET(
       totalReplies,
       hasMore,
       likedReplyIds,
+      discussionLiked,
     })
   } catch (error) {
     return handleApiError(error)

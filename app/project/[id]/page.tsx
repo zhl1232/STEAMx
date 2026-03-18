@@ -125,18 +125,26 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         <AlertTitle>
                             {project.status === 'rejected' ? '项目未通过审核' : '项目正在审核中'}
                         </AlertTitle>
-                        <AlertDescription className="mt-2 flex items-center justify-between">
-                            <span>
+                        <AlertDescription className="mt-2 space-y-3">
+                            <span className="block">
                                 {project.status === 'rejected'
                                     ? '您的项目未通过审核，请根据反馈修改后重新提交。'
-                                    : '您的项目正在审核中，仅即您可见。'}
+                                    : '您的项目正在审核中，仅您可见。'}
                             </span>
-                            <Link href={`/share?edit=${project.id}`}>
-                                <Button variant={project.status === 'rejected' ? "destructive" : "outline"} size="sm" className="gap-2">
-                                    <Edit className="h-4 w-4" />
-                                    编辑项目
-                                </Button>
-                            </Link>
+                            {project.status === 'rejected' && project.rejection_reason && (
+                                <div className="rounded-md bg-red-100 dark:bg-red-900/30 p-3 text-sm">
+                                    <span className="font-medium">拒绝原因：</span>
+                                    {project.rejection_reason}
+                                </div>
+                            )}
+                            <div className="flex justify-end">
+                                <Link href={`/share?edit=${project.id}`}>
+                                    <Button variant={project.status === 'rejected' ? "destructive" : "outline"} size="sm" className="gap-2">
+                                        <Edit className="h-4 w-4" />
+                                        编辑项目
+                                    </Button>
+                                </Link>
+                            </div>
                         </AlertDescription>
                     </Alert>
                 )}

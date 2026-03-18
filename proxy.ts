@@ -15,14 +15,10 @@ type RateLimitRule = {
 }
 
 /**
- * Next.js Edge Middleware
- * 用于在每个请求中刷新 Supabase 认证 token (必须是 Edge 兼容的)
- *
- * 注意：当前保留 `middleware.ts` 是有意为之。
- * 在 OpenNext Cloudflare 目标下仍需使用 Edge middleware，
- * 暂不迁移到 Next.js 16 的 `proxy.ts`。
+ * Next.js Proxy
+ * 用于在每个请求中刷新 Supabase 认证 token，并对 API 路由做速率限制。
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (isPlaywrightSmoke()) {
     return NextResponse.next({
       request: {
@@ -191,9 +187,6 @@ const RATE_LIMIT_RULES: RateLimitRule[] = [
 ]
 
 function getClientIp(request: NextRequest): string {
-  const cfIp = request.headers.get('cf-connecting-ip')
-  if (cfIp) return cfIp
-
   const xff = request.headers.get('x-forwarded-for')
   if (xff) return xff.split(',')[0]?.trim() || 'unknown'
 

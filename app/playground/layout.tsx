@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { Bomb, Dna, Bot, Grid3X3, Calculator, Layers, BarChart3, Hash, Crown, Home, Settings, Trash2, AlertTriangle } from "lucide-react"
+import { Bomb, Dna, Bot, Grid3X3, Calculator, Layers, BarChart3, Hash, Crown, Home, Settings, Trash2, AlertTriangle, Zap } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -89,6 +89,15 @@ const games = [
         color: "text-yellow-500",
         tag: "T·E",
     },
+    {
+        name: "电路拼图",
+        nameEn: "Circuit",
+        href: "/playground/circuit",
+        icon: Zap,
+        description: "串并联与逻辑门探索",
+        color: "text-teal-500",
+        tag: "S·E",
+    },
 ]
 
 const STORAGE_KEYS = [
@@ -101,6 +110,7 @@ const STORAGE_KEYS = [
     { key: "sorting_race_stats", label: "排序可视化" },
     { key: "sudoku_stats", label: "数独" },
     { key: "nqueens_stats", label: "N 皇后" },
+    { key: "circuit_stats", label: "电路拼图" },
 ]
 
 function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {

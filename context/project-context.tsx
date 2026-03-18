@@ -237,7 +237,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           difficulty: project.difficulty,
           duration: project.duration,
           tags: project.tags || [],
-          status: project.status || "pending", // 默认为待审核状态
+          status: project.status || "pending",
         } as never)
         .select()
         .single();

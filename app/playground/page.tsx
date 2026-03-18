@@ -13,6 +13,7 @@ import {
     BarChart3,
     Hash,
     Crown,
+    Zap,
     Gamepad2,
     Trophy,
     Sparkles,
@@ -158,6 +159,19 @@ const GAMES: GameCard[] = [
         getPlayed: (r) => safeNum(r, "totalGames"),
         getWins: (r) => safeNum(r, "manualSolves"),
     },
+    {
+        name: "电路拼图",
+        subtitle: "Circuit",
+        href: "/playground/circuit",
+        icon: Zap,
+        color: "text-teal-500",
+        bgGradient: "from-teal-500/10 to-teal-600/5",
+        tags: ["Science", "Engineering"],
+        description: "在网格上连接电路元件，点亮灯泡。体验串并联和逻辑门的奥秘。",
+        statsKey: "circuit_stats",
+        getPlayed: (r) => safeNum(r, "totalGames"),
+        getWins: (r) => safeNum(r, "solvedCount"),
+    },
 ]
 
 const TAG_COLORS: Record<string, string> = {
@@ -176,7 +190,7 @@ const STEAM_DIMS: { key: SteamTag; label: string; icon: string; color: string; b
     { key: "Math", label: "数学 Math", icon: "🔢", color: "text-emerald-500", barColor: "bg-emerald-500" },
 ]
 
-const BADGE_COUNT = 25
+const BADGE_COUNT = 28
 
 function safeNum(raw: unknown, key: string): number {
     if (raw && typeof raw === "object" && key in raw) {

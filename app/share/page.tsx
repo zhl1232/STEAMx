@@ -265,10 +265,10 @@ function ShareForm() {
                 author_id: user!.id,
                 image: coverImage,
                 category: formData.category,
-                sub_category: formData.subCategory, // 传递子分类
+                sub_category: formData.subCategory,
                 difficulty: defaultDifficulty,
                 difficulty_stars: defaultStars,
-                duration: 60, // 默认给个值，或者数据库允许为空
+                duration: 60,
                 likes: 0,
                 description: formData.steps.length > 0 ? formData.steps[0].description.slice(0, 100) + "..." : "",
                 materials: formData.materials.split("\n").filter(item => item.trim() !== ""),
@@ -277,7 +277,7 @@ function ShareForm() {
                     description: step.description,
                     image_url: step.image_url || undefined
                 })),
-                tags: [], // 默认空标签，由管理员添加
+                tags: [],
                 status: 'pending'
             };
 

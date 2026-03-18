@@ -197,6 +197,10 @@ const SINGLE_BADGES: Badge[] = [
     // N 皇后专属徽章
     { id: "nqueens_first_solve", name: "皇后之手", description: "首次手动解出 N 皇后", icon: "crown", kind: "single", seriesKey: "nqueens", condition: (stats) => (stats.nqueensManualSolves ?? 0) >= 1 },
     { id: "nqueens_master", name: "回溯专家", description: "累计手动解出 5 次 N 皇后", icon: "brain", kind: "single", seriesKey: "nqueens", condition: (stats) => (stats.nqueensManualSolves ?? 0) >= 5 },
+    // 电路拼图专属徽章
+    { id: "circuit_first_solve", name: "电路入门", description: "首次点亮灯泡", icon: "zap", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 1 },
+    { id: "circuit_10", name: "电工达人", description: "累计完成 10 个电路关卡", icon: "sparkles", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 10 },
+    { id: "circuit_logic", name: "逻辑门大师", description: "完成所有含逻辑门的关卡", icon: "brain", kind: "single", seriesKey: "circuit", condition: (stats) => stats.circuitLogicCleared === true },
 ];
 
 const RARE_BADGES: Badge[] = [
@@ -221,6 +225,7 @@ export const SERIES_ORDER: { key: string; label: string }[] = [
     { key: "hanoi", label: "汉诺塔" },
     { key: "sudoku", label: "数独" },
     { key: "nqueens", label: "N 皇后" },
+    { key: "circuit", label: "电路拼图" },
     { key: "rare", label: "稀有限定" },
 ];
 
@@ -236,7 +241,7 @@ export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, m
         const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "rare"]);
+    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "circuit", "rare"]);
     const singleUnlocked = badges.filter((b) => b.seriesKey && singleSeries.has(b.seriesKey) && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useCommunity } from "@/context/community-context";
-import type { Discussion, Comment } from "@/lib/mappers/types";
+import type { Discussion, Comment, ReplyTarget } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import {
   MessageSquare,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
+import { useGamification } from "@/context/gamification-context";
 import { useLoginPrompt } from "@/context/login-prompt-context";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -23,8 +24,8 @@ import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { ReplyCard } from "@/components/features/community/reply-card";
-import { BottomReplyBox } from "@/components/features/community/bottom-reply-box";
+import { CommentCard } from "@/components/features/shared/comment-card";
+import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
 import { getRepliesUnderRoot } from "@/lib/community/reply-utils";
 
 const getRootReplyOrder = (items: Comment[]): string[] => {
@@ -56,31 +57,32 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   const unwrappedParams = React.use(params);
   const { addReply, deleteReply } = useCommunity();
   const { user, profile } = useAuth();
+  const { level } = useGamification();
   const { promptLogin } = useLoginPrompt();
 
+  const canUploadImage = level >= 2;
+
   const router = useRouter();
-  const [replyingTo, setReplyingTo] = useState<number | null>(null);
+  const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
+  const [sheetReplyTarget, setSheetReplyTarget] = useState<ReplyTarget | null>(null);
   const [detailRootIdStack, setDetailRootIdStack] = useState<number[]>([]);
-  const sheetReplyRef = React.useRef<HTMLTextAreaElement>(null);
   const loadMoreRef = React.useRef<HTMLDivElement>(null);
   const isLoadingMoreRepliesRef = React.useRef(false);
   const [id, setId] = useState<string | number | null>(null);
 
-  // Local state
   const [discussion, setDiscussion] = useState<Discussion | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  // Pagination state for replies
   const REPLY_PAGE_SIZE = 10;
   const [replyPage, setReplyPage] = useState(0);
   const [hasMoreReplies, setHasMoreReplies] = useState(false);
   const [isLoadingMoreReplies, setIsLoadingMoreReplies] = useState(false);
   const [totalReplies, setTotalReplies] = useState(0);
   const [likedReplies, setLikedReplies] = useState<Set<string>>(new Set());
+  const [discussionLiked, setDiscussionLiked] = useState(false);
   const [rootReplyOrder, setRootReplyOrder] = useState<string[]>([]);
 
-  // Handle params unwrapping
   useEffect(() => {
     if (unwrappedParams.id) {
       setId(unwrappedParams.id);
@@ -91,7 +93,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     setLikedReplies(new Set());
   }, [id]);
 
-  // Fetch discussion (without replies) + first page of replies
   useEffect(() => {
     const controller = new AbortController();
     const fetchDiscussion = async () => {
@@ -125,6 +126,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         setRootReplyOrder(getRootReplyOrder(discussionData.replies || []));
         const likedIds = (payload?.likedReplyIds as Array<string | number>) || [];
         setLikedReplies(new Set(likedIds.map((rid) => String(rid))));
+        setDiscussionLiked(Boolean(payload?.discussionLiked));
         const total = payload?.totalReplies ?? 0;
         setTotalReplies(total);
         setHasMoreReplies(Boolean(payload?.hasMore));
@@ -144,7 +146,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     return () => controller.abort();
   }, [id]);
 
-  // Load more replies
   const handleLoadMoreReplies = useCallback(async () => {
     if (!discussion || isLoadingMoreRepliesRef.current || !hasMoreReplies) return;
     isLoadingMoreRepliesRef.current = true;
@@ -199,6 +200,34 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     observer.observe(target);
     return () => observer.disconnect();
   }, [handleLoadMoreReplies, hasMoreReplies]);
+
+  const handleToggleDiscussionLike = useCallback(async () => {
+    if (!discussion) return;
+    if (!user) {
+      promptLogin(() => {}, {
+        title: "登录以点赞讨论",
+        description: "登录后即可点赞喜欢的讨论",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/discussions/${discussion.id}/like`, { method: "POST" });
+      if (!response.ok) throw new Error(await response.text());
+      const payload = await response.json();
+      const liked = Boolean(payload?.liked);
+      const action = payload?.action as "liked" | "unliked" | undefined;
+      const delta = action === "liked" ? 1 : action === "unliked" ? -1 : liked ? 1 : -1;
+
+      setDiscussionLiked(liked);
+      setDiscussion((prev: Discussion | null) => {
+        if (!prev) return prev;
+        return { ...prev, likes: Math.max(0, prev.likes + delta) };
+      });
+    } catch (error) {
+      logger.error("Error toggling discussion like", { error });
+    }
+  }, [discussion, user, promptLogin]);
 
   const handleToggleReplyLike = useCallback(
     async (replyId: number | string) => {
@@ -272,7 +301,49 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     });
   }, [discussion, rootReplyOrderIndex]);
 
-  // Scroll to hash anchor on load
+  const PREVIEW_REPLY_MAX = 3;
+  const PREVIEW_LIKES_SHOW_2 = 3;
+  const PREVIEW_LIKES_SHOW_3 = 8;
+
+  const childrenByParent = useMemo(() => {
+    if (!discussion) return new Map<number, Comment[]>();
+    const map = new Map<number, Comment[]>();
+    for (const r of discussion.replies) {
+      if (r.parent_id == null) continue;
+      const pid = Number(r.parent_id);
+      if (Number.isNaN(pid)) continue;
+      if (!map.has(pid)) map.set(pid, []);
+      map.get(pid)!.push(r);
+    }
+    return map;
+  }, [discussion]);
+
+  const getDirectReplies = useCallback(
+    (rootId: number | string): Comment[] => {
+      const rid = Number(rootId);
+      if (Number.isNaN(rid)) return [];
+      const children = childrenByParent.get(rid) || [];
+      return [...children].sort((a, b) => {
+        const t1 = a.created_at ?? "";
+        const t2 = b.created_at ?? "";
+        return t1.localeCompare(t2);
+      });
+    },
+    [childrenByParent],
+  );
+
+  const getPreviewCount = useCallback(
+    (replies: Comment[]) => {
+      if (replies.length === 0) return 0;
+      const totalLikes = replies.reduce((sum, r) => sum + (r.likes_count ?? 0), 0);
+      if (totalLikes <= 0) return 0;
+      if (totalLikes >= PREVIEW_LIKES_SHOW_3) return Math.min(PREVIEW_REPLY_MAX, replies.length);
+      if (totalLikes >= PREVIEW_LIKES_SHOW_2) return Math.min(2, replies.length);
+      return 1;
+    },
+    [],
+  );
+
   useEffect(() => {
     if (!isLoading && id && typeof window !== "undefined" && window.location.hash) {
       const hash = window.location.hash.substring(1);
@@ -329,9 +400,10 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     parentId?: number,
     replyToUserId?: string,
     replyToUsername?: string,
+    imageUrl?: string,
   ) => {
     e.preventDefault();
-    if (!content.trim()) return;
+    if (!content.trim() && !imageUrl) return;
 
     const submitReply = async () => {
       const addedReply = await addReply(
@@ -343,6 +415,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           date: "",
           reply_to_user_id: replyToUserId,
           reply_to_username: replyToUsername,
+          image_url: imageUrl || null,
         },
         parentId,
       );
@@ -359,8 +432,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           const key = String(addedReply.id);
           setRootReplyOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
         }
-        // 行内回复的 content 清理在 ReplyItem 内部完成
-        setReplyingTo(null);
+        setReplyTarget(null);
+        setSheetReplyTarget(null);
       }
     };
 
@@ -380,10 +453,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     submitReply();
   };
 
-  const handleCancelReply = () => {
-    setReplyingTo(null);
-  };
-
   const handleDeleteReply = async (replyId: number) => {
     await deleteReply(replyId);
     const key = String(replyId);
@@ -398,6 +467,14 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         replies: prev.replies.filter((r) => String(r.id) !== key),
       };
     });
+  };
+
+  const handleReply = (target: ReplyTarget) => {
+    setReplyTarget(target);
+  };
+
+  const handleSheetReply = (target: ReplyTarget) => {
+    setSheetReplyTarget(target);
   };
 
   return (
@@ -448,10 +525,24 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             {discussion.date}
           </span>
-          <span className="flex items-center gap-1.5 sm:gap-2 text-red-500">
-            <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
+          <button
+            type="button"
+            onClick={handleToggleDiscussionLike}
+            className={cn(
+              "flex items-center gap-1.5 sm:gap-2 transition-colors",
+              discussionLiked
+                ? "text-red-500"
+                : "text-muted-foreground hover:text-red-500",
+            )}
+          >
+            <Heart
+              className={cn(
+                "h-3.5 w-3.5 sm:h-4 sm:w-4",
+                discussionLiked && "fill-current",
+              )}
+            />
             {discussion.likes}
-          </span>
+          </button>
         </div>
 
         <div className="prose dark:prose-invert max-w-none">
@@ -467,34 +558,59 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           回复 ({totalReplies})
         </h3>
 
-        {/* 顶级回复列表（平铺，无嵌套；共 N 条回复 入口打开详情 Sheet） */}
         {topLevelReplies.length > 0 ? (
           <div className="bg-card rounded-lg">
             {topLevelReplies.map((reply) => {
               const replyCount = getRepliesUnderRoot(discussion.replies, reply.id).length;
+              const directReplies = getDirectReplies(reply.id);
+              const previewCount = getPreviewCount(directReplies);
+              const previewReplies = directReplies.slice(0, previewCount);
               return (
                 <div key={reply.id} className="border-b border-border/60 last:border-0">
-                  <ReplyCard
-                    reply={reply}
-                    showReplyForm={true}
-                    readOnly={false}
+                  <CommentCard
+                    comment={reply}
+                    showReplyButton
                     noBorder
+                    anchorId={`reply-${reply.id}`}
                     user={user}
                     profile={profile}
-                    replyingTo={replyingTo}
-                    setReplyingTo={setReplyingTo}
-                    onSubmitReply={handleSubmitReply}
-                    onCancelReply={handleCancelReply}
-                    onDeleteReply={handleDeleteReply}
+                    replyTarget={replyTarget}
+                    onReply={handleReply}
+                    onDelete={handleDeleteReply}
                     isLiked={likedReplies.has(String(reply.id))}
                     onToggleLike={handleToggleReplyLike}
                   />
+                  {previewReplies.length > 0 && (
+                    <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
+                      {previewReplies.map((sub) => (
+                        <div
+                          key={sub.id}
+                          className="border-b border-border/60 last:border-0"
+                        >
+                          <CommentCard
+                            comment={sub}
+                            showReplyButton
+                            noBorder
+                            compact
+                            user={user}
+                            profile={profile}
+                            isLiked={likedReplies.has(String(sub.id))}
+                            replyTarget={replyTarget}
+                            onToggleLike={handleToggleReplyLike}
+                            onDelete={handleDeleteReply}
+                            onReply={handleReply}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   {replyCount > 0 && (
                     <button
                       type="button"
                       onClick={() => {
                         setDetailRootIdStack([Number(reply.id)]);
-                        setReplyingTo(null);
+                        setReplyTarget(null);
+                        setSheetReplyTarget(null);
                       }}
                       className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2.5 pl-3 pr-3 pb-3 rounded-md hover:bg-muted/40 active:bg-muted/60"
                     >
@@ -506,7 +622,6 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
               );
             })}
 
-            {/* 自动加载更多 */}
             {hasMoreReplies && (
               <div
                 ref={loadMoreRef}
@@ -535,13 +650,13 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         )}
       </div>
 
-      {/* 回复详情 Sheet：栈式钻取 + 查看对话 + 返回 */}
+      {/* 回复详情 Sheet */}
       <Sheet
         open={detailRootIdStack.length > 0}
         onOpenChange={(open) => {
           if (!open) {
             setDetailRootIdStack([]);
-            setReplyingTo(null);
+            setSheetReplyTarget(null);
           }
         }}
       >
@@ -569,20 +684,20 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
               );
               const detailReplies = getRepliesUnderRoot(discussion.replies, currentRootId);
               if (!rootReply) return null;
+              const defaultTarget: ReplyTarget = {
+                id: rootReply.id,
+                author: rootReply.author,
+                userId: rootReply.userId,
+              };
               return (
                 <>
                   <div className="flex-1 overflow-auto px-4">
-                    <ReplyCard
-                      reply={rootReply}
-                      showReplyForm={false}
-                      readOnly={true}
+                    <CommentCard
+                      comment={rootReply}
+                      showReplyButton={false}
+                      readOnly
                       user={user}
                       profile={profile}
-                      replyingTo={replyingTo}
-                      setReplyingTo={setReplyingTo}
-                      onSubmitReply={handleSubmitReply}
-                      onCancelReply={handleCancelReply}
-                      onDeleteReply={handleDeleteReply}
                     />
                     <p className="text-sm text-muted-foreground py-2">
                       相关回复共 {detailReplies.length} 条
@@ -591,18 +706,15 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                       const childCount = getRepliesUnderRoot(discussion.replies, r.id).length;
                       return (
                         <div key={r.id} className="border-b border-border/60 last:border-0">
-                          <ReplyCard
-                            reply={r}
-                            showReplyForm={true}
-                            readOnly={false}
+                          <CommentCard
+                            comment={r}
+                            showReplyButton
                             noBorder
                             user={user}
                             profile={profile}
-                            replyingTo={replyingTo}
-                            setReplyingTo={setReplyingTo}
-                            onSubmitReply={handleSubmitReply}
-                            onCancelReply={handleCancelReply}
-                            onDeleteReply={handleDeleteReply}
+                            replyTarget={sheetReplyTarget}
+                            onReply={handleSheetReply}
+                            onDelete={handleDeleteReply}
                             isLiked={likedReplies.has(String(r.id))}
                             onToggleLike={handleToggleReplyLike}
                           />
@@ -621,44 +733,29 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                       );
                     })}
                   </div>
-                  <div className="shrink-0 border-t p-4 bg-background">
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        const content = sheetReplyRef.current?.value?.trim();
-                        if (!content) return;
-                        handleSubmitReply(
-                          e,
-                          content,
-                          Number(currentRootId),
-                          rootReply.userId,
-                          rootReply.author,
-                        );
-                        if (sheetReplyRef.current) sheetReplyRef.current.value = "";
-                      }}
-                      className="flex gap-2 items-end"
-                    >
-                      <textarea
-                        ref={sheetReplyRef}
-                        placeholder={`回复 @${rootReply.author}...`}
-                        className="min-h-[60px] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm resize-none"
-                      />
-                      <Button type="submit" size="sm" className="shrink-0 h-9">
-                        发布
-                      </Button>
-                    </form>
-                  </div>
+                  <BottomReplyBox
+                    variant="sheet"
+                    user={user}
+                    profile={profile}
+                    defaultTarget={defaultTarget}
+                    replyTarget={sheetReplyTarget}
+                    onCancelReply={() => setSheetReplyTarget(null)}
+                    canUploadImage={canUploadImage}
+                    onSubmit={handleSubmitReply}
+                  />
                 </>
               );
             })()}
         </SheetContent>
       </Sheet>
 
-      {/* 底部回复框（独立组件，避免输入时全页重渲染） */}
       <BottomReplyBox
+        variant="fixed"
         user={user}
         profile={profile}
-        replyingTo={replyingTo}
+        replyTarget={replyTarget}
+        onCancelReply={() => setReplyTarget(null)}
+        canUploadImage={canUploadImage}
         onSubmit={handleSubmitReply}
       />
     </div>

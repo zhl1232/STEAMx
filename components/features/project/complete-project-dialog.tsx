@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useAuth } from "@/context/auth-context";
 import { createClient } from "@/lib/supabase/client";
+import { useProjects } from "@/context/project-context";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -36,6 +37,7 @@ export function CompleteProjectDialog({
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
     const { toast } = useToast();
+    const { completeProject } = useProjects();
     const supabase = createClient();
 
     const [proofImages, setProofImages] = useState<string[]>([]);
@@ -110,27 +112,20 @@ export function CompleteProjectDialog({
         setIsSubmitting(true);
 
         try {
-            const { error } = await supabase
-                .from('completed_projects')
-                .insert({
-                    user_id: user.id,
-                    project_id: projectId,
-                    proof_images: proofImages,
-                    proof_video_url: videoUrl || null,
-                    notes: notes || null
-                } as never);
-
-            if (error) throw error;
+            await completeProject(projectId, {
+                images: proofImages,
+                videoUrl: videoUrl || undefined,
+                notes: notes || undefined,
+            });
 
             toast({
-                title: "🎉 项目完成！",
+                title: "项目完成！",
                 description: "获得 20 XP！你的作品已记录到个人主页",
             });
 
             onSuccess();
             onOpenChange(false);
 
-            // 重置表单
             setProofImages([]);
             setVideoUrl("");
             setNotes("");
