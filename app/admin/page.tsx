@@ -6,6 +6,7 @@ import { useAuth } from '@/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
+import { ReportsList } from '@/components/admin/reports-list'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -139,6 +140,7 @@ export default function AdminPage() {
       <Tabs defaultValue="pending" className="space-y-6">
         <TabsList>
           <TabsTrigger value="pending">待审核项目 ({pendingProjects.length})</TabsTrigger>
+          <TabsTrigger value="reports">举报管理</TabsTrigger>
           <TabsTrigger value="projects">所有项目</TabsTrigger>
           <TabsTrigger value="applications">审核员申请</TabsTrigger>
           <TabsTrigger value="tags">标签管理</TabsTrigger>
@@ -163,6 +165,10 @@ export default function AdminPage() {
               ))}
             </div>
           )}
+        </TabsContent>
+
+        <TabsContent value="reports" className="space-y-4">
+          <ReportsList />
         </TabsContent>
 
         <TabsContent value="projects" className="space-y-4">

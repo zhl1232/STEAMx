@@ -1,9 +1,7 @@
 /**
  * 评论区图片上传工具
- * 上传评论附图至 Supabase Storage 的 comment-images bucket
+ * 通过 /api/upload 服务端 API 上传评论附图
  */
-import { createClient } from "@/lib/supabase/client";
-import { logger } from "@/lib/logger";
 
 const BUCKET = "comment-images";
 const MAX_SIZE = 2 * 1024 * 1024; // 2MB
@@ -22,7 +20,7 @@ export class CommentImageError extends Error {
  */
 export async function uploadCommentImage(
   file: File,
-  userId: string
+  _userId: string
 ): Promise<string> {
   if (!ALLOWED_TYPES.includes(file.type)) {
     throw new CommentImageError("仅支持 JPG、PNG、WebP、GIF 格式");
@@ -31,17 +29,21 @@ export async function uploadCommentImage(
     throw new CommentImageError("图片大小不能超过 2MB");
   }
 
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const fileName = `${userId}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("bucket", BUCKET);
 
-  const supabase = createClient();
-  const { error } = await supabase.storage.from(BUCKET).upload(fileName, file);
+  const res = await fetch("/api/upload", { method: "POST", body: formData });
 
-  if (error) {
-    logger.error("Upload comment image error", { error });
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    throw new CommentImageError(data?.error || "图片上传失败，请重试");
+  }
+
+  const data = await res.json();
+  if (!data.publicUrl) {
     throw new CommentImageError("图片上传失败，请重试");
   }
 
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(fileName);
   return data.publicUrl;
 }

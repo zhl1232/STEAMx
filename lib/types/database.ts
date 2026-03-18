@@ -17,6 +17,8 @@ export interface Profile {
   coins?: number;
   equipped_avatar_frame_id?: string;
   equipped_name_color_id?: string;
+  message_privacy?: "everyone" | "followers_only" | "nobody";
+  age_confirmed_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -180,5 +182,48 @@ export interface Message {
   sender_id: string;
   receiver_id: string;
   content: string;
+  created_at: string;
+}
+
+/**
+ * 举报内容类型
+ */
+export type ReportContentType =
+  | "project"
+  | "discussion"
+  | "discussion_reply"
+  | "comment"
+  | "message"
+  | "completion_comment";
+
+/**
+ * 举报原因
+ */
+export type ReportReason =
+  | "spam"
+  | "harassment"
+  | "inappropriate"
+  | "illegal"
+  | "other";
+
+/**
+ * 举报状态
+ */
+export type ReportStatus = "pending" | "resolved" | "dismissed";
+
+/**
+ * 内容举报
+ */
+export interface Report {
+  id: number;
+  reporter_id: string;
+  content_type: ReportContentType;
+  content_id: number;
+  reason: ReportReason;
+  description?: string | null;
+  status: ReportStatus;
+  reviewer_id?: string | null;
+  reviewer_note?: string | null;
+  reviewed_at?: string | null;
   created_at: string;
 }

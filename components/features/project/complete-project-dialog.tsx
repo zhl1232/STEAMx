@@ -2,8 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useAuth } from "@/context/auth-context";
-import { createClient } from "@/lib/supabase/client";
 import { useProjects } from "@/context/project-context";
+import { uploadFileSecure } from "@/lib/utils/upload";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -38,7 +38,6 @@ export function CompleteProjectDialog({
     const { user } = useAuth();
     const { toast } = useToast();
     const { completeProject } = useProjects();
-    const supabase = createClient();
 
     const [proofImages, setProofImages] = useState<string[]>([]);
     const [videoUrl, setVideoUrl] = useState("");
@@ -58,23 +57,18 @@ export function CompleteProjectDialog({
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${user.id}/${projectId}/${Date.now()}_${i}.${fileExt}`;
+                if (!file.type.startsWith('image/')) {
+                    toast({ title: '仅支持图片格式', variant: 'destructive' });
+                    continue;
+                }
+                if (file.size > 10 * 1024 * 1024) {
+                    toast({ title: '图片不能超过 10MB', variant: 'destructive' });
+                    continue;
+                }
 
-                const { data, error } = await supabase.storage
-                    .from('project-completions')
-                    .upload(fileName, file, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
-
-                if (error) throw error;
-
-                const { data: { publicUrl } } = supabase.storage
-                    .from('project-completions')
-                    .getPublicUrl(data.path);
-
-                uploadedUrls.push(publicUrl);
+                const url = await uploadFileSecure(file, 'project-completions');
+                if (!url) throw new Error('上传失败');
+                uploadedUrls.push(url);
             }
 
             setProofImages([...proofImages, ...uploadedUrls]);

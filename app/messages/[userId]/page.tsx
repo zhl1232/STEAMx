@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { ArrowLeft } from "lucide-react";
+import { ReportDialog } from "@/components/ui/report-dialog";
 import type { Message } from "@/lib/types/database";
 
 export default function ConversationPage() {
@@ -176,7 +177,7 @@ export default function ConversationPage() {
 
 function MessageBubble({ message, isMe }: { message: Message; isMe: boolean }) {
   return (
-    <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+    <div className={`group flex items-end gap-1.5 ${isMe ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[80%] rounded-lg px-3 py-2 ${
           isMe ? "bg-primary text-primary-foreground" : "bg-muted"
@@ -189,6 +190,11 @@ function MessageBubble({ message, isMe }: { message: Message; isMe: boolean }) {
           {formatDistanceToNow(new Date(message.created_at), { addSuffix: true, locale: zhCN })}
         </p>
       </div>
+      {!isMe && (
+        <span className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mb-1">
+          <ReportDialog contentType="message" contentId={message.id} />
+        </span>
+      )}
     </div>
   );
 }

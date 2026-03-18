@@ -440,6 +440,7 @@ export function ProjectComments({
                         onDelete={handleDeleteComment}
                         onReply={handleReply}
                         onImageClick={setPreviewImageUrl}
+                        reportContentType="comment"
                       />
                       {previewReplies.length > 0 && (
                         <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
@@ -462,6 +463,7 @@ export function ProjectComments({
                                 onDelete={handleDeleteComment}
                                 onReply={handleReply}
                                 onImageClick={setPreviewImageUrl}
+                                reportContentType="comment"
                               />
                             </div>
                           ))}
@@ -583,6 +585,7 @@ export function ProjectComments({
                             onDelete={handleDeleteComment}
                             onReply={handleSheetReply}
                             onImageClick={setPreviewImageUrl}
+                            reportContentType="comment"
                           />
                           {childCount > 0 && (
                             <button

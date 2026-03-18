@@ -234,19 +234,23 @@
   - `CompleteProjectDialog` 直接写入 `completed_projects` 表，绕过了 `project-context.tsx` 中的 `completeProject`（负责发放 20 XP、每日目标 +10 XP、STEAM 维度更新、徽章检查）。Toast 提示"获得 20 XP"但实际未发放。
   - 修复：让 `CompleteProjectDialog` 调用 context 的 `completeProject` 方法。
 
-- [ ] **[#9] 无内容举报机制**
-  - 面向青少年的社区平台，项目、讨论、评论、私信均无举报入口。不良内容只能等审核员主动发现，私信骚扰用户无法应对。
-  - 建议：为所有 UGC 内容添加举报按钮 + 举报审核后台。
+- [x] **[#9] 无内容举报机制** ✅ 已修复
+  - 新增 `reports` 表 + RLS 策略，`POST /api/reports` 提交举报、`GET /api/admin/reports` 管理列表、`PATCH /api/admin/reports/[id]` 审核处理。
+  - 可复用 `ReportDialog` 组件已集成到评论卡片、讨论详情页、私信对话页、项目详情页。管理后台新增「举报管理」Tab。
+  - 迁移文件：`20260318200000_p0_safety_reports_privacy_age.sql`
 
-- [ ] **[#10] 私信无访问控制**
-  - 任何已登录用户可向任意其他用户发私信，无需互相关注或对方同意。结合青少年平台定位存在安全隐患。
-  - 建议：支持「仅关注的人可以私信我」等隐私设置。
+- [x] **[#10] 私信无访问控制** ✅ 已修复
+  - `profiles` 表新增 `message_privacy` 列（`everyone` / `followers_only` / `nobody`），`/api/messages/send` 发送前检查接收方隐私设置。
+  - `/settings/privacy` 页面完整重写，支持三选一实时保存。发送失败时显示友好中文提示。
 
-- [ ] **[#11] 无年龄验证 / 家长同意机制**
-  - 平台定位青少年教育，注册时无年龄确认，无家长/监护人同意流程。需遵守《未成年人网络保护条例》。
+- [x] **[#11] 无年龄验证 / 家长同意机制** ✅ 已修复
+  - `profiles` 表新增 `age_confirmed_at` 列。注册页和登录弹窗均添加「我已年满 14 周岁，或已获得监护人同意使用本平台」勾选框，未勾选阻止注册。
+  - 邮箱注册通过 `handle_new_user` 触发器写入 `age_confirmed_at`；SMS 注册在 profile upsert 时写入。
 
-- [ ] **[#12] 图片上传缺乏安全审核**
-  - 完成证明、头像上传无文件大小/格式校验，所有图片上传场景无内容安全审核（鉴黄、违规等）。
+- [x] **[#12] 图片上传缺乏安全审核** ✅ 已修复
+  - 新增 `lib/utils/file-validation.ts`（magic bytes 检测 JPEG/PNG/GIF/WebP + 各 bucket 大小限制）。
+  - 新增 `POST /api/upload` 服务端上传 API：认证 + 限流 + magic bytes + 大小校验 + `supabaseAdmin` 上传 + 预留 `moderateImage` 审核钩子（当前直接通过，未来可接入第三方内容安全 API）。
+  - 已将 `complete-project-dialog`、`comment-image`、`image-upload`、`edit-profile-dialog` 全部迁移到调用 `/api/upload`，不再客户端直连 Supabase Storage。
 
 ### P1：功能断裂 / 用户误导
 
@@ -308,8 +312,8 @@
 - [ ] **[#19] 挑战赛无完整生命周期**
   - 已合并到 #2 的完整改造计划中。
 
-- [ ] **[#20] 设置页隐私/通知选项为占位**
-  - `/settings/notifications` 和 `/settings/privacy` 选项未实现，用户操作无效。
+- [ ] **[#20] 设置页通知选项为占位**
+  - `/settings/notifications` 选项未实现，用户操作无效。（`/settings/privacy` 私信权限已实现，黑名单管理待后续迭代。）
 - [ ] **AI 导师 (AI Tutor)**
   - **形态建议**: 以 **讨论内 @ 触发** 为主，**悬浮快捷问** 为补充。
   - **讨论内 @**:

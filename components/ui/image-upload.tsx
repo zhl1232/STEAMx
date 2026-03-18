@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { uploadFile, generateFilePath, validateFileType, validateFileSize } from '@/lib/utils/upload'
+import { uploadFileSecure, validateFileType, validateFileSize } from '@/lib/utils/upload'
 import { useAuth } from '@/context/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import { logger } from '@/lib/logger'
@@ -66,11 +66,7 @@ export function ImageUpload({
     setIsUploading(true)
 
     try {
-      // 生成文件路径
-      const filePath = generateFilePath(user.id, file.name, pathPrefix)
-
-      // 上传文件
-      const publicUrl = await uploadFile(file, bucket, filePath)
+      const publicUrl = await uploadFileSecure(file, bucket)
 
       if (publicUrl) {
         setPreviewUrl(publicUrl)

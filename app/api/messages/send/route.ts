@@ -25,6 +25,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '消息不能超过 2000 字' }, { status: 400 })
     }
 
+    const { data: receiverProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('message_privacy')
+      .eq('id', receiverId)
+      .single()
+
+    if (profileError || !receiverProfile) {
+      return NextResponse.json({ error: '用户不存在' }, { status: 404 })
+    }
+
+    const privacy = (receiverProfile as { message_privacy: string }).message_privacy
+
+    if (privacy === 'nobody') {
+      return NextResponse.json({ error: '对方已关闭私信功能' }, { status: 403 })
+    }
+
+    if (privacy === 'followers_only') {
+      const { data: follow } = await supabase
+        .from('follows')
+        .select('id')
+        .eq('follower_id', receiverId)
+        .eq('following_id', user.id)
+        .maybeSingle()
+
+      if (!follow) {
+        return NextResponse.json({ error: '对方仅允许关注者私信' }, { status: 403 })
+      }
+    }
+
     const { data, error } = await supabase
       .from('messages')
       .insert({

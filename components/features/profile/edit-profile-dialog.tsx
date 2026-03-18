@@ -184,26 +184,24 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     try {
       let finalAvatarUrl = avatarUrl
 
-      // 仅当用户上传了新文件时才上传到 Storage；选择默认头像或未改头像时直接使用当前 avatarUrl
       if (selectedFile) {
-        const fileExt = selectedFile.name.split(".").pop()
-        const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`
-        const filePath = `${fileName}`
+        const formData = new FormData()
+        formData.append('file', selectedFile)
+        formData.append('bucket', 'avatars')
 
-        const { error: uploadError } = await supabase.storage
-          .from("avatars")
-          .upload(filePath, selectedFile)
+        const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData })
 
-        if (uploadError) {
+        if (!uploadRes.ok) {
+          const errData = await uploadRes.json().catch(() => null)
           toast({
-            title: "图片上传失败，请重试",
+            title: errData?.error || "图片上传失败，请重试",
             variant: "destructive",
           })
           return
         }
 
-        const { data } = supabase.storage.from("avatars").getPublicUrl(filePath)
-        finalAvatarUrl = data.publicUrl
+        const uploadData = await uploadRes.json()
+        finalAvatarUrl = uploadData.publicUrl
       }
       // 若为本地默认头像（如 /avatars/default-8.svg），finalAvatarUrl 已是相对路径，直接存库即可
       // 本次是上传时：记入 last_uploaded_avatar_url，之后即使用户改回预设，选择器里仍可显示「已上传」一格

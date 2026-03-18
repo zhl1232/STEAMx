@@ -43,6 +43,7 @@ export default function LoginPage() {
   const [otpStep, setOtpStep] = useState<'input' | 'verify'>('input')
 
   const [termsAgreed, setTermsAgreed] = useState(false)
+  const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [checkboxShake, setCheckboxShake] = useState(false)
   const [otpCooldown, setOtpCooldown] = useState(0)
 
@@ -71,15 +72,27 @@ export default function LoginPage() {
   }, [identifierValue, view, useOtpLogin])
 
   const requireTermsAgreed = (_action: 'send_otp' | 'submit'): boolean => {
-    if (termsAgreed) return true
-    toast({
-      title: '请先同意条款',
-      description: '请勾选「我已阅读并同意《服务条款》和《隐私政策》」后再继续。',
-      variant: 'destructive',
-    })
-    setCheckboxShake(true)
-    setTimeout(() => setCheckboxShake(false), 500)
-    return false
+    if (!termsAgreed) {
+      toast({
+        title: '请先同意条款',
+        description: '请勾选「我已阅读并同意《服务条款》和《隐私政策》」后再继续。',
+        variant: 'destructive',
+      })
+      setCheckboxShake(true)
+      setTimeout(() => setCheckboxShake(false), 500)
+      return false
+    }
+    if (view === 'sign_up' && !ageConfirmed) {
+      toast({
+        title: '请确认年龄',
+        description: '请勾选年龄确认后再继续注册。',
+        variant: 'destructive',
+      })
+      setCheckboxShake(true)
+      setTimeout(() => setCheckboxShake(false), 500)
+      return false
+    }
+    return true
   }
 
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -429,6 +442,25 @@ export default function LoginPage() {
                 <Link href="/legal/privacy" className="text-primary hover:underline mx-0.5">《隐私政策》</Link>
               </label>
             </div>
+
+            {view === 'sign_up' && (
+              <div
+                className={cn(
+                  'flex items-start gap-3 py-2',
+                  checkboxShake && !ageConfirmed && 'animate-[shake_0.4s_ease-in-out]'
+                )}
+              >
+                <Checkbox
+                  id="age-confirm"
+                  checked={ageConfirmed}
+                  onCheckedChange={(checked) => setAgeConfirmed(checked === true)}
+                  className="mt-0.5"
+                />
+                <label htmlFor="age-confirm" className="text-sm text-muted-foreground leading-tight cursor-pointer">
+                  我已年满 14 周岁，或已获得监护人同意使用本平台
+                </label>
+              </div>
+            )}
 
             <Button
               type="submit"

@@ -26,6 +26,7 @@ import { getNameColorClassName } from "@/lib/shop/items";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { CommentCard } from "@/components/features/shared/comment-card";
 import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
+import { ReportDialog } from "@/components/ui/report-dialog";
 import { getRepliesUnderRoot } from "@/lib/community/reply-utils";
 
 const getRootReplyOrder = (items: Comment[]): string[] => {
@@ -543,6 +544,9 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             />
             {discussion.likes}
           </button>
+          {user && user.id !== discussion.authorId && (
+            <ReportDialog contentType="discussion" contentId={discussion.id} />
+          )}
         </div>
 
         <div className="prose dark:prose-invert max-w-none">
@@ -579,6 +583,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     onDelete={handleDeleteReply}
                     isLiked={likedReplies.has(String(reply.id))}
                     onToggleLike={handleToggleReplyLike}
+                    reportContentType="discussion_reply"
                   />
                   {previewReplies.length > 0 && (
                     <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
@@ -599,6 +604,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                             onToggleLike={handleToggleReplyLike}
                             onDelete={handleDeleteReply}
                             onReply={handleReply}
+                            reportContentType="discussion_reply"
                           />
                         </div>
                       ))}
@@ -717,6 +723,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                             onDelete={handleDeleteReply}
                             isLiked={likedReplies.has(String(r.id))}
                             onToggleLike={handleToggleReplyLike}
+                            reportContentType="discussion_reply"
                           />
                           {childCount > 0 && (
                             <button

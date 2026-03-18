@@ -129,6 +129,7 @@ export interface Discussion {
     id: string | number
     title: string
     author: string
+    authorId: string
     authorAvatar?: string
     authorAvatarFrameId?: string | null
     authorNameColorId?: string | null
@@ -279,6 +280,7 @@ export function mapDbDiscussion(
         id: dbDiscussion.id,
         title: dbDiscussion.title,
         author: dbDiscussion.profiles?.display_name || 'Unknown',
+        authorId: dbDiscussion.author_id,
         authorAvatar: dbDiscussion.profiles?.avatar_url || undefined,
         authorAvatarFrameId: dbDiscussion.profiles?.equipped_avatar_frame_id ?? undefined,
         authorNameColorId: dbDiscussion.profiles?.equipped_name_color_id ?? undefined,
@@ -302,6 +304,7 @@ export function mapDiscussionFromRow(row: DbDiscussionWithProfile, replies: Comm
         id: row.id,
         title: row.title,
         author: row.profiles?.display_name || 'Unknown',
+        authorId: row.author_id,
         authorAvatar: row.profiles?.avatar_url || undefined,
         authorAvatarFrameId: row.profiles?.equipped_avatar_frame_id ?? undefined,
         authorNameColorId: row.profiles?.equipped_name_color_id ?? undefined,

@@ -127,7 +127,8 @@ export function useSendMessage(options?: { onSuccess?: () => void }) {
         body: JSON.stringify({ receiverId, content: trimmed }),
       });
       if (!response.ok) {
-        throw new Error(await response.text());
+        const errBody = await response.json().catch(() => null);
+        throw new Error(errBody?.error || '发送失败，请稍后重试');
       }
       const payload = await response.json();
       return payload?.message;

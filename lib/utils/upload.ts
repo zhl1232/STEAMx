@@ -2,11 +2,38 @@ import { createClient } from '@/lib/supabase/client'
 import { logger } from '@/lib/logger'
 
 /**
- * 上传文件到 Supabase Storage
- * @param file - 要上传的文件
- * @param bucket - 存储桶名称
- * @param path - 文件路径（相对于bucket）
- * @returns 上传成功后的公开URL，失败返回null
+ * Upload via the server-side /api/upload endpoint.
+ * Performs magic-bytes validation and size checks on the server.
+ */
+export async function uploadFileSecure(
+  file: File,
+  bucket: string
+): Promise<string | null> {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('bucket', bucket)
+
+    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => null)
+      const msg = data?.error || `Upload failed (${res.status})`
+      logger.error('Secure upload error', { error: msg, bucket })
+      throw new Error(msg)
+    }
+
+    const data = await res.json()
+    return data.publicUrl ?? null
+  } catch (error) {
+    logger.error('Unexpected error during secure upload', { error })
+    return null
+  }
+}
+
+/**
+ * 上传文件到 Supabase Storage (legacy, client-direct)
+ * @deprecated Use uploadFileSecure for server-validated uploads
  */
 export async function uploadFile(
   file: File,
@@ -16,7 +43,6 @@ export async function uploadFile(
   try {
     const supabase = createClient()
 
-    // 上传文件
     const { data, error } = await supabase.storage
       .from(bucket)
       .upload(path, file, {
@@ -29,7 +55,6 @@ export async function uploadFile(
       return null
     }
 
-    // 获取公开URL
     const { data: { publicUrl } } = supabase.storage
       .from(bucket)
       .getPublicUrl(data.path)

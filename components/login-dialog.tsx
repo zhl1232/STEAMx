@@ -12,6 +12,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Loader2, AlertCircle, Mail, Lock } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
+import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 import { toE164 } from '@/lib/utils/phone'
 
 type AuthView = 'sign_in' | 'sign_up'
@@ -43,6 +46,9 @@ export function LoginDialog({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+  const [ageConfirmed, setAgeConfirmed] = useState(false)
+  const [checkboxShake, setCheckboxShake] = useState(false)
+  const { toast } = useToast()
 
   const identifierValue = identifier.trim()
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifierValue)
@@ -115,10 +121,24 @@ export function LoginDialog({
     }
   }
 
+  const requireAgeForSignUp = (): boolean => {
+    if (view !== 'sign_up') return true
+    if (ageConfirmed) return true
+    toast({
+      title: '请确认年龄',
+      description: '请勾选年龄确认后再继续注册。',
+      variant: 'destructive',
+    })
+    setCheckboxShake(true)
+    setTimeout(() => setCheckboxShake(false), 500)
+    return false
+  }
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (otpMode) {
+      if (!requireAgeForSignUp()) return
       if (step === 'input') {
         await handleSendOtp(e)
       } else {
@@ -126,6 +146,8 @@ export function LoginDialog({
       }
       return
     }
+
+    if (!requireAgeForSignUp()) return
 
     setLoading(true)
     setError(null)
@@ -326,6 +348,25 @@ export function LoginDialog({
               ) : (
                 <p className="text-sm text-muted-foreground">点击下方按钮获取短信验证码。</p>
               )}
+            </div>
+          )}
+
+          {view === 'sign_up' && (
+            <div
+              className={cn(
+                'flex items-start gap-3 py-1',
+                checkboxShake && !ageConfirmed && 'animate-[shake_0.4s_ease-in-out]'
+              )}
+            >
+              <Checkbox
+                id="dialog-age-confirm"
+                checked={ageConfirmed}
+                onCheckedChange={(checked) => setAgeConfirmed(checked === true)}
+                className="mt-0.5"
+              />
+              <label htmlFor="dialog-age-confirm" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                我已年满 14 周岁，或已获得监护人同意使用本平台
+              </label>
             </div>
           )}
 

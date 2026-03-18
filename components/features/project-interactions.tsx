@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
-import { Heart, Bookmark, Coins } from "lucide-react"
+import { Heart, Bookmark, Coins, Flag } from "lucide-react"
 import { ConfettiButton } from "@/components/ui/confetti-button"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
+import { ReportDialog } from "@/components/ui/report-dialog"
 import type { ProjectCompletion } from "@/lib/mappers/types"
 
 interface ProjectInteractionsProps {
@@ -188,6 +189,17 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                 <Coins className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
                 <span className="text-sm font-medium tabular-nums text-muted-foreground">{projectCoinsReceived}</span>
             </button>
+            {user && user.id !== projectOwnerId && (
+                <ReportDialog contentType="project" contentId={projectId}>
+                    <button
+                        type="button"
+                        className="flex items-center gap-1.5 transition-colors hover:text-destructive"
+                        title="举报"
+                    >
+                        <Flag className="h-5 w-5 shrink-0 text-muted-foreground" />
+                    </button>
+                </ReportDialog>
+            )}
         </div>
     )
 

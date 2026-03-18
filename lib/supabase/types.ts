@@ -31,6 +31,8 @@ export interface Database {
           equipped_name_color_id: string | null
           role: string
           notify_followed_creator_updates: boolean
+          message_privacy: string
+          age_confirmed_at: string | null
         }
         Insert: {
           id: string
@@ -47,6 +49,8 @@ export interface Database {
           equipped_name_color_id?: string | null
           role?: string
           notify_followed_creator_updates?: boolean
+          message_privacy?: string
+          age_confirmed_at?: string | null
         }
         Update: {
           id?: string
@@ -63,6 +67,8 @@ export interface Database {
           equipped_name_color_id?: string | null
           notify_followed_creator_updates?: boolean
           role?: string
+          message_privacy?: string
+          age_confirmed_at?: string | null
         }
         Relationships: []
       }
@@ -271,6 +277,55 @@ export interface Database {
           {
             foreignKeyName: "messages_receiver_id_fkey"
             columns: ["receiver_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      reports: {
+        Row: {
+          id: number
+          reporter_id: string
+          content_type: string
+          content_id: number
+          reason: string
+          description: string | null
+          status: string
+          reviewer_id: string | null
+          reviewer_note: string | null
+          reviewed_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          reporter_id: string
+          content_type: string
+          content_id: number
+          reason: string
+          description?: string | null
+          status?: string
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          reporter_id?: string
+          content_type?: string
+          content_id?: number
+          reason?: string
+          description?: string | null
+          status?: string
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_reporter_id_fkey"
+            columns: ["reporter_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }

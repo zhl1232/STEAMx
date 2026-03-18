@@ -6,9 +6,11 @@ import Link from "next/link";
 import { MessageSquare, Trash2, ThumbsUp } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
+import { ReportDialog } from "@/components/ui/report-dialog";
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import type { Comment, Profile, ReplyTarget } from "@/lib/mappers/types";
+import type { ReportContentType } from "@/lib/types/database";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export interface CommentCardProps {
@@ -28,6 +30,8 @@ export interface CommentCardProps {
   user: SupabaseUser | null;
   profile: Profile | null;
   onImageClick?: (url: string) => void;
+  /** Content type for report button; omit to hide report */
+  reportContentType?: ReportContentType;
 }
 
 export function CommentCard({
@@ -46,6 +50,7 @@ export function CommentCard({
   user,
   profile,
   onImageClick,
+  reportContentType,
 }: CommentCardProps) {
   const isReplying =
     replyTarget != null && String(replyTarget.id) === String(comment.id);
@@ -207,6 +212,14 @@ export function CommentCard({
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}
+              {reportContentType && user && user.id !== comment.userId && (
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ReportDialog
+                    contentType={reportContentType}
+                    contentId={comment.id}
+                  />
+                </span>
+              )}
             </div>
           </div>
         )}
