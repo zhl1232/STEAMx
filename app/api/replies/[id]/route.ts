@@ -63,25 +63,39 @@ export async function PATCH(
  * 权限由 RLS 策略控制
  */
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const supabase = await createClient()
   
   try {
-    // 检查用户认证
     await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-replies-delete', limit: 30, windowMs: 60_000 })
     const { id } = await params
-    const replyId = parseInt(id)
-    
-    // 直接执行删除,RLS 策略会自动检查权限
-    // 策略会检查是否为作者或管理员/版主
-    const { error } = await supabase
+    const replyId = parseInt(id, 10)
+
+    if (Number.isNaN(replyId)) {
+      return NextResponse.json({ error: 'Invalid reply id' }, { status: 400 })
+    }
+
+    const { data: existingReply, error: existingError } = await supabase
+      .from('discussion_replies')
+      .select('id')
+      .eq('id', replyId)
+      .maybeSingle()
+
+    if (existingError) throw existingError
+    if (!existingReply) {
+      return NextResponse.json({ error: 'Reply not found' }, { status: 404 })
+    }
+
+    const { data: deletedReply, error } = await supabase
       .from('discussion_replies')
       .delete()
       .eq('id', replyId)
-    
+      .select('id')
+      .maybeSingle()
+
     if (error) {
       if (error.code === 'PGRST301' || error.message.includes('permission')) {
         return NextResponse.json(
@@ -90,6 +104,13 @@ export async function DELETE(
         )
       }
       throw error
+    }
+
+    if (!deletedReply) {
+      return NextResponse.json(
+        { error: 'You do not have permission to delete this reply' },
+        { status: 403 }
+      )
     }
     
     return NextResponse.json({ 

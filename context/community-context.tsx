@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { callRpc } from "@/lib/supabase/rpc";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { useNotifications } from "@/context/notification-context";
@@ -25,9 +24,9 @@ interface ChallengeGroups {
 type CommunityContextType = {
     discussions: Discussion[];
     challenges: ChallengeGroups;
-    addDiscussion: (discussion: Discussion) => void;
+    addDiscussion: (discussion: Discussion) => Promise<void>;
     addReply: (discussionId: string | number, reply: Comment, parentId?: number) => Promise<Comment | null>;
-    joinChallenge: (challengeId: string | number) => void;
+    joinChallenge: (challengeId: string | number) => Promise<void>;
     deleteReply: (replyId: string | number) => Promise<void>;
     deleteDiscussion: (discussionId: string | number) => Promise<void>;
     isLoading: boolean;
@@ -99,26 +98,29 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        const { data: newDiscussion, error } = await supabase
-            .from('discussions')
-            .insert({
+        const response = await fetch("/api/discussions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 title: discussion.title,
                 content: discussion.content,
-                author_id: user.id,
-                tags: discussion.tags
-            } as never)
-            .select()
-            .single();
+                tags: discussion.tags || [],
+            }),
+        });
 
-        if (error || !newDiscussion) {
-            logger.error('Error adding discussion:', { error });
-            return;
+        if (!response.ok) {
+            const body = await response.json().catch(() => ({}));
+            logger.error('Error adding discussion:', { error: body?.error || 'request_failed' });
+            throw new Error(body?.error || 'Failed to create discussion');
         }
 
         // 副作用异步执行（addXp 内的 refetchStats 会自动触发 checkBadges）
-        const created = newDiscussion as { id: number };
-        addXp(5, "发起讨论", "create_discussion", created.id);
-    }, [supabase, user, addXp, toast]);
+        const payload = await response.json();
+        const created = payload?.discussion as { id: number } | undefined;
+        if (created?.id) {
+            await addXp(5, "发起讨论", "create_discussion", created.id);
+        }
+    }, [user, addXp, toast]);
 
     const addReply = useCallback(async (discussionId: string | number, reply: Comment, parentId?: number) => {
         if (!user) return null;
@@ -130,8 +132,6 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 discussion_id: discussionId,
                 content: reply.content,
                 parent_id: parentId || null,
-                reply_to_user_id: reply.reply_to_user_id || null,
-                reply_to_username: reply.reply_to_username || null,
                 image_url: reply.image_url || null,
             }),
         });
@@ -150,9 +150,10 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         (async () => {
             try {
                 // 通知
-                if (reply.reply_to_user_id) {
+                const createdReply = newReply as DbComment;
+                if (createdReply.reply_to_user_id) {
                     createNotification({
-                        user_id: reply.reply_to_user_id,
+                        user_id: createdReply.reply_to_user_id,
                         type: 'mention',
                         content: `${profile?.display_name || '某人'} 在讨论中@了你`,
                         related_type: 'discussion_reply',
@@ -185,7 +186,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         })();
 
         return mapComment(newReply as unknown as DbComment);
-    }, [supabase, user, profile, createNotification, addXp, toast]);
+    }, [supabase, user, profile, createNotification, addXp]);
 
     const joinChallenge = useCallback(async (challengeId: string | number) => {
         if (!user) return;
@@ -213,19 +214,33 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             ended: updateGroup(prev.ended),
         }));
 
-        if (isJoined) {
-            // Leave
-            await supabase.from('challenge_participants').delete().eq('user_id', user.id).eq('challenge_id', cid);
-            await callRpc(supabase, 'decrement_challenge_participants', { challenge_id: cid });
-        } else {
-            // Join
-            await supabase.from('challenge_participants').insert({ user_id: user.id, challenge_id: cid } as never);
-            await callRpc(supabase, 'increment_challenge_participants', { challenge_id: cid });
+        try {
+            const response = await fetch(`/api/challenges/${cid}/participation`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: isJoined ? "leave" : "join" }),
+            });
 
-            // XP（内部会 refetchStats → 自动 checkBadges）
-            addXp(10, "参加挑战赛", "join_challenge", cid);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const payload = await response.json();
+            const changed = Boolean(payload?.changed);
+
+            if (!isJoined && changed) {
+                await addXp(10, "参加挑战赛", "join_challenge", cid);
+            }
+        } catch (error) {
+            setChallenges(prev => ({
+                activeTimed: updateGroup(prev.activeTimed),
+                evergreen: updateGroup(prev.evergreen),
+                ended: updateGroup(prev.ended),
+            }));
+            logger.error(error, { context: "Error toggling challenge participation" });
+            throw error;
         }
-    }, [supabase, user, addXp]);
+    }, [user, addXp]);
 
     const deleteReply = useCallback(async (replyId: string | number) => {
         if (!user) return;

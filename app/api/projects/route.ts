@@ -79,14 +79,37 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, description, category, image_url, materials, steps } = parseResult.data;
+    const {
+      title,
+      description,
+      category,
+      sub_category_id,
+      difficulty,
+      difficulty_stars,
+      duration,
+      image_url,
+      challenge_id,
+      reflection,
+      problem_statement,
+      iterations,
+      materials,
+      steps,
+    } = parseResult.data;
 
     // 创建项目
     const newProject: ProjectInsert = {
       title,
       description,
       category,
+      sub_category_id,
+      difficulty: difficulty ?? null,
+      difficulty_stars,
+      duration,
       image_url,
+      challenge_id,
+      reflection,
+      problem_statement,
+      iterations,
       author_id: user.id,
       status: 'pending',
     }
@@ -136,6 +159,7 @@ export async function POST(request: Request) {
         project_id: project.id,
         title: step.title,
         description: step.description,
+        image_url: step.image_url ?? null,
         sort_order: index,
       }))
 

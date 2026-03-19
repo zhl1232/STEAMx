@@ -12,12 +12,11 @@ import React, {
 import { createClient } from "@/lib/supabase/client";
 import { type Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { callRpc } from "@/lib/supabase/rpc";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
-import { mapComment, type DbComment } from "@/lib/mappers/project";
+import { mapComment, mapProject, type DbComment, type DbProject } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
 import { getTodayKey, getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
@@ -39,13 +38,13 @@ type ProjectContextType = {
   /** 拿到服务端最新 likes 后调用，避免与 delta 重复计算导致多算一次 */
   clearLikesDelta: (projectId: string | number) => void;
   clearLikesDeltaForProjects: (projectIds: (string | number)[]) => void;
-  addProject: (project: Project) => void;
+  addProject: (project: Project) => Promise<void>;
   addComment: (
     projectId: string | number,
     comment: Comment,
     parentId?: number,
   ) => Promise<Comment | null>;
-  toggleLike: (projectId: string | number) => void;
+  toggleLike: (projectId: string | number) => Promise<void>;
   toggleCollection: (projectId: string | number) => void;
   isLiked: (projectId: string | number) => boolean;
   isCollected: (projectId: string | number) => boolean;
@@ -59,6 +58,14 @@ type ProjectContextType = {
 };
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
+
+function normalizeProjectId(projectId: string | number): number | null {
+  const normalized = typeof projectId === "number" ? projectId : Number(projectId);
+  if (!Number.isInteger(normalized) || normalized <= 0) {
+    return null;
+  }
+  return normalized;
+}
 
 export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -127,7 +134,14 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (user?.id) {
       fetchUserInteractions();
+      return;
     }
+
+    setLikedProjects(new Set());
+    setCompletedProjects(new Set());
+    setCollectedProjects(new Set());
+    setProjectLikesDelta({});
+    setIsLoading(false);
   }, [user?.id, fetchUserInteractions]);
 
   const getUserStats = useCallback(async () => {
@@ -245,66 +259,56 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }
 
       // 1. Insert Project
-      const insertData: Record<string, unknown> = {
+      const insertData = {
         title: project.title,
-        description: project.description,
-        author_id: user.id,
-        image_url: project.image,
+        description: project.description || "",
         category: project.category,
-        likes_count: 0,
+        sub_category_id: project.sub_category_id ?? null,
         difficulty: project.difficulty,
-        duration: project.duration,
-        tags: project.tags || [],
+        difficulty_stars: project.difficulty_stars ?? 1,
+        duration: project.duration ?? 60,
         status: project.status || "pending",
+        image_url: project.image || null,
+        challenge_id: project.challenge_id ?? null,
+        reflection: project.reflection || null,
+        problem_statement: project.problem_statement || null,
+        iterations: project.iterations || [],
+        materials: project.materials || [],
+        steps: (project.steps || []).map((step, index) => ({
+          title: step.title,
+          description: step.description,
+          image_url: step.image_url || null,
+          sort_order: index,
+        })),
       };
 
-      if (project.challenge_id) insertData.challenge_id = project.challenge_id;
-      if (project.reflection) insertData.reflection = project.reflection;
-      if (project.problem_statement) insertData.problem_statement = project.problem_statement;
-      if (project.iterations && project.iterations.length > 0) insertData.iterations = project.iterations;
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(insertData),
+      });
 
-      const { data: newProject, error } = await supabase
-        .from("projects")
-        .insert(insertData as never)
-        .select()
-        .single();
-
-      if (error || !newProject) {
-        logger.error("Error adding project:", { error });
-        return;
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        const message = body?.error || "Failed to create project";
+        logger.error("Error adding project:", { error: message });
+        throw new Error(message);
       }
 
-      const createdProject = newProject as { id: number };
-      // 2. Insert Materials
-      if (project.materials && project.materials.length > 0) {
-        await supabase.from("project_materials").insert(
-          project.materials.map((m, index) => ({
-            project_id: createdProject.id,
-            material: m,
-            sort_order: index,
-          })) as never,
-        );
+      const rawProject = await response.json();
+      const createdProject = rawProject as { id: number };
+      if (!createdProject?.id) {
+        throw new Error("Project created without id");
       }
 
-      // 3. Insert Steps
-      if (project.steps && project.steps.length > 0) {
-        await supabase.from("project_steps").insert(
-          project.steps.map((s, index) => ({
-            project_id: createdProject.id,
-            title: s.title,
-            description: s.description,
-            image_url: s.image_url || null, // ✅ 添加image_url字段
-            sort_order: index,
-          })) as never,
-        );
-      }
+      const mappedProject = mapProject(rawProject as DbProject, profile?.display_name ?? undefined);
+      setProjects((prev) => [mappedProject, ...prev]);
 
       // Award XP for publishing a project
-      addXp(50, "发布新项目", "publish_project", createdProject.id);
+      await addXp(50, "发布新项目", "publish_project", createdProject.id);
 
       // Check badges
       const stats = await getUserStats();
-      // Manually increment published count since the new project might not be indexed yet or we want immediate feedback
       checkBadges({
         ...stats,
         projectsPublished: stats.projectsPublished + 1,
@@ -455,8 +459,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           project_id: projectId,
           content: comment.content,
           parent_id: parentId || null,
-          reply_to_user_id: comment.reply_to_user_id || null,
-          reply_to_username: comment.reply_to_username || null,
           image_url: comment.image_url || null,
         }),
       });
@@ -477,9 +479,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       (async () => {
         try {
           // 通知
-          if (comment.reply_to_user_id) {
+          const createdComment = newComment as DbComment;
+          if (createdComment.reply_to_user_id) {
             createNotification({
-              user_id: comment.reply_to_user_id,
+              user_id: createdComment.reply_to_user_id,
               type: "mention",
               content: `${profile?.display_name || "某人"} 在评论中@了你`,
               related_type: "comment",
@@ -528,7 +531,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const toggleLike = useCallback(
     async (projectId: string | number) => {
       if (!user) return;
-      const pid = typeof projectId === "string" ? parseInt(projectId) : projectId;
+      const pid = normalizeProjectId(projectId);
+      if (pid === null) {
+        toast({ title: "无效的项目 ID", variant: "destructive" });
+        return;
+      }
 
       const isLiked = likedProjectsRef.current.has(projectId);
 
@@ -559,46 +566,82 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }));
 
       // 不再在这里改 setProjects 的 likes，避免与 getLikesDelta 双重计算；展示处统一用 project.likes + getLikesDelta(id)
-
-      if (isLiked) {
-        await supabase.from("likes").delete().eq("user_id", user.id).eq("project_id", Number(pid));
-        await callRpc(supabase, "decrement_project_likes", { project_id: Number(pid) });
-      } else {
-        await supabase.from("likes").insert({ user_id: user.id, project_id: Number(pid) } as never);
-        await callRpc(supabase, "increment_project_likes", { project_id: Number(pid) });
-
-        // 给作品作者发送「收到喜欢」通知（不通知自己给自己点赞的情况）
-        try {
-          const { data: projectRow, error: projectError } = await supabase
-            .from("projects")
-            .select("id, title, author_id, profiles:author_id (display_name, avatar_url)")
-            .eq("id", Number(pid))
-            .single();
-
-          const row = projectRow as { author_id?: string; title?: string } | null;
-          if (!projectError && row && row.author_id && row.author_id !== user.id) {
-            const authorId = row.author_id;
-
-            const likerName = profile?.display_name || user.email?.split("@")[0] || "某人";
-
-            await createNotification({
-              user_id: authorId,
-              type: "like",
-              content: `${likerName} 赞了你的项目「${row.title}」`,
-              related_type: "project",
-              related_id: pid,
-              project_id: Number(pid),
-              from_user_id: user.id,
-              from_username: likerName,
-              from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url || undefined,
-            });
-          }
-        } catch (err) {
-          logger.error(err, { context: "Error creating like notification" });
+      try {
+        const response = await fetch(`/api/projects/${Number(pid)}/like`, { method: "POST" });
+        if (!response.ok) {
+          throw new Error(await response.text());
         }
 
-        // XP（内部会 refetchStats → 自动 checkBadges）
-        addXp(1, "点赞项目", "like_project", pid);
+        const payload = await response.json();
+        const liked = Boolean(payload?.liked);
+        const action = payload?.action as "liked" | "unliked" | undefined;
+
+        if (liked !== !isLiked) {
+          setLikedProjects((prev) => {
+            const next = new Set(prev);
+            if (liked) next.add(projectId);
+            else next.delete(projectId);
+            return next;
+          });
+        }
+
+        const expectedDelta = action === "liked" ? 1 : action === "unliked" ? -1 : delta;
+        if (expectedDelta !== delta) {
+          setProjectLikesDelta((prev) => ({
+            ...prev,
+            [String(projectId)]: (prev[String(projectId)] ?? 0) + (expectedDelta - delta),
+          }));
+        }
+
+        if (action === "liked") {
+          try {
+          const { data: projectRow, error: projectError } = await supabase
+              .from("projects")
+              .select("id, title, author_id, profiles:author_id (display_name, avatar_url)")
+              .eq("id", pid)
+              .single();
+
+            const row = projectRow as { author_id?: string; title?: string } | null;
+            if (!projectError && row && row.author_id && row.author_id !== user.id) {
+              const authorId = row.author_id;
+
+              const likerName = profile?.display_name || user.email?.split("@")[0] || "某人";
+
+              await createNotification({
+                user_id: authorId,
+                type: "like",
+                content: `${likerName} 赞了你的项目「${row.title}」`,
+                related_type: "project",
+                related_id: pid,
+                project_id: pid,
+                from_user_id: user.id,
+                from_username: likerName,
+                from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url || undefined,
+              });
+            }
+          } catch (err) {
+            logger.error(err, { context: "Error creating like notification" });
+          }
+
+          await addXp(1, "点赞项目", "like_project", pid);
+        }
+      } catch (error) {
+        setLikedProjects((prev) => {
+          const next = new Set(prev);
+          if (isLiked) next.add(projectId);
+          else next.delete(projectId);
+          return next;
+        });
+        setProjectLikesDelta((prev) => ({
+          ...prev,
+          [String(projectId)]: (prev[String(projectId)] ?? 0) - delta,
+        }));
+        logger.error(error, { context: "Error toggling project like" });
+        toast({
+          title: "操作失败",
+          description: "请稍后重试",
+          variant: "destructive",
+        });
       }
     },
     [supabase, user, profile, addXp, createNotification, toast],
@@ -607,7 +650,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const toggleCollection = useCallback(
     async (projectId: string | number) => {
       if (!user) return;
-      const pid = typeof projectId === "string" ? parseInt(projectId) : projectId;
+      const pid = normalizeProjectId(projectId);
+      if (pid === null) {
+        toast({ title: "无效的项目 ID", variant: "destructive" });
+        return;
+      }
 
       const isCollected = collectedProjectsRef.current.has(projectId);
 
@@ -619,37 +666,62 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         return newSet;
       });
 
-      if (isCollected) {
-        await supabase.from("collections").delete().eq("user_id", user.id).eq("project_id", Number(pid));
-      } else {
-        await supabase.from("collections").insert({ user_id: user.id, project_id: Number(pid) } as never);
+      try {
+        if (isCollected) {
+          const { error } = await supabase
+            .from("collections")
+            .delete()
+            .eq("user_id", user.id)
+            .eq("project_id", pid);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase
+            .from("collections")
+            .insert({ user_id: user.id, project_id: pid } as never);
+          if (error) throw error;
+        }
+      } catch (error) {
+        setCollectedProjects((prev) => {
+          const newSet = new Set(prev);
+          if (isCollected) newSet.add(projectId);
+          else newSet.delete(projectId);
+          return newSet;
+        });
+        logger.error(error, { context: "Error toggling collection" });
+        toast({
+          title: "收藏失败",
+          description: "请稍后重试",
+          variant: "destructive",
+        });
       }
     },
-    [supabase, user],
+    [supabase, user, toast],
   );
 
   const completeProject = useCallback(
     async (projectId: string | number, proof: ProjectCompletionProof) => {
       if (!user) return;
+      const pid = normalizeProjectId(projectId);
+      if (pid === null) {
+        throw new Error("无效的项目 ID，无法记录完成状态");
+      }
 
       // 验证必须有图片
       if (!proof.images || proof.images.length === 0) {
         throw new Error("至少需要上传一张作品照片");
       }
 
-      const pid = projectId;
-
       // Optimistic update
       setCompletedProjects((prev) => {
         const newSet = new Set(prev);
-        newSet.add(pid);
+        newSet.add(projectId);
         return newSet;
       });
 
       try {
         const { error } = await supabase.from("completed_projects").insert({
           user_id: user.id,
-          project_id: Number(pid),
+          project_id: pid,
           proof_images: proof.images,
           proof_video_url: proof.videoUrl || null,
           notes: proof.notes || null,
@@ -693,7 +765,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           const { data: project } = await supabase
             .from("projects")
             .select("category")
-            .eq("id", Number(pid))
+            .eq("id", pid)
             .single();
 
           const proj = project as { category?: string } | null;
@@ -723,7 +795,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         // Revert on error
         setCompletedProjects((prev) => {
           const newSet = new Set(prev);
-          newSet.delete(pid);
+          newSet.delete(projectId);
           return newSet;
         });
         throw error;
@@ -735,13 +807,15 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const uncompleteProject = useCallback(
     async (projectId: string | number) => {
       if (!user) return;
-
-      const pid = projectId;
+      const pid = normalizeProjectId(projectId);
+      if (pid === null) {
+        throw new Error("无效的项目 ID，无法取消完成状态");
+      }
 
       // Optimistic update
       setCompletedProjects((prev) => {
         const newSet = new Set(prev);
-        newSet.delete(pid);
+        newSet.delete(projectId);
         return newSet;
       });
 
@@ -750,14 +824,14 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           .from("completed_projects")
           .delete()
           .eq("user_id", user.id)
-          .eq("project_id", Number(pid));
+          .eq("project_id", pid);
 
         if (error) throw error;
       } catch (error) {
         // Revert on error
         setCompletedProjects((prev) => {
           const newSet = new Set(prev);
-          newSet.add(pid);
+          newSet.add(projectId);
           return newSet;
         });
         throw error;

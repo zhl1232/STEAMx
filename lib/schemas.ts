@@ -1,5 +1,16 @@
 import { z } from "zod";
 
+const relativeOrAbsoluteUrlSchema = z.union([
+  z.string().url("Invalid image URL"),
+  z.string().min(1).startsWith("/"),
+]);
+
+const IterationSchema = z.object({
+  description: z.string().min(1).max(2000),
+  result: z.string().min(1).max(2000),
+  created_at: z.string().min(1),
+});
+
 // --- Database Schemas ---
 
 export const ProfileSchema = z.object({
@@ -20,7 +31,7 @@ export const ProfileSchema = z.object({
 export const ProjectStepSchema = z.object({
   title: z.string().min(1, "Step title is required").max(200),
   description: z.string().max(1000).optional(),
-  image_url: z.string().url().nullable().optional(),
+  image_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
   sort_order: z.number().int().optional(),
 });
 
@@ -44,10 +55,15 @@ export const CreateProjectSchema = z.object({
     message: "Invalid category", 
   }),
   sub_category_id: z.number().nullable().optional(),
-  difficulty_stars: z.number().min(1).max(5).default(1),
+  difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
+  difficulty_stars: z.number().int().min(1).max(6).default(1),
   duration: z.number().min(0).default(60),
   status: z.enum(['draft', 'pending', 'approved', 'rejected']).default('draft'),
-  image_url: z.string().url("Invalid image URL").max(500).nullable().optional(),
+  image_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
+  challenge_id: z.number().int().positive().nullable().optional(),
+  reflection: z.string().max(5000).nullable().optional(),
+  problem_statement: z.string().max(5000).nullable().optional(),
+  iterations: z.array(IterationSchema).max(50).optional().default([]),
   materials: z.array(z.string().min(1).max(200)).max(50).optional().default([]), // For simple array of strings (POST API format)
   // Or handle project_materials array of objects if needed, but POST API uses string array for simplicity?
   // Let's check API usage. API expects `materials: string[]`. Admin page uses objects.

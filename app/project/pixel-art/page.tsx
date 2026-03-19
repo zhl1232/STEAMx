@@ -1,17 +1,26 @@
 "use client";
 
-"use client";
-
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { PixelEditor } from "@/components/features/pixel-editor";
 import { ConfettiButton } from "@/components/ui/confetti-button";
-import { useProjects } from "@/context/project-context";
+
+const PIXEL_ART_COMPLETED_KEY = "pixel-art-workshop-completed";
 
 export default function PixelArtPage() {
-    const { toggleProjectCompleted, isCompleted } = useProjects();
-    const projectId = "pixel-art";
-    const isProjectCompleted = isCompleted(projectId);
+    const [isProjectCompleted, setIsProjectCompleted] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        setIsProjectCompleted(window.localStorage.getItem(PIXEL_ART_COMPLETED_KEY) === "true");
+    }, []);
+
+    const handleComplete = () => {
+        if (typeof window === "undefined") return;
+        window.localStorage.setItem(PIXEL_ART_COMPLETED_KEY, "true");
+        setIsProjectCompleted(true);
+    };
 
     return (
         <div className="min-h-screen bg-background">
@@ -23,9 +32,10 @@ export default function PixelArtPage() {
                     <div className="flex gap-2">
                         <ConfettiButton
                             isCompleted={isProjectCompleted}
-                            onClick={() => toggleProjectCompleted(projectId)}
+                            onClick={handleComplete}
+                            disabled={isProjectCompleted}
                         >
-                            完成挑战！
+                            {isProjectCompleted ? "已完成" : "完成挑战！"}
                         </ConfettiButton>
                     </div>
                 </div>

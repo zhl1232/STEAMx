@@ -246,25 +246,39 @@ export async function PATCH(
  * 权限由 RLS 策略控制
  */
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const supabase = await createClient()
   
   try {
-    // 检查用户认证
     await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-discussions-write', limit: 20, windowMs: 60_000 })
     const { id } = await params
-    const discussionId = parseInt(id)
-    
-    // 直接执行删除,RLS 策略会自动检查权限
-    // 策略: 仅讨论作者或管理员/版主可删除 discussion 记录
-    const { error } = await supabase
+    const discussionId = parseInt(id, 10)
+
+    if (Number.isNaN(discussionId)) {
+      return NextResponse.json({ error: 'Invalid discussion id' }, { status: 400 })
+    }
+
+    const { data: existingDiscussion, error: existingError } = await supabase
+      .from('discussions')
+      .select('id')
+      .eq('id', discussionId)
+      .maybeSingle()
+
+    if (existingError) throw existingError
+    if (!existingDiscussion) {
+      return NextResponse.json({ error: 'Discussion not found' }, { status: 404 })
+    }
+
+    const { data: deletedDiscussion, error } = await supabase
       .from('discussions')
       .delete()
       .eq('id', discussionId)
-    
+      .select('id')
+      .maybeSingle()
+
     if (error) {
       if (error.code === 'PGRST301' || error.message.includes('permission')) {
         return NextResponse.json(
@@ -273,6 +287,13 @@ export async function DELETE(
         )
       }
       throw error
+    }
+
+    if (!deletedDiscussion) {
+      return NextResponse.json(
+        { error: 'You do not have permission to delete this discussion' },
+        { status: 403 }
+      )
     }
     
     return NextResponse.json({ 

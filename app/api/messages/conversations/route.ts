@@ -16,18 +16,32 @@ export async function GET() {
   try {
     const user = await requireAuth(supabase)
 
-    const { data: messages, error: msgError } = await supabase
-      .from('messages')
-      .select('id, sender_id, receiver_id, content, created_at')
-      .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
-      .order('created_at', { ascending: false })
-      .limit(80)
-
-    if (msgError) throw msgError
-    if (!messages?.length) return NextResponse.json({ conversations: [] })
-
     type MsgRow = { sender_id: string; receiver_id: string; content: string; created_at: string }
-    const rows = messages as MsgRow[]
+    const rows: MsgRow[] = []
+    const batchSize = 200
+    let offset = 0
+
+    while (true) {
+      const { data: batch, error: msgError } = await supabase
+        .from('messages')
+        .select('id, sender_id, receiver_id, content, created_at')
+        .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
+        .order('created_at', { ascending: false })
+        .range(offset, offset + batchSize - 1)
+
+      if (msgError) throw msgError
+
+      const typedBatch = (batch || []) as MsgRow[]
+      if (typedBatch.length === 0) break
+
+      rows.push(...typedBatch)
+
+      if (typedBatch.length < batchSize) break
+      offset += batchSize
+    }
+
+    if (rows.length === 0) return NextResponse.json({ conversations: [] })
+
     const peerIds = new Set<string>()
     const latestByPeer = new Map<string, { content: string; created_at: string }>()
     for (const m of rows) {

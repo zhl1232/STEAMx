@@ -25,13 +25,17 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
   const router = useRouter()
   const [challenge, setChallenge] = useState<Challenge | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const postLoginJoinRef = useRef<(() => void) | null>(null)
+  const postLoginJoinRef = useRef<(() => Promise<void>) | null>(null)
 
   useEffect(() => {
-    postLoginJoinRef.current = () => {
+    postLoginJoinRef.current = async () => {
       if (!challenge) return
       setChallenge(prev => prev ? { ...prev, joined: true, participants: prev.participants + 1 } : prev)
-      joinChallenge(challenge.id)
+      try {
+        await joinChallenge(challenge.id)
+      } catch {
+        setChallenge(prev => prev ? { ...prev, joined: false, participants: Math.max(0, prev.participants - 1) } : prev)
+      }
     }
   }, [challenge, joinChallenge])
 
@@ -70,7 +74,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
   const handleJoin = () => {
     if (!user) {
       promptLogin(() => {
-        postLoginJoinRef.current?.()
+        void postLoginJoinRef.current?.()
       }, {
         title: '登录以参与挑战',
         description: '登录后即可报名参与挑战'
@@ -83,7 +87,13 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
       joined: !wasJoined,
       participants: prev.participants + (wasJoined ? -1 : 1),
     } : prev)
-    joinChallenge(challenge.id)
+    void joinChallenge(challenge.id).catch(() => {
+      setChallenge(prev => prev ? {
+        ...prev,
+        joined: wasJoined,
+        participants: prev.participants + (wasJoined ? 1 : -1),
+      } : prev)
+    })
   }
 
   const handleSubmit = () => {

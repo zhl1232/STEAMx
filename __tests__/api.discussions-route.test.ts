@@ -30,9 +30,27 @@ describe('DELETE /api/discussions/[id]', () => {
   })
 
   it('deletes from discussions instead of discussion_replies', async () => {
-    const eq = jest.fn().mockResolvedValue({ error: null })
-    const del = jest.fn(() => ({ eq }))
-    const from = jest.fn(() => ({ delete: del }))
+    const selectChain = {
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data: { id: 123 }, error: null }),
+    }
+    selectChain.eq.mockReturnValue(selectChain)
+
+    const deleteChain = {
+      eq: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data: { id: 123 }, error: null }),
+    }
+    deleteChain.eq.mockReturnValue(deleteChain)
+    deleteChain.select.mockReturnValue(deleteChain)
+
+    const from = jest.fn((table: string) => {
+      if (table !== 'discussions') return {}
+      return {
+        select: jest.fn(() => ({ eq: selectChain.eq, maybeSingle: selectChain.maybeSingle })),
+        delete: jest.fn(() => ({ eq: deleteChain.eq, select: deleteChain.select, maybeSingle: deleteChain.maybeSingle })),
+      }
+    })
 
     createClientMock.mockResolvedValue({ from } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
@@ -60,9 +78,30 @@ describe('DELETE /api/discussions/[id]', () => {
   })
 
   it('returns 403 when RLS blocks deletion', async () => {
-    const eq = jest.fn().mockResolvedValue({ error: { code: 'PGRST301', message: 'permission denied' } })
-    const del = jest.fn(() => ({ eq }))
-    const from = jest.fn(() => ({ delete: del }))
+    const selectChain = {
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data: { id: 123 }, error: null }),
+    }
+    selectChain.eq.mockReturnValue(selectChain)
+
+    const deleteChain = {
+      eq: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({
+        data: null,
+        error: { code: 'PGRST301', message: 'permission denied' },
+      }),
+    }
+    deleteChain.eq.mockReturnValue(deleteChain)
+    deleteChain.select.mockReturnValue(deleteChain)
+
+    const from = jest.fn((table: string) => {
+      if (table !== 'discussions') return {}
+      return {
+        select: jest.fn(() => ({ eq: selectChain.eq, maybeSingle: selectChain.maybeSingle })),
+        delete: jest.fn(() => ({ eq: deleteChain.eq, select: deleteChain.select, maybeSingle: deleteChain.maybeSingle })),
+      }
+    })
 
     createClientMock.mockResolvedValue({ from } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)

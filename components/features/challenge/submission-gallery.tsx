@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { OptimizedImage } from '@/components/ui/optimized-image'
@@ -34,16 +34,19 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
   const [expandedRating, setExpandedRating] = useState<number | null>(null)
   const { user } = useAuth()
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = useCallback(async () => {
     const res = await fetch(`/api/challenges/${challengeId}/submissions`)
     if (res.ok) {
       const data = await res.json()
       setSubmissions(data.submissions || [])
     }
     setIsLoading(false)
-  }
+  }, [challengeId])
 
-  useEffect(() => { fetchSubmissions() }, [challengeId])
+  useEffect(() => {
+    setIsLoading(true)
+    void fetchSubmissions()
+  }, [fetchSubmissions])
 
   if (isLoading) {
     return <div className="text-center py-8 text-muted-foreground">加载作品中...</div>
@@ -113,7 +116,10 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
                     {expandedRating === sub.id ? (
                       <RatingStars
                         projectId={sub.id}
-                        onRated={() => { setExpandedRating(null); fetchSubmissions() }}
+                        onRated={() => {
+                          setExpandedRating(null)
+                          void fetchSubmissions()
+                        }}
                       />
                     ) : (
                       <button

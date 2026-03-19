@@ -82,7 +82,7 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
                     </div>
                     {!isEnded && (
                         <Button
-                            onClick={(e) => { e.preventDefault(); joinChallenge(challenge.id); }}
+                            onClick={(e) => { e.preventDefault(); void joinChallenge(challenge.id).catch(() => {}); }}
                             variant={challenge.joined ? "secondary" : "default"}
                             size="sm"
                             className={cn(

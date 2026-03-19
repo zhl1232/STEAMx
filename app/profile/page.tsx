@@ -10,7 +10,7 @@ import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Zap, Coins, ChevronRight } from 'lucide-react'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
@@ -46,24 +46,28 @@ export default function ProfilePage() {
   const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
-
-  // 使用 ref 追踪是否已经加载过，避免重复请求
-  const hasLoadedRef = useRef(false)
+  const [isProjectsDataLoading, setIsProjectsDataLoading] = useState(true)
 
 
-  // 将 Set 转换为稳定的字符串作为依赖，避免引用变化导致的重复执行
-  const likedIdsKey = React.useMemo(() => Array.from(likedProjects).sort().join(','), [likedProjects])
-  const collectedIdsKey = React.useMemo(() => Array.from(collectedProjects).sort().join(','), [collectedProjects])
-  const completedIdsKey = React.useMemo(() => Array.from(completedProjects).sort().join(','), [completedProjects])
+  const likedProjectIds = React.useMemo(
+    () => Array.from(likedProjects).map((id) => Number(id)).sort((a, b) => a - b),
+    [likedProjects]
+  )
+  const collectedProjectIds = React.useMemo(
+    () => Array.from(collectedProjects).map((id) => Number(id)).sort((a, b) => a - b),
+    [collectedProjects]
+  )
+  const completedProjectIds = React.useMemo(
+    () => Array.from(completedProjects).map((id) => Number(id)).sort((a, b) => a - b),
+    [completedProjects]
+  )
 
   // 加载用户的项目数据
   useEffect(() => {
     // Wait for both user authentication and project context (interactions) to be ready
     if (!user || projectsLoading) return
 
-    // 如果已经加载过且交互数据没有变化，跳过
-    if (hasLoadedRef.current && !isInitialLoad) return
+    setIsProjectsDataLoading(true)
 
     const loadUserProjects = async () => {
       try {
@@ -78,40 +82,40 @@ export default function ProfilePage() {
             .then(({ data }) => data),
 
           // 查询用户点赞的项目
-          likedProjects.size > 0
+          likedProjectIds.length > 0
             ? supabase
               .from('projects')
               .select(`
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(likedProjects).map((id) => Number(id)))
+              .in('id', likedProjectIds)
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),
 
           // 查询用户收藏的项目
-          collectedProjects.size > 0
+          collectedProjectIds.length > 0
             ? supabase
               .from('projects')
               .select(`
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(collectedProjects).map((id) => Number(id)))
+              .in('id', collectedProjectIds)
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),
 
           // 查询用户完成的项目
-          completedProjects.size > 0
+          completedProjectIds.length > 0
             ? supabase
               .from('projects')
               .select(`
                   *,
                   profiles:author_id (display_name)
                 `)
-              .in('id', Array.from(completedProjects).map((id) => Number(id)))
+              .in('id', completedProjectIds)
               .order('created_at', { ascending: false })
               .then(({ data }) => data)
             : Promise.resolve(null),
@@ -156,20 +160,25 @@ export default function ProfilePage() {
         } else {
           setCompletedProjectsList([])
         }
-
-        // 标记已加载完成
-        hasLoadedRef.current = true
       } catch (err) {
         logger.error('Exception in loadUserProjects', { error: err })
         toast({ title: '加载失败', description: '无法加载个人资料数据，请稍后重试', variant: 'destructive' })
       } finally {
-        setIsInitialLoad(false)
+        setIsProjectsDataLoading(false)
       }
     }
 
     loadUserProjects()
-    // likedIdsKey/collectedIdsKey/completedIdsKey 为 Set 内容的稳定表示，避免 Set 引用变化导致重复执行
-  }, [user, supabase, likedProjects, collectedProjects, completedProjects, likedIdsKey, collectedIdsKey, completedIdsKey, profile?.display_name, projectsLoading, isInitialLoad])
+  }, [
+    user,
+    supabase,
+    likedProjectIds,
+    collectedProjectIds,
+    completedProjectIds,
+    profile?.display_name,
+    projectsLoading,
+    toast,
+  ])
 
 
   if (authLoading) {
@@ -375,8 +384,7 @@ export default function ProfilePage() {
 
           {/* 项目列表 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            {isInitialLoad ||
-              (activeTab === 'my-projects' && isInitialLoad) ||
+            {(isProjectsDataLoading && activeTab === 'my-projects') ||
               (activeTab === 'collected' && collectedProjects.size > 0 && collectedProjectsList.length === 0) ||
               (activeTab === 'liked' && likedProjects.size > 0 && likedProjectsList.length === 0) ||
               (activeTab === 'completed' && completedProjects.size > 0 && completedProjectsList.length === 0) ? (

@@ -18,12 +18,150 @@ const ALLOWED_RELATED_TYPES = new Set([
   'discussion',
 ])
 
+function toPositiveInteger(value: unknown): number | null {
+  if (value === null || value === undefined || value === '') return null
+
+  const num = Number(value)
+  if (!Number.isInteger(num) || num <= 0) return null
+
+  return num
+}
+
+async function assertNotificationPayloadAllowed(params: {
+  supabase: Awaited<ReturnType<typeof createClient>>
+  actorUserId: string
+  recipientUserId: string
+  type: string
+  relatedType: string | null
+  relatedId: number | null
+  projectId: number | null
+}) {
+  const { supabase, actorUserId, recipientUserId, type, relatedType, relatedId, projectId } = params
+
+  if (type === 'system') {
+    return
+  }
+
+  if (type === 'follow') {
+    const { data: follow, error } = await supabase
+      .from('follows')
+      .select('id')
+      .eq('follower_id', actorUserId)
+      .eq('following_id', recipientUserId)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!follow) {
+      return NextResponse.json({ error: 'Invalid follow notification payload' }, { status: 403 })
+    }
+    return
+  }
+
+  if (type === 'like') {
+    if (relatedType !== 'project' || !projectId) {
+      return NextResponse.json({ error: 'Invalid like notification payload' }, { status: 400 })
+    }
+
+    const [{ data: project, error: projectError }, { data: likeRow, error: likeError }] = await Promise.all([
+      supabase
+        .from('projects')
+        .select('author_id')
+        .eq('id', projectId)
+        .maybeSingle(),
+      supabase
+        .from('likes')
+        .select('id')
+        .eq('user_id', actorUserId)
+        .eq('project_id', projectId)
+        .maybeSingle(),
+    ])
+
+    if (projectError) throw projectError
+    if (likeError) throw likeError
+
+    if (!project || (project as { author_id: string }).author_id !== recipientUserId || !likeRow) {
+      return NextResponse.json({ error: 'Invalid like notification payload' }, { status: 403 })
+    }
+    return
+  }
+
+  if (type === 'creator_update') {
+    if (!projectId) {
+      return NextResponse.json({ error: 'Invalid creator update payload' }, { status: 400 })
+    }
+
+    const [{ data: project, error: projectError }, { data: follow, error: followError }] = await Promise.all([
+      supabase
+        .from('projects')
+        .select('author_id')
+        .eq('id', projectId)
+        .maybeSingle(),
+      supabase
+        .from('follows')
+        .select('id')
+        .eq('follower_id', recipientUserId)
+        .eq('following_id', actorUserId)
+        .maybeSingle(),
+    ])
+
+    if (projectError) throw projectError
+    if (followError) throw followError
+
+    if (!project || (project as { author_id: string }).author_id !== actorUserId || !follow) {
+      return NextResponse.json({ error: 'Invalid creator update payload' }, { status: 403 })
+    }
+    return
+  }
+
+  if (type === 'mention' || type === 'reply') {
+    if (!relatedType || !relatedId) {
+      return NextResponse.json({ error: 'Invalid reply notification payload' }, { status: 400 })
+    }
+
+    if (relatedType === 'comment') {
+      const { data: comment, error } = await supabase
+        .from('comments')
+        .select('author_id, reply_to_user_id')
+        .eq('id', relatedId)
+        .maybeSingle()
+
+      if (error) throw error
+
+      const typedComment = comment as { author_id: string; reply_to_user_id: string | null } | null
+      if (!typedComment || typedComment.author_id !== actorUserId || typedComment.reply_to_user_id !== recipientUserId) {
+        return NextResponse.json({ error: 'Invalid comment notification payload' }, { status: 403 })
+      }
+      return
+    }
+
+    if (relatedType === 'discussion_reply') {
+      const { data: reply, error } = await supabase
+        .from('discussion_replies')
+        .select('author_id, reply_to_user_id')
+        .eq('id', relatedId)
+        .maybeSingle()
+
+      if (error) throw error
+
+      const typedReply = reply as { author_id: string; reply_to_user_id: string | null } | null
+      if (!typedReply || typedReply.author_id !== actorUserId || typedReply.reply_to_user_id !== recipientUserId) {
+        return NextResponse.json({ error: 'Invalid discussion reply notification payload' }, { status: 403 })
+      }
+      return
+    }
+
+    return NextResponse.json({ error: 'Unsupported related_type for notification' }, { status: 400 })
+  }
+
+  return NextResponse.json({ error: 'Unsupported notification type' }, { status: 400 })
+}
+
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   try {
     const user = await requireAuth(supabase)
-    await requireRateLimit(supabase, { key: 'api-notifications-write', limit: 30, windowMs: 60_000 })
+    await requireRateLimit(supabase, { key: 'api-notifications-read', limit: 30, windowMs: 60_000 })
     const searchParams = request.nextUrl.searchParams
     const before = searchParams.get('before')
 
@@ -55,6 +193,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-notifications-create', limit: 60, windowMs: 60_000 })
     const body = await request.json()
 
     const userId = validateUUID(body?.user_id, 'user_id')
@@ -75,11 +214,8 @@ export async function POST(request: NextRequest) {
     }
 
     const isSystem = type === 'system'
-    const isCreatorUpdate = type === 'creator_update'
     if (isSystem) {
       await requireRole(supabase, ['moderator', 'admin'])
-    } else if (isCreatorUpdate) {
-      await requireRole(supabase, ['teacher', 'moderator', 'admin'])
     }
 
     const relatedType =
@@ -91,10 +227,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const toNumber = (value: unknown) => {
-      if (value === null || value === undefined || value === '') return null
-      const num = Number(value)
-      return Number.isNaN(num) ? null : num
+    const relatedId = toPositiveInteger(body?.related_id)
+    const projectId = toPositiveInteger(body?.project_id)
+    const discussionId = toPositiveInteger(body?.discussion_id)
+
+    const validationResponse = await assertNotificationPayloadAllowed({
+      supabase,
+      actorUserId: user.id,
+      recipientUserId: userId,
+      type,
+      relatedType,
+      relatedId,
+      projectId,
+    })
+
+    if (validationResponse) {
+      return validationResponse
     }
 
     let fromUsername: string | null = null
@@ -125,9 +273,9 @@ export async function POST(request: NextRequest) {
       type,
       content,
       related_type: relatedType,
-      related_id: toNumber(body?.related_id),
-      project_id: toNumber(body?.project_id),
-      discussion_id: toNumber(body?.discussion_id),
+      related_id: relatedId,
+      project_id: projectId,
+      discussion_id: discussionId,
       from_user_id: isSystem ? null : user.id,
       from_username: fromUsername,
       from_avatar: fromAvatar,

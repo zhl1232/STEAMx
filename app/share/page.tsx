@@ -411,7 +411,7 @@ function ShareForm() {
                     || formData.reflection !== orig.reflection;
                 await updateProject(editId, newProject, isMajorEdit);
             } else {
-                addProject(newProject);
+                await addProject(newProject);
                 // 清除草稿
                 if (user) {
                     localStorage.removeItem(`${DRAFT_KEY}_${user.id}`);

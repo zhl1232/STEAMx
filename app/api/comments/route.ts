@@ -22,10 +22,8 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const content = typeof body?.content === 'string' ? body.content.trim() : ''
-    const projectId = body?.project_id
-    const parentId = body?.parent_id ?? null
-    const replyToUserId = body?.reply_to_user_id ?? null
-    const replyToUsername = body?.reply_to_username ?? null
+    const projectId = Number(body?.project_id)
+    const parentId = body?.parent_id == null ? null : Number(body.parent_id)
     const imageUrl = body?.image_url ?? null
 
     if (!content && !imageUrl) {
@@ -34,12 +32,44 @@ export async function POST(request: NextRequest) {
     if (content.length > 2000) {
       return NextResponse.json({ error: '评论内容过长' }, { status: 400 })
     }
-    if (!projectId) {
+    if (!Number.isInteger(projectId) || projectId <= 0) {
       return NextResponse.json({ error: '缺少 project_id' }, { status: 400 })
+    }
+    if (parentId !== null && (!Number.isInteger(parentId) || parentId <= 0)) {
+      return NextResponse.json({ error: '无效的 parent_id' }, { status: 400 })
     }
 
     if (content) {
       validateContentSafe(content, '评论内容')
+    }
+
+    let replyToUserId: string | null = null
+    let replyToUsername: string | null = null
+
+    if (parentId !== null) {
+      const { data: parentComment, error: parentError } = await supabase
+        .from('comments')
+        .select('project_id, author_id, profiles:author_id(display_name)')
+        .eq('id', parentId)
+        .maybeSingle()
+
+      if (parentError) throw parentError
+      if (!parentComment) {
+        return NextResponse.json({ error: '父评论不存在' }, { status: 400 })
+      }
+
+      const typedParent = parentComment as {
+        project_id: number
+        author_id: string
+        profiles?: { display_name?: string | null } | null
+      }
+
+      if (typedParent.project_id !== projectId) {
+        return NextResponse.json({ error: '父评论不属于当前项目' }, { status: 400 })
+      }
+
+      replyToUserId = typedParent.author_id
+      replyToUsername = typedParent.profiles?.display_name || null
     }
 
     const { data, error } = await supabase

@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
       const { data: follow } = await supabase
         .from('follows')
         .select('id')
-        .eq('follower_id', receiverId)
-        .eq('following_id', user.id)
+        .eq('follower_id', user.id)
+        .eq('following_id', receiverId)
         .maybeSingle()
 
       if (!follow) {

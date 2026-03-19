@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { SupabaseClient, User } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/types'
-import { logger } from '@/lib/logger'
 import { ValidationError } from '@/lib/api/validation'
+import { logger } from '@/lib/logger'
 
 /**
  * 认证错误类
@@ -128,6 +128,10 @@ export function handleApiError(error: unknown): NextResponse {
     return NextResponse.json({ error: error.message }, { status: 403 })
   }
 
+  if (error instanceof ValidationError) {
+    return NextResponse.json({ error: error.message }, { status: 400 })
+  }
+
   if (error instanceof RateLimitError) {
     return NextResponse.json(
       { error: error.message },
@@ -141,10 +145,6 @@ export function handleApiError(error: unknown): NextResponse {
         },
       }
     )
-  }
-
-  if (error instanceof ValidationError) {
-    return NextResponse.json({ error: error.message }, { status: 400 })
   }
 
   // 其他错误 - 生产环境隐藏详细信息
