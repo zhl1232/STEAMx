@@ -512,6 +512,7 @@ export interface Database {
           notes: string | null
           is_public: boolean
           likes_count: number
+          proof_captions: string[] | null
         }
         Insert: {
           id?: number
@@ -523,6 +524,7 @@ export interface Database {
           notes?: string | null
           is_public?: boolean
           likes_count?: number
+          proof_captions?: string[] | null
         }
         Update: {
           id?: number
@@ -534,6 +536,7 @@ export interface Database {
           notes?: string | null
           is_public?: boolean
           likes_count?: number
+          proof_captions?: string[] | null
         }
         Relationships: []
       }

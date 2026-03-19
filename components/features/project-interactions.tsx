@@ -27,9 +27,11 @@ interface ProjectInteractionsProps {
     commentsCount?: number
     /** 项目收到的投币总数（项目 + 完成作品），用于底部栏展示「投给项目的硬币」 */
     projectCoinsReceived?: number
+    /** 关联的挑战 ID，用于完成弹窗 PBL 联动提示 */
+    challengeId?: number | null
 }
 
-export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0 }: ProjectInteractionsProps) {
+export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0, challengeId }: ProjectInteractionsProps) {
     const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -238,6 +240,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             <CompleteProjectDialog
                 projectId={projectId}
                 projectTitle={projectTitle}
+                challengeId={challengeId}
                 open={showCompleteDialog}
                 onOpenChange={setShowCompleteDialog}
                 onSuccess={() => {}}

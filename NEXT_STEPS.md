@@ -296,11 +296,13 @@
   - 讨论详情页新增标题+正文编辑功能（作者可见编辑按钮）。
   - 迁移：`comments`、`discussions`、`discussion_replies` 表新增 `updated_at` 列。
 
-- [ ] **[#16] Playground 游戏数据纯本地存储**
-  - 10 款游戏进度全部存储在 `localStorage`，换浏览器/清缓存数据丢失，多设备无法同步，28 枚 Playground 徽章依赖本地数据触发，数据丢失后状态可能不一致。
+- [x] **[#16] Playground 游戏数据纯本地存储** ✅ 已实现云同步
+  - 已新增 `playground_stats` 表（每用户一行 JSONB）、RLS 策略；`usePlaygroundSync` 在登录时拉取云端并与 localStorage 合并写回，游戏变更时防抖上传；游乐场 layout 已挂载同步逻辑。未登录用户仍仅用 localStorage。
 
-- [ ] **[#17] 快速完成 vs 带证明完成的矛盾**
-  - `toggleProjectCompleted` 用 `images: ["auto_toggle"]` 占位完成，`CompleteProjectDialog` 要求真实照片，两者写入同一张表但数据质量差异大。
+- [x] **[#17] 快速完成 vs 带证明完成的矛盾** ✅ 已修复
+  - 移除 `toggleProjectCompleted`（无任何调用方），统一为仅通过 `CompleteProjectDialog` 带证明完成。
+  - 完成弹窗全面增强：拖拽上传、每张图上传进度条与错误态、图片排序（上移/下移）、最多 9 张限制、每张图说明输入、是否公开展示开关（`is_public`）、PBL 挑战联动提示（关联挑战时提醒填写反思 +10 XP）。
+  - 新增 `uploadFileSecureWithProgress`（XHR 进度回调）。迁移 `proof_captions text[]` 列用于每张图说明。
 
 - [x] **[#18] 自赞已禁止** ✅ 已修复
   - 项目点赞：`toggleLike` 前端查询 `author_id`，自赞时 toast 提示并拦截。

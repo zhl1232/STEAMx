@@ -10,10 +10,11 @@ import { CompleteProjectDialog } from "@/components/features/project/complete-pr
 interface ProjectMarkDoneProps {
     projectId: number | string
     projectTitle: string
+    challengeId?: number | null
 }
 
 /** 独立的「我做过这个」区块，可放在标题下或侧栏，不与底部回复栏混在一起 */
-export function ProjectMarkDone({ projectId, projectTitle }: ProjectMarkDoneProps) {
+export function ProjectMarkDone({ projectId, projectTitle, challengeId }: ProjectMarkDoneProps) {
     const { isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -46,6 +47,7 @@ export function ProjectMarkDone({ projectId, projectTitle }: ProjectMarkDoneProp
             <CompleteProjectDialog
                 projectId={projectId}
                 projectTitle={projectTitle}
+                challengeId={challengeId}
                 open={showCompleteDialog}
                 onOpenChange={setShowCompleteDialog}
                 onSuccess={() => {}}

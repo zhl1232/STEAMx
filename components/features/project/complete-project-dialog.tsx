@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/context/auth-context";
 import { useProjects } from "@/context/project-context";
-import { uploadFileSecure } from "@/lib/utils/upload";
+import { uploadFileSecureWithProgress } from "@/lib/utils/upload";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -16,13 +16,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, X } from "lucide-react";
+import { Upload, X, ChevronUp, ChevronDown, ImagePlus, Info } from "lucide-react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+
+const MAX_IMAGES = 9;
+
+interface UploadingImage {
+    id: string;
+    file: File;
+    preview: string;
+    progress: number;
+    error?: string;
+    url?: string;
+}
 
 interface CompleteProjectDialogProps {
     projectId: number | string;
     projectTitle: string;
+    challengeId?: number | null;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess: () => void;
@@ -31,64 +46,158 @@ interface CompleteProjectDialogProps {
 export function CompleteProjectDialog({
     projectId,
     projectTitle,
+    challengeId,
     open,
     onOpenChange,
-    onSuccess
+    onSuccess,
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
     const { toast } = useToast();
     const { completeProject } = useProjects();
 
     const [proofImages, setProofImages] = useState<string[]>([]);
+    const [imageCaptions, setImageCaptions] = useState<string[]>([]);
+    const [uploading, setUploading] = useState<UploadingImage[]>([]);
     const [videoUrl, setVideoUrl] = useState("");
     const [notes, setNotes] = useState("");
-    const [isUploading, setIsUploading] = useState(false);
+    const [isPublic, setIsPublic] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (!files || !user) return;
+    const totalImages = proofImages.length + uploading.length;
+    const canAddMore = totalImages < MAX_IMAGES;
 
-        setIsUploading(true);
+    const processFiles = useCallback(async (files: FileList | File[]) => {
+        if (!user) return;
+        const fileArray = Array.from(files);
+        const validFiles: File[] = [];
 
-        try {
-            const uploadedUrls: string[] = [];
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (!file.type.startsWith('image/')) {
-                    toast({ title: '仅支持图片格式', variant: 'destructive' });
-                    continue;
-                }
-                if (file.size > 10 * 1024 * 1024) {
-                    toast({ title: '图片不能超过 10MB', variant: 'destructive' });
-                    continue;
-                }
-
-                const url = await uploadFileSecure(file, 'project-completions');
-                if (!url) throw new Error('上传失败');
-                uploadedUrls.push(url);
+        for (const file of fileArray) {
+            if (!file.type.startsWith("image/")) {
+                toast({ title: "仅支持图片格式", variant: "destructive" });
+                continue;
             }
-
-            setProofImages([...proofImages, ...uploadedUrls]);
-            toast({
-                title: "上传成功",
-                description: `已上传 ${uploadedUrls.length} 张图片`
-            });
-        } catch (error: unknown) {
-            toast({
-                title: "上传失败",
-                description: error instanceof Error ? error.message : "上传失败",
-                variant: "destructive"
-            });
-        } finally {
-            setIsUploading(false);
+            if (file.size > 10 * 1024 * 1024) {
+                toast({ title: "图片不能超过 10MB", variant: "destructive" });
+                continue;
+            }
+            validFiles.push(file);
         }
+
+        const remaining = MAX_IMAGES - totalImages;
+        if (validFiles.length > remaining) {
+            toast({
+                title: `最多上传 ${MAX_IMAGES} 张`,
+                description: `还可上传 ${remaining} 张，多余的已忽略`,
+                variant: "destructive",
+            });
+        }
+        const batch = validFiles.slice(0, Math.max(0, remaining));
+        if (batch.length === 0) return;
+
+        const newItems: UploadingImage[] = batch.map((file) => ({
+            id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+            file,
+            preview: URL.createObjectURL(file),
+            progress: 0,
+        }));
+
+        setUploading((prev) => [...prev, ...newItems]);
+
+        await Promise.all(
+            newItems.map(async (item) => {
+                const url = await uploadFileSecureWithProgress(
+                    item.file,
+                    "project-completions",
+                    (loaded, total) => {
+                        const pct = Math.round((loaded / total) * 100);
+                        setUploading((prev) =>
+                            prev.map((u) => (u.id === item.id ? { ...u, progress: pct } : u))
+                        );
+                    }
+                );
+
+                if (url) {
+                    setProofImages((prev) => [...prev, url]);
+                    setImageCaptions((prev) => [...prev, ""]);
+                    setUploading((prev) => prev.filter((u) => u.id !== item.id));
+                } else {
+                    setUploading((prev) =>
+                        prev.map((u) =>
+                            u.id === item.id ? { ...u, error: "上传失败，请重试", progress: 0 } : u
+                        )
+                    );
+                }
+                URL.revokeObjectURL(item.preview);
+            })
+        );
+    }, [user, toast, totalImages]);
+
+    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) processFiles(e.target.files);
+        e.target.value = "";
     };
 
+    const handleDragOver = useCallback((e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    }, []);
+
+    const handleDrop = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(false);
+            if (e.dataTransfer.files.length > 0) {
+                processFiles(e.dataTransfer.files);
+            }
+        },
+        [processFiles]
+    );
+
     const removeImage = (index: number) => {
-        setProofImages(proofImages.filter((_, i) => i !== index));
+        setProofImages((prev) => prev.filter((_, i) => i !== index));
+        setImageCaptions((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const removeUploadingItem = (id: string) => {
+        setUploading((prev) => {
+            const item = prev.find((u) => u.id === id);
+            if (item) URL.revokeObjectURL(item.preview);
+            return prev.filter((u) => u.id !== id);
+        });
+    };
+
+    const moveImage = (index: number, direction: "up" | "down") => {
+        const newIndex = direction === "up" ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= proofImages.length) return;
+        setProofImages((prev) => {
+            const arr = [...prev];
+            [arr[index], arr[newIndex]] = [arr[newIndex], arr[index]];
+            return arr;
+        });
+        setImageCaptions((prev) => {
+            const arr = [...prev];
+            [arr[index], arr[newIndex]] = [arr[newIndex], arr[newIndex] !== undefined ? arr[index] : ""];
+            return arr;
+        });
+    };
+
+    const updateCaption = (index: number, value: string) => {
+        setImageCaptions((prev) => {
+            const arr = [...prev];
+            while (arr.length <= index) arr.push("");
+            arr[index] = value;
+            return arr;
+        });
     };
 
     const handleSubmit = async () => {
@@ -98,7 +207,7 @@ export function CompleteProjectDialog({
             toast({
                 title: "请上传作品照片",
                 description: "至少上传一张作品照片来证明你完成了这个项目",
-                variant: "destructive"
+                variant: "destructive",
             });
             return;
         }
@@ -106,10 +215,13 @@ export function CompleteProjectDialog({
         setIsSubmitting(true);
 
         try {
+            const nonEmptyCaptions = imageCaptions.some((c) => c.trim().length > 0);
             await completeProject(projectId, {
                 images: proofImages,
                 videoUrl: videoUrl || undefined,
                 notes: notes || undefined,
+                isPublic,
+                imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
             });
 
             toast({
@@ -119,20 +231,28 @@ export function CompleteProjectDialog({
 
             onSuccess();
             onOpenChange(false);
-
-            setProofImages([]);
-            setVideoUrl("");
-            setNotes("");
+            resetForm();
         } catch (error: unknown) {
             toast({
                 title: "提交失败",
                 description: error instanceof Error ? error.message : "提交失败",
-                variant: "destructive"
+                variant: "destructive",
             });
         } finally {
             setIsSubmitting(false);
         }
     };
+
+    const resetForm = () => {
+        setProofImages([]);
+        setImageCaptions([]);
+        setUploading([]);
+        setVideoUrl("");
+        setNotes("");
+        setIsPublic(true);
+    };
+
+    const isUploadInProgress = uploading.some((u) => !u.error);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -150,65 +270,156 @@ export function CompleteProjectDialog({
                         <p className="font-medium text-center">{projectTitle}</p>
                     </div>
 
-                    {/* 作品照片 */}
+                    {/* PBL 联动提示 */}
+                    {challengeId && (
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
+                            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                            <p className="text-sm text-blue-700 dark:text-blue-300">
+                                此项目关联了挑战赛。填写反思与试错记录可额外获得{" "}
+                                <span className="font-semibold">+10 XP</span>。
+                            </p>
+                        </div>
+                    )}
+
+                    {/* 作品照片 — 拖拽上传区 */}
                     <div className="space-y-3">
-                        <Label className="text-base">
-                            作品照片 <span className="text-red-500">*</span>
-                        </Label>
-                        <p className="text-sm text-muted-foreground">
-                            上传至少 1 张作品照片
-                        </p>
+                        <div className="flex items-center justify-between">
+                            <Label className="text-base">
+                                作品照片 <span className="text-red-500">*</span>
+                            </Label>
+                            <span className="text-xs text-muted-foreground">
+                                {proofImages.length}/{MAX_IMAGES}
+                            </span>
+                        </div>
 
-                        {/* 已上传的图片 */}
-                        {proofImages.length > 0 && (
-                            <div className="grid grid-cols-3 gap-3">
-                                {proofImages.map((url, index) => (
-                                    <div key={index} className="relative group aspect-square">
-                                        <OptimizedImage
-                                            src={url}
-                                            alt={`作品 ${index + 1}`}
-                                            fill
-                                            variant="grid"
-                                            className="object-cover rounded-lg"
-                                        />
-                                        <button
-                                            onClick={() => removeImage(index)}
-                                            className="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                        >
-                                            <X className="h-4 w-4 text-white" />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                        <div
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={cn(
+                                "relative rounded-lg border-2 border-dashed transition-colors p-4",
+                                isDragging
+                                    ? "border-primary bg-primary/5"
+                                    : "border-muted-foreground/25 hover:border-muted-foreground/50"
+                            )}
+                        >
+                            {/* 已上传的图片 */}
+                            {proofImages.length > 0 && (
+                                <div className="grid grid-cols-3 gap-3 mb-4">
+                                    {proofImages.map((url, index) => (
+                                        <div key={url} className="space-y-1.5">
+                                            <div className="relative group aspect-square">
+                                                <OptimizedImage
+                                                    src={url}
+                                                    alt={`作品 ${index + 1}`}
+                                                    fill
+                                                    variant="grid"
+                                                    className="object-cover rounded-lg"
+                                                />
+                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg" />
+                                                <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                                    {index > 0 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => moveImage(index, "up")}
+                                                            className="p-1 bg-black/60 hover:bg-black/80 rounded-full"
+                                                            title="前移"
+                                                        >
+                                                            <ChevronUp className="h-3 w-3 text-white" />
+                                                        </button>
+                                                    )}
+                                                    {index < proofImages.length - 1 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => moveImage(index, "down")}
+                                                            className="p-1 bg-black/60 hover:bg-black/80 rounded-full"
+                                                            title="后移"
+                                                        >
+                                                            <ChevronDown className="h-3 w-3 text-white" />
+                                                        </button>
+                                                    )}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeImage(index)}
+                                                        className="p-1 bg-black/60 hover:bg-red-600 rounded-full"
+                                                    >
+                                                        <X className="h-3 w-3 text-white" />
+                                                    </button>
+                                                </div>
+                                                <span className="absolute bottom-1.5 left-1.5 text-[10px] font-medium bg-black/50 text-white px-1.5 py-0.5 rounded">
+                                                    {index + 1}
+                                                </span>
+                                            </div>
+                                            <Input
+                                                placeholder="为这张图写一句说明…"
+                                                value={imageCaptions[index] ?? ""}
+                                                onChange={(e) => updateCaption(index, e.target.value)}
+                                                className="h-7 text-xs"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
-                        {/* 上传按钮 */}
-                        <div>
+                            {/* 正在上传的图片 */}
+                            {uploading.length > 0 && (
+                                <div className="grid grid-cols-3 gap-3 mb-4">
+                                    {uploading.map((item) => (
+                                        <div key={item.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={item.preview}
+                                                alt="上传中"
+                                                className="w-full h-full object-cover opacity-60"
+                                            />
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-3">
+                                                {item.error ? (
+                                                    <>
+                                                        <p className="text-xs text-red-400 text-center">{item.error}</p>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeUploadingItem(item.id)}
+                                                            className="text-xs text-red-300 underline"
+                                                        >
+                                                            移除
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <Progress value={item.progress} className="h-1.5 w-full" />
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* 拖拽/点击提示 */}
+                            {canAddMore && (
+                                <button
+                                    type="button"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="w-full flex flex-col items-center gap-2 py-6 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    <ImagePlus className="h-8 w-8" />
+                                    <span className="text-sm">
+                                        {proofImages.length === 0
+                                            ? "点击或拖拽上传作品照片"
+                                            : "继续添加照片"}
+                                    </span>
+                                    <span className="text-xs text-muted-foreground">
+                                        支持 JPG / PNG / WebP，单张不超过 10MB
+                                    </span>
+                                </button>
+                            )}
+
                             <input
                                 ref={fileInputRef}
                                 type="file"
                                 accept="image/*"
                                 multiple
-                                onChange={handleImageUpload}
-                                disabled={isUploading}
+                                onChange={handleFileInput}
                                 className="hidden"
                             />
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={isUploading}
-                                className="w-full"
-                            >
-                                {isUploading ? (
-                                    <>上传中...</>
-                                ) : (
-                                    <>
-                                        <Upload className="mr-2 h-4 w-4" />
-                                        上传照片
-                                    </>
-                                )}
-                            </Button>
                         </div>
                     </div>
 
@@ -232,14 +443,27 @@ export function CompleteProjectDialog({
                         <Label htmlFor="notes">完成笔记（可选）</Label>
                         <Textarea
                             id="notes"
-                            placeholder="分享你的制作过程、遇到的挑战或学到的东西..."
+                            placeholder={
+                                challengeId
+                                    ? "分享你的制作过程、遇到的挑战或反思要点…"
+                                    : "分享你的制作过程、遇到的挑战或学到的东西…"
+                            }
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            rows={5}
+                            rows={4}
                         />
-                        <p className="text-xs text-muted-foreground">
-                            记录你的心得，帮助其他人学习
-                        </p>
+                    </div>
+
+                    {/* 是否公开展示 */}
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            id="is-public"
+                            checked={isPublic}
+                            onCheckedChange={(checked) => setIsPublic(checked === true)}
+                        />
+                        <Label htmlFor="is-public" className="text-sm font-normal cursor-pointer">
+                            公开展示此完成记录（其他用户可在你的主页看到）
+                        </Label>
                     </div>
                 </div>
 
@@ -249,9 +473,13 @@ export function CompleteProjectDialog({
                     </Button>
                     <Button
                         onClick={handleSubmit}
-                        disabled={isSubmitting || proofImages.length === 0}
+                        disabled={isSubmitting || proofImages.length === 0 || isUploadInProgress}
                     >
-                        {isSubmitting ? "提交中..." : "提交完成记录 (+20 XP)"}
+                        {isSubmitting
+                            ? "提交中..."
+                            : isUploadInProgress
+                              ? "上传中..."
+                              : "提交完成记录 (+20 XP)"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

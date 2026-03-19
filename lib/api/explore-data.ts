@@ -745,6 +745,7 @@ export async function getProjectCompletions(
     notes: string | null;
     is_public: boolean;
     likes_count: number;
+    proof_captions: string[] | null;
   };
   return (completions as CompletionData[]).map((item) => {
     const profile = profilesMap.get(item.user_id);

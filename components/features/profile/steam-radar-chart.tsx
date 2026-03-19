@@ -129,9 +129,9 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
           </p>
         </div>
       </div>
-      <div className="h-52 sm:h-64 w-full">
+      <div className="h-52 sm:h-64 min-h-[208px] sm:min-h-[256px] w-full min-w-[200px]">
         {hasData ? (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={208}>
             <RadarChart data={data} outerRadius="80%">
               <PolarGrid
                 gridType="polygon"

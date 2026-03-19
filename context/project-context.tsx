@@ -26,6 +26,8 @@ export interface ProjectCompletionProof {
   images: string[];
   videoUrl?: string;
   notes?: string;
+  isPublic?: boolean;
+  imageCaptions?: string[];
 }
 
 type ProjectContextType = {
@@ -50,7 +52,6 @@ type ProjectContextType = {
   isCollected: (projectId: string | number) => boolean;
   completeProject: (projectId: string | number, proof: ProjectCompletionProof) => Promise<void>;
   uncompleteProject: (projectId: string | number) => Promise<void>;
-  toggleProjectCompleted: (projectId: string | number) => Promise<void>;
   isCompleted: (projectId: string | number) => boolean;
   deleteComment: (commentId: string | number) => Promise<void>;
   updateProject: (projectId: string | number, project: Project, isMajorEdit?: boolean) => Promise<void>;
@@ -719,13 +720,18 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       });
 
       try {
-        const { error } = await supabase.from("completed_projects").insert({
+        const insertData: Record<string, unknown> = {
           user_id: user.id,
           project_id: pid,
           proof_images: proof.images,
           proof_video_url: proof.videoUrl || null,
           notes: proof.notes || null,
-        } as never);
+          is_public: proof.isPublic ?? true,
+        };
+        if (proof.imageCaptions && proof.imageCaptions.length > 0) {
+          insertData.proof_captions = proof.imageCaptions;
+        }
+        const { error } = await supabase.from("completed_projects").insert(insertData as never);
 
         if (error) throw error;
 
@@ -872,20 +878,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     [completedProjects],
   );
 
-  const toggleProjectCompleted = useCallback(
-    async (projectId: string | number) => {
-      if (isCompleted(projectId)) {
-        await uncompleteProject(projectId);
-      } else {
-        await completeProject(projectId, {
-          images: ["auto_toggle"],
-          notes: "Quick completed via toggle",
-        });
-      }
-    },
-    [isCompleted, uncompleteProject, completeProject],
-  );
-
   const deleteComment = useCallback(
     async (commentId: string | number) => {
       if (!user) return;
@@ -933,7 +925,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isCollected,
       completeProject,
       uncompleteProject,
-      toggleProjectCompleted,
       isCompleted,
       deleteComment,
       updateProject,
@@ -955,7 +946,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isCollected,
       completeProject,
       uncompleteProject,
-      toggleProjectCompleted,
       isCompleted,
       deleteComment,
       updateProject,

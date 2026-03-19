@@ -32,6 +32,52 @@ export async function uploadFileSecure(
 }
 
 /**
+ * Upload via /api/upload with XMLHttpRequest for progress tracking.
+ * Falls back to uploadFileSecure on XHR failure.
+ */
+export function uploadFileSecureWithProgress(
+  file: File,
+  bucket: string,
+  onProgress?: (loaded: number, total: number) => void
+): Promise<string | null> {
+  return new Promise((resolve) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('bucket', bucket)
+
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', '/api/upload')
+
+    if (onProgress) {
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) onProgress(e.loaded, e.total)
+      }
+    }
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const data = JSON.parse(xhr.responseText)
+          resolve(data.publicUrl ?? null)
+        } catch {
+          resolve(null)
+        }
+      } else {
+        logger.error('Upload with progress failed', { status: xhr.status })
+        resolve(null)
+      }
+    }
+
+    xhr.onerror = () => {
+      logger.error('Upload XHR error')
+      resolve(null)
+    }
+
+    xhr.send(formData)
+  })
+}
+
+/**
  * 上传文件到 Supabase Storage (legacy, client-direct)
  * @deprecated Use uploadFileSecure for server-validated uploads
  */

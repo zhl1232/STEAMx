@@ -260,6 +260,7 @@ export interface ProjectCompletion {
     nameColorId?: string | null
     completedAt: string
     proofImages: string[]
+    proofCaptions?: string[]
     proofVideoUrl?: string
     notes?: string
     isPublic: boolean
@@ -473,6 +474,7 @@ export function mapDbCompletion(
         nameColorId: dbCompletion.profiles?.equipped_name_color_id ?? undefined,
         completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
         proofImages: dbCompletion.proof_images || [],
+        proofCaptions: dbCompletion.proof_captions ?? undefined,
         proofVideoUrl: dbCompletion.proof_video_url || undefined,
         notes: dbCompletion.notes || undefined,
         isPublic: dbCompletion.is_public ?? true,
