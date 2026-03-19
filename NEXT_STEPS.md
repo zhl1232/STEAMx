@@ -270,8 +270,12 @@
   - 例：neon_halo 前端展示 150 币，DB 实际扣款 10 币。用户看到高价决定不买，实际只需很少。
   - 修复：迁移 `20260318130000_sync_shop_prices_with_frontend.sql` 将 DB `get_shop_item_price` 价格同步为前端 `lib/shop/items.ts` 的定价。
 
-- [ ] **[#13] 无内容过滤 / 敏感词检测**
-  - 评论、讨论、私信仅有速率限制，无敏感词过滤、重复内容检测、垃圾信息识别。
+- [x] **[#13] 无内容过滤 / 敏感词检测** ✅ 已修复
+  - 新增 `lib/content-filter/` 模块：基于 DFA Trie 的敏感词过滤引擎（isomorphic，客户端/服务端均可用），内嵌中英文敏感词库。
+  - 新增 `validateContentSafe()` 校验函数（`lib/api/validation.ts`），`handleApiError` 已支持 `ValidationError` → 400。
+  - 新建 `POST /api/comments` 和 `POST /api/replies` API 路由，`project-context` 和 `community-context` 中的评论/回复创建已迁移到 API 调用，实现服务端敏感词拦截。
+  - 已有 6 个 API 路由（评论编辑、讨论创建/编辑、回复编辑、消息发送、完成作品评论）统一接入 `validateContentSafe`。
+  - 项目创建/更新、讨论创建在客户端增加 `isClean()` 前置检查 + toast 提示。
 
 ### P2：体验与平衡性
 

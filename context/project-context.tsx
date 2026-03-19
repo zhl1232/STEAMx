@@ -21,6 +21,7 @@ import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
 import { getTodayKey, getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
+import { isClean } from "@/lib/content-filter";
 
 export interface ProjectCompletionProof {
   images: string[];
@@ -224,6 +225,25 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     async (project: Project) => {
       if (!user) return;
 
+      const textsToCheck = [
+        project.title,
+        project.description,
+        project.reflection,
+        project.problem_statement,
+        ...(project.steps?.map((s) => `${s.title || ""} ${s.description || ""}`) || []),
+      ].filter(Boolean);
+
+      for (const t of textsToCheck) {
+        if (!isClean(t!)) {
+          toast({
+            title: "内容审核未通过",
+            description: "项目中包含不当内容，请修改后重试",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+
       // 1. Insert Project
       const insertData: Record<string, unknown> = {
         title: project.title,
@@ -323,12 +343,31 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         await Promise.all(notifications);
       }
     },
-    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification],
+    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, toast],
   );
 
   const updateProject = useCallback(
     async (projectId: string | number, project: Project, isMajorEdit = true) => {
       if (!user) return;
+
+      const textsToCheck = [
+        project.title,
+        project.description,
+        project.reflection,
+        project.problem_statement,
+        ...(project.steps?.map((s) => `${s.title || ""} ${s.description || ""}`) || []),
+      ].filter(Boolean);
+
+      for (const t of textsToCheck) {
+        if (!isClean(t!)) {
+          toast({
+            title: "内容审核未通过",
+            description: "项目中包含不当内容，请修改后重试",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
 
       const pid = typeof projectId === "string" ? parseInt(projectId) : projectId;
 
@@ -409,27 +448,29 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     async (projectId: string | number, comment: Comment, parentId?: number) => {
       if (!user) return null;
 
-      const { data: newComment, error } = await supabase
-        .from("comments")
-        .insert({
+      const res = await fetch("/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           project_id: projectId,
-          author_id: user.id,
           content: comment.content,
           parent_id: parentId || null,
           reply_to_user_id: comment.reply_to_user_id || null,
           reply_to_username: comment.reply_to_username || null,
           image_url: comment.image_url || null,
-        } as never)
-        .select(`
-                *,
-                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-            `)
-        .single();
+        }),
+      });
 
-      if (error || !newComment) {
-        logger.error("Error adding comment:", { error });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        const msg = body?.error || "发送评论失败";
+        logger.error("Error adding comment:", { error: msg });
+        toast({ title: "发送失败", description: msg, variant: "destructive" });
         return null;
       }
+
+      const { comment: newComment } = await res.json();
+      if (!newComment) return null;
 
       // 副作用异步执行，不阻塞 UI（addXp 内的 refetchStats 会自动触发 checkBadges）
       const commentRow = newComment as { id: number };
@@ -481,7 +522,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return mapComment(newComment as unknown as DbComment);
     },
-    [supabase, user, profile, createNotification, addXp],
+    [supabase, user, profile, createNotification, addXp, toast],
   );
 
   const toggleLike = useCallback(

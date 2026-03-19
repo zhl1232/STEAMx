@@ -1,3 +1,5 @@
+import { checkContent } from '@/lib/content-filter'
+
 /**
  * 验证错误类
  */
@@ -167,6 +169,18 @@ export function validateNumber(
     throw new ValidationError(`${fieldName} must be at most ${opts.max}`)
   }
   return num
+}
+
+/**
+ * 验证文本不含敏感词
+ * @throws ValidationError 如果文本中检测到敏感词
+ */
+export function validateContentSafe(value: string, fieldName: string): string {
+  const result = checkContent(value)
+  if (!result.passed) {
+    throw new ValidationError(`${fieldName}包含不当内容，请修改后重试`)
+  }
+  return value
 }
 
 /**

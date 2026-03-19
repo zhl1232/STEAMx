@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 
 function parseNumber(value: string | null, fallback: number) {
@@ -62,6 +63,8 @@ export async function POST(
     if (content.length > 500) {
       return NextResponse.json({ error: 'Content too long' }, { status: 400 })
     }
+
+    validateContentSafe(content, '评论内容')
 
     const { data, error } = await supabase
       .from('completion_comments')

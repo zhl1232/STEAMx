@@ -11,6 +11,8 @@ import { Comment, Discussion } from "@/lib/types";
 import type { Challenge } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
+import { isClean } from "@/lib/content-filter";
+import { useToast } from "@/hooks/use-toast";
 
 
 
@@ -44,6 +46,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const { user, profile, loading: authLoading } = useAuth();
     const { addXp } = useGamification();
     const { createNotification } = useNotifications();
+    const { toast } = useToast();
 
     // Refs for stable callbacks
     const challengesRef = useRef<ChallengeGroups>(challenges);
@@ -87,6 +90,15 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const addDiscussion = useCallback(async (discussion: Discussion) => {
         if (!user) return;
 
+        if (!isClean(discussion.title) || !isClean(discussion.content)) {
+            toast({
+                title: "内容审核未通过",
+                description: "讨论中包含不当内容，请修改后重试",
+                variant: "destructive",
+            });
+            return;
+        }
+
         const { data: newDiscussion, error } = await supabase
             .from('discussions')
             .insert({
@@ -106,32 +118,32 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         // 副作用异步执行（addXp 内的 refetchStats 会自动触发 checkBadges）
         const created = newDiscussion as { id: number };
         addXp(5, "发起讨论", "create_discussion", created.id);
-    }, [supabase, user, addXp]);
+    }, [supabase, user, addXp, toast]);
 
     const addReply = useCallback(async (discussionId: string | number, reply: Comment, parentId?: number) => {
         if (!user) return null;
 
-        const { data: newReply, error } = await supabase
-            .from('discussion_replies')
-            .insert({
+        const res = await fetch("/api/replies", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 discussion_id: discussionId,
-                author_id: user.id,
                 content: reply.content,
                 parent_id: parentId || null,
                 reply_to_user_id: reply.reply_to_user_id || null,
                 reply_to_username: reply.reply_to_username || null,
                 image_url: reply.image_url || null,
-            } as never)
-            .select(`
-                *,
-                profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-            `)
-            .single();
+            }),
+        });
 
-        if (error || !newReply) {
-            logger.error('Error adding reply:', { error });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            logger.error("Error adding reply:", { error: body?.error });
             return null;
         }
+
+        const { reply: newReply } = await res.json();
+        if (!newReply) return null;
 
         // 副作用异步执行，不阻塞 UI（addXp 内的 refetchStats 会自动触发 checkBadges）
         const replyRow = newReply as { id: number };
@@ -173,7 +185,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         })();
 
         return mapComment(newReply as unknown as DbComment);
-    }, [supabase, user, profile, createNotification, addXp]);
+    }, [supabase, user, profile, createNotification, addXp, toast]);
 
     const joinChallenge = useCallback(async (challengeId: string | number) => {
         if (!user) return;

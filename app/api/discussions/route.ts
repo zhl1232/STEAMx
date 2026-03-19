@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime } from '@/lib/date-utils'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { sanitizeSearch } from '@/lib/api/validation'
+import { sanitizeSearch, validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 type DiscussionListItem = {
   id: string | number
@@ -152,6 +152,9 @@ export async function POST(request: NextRequest) {
     if (tags.some((t: string) => t.length > 30)) {
       return NextResponse.json({ error: 'Each tag must not exceed 30 characters' }, { status: 400 })
     }
+
+    validateContentSafe(title, '讨论标题')
+    validateContentSafe(content, '讨论内容')
 
     const { data, error } = await supabase
       .from('discussions')

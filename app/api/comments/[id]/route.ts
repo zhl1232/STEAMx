@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { validateContentSafe } from '@/lib/api/validation'
 
 /**
  * PATCH /api/comments/[id]
@@ -30,6 +31,8 @@ export async function PATCH(
     if (content.length > 2000) {
       return NextResponse.json({ error: '评论内容过长' }, { status: 400 })
     }
+
+    validateContentSafe(content, '评论内容')
 
     const { data: row } = await supabase
       .from('comments')

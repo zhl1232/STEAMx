@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { validateUUID } from '@/lib/api/validation'
+import { validateUUID, validateContentSafe } from '@/lib/api/validation'
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -24,6 +24,8 @@ export async function POST(request: NextRequest) {
     if (content.length > 2000) {
       return NextResponse.json({ error: '消息不能超过 2000 字' }, { status: 400 })
     }
+
+    validateContentSafe(content, '消息内容')
 
     const { data: receiverProfile, error: profileError } = await supabase
       .from('profiles')
