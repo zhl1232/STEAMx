@@ -591,9 +591,6 @@ export default function SudokuPage() {
                                 <h3 className="text-sm font-bold text-foreground mb-1">
                                     游戏统计
                                 </h3>
-                                <p className="text-xs text-muted-foreground mb-4">
-                                    数据保存在浏览器本地存储中。
-                                </p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">

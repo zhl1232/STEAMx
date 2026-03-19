@@ -27,8 +27,11 @@ export interface Database {
           updated_at: string
           xp: number
           coins: number
+          level: number | null
           equipped_avatar_frame_id: string | null
           equipped_name_color_id: string | null
+          equipped_theme_id: string | null
+          birth_date: string | null
           role: string
           notify_followed_creator_updates: boolean
           message_privacy: string
@@ -45,8 +48,11 @@ export interface Database {
           updated_at?: string
           xp?: number
           coins?: number
+          level?: number | null
           equipped_avatar_frame_id?: string | null
           equipped_name_color_id?: string | null
+          equipped_theme_id?: string | null
+          birth_date?: string | null
           role?: string
           notify_followed_creator_updates?: boolean
           message_privacy?: string
@@ -63,14 +69,42 @@ export interface Database {
           updated_at?: string
           xp?: number
           coins?: number
+          level?: number | null
           equipped_avatar_frame_id?: string | null
           equipped_name_color_id?: string | null
+          equipped_theme_id?: string | null
+          birth_date?: string | null
           notify_followed_creator_updates?: boolean
           role?: string
           message_privacy?: string
           age_confirmed_at?: string | null
         }
         Relationships: []
+      }
+      playground_stats: {
+        Row: {
+          user_id: string
+          stats: Record<string, unknown>
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          stats?: Record<string, unknown>
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          stats?: Record<string, unknown>
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playground_stats_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       categories: {
         Row: {
@@ -1253,6 +1287,38 @@ export interface Database {
       get_shop_item_price: {
         Args: { p_item_id: string }
         Returns: number | null
+      }
+      calculate_steam_radar: {
+        Args: { target_user_id: string }
+        Returns: Record<string, { display: number }>
+      }
+      get_recommended_projects: {
+        Args: {
+          p_user_steam?: unknown
+          p_age_group?: string | null
+          p_limit?: number
+          p_offset?: number
+        }
+        Returns: {
+          id: number
+          title: string
+          description: string | null
+          author_id: string
+          image_url: string | null
+          category: string | null
+          sub_category_id: number | null
+          difficulty: string | null
+          difficulty_stars: number
+          duration: number | null
+          likes_count: number
+          views_count: number | null
+          status: string
+          created_at: string
+          updated_at: string | null
+          author_display_name: string | null
+          _score: number
+          _pool: string
+        }[]
       }
     }
     Enums: {

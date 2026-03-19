@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -38,32 +39,23 @@ const EMPTY_STATS: Game24Stats = {
   averageTime: null,
 }
 
-// ── LocalStorage helpers ──────────────────────────────────────────────
+// ── Stats persistence ─────────────────────────────────────────────────
 
 function loadStats(): Game24Stats {
-  if (typeof window === 'undefined') return { ...EMPTY_STATS }
-  try {
-    const raw = window.localStorage.getItem(STATS_KEY)
-    if (!raw) return { ...EMPTY_STATS }
-    const p = JSON.parse(raw) as Partial<Game24Stats>
-    return {
-      totalRounds: p.totalRounds ?? 0,
-      solvedCount: p.solvedCount ?? 0,
-      skippedCount: p.skippedCount ?? 0,
-      bestStreak: p.bestStreak ?? 0,
-      bestTime: p.bestTime ?? null,
-      averageTime: p.averageTime ?? null,
-    }
-  } catch {
-    return { ...EMPTY_STATS }
+  const p = getPlaygroundItem<Partial<Game24Stats>>(STATS_KEY)
+  if (!p) return { ...EMPTY_STATS }
+  return {
+    totalRounds: p.totalRounds ?? 0,
+    solvedCount: p.solvedCount ?? 0,
+    skippedCount: p.skippedCount ?? 0,
+    bestStreak: p.bestStreak ?? 0,
+    bestTime: p.bestTime ?? null,
+    averageTime: p.averageTime ?? null,
   }
 }
 
 function saveStats(stats: Game24Stats) {
-  if (typeof window === 'undefined') return
-  try {
-    window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-  } catch { /* ignore */ }
+  setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Solver ─────────────────────────────────────────────────────────────

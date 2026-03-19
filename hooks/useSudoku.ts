@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -38,35 +39,26 @@ const EMPTY_STATS: SudokuStats = {
 // ── Stats persistence ─────────────────────────────────────────────────
 
 function loadStats(): SudokuStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS }
-        const p = JSON.parse(raw) as Partial<SudokuStats>
-        return {
-            totalGames: p.totalGames ?? 0,
-            wins: p.wins ?? 0,
-            bestTimes: {
-                easy: p.bestTimes?.easy ?? null,
-                medium: p.bestTimes?.medium ?? null,
-                hard: p.bestTimes?.hard ?? null,
-            },
-            winsByDifficulty: {
-                easy: p.winsByDifficulty?.easy ?? 0,
-                medium: p.winsByDifficulty?.medium ?? 0,
-                hard: p.winsByDifficulty?.hard ?? 0,
-            },
-        }
-    } catch {
-        return { ...EMPTY_STATS }
+    const p = getPlaygroundItem<Partial<SudokuStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS }
+    return {
+        totalGames: p.totalGames ?? 0,
+        wins: p.wins ?? 0,
+        bestTimes: {
+            easy: p.bestTimes?.easy ?? null,
+            medium: p.bestTimes?.medium ?? null,
+            hard: p.bestTimes?.hard ?? null,
+        },
+        winsByDifficulty: {
+            easy: p.winsByDifficulty?.easy ?? 0,
+            medium: p.winsByDifficulty?.medium ?? 0,
+            hard: p.winsByDifficulty?.hard ?? 0,
+        },
     }
 }
 
 function saveStats(stats: SudokuStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch { /* ignore */ }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Grid utilities ────────────────────────────────────────────────────

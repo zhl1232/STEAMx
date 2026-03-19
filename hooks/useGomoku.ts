@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 export type GomokuPlayer = "black" | "white"
 
@@ -56,31 +57,20 @@ function createEmptyBoard(): GomokuCell[][] {
 }
 
 function loadStats(): GomokuStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS }
-        const p = JSON.parse(raw) as Partial<GomokuStats>
-        return {
-            totalGames: p.totalGames ?? 0,
-            wins: p.wins ?? 0,
-            losses: p.losses ?? 0,
-            draws: p.draws ?? 0,
-            bestMoves: p.bestMoves ?? null,
-            gomokuPvEWins: p.gomokuPvEWins ?? 0,
-        }
-    } catch {
-        return { ...EMPTY_STATS }
+    const p = getPlaygroundItem<Partial<GomokuStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS }
+    return {
+        totalGames: p.totalGames ?? 0,
+        wins: p.wins ?? 0,
+        losses: p.losses ?? 0,
+        draws: p.draws ?? 0,
+        bestMoves: p.bestMoves ?? null,
+        gomokuPvEWins: p.gomokuPvEWins ?? 0,
     }
 }
 
 function saveStats(stats: GomokuStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch {
-        /* ignore */
-    }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Win detection ─────────────────────────────────────────────────────

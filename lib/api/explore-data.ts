@@ -4,6 +4,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
+import { callRpc } from "@/lib/supabase/rpc";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
 import {
   mapDbProject,
@@ -362,6 +363,103 @@ export async function getProjects(
   const hasMore = total > to + 1;
 
   return { projects, total, hasMore };
+}
+
+/**
+ * 智能推荐项目（首页 popular 使用）
+ * 多因子加权：时间衰减热度 + Lv.20+曝光加权 + STEAM偏好亲和 + 年龄适配 + 60/40防霸榜混合
+ */
+export async function getRecommendedProjects(
+  userSteam: Record<string, number> | null,
+  ageGroup: string | null,
+  pagination: { limit?: number; offset?: number } = {},
+): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
+  const supabase = await createClient();
+  const { limit = 6, offset = 0 } = pagination;
+
+  const { data, error } = await callRpc(supabase, "get_recommended_projects", {
+    p_user_steam: userSteam,
+    p_age_group: ageGroup,
+    p_limit: limit,
+    p_offset: offset,
+  });
+
+  if (error) {
+    logger.error("Error fetching recommended projects, falling back to popular", { error });
+    return getProjects({}, { page: 0, pageSize: pagination.limit ?? 6, sortBy: "popular" });
+  }
+
+  const rows = data || [];
+  const rankedProjectIds = rows.map((row) => row.id);
+
+  if (rankedProjectIds.length === 0) {
+    return { projects: [], total: 0, hasMore: false };
+  }
+
+  const [{ data: projectData, error: projectError }, { data: countRows, error: countError }] = await Promise.all([
+    supabase
+      .from("projects")
+      .select(`
+        *,
+        profiles:author_id (display_name),
+        sub_categories (name)
+      `)
+      .in("id", rankedProjectIds),
+    supabase.rpc("get_projects_comments_count_batch", {
+      p_project_ids: rankedProjectIds,
+    }),
+  ]);
+
+  if (projectError) {
+    logger.error("Error hydrating recommended projects", { error: projectError });
+  }
+
+  if (countError) {
+    logger.error("Error fetching recommended projects comments count batch", { error: countError });
+  }
+
+  const hydratedRows = ((projectData as unknown as ProjectRowForMapper[] | null) || []).map((row) => ({ ...row }));
+  const rowByProjectId = new Map(hydratedRows.map((row) => [Number(row.id), row]));
+  const countByProjectId = new Map(
+    ((countRows as { project_id: number; comment_count: number }[] | null) || []).map((row) => [
+      row.project_id,
+      row.comment_count,
+    ]),
+  );
+
+  for (const row of hydratedRows) {
+    (row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0;
+  }
+
+  const fallbackByProjectId = new Map(rows.map((row) => [row.id, row]));
+  const projects: Project[] = rankedProjectIds.map((projectId) => {
+    const hydratedRow = rowByProjectId.get(projectId);
+    if (hydratedRow) {
+      return mapDbProject(hydratedRow);
+    }
+
+    const fallbackRow = fallbackByProjectId.get(projectId);
+    return {
+      id: projectId,
+      title: fallbackRow?.title || "",
+      author: fallbackRow?.author_display_name || "Unknown",
+      author_id: fallbackRow?.author_id || "",
+      image: fallbackRow?.image_url || "",
+      category: fallbackRow?.category || "",
+      likes: fallbackRow?.likes_count || 0,
+      comments_count: 0,
+      description: fallbackRow?.description || "",
+      materials: [],
+      steps: [],
+      difficulty: (fallbackRow?.difficulty as "easy" | "medium" | "hard") || undefined,
+      difficulty_stars: fallbackRow?.difficulty_stars || 3,
+      duration: fallbackRow?.duration || undefined,
+      tags: [],
+      status: (fallbackRow?.status as "draft" | "pending" | "approved" | "rejected") || "approved",
+    };
+  });
+
+  return { projects, total: rows.length, hasMore: false };
 }
 
 /**

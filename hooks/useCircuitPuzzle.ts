@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -344,27 +345,18 @@ const EMPTY_STATS: CircuitStats = {
 }
 
 function loadStats(): CircuitStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS }
-        const p = JSON.parse(raw) as Partial<CircuitStats>
-        return {
-            totalGames: p.totalGames ?? 0,
-            solvedCount: p.solvedCount ?? 0,
-            solvedLevels: p.solvedLevels ?? [],
-            bestTimes: p.bestTimes ?? {},
-        }
-    } catch {
-        return { ...EMPTY_STATS }
+    const p = getPlaygroundItem<Partial<CircuitStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS }
+    return {
+        totalGames: p.totalGames ?? 0,
+        solvedCount: p.solvedCount ?? 0,
+        solvedLevels: p.solvedLevels ?? [],
+        bestTimes: p.bestTimes ?? {},
     }
 }
 
 function saveStats(stats: CircuitStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch { /* ignore */ }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── React Hook ────────────────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -43,26 +44,17 @@ type VisStep = {
 // ── Stats persistence ─────────────────────────────────────────────────
 
 function loadStats(): NQueensStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS, bestSolvesByN: {} }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS, bestSolvesByN: {} }
-        const p = JSON.parse(raw) as Partial<NQueensStats>
-        return {
-            totalGames: p.totalGames ?? 0,
-            manualSolves: p.manualSolves ?? 0,
-            bestSolvesByN: p.bestSolvesByN ?? {},
-        }
-    } catch {
-        return { ...EMPTY_STATS, bestSolvesByN: {} }
+    const p = getPlaygroundItem<Partial<NQueensStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS, bestSolvesByN: {} }
+    return {
+        totalGames: p.totalGames ?? 0,
+        manualSolves: p.manualSolves ?? 0,
+        bestSolvesByN: p.bestSolvesByN ?? {},
     }
 }
 
 function saveStats(stats: NQueensStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch { /* ignore */ }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Board helpers ─────────────────────────────────────────────────────

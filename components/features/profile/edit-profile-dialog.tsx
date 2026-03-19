@@ -42,6 +42,8 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
   const [displayName, setDisplayName] = useState("")
   const [bio, setBio] = useState("")
   const [gender, setGender] = useState("")
+  const [birthYear, setBirthYear] = useState("")
+  const [birthMonth, setBirthMonth] = useState("")
   const [avatarUrl, setAvatarUrl] = useState("")
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   /** 已上传的头像 URL，在选择器里始终保留一格，不随切换预设而消失 */
@@ -68,16 +70,24 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
     // Fetch profile data（含 last_uploaded_avatar_url，用于选择器里始终保留「已上传」一格）
     const { data } = await supabase
       .from('profiles')
-      .select('username, display_name, bio, gender, avatar_url, last_uploaded_avatar_url')
+      .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url')
       .eq('id', user.id)
       .single()
 
     if (data) {
-      const row = data as unknown as { username: string | null; display_name: string | null; bio: string | null; gender: string | null; avatar_url: string | null; last_uploaded_avatar_url?: string | null }
+      const row = data as unknown as { username: string | null; display_name: string | null; bio: string | null; gender: string | null; birth_date: string | null; avatar_url: string | null; last_uploaded_avatar_url?: string | null }
       setUsername(row.username || "")
       setDisplayName(row.display_name || "")
       setBio(row.bio || "")
       setGender(row.gender || "")
+      if (row.birth_date) {
+        const [y, m] = row.birth_date.split("-")
+        setBirthYear(y)
+        setBirthMonth(String(parseInt(m, 10)))
+      } else {
+        setBirthYear("")
+        setBirthMonth("")
+      }
       const url = row.avatar_url || ""
       setAvatarUrl(url)
       // 已上传头像：当前是自定义则用当前；否则用库里的 last_uploaded_avatar_url，保存后也会一直存在
@@ -207,15 +217,23 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       // 本次是上传时：记入 last_uploaded_avatar_url，之后即使用户改回预设，选择器里仍可显示「已上传」一格
       const isCustomUpload = !finalAvatarUrl.startsWith("/avatars/")
       const trimmedUsername = username.trim()
+
+      let birthDate: string | null = null
+      if (birthYear && birthMonth) {
+        const m = birthMonth.padStart(2, "0")
+        birthDate = `${birthYear}-${m}-01`
+      }
+
       const updatePayload = {
         ...(trimmedUsername.length >= 3 ? { username: trimmedUsername } : {}),
         display_name: displayName,
         bio,
         gender: gender || null,
+        birth_date: birthDate,
         avatar_url: finalAvatarUrl,
         updated_at: new Date().toISOString(),
         ...(isCustomUpload ? { last_uploaded_avatar_url: finalAvatarUrl } : {}),
-      } as { username?: string; display_name: string; bio: string; gender: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
+      } as { username?: string; display_name: string; bio: string; gender: string | null; birth_date: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
       // 选预设时只改 avatar_url，不覆盖 last_uploaded_avatar_url，所以已上传的那格会一直存在
       if (!isCustomUpload) delete updatePayload.last_uploaded_avatar_url
 
@@ -332,7 +350,63 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
               )}
             </div>
 
-            {/* 5. 账号安全 - 手机号绑定（列表项样式） */}
+            {/* 5. 出生年月 */}
+            <div className="grid gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <Label>出生年月</Label>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-auto px-0 text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => { setBirthYear(""); setBirthMonth("") }}
+                  disabled={!birthYear && !birthMonth}
+                >
+                  清空
+                </Button>
+              </div>
+              {fetching ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <div className="flex gap-2">
+                  <Select value={birthYear || undefined} onValueChange={(v) => setBirthYear(v)}>
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder="年" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 30 }, (_, i) => {
+                        const y = new Date().getFullYear() - 3 - i
+                        return <SelectItem key={y} value={String(y)}>{y} 年</SelectItem>
+                      })}
+                    </SelectContent>
+                  </Select>
+                  <Select value={birthMonth || undefined} onValueChange={(v) => setBirthMonth(v)}>
+                    <SelectTrigger className="w-24">
+                      <SelectValue placeholder="月" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <SelectItem key={i + 1} value={String(i + 1)}>{i + 1} 月</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              {birthYear && birthMonth && (() => {
+                const now = new Date()
+                const bYear = Number(birthYear)
+                const bMonth = Number(birthMonth)
+                let age = now.getFullYear() - bYear
+                if (now.getMonth() + 1 < bMonth) age--
+                return (
+                  <p className="text-xs text-muted-foreground">
+                    当前年龄：约 {age} 岁
+                  </p>
+                )
+              })()}
+            </div>
+
+            {/* 6. 账号安全 - 手机号绑定（列表项样式） */}
             <div className="space-y-3 pt-2 border-t">
               <p className="text-sm font-medium text-muted-foreground">账号安全</p>
               {fetching ? (

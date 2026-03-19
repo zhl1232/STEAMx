@@ -17,6 +17,8 @@ export interface Profile {
   coins?: number;
   equipped_avatar_frame_id?: string;
   equipped_name_color_id?: string;
+  equipped_theme_id?: string | null;
+  birth_date?: string | null;
   message_privacy?: "everyone" | "followers_only" | "nobody";
   age_confirmed_at?: string | null;
   created_at?: string;

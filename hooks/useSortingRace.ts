@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 export type SortingAlgorithm = "bubble" | "selection" | "insertion" | "merge" | "quick"
 
@@ -38,27 +39,16 @@ const EMPTY_STATS: SortingStats = {
 // ── Stats persistence ────────────────────────────────────────────────
 
 function loadStats(): SortingStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS, algorithmsUsed: {} }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS, algorithmsUsed: {} }
-        const p = JSON.parse(raw) as Partial<SortingStats>
-        return {
-            totalRuns: p.totalRuns ?? 0,
-            algorithmsUsed: p.algorithmsUsed ?? {},
-        }
-    } catch {
-        return { ...EMPTY_STATS, algorithmsUsed: {} }
+    const p = getPlaygroundItem<Partial<SortingStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS, algorithmsUsed: {} }
+    return {
+        totalRuns: p.totalRuns ?? 0,
+        algorithmsUsed: p.algorithmsUsed ?? {},
     }
 }
 
 function saveStats(stats: SortingStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch {
-        /* ignore */
-    }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Array generation ─────────────────────────────────────────────────

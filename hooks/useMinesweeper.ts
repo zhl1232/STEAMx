@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage";
 
 export type CellState = {
     row: number;
@@ -41,13 +42,7 @@ const BEST_TIMES_KEY = 'minesweeper_best_times';
 type BestTimes = Record<string, number>; // difficulty -> best seconds
 
 function loadBestTimes(): BestTimes {
-    if (typeof window === 'undefined') return {};
-    try {
-        const raw = localStorage.getItem(BEST_TIMES_KEY);
-        return raw ? JSON.parse(raw) : {};
-    } catch {
-        return {};
-    }
+    return getPlaygroundItem<BestTimes>(BEST_TIMES_KEY) ?? {};
 }
 
 export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'beginner') {
@@ -108,7 +103,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
             const current = prev[key];
             if (current === undefined || finalTime < current) {
                 const next = { ...prev, [key]: finalTime };
-                try { localStorage.setItem(BEST_TIMES_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+                setPlaygroundItem(BEST_TIMES_KEY, next);
                 setIsNewRecord(true);
                 return next;
             }

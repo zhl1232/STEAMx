@@ -6,6 +6,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
+import { PLAYGROUND_KEYS, removePlaygroundItem, getPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundSync } from "@/hooks/usePlaygroundSync"
 
 const games = [
     {
@@ -100,31 +102,25 @@ const games = [
     },
 ]
 
-const STORAGE_KEYS = [
-    { key: "minesweeper_best_times", label: "扫雷" },
-    { key: "gomoku_records", label: "五子棋" },
-    { key: "game_of_life_stats", label: "生命游戏" },
-    { key: "game_2048_stats", label: "2048" },
-    { key: "game_24_stats", label: "24 点" },
-    { key: "hanoi_stats", label: "汉诺塔" },
-    { key: "sorting_race_stats", label: "排序可视化" },
-    { key: "sudoku_stats", label: "数独" },
-    { key: "nqueens_stats", label: "N 皇后" },
-    { key: "circuit_stats", label: "电路拼图" },
-]
-
-function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
+    open: boolean
+    onClose: () => void
+    onClearCloud: () => Promise<void>
+    onFlushCloud: () => Promise<void>
+}) {
     const [confirmAll, setConfirmAll] = useState(false)
 
-    const clearOne = useCallback((key: string) => {
-        localStorage.removeItem(key)
+    const clearOne = useCallback(async (key: string) => {
+        removePlaygroundItem(key)
+        await onFlushCloud()
         window.location.reload()
-    }, [])
+    }, [onFlushCloud])
 
-    const clearAll = useCallback(() => {
-        STORAGE_KEYS.forEach(({ key }) => localStorage.removeItem(key))
+    const clearAll = useCallback(async () => {
+        PLAYGROUND_KEYS.forEach(({ key }) => removePlaygroundItem(key))
+        await onClearCloud()
         window.location.reload()
-    }, [])
+    }, [onClearCloud])
 
     return (
         <AnimatePresence>
@@ -154,9 +150,9 @@ function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void 
                             </div>
 
                             <div className="space-y-1.5 mb-4">
-                                <p className="text-xs text-muted-foreground mb-2">游戏数据管理（存储在浏览器 localStorage 中）</p>
-                                {STORAGE_KEYS.map(({ key, label }) => {
-                                    const hasData = typeof window !== "undefined" && !!localStorage.getItem(key)
+                                <p className="text-xs text-muted-foreground mb-2">登录后数据自动云同步，清除将同时删除本地和云端记录</p>
+                                {PLAYGROUND_KEYS.map(({ key, label }) => {
+                                    const hasData = getPlaygroundItem(key) !== null
                                     return (
                                         <div key={key} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-muted/40">
                                             <span className="text-xs font-medium">{label}</span>
@@ -212,6 +208,7 @@ function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void 
 export default function PlaygroundLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
     const [settingsOpen, setSettingsOpen] = useState(false)
+    const { clearCloud, flushToCloud } = usePlaygroundSync()
 
     return (
         <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)]">
@@ -296,7 +293,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
                         </p>
                     </div>
                 </div>
-                <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+                <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} onClearCloud={clearCloud} onFlushCloud={flushToCloud} />
             </aside>
 
             <main className="flex-1 overflow-x-hidden relative">

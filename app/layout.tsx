@@ -60,7 +60,14 @@ export default function RootLayout({
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <script
           dangerouslySetInnerHTML={{
-            __html: 'window.__name = (n) => n;',
+            __html: `
+              window.__name = (n) => n;
+              try {
+                if (window.localStorage.getItem("theme") === "black-gold") {
+                  document.documentElement.classList.add("dark", "black-gold");
+                }
+              } catch {}
+            `,
           }}
         />
         <QueryProvider>
@@ -69,6 +76,7 @@ export default function RootLayout({
               attribute="class"
               defaultTheme="system"
               enableSystem
+              themes={["light", "dark", "system", "black-gold"]}
               disableTransitionOnChange
             >
               <ErrorBoundary>

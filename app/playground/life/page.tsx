@@ -485,9 +485,6 @@ export default function GameOfLifePage() {
                                     <Activity className="w-4 h-4 text-emerald-500" />
                                     本地统计
                                 </h2>
-                                <p className="text-[11px] text-muted-foreground">
-                                    数据保存在当前浏览器的 localStorage 中。
-                                </p>
                             </div>
 
                             <div className="grid grid-cols-1 gap-3">

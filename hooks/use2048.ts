@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage";
 
 export type Game2048Status = 'idle' | 'playing' | 'won' | 'gameover';
 
@@ -30,19 +31,11 @@ const STATS_KEY = 'game_2048_stats';
 const SWIPE_THRESHOLD = 30;
 
 function loadStats(): Game2048Stats {
-    if (typeof window === 'undefined') return { bestScore: 0, totalGames: 0, wins: 0, maxTile: 0 };
-    try {
-        const raw = localStorage.getItem(STATS_KEY);
-        return raw ? JSON.parse(raw) : { bestScore: 0, totalGames: 0, wins: 0, maxTile: 0 };
-    } catch {
-        return { bestScore: 0, totalGames: 0, wins: 0, maxTile: 0 };
-    }
+    return getPlaygroundItem<Game2048Stats>(STATS_KEY) ?? { bestScore: 0, totalGames: 0, wins: 0, maxTile: 0 };
 }
 
 function saveStats(stats: Game2048Stats) {
-    try {
-        localStorage.setItem(STATS_KEY, JSON.stringify(stats));
-    } catch { /* ignore */ }
+    setPlaygroundItem(STATS_KEY, stats);
 }
 
 function createEmptyGrid(): Grid {

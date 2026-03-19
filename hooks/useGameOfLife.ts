@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 export type GameOfLifeStatus = "idle" | "running" | "paused"
 
@@ -82,28 +83,17 @@ function nextGeneration(grid: boolean[][]): boolean[][] {
 // ── Stats persistence ────────────────────────────────────────────────
 
 function loadStats(): GameOfLifeStats {
-    if (typeof window === "undefined") return { ...EMPTY_STATS }
-    try {
-        const raw = window.localStorage.getItem(STATS_KEY)
-        if (!raw) return { ...EMPTY_STATS }
-        const p = JSON.parse(raw) as Partial<GameOfLifeStats>
-        return {
-            totalSessions: p.totalSessions ?? 0,
-            maxGeneration: p.maxGeneration ?? 0,
-            maxPopulation: p.maxPopulation ?? 0,
-        }
-    } catch {
-        return { ...EMPTY_STATS }
+    const p = getPlaygroundItem<Partial<GameOfLifeStats>>(STATS_KEY)
+    if (!p) return { ...EMPTY_STATS }
+    return {
+        totalSessions: p.totalSessions ?? 0,
+        maxGeneration: p.maxGeneration ?? 0,
+        maxPopulation: p.maxPopulation ?? 0,
     }
 }
 
 function saveStats(stats: GameOfLifeStats) {
-    if (typeof window === "undefined") return
-    try {
-        window.localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-    } catch {
-        /* ignore */
-    }
+    setPlaygroundItem(STATS_KEY, stats)
 }
 
 // ── Preset patterns ──────────────────────────────────────────────────

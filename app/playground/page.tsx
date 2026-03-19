@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { getPlaygroundItem } from "@/lib/playground/storage"
 import {
     ArrowRight,
     Terminal,
@@ -201,12 +202,7 @@ function safeNum(raw: unknown, key: string): number {
 }
 
 function readStats(key: string): unknown {
-    try {
-        const raw = localStorage.getItem(key)
-        return raw ? JSON.parse(raw) : null
-    } catch {
-        return null
-    }
+    return getPlaygroundItem(key)
 }
 
 type AggStats = {
