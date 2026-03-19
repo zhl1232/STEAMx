@@ -57,7 +57,7 @@ export function MobileProfilePage({
 
       {/* STEAM 雷达图 */}
       <div className="px-4 pt-3">
-        <SteamRadarChart stats={userStats ?? null} />
+        <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
       </div>
 
       {/* Tabs Content */}

@@ -121,6 +121,9 @@ export interface Discussion {
   updated_at?: string;
 }
 
+export type ChallengeType = "timed" | "evergreen";
+export type ChallengeStatus = "draft" | "active" | "ended" | "archived";
+
 /**
  * 挑战
  */
@@ -129,10 +132,21 @@ export interface Challenge {
   title: string;
   description: string;
   image_url?: string;
+  challenge_type: ChallengeType;
+  status: ChallengeStatus;
   participants_count: number;
+  completions_count: number;
+  difficulty_stars: number;
   start_date?: string;
   end_date?: string;
   tags?: string[];
+  scenario?: string;
+  driving_question?: string;
+  expected_outcome?: string;
+  constraints?: string[];
+  resources?: unknown[];
+  stages?: unknown[];
+  steam_weights?: Record<string, number>;
   created_at?: string;
 }
 
@@ -172,6 +186,30 @@ export interface ChallengeParticipant {
   user_id: string;
   challenge_id: number;
   joined_at?: string;
+}
+
+/**
+ * 挑战完成记录（长期挑战）
+ */
+export interface ChallengeCompletion {
+  user_id: string;
+  challenge_id: number;
+  project_id?: number;
+  completed_at?: string;
+}
+
+/**
+ * 挑战多维评分
+ */
+export interface ChallengeRating {
+  id: number;
+  project_id: number;
+  user_id: string;
+  creativity: number;
+  practicality: number;
+  technical: number;
+  reflection_depth: number;
+  created_at?: string;
 }
 
 /**

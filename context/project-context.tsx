@@ -53,7 +53,7 @@ type ProjectContextType = {
   toggleProjectCompleted: (projectId: string | number) => Promise<void>;
   isCompleted: (projectId: string | number) => boolean;
   deleteComment: (commentId: string | number) => Promise<void>;
-  updateProject: (projectId: string | number, project: Project) => Promise<void>;
+  updateProject: (projectId: string | number, project: Project, isMajorEdit?: boolean) => Promise<void>;
   isLoading: boolean;
 };
 
@@ -225,20 +225,27 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       if (!user) return;
 
       // 1. Insert Project
+      const insertData: Record<string, unknown> = {
+        title: project.title,
+        description: project.description,
+        author_id: user.id,
+        image_url: project.image,
+        category: project.category,
+        likes_count: 0,
+        difficulty: project.difficulty,
+        duration: project.duration,
+        tags: project.tags || [],
+        status: project.status || "pending",
+      };
+
+      if (project.challenge_id) insertData.challenge_id = project.challenge_id;
+      if (project.reflection) insertData.reflection = project.reflection;
+      if (project.problem_statement) insertData.problem_statement = project.problem_statement;
+      if (project.iterations && project.iterations.length > 0) insertData.iterations = project.iterations;
+
       const { data: newProject, error } = await supabase
         .from("projects")
-        .insert({
-          title: project.title,
-          description: project.description,
-          author_id: user.id,
-          image_url: project.image,
-          category: project.category,
-          likes_count: 0,
-          difficulty: project.difficulty,
-          duration: project.duration,
-          tags: project.tags || [],
-          status: project.status || "pending",
-        } as never)
+        .insert(insertData as never)
         .select()
         .single();
 
@@ -320,26 +327,29 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   );
 
   const updateProject = useCallback(
-    async (projectId: string | number, project: Project) => {
+    async (projectId: string | number, project: Project, isMajorEdit = true) => {
       if (!user) return;
 
       const pid = typeof projectId === "string" ? parseInt(projectId) : projectId;
 
-      // 1. Update Project Basic Info
+      const updateData: Record<string, unknown> = {
+        title: project.title,
+        description: project.description,
+        image_url: project.image,
+        category: project.category,
+        difficulty: project.difficulty,
+        duration: project.duration,
+        tags: project.tags || [],
+        updated_at: new Date().toISOString(),
+      };
+
+      if (project.reflection !== undefined) updateData.reflection = project.reflection || null;
+      if (project.problem_statement !== undefined) updateData.problem_statement = project.problem_statement || null;
+      if (project.iterations !== undefined) updateData.iterations = project.iterations || [];
+
       const { error: projectError } = await supabase
         .from("projects")
-        .update({
-          title: project.title,
-          description: project.description,
-          image_url: project.image,
-          category: project.category,
-          // sub_category_id: project.sub_category_id, // If needed
-          difficulty: project.difficulty,
-          duration: project.duration,
-          tags: project.tags || [],
-          status: "pending", // Re-submit for review
-          updated_at: new Date().toISOString(),
-        } as never)
+        .update(updateData as never)
         .eq("id", Number(pid))
         .eq("author_id", user.id);
 
@@ -348,7 +358,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         throw new Error("Failed to update project");
       }
 
-      // 2. Update Materials
       await supabase.from("project_materials").delete().eq("project_id", Number(pid));
       if (project.materials && project.materials.length > 0) {
         await supabase.from("project_materials").insert(
@@ -360,7 +369,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         );
       }
 
-      // 3. Update Steps
       await supabase.from("project_steps").delete().eq("project_id", Number(pid));
       if (project.steps && project.steps.length > 0) {
         await supabase.from("project_steps").insert(
@@ -374,10 +382,25 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         );
       }
 
-      toast({
-        title: "Project updated",
-        description: "Your project has been updated and submitted for review.",
-      });
+      if (isMajorEdit) {
+        try {
+          await (supabase.rpc as (fn: string, args: unknown) => PromiseLike<unknown>)(
+            "request_project_re_review",
+            { p_project_id: Number(pid) },
+          );
+        } catch (err) {
+          logger.error("Error requesting re-review:", { error: err });
+        }
+        toast({
+          title: "项目已更新",
+          description: "内容变更较大，已重新提交审核。",
+        });
+      } else {
+        toast({
+          title: "项目已更新",
+          description: "微调内容已保存，无需重新审核。",
+        });
+      }
     },
     [supabase, user, toast],
   );
@@ -468,6 +491,18 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       const isLiked = likedProjectsRef.current.has(projectId);
 
+      if (!isLiked) {
+        const { data: row } = await supabase
+          .from("projects")
+          .select("author_id")
+          .eq("id", Number(pid))
+          .single();
+        if (row && (row as { author_id: string }).author_id === user.id) {
+          toast({ title: "不能给自己的项目点赞哦", variant: "destructive" });
+          return;
+        }
+      }
+
       // Optimistic update
       setLikedProjects((prev) => {
         const newSet = new Set(prev);
@@ -525,7 +560,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         addXp(1, "点赞项目", "like_project", pid);
       }
     },
-    [supabase, user, profile, addXp, createNotification],
+    [supabase, user, profile, addXp, createNotification, toast],
   );
 
   const toggleCollection = useCallback(

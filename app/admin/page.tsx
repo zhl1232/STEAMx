@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
+import { ChallengeManagement } from '@/components/admin/challenge-management'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -143,6 +144,7 @@ export default function AdminPage() {
           <TabsTrigger value="reports">举报管理</TabsTrigger>
           <TabsTrigger value="projects">所有项目</TabsTrigger>
           <TabsTrigger value="applications">审核员申请</TabsTrigger>
+          <TabsTrigger value="challenges">挑战赛</TabsTrigger>
           <TabsTrigger value="tags">标签管理</TabsTrigger>
           <TabsTrigger value="users">用户管理</TabsTrigger>
         </TabsList>
@@ -228,6 +230,10 @@ export default function AdminPage() {
 
         <TabsContent value="applications" className="space-y-4">
           <ModeratorApplicationsList />
+        </TabsContent>
+
+        <TabsContent value="challenges" className="space-y-4">
+          <ChallengeManagement />
         </TabsContent>
 
         <TabsContent value="tags" className="space-y-4">

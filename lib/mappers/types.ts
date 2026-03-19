@@ -28,6 +28,7 @@ export interface DbCommentWithProfile {
     author_id: string
     content: string
     created_at: string
+    updated_at?: string | null
     parent_id?: number | null
     likes_count?: number | null
     reply_to_user_id?: string | null
@@ -78,6 +79,10 @@ export interface Project {
     status?: 'draft' | 'pending' | 'approved' | 'rejected'
     rejection_reason?: string | null
     challenge_id?: number | null
+    reflection?: string
+    problem_statement?: string
+    iterations?: Iteration[]
+    steam_weights?: SteamWeights | null
 }
 
 /**
@@ -117,6 +122,8 @@ export interface Comment {
     date: string
     /** ISO 时间字符串，用于排序（如按时间正序/倒序） */
     created_at?: string
+    /** 编辑时间，非 null 表示已编辑 */
+    updated_at?: string | null
     parent_id?: number | null
     reply_to_user_id?: string | null
     reply_to_username?: string | null
@@ -140,6 +147,21 @@ export interface Discussion {
     tags: string[]
 }
 
+export type ChallengeType = 'timed' | 'evergreen'
+export type ChallengeStatus = 'draft' | 'active' | 'ended' | 'archived'
+
+export interface SteamWeights {
+    S: number; T: number; E: number; A: number; M: number
+}
+
+export interface ChallengeResource {
+    title: string; url: string; type: string
+}
+
+export interface ChallengeStage {
+    title: string; description: string; hint?: string
+}
+
 /**
  * 挑战类型
  */
@@ -151,8 +173,61 @@ export interface Challenge {
     participants: number
     daysLeft: number
     endDate?: string
+    startDate?: string
     joined: boolean
     tags: string[]
+    challengeType: ChallengeType
+    status: ChallengeStatus
+    difficultyStars?: number
+    scenario?: string
+    drivingQuestion?: string
+    expectedOutcome?: string
+    constraints?: string[]
+    resources?: ChallengeResource[]
+    stages?: ChallengeStage[]
+    steamWeights?: SteamWeights
+    submissionsCount?: number
+    completionsCount?: number
+    completed?: boolean
+}
+
+export interface ChallengeRating {
+    id: number
+    projectId: number
+    userId: string
+    creativity: number
+    practicality: number
+    technical: number
+    reflectionDepth: number
+}
+
+export interface RatingSummary {
+    avgCreativity: number
+    avgPracticality: number
+    avgTechnical: number
+    avgReflectionDepth: number
+    totalScore: number
+    ratingCount: number
+}
+
+export interface SteamRadarDimension {
+    raw: number
+    display: number
+    tier: 'none' | 'foundation' | 'intermediate' | 'advanced'
+}
+
+export interface SteamRadarResult {
+    S: SteamRadarDimension
+    T: SteamRadarDimension
+    E: SteamRadarDimension
+    A: SteamRadarDimension
+    M: SteamRadarDimension
+}
+
+export interface Iteration {
+    description: string
+    result: string
+    created_at: string
 }
 
 /**
@@ -239,6 +314,10 @@ export function mapDbProject(
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
         rejection_reason: dbProject.rejection_reason ?? null,
         challenge_id: ('challenge_id' in dbProject ? (dbProject as Record<string, unknown>).challenge_id as number | null : null),
+        reflection: ('reflection' in dbProject ? (dbProject as Record<string, unknown>).reflection as string | undefined : undefined),
+        problem_statement: ('problem_statement' in dbProject ? (dbProject as Record<string, unknown>).problem_statement as string | undefined : undefined),
+        iterations: ('iterations' in dbProject ? (dbProject as Record<string, unknown>).iterations as Iteration[] | undefined : undefined),
+        steam_weights: ('steam_weights' in dbProject ? (dbProject as Record<string, unknown>).steam_weights as SteamWeights | null : null),
     }
 }
 
@@ -261,6 +340,7 @@ export function mapDbComment(
         likes_count: dbComment.likes_count ?? 0,
         date: formatRelativeTime(dbComment.created_at),
         created_at: dbComment.created_at,
+        updated_at: dbComment.updated_at ?? null,
         parent_id: dbComment.parent_id || null,
         reply_to_user_id: dbComment.reply_to_user_id || null,
         reply_to_username: dbComment.reply_to_username || null
@@ -320,8 +400,9 @@ export function mapDiscussionFromRow(row: DbDiscussionWithProfile, replies: Comm
  * 将数据库 Challenge 类型映射为前端 Challenge 类型
  */
 export function mapDbChallenge(
-    dbChallenge: DbChallenge,
-    joined: boolean = false
+    dbChallenge: DbChallenge & Record<string, unknown>,
+    joined: boolean = false,
+    completed: boolean = false
 ): Challenge {
     const endDate = dbChallenge.end_date ? new Date(dbChallenge.end_date) : null
     const daysLeft = endDate
@@ -336,8 +417,22 @@ export function mapDbChallenge(
         participants: dbChallenge.participants_count,
         daysLeft,
         endDate: dbChallenge.end_date || undefined,
+        startDate: (dbChallenge.start_date as string) || undefined,
         joined,
-        tags: dbChallenge.tags || []
+        tags: dbChallenge.tags || [],
+        challengeType: ((dbChallenge.challenge_type as string) || 'timed') as ChallengeType,
+        status: ((dbChallenge.status as string) || 'active') as ChallengeStatus,
+        difficultyStars: (dbChallenge.difficulty_stars as number) || 3,
+        scenario: (dbChallenge.scenario as string) || undefined,
+        drivingQuestion: (dbChallenge.driving_question as string) || undefined,
+        expectedOutcome: (dbChallenge.expected_outcome as string) || undefined,
+        constraints: (dbChallenge.constraints as string[]) || undefined,
+        resources: (dbChallenge.resources as unknown as ChallengeResource[]) || undefined,
+        stages: (dbChallenge.stages as unknown as ChallengeStage[]) || undefined,
+        steamWeights: (dbChallenge.steam_weights as unknown as SteamWeights) || undefined,
+        submissionsCount: (dbChallenge.submissions_count as number) ?? undefined,
+        completionsCount: (dbChallenge.completions_count as number) ?? undefined,
+        completed,
     }
 }
 

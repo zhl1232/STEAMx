@@ -338,7 +338,7 @@ export default function ProfilePage() {
               </div>
               <LevelProgress className="w-full" />
             </div>
-            <SteamRadarChart stats={userStats ?? null} />
+            <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
           </div>
 
           {/* 标签页切换 */}

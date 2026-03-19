@@ -36,13 +36,41 @@ export async function POST(
     const projectId = parseInt(id)
     
     if (action === 'approve') {
-      // 调用批准函数
       const { error } = await callRpc(supabase, 'approve_project', {
         project_id: projectId
       })
       
       if (error) {
         throw error
+      }
+
+      // Trigger evergreen challenge completion if applicable
+      const { data: project } = await supabase
+        .from('projects')
+        .select('author_id, challenge_id')
+        .eq('id', projectId)
+        .single()
+
+      if (project) {
+        const proj = project as { author_id: string; challenge_id: number | null }
+        if (proj.challenge_id) {
+          const { data: ch } = await supabase
+            .from('challenges')
+            .select('challenge_type, status')
+            .eq('id', proj.challenge_id)
+            .single()
+
+          if (ch && (ch as { challenge_type: string; status: string }).challenge_type === 'evergreen'
+            && (ch as { challenge_type: string; status: string }).status === 'active') {
+            const { error: rpcError } = await (supabase.rpc as unknown as (
+              fn: string, args: unknown
+            ) => PromiseLike<{ data: unknown; error: unknown }>)(
+              'complete_evergreen_challenge',
+              { p_user_id: proj.author_id, p_challenge_id: proj.challenge_id, p_project_id: projectId }
+            )
+            if (rpcError) throw rpcError
+          }
+        }
       }
       
       return NextResponse.json({ 

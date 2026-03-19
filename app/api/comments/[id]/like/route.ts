@@ -21,6 +21,15 @@ export async function POST(
   try {
     const user = await requireAuth(supabase);
 
+    const { data: commentRow } = await supabase
+      .from("comments")
+      .select("author_id")
+      .eq("id", commentId)
+      .single();
+    if (commentRow && (commentRow as { author_id: string }).author_id === user.id) {
+      return NextResponse.json({ error: "不能给自己的评论点赞" }, { status: 403 });
+    }
+
     const { data: existingLike, error: existingLikeError } = await supabase
       .from("comment_likes")
       .select("comment_id")

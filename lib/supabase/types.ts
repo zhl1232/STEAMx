@@ -173,6 +173,10 @@ export interface Database {
           status: string
           rejection_reason: string | null
           challenge_id: number | null
+          reflection: string | null
+          problem_statement: string | null
+          iterations: Json | null
+          steam_weights: Json | null
         }
         Insert: {
           id?: number
@@ -192,6 +196,10 @@ export interface Database {
           status?: string
           rejection_reason?: string | null
           challenge_id?: number | null
+          reflection?: string | null
+          problem_statement?: string | null
+          iterations?: Json | null
+          steam_weights?: Json | null
         }
         Update: {
           id?: number
@@ -211,6 +219,10 @@ export interface Database {
           status?: string
           rejection_reason?: string | null
           challenge_id?: number | null
+          reflection?: string | null
+          problem_statement?: string | null
+          iterations?: Json | null
+          steam_weights?: Json | null
         }
         Relationships: []
       }
@@ -639,6 +651,18 @@ export interface Database {
           participants_count: number
           end_date: string | null
           created_at: string
+          challenge_type: string
+          status: string
+          scenario: string | null
+          driving_question: string | null
+          expected_outcome: string | null
+          constraints: string[] | null
+          resources: Json | null
+          stages: Json | null
+          steam_weights: Json | null
+          difficulty_stars: number
+          start_date: string | null
+          completions_count: number
         }
         Insert: {
           id?: number
@@ -649,6 +673,18 @@ export interface Database {
           participants_count?: number
           end_date?: string | null
           created_at?: string
+          challenge_type?: string
+          status?: string
+          scenario?: string | null
+          driving_question?: string | null
+          expected_outcome?: string | null
+          constraints?: string[] | null
+          resources?: Json | null
+          stages?: Json | null
+          steam_weights?: Json | null
+          difficulty_stars?: number
+          start_date?: string | null
+          completions_count?: number
         }
         Update: {
           id?: number
@@ -659,6 +695,18 @@ export interface Database {
           participants_count?: number
           end_date?: string | null
           created_at?: string
+          challenge_type?: string
+          status?: string
+          scenario?: string | null
+          driving_question?: string | null
+          expected_outcome?: string | null
+          constraints?: string[] | null
+          resources?: Json | null
+          stages?: Json | null
+          steam_weights?: Json | null
+          difficulty_stars?: number
+          start_date?: string | null
+          completions_count?: number
         }
         Relationships: []
       }
@@ -677,6 +725,78 @@ export interface Database {
           user_id?: string
           challenge_id?: number
           joined_at?: string
+        }
+        Relationships: []
+      }
+      challenge_ratings: {
+        Row: {
+          id: number
+          project_id: number
+          user_id: string
+          creativity: number
+          practicality: number
+          technical: number
+          reflection_depth: number
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          project_id: number
+          user_id: string
+          creativity: number
+          practicality: number
+          technical: number
+          reflection_depth: number
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          project_id?: number
+          user_id?: string
+          creativity?: number
+          practicality?: number
+          technical?: number
+          reflection_depth?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      challenge_completions: {
+        Row: {
+          user_id: string
+          challenge_id: number
+          project_id: number | null
+          completed_at: string
+        }
+        Insert: {
+          user_id: string
+          challenge_id: number
+          project_id?: number | null
+          completed_at?: string
+        }
+        Update: {
+          user_id?: string
+          challenge_id?: number
+          project_id?: number | null
+          completed_at?: string
+        }
+        Relationships: []
+      }
+      steam_weight_defaults: {
+        Row: {
+          key: string
+          level: string
+          weights: Json
+        }
+        Insert: {
+          key: string
+          level: string
+          weights: Json
+        }
+        Update: {
+          key?: string
+          level?: string
+          weights?: Json
         }
         Relationships: []
       }

@@ -63,6 +63,15 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
 
+    const { data: completionRow } = await supabase
+      .from('completed_projects')
+      .select('user_id')
+      .eq('id', completionId)
+      .single()
+    if (completionRow && (completionRow as { user_id: string }).user_id === user.id) {
+      return NextResponse.json({ error: '不能给自己的作品点赞' }, { status: 403 })
+    }
+
     const { error } = await supabase
       .from('completion_likes')
       .insert({

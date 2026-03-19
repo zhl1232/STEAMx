@@ -255,6 +255,25 @@ export function ProjectComments({
     });
   };
 
+  const handleEditComment = useCallback(
+    async (commentId: number | string, content: string) => {
+      const res = await fetch(`/api/comments/${commentId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setComments((prev: Comment[]) =>
+        prev.map((c) =>
+          String(c.id) === String(commentId)
+            ? { ...c, content, updated_at: new Date().toISOString() }
+            : c,
+        ),
+      );
+    },
+    [],
+  );
+
   const handleToggleLike = useCallback(
     async (commentId: string | number) => {
       if (!user) {
@@ -438,6 +457,7 @@ export function ProjectComments({
                         replyTarget={replyTarget}
                         onToggleLike={handleToggleLike}
                         onDelete={handleDeleteComment}
+                        onEdit={handleEditComment}
                         onReply={handleReply}
                         onImageClick={setPreviewImageUrl}
                         reportContentType="comment"
@@ -461,6 +481,7 @@ export function ProjectComments({
                                 replyTarget={replyTarget}
                                 onToggleLike={handleToggleLike}
                                 onDelete={handleDeleteComment}
+                                onEdit={handleEditComment}
                                 onReply={handleReply}
                                 onImageClick={setPreviewImageUrl}
                                 reportContentType="comment"
@@ -583,6 +604,7 @@ export function ProjectComments({
                             replyTarget={sheetReplyTarget}
                             onToggleLike={handleToggleLike}
                             onDelete={handleDeleteComment}
+                            onEdit={handleEditComment}
                             onReply={handleSheetReply}
                             onImageClick={setPreviewImageUrl}
                             reportContentType="comment"

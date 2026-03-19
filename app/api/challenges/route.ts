@@ -1,37 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import type { Challenge } from '@/lib/mappers/types'
+import { mapDbChallenge } from '@/lib/mappers/types'
 import { logger } from '@/lib/logger'
-
-type ChallengeRow = {
-  id: number
-  title: string
-  description: string | null
-  image_url: string | null
-  participants_count: number
-  end_date: string | null
-  tags: string[] | null
-  created_at?: string | null
-}
-
-function mapChallenge(row: ChallengeRow, joined: boolean): Challenge {
-  const endDate = row.end_date ? new Date(row.end_date) : null
-  const daysLeft = endDate
-    ? Math.max(0, Math.ceil((endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : 0
-
-  return {
-    id: row.id,
-    title: row.title,
-    description: row.description || '',
-    image: row.image_url || '',
-    participants: row.participants_count,
-    daysLeft,
-    endDate: row.end_date ?? undefined,
-    joined,
-    tags: row.tags || [],
-  }
-}
 
 export async function GET() {
   const supabase = await createClient()
@@ -40,6 +10,7 @@ export async function GET() {
     const { data: challengeRows, error: challengeError } = await supabase
       .from('challenges')
       .select('*')
+      .in('status', ['active', 'ended'])
       .order('created_at', { ascending: false })
       .limit(50)
 
@@ -50,24 +21,37 @@ export async function GET() {
     } = await supabase.auth.getUser()
 
     let joinedIds = new Set<number>()
+    let completedIds = new Set<number>()
+
     if (user) {
-      const { data: participants } = await supabase
-        .from('challenge_participants')
-        .select('challenge_id')
-        .eq('user_id', user.id)
+      const [{ data: participants }, { data: completions }] = await Promise.all([
+        supabase.from('challenge_participants').select('challenge_id').eq('user_id', user.id),
+        supabase.from('challenge_completions').select('challenge_id').eq('user_id', user.id),
+      ])
 
       if (participants) {
-        joinedIds = new Set(
-          (participants as { challenge_id: number }[]).map((row) => row.challenge_id)
-        )
+        joinedIds = new Set((participants as { challenge_id: number }[]).map(r => r.challenge_id))
+      }
+      if (completions) {
+        completedIds = new Set((completions as { challenge_id: number }[]).map(r => r.challenge_id))
       }
     }
 
-    const challenges = ((challengeRows as ChallengeRow[] | null) || []).map((row) =>
-      mapChallenge(row, joinedIds.has(row.id))
-    )
+    const rows = (challengeRows || []) as Record<string, unknown>[]
 
-    return NextResponse.json({ challenges })
+    const activeTimed = rows
+      .filter(r => r.challenge_type === 'timed' && r.status === 'active')
+      .map(r => mapDbChallenge(r as never, joinedIds.has(r.id as number), false))
+
+    const evergreen = rows
+      .filter(r => r.challenge_type === 'evergreen' && r.status === 'active')
+      .map(r => mapDbChallenge(r as never, joinedIds.has(r.id as number), completedIds.has(r.id as number)))
+
+    const ended = rows
+      .filter(r => r.status === 'ended')
+      .map(r => mapDbChallenge(r as never, joinedIds.has(r.id as number), false))
+
+    return NextResponse.json({ activeTimed, evergreen, ended })
   } catch (error) {
     logger.error('Error in GET /api/challenges', { error })
     return NextResponse.json({ error: 'Failed to fetch challenges' }, { status: 500 })

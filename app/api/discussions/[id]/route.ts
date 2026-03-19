@@ -182,6 +182,60 @@ export async function GET(
 }
 
 /**
+ * PATCH /api/discussions/[id]
+ * 编辑讨论标题和正文（仅作者可编辑）
+ */
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const supabase = await createClient()
+
+  try {
+    const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-discussions-write', limit: 20, windowMs: 60_000 })
+    const { id } = await params
+    const discussionId = parseInt(id, 10)
+    if (Number.isNaN(discussionId)) {
+      return NextResponse.json({ error: 'Invalid discussion id' }, { status: 400 })
+    }
+
+    const body = await request.json()
+    const title = typeof body?.title === 'string' ? body.title.trim() : ''
+    const content = typeof body?.content === 'string' ? body.content.trim() : ''
+    if (title.length === 0 || content.length === 0) {
+      return NextResponse.json({ error: '标题和内容不能为空' }, { status: 400 })
+    }
+    if (title.length > 200) {
+      return NextResponse.json({ error: '标题过长' }, { status: 400 })
+    }
+    if (content.length > 5000) {
+      return NextResponse.json({ error: '内容过长' }, { status: 400 })
+    }
+
+    const { data: row } = await supabase
+      .from('discussions')
+      .select('author_id')
+      .eq('id', discussionId)
+      .single()
+    if (!row || (row as { author_id: string }).author_id !== user.id) {
+      return NextResponse.json({ error: '无权编辑此讨论' }, { status: 403 })
+    }
+
+    const { error } = await supabase
+      .from('discussions')
+      .update({ title, content, updated_at: new Date().toISOString() } as never)
+      .eq('id', discussionId)
+      .eq('author_id', user.id)
+    if (error) throw error
+
+    return NextResponse.json({ message: 'Discussion updated', title, content })
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
+
+/**
  * DELETE /api/discussions/[id]
  * 删除讨论主题
  * 用户可以删除自己的讨论，管理员/版主可以删除任何讨论

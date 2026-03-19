@@ -185,29 +185,29 @@
 
 ### PBL (项目式学习) 核心体验升级
 
-- [ ] **核心 MVP：融入 PBL 字段与项目反思**
-  - **数据库改造**: 在 `projects` 表中扩展字段 `reflection` (反思) 和 `challenge_id` (关联的现实问题)。
-  - **前端交互**: 在前端发布项目时，增加反思引导 (你解决的真实问题是什么？遇到了什么困难？)。
-  - **激励关联**: 将徽章系统连入此行为，填写反思日志奖励 Coin 以及特定徽章。
+- [x] **核心 MVP：融入 PBL 字段与项目反思** ✅ 已在 PBL 挑战赛系统中实现
+  - **数据库改造**: `projects` 表已扩展 `reflection`、`problem_statement`、`iterations`、`challenge_id`、`steam_weights` 字段。
+  - **前端交互**: Share 页在关联挑战时显示 PBL 反思表单（问题重述/试错记录/反思总结）。
+  - **激励关联**: 填写 reflection + iterations 的长期挑战作品额外 +10 XP。
 
-- [ ] **PBL 任务中心 (Mission Hub)**
-  - **数据结构**: 扩展 Challenge 字段，增加 `scenario` (情境故事)、`constraints` (限制条件)、`resources` (资源脚手架)。
-  - **界面呈现**: 将传统的“任务要求”改造为情境故事代入。
+- [x] **PBL 任务中心 (Mission Hub)** ✅ 已在 PBL 挑战赛系统中实现
+  - **数据结构**: `challenges` 表已扩展 `scenario`、`driving_question`、`expected_outcome`、`constraints`、`resources`、`stages`。
+  - **界面呈现**: 挑战详情页以 PBL 信息区呈现情境故事、驱动问题、预期目标、约束条件、参考资源和阶段引导。
 
-- [ ] **记录“试错迭代”过程 (Devlog)**
-  - **数据结构**: 在 `projects` 表增加 `problem_statement` (我们要解决什么问题？) 和 `iterations` (试错历史 JSONB)。
-  - **界面呈现**: 项目详情页增加“研发日志/试错历史”视图，突出过程大于最终结果。
+- [x] **记录“试错迭代”过程 (Devlog)** ✅ 已在 PBL 挑战赛系统中实现
+  - **数据结构**: `projects` 表已增加 `problem_statement` 和 `iterations` (JSONB)。
+  - **界面呈现**: Share 页在挑战关联时提供试错记录的动态添加/删除交互。
 
-- [ ] **STEAM 能力雷达图 (STEAM Radar Chart)**
-  - 为 Challenge 或 Badge 打上 S.T.E.A.M 的权重标签并进行统计。
-  - 个人主页 (`/profile`) 加入五维雷达图，可视化用户技能偏好。
+- [x] **STEAM 能力雷达图 (STEAM Radar Chart)** ✅ 已重写为统一模型
+  - 挑战和项目均通过 `steam_weights` 贡献五维分数，含难度系数和递减收益算法。
+  - 个人主页雷达图接入 `calculate_steam_radar` RPC，显示段位参考线和引导文案。
 
 - [ ] **重定位游乐场为“知识脚手架” (Scaffolding)**
   - 建立关联：在 PBL 挑战受阻时动态推荐对应的 Playground 工具做“Just-in-Time”专门技能学习。
 
-- [ ] **同行评审 (Peer Review) 与多维度评价**
-  - 评论类型化：发评论可选标签（👏 夸夸、🛠️ 建议改进、❓ 疑问）。
-  - 评价雷达：引入多维度打分机制（创意性、实用性、技术难度、呈现度）替代单一的点赞。
+- [~] **同行评审 (Peer Review) 与多维度评价** （部分完成）
+  - 评论类型化：发评论可选标签（👏 夸夸、🛠️ 建议改进、❓ 疑问）。— 待后续迭代
+  - ✅ 评价雷达：已引入四维打分机制（创意性、实用性、技术难度、反思深度），集成于挑战赛作品互评。
 
 - [ ] **导师/专家点评体系 (Expert Review System)**
   - 增加专家标记 (`is_expert_review`) 并在评论区高亮，可颁发“专家认可”印章增加项目的荣誉感。
@@ -254,16 +254,9 @@
 
 ### P1：功能断裂 / 用户误导
 
-- [ ] **[#2] 挑战赛体系不完整（需整体规划）**
-  - **现状问题**：报名后"发布作品"仅跳转到通用 `/share` 页面，未传递 `challenge_id`。无法统计挑战作品、按挑战筛选或实现人气投票。挑战赛本质上只是一个"报名计数器"。
-  - **完整改造计划**（待挑战赛产品方案确定后推进）：
-    1. `projects` 表加 `challenge_id` 列（迁移已写好：`20260318100000_add_challenge_id_to_projects.sql`，暂未执行）
-    2. `/share?challenge=<id>` 创建项目时自动关联 `challenge_id`
-    3. 挑战详情页展示「已提交作品」列表（按 `challenge_id` 筛选 `approved` 项目）
-    4. 挑战状态管理：`challenges` 表加 `status` 字段（draft / active / voting / ended）
-    5. 投票/评审机制：截止后进入投票期，按点赞/打赏排名
-    6. 获奖者公布 + 限定徽章发放
-    7. 挑战作品自动打上挑战标签，探索页可按挑战筛选
+- [x] **[#2] 挑战赛体系不完整（需整体规划）** ✅ 已通过 PBL 双轨挑战赛系统完整实现
+  - 已实现：双轨模型（限时挑战+长期挑战）、PBL 字段、多维评价、STEAM 雷达、生命周期管理、结算逻辑、管理后台。
+  - 详见 `docs/PBL_CHALLENGE_SYSTEM.md`。
 
 - [x] **[#3] 讨论主题无法点赞**
   - `discussions` 表有 `likes_count` 字段且在页面展示，但没有点赞 API。讨论回复可以点赞，讨论主题本身不能。
@@ -288,12 +281,16 @@
   - 建议：继续保持硬币**低增发**策略。日常可重复行为优先奖励 XP、徽章、曝光和挑战荣誉；只有获奖、官方活动、稀缺贡献等**低频且强约束**场景，才考虑少量发币。
   - 若后续上线技能市场，应优先补齐**交易税 / 挂单费 / 置顶费 / 认证费**等销毁机制，再评估是否增加新的发币场景。
 
-- [ ] **[#14] 项目编辑必须重新审核**
-  - 任何修改（含修改错别字）都将 `status` 重置为 `pending`，已有点赞和评论的热门项目会暂时"消失"。
-  - 建议：区分"重大修改"和"微调"。
+- [x] **[#14] 项目编辑区分重大修改 vs 微调** ✅ 已修复
+  - 新增 `request_project_re_review` RPC（SECURITY DEFINER），仅当项目为 approved 状态时重置为 pending。
+  - 前端编辑时自动比较标题、封面图、分类：有变动 → 重大修改（重新审核）；仅修改描述/材料/步骤/标签 → 微调（无需重新审核）。
+  - `updateProject` 新增 `isMajorEdit` 参数，移除了无效的 `status: "pending"` 硬编码。
 
-- [ ] **[#15] 讨论和评论不支持编辑**
-  - 用户发帖/回复后发现错误只能删除重发，会丢失已有的点赞和子回复。
+- [x] **[#15] 讨论和评论支持编辑** ✅ 已修复
+  - 新增 `PATCH /api/comments/[id]`、`PATCH /api/discussions/[id]`、`PATCH /api/replies/[id]` 三个编辑接口，仅作者可编辑，含长度校验和限流。
+  - `CommentCard` 新增内联编辑模式（Ctrl+Enter 保存 / Esc 取消），已编辑内容显示"(已编辑)"标记。
+  - 讨论详情页新增标题+正文编辑功能（作者可见编辑按钮）。
+  - 迁移：`comments`、`discussions`、`discussion_replies` 表新增 `updated_at` 列。
 
 - [ ] **[#16] Playground 游戏数据纯本地存储**
   - 10 款游戏进度全部存储在 `localStorage`，换浏览器/清缓存数据丢失，多设备无法同步，28 枚 Playground 徽章依赖本地数据触发，数据丢失后状态可能不一致。
@@ -301,16 +298,18 @@
 - [ ] **[#17] 快速完成 vs 带证明完成的矛盾**
   - `toggleProjectCompleted` 用 `images: ["auto_toggle"]` 占位完成，`CompleteProjectDialog` 要求真实照片，两者写入同一张表但数据质量差异大。
 
-- [ ] **[#18] 自赞未禁止**
-  - 用户可以给自己的项目点赞并获得 1 XP。
+- [x] **[#18] 自赞已禁止** ✅ 已修复
+  - 项目点赞：`toggleLike` 前端查询 `author_id`，自赞时 toast 提示并拦截。
+  - 评论/讨论/回复点赞：API 层（`/api/comments/[id]/like`、`/api/discussions/[id]/like`、`/api/replies/[id]/like`）查询 `author_id`，自赞返回 403。
+  - 完成作品点赞：`POST /api/completions/[id]/likes` 查询 `user_id`，自赞返回 403（堵住了 XP 漏洞）。
 
 ### P3：功能完善
 
 - [ ] **[#8] 打赏上限过低**
   - 每个资源每人最多打赏 2 硬币，削弱了打赏作为"内容质量信号"的作用。
 
-- [ ] **[#19] 挑战赛无完整生命周期**
-  - 已合并到 #2 的完整改造计划中。
+- [x] **[#19] 挑战赛无完整生命周期** ✅ 已随 #2 完成
+  - 限时挑战: draft → active → ended（含结算）；长期挑战: draft → active → archived。
 
 - [ ] **[#20] 设置页通知选项为占位**
   - `/settings/notifications` 选项未实现，用户操作无效。（`/settings/privacy` 私信权限已实现，黑名单管理待后续迭代。）

@@ -62,11 +62,7 @@ export function MobileCommunityPage() {
                         <LeaderboardContent compact listMaxHeight={420} className="w-full" />
                     </div>
                 ) : (
-                    <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-                        <div className="mb-4">
-                            <h2 className="text-lg font-bold mb-1">本月挑战</h2>
-                            <p className="text-xs text-muted-foreground">参与挑战，赢取限定徽章！</p>
-                        </div>
+                    <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-6">
                         {isLoading ? (
                             <div className="grid gap-4 grid-cols-1">
                                 {[1, 2].map((i) => (
@@ -74,11 +70,43 @@ export function MobileCommunityPage() {
                                 ))}
                             </div>
                         ) : (
-                            <div className="grid gap-4 grid-cols-1">
-                                {challenges.map((challenge) => (
-                                    <ChallengeCard key={challenge.id} challenge={challenge} />
-                                ))}
-                            </div>
+                            <>
+                                {challenges.activeTimed.length > 0 && (
+                                    <div>
+                                        <h2 className="text-lg font-bold mb-2">限时挑战</h2>
+                                        <div className="grid gap-4 grid-cols-1">
+                                            {challenges.activeTimed.map((challenge) => (
+                                                <ChallengeCard key={challenge.id} challenge={challenge} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {challenges.evergreen.length > 0 && (
+                                    <div>
+                                        <h2 className="text-lg font-bold mb-2">学习挑战</h2>
+                                        <div className="grid gap-4 grid-cols-1">
+                                            {challenges.evergreen.map((challenge) => (
+                                                <ChallengeCard key={challenge.id} challenge={challenge} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {challenges.ended.length > 0 && (
+                                    <div>
+                                        <h2 className="text-base font-bold text-muted-foreground mb-2">已结束</h2>
+                                        <div className="grid gap-4 grid-cols-1">
+                                            {challenges.ended.map((challenge) => (
+                                                <ChallengeCard key={challenge.id} challenge={challenge} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {!challenges.activeTimed.length && !challenges.evergreen.length && !challenges.ended.length && (
+                                    <div className="text-center py-8 text-muted-foreground">
+                                        <p>暂无挑战赛</p>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 )}

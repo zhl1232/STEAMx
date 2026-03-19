@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Upload, Save, CheckCircle2, Plus, Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Project } from "@/lib/types";
 import { useProjects } from "@/context/project-context";
 import { useAuth } from "@/context/auth-context";
@@ -31,6 +31,18 @@ interface StepFormData {
     image_url: string | null;
 }
 
+interface IterationFormData {
+    description: string;
+    result: string;
+}
+
+interface ChallengeInfo {
+    id: number;
+    title: string;
+    drivingQuestion?: string;
+    challengeType: 'timed' | 'evergreen';
+}
+
 interface FormData {
     title: string;
     category: string;
@@ -40,6 +52,9 @@ interface FormData {
     coverImage: string | null;
     steps: StepFormData[];
     tags: string[];
+    problemStatement: string;
+    reflection: string;
+    iterations: IterationFormData[];
 }
 
 const DRAFT_KEY = "project_draft";
@@ -48,12 +63,22 @@ function ShareForm() {
     const { addProject, updateProject } = useProjects();
     const searchParams = useSearchParams();
     const editId = searchParams.get('edit');
+    const challengeParam = searchParams.get('challenge');
     const supabase = createClient();
     const { user } = useAuth();
     const router = useRouter();
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
     const [isSavingDraft, setIsSavingDraft] = useState(false);
+    const originalRef = useRef<{
+        title: string;
+        image: string | null;
+        category: string;
+        steps: string;
+        materials: string;
+        reflection: string;
+    } | null>(null);
+    const [challengeInfo, setChallengeInfo] = useState<ChallengeInfo | null>(null);
     const [formData, setFormData] = useState<FormData>({
         title: "",
         category: "科学",
@@ -62,8 +87,74 @@ function ShareForm() {
         materials: "",
         coverImage: null,
         steps: [{ title: "步骤 1", description: "", image_url: null }],
-        tags: []
+        tags: [],
+        problemStatement: "",
+        reflection: "",
+        iterations: [],
     });
+
+    // Load challenge info when challenge param is present
+    useEffect(() => {
+        if (!challengeParam || !user) return;
+        const loadChallenge = async () => {
+            const res = await fetch(`/api/challenges/${challengeParam}`);
+            if (!res.ok) return;
+            const data = await res.json();
+            const ch = data.challenge;
+            if (ch) {
+                setChallengeInfo({
+                    id: Number(ch.id),
+                    title: ch.title,
+                    drivingQuestion: ch.drivingQuestion,
+                    challengeType: ch.challengeType,
+                });
+
+                // For evergreen challenges, check if user already has a submission
+                if (ch.challengeType === 'evergreen') {
+                    const { data: existing } = await supabase
+                        .from('projects')
+                        .select(`*, project_materials (*), project_steps (*), sub_categories (name)`)
+                        .eq('challenge_id', Number(ch.id))
+                        .eq('author_id', user.id)
+                        .order('created_at', { ascending: false })
+                        .limit(1)
+                        .maybeSingle();
+
+                    if (existing) {
+                        type ProjectRow = Parameters<typeof mapDbProject>[0];
+                        const project = mapDbProject(existing as unknown as ProjectRow);
+                        const proj = existing as Record<string, unknown>;
+                        originalRef.current = {
+                            title: project.title,
+                            image: project.image,
+                            category: project.category,
+                            steps: JSON.stringify(project.steps),
+                            materials: project.materials?.join('\n') || "",
+                            reflection: (proj.reflection as string) || "",
+                        };
+                        setFormData(prev => ({
+                            ...prev,
+                            title: project.title,
+                            category: project.category,
+                            subCategory: project.sub_category || "",
+                            difficulty: project.difficulty || "easy",
+                            materials: project.materials?.join('\n') || "",
+                            coverImage: project.image,
+                            steps: project.steps?.map(s => ({ title: s.title, description: s.description, image_url: s.image_url || null })) || prev.steps,
+                            tags: project.tags || [],
+                            problemStatement: (proj.problem_statement as string) || "",
+                            reflection: (proj.reflection as string) || "",
+                            iterations: (proj.iterations as IterationFormData[]) || [],
+                        }));
+                        // Use editId-like behavior for existing submission
+                        router.replace(`/share?edit=${existing.id}&challenge=${challengeParam}`);
+                        toast({ title: "已加载你之前的作品", description: "你可以继续改进" });
+                    }
+                }
+            }
+        };
+        loadChallenge();
+    }, [challengeParam, user, supabase, toast, router]);
 
     // 加载编辑数据
     useEffect(() => {
@@ -93,6 +184,14 @@ function ShareForm() {
                 }
 
                 const project = mapDbProject(projectData);
+                originalRef.current = {
+                    title: project.title,
+                    image: project.image,
+                    category: project.category,
+                    steps: JSON.stringify(project.steps),
+                    materials: project.materials?.join('\n') || "",
+                    reflection: project.reflection || "",
+                };
                 setFormData({
                     title: project.title,
                     category: project.category,
@@ -105,7 +204,10 @@ function ShareForm() {
                         description: s.description,
                         image_url: s.image_url || null
                     })) || [{ title: "步骤 1", description: "", image_url: null }],
-                    tags: project.tags || []
+                    tags: project.tags || [],
+                    problemStatement: project.problem_statement || "",
+                    reflection: project.reflection || "",
+                    iterations: (project.iterations || []).map(it => ({ description: it.description, result: it.result })),
                 });
 
                 toast({ title: "已加载项目数据", description: "您可以修改并重新提交审核" });
@@ -138,7 +240,10 @@ function ShareForm() {
                         subCategory: draft.subCategory || "",
                         tags: draft.tags || [],
                         coverImage: draft.coverImage || null,
-                        steps: draft.steps || [{ title: "步骤 1", description: "", image_url: null }]
+                        steps: draft.steps || [{ title: "步骤 1", description: "", image_url: null }],
+                        problemStatement: draft.problemStatement || "",
+                        reflection: draft.reflection || "",
+                        iterations: draft.iterations || [],
                     });
                     toast({
                         title: "已恢复草稿",
@@ -278,18 +383,33 @@ function ShareForm() {
                     image_url: step.image_url || undefined
                 })),
                 tags: [],
-                status: 'pending'
+                status: 'pending',
+                challenge_id: challengeInfo?.id || null,
+                problem_statement: formData.problemStatement || undefined,
+                reflection: formData.reflection || undefined,
+                iterations: formData.iterations.filter(it => it.description.trim()).map(it => ({
+                    ...it,
+                    created_at: new Date().toISOString(),
+                })),
             };
 
 
 
             if (editId) {
-                await updateProject(editId, newProject);
-                toast({
-                    title: "项目已更新！",
-                    description: "您的项目已重新提交审核",
-                    duration: 5000,
-                });
+                const orig = originalRef.current;
+                const currentSteps = JSON.stringify(formData.steps.map((s, i) => ({
+                    title: s.title || `步骤 ${i + 1}`,
+                    description: s.description,
+                    image_url: s.image_url || undefined,
+                })));
+                const isMajorEdit = !orig
+                    || formData.title !== orig.title
+                    || coverImage !== orig.image
+                    || formData.category !== orig.category
+                    || currentSteps !== orig.steps
+                    || formData.materials !== orig.materials
+                    || formData.reflection !== orig.reflection;
+                await updateProject(editId, newProject, isMajorEdit);
             } else {
                 addProject(newProject);
                 // 清除草稿
@@ -332,6 +452,29 @@ function ShareForm() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+
+                {/* 挑战关联横幅 */}
+                {challengeInfo && (
+                    <Card className="border-primary/50 bg-primary/5">
+                        <CardContent className="py-4">
+                            <div className="flex items-start gap-3">
+                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    🏆
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-primary">
+                                        {challengeInfo.challengeType === 'timed' ? '限时挑战' : '长期挑战'}：{challengeInfo.title}
+                                    </p>
+                                    {challengeInfo.drivingQuestion && (
+                                        <p className="text-sm text-muted-foreground mt-1">
+                                            驱动问题：{challengeInfo.drivingQuestion}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* 基本信息卡片 */}
                 <Card>
@@ -506,6 +649,91 @@ function ShareForm() {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* PBL 反思区域（仅挑战关联时显示） */}
+                {challengeInfo && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>PBL 反思</CardTitle>
+                            <CardDescription>记录你的探究过程和思考</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="problemStatement">问题重述</Label>
+                                <Textarea
+                                    id="problemStatement"
+                                    value={formData.problemStatement}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, problemStatement: e.target.value }))}
+                                    placeholder="用你自己的话描述你要解决什么问题"
+                                    rows={3}
+                                />
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <Label>试错记录</Label>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setFormData(prev => ({
+                                            ...prev,
+                                            iterations: [...prev.iterations, { description: '', result: '' }]
+                                        }))}
+                                        className="gap-2"
+                                    >
+                                        <Plus className="h-4 w-4" />
+                                        添加记录
+                                    </Button>
+                                </div>
+                                {formData.iterations.length === 0 && (
+                                    <p className="text-sm text-muted-foreground">记录你的每次尝试和结果，展示探究过程</p>
+                                )}
+                                {formData.iterations.map((it, i) => (
+                                    <div key={i} className="border rounded-lg p-3 space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-sm font-medium">尝试 #{i + 1}</span>
+                                            <Button type="button" variant="ghost" size="sm"
+                                                onClick={() => setFormData(prev => ({ ...prev, iterations: prev.iterations.filter((_, idx) => idx !== i) }))}
+                                            >
+                                                <Trash2 className="h-3 w-3" />
+                                            </Button>
+                                        </div>
+                                        <Input
+                                            value={it.description}
+                                            onChange={e => {
+                                                const next = [...formData.iterations];
+                                                next[i] = { ...next[i], description: e.target.value };
+                                                setFormData(prev => ({ ...prev, iterations: next }));
+                                            }}
+                                            placeholder="做了什么"
+                                        />
+                                        <Input
+                                            value={it.result}
+                                            onChange={e => {
+                                                const next = [...formData.iterations];
+                                                next[i] = { ...next[i], result: e.target.value };
+                                                setFormData(prev => ({ ...prev, iterations: next }));
+                                            }}
+                                            placeholder="结果如何"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="reflection">反思总结</Label>
+                                <Textarea
+                                    id="reflection"
+                                    value={formData.reflection}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, reflection: e.target.value }))}
+                                    placeholder="你从这个过程中学到了什么？哪里还可以改进？"
+                                    rows={4}
+                                />
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* 操作按钮 */}
                 <div className="flex justify-between items-center">

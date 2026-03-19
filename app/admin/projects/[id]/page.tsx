@@ -14,8 +14,10 @@ import { ImageUpload } from '@/components/ui/image-upload'
 import { useToast } from '@/hooks/use-toast'
 import { CATEGORIES } from '@/lib/config/categories'
 import { CreateProjectSchema } from '@/lib/schemas'
+import { Slider } from '@/components/ui/slider'
 import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
 import { logger } from '@/lib/logger'
+import { getSteamWeights, type SteamWeights } from '@/lib/config/subcategory-steam-weights'
 
 type ProjectUpdate = Database['public']['Tables']['projects']['Update']
 type StepInsert = Database['public']['Tables']['project_steps']['Insert']
@@ -46,6 +48,8 @@ interface ProjectFormData {
         material: string
         sort_order: number
     }[]
+    steam_weights: SteamWeights | null
+    sub_category_name?: string
 }
 
 const INITIAL_DATA: ProjectFormData = {
@@ -58,7 +62,9 @@ const INITIAL_DATA: ProjectFormData = {
     duration: 60,
     status: 'draft',
     project_steps: [],
-    project_materials: []
+    project_materials: [],
+    steam_weights: null,
+    sub_category_name: undefined,
 }
 
 export default function EditProjectPage() {
@@ -71,6 +77,7 @@ export default function EditProjectPage() {
     const [saving, setSaving] = useState(false)
     const [formData, setFormData] = useState<ProjectFormData>(INITIAL_DATA)
     const [dbSubCategories, setDbSubCategories] = useState<SubCategory[]>([])
+    const [showSteamCorrection, setShowSteamCorrection] = useState(false)
     const supabase = createClient()
 
     const fetchData = useCallback(async () => {
@@ -99,7 +106,8 @@ export default function EditProjectPage() {
           project_materials (
             material,
             sort_order
-          )
+          ),
+          sub_categories (name)
         `)
                 .eq('id', Number(id))
                 .single()
@@ -107,9 +115,9 @@ export default function EditProjectPage() {
             if (error) throw error
 
             if (data) {
-                // Cast data to allow access to joined arrays which might not be in the inferred type
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const project = data as any; 
+                const subCatName = project.sub_categories?.name || null
                 setFormData({
                     title: project.title,
                     description: project.description || '',
@@ -121,7 +129,10 @@ export default function EditProjectPage() {
                     image_url: project.image_url,
                     project_steps: (project.project_steps || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
                     project_materials: (project.project_materials || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
+                    steam_weights: project.steam_weights || null,
+                    sub_category_name: subCatName,
                 })
+                if (project.steam_weights) setShowSteamCorrection(true)
             }
         } catch (error) {
             logger.error('Error fetching data', { error })
@@ -164,8 +175,7 @@ export default function EditProjectPage() {
 
         setSaving(true)
         try {
-            // 1. Update Project Basic Info
-            const updatePayload: ProjectUpdate = {
+            const updatePayload: Record<string, unknown> = {
                 title: formData.title,
                 description: formData.description,
                 category: formData.category,
@@ -174,7 +184,8 @@ export default function EditProjectPage() {
                 image_url: formData.image_url,
                 duration: formData.duration,
                 status: formData.status,
-                updated_at: new Date().toISOString()
+                updated_at: new Date().toISOString(),
+                steam_weights: showSteamCorrection ? formData.steam_weights : null,
             };
 
             // 1. Update Project Basic Info
@@ -446,6 +457,67 @@ export default function EditProjectPage() {
                             />
                         </div>
                     </CardContent>
+                </Card>
+
+                {/* STEAM 权重校正 */}
+                <Card>
+                    <CardHeader>
+                        <div className="flex items-center justify-between">
+                            <CardTitle>STEAM 权重</CardTitle>
+                            <Button
+                                size="sm"
+                                variant={showSteamCorrection ? "default" : "outline"}
+                                onClick={() => {
+                                    if (!showSteamCorrection) {
+                                        const defaults = getSteamWeights(formData.sub_category_name, formData.category)
+                                        setFormData(prev => ({ ...prev, steam_weights: { ...defaults } }))
+                                    } else {
+                                        setFormData(prev => ({ ...prev, steam_weights: null }))
+                                    }
+                                    setShowSteamCorrection(!showSteamCorrection)
+                                }}
+                            >
+                                {showSteamCorrection ? '取消校正' : '校正权重'}
+                            </Button>
+                        </div>
+                        <CardDescription>
+                            {showSteamCorrection
+                                ? '调整各维度权重后保存。未校正时使用子分类默认权重。'
+                                : `当前使用默认权重：${formData.sub_category_name || formData.category || '其他'}`
+                            }
+                        </CardDescription>
+                    </CardHeader>
+                    {!showSteamCorrection && (
+                        <CardContent>
+                            <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+                                {Object.entries(getSteamWeights(formData.sub_category_name, formData.category)).map(([dim, val]) => (
+                                    <span key={dim}>{dim}: {val}</span>
+                                ))}
+                            </div>
+                        </CardContent>
+                    )}
+                    {showSteamCorrection && formData.steam_weights && (
+                        <CardContent className="space-y-3">
+                            {(['S', 'T', 'E', 'A', 'M'] as const).map(dim => {
+                                const labels: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
+                                return (
+                                    <div key={dim} className="flex items-center gap-3">
+                                        <span className="w-16 text-sm">{labels[dim]} ({dim})</span>
+                                        <Slider
+                                            min={0} max={50} step={5}
+                                            value={[formData.steam_weights![dim]]}
+                                            onValueChange={([v]) => setFormData(prev => ({
+                                                ...prev,
+                                                steam_weights: { ...prev.steam_weights!, [dim]: v }
+                                            }))}
+                                            className="flex-1"
+                                        />
+                                        <span className="w-8 text-sm text-right">{formData.steam_weights![dim]}</span>
+                                    </div>
+                                )
+                            })}
+                        </CardContent>
+                    )}
                 </Card>
 
                 {/* 步骤 */}

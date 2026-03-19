@@ -13,6 +13,7 @@ import {
   Loader2,
   ChevronRight,
   ChevronLeft,
+  Pencil,
 } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { useAuth } from "@/context/auth-context";
@@ -277,6 +278,63 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     [user, promptLogin],
   );
 
+  const handleEditReply = useCallback(
+    async (replyId: number | string, content: string) => {
+      const res = await fetch(`/api/replies/${replyId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setDiscussion((prev: Discussion | null) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          replies: prev.replies.map((r) =>
+            String(r.id) === String(replyId)
+              ? { ...r, content, updated_at: new Date().toISOString() }
+              : r,
+          ),
+        };
+      });
+    },
+    [],
+  );
+
+  const [isEditingDiscussion, setIsEditingDiscussion] = useState(false);
+  const [editDiscussionTitle, setEditDiscussionTitle] = useState("");
+  const [editDiscussionContent, setEditDiscussionContent] = useState("");
+  const [isSavingDiscussion, setIsSavingDiscussion] = useState(false);
+
+  const handleStartEditDiscussion = useCallback(() => {
+    if (!discussion) return;
+    setEditDiscussionTitle(discussion.title);
+    setEditDiscussionContent(discussion.content);
+    setIsEditingDiscussion(true);
+  }, [discussion]);
+
+  const handleSaveDiscussion = useCallback(async () => {
+    if (!discussion || !editDiscussionTitle.trim() || !editDiscussionContent.trim()) return;
+    setIsSavingDiscussion(true);
+    try {
+      const res = await fetch(`/api/discussions/${discussion.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: editDiscussionTitle.trim(), content: editDiscussionContent.trim() }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setDiscussion((prev: Discussion | null) => {
+        if (!prev) return prev;
+        return { ...prev, title: editDiscussionTitle.trim(), content: editDiscussionContent.trim() };
+      });
+      setIsEditingDiscussion(false);
+    } catch (err) {
+      logger.error("Error editing discussion", { error: err });
+    } finally {
+      setIsSavingDiscussion(false);
+    }
+  }, [discussion, editDiscussionTitle, editDiscussionContent]);
+
   const rootReplyOrderIndex = useMemo(() => {
     const map = new Map<string, number>();
     rootReplyOrder.forEach((id, index) => map.set(id, index));
@@ -503,57 +561,99 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           </div>
         )}
 
-        <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-4">{discussion.title}</h1>
-
-        <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8 border-b pb-4 sm:pb-6">
-          <span className="flex items-center gap-1.5 sm:gap-2">
-            <AvatarWithFrame
-              src={discussion.authorAvatar}
-              fallback={discussion.author[0]?.toUpperCase()}
-              avatarFrameId={discussion.authorAvatarFrameId}
-              className="h-6 w-6 sm:h-8 sm:w-8 rounded-full shrink-0"
+        {isEditingDiscussion ? (
+          <div className="space-y-3 mb-4">
+            <input
+              type="text"
+              value={editDiscussionTitle}
+              onChange={(e) => setEditDiscussionTitle(e.target.value)}
+              className="w-full rounded-md border bg-background px-3 py-2 text-xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/40"
+              maxLength={200}
+              disabled={isSavingDiscussion}
             />
-            <span
-              className={cn(
-                "font-medium",
-                getNameColorClassName(discussion.authorNameColorId ?? null),
-              )}
-            >
-              {discussion.author}
-            </span>
-          </span>
-          <span className="flex items-center gap-1.5 sm:gap-2">
-            <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            {discussion.date}
-          </span>
-          <button
-            type="button"
-            onClick={handleToggleDiscussionLike}
-            className={cn(
-              "flex items-center gap-1.5 sm:gap-2 transition-colors",
-              discussionLiked
-                ? "text-red-500"
-                : "text-muted-foreground hover:text-red-500",
-            )}
-          >
-            <Heart
-              className={cn(
-                "h-3.5 w-3.5 sm:h-4 sm:w-4",
-                discussionLiked && "fill-current",
-              )}
+            <textarea
+              value={editDiscussionContent}
+              onChange={(e) => setEditDiscussionContent(e.target.value)}
+              className="w-full rounded-md border bg-background px-3 py-2 text-sm sm:text-lg leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/40"
+              rows={6}
+              maxLength={5000}
+              disabled={isSavingDiscussion}
             />
-            {discussion.likes}
-          </button>
-          {user && user.id !== discussion.authorId && (
-            <ReportDialog contentType="discussion" contentId={discussion.id} />
-          )}
-        </div>
+            <div className="flex items-center gap-2">
+              <Button size="sm" onClick={handleSaveDiscussion} disabled={isSavingDiscussion || !editDiscussionTitle.trim() || !editDiscussionContent.trim()}>
+                保存
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => setIsEditingDiscussion(false)} disabled={isSavingDiscussion}>
+                取消
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-4">{discussion.title}</h1>
 
-        <div className="prose dark:prose-invert max-w-none">
-          <p className="text-sm sm:text-lg leading-relaxed whitespace-pre-wrap">
-            {discussion.content}
-          </p>
-        </div>
+            <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8 border-b pb-4 sm:pb-6">
+              <span className="flex items-center gap-1.5 sm:gap-2">
+                <AvatarWithFrame
+                  src={discussion.authorAvatar}
+                  fallback={discussion.author[0]?.toUpperCase()}
+                  avatarFrameId={discussion.authorAvatarFrameId}
+                  className="h-6 w-6 sm:h-8 sm:w-8 rounded-full shrink-0"
+                />
+                <span
+                  className={cn(
+                    "font-medium",
+                    getNameColorClassName(discussion.authorNameColorId ?? null),
+                  )}
+                >
+                  {discussion.author}
+                </span>
+              </span>
+              <span className="flex items-center gap-1.5 sm:gap-2">
+                <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                {discussion.date}
+              </span>
+              <button
+                type="button"
+                onClick={handleToggleDiscussionLike}
+                className={cn(
+                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
+                  discussionLiked
+                    ? "text-red-500"
+                    : "text-muted-foreground hover:text-red-500",
+                )}
+              >
+                <Heart
+                  className={cn(
+                    "h-3.5 w-3.5 sm:h-4 sm:w-4",
+                    discussionLiked && "fill-current",
+                  )}
+                />
+                {discussion.likes}
+              </button>
+              {user && user.id === discussion.authorId && (
+                <button
+                  type="button"
+                  onClick={handleStartEditDiscussion}
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
+                  title="编辑讨论"
+                >
+                  <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">编辑</span>
+                </button>
+              )}
+              {user && user.id !== discussion.authorId && (
+                <ReportDialog contentType="discussion" contentId={discussion.id} />
+              )}
+            </div>
+
+            <div className="prose dark:prose-invert max-w-none">
+              <p className="text-sm sm:text-lg leading-relaxed whitespace-pre-wrap">
+                {discussion.content}
+              </p>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="space-y-4 sm:space-y-8">
@@ -581,6 +681,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                     replyTarget={replyTarget}
                     onReply={handleReply}
                     onDelete={handleDeleteReply}
+                    onEdit={handleEditReply}
                     isLiked={likedReplies.has(String(reply.id))}
                     onToggleLike={handleToggleReplyLike}
                     reportContentType="discussion_reply"
@@ -603,6 +704,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                             replyTarget={replyTarget}
                             onToggleLike={handleToggleReplyLike}
                             onDelete={handleDeleteReply}
+                            onEdit={handleEditReply}
                             onReply={handleReply}
                             reportContentType="discussion_reply"
                           />
@@ -721,6 +823,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
                             replyTarget={sheetReplyTarget}
                             onReply={handleSheetReply}
                             onDelete={handleDeleteReply}
+                            onEdit={handleEditReply}
                             isLiked={likedReplies.has(String(r.id))}
                             onToggleLike={handleToggleReplyLike}
                             reportContentType="discussion_reply"

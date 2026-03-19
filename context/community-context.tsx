@@ -7,15 +7,22 @@ import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { useNotifications } from "@/context/notification-context";
 import { mapComment, type DbComment } from "@/lib/mappers/project";
-import { Comment, Discussion, Challenge } from "@/lib/types";
+import { Comment, Discussion } from "@/lib/types";
+import type { Challenge } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 
 
 
+interface ChallengeGroups {
+    activeTimed: Challenge[];
+    evergreen: Challenge[];
+    ended: Challenge[];
+}
+
 type CommunityContextType = {
     discussions: Discussion[];
-    challenges: Challenge[];
+    challenges: ChallengeGroups;
     addDiscussion: (discussion: Discussion) => void;
     addReply: (discussionId: string | number, reply: Comment, parentId?: number) => Promise<Comment | null>;
     joinChallenge: (challengeId: string | number) => void;
@@ -28,7 +35,9 @@ const CommunityContext = createContext<CommunityContextType | undefined>(undefin
 
 export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const [discussions, setDiscussions] = useState<Discussion[]>([]);
-    const [challenges, setChallenges] = useState<Challenge[]>([]);
+    const [challenges, setChallenges] = useState<ChallengeGroups>({
+        activeTimed: [], evergreen: [], ended: []
+    });
     const [isLoading, setIsLoading] = useState(true);
 
     const [supabase] = useState(() => createClient());
@@ -37,7 +46,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const { createNotification } = useNotifications();
 
     // Refs for stable callbacks
-    const challengesRef = useRef(challenges);
+    const challengesRef = useRef<ChallengeGroups>(challenges);
     const lastFetchedUserIdRef = useRef<string | null | undefined>(undefined);
 
     useEffect(() => { challengesRef.current = challenges; }, [challenges]);
@@ -49,7 +58,11 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             return
         }
         const payload = await response.json()
-        setChallenges((payload?.challenges as Challenge[]) || [])
+        setChallenges({
+            activeTimed: (payload?.activeTimed as Challenge[]) || [],
+            evergreen: (payload?.evergreen as Challenge[]) || [],
+            ended: (payload?.ended as Challenge[]) || [],
+        })
     }, []);
 
     // 统一处理数据加载：初始化或用户变化时加载
@@ -166,18 +179,26 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         if (!user) return;
         const cid = Number(challengeId);
 
-        // Find current challenge to check status
-        const challenge = challengesRef.current.find(c => c.id === cid);
+        // Find current challenge across all groups
+        const allChallenges = [
+            ...challengesRef.current.activeTimed,
+            ...challengesRef.current.evergreen,
+            ...challengesRef.current.ended,
+        ];
+        const challenge = allChallenges.find(c => Number(c.id) === cid);
         if (!challenge) return;
 
         const isJoined = challenge.joined;
 
+        const updateGroup = (arr: Challenge[]) => arr.map(c =>
+            Number(c.id) === cid ? { ...c, joined: !isJoined, participants: c.participants + (isJoined ? -1 : 1) } : c
+        );
+
         // Optimistic update
-        setChallenges(prev => prev.map(c => {
-            if (c.id === cid) {
-                return { ...c, joined: !isJoined, participants: c.participants + (isJoined ? -1 : 1) };
-            }
-            return c;
+        setChallenges(prev => ({
+            activeTimed: updateGroup(prev.activeTimed),
+            evergreen: updateGroup(prev.evergreen),
+            ended: updateGroup(prev.ended),
         }));
 
         if (isJoined) {

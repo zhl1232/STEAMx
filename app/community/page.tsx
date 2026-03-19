@@ -78,22 +78,63 @@ export default function CommunityPage() {
                     {activeTab === "discussions" ? (
                         <DiscussionList />
                     ) : (
-                        <div className="space-y-8">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-2xl font-bold">本月挑战</h2>
-                                <p className="text-muted-foreground">参与挑战，赢取限定徽章！</p>
-                            </div>
-                            {isLoading ? (
+                        <div className="space-y-10">
+                            {/* Active timed challenges */}
+                            {challenges.activeTimed && challenges.activeTimed.length > 0 && (
+                                <section>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-2xl font-bold">进行中的限时挑战</h2>
+                                        <p className="text-muted-foreground">参与竞赛，赢取排名奖励！</p>
+                                    </div>
+                                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                        {challenges.activeTimed.map((challenge) => (
+                                            <ChallengeCard key={challenge.id} challenge={challenge} />
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* Evergreen challenges */}
+                            {challenges.evergreen && challenges.evergreen.length > 0 && (
+                                <section>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-2xl font-bold">常驻学习挑战</h2>
+                                        <p className="text-muted-foreground">自主学习，随时完成</p>
+                                    </div>
+                                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                        {challenges.evergreen.map((challenge) => (
+                                            <ChallengeCard key={challenge.id} challenge={challenge} />
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* Ended challenges */}
+                            {challenges.ended && challenges.ended.length > 0 && (
+                                <section>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-xl font-bold text-muted-foreground">已结束的挑战</h2>
+                                    </div>
+                                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                        {challenges.ended.map((challenge) => (
+                                            <ChallengeCard key={challenge.id} challenge={challenge} />
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {isLoading && (
                                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                     {[1, 2, 3].map((i) => (
                                         <ChallengeCardSkeleton key={i} />
                                     ))}
                                 </div>
-                            ) : (
-                                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                    {challenges.map((challenge) => (
-                                        <ChallengeCard key={challenge.id} challenge={challenge} />
-                                    ))}
+                            )}
+
+                            {!isLoading && !challenges.activeTimed?.length && !challenges.evergreen?.length && !challenges.ended?.length && (
+                                <div className="text-center py-12 text-muted-foreground">
+                                    <p className="text-lg">暂无挑战赛</p>
+                                    <p className="text-sm mt-1">敬请期待新的挑战！</p>
                                 </div>
                             )}
                         </div>
