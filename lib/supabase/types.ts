@@ -1199,6 +1199,10 @@ export interface Database {
         Args: { completion_id: number; reason: string }
         Returns: void
       }
+      increment_user_xp: {
+        Args: { p_user_id: string; p_amount: number }
+        Returns: void
+      }
       get_badge_leaderboard: {
         Args: { limit_count: number }
         Returns: {

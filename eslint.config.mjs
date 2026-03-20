@@ -18,6 +18,7 @@ export default [
       "*.config.mjs",
       "playwright-report/**",
       "test-results/**",
+      "coverage/**",
       ".agents/**",
     ],
   },
@@ -71,7 +72,7 @@ export default [
       }],
       
       // General
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     },
   },
 ];

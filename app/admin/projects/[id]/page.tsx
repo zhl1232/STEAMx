@@ -19,7 +19,6 @@ import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
 import { logger } from '@/lib/logger'
 import { getSteamWeights, type SteamWeights } from '@/lib/config/subcategory-steam-weights'
 
-type ProjectUpdate = Database['public']['Tables']['projects']['Update']
 type StepInsert = Database['public']['Tables']['project_steps']['Insert']
 type MaterialInsert = Database['public']['Tables']['project_materials']['Insert']
 

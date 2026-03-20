@@ -44,7 +44,7 @@ export default function AppearanceSettingsPage() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4">
           <div className="overflow-hidden rounded-2xl border bg-card">
-            {baseOptions.map((opt, index) => (
+            {baseOptions.map((opt) => (
               <div key={opt.value}>
                 <button
                   type="button"

@@ -24,6 +24,18 @@ type Grid = number[][];
 type Snapshot = {
     grid: Grid;
     score: number;
+    status: Game2048Status;
+    hasWon: boolean;
+};
+
+type Use2048Options = {
+    initialGame?: {
+        grid: Grid;
+        score?: number;
+        status?: Game2048Status;
+        hasWon?: boolean;
+        stats?: Game2048Stats;
+    };
 };
 
 const GRID_SIZE = 4;
@@ -191,18 +203,21 @@ function gridToTiles(grid: Grid, idCounter: React.MutableRefObject<number>, merg
     return tiles;
 }
 
-export function use2048() {
-    const [grid, setGrid] = useState<Grid>(createEmptyGrid);
+export function use2048(options?: Use2048Options) {
+    const initialGame = options?.initialGame;
+
+    const [_grid, setGrid] = useState<Grid>(() => initialGame ? cloneGrid(initialGame.grid) : createEmptyGrid());
     const [tiles, setTiles] = useState<TileData[]>([]);
-    const [score, setScore] = useState(0);
-    const [status, setStatus] = useState<Game2048Status>('idle');
-    const [stats, setStats] = useState<Game2048Stats>(loadStats);
+    const [score, setScore] = useState(() => initialGame?.score ?? 0);
+    const [status, setStatus] = useState<Game2048Status>(() => initialGame?.status ?? 'idle');
+    const [stats, setStats] = useState<Game2048Stats>(() => initialGame?.stats ?? loadStats());
     const [isNewRecord, setIsNewRecord] = useState(false);
     const [canUndo, setCanUndo] = useState(false);
 
     const idCounterRef = useRef(1);
+    const scoreRef = useRef(initialGame?.score ?? 0);
     const prevSnapshotRef = useRef<Snapshot | null>(null);
-    const hasWonRef = useRef(false);
+    const hasWonRef = useRef(initialGame?.hasWon ?? false);
     const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
     const refreshTiles = useCallback((g: Grid, mergedCells: Set<string>, newCell: [number, number] | null) => {
@@ -214,6 +229,7 @@ export function use2048() {
         addRandomTile(g);
         const newCell = addRandomTile(g);
         setGrid(g);
+        scoreRef.current = 0;
         setScore(0);
         setStatus('playing');
         setCanUndo(false);
@@ -228,9 +244,13 @@ export function use2048() {
     useEffect(() => {
         if (!initializedRef.current) {
             initializedRef.current = true;
+            if (initialGame) {
+                refreshTiles(initialGame.grid, new Set(), null);
+                return;
+            }
             startNewGame();
         }
-    }, [startNewGame]);
+    }, [initialGame, refreshTiles, startNewGame]);
 
     const updateStats = useCallback((currentScore: number, currentGrid: Grid, didWin: boolean) => {
         setStats(prev => {
@@ -256,12 +276,19 @@ export function use2048() {
             const { newGrid, scoreGain, mergedCells, changed } = applyMove(prevGrid, direction);
             if (!changed) return prevGrid;
 
-            prevSnapshotRef.current = { grid: cloneGrid(prevGrid), score: score };
+            const previousScore = scoreRef.current;
+            prevSnapshotRef.current = {
+                grid: cloneGrid(prevGrid),
+                score: previousScore,
+                status,
+                hasWon: hasWonRef.current,
+            };
             setCanUndo(true);
 
             const newCell = addRandomTile(newGrid);
 
-            const newScore = score + scoreGain;
+            const newScore = previousScore + scoreGain;
+            scoreRef.current = newScore;
             setScore(newScore);
             refreshTiles(newGrid, mergedCells, newCell);
 
@@ -298,20 +325,20 @@ export function use2048() {
 
             return newGrid;
         });
-    }, [status, score, refreshTiles, updateStats]);
+    }, [status, refreshTiles, updateStats]);
 
     const undo = useCallback(() => {
         if (!prevSnapshotRef.current || !canUndo) return;
-        const { grid: prevGrid, score: prevScore } = prevSnapshotRef.current;
+        const { grid: prevGrid, score: prevScore, status: prevStatus, hasWon: prevHasWon } = prevSnapshotRef.current;
         setGrid(prevGrid);
+        scoreRef.current = prevScore;
+        hasWonRef.current = prevHasWon;
         setScore(prevScore);
+        setStatus(prevStatus);
         setCanUndo(false);
         prevSnapshotRef.current = null;
         refreshTiles(prevGrid, new Set(), null);
-        if (status === 'gameover') {
-            setStatus('playing');
-        }
-    }, [canUndo, status, refreshTiles]);
+    }, [canUndo, refreshTiles]);
 
     const resetGame = useCallback(() => {
         setStats(prev => {

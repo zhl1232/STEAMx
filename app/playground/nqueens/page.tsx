@@ -84,7 +84,6 @@ function CellOverlay({ state, size }: { state: CellState; size: number }) {
 export default function NQueensPage() {
     const {
         n,
-        queens,
         cellStates,
         mode,
         status,

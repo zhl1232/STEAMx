@@ -94,16 +94,19 @@ async function awardCompletionXp(completionId: number) {
   const comp = completion as { user_id: string; project_id: number }
 
   // Insert XP log with ON CONFLICT DO NOTHING (unique index prevents duplicates)
-  const { data: inserted } = await supabaseAdmin
+  const { data: inserted, error: xpLogError } = await supabaseAdmin
     .from('xp_logs')
     .upsert({
       user_id: comp.user_id,
       action_type: 'complete_project',
       resource_id: String(comp.project_id),
       xp_amount: COMPLETION_XP,
-      description: '完成项目',
     } as never, { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true })
     .select('id')
+
+  if (xpLogError) {
+    throw xpLogError
+  }
 
   if (!inserted || inserted.length === 0) {
     logger.info('XP already awarded, skipping', { completionId })
@@ -111,8 +114,12 @@ async function awardCompletionXp(completionId: number) {
   }
 
   // Increment user XP atomically
-  await supabaseAdmin.rpc('increment_user_xp', {
+  const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
     p_user_id: comp.user_id,
     p_amount: COMPLETION_XP,
-  } as never)
+  })
+
+  if (incrementError) {
+    throw incrementError
+  }
 }

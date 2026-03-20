@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "jest-vitest": {
+      "source": "absolutelyskilled/absolutelyskilled",
+      "sourceType": "github",
+      "computedHash": "92bf80632acd79f94f7e333f680fff5a1462251c15567c3e5185f0b03543dd2f"
+    }
+  }
+}

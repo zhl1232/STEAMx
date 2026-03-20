@@ -1,53 +1,52 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 import { ProjectShowcase } from './project-showcase'
-import '@testing-library/jest-dom'
 import { ProjectCompletion } from '@/lib/mappers/types'
 
-// Mock dependencies
-jest.mock('@/lib/supabase/client', () => ({
-    createClient: jest.fn(() => ({
-        from: jest.fn(() => ({
-            select: jest.fn().mockReturnThis(),
-            eq: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: null, error: null }),
-            order: jest.fn().mockReturnThis(),
+vi.mock('@/lib/supabase/client', () => ({
+    createClient: vi.fn(() => ({
+        from: vi.fn(() => ({
+            select: vi.fn().mockReturnThis(),
+            eq: vi.fn().mockReturnThis(),
+            single: vi.fn().mockResolvedValue({ data: null, error: null }),
+            order: vi.fn().mockReturnThis(),
         })),
-        rpc: jest.fn().mockResolvedValue({ data: 0, error: null })
-    }))
+        rpc: vi.fn().mockResolvedValue({ data: 0, error: null }),
+    })),
 }))
 
-jest.mock('@/context/auth-context', () => ({
-    useAuth: jest.fn(() => ({ user: { id: 'test-user' } }))
+vi.mock('@/context/auth-context', () => ({
+    useAuth: vi.fn(() => ({ user: { id: 'test-user' } })),
 }))
 
-jest.mock('@/context/login-prompt-context', () => ({
-    useLoginPrompt: jest.fn(() => ({ promptLogin: jest.fn() }))
+vi.mock('@/context/login-prompt-context', () => ({
+    useLoginPrompt: vi.fn(() => ({ promptLogin: vi.fn() })),
 }))
 
-jest.mock('@/context/gamification-context', () => ({
-    useGamification: jest.fn(() => ({ coins: 100, level: 1 }))
+vi.mock('@/context/gamification-context', () => ({
+    useGamification: vi.fn(() => ({ coins: 100, level: 1 })),
 }))
 
-jest.mock('@/hooks/use-danmaku', () => ({
-    useDanmaku: jest.fn(() => ({
+vi.mock('@/hooks/use-danmaku', () => ({
+    useDanmaku: vi.fn(() => ({
         activeDanmaku: [],
-        sendDanmaku: jest.fn(),
-        removeDanmaku: jest.fn(),
+        sendDanmaku: vi.fn(),
+        removeDanmaku: vi.fn(),
         isPlaying: true,
-        togglePlay: jest.fn(),
-        danmakuClass: 'danmaku-item'
-    }))
+        togglePlay: vi.fn(),
+        danmakuClass: 'danmaku-item',
+    })),
 }))
 
-jest.mock('@tanstack/react-query', () => ({
-    useQuery: jest.fn(() => ({ data: undefined })),
-    useMutation: jest.fn(() => ({ mutate: jest.fn() })),
-    useQueryClient: jest.fn(() => ({
-        cancelQueries: jest.fn(),
-        getQueryData: jest.fn(),
-        setQueryData: jest.fn(),
-        invalidateQueries: jest.fn(),
-    }))
+vi.mock('@tanstack/react-query', () => ({
+    useQuery: vi.fn(() => ({ data: undefined })),
+    useMutation: vi.fn(() => ({ mutate: vi.fn() })),
+    useQueryClient: vi.fn(() => ({
+        cancelQueries: vi.fn(),
+        getQueryData: vi.fn(),
+        setQueryData: vi.fn(),
+        invalidateQueries: vi.fn(),
+    })),
 }))
 
 const mockCompletions: ProjectCompletion[] = [
@@ -62,8 +61,8 @@ const mockCompletions: ProjectCompletion[] = [
         projectId: 101,
         userId: 'u1',
         isPublic: true,
-        proofVideoUrl: undefined
-    }
+        proofVideoUrl: undefined,
+    },
 ]
 
 describe('ProjectShowcase', () => {

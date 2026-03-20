@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
@@ -80,7 +79,6 @@ export function ChallengeManagement() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [typeFilter, setTypeFilter] = useState<string>('all')
   const { toast } = useToast()
-  const supabase = createClient()
 
   const fetchChallenges = useCallback(async () => {
     setIsLoading(true)

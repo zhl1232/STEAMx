@@ -157,7 +157,6 @@ export function CompleteProjectDialog({
     const canAddMore = totalImages < MAX_IMAGES;
     const isImageUploadInProgress = uploading.some((u) => !u.error);
     const isVideoUploading = videoUploadStatus === "uploading" || videoUploadStatus === "compressing" || videoUploadStatus === "validating";
-    const hasMedia = proofImages.length > 0 || videoUrl !== "";
 
     // ─── Image upload logic ───
 

@@ -1,5 +1,6 @@
-import { BADGES } from "../lib/gamification/badges";
-import { UserStats } from "../lib/gamification/types";
+import { describe, expect, test } from 'vitest'
+import { BADGES } from '../lib/gamification/badges'
+import { UserStats } from '../lib/gamification/types'
 
 const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
     projectsPublished: 0,

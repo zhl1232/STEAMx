@@ -52,6 +52,15 @@ async function getUserPreferences() {
 
     return { steam, ageGroup };
   } catch (e) {
+    if (
+      typeof e === "object" &&
+      e !== null &&
+      "digest" in e &&
+      (e as { digest?: string }).digest === "DYNAMIC_SERVER_USAGE"
+    ) {
+      return { steam: null, ageGroup: null };
+    }
+
     logger.error("Failed to get user preferences for homepage", { error: e });
     return { steam: null, ageGroup: null };
   }

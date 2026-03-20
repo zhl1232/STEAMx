@@ -62,12 +62,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '请选择要上传的视频' }, { status: 400 })
     }
 
-    const nodeBuffer = Buffer.from(await file.arrayBuffer())
-    const result = validateVideoUpload(nodeBuffer)
+    const arrayBuffer = await file.arrayBuffer()
+    const result = validateVideoUpload(arrayBuffer)
 
     if ('error' in result) {
       return NextResponse.json({ error: result.error }, { status: 400 })
     }
+
+    const nodeBuffer = Buffer.from(arrayBuffer)
 
     const timestamp = Date.now()
     const random = crypto.randomUUID().slice(0, 8)

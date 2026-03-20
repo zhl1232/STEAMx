@@ -47,28 +47,23 @@ const DIM_COLORS: Record<string, string> = {
   M: '#10b981',
 }
 
-function CustomAxisTick({ payload, x, y, textAnchor }: any) {
-  const dimKey = Object.entries(DIM_LABELS).find(([, v]) => v === payload.value)?.[0] || ''
+type CustomAxisTickProps = {
+  payload?: { value?: string }
+  x?: number | string
+  y?: number | string
+  textAnchor?: React.SVGProps<SVGTextElement>["textAnchor"]
+}
+
+function CustomAxisTick({ payload, x, y, textAnchor }: CustomAxisTickProps) {
+  const value = payload?.value ?? ''
+  const dimKey = Object.entries(DIM_LABELS).find(([, v]) => v === value)?.[0] || ''
   const color = DIM_COLORS[dimKey] || 'currentColor'
-  const parts = (payload.value as string).split(' ')
+  const parts = value.split(' ')
   return (
     <text x={x} y={y} textAnchor={textAnchor} dominantBaseline="central" fontSize={11}>
       <tspan fill={color} fontWeight={700}>{parts[0]}</tspan>
       <tspan fill={color} fillOpacity={0.6} fontWeight={400}>{' '}{parts[1]}</tspan>
     </text>
-  )
-}
-
-function CustomDot(props: any) {
-  const { cx, cy, index } = props
-  if (cx == null || cy == null) return null
-  const dim = DIM_ORDER[index]
-  const color = DIM_COLORS[dim]
-  return (
-    <g>
-      <circle cx={cx} cy={cy} r={6} fill={color} fillOpacity={0.2} />
-      <circle cx={cx} cy={cy} r={3} fill={color} />
-    </g>
   )
 }
 

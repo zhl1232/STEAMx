@@ -15,6 +15,18 @@ const MIME_TO_EXT: Record<string, string> = {
   'image/webp': 'webp',
 }
 
+function normalizePathPrefix(value: FormDataEntryValue | null): string | null {
+  if (typeof value !== 'string') return null
+
+  const normalized = value
+    .split('/')
+    .map((segment) => segment.replace(/[^a-zA-Z0-9_-]/g, ''))
+    .filter(Boolean)
+    .join('/')
+
+  return normalized || null
+}
+
 /**
  * Placeholder for future content moderation integration.
  * Currently always returns pass.
@@ -37,6 +49,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
     const file = formData.get('file')
     const bucket = formData.get('bucket')
+    const pathPrefix = normalizePathPrefix(formData.get('pathPrefix'))
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: '请选择要上传的文件' }, { status: 400 })
@@ -56,7 +69,10 @@ export async function POST(request: NextRequest) {
     const ext = MIME_TO_EXT[result.mime] || 'jpg'
     const timestamp = Date.now()
     const random = Math.random().toString(36).substring(2, 9)
-    const path = `${user.id}/${timestamp}-${random}.${ext}`
+    const filename = `${timestamp}-${random}.${ext}`
+    const path = pathPrefix
+      ? `${pathPrefix}/${user.id}/${filename}`
+      : `${user.id}/${filename}`
 
     const { data, error } = await supabaseAdmin.storage
       .from(bucket)

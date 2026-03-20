@@ -7,12 +7,16 @@ import { logger } from '@/lib/logger'
  */
 export async function uploadFileSecure(
   file: File,
-  bucket: string
+  bucket: string,
+  pathPrefix?: string
 ): Promise<string | null> {
   try {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('bucket', bucket)
+    if (pathPrefix) {
+      formData.append('pathPrefix', pathPrefix)
+    }
 
     const res = await fetch('/api/upload', { method: 'POST', body: formData })
 
@@ -38,12 +42,16 @@ export async function uploadFileSecure(
 export function uploadFileSecureWithProgress(
   file: File,
   bucket: string,
-  onProgress?: (loaded: number, total: number) => void
+  onProgress?: (loaded: number, total: number) => void,
+  pathPrefix?: string
 ): Promise<string | null> {
   return new Promise((resolve) => {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('bucket', bucket)
+    if (pathPrefix) {
+      formData.append('pathPrefix', pathPrefix)
+    }
 
     const xhr = new XMLHttpRequest()
     xhr.open('POST', '/api/upload')

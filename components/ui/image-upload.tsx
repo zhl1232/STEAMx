@@ -23,7 +23,7 @@ export function ImageUpload({
   value,
   onChange,
   bucket = 'project-images',
-  pathPrefix = 'projects',
+  pathPrefix: _pathPrefix = 'projects',
   maxSizeMB = 5,
   aspectRatio = 'aspect-video',
   placeholder = '点击上传图片'
@@ -66,7 +66,7 @@ export function ImageUpload({
     setIsUploading(true)
 
     try {
-      const publicUrl = await uploadFileSecure(file, bucket)
+      const publicUrl = await uploadFileSecure(file, bucket, _pathPrefix)
 
       if (publicUrl) {
         setPreviewUrl(publicUrl)

@@ -1,16 +1,15 @@
 import { render, screen, act } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { GamificationProvider, useGamification } from './gamification-context'
-import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-// Mock dependencies
-const mockUpdateXpMutation = { mutate: jest.fn() }
-const mockUnlockBadgeMutation = { mutate: jest.fn() }
-const mockRefetchStats = jest.fn()
-const mockToast = jest.fn()
+const mockUpdateXpMutation = { mutate: vi.fn() }
+const mockUnlockBadgeMutation = { mutate: vi.fn() }
+const mockRefetchStats = vi.fn()
+const mockToast = vi.fn()
 
-jest.mock('@/hooks/gamification/use-gamification-data', () => ({
-    useGamificationData: jest.fn(() => ({
+vi.mock('@/hooks/gamification/use-gamification-data', () => ({
+    useGamificationData: vi.fn(() => ({
         xp: 100,
         unlockedBadges: new Set(),
         userBadgeDetails: new Map(),
@@ -18,39 +17,38 @@ jest.mock('@/hooks/gamification/use-gamification-data', () => ({
         userStats: { totalProjects: 0, totalLikes: 0 },
         updateXpMutation: mockUpdateXpMutation,
         unlockBadgeMutation: mockUnlockBadgeMutation,
-        refetchStats: mockRefetchStats
-    }))
+        refetchStats: mockRefetchStats,
+    })),
 }))
 
-jest.mock('@/hooks/use-toast', () => ({
-    useToast: () => ({ toast: mockToast })
+vi.mock('@/hooks/use-toast', () => ({
+    useToast: () => ({ toast: mockToast }),
 }))
 
-jest.mock('@/lib/supabase/client', () => ({
+vi.mock('@/lib/supabase/client', () => ({
     createClient: () => ({
-        from: jest.fn(() => ({
-            select: jest.fn().mockReturnThis(),
-            eq: jest.fn().mockReturnThis(),
-            maybeSingle: jest.fn().mockResolvedValue({ data: null }),
-            gte: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: null }),
-            insert: jest.fn().mockResolvedValue({ error: null })
+        from: vi.fn(() => ({
+            select: vi.fn().mockReturnThis(),
+            eq: vi.fn().mockReturnThis(),
+            maybeSingle: vi.fn().mockResolvedValue({ data: null }),
+            gte: vi.fn().mockReturnThis(),
+            single: vi.fn().mockResolvedValue({ data: null }),
+            insert: vi.fn().mockResolvedValue({ error: null }),
         })),
-        rpc: jest.fn().mockResolvedValue({ error: null })
-    })
+        rpc: vi.fn().mockResolvedValue({ error: null }),
+    }),
 }))
 
-jest.mock('@/context/auth-context', () => ({
+vi.mock('@/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: 'test-user' },
         profile: { coins: 0 },
-        refreshProfile: jest.fn()
-    })
+        refreshProfile: vi.fn(),
+    }),
 }))
 
-// Mock canvas-confetti
-jest.mock('canvas-confetti', () => ({
-    default: jest.fn()
+vi.mock('canvas-confetti', () => ({
+    default: vi.fn(),
 }))
 
 function TestComponent() {
@@ -59,14 +57,16 @@ function TestComponent() {
         <div>
             <div data-testid="xp">XP: {xp}</div>
             <div data-testid="level">Level: {level}</div>
-            <button onClick={() => addXp(50)}>Add XP</button>
+            <button type="button" onClick={() => addXp(50)}>
+                Add XP
+            </button>
         </div>
     )
 }
 
 describe('GamificationContext', () => {
     beforeEach(() => {
-        jest.clearAllMocks()
+        vi.clearAllMocks()
     })
 
     const queryClient = new QueryClient({
@@ -77,17 +77,15 @@ describe('GamificationContext', () => {
         },
     })
 
-
     it('provides initial gamification data', () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <GamificationProvider>
                     <TestComponent />
                 </GamificationProvider>
-            </QueryClientProvider>
+            </QueryClientProvider>,
         )
         expect(screen.getByTestId('xp')).toHaveTextContent('XP: 100')
-        // sqrt(100/100) + 1 = 2
         expect(screen.getByTestId('level')).toHaveTextContent('Level: 2')
     })
 
@@ -97,7 +95,7 @@ describe('GamificationContext', () => {
                 <GamificationProvider>
                     <TestComponent />
                 </GamificationProvider>
-            </QueryClientProvider>
+            </QueryClientProvider>,
         )
 
         await act(async () => {

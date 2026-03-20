@@ -19,6 +19,7 @@ import { logger } from "@/lib/logger";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
+type CompletionRowForMapper = Omit<Parameters<typeof mapDbCompletion>[0], "profiles">;
 
 type SmokeProject = Project & {
   createdAt: string;
@@ -736,19 +737,7 @@ export async function getProjectCompletions(
   };
   const profilesMap = new Map(((profiles as ProfileRow[]) || []).map((profile) => [profile.id, profile]));
 
-  type CompletionData = {
-    user_id: string;
-    id: number;
-    project_id: number;
-    completed_at: string;
-    proof_images: string[];
-    proof_video_url: string | null;
-    notes: string | null;
-    is_public: boolean;
-    likes_count: number;
-    proof_captions: string[] | null;
-  };
-  return (completions as CompletionData[]).map((item) => {
+  return (completions as CompletionRowForMapper[]).map((item) => {
     const profile = profilesMap.get(item.user_id);
     return mapDbCompletion({
       ...item,

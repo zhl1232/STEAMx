@@ -6,12 +6,6 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 
-interface RatingDimension {
-  key: string
-  label: string
-  value: number
-}
-
 interface RatingStarsProps {
   projectId: number
   initialRating?: { creativity: number; practicality: number; technical: number; reflectionDepth: number } | null

@@ -17,8 +17,8 @@ STEAM 探索 是一个基于项目学习（PBL）的互动平台，让孩子们�
 - **样式系统**: Tailwind CSS + shadcn/ui
 - **服务端与数据**: Supabase (数据库 + 认证 + 存储)
 - **客户端状态**: TanStack Query v5
-- **部署目标**: OpenNext Cloudflare + Cloudflare Workers
-- **工程质量**: TypeScript / ESLint / Jest / Playwright / Husky
+- **部署目标**: Docker 镜像 + 自托管服务器
+- **工程质量**: TypeScript / ESLint / Vitest / Playwright / Husky
 
 ## ✨ 主要功能
 
@@ -54,8 +54,8 @@ STEAM 探索 是一个基于项目学习（PBL）的互动平台，让孩子们�
 
 ### 环境要求
 
-- Node.js 18+
-- pnpm 8+
+- Node.js 20+
+- pnpm 10.22.0
 - Supabase 账号
 
 ### 安装
@@ -83,8 +83,11 @@ cp .env.example .env.local
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
-```
-   set -a && source .env.local && set +a && pnpm exec supabase db push
+
+如需先把 `.env.local` 导入当前 shell，再执行 CLI，可用：
+
+```bash
+set -a && source .env.local && set +a && pnpm exec supabase db push
 ```
 4. 运行数据库迁移：
 
@@ -105,7 +108,6 @@ supabase db push
 
 数据库迁移与特殊环境说明请参考：
 - [docs/database-psql.md](./docs/database-psql.md) - 阿里云 AnalyticDB 版：使用 psql 直连（不支持 Supabase CLI 时的迁移与重置）
-- [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md) - Cloudflare / OpenNext 部署说明与兼容约束
 
 ### 启动开发服务器
 
@@ -207,14 +209,12 @@ Husky 会在提交时自动检查提交信息格式。
 
 ## ☁️ 部署
 
-- **Cloudflare (Workers)**：见 [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md)，正式部署路径为 GitHub Actions + OpenNext Cloudflare。
-  - **Preview**：`.github/workflows/preview.yml` 部署到 `steam-preview` 并回写 PR 预览地址。
-  - **Release**：`.github/workflows/release.yml` 在 `main` / `v*` tag 上部署生产 Worker `steam`。
-  - **注意**：当前 Cloudflare 目标下保留 `middleware.ts`，不迁移到 `proxy.ts`。原因见部署文档中的 OpenNext 兼容说明。
+- **生产发布**：当前以 Docker 部署为准，GitHub Actions 会执行 [`.github/workflows/release.yml`](./.github/workflows/release.yml)，构建镜像后通过 SSH 发布到服务器。
+- **CI 校验**：当前使用 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)，执行 ESLint、TypeScript、Vitest、Next build 和 Playwright smoke。
+- **Cloudflare（应用托管）**：当前未接入 OpenNext Cloudflare / Wrangler 发布链路；生产以 Docker 为准。部分 API（如依赖本机 `ffmpeg`、`/tmp` 的上传处理）按 Node 运行时设计，不宜直接迁到 Workers。
 
 ## 📚 相关文档
 
-- [docs/DEPLOY_CLOUDFLARE.md](./docs/DEPLOY_CLOUDFLARE.md) - Cloudflare / OpenNext 部署说明
 - [docs/database-psql.md](./docs/database-psql.md) - psql 迁移与重置说明
 - [docs/archive/AUTH_USER_GUIDE.md](./docs/archive/AUTH_USER_GUIDE.md) - 认证历史说明
 

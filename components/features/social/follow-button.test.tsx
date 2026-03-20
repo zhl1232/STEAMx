@@ -1,34 +1,29 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 import { FollowButton } from './follow-button'
-import '@testing-library/jest-dom'
 
-// Mock hooks
-const mockFollow = jest.fn()
-const mockUnfollow = jest.fn()
-const mockPromptLogin = jest.fn()
+const mockFollow = vi.fn()
+const mockUnfollow = vi.fn()
+const mockPromptLogin = vi.fn()
 
-jest.mock('@/hooks/use-follow', () => ({
-    useFollow: jest.fn(() => ({
+vi.mock('@/hooks/use-follow', () => ({
+    useFollow: vi.fn(() => ({
         isFollowing: false,
         isLoading: false,
         followerCount: 10,
         follow: mockFollow,
         unfollow: mockUnfollow,
-        isPending: false
-    }))
+        isPending: false,
+    })),
 }))
 
-jest.mock('@/context/auth-context', () => ({
-    useAuth: jest.fn(() => ({ user: { id: 'current-user' } }))
+vi.mock('@/context/auth-context', () => ({
+    useAuth: vi.fn(() => ({ user: { id: 'current-user' } })),
 }))
 
-jest.mock('@/context/login-prompt-context', () => ({
-    useLoginPrompt: jest.fn(() => ({ promptLogin: mockPromptLogin }))
+vi.mock('@/context/login-prompt-context', () => ({
+    useLoginPrompt: vi.fn(() => ({ promptLogin: mockPromptLogin })),
 }))
-
-// We need to re-require modules to change mock implementations between tests if needed, 
-// but for simple cases, we can use jest.spyOn or complex mocks. 
-// For now, let's test basic rendering and click interaction.
 
 describe('FollowButton', () => {
     it('renders follow button correctly', () => {
