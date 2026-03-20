@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     const result = data as { ok?: boolean; error?: string } | null
     if (!result?.ok) {
-      return NextResponse.json({ ok: false, error: result?.error || 'tip_failed' })
+      return NextResponse.json({ ok: false, error: result?.error || 'tip_failed' }, { status: 422 })
     }
 
     return NextResponse.json({ ok: true })

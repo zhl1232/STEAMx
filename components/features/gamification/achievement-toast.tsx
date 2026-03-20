@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { BadgeTier } from "@/lib/gamification/types";
+import { PREMIUM_ICONS_MAP } from "./premium-icons";
 
 const TIER_TOAST_STYLES: Record<BadgeTier, string> = {
     bronze: "border-amber-600 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/40 dark:to-amber-800/30 dark:border-amber-500/50",
@@ -22,6 +23,8 @@ export function AchievementToast({ title, description, icon, tier }: Achievement
         ? TIER_TOAST_STYLES[tier]
         : "border-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 dark:border-yellow-500/50";
 
+    const IconComp = PREMIUM_ICONS_MAP[icon];
+
     return (
         <div className="flex w-full items-center gap-4">
             <motion.div
@@ -30,7 +33,7 @@ export function AchievementToast({ title, description, icon, tier }: Achievement
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 className={`flex h-12 w-12 items-center justify-center rounded-full border-2 text-2xl ${iconRingClass}`}
             >
-                {icon}
+                {IconComp ? <IconComp className="h-6 w-6" /> : icon}
             </motion.div>
             <div className="flex flex-col">
                 <motion.h4

@@ -6,6 +6,8 @@ import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUpload, ALLOWED_BUCKETS } from '@/lib/utils/file-validation'
 import { logger } from '@/lib/logger'
 
+const IMAGE_ONLY_BUCKETS = ALLOWED_BUCKETS.filter(b => b !== 'project-completion-videos')
+
 const MIME_TO_EXT: Record<string, string> = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '请选择要上传的文件' }, { status: 400 })
     }
 
-    if (typeof bucket !== 'string' || !ALLOWED_BUCKETS.includes(bucket)) {
+    if (typeof bucket !== 'string' || !IMAGE_ONLY_BUCKETS.includes(bucket)) {
       return NextResponse.json({ error: '不允许的存储桶' }, { status: 400 })
     }
 

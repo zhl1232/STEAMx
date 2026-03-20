@@ -110,10 +110,7 @@ export async function requireRole(
  * @returns NextResponse
  */
 export function handleApiError(error: unknown): NextResponse {
-  // 开发环境记录详细错误
-  if (process.env.NODE_ENV === 'development') {
-    logger.error('API Error', { error })
-  }
+  logger.error('API Error', { error })
 
   // 认证错误
   if (error instanceof AuthError) {

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { Heart, Bookmark, Coins, Flag } from "lucide-react"
@@ -32,6 +33,7 @@ interface ProjectInteractionsProps {
 }
 
 export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0, challengeId }: ProjectInteractionsProps) {
+    const router = useRouter()
     const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected, isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -39,11 +41,11 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const [showTipDialog, setShowTipDialog] = useState(false)
 
     const { data: myTippedProject = 0 } = useQuery({
-        queryKey: ["tip_my", "project", Number(projectId)],
+        queryKey: ["tip_my", "project", String(projectId)],
         queryFn: async () => {
             const params = new URLSearchParams({
                 resourceType: "project",
-                resourceId: String(Number(projectId)),
+                resourceId: String(projectId),
             })
             const response = await fetch(`/api/tips/my?${params.toString()}`)
             if (!response.ok) return 0
@@ -101,8 +103,8 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const handleCompleteClick = () => {
         if (!user) {
             promptLogin(() => setShowCompleteDialog(true), {
-                title: '登录以标记完成',
-                description: '登录后可记录你完成的项目，获得成就徽章'
+                title: '登录以上传作品',
+                description: '登录后可上传你的作品，获得 XP 和成就徽章'
             })
             return
         }
@@ -151,24 +153,13 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
         </>
     )
 
-    const _markDoneButton = (
-        <ConfettiButton
-            className="shrink-0"
-            isCompleted={isProjectCompleted}
-            onClick={handleCompleteClick}
-            disabled={isProjectCompleted}
-        >
-            {isProjectCompleted ? "✅ 已完成" : "我做过这个！"}
-        </ConfettiButton>
-    )
-
     // 底部栏样式：默认灰色空心线框，激活后彩色实心；图标间距统一 16px
     const embeddedBar = (
-        <div className="flex items-center gap-4 text-muted-foreground">
+        <div className="flex items-center gap-2 text-muted-foreground -ml-2.5">
             <button
                 type="button"
                 onClick={handleLike}
-                className="flex items-center gap-1.5 transition-colors hover:text-red-500"
+                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-red-500 active:bg-muted/50"
                 title="点赞"
             >
                 <Heart className={`h-5 w-5 shrink-0 ${isProjectLiked ? "fill-current text-red-500" : "text-muted-foreground"}`} />
@@ -177,7 +168,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             <button
                 type="button"
                 onClick={handleCollection}
-                className="flex items-center gap-1.5 transition-colors hover:text-amber-600"
+                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-amber-600 active:bg-muted/50"
                 title="收藏"
             >
                 <Bookmark className={`h-5 w-5 shrink-0 ${isProjectCollected ? "fill-current text-amber-600" : "text-muted-foreground"}`} />
@@ -185,7 +176,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             <button
                 type="button"
                 onClick={handleTipClick}
-                className="flex items-center gap-1.5 transition-colors hover:text-amber-600"
+                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-amber-600 active:bg-muted/50"
                 title="投币支持项目"
             >
                 <Coins className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
@@ -195,7 +186,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                 <ReportDialog contentType="project" contentId={projectId}>
                     <button
                         type="button"
-                        className="flex items-center gap-1.5 transition-colors hover:text-destructive"
+                        className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-destructive active:bg-muted/50"
                         title="举报"
                     >
                         <Flag className="h-5 w-5 shrink-0 text-muted-foreground" />
@@ -234,7 +225,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                     onClick={handleCompleteClick}
                     disabled={isProjectCompleted}
                 >
-                    {isProjectCompleted ? "✅ 已完成" : "我做过这个！(Mark as Done)"}
+                    {isProjectCompleted ? "✅ 已完成" : "上传我的作品"}
                 </ConfettiButton>
             </div>
             <CompleteProjectDialog
@@ -243,7 +234,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                 challengeId={challengeId}
                 open={showCompleteDialog}
                 onOpenChange={setShowCompleteDialog}
-                onSuccess={() => {}}
+                onSuccess={() => router.refresh()}
             />
             <TipProjectDialog
                 open={showTipDialog}

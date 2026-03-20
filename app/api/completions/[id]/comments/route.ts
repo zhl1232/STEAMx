@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 
@@ -49,6 +50,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-completion-comments', limit: 10, windowMs: 60_000 })
     const { id } = await params
     const completionId = Number(id)
     if (Number.isNaN(completionId)) {

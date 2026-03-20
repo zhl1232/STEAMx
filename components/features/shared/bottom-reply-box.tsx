@@ -139,7 +139,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
   }, [replyTarget]);
 
   const wrapperClass = variant === "fixed"
-    ? "fixed bottom-16 left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-border/80 dark:border-border md:border-t-0 px-4 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:shadow-none"
+    ? "fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-border/80 dark:border-border md:border-t-0 px-4 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:shadow-none"
     : "shrink-0 border-t bg-background px-4 py-3";
 
   return (
@@ -246,12 +246,12 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                        className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={() => fileInputRef.current?.click()}
                         title="插入图片 (Lv.2 特权)"
                       >
-                        <ImagePlus className="h-4 w-4" />
+                        <ImagePlus className="h-4.5 w-4.5" />
                       </Button>
                     )}
                   </div>
@@ -259,7 +259,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
                     type="submit"
                     disabled={(!hasContent && !imageFile) || submitting}
                     size="sm"
-                    className="h-8 px-4 rounded-full text-xs font-medium"
+                    className="h-9 px-4 rounded-full text-xs font-medium"
                     onMouseDown={(e) => e.preventDefault()}
                   >
                     {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "发布"}

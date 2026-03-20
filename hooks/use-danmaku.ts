@@ -88,6 +88,7 @@ export function useDanmaku({ initialComments = [], autoPlay = true, runOnce = fa
             startTime: 0
         }));
         pendingQueueRef.current = formatted;
+        setActiveDanmaku([]);
     }, [initialComments, runOnce, resourceId]);
 
     // 弹幕投放定时器

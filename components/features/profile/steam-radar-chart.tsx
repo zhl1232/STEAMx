@@ -36,8 +36,41 @@ interface RadarDimData {
 
 const DIM_ORDER = ['S', 'T', 'E', 'A', 'M'] as const
 const DIM_LABELS: Record<string, string> = { S: 'S 科学', T: 'T 技术', E: 'E 工程', A: 'A 艺术', M: 'M 数学' }
+const DIM_NAMES: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
 const TIER_LABELS: Record<string, string> = { none: '', foundation: '基础', intermediate: '进阶', advanced: '挑战' }
-const TIER_COLORS: Record<string, string> = { none: 'text-muted-foreground', foundation: 'text-blue-500', intermediate: 'text-green-500', advanced: 'text-purple-500' }
+
+const DIM_COLORS: Record<string, string> = {
+  S: '#6366f1',
+  T: '#06b6d4',
+  E: '#f59e0b',
+  A: '#ec4899',
+  M: '#10b981',
+}
+
+function CustomAxisTick({ payload, x, y, textAnchor }: any) {
+  const dimKey = Object.entries(DIM_LABELS).find(([, v]) => v === payload.value)?.[0] || ''
+  const color = DIM_COLORS[dimKey] || 'currentColor'
+  const parts = (payload.value as string).split(' ')
+  return (
+    <text x={x} y={y} textAnchor={textAnchor} dominantBaseline="central" fontSize={11}>
+      <tspan fill={color} fontWeight={700}>{parts[0]}</tspan>
+      <tspan fill={color} fillOpacity={0.6} fontWeight={400}>{' '}{parts[1]}</tspan>
+    </text>
+  )
+}
+
+function CustomDot(props: any) {
+  const { cx, cy, index } = props
+  if (cx == null || cy == null) return null
+  const dim = DIM_ORDER[index]
+  const color = DIM_COLORS[dim]
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={6} fill={color} fillOpacity={0.2} />
+      <circle cx={cx} cy={cy} r={3} fill={color} />
+    </g>
+  )
+}
 
 export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
@@ -76,7 +109,6 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
       }))
     }
 
-    // Fallback to legacy stats
     if (stats) {
       const legacy = {
         S: stats.scienceCompleted || 0,
@@ -101,7 +133,6 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
 
   const hasData = data.some(d => d.value > 0)
 
-  // Find the most actionable guidance message
   const activeGuidance = useMemo(() => {
     if (!radarData) return null
     for (const dim of DIM_ORDER) {
@@ -120,27 +151,33 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
   }
 
   return (
-    <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5 space-y-2 sm:space-y-3">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">STEAM 能力图谱</p>
-          <p className="text-xs text-muted-foreground/80 mt-0.5 hidden sm:block">
-            综合项目完成和挑战参与，含难度系数与递减收益算法。
-          </p>
-        </div>
+    <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3">
+      <div>
+        <p className="text-sm font-semibold text-foreground">STEAM 能力图谱</p>
+        <p className="text-xs text-muted-foreground/70 mt-0.5 hidden sm:block">
+          综合项目完成和挑战参与，含难度系数与递减收益算法。
+        </p>
       </div>
+
       <div className="h-52 sm:h-64 min-h-[208px] sm:min-h-[256px] w-full min-w-[200px]">
         {hasData ? (
-          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={208}>
-            <RadarChart data={data} outerRadius="80%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={208} debounce={50}>
+            <RadarChart data={data} outerRadius="78%">
+              <defs>
+                <radialGradient id="steamRadarFill" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.35} />
+                  <stop offset="60%" stopColor="#6366f1" stopOpacity={0.18} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.06} />
+                </radialGradient>
+              </defs>
               <PolarGrid
                 gridType="polygon"
                 stroke="hsl(var(--border))"
-                strokeOpacity={0.5}
+                strokeOpacity={0.35}
               />
               <PolarAngleAxis
                 dataKey="subject"
-                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                tick={<CustomAxisTick />}
               />
               <PolarRadiusAxis
                 tick={false}
@@ -148,30 +185,31 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
                 tickCount={5}
                 domain={[0, 100]}
               />
-              {/* Reference lines for tier thresholds */}
               <Radar
                 name="基础线"
                 dataKey="foundation"
                 stroke="hsl(var(--muted-foreground))"
-                strokeOpacity={0.3}
-                strokeDasharray="4 4"
+                strokeOpacity={0.18}
+                strokeDasharray="3 3"
                 fill="none"
               />
               <Radar
                 name="进阶线"
                 dataKey="intermediate"
                 stroke="hsl(var(--muted-foreground))"
-                strokeOpacity={0.2}
-                strokeDasharray="4 4"
+                strokeOpacity={0.12}
+                strokeDasharray="3 3"
                 fill="none"
               />
               <Radar
                 name="STEAM"
                 dataKey="value"
-                stroke="hsl(var(--primary))"
-                fill="hsl(var(--primary))"
-                fillOpacity={0.25}
-                dot={{ r: 3, fill: "hsl(var(--primary))" }}
+                stroke="#7c3aed"
+                strokeWidth={1.5}
+                strokeOpacity={0.8}
+                fill="url(#steamRadarFill)"
+                fillOpacity={1}
+                dot={false}
               />
             </RadarChart>
           </ResponsiveContainer>
@@ -187,24 +225,43 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
         )}
       </div>
 
-      {/* Tier labels */}
       {hasData && radarData && (
-        <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center">
+        <div className="grid grid-cols-5 gap-1">
           {DIM_ORDER.map(dim => {
             const d = radarData[dim]
-            if (!d || d.display < 1) return null
+            const color = DIM_COLORS[dim]
+            const display = d?.display ?? 0
+            const tier = d?.tier ?? 'none'
             return (
-              <span key={dim} className={`text-xs font-medium ${TIER_COLORS[d.tier]}`}>
-                {DIM_LABELS[dim].split(' ')[1]} {Math.round(d.display)} {TIER_LABELS[d.tier] && `· ${TIER_LABELS[d.tier]}`}
-              </span>
+              <div key={dim} className="flex flex-col items-center gap-1.5 py-2.5 rounded-xl bg-muted/30">
+                <div className="w-[70%] h-1 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-700 ease-out"
+                    style={{ backgroundColor: color, width: `${Math.min(display, 100)}%` }}
+                  />
+                </div>
+                <span className="text-base font-bold tabular-nums leading-none" style={{ color }}>
+                  {display < 1 ? '—' : Math.round(display)}
+                </span>
+                <span className="text-[10px] font-medium text-muted-foreground leading-none">
+                  {DIM_NAMES[dim]}
+                </span>
+                {tier !== 'none' && (
+                  <span
+                    className="text-[9px] font-medium leading-none px-1.5 py-0.5 rounded-full"
+                    style={{ color, backgroundColor: `${color}14` }}
+                  >
+                    {TIER_LABELS[tier]}
+                  </span>
+                )}
+              </div>
             )
           })}
         </div>
       )}
 
-      {/* Guidance message */}
       {activeGuidance && (
-        <p className="text-xs text-center text-muted-foreground bg-muted/50 rounded-lg px-3 py-2">
+        <p className="text-xs text-center text-muted-foreground/80 bg-muted/30 rounded-xl px-3 py-2.5">
           💡 {activeGuidance}
         </p>
       )}

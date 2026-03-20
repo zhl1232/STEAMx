@@ -47,9 +47,9 @@ export async function POST(
         throw deleteError
       }
       
-      // 减少点赞数
       if (deletedRows && deletedRows.length > 0) {
-        await callRpc(supabase, 'decrement_project_likes', { project_id: projectId })
+        const { error: rpcError } = await callRpc(supabase, 'decrement_project_likes', { project_id: projectId })
+        if (rpcError) throw rpcError
       }
       
       return NextResponse.json({ liked: false, action: 'unliked' })
@@ -67,9 +67,9 @@ export async function POST(
         throw insertError
       }
       
-      // 增加点赞数
       if (insertedRows && insertedRows.length > 0) {
-        await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
+        const { error: rpcError } = await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
+        if (rpcError) throw rpcError
       }
       
       return NextResponse.json({ liked: true, action: 'liked' })

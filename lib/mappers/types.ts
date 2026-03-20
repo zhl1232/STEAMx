@@ -265,6 +265,8 @@ export interface ProjectCompletion {
     notes?: string
     isPublic: boolean
     likes: number
+    status?: 'pending' | 'approved' | 'rejected'
+    rejectionReason?: string
 }
 
 // ============================================================
@@ -309,7 +311,7 @@ export function mapDbProject(
             })) || [],
         comments: dbProject.comments?.map(c => mapDbComment(c)) || [],
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
-        difficulty_stars: dbProject.difficulty_stars || 3,
+        difficulty_stars: dbProject.difficulty_stars ?? 3,
         duration: dbProject.duration || undefined,
         tags: dbProject.tags || [],
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
@@ -423,7 +425,7 @@ export function mapDbChallenge(
         tags: dbChallenge.tags || [],
         challengeType: ((dbChallenge.challenge_type as string) || 'timed') as ChallengeType,
         status: ((dbChallenge.status as string) || 'active') as ChallengeStatus,
-        difficultyStars: (dbChallenge.difficulty_stars as number) || 3,
+        difficultyStars: (dbChallenge.difficulty_stars as number) ?? 3,
         scenario: (dbChallenge.scenario as string) || undefined,
         drivingQuestion: (dbChallenge.driving_question as string) || undefined,
         expectedOutcome: (dbChallenge.expected_outcome as string) || undefined,
@@ -478,6 +480,8 @@ export function mapDbCompletion(
         proofVideoUrl: dbCompletion.proof_video_url || undefined,
         notes: dbCompletion.notes || undefined,
         isPublic: dbCompletion.is_public ?? true,
-        likes: dbCompletion.likes_count ?? 0
+        likes: dbCompletion.likes_count ?? 0,
+        status: (dbCompletion.status as 'pending' | 'approved' | 'rejected') || undefined,
+        rejectionReason: dbCompletion.rejection_reason || undefined,
     }
 }

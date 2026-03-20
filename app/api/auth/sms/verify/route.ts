@@ -14,8 +14,8 @@ function phoneToEmail(phone: string): string {
 
 function toE164(phone: string): string {
   const digits = phone.replace(/\D/g, '')
-  if (digits.startsWith('86') && digits.length >= 11) return `+${digits}`
-  if (digits.length >= 11) return `+86${digits}`
+  if (digits.startsWith('86') && digits.length >= 13) return `+${digits}`
+  if (digits.length === 11) return `+86${digits}`
   return ''
 }
 
@@ -174,6 +174,7 @@ export async function POST(req: Request) {
         .delete()
         .eq('phone', phone)
         .eq('code', token)
+        .eq('type', 'login')
     }
 
     let userId: string
@@ -232,7 +233,7 @@ export async function POST(req: Request) {
           phone,
           phone_confirm: true,
           user_metadata: {
-            username: `user_${Math.random().toString(36).slice(2, 10)}`,
+            username,
             full_name: displayName,
             phone,
           },
@@ -290,7 +291,7 @@ export async function POST(req: Request) {
       req.headers.get('origin') ||
       req.headers.get('referer')?.replace(/\/[^/]*$/, '') ||
       process.env.NEXT_PUBLIC_SITE_URL ||
-      (typeof process.env.VERCEL_URL === 'string' ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+      'http://localhost:3000'
     const redirectTo = origin.replace(/\/$/, '') + '/'
 
     const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({

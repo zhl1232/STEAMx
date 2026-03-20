@@ -711,6 +711,7 @@ export async function getProjectCompletions(
     .select("*")
     .eq("project_id", Number(projectId))
     .eq("is_public", true)
+    .eq("status", "approved")
     .order("completed_at", { ascending: false })
     .limit(limit);
 

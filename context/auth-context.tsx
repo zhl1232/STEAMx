@@ -88,7 +88,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (lastFetchedUserIdRef.current !== userId) {
             lastFetchedUserIdRef.current = userId
             const profileData = await fetchProfile(userId)
-            setProfile(profileData)
+            if (lastFetchedUserIdRef.current === userId) {
+              setProfile(profileData)
+            }
           }
         } else {
           lastFetchedUserIdRef.current = null

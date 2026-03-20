@@ -17,6 +17,7 @@ interface MobileProfilePageProps {
   likedProjectsList: Project[];
   collectedProjectsList: Project[];
   completedProjectsList: Project[];
+  completionStatusMap?: Map<number, { status: string; rejectionReason?: string }>;
   followerCount: number;
   followingCount: number;
   userStats?: UserStats | null;
@@ -29,6 +30,7 @@ export function MobileProfilePage({
   likedProjectsList,
   collectedProjectsList,
   completedProjectsList,
+  completionStatusMap,
   followerCount,
   followingCount,
   userStats,
@@ -128,7 +130,8 @@ export function MobileProfilePage({
             </TabsContent>
             <TabsContent value="completed" className="mt-0 space-y-4">
                  <ProjectList 
-                  projects={completedProjectsList} 
+                  projects={completedProjectsList}
+                  completionStatusMap={completionStatusMap}
                   emptyState={{
                       title: "暂无完成",
                       desc: "动手完成一个项目吧",

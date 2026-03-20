@@ -35,8 +35,8 @@ export async function GET(request: NextRequest) {
     searchQuery: searchParams.get('q') || undefined,
   }
 
-  const page = parseInt(searchParams.get('page') || '0', 10)
-  const pageSize = parseInt(searchParams.get('pageSize') || '12', 10)
+  const page = Math.max(0, parseInt(searchParams.get('page') || '0', 10) || 0)
+  const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '12', 10) || 12))
   const sortBy = searchParams.get('sortBy') === 'popular' ? 'popular' : 'latest'
 
   try {

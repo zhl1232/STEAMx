@@ -1,17 +1,16 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import { ArrowLeft, Play } from 'lucide-react'
+import { ArrowLeft, Play, AlertTriangle, Edit } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProjectInteractions } from '@/components/features/project-interactions'
-import { ProjectMarkDone } from '@/components/features/project/project-mark-done'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
+import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertTriangle, Edit } from 'lucide-react'
 
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -37,23 +36,17 @@ export async function generateMetadata(
             description: project.description?.substring(0, 160) || 'Steam Explore & Share 上的探索与分享项目。',
             url: `/project/${id}`,
             siteName: 'Steam Explore & Share',
-            images: [
-                {
-                    url: project.image || '',
-                    width: 1200,
-                    height: 630,
-                    alt: project.title,
-                },
-                ...previousImages,
-            ],
+            images: project.image
+                ? [{ url: project.image, width: 1200, height: 630, alt: project.title }, ...previousImages]
+                : previousImages,
             type: 'article',
-            authors: [project.author || ''],
+            ...(project.author ? { authors: [project.author] } : {}),
         },
         twitter: {
             card: 'summary_large_image',
             title: project.title,
             description: project.description?.substring(0, 160) || 'Steam Explore & Share 上的探索与分享项目。',
-            images: [project.image || ''],
+            ...(project.image ? { images: [project.image] } : {}),
         },
     }
 }
@@ -195,11 +188,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             </div>
                         </div>
 
-                        {/* 移动端：「我做过这个」放在标题下方 */}
-                        <div className="block md:hidden">
-                            <ProjectMarkDone projectId={project.id} projectTitle={project.title} />
-                        </div>
-
                         {/* 移动端：所需材料放在介绍和步骤之间 */}
                         <div className="block md:hidden rounded-lg border p-4">
                             <h3 className="font-semibold mb-3">所需材料</h3>
@@ -263,12 +251,17 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         </div>
                     </div>
 
+                    {/* CTA: 上传作品引导（完成后自动隐藏） */}
+                    <CompletionCTA
+                        projectId={project.id}
+                        projectTitle={project.title}
+                        challengeId={project.challenge_id}
+                    />
+
                     {/* Showcase Section */}
-                    {completions.length > 0 && (
-                        <div className="border-t pt-8">
-                            <ProjectShowcase completions={completions} />
-                        </div>
-                    )}
+                    <div className="border-t pt-8">
+                        <ProjectShowcase completions={completions} projectId={project.id} projectTitle={project.title} />
+                    </div>
 
                     {/* Comments Section - 回复框与操作（点赞/收藏/评论数/投币）同行，参考社交应用底部栏 */}
                     <ProjectComments
@@ -287,6 +280,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                 embedded
                                 commentsCount={totalComments}
                                 projectCoinsReceived={projectCoinsReceived}
+                                challengeId={project.challenge_id}
                             />
                         }
                     />
@@ -294,10 +288,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
                 <div className="space-y-8">
                     <div className="space-y-6">
-                        {/* 桌面端：侧边栏「我做过这个」+ 所需材料 */}
-                        <div className="hidden md:block space-y-4">
-                            <ProjectMarkDone projectId={project.id} projectTitle={project.title} />
-                        </div>
                         {/* 桌面端：侧边栏所需材料（移动端在介绍下方显示） */}
                         <div className="hidden md:block rounded-lg border p-4">
                             <h3 className="font-semibold mb-3">所需材料</h3>

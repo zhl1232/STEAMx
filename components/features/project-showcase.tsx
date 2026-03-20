@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins } from "lucide-react"
+import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins, ChevronLeft, ChevronRight } from "lucide-react"
 import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -18,77 +18,100 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface ProjectShowcaseProps {
     completions: ProjectCompletion[]
+    projectId?: number | string
+    projectTitle?: string
 }
 
-export function ProjectShowcase({ completions }: ProjectShowcaseProps) {
+export function ProjectShowcase({ completions, projectId: _projectId, projectTitle: _projectTitle }: ProjectShowcaseProps) {
     const [selectedCompletion, setSelectedCompletion] = useState<ProjectCompletion | null>(null)
 
-    if (!completions || completions.length === 0) {
-        return null
-    }
+    const isEmpty = !completions || completions.length === 0
 
     return (
         <div className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2">
                 作品墙
-                <span className="text-sm font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                    {completions.length}
-                </span>
+                {!isEmpty && (
+                    <span className="text-sm font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                        {completions.length}
+                    </span>
+                )}
             </h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {completions.map((completion, index) => (
-                    <div
-                        key={`${completion.id}-${index}`}
-                        className="group relative aspect-square rounded-xl overflow-hidden bg-muted cursor-pointer ring-offset-background transition-all hover:ring-2 hover:ring-primary"
-                        onClick={() => setSelectedCompletion(completion)}
-                    >
-                        {completion.proofImages[0] ? (
-                            <OptimizedImage
-                                src={completion.proofImages[0]}
-                                alt={`${completion.author}的作品`}
-                                fill
-                                variant="grid"
-                                className="object-cover transition-transform group-hover:scale-105"
-                            />
-                        ) : (
-                            <div className="flex h-full items-center justify-center text-muted-foreground">
-                                无图
-                            </div>
-                        )}
-                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 opacity-0 transition-opacity group-hover:opacity-100">
-                            <div className="flex items-center gap-2 text-white">
-                                <AvatarWithFrame
-                                    src={completion.avatar}
-                                    fallback={completion.author[0]}
-                                    avatarFrameId={completion.avatarFrameId}
-                                    className="h-6 w-6 border border-white/50"
-                                />
-                                <span className="text-xs font-medium truncate">{completion.author}</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {isEmpty && (
+                <div className="flex flex-col items-center gap-2 py-12 text-center rounded-xl border border-dashed border-muted-foreground/20">
+                    <p className="text-muted-foreground">还没有人完成这个项目</p>
+                    <p className="text-sm text-muted-foreground/70">成为第一个展示作品的人吧！</p>
+                </div>
+            )}
 
-            <Dialog open={!!selectedCompletion} onOpenChange={(open) => !open && setSelectedCompletion(null)}>
-                <DialogContent className="max-w-4xl overflow-hidden p-0 gap-0 border-none sm:rounded-2xl bg-black [&>button]:hidden">
-                    <DialogTitle className="sr-only">
-                        {selectedCompletion?.author} 的作品详情
-                    </DialogTitle>
-                    <DialogDescription className="sr-only">
-                        查看作品图片、点赞、评论与投币。
-                    </DialogDescription>
-                    {selectedCompletion && (
-                        <CompletionDetail
-                            completion={selectedCompletion}
-                            onClose={() => setSelectedCompletion(null)}
-                        />
-                    )}
-                </DialogContent>
-            </Dialog>
+            {!isEmpty && (
+                <>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {completions.map((completion, index) => (
+                            <div
+                                key={`${completion.id}-${index}`}
+                                className="group relative aspect-square rounded-xl overflow-hidden bg-muted cursor-pointer ring-offset-background transition-all hover:ring-2 hover:ring-primary"
+                                onClick={() => setSelectedCompletion(completion)}
+                            >
+                                {completion.proofImages[0] ? (
+                                    <OptimizedImage
+                                        src={completion.proofImages[0]}
+                                        alt={`${completion.author}的作品`}
+                                        fill
+                                        variant="grid"
+                                        className="object-cover transition-transform group-hover:scale-105"
+                                    />
+                                ) : (
+                                    <div className="flex h-full items-center justify-center text-muted-foreground">
+                                        无图
+                                    </div>
+                                )}
+                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 opacity-0 transition-opacity group-hover:opacity-100">
+                                    <div className="flex items-center gap-2 text-white">
+                                        <AvatarWithFrame
+                                            src={completion.avatar}
+                                            fallback={completion.author?.[0] || "?"}
+                                            avatarFrameId={completion.avatarFrameId}
+                                            className="h-6 w-6 border border-white/50"
+                                        />
+                                        <span className="text-xs font-medium truncate">{completion.author}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <Dialog open={!!selectedCompletion} onOpenChange={(open) => !open && setSelectedCompletion(null)}>
+                        <DialogContent className="max-w-4xl overflow-hidden p-0 gap-0 border-none sm:rounded-2xl bg-black [&>button]:hidden">
+                            <DialogTitle className="sr-only">
+                                {selectedCompletion?.author} 的作品详情
+                            </DialogTitle>
+                            <DialogDescription className="sr-only">
+                                查看作品图片、点赞、评论与投币。
+                            </DialogDescription>
+                            {selectedCompletion && (
+                                <CompletionDetail
+                                    completion={selectedCompletion}
+                                    onClose={() => setSelectedCompletion(null)}
+                                />
+                            )}
+                        </DialogContent>
+                    </Dialog>
+                </>
+            )}
         </div>
     )
+}
+
+function isSupabaseVideoUrl(url: string): boolean {
+    try {
+        const u = new URL(url)
+        return (u.hostname.endsWith('.supabase.co') || u.hostname.endsWith('.opentrust.net'))
+            && u.pathname.includes('project-completion-videos')
+    } catch {
+        return false
+    }
 }
 
 function CompletionDetail({ completion, onClose }: { completion: ProjectCompletion, onClose: () => void }) {
@@ -99,6 +122,12 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const { toast } = useToast()
     const queryClient = useQueryClient()
     const isOwnCompletion = user?.id === completion.userId
+    const [currentImageIndex, setCurrentImageIndex] = useState(0)
+    const totalImages = completion.proofImages.length
+
+    useEffect(() => {
+        setCurrentImageIndex(0);
+    }, [completion.id]);
 
     // -- React Query Data Fetching --
 
@@ -278,21 +307,21 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-[85vh] md:h-[600px] w-full bg-background relative">
+        <div className="flex flex-col md:flex-row h-[85dvh] md:h-[600px] w-full bg-background relative">
             {/* Close button for mobile */}
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-50 p-2 bg-black/50 rounded-full text-white md:hidden"
+                className="absolute top-4 right-4 z-50 p-3 bg-black/50 rounded-full text-white md:hidden"
             >
                 <X className="h-4 w-4" />
             </button>
 
             {/* Left: Images & Danmaku Area */}
             <div className="flex-1 bg-black relative overflow-hidden flex flex-col justify-center items-center group">
-                {completion.proofImages[0] && (
+                {completion.proofImages[currentImageIndex] && (
                     <div className="relative w-full h-full">
                         <OptimizedImage
-                            src={completion.proofImages[0]}
+                            src={completion.proofImages[currentImageIndex]}
                             alt=""
                             fill
                             variant="cover"
@@ -310,7 +339,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                                             color: item.color,
                                             animationDuration: item.duration,
                                         }}
-                                        onAnimationEnd={() => removeDanmaku(item.uniqueKey!)}
+                                        onAnimationEnd={() => removeDanmaku(item.uniqueKey ?? String(item.id))}
                                     >
                                         {item.content}
                                     </div>
@@ -320,9 +349,60 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     </div>
                 )}
 
-                {/* Control Overlay (Bottom Left) */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {/* 弹幕开关：状态指示样式（文字 + 状态小圆点），避免像普通按钮 */}
+                {/* Image navigation arrows */}
+                {totalImages > 1 && (
+                    <>
+                        {currentImageIndex > 0 && (
+                            <button
+                                type="button"
+                                onClick={() => setCurrentImageIndex((i) => Math.max(0, i - 1))}
+                                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </button>
+                        )}
+                        {currentImageIndex < totalImages - 1 && (
+                            <button
+                                type="button"
+                                onClick={() => setCurrentImageIndex((i) => Math.min(totalImages - 1, i + 1))}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </button>
+                        )}
+                    </>
+                )}
+
+                {/* Image caption overlay */}
+                {completion.proofCaptions?.[currentImageIndex] && (
+                    <div className="absolute top-4 left-4 right-4 z-20 pointer-events-none">
+                        <p className="text-sm text-white bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1.5 inline-block">
+                            {completion.proofCaptions[currentImageIndex]}
+                        </p>
+                    </div>
+                )}
+
+                {/* Dot indicators */}
+                {totalImages > 1 && (
+                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex">
+                        {completion.proofImages.map((_, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                onClick={() => setCurrentImageIndex(i)}
+                                className="p-2 flex items-center justify-center"
+                            >
+                                <span className={cn(
+                                    "h-1.5 rounded-full transition-all block",
+                                    i === currentImageIndex ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                                )} />
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {/* Control Overlay (Bottom) */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 z-20 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                     <button
                         type="button"
                         onClick={togglePlay}
@@ -333,7 +413,6 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                         <span className="text-sm">{isPlaying ? "弹幕开" : "弹幕关"}</span>
                     </button>
 
-                    {/* Danmaku Input */}
                     <form onSubmit={handleSendDanmaku} className="flex-1 flex gap-2 max-w-md">
                         <Input
                             value={inputText}
@@ -367,7 +446,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     <div className="flex items-center gap-4">
                         <AvatarWithFrame
                             src={completion.avatar}
-                            fallback={completion.author[0]}
+                            fallback={completion.author?.[0] || "?"}
                             avatarFrameId={completion.avatarFrameId}
                             className="h-11 w-11 shrink-0 border-2 border-border/60 rounded-full"
                         />
@@ -432,21 +511,25 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                                             赞赏
                                         </Button>
                                     ) : tipRemaining > 0 ? (
-                                        <div className="flex gap-2">
-                                            {[1, 2].filter((a) => a <= tipRemaining && coins >= a).map((amount) => (
-                                                <Button
-                                                    key={amount}
-                                                    variant="default"
-                                                    size="sm"
-                                                    className="h-8 min-w-8 bg-amber-500 hover:bg-amber-600 text-white font-medium"
-                                                    disabled={tipMutation.isPending || coins < amount}
-                                                    onClick={() => tipMutation.mutate(amount)}
-                                                    title={`赞赏 ${amount} 硬币`}
-                                                >
-                                                    {amount}
-                                                </Button>
-                                            ))}
-                                        </div>
+                                        coins < 1 ? (
+                                            <span className="text-xs text-muted-foreground">硬币余额不足</span>
+                                        ) : (
+                                            <div className="flex gap-2">
+                                                {[1, 2].filter((a) => a <= tipRemaining && coins >= a).map((amount) => (
+                                                    <Button
+                                                        key={amount}
+                                                        variant="default"
+                                                        size="sm"
+                                                        className="h-8 min-w-8 bg-amber-500 hover:bg-amber-600 text-white font-medium"
+                                                        disabled={tipMutation.isPending || coins < amount}
+                                                        onClick={() => tipMutation.mutate(amount)}
+                                                        title={`赞赏 ${amount} 硬币`}
+                                                    >
+                                                        {amount}
+                                                    </Button>
+                                                ))}
+                                            </div>
+                                        )
                                     ) : (
                                         <span className="text-xs text-muted-foreground">已投满</span>
                                     )}
@@ -475,15 +558,27 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     )}
 
                     {completion.proofVideoUrl && (
-                        <a
-                            href={completion.proofVideoUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-dashed border-border/60 hover:bg-muted/30 transition-colors text-sm text-foreground/85"
-                        >
-                            <ExternalLink className="h-4 w-4 shrink-0" />
-                            观看制作视频
-                        </a>
+                        isSupabaseVideoUrl(completion.proofVideoUrl) ? (
+                            <div className="rounded-xl overflow-hidden bg-black">
+                                <video
+                                    src={completion.proofVideoUrl}
+                                    controls
+                                    playsInline
+                                    preload="metadata"
+                                    className="w-full max-h-48 object-contain"
+                                />
+                            </div>
+                        ) : (
+                            <a
+                                href={completion.proofVideoUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-dashed border-border/60 hover:bg-muted/30 transition-colors text-sm text-foreground/85"
+                            >
+                                <ExternalLink className="h-4 w-4 shrink-0" />
+                                观看制作视频
+                            </a>
+                        )
                     )}
                 </div>
             </div>

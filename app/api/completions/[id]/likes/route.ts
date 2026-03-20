@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 import { logger } from '@/lib/logger'
 
 export async function GET(
@@ -57,18 +58,22 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-completion-likes', limit: 20, windowMs: 60_000 })
     const { id } = await params
     const completionId = Number(id)
     if (Number.isNaN(completionId)) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
 
-    const { data: completionRow } = await supabase
+    const { data: completionRow, error: fetchErr } = await supabase
       .from('completed_projects')
       .select('user_id')
       .eq('id', completionId)
       .single()
-    if (completionRow && (completionRow as { user_id: string }).user_id === user.id) {
+    if (fetchErr || !completionRow) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
+    }
+    if ((completionRow as { user_id: string }).user_id === user.id) {
       return NextResponse.json({ error: '不能给自己的作品点赞' }, { status: 403 })
     }
 

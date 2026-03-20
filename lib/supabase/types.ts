@@ -513,6 +513,10 @@ export interface Database {
           is_public: boolean
           likes_count: number
           proof_captions: string[] | null
+          status: string
+          reviewed_by: string | null
+          reviewed_at: string | null
+          rejection_reason: string | null
         }
         Insert: {
           id?: number
@@ -525,6 +529,10 @@ export interface Database {
           is_public?: boolean
           likes_count?: number
           proof_captions?: string[] | null
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
         }
         Update: {
           id?: number
@@ -537,6 +545,10 @@ export interface Database {
           is_public?: boolean
           likes_count?: number
           proof_captions?: string[] | null
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
         }
         Relationships: []
       }
@@ -1177,6 +1189,14 @@ export interface Database {
       }
       reject_project: {
         Args: { project_id: number; reason: string }
+        Returns: void
+      }
+      approve_completion: {
+        Args: { completion_id: number }
+        Returns: void
+      }
+      reject_completion: {
+        Args: { completion_id: number; reason: string }
         Returns: void
       }
       get_badge_leaderboard: {

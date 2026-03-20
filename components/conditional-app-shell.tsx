@@ -61,7 +61,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     <AppProviders>
       <div className="flex min-h-screen flex-col bg-background">
         <header className={cn(
-          "sticky top-0 z-50 w-full backdrop-blur transition-colors duration-300",
+          "sticky top-0 z-50 w-full backdrop-blur transition-colors duration-300 pt-[env(safe-area-inset-top)]",
           isProfilePage
             ? "border-b border-white/10 bg-background/30 backdrop-blur-xl md:border-border/40 md:bg-background/95 md:supports-[backdrop-filter]:bg-background/60"
             : "border-b border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60"
@@ -96,7 +96,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
             </div>
           </div>
         </header>
-        <main className={cn('flex-1', 'pb-20 md:pb-0')}>{pageContent}</main>
+        <main className={cn('flex-1', 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0')}>{pageContent}</main>
         <BottomNav />
       </div>
     </AppProviders>

@@ -115,6 +115,9 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 }
             }
 
+            if (xpToAward === 0) return;
+            amount = xpToAward;
+
             // Insert Log
             const { error: logError } = await supabase
                 .from('xp_logs')
@@ -129,9 +132,6 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                 logger.error('Error logging XP:', { error: logError });
                 return;
             }
-
-            if (xpToAward === 0) return;
-            amount = xpToAward;
         }
 
         const newXp = xp + amount;
@@ -195,10 +195,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                         // Mark as processing immediately
                         processing.add(badge.id);
 
-                        // CRITICAL FIX: Optimistically mark as unlocked locally immediately 
+                        // Optimistically mark as unlocked locally immediately
                         // to prevent multiple fire/infinite loops while mutation is pending
-                        currentUnlocked.add(badge.id);
-                        unlockedBadgesRef.current = new Set(currentUnlocked);
+                        const updated = new Set(currentUnlocked);
+                        updated.add(badge.id);
+                        unlockedBadgesRef.current = updated;
 
                         // Trigger Mutation
                         unlockBadgeMutation.mutate(badge.id, {

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { ConfettiButton } from "@/components/ui/confetti-button"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
@@ -13,8 +14,9 @@ interface ProjectMarkDoneProps {
     challengeId?: number | null
 }
 
-/** 独立的「我做过这个」区块，可放在标题下或侧栏，不与底部回复栏混在一起 */
+/** 独立的「上传我的作品」区块，可放在标题下或侧栏，不与底部回复栏混在一起 */
 export function ProjectMarkDone({ projectId, projectTitle, challengeId }: ProjectMarkDoneProps) {
+    const router = useRouter()
     const { isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
@@ -25,8 +27,8 @@ export function ProjectMarkDone({ projectId, projectTitle, challengeId }: Projec
     const handleCompleteClick = () => {
         if (!user) {
             promptLogin(() => setShowCompleteDialog(true), {
-                title: '登录以标记完成',
-                description: '登录后可记录你完成的项目，获得成就徽章'
+                title: '登录以上传作品',
+                description: '登录后可上传你的作品，获得 XP 和成就徽章'
             })
             return
         }
@@ -42,7 +44,7 @@ export function ProjectMarkDone({ projectId, projectTitle, challengeId }: Projec
                 onClick={handleCompleteClick}
                 disabled={isProjectCompleted}
             >
-                {isProjectCompleted ? "✅ 已完成" : "我做过这个！(Mark as Done)"}
+                {isProjectCompleted ? "✅ 已完成" : "上传我的作品"}
             </ConfettiButton>
             <CompleteProjectDialog
                 projectId={projectId}
@@ -50,7 +52,7 @@ export function ProjectMarkDone({ projectId, projectTitle, challengeId }: Projec
                 challengeId={challengeId}
                 open={showCompleteDialog}
                 onOpenChange={setShowCompleteDialog}
-                onSuccess={() => {}}
+                onSuccess={() => router.refresh()}
             />
         </>
     )

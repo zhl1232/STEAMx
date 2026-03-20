@@ -44,6 +44,7 @@ export default function ProfilePage() {
   const [likedProjectsList, setLikedProjectsList] = useState<Project[]>([])
   const [collectedProjectsList, setCollectedProjectsList] = useState<Project[]>([])
   const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
+  const [completionStatusMap, setCompletionStatusMap] = useState<Map<number, { status: string; rejectionReason?: string }>>(new Map())
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
   const [isProjectsDataLoading, setIsProjectsDataLoading] = useState(true)
@@ -72,7 +73,7 @@ export default function ProfilePage() {
     const loadUserProjects = async () => {
       try {
         // 并行执行所有查询，提升性能
-        const [myProjectsData, likedData, collectedData, completedData, followersData, followingData] = await Promise.all([
+        const [myProjectsData, likedData, collectedData, completedData, followersData, followingData, completionStatusData] = await Promise.all([
           // 查询用户发布的项目
           supabase
             .from('projects')
@@ -132,7 +133,15 @@ export default function ProfilePage() {
             .from('follows')
             .select('following_id', { count: 'exact', head: true })
             .eq('follower_id', user.id)
-            .then(({ count }) => count)
+            .then(({ count }) => count),
+
+          // 查询用户完成记录的审核状态（按时间倒序，同一项目取最新记录）
+          supabase
+            .from('completed_projects')
+            .select('project_id, status, rejection_reason')
+            .eq('user_id', user.id)
+            .order('completed_at', { ascending: false })
+            .then(({ data }) => data)
         ])
 
         // 使用统一的映射函数处理数据
@@ -159,6 +168,17 @@ export default function ProfilePage() {
           setCompletedProjectsList(completedData.map((p) => mapProject(p as DbProject)))
         } else {
           setCompletedProjectsList([])
+        }
+
+        if (completionStatusData) {
+          const statusMap = new Map<number, { status: string; rejectionReason?: string }>()
+          for (const row of completionStatusData) {
+            const r = row as { project_id: number; status: string; rejection_reason?: string }
+            if (!statusMap.has(r.project_id)) {
+              statusMap.set(r.project_id, { status: r.status, rejectionReason: r.rejection_reason || undefined })
+            }
+          }
+          setCompletionStatusMap(statusMap)
         }
       } catch (err) {
         logger.error('Exception in loadUserProjects', { error: err })
@@ -211,6 +231,7 @@ export default function ProfilePage() {
                 likedProjectsList={likedProjectsList}
                 collectedProjectsList={collectedProjectsList}
                 completedProjectsList={completedProjectsList}
+                completionStatusMap={completionStatusMap}
                 followerCount={followerCount}
                 followingCount={followingCount}
                 userStats={userStats}
@@ -433,7 +454,28 @@ export default function ProfilePage() {
                   </div>
                 )}
                 {activeTab === 'completed' &&
-                  completedProjectsList.map((project) => <ProjectCard key={project.id} project={project} />)}
+                  completedProjectsList.map((project) => {
+                    const cs = completionStatusMap.get(Number(project.id))
+                    return (
+                      <div key={project.id} className="relative">
+                        {cs && cs.status === 'pending' && (
+                          <div className="absolute top-2 left-2 z-10">
+                            <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-300 shadow-sm dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
+                              作品待审核
+                            </span>
+                          </div>
+                        )}
+                        {cs && cs.status === 'rejected' && (
+                          <div className="absolute top-2 left-2 z-10">
+                            <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-red-100 text-red-800 border border-red-300 shadow-sm dark:bg-red-900/30 dark:text-red-400 dark:border-red-800" title={cs.rejectionReason}>
+                              作品未通过
+                            </span>
+                          </div>
+                        )}
+                        <ProjectCard project={project} />
+                      </div>
+                    )
+                  })}
               </>
             )}
           </div>

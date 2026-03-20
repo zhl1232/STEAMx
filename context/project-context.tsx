@@ -18,7 +18,7 @@ import { useNotifications } from "@/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
 import { mapComment, mapProject, type DbComment, type DbProject } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/types";
-import { getTodayKey, getWeekKey, getWeekStartISO } from "@/lib/date-utils";
+import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
 
@@ -32,9 +32,9 @@ export interface ProjectCompletionProof {
 
 type ProjectContextType = {
   projects: Project[];
-  likedProjects: Set<string | number>;
-  completedProjects: Set<string | number>;
-  collectedProjects: Set<string | number>;
+  likedProjects: Set<number>;
+  completedProjects: Set<number>;
+  collectedProjects: Set<number>;
   /** 自页面加载以来点赞数的变化量，用于详情页/卡片等显示实时点赞数 */
   getLikesDelta: (projectId: string | number) => number;
   /** 拿到服务端最新 likes 后调用，避免与 delta 重复计算导致多算一次 */
@@ -70,9 +70,9 @@ function normalizeProjectId(projectId: string | number): number | null {
 
 export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [likedProjects, setLikedProjects] = useState<Set<string | number>>(new Set());
-  const [completedProjects, setCompletedProjects] = useState<Set<string | number>>(new Set());
-  const [collectedProjects, setCollectedProjects] = useState<Set<string | number>>(new Set());
+  const [likedProjects, setLikedProjects] = useState<Set<number>>(new Set());
+  const [completedProjects, setCompletedProjects] = useState<Set<number>>(new Set());
+  const [collectedProjects, setCollectedProjects] = useState<Set<number>>(new Set());
   /** 项目点赞数相对服务端初始值的增量（key: projectId），用于详情页等未在 projects 列表中的项目也能实时更新数字 */
   const [projectLikesDelta, setProjectLikesDelta] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -538,13 +538,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      const isLiked = likedProjectsRef.current.has(projectId);
+      const isLiked = likedProjectsRef.current.has(pid);
 
       if (!isLiked) {
         const { data: row } = await supabase
           .from("projects")
           .select("author_id")
-          .eq("id", Number(pid))
+          .eq("id", pid)
           .single();
         if (row && (row as { author_id: string }).author_id === user.id) {
           toast({ title: "不能给自己的项目点赞哦", variant: "destructive" });
@@ -552,11 +552,12 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Optimistic update
+      // Optimistic update + sync ref immediately to prevent double-click race
       setLikedProjects((prev) => {
         const newSet = new Set(prev);
-        if (isLiked) newSet.delete(projectId);
-        else newSet.add(projectId);
+        if (isLiked) newSet.delete(pid);
+        else newSet.add(pid);
+        likedProjectsRef.current = newSet;
         return newSet;
       });
 
@@ -580,8 +581,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         if (liked !== !isLiked) {
           setLikedProjects((prev) => {
             const next = new Set(prev);
-            if (liked) next.add(projectId);
-            else next.delete(projectId);
+            if (liked) next.add(pid);
+            else next.delete(pid);
+            likedProjectsRef.current = next;
             return next;
           });
         }
@@ -629,8 +631,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         setLikedProjects((prev) => {
           const next = new Set(prev);
-          if (isLiked) next.add(projectId);
-          else next.delete(projectId);
+          if (isLiked) next.add(pid);
+          else next.delete(pid);
+          likedProjectsRef.current = next;
           return next;
         });
         setProjectLikesDelta((prev) => ({
@@ -657,13 +660,14 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      const isCollected = collectedProjectsRef.current.has(projectId);
+      const isCollected = collectedProjectsRef.current.has(pid);
 
-      // Optimistic update
+      // Optimistic update + sync ref immediately
       setCollectedProjects((prev) => {
         const newSet = new Set(prev);
-        if (isCollected) newSet.delete(projectId);
-        else newSet.add(projectId);
+        if (isCollected) newSet.delete(pid);
+        else newSet.add(pid);
+        collectedProjectsRef.current = newSet;
         return newSet;
       });
 
@@ -684,8 +688,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         setCollectedProjects((prev) => {
           const newSet = new Set(prev);
-          if (isCollected) newSet.add(projectId);
-          else newSet.delete(projectId);
+          if (isCollected) newSet.add(pid);
+          else newSet.delete(pid);
+          collectedProjectsRef.current = newSet;
           return newSet;
         });
         logger.error(error, { context: "Error toggling collection" });
@@ -712,10 +717,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         throw new Error("至少需要上传一张作品照片");
       }
 
-      // Optimistic update
+      // Optimistic update + sync ref immediately
       setCompletedProjects((prev) => {
         const newSet = new Set(prev);
-        newSet.add(projectId);
+        newSet.add(pid);
+        completedProjectsRef.current = newSet;
         return newSet;
       });
 
@@ -727,6 +733,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           proof_video_url: proof.videoUrl || null,
           notes: proof.notes || null,
           is_public: proof.isPublic ?? true,
+          status: "pending",
         };
         if (proof.imageCaptions && proof.imageCaptions.length > 0) {
           insertData.proof_captions = proof.imageCaptions;
@@ -735,79 +742,19 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
         if (error) throw error;
 
-        // Award XP for completing a project
-        await addXp(20, "完成项目", "complete_project", pid);
-
-        // 每日小目标：今日完成第 1 个项目 → 额外 +10 XP
-        const today = getTodayKey();
-        const { data: todayCompletes } = await supabase
-          .from("xp_logs")
-          .select("id")
-          .eq("user_id", user.id)
-          .eq("action_type", "complete_project")
-          .gte("created_at", `${today}T00:00:00.000Z`);
-        if (todayCompletes?.length === 1) {
-          addXp(10, "每日目标：完成1个项目", "daily_goal_first_complete", today);
-        }
-
-        // Check badges
-        const stats = await getUserStats();
-
-        // 确保统计数据包含当前项目（处理数据库延迟）
-        // 如果 stats.projectsCompleted 还没增加，我们手动增加
-        const currentTotal = completedProjectsRef.current.size; // 这是旧值（react state update pending）
-        // 实际上这里的 ref 还是旧的，所以我们期望 stats.projectsCompleted 应该比 ref 大 1
-        // 如果相等（说明数据库没查到），我们需要手动补
-
-        const isDbUpdated = stats.projectsCompleted > currentTotal;
-
-        let finalStats = { ...stats };
-
-        if (!isDbUpdated) {
-          // 数据库没更新，手动补
-          finalStats.projectsCompleted = stats.projectsCompleted + 1;
-
-          // 还要手动补分类
-          const { data: project } = await supabase
-            .from("projects")
-            .select("category")
-            .eq("id", pid)
-            .single();
-
-          const proj = project as { category?: string } | null;
-          if (proj?.category) {
-            switch (proj.category) {
-              case "科学":
-                finalStats.scienceCompleted++;
-                break;
-              case "技术":
-                finalStats.techCompleted++;
-                break;
-              case "工程":
-                finalStats.engineeringCompleted++;
-                break;
-              case "艺术":
-                finalStats.artCompleted++;
-                break;
-              case "数学":
-                finalStats.mathCompleted++;
-                break;
-            }
-          }
-        }
-
-        checkBadges(finalStats);
+        // XP and badges are now awarded when the completion is approved by a reviewer
       } catch (error) {
         // Revert on error
         setCompletedProjects((prev) => {
           const newSet = new Set(prev);
-          newSet.delete(projectId);
+          newSet.delete(pid);
+          completedProjectsRef.current = newSet;
           return newSet;
         });
         throw error;
       }
     },
-    [supabase, user, addXp, checkBadges, getUserStats],
+    [supabase, user],
   );
 
   const uncompleteProject = useCallback(
@@ -818,10 +765,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         throw new Error("无效的项目 ID，无法取消完成状态");
       }
 
-      // Optimistic update
+      // Optimistic update + sync ref immediately
       setCompletedProjects((prev) => {
         const newSet = new Set(prev);
-        newSet.delete(projectId);
+        newSet.delete(pid);
+        completedProjectsRef.current = newSet;
         return newSet;
       });
 
@@ -837,7 +785,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         // Revert on error
         setCompletedProjects((prev) => {
           const newSet = new Set(prev);
-          newSet.add(projectId);
+          newSet.add(pid);
+          completedProjectsRef.current = newSet;
           return newSet;
         });
         throw error;
@@ -866,15 +815,24 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
   const isLiked = useCallback(
-    (projectId: string | number) => likedProjects.has(projectId),
+    (projectId: string | number) => {
+      const pid = normalizeProjectId(projectId);
+      return pid !== null && likedProjects.has(pid);
+    },
     [likedProjects],
   );
   const isCollected = useCallback(
-    (projectId: string | number) => collectedProjects.has(projectId),
+    (projectId: string | number) => {
+      const pid = normalizeProjectId(projectId);
+      return pid !== null && collectedProjects.has(pid);
+    },
     [collectedProjects],
   );
   const isCompleted = useCallback(
-    (projectId: string | number) => completedProjects.has(projectId),
+    (projectId: string | number) => {
+      const pid = normalizeProjectId(projectId);
+      return pid !== null && completedProjects.has(pid);
+    },
     [completedProjects],
   );
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useAuth } from '@/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
+import { CompletionReviewCard } from '@/components/admin/completion-review-card'
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
@@ -45,9 +46,30 @@ interface Project {
   }
 }
 
+interface CompletionForReview {
+  id: number
+  user_id: string
+  project_id: number
+  completed_at: string
+  proof_images: string[]
+  proof_captions: string[] | null
+  proof_video_url: string | null
+  notes: string | null
+  status: string
+  profiles: {
+    display_name: string
+    avatar_url: string | null
+  } | null
+  projects: {
+    title: string
+    category: string
+  } | null
+}
+
 export default function AdminPage() {
   const { canReview, loading } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
+  const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const supabase = createClient()
@@ -76,6 +98,33 @@ export default function AdminPage() {
     // setIsLoading(false)
   }, [supabase])
 
+  const fetchPendingCompletions = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('completed_projects')
+      .select(`
+        id, user_id, project_id, completed_at,
+        proof_images, proof_captions, proof_video_url,
+        notes, status,
+        profiles:user_id (
+          display_name,
+          avatar_url
+        ),
+        projects:project_id (
+          title,
+          category
+        )
+      `)
+      .eq('status', 'pending')
+      .order('completed_at', { ascending: false })
+
+    if (error) {
+      console.error('Failed to fetch pending completions', error)
+    }
+    if (data) {
+      setPendingCompletions(data as unknown as CompletionForReview[])
+    }
+  }, [supabase])
+
   // Fetch all projects for management
   const fetchAllProjects = useCallback(async () => {
     const { data, error } = await supabase
@@ -98,9 +147,9 @@ export default function AdminPage() {
 
   const loadData = useCallback(async () => {
     setIsLoading(true)
-    await Promise.all([fetchPendingProjects(), fetchAllProjects()])
+    await Promise.all([fetchPendingProjects(), fetchPendingCompletions(), fetchAllProjects()])
     setIsLoading(false)
-  }, [fetchPendingProjects, fetchAllProjects])
+  }, [fetchPendingProjects, fetchPendingCompletions, fetchAllProjects])
 
   useEffect(() => {
     if (!loading && canReview) {
@@ -141,6 +190,7 @@ export default function AdminPage() {
       <Tabs defaultValue="pending" className="space-y-6">
         <TabsList>
           <TabsTrigger value="pending">待审核项目 ({pendingProjects.length})</TabsTrigger>
+          <TabsTrigger value="pending-completions">待审核作品 ({pendingCompletions.length})</TabsTrigger>
           <TabsTrigger value="reports">举报管理</TabsTrigger>
           <TabsTrigger value="projects">所有项目</TabsTrigger>
           <TabsTrigger value="applications">审核员申请</TabsTrigger>
@@ -162,6 +212,26 @@ export default function AdminPage() {
                 <ProjectReviewCard
                   key={project.id}
                   project={project}
+                  onReview={loadData}
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="pending-completions" className="space-y-4">
+          {pendingCompletions.length === 0 ? (
+            <Card>
+              <CardContent className="py-8 text-center">
+                <p className="text-muted-foreground">暂无待审核作品</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4">
+              {pendingCompletions.map((completion) => (
+                <CompletionReviewCard
+                  key={completion.id}
+                  completion={completion}
                   onReview={loadData}
                 />
               ))}

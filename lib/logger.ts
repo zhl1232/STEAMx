@@ -14,10 +14,9 @@ class Logger {
      */
     info(message: string, context?: LogContext) {
         if (this.isDevelopment) {
-            console.warn(`[INFO] ${message}`, context || '')
+            console.info(`[INFO] ${message}`, context || '')
         }
 
-        // 生产环境可以发送到监控服务
         this.sendToMonitoring('info', message, context)
     }
 
@@ -39,9 +38,7 @@ class Logger {
         const errorMessage = error instanceof Error ? error.message : String(error)
         const errorStack = error instanceof Error ? error.stack : undefined
 
-        if (this.isDevelopment) {
-            console.error(`[ERROR] ${errorMessage}`, { ...context, stack: errorStack })
-        }
+        console.error(`[ERROR] ${errorMessage}`, { ...context, stack: errorStack })
 
         this.sendToMonitoring('error', errorMessage, {
             ...context,

@@ -104,16 +104,16 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                     {/* 2. 弱化并重新排列标签和难度 */}
                     <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-primary/10 text-primary">
+                        <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-primary/10 text-primary max-w-[120px] truncate">
                             {project.category}
                         </span>
                         {project.sub_category && (
-                            <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                            <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 max-w-[120px] truncate">
                                 {project.sub_category}
                             </span>
                         )}
                         {project.tags?.slice(0, 2).map((tag) => (
-                            <span key={tag} className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-muted text-muted-foreground">
+                            <span key={tag} className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-muted text-muted-foreground max-w-[120px] truncate">
                                 {tag}
                             </span>
                         ))}

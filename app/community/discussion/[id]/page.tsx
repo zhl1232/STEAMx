@@ -768,7 +768,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           }
         }}
       >
-        <SheetContent side="bottom" className="h-[70vh] flex flex-col p-0">
+        <SheetContent side="bottom" className="h-[70dvh] flex flex-col p-0">
           <SheetHeader className="px-4 pt-4 pb-2 border-b shrink-0 flex flex-row items-center gap-2">
             {detailRootIdStack.length > 1 && (
               <Button

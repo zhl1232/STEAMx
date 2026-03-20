@@ -11,6 +11,7 @@ import { DifficultyStars } from "@/components/ui/difficulty-stars";
 
 interface ProjectListProps {
     projects: Project[];
+    completionStatusMap?: Map<number | string, { status: string; rejectionReason?: string }>;
     emptyState: {
         title: string;
         desc: string;
@@ -20,7 +21,7 @@ interface ProjectListProps {
     };
 }
 
-export function ProjectList({ projects, emptyState }: ProjectListProps) {
+export function ProjectList({ projects, completionStatusMap, emptyState }: ProjectListProps) {
     if (projects.length === 0) {
         return (
             <EmptyState
@@ -35,9 +36,29 @@ export function ProjectList({ projects, emptyState }: ProjectListProps) {
 
     return (
         <>
-            {projects.map((p) => (
-                <MobileProjectItem key={p.id} project={p} />
-            ))}
+            {projects.map((p) => {
+                const pid = typeof p.id === 'string' ? parseInt(p.id, 10) : p.id
+                const cs = !isNaN(pid) ? completionStatusMap?.get(pid) : undefined
+                return (
+                    <div key={p.id} className="relative">
+                        {cs && cs.status === 'pending' && (
+                            <div className="absolute top-3 left-3 z-10">
+                                <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-yellow-100 text-yellow-800 border border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
+                                    作品待审核
+                                </span>
+                            </div>
+                        )}
+                        {cs && cs.status === 'rejected' && (
+                            <div className="absolute top-3 left-3 z-10">
+                                <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-red-100 text-red-800 border border-red-300 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800" title={cs.rejectionReason}>
+                                    作品未通过
+                                </span>
+                            </div>
+                        )}
+                        <MobileProjectItem project={p} />
+                    </div>
+                )
+            })}
         </>
     );
 }
