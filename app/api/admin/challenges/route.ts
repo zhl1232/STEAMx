@@ -1,7 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
-import { validateRequiredString, validateOptionalString, validateEnum, validateNumber } from '@/lib/api/validation'
+import { validateRequiredString, validateOptionalString, validateEnum, validateNumber, validateDateTimeString } from '@/lib/api/validation'
+
+function validateTimedChallengeWindow(startDate: unknown, endDate: unknown) {
+  const start = validateDateTimeString(startDate, 'start_date')
+  const end = validateDateTimeString(endDate, 'end_date')
+
+  if (Date.parse(end) <= Date.parse(start)) {
+    return NextResponse.json(
+      { error: 'end_date must be later than start_date' },
+      { status: 400 }
+    )
+  }
+
+  return { start, end }
+}
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
@@ -42,7 +56,9 @@ export async function POST(request: NextRequest) {
     const title = validateRequiredString(body.title, 'Title', 200)
     const description = validateOptionalString(body.description, 'Description', 5000)
     const challengeType = validateEnum(body.challenge_type, 'Challenge type', ['timed', 'evergreen'] as const)
-    const difficultyStars = body.difficulty_stars ? validateNumber(body.difficulty_stars, 'Difficulty stars', { min: 1, max: 6, integer: true }) : 3
+    const difficultyStars = body.difficulty_stars !== undefined
+      ? validateNumber(body.difficulty_stars, 'Difficulty stars', { min: 1, max: 6, integer: true })
+      : 3
 
     const insertData: Record<string, unknown> = {
       title,
@@ -62,8 +78,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (challengeType === 'timed') {
-      insertData.start_date = body.start_date || null
-      insertData.end_date = body.end_date || null
+      const window = validateTimedChallengeWindow(body.start_date, body.end_date)
+      if (window instanceof NextResponse) {
+        return window
+      }
+
+      insertData.start_date = window.start
+      insertData.end_date = window.end
     }
 
     const { data, error } = await supabase

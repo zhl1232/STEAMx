@@ -3,6 +3,8 @@ import { describe, expect, it, vi } from 'vitest'
 import { ProjectShowcase } from './project-showcase'
 import { ProjectCompletion } from '@/lib/mappers/types'
 
+let mockUserId = 'test-user'
+
 vi.mock('@/lib/supabase/client', () => ({
     createClient: vi.fn(() => ({
         from: vi.fn(() => ({
@@ -16,7 +18,7 @@ vi.mock('@/lib/supabase/client', () => ({
 }))
 
 vi.mock('@/context/auth-context', () => ({
-    useAuth: vi.fn(() => ({ user: { id: 'test-user' } })),
+    useAuth: vi.fn(() => ({ user: { id: mockUserId } })),
 }))
 
 vi.mock('@/context/login-prompt-context', () => ({
@@ -66,13 +68,25 @@ const mockCompletions: ProjectCompletion[] = [
 ]
 
 describe('ProjectShowcase', () => {
+    it('disables the like button for your own completion', () => {
+        mockUserId = 'u1'
+        render(<ProjectShowcase completions={mockCompletions} />)
+        const item = screen.getByText('TestUser').closest('div')!.parentElement!
+        fireEvent.click(item)
+
+        const likeButton = screen.getByRole('button', { name: /自己的作品/i })
+        expect(likeButton).toBeDisabled()
+    })
+
     it('renders project list', () => {
+        mockUserId = 'test-user'
         render(<ProjectShowcase completions={mockCompletions} />)
         expect(screen.getByText('作品墙')).toBeInTheDocument()
         expect(screen.getByText('TestUser')).toBeInTheDocument()
     })
 
     it('opens dialog on click', () => {
+        mockUserId = 'test-user'
         render(<ProjectShowcase completions={mockCompletions} />)
         const item = screen.getByText('TestUser').closest('div')!.parentElement!
         fireEvent.click(item)

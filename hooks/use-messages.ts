@@ -3,6 +3,7 @@ import { useAuth } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@/lib/types/database";
 import { MessageSchema } from "@/lib/schemas";
+import { getApiErrorMessage } from "@/lib/utils/http";
 
 export type ConversationItem = {
   peerId: string;
@@ -12,31 +13,42 @@ export type ConversationItem = {
   lastAt: string;
 };
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function isUuid(value: string | undefined): value is string {
+  return typeof value === "string" && UUID_RE.test(value);
+}
+
 /** 当前用户的会话列表（按最近一条消息时间排序） */
 export function useConversations() {
   const { user, loading: authLoading } = useAuth();
 
-  const { data: conversations = [], isLoading } = useQuery({
+  const { data: conversations = [], isLoading, error } = useQuery({
     queryKey: ["conversations", user?.id],
     queryFn: async (): Promise<ConversationItem[]> => {
       if (!user) return [];
 
       const response = await fetch("/api/messages/conversations");
       if (response.status === 401) return [];
-      if (!response.ok) throw new Error(await response.text());
+      if (!response.ok) throw new Error(await getApiErrorMessage(response, "加载私信失败"));
       const payload = await response.json();
       return (payload?.conversations as ConversationItem[]) || [];
     },
     enabled: !!user && !authLoading,
   });
 
-  return { conversations, isLoading };
+  return {
+    conversations,
+    isLoading,
+    error: error instanceof Error ? error.message : null,
+  };
 }
 
 /** 与指定用户的对话消息（按时间升序） */
 export function useConversationMessages(otherUserId: string | undefined) {
   const { user, loading: authLoading } = useAuth();
   const PAGE_SIZE = 40;
+  const hasValidOtherUserId = isUuid(otherUserId);
 
   const {
     data,
@@ -44,6 +56,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    error,
   } = useInfiniteQuery({
     queryKey: ["messages", user?.id, otherUserId, "infinite"],
     queryFn: async ({ pageParam }): Promise<{
@@ -52,7 +65,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
       hasMore: boolean;
       nextCursor?: string;
     }> => {
-      if (!user || !otherUserId || otherUserId === user.id) {
+      if (!user || !hasValidOtherUserId || otherUserId === user.id) {
         return { messages: [], peer: null, hasMore: false };
       }
 
@@ -66,7 +79,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
       if (response.status === 401 || response.status === 404) {
         return { messages: [], peer: null, hasMore: false };
       }
-      if (!response.ok) throw new Error(await response.text());
+      if (!response.ok) throw new Error(await getApiErrorMessage(response, "加载会话失败"));
       const payload = await response.json();
       const raw = (payload?.messages as Message[]) || [];
       const parsed = raw.map((row) => {
@@ -84,7 +97,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
     },
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.nextCursor : undefined),
-    enabled: !!user && !!otherUserId && otherUserId !== user.id && !authLoading,
+    enabled: !!user && hasValidOtherUserId && otherUserId !== user.id && !authLoading,
   });
 
   const pages = data?.pages ?? [];
@@ -98,6 +111,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
     hasMore: Boolean(hasNextPage),
     isLoadingMore: isFetchingNextPage,
     loadMore: fetchNextPage,
+    error: error instanceof Error ? error.message : null,
   };
 }
 

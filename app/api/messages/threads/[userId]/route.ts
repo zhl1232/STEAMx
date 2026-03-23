@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
-import { validateUUID } from '@/lib/api/validation'
+import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
 import { MessageSchema } from '@/lib/schemas'
 import type { Message } from '@/lib/types/database'
 
@@ -30,7 +30,8 @@ export async function GET(
     const limit = limitParam
       ? Math.min(200, Math.max(1, parseNumber(limitParam, 50)))
       : null
-    const before = searchParams.get('before')
+    const beforeParam = searchParams.get('before')
+    const before = beforeParam ? validateDateTimeString(beforeParam, 'before') : null
 
     let query = supabase
       .from('messages')

@@ -21,12 +21,16 @@ export async function POST(
   try {
     const user = await requireAuth(supabase);
 
-    const { data: commentRow } = await supabase
+    const { data: commentRow, error: commentError } = await supabase
       .from("comments")
       .select("author_id")
       .eq("id", commentId)
-      .single();
-    if (commentRow && (commentRow as { author_id: string }).author_id === user.id) {
+      .maybeSingle();
+    if (commentError) throw commentError;
+    if (!commentRow) {
+      return NextResponse.json({ error: "Comment not found" }, { status: 404 });
+    }
+    if ((commentRow as { author_id: string }).author_id === user.id) {
       return NextResponse.json({ error: "不能给自己的评论点赞" }, { status: 403 });
     }
 
@@ -50,7 +54,8 @@ export async function POST(
       if (deleteError) throw deleteError;
 
       if (deletedRows && deletedRows.length > 0) {
-        await callRpc(supabase, "decrement_comment_likes", { comment_id: commentId });
+        const { error: rpcError } = await callRpc(supabase, "decrement_comment_likes", { comment_id: commentId });
+        if (rpcError) throw rpcError;
       }
 
       return NextResponse.json({ liked: false, action: "unliked" });
@@ -69,7 +74,8 @@ export async function POST(
     }
 
     if (insertedRows && insertedRows.length > 0) {
-      await callRpc(supabase, "increment_comment_likes", { comment_id: commentId });
+      const { error: rpcError } = await callRpc(supabase, "increment_comment_likes", { comment_id: commentId });
+      if (rpcError) throw rpcError;
     }
 
     return NextResponse.json({ liked: true, action: "liked" });

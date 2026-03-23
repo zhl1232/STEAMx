@@ -12,6 +12,7 @@ import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { useToast } from "@/hooks/use-toast"
+import { getApiErrorMessage } from "@/lib/utils/http"
 import { cn } from "@/lib/utils"
 import { useDanmaku } from "@/hooks/use-danmaku"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -248,7 +249,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     amount,
                 }),
             });
-            if (!response.ok) throw new Error(await response.text());
+            if (!response.ok) throw new Error(await getApiErrorMessage(response, 'tip_failed'));
             const res = await response.json();
             if (!res?.ok) throw new Error(res?.error || 'tip_failed');
         },
@@ -258,7 +259,15 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
             toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` });
         },
         onError: (err: Error) => {
-            const msg = err.message === "insufficient_coins" ? "硬币余额不足" : err.message === "tip_limit_reached" ? "已达该作品投币上限" : err.message === "cannot_tip_self" ? "不能给自己投币" : "投币失败";
+            const msg = err.message === "insufficient_coins"
+                ? "硬币余额不足"
+                : err.message === "tip_limit_reached"
+                    ? "已达该作品投币上限"
+                    : err.message === "cannot_tip_self"
+                        ? "不能给自己投币"
+                        : err.message === "作品不存在"
+                            ? "作品不存在"
+                            : "投币失败";
             toast({ variant: "destructive", title: "投币失败", description: msg });
         }
     });
@@ -283,6 +292,9 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
     const handleLike = () => {
         if (!user) {
             promptLogin(() => { }, { title: '点赞', description: '登录后即可点赞喜欢的作品' });
+            return;
+        }
+        if (isOwnCompletion) {
             return;
         }
         likeMutation.mutate({ isLiked: !!isLiked });
@@ -471,10 +483,12 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                                         isLiked && "bg-pink-500 hover:bg-pink-600 text-white border-0"
                                     )}
                                     onClick={handleLike}
-                                    disabled={likeMutation.isPending}
+                                    disabled={likeMutation.isPending || isOwnCompletion}
                                 >
                                     <Heart className={cn("h-4 w-4", isLiked ? "fill-current" : "")} />
-                                    <span className="text-sm">{isLiked ? "已点赞" : "点赞"}</span>
+                                    <span className="text-sm">
+                                        {isOwnCompletion ? "自己的作品" : isLiked ? "已点赞" : "点赞"}
+                                    </span>
                                     <span className="tabular-nums opacity-90">({likesCount})</span>
                                 </Button>
                                 <div className="flex items-center gap-3 text-muted-foreground text-sm">

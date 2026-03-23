@@ -492,6 +492,33 @@ export async function getProjectById(id: string | number): Promise<Project | nul
   return mapDbProject(data as unknown as ProjectRowForMapper);
 }
 
+export async function getProjectTotalCoinsReceived(
+  projectId: string | number,
+  fallback: number = 0,
+): Promise<number> {
+  const numericProjectId = Number(projectId)
+  if (!Number.isInteger(numericProjectId) || numericProjectId <= 0) {
+    return fallback
+  }
+
+  if (isPlaywrightSmoke()) {
+    return SMOKE_PROJECTS.find((project) => Number(project.id) === numericProjectId)?.coins_count ?? fallback
+  }
+
+  const supabase = await createClient()
+  const { data, error } = await callRpc(supabase, 'get_project_total_coins_received', {
+    p_project_id: numericProjectId,
+  })
+
+  if (error || data == null) {
+    logger.error('Error fetching project total coins', { error, projectId: numericProjectId })
+    return fallback
+  }
+
+  const totalCoins = Number(data)
+  return Number.isFinite(totalCoins) ? totalCoins : fallback
+}
+
 /**
  * 分页获取项目评论
  *

@@ -217,12 +217,16 @@ export async function PATCH(
     validateContentSafe(title, '讨论标题')
     validateContentSafe(content, '讨论内容')
 
-    const { data: row } = await supabase
+    const { data: row, error: fetchError } = await supabase
       .from('discussions')
       .select('author_id')
       .eq('id', discussionId)
-      .single()
-    if (!row || (row as { author_id: string }).author_id !== user.id) {
+      .maybeSingle()
+    if (fetchError) throw fetchError
+    if (!row) {
+      return NextResponse.json({ error: 'Discussion not found' }, { status: 404 })
+    }
+    if ((row as { author_id: string }).author_id !== user.id) {
       return NextResponse.json({ error: '无权编辑此讨论' }, { status: 403 })
     }
 

@@ -8,8 +8,6 @@ import { practicePuzzles } from "./lessons-data"
 import { BoardIllustration } from "./lesson-figures"
 import { PracticeBoard } from "./practice-board"
 
-const LESSON_COUNT = 9
-
 function buildLessons() {
   return [
     {
@@ -585,10 +583,12 @@ export default function CoursePage() {
   const [currentLesson, setCurrentLesson] = useState(0)
 
   const lessons = useMemo(() => buildLessons(), [])
+  const lessonCount = lessons.length
+  const lesson = lessons[currentLesson]
   const puzzle = practicePuzzles[currentLesson]
 
   const goNext = () => {
-    if (currentLesson < LESSON_COUNT - 1) setCurrentLesson((i) => i + 1)
+    if (currentLesson < lessonCount - 1) setCurrentLesson((i) => i + 1)
   }
   const goPrev = () => {
     if (currentLesson > 0) setCurrentLesson((i) => i - 1)
@@ -614,18 +614,18 @@ export default function CoursePage() {
       <div className="shrink-0 px-4 py-3 space-y-3 border-b border-border bg-muted/20">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>学习进度</span>
-          <span className="font-mono font-bold text-primary">{Math.round(((currentLesson + 1) / LESSON_COUNT) * 100)}%</span>
+          <span className="font-mono font-bold text-primary">{Math.round(((currentLesson + 1) / lessonCount) * 100)}%</span>
         </div>
         <div className="w-full bg-muted h-2 rounded-full overflow-hidden border border-border/50">
           <motion.div
             className="bg-primary h-full rounded-full"
             initial={false}
-            animate={{ width: `${((currentLesson + 1) / LESSON_COUNT) * 100}%` }}
+            animate={{ width: `${((currentLesson + 1) / lessonCount) * 100}%` }}
             transition={{ duration: 0.3 }}
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar touch-pan-x snap-x snap-mandatory">
-          {Array.from({ length: LESSON_COUNT }, (_, i) => (
+          {Array.from({ length: lessonCount }, (_, i) => (
             <button
               key={i}
               onClick={() => setCurrentLesson(i)}
@@ -654,11 +654,11 @@ export default function CoursePage() {
           >
             <div>
               <span className="text-xs font-black bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                {lessons[currentLesson]?.phase}
+                {lesson?.phase}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-foreground mb-4 leading-tight">{lessons[currentLesson]?.title}</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-foreground mb-4 leading-tight">{lesson?.title}</h2>
               <div className="w-16 h-1.5 bg-primary rounded-full mb-8" />
-              {lessons[currentLesson]?.content}
+              {lesson?.content}
             </div>
 
             {currentLesson > 0 && (
@@ -666,8 +666,14 @@ export default function CoursePage() {
                 {puzzle ? (
                   <PracticeBoard puzzle={puzzle} />
                 ) : (
-                  <div className="rounded-2xl border border-border bg-muted/30 overflow-hidden shadow-inner hidden">
-                    {/* 暂时隐藏没有练习的关卡 */}
+                  <div
+                    role="status"
+                    className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 text-sm text-amber-900 shadow-inner dark:text-amber-100"
+                  >
+                    <p className="font-bold">本课练习暂不可用</p>
+                    <p className="mt-2 text-amber-800/90 dark:text-amber-100/80">
+                      课程内容已加载，但对应练习数据缺失。请返回上一课或稍后再试。
+                    </p>
                   </div>
                 )}
               </div>
@@ -686,11 +692,11 @@ export default function CoursePage() {
           <ChevronLeft className="w-4 h-4" /> 上一课
         </button>
         <span className="text-xs font-mono font-bold text-muted-foreground bg-muted/50 border border-border px-3 py-1.5 rounded-lg hidden sm:block">
-          第 {currentLesson + 1} 课 / 共 {LESSON_COUNT} 课
+          第 {currentLesson + 1} 课 / 共 {lessonCount} 课
         </span>
         <button
           onClick={goNext}
-          disabled={currentLesson === LESSON_COUNT - 1}
+          disabled={currentLesson === lessonCount - 1}
           className="flex items-center gap-2 px-5 py-3 text-sm font-bold bg-primary text-primary-foreground rounded-xl transition-all disabled:opacity-30 enabled:hover:opacity-90 shadow-md shadow-primary/20"
         >
           下一课 <ChevronRight className="w-4 h-4" />

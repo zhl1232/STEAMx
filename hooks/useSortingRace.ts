@@ -419,7 +419,16 @@ export function useSortingRace() {
         setBars(step.bars)
         setComparisons(step.comparisons)
         setSwaps(step.swaps)
-        stepIndexRef.current = idx + 1
+        const nextIdx = idx + 1
+        stepIndexRef.current = nextIdx
+
+        if (nextIdx >= steps.length) {
+            stopInterval()
+            stopTimer()
+            setStatus("completed")
+            statusRef.current = "completed"
+            setElapsedMs(pausedElapsedRef.current + (Date.now() - startTimeRef.current))
+        }
     }, [stopInterval, stopTimer])
 
     const startInterval = useCallback(() => {
@@ -439,6 +448,7 @@ export function useSortingRace() {
         setSwaps(0)
         setElapsedMs(0)
         setStatus("idle")
+        statusRef.current = "idle"
         stepsRef.current = []
         stepIndexRef.current = 0
         pausedElapsedRef.current = 0
@@ -464,9 +474,14 @@ export function useSortingRace() {
         }))
 
         setStatus("running")
+        statusRef.current = "running"
         startTimer()
-        startInterval()
-    }, [algorithm, persistStats, startTimer, startInterval])
+        advanceStep()
+
+        if (stepIndexRef.current < steps.length) {
+            startInterval()
+        }
+    }, [advanceStep, algorithm, persistStats, startTimer, startInterval])
 
     const pause = useCallback(() => {
         if (statusRef.current !== "running") return
@@ -475,11 +490,13 @@ export function useSortingRace() {
         pausedElapsedRef.current += Date.now() - startTimeRef.current
         setElapsedMs(pausedElapsedRef.current)
         setStatus("paused")
+        statusRef.current = "paused"
     }, [stopInterval, stopTimer])
 
     const resume = useCallback(() => {
         if (statusRef.current !== "paused") return
         setStatus("running")
+        statusRef.current = "running"
         startTimer()
         startInterval()
     }, [startTimer, startInterval])
@@ -494,6 +511,7 @@ export function useSortingRace() {
         setSwaps(0)
         setElapsedMs(0)
         setStatus("idle")
+        statusRef.current = "idle"
         stepsRef.current = []
         stepIndexRef.current = 0
         pausedElapsedRef.current = 0
@@ -528,8 +546,7 @@ export function useSortingRace() {
 
     useEffect(() => {
         generateArray()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [generateArray])
 
     useEffect(() => {
         return () => {

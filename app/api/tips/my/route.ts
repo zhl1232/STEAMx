@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getAccessibleCompletion } from '@/lib/api/completion-access'
+import { getAccessibleProject } from '@/lib/api/project-access'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
 
@@ -12,13 +14,25 @@ export async function GET(request: NextRequest) {
     const resourceType = searchParams.get('resourceType') || ''
     const resourceId = Number(searchParams.get('resourceId'))
 
-    if (!ALLOWED_TYPES.has(resourceType) || Number.isNaN(resourceId)) {
+    if (!ALLOWED_TYPES.has(resourceType) || !Number.isInteger(resourceId) || resourceId <= 0) {
       return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 })
     }
 
     const {
       data: { user },
     } = await supabase.auth.getUser()
+
+    if (resourceType === 'project') {
+      const project = await getAccessibleProject(supabase, resourceId, user?.id)
+      if (!project) {
+        return NextResponse.json({ error: '项目不存在' }, { status: 404 })
+      }
+    } else {
+      const completion = await getAccessibleCompletion(supabase, resourceId, user?.id)
+      if (!completion) {
+        return NextResponse.json({ error: '作品不存在' }, { status: 404 })
+      }
+    }
 
     if (!user) {
       return NextResponse.json({ myTipped: 0 })

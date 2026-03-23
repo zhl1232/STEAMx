@@ -36,7 +36,7 @@ export function BottomNav() {
             href: "/explore",
             label: "探索",
             icon: Compass,
-            active: pathname === "/explore" || pathname.startsWith("/project/"),
+            active: pathname === "/explore" || pathname === "/project" || pathname.startsWith("/project/"),
         },
         {
             href: "/share",
@@ -50,7 +50,7 @@ export function BottomNav() {
             href: "/community",
             label: "社区",
             icon: MessageSquare,
-            active: pathname === "/community" || pathname.startsWith("/discussion"),
+            active: pathname === "/community" || pathname.startsWith("/community/"),
         },
         {
             href: "/profile",

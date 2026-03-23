@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { logger } from '@/lib/logger'
 
 export async function GET(
@@ -15,15 +16,19 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    const completion = await getAccessibleCompletion(supabase, completionId, user?.id)
+    if (!completion) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
+    }
+
     const { data: receivedData, error: receivedError } = await supabase.rpc('get_tip_received_for_resource', {
       p_resource_type: 'completion',
       p_resource_id: completionId,
     } as never)
     if (receivedError) throw receivedError
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
     let myTipped = 0
     if (user) {

@@ -7,15 +7,15 @@ import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
+import { Button } from "@/components/ui/button";
 import { MobileCommunityPage } from "@/components/community/mobile-community-page";
 
 import { MessageSquare, Trophy, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function CommunityPage() {
-    const { challenges } = useCommunity();
+    const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
     const [activeTab, setActiveTab] = useState<"discussions" | "challenges">("discussions");
-    const [isLoading, _setIsLoading] = useState(false);
 
     return (
         <>
@@ -79,8 +79,18 @@ export default function CommunityPage() {
                         <DiscussionList />
                     ) : (
                         <div className="space-y-10">
+                            {challengesError && !isLoading && (
+                                <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-6 py-10 text-center">
+                                    <p className="text-lg font-semibold">挑战赛加载失败</p>
+                                    <p className="mt-2 text-sm text-muted-foreground">{challengesError}</p>
+                                    <Button className="mt-4" onClick={() => void reloadChallenges()}>
+                                        重试
+                                    </Button>
+                                </div>
+                            )}
+
                             {/* Active timed challenges */}
-                            {challenges.activeTimed && challenges.activeTimed.length > 0 && (
+                            {!challengesError && challenges.activeTimed && challenges.activeTimed.length > 0 && (
                                 <section>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-2xl font-bold">进行中的限时挑战</h2>
@@ -95,7 +105,7 @@ export default function CommunityPage() {
                             )}
 
                             {/* Evergreen challenges */}
-                            {challenges.evergreen && challenges.evergreen.length > 0 && (
+                            {!challengesError && challenges.evergreen && challenges.evergreen.length > 0 && (
                                 <section>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-2xl font-bold">常驻学习挑战</h2>
@@ -110,7 +120,7 @@ export default function CommunityPage() {
                             )}
 
                             {/* Ended challenges */}
-                            {challenges.ended && challenges.ended.length > 0 && (
+                            {!challengesError && challenges.ended && challenges.ended.length > 0 && (
                                 <section>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-xl font-bold text-muted-foreground">已结束的挑战</h2>
@@ -131,7 +141,7 @@ export default function CommunityPage() {
                                 </div>
                             )}
 
-                            {!isLoading && !challenges.activeTimed?.length && !challenges.evergreen?.length && !challenges.ended?.length && (
+                            {!challengesError && !isLoading && !challenges.activeTimed?.length && !challenges.evergreen?.length && !challenges.ended?.length && (
                                 <div className="text-center py-12 text-muted-foreground">
                                     <p className="text-lg">暂无挑战赛</p>
                                     <p className="text-sm mt-1">敬请期待新的挑战！</p>
@@ -144,4 +154,3 @@ export default function CommunityPage() {
         </>
     );
 }
-

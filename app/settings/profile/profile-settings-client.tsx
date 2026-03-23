@@ -1,0 +1,386 @@
+"use client"
+
+import { useCallback, useEffect, useRef, useState } from "react"
+import { ArrowLeft, Loader2, RefreshCcw } from "lucide-react"
+import { useRouter } from "next/navigation"
+
+import { AvatarUpload } from "@/components/features/profile/avatar-upload"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Textarea } from "@/components/ui/textarea"
+import { useAuth } from "@/context/auth-context"
+import { useToast } from "@/hooks/use-toast"
+import { logger } from "@/lib/logger"
+import {
+  PROFILE_BIRTH_YEAR_OPTIONS,
+  PROFILE_GENDER_OPTIONS,
+  PROFILE_SETTINGS_DEFAULTS,
+  type ProfileSettingsUpdateInput,
+} from "@/lib/profile/settings"
+
+type SettingsProfileResponse = {
+  profile: ProfileSettingsUpdateInput & {
+    username: string | null
+    last_uploaded_avatar_url: string | null
+    avatar_url: string | null
+  }
+}
+
+export default function ProfileSettingsClient() {
+  const router = useRouter()
+  const { toast } = useToast()
+  const { refreshProfile } = useAuth()
+  const previewObjectUrlRef = useRef<string | null>(null)
+
+  const [form, setForm] = useState<ProfileSettingsUpdateInput>(PROFILE_SETTINGS_DEFAULTS)
+  const [username, setUsername] = useState<string | null>(null)
+  const [persistedUploadUrl, setPersistedUploadUrl] = useState<string>("")
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+
+  const clearPreviewObjectUrl = useCallback(() => {
+    if (previewObjectUrlRef.current) {
+      URL.revokeObjectURL(previewObjectUrlRef.current)
+      previewObjectUrlRef.current = null
+    }
+  }, [])
+
+  const loadProfile = useCallback(async () => {
+    setIsLoading(true)
+    setLoadError(null)
+
+    try {
+      const response = await fetch("/api/settings/profile", {
+        credentials: "same-origin",
+      })
+      const data = await response.json().catch(() => null)
+
+      if (!response.ok || !data?.profile) {
+        throw new Error(data?.error || "个人资料加载失败")
+      }
+
+      const payload = (data as SettingsProfileResponse).profile
+      clearPreviewObjectUrl()
+      setSelectedFile(null)
+      setUsername(payload.username)
+      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "")
+      setForm({
+        display_name: payload.display_name || "",
+        bio: payload.bio || "",
+        gender: payload.gender,
+        birth_year: payload.birth_year,
+        birth_month: payload.birth_month,
+        avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
+      })
+    } catch (error) {
+      logger.error(error, { context: "load profile settings" })
+      setLoadError(error instanceof Error ? error.message : "个人资料加载失败")
+    } finally {
+      setIsLoading(false)
+    }
+  }, [clearPreviewObjectUrl])
+
+  useEffect(() => {
+    void loadProfile()
+
+    return () => {
+      clearPreviewObjectUrl()
+    }
+  }, [clearPreviewObjectUrl, loadProfile])
+
+  const updateField = <K extends keyof ProfileSettingsUpdateInput>(
+    key: K,
+    value: ProfileSettingsUpdateInput[K],
+  ) => {
+    setForm((current) => ({ ...current, [key]: value }))
+  }
+
+  const handleFileSelect = (file: File) => {
+    clearPreviewObjectUrl()
+    const objectUrl = URL.createObjectURL(file)
+    previewObjectUrlRef.current = objectUrl
+    setSelectedFile(file)
+    updateField("avatar_url", objectUrl)
+  }
+
+  const handleDefaultAvatarSelect = (avatarUrl: string) => {
+    clearPreviewObjectUrl()
+    setSelectedFile(null)
+    updateField("avatar_url", avatarUrl)
+  }
+
+  const uploadSelectedAvatar = async () => {
+    if (!selectedFile) {
+      return form.avatar_url
+    }
+
+    const uploadFormData = new FormData()
+    uploadFormData.append("file", selectedFile)
+    uploadFormData.append("bucket", "avatars")
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: uploadFormData,
+    })
+    const data = await response.json().catch(() => null)
+
+    if (!response.ok || typeof data?.publicUrl !== "string") {
+      throw new Error(data?.error || "头像上传失败，请重试")
+    }
+
+    return data.publicUrl as string
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (isSaving) {
+      return
+    }
+
+    setIsSaving(true)
+
+    try {
+      const avatarUrl = await uploadSelectedAvatar()
+      const response = await fetch("/api/settings/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          avatar_url: avatarUrl,
+        }),
+      })
+      const data = await response.json().catch(() => null)
+
+      if (!response.ok || !data?.profile) {
+        throw new Error(data?.error || "保存失败，请稍后重试")
+      }
+
+      const payload = (data as SettingsProfileResponse).profile
+      clearPreviewObjectUrl()
+      setSelectedFile(null)
+      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "")
+      setUsername(payload.username)
+      setForm({
+        display_name: payload.display_name || "",
+        bio: payload.bio || "",
+        gender: payload.gender,
+        birth_year: payload.birth_year,
+        birth_month: payload.birth_month,
+        avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
+      })
+      await refreshProfile()
+      router.refresh()
+      toast({ title: "资料已保存" })
+    } catch (error) {
+      logger.error(error, { context: "save profile settings" })
+      toast({
+        title: error instanceof Error ? error.message : "保存失败，请稍后重试",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const currentAge = (() => {
+    if (!form.birth_year || !form.birth_month) {
+      return null
+    }
+
+    const now = new Date()
+    let age = now.getFullYear() - Number(form.birth_year)
+    if (now.getMonth() + 1 < Number(form.birth_month)) {
+      age -= 1
+    }
+    return age
+  })()
+
+  return (
+    <div className="flex h-[calc(100vh-4rem)] w-full max-w-2xl flex-col border-x bg-background relative mx-auto">
+      <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft className="h-5 w-5" />
+          <span className="sr-only">返回</span>
+        </Button>
+        <h1 className="text-lg font-semibold">个人资料</h1>
+      </div>
+
+      <ScrollArea className="flex-1">
+        {isLoading ? (
+          <div className="space-y-6 p-4 pb-20">
+            <div className="flex flex-col items-center gap-3">
+              <Skeleton className="h-32 w-32 rounded-full" />
+              <Skeleton className="h-4 w-24" />
+            </div>
+            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-64 w-full rounded-2xl" />
+          </div>
+        ) : loadError ? (
+          <div className="p-4 pb-20">
+            <div className="rounded-2xl border bg-card p-6 text-center">
+              <p className="text-sm text-muted-foreground">{loadError}</p>
+              <Button className="mt-4" variant="outline" onClick={() => void loadProfile()}>
+                <RefreshCcw className="mr-2 h-4 w-4" />
+                重试
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-4 pb-20">
+            <div className="rounded-2xl border bg-card p-6">
+              <div className="flex flex-col items-center gap-3">
+                <AvatarUpload
+                  value={form.avatar_url}
+                  persistedUploadUrl={persistedUploadUrl}
+                  onFileSelect={handleFileSelect}
+                  onDefaultSelect={handleDefaultAvatarSelect}
+                  disabled={isSaving}
+                  showCameraBadge
+                />
+                <div className="text-center">
+                  <p className="text-sm font-medium">头像</p>
+                  <p className="text-xs text-muted-foreground">支持 JPG、PNG、GIF、WebP，最大 2MB</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    账号 ID：{username || "未设置"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border bg-card">
+              <div className="grid gap-2 p-4">
+                <Label htmlFor="display_name">昵称</Label>
+                <Input
+                  id="display_name"
+                  value={form.display_name}
+                  maxLength={30}
+                  onChange={(event) => updateField("display_name", event.target.value)}
+                  placeholder="显示的名称"
+                  disabled={isSaving}
+                />
+              </div>
+              <Separator />
+              <div className="grid gap-2 p-4">
+                <Label htmlFor="bio">简介</Label>
+                <div className="relative">
+                  <Textarea
+                    id="bio"
+                    value={form.bio}
+                    onChange={(event) => updateField("bio", event.target.value.slice(0, 30))}
+                    placeholder="一句话介绍自己"
+                    className="min-h-[88px] resize-none pr-12"
+                    maxLength={30}
+                    rows={3}
+                    disabled={isSaving}
+                  />
+                  <span className="absolute bottom-2 right-3 text-xs text-muted-foreground">
+                    {form.bio.length}/30
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border bg-card">
+              <div className="grid gap-2 p-4">
+                <Label htmlFor="gender">性别</Label>
+                <Select
+                  value={form.gender || "none"}
+                  onValueChange={(value) => updateField("gender", value === "none" ? null : value)}
+                  disabled={isSaving}
+                >
+                  <SelectTrigger id="gender">
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">不设置</SelectItem>
+                    {PROFILE_GENDER_OPTIONS.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Separator />
+              <div className="grid gap-3 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <Label>出生年月</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-auto px-0 text-xs text-muted-foreground hover:text-foreground"
+                    onClick={() => {
+                      updateField("birth_year", null)
+                      updateField("birth_month", null)
+                    }}
+                    disabled={isSaving || (!form.birth_year && !form.birth_month)}
+                  >
+                    清空
+                  </Button>
+                </div>
+                <div className="flex gap-2">
+                  <Select
+                    value={form.birth_year || "none"}
+                    onValueChange={(value) => updateField("birth_year", value === "none" ? null : value)}
+                    disabled={isSaving}
+                  >
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder="年" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">不设置</SelectItem>
+                      {PROFILE_BIRTH_YEAR_OPTIONS.map((year) => (
+                        <SelectItem key={year} value={year}>
+                          {year} 年
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select
+                    value={form.birth_month || "none"}
+                    onValueChange={(value) => updateField("birth_month", value === "none" ? null : value)}
+                    disabled={isSaving}
+                  >
+                    <SelectTrigger className="w-24">
+                      <SelectValue placeholder="月" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">不设置</SelectItem>
+                      {Array.from({ length: 12 }, (_, index) => String(index + 1)).map((month) => (
+                        <SelectItem key={month} value={month}>
+                          {month} 月
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {currentAge !== null ? (
+                  <p className="text-xs text-muted-foreground">当前年龄：约 {currentAge} 岁</p>
+                ) : null}
+              </div>
+            </div>
+
+            <Button type="submit" className="h-12 rounded-xl text-base font-semibold" disabled={isSaving}>
+              {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              保存更改
+            </Button>
+          </form>
+        )}
+      </ScrollArea>
+    </div>
+  )
+}

@@ -2,7 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { logger } from '@/lib/logger'
+
+function parseCompletionId(id: string) {
+  if (!/^[1-9]\d*$/.test(id)) {
+    return null
+  }
+
+  const completionId = Number(id)
+  if (!Number.isSafeInteger(completionId)) {
+    return null
+  }
+
+  return completionId
+}
 
 export async function GET(
   _request: NextRequest,
@@ -12,9 +26,18 @@ export async function GET(
 
   try {
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
+    const completionId = parseCompletionId(id)
+    if (completionId == null) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
+    }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    const completion = await getAccessibleCompletion(supabase, completionId, user?.id)
+    if (!completion) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
     const { count, error: countError } = await supabase
@@ -24,15 +47,11 @@ export async function GET(
 
     if (countError) throw countError
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
     let isLiked = false
     if (user) {
       const { data: likeRow, error: likeError } = await supabase
         .from('completion_likes')
-        .select('id')
+        .select('user_id')
         .eq('completed_project_id', completionId)
         .eq('user_id', user.id)
         .maybeSingle()
@@ -57,23 +76,19 @@ export async function POST(
   const supabase = await createClient()
 
   try {
-    const user = await requireAuth(supabase)
-    await requireRateLimit(supabase, { key: 'api-completion-likes', limit: 20, windowMs: 60_000 })
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
+    const completionId = parseCompletionId(id)
+    if (completionId == null) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
+    const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'api-completion-likes', limit: 20, windowMs: 60_000 })
 
-    const { data: completionRow, error: fetchErr } = await supabase
-      .from('completed_projects')
-      .select('user_id')
-      .eq('id', completionId)
-      .single()
-    if (fetchErr || !completionRow) {
+    const completion = await getAccessibleCompletion(supabase, completionId, user.id)
+    if (!completion) {
       return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
-    if ((completionRow as { user_id: string }).user_id === user.id) {
+    if (completion.user_id === user.id) {
       return NextResponse.json({ error: '不能给自己的作品点赞' }, { status: 403 })
     }
 
@@ -101,11 +116,16 @@ export async function DELETE(
   const supabase = await createClient()
 
   try {
-    const user = await requireAuth(supabase)
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
+    const completionId = parseCompletionId(id)
+    if (completionId == null) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
+    }
+    const user = await requireAuth(supabase)
+
+    const completion = await getAccessibleCompletion(supabase, completionId, user.id)
+    if (!completion) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
     const { error } = await supabase

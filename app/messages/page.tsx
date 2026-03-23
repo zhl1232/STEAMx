@@ -27,6 +27,11 @@ const TABS = [
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
+const TAB_KEYS = new Set<TabKey>(TABS.map(({ key }) => key));
+
+function getTabKey(value: string | null): TabKey {
+  return value && TAB_KEYS.has(value as TabKey) ? (value as TabKey) : "replies";
+}
 
 function filterByTab(notifications: Notification[], tab: TabKey): Notification[] {
   if (tab === "replies") {
@@ -62,13 +67,17 @@ function MessagesContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const tab = (searchParams.get("tab") as TabKey) || "replies";
+  const tab = getTabKey(searchParams.get("tab"));
   const setTab = (key: TabKey) => {
     router.replace(`/messages?tab=${key}`, { scroll: false });
   };
 
   const { notifications, unreadCount, markAsRead, markAllAsRead, loadMore, hasMore, isLoadingMore, isLoading: notificationsLoading } = useNotifications();
-  const { conversations, isLoading: conversationsLoading } = useConversations();
+  const {
+    conversations,
+    isLoading: conversationsLoading,
+    error: conversationsError,
+  } = useConversations();
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
   const unreadByTab = getUnreadByTab(notifications);
@@ -300,6 +309,12 @@ function MessagesContent() {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : conversationsError ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+              <MessageCircle className="h-12 w-12 mb-4 opacity-50" />
+              <p className="font-medium">私信加载失败</p>
+              <p className="text-sm mt-1">{conversationsError || "请稍后重试"}</p>
             </div>
           ) : conversations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { validateNumber } from '@/lib/api/validation'
+import { getChallengeRatingProject } from '@/lib/api/project-access'
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -17,17 +18,13 @@ export async function POST(request: NextRequest) {
     const reflectionDepth = validateNumber(body.reflectionDepth, 'Reflection depth', { integer: true, min: 1, max: 5 })
 
     // Prevent self-rating
-    const { data: project } = await supabase
-      .from('projects')
-      .select('author_id')
-      .eq('id', projectId)
-      .single()
+    const project = await getChallengeRatingProject(supabase, projectId)
 
     if (!project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Challenge project not found' }, { status: 404 })
     }
 
-    if ((project as { author_id: string }).author_id === user.id) {
+    if (project.author_id === user.id) {
       return NextResponse.json({ error: '不能对自己的作品评分' }, { status: 403 })
     }
 

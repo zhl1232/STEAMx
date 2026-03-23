@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, LogOut, ChevronRight, Shield, Bell, Eye, HelpCircle, Palette } from "lucide-react";
+import { ArrowLeft, LogOut, ChevronRight, Shield, Bell, Eye, HelpCircle, Palette, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -15,7 +15,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -39,6 +39,7 @@ export default function SettingsPage() {
     {
       title: "账号管理",
       items: [
+        { icon: User, label: "个人资料", href: "/settings/profile" },
         { icon: Shield, label: "账号与安全", href: "/settings/security" },
       ],
     },

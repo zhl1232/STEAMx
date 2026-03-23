@@ -12,36 +12,44 @@ const COLORS = [
     "#257179", "#29366f", "#3b5dc9", "#41a6f6", "#73eff7", "#f4f4f4", "#94b0c2", "#566c86",
     "#333c57", "#ffffff", "#ff0044", "#00ff99", "#ffff00", "#00ccff", "#9900ff", "#ff6600"
 ];
+const STORAGE_KEY = "pixel-art-workshop-grid";
+const EMPTY_GRID = Array(GRID_SIZE * GRID_SIZE).fill("");
+
+function isValidGrid(value: unknown): value is string[] {
+    return Array.isArray(value)
+        && value.length === GRID_SIZE * GRID_SIZE
+        && value.every((cell) => typeof cell === "string");
+}
+
+function areGridsEqual(a: string[], b: string[]) {
+    return a.length === b.length && a.every((cell, index) => cell === b[index]);
+}
 
 export function PixelEditor() {
-    const [grid, setGrid] = useState<string[]>(Array(GRID_SIZE * GRID_SIZE).fill(""));
+    const [grid, setGrid] = useState<string[]>(EMPTY_GRID);
     const [selectedColor, setSelectedColor] = useState<string>(COLORS[0]);
     const [isDrawing, setIsDrawing] = useState(false);
     const [history, setHistory] = useState<string[][]>([]);
     const { toast } = useToast();
     const canvasRef = useRef<HTMLDivElement>(null);
 
-    const handleMouseDown = (index: number) => {
+    const handlePointerDown = (index: number) => {
         setIsDrawing(true);
         paint(index);
     };
 
-    const handleMouseEnter = (index: number) => {
+    const handlePointerEnter = (index: number) => {
         if (isDrawing) {
             paint(index);
         }
-    };
-
-    const _handleMouseUp = () => {
-        setIsDrawing(false);
     };
 
     const paint = (index: number) => {
         if (grid[index] === selectedColor) return;
 
         const newGrid = [...grid];
-        // Save history before modifying
-        if (history.length === 0 || JSON.stringify(history[history.length - 1]) !== JSON.stringify(grid)) {
+        const lastSnapshot = history[history.length - 1];
+        if (!lastSnapshot || !areGridsEqual(lastSnapshot, grid)) {
             setHistory(prev => [...prev.slice(-10), [...grid]]); // Keep last 10 steps
         }
 
@@ -51,7 +59,7 @@ export function PixelEditor() {
 
     const clearGrid = () => {
         setHistory(prev => [...prev, [...grid]]);
-        setGrid(Array(GRID_SIZE * GRID_SIZE).fill(""));
+        setGrid(EMPTY_GRID);
         toast({
             title: "画布已清空",
             description: "您可以重新开始创作了",
@@ -65,11 +73,35 @@ export function PixelEditor() {
         setHistory(prev => prev.slice(0, -1));
     };
 
-    // Handle global mouse up to stop drawing if mouse leaves grid
     useEffect(() => {
-        const handleGlobalMouseUp = () => setIsDrawing(false);
-        window.addEventListener("mouseup", handleGlobalMouseUp);
-        return () => window.removeEventListener("mouseup", handleGlobalMouseUp);
+        if (typeof window === "undefined") return;
+        const savedGrid = window.localStorage.getItem(STORAGE_KEY);
+        if (!savedGrid) return;
+
+        try {
+            const parsed = JSON.parse(savedGrid);
+            if (isValidGrid(parsed)) {
+                setGrid(parsed);
+            }
+        } catch {
+            window.localStorage.removeItem(STORAGE_KEY);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const isEmpty = grid.every((cell) => cell === "");
+        if (isEmpty) {
+            window.localStorage.removeItem(STORAGE_KEY);
+            return;
+        }
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(grid));
+    }, [grid]);
+
+    useEffect(() => {
+        const handleGlobalPointerUp = () => setIsDrawing(false);
+        window.addEventListener("pointerup", handleGlobalPointerUp);
+        return () => window.removeEventListener("pointerup", handleGlobalPointerUp);
     }, []);
 
     return (
@@ -124,21 +156,25 @@ export function PixelEditor() {
                         gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
                         width: "min(80vw, 500px)",
                         height: "min(80vw, 500px)",
+                        touchAction: "none",
                     }}
-                    onMouseLeave={() => setIsDrawing(false)}
+                    onPointerLeave={() => setIsDrawing(false)}
                 >
                     {grid.map((color, index) => (
                         <div
                             key={index}
                             className="w-full h-full bg-white transition-colors duration-75"
                             style={{ backgroundColor: color || "#ffffff" }}
-                            onMouseDown={() => handleMouseDown(index)}
-                            onMouseEnter={() => handleMouseEnter(index)}
+                            onPointerDown={() => handlePointerDown(index)}
+                            onPointerEnter={() => handlePointerEnter(index)}
                         />
                     ))}
                 </div>
                 <div className="mt-4 text-center text-sm text-muted-foreground">
                     {GRID_SIZE} x {GRID_SIZE} 像素网格 • 点击或拖动以绘制
+                </div>
+                <div className="mt-2 text-center text-xs text-muted-foreground">
+                    作品会自动保存在当前浏览器中
                 </div>
             </div>
         </div>

@@ -7,11 +7,10 @@ import { ArrowLeft, MessageSquareHeart, FileText, ShieldAlert, ChevronRight } fr
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
-const FEEDBACK_EMAIL = "feedback@example.com";
 const FAQ_ITEMS = [
   {
     q: "如何修改密码？",
-    a: "请进入「设置」→「账号与安全」→「修改密码」，我们会向您的绑定邮箱发送重置链接，点击邮件中的链接即可设置新密码。",
+    a: "已登录时请进入「设置」→「账号与安全」直接修改密码；如果忘记密码，请在登录页使用“忘记密码”发送重置邮件。",
   },
   {
     q: "如何联系客服？",
@@ -25,14 +24,17 @@ const FAQ_ITEMS = [
 
 export default function AboutSettingsPage() {
   const router = useRouter();
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ?? "";
 
   const linkItems = [
-    {
-      icon: MessageSquareHeart,
-      label: "问题反馈",
-      href: `mailto:${FEEDBACK_EMAIL}?subject=问题反馈`,
-      external: true,
-    },
+    ...(supportEmail
+      ? [{
+          icon: MessageSquareHeart,
+          label: "问题反馈",
+          href: `mailto:${supportEmail}?subject=问题反馈`,
+          external: true,
+        }]
+      : []),
     {
       icon: FileText,
       label: "用户协议",
@@ -60,6 +62,21 @@ export default function AboutSettingsPage() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4">
           <div className="overflow-hidden rounded-2xl border bg-card">
+            {!supportEmail ? (
+              <>
+                <div className="flex w-full items-center justify-between bg-card p-4 text-muted-foreground">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <MessageSquareHeart className="h-4 w-4" />
+                    </div>
+                    <span className="font-medium text-sm">问题反馈</span>
+                  </div>
+                  <span className="text-xs">暂未配置反馈邮箱</span>
+                </div>
+                <Separator className="ml-14" />
+              </>
+            ) : null}
+
             {linkItems.map((item, index) => (
               <div key={item.label}>
                 <Link

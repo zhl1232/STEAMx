@@ -9,6 +9,7 @@ import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
 import { useToast } from "@/hooks/use-toast"
+import { getApiErrorMessage } from "@/lib/utils/http"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import type { ProjectCompletion } from "@/lib/mappers/types"
 
@@ -77,45 +78,53 @@ export function TipProjectDialog({
   }
 
   // 统一打赏处理
-  const handleTip = (target: TipTarget, amount: number) => {
+  const handleTip = async (target: TipTarget, amount: number) => {
     if (!user) {
       promptLogin(() => {}, { title: "投币", description: "登录后即可用硬币赞赏" })
       return
     }
 
-    fetch("/api/tips", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        resourceType: target.type,
-        resourceId: target.id,
-        amount,
-      }),
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(await response.text())
-        }
-        return response.json()
+    try {
+      const response = await fetch("/api/tips", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          resourceType: target.type,
+          resourceId: target.id,
+          amount,
+        }),
       })
-      .then((res: { ok?: boolean; error?: string }) => {
-        if (res?.ok) {
-          queryClient.invalidateQueries({ queryKey: ["tip_my", target.type, target.id] })
-          if (target.type === "completion") {
-            queryClient.invalidateQueries({ queryKey: ["completion_tips", target.id] })
-          }
-          queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
-          refreshProfile()
-          router.refresh()
-          toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` })
-        } else {
-          const msg = res?.error === "insufficient_coins" ? "硬币余额不足" : res?.error === "tip_limit_reached" ? "已达该对象投币上限" : res?.error === "cannot_tip_self" ? "不能给自己投币" : "投币失败"
-          toast({ variant: "destructive", title: "投币失败", description: msg })
-        }
-      })
-      .catch((error: Error) => {
-        toast({ variant: "destructive", title: "投币失败", description: error.message })
-      })
+
+      if (!response.ok) {
+        throw new Error(await getApiErrorMessage(response, "tip_failed"))
+      }
+
+      const res = await response.json() as { ok?: boolean; error?: string }
+      if (!res?.ok) {
+        throw new Error(res?.error || "tip_failed")
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["tip_my", target.type, target.id] })
+      if (target.type === "completion") {
+        queryClient.invalidateQueries({ queryKey: ["completion_tips", target.id] })
+      }
+      queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
+      refreshProfile()
+      router.refresh()
+      toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` })
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "tip_failed"
+      const msg = code === "insufficient_coins"
+        ? "硬币余额不足"
+        : code === "tip_limit_reached"
+          ? "已达该对象投币上限"
+          : code === "cannot_tip_self"
+            ? "不能给自己投币"
+            : code === "项目不存在" || code === "作品不存在"
+              ? code
+              : "投币失败"
+      toast({ variant: "destructive", title: "投币失败", description: msg })
+    }
   }
 
   return (
@@ -163,7 +172,7 @@ function TipRow({
 }: {
   target: TipTarget
   coins: number
-  onTip: (target: TipTarget, amount: number) => void
+  onTip: (target: TipTarget, amount: number) => void | Promise<void>
 }) {
   // 查询我看这个资源已经投了多少
   const { data: myTipped = 0 } = useQuery({

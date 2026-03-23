@@ -51,10 +51,18 @@ export const ProjectSchema = z.object({
 export const CreateProjectSchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
   description: z.string().min(1, "Description is required").max(2000),
-  category: z.enum(['科学', '技术', '工程', '艺术', '数学'], {
+  category: z.enum(['科学', '技术', '工程', '艺术', '数学', '其他'], {
     message: "Invalid category", 
   }),
   sub_category_id: z.number().nullable().optional(),
+  sub_category: z.preprocess(
+    (value) => {
+      if (typeof value !== 'string') return value
+      const trimmed = value.trim()
+      return trimmed.length > 0 ? trimmed : undefined
+    },
+    z.string().max(100).optional()
+  ),
   difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
   difficulty_stars: z.number().int().min(1).max(6).default(1),
   duration: z.number().min(0).default(60),

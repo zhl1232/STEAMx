@@ -21,6 +21,7 @@ import { Project, Comment } from "@/lib/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
+import { canResubmitCompletion, getTrackedCompletedProjectIds } from "@/lib/completion-records";
 
 export interface ProjectCompletionProof {
   images: string[];
@@ -106,7 +107,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     try {
       const [likesResponse, completedResponse, collectionsResponse] = await Promise.all([
         supabase.from("likes").select("project_id").eq("user_id", userId),
-        supabase.from("completed_projects").select("project_id").eq("user_id", userId),
+        supabase.from("completed_projects").select("project_id, status").eq("user_id", userId),
         supabase.from("collections").select("project_id").eq("user_id", userId),
       ]);
 
@@ -116,8 +117,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         );
       }
       if (completedResponse.data) {
+        const completionRows = completedResponse.data as { project_id: number; status?: string | null }[]
         setCompletedProjects(
-          new Set((completedResponse.data as { project_id: number }[]).map((c) => c.project_id)),
+          new Set(getTrackedCompletedProjectIds(completionRows)),
         );
       }
       if (collectionsResponse.data) {
@@ -265,6 +267,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         description: project.description || "",
         category: project.category,
         sub_category_id: project.sub_category_id ?? null,
+        sub_category: project.sub_category ?? null,
         difficulty: project.difficulty,
         difficulty_stars: project.difficulty_stars ?? 1,
         duration: project.duration ?? 60,
@@ -316,36 +319,39 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       });
 
       // 通知关注者：仅通知开启了「关注的人发布新作品」的用户
-      const authorName = profile?.display_name || user.email?.split("@")[0] || "某用户";
-      const { data: followRows } = await supabase
-        .from("follows")
-        .select("follower_id")
-        .eq("following_id", user.id);
-      if (followRows?.length) {
-        const { data: prefs } = await supabase
-          .from("profiles")
-          .select("id")
-          .in(
-            "id",
-            (followRows as { follower_id: string }[]).map((r) => r.follower_id),
-          )
-          .or("notify_followed_creator_updates.eq.true,notify_followed_creator_updates.is.null");
-        const prefsData = prefs as { id: string }[] | null;
-        const recipientIds = new Set((prefsData || []).map((p) => p.id));
-        const notifications = Array.from(recipientIds).map((userId) =>
-          createNotification({
-            user_id: userId,
-            type: "creator_update",
-            content: `${authorName} 发布了新作品：${project.title}`,
-            related_type: "project",
-            project_id: createdProject.id,
-            from_user_id: user.id,
-            from_username: authorName,
-            from_avatar:
-              profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined),
-          }),
-        );
-        await Promise.all(notifications);
+      const createdProjectStatus = (rawProject as { status?: string | null }).status;
+      if (!createdProjectStatus || createdProjectStatus === "approved") {
+        const authorName = profile?.display_name || user.email?.split("@")[0] || "某用户";
+        const { data: followRows } = await supabase
+          .from("follows")
+          .select("follower_id")
+          .eq("following_id", user.id);
+        if (followRows?.length) {
+          const { data: prefs } = await supabase
+            .from("profiles")
+            .select("id")
+            .in(
+              "id",
+              (followRows as { follower_id: string }[]).map((r) => r.follower_id),
+            )
+            .or("notify_followed_creator_updates.eq.true,notify_followed_creator_updates.is.null");
+          const prefsData = prefs as { id: string }[] | null;
+          const recipientIds = new Set((prefsData || []).map((p) => p.id));
+          const notifications = Array.from(recipientIds).map((userId) =>
+            createNotification({
+              user_id: userId,
+              type: "creator_update",
+              content: `${authorName} 发布了新作品：${project.title}`,
+              related_type: "project",
+              project_id: createdProject.id,
+              from_user_id: user.id,
+              from_username: authorName,
+              from_avatar:
+                profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined),
+            }),
+          );
+          await Promise.all(notifications);
+        }
       }
     },
     [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, toast],
@@ -375,78 +381,46 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }
 
       const pid = typeof projectId === "string" ? parseInt(projectId) : projectId;
-
-      const updateData: Record<string, unknown> = {
-        title: project.title,
-        description: project.description,
-        image_url: project.image,
-        category: project.category,
-        difficulty: project.difficulty,
-        duration: project.duration,
-        tags: project.tags || [],
-        updated_at: new Date().toISOString(),
-      };
-
-      if (project.reflection !== undefined) updateData.reflection = project.reflection || null;
-      if (project.problem_statement !== undefined) updateData.problem_statement = project.problem_statement || null;
-      if (project.iterations !== undefined) updateData.iterations = project.iterations || [];
-
-      const { error: projectError } = await supabase
-        .from("projects")
-        .update(updateData as never)
-        .eq("id", Number(pid))
-        .eq("author_id", user.id);
-
-      if (projectError) {
-        logger.error("Error updating project:", { error: projectError });
-        throw new Error("Failed to update project");
-      }
-
-      await supabase.from("project_materials").delete().eq("project_id", Number(pid));
-      if (project.materials && project.materials.length > 0) {
-        await supabase.from("project_materials").insert(
-          project.materials.map((m, index) => ({
-            project_id: Number(pid),
-            material: m,
+      const response = await fetch(`/api/projects/${Number(pid)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: project.title,
+          description: project.description || "",
+          category: project.category,
+          sub_category_id: project.sub_category_id ?? null,
+          sub_category: project.sub_category ?? null,
+          difficulty: project.difficulty,
+          difficulty_stars: project.difficulty_stars ?? 1,
+          duration: project.duration ?? 60,
+          image_url: project.image || null,
+          reflection: project.reflection || null,
+          problem_statement: project.problem_statement || null,
+          iterations: project.iterations || [],
+          materials: project.materials || [],
+          steps: (project.steps || []).map((step, index) => ({
+            title: step.title,
+            description: step.description,
+            image_url: step.image_url || null,
             sort_order: index,
-          })) as never,
-        );
+          })),
+          request_re_review: isMajorEdit,
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        const message = body?.error || "Failed to update project";
+        logger.error("Error updating project:", { error: message });
+        throw new Error(message);
       }
 
-      await supabase.from("project_steps").delete().eq("project_id", Number(pid));
-      if (project.steps && project.steps.length > 0) {
-        await supabase.from("project_steps").insert(
-          project.steps.map((s, index) => ({
-            project_id: Number(pid),
-            title: s.title,
-            description: s.description,
-            image_url: s.image_url || null,
-            sort_order: index,
-          })) as never,
-        );
-      }
-
-      if (isMajorEdit) {
-        try {
-          await (supabase.rpc as (fn: string, args: unknown) => PromiseLike<unknown>)(
-            "request_project_re_review",
-            { p_project_id: Number(pid) },
-          );
-        } catch (err) {
-          logger.error("Error requesting re-review:", { error: err });
-        }
-        toast({
-          title: "项目已更新",
-          description: "内容变更较大，已重新提交审核。",
-        });
-      } else {
-        toast({
-          title: "项目已更新",
-          description: "微调内容已保存，无需重新审核。",
-        });
-      }
+      toast({
+        title: "项目已更新",
+        description: isMajorEdit ? "内容变更较大，已重新提交审核。" : "微调内容已保存，无需重新审核。",
+      });
     },
-    [supabase, user, toast],
+    [user, toast],
   );
 
   const addComment = useCallback(
@@ -717,6 +691,24 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         throw new Error("至少需要上传一张作品照片");
       }
 
+      const { data: existingCompletion, error: existingCompletionError } = await supabase
+        .from("completed_projects")
+        .select("id, status")
+        .eq("user_id", user.id)
+        .eq("project_id", pid)
+        .maybeSingle();
+
+      if (existingCompletionError) {
+        throw existingCompletionError;
+      }
+
+      const currentCompletion = existingCompletion as { id: number; status?: string | null } | null
+      const isResubmittingRejected = canResubmitCompletion(currentCompletion?.status)
+
+      if (currentCompletion && !isResubmittingRejected) {
+        throw new Error("你已经提交过该项目作品");
+      }
+
       // Optimistic update + sync ref immediately
       setCompletedProjects((prev) => {
         const newSet = new Set(prev);
@@ -727,18 +719,31 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       try {
         const insertData: Record<string, unknown> = {
-          user_id: user.id,
-          project_id: pid,
           proof_images: proof.images,
           proof_video_url: proof.videoUrl || null,
           notes: proof.notes || null,
           is_public: proof.isPublic ?? true,
           status: "pending",
+          reviewed_by: null,
+          reviewed_at: null,
+          rejection_reason: null,
         };
         if (proof.imageCaptions && proof.imageCaptions.length > 0) {
           insertData.proof_captions = proof.imageCaptions;
         }
-        const { error } = await supabase.from("completed_projects").insert(insertData as never);
+        let error: unknown = null;
+        if (isResubmittingRejected && currentCompletion) {
+          ({ error } = await supabase
+            .from("completed_projects")
+            .update(insertData as never)
+            .eq("id", currentCompletion.id));
+        } else {
+          ({ error } = await supabase.from("completed_projects").insert({
+            ...insertData,
+            user_id: user.id,
+            project_id: pid,
+          } as never));
+        }
 
         if (error) throw error;
 
@@ -841,7 +846,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       if (!user) return;
       const cid = commentId;
 
-      // Optimistic update
+      const response = await fetch(`/api/comments/${cid}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const detail = await response.text();
+        logger.error("Error deleting comment:", { detail });
+        throw new Error(detail || "Failed to delete comment");
+      }
+
       setProjects((prev) =>
         prev.map((p) => {
           if (p.comments?.some((c) => c.id === cid)) {
@@ -853,14 +867,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           return p;
         }),
       );
-
-      const response = await fetch(`/api/comments/${cid}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        logger.error("Error deleting comment:", { detail: await response.text() });
-      }
     },
     [user],
   );

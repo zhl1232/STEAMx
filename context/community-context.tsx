@@ -24,11 +24,13 @@ interface ChallengeGroups {
 type CommunityContextType = {
     discussions: Discussion[];
     challenges: ChallengeGroups;
+    challengesError: string | null;
     addDiscussion: (discussion: Discussion) => Promise<void>;
     addReply: (discussionId: string | number, reply: Comment, parentId?: number) => Promise<Comment | null>;
     joinChallenge: (challengeId: string | number) => Promise<void>;
     deleteReply: (replyId: string | number) => Promise<void>;
     deleteDiscussion: (discussionId: string | number) => Promise<void>;
+    reloadChallenges: () => Promise<void>;
     isLoading: boolean;
 };
 
@@ -39,6 +41,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const [challenges, setChallenges] = useState<ChallengeGroups>({
         activeTimed: [], evergreen: [], ended: []
     });
+    const [challengesError, setChallengesError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const [supabase] = useState(() => createClient());
@@ -54,18 +57,32 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => { challengesRef.current = challenges; }, [challenges]);
 
     const fetchChallenges = useCallback(async () => {
-        const response = await fetch('/api/challenges')
+        setChallengesError(null);
+
+        const response = await fetch('/api/challenges');
         if (!response.ok) {
-            logger.error('Error fetching challenges:', { detail: await response.text() })
-            return
+            const detail = await response.text();
+            logger.error('Error fetching challenges:', { detail });
+            setChallengesError('挑战赛加载失败，请稍后重试');
+            return;
         }
-        const payload = await response.json()
+
+        const payload = await response.json();
         setChallenges({
             activeTimed: (payload?.activeTimed as Challenge[]) || [],
             evergreen: (payload?.evergreen as Challenge[]) || [],
             ended: (payload?.ended as Challenge[]) || [],
-        })
+        });
     }, []);
+
+    const reloadChallenges = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            await fetchChallenges();
+        } finally {
+            setIsLoading(false);
+        }
+    }, [fetchChallenges]);
 
     // 统一处理数据加载：初始化或用户变化时加载
     useEffect(() => {
@@ -78,13 +95,11 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             lastFetchedUserIdRef.current = userId;
             
             const loadData = async () => {
-                setIsLoading(true);
-                await fetchChallenges();
-                setIsLoading(false);
+                await reloadChallenges();
             };
             loadData();
         }
-    }, [authLoading, user?.id, fetchChallenges]);
+    }, [authLoading, user?.id, reloadChallenges]);
 
     const addDiscussion = useCallback(async (discussion: Discussion) => {
         if (!user) return;
@@ -245,9 +260,17 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const deleteReply = useCallback(async (replyId: string | number) => {
         if (!user) return;
         const rid = replyId;
-        const previousDiscussions = discussions;
 
-        // Optimistic update
+        const response = await fetch(`/api/replies/${rid}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            const detail = await response.text();
+            logger.error('Error deleting reply:', { detail });
+            throw new Error(detail || 'Failed to delete reply');
+        }
+
         setDiscussions(prev => prev.map(d => {
             if (d.replies?.some(r => r.id === rid)) {
                 return {
@@ -257,16 +280,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             }
             return d;
         }));
-
-        const response = await fetch(`/api/replies/${rid}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) {
-            setDiscussions(previousDiscussions);
-            logger.error('Error deleting reply:', { detail: await response.text() });
-        }
-    }, [user, discussions]);
+    }, [user]);
 
     const deleteDiscussion = useCallback(async (discussionId: string | number) => {
         if (!user) return;
@@ -289,20 +303,24 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     const contextValue = useMemo(() => ({
         discussions,
         challenges,
+        challengesError,
         addDiscussion,
         addReply,
         joinChallenge,
         deleteReply,
         deleteDiscussion,
+        reloadChallenges,
         isLoading
     }), [
         discussions,
         challenges,
+        challengesError,
         addDiscussion,
         addReply,
         joinChallenge,
         deleteReply,
         deleteDiscussion,
+        reloadChallenges,
         isLoading
     ]);
 

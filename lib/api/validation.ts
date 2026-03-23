@@ -172,6 +172,23 @@ export function validateNumber(
 }
 
 /**
+ * 验证日期时间字符串可被解析
+ * @throws ValidationError 如果不是合法日期时间
+ */
+export function validateDateTimeString(value: unknown, fieldName: string): string {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    throw new ValidationError(`${fieldName} must be a valid datetime`)
+  }
+
+  const trimmed = value.trim()
+  if (Number.isNaN(Date.parse(trimmed))) {
+    throw new ValidationError(`${fieldName} must be a valid datetime`)
+  }
+
+  return trimmed
+}
+
+/**
  * 验证文本不含敏感词
  * @throws ValidationError 如果文本中检测到敏感词
  */

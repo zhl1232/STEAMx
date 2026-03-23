@@ -9,12 +9,14 @@ import { useAuth } from "@/context/auth-context";
 export function MainNav() {
     const pathname = usePathname();
     const { user } = useAuth();
+    const isProtectedRoute = (href: string) =>
+        href.startsWith("/messages") || href === "/shop";
 
     const routes = [
         {
             href: "/explore",
             label: "探索",
-            active: pathname === "/explore",
+            active: pathname === "/explore" || pathname === "/project" || pathname?.startsWith("/project/"),
         },
         {
             href: "/playground",
@@ -24,7 +26,7 @@ export function MainNav() {
         {
             href: "/community",
             label: "社区",
-            active: pathname === "/community",
+            active: pathname === "/community" || pathname?.startsWith("/community/"),
         },
         {
             href: "/messages?tab=dm",
@@ -34,15 +36,15 @@ export function MainNav() {
         {
             href: "/leaderboard",
             label: "排行榜",
-            active: pathname === "/leaderboard",
+            active: pathname === "/leaderboard" || pathname?.startsWith("/leaderboard/"),
         },
         {
             href: "/shop",
             label: "商店",
-            active: pathname === "/shop",
+            active: pathname === "/shop" || pathname?.startsWith("/shop/"),
         },
     ].filter(route => {
-        if (!user && (route.href === '/leaderboard' || route.href === '/messages' || route.href === '/shop')) {
+        if (!user && isProtectedRoute(route.href)) {
             return false;
         }
         return true;

@@ -34,12 +34,16 @@ export async function PATCH(
 
     validateContentSafe(content, '评论内容')
 
-    const { data: row } = await supabase
+    const { data: row, error: fetchError } = await supabase
       .from('comments')
       .select('author_id')
       .eq('id', commentId)
-      .single()
-    if (!row || (row as { author_id: string }).author_id !== user.id) {
+      .maybeSingle()
+    if (fetchError) throw fetchError
+    if (!row) {
+      return NextResponse.json({ error: 'Comment not found' }, { status: 404 })
+    }
+    if ((row as { author_id: string }).author_id !== user.id) {
       return NextResponse.json({ error: '无权编辑此评论' }, { status: 403 })
     }
 

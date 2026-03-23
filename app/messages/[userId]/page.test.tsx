@@ -1,0 +1,91 @@
+import { render, screen } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import ConversationPage from './page'
+
+let mockUserId = '22222222-2222-2222-2222-222222222222'
+const mockReplace = vi.fn()
+const mockLoadMore = vi.fn()
+const mockSendMessage = vi.fn()
+let mockConversationError: string | null = null
+
+vi.mock('next/navigation', () => ({
+    useParams: () => ({ userId: mockUserId }),
+    useRouter: () => ({ replace: mockReplace }),
+}))
+
+vi.mock('next/link', () => ({
+    __esModule: true,
+    default: ({ children, href, ...rest }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+        <a href={href} {...rest}>
+            {children}
+        </a>
+    ),
+}))
+
+vi.mock('@/context/auth-context', () => ({
+    useAuth: () => ({
+        user: { id: '11111111-1111-1111-1111-111111111111' },
+        loading: false,
+    }),
+}))
+
+vi.mock('@/hooks/use-messages', () => ({
+    useConversationMessages: () => ({
+        messages: [],
+        peer: null,
+        isLoading: false,
+        hasMore: false,
+        isLoadingMore: false,
+        loadMore: mockLoadMore,
+        error: mockConversationError,
+    }),
+    useSendMessage: () => ({
+        sendMessage: mockSendMessage,
+        isPending: false,
+    }),
+}))
+
+vi.mock('@/components/ui/report-dialog', () => ({
+    ReportDialog: () => null,
+}))
+
+describe('ConversationPage', () => {
+    beforeEach(() => {
+        vi.clearAllMocks()
+        mockUserId = '22222222-2222-2222-2222-222222222222'
+        mockConversationError = null
+    })
+
+    it('shows a missing-user state instead of the empty-thread message', () => {
+        render(<ConversationPage />)
+
+        expect(screen.getByText('用户不存在')).toBeInTheDocument()
+        expect(screen.getByText('该用户不存在或暂时无法发起会话')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('无法向不存在的用户发送消息')).toBeDisabled()
+        expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
+        expect(screen.queryByText('暂无消息，发一条打个招呼吧～')).not.toBeInTheDocument()
+    })
+
+    it('shows an invalid-thread state for malformed user ids', () => {
+        mockUserId = 'not-a-uuid'
+
+        render(<ConversationPage />)
+
+        expect(screen.getByText('无效会话')).toBeInTheDocument()
+        expect(screen.getByText('私信地址无效，请返回消息列表重新进入会话')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('无效会话地址，无法发送消息')).toBeDisabled()
+        expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
+    })
+
+    it('shows a load failure state instead of treating server errors as a missing user', () => {
+        mockConversationError = '会话加载失败，请稍后重试'
+
+        render(<ConversationPage />)
+
+        expect(screen.getByText('加载失败')).toBeInTheDocument()
+        expect(screen.getByText('会话加载失败，请稍后重试')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('会话加载失败，暂时无法发送消息')).toBeDisabled()
+        expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
+        expect(screen.queryByText('该用户不存在或暂时无法发起会话')).not.toBeInTheDocument()
+    })
+})

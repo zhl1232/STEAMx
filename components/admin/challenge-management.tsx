@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
 import { useToast } from '@/hooks/use-toast'
+import { getApiErrorMessage } from '@/lib/utils/http'
 import { Plus, Trash2, Play, StopCircle, Archive } from 'lucide-react'
 import type { ChallengeType, ChallengeStatus } from '@/lib/mappers/types'
 
@@ -82,12 +83,27 @@ export function ChallengeManagement() {
 
   const fetchChallenges = useCallback(async () => {
     setIsLoading(true)
-    const url = typeFilter === 'all' ? '/api/admin/challenges' : `/api/admin/challenges?type=${typeFilter}`
-    const res = await fetch(url)
-    const data = await res.json()
-    if (data.challenges) setChallenges(data.challenges)
-    setIsLoading(false)
-  }, [typeFilter])
+    try {
+      const url = typeFilter === 'all' ? '/api/admin/challenges' : `/api/admin/challenges?type=${typeFilter}`
+      const res = await fetch(url)
+
+      if (!res.ok) {
+        throw new Error(await getApiErrorMessage(res, '加载挑战赛失败'))
+      }
+
+      const data = await res.json()
+      setChallenges(data.challenges || [])
+    } catch (error) {
+      setChallenges([])
+      toast({
+        title: '加载失败',
+        description: error instanceof Error ? error.message : '加载挑战赛失败',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [toast, typeFilter])
 
   useEffect(() => { fetchChallenges() }, [fetchChallenges])
 
@@ -143,48 +159,69 @@ export function ChallengeManagement() {
     const url = editingId ? `/api/admin/challenges/${editingId}` : '/api/admin/challenges'
     const method = editingId ? 'PATCH' : 'POST'
 
-    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    try {
+      const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
 
-    if (res.ok) {
+      if (!res.ok) {
+        throw new Error(await getApiErrorMessage(res, '操作失败'))
+      }
+
       toast({ title: editingId ? '挑战已更新' : '挑战已创建' })
       setDialogOpen(false)
       resetForm()
       fetchChallenges()
-    } else {
-      const err = await res.json()
-      toast({ title: '操作失败', description: err.error, variant: 'destructive' })
+    } catch (error) {
+      toast({
+        title: '操作失败',
+        description: error instanceof Error ? error.message : '操作失败',
+        variant: 'destructive',
+      })
     }
   }
 
   const handleStatusChange = async (id: number, status: string) => {
-    const res = await fetch(`/api/admin/challenges/${id}/status`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    })
+    try {
+      const res = await fetch(`/api/admin/challenges/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
 
-    if (res.ok) {
+      if (!res.ok) {
+        throw new Error(await getApiErrorMessage(res, '操作失败'))
+      }
+
       const data = await res.json()
       toast({ title: `状态已更新为 ${status}` })
       if (data.settlement) {
         toast({ title: '结算完成', description: `共 ${data.settlement.total_submissions} 个作品参与排名` })
       }
       fetchChallenges()
-    } else {
-      const err = await res.json()
-      toast({ title: '操作失败', description: err.error, variant: 'destructive' })
+    } catch (error) {
+      toast({
+        title: '操作失败',
+        description: error instanceof Error ? error.message : '操作失败',
+        variant: 'destructive',
+      })
     }
   }
 
   const handleDelete = async (id: number) => {
     if (!confirm('确认删除该挑战？')) return
-    const res = await fetch(`/api/admin/challenges/${id}`, { method: 'DELETE' })
-    if (res.ok) {
+    try {
+      const res = await fetch(`/api/admin/challenges/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        throw new Error(await getApiErrorMessage(res, '删除失败'))
+      }
+
       toast({ title: '挑战已删除' })
       fetchChallenges()
-    } else {
-      const err = await res.json()
-      toast({ title: '删除失败', description: err.error, variant: 'destructive' })
+    } catch (error) {
+      toast({
+        title: '删除失败',
+        description: error instanceof Error ? error.message : '删除失败',
+        variant: 'destructive',
+      })
     }
   }
 

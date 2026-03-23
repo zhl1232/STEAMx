@@ -432,6 +432,8 @@ export interface Database {
           author_id: string
           content: string
           parent_id: number | null
+          reply_to_user_id: string | null
+          reply_to_username: string | null
           image_url: string | null
           likes_count: number
           created_at: string
@@ -442,6 +444,8 @@ export interface Database {
           author_id: string
           content: string
           parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
           image_url?: string | null
           likes_count?: number
           created_at?: string
@@ -452,6 +456,8 @@ export interface Database {
           author_id?: string
           content?: string
           parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
           image_url?: string | null
           likes_count?: number
           created_at?: string
@@ -648,6 +654,9 @@ export interface Database {
           discussion_id: number
           author_id: string
           content: string
+          parent_id: number | null
+          reply_to_user_id: string | null
+          reply_to_username: string | null
           image_url: string | null
           likes_count: number
           created_at: string
@@ -657,6 +666,9 @@ export interface Database {
           discussion_id: number
           author_id: string
           content: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
           image_url?: string | null
           likes_count?: number
           created_at?: string
@@ -666,6 +678,9 @@ export interface Database {
           discussion_id?: number
           author_id?: string
           content?: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
           image_url?: string | null
           likes_count?: number
           created_at?: string
@@ -953,6 +968,8 @@ export interface Database {
           project_id: number | null
           discussion_id: number | null
           from_user_id: string | null
+          from_username: string | null
+          from_avatar: string | null
           is_read: boolean
           created_at: string
         }
@@ -966,6 +983,8 @@ export interface Database {
           project_id?: number | null
           discussion_id?: number | null
           from_user_id?: string | null
+          from_username?: string | null
+          from_avatar?: string | null
           is_read?: boolean
           created_at?: string
         }
@@ -979,6 +998,8 @@ export interface Database {
           project_id?: number | null
           discussion_id?: number | null
           from_user_id?: string | null
+          from_username?: string | null
+          from_avatar?: string | null
           is_read?: boolean
           created_at?: string
         }
@@ -1202,6 +1223,37 @@ export interface Database {
       increment_user_xp: {
         Args: { p_user_id: string; p_amount: number }
         Returns: void
+      }
+      review_moderator_application: {
+        Args: {
+          p_application_id: number
+          p_action: string
+          p_rejection_reason?: string | null
+        }
+        Returns: {
+          id: number
+          status: string
+          user_id: string
+        }[]
+      }
+      admin_update_project: {
+        Args: {
+          p_project_id: number
+          p_title: string
+          p_description: string
+          p_category: string
+          p_sub_category_id?: number | null
+          p_difficulty_stars?: number
+          p_image_url?: string | null
+          p_duration?: number
+          p_steam_weights?: Json | null
+          p_steps?: Json
+          p_materials?: Json
+        }
+        Returns: {
+          id: number
+          status: string
+        }[]
       }
       get_badge_leaderboard: {
         Args: { limit_count: number }

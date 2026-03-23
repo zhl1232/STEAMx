@@ -171,47 +171,51 @@ function ShareForm() {
                     sub_categories (name)
                 `)
                 .eq('id', Number(editId))
-                .single();
+                .maybeSingle();
 
-            if (data) {
-                type ProjectRow = Parameters<typeof mapDbProject>[0];
-                const projectData = data as unknown as ProjectRow;
-                // Check if user is author
-                if (projectData.author_id && projectData.author_id !== user.id) {
-                    toast({ title: "无权编辑", variant: "destructive" });
-                    router.push('/share');
-                    return;
-                }
-
-                const project = mapDbProject(projectData);
-                originalRef.current = {
-                    title: project.title,
-                    image: project.image,
-                    category: project.category,
-                    steps: JSON.stringify(project.steps),
-                    materials: project.materials?.join('\n') || "",
-                    reflection: project.reflection || "",
-                };
-                setFormData({
-                    title: project.title,
-                    category: project.category,
-                    subCategory: project.sub_category || "",
-                    difficulty: project.difficulty || "easy",
-                    materials: project.materials?.join('\n') || "",
-                    coverImage: project.image,
-                    steps: project.steps?.map(s => ({
-                        title: s.title,
-                        description: s.description,
-                        image_url: s.image_url || null
-                    })) || [{ title: "步骤 1", description: "", image_url: null }],
-                    tags: project.tags || [],
-                    problemStatement: project.problem_statement || "",
-                    reflection: project.reflection || "",
-                    iterations: (project.iterations || []).map(it => ({ description: it.description, result: it.result })),
-                });
-
-                toast({ title: "已加载项目数据", description: "您可以修改并重新提交审核" });
+            if (!data) {
+                toast({ title: "项目不存在或已不可编辑", variant: "destructive" });
+                router.replace('/profile');
+                return;
             }
+
+            type ProjectRow = Parameters<typeof mapDbProject>[0];
+            const projectData = data as unknown as ProjectRow;
+            // Check if user is author
+            if (projectData.author_id && projectData.author_id !== user.id) {
+                toast({ title: "无权编辑", variant: "destructive" });
+                router.replace('/share');
+                return;
+            }
+
+            const project = mapDbProject(projectData);
+            originalRef.current = {
+                title: project.title,
+                image: project.image,
+                category: project.category,
+                steps: JSON.stringify(project.steps),
+                materials: project.materials?.join('\n') || "",
+                reflection: project.reflection || "",
+            };
+            setFormData({
+                title: project.title,
+                category: project.category,
+                subCategory: project.sub_category || "",
+                difficulty: project.difficulty || "easy",
+                materials: project.materials?.join('\n') || "",
+                coverImage: project.image,
+                steps: project.steps?.map(s => ({
+                    title: s.title,
+                    description: s.description,
+                    image_url: s.image_url || null
+                })) || [{ title: "步骤 1", description: "", image_url: null }],
+                tags: project.tags || [],
+                problemStatement: project.problem_statement || "",
+                reflection: project.reflection || "",
+                iterations: (project.iterations || []).map(it => ({ description: it.description, result: it.result })),
+            });
+
+            toast({ title: "已加载项目数据", description: "您可以修改并重新提交审核" });
         };
 
         if (editId) {
@@ -355,6 +359,7 @@ function ShareForm() {
             // 默认值 - 改由管理员设置
             const defaultDifficulty = 'easy';
             const defaultStars = 3;
+            const firstStepDescription = formData.steps.find(step => step.description.trim())?.description.trim() || "";
 
             const newProject: Project = {
                 id: Date.now(),
@@ -375,7 +380,9 @@ function ShareForm() {
                 difficulty_stars: defaultStars,
                 duration: 60,
                 likes: 0,
-                description: formData.steps.length > 0 ? formData.steps[0].description.slice(0, 100) + "..." : "",
+                description: firstStepDescription.length > 100
+                    ? `${firstStepDescription.slice(0, 100)}...`
+                    : firstStepDescription,
                 materials: formData.materials.split("\n").filter(item => item.trim() !== ""),
                 steps: formData.steps.map((step, index) => ({
                     title: step.title || `步骤 ${index + 1}`,

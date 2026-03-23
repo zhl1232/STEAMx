@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 // ── Types ─────────────────────────────────────────────────────────────
@@ -64,6 +64,18 @@ export interface CircuitStats {
     solvedCount: number
     solvedLevels: string[]
     bestTimes: Record<string, number>
+}
+
+interface CircuitProgress {
+    levelIndex: number
+    grid: CellComponent[][]
+    status: CircuitStatus
+    moves: number
+    time: number
+}
+
+interface StoredCircuitData extends CircuitStats {
+    progress?: string | CircuitProgress | null
 }
 
 // ── Component connectivity definitions ────────────────────────────────
@@ -336,6 +348,7 @@ export { simulateCircuit }
 // ── Stats persistence ─────────────────────────────────────────────────
 
 const STATS_KEY = "circuit_stats"
+const VALID_ROTATIONS = new Set([0, 90, 180, 270])
 
 const EMPTY_STATS: CircuitStats = {
     totalGames: 0,
@@ -344,42 +357,220 @@ const EMPTY_STATS: CircuitStats = {
     bestTimes: {},
 }
 
-function loadStats(): CircuitStats {
-    const p = getPlaygroundItem<Partial<CircuitStats>>(STATS_KEY)
-    if (!p) return { ...EMPTY_STATS }
+type CircuitInitialState = CircuitProgress & {
+    stats: CircuitStats
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === "object" && value !== null && !Array.isArray(value)
+}
+
+function toSafeCount(value: unknown): number {
+    if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+        return 0
+    }
+    return Math.floor(value)
+}
+
+function normalizeStats(raw: unknown): CircuitStats {
+    if (!isRecord(raw)) return { ...EMPTY_STATS }
+
+    const validLevelIds = new Set(LEVELS.map((level) => level.id))
+    const solvedLevels = Array.isArray(raw.solvedLevels)
+        ? raw.solvedLevels.filter((levelId): levelId is string => typeof levelId === "string" && validLevelIds.has(levelId))
+        : []
+
+    const bestTimes = isRecord(raw.bestTimes)
+        ? Object.fromEntries(
+            Object.entries(raw.bestTimes)
+                .filter(([levelId, value]) => validLevelIds.has(levelId) && typeof value === "number" && Number.isFinite(value) && value >= 0)
+                .map(([levelId, value]) => [levelId, Math.floor(value)]),
+        )
+        : {}
+
     return {
-        totalGames: p.totalGames ?? 0,
-        solvedCount: p.solvedCount ?? 0,
-        solvedLevels: p.solvedLevels ?? [],
-        bestTimes: p.bestTimes ?? {},
+        totalGames: toSafeCount(raw.totalGames),
+        solvedCount: toSafeCount(raw.solvedCount),
+        solvedLevels,
+        bestTimes,
     }
 }
 
-function saveStats(stats: CircuitStats) {
-    setPlaygroundItem(STATS_KEY, stats)
+function parseStoredProgress(raw: unknown): CircuitProgress | null {
+    const parsed = typeof raw === "string"
+        ? (() => {
+            try {
+                return JSON.parse(raw) as unknown
+            } catch {
+                return null
+            }
+        })()
+        : raw
+
+    if (!isRecord(parsed)) return null
+
+    const levelIndex = toSafeCount(parsed.levelIndex)
+    const level = LEVELS[levelIndex]
+    if (!level) return null
+
+    if (!Array.isArray(parsed.grid) || parsed.grid.length !== level.rows) {
+        return null
+    }
+
+    const grid: CellComponent[][] = []
+
+    for (let rowIndex = 0; rowIndex < level.rows; rowIndex++) {
+        const storedRow = parsed.grid[rowIndex]
+        if (!Array.isArray(storedRow) || storedRow.length !== level.cols) {
+            return null
+        }
+
+        const nextRow: CellComponent[] = []
+
+        for (let colIndex = 0; colIndex < level.cols; colIndex++) {
+            const storedCell = storedRow[colIndex]
+            const templateCell = level.grid[rowIndex][colIndex]
+
+            if (!isRecord(storedCell)) return null
+            if (storedCell.type !== templateCell.type) return null
+            if (storedCell.fixed !== templateCell.fixed) return null
+            if (typeof storedCell.rotation !== "number") return null
+
+            const normalizedRotation = ((storedCell.rotation % 360) + 360) % 360
+            if (!VALID_ROTATIONS.has(normalizedRotation)) return null
+            if ((templateCell.fixed || templateCell.type === "empty") && normalizedRotation !== templateCell.rotation) {
+                return null
+            }
+
+            nextRow.push({
+                ...templateCell,
+                rotation: normalizedRotation,
+            })
+        }
+
+        grid.push(nextRow)
+    }
+
+    const status = parsed.status
+    if (status !== "idle" && status !== "playing" && status !== "solved") {
+        return null
+    }
+
+    return {
+        levelIndex,
+        grid,
+        status,
+        moves: toSafeCount(parsed.moves),
+        time: toSafeCount(parsed.time),
+    }
+}
+
+function buildPoweredGrid(level: CircuitLevel, grid: CellComponent[][]): boolean[][] {
+    return simulateCircuit(grid, level.rows, level.cols)
+}
+
+function isLevelSolved(level: CircuitLevel, grid: CellComponent[][]): boolean {
+    return checkAllBulbsLit(grid, buildPoweredGrid(level, grid), level.rows, level.cols)
+}
+
+function createPlayableGrid(level: CircuitLevel, randomFn: () => number = Math.random): CellComponent[][] {
+    const grid = deepCopyGrid(level.grid)
+    const rotatableCells: Array<[number, number]> = []
+
+    for (let row = 0; row < level.rows; row++) {
+        for (let col = 0; col < level.cols; col++) {
+            const cell = grid[row][col]
+            if (cell.fixed || cell.type === "empty") continue
+            const turns = Math.floor(randomFn() * 4)
+            cell.rotation = (cell.rotation + turns * 90) % 360
+            rotatableCells.push([row, col])
+        }
+    }
+
+    if (!isLevelSolved(level, grid)) {
+        return grid
+    }
+
+    for (const [row, col] of rotatableCells) {
+        const originalRotation = grid[row][col].rotation
+        for (let turns = 1; turns < 4; turns++) {
+            grid[row][col].rotation = (originalRotation + turns * 90) % 360
+            if (!isLevelSolved(level, grid)) {
+                return grid
+            }
+        }
+        grid[row][col].rotation = originalRotation
+    }
+
+    return grid
+}
+
+function loadStoredData(): { stats: CircuitStats; progress: CircuitProgress | null } {
+    const stored = getPlaygroundItem<StoredCircuitData>(STATS_KEY)
+    if (!stored) {
+        return {
+            stats: { ...EMPTY_STATS },
+            progress: null,
+        }
+    }
+
+    return {
+        stats: normalizeStats(stored),
+        progress: parseStoredProgress(stored.progress),
+    }
+}
+
+function createInitialState(): CircuitInitialState {
+    const { stats, progress } = loadStoredData()
+
+    if (progress) {
+        return {
+            ...progress,
+            stats,
+        }
+    }
+
+    return {
+        levelIndex: 0,
+        grid: createPlayableGrid(LEVELS[0]),
+        status: "idle",
+        moves: 0,
+        time: 0,
+        stats,
+    }
+}
+
+function saveCircuitData(stats: CircuitStats, progress: CircuitProgress) {
+    setPlaygroundItem(STATS_KEY, {
+        ...stats,
+        progress: JSON.stringify(progress),
+    })
 }
 
 // ── React Hook ────────────────────────────────────────────────────────
 
 export function useCircuitPuzzle() {
-    const [levelIndex, setLevelIndex] = useState(0)
+    const initialStateRef = useRef<CircuitInitialState | null>(null)
+    if (initialStateRef.current === null) {
+        initialStateRef.current = createInitialState()
+    }
+
+    const initialState = initialStateRef.current
+    const initialLevel = LEVELS[initialState.levelIndex]
+    const initialPowered = buildPoweredGrid(initialLevel, initialState.grid)
+
+    const [levelIndex, setLevelIndex] = useState(initialState.levelIndex)
     const [grid, setGrid] = useState<CellComponent[][]>(() =>
-        deepCopyGrid(LEVELS[0].grid),
+        deepCopyGrid(initialState.grid),
     )
-    const [powered, setPowered] = useState<boolean[][]>(() =>
-        Array.from({ length: LEVELS[0].rows }, () =>
-            Array(LEVELS[0].cols).fill(false),
-        ),
-    )
-    const [status, setStatus] = useState<CircuitStatus>("idle")
-    const [moves, setMoves] = useState(0)
-    const [time, setTime] = useState(0)
-    const [stats, setStats] = useState<CircuitStats>(() => loadStats())
+    const [powered, setPowered] = useState<boolean[][]>(initialPowered)
+    const [status, setStatus] = useState<CircuitStatus>(initialState.status)
+    const [moves, setMoves] = useState(initialState.moves)
+    const [time, setTime] = useState(initialState.time)
+    const [stats, setStats] = useState<CircuitStats>(initialState.stats)
 
     const level = LEVELS[levelIndex]
-
-    // Timer
-    const timerIdRef = { current: null as ReturnType<typeof setInterval> | null }
+    const timerIdRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
     useEffect(() => {
         if (status === "playing") {
@@ -391,12 +582,21 @@ export function useCircuitPuzzle() {
             clearInterval(timerIdRef.current)
             timerIdRef.current = null
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
+
+    useEffect(() => {
+        saveCircuitData(stats, {
+            levelIndex,
+            grid,
+            status,
+            moves,
+            time,
+        })
+    }, [grid, levelIndex, moves, stats, status, time])
 
     // Simulate whenever grid changes
     useEffect(() => {
-        const p = simulateCircuit(grid, level.rows, level.cols)
+        const p = buildPoweredGrid(level, grid)
         setPowered(p)
 
         if (status === "playing" || status === "idle") {
@@ -426,9 +626,7 @@ export function useCircuitPuzzle() {
     const persistStats = useCallback(
         (updater: (prev: CircuitStats) => CircuitStats) => {
             setStats((prev) => {
-                const next = updater(prev)
-                saveStats(next)
-                return next
+                return updater(prev)
             })
         },
         [],
@@ -453,11 +651,12 @@ export function useCircuitPuzzle() {
     const goToLevel = useCallback(
         (index: number) => {
             const clamped = Math.max(0, Math.min(LEVELS.length - 1, index))
+            const nextLevel = LEVELS[clamped]
             setLevelIndex(clamped)
-            setGrid(deepCopyGrid(LEVELS[clamped].grid))
+            setGrid(createPlayableGrid(nextLevel))
             setPowered(
-                Array.from({ length: LEVELS[clamped].rows }, () =>
-                    Array(LEVELS[clamped].cols).fill(false),
+                Array.from({ length: nextLevel.rows }, () =>
+                    Array(nextLevel.cols).fill(false),
                 ),
             )
             setStatus("idle")
@@ -476,7 +675,7 @@ export function useCircuitPuzzle() {
     }, [levelIndex, goToLevel])
 
     const resetLevel = useCallback(() => {
-        setGrid(deepCopyGrid(level.grid))
+        setGrid(createPlayableGrid(level))
         setPowered(
             Array.from({ length: level.rows }, () =>
                 Array(level.cols).fill(false),

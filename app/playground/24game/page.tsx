@@ -264,6 +264,10 @@ export default function Game24Page() {
                   <span className="hidden sm:inline">提交</span>
                 </Button>
               </div>
+              <p className="text-[11px] text-muted-foreground pl-1">
+                支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
+                <span className="font-mono">1 / 11 / 12 / 13</span>。
+              </p>
               {error && (
                 <p className="text-xs text-red-500 pl-1">{error}</p>
               )}

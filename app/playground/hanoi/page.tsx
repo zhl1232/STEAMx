@@ -196,6 +196,41 @@ export default function HanoiPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
 
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.metaKey || event.ctrlKey || event.altKey) return
+
+            const target = event.target
+            if (
+                target instanceof HTMLElement &&
+                (target.isContentEditable ||
+                    target.tagName === "INPUT" ||
+                    target.tagName === "TEXTAREA" ||
+                    target.tagName === "SELECT")
+            ) {
+                return
+            }
+
+            const key = event.key.toLowerCase()
+            const peg =
+                key === "1" || key === "a"
+                    ? "A"
+                    : key === "2" || key === "b"
+                      ? "B"
+                      : key === "3" || key === "c"
+                        ? "C"
+                        : null
+
+            if (!peg) return
+
+            event.preventDefault()
+            selectPeg(peg)
+        }
+
+        window.addEventListener("keydown", handleKeyDown)
+        return () => window.removeEventListener("keydown", handleKeyDown)
+    }, [selectPeg])
+
     const isAutoSolving = status === "auto_solving"
 
     return (

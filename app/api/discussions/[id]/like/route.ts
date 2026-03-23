@@ -17,12 +17,16 @@ export async function POST(
   try {
     const user = await requireAuth(supabase);
 
-    const { data: discussionRow } = await supabase
+    const { data: discussionRow, error: discussionError } = await supabase
       .from("discussions")
       .select("author_id")
       .eq("id", discussionId)
-      .single();
-    if (discussionRow && (discussionRow as { author_id: string }).author_id === user.id) {
+      .maybeSingle();
+    if (discussionError) throw discussionError;
+    if (!discussionRow) {
+      return NextResponse.json({ error: "Discussion not found" }, { status: 404 });
+    }
+    if ((discussionRow as { author_id: string }).author_id === user.id) {
       return NextResponse.json({ error: "不能给自己的讨论点赞" }, { status: 403 });
     }
 
@@ -46,7 +50,8 @@ export async function POST(
       if (deleteError) throw deleteError;
 
       if (deletedRows && deletedRows.length > 0) {
-        await callRpc(supabase, "decrement_discussion_likes", { discussion_id: discussionId });
+        const { error: rpcError } = await callRpc(supabase, "decrement_discussion_likes", { discussion_id: discussionId });
+        if (rpcError) throw rpcError;
       }
 
       return NextResponse.json({ liked: false, action: "unliked" });
@@ -65,7 +70,8 @@ export async function POST(
     }
 
     if (insertedRows && insertedRows.length > 0) {
-      await callRpc(supabase, "increment_discussion_likes", { discussion_id: discussionId });
+      const { error: rpcError } = await callRpc(supabase, "increment_discussion_likes", { discussion_id: discussionId });
+      if (rpcError) throw rpcError;
     }
 
     return NextResponse.json({ liked: true, action: "liked" });

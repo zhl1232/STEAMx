@@ -3,6 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateRequiredString, validateOptionalString } from '@/lib/api/validation'
 
+function getErrorCode(error: unknown) {
+  if (error && typeof error === 'object' && 'code' in error && typeof error.code === 'string') {
+    return error.code
+  }
+
+  return null
+}
+
 /**
  * GET /api/admin/tags
  * 获取所有标签
@@ -56,6 +64,10 @@ export async function POST(request: NextRequest) {
       .single()
     
     if (error) {
+      if (getErrorCode(error) === '23505') {
+        return NextResponse.json({ error: '标签已存在' }, { status: 409 })
+      }
+
       throw error
     }
     

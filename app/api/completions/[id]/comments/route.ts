@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 
@@ -22,6 +23,14 @@ export async function GET(
     const completionId = Number(id)
     if (Number.isNaN(completionId)) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
+    }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    const completion = await getAccessibleCompletion(supabase, completionId, user?.id)
+    if (!completion) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
     const limit = Math.min(200, Math.max(1, parseNumber(request.nextUrl.searchParams.get('limit'), 200)))
@@ -55,6 +64,11 @@ export async function POST(
     const completionId = Number(id)
     if (Number.isNaN(completionId)) {
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
+    }
+
+    const completion = await getAccessibleCompletion(supabase, completionId, user.id)
+    if (!completion) {
+      return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
     const body = await request.json()

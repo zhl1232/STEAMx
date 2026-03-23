@@ -49,7 +49,7 @@ function RequirementItem({ label, met, current, required, unit }: RequirementIte
 }
 
 export function ModeratorApplicationForm() {
-    const { user } = useAuth();
+    const { user, profile, loading: authLoading } = useAuth();
     const { eligibility, isLoading } = useModeratorEligibility();
     const [motivation, setMotivation] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -105,7 +105,7 @@ export function ModeratorApplicationForm() {
         }
     };
 
-    if (isLoading) {
+    if (authLoading || isLoading) {
         return (
             <Card>
                 <CardHeader>
@@ -119,13 +119,52 @@ export function ModeratorApplicationForm() {
         );
     }
 
-    if (!eligibility) {
+    if (!user) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>申请成为审核员</CardTitle>
+                    <CardDescription>
+                        请先登录后再申请审核员资格
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+        );
+    }
+
+    if (!profile) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>申请成为审核员</CardTitle>
+                    <CardDescription>
+                        暂时无法读取账号资料，请稍后重试
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+        );
+    }
+
+    if (profile.role !== 'user') {
         return (
             <Card>
                 <CardHeader>
                     <CardTitle>申请成为审核员</CardTitle>
                     <CardDescription>
                         你已经是审核员或管理员，无需再次申请
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+        );
+    }
+
+    if (!eligibility) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>申请成为审核员</CardTitle>
+                    <CardDescription>
+                        暂时无法获取申请资格，请稍后重试
                     </CardDescription>
                 </CardHeader>
             </Card>

@@ -45,6 +45,22 @@ type NotificationContextType = {
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
+export function mergeLatestNotifications(latest: Notification[], existing: Notification[]) {
+  const latestIds = new Set(latest.map((notification) => notification.id));
+  return [...latest, ...existing.filter((notification) => !latestIds.has(notification.id))];
+}
+
+export function mergeLatestNotificationState(
+  latest: Notification[],
+  existing: Notification[],
+  previousHasMore: boolean,
+) {
+  return {
+    notifications: mergeLatestNotifications(latest, existing),
+    hasMore: previousHasMore,
+  };
+}
+
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -52,9 +68,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const notificationsRef = useRef<Notification[]>([]);
+  const hasMoreRef = useRef(true);
   const { user } = useAuth();
 
   notificationsRef.current = notifications;
+  hasMoreRef.current = hasMore;
 
   const fetchUnreadCount = useCallback(async () => {
     if (!user) {
@@ -79,7 +97,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   }, [user]);
 
   const fetchNotifications = useCallback(
-    async (reset = true) => {
+    async ({ reset = true, merge = false }: { reset?: boolean; merge?: boolean } = {}) => {
       if (!user) {
         setNotifications([]);
         setUnreadCount(0);
@@ -102,8 +120,18 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         }
         const payload = await response.json();
         const list = (payload?.notifications || []) as Notification[];
-        setNotifications(list);
-        setHasMore(Boolean(payload?.hasMore));
+        if (merge) {
+          const mergedState = mergeLatestNotificationState(
+            list,
+            notificationsRef.current,
+            hasMoreRef.current,
+          );
+          setNotifications(mergedState.notifications);
+          setHasMore(mergedState.hasMore);
+        } else {
+          setNotifications(list);
+          setHasMore(Boolean(payload?.hasMore));
+        }
       } catch (error) {
         logger.error(error, { context: "Error fetching notifications" });
       } finally {
@@ -152,7 +180,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return;
     }
 
-    fetchNotifications(true);
+    fetchNotifications({ reset: true });
     fetchUnreadCount();
   }, [user?.id, fetchNotifications, fetchUnreadCount]);
 
@@ -160,15 +188,17 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     if (!user?.id) return;
 
     const interval = window.setInterval(() => {
-      fetchUnreadCount();
+      void fetchNotifications({ reset: false, merge: true });
+      void fetchUnreadCount();
     }, 60000);
 
     return () => window.clearInterval(interval);
-  }, [user?.id, fetchUnreadCount]);
+  }, [user?.id, fetchNotifications, fetchUnreadCount]);
 
   const markAsRead = useCallback(
     async (id: number) => {
       if (!user) return;
+      const wasUnread = notificationsRef.current.some((n) => n.id === id && !n.is_read);
 
       const response = await fetch("/api/notifications/mark-read", {
         method: "POST",
@@ -178,6 +208,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
       if (!response.ok) {
         logger.error("Error marking notification as read:", { detail: await response.text() });
+        return;
+      }
+
+      if (!wasUnread) {
         return;
       }
 
@@ -206,6 +240,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const createNotification = useCallback(
     async (notification: Omit<Notification, "id" | "is_read" | "created_at">) => {
       if (!user) return;
+      if (notification.user_id === user.id && notification.type !== "system") return;
 
       const response = await fetch("/api/notifications", {
         method: "POST",
@@ -216,7 +251,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       if (!response.ok) {
         logger.error("Error creating notification:", { detail: await response.text() });
       } else if (notification.user_id === user.id) {
-        fetchNotifications(true);
+        fetchNotifications({ reset: true });
         fetchUnreadCount();
       }
     },

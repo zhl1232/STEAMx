@@ -13,6 +13,7 @@ export function MobileNav() {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     const { user } = useAuth();
+    const isProtectedRoute = (href: string) => href === "/share";
 
     const routes = [
         {
@@ -23,25 +24,25 @@ export function MobileNav() {
         {
             href: "/explore",
             label: "探索",
-            active: pathname === "/explore",
+            active: pathname === "/explore" || pathname === "/project" || pathname.startsWith("/project/"),
         },
         {
             href: "/community",
             label: "社区",
-            active: pathname === "/community",
+            active: pathname === "/community" || pathname.startsWith("/community/"),
         },
         {
             href: "/leaderboard",
             label: "排行榜",
-            active: pathname === "/leaderboard",
+            active: pathname === "/leaderboard" || pathname.startsWith("/leaderboard/"),
         },
         {
             href: "/share",
             label: "分享项目",
-            active: pathname === "/share",
+            active: pathname === "/share" || pathname.startsWith("/share/"),
         },
     ].filter(route => {
-        if (!user && (route.href === '/leaderboard' || route.href === '/share')) {
+        if (!user && isProtectedRoute(route.href)) {
             return false;
         }
         return true;

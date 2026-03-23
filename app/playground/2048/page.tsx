@@ -14,7 +14,7 @@ import { KeyboardHelp } from "@/components/features/playground/keyboard-help"
 const SHORTCUTS_2048 = [
     { key: "←→↑↓", label: "滑动方向" },
     { key: "W/A/S/D", label: "滑动方向" },
-    { key: "Z", label: "撤销" },
+    { key: "Ctrl/Cmd + Z", label: "撤销" },
     { key: "?", label: "快捷键" },
 ]
 
@@ -165,7 +165,7 @@ export default function Game2048Page() {
 
                         {/* Game Grid */}
                         <div
-                            className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto aspect-square bg-muted/20 rounded-2xl p-2 sm:p-3 border border-border shadow-xl"
+                            className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto aspect-square touch-none select-none bg-muted/20 rounded-2xl p-2 sm:p-3 border border-border shadow-xl"
                             onTouchStart={onTouchStart}
                             onTouchEnd={onTouchEnd}
                         >

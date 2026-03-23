@@ -3,6 +3,8 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
 import { logger } from '@/lib/logger'
+import { handleApiError } from '@/lib/api/auth'
+import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
 
 const PHONE_EMAIL_PREFIX = 'p_'
 const PHONE_EMAIL_SUFFIX = '@phone.local'
@@ -42,6 +44,13 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
+
+    requireRequestRateLimit(req, {
+      key: `auth-sms-verify:${type}`,
+      limit: 10,
+      windowMs: 10 * 60_000,
+      suffix: phone,
+    })
 
     const now = new Date().toISOString()
     let otpValid = false
@@ -325,10 +334,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ tokenHash, redirectTo, redirectUrl: actionLink })
   } catch (e) {
-    logger.error('[auth/sms/verify]', { error: e })
-    return NextResponse.json(
-      { error: '验证失败，请稍后重试' },
-      { status: 500 }
-    )
+    if (!(e instanceof Error) || e.name !== 'RateLimitError') {
+      logger.error('[auth/sms/verify]', { error: e })
+    }
+    return handleApiError(e)
   }
 }

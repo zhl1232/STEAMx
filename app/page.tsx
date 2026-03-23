@@ -72,23 +72,16 @@ export default async function Home() {
   const hasSteamPreferences = steam !== null && Object.values(steam).some((score) => score > 0);
   const hasPreferences = hasSteamPreferences || ageGroup !== null;
 
-  const [popularResult, { projects: latestProjects }] = await Promise.all([
-    hasPreferences
-      ? getRecommendedProjects(steam, ageGroup, { limit: 6 })
-      : getProjects({}, { page: 0, pageSize: 6, sortBy: "popular" }),
-    getProjects({}, { page: 0, pageSize: 10, sortBy: "latest" }),
-  ]);
-
+  const popularResult = hasPreferences
+    ? await getRecommendedProjects(steam, ageGroup, { limit: 6 })
+    : await getProjects({}, { page: 0, pageSize: 6, sortBy: "popular" });
   const popularProjects = popularResult.projects;
 
   return (
     <>
       {/* Mobile View */}
       <div className="block md:hidden">
-        <MobileHome
-          popularProjects={popularProjects}
-          latestProjects={latestProjects}
-        />
+        <MobileHome popularProjects={popularProjects} />
       </div>
 
       {/* Desktop View */}

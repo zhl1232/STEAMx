@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect } from "react"
 import { useSortingRace, type SortingAlgorithm, type SortingSpeed } from "@/hooks/useSortingRace"
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -60,16 +59,11 @@ export default function SortingPage() {
         setAlgorithm,
         setArraySize,
         setSpeed,
-        generateArray,
         start,
         pause,
         resume,
         reset,
     } = useSortingRace()
-
-    useEffect(() => {
-        generateArray()
-    }, [arraySize, generateArray])
 
     const isActive = status === "running" || status === "paused"
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { validateUUID } from '@/lib/api/validation'
+import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
 
 const PAGE_SIZE = 20
 const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
@@ -45,7 +45,7 @@ async function assertNotificationPayloadAllowed(params: {
   if (type === 'follow') {
     const { data: follow, error } = await supabase
       .from('follows')
-      .select('id')
+      .select('follower_id')
       .eq('follower_id', actorUserId)
       .eq('following_id', recipientUserId)
       .maybeSingle()
@@ -70,7 +70,7 @@ async function assertNotificationPayloadAllowed(params: {
         .maybeSingle(),
       supabase
         .from('likes')
-        .select('id')
+        .select('user_id')
         .eq('user_id', actorUserId)
         .eq('project_id', projectId)
         .maybeSingle(),
@@ -86,11 +86,15 @@ async function assertNotificationPayloadAllowed(params: {
   }
 
   if (type === 'creator_update') {
-    if (!projectId) {
+    if (relatedType !== 'project' || !projectId) {
       return NextResponse.json({ error: 'Invalid creator update payload' }, { status: 400 })
     }
 
-    const [{ data: project, error: projectError }, { data: follow, error: followError }] = await Promise.all([
+    const [
+      { data: project, error: projectError },
+      { data: follow, error: followError },
+      { data: recipientProfile, error: profileError },
+    ] = await Promise.all([
       supabase
         .from('projects')
         .select('author_id')
@@ -98,16 +102,35 @@ async function assertNotificationPayloadAllowed(params: {
         .maybeSingle(),
       supabase
         .from('follows')
-        .select('id')
+        .select('follower_id')
         .eq('follower_id', recipientUserId)
         .eq('following_id', actorUserId)
+        .maybeSingle(),
+      supabase
+        .from('profiles')
+        .select('notify_followed_creator_updates')
+        .eq('id', recipientUserId)
         .maybeSingle(),
     ])
 
     if (projectError) throw projectError
     if (followError) throw followError
+    if (profileError) throw profileError
 
-    if (!project || (project as { author_id: string }).author_id !== actorUserId || !follow) {
+    const allowsCreatorUpdates =
+      !recipientProfile ||
+      (recipientProfile as { notify_followed_creator_updates?: boolean | null })
+        .notify_followed_creator_updates !== false
+
+    const typedProject = project as { author_id: string; status?: string | null } | null
+
+    if (
+      !project ||
+      typedProject?.author_id !== actorUserId ||
+      (typedProject?.status && typedProject.status !== 'approved') ||
+      !follow ||
+      !allowsCreatorUpdates
+    ) {
       return NextResponse.json({ error: 'Invalid creator update payload' }, { status: 403 })
     }
     return
@@ -163,7 +186,8 @@ export async function GET(request: NextRequest) {
     const user = await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-notifications-read', limit: 30, windowMs: 60_000 })
     const searchParams = request.nextUrl.searchParams
-    const before = searchParams.get('before')
+    const beforeParam = searchParams.get('before')
+    const before = beforeParam ? validateDateTimeString(beforeParam, 'before') : null
 
     let query = supabase
       .from('notifications')
@@ -216,6 +240,8 @@ export async function POST(request: NextRequest) {
     const isSystem = type === 'system'
     if (isSystem) {
       await requireRole(supabase, ['moderator', 'admin'])
+    } else if (userId === user.id) {
+      return NextResponse.json({ error: 'Cannot create notifications for yourself' }, { status: 400 })
     }
 
     const relatedType =

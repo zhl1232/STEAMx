@@ -1,8 +1,16 @@
-export default function SettingsLayout({
+import type { ReactNode } from 'react'
+
+import { requirePageUser } from '@/lib/auth/server'
+
+export const dynamic = 'force-dynamic'
+
+export default async function SettingsLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
+  await requirePageUser()
+
   return (
     <div className="min-h-screen bg-muted/30">
       {children}

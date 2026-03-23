@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
+import { validateEnum } from '@/lib/api/validation'
+
+function parsePositiveInt(value: string | null, fallback: number) {
+  if (!value) return fallback
+
+  const parsed = Number.parseInt(value, 10)
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return fallback
+  }
+
+  return parsed
+}
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
@@ -9,9 +21,13 @@ export async function GET(request: NextRequest) {
     await requireRole(supabase, ['moderator', 'admin'])
 
     const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status') || 'pending'
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1'))
-    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20')))
+    const status = validateEnum(
+      searchParams.get('status') || 'pending',
+      'status',
+      ['pending', 'resolved', 'dismissed', 'all'] as const
+    )
+    const page = parsePositiveInt(searchParams.get('page'), 1)
+    const limit = Math.min(50, parsePositiveInt(searchParams.get('limit'), 20))
     const offset = (page - 1) * limit
 
     let query = supabase

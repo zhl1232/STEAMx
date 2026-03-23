@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { Bomb, Flag, CheckCircle2, XCircle, MousePointerClick, RotateCcw } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import type { PracticePuzzle } from "./lessons-data"
@@ -66,6 +66,12 @@ export function PracticeBoard({
   const { goal, target, hint } = puzzle
 
   const isTarget = (r: number, c: number) => r === target[0] && c === target[1]
+
+  useEffect(() => {
+    setCells(buildBoard(puzzle))
+    setStatus("playing")
+    setIsFlagMode(false)
+  }, [puzzle])
 
   const checkWin = useCallback(
     (next: BoardCell[][]) => {
@@ -137,6 +143,29 @@ export function PracticeBoard({
     setIsFlagMode(false)
   }
 
+  const getCellAriaLabel = (cell: BoardCell) => {
+    const position = `第${cell.r + 1}行第${cell.c + 1}列`
+    const targetLabel = isTarget(cell.r, cell.c)
+      ? goal === "open"
+        ? "，目标安全格"
+        : "，目标地雷格"
+      : ""
+
+    if (cell.revealed) {
+      if (cell.isMine) {
+        return `${position}，已翻开，地雷${targetLabel}`
+      }
+
+      return `${position}，已翻开，${cell.count > 0 ? `数字${cell.count}` : "空白"}${targetLabel}`
+    }
+
+    if (cell.flagged) {
+      return `${position}，已标旗${targetLabel}`
+    }
+
+    return `${position}，未翻开${targetLabel}`
+  }
+
   return (
     <div className="rounded-2xl border border-border bg-muted/30 overflow-hidden shadow-inner">
       {/* Header */}
@@ -175,6 +204,7 @@ export function PracticeBoard({
         {goal === "flag" && (
           <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-xl border border-border/50 w-fit">
             <button
+              type="button"
               onClick={() => setIsFlagMode(false)}
               className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${!isFlagMode
                   ? "bg-background text-foreground shadow-sm"
@@ -185,6 +215,7 @@ export function PracticeBoard({
               挖掘
             </button>
             <button
+              type="button"
               onClick={() => setIsFlagMode(true)}
               className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${isFlagMode
                   ? "bg-destructive/10 text-destructive shadow-sm"
@@ -213,6 +244,7 @@ export function PracticeBoard({
                     onClick={() => reveal(cell.r, cell.c)}
                     onContextMenu={(e) => toggleFlag(cell.r, cell.c, e)}
                     disabled={status !== "playing"}
+                    aria-label={getCellAriaLabel(cell)}
                     className={[
                       "w-10 h-10 sm:w-11 sm:h-11 border border-border/60 flex items-center justify-center text-base font-bold select-none transition-all duration-150 relative",
                       cell.revealed

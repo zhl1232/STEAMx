@@ -2,6 +2,7 @@
 import Image from "next/image";
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -47,6 +48,34 @@ const mergeRootOrder = (current: string[], incoming: Comment[]): string[] => {
   return next;
 };
 
+const getCommentThreadIds = (items: Comment[], rootId: string | number): Set<string> => {
+  const byParent = new Map<string, string[]>();
+  for (const item of items) {
+    if (item.parent_id == null) continue;
+    const parentKey = String(item.parent_id);
+    const ownKey = String(item.id);
+    const siblings = byParent.get(parentKey);
+    if (siblings) siblings.push(ownKey);
+    else byParent.set(parentKey, [ownKey]);
+  }
+
+  const rootKey = String(rootId);
+  const toVisit = [rootKey];
+  const visited = new Set<string>();
+
+  while (toVisit.length > 0) {
+    const current = toVisit.pop()!;
+    if (visited.has(current)) continue;
+    visited.add(current);
+    const children = byParent.get(current) || [];
+    for (const child of children) {
+      toVisit.push(child);
+    }
+  }
+
+  return visited;
+};
+
 interface ProjectCommentsProps {
   projectId: string | number;
   initialComments: Comment[];
@@ -64,6 +93,7 @@ export function ProjectComments({
   initialLikedCommentIds = [],
   actionsSlot,
 }: ProjectCommentsProps) {
+  const router = useRouter();
   const { addComment, deleteComment } = useProjects();
   const { user, profile } = useAuth();
   const { level } = useGamification();
@@ -93,6 +123,20 @@ export function ProjectComments({
   );
 
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setComments(initialComments);
+    setTotal(initialTotal || initialComments.length);
+    setHasMore(initialHasMore);
+    setRootOrder(getRootOrderFromComments(initialComments));
+    setPage(1);
+    isLoadingMoreRef.current = false;
+    setIsLoadingMore(false);
+    setReplyTarget(null);
+    setSheetReplyTarget(null);
+    setDetailRootIdStack([]);
+    setLikedComments(new Set(initialLikedCommentIds.map((id) => String(id))));
+  }, [projectId, initialComments, initialTotal, initialHasMore, initialLikedCommentIds]);
 
   const handleLoadMore = useCallback(async () => {
     if (isLoadingMoreRef.current || !hasMore) return;
@@ -244,15 +288,32 @@ export function ProjectComments({
   );
 
   const handleDeleteComment = async (commentId: string | number) => {
+    const idsToRemove = getCommentThreadIds(comments, commentId);
     await deleteComment(commentId);
-    const key = String(commentId);
-    setComments((prev: Comment[]) => {
-      const removed = prev.find((c) => String(c.id) === key);
-      if (removed && !removed.parent_id) {
-        setRootOrder((order) => order.filter((id) => id !== key));
+
+    setComments((prev: Comment[]) =>
+      prev.filter((comment) => !idsToRemove.has(String(comment.id))),
+    );
+    setRootOrder((order) => order.filter((id) => !idsToRemove.has(id)));
+    setLikedComments((prev) => {
+      const next = new Set(prev);
+      for (const id of idsToRemove) {
+        next.delete(id);
       }
-      return prev.filter((c: Comment) => String(c.id) !== key);
+      return next;
     });
+    setTotal((prev: number) => Math.max(0, prev - idsToRemove.size));
+    setDetailRootIdStack((prev) =>
+      prev.filter((id) => !idsToRemove.has(String(id))),
+    );
+    if (replyTarget && idsToRemove.has(String(replyTarget.id))) {
+      setReplyTarget(null);
+    }
+    if (sheetReplyTarget && idsToRemove.has(String(sheetReplyTarget.id))) {
+      setSheetReplyTarget(null);
+    }
+
+    router.refresh();
   };
 
   const handleEditComment = useCallback(

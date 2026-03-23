@@ -71,12 +71,20 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!userId) return
     setLoading(true)
+    setError(null)
     fetch(`/api/users/${userId}/steam-radar`)
-      .then(res => res.json())
+      .then(async (res) => {
+        const data = await res.json()
+        if (!res.ok) {
+          throw new Error(typeof data?.error === 'string' ? data.error : `请求失败 ${res.status}`)
+        }
+        return data
+      })
       .then(data => {
         if (data.radar) {
           setRadarData(data.radar)
@@ -87,7 +95,11 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
           setGuidance(g)
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setError('加载 STEAM 图谱失败，请稍后重试')
+        setRadarData(null)
+        setGuidance({})
+      })
       .finally(() => setLoading(false))
   }, [userId])
 
@@ -141,6 +153,14 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
     return (
       <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5">
         <p className="text-sm text-muted-foreground text-center py-8">加载 STEAM 图谱...</p>
+      </Card>
+    )
+  }
+
+  if (error) {
+    return (
+      <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5">
+        <p className="text-sm text-destructive text-center py-8">{error}</p>
       </Card>
     )
   }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
-import { validateEnum } from '@/lib/api/validation'
+import { validateEnum, validateNumber } from '@/lib/api/validation'
 
 const VALID_TRANSITIONS: Record<string, Record<string, string[]>> = {
   timed: {
@@ -24,7 +24,7 @@ export async function PATCH(
     await requireRole(supabase, ['moderator', 'admin'])
 
     const { id } = await params
-    const challengeId = parseInt(id)
+    const challengeId = validateNumber(id, 'Challenge id', { min: 1, integer: true })
     const body = await request.json()
 
     const targetStatus = validateEnum(body.status, 'Status', ['active', 'ended', 'archived'] as const)
@@ -68,12 +68,17 @@ export async function PATCH(
     }
 
     // Simple status transition
-    const { error: updateError } = await supabase
+    const { data: updatedChallenge, error: updateError } = await supabase
       .from('challenges')
       .update({ status: targetStatus } as never)
       .eq('id', challengeId)
+      .select('id')
+      .maybeSingle()
 
     if (updateError) throw updateError
+    if (!updatedChallenge) {
+      return NextResponse.json({ error: 'Challenge not found' }, { status: 404 })
+    }
 
     return NextResponse.json({
       message: `Challenge status updated to ${targetStatus}`,

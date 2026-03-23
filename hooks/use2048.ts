@@ -26,6 +26,8 @@ type Snapshot = {
     score: number;
     status: Game2048Status;
     hasWon: boolean;
+    stats: Game2048Stats;
+    isNewRecord: boolean;
 };
 
 type Use2048Options = {
@@ -48,6 +50,10 @@ function loadStats(): Game2048Stats {
 
 function saveStats(stats: Game2048Stats) {
     setPlaygroundItem(STATS_KEY, stats);
+}
+
+function cloneStats(stats: Game2048Stats): Game2048Stats {
+    return { ...stats };
 }
 
 function createEmptyGrid(): Grid {
@@ -205,12 +211,13 @@ function gridToTiles(grid: Grid, idCounter: React.MutableRefObject<number>, merg
 
 export function use2048(options?: Use2048Options) {
     const initialGame = options?.initialGame;
+    const initialStats = initialGame?.stats ?? loadStats();
 
     const [_grid, setGrid] = useState<Grid>(() => initialGame ? cloneGrid(initialGame.grid) : createEmptyGrid());
     const [tiles, setTiles] = useState<TileData[]>([]);
     const [score, setScore] = useState(() => initialGame?.score ?? 0);
     const [status, setStatus] = useState<Game2048Status>(() => initialGame?.status ?? 'idle');
-    const [stats, setStats] = useState<Game2048Stats>(() => initialGame?.stats ?? loadStats());
+    const [stats, setStats] = useState<Game2048Stats>(() => initialStats);
     const [isNewRecord, setIsNewRecord] = useState(false);
     const [canUndo, setCanUndo] = useState(false);
 
@@ -219,9 +226,23 @@ export function use2048(options?: Use2048Options) {
     const prevSnapshotRef = useRef<Snapshot | null>(null);
     const hasWonRef = useRef(initialGame?.hasWon ?? false);
     const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+    const statsRef = useRef<Game2048Stats>(cloneStats(initialStats));
+    const isNewRecordRef = useRef(false);
 
     const refreshTiles = useCallback((g: Grid, mergedCells: Set<string>, newCell: [number, number] | null) => {
         setTiles(gridToTiles(g, idCounterRef, mergedCells, newCell));
+    }, []);
+
+    const persistStats = useCallback((next: Game2048Stats) => {
+        const normalized = cloneStats(next);
+        statsRef.current = normalized;
+        saveStats(normalized);
+        return normalized;
+    }, []);
+
+    const updateNewRecord = useCallback((value: boolean) => {
+        isNewRecordRef.current = value;
+        setIsNewRecord(value);
     }, []);
 
     const startNewGame = useCallback(() => {
@@ -233,11 +254,11 @@ export function use2048(options?: Use2048Options) {
         setScore(0);
         setStatus('playing');
         setCanUndo(false);
-        setIsNewRecord(false);
+        updateNewRecord(false);
         prevSnapshotRef.current = null;
         hasWonRef.current = false;
         refreshTiles(g, new Set(), newCell);
-    }, [refreshTiles]);
+    }, [refreshTiles, updateNewRecord]);
 
     // 初始化：组件挂载时开始新游戏
     const initializedRef = useRef(false);
@@ -257,17 +278,16 @@ export function use2048(options?: Use2048Options) {
             const maxTile = Math.max(prev.maxTile, getMaxTile(currentGrid));
             const bestScore = Math.max(prev.bestScore, currentScore);
             const newRecord = currentScore > prev.bestScore;
-            setIsNewRecord(newRecord);
+            updateNewRecord(newRecord);
             const next: Game2048Stats = {
                 bestScore,
                 totalGames: prev.totalGames,
                 wins: prev.wins + (didWin ? 1 : 0),
                 maxTile,
             };
-            saveStats(next);
-            return next;
+            return persistStats(next);
         });
-    }, []);
+    }, [persistStats, updateNewRecord]);
 
     const move = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
         if (status !== 'playing' && status !== 'won') return;
@@ -282,6 +302,8 @@ export function use2048(options?: Use2048Options) {
                 score: previousScore,
                 status,
                 hasWon: hasWonRef.current,
+                stats: cloneStats(statsRef.current),
+                isNewRecord: isNewRecordRef.current,
             };
             setCanUndo(true);
 
@@ -306,18 +328,16 @@ export function use2048(options?: Use2048Options) {
                         wins: prev.wins,
                         maxTile: Math.max(prev.maxTile, maxTile),
                     };
-                    setIsNewRecord(newScore > prev.bestScore);
-                    saveStats(next);
-                    return next;
+                    updateNewRecord(newScore > prev.bestScore);
+                    return persistStats(next);
                 });
             } else {
                 setStats(prev => {
                     const best = Math.max(prev.bestScore, newScore);
                     if (best !== prev.bestScore) {
-                        setIsNewRecord(true);
+                        updateNewRecord(true);
                         const next = { ...prev, bestScore: best, maxTile: Math.max(prev.maxTile, maxTile) };
-                        saveStats(next);
-                        return next;
+                        return persistStats(next);
                     }
                     return prev;
                 });
@@ -325,32 +345,35 @@ export function use2048(options?: Use2048Options) {
 
             return newGrid;
         });
-    }, [status, refreshTiles, updateStats]);
+    }, [persistStats, refreshTiles, status, updateNewRecord, updateStats]);
 
     const undo = useCallback(() => {
         if (!prevSnapshotRef.current || !canUndo) return;
-        const { grid: prevGrid, score: prevScore, status: prevStatus, hasWon: prevHasWon } = prevSnapshotRef.current;
+        const { grid: prevGrid, score: prevScore, status: prevStatus, hasWon: prevHasWon, stats: prevStats, isNewRecord: prevIsNewRecord } = prevSnapshotRef.current;
         setGrid(prevGrid);
         scoreRef.current = prevScore;
         hasWonRef.current = prevHasWon;
         setScore(prevScore);
         setStatus(prevStatus);
+        statsRef.current = cloneStats(prevStats);
+        setStats(prevStats);
+        saveStats(prevStats);
+        updateNewRecord(prevIsNewRecord);
         setCanUndo(false);
         prevSnapshotRef.current = null;
         refreshTiles(prevGrid, new Set(), null);
-    }, [canUndo, refreshTiles]);
+    }, [canUndo, refreshTiles, updateNewRecord]);
 
     const resetGame = useCallback(() => {
         setStats(prev => {
             if (status === 'playing' || status === 'won') {
                 const next = { ...prev, totalGames: prev.totalGames + 1 };
-                saveStats(next);
-                return next;
+                return persistStats(next);
             }
             return prev;
         });
         startNewGame();
-    }, [startNewGame, status]);
+    }, [persistStats, startNewGame, status]);
 
     const continueAfterWin = useCallback(() => {
         if (status === 'won') {
@@ -393,12 +416,18 @@ export function use2048(options?: Use2048Options) {
 
     // 触摸事件处理
     const onTouchStart = useCallback((e: React.TouchEvent) => {
+        if (e.cancelable) {
+            e.preventDefault();
+        }
         const touch = e.touches[0];
         touchStartRef.current = { x: touch.clientX, y: touch.clientY };
     }, []);
 
     const onTouchEnd = useCallback((e: React.TouchEvent) => {
         if (!touchStartRef.current) return;
+        if (e.cancelable) {
+            e.preventDefault();
+        }
         const touch = e.changedTouches[0];
         const dx = touch.clientX - touchStartRef.current.x;
         const dy = touch.clientY - touchStartRef.current.y;

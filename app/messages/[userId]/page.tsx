@@ -14,20 +14,24 @@ import { ArrowLeft } from "lucide-react";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import type { Message } from "@/lib/types/database";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default function ConversationPage() {
   const params = useParams();
   const rawId = params?.userId;
   const otherUserId = typeof rawId === "string" ? rawId : Array.isArray(rawId) ? rawId[0] : undefined;
+  const isInvalidPeerId = otherUserId !== undefined && otherUserId.length > 0 && !UUID_RE.test(otherUserId);
 
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const { messages, peer, isLoading, hasMore, isLoadingMore, loadMore } =
+  const { messages, peer, isLoading, hasMore, isLoadingMore, loadMore, error } =
     useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const isLoadingOlderRef = useRef(false);
   const prevScrollHeightRef = useRef(0);
+  const isMissingPeer = !isLoading && !error && !isInvalidPeerId && !!otherUserId && !peer;
 
   useEffect(() => {
     if (user && otherUserId && otherUserId === user.id) {
@@ -78,7 +82,7 @@ export default function ConversationPage() {
   const handleSend = async () => {
     const trimmed = input.trim();
     if (!trimmed || !otherUserId || !user) return;
-    if (otherUserId === user.id) return;
+    if (otherUserId === user.id || isMissingPeer || isInvalidPeerId) return;
     await sendMessage({ receiverId: otherUserId, content: trimmed });
     setInput("");
     setTimeout(() => {
@@ -101,7 +105,13 @@ export default function ConversationPage() {
     return null;
   }
 
-  const displayName = peer?.display_name || "用户";
+  const displayName = isInvalidPeerId
+    ? "无效会话"
+    : error
+      ? "加载失败"
+    : isMissingPeer
+      ? "用户不存在"
+      : peer?.display_name || "用户";
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-h-[800px] container max-w-2xl mx-auto md:rounded-lg border bg-card overflow-hidden">
@@ -135,6 +145,18 @@ export default function ConversationPage() {
                 </div>
               ))}
             </div>
+          ) : isInvalidPeerId ? (
+            <p className="text-sm text-muted-foreground text-center py-8">
+              私信地址无效，请返回消息列表重新进入会话
+            </p>
+          ) : error ? (
+            <p className="text-sm text-muted-foreground text-center py-8">
+              {error || "会话加载失败，请稍后重试"}
+            </p>
+          ) : isMissingPeer ? (
+            <p className="text-sm text-muted-foreground text-center py-8">
+              该用户不存在或暂时无法发起会话
+            </p>
           ) : messages.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">
               暂无消息，发一条打个招呼吧～
@@ -153,7 +175,15 @@ export default function ConversationPage() {
       <div className="shrink-0 border-t p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <div className="flex gap-2">
           <Input
-            placeholder="输入消息..."
+            placeholder={
+              isInvalidPeerId
+                ? "无效会话地址，无法发送消息"
+                : error
+                  ? "会话加载失败，暂时无法发送消息"
+                : isMissingPeer
+                  ? "无法向不存在的用户发送消息"
+                  : "输入消息..."
+            }
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -163,10 +193,10 @@ export default function ConversationPage() {
               }
             }}
             maxLength={2000}
-            disabled={!otherUserId || otherUserId === user.id}
+            disabled={!otherUserId || otherUserId === user.id || isMissingPeer || isInvalidPeerId || !!error}
             className="flex-1"
           />
-          <Button onClick={handleSend} disabled={!input.trim() || isPending}>
+          <Button onClick={handleSend} disabled={!input.trim() || isPending || isMissingPeer || isInvalidPeerId || !!error}>
             发送
           </Button>
         </div>

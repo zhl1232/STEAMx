@@ -39,9 +39,14 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const { promptLogin } = useLoginPrompt()
     const [showCompleteDialog, setShowCompleteDialog] = useState(false)
     const [showTipDialog, setShowTipDialog] = useState(false)
+    const normalizedTipProjectId = Number(projectId)
+    const tipProjectQueryId =
+        Number.isInteger(normalizedTipProjectId) && normalizedTipProjectId > 0
+            ? normalizedTipProjectId
+            : String(projectId)
 
     const { data: myTippedProject = 0 } = useQuery({
-        queryKey: ["tip_my", "project", String(projectId)],
+        queryKey: ["tip_my", "project", tipProjectQueryId],
         queryFn: async () => {
             const params = new URLSearchParams({
                 resourceType: "project",
@@ -243,7 +248,6 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                 projectTitle={projectTitle}
                 projectOwnerId={projectOwnerId}
                 projectId={projectId}
-                projectOnly
             />
         </>
     )

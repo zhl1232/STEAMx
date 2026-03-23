@@ -58,24 +58,28 @@ export function useFollow(targetUserId: string) {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ targetUserId, action: "follow" }),
                 });
-                if (!response.ok) throw new Error(await response.text());
+                const payload = await response.json().catch(() => null);
+                if (!response.ok) throw new Error(payload?.error || "关注失败");
                 // 给被关注者发送「新增粉丝」通知
-                const followerName = profile?.display_name ?? (user.email?.split("@")[0]) ?? "某人";
-                await createNotification({
-                    user_id: targetUserId,
-                    type: "follow",
-                    content: `${followerName} 关注了你`,
-                    from_user_id: user.id,
-                    from_username: followerName,
-                    from_avatar: profile?.avatar_url ?? (user.user_metadata?.avatar_url as string | undefined),
-                });
+                if (payload?.changed) {
+                    const followerName = profile?.display_name ?? (user.email?.split("@")[0]) ?? "某人";
+                    await createNotification({
+                        user_id: targetUserId,
+                        type: "follow",
+                        content: `${followerName} 关注了你`,
+                        from_user_id: user.id,
+                        from_username: followerName,
+                        from_avatar: profile?.avatar_url ?? (user.user_metadata?.avatar_url as string | undefined),
+                    });
+                }
             } else {
                 const response = await fetch("/api/follows", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ targetUserId, action: "unfollow" }),
                 });
-                if (!response.ok) throw new Error(await response.text());
+                const payload = await response.json().catch(() => null);
+                if (!response.ok) throw new Error(payload?.error || "取消关注失败");
             }
         },
         onMutate: async (shouldFollow) => {

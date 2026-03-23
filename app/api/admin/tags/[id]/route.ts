@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
+import { validateNumber } from '@/lib/api/validation'
 
 /**
  * DELETE /api/admin/tags/[id]
@@ -18,19 +19,21 @@ export async function DELETE(
     await requireRole(supabase, ['moderator', 'admin'])
     
     const { id } = await params
-    const tagId = parseInt(id)
+    const tagId = validateNumber(id, 'Tag id', { min: 1, integer: true })
 
-    if (Number.isNaN(tagId)) {
-      return NextResponse.json({ error: 'Invalid tag id' }, { status: 400 })
-    }
-
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('tags')
       .delete()
       .eq('id', tagId)
+      .select('id')
+      .maybeSingle()
     
     if (error) {
       throw error
+    }
+
+    if (!data) {
+      return NextResponse.json({ error: 'Tag not found' }, { status: 404 })
     }
     
     return NextResponse.json({ 

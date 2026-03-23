@@ -108,6 +108,7 @@ export function DiscussionList() {
     const pageRef = useRef(0);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [loadError, setLoadError] = useState<string | null>(null);
     const isLoadingRef = useRef(false);
 
     // Search and filter states
@@ -126,6 +127,7 @@ export function DiscussionList() {
 
         try {
             setIsLoading(true);
+            setLoadError(null);
 
             const PAGE_SIZE = 10;
             const currentPage = reset ? 0 : pageRef.current;
@@ -156,7 +158,9 @@ export function DiscussionList() {
             setHasMore(Boolean(payload?.hasMore));
         } catch (err) {
             logger.error('Exception in fetchDiscussions', { error: err });
-            toast({ title: '加载失败', description: '无法加载讨论列表，请稍后重试', variant: 'destructive' });
+            const message = '无法加载讨论列表，请稍后重试';
+            setLoadError(message);
+            toast({ title: '加载失败', description: message, variant: 'destructive' });
         } finally {
             setIsLoading(false);
         }
@@ -201,32 +205,54 @@ export function DiscussionList() {
         e.preventDefault();
         if (!newTitle.trim() || !newContent.trim() || !user) return;
 
-        const response = await fetch("/api/discussions", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                title: newTitle,
-                content: newContent,
-                tags: newTags.split(",").map(t => t.trim()).filter(t => t),
-            }),
-        });
+        try {
+            const response = await fetch("/api/discussions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: newTitle,
+                    content: newContent,
+                    tags: newTags.split(",").map(t => t.trim()).filter(t => t),
+                }),
+            });
 
-        if (response.ok) {
+            if (!response.ok) {
+                const payload = await response.json().catch(() => ({}));
+                throw new Error(typeof payload?.error === "string" ? payload.error : "发布讨论失败");
+            }
+
             setNewTitle("");
             setNewContent("");
             setNewTags("");
             setIsCreating(false);
-            fetchDiscussions(true);
+            await fetchDiscussions(true);
+        } catch (error) {
+            toast({
+                title: "发布失败",
+                description: error instanceof Error ? error.message : "发布讨论失败，请稍后重试",
+                variant: "destructive",
+            });
         }
     };
 
     const handleDelete = async (id: string | number) => {
-        const response = await fetch(`/api/discussions/${id}`, {
-            method: "DELETE",
-        });
+        try {
+            const response = await fetch(`/api/discussions/${id}`, {
+                method: "DELETE",
+            });
 
-        if (response.ok) {
+            if (!response.ok) {
+                const payload = await response.json().catch(() => ({}));
+                throw new Error(typeof payload?.error === "string" ? payload.error : "删除讨论失败");
+            }
+
             setDiscussions(prev => prev.filter(d => d.id !== id));
+        } catch (error) {
+            toast({
+                title: "删除失败",
+                description: error instanceof Error ? error.message : "删除讨论失败，请稍后重试",
+                variant: "destructive",
+            });
         }
     };
 
@@ -236,7 +262,7 @@ export function DiscussionList() {
         setSortBy(sort);
     };
 
-    const canDelete = profile?.role === 'admin' || profile?.role === 'moderator';
+    const canModerate = profile?.role === 'admin' || profile?.role === 'moderator';
 
     return (
         <div className="space-y-4 sm:space-y-6 pb-24 md:pb-0">
@@ -306,14 +332,22 @@ export function DiscussionList() {
             )}
 
             <div>
-                {discussions.length > 0 ? (
+                {loadError ? (
+                    <div className="text-center py-20">
+                        <h3 className="text-lg font-semibold mb-2">讨论列表加载失败</h3>
+                        <p className="text-muted-foreground">{loadError}</p>
+                        <Button className="mt-4" onClick={() => void fetchDiscussions(true)}>
+                            重试
+                        </Button>
+                    </div>
+                ) : discussions.length > 0 ? (
                     <div className="space-y-3 sm:space-y-4">
                         {discussions.map((discussion) => (
                             <DiscussionCard
                                 key={discussion.id}
                                 discussion={discussion}
                                 searchQuery={searchQuery}
-                                canDelete={!!canDelete}
+                                canDelete={Boolean(canModerate || user?.id === discussion.authorId)}
                                 onDelete={handleDelete}
                             />
                         ))}

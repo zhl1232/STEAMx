@@ -16,6 +16,25 @@ const OTP_SEND_FAIL_DEFAULT = '发送验证码失败，请检查手机号或稍�
 const OTP_VERIFY_FAIL_DEFAULT = '验证失败，请检查验证码是否正确。'
 const OTP_COOLDOWN_SECONDS = 60
 
+function getSafeNextPath() {
+  if (typeof window === 'undefined') return '/'
+  const next = new URLSearchParams(window.location.search).get('next')
+  if (!next || !next.startsWith('/')) return '/'
+  if (next.startsWith('//')) return '/'
+  return next
+}
+
+function getAuthErrorMessage() {
+  if (typeof window === 'undefined') return null
+  const authError = new URLSearchParams(window.location.search).get('authError')
+
+  if (authError === 'auth_callback_failed') {
+    return '登录回调失败，请重新尝试。'
+  }
+
+  return null
+}
+
 /** 将 OTP 相关错误转为用户可读文案 */
 function getOtpErrorMessage(error: unknown, defaultMessage = OTP_SEND_FAIL_DEFAULT): string {
   if (error instanceof Error) {
@@ -70,6 +89,14 @@ export default function LoginPage() {
     setOtp('')
     setOtpStep('input')
   }, [identifierValue, view, useOtpLogin])
+
+  useEffect(() => {
+    const authErrorMessage = getAuthErrorMessage()
+    if (authErrorMessage) {
+      setError(authErrorMessage)
+      setMessage(null)
+    }
+  }, [])
 
   const requireTermsAgreed = (_action: 'send_otp' | 'submit'): boolean => {
     if (!termsAgreed) {
@@ -156,14 +183,14 @@ export default function LoginPage() {
           token_hash: data.tokenHash,
         })
         if (verifyError) throw verifyError
-        window.location.href = data.redirectTo || '/'
+        window.location.href = getSafeNextPath()
         return
       }
       if (data.redirectUrl) {
         window.location.href = data.redirectUrl
         return
       }
-      window.location.href = data.redirectTo || '/'
+      window.location.href = getSafeNextPath()
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') console.error('OTP verify error:', err)
       setError(getOtpErrorMessage(err, OTP_VERIFY_FAIL_DEFAULT))
@@ -184,7 +211,7 @@ export default function LoginPage() {
           const result = ResetPasswordSchema.safeParse({ email: identifierValue })
           if (!result.success) throw new Error(result.error.issues[0].message)
           const { error } = await supabase.auth.resetPasswordForEmail(identifierValue, {
-            redirectTo: `${window.location.origin}/auth/callback?next=/profile/reset-password`,
+            redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/settings/security?mode=recovery')}`,
           })
           if (error) throw error
           setMessage('重置密码链接已发送到你的邮箱，请查收。')
@@ -232,18 +259,19 @@ export default function LoginPage() {
           if (!result.success) throw new Error(result.error.issues[0].message)
           const { error } = await supabase.auth.signInWithPassword({ email: identifierValue, password })
           if (error) throw error
-          window.location.href = '/'
+          window.location.href = getSafeNextPath()
           return
         }
         if (view === 'sign_up') {
           const result = LoginSchema.safeParse({ email: identifierValue, password })
           if (!result.success) throw new Error(result.error.issues[0].message)
           const username = `user_${Math.random().toString(36).slice(2, 10)}`
+          const nextPath = getSafeNextPath()
           const { error } = await supabase.auth.signUp({
             email: identifierValue,
             password,
             options: {
-              emailRedirectTo: `${window.location.origin}/auth/callback`,
+              emailRedirectTo: `${window.location.origin}/auth/callback${nextPath !== '/' ? `?next=${encodeURIComponent(nextPath)}` : ''}`,
               data: { username, full_name: identifierValue.split('@')[0] },
             },
           })
@@ -251,7 +279,7 @@ export default function LoginPage() {
           setMessage('注册成功！请检查你的邮箱以确认账号。')
           const { data: { session } } = await supabase.auth.getSession()
           if (session) {
-            window.location.href = '/'
+            window.location.href = nextPath
             return
           }
         }
@@ -260,7 +288,7 @@ export default function LoginPage() {
           if (!password) throw new Error('请输入密码或使用短信验证码登录')
           const { error } = await supabase.auth.signInWithPassword({ phone: formattedPhone, password })
           if (error) throw error
-          window.location.href = '/'
+          window.location.href = getSafeNextPath()
           return
         }
         setError('手机号注册请使用短信验证码')

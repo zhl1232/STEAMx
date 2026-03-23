@@ -34,12 +34,16 @@ export async function PATCH(
 
     validateContentSafe(content, '回复内容')
 
-    const { data: row } = await supabase
+    const { data: row, error: fetchError } = await supabase
       .from('discussion_replies')
       .select('author_id')
       .eq('id', replyId)
-      .single()
-    if (!row || (row as { author_id: string }).author_id !== user.id) {
+      .maybeSingle()
+    if (fetchError) throw fetchError
+    if (!row) {
+      return NextResponse.json({ error: 'Reply not found' }, { status: 404 })
+    }
+    if ((row as { author_id: string }).author_id !== user.id) {
       return NextResponse.json({ error: '无权编辑此回复' }, { status: 403 })
     }
 

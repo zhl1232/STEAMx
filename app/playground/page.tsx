@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getPlaygroundItem } from "@/lib/playground/storage"
+import { getPlaygroundItem, PLAYGROUND_CHANGE_EVENT } from "@/lib/playground/storage"
 import {
     ArrowRight,
     Terminal,
@@ -248,7 +248,16 @@ export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
 
     useEffect(() => {
-        setStats(aggregateStats())
+        const refreshStats = () => {
+            setStats(aggregateStats())
+        }
+
+        refreshStats()
+        window.addEventListener(PLAYGROUND_CHANGE_EVENT, refreshStats)
+
+        return () => {
+            window.removeEventListener(PLAYGROUND_CHANGE_EVENT, refreshStats)
+        }
     }, [])
 
     const hasAnyData = stats && stats.totalPlayed > 0

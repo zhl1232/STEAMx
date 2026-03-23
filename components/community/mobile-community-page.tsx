@@ -6,12 +6,12 @@ import { DiscussionList } from "@/components/features/community/discussion-list"
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function MobileCommunityPage() {
-    const { challenges } = useCommunity();
+    const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
     const [activeTab, setActiveTab] = useState<"discussions" | "challenges" | "leaderboard">("discussions");
-    const [isLoading] = useState(false);
 
     return (
         <div className="flex flex-col min-h-screen bg-background pb-20">
@@ -63,7 +63,15 @@ export function MobileCommunityPage() {
                     </div>
                 ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-6">
-                        {isLoading ? (
+                        {challengesError && !isLoading ? (
+                            <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-8 text-center">
+                                <p className="font-semibold">挑战赛加载失败</p>
+                                <p className="mt-2 text-sm text-muted-foreground">{challengesError}</p>
+                                <Button className="mt-4" onClick={() => void reloadChallenges()}>
+                                    重试
+                                </Button>
+                            </div>
+                        ) : isLoading ? (
                             <div className="grid gap-4 grid-cols-1">
                                 {[1, 2].map((i) => (
                                     <ChallengeCardSkeleton key={i} />

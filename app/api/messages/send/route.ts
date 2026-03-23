@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     if (privacy === 'followers_only') {
       const { data: follow } = await supabase
         .from('follows')
-        .select('id')
+        .select('follower_id')
         .eq('follower_id', user.id)
         .eq('following_id', receiverId)
         .maybeSingle()

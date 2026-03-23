@@ -29,11 +29,21 @@ import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data"
 import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart"
+import { getLatestCompletionStatusMap } from '@/lib/completion-records'
+
+function throwIfSupabaseError(
+  result: { error: { message?: string | null } | null },
+  label: string,
+) {
+  if (!result.error) return
+  const detail = result.error.message ? `：${result.error.message}` : ''
+  throw new Error(`${label}加载失败${detail}`)
+}
 
 export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
-  const { likedProjects, completedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
+  const { likedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
   const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
   const { userStats } = useGamificationData()
@@ -58,29 +68,24 @@ export default function ProfilePage() {
     () => Array.from(collectedProjects).map((id) => Number(id)).sort((a, b) => a - b),
     [collectedProjects]
   )
-  const completedProjectIds = React.useMemo(
-    () => Array.from(completedProjects).map((id) => Number(id)).sort((a, b) => a - b),
-    [completedProjects]
-  )
-
   // 加载用户的项目数据
   useEffect(() => {
     // Wait for both user authentication and project context (interactions) to be ready
     if (!user || projectsLoading) return
 
     setIsProjectsDataLoading(true)
+    let cancelled = false
 
     const loadUserProjects = async () => {
       try {
         // 并行执行所有查询，提升性能
-        const [myProjectsData, likedData, collectedData, completedData, followersData, followingData, completionStatusData] = await Promise.all([
+        const [myProjectsResponse, likedResponse, collectedResponse, followersResponse, followingResponse, completionStatusResponse] = await Promise.all([
           // 查询用户发布的项目
           supabase
             .from('projects')
             .select('*')
             .eq('author_id', user.id)
-            .order('created_at', { ascending: false })
-            .then(({ data }) => data),
+            .order('created_at', { ascending: false }),
 
           // 查询用户点赞的项目
           likedProjectIds.length > 0
@@ -92,8 +97,7 @@ export default function ProfilePage() {
                 `)
               .in('id', likedProjectIds)
               .order('created_at', { ascending: false })
-              .then(({ data }) => data)
-            : Promise.resolve(null),
+            : Promise.resolve({ data: null, error: null }),
 
           // 查询用户收藏的项目
           collectedProjectIds.length > 0
@@ -105,52 +109,53 @@ export default function ProfilePage() {
                 `)
               .in('id', collectedProjectIds)
               .order('created_at', { ascending: false })
-              .then(({ data }) => data)
-            : Promise.resolve(null),
-
-          // 查询用户完成的项目
-          completedProjectIds.length > 0
-            ? supabase
-              .from('projects')
-              .select(`
-                  *,
-                  profiles:author_id (display_name)
-                `)
-              .in('id', completedProjectIds)
-              .order('created_at', { ascending: false })
-              .then(({ data }) => data)
-            : Promise.resolve(null),
+            : Promise.resolve({ data: null, error: null }),
 
           // 查询粉丝数
           supabase
             .from('follows')
             .select('follower_id', { count: 'exact', head: true })
-            .eq('following_id', user.id)
-            .then(({ count }) => count),
+            .eq('following_id', user.id),
 
           // 查询关注数
           supabase
             .from('follows')
             .select('following_id', { count: 'exact', head: true })
-            .eq('follower_id', user.id)
-            .then(({ count }) => count),
+            .eq('follower_id', user.id),
 
           // 查询用户完成记录的审核状态（按时间倒序，同一项目取最新记录）
           supabase
             .from('completed_projects')
-            .select('project_id, status, rejection_reason')
+            .select('project_id, status, rejection_reason, completed_at')
             .eq('user_id', user.id)
             .order('completed_at', { ascending: false })
-            .then(({ data }) => data)
         ])
+
+        throwIfSupabaseError(myProjectsResponse, '我的项目')
+        throwIfSupabaseError(likedResponse, '点赞项目')
+        throwIfSupabaseError(collectedResponse, '收藏项目')
+        throwIfSupabaseError(followersResponse, '粉丝数据')
+        throwIfSupabaseError(followingResponse, '关注数据')
+        throwIfSupabaseError(completionStatusResponse, '完成记录')
+
+        if (cancelled) return
+
+        const myProjectsData = myProjectsResponse.data as DbProject[] | null
+        const likedData = likedResponse.data as DbProject[] | null
+        const collectedData = collectedResponse.data as DbProject[] | null
+        const completionStatusData = completionStatusResponse.data as {
+          project_id: number
+          status?: string | null
+          rejection_reason?: string | null
+        }[] | null
 
         // 使用统一的映射函数处理数据
         if (myProjectsData) {
           setMyProjects(myProjectsData.map(p => mapProject(p as DbProject, profile?.display_name || undefined)))
         }
-        
-        setFollowerCount(followersData || 0)
-        setFollowingCount(followingData || 0)
+
+        setFollowerCount(followersResponse.count || 0)
+        setFollowingCount(followingResponse.count || 0)
 
         if (likedData) {
           setLikedProjectsList(likedData.map((p) => mapProject(p as DbProject)))
@@ -164,37 +169,62 @@ export default function ProfilePage() {
           setCollectedProjectsList([])
         }
 
-        if (completedData) {
-          setCompletedProjectsList(completedData.map((p) => mapProject(p as DbProject)))
+        if (completionStatusData) {
+          const statusMap = getLatestCompletionStatusMap(completionStatusData)
+          setCompletionStatusMap(statusMap)
+
+          const completedProjectIds = Array.from(statusMap.keys())
+          if (completedProjectIds.length > 0) {
+            const completedProjectsResponse = await supabase
+              .from('projects')
+              .select(`
+                  *,
+                  profiles:author_id (display_name)
+                `)
+              .in('id', completedProjectIds)
+
+            throwIfSupabaseError(completedProjectsResponse, '已完成项目')
+
+            if (cancelled) return
+
+            const completedData = completedProjectsResponse.data as DbProject[] | null
+            const projectMap = new Map(
+              (completedData || []).map((project) => [Number(project.id), project])
+            )
+            setCompletedProjectsList(
+              completedProjectIds
+                .map((projectId) => projectMap.get(projectId))
+                .filter((project): project is DbProject => Boolean(project))
+                .map((project) => mapProject(project))
+            )
+          } else {
+            setCompletedProjectsList([])
+          }
         } else {
+          setCompletionStatusMap(new Map())
           setCompletedProjectsList([])
         }
-
-        if (completionStatusData) {
-          const statusMap = new Map<number, { status: string; rejectionReason?: string }>()
-          for (const row of completionStatusData) {
-            const r = row as { project_id: number; status: string; rejection_reason?: string }
-            if (!statusMap.has(r.project_id)) {
-              statusMap.set(r.project_id, { status: r.status, rejectionReason: r.rejection_reason || undefined })
-            }
-          }
-          setCompletionStatusMap(statusMap)
-        }
       } catch (err) {
+        if (cancelled) return
         logger.error('Exception in loadUserProjects', { error: err })
         toast({ title: '加载失败', description: '无法加载个人资料数据，请稍后重试', variant: 'destructive' })
       } finally {
-        setIsProjectsDataLoading(false)
+        if (!cancelled) {
+          setIsProjectsDataLoading(false)
+        }
       }
     }
 
     loadUserProjects()
+
+    return () => {
+      cancelled = true
+    }
   }, [
     user,
     supabase,
     likedProjectIds,
     collectedProjectIds,
-    completedProjectIds,
     profile?.display_name,
     projectsLoading,
     toast,
@@ -235,6 +265,7 @@ export default function ProfilePage() {
                 followerCount={followerCount}
                 followingCount={followingCount}
                 userStats={userStats}
+                isProjectsDataLoading={isProjectsDataLoading}
             />
         </div>
 
@@ -399,7 +430,7 @@ export default function ProfilePage() {
               onClick={() => setActiveTab('completed')}
               className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
             >
-              我做过的 ({completedProjects.size})
+              我做过的 ({completionStatusMap.size})
             </Button>
           </div>
 
@@ -408,7 +439,7 @@ export default function ProfilePage() {
             {(isProjectsDataLoading && activeTab === 'my-projects') ||
               (activeTab === 'collected' && collectedProjects.size > 0 && collectedProjectsList.length === 0) ||
               (activeTab === 'liked' && likedProjects.size > 0 && likedProjectsList.length === 0) ||
-              (activeTab === 'completed' && completedProjects.size > 0 && completedProjectsList.length === 0) ? (
+              (activeTab === 'completed' && isProjectsDataLoading) ? (
               <ProjectListSkeleton />
             ) : (
               <>

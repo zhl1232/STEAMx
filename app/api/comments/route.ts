@@ -9,6 +9,30 @@ const COMMENT_SELECT = `
   profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
 `
 
+function canAccessProject(
+  project: { author_id: string; status: string | null } | null,
+  viewerId: string,
+) {
+  if (!project) return false
+  if (!project.status || project.status === 'approved') return true
+  return project.author_id === viewerId
+}
+
+function isOwnedCommentImageUrl(imageUrl: string, userId: string) {
+  const expectedPath = `/storage/v1/object/public/comment-images/${userId}/`
+
+  if (imageUrl.startsWith('/')) {
+    return imageUrl.startsWith(expectedPath)
+  }
+
+  try {
+    const parsed = new URL(imageUrl)
+    return parsed.pathname.includes(expectedPath)
+  } catch {
+    return false
+  }
+}
+
 /**
  * POST /api/comments
  * 创建项目评论（含敏感词过滤）
@@ -32,6 +56,7 @@ export async function POST(request: NextRequest) {
     if (content.length > 2000) {
       return NextResponse.json({ error: '评论内容过长' }, { status: 400 })
     }
+
     if (!Number.isInteger(projectId) || projectId <= 0) {
       return NextResponse.json({ error: '缺少 project_id' }, { status: 400 })
     }
@@ -39,8 +64,45 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '无效的 parent_id' }, { status: 400 })
     }
 
+    const { data: projectRow, error: projectError } = await supabase
+      .from('projects')
+      .select('author_id, status')
+      .eq('id', projectId)
+      .maybeSingle()
+
+    if (projectError) throw projectError
+    if (!projectRow) {
+      return NextResponse.json({ error: '项目不存在' }, { status: 404 })
+    }
+    if (!canAccessProject(projectRow as { author_id: string; status: string | null }, user.id)) {
+      return NextResponse.json({ error: '项目不存在' }, { status: 404 })
+    }
+
     if (content) {
       validateContentSafe(content, '评论内容')
+    }
+
+    if (imageUrl !== null) {
+      if (typeof imageUrl !== 'string' || imageUrl.trim().length === 0) {
+        return NextResponse.json({ error: '无效的评论图片' }, { status: 400 })
+      }
+
+      if (!isOwnedCommentImageUrl(imageUrl, user.id)) {
+        return NextResponse.json({ error: '评论图片必须使用当前账号上传的文件' }, { status: 400 })
+      }
+
+      const { data: profileRow, error: profileError } = await supabase
+        .from('profiles')
+        .select('level')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (profileError) throw profileError
+
+      const level = Number((profileRow as { level?: number } | null)?.level ?? 1)
+      if (level < 2) {
+        return NextResponse.json({ error: '等级达到 2 级后才可发送评论图片' }, { status: 403 })
+      }
     }
 
     let replyToUserId: string | null = null

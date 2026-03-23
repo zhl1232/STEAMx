@@ -454,15 +454,15 @@ export function useSudoku() {
             const next = cloneGrid(prev)
             next[row][col] = 0
             setConflicts(detectConflicts(next))
+            setNotes(prevNotes => {
+                const nextNotes = cloneNotes(prevNotes)
+                nextNotes[row][col].clear()
+                pushHistory(next, nextNotes)
+                return nextNotes
+            })
             return next
         })
-        setNotes(prev => {
-            const next = cloneNotes(prev)
-            next[row][col].clear()
-            pushHistory(board, next)
-            return next
-        })
-    }, [status, selectedCell, initial, board, ensurePlaying, pushHistory])
+    }, [status, selectedCell, initial, ensurePlaying, pushHistory])
 
     // ── toggleNote ────────────────────────────────────────────────────
 
@@ -501,10 +501,11 @@ export function useSudoku() {
         const found = detectConflicts(board)
         setConflicts(found)
         setStatus("checking")
+        const restoreStatus = hasStartedRef.current ? "playing" : "idle"
 
         if (checkingTimeoutRef.current) clearTimeout(checkingTimeoutRef.current)
         checkingTimeoutRef.current = setTimeout(() => {
-            setStatus(prev => (prev === "checking" ? "playing" : prev))
+            setStatus(prev => (prev === "checking" ? restoreStatus : prev))
             checkingTimeoutRef.current = null
         }, 2000)
     }, [status, board])

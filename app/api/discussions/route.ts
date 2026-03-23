@@ -9,6 +9,7 @@ type DiscussionListItem = {
   id: string | number
   title: string
   author: string
+  authorId: string
   authorAvatar?: string
   authorAvatarFrameId?: string | null
   authorNameColorId?: string | null
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
   const pageSize = Math.min(50, Math.max(1, parseNumber(searchParams.get('pageSize'), 10)))
   const rawQuery = searchParams.get('q') || ''
   const searchQuery = rawQuery ? sanitizeSearch(rawQuery) : ''
-  const selectedTag = searchParams.get('tag') || ''
+  const selectedTag = (searchParams.get('tag') || '').trim().slice(0, 30)
   const sortBy = parseSort(searchParams.get('sort'))
 
   const from = page * pageSize
@@ -88,6 +89,7 @@ export async function GET(request: NextRequest) {
     const rows = (data as unknown as {
       id: number
       title: string
+      author_id: string
       content: string
       created_at: string
       likes_count: number
@@ -105,6 +107,7 @@ export async function GET(request: NextRequest) {
       id: row.id,
       title: row.title,
       author: row.profiles?.display_name || 'Unknown',
+      authorId: row.author_id,
       authorAvatar: row.profiles?.avatar_url || undefined,
       authorAvatarFrameId: row.profiles?.equipped_avatar_frame_id ?? undefined,
       authorNameColorId: row.profiles?.equipped_name_color_id ?? undefined,

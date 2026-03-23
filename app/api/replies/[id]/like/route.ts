@@ -21,11 +21,15 @@ export async function POST(
   try {
     const user = await requireAuth(supabase);
 
-    const { data: replyRow } = await supabase
+    const { data: replyRow, error: replyError } = await supabase
       .from("discussion_replies")
       .select("author_id")
       .eq("id", replyId)
-      .single();
+      .maybeSingle();
+    if (replyError) throw replyError;
+    if (!replyRow) {
+      return NextResponse.json({ error: "Reply not found" }, { status: 404 });
+    }
     if (replyRow && (replyRow as { author_id: string }).author_id === user.id) {
       return NextResponse.json({ error: "不能给自己的回复点赞" }, { status: 403 });
     }
@@ -50,7 +54,8 @@ export async function POST(
       if (deleteError) throw deleteError;
 
       if (deletedRows && deletedRows.length > 0) {
-        await callRpc(supabase, "decrement_discussion_reply_likes", { reply_id: replyId });
+        const { error: rpcError } = await callRpc(supabase, "decrement_discussion_reply_likes", { reply_id: replyId });
+        if (rpcError) throw rpcError;
       }
 
       return NextResponse.json({ liked: false, action: "unliked" });
@@ -69,7 +74,8 @@ export async function POST(
     }
 
     if (insertedRows && insertedRows.length > 0) {
-      await callRpc(supabase, "increment_discussion_reply_likes", { reply_id: replyId });
+      const { error: rpcError } = await callRpc(supabase, "increment_discussion_reply_likes", { reply_id: replyId });
+      if (rpcError) throw rpcError;
     }
 
     return NextResponse.json({ liked: true, action: "liked" });

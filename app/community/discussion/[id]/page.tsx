@@ -55,6 +55,42 @@ const mergeRootReplyOrder = (current: string[], incoming: Comment[]): string[] =
   return next;
 };
 
+const mergeRepliesById = (current: Comment[], incoming: Comment[]): Comment[] => {
+  const merged = new Map<string, Comment>();
+  for (const reply of [...current, ...incoming]) {
+    merged.set(String(reply.id), reply);
+  }
+  return Array.from(merged.values());
+};
+
+const getReplyThreadIds = (items: Comment[], rootId: string | number): Set<string> => {
+  const byParent = new Map<string, string[]>();
+  for (const item of items) {
+    if (item.parent_id == null) continue;
+    const parentKey = String(item.parent_id);
+    const ownKey = String(item.id);
+    const siblings = byParent.get(parentKey);
+    if (siblings) siblings.push(ownKey);
+    else byParent.set(parentKey, [ownKey]);
+  }
+
+  const rootKey = String(rootId);
+  const toVisit = [rootKey];
+  const visited = new Set<string>();
+
+  while (toVisit.length > 0) {
+    const current = toVisit.pop()!;
+    if (visited.has(current)) continue;
+    visited.add(current);
+    const children = byParent.get(current) || [];
+    for (const child of children) {
+      toVisit.push(child);
+    }
+  }
+
+  return visited;
+};
+
 export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params);
   const { addReply, deleteReply } = useCommunity();
@@ -167,7 +203,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
       setRootReplyOrder((prev) => mergeRootReplyOrder(prev, newReplies));
       setDiscussion((prev: Discussion | null) => {
         if (!prev) return null;
-        return { ...prev, replies: [...prev.replies, ...newReplies] };
+        return { ...prev, replies: mergeRepliesById(prev.replies, newReplies) };
       });
       if (likedIds.length > 0) {
         setLikedReplies((prev) => {
@@ -513,19 +549,32 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   };
 
   const handleDeleteReply = async (replyId: number) => {
+    if (!discussion) return;
+    const idsToRemove = getReplyThreadIds(discussion.replies, replyId);
     await deleteReply(replyId);
-    const key = String(replyId);
     setDiscussion((prev: Discussion | null) => {
       if (!prev) return null;
-      const removed = prev.replies.find((r) => String(r.id) === key);
-      if (removed && !removed.parent_id) {
-        setRootReplyOrder((order) => order.filter((id) => id !== key));
-      }
       return {
         ...prev,
-        replies: prev.replies.filter((r) => String(r.id) !== key),
+        replies: prev.replies.filter((reply) => !idsToRemove.has(String(reply.id))),
       };
     });
+    setRootReplyOrder((order) => order.filter((id) => !idsToRemove.has(id)));
+    setLikedReplies((prev) => {
+      const next = new Set(prev);
+      for (const id of idsToRemove) {
+        next.delete(id);
+      }
+      return next;
+    });
+    setTotalReplies((prev) => Math.max(0, prev - idsToRemove.size));
+    setDetailRootIdStack((prev) => prev.filter((id) => !idsToRemove.has(String(id))));
+    if (replyTarget && idsToRemove.has(String(replyTarget.id))) {
+      setReplyTarget(null);
+    }
+    if (sheetReplyTarget && idsToRemove.has(String(sheetReplyTarget.id))) {
+      setSheetReplyTarget(null);
+    }
   };
 
   const handleReply = (target: ReplyTarget) => {

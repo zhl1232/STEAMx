@@ -87,6 +87,7 @@ export default function NQueensPage() {
         cellStates,
         mode,
         status,
+        isVisualizationPaused,
         speed,
         time,
         totalSteps,
@@ -149,7 +150,6 @@ export default function NQueensPage() {
     const boardSize = cellSize * n
 
     const isVisualizing = status === "visualizing"
-    const isVisPaused = isVisualizing && !backtracks && !totalSteps ? false : isVisualizing
     const canInteract = mode === "manual" && status !== "solved"
 
     return (
@@ -287,10 +287,10 @@ export default function NQueensPage() {
                                         variant="outline"
                                         size="sm"
                                         className="h-7 rounded-lg text-xs gap-1 px-2.5"
-                                        onClick={isVisPaused ? pauseVisualization : resumeVisualization}
+                                        onClick={isVisualizationPaused ? resumeVisualization : pauseVisualization}
                                     >
-                                        {isVisPaused ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                                        {isVisPaused ? "暂停" : "继续"}
+                                        {isVisualizationPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
+                                        {isVisualizationPaused ? "继续" : "暂停"}
                                     </Button>
                                 ) : null}
 

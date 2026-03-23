@@ -6,6 +6,7 @@ import { useGamification } from "@/context/gamification-context"
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { KeyboardHelp } from "@/components/features/playground/keyboard-help"
+import { getCanvasMetrics } from "./canvas"
 import {
     Play,
     Pause,
@@ -95,7 +96,7 @@ export default function GameOfLifePage() {
     const containerRef = useRef<HTMLDivElement>(null)
     const paintingRef = useRef(false)
     const paintValueRef = useRef(true)
-    const cellSizeRef = useRef(0)
+    const canvasMetricsRef = useRef(getCanvasMetrics(COLS, ROWS, COLS))
 
     const drawGrid = useCallback(() => {
         const canvas = canvasRef.current
@@ -103,30 +104,26 @@ export default function GameOfLifePage() {
         const ctx = canvas.getContext("2d")
         if (!ctx) return
 
-        const w = canvas.width
-        const h = canvas.height
-        const cellW = w / COLS
-        const cellH = h / ROWS
-        cellSizeRef.current = cellW
+        const { cssWidth, cssHeight, cellWidth, cellHeight } = canvasMetricsRef.current
 
-        ctx.clearRect(0, 0, w, h)
+        ctx.clearRect(0, 0, cssWidth, cssHeight)
 
         const isDark = document.documentElement.classList.contains("dark")
         const deadColor = isDark ? DEAD_COLOR_DARK : DEAD_COLOR_LIGHT
 
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
-                const x = c * cellW
-                const y = r * cellH
+                const x = c * cellWidth
+                const y = r * cellHeight
                 if (grid[r][c]) {
                     ctx.shadowColor = ALIVE_GLOW
                     ctx.shadowBlur = 4
                     ctx.fillStyle = ALIVE_COLOR
-                    ctx.fillRect(x + 0.5, y + 0.5, cellW - 1, cellH - 1)
+                    ctx.fillRect(x + 0.5, y + 0.5, cellWidth - 1, cellHeight - 1)
                     ctx.shadowBlur = 0
                 } else {
                     ctx.fillStyle = deadColor
-                    ctx.fillRect(x + 0.5, y + 0.5, cellW - 1, cellH - 1)
+                    ctx.fillRect(x + 0.5, y + 0.5, cellWidth - 1, cellHeight - 1)
                 }
             }
         }
@@ -137,18 +134,27 @@ export default function GameOfLifePage() {
         const container = containerRef.current
         if (!canvas || !container) return
 
-        const ro = new ResizeObserver(() => {
+        const updateCanvasSize = () => {
             const rect = container.getBoundingClientRect()
-            const dpr = window.devicePixelRatio || 1
-            canvas.width = rect.width * dpr
-            canvas.height = (rect.width / COLS) * ROWS * dpr
-            canvas.style.width = `${rect.width}px`
-            canvas.style.height = `${(rect.width / COLS) * ROWS}px`
+            const metrics = getCanvasMetrics(rect.width, ROWS, COLS, window.devicePixelRatio)
+            canvasMetricsRef.current = metrics
+
+            canvas.width = metrics.pixelWidth
+            canvas.height = metrics.pixelHeight
+            canvas.style.width = `${metrics.cssWidth}px`
+            canvas.style.height = `${metrics.cssHeight}px`
+
             const ctx = canvas.getContext("2d")
-            if (ctx) ctx.scale(dpr, dpr)
-            cellSizeRef.current = rect.width / COLS
+            if (ctx) {
+                ctx.setTransform(1, 0, 0, 1, 0, 0)
+                ctx.setTransform(metrics.dpr, 0, 0, metrics.dpr, 0, 0)
+            }
             drawGrid()
-        })
+        }
+
+        updateCanvasSize()
+
+        const ro = new ResizeObserver(updateCanvasSize)
         ro.observe(container)
         return () => ro.disconnect()
     }, [drawGrid])

@@ -16,6 +16,62 @@ import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import type { ShopItemType } from '@/lib/shop/items'
 import type { Profile } from '@/lib/types/database'
+import { AlertCircle } from 'lucide-react'
+
+type ShopRpcResult = {
+  ok?: boolean
+  error?: string
+  item_id?: string
+  price?: number
+  min_level?: number
+  level?: number
+}
+
+type ShopMutationError = Error & {
+  code?: string
+  minLevel?: number
+  currentLevel?: number
+}
+
+function createShopMutationError(result: ShopRpcResult, fallbackCode: string): ShopMutationError {
+  const error = new Error(result.error || fallbackCode) as ShopMutationError
+  error.code = result.error || fallbackCode
+  error.minLevel = result.min_level
+  error.currentLevel = result.level
+  return error
+}
+
+export function getShopMutationErrorMessage(error: unknown): string {
+  const shopError = error as ShopMutationError | null
+  const code = shopError?.code || shopError?.message
+
+  switch (code) {
+    case 'insufficient_coins':
+      return '硬币不足'
+    case 'invalid_item':
+      return '商品无效'
+    case 'already_owned':
+      return '已拥有该商品，无需重复兑换'
+    case 'unauthorized':
+      return '登录状态已失效，请重新登录后再试'
+    case 'profile_not_found':
+      return '未找到当前账号资料，请稍后重试'
+    case 'min_level_required':
+      return typeof shopError?.minLevel === 'number'
+        ? `等级不足，需达到 Lv.${shopError.minLevel}`
+        : '当前等级不足，暂时无法兑换'
+    case 'not_owned':
+      return '未拥有该商品，无法装备'
+    case 'not_name_color':
+      return '该商品不是昵称颜色，无法装备'
+    case 'equip_failed':
+      return '装备失败，请稍后重试'
+    case 'purchase_failed':
+      return '兑换失败，请稍后重试'
+    default:
+      return error instanceof Error && error.message ? error.message : '请稍后重试'
+  }
+}
 
 export default function ShopPage() {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth()
@@ -27,14 +83,21 @@ export default function ShopPage() {
   const equippedAvatarFrameId = (profile as Profile | null)?.equipped_avatar_frame_id ?? null
   const equippedNameColorId = (profile as Profile | null)?.equipped_name_color_id ?? null
 
-  const { data: ownedItemIds = [] } = useQuery({
+  const {
+    data: ownedItemIds = [],
+    isLoading: inventoryLoading,
+    isError: inventoryError,
+    error: inventoryErrorDetail,
+    refetch: refetchInventory,
+  } = useQuery<string[]>({
     queryKey: ['user_inventory', user?.id],
     queryFn: async () => {
       if (!user) return []
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('user_inventory')
         .select('item_id')
-        .eq('user_id', user.id)
+      .eq('user_id', user.id)
+      if (error) throw error
       return (data as { item_id: string }[] || []).map((r) => r.item_id)
     },
     enabled: !!user,
@@ -44,8 +107,8 @@ export default function ShopPage() {
     mutationFn: async (itemId: string) => {
       const { data, error } = await supabase.rpc('purchase_item', { p_item_id: itemId } as never)
       if (error) throw error
-      const res = data as { ok?: boolean; error?: string }
-      if (!res?.ok) throw new Error(res?.error || 'purchase_failed')
+      const res = data as ShopRpcResult
+      if (!res?.ok) throw createShopMutationError(res, 'purchase_failed')
     },
     onSuccess: (_, itemId) => {
       queryClient.invalidateQueries({ queryKey: ['user_inventory', user?.id] })
@@ -54,16 +117,12 @@ export default function ShopPage() {
       const item = getShopItemById(itemId)
       toast({ title: '兑换成功', description: item ? `已获得「${item.name}」` : undefined })
     },
-    onError: (e: Error) => {
-      const msg =
-        e.message === 'insufficient_coins'
-          ? '硬币不足'
-          : e.message === 'invalid_item'
-            ? '商品无效'
-            : e.message === 'already_owned'
-              ? '已拥有该商品，无需重复兑换'
-              : e.message
-      toast({ variant: 'destructive', title: '兑换失败', description: msg })
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: '兑换失败',
+        description: getShopMutationErrorMessage(error),
+      })
     },
   })
 
@@ -72,20 +131,62 @@ export default function ShopPage() {
       const rpcName = type === 'avatar_frame' ? 'equip_avatar_frame' : 'equip_name_color'
       const { data, error } = await (supabase.rpc as (name: string, args: { p_item_id: string }) => ReturnType<typeof supabase.rpc>)(rpcName, { p_item_id: itemId ?? '' })
       if (error) throw error
-      const res = data as { ok?: boolean; error?: string }
-      if (!res?.ok) throw new Error(res?.error || 'equip_failed')
+      const res = data as ShopRpcResult
+      if (!res?.ok) throw createShopMutationError(res, 'equip_failed')
     },
     onSuccess: () => {
       refreshProfile()
       queryClient.invalidateQueries({ queryKey: ['user_inventory', user?.id] })
       toast({ title: '装备已更新' })
     },
-    onError: (e: Error) => {
-      toast({ variant: 'destructive', title: '装备失败', description: e.message })
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: '装备失败',
+        description: getShopMutationErrorMessage(error),
+      })
     },
   })
 
-  if (authLoading || !user) return null
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (inventoryLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">加载商店中...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (inventoryError) {
+    return (
+      <div className="container max-w-2xl py-12 px-4">
+        <Card>
+          <CardContent className="flex flex-col items-center gap-4 py-10 text-center">
+            <AlertCircle className="h-10 w-10 text-destructive" />
+            <div className="space-y-1">
+              <p className="font-semibold">加载商店失败</p>
+              <p className="text-sm text-muted-foreground">
+                {inventoryErrorDetail instanceof Error ? inventoryErrorDetail.message : '请检查网络后重试'}
+              </p>
+            </div>
+            <Button variant="outline" onClick={() => refetchInventory()}>
+              刷新重试
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="container max-w-4xl py-8 px-4">

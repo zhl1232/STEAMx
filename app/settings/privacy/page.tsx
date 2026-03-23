@@ -25,7 +25,7 @@ export default function PrivacySettingsPage() {
   const [messagePrivacy, setMessagePrivacy] = useState<MessagePrivacy>("everyone");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
     if (!user) return;

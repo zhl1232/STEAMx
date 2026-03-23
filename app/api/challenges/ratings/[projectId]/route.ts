@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { validateNumber } from '@/lib/api/validation'
+import { getChallengeRatingProject } from '@/lib/api/project-access'
 import { logger } from '@/lib/logger'
 
 export async function GET(
@@ -10,7 +12,12 @@ export async function GET(
 
   try {
     const { projectId } = await params
-    const pid = parseInt(projectId)
+    const pid = validateNumber(projectId, 'Project id', { integer: true, min: 1 })
+
+    const project = await getChallengeRatingProject(supabase, pid)
+    if (!project) {
+      return NextResponse.json({ error: 'Challenge project not found' }, { status: 404 })
+    }
 
     const { data: ratings, error } = await supabase
       .from('challenge_ratings')

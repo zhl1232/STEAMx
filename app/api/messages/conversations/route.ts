@@ -70,11 +70,11 @@ export async function GET() {
       .map((peerId) => {
         const last = latestByPeer.get(peerId)
         const prof = profileMap.get(peerId)
-        if (!last) return null
+        if (!last || !prof) return null
         return {
           peerId,
-          displayName: prof?.displayName ?? null,
-          avatarUrl: prof?.avatarUrl ?? null,
+          displayName: prof.displayName,
+          avatarUrl: prof.avatarUrl,
           lastContent: last.content,
           lastAt: last.created_at,
         }

@@ -1,8 +1,25 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import { BADGES } from "@/lib/gamification/badges";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 
+export const metadata = {
+  title: "徽章预览",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+export function isBadgesPreviewEnabled() {
+  return process.env.NODE_ENV !== "production";
+}
+
 export default function BadgesPreviewPage() {
+  if (!isBadgesPreviewEnabled()) {
+    notFound();
+  }
+
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-12 bg-white dark:bg-slate-950 min-h-screen text-slate-900 dark:text-slate-100">
       <div className="text-center">

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Smartphone, KeyRound, Loader2 } from "lucide-react";
@@ -17,11 +17,13 @@ function maskPhone(phone: string) {
   return local.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
 }
 
-export default function SecuritySettingsPage() {
+function SecuritySettingsContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const { user } = useAuth();
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
+  const recoveryMode = searchParams.get("mode") === "recovery";
 
   const [authPhone, setAuthPhone] = useState<string | null>(null);
   const [phoneExpand, setPhoneExpand] = useState(false);
@@ -43,6 +45,11 @@ export default function SecuritySettingsPage() {
     };
     if (user) loadPhone();
   }, [user, supabase.auth]);
+
+  useEffect(() => {
+    if (!recoveryMode) return;
+    setPasswordExpand(true);
+  }, [recoveryMode]);
 
   const handleChangePassword = async () => {
     if (!newPassword || newPassword.length < 6) {
@@ -163,6 +170,11 @@ export default function SecuritySettingsPage() {
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4">
+          {recoveryMode ? (
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
+              请先设置新密码，设置成功后即可继续使用账号。
+            </div>
+          ) : null}
           <div className="overflow-hidden rounded-2xl border bg-card">
             {menuItems.map((item, index) => (
               <div key={item.label}>
@@ -293,5 +305,13 @@ export default function SecuritySettingsPage() {
         </div>
       </ScrollArea>
     </div>
+  );
+}
+
+export default function SecuritySettingsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[calc(100vh-4rem)] bg-background" />}>
+      <SecuritySettingsContent />
+    </Suspense>
   );
 }

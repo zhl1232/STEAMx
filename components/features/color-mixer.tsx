@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 
-export function ColorMixer() {
-    const [r, setR] = useState(0);
-    const [g, setG] = useState(0);
-    const [b, setB] = useState(0);
+interface ColorMixerProps {
+    r: number;
+    g: number;
+    b: number;
+    onChange: (next: { r: number; g: number; b: number }) => void;
+}
+
+export function ColorMixer({ r, g, b, onChange }: ColorMixerProps) {
 
     const colorString = `rgb(${r}, ${g}, ${b})`;
 
@@ -26,7 +29,7 @@ export function ColorMixer() {
                             max={255}
                             step={1}
                             value={[r]}
-                            onValueChange={(value) => setR(value[0])}
+                            onValueChange={(value) => onChange({ r: value[0], g, b })}
                             className="[&>span:first-child]:bg-red-500"
                         />
                     </div>
@@ -42,7 +45,7 @@ export function ColorMixer() {
                             max={255}
                             step={1}
                             value={[g]}
-                            onValueChange={(value) => setG(value[0])}
+                            onValueChange={(value) => onChange({ r, g: value[0], b })}
                             className="[&>span:first-child]:bg-green-500"
                         />
                     </div>
@@ -58,7 +61,7 @@ export function ColorMixer() {
                             max={255}
                             step={1}
                             value={[b]}
-                            onValueChange={(value) => setB(value[0])}
+                            onValueChange={(value) => onChange({ r, g, b: value[0] })}
                             className="[&>span:first-child]:bg-blue-500"
                         />
                     </div>

@@ -39,11 +39,28 @@ describe('POST /api/admin/completions/[id]/review', () => {
 
     beforeEach(() => {
         vi.clearAllMocks()
-        createClientMock.mockResolvedValue({} as never)
         requireRoleMock.mockResolvedValue(undefined as never)
     })
 
     it('awards completion XP without writing unsupported columns to xp_logs', async () => {
+        const routeSupabase = {
+            from: vi.fn((table: string) => {
+                if (table === 'completed_projects') {
+                    return { select: completionSelect }
+                }
+                throw new Error(`Unexpected table: ${table}`)
+            }),
+        }
+        const completionMaybeSingle = vi.fn().mockResolvedValue({
+            data: { id: 123 },
+            error: null,
+        })
+        const completionSelect = vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+                maybeSingle: completionMaybeSingle,
+            }),
+        })
+
         const completedProjectsSingle = vi.fn().mockResolvedValue({
             data: { user_id: 'user-1', project_id: 42 },
             error: null,
@@ -62,6 +79,8 @@ describe('POST /api/admin/completions/[id]/review', () => {
         const xpLogsUpsert = vi.fn().mockReturnValue({
             select: xpLogsSelect,
         })
+
+        createClientMock.mockResolvedValue(routeSupabase as never)
 
         supabaseAdminMock.from.mockImplementation((table: string) => {
             if (table === 'completed_projects') {
@@ -101,10 +120,43 @@ describe('POST /api/admin/completions/[id]/review', () => {
             onConflict: 'user_id,action_type,resource_id',
             ignoreDuplicates: true,
         })
-        expect(callRpcMock).toHaveBeenNthCalledWith(1, {}, 'approve_completion', { completion_id: 123 })
+        expect(callRpcMock).toHaveBeenNthCalledWith(1, routeSupabase, 'approve_completion', { completion_id: 123 })
         expect(callRpcMock).toHaveBeenNthCalledWith(2, supabaseAdminMock, 'increment_user_xp', {
             p_user_id: 'user-1',
             p_amount: 20,
         })
+    })
+
+    it('returns 404 when reviewing a missing completion', async () => {
+        const completionMaybeSingle = vi.fn().mockResolvedValue({
+            data: null,
+            error: null,
+        })
+        const completionSelect = vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+                maybeSingle: completionMaybeSingle,
+            }),
+        })
+
+        createClientMock.mockResolvedValue({
+            from: vi.fn((table: string) => {
+                if (table === 'completed_projects') {
+                    return { select: completionSelect }
+                }
+                throw new Error(`Unexpected table: ${table}`)
+            }),
+        } as never)
+
+        const response = await POST(new Request('http://localhost/api/admin/completions/999/review', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ action: 'approve' }),
+        }) as never, {
+            params: Promise.resolve({ id: '999' }),
+        })
+
+        expect(response.status).toBe(404)
+        await expect(response.json()).resolves.toEqual({ error: 'Completion not found' })
+        expect(callRpcMock).not.toHaveBeenCalled()
     })
 })

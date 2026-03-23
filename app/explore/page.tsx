@@ -5,23 +5,29 @@ interface ExplorePageProps {
   searchParams: Promise<{
     q?: string
     category?: string
+    subCategory?: string
     difficulty?: string
+    tags?: string
     page?: string
   }>
 }
 
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   const params = await searchParams
+  const parsedPage = Number.parseInt(params.page ?? '0', 10)
+  const initialPage = Number.isNaN(parsedPage) ? 0 : Math.max(0, parsedPage)
 
   const filters: ProjectFilters = {
     searchQuery: params.q,
     category: params.category,
+    subCategory: params.subCategory,
     difficulty: params.difficulty as ProjectFilters['difficulty'],
+    tags: params.tags?.split(',').filter(Boolean),
   }
 
   const [{ categories, availableTags }, { projects, hasMore }] = await Promise.all([
     getExploreFilterOptions(),
-    getProjects(filters, { page: 0, pageSize: 12 }),
+    getProjects(filters, { page: initialPage, pageSize: 12 }),
   ])
 
   return (
@@ -29,6 +35,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       key={JSON.stringify(params)}
       initialProjects={projects}
       initialHasMore={hasMore}
+      initialPage={initialPage}
       categories={categories}
       availableTags={availableTags}
     />

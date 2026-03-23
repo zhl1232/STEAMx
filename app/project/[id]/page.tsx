@@ -8,7 +8,7 @@ import { ProjectInteractions } from '@/components/features/project-interactions'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
-import { getProjectById, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
+import { getProjectById, getProjectTotalCoinsReceived, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
@@ -18,6 +18,12 @@ interface ProjectDetailPageProps {
     params: Promise<{ id: string }>
 }
 
+function canAccessProject(project: Awaited<ReturnType<typeof getProjectById>>, viewerId?: string) {
+    if (!project) return false
+    if (!project.status || project.status === 'approved') return true
+    return viewerId === project.author_id
+}
+
 export async function generateMetadata(
     { params }: ProjectDetailPageProps,
     parent: ResolvingMetadata
@@ -25,6 +31,12 @@ export async function generateMetadata(
     const { id } = await params
     const project = await getProjectById(id)
     if (!project) return { title: '项目未找到' }
+
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!canAccessProject(project, user?.id)) {
+        return { title: '项目未找到' }
+    }
     
     const previousImages = (await parent).openGraph?.images || []
 
@@ -66,18 +78,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     const { data: { user } } = await supabase.auth.getUser()
     const isAuthor = user?.id === project.author_id
 
-    // 如果项目不是已发布状态
-    if (project.status && project.status !== 'approved') {
-        // 如果不是作者且不是管理员(目前简化为作者判断)，则无法访问
-        if (!isAuthor) {
-            // 对于非作者，Rejected/Pending 项目视为不存在或审核中
-            // 这里选择显示“审核中”或 404，这取决于产品策略
-            // 用户反馈是 "bug"，意味这应该是私有的
-
-            // 为了更好的体验，可以返回一个 "Project Under Review" 页面，或者直接 404
-            // 这里选择 404 以保护隐私，除非是 Pending 状态可能显示 "Coming Soon"
-            notFound()
-        }
+    if (!canAccessProject(project, user?.id)) {
+        notFound()
     }
 
     // 如果是作者且状态异常，显示提示条
@@ -99,8 +101,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         likedCommentIds: initialLikedCommentIds,
     } = await getProjectComments(project.id, 0, 5, { userId: user?.id })
 
-    // 项目展示的硬币仅项目本身，作品各自显示
-    const projectCoinsReceived = project.coins_count ?? 0
+    // 底部栏显示项目总投币数：项目本身 + 所有完成作品
+    const projectCoinsReceived = await getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0)
 
     return (
         <div className="container mx-auto pt-8 pb-24 md:pb-10 max-w-4xl">

@@ -41,6 +41,20 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid completion ID' }, { status: 400 })
     }
 
+    const { data: existingCompletion, error: completionLookupError } = await supabase
+      .from('completed_projects')
+      .select('id')
+      .eq('id', completionId)
+      .maybeSingle()
+
+    if (completionLookupError) {
+      throw completionLookupError
+    }
+
+    if (!existingCompletion) {
+      return NextResponse.json({ error: 'Completion not found' }, { status: 404 })
+    }
+
     if (action === 'approve') {
       const { error } = await callRpc(supabase, 'approve_completion', {
         completion_id: completionId

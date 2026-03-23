@@ -35,10 +35,9 @@ export async function PATCH(
       .eq('id', reportId)
       .eq('status', 'pending')
       .select('id, status')
-      .single()
+      .maybeSingle()
 
     if (error) throw error
-
     if (!data) {
       return NextResponse.json({ error: '举报不存在或已处理' }, { status: 404 })
     }

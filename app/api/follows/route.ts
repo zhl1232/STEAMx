@@ -24,6 +24,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
+    const { data: targetProfile, error: targetError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', targetUserId)
+      .maybeSingle()
+
+    if (targetError) throw targetError
+    if (!targetProfile) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
     if (action === 'follow') {
       const { error } = await supabase
         .from('follows')
@@ -35,17 +46,29 @@ export async function POST(request: NextRequest) {
       if (error && error.code !== '23505') {
         throw error
       }
+
+      return NextResponse.json({
+        ok: true,
+        following: true,
+        changed: !error,
+      })
     } else {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('follows')
         .delete()
         .eq('follower_id', user.id)
         .eq('following_id', targetUserId)
+        .select('follower_id')
+        .maybeSingle()
 
       if (error) throw error
-    }
 
-    return NextResponse.json({ ok: true })
+      return NextResponse.json({
+        ok: true,
+        following: false,
+        changed: Boolean(data),
+      })
+    }
   } catch (error) {
     return handleApiError(error)
   }

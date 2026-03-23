@@ -3,6 +3,8 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendVerificationSms } from '@/lib/sms/send'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
+import { handleApiError } from '@/lib/api/auth'
+import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
 
 const OTP_EXPIRY_MINUTES = 10
 const OTP_LENGTH = 6
@@ -54,6 +56,14 @@ export async function POST(req: Request) {
     if (!phone || phone.length < 12) {
       return jsonError('请输入有效的手机号', 400)
     }
+
+    requireRequestRateLimit(req, {
+      key: `auth-sms-send:${type}`,
+      limit: 5,
+      windowMs: 10 * 60_000,
+      suffix: phone,
+    })
+
     let userId: string | null = null
     if (type === 'phone_change') {
       const supabase = await createClient()
@@ -132,8 +142,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true })
   } catch (e) {
-    logger.error('[auth/sms/send]', { error: e })
-    const message = e instanceof Error ? e.message : String(e)
-    return jsonError(message || '发送失败，请稍后重试', 500)
+    if (!(e instanceof Error) || e.name !== 'RateLimitError') {
+      logger.error('[auth/sms/send]', { error: e })
+    }
+    return handleApiError(e)
   }
 }

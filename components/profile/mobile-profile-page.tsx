@@ -9,6 +9,8 @@ import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart
 import { Project, Profile } from "@/lib/mappers/types";
 import { User } from "@supabase/supabase-js";
 import type { UserStats } from "@/lib/gamification/types";
+import { ProjectListSkeleton } from "@/components/features/profile/project-list-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MobileProfilePageProps {
   user: User;
@@ -21,6 +23,7 @@ interface MobileProfilePageProps {
   followerCount: number;
   followingCount: number;
   userStats?: UserStats | null;
+  isProjectsDataLoading?: boolean;
 }
 
 export function MobileProfilePage({
@@ -34,6 +37,7 @@ export function MobileProfilePage({
   followerCount,
   followingCount,
   userStats,
+  isProjectsDataLoading = false,
 }: MobileProfilePageProps) {
   const [_activeTab, setActiveTab] = useState("works");
 
@@ -42,6 +46,55 @@ export function MobileProfilePage({
   const collectedProjectsCount = collectedProjectsList.length;
   const completedProjectsCount = completedProjectsList.length;
   const totalLikesReceived = myProjects.reduce((acc, p) => acc + p.likes, 0);
+
+  if (isProjectsDataLoading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background pb-24">
+        <div className="h-28 bg-muted" />
+
+        <div className="px-4 -mt-10 mb-4">
+          <div className="flex gap-5 items-start">
+            <Skeleton className="h-24 w-24 rounded-full border-4 border-background" />
+            <div className="flex-1 space-y-3 pt-3">
+              <div className="grid grid-cols-3 gap-3">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <Skeleton className="h-9 w-28" />
+            </div>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            <Skeleton className="h-6 w-36" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-10 w-full rounded-xl" />
+            <Skeleton className="h-4 w-40" />
+          </div>
+        </div>
+
+        <div className="px-4 pt-3">
+          <Skeleton className="h-72 w-full rounded-2xl" />
+        </div>
+
+        <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b px-4 py-3">
+          <div className="flex gap-4">
+            <Skeleton className="h-5 w-12" />
+            <Skeleton className="h-5 w-12" />
+            <Skeleton className="h-5 w-12" />
+            <Skeleton className="h-5 w-12" />
+          </div>
+        </div>
+
+        <div className="px-4 py-4">
+          <p className="mb-4 text-sm text-muted-foreground">加载个人主页中...</p>
+          <div className="space-y-4">
+            <ProjectListSkeleton />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background pb-24">

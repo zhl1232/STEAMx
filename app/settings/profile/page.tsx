@@ -1,14 +1,5 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import ProfileSettingsClient from "./profile-settings-client";
 
 export default function ProfileSettingsPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/profile");
-  }, [router]);
-
-  return null;
+  return <ProfileSettingsClient />;
 }

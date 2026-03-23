@@ -188,6 +188,27 @@ function generateCards(): { cards: Card24[]; solutions: string[] } {
 
 type ParseResult = { value: number; pos: number }
 
+const FACE_CARD_PATTERN = /[AaJjQqKk]/g
+
+function replaceFaceCardToken(token: string): string {
+  switch (token.toUpperCase()) {
+    case 'A':
+      return '1'
+    case 'J':
+      return '11'
+    case 'Q':
+      return '12'
+    case 'K':
+      return '13'
+    default:
+      return token
+  }
+}
+
+export function normalize24Expression(expr: string): string {
+  return expr.replace(FACE_CARD_PATTERN, replaceFaceCardToken)
+}
+
 function parseExpr(s: string, pos: number): ParseResult {
   let left = parseTerm(s, pos)
   for (;;) {
@@ -217,6 +238,9 @@ function parseTerm(s: string, pos: number): ParseResult {
       left = { value: left.value * right.value, pos: right.pos }
     } else if (ch === '/' || ch === '÷') {
       const right = parseFactor(s, p + 1)
+      if (Math.abs(right.value) < EPSILON) {
+        throw new Error('除数不能为 0')
+      }
       left = { value: left.value / right.value, pos: right.pos }
     } else {
       break
@@ -251,15 +275,16 @@ function extractNumbers(expr: string): number[] {
   return matches ? matches.map(Number) : []
 }
 
-function validateExpression(
+export function validate24Expression(
   expr: string,
   cardValues: number[],
 ): { valid: boolean; result: number; error?: string } {
-  if (!/^[\d+\-*/×÷() ]+$/.test(expr)) {
+  if (!/^[\dAJQKajqk+\-*/×÷() ]+$/.test(expr)) {
     return { valid: false, result: 0, error: '表达式包含无效字符' }
   }
 
-  const numbers = extractNumbers(expr)
+  const normalizedExpr = normalize24Expression(expr)
+  const numbers = extractNumbers(normalizedExpr)
   if (numbers.length !== 4) {
     return { valid: false, result: 0, error: `必须恰好使用 4 个数字，当前有 ${numbers.length} 个` }
   }
@@ -277,10 +302,10 @@ function validateExpression(
   }
 
   try {
-    const result = parseExpr(expr, 0)
+    const result = parseExpr(normalizedExpr, 0)
     let p = result.pos
-    while (p < expr.length && expr[p] === ' ') p++
-    if (p < expr.length) {
+    while (p < normalizedExpr.length && normalizedExpr[p] === ' ') p++
+    if (p < normalizedExpr.length) {
       return { valid: false, result: 0, error: '表达式语法错误' }
     }
     const isCorrect = Math.abs(result.value - 24) < EPSILON
@@ -372,7 +397,7 @@ export function use24Game(timerDuration = 60) {
         return { success: false, error: '当前不在游戏中' }
       }
 
-      const validation = validateExpression(expr, cards.map((c) => c.value))
+      const validation = validate24Expression(expr, cards.map((c) => c.value))
       if (!validation.valid) {
         return { success: false, error: validation.error }
       }

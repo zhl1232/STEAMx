@@ -21,11 +21,29 @@ export async function POST(
   try {
     // 检查用户认证
     const user = await requireAuth(supabase)
+
+    const { data: projectRow, error: projectError } = await supabase
+      .from('projects')
+      .select('author_id')
+      .eq('id', projectId)
+      .maybeSingle()
+
+    if (projectError) {
+      throw projectError
+    }
+
+    if (!projectRow) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+
+    if ((projectRow as { author_id: string }).author_id === user.id) {
+      return NextResponse.json({ error: '不能给自己的项目点赞' }, { status: 403 })
+    }
     
     // 检查是否已点赞
     const { data: existingLike, error: existingLikeError } = await supabase
       .from('likes')
-      .select('id')
+      .select('user_id')
       .eq('user_id', user.id)
       .eq('project_id', projectId)
       .maybeSingle()
@@ -41,7 +59,7 @@ export async function POST(
         .delete()
         .eq('user_id', user.id)
         .eq('project_id', projectId)
-        .select('id')
+        .select('user_id')
       
       if (deleteError) {
         throw deleteError
@@ -58,7 +76,7 @@ export async function POST(
       const { data: insertedRows, error: insertError } = await supabase
         .from('likes')
         .insert({ user_id: user.id, project_id: projectId } as never)
-        .select('id')
+        .select('user_id')
       
       if (insertError) {
         if ((insertError as { code?: string }).code === '23505') {
@@ -102,7 +120,7 @@ export async function GET(
   
   const { data, error } = await supabase
     .from('likes')
-    .select('id')
+    .select('user_id')
     .eq('user_id', user.id)
     .eq('project_id', projectId)
     .maybeSingle()

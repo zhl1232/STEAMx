@@ -26,7 +26,7 @@ export function usePlaygroundSync() {
   const syncedRef = useRef(false);
 
   const uploadToCloud = useCallback(
-    async (userId: string) => {
+    async (userId: string, options?: { throwOnError?: boolean }) => {
       const blob = collectAllStats();
       const { error } = await supabaseRef.current
         .from("playground_stats")
@@ -40,7 +40,12 @@ export function usePlaygroundSync() {
         );
       if (error) {
         console.error("[PlaygroundSync] upload failed", error.message);
+        if (options?.throwOnError) {
+          throw new Error("云端同步失败，请稍后重试");
+        }
+        return false;
       }
+      return true;
     },
     [],
   );
@@ -74,16 +79,26 @@ export function usePlaygroundSync() {
         const merged = mergeCloudWithLocal(cloudBlob);
 
         // Write merged result back to cloud
-        await supabaseRef.current.from("playground_stats").upsert(
-          {
-            user_id: user.id,
-            stats: merged,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "user_id" },
-        );
+        const { error: upsertError } = await supabaseRef.current
+          .from("playground_stats")
+          .upsert(
+            {
+              user_id: user.id,
+              stats: merged,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "user_id" },
+          );
+        if (upsertError) {
+          console.error("[PlaygroundSync] write-back failed", upsertError.message);
+        }
 
         syncedRef.current = true;
+        window.dispatchEvent(
+          new CustomEvent(PLAYGROUND_CHANGE_EVENT, {
+            detail: { source: "cloud-sync", skipUpload: true },
+          }),
+        );
       } catch (err) {
         console.error("[PlaygroundSync] initial sync error", err);
       }
@@ -100,10 +115,18 @@ export function usePlaygroundSync() {
 
     const userId = user.id;
 
-    const handler = () => {
+    const handler = (event: Event) => {
+      const detail =
+        event instanceof CustomEvent
+          ? (event.detail as { skipUpload?: boolean } | undefined)
+          : undefined;
+      if (detail?.skipUpload) {
+        return;
+      }
+
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
-        uploadToCloud(userId);
+        void uploadToCloud(userId);
       }, DEBOUNCE_MS);
     };
 
@@ -114,7 +137,7 @@ export function usePlaygroundSync() {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         // Flush pending upload on unmount
-        uploadToCloud(userId);
+        void uploadToCloud(userId);
       }
     };
   }, [user?.id, uploadToCloud]);
@@ -123,17 +146,21 @@ export function usePlaygroundSync() {
   const flushToCloud = useCallback(async () => {
     if (!user?.id) return;
     if (timerRef.current) clearTimeout(timerRef.current);
-    await uploadToCloud(user.id);
+    await uploadToCloud(user.id, { throwOnError: true });
   }, [user?.id, uploadToCloud]);
 
   /** Delete all playground cloud data. */
   const clearCloud = useCallback(async () => {
     if (!user?.id) return;
     if (timerRef.current) clearTimeout(timerRef.current);
-    await supabaseRef.current
+    const { error } = await supabaseRef.current
       .from("playground_stats")
       .delete()
       .eq("user_id", user.id);
+    if (error) {
+      console.error("[PlaygroundSync] clear failed", error.message);
+      throw new Error("云端清理失败，请稍后重试");
+    }
   }, [user?.id]);
 
   return { clearCloud, flushToCloud };

@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+
+import { useAuth } from "@/context/auth-context";
 import { createClient } from "@/lib/supabase/client";
+import { getApiErrorMessage } from "@/lib/utils/http";
 import { useToast } from "@/hooks/use-toast";
 import {
     Card,
@@ -42,10 +45,11 @@ interface ModeratorApplication {
     profiles: {
         display_name: string | null;
         avatar_url: string | null;
-    };
+    } | null;
 }
 
 export function ModeratorApplicationsList() {
+    const { isAdmin, loading: authLoading } = useAuth();
     const { toast } = useToast();
     const [applications, setApplications] = useState<ModeratorApplication[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -53,19 +57,26 @@ export function ModeratorApplicationsList() {
     const [rejectReason, setRejectReason] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
     const [showRejectDialog, setShowRejectDialog] = useState(false);
-    const supabase = createClient();
+    const [supabase] = useState(() => createClient());
 
     const fetchApplications = useCallback(async () => {
+        if (!isAdmin) {
+            setApplications([]);
+            setIsLoading(false);
+            return;
+        }
+
         setIsLoading(true);
+
         try {
             const { data, error } = await supabase
-                .from('moderator_applications')
+                .from("moderator_applications")
                 .select(`
           *,
           profiles:user_id (display_name, avatar_url)
         `)
-                .eq('status', 'pending')
-                .order('created_at', { ascending: false });
+                .eq("status", "pending")
+                .order("created_at", { ascending: false });
 
             if (error) throw error;
 
@@ -74,54 +85,72 @@ export function ModeratorApplicationsList() {
             toast({
                 title: "加载失败",
                 description: error instanceof Error ? error.message : "加载失败",
-                variant: "destructive"
+                variant: "destructive",
             });
         } finally {
             setIsLoading(false);
         }
-    }, [supabase, toast]);
+    }, [isAdmin, supabase, toast]);
 
     useEffect(() => {
-        fetchApplications();
-    }, [fetchApplications]);
+        if (!authLoading) {
+            fetchApplications();
+        }
+    }, [authLoading, fetchApplications]);
 
-    const handleApprove = async (app: ModeratorApplication) => {
+    const closeRejectDialog = () => {
+        setShowRejectDialog(false);
+        setRejectReason("");
+        setSelectedApp(null);
+    };
+
+    const handleReview = async (app: ModeratorApplication, action: "approve" | "reject") => {
+        const trimmedReason = rejectReason.trim();
+
+        if (action === "reject" && !trimmedReason) {
+            toast({
+                title: "请填写拒绝原因",
+                variant: "destructive",
+            });
+            return;
+        }
+
         setIsProcessing(true);
 
         try {
-            // 1. 更新用户角色为 moderator
-            const { error: roleError } = await supabase
-                .from('profiles')
-                .update({ role: 'moderator' } as never)
-                .eq('id', app.user_id);
-
-            if (roleError) throw roleError;
-
-            // 2. 更新申请状态
-            const { data: { user } } = await supabase.auth.getUser();
-            const { error: appError } = await supabase
-                .from('moderator_applications')
-                .update({
-                    status: 'approved',
-                    reviewed_by: user?.id,
-                    reviewed_at: new Date().toISOString()
-                } as never)
-                .eq('id', app.id);
-
-            if (appError) throw appError;
-
-            toast({
-                title: "已批准",
-                description: `${app.profiles.display_name || '用户'} 已成为审核员`
+            const response = await fetch(`/api/admin/moderator-applications/${app.id}/review`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    action,
+                    rejection_reason: action === "reject" ? trimmedReason : undefined,
+                }),
             });
 
-            // 刷新列表
-            fetchApplications();
+            if (!response.ok) {
+                throw new Error(await getApiErrorMessage(response, "操作失败"));
+            }
+
+            toast({
+                title: action === "approve" ? "已批准" : "已拒绝",
+                description:
+                    action === "approve"
+                        ? `${app.profiles?.display_name || "用户"} 已成为审核员`
+                        : "申请已被拒绝",
+            });
+
+            await fetchApplications();
+
+            if (action === "reject") {
+                closeRejectDialog();
+            }
         } catch (error: unknown) {
             toast({
-                title: "批准失败",
-                description: error instanceof Error ? error.message : "批准失败",
-                variant: "destructive"
+                title: action === "approve" ? "批准失败" : "拒绝失败",
+                description: error instanceof Error ? error.message : "操作失败",
+                variant: "destructive",
             });
         } finally {
             setIsProcessing(false);
@@ -133,82 +162,44 @@ export function ModeratorApplicationsList() {
         setShowRejectDialog(true);
     };
 
-    const handleRejectConfirm = async () => {
-        if (!selectedApp || !rejectReason.trim()) {
-            toast({
-                title: "请填写拒绝原因",
-                variant: "destructive"
-            });
-            return;
-        }
+    if (authLoading || isLoading) {
+        return (
+            <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                    <Card key={i}>
+                        <CardContent className="p-6">
+                            <Skeleton className="h-32" />
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        );
+    }
 
-        setIsProcessing(true);
-
-        try {
-            const { data: { user } } = await supabase.auth.getUser();
-            const { error } = await supabase
-                .from('moderator_applications')
-                .update({
-                    status: 'rejected',
-                    reviewed_by: user?.id,
-                    reviewed_at: new Date().toISOString(),
-                    rejection_reason: rejectReason.trim()
-                } as never)
-                .eq('id', selectedApp.id);
-
-            if (error) throw error;
-
-            toast({
-                title: "已拒绝",
-                description: "申请已被拒绝"
-            });
-
-            // 刷新列表
-            fetchApplications();
-            setShowRejectDialog(false);
-            setRejectReason("");
-            setSelectedApp(null);
-        } catch (error: unknown) {
-            toast({
-                title: "拒绝失败",
-                description: error instanceof Error ? error.message : "拒绝失败",
-                variant: "destructive"
-            });
-        } finally {
-            setIsProcessing(false);
-        }
-    };
+    if (!isAdmin) {
+        return null;
+    }
 
     return (
         <div className="space-y-4">
-            {isLoading ? (
-                <>
-                    {[1, 2, 3].map(i => (
-                        <Card key={i}>
-                            <CardContent className="p-6">
-                                <Skeleton className="h-32" />
-                            </CardContent>
-                        </Card>
-                    ))}
-                </>
-            ) : applications.length === 0 ? (
+            {applications.length === 0 ? (
                 <Card>
                     <CardContent className="p-8 text-center text-muted-foreground">
                         暂无待审核的申请
                     </CardContent>
                 </Card>
             ) : (
-                applications.map(app => (
+                applications.map((app) => (
                     <Card key={app.id}>
                         <CardHeader>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-12 w-12">
-                                        <AvatarImage src={app.profiles.avatar_url || undefined} />
-                                        <AvatarFallback>{(app.profiles.display_name || '?')[0]}</AvatarFallback>
+                                        <AvatarImage src={app.profiles?.avatar_url || undefined} />
+                                        <AvatarFallback>{(app.profiles?.display_name || "?")[0]}</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <CardTitle className="text-xl">{app.profiles.display_name || '匿名用户'}</CardTitle>
+                                        <CardTitle className="text-xl">{app.profiles?.display_name || "匿名用户"}</CardTitle>
                                         <CardDescription className="flex items-center gap-2 mt-1">
                                             <TrendingUp className="h-3 w-3" />
                                             Lv.{app.level_at_application} · {app.xp_at_application} XP
@@ -217,12 +208,11 @@ export function ModeratorApplicationsList() {
                                 </div>
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <Calendar className="h-4 w-4" />
-                                    {new Date(app.created_at).toLocaleDateString('zh-CN')}
+                                    {new Date(app.created_at).toLocaleDateString("zh-CN")}
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {/* 数据快照 */}
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                 <div className="text-center p-3 rounded-lg bg-muted/50">
                                     <div className="text-2xl font-bold text-primary">{app.projects_published}</div>
@@ -242,14 +232,12 @@ export function ModeratorApplicationsList() {
                                 </div>
                             </div>
 
-                            {/* 账号年龄 */}
                             <div className="flex items-center gap-2 text-sm">
                                 <Badge variant="outline">
                                     账号年龄: {app.account_age_days} 天
                                 </Badge>
                             </div>
 
-                            {/* 申请动机 */}
                             <div>
                                 <Label>申请动机</Label>
                                 <div className="mt-2 p-4 rounded-lg bg-muted/30 text-sm whitespace-pre-wrap">
@@ -257,10 +245,9 @@ export function ModeratorApplicationsList() {
                                 </div>
                             </div>
 
-                            {/* 操作按钮 */}
                             <div className="flex gap-2 pt-2">
                                 <Button
-                                    onClick={() => handleApprove(app)}
+                                    onClick={() => handleReview(app, "approve")}
                                     disabled={isProcessing}
                                     className="flex-1"
                                 >
@@ -282,8 +269,17 @@ export function ModeratorApplicationsList() {
                 ))
             )}
 
-            {/* 拒绝对话框 */}
-            <Dialog open={showRejectDialog} onOpenChange={setShowRejectDialog}>
+            <Dialog
+                open={showRejectDialog}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        closeRejectDialog();
+                        return;
+                    }
+
+                    setShowRejectDialog(true);
+                }}
+            >
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>拒绝申请</DialogTitle>
@@ -307,17 +303,13 @@ export function ModeratorApplicationsList() {
                     <DialogFooter>
                         <Button
                             variant="outline"
-                            onClick={() => {
-                                setShowRejectDialog(false);
-                                setRejectReason("");
-                                setSelectedApp(null);
-                            }}
+                            onClick={closeRejectDialog}
                         >
                             取消
                         </Button>
                         <Button
                             variant="destructive"
-                            onClick={handleRejectConfirm}
+                            onClick={() => selectedApp && handleReview(selectedApp, "reject")}
                             disabled={isProcessing || !rejectReason.trim()}
                         >
                             确认拒绝

@@ -11,7 +11,6 @@ import { Flame, ChevronRight, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface MobileHomeProps {
-    latestProjects: Project[]; // Kept for interface compatibility, though simplified view might only use popular
     popularProjects: Project[];
 }
 
@@ -104,4 +103,3 @@ export function MobileHome({ popularProjects }: MobileHomeProps) {
         </div>
     );
 }
-

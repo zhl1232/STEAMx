@@ -1,45 +1,47 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 function jsonError(message: string, status: number) {
   return NextResponse.json({ error: message }, { status })
 }
 
 export async function POST(req: Request) {
-  if (!supabaseAdmin) {
-    return jsonError('服务端未配置 SUPABASE_SERVICE_ROLE_KEY', 500)
-  }
-
-  let body: unknown
   try {
-    body = await req.json()
-  } catch {
-    return jsonError('请求体必须是 JSON', 400)
-  }
-  if (!body || typeof body !== 'object') {
-    return jsonError('请求体无效', 400)
-  }
+    if (!supabaseAdmin) {
+      return jsonError('服务端未配置 SUPABASE_SERVICE_ROLE_KEY', 500)
+    }
 
-  const { newPassword } = body as { newPassword?: string }
-  if (!newPassword || newPassword.length < 6) {
-    return jsonError('新密码至少 6 位', 400)
-  }
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      return jsonError('请求体必须是 JSON', 400)
+    }
+    if (!body || typeof body !== 'object') {
+      return jsonError('请求体无效', 400)
+    }
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) {
-    return jsonError('未登录', 401)
-  }
+    const { newPassword } = body as { newPassword?: string }
+    if (!newPassword || newPassword.length < 6) {
+      return jsonError('新密码至少 6 位', 400)
+    }
 
-  const { error } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
-    password: newPassword,
-  })
-  if (error) {
-    return jsonError(error.message || '修改失败，请稍后重试', 400)
-  }
+    const supabase = await createClient()
+    const user = await requireAuth(supabase)
+    await requireRateLimit(supabase, { key: 'auth-password-change', limit: 5, windowMs: 10 * 60_000 })
 
-  return NextResponse.json({ ok: true })
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+      password: newPassword,
+    })
+    if (error) {
+      return jsonError(error.message || '修改失败，请稍后重试', 400)
+    }
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    return handleApiError(error)
+  }
 }

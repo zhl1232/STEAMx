@@ -29,11 +29,18 @@ const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "�
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
+    initialPage?: number
     categories?: string[]
     availableTags?: string[]  // 从数据库获取的可用标签
 }
 
-export function ExploreClient({ initialProjects, initialHasMore, categories: propCategories, availableTags = [] }: ExploreClientProps) {
+export function ExploreClient({
+    initialProjects,
+    initialHasMore,
+    initialPage = 0,
+    categories: propCategories,
+    availableTags = []
+}: ExploreClientProps) {
     const router = useRouter()
     const searchParams = useSearchParams()
     const { toast } = useToast()
@@ -56,7 +63,7 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
     const initialTags = searchParams.get("tags")?.split(",").filter(Boolean) || []
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(initialPage + 1)
     const [hasMore, setHasMore] = useState(initialHasMore)
     const [isLoadingMore, setIsLoadingMore] = useState(false)
     const observer = useRef<IntersectionObserver | null>(null)
@@ -109,6 +116,9 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
 
         try {
             const response = await fetch(`/api/projects?${params.toString()}`)
+            if (!response.ok) {
+                throw new Error(await response.text())
+            }
             const data = await response.json()
             setProjects(prev => [...prev, ...data.projects])
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
@@ -138,21 +148,24 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
 
     // 执行筛选
     const executeFilter = (params: URLSearchParams) => {
+        const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
         setPage(1)
-        setProjects([])
 
         startTransition(async () => {
             try {
                 const response = await fetch(`/api/projects?${params.toString()}`)
+                if (!response.ok) {
+                    throw new Error(await response.text())
+                }
                 const data = await response.json()
                 setProjects(data.projects)
                 clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
+                router.push(nextUrl)
             } catch (error) {
                 logger.error('Error fetching projects', { error })
                 toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
             }
-            router.push(`/explore?${params.toString()}`)
         })
     }
 
@@ -200,20 +213,22 @@ export function ExploreClient({ initialProjects, initialHasMore, categories: pro
         setSelectedDifficulty("all")
         setSelectedTags([])
         setPage(1)
-        setProjects([])
 
         startTransition(async () => {
             try {
                 const response = await fetch('/api/projects')
+                if (!response.ok) {
+                    throw new Error(await response.text())
+                }
                 const data = await response.json()
                 setProjects(data.projects)
                 clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
                 setHasMore(data.hasMore)
+                router.push('/explore')
             } catch (error) {
                 logger.error('Error fetching projects', { error })
                 toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
             }
-            router.push('/explore')
         })
     }
 

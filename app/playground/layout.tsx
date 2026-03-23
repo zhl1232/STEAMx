@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Bomb, Dna, Bot, Grid3X3, Calculator, Layers, BarChart3, Hash, Crown, Home, Settings, Trash2, AlertTriangle, Zap } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { PLAYGROUND_KEYS, removePlaygroundItem, getPlaygroundItem } from "@/lib/playground/storage"
@@ -109,18 +110,51 @@ function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
     onFlushCloud: () => Promise<void>
 }) {
     const [confirmAll, setConfirmAll] = useState(false)
+    const [pendingAction, setPendingAction] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
+    const { toast } = useToast()
+
+    useEffect(() => {
+        if (open) return
+        setConfirmAll(false)
+        setPendingAction(null)
+        setError(null)
+    }, [open])
+
+    const runAction = useCallback(async (actionKey: string, action: () => Promise<void>, successTitle: string) => {
+        setPendingAction(actionKey)
+        setError(null)
+
+        try {
+            await action()
+            toast({ title: successTitle })
+            window.location.reload()
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "操作失败，请稍后重试"
+            setError(message)
+            toast({
+                title: "操作失败",
+                description: message,
+                variant: "destructive",
+            })
+        } finally {
+            setPendingAction(null)
+        }
+    }, [toast])
 
     const clearOne = useCallback(async (key: string) => {
-        removePlaygroundItem(key)
-        await onFlushCloud()
-        window.location.reload()
-    }, [onFlushCloud])
+        await runAction(key, async () => {
+            removePlaygroundItem(key)
+            await onFlushCloud()
+        }, "游戏数据已清除")
+    }, [onFlushCloud, runAction])
 
     const clearAll = useCallback(async () => {
-        PLAYGROUND_KEYS.forEach(({ key }) => removePlaygroundItem(key))
-        await onClearCloud()
-        window.location.reload()
-    }, [onClearCloud])
+        await runAction("all", async () => {
+            PLAYGROUND_KEYS.forEach(({ key }) => removePlaygroundItem(key))
+            await onClearCloud()
+        }, "全部游戏数据已重置")
+    }, [onClearCloud, runAction])
 
     return (
         <AnimatePresence>
@@ -151,17 +185,23 @@ function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
 
                             <div className="space-y-1.5 mb-4">
                                 <p className="text-xs text-muted-foreground mb-2">登录后数据自动云同步，清除将同时删除本地和云端记录</p>
+                                {error && (
+                                    <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
+                                        {error}
+                                    </div>
+                                )}
                                 {PLAYGROUND_KEYS.map(({ key, label }) => {
                                     const hasData = getPlaygroundItem(key) !== null
+                                    const isPending = pendingAction === key || pendingAction === "all"
                                     return (
                                         <div key={key} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-muted/40">
                                             <span className="text-xs font-medium">{label}</span>
                                             <button
                                                 onClick={() => clearOne(key)}
-                                                disabled={!hasData}
+                                                disabled={!hasData || pendingAction !== null}
                                                 className="text-[10px] text-destructive hover:text-destructive/80 disabled:text-muted-foreground/30 disabled:cursor-not-allowed transition-colors px-2 py-0.5 rounded border border-transparent hover:border-destructive/20"
                                             >
-                                                {hasData ? "清除" : "无数据"}
+                                                {hasData ? (isPending ? "处理中..." : "清除") : "无数据"}
                                             </button>
                                         </div>
                                     )
@@ -172,6 +212,7 @@ function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
                                 {!confirmAll ? (
                                     <button
                                         onClick={() => setConfirmAll(true)}
+                                        disabled={pendingAction !== null}
                                         className="w-full flex items-center justify-center gap-1.5 text-xs font-medium text-destructive py-2 rounded-xl border border-destructive/20 hover:bg-destructive/5 transition-colors"
                                     >
                                         <Trash2 className="w-3.5 h-3.5" />
@@ -181,10 +222,10 @@ function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
                                     <div className="flex items-center gap-2 p-2 bg-destructive/5 rounded-xl border border-destructive/20">
                                         <AlertTriangle className="w-4 h-4 text-destructive shrink-0" />
                                         <p className="text-[10px] text-destructive flex-1">确定清除全部游戏数据？此操作不可撤销。</p>
-                                        <button onClick={clearAll} className="text-[10px] font-bold text-white bg-destructive px-2 py-1 rounded-md hover:bg-destructive/90">
-                                            确定
+                                        <button onClick={clearAll} disabled={pendingAction !== null} className="text-[10px] font-bold text-white bg-destructive px-2 py-1 rounded-md hover:bg-destructive/90 disabled:opacity-60">
+                                            {pendingAction === "all" ? "处理中..." : "确定"}
                                         </button>
-                                        <button onClick={() => setConfirmAll(false)} className="text-[10px] text-muted-foreground hover:text-foreground px-2 py-1">
+                                        <button onClick={() => setConfirmAll(false)} disabled={pendingAction !== null} className="text-[10px] text-muted-foreground hover:text-foreground px-2 py-1 disabled:opacity-60">
                                             取消
                                         </button>
                                     </div>
@@ -193,6 +234,7 @@ function SettingsDialog({ open, onClose, onClearCloud, onFlushCloud }: {
 
                             <button
                                 onClick={onClose}
+                                disabled={pendingAction !== null}
                                 className="w-full text-xs text-muted-foreground hover:text-foreground py-2 mt-2 transition-colors"
                             >
                                 关闭
@@ -213,6 +255,20 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     return (
         <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)]">
             <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-border bg-card/30 backdrop-blur-xl p-4 flex flex-col gap-2 md:gap-4 shrink-0 z-10">
+                <div className="flex items-center justify-between md:hidden">
+                    <div>
+                        <p className="text-sm font-semibold">游乐场</p>
+                        <p className="text-[11px] text-muted-foreground">本地进度会在登录后自动同步到云端</p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setSettingsOpen(true)}
+                        className="inline-flex items-center justify-center rounded-xl border border-border p-2 text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground"
+                        aria-label="打开游乐场设置"
+                    >
+                        <Settings className="h-4 w-4" />
+                    </button>
+                </div>
                 <nav className="flex-1 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible md:overflow-y-auto pb-2 md:pb-0 scrollbar-none md:space-y-0.5">
                     <Link
                         href="/playground"
@@ -280,6 +336,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
                 <div className="hidden md:flex flex-col gap-2">
                     <button
                         onClick={() => setSettingsOpen(true)}
+                        type="button"
                         className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
                     >
                         <Settings className="w-3.5 h-3.5" />

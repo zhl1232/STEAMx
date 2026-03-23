@@ -41,6 +41,10 @@ const BEST_TIMES_KEY = 'minesweeper_best_times';
 
 type BestTimes = Record<string, number>; // difficulty -> best seconds
 
+function isWithinBounds(row: number, col: number, rows: number, cols: number) {
+    return row >= 0 && row < rows && col >= 0 && col < cols;
+}
+
 function loadBestTimes(): BestTimes {
     return getPlaygroundItem<BestTimes>(BEST_TIMES_KEY) ?? {};
 }
@@ -77,6 +81,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         setStatus('idle');
         setFlagsCount(0);
         setTime(0);
+        timeRef.current = 0;
     }, []);
 
     useEffect(() => {
@@ -115,22 +120,46 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     // 布雷并计算数字（规避首次点击位置及其周围）
     const placeMines = (firstClickRow: number, firstClickCol: number) => {
         const newBoard = JSON.parse(JSON.stringify(board)) as CellState[][];
-        let minesPlaced = 0;
 
         // 安全区：点击处及周围一圈不能有雷，保证开局体验（如果盘面足够大）
-        const safeZone = new Set(
+        const preferredSafeZone = new Set(
             getNeighbors(firstClickRow, firstClickCol, difficulty.rows, difficulty.cols)
                 .map(([r, c]) => `${r},${c}`)
         );
-        safeZone.add(`${firstClickRow},${firstClickCol}`);
+        preferredSafeZone.add(`${firstClickRow},${firstClickCol}`);
 
-        while (minesPlaced < difficulty.mines) {
-            const r = Math.floor(Math.random() * difficulty.rows);
-            const c = Math.floor(Math.random() * difficulty.cols);
+        let protectedCells = preferredSafeZone;
+        let candidateCells: [number, number][] = [];
 
-            if (!newBoard[r][c].isMine && !safeZone.has(`${r},${c}`)) {
+        const collectCandidateCells = (safeCells: Set<string>) => {
+            const candidates: [number, number][] = [];
+            for (let r = 0; r < difficulty.rows; r++) {
+                for (let c = 0; c < difficulty.cols; c++) {
+                    if (!safeCells.has(`${r},${c}`)) {
+                        candidates.push([r, c]);
+                    }
+                }
+            }
+            return candidates;
+        };
+
+        candidateCells = collectCandidateCells(protectedCells);
+
+        if (candidateCells.length < difficulty.mines) {
+            protectedCells = new Set([`${firstClickRow},${firstClickCol}`]);
+            candidateCells = collectCandidateCells(protectedCells);
+        }
+
+        for (let i = candidateCells.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [candidateCells[i], candidateCells[j]] = [candidateCells[j], candidateCells[i]];
+        }
+
+        const mineCells = candidateCells.slice(0, difficulty.mines);
+
+        for (const [r, c] of mineCells) {
+            if (!protectedCells.has(`${r},${c}`)) {
                 newBoard[r][c].isMine = true;
-                minesPlaced++;
             }
         }
 
@@ -150,6 +179,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
 
     const revealCell = (row: number, col: number) => {
         if (status === 'won' || status === 'lost') return;
+        if (!isWithinBounds(row, col, difficulty.rows, difficulty.cols)) return;
         if (board[row][col].isRevealed || board[row][col].isFlagged) return;
 
         let currentBoard = board;
@@ -202,6 +232,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     const toggleFlag = (row: number, col: number, e?: React.MouseEvent | React.TouchEvent) => {
         if (e) e.preventDefault(); // 阻止默认右键菜单
         if (status === 'idle' || status === 'won' || status === 'lost') return;
+        if (!isWithinBounds(row, col, difficulty.rows, difficulty.cols)) return;
         if (board[row][col].isRevealed) return;
 
         const newBoard = [...board];
@@ -223,6 +254,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     // 双击已经翻开的数字：如果周围正确标记了雷，自动翻开其余未知方块
     const autoReveal = (row: number, col: number) => {
         if (status !== 'playing') return;
+        if (!isWithinBounds(row, col, difficulty.rows, difficulty.cols)) return;
         const cell = board[row][col];
         if (!cell.isRevealed || cell.neighborMines === 0) return;
 

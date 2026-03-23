@@ -242,6 +242,7 @@ export function useNQueens() {
     const [cellStates, setCellStates] = useState<CellState[][]>(() => createEmptyCellStates(DEFAULT_N))
     const [mode, setModeState] = useState<NQueensMode>("manual")
     const [status, setStatus] = useState<NQueensStatus>("idle")
+    const [isVisualizationPaused, setIsVisualizationPaused] = useState(false)
     const [speed, setSpeedState] = useState<NQueensSpeed>("normal")
     const [time, setTime] = useState(0)
     const [totalSteps, setTotalSteps] = useState(0)
@@ -358,6 +359,7 @@ export function useNQueens() {
 
         if (idx >= steps.length) {
             clearVisInterval()
+            setIsVisualizationPaused(false)
             setStatus((prev) => {
                 const newStatus = prev === "visualizing" ? "no_solution" : prev
                 statusRef.current = newStatus
@@ -377,6 +379,7 @@ export function useNQueens() {
 
         if (idx === steps.length - 1) {
             clearVisInterval()
+            setIsVisualizationPaused(false)
             const finalStatus = step.solutionCount > 0 ? "solved" : "no_solution"
             setStatus(finalStatus)
             statusRef.current = finalStatus
@@ -387,6 +390,7 @@ export function useNQueens() {
 
     const startVisInterval = useCallback(() => {
         clearVisInterval()
+        setIsVisualizationPaused(false)
         visIntervalRef.current = setInterval(() => {
             advanceVisStep()
         }, SPEED_MS[speedRef.current])
@@ -406,6 +410,7 @@ export function useNQueens() {
         setTotalSteps(0)
         setBacktracks(0)
         setSolutionCount(0)
+        setIsVisualizationPaused(false)
 
         const steps = generateVisualizationSteps(currentN)
         visStepsRef.current = steps
@@ -414,6 +419,7 @@ export function useNQueens() {
         if (steps.length === 0) {
             setStatus("no_solution")
             statusRef.current = "no_solution"
+            setIsVisualizationPaused(false)
             return
         }
 
@@ -433,6 +439,7 @@ export function useNQueens() {
     const pauseVisualization = useCallback(() => {
         if (statusRef.current !== "visualizing") return
         clearVisInterval()
+        setIsVisualizationPaused(true)
     }, [clearVisInterval])
 
     // ── resumeVisualization ───────────────────────────────────────────
@@ -462,6 +469,7 @@ export function useNQueens() {
             setTotalSteps(0)
             setBacktracks(0)
             setSolutionCount(0)
+            setIsVisualizationPaused(false)
         },
         [clearVisInterval, stopTimer],
     )
@@ -484,6 +492,7 @@ export function useNQueens() {
             setTotalSteps(0)
             setBacktracks(0)
             setSolutionCount(0)
+            setIsVisualizationPaused(false)
         },
         [n, clearVisInterval, stopTimer],
     )
@@ -516,6 +525,7 @@ export function useNQueens() {
         setTotalSteps(0)
         setBacktracks(0)
         setSolutionCount(0)
+        setIsVisualizationPaused(false)
     }, [n, clearVisInterval, stopTimer])
 
     // ── Cleanup on unmount ────────────────────────────────────────────
@@ -533,6 +543,7 @@ export function useNQueens() {
         cellStates,
         mode,
         status,
+        isVisualizationPaused,
         speed,
         time,
         totalSteps,

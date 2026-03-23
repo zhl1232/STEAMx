@@ -24,14 +24,31 @@ export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];
 
 export const PLAYGROUND_CHANGE_EVENT = "playground-stats-change";
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
+}
+
 // ── Read / Write helpers ─────────────────────────────────────────────
 
 export function getPlaygroundItem<T = unknown>(key: string): T | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : null;
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw) as unknown;
+    if (!isPlainObject(parsed)) {
+      window.localStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed as T;
   } catch {
+    window.localStorage.removeItem(key);
     return null;
   }
 }
@@ -117,12 +134,14 @@ export function mergeGameStats(
   local: unknown,
   cloud: unknown,
 ): unknown {
-  if (local == null) return cloud;
-  if (cloud == null) return local;
-  if (typeof local !== "object" || typeof cloud !== "object") return local;
+  const hasLocal = isPlainObject(local);
+  const hasCloud = isPlainObject(cloud);
 
-  const l = local as Record<string, unknown>;
-  const c = cloud as Record<string, unknown>;
+  if (!hasLocal) return hasCloud ? cloud : null;
+  if (!hasCloud) return local;
+
+  const l = local;
+  const c = cloud;
   const merged: Record<string, unknown> = { ...c };
 
   for (const key of Object.keys(l)) {

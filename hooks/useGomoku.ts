@@ -437,6 +437,7 @@ export function useGomoku(mode: GomokuMode = "pve") {
             if (isFull) {
                 setBoard(nextBoard)
                 setStatus("draw")
+                setMoveCount(nextMoveCount)
                 updateStats("draw")
                 return
             }
@@ -506,6 +507,7 @@ export function useGomoku(mode: GomokuMode = "pve") {
                     if (isFull) {
                         setBoard(nextBoard)
                         setStatus("draw")
+                        setMoveCount(nextMoveCount)
                         updateStats("draw")
                     } else {
                         setBoard(nextBoard)

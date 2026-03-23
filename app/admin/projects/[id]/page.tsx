@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import type { Database } from '@/lib/supabase/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -14,13 +13,11 @@ import { ImageUpload } from '@/components/ui/image-upload'
 import { useToast } from '@/hooks/use-toast'
 import { CATEGORIES } from '@/lib/config/categories'
 import { CreateProjectSchema } from '@/lib/schemas'
+import { getApiErrorMessage } from '@/lib/utils/http'
 import { Slider } from '@/components/ui/slider'
 import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
 import { logger } from '@/lib/logger'
 import { getSteamWeights, type SteamWeights } from '@/lib/config/subcategory-steam-weights'
-
-type StepInsert = Database['public']['Tables']['project_steps']['Insert']
-type MaterialInsert = Database['public']['Tables']['project_materials']['Insert']
 
 interface SubCategory {
     id: number
@@ -77,7 +74,7 @@ export default function EditProjectPage() {
     const [formData, setFormData] = useState<ProjectFormData>(INITIAL_DATA)
     const [dbSubCategories, setDbSubCategories] = useState<SubCategory[]>([])
     const [showSteamCorrection, setShowSteamCorrection] = useState(false)
-    const supabase = createClient()
+    const [supabase] = useState(() => createClient())
 
     const fetchData = useCallback(async () => {
         if (!id) return
@@ -126,8 +123,20 @@ export default function EditProjectPage() {
                     duration: project.duration || 60,
                     status: project.status || 'draft',
                     image_url: project.image_url,
-                    project_steps: (project.project_steps || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
-                    project_materials: (project.project_materials || []).sort((a: any, b: any) => a.sort_order - b.sort_order), // eslint-disable-line @typescript-eslint/no-explicit-any
+                    project_steps: (project.project_steps || [])
+                        .sort((a: any, b: any) => a.sort_order - b.sort_order) // eslint-disable-line @typescript-eslint/no-explicit-any
+                        .map((step: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+                            title: step.title || '',
+                            description: step.description || '',
+                            image_url: step.image_url || null,
+                            sort_order: step.sort_order || 0,
+                        })),
+                    project_materials: (project.project_materials || [])
+                        .sort((a: any, b: any) => a.sort_order - b.sort_order) // eslint-disable-line @typescript-eslint/no-explicit-any
+                        .map((material: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+                            material: material.material || '',
+                            sort_order: material.sort_order || 0,
+                        })),
                     steam_weights: project.steam_weights || null,
                     sub_category_name: subCatName,
                 })
@@ -174,51 +183,27 @@ export default function EditProjectPage() {
 
         setSaving(true)
         try {
-            const updatePayload: Record<string, unknown> = {
-                title: formData.title,
-                description: formData.description,
-                category: formData.category,
-                sub_category_id: formData.sub_category_id,
-                difficulty_stars: formData.difficulty_stars,
-                image_url: formData.image_url,
-                duration: formData.duration,
-                status: formData.status,
-                updated_at: new Date().toISOString(),
-                steam_weights: showSteamCorrection ? formData.steam_weights : null,
-            };
+            const response = await fetch(`/api/admin/projects/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: formData.title,
+                    description: formData.description,
+                    category: formData.category,
+                    sub_category_id: formData.sub_category_id,
+                    difficulty_stars: formData.difficulty_stars,
+                    image_url: formData.image_url,
+                    duration: formData.duration,
+                    steam_weights: showSteamCorrection ? formData.steam_weights : null,
+                    project_steps: formData.project_steps,
+                    project_materials: formData.project_materials,
+                }),
+            })
 
-            // 1. Update Project Basic Info
-            const { error: projectError } = await (supabase
-                .from('projects') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-                .update(updatePayload) 
-                .eq('id', id)
-
-            if (projectError) throw projectError
-
-            // 2. Refresh Steps
-            await supabase.from('project_steps').delete().eq('project_id', Number(id))
-            if (formData.project_steps.length > 0) {
-                const stepsToInsert: StepInsert[] = formData.project_steps.map((step, index) => ({
-                    project_id: Number(id), // project_id is number in schema
-                    title: step.title,
-                    description: step.description,
-                    image_url: step.image_url,
-                    sort_order: index + 1
-                }))
-                const { error: stepsError } = await ((supabase.from('project_steps') as any).insert(stepsToInsert)) // eslint-disable-line @typescript-eslint/no-explicit-any
-                if (stepsError) throw stepsError
-            }
-
-            // 3. Refresh Materials
-            await supabase.from('project_materials').delete().eq('project_id', Number(id))
-            if (formData.project_materials.length > 0) {
-                const materialsToInsert: MaterialInsert[] = formData.project_materials.map((mat, index) => ({
-                    project_id: Number(id),
-                    material: mat.material,
-                    sort_order: index + 1
-                }))
-                const { error: materialsError } = await ((supabase.from('project_materials') as any).insert(materialsToInsert)) // eslint-disable-line @typescript-eslint/no-explicit-any
-                if (materialsError) throw materialsError
+            if (!response.ok) {
+                throw new Error(await getApiErrorMessage(response, '更新项目时发生错误'))
             }
 
             toast({
@@ -431,20 +416,12 @@ export default function EditProjectPage() {
 
                         <div className="grid gap-2">
                             <Label>状态</Label>
-                            <Select
-                                value={formData.status}
-                                onValueChange={(val) => setFormData({ ...formData, status: val as ProjectFormData['status'] })}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="选择状态" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="draft">草稿</SelectItem>
-                                    <SelectItem value="pending">待审核</SelectItem>
-                                    <SelectItem value="approved">已发布</SelectItem>
-                                    <SelectItem value="rejected">已拒绝</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <div className="rounded-md border bg-muted/30 px-3 py-2 text-sm">
+                                当前状态：{formData.status}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                审核状态请在审核列表中处理，避免绕过批准/拒绝流程的副作用。
+                            </p>
                         </div>
 
                         <div className="grid gap-2">

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { validateProjectContent } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { logger } from '@/lib/logger'
+import { resolveSubCategoryId } from '@/lib/subcategories'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
@@ -79,11 +81,14 @@ export async function POST(request: Request) {
       );
     }
 
+    validateProjectContent(parseResult.data)
+
     const {
       title,
       description,
       category,
       sub_category_id,
+      sub_category,
       difficulty,
       difficulty_stars,
       duration,
@@ -96,12 +101,28 @@ export async function POST(request: Request) {
       steps,
     } = parseResult.data;
 
+    let resolvedSubCategoryId: number | null = null
+    try {
+      resolvedSubCategoryId = await resolveSubCategoryId(
+        supabase,
+        category,
+        sub_category_id,
+        sub_category,
+      )
+    } catch (error) {
+      logger.error('Invalid project sub-category', { error, category, sub_category_id, sub_category })
+      return NextResponse.json(
+        { error: 'Invalid sub category' },
+        { status: 400 }
+      )
+    }
+
     // 创建项目
     const newProject: ProjectInsert = {
       title,
       description,
       category,
-      sub_category_id,
+      sub_category_id: resolvedSubCategoryId,
       difficulty: difficulty ?? null,
       difficulty_stars,
       duration,

@@ -10,6 +10,7 @@ import {
   CalendarCheck,
   ShoppingBag,
   Gift,
+  Trophy,
   History,
   Activity,
   ArrowRight,
@@ -25,7 +26,7 @@ import { Button } from "@/components/ui/button";
 
 type CoinLogRow = Database["public"]["Tables"]["coin_logs"]["Row"];
 
-function getActionLabel(
+export function getActionLabel(
   actionType: string,
   resourceId: string | null,
   counterpartyDisplayText: string | null,
@@ -46,6 +47,8 @@ function getActionLabel(
       }
       return resourceId ? `打赏 ${resourceId}` : "打赏";
     }
+    case "challenge_prize":
+      return counterpartyDisplayText || "挑战奖励";
     default:
       return actionType || "其他";
   }
@@ -59,6 +62,8 @@ function getActionIcon(actionType: string) {
       return <ShoppingBag className="h-4 w-4" />;
     case "tip":
       return <Gift className="h-4 w-4" />;
+    case "challenge_prize":
+      return <Trophy className="h-4 w-4" />;
     default:
       return <Activity className="h-4 w-4" />;
   }
@@ -72,6 +77,8 @@ function getActionIconStyle(actionType: string) {
       return "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400";
     case "tip":
       return "bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400";
+    case "challenge_prize":
+      return "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300";
     default:
       return "bg-muted text-muted-foreground dark:bg-muted/50 dark:text-muted-foreground/80";
   }
@@ -226,7 +233,7 @@ export default function CoinsPage() {
             ) : (
               logs.map((log) => {
                 const isPositive = log.amount >= 0;
-                const Icon = getActionIcon(log.action_type);
+                const actionIcon = getActionIcon(log.action_type);
                 const iconStyle = getActionIconStyle(log.action_type);
 
                 return (
@@ -238,7 +245,7 @@ export default function CoinsPage() {
                       <div
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${iconStyle}`}
                       >
-                        {Icon}
+                        {actionIcon}
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <p className="text-sm font-medium leading-none text-foreground group-hover:text-primary transition-colors">

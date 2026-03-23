@@ -67,12 +67,12 @@ interface CompletionForReview {
 }
 
 export default function AdminPage() {
-  const { canReview, loading } = useAuth()
+  const { canReview, isAdmin, loading } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   // Fetch pending projects for review
   const fetchPendingProjects = useCallback(async () => {
@@ -193,7 +193,7 @@ export default function AdminPage() {
           <TabsTrigger value="pending-completions">待审核作品 ({pendingCompletions.length})</TabsTrigger>
           <TabsTrigger value="reports">举报管理</TabsTrigger>
           <TabsTrigger value="projects">所有项目</TabsTrigger>
-          <TabsTrigger value="applications">审核员申请</TabsTrigger>
+          {isAdmin && <TabsTrigger value="applications">审核员申请</TabsTrigger>}
           <TabsTrigger value="challenges">挑战赛</TabsTrigger>
           <TabsTrigger value="tags">标签管理</TabsTrigger>
           <TabsTrigger value="users">用户管理</TabsTrigger>
@@ -298,9 +298,11 @@ export default function AdminPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="applications" className="space-y-4">
-          <ModeratorApplicationsList />
-        </TabsContent>
+        {isAdmin && (
+          <TabsContent value="applications" className="space-y-4">
+            <ModeratorApplicationsList />
+          </TabsContent>
+        )}
 
         <TabsContent value="challenges" className="space-y-4">
           <ChallengeManagement />

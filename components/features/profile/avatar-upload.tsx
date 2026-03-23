@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import { Upload, Camera, Plus } from "lucide-react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
+import { DEFAULT_AVATAR_FILES } from "@/lib/profile/avatar-options"
 import { cn } from "@/lib/utils"
 import {
   Dialog,
@@ -12,22 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
-/** public/avatars 下的预设头像文件名（全部展示，按编号排序） */
-const DEFAULT_AVATAR_FILES = [
-  "default-1.svg",
-  "default-2.svg",
-  "default-3.svg",
-  "default-4.svg",
-  "default-5.svg",
-  "default-6.svg",
-  "default-7.svg",
-  "default-8.svg",
-  "default-9.svg",
-  "default-10.svg",
-  "default-11.svg",
-  "default-12.svg",
-]
 
 interface AvatarUploadProps {
   value: string
