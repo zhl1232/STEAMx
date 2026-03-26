@@ -155,7 +155,7 @@ describe('ExploreClient', () => {
             const url = String(input)
 
             if (url.includes('page=1')) {
-                loadMoreSignal = init?.signal
+                loadMoreSignal = init?.signal ?? undefined
                 return new Promise<Response>((_, reject) => {
                     init?.signal?.addEventListener('abort', () => reject(createAbortError()), { once: true })
                 })

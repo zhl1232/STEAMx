@@ -447,7 +447,7 @@ export function ExploreClient({
             {/* 项目列表 */}
             <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => {
-                    const isPriority = index < 6
+                    const isPriority = index < 2
                     if (projects.length === index + 1) {
                         return (
                             <div ref={lastProjectElementRef} key={project.id}>

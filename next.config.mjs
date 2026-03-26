@@ -30,7 +30,7 @@ const nextConfig = {
       },
     ],
     // 图片格式优化
-    formats: ["image/webp", "image/avif"],
+    formats: ["image/webp"],
     // 设备尺寸断点
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     // 图片尺寸断点

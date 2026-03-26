@@ -11,22 +11,30 @@ const DEFAULT_BLUR_DATA_URL =
 const SIZE_PRESETS = {
   /** 头像 32~128px 容器 */
   avatar: "128px",
-  /** 卡片封面：移动端全宽、平板半宽、桌面 1/3 */
-  card: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  /** 卡片封面：限制桌面目标宽度，避免请求过大的图 */
+  card: "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 360px",
   /** 上传预览/封面：单块大图 */
-  cover: "(max-width: 768px) 100vw, 720px",
+  cover: "(max-width: 768px) 100vw, 960px",
   /** 作品墙网格：2/4 列 */
-  grid: "(max-width: 768px) 50vw, 25vw",
+  grid: "(max-width: 768px) 46vw, 220px",
   /** 列表小图/缩略图 */
-  thumbnail: "96px",
+  thumbnail: "128px",
 } as const
 
 const QUALITY_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
-  avatar: 75,
-  card: 75,
-  cover: 75,
-  grid: 75,
-  thumbnail: 75,
+  avatar: 60,
+  card: 60,
+  cover: 70,
+  grid: 55,
+  thumbnail: 55,
+}
+
+const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
+  avatar: 128,
+  card: 480,
+  cover: 1280,
+  grid: 320,
+  thumbnail: 160,
 }
 
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS
@@ -37,6 +45,31 @@ interface OptimizedImageProps extends Omit<ImageProps, "sizes" | "quality"> {
   quality?: number
   /** 是否使用模糊占位（远程图未传 blurDataURL 时用默认灰块），首屏 priority 图可不开 */
   blurPlaceholder?: boolean
+}
+
+function isSupabasePublicStorageUrl(src: string): boolean {
+  try {
+    const url = new URL(src)
+    const isSupabaseHost =
+      url.hostname.endsWith(".supabase.co") || url.hostname.endsWith(".supabase.opentrust.net")
+
+    return isSupabaseHost && url.pathname.includes("/storage/v1/object/public/")
+  } catch {
+    return false
+  }
+}
+
+function toSupabaseTransformedUrl(src: string, width: number, quality: number): string {
+  if (!isSupabasePublicStorageUrl(src)) {
+    return src
+  }
+
+  const url = new URL(src)
+  url.pathname = url.pathname.replace("/storage/v1/object/public/", "/storage/v1/render/image/public/")
+  url.searchParams.set("width", String(width))
+  url.searchParams.set("quality", String(quality))
+
+  return url.toString()
 }
 
 /**
@@ -56,19 +89,26 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
   const sizes = sizesProp ?? SIZE_PRESETS[variant]
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
+  const width = WIDTH_PRESETS[variant]
   // priority 与 loading="lazy" 互斥，只能二选一
   const loadingProp = priority ? undefined : (loading ?? "lazy")
   const useBlur = blurPlaceholder && !priority && (blurDataURL ?? DEFAULT_BLUR_DATA_URL)
+  const rawSrc = typeof rest.src === "string" ? rest.src : null
+  const useDirectSupabaseTransform = rawSrc !== null && variant !== "cover" && isSupabasePublicStorageUrl(rawSrc)
+  const src = useDirectSupabaseTransform ? toSupabaseTransformedUrl(rawSrc, width, quality) : rest.src
+
   return (
     <Image
+      {...rest}
+      src={src}
       sizes={sizes}
       quality={quality}
       loading={loadingProp}
       priority={priority}
+      unoptimized={useDirectSupabaseTransform}
       placeholder={useBlur ? "blur" : placeholder}
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
       className={cn(className)}
-      {...rest}
     />
   )
 }
