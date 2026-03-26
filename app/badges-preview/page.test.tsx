@@ -14,13 +14,13 @@ vi.mock("@/components/features/gamification/badge-icon", () => ({
 const originalNodeEnv = process.env.NODE_ENV;
 
 afterEach(() => {
-  process.env.NODE_ENV = originalNodeEnv;
+  vi.stubEnv("NODE_ENV", originalNodeEnv!);
   vi.resetModules();
 });
 
 describe("BadgesPreviewPage", () => {
   it("renders the preview in non-production environments", async () => {
-    process.env.NODE_ENV = "test";
+    vi.stubEnv("NODE_ENV", "test");
 
     const { default: BadgesPreviewPage } = await import("./page");
 
@@ -31,7 +31,7 @@ describe("BadgesPreviewPage", () => {
   });
 
   it("returns not found in production", async () => {
-    process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
 
     const { default: BadgesPreviewPage } = await import("./page");
 

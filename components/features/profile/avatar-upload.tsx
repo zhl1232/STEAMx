@@ -30,7 +30,7 @@ interface AvatarUploadProps {
 function getSelectedPresetFilename(value: string): string | null {
   if (!value || !value.startsWith("/avatars/")) return null
   const name = value.replace("/avatars/", "")
-  return DEFAULT_AVATAR_FILES.includes(name) ? name : null
+  return (DEFAULT_AVATAR_FILES as readonly string[]).includes(name) ? name : null
 }
 
 export function AvatarUpload({

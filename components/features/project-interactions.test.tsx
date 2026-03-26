@@ -95,7 +95,7 @@ describe('ProjectInteractions', () => {
                     {
                         id: 7,
                         author: 'Alice',
-                        avatar: null,
+                        avatar: undefined,
                         proofImages: [],
                         completedAt: '2026-03-20',
                         likes: 0,

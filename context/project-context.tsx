@@ -814,9 +814,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const clearLikesDeltaForProjects = useCallback((projectIds: (string | number)[]) => {
     if (projectIds.length === 0) return;
     setProjectLikesDelta((prev) => {
+      let changed = false;
       const next = { ...prev };
-      projectIds.forEach((id) => delete next[String(id)]);
-      return next;
+      projectIds.forEach((id) => {
+        const key = String(id);
+        if (key in next) {
+          delete next[key];
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
     });
   }, []);
   const isLiked = useCallback(

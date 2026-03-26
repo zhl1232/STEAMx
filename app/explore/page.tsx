@@ -32,7 +32,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
 
   return (
     <ExploreClient
-      key={JSON.stringify(params)}
       initialProjects={projects}
       initialHasMore={hasMore}
       initialPage={initialPage}

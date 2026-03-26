@@ -21,6 +21,7 @@ export interface Database {
           username: string | null
           display_name: string | null
           avatar_url: string | null
+          last_uploaded_avatar_url: string | null
           bio: string | null
           gender: string | null
           created_at: string
@@ -42,6 +43,7 @@ export interface Database {
           username?: string | null
           display_name?: string | null
           avatar_url?: string | null
+          last_uploaded_avatar_url?: string | null
           bio?: string | null
           gender?: string | null
           created_at?: string
@@ -63,6 +65,7 @@ export interface Database {
           username?: string | null
           display_name?: string | null
           avatar_url?: string | null
+          last_uploaded_avatar_url?: string | null
           bio?: string | null
           gender?: string | null
           created_at?: string

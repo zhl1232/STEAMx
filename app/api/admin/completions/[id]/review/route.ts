@@ -98,29 +98,25 @@ async function awardCompletionXp(completionId: number) {
     throw new Error('supabaseAdmin not configured, cannot award XP')
   }
 
-  const completionQuery = supabaseAdmin
+  const { data: completion, error: completionError } = await supabaseAdmin
     .from('completed_projects')
     .select('user_id, project_id')
-    .eq('id', completionId) as {
-      maybeSingle?: () => Promise<{ data: unknown }>
-      single?: () => Promise<{ data: unknown }>
-    }
+    .eq('id', completionId)
+    .maybeSingle()
 
-  const { data: completion } = completionQuery.maybeSingle
-    ? await completionQuery.maybeSingle()
-    : await completionQuery.single!()
+  if (completionError) {
+    throw completionError
+  }
 
   if (!completion) return
-
-  const comp = completion as { user_id: string; project_id: number }
 
   // Insert XP log with ON CONFLICT DO NOTHING (unique index prevents duplicates)
   const { data: inserted, error: xpLogError } = await supabaseAdmin
     .from('xp_logs')
     .upsert({
-      user_id: comp.user_id,
+      user_id: completion.user_id,
       action_type: 'complete_project',
-      resource_id: String(comp.project_id),
+      resource_id: String(completion.project_id),
       xp_amount: COMPLETION_XP,
     } as never, { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true })
     .select('id')
@@ -136,7 +132,7 @@ async function awardCompletionXp(completionId: number) {
 
   // Increment user XP atomically
   const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
-    p_user_id: comp.user_id,
+    p_user_id: completion.user_id,
     p_amount: COMPLETION_XP,
   })
 

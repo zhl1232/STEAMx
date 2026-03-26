@@ -59,6 +59,7 @@ export default function SortingPage() {
         setAlgorithm,
         setArraySize,
         setSpeed,
+        generateArray,
         start,
         pause,
         resume,

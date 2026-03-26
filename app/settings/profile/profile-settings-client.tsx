@@ -298,7 +298,7 @@ export default function ProfileSettingsClient() {
                 <Label htmlFor="gender">性别</Label>
                 <Select
                   value={form.gender || "none"}
-                  onValueChange={(value) => updateField("gender", value === "none" ? null : value)}
+                  onValueChange={(value) => updateField("gender", value === "none" ? null : value as typeof PROFILE_GENDER_OPTIONS[number])}
                   disabled={isSaving}
                 >
                   <SelectTrigger id="gender">

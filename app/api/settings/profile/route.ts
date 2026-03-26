@@ -10,16 +10,12 @@ import {
   toBirthDate,
 } from '@/lib/profile/settings'
 import { createClient } from '@/lib/supabase/server'
+import type { Database } from '@/lib/supabase/types'
 
-type ProfileSettingsRow = {
-  username: string | null
-  display_name: string | null
-  bio: string | null
-  gender: string | null
-  birth_date: string | null
-  avatar_url: string | null
-  last_uploaded_avatar_url?: string | null
-}
+type ProfileSettingsRow = Pick<
+  Database['public']['Tables']['profiles']['Row'],
+  'username' | 'display_name' | 'bio' | 'gender' | 'birth_date' | 'avatar_url' | 'last_uploaded_avatar_url'
+>
 
 export async function GET() {
   const supabase = await createClient()
@@ -40,7 +36,7 @@ export async function GET() {
       return NextResponse.json({ error: '个人资料不存在' }, { status: 404 })
     }
 
-    const row = data as ProfileSettingsRow
+    const row: ProfileSettingsRow = data
     const { birthYear, birthMonth } = splitBirthDate(row.birth_date)
 
     return NextResponse.json({
@@ -101,33 +97,22 @@ export async function PATCH(request: NextRequest) {
 
     const birthDate = toBirthDate(payload.birth_year, payload.birth_month)
     const isCustomUpload = !payload.avatar_url.startsWith('/avatars/')
-    const updatePayload = {
+    const updatePayload: Database['public']['Tables']['profiles']['Update'] = {
       display_name: payload.display_name,
       bio: payload.bio || null,
       gender: payload.gender,
       birth_date: birthDate,
       avatar_url: payload.avatar_url,
       updated_at: new Date().toISOString(),
-      ...(isCustomUpload
-        ? { last_uploaded_avatar_url: payload.avatar_url }
-        : {}),
-    } as {
-      avatar_url: string
-      bio: string | null
-      birth_date: string | null
-      display_name: string
-      gender: string | null
-      last_uploaded_avatar_url?: string
-      updated_at: string
     }
 
-    if (!isCustomUpload) {
-      delete updatePayload.last_uploaded_avatar_url
+    if (isCustomUpload) {
+      updatePayload.last_uploaded_avatar_url = payload.avatar_url
     }
 
     const { data, error } = await supabase
       .from('profiles')
-      .update(updatePayload as never)
+      .update(updatePayload)
       .eq('id', user.id)
       .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url')
       .maybeSingle()
@@ -140,7 +125,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: '个人资料不存在' }, { status: 404 })
     }
 
-    const row = data as ProfileSettingsRow
+    const row: ProfileSettingsRow = data
     const { birthYear, birthMonth } = splitBirthDate(row.birth_date)
 
     return NextResponse.json({

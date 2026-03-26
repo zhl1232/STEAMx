@@ -61,12 +61,12 @@ describe('POST /api/admin/completions/[id]/review', () => {
             }),
         })
 
-        const completedProjectsSingle = vi.fn().mockResolvedValue({
+        const completedProjectsMaybeSingle = vi.fn().mockResolvedValue({
             data: { user_id: 'user-1', project_id: 42 },
             error: null,
         })
         const completedProjectsEq = vi.fn().mockReturnValue({
-            single: completedProjectsSingle,
+            maybeSingle: completedProjectsMaybeSingle,
         })
         const completedProjectsSelect = vi.fn().mockReturnValue({
             eq: completedProjectsEq,

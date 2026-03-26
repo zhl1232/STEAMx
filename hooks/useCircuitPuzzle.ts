@@ -384,7 +384,7 @@ function normalizeStats(raw: unknown): CircuitStats {
         ? Object.fromEntries(
             Object.entries(raw.bestTimes)
                 .filter(([levelId, value]) => validLevelIds.has(levelId) && typeof value === "number" && Number.isFinite(value) && value >= 0)
-                .map(([levelId, value]) => [levelId, Math.floor(value)]),
+                .map(([levelId, value]) => [levelId, Math.floor(value as number)]),
         )
         : {}
 

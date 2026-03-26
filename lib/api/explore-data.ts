@@ -20,6 +20,10 @@ import { logger } from "@/lib/logger";
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
 type CompletionRowForMapper = Omit<Parameters<typeof mapDbCompletion>[0], "profiles">;
+type ExploreFilterOptions = {
+  categories: string[];
+  availableTags: string[];
+};
 
 type SmokeProject = Project & {
   createdAt: string;
@@ -103,6 +107,11 @@ const SMOKE_PROJECTS: SmokeProject[] = [
 ];
 
 const SMOKE_TAGS = Array.from(new Set(SMOKE_PROJECTS.flatMap((project) => project.tags || []))).sort();
+const EXPLORE_FILTER_OPTIONS_TTL_MS = 5 * 60 * 1000;
+let cachedExploreFilterOptions:
+  | { data: ExploreFilterOptions; expiresAt: number }
+  | null = null;
+let exploreFilterOptionsPromise: Promise<ExploreFilterOptions> | null = null;
 
 /**
  * 项目筛选参数
@@ -204,10 +213,7 @@ function getSmokeProjects(
   };
 }
 
-export async function getExploreFilterOptions(): Promise<{
-  categories: string[];
-  availableTags: string[];
-}> {
+export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
   if (isPlaywrightSmoke()) {
     return {
       categories: SMOKE_CATEGORIES,
@@ -215,23 +221,45 @@ export async function getExploreFilterOptions(): Promise<{
     };
   }
 
-  const supabase = await createClient();
-  const [{ data: categoriesData }, { data: tagsData }] = await Promise.all([
-    supabase.from("categories").select("name").order("sort_order"),
-    supabase.from("projects").select("tags").eq("status", "approved").not("tags", "is", null),
-  ]);
+  const now = Date.now();
+  if (cachedExploreFilterOptions && cachedExploreFilterOptions.expiresAt > now) {
+    return cachedExploreFilterOptions.data;
+  }
 
-  const categories = ["全部", ...((categoriesData as { name: string }[] | null)?.map((category) => category.name) || [])];
-  const categoryNames = new Set(categories);
-  const availableTags = Array.from(
-    new Set(
-      (((tagsData as { tags: string[] | null }[] | null) || [])
-        .flatMap((project) => project.tags || [])
-        .filter((tag) => tag && !categoryNames.has(tag))),
-    ),
-  ).sort();
+  if (exploreFilterOptionsPromise) {
+    return exploreFilterOptionsPromise;
+  }
 
-  return { categories, availableTags };
+  exploreFilterOptionsPromise = (async () => {
+    const supabase = await createClient();
+    const [{ data: categoriesData }, { data: tagsData }] = await Promise.all([
+      supabase.from("categories").select("name").order("sort_order"),
+      supabase.from("projects").select("tags").eq("status", "approved").not("tags", "is", null),
+    ]);
+
+    const categories = ["全部", ...((categoriesData as { name: string }[] | null)?.map((category) => category.name) || [])];
+    const categoryNames = new Set(categories);
+    const availableTags = Array.from(
+      new Set(
+        (((tagsData as { tags: string[] | null }[] | null) || [])
+          .flatMap((project) => project.tags || [])
+          .filter((tag) => tag && !categoryNames.has(tag))),
+      ),
+    ).sort();
+
+    const data = { categories, availableTags };
+    cachedExploreFilterOptions = {
+      data,
+      expiresAt: Date.now() + EXPLORE_FILTER_OPTIONS_TTL_MS,
+    };
+    return data;
+  })();
+
+  try {
+    return await exploreFilterOptionsPromise;
+  } finally {
+    exploreFilterOptionsPromise = null;
+  }
 }
 
 /**

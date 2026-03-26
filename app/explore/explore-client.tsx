@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef, useCallback, useTransition, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
 import { useProjects } from '@/context/project-context'
@@ -41,19 +41,12 @@ export function ExploreClient({
     categories: propCategories,
     availableTags = []
 }: ExploreClientProps) {
-    const router = useRouter()
     const searchParams = useSearchParams()
     const { toast } = useToast()
-    const [isPending, startTransition] = useTransition()
     const { clearLikesDeltaForProjects } = useProjects()
     // const { user } = useAuth()
 
     const displayCategories = propCategories || defaultCategories
-
-    // 用服务端列表展示时清除这些项目的点赞 delta，避免与乐观更新重复计算
-    useEffect(() => {
-        clearLikesDeltaForProjects(initialProjects.map(p => p.id))
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps -- 仅首屏 initial 时同步一次
 
     // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
@@ -66,7 +59,10 @@ export function ExploreClient({
     const [page, setPage] = useState(initialPage + 1)
     const [hasMore, setHasMore] = useState(initialHasMore)
     const [isLoadingMore, setIsLoadingMore] = useState(false)
+    const [isFiltering, setIsFiltering] = useState(false)
     const observer = useRef<IntersectionObserver | null>(null)
+    const activeFilterRequest = useRef<AbortController | null>(null)
+    const activeLoadMoreRequest = useRef<AbortController | null>(null)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
@@ -77,10 +73,47 @@ export function ExploreClient({
         !!initialSubCategory || initialDifficulty !== "all" || initialTags.length > 0
     )
 
+    useEffect(() => {
+        setProjects(initialProjects)
+        setHasMore(initialHasMore)
+        setPage(initialPage + 1)
+        clearLikesDeltaForProjects(initialProjects.map(p => p.id))
+    }, [initialProjects, initialHasMore, initialPage, clearLikesDeltaForProjects])
+
+    useEffect(() => {
+        const nextQuery = searchParams.get("q") || ""
+        const nextCategory = searchParams.get("category") || "全部"
+        const nextSubCategory = searchParams.get("subCategory") || ""
+        const nextDifficulty = searchParams.get("difficulty") || "all"
+        const nextTags = searchParams.get("tags")?.split(",").filter(Boolean) || []
+
+        setSearchQuery(nextQuery)
+        setSelectedCategory(nextCategory)
+        setSelectedSubCategory(nextSubCategory)
+        setSelectedDifficulty(nextDifficulty)
+        setSelectedTags(nextTags)
+        setShowAdvancedFilters(!!nextSubCategory || nextDifficulty !== "all" || nextTags.length > 0)
+    }, [searchParams])
+
+    useEffect(() => {
+        return () => {
+            activeFilterRequest.current?.abort()
+            activeLoadMoreRequest.current?.abort()
+            observer.current?.disconnect()
+        }
+    }, [])
+
+    const isAbortError = useCallback((error: unknown) => {
+        return (error instanceof DOMException && error.name === 'AbortError')
+            || (error instanceof Error && error.name === 'AbortError')
+    }, [])
+
     // 获取当前主分类对应的子分类
-    const currentSubCategories = selectedCategory === "全部"
-        ? Object.values(CATEGORY_CONFIG).flat()
-        : CATEGORY_CONFIG[selectedCategory] || []
+    const currentSubCategories = useMemo(() => (
+        selectedCategory === "全部"
+            ? Object.values(CATEGORY_CONFIG).flat()
+            : CATEGORY_CONFIG[selectedCategory] || []
+    ), [selectedCategory])
 
     // 构建 URL 参数
     const buildSearchParams = useCallback((overrides: {
@@ -106,16 +139,26 @@ export function ExploreClient({
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags])
 
+    const syncUrl = useCallback((params: URLSearchParams) => {
+        const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
+        window.history.replaceState(null, '', nextUrl)
+    }, [])
+
     // 加载更多项目
     const loadMore = useCallback(async () => {
-        if (isLoadingMore || !hasMore) return
+        if (isLoadingMore || isFiltering || !hasMore) return
 
+        activeLoadMoreRequest.current?.abort()
+        const controller = new AbortController()
+        activeLoadMoreRequest.current = controller
         setIsLoadingMore(true)
         const params = buildSearchParams()
         params.set('page', String(page))
 
         try {
-            const response = await fetch(`/api/projects?${params.toString()}`)
+            const response = await fetch(`/api/projects?${params.toString()}`, {
+                signal: controller.signal,
+            })
             if (!response.ok) {
                 throw new Error(await response.text())
             }
@@ -125,16 +168,22 @@ export function ExploreClient({
             setHasMore(data.hasMore)
             setPage(prev => prev + 1)
         } catch (error) {
+            if (isAbortError(error)) {
+                return
+            }
             logger.error('Error loading more projects', { error })
             toast({ title: '加载失败', description: '无法加载更多项目，请稍后重试', variant: 'destructive' })
         } finally {
-            setIsLoadingMore(false)
+            if (activeLoadMoreRequest.current === controller) {
+                activeLoadMoreRequest.current = null
+                setIsLoadingMore(false)
+            }
         }
-    }, [isLoadingMore, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, toast])
+    }, [isLoadingMore, isFiltering, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, toast])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
-        if (isLoadingMore) return
+        if (isLoadingMore || isFiltering) return
         if (observer.current) observer.current.disconnect()
 
         observer.current = new IntersectionObserver(entries => {
@@ -144,30 +193,43 @@ export function ExploreClient({
         })
 
         if (node) observer.current.observe(node)
-    }, [isLoadingMore, hasMore, loadMore])
+    }, [isLoadingMore, isFiltering, hasMore, loadMore])
 
     // 执行筛选
-    const executeFilter = (params: URLSearchParams) => {
-        const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
-        setPage(1)
+    const executeFilter = useCallback(async (params: URLSearchParams) => {
+        activeFilterRequest.current?.abort()
+        activeLoadMoreRequest.current?.abort()
+        const controller = new AbortController()
+        activeFilterRequest.current = controller
 
-        startTransition(async () => {
-            try {
-                const response = await fetch(`/api/projects?${params.toString()}`)
-                if (!response.ok) {
-                    throw new Error(await response.text())
-                }
-                const data = await response.json()
-                setProjects(data.projects)
-                clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
-                setHasMore(data.hasMore)
-                router.push(nextUrl)
-            } catch (error) {
-                logger.error('Error fetching projects', { error })
-                toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
+        setIsFiltering(true)
+
+        try {
+            const response = await fetch(`/api/projects?${params.toString()}`, {
+                signal: controller.signal,
+            })
+            if (!response.ok) {
+                throw new Error(await response.text())
             }
-        })
-    }
+            const data = await response.json()
+            setProjects(data.projects)
+            clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
+            setHasMore(data.hasMore)
+            setPage(1)
+            syncUrl(params)
+        } catch (error) {
+            if (isAbortError(error)) {
+                return
+            }
+            logger.error('Error fetching projects', { error })
+            toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
+        } finally {
+            if (activeFilterRequest.current === controller) {
+                activeFilterRequest.current = null
+                setIsFiltering(false)
+            }
+        }
+    }, [clearLikesDeltaForProjects, isAbortError, syncUrl, toast])
 
 
 
@@ -212,24 +274,7 @@ export function ExploreClient({
         setSelectedSubCategory("")
         setSelectedDifficulty("all")
         setSelectedTags([])
-        setPage(1)
-
-        startTransition(async () => {
-            try {
-                const response = await fetch('/api/projects')
-                if (!response.ok) {
-                    throw new Error(await response.text())
-                }
-                const data = await response.json()
-                setProjects(data.projects)
-                clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
-                setHasMore(data.hasMore)
-                router.push('/explore')
-            } catch (error) {
-                logger.error('Error fetching projects', { error })
-                toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
-            }
-        })
+        executeFilter(new URLSearchParams())
     }
 
     // 清除子分类选择
@@ -265,13 +310,13 @@ export function ExploreClient({
                         <button
                             key={category}
                             onClick={() => handleCategoryClick(category)}
-                            disabled={isPending}
+                            disabled={isFiltering}
                             className={cn(
                                 "px-4 py-1.5 rounded-full text-sm font-medium transition-colors border",
                                 selectedCategory === category
                                     ? "bg-primary text-primary-foreground border-primary"
                                     : "bg-background hover:bg-muted text-muted-foreground border-input",
-                                isPending && "opacity-50 cursor-not-allowed"
+                                isFiltering && "opacity-50 cursor-not-allowed"
                             )}
                         >
                             {category}
@@ -320,13 +365,13 @@ export function ExploreClient({
                                             <button
                                                 key={sub}
                                                 onClick={() => handleSubCategoryClick(sub)}
-                                                disabled={isPending}
+                                                disabled={isFiltering}
                                                 className={cn(
                                                     "px-3 py-1 rounded-full text-sm font-medium transition-all border",
                                                     selectedSubCategory === sub
                                                         ? "bg-primary text-primary-foreground border-primary shadow-sm"
                                                         : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5",
-                                                    isPending && "opacity-50 cursor-not-allowed"
+                                                    isFiltering && "opacity-50 cursor-not-allowed"
                                                 )}
                                             >
                                                 {sub}
@@ -344,13 +389,13 @@ export function ExploreClient({
                                         <button
                                             key={option.value}
                                             onClick={() => handleDifficultyClick(option.value)}
-                                            disabled={isPending}
+                                            disabled={isFiltering}
                                             className={cn(
                                                 "px-3 py-1 rounded-full text-sm font-medium transition-all border",
                                                 selectedDifficulty === option.value
                                                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
                                                     : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5",
-                                                isPending && "opacity-50 cursor-not-allowed"
+                                                isFiltering && "opacity-50 cursor-not-allowed"
                                             )}
                                         >
                                             {option.label}
@@ -379,13 +424,13 @@ export function ExploreClient({
                                             <button
                                                 key={tag}
                                                 onClick={() => handleTagClick(tag)}
-                                                disabled={isPending}
+                                                disabled={isFiltering}
                                                 className={cn(
                                                     "px-3 py-1 rounded-full text-sm font-medium transition-all border",
                                                     selectedTags.includes(tag)
                                                         ? "bg-primary text-primary-foreground border-primary shadow-sm"
                                                         : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5",
-                                                    isPending && "opacity-50 cursor-not-allowed"
+                                                    isFiltering && "opacity-50 cursor-not-allowed"
                                                 )}
                                             >
                                                 {tag}
@@ -414,7 +459,7 @@ export function ExploreClient({
                     }
                 })}
 
-                {(isLoadingMore || isPending) && (
+                {isLoadingMore && (
                     <>
                         {[1, 2, 3].map((i) => (
                             <ProjectCardSkeleton key={`skeleton-${i}`} />
@@ -424,7 +469,7 @@ export function ExploreClient({
             </div>
 
             {/* 空状态 */}
-            {!isLoadingMore && !isPending && projects.length === 0 && (
+            {!isLoadingMore && !isFiltering && projects.length === 0 && (
                 <div className="text-center py-20">
                     <div className="text-4xl mb-4">🔍</div>
                     <h3 className="text-lg font-semibold mb-2">没有找到相关项目</h3>
