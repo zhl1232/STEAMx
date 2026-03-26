@@ -127,13 +127,14 @@ export async function POST(
         throw error
       }
 
-      // Trigger evergreen challenge completion if applicable
+      // Trigger evergreen challenge completion if applicable (non-blocking)
       if (project.challenge_id) {
+        try {
           const { data: ch } = await supabase
             .from('challenges')
             .select('challenge_type, status')
             .eq('id', project.challenge_id)
-            .single()
+            .maybeSingle()
 
           if (ch && (ch as { challenge_type: string; status: string }).challenge_type === 'evergreen'
             && (ch as { challenge_type: string; status: string }).status === 'active') {
@@ -143,8 +144,13 @@ export async function POST(
               'complete_evergreen_challenge',
               { p_user_id: project.author_id, p_challenge_id: project.challenge_id, p_project_id: projectId }
             )
-            if (rpcError) throw rpcError
+            if (rpcError) {
+              logger.error(rpcError, { context: 'Evergreen challenge completion failed (project already approved)', projectId })
+            }
           }
+        } catch (evergreenError) {
+          logger.error(evergreenError, { context: 'Evergreen challenge completion failed (project already approved)', projectId })
+        }
       }
 
       if (!wasApproved) {

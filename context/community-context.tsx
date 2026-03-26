@@ -207,7 +207,6 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         if (!user) return;
         const cid = Number(challengeId);
 
-        // Find current challenge across all groups
         const allChallenges = [
             ...challengesRef.current.activeTimed,
             ...challengesRef.current.evergreen,
@@ -218,15 +217,18 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
         const isJoined = challenge.joined;
 
-        const updateGroup = (arr: Challenge[]) => arr.map(c =>
+        const applyToggle = (arr: Challenge[]) => arr.map(c =>
             Number(c.id) === cid ? { ...c, joined: !isJoined, participants: c.participants + (isJoined ? -1 : 1) } : c
         );
 
+        // Save snapshot for rollback
+        const snapshot = challengesRef.current;
+
         // Optimistic update
         setChallenges(prev => ({
-            activeTimed: updateGroup(prev.activeTimed),
-            evergreen: updateGroup(prev.evergreen),
-            ended: updateGroup(prev.ended),
+            activeTimed: applyToggle(prev.activeTimed),
+            evergreen: applyToggle(prev.evergreen),
+            ended: applyToggle(prev.ended),
         }));
 
         try {
@@ -247,11 +249,8 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                 await addXp(10, "参加挑战赛", "join_challenge", cid);
             }
         } catch (error) {
-            setChallenges(prev => ({
-                activeTimed: updateGroup(prev.activeTimed),
-                evergreen: updateGroup(prev.evergreen),
-                ended: updateGroup(prev.ended),
-            }));
+            // Restore snapshot instead of re-applying the toggle (which would apply the same direction twice)
+            setChallenges(snapshot);
             logger.error(error, { context: "Error toggling challenge participation" });
             throw error;
         }

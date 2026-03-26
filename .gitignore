@@ -39,3 +39,9 @@ test-results/
 # CI/CD artifacts
 cloudflare-secrets*.json
 deploy-*.log
+
+# temp / one-off artifacts
+.tmp-imagegen-venv/
+missing_project_covers.json
+*-backup-before-regenerate/
+tmp-*.mjs

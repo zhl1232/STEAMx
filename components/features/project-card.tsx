@@ -32,7 +32,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
             >
                 {/* Main Card Link Overlay */}
                 <Link
-                    href={project.id === "color-lab" ? "/project/color-lab" : `/project/${project.id}`}
+                    href={`/project/${project.id}`}
                     className="absolute inset-0 z-0"
                     aria-label={`View project ${project.title}`}
                 />

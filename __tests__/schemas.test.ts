@@ -10,7 +10,7 @@ describe('CreateProjectSchema', () => {
         difficulty_stars: 2,
         duration: 30,
         status: 'pending' as const,
-        image_url: '/projects/paper-bridge.png',
+        image_url: '/projects/paper-bridge.webp',
         materials: ['A4 纸', '胶带'],
         steps: [
             {

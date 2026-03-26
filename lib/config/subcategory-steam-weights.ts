@@ -9,8 +9,9 @@ export interface SteamWeights {
 export const SUBCATEGORY_STEAM_WEIGHTS: Record<string, SteamWeights> = {
   "物理实验": { S: 35, T: 5,  E: 5,  A: 0,  M: 15 },
   "化学实验": { S: 35, T: 10, E: 5,  A: 0,  M: 5  },
-  "生物观察": { S: 35, T: 5,  E: 0,  A: 5,  M: 5  },
-  "天文地理": { S: 30, T: 10, E: 0,  A: 0,  M: 10 },
+  "动物观察": { S: 35, T: 5,  E: 0,  A: 5,  M: 5  },
+  "植物观察": { S: 35, T: 5,  E: 0,  A: 5,  M: 5  },
+  "地球与天空": { S: 30, T: 10, E: 0,  A: 0,  M: 10 },
   "编程入门": { S: 5,  T: 35, E: 5,  A: 0,  M: 10 },
   "电子制作": { S: 10, T: 25, E: 20, A: 0,  M: 5  },
   "机器人":   { S: 10, T: 25, E: 25, A: 0,  M: 5  },

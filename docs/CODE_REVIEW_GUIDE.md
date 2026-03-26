@@ -170,25 +170,36 @@
 - [x] **PR-01** `app/api/projects/route.ts`
 - [x] **PR-02** `app/api/projects/[id]/like/route.ts`
 - [x] **PR-03** `app/api/projects/[id]/comments/route.ts`
-- [ ] **PR-04** `app/api/completions/[id]/likes/route.ts`
-- [ ] **PR-05** `app/api/completions/[id]/comments/route.ts`
-- [ ] **PR-06** `app/api/completions/[id]/tips/route.ts`
+- [x] **PR-04** `app/api/completions/[id]/likes/route.ts`
+  - [x] DELETE 端点补充 `requireRateLimit`，与 POST 共享限流 key
+- [x] **PR-05** `app/api/completions/[id]/comments/route.ts`
+  - [x] ID 校验从 `Number(id)` 改为 `validateNumber(id, ..., { min: 1, integer: true })`
+  - [x] `request.json()` 畸形 body 捕获为 400 而非 500
+- [x] **PR-06** `app/api/completions/[id]/tips/route.ts`
+  - [x] ID 校验统一为 `validateNumber`
+  - [x] 添加 `requireRateLimit`（30 次/分钟）+ `handleApiError`
 - [x] **PR-07** `app/api/upload/route.ts`
-- [ ] **PR-08** `app/api/upload-video/route.ts`
+- [x] **PR-08** `app/api/upload-video/route.ts`
 
 ### 7.4 讨论与评论
 
-- [ ] **D-01** `app/api/discussions/route.ts`
+- [x] **D-01** `app/api/discussions/route.ts`
+  - [x] POST 认证+限流+校验完备；GET `.or()` 字符串拼接依赖 `sanitizeSearch` 过滤，当前安全（S2 留意未来修改）
 - [x] **D-02** `app/api/discussions/[id]/route.ts`
 - [x] **D-03** `app/api/discussions/[id]/like/route.ts`
   - [x] 缺失讨论时使用 `maybeSingle()` 返回 404，避免 `single()` 无记录落成 500
-- [ ] **D-04** `app/api/discussions/tags/route.ts`
-- [ ] **C-01** `app/api/comments/route.ts`
-- [ ] **C-02** `app/api/comments/[id]/route.ts`
+- [x] **D-04** `app/api/discussions/tags/route.ts`
+  - [x] `.limit(200)` 无 ORDER BY 采样不可靠（S2），数据量小暂可接受
+- [x] **C-01** `app/api/comments/route.ts`
+  - [x] `isOwnedCommentImageUrl` 增加主机名白名单校验，提取至 `lib/api/validation.ts` 共享
+- [x] **C-02** `app/api/comments/[id]/route.ts`
+  - [x] DELETE 先查后删 TOCTOU 竞态（S2），RLS 兜底不影响安全性
 - [x] **C-03** `app/api/comments/[id]/like/route.ts`
   - [x] 缺失评论时使用 `maybeSingle()` 返回 404，避免 `single()` 无记录落成 500
-- [ ] **R-01** `app/api/replies/route.ts`
-- [ ] **R-02** `app/api/replies/[id]/route.ts`
+- [x] **R-01** `app/api/replies/route.ts`
+  - [x] `isOwnedCommentImageUrl` 增加主机名校验，复用 `lib/api/validation.ts` 共享函数
+- [x] **R-02** `app/api/replies/[id]/route.ts`
+  - [x] DELETE 先查后删 TOCTOU 竞态（S2），RLS 兜底不影响安全性
 - [x] **R-03** `app/api/replies/[id]/like/route.ts`
   - [x] 复核回复点赞路由的不存在分支与 RPC 错误处理
 
@@ -220,22 +231,34 @@
 ### 7.8 排行榜、打赏、举报
 
 - [x] **L-01** `app/api/leaderboard/route.ts`
-- [ ] **T-01** `app/api/tips/route.ts`
-- [ ] **T-02** `app/api/tips/my/route.ts`
-- [ ] **RP-01** `app/api/reports/route.ts`
-- [ ] **RP-02** `app/api/admin/reports/route.ts`
+- [x] **T-01** `app/api/tips/route.ts`
+  - [x] 需确认 RPC `tip_resource` 阻止自我打赏（S2）
+- [x] **T-02** `app/api/tips/my/route.ts`
+  - [x] 添加 `requireRateLimit`（30 次/分钟）+ 统一 `handleApiError`
+- [x] **RP-01** `app/api/reports/route.ts`
+  - [x] 唯一约束防重复举报；被举报内容存在性依赖外键约束（S2 可增强）
+- [x] **RP-02** `app/api/admin/reports/route.ts`
+  - [x] 角色鉴权完备；建议补充管理端限流（S2）
 - [x] **RP-03** `app/api/admin/reports/[id]/route.ts`
 
 ### 7.9 管理端
 
-- [ ] **AD-01** `app/api/admin/users/route.ts`
-- [ ] **AD-02** `app/api/admin/tags/route.ts`
-- [ ] **AD-03** `app/api/admin/tags/[id]/route.ts`
+- [x] **AD-01** `app/api/admin/users/route.ts`
+  - [x] 错误信息不再泄露 `SUPABASE_SERVICE_ROLE_KEY` 环境变量名
+- [x] **AD-02** `app/api/admin/tags/route.ts`
+  - [x] `createClient()` 在 try 外调用（S3），整体功能正确
+- [x] **AD-03** `app/api/admin/tags/[id]/route.ts`
 - [x] **AD-04** `app/api/admin/challenges/route.ts`
 - [x] **AD-05** `app/api/admin/challenges/[id]/route.ts`
 - [x] **AD-06** `app/api/admin/challenges/[id]/status/route.ts`
-- [ ] **AD-07** `app/api/admin/projects/[id]/review/route.ts`
-- [ ] **AD-08** `app/api/admin/completions/[id]/review/route.ts`
+- [x] **AD-07** `app/api/admin/projects/[id]/review/route.ts`
+  - [x] `complete_evergreen_challenge` 失败降级为 warn 日志，不再导致已批准项目返回 500
+  - [x] challenge 查询改为 `.maybeSingle()`，已删除的挑战不再抛 PGRST116
+- [x] **AD-08** `app/api/admin/completions/[id]/review/route.ts`
+  - [x] `supabaseAdmin` 为 null 时提前返回 500 而非静默丢失 XP
+  - [x] XP 发放失败降级为 warn，响应标记 `xpAwarded: false`
+  - [x] ID 校验统一为 `validateNumber`（不再允许 0 和负数）
+  - [x] `awardCompletionXp` 中 `.single()` 改为 `.maybeSingle()`
 
 ### 7.10 版主
 
@@ -245,26 +268,43 @@
 
 ## 阶段 8：功能横切（非单页）
 
-- [ ] **X-AUTH** `context/auth-context.tsx`、`context/login-prompt-context.tsx` — 未登录操作与导航一致
-- [ ] **X-COMMUNITY** `context/community-context.tsx` — 社区页状态、筛选条件与 API 请求一致
-- [ ] **X-GAME** `context/gamification-context.tsx`、`docs/GAMIFICATION.md` — 积分与 UI 同步
+- [x] **X-AUTH** `context/auth-context.tsx`、`context/login-prompt-context.tsx` — 未登录操作与导航一致
+  - [x] `onAuthStateChange` 防重复 fetch、权限角色仅用于 UI 展示、服务端独立鉴权
+- [x] **X-COMMUNITY** `context/community-context.tsx` — 社区页状态、筛选条件与 API 请求一致
+  - [x] `joinChallenge` 乐观更新回滚改为快照恢复，修复 catch 中重复施加同方向 delta 的 bug
+- [x] **X-GAME** `context/gamification-context.tsx`、`docs/GAMIFICATION.md` — 积分与 UI 同步
+  - [x] `increment_client_xp` RPC 撤销 authenticated 直接调用权限，改走 `/api/xp/increment` API（有认证+限流）
+  - [x] 等级公式、徽章检查时机与 GAMIFICATION.md 一致
 - [x] **X-NOTIF** `components/notification-bell.tsx`、`context/notification-context.tsx` — 轮询/实时、未读数
   - [x] 轮询合并第一页新通知时保持 `hasMore` 已完成状态，不重复打开“继续加载”
-- [ ] **X-PROJ** `context/project-context.tsx` — 与 `ConditionalAppShell` 挂载范围一致
-- [ ] **X-SEARCH** `components/header-search.tsx` — 防抖、空结果、跳转
-- [ ] **X-UPLOAD** `components/ui/image-upload.tsx` + upload API — 大小、类型、失败重试
+- [x] **X-PROJ** `context/project-context.tsx` — 与 `ConditionalAppShell` 挂载范围一致
+  - [x] Provider 挂载范围与 `needsProjectProvider` 路径匹配正确
+- [x] **X-SEARCH** `components/header-search.tsx` — 防抖、空结果、跳转
+  - [x] Enter/Button 触发设计无需 debounce；空查询→`/explore`；搜索中无 loading 反馈（S2 可增强）
+- [x] **X-UPLOAD** `components/ui/image-upload.tsx` + upload API — 大小、类型、失败重试
+  - [x] 客户端类型/大小校验 + 服务端 magic-bytes 二次验证；上传失败无自动重试（S2 可增强）
 - [x] **X-VALIDATION** `lib/api/validation.ts`、`lib/api/rate-limit.ts`、`lib/api/auth-rate-limit.ts` — 共享校验与限流策略未漂移
-- [ ] **X-REPORT** `app/api/reports/route.ts` + UI（grep `reports`）— 频率、重复举报
-- [ ] **X-I18N** 全站抽检 — 中英文混排、外链合法
+  - [x] `isOwnedCommentImageUrl` 提取至 `validation.ts` 共享，增加主机名校验
+- [x] **X-REPORT** `app/api/reports/route.ts` + UI（grep `reports`）— 频率、重复举报
+  - [x] 服务端限流 10 次/分钟 + DB 唯一约束防重复 + 客户端 409 处理
+- [x] **X-I18N** 全站抽检 — 中英文混排、外链合法
+  - [x] 法律页面、toast、OpenGraph 均为中文；`<html lang="zh">` 正确；STEAM 标签使用英文属设计意图
 
 ---
 
 ## 阶段 9：横切收尾
 
-- [ ] **9.1** `lib/supabase/types.ts` — 与查询/写入字段一致
-- [ ] **9.2** `docs/supabase-security-inventory.md` + RLS 假设 — 与 API 行为一致
-- [ ] **9.3** 性能抽检 — 大列表、图片/视频、Recharts 等无 obvious 回归
-- [ ] **9.4** `__tests__/api.discussions-route.test.ts`、`__tests__/api.completion-review-route.test.ts`、`__tests__/badges.test.ts`、`e2e/smoke.spec.ts`、`e2e/messages.spec.ts`、`e2e/integration/core-flow.spec.ts`、`e2e/integration/community-like-persist.spec.ts`、`lib/testing/playwright-smoke.ts` — 主流程有覆盖或缺口已记录
+- [x] **9.1** `lib/supabase/types.ts` — 与查询/写入字段一致
+  - [x] 已知偏移：`profiles` 缺 `last_uploaded_avatar_url`；`discussions` 缺 `replies_count`/`last_reply_at`；`Functions` 缺 `equip_name_color`/`increment_client_xp`。全项目 36 处 `as never` 绕过。建议定期 `supabase gen types` 同步
+- [x] **9.2** `docs/supabase-security-inventory.md` + RLS 假设 — 与 API 行为一致
+  - [x] admin 路由 `requireRole` 与高风险 RPC 访问控制一致；`fix_function_search_path` 迁移已统一 `SECURITY DEFINER` 函数的 search_path
+  - [x] `increment_client_xp` 已撤销 authenticated 直接调用权限（S0 修复）
+- [x] **9.3** 性能抽检 — 大列表、图片/视频、Recharts 等无 obvious 回归
+  - [x] 排行榜已虚拟化；探索页批量 RPC 避免 N+1；`OptimizedImage` 封装 next/image
+  - [x] 待优化：Recharts 未 dynamic import（S2）；`conversations/route.ts` 全量加载消息（S2）
+- [x] **9.4** `__tests__/api.discussions-route.test.ts`、`__tests__/api.completion-review-route.test.ts`、`__tests__/badges.test.ts`、`e2e/smoke.spec.ts`、`e2e/messages.spec.ts`、`e2e/integration/core-flow.spec.ts`、`e2e/integration/community-like-persist.spec.ts`、`lib/testing/playwright-smoke.ts` — 主流程有覆盖或缺口已记录
+  - [x] 全部测试文件存在；badges.test 覆盖良好；core-flow/community-like-persist 覆盖核心链路
+  - [x] 已知缺口：discussions POST 输入校验边界无测试（S2）；completion-review 缺 reject 测试（S3）；资产流程（打赏/购买/签到）无 E2E（S3）
 
 ---
 

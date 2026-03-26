@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
   if (!supabaseAdmin) {
     return NextResponse.json(
-      { error: '服务端未配置 SUPABASE_SERVICE_ROLE_KEY' },
+      { error: '服务暂时不可用' },
       { status: 500 }
     )
   }

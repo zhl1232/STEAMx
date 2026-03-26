@@ -201,6 +201,30 @@ export function validateContentSafe(value: string, fieldName: string): string {
 }
 
 /**
+ * 验证评论/回复图片 URL 是否属于指定用户的 Supabase Storage 路径
+ * 防止通过任意外部域名绕过所有权校验
+ */
+export function isOwnedCommentImageUrl(imageUrl: string, userId: string): boolean {
+  const expectedPath = `/storage/v1/object/public/comment-images/${userId}/`
+
+  if (imageUrl.startsWith('/')) {
+    return imageUrl.startsWith(expectedPath)
+  }
+
+  try {
+    const parsed = new URL(imageUrl)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (supabaseUrl) {
+      const expected = new URL(supabaseUrl)
+      if (parsed.hostname !== expected.hostname) return false
+    }
+    return parsed.pathname.startsWith(expectedPath)
+  } catch {
+    return false
+  }
+}
+
+/**
  * 清理和限制搜索字符串
  * @param search 搜索字符串
  * @param maxLength 最大长度（默认 50）

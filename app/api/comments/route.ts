@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { validateContentSafe } from '@/lib/api/validation'
+import { validateContentSafe, isOwnedCommentImageUrl } from '@/lib/api/validation'
 
 const COMMENT_SELECT = `
   *,
@@ -16,21 +16,6 @@ function canAccessProject(
   if (!project) return false
   if (!project.status || project.status === 'approved') return true
   return project.author_id === viewerId
-}
-
-function isOwnedCommentImageUrl(imageUrl: string, userId: string) {
-  const expectedPath = `/storage/v1/object/public/comment-images/${userId}/`
-
-  if (imageUrl.startsWith('/')) {
-    return imageUrl.startsWith(expectedPath)
-  }
-
-  try {
-    const parsed = new URL(imageUrl)
-    return parsed.pathname.includes(expectedPath)
-  } catch {
-    return false
-  }
 }
 
 /**

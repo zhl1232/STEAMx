@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
-import { validateContentSafe } from '@/lib/api/validation'
+import { validateContentSafe, validateNumber } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 
 function parseNumber(value: string | null, fallback: number) {
@@ -20,10 +20,7 @@ export async function GET(
 
   try {
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
-      return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
-    }
+    const completionId = validateNumber(id, 'Completion id', { min: 1, integer: true })
 
     const {
       data: { user },
@@ -61,18 +58,20 @@ export async function POST(
     const user = await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-completion-comments', limit: 10, windowMs: 60_000 })
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
-      return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
-    }
+    const completionId = validateNumber(id, 'Completion id', { min: 1, integer: true })
 
     const completion = await getAccessibleCompletion(supabase, completionId, user.id)
     if (!completion) {
       return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
-    const body = await request.json()
-    const content = typeof body?.content === 'string' ? body.content.trim() : ''
+    let body: unknown
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+    }
+    const content = typeof (body as { content?: unknown })?.content === 'string' ? ((body as { content: string }).content).trim() : ''
     if (!content) {
       return NextResponse.json({ error: 'Invalid content' }, { status: 400 })
     }

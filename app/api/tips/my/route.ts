@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { getAccessibleProject } from '@/lib/api/project-access'
 import { createClient } from '@/lib/supabase/server'
-import { logger } from '@/lib/logger'
+import { handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 
 const ALLOWED_TYPES = new Set(['project', 'completion'])
 
@@ -10,6 +11,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   try {
+    await requireRateLimit(supabase, { key: 'api-tips-my', limit: 30, windowMs: 60_000 })
     const searchParams = request.nextUrl.searchParams
     const resourceType = searchParams.get('resourceType') || ''
     const resourceId = Number(searchParams.get('resourceId'))
@@ -46,7 +48,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ myTipped: (data as number) ?? 0 })
   } catch (error) {
-    logger.error('Error in GET /api/tips/my', { error })
-    return NextResponse.json({ error: 'Failed to fetch tips' }, { status: 500 })
+    return handleApiError(error)
   }
 }

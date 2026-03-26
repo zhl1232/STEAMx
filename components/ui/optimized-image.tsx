@@ -21,13 +21,12 @@ const SIZE_PRESETS = {
   thumbnail: "96px",
 } as const
 
-/** 按场景的默认质量：列表/卡片用较低质量以加快加载，封面/头像稍高 */
 const QUALITY_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
-  avatar: 80,
-  card: 72,
-  cover: 80,
-  grid: 72,
-  thumbnail: 72,
+  avatar: 75,
+  card: 75,
+  cover: 75,
+  grid: 75,
+  thumbnail: 75,
 }
 
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS

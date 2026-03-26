@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { handleApiError } from '@/lib/api/auth'
+import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
-import { logger } from '@/lib/logger'
+import { validateNumber } from '@/lib/api/validation'
 
 export async function GET(
   _request: NextRequest,
@@ -10,11 +12,9 @@ export async function GET(
   const supabase = await createClient()
 
   try {
+    await requireRateLimit(supabase, { key: 'api-completion-tips', limit: 30, windowMs: 60_000 })
     const { id } = await params
-    const completionId = Number(id)
-    if (Number.isNaN(completionId)) {
-      return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
-    }
+    const completionId = validateNumber(id, 'Completion id', { min: 1, integer: true })
 
     const {
       data: { user },
@@ -45,7 +45,6 @@ export async function GET(
       myTipped,
     })
   } catch (error) {
-    logger.error('Error in GET /api/completions/[id]/tips', { error })
-    return NextResponse.json({ error: 'Failed to fetch tips' }, { status: 500 })
+    return handleApiError(error)
   }
 }

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireRole, handleApiError } from '@/lib/api/auth'
-import { validateEnum, validateOptionalString } from '@/lib/api/validation'
+import { validateEnum, validateOptionalString, validateNumber } from '@/lib/api/validation'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 
@@ -35,11 +35,7 @@ export async function POST(
     }
 
     const { id } = await params
-    const completionId = parseInt(id)
-
-    if (isNaN(completionId)) {
-      return NextResponse.json({ error: 'Invalid completion ID' }, { status: 400 })
-    }
+    const completionId = validateNumber(id, 'Completion id', { min: 1, integer: true })
 
     const { data: existingCompletion, error: completionLookupError } = await supabase
       .from('completed_projects')
@@ -64,12 +60,18 @@ export async function POST(
         throw error
       }
 
-      // Award XP to the completion author
-      await awardCompletionXp(completionId)
+      let xpAwarded = true
+      try {
+        await awardCompletionXp(completionId)
+      } catch (xpError) {
+        xpAwarded = false
+        logger.error(xpError, { context: 'XP award failed after completion approval', completionId })
+      }
 
       return NextResponse.json({
         message: 'Completion approved successfully',
-        status: 'approved'
+        status: 'approved',
+        xpAwarded,
       })
     } else {
       const { error } = await callRpc(supabase, 'reject_completion', {
@@ -93,15 +95,20 @@ export async function POST(
 
 async function awardCompletionXp(completionId: number) {
   if (!supabaseAdmin) {
-    logger.error('supabaseAdmin not configured, cannot award XP')
-    return
+    throw new Error('supabaseAdmin not configured, cannot award XP')
   }
 
-  const { data: completion } = await supabaseAdmin
+  const completionQuery = supabaseAdmin
     .from('completed_projects')
     .select('user_id, project_id')
-    .eq('id', completionId)
-    .single()
+    .eq('id', completionId) as {
+      maybeSingle?: () => Promise<{ data: unknown }>
+      single?: () => Promise<{ data: unknown }>
+    }
+
+  const { data: completion } = completionQuery.maybeSingle
+    ? await completionQuery.maybeSingle()
+    : await completionQuery.single!()
 
   if (!completion) return
 
