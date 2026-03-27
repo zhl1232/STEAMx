@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -16,6 +17,7 @@ import { PblInfo } from "@/components/features/challenge/pbl-info"
 import { StageGuide } from "@/components/features/challenge/stage-guide"
 import { SubmissionGallery } from "@/components/features/challenge/submission-gallery"
 import type { Challenge } from "@/lib/mappers/types"
+import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 
 export default function ChallengeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params)
@@ -63,7 +65,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
     return (
       <div className="container mx-auto py-12 text-center">
         <h1 className="text-2xl font-bold mb-4">挑战不存在</h1>
-        <Button onClick={() => router.back()}>返回列表</Button>
+        <Button onClick={() => router.back()}>返回上一页</Button>
       </div>
     )
   }
@@ -104,7 +106,13 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
   return (
     <div className="container mx-auto py-8 md:py-12 max-w-5xl px-4">
-      <Button variant="ghost" onClick={() => router.back()} className="mb-6 pl-0 hover:pl-2 transition-all">
+      <MobilePageHeader
+        title={challenge.title}
+        fallbackHref="/community"
+        className="-mx-4 -mt-8 mb-6 md:hidden"
+      />
+
+      <Button variant="ghost" onClick={() => router.back()} className="hidden mb-6 pl-0 hover:pl-2 transition-all md:inline-flex">
         <ArrowLeft className="mr-2 h-4 w-4" />
         返回社区
       </Button>
@@ -166,6 +174,49 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
             <StageGuide stages={challenge.stages} />
           )}
 
+          {challenge.recommendedProjects && challenge.recommendedProjects.length > 0 && (
+            <section className="rounded-2xl border bg-card p-6">
+              <h2 className="text-xl font-semibold">推荐任务</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                先从这些任务开始，更容易把活动目标变成真正可执行的观察行动。
+              </p>
+              <div className="mt-4 grid gap-3 md:grid-cols-2">
+                {challenge.recommendedProjects.map((project) => (
+                  <Link
+                    key={project.id}
+                    href={`/project/${project.id}`}
+                    className="rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
+                  >
+                    <div className="font-medium">{project.title}</div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {challenge.recommendedSpecies && challenge.recommendedSpecies.length > 0 && (
+            <section className="rounded-2xl border bg-card p-6">
+              <h2 className="text-xl font-semibold">推荐观察物种</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                这些物种是本活动当前优先鼓励观察的对象，可以先从最常见、最容易辨认的开始。
+              </p>
+              <div className="mt-4 grid gap-3 md:grid-cols-2">
+                {challenge.recommendedSpecies.map((species) => (
+                  <Link
+                    key={species.id}
+                    href={`/explore/species/${species.slug}`}
+                    className="rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
+                  >
+                    <div className="font-medium">{species.commonName}</div>
+                    {species.habitatNotes && (
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{species.habitatNotes}</p>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* Submissions gallery */}
           <SubmissionGallery
             challengeId={Number(challenge.id)}
@@ -199,25 +250,48 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
               {!isEnded && (
                 <>
-                  <Button
-                    onClick={handleJoin}
-                    className={cn(
-                      "w-full h-12 text-lg font-semibold transition-all",
-                      challenge.joined ? "bg-green-600 hover:bg-green-700 text-white" : ""
+                  {challenge.recommendedProjects && challenge.recommendedProjects.length > 0 && (
+                    <div className="mb-4 rounded-xl border bg-primary/5 p-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        如果你是第一次进入这个活动，最简单的开始方式不是先研究规则，而是先做一个推荐任务。
+                      </p>
+                      <Link href={`/project/${challenge.recommendedProjects[0].id}`} className="block">
+                        <Button className="w-full h-12 text-base font-semibold">
+                          开始第一个任务
+                        </Button>
+                      </Link>
+                      <p className="mt-2 text-xs text-muted-foreground text-center">
+                        推荐起步任务：{challenge.recommendedProjects[0].title}
+                      </p>
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    <Button
+                      onClick={handleJoin}
+                      variant={challenge.joined ? "secondary" : "outline"}
+                      className={cn(
+                        "w-full h-11 text-base font-semibold transition-all",
+                        challenge.joined ? "bg-green-100 hover:bg-green-200 text-green-700 border-green-300 dark:bg-green-950/20 dark:text-green-300" : ""
+                      )}
+                    >
+                      {challenge.joined ? (
+                        <>
+                          <CheckCircle className="mr-2 h-5 w-5" />
+                          {isTimed ? '已报名' : '已参与'}
+                        </>
+                      ) : (
+                        <>
+                          {isTimed ? <Trophy className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
+                          {isTimed ? '报名活动' : '参与活动'}
+                        </>
+                      )}
+                    </Button>
+                    {!challenge.joined && (
+                      <p className="text-xs text-center text-muted-foreground">
+                        活动报名是可选动作，先开始任务也能帮助你更快进入状态。
+                      </p>
                     )}
-                  >
-                    {challenge.joined ? (
-                      <>
-                        <CheckCircle className="mr-2 h-5 w-5" />
-                        {isTimed ? '已报名' : '已参与'}
-                      </>
-                    ) : (
-                      <>
-                        {isTimed ? <Trophy className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
-                        {isTimed ? '立即报名' : '开始挑战'}
-                      </>
-                    )}
-                  </Button>
+                  </div>
 
                   {challenge.joined && (
                     <div className="mt-4 text-center">

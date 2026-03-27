@@ -16,6 +16,10 @@ let mockCommunityState = {
   reloadChallenges: mockReloadChallenges,
 }
 
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => new URLSearchParams(),
+}))
+
 vi.mock('next/head', () => ({
   __esModule: true,
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,

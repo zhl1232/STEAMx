@@ -23,6 +23,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { getShopItemById } from "@/lib/shop/items";
 import { Button } from "@/components/ui/button";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 type CoinLogRow = Database["public"]["Tables"]["coin_logs"]["Row"];
 
@@ -139,8 +140,14 @@ export default function CoinsPage() {
   return (
     <div className="container max-w-3xl py-8 px-4 pb-24 md:py-12">
       <div className="space-y-8 md:space-y-10">
+        <MobilePageHeader
+          title="我的钱包"
+          fallbackHref="/profile"
+          className="-mx-4 -mt-8 mb-6 md:hidden"
+        />
+
         {/* 顶部导航 */}
-        <div className="flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           <Button
             variant="ghost"
             size="icon"

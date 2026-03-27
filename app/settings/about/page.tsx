@@ -1,11 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageSquareHeart, FileText, ShieldAlert, ChevronRight } from "lucide-react";
+import { MessageSquareHeart, FileText, ShieldAlert, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 const FAQ_ITEMS = [
   {
@@ -23,7 +22,6 @@ const FAQ_ITEMS = [
 ];
 
 export default function AboutSettingsPage() {
-  const router = useRouter();
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ?? "";
 
   const linkItems = [
@@ -51,13 +49,7 @@ export default function AboutSettingsPage() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
-      <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
-          <span className="sr-only">返回</span>
-        </Button>
-        <h1 className="text-lg font-semibold">关于与帮助</h1>
-      </div>
+      <MobilePageHeader title="关于与帮助" fallbackHref="/settings" />
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4">

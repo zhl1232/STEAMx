@@ -1,11 +1,18 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft } from "lucide-react";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 export default function Loading() {
     return (
         <div className="container mx-auto py-8 max-w-4xl">
+            <MobilePageHeader
+                title="项目详情"
+                fallbackHref="/explore"
+                className="-mx-4 -mt-8 mb-4 md:hidden"
+            />
+
             <div className="mb-8">
-                <div className="inline-flex items-center text-sm text-muted-foreground mb-4 opacity-50">
+                <div className="hidden items-center text-sm text-muted-foreground mb-4 opacity-50 md:inline-flex">
                     <ArrowLeft className="mr-2 h-4 w-4" /> 返回探索
                 </div>
 

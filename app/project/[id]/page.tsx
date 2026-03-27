@@ -9,8 +9,10 @@ import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { getProjectById, getProjectTotalCoinsReceived, getRelatedProjects, getProjectCompletions, getProjectComments } from '@/lib/api/explore-data'
+import { getCuratedProjectSpecies } from '@/lib/api/nature-observation-data'
 import { createClient } from '@/lib/supabase/server'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -89,6 +91,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     const relatedProjects = project.category
         ? await getRelatedProjects(project.id, project.category, 3)
         : []
+    const curatedSpecies = await getCuratedProjectSpecies(Number(project.id))
 
     // 获取完成记录
     const completions = await getProjectCompletions(project.id, 8)
@@ -106,10 +109,16 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     return (
         <div className="container mx-auto pt-8 pb-24 md:pb-10 max-w-4xl">
+            <MobilePageHeader
+                title={project.title}
+                fallbackHref="/explore"
+                className="-mx-4 -mt-8 mb-4 md:hidden"
+            />
+
             <div className="mb-8">
                 <Link
                     href="/explore"
-                    className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4"
+                    className="hidden items-center text-sm text-muted-foreground hover:text-foreground mb-4 md:inline-flex"
                 >
                     <ArrowLeft className="mr-2 h-4 w-4" /> 返回探索
                 </Link>
@@ -253,11 +262,38 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         </div>
                     </div>
 
+                    {curatedSpecies.length > 0 && (
+                        <div className="rounded-2xl border p-5">
+                            <h3 className="text-xl font-semibold mb-3">你可能会看到哪些鸟</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                                这些物种是这个项目当前推荐你重点观察和记录的对象。
+                            </p>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                {curatedSpecies.map((species) => (
+                                    <Link
+                                        key={species.id}
+                                        href={`/explore/species/${species.slug}`}
+                                        className="rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
+                                    >
+                                        <div className="font-semibold">{species.commonName}</div>
+                                        {species.scientificName && (
+                                            <div className="mt-1 text-xs italic text-muted-foreground">{species.scientificName}</div>
+                                        )}
+                                        {species.habitatNotes && (
+                                            <p className="mt-2 text-sm leading-6 text-muted-foreground">{species.habitatNotes}</p>
+                                        )}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     {/* CTA: 上传作品引导（完成后自动隐藏） */}
                     <CompletionCTA
                         projectId={project.id}
                         projectTitle={project.title}
                         challengeId={project.challenge_id}
+                        mode={project.tags?.includes('鸟类') ? 'observation' : 'project'}
                     />
 
                     {/* Showcase Section */}
@@ -308,6 +344,20 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                 <p className="text-sm text-muted-foreground">暂无材料清单</p>
                             )}
                         </div>
+
+                        {project.tags?.includes('鸟类') && (
+                            <div className="rounded-lg border bg-emerald-50/60 p-4 dark:bg-emerald-950/10">
+                                <h3 className="font-semibold mb-2">这个任务的完成动作</h3>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    在自然观察里，真正的完成不是“上传一个作品”，而是留下至少一条结构化的观察记录，写清时间、地点、物种和行为。
+                                </p>
+                                <Link href={`/bird-observation/submit?project=${project.id}${project.challenge_id ? `&challenge=${project.challenge_id}` : ''}`}>
+                                    <Button variant="outline" className="w-full">
+                                        去完成一条观察记录
+                                    </Button>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { mapDbChallenge } from '@/lib/mappers/types'
+import { getCuratedChallengeProjects, getCuratedChallengeSpecies } from '@/lib/api/nature-observation-data'
 import { logger } from '@/lib/logger'
 
 export async function GET(
@@ -40,7 +41,15 @@ export async function GET(
       completed = !!completion
     }
 
-    const mapped = mapDbChallenge(challenge as never, joined, completed)
+    const [recommendedSpecies, recommendedProjects] = await Promise.all([
+      getCuratedChallengeSpecies(challengeId),
+      getCuratedChallengeProjects(challengeId),
+    ])
+    const mapped = {
+      ...mapDbChallenge(challenge as never, joined, completed),
+      recommendedSpecies,
+      recommendedProjects,
+    }
 
     return NextResponse.json({ challenge: mapped })
   } catch (error) {

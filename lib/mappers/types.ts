@@ -21,6 +21,9 @@ type DbProjectMaterial = Database['public']['Tables']['project_materials']['Row'
 type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
 type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
 type DbCompletedProject = Database['public']['Tables']['completed_projects']['Row']
+type DbSpecies = Database['public']['Tables']['species']['Row']
+type DbObservationEvent = Database['public']['Tables']['observation_events']['Row']
+type DbObservationEventSpecies = Database['public']['Tables']['observation_event_species']['Row']
 
 // 评论/回复的数据库查询结果类型（comments 或 discussion_replies 联表 profiles 后的形状）
 export interface DbCommentWithProfile {
@@ -83,6 +86,7 @@ export interface Project {
     problem_statement?: string
     iterations?: Iteration[]
     steam_weights?: SteamWeights | null
+    recommendedSpecies?: Species[]
 }
 
 /**
@@ -186,9 +190,78 @@ export interface Challenge {
     resources?: ChallengeResource[]
     stages?: ChallengeStage[]
     steamWeights?: SteamWeights
+    recommendedSpecies?: Species[]
+    recommendedProjects?: ObservationLinkedItem[]
     submissionsCount?: number
     completionsCount?: number
     completed?: boolean
+}
+
+export interface ObservationLinkedItem {
+    id: number
+    title: string
+    slug?: string
+    subtitle?: string | null
+    relationRole?: string
+}
+
+export interface ObservationSpeciesSummary {
+    speciesId: number
+    speciesSlug?: string
+    commonName: string
+    scientificName?: string | null
+    count?: number | null
+    behaviorTags: string[]
+    confidence?: number | null
+    notes?: string | null
+}
+
+export interface ObservationEvent {
+    id: number
+    userId: string
+    projectId?: number | null
+    challengeId?: number | null
+    observedAt: string
+    locationName: string
+    latitude?: number | null
+    longitude?: number | null
+    locationPrecision?: string | null
+    habitat?: string | null
+    weather?: string | null
+    notes?: string | null
+    mediaUrls: string[]
+    isPublic: boolean
+    status: 'pending' | 'approved' | 'rejected' | string
+    species: ObservationSpeciesSummary[]
+    project?: ObservationLinkedItem | null
+    challenge?: ObservationLinkedItem | null
+}
+
+export interface ObservationLocationSummary {
+    locationName: string
+    observationCount: number
+    latestObservedAt: string
+    latitude?: number | null
+    longitude?: number | null
+}
+
+export interface Species {
+    id: number
+    slug: string
+    commonName: string
+    scientificName?: string | null
+    aliases: string[]
+    taxonGroup?: string | null
+    identificationNotes?: string | null
+    habitatNotes?: string | null
+    seasonalityNotes?: string | null
+    coverImageUrl?: string | null
+    isActive: boolean
+    aliasesDisplay?: string
+    relatedProjects?: ObservationLinkedItem[]
+    relatedChallenges?: ObservationLinkedItem[]
+    recentObservations?: ObservationEvent[]
+    topLocations?: ObservationLocationSummary[]
 }
 
 export interface ChallengeRating {
@@ -436,6 +509,66 @@ export function mapDbChallenge(
         submissionsCount: (dbChallenge.submissions_count as number) ?? undefined,
         completionsCount: (dbChallenge.completions_count as number) ?? undefined,
         completed,
+    }
+}
+
+export function mapDbSpecies(dbSpecies: DbSpecies): Species {
+    return {
+        id: dbSpecies.id,
+        slug: dbSpecies.slug,
+        commonName: dbSpecies.common_name,
+        scientificName: dbSpecies.scientific_name,
+        aliases: dbSpecies.aliases || [],
+        aliasesDisplay: (dbSpecies.aliases || []).join('、'),
+        taxonGroup: dbSpecies.taxon_group,
+        identificationNotes: dbSpecies.identification_notes,
+        habitatNotes: dbSpecies.habitat_notes,
+        seasonalityNotes: dbSpecies.seasonality_notes,
+        coverImageUrl: dbSpecies.cover_image_url,
+        isActive: dbSpecies.is_active,
+    }
+}
+
+export function mapDbObservationEventSpecies(
+    row: DbObservationEventSpecies,
+    species: Pick<DbSpecies, 'id' | 'slug' | 'common_name' | 'scientific_name'>,
+): ObservationSpeciesSummary {
+    return {
+        speciesId: species.id,
+        speciesSlug: species.slug,
+        commonName: species.common_name,
+        scientificName: species.scientific_name,
+        count: row.count,
+        behaviorTags: row.behavior_tags || [],
+        confidence: row.confidence,
+        notes: row.notes,
+    }
+}
+
+export function mapDbObservationEvent(
+    dbObservationEvent: DbObservationEvent,
+    species: ObservationSpeciesSummary[] = [],
+    links?: { project?: ObservationLinkedItem | null; challenge?: ObservationLinkedItem | null },
+): ObservationEvent {
+    return {
+        id: dbObservationEvent.id,
+        userId: dbObservationEvent.user_id,
+        projectId: dbObservationEvent.project_id,
+        challengeId: dbObservationEvent.challenge_id,
+        observedAt: dbObservationEvent.observed_at,
+        locationName: dbObservationEvent.location_name,
+        latitude: dbObservationEvent.latitude,
+        longitude: dbObservationEvent.longitude,
+        locationPrecision: dbObservationEvent.location_precision,
+        habitat: dbObservationEvent.habitat,
+        weather: dbObservationEvent.weather,
+        notes: dbObservationEvent.notes,
+        mediaUrls: dbObservationEvent.media_urls || [],
+        isPublic: dbObservationEvent.is_public,
+        status: dbObservationEvent.status,
+        species,
+        project: links?.project ?? null,
+        challenge: links?.challenge ?? null,
     }
 }
 

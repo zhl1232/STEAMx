@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
 import { useConversationMessages, useSendMessage } from "@/hooks/use-messages";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
-import { ArrowLeft } from "lucide-react";
 import { ReportDialog } from "@/components/ui/report-dialog";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import type { Message } from "@/lib/types/database";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -115,19 +114,16 @@ export default function ConversationPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-h-[800px] container max-w-2xl mx-auto md:rounded-lg border bg-card overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center gap-3 shrink-0 border-b px-4 py-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/messages" aria-label="返回私信列表">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-        </Button>
-        <Avatar className="h-9 w-9">
-          <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
-          <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
-        </Avatar>
-        <span className="font-medium truncate">{displayName}</span>
-      </div>
+      <MobilePageHeader
+        title={displayName}
+        fallbackHref="/messages"
+        rightSlot={(
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
+            <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
+          </Avatar>
+        )}
+      />
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4" ref={scrollRef}>

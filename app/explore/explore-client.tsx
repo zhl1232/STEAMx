@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link'
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
@@ -179,7 +180,7 @@ export function ExploreClient({
                 setIsLoadingMore(false)
             }
         }
-    }, [isLoadingMore, isFiltering, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, toast])
+    }, [isLoadingMore, isFiltering, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, isAbortError, toast])
 
     // 无限滚动观察器
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
@@ -301,6 +302,35 @@ export function ExploreClient({
                     <div>
                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">探索项目</h1>
                         <p className="text-sm md:text-base text-muted-foreground">探索社区中最酷的 STEAM 创意。</p>
+                    </div>
+                </div>
+
+                <div className="rounded-2xl border bg-card px-5 py-5 shadow-sm">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <div className="mb-2 inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-300">
+                                自然观察频道
+                            </div>
+                            <h2 className="text-lg font-semibold">从自然观察频道开始你的第一次观鸟</h2>
+                            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                你可以先进入自然观察频道，再从活动、项目、物种和观察记录中找到最适合自己的开始方式。
+                            </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            <Link
+                                href="/bird-observation"
+                                className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                            >
+                                进入频道
+                            </Link>
+                            <Link
+                                href="/explore?category=%E7%A7%91%E5%AD%A6&subCategory=%E5%8A%A8%E7%89%A9%E8%A7%82%E5%AF%9F&tags=%E9%B8%9F%E7%B1%BB"
+                                className="inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                            >
+                                筛选鸟类项目
+                            </Link>
+                        </div>
                     </div>
                 </div>
 

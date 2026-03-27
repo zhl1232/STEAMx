@@ -29,6 +29,7 @@ import { CommentCard } from "@/components/features/shared/comment-card";
 import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { getRepliesUnderRoot } from "@/lib/community/reply-utils";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 const getRootReplyOrder = (items: Comment[]): string[] => {
   const order: string[] = [];
@@ -484,7 +485,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
     return (
       <div className="container mx-auto py-12 px-4 text-center">
         <h1 className="text-2xl font-bold mb-4">讨论不存在</h1>
-        <Button onClick={() => router.back()}>返回列表</Button>
+        <Button onClick={() => router.back()}>返回上一页</Button>
       </div>
     );
   }
@@ -587,10 +588,16 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl pb-28 md:pb-8">
+      <MobilePageHeader
+        title={discussion.title}
+        fallbackHref="/community"
+        className="-mx-4 -mt-6 mb-4 md:hidden"
+      />
+
       <Button
         variant="ghost"
         onClick={() => router.back()}
-        className="mb-4 sm:mb-6 pl-0 hover:pl-2 transition-all text-sm"
+        className="hidden mb-4 pl-0 hover:pl-2 transition-all text-sm md:mb-6 md:inline-flex"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         返回讨论列表

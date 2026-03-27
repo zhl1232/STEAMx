@@ -42,6 +42,10 @@ vi.mock("@tanstack/react-query", () => ({
   useQuery: (...args: unknown[]) => mockUseQuery(...args),
 }));
 
+vi.mock("@/components/ui/mobile-page-header", () => ({
+  MobilePageHeader: () => null,
+}));
+
 describe("CoinsPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();

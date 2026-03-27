@@ -1,4 +1,5 @@
 import { FlaskConical, Rocket, Palette, Calculator, Cpu, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { TechBackground } from "@/components/ui/tech-background";
 import { CategoryPortal } from "@/components/home/category-portal";
 import { FeaturedProjects } from "@/components/home/featured-projects";
@@ -158,6 +159,37 @@ export default async function Home() {
               color="bg-purple-500"
               delay={0.6}
             />
+          </div>
+        </section>
+
+        <section className="container mx-auto relative z-10 pb-4">
+          <div className="mx-auto max-w-[64rem] rounded-3xl border bg-card/80 px-6 py-8 shadow-sm backdrop-blur md:px-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-3xl">
+                <div className="mb-3 inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
+                  自然观察频道
+                </div>
+                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">北京春季观鸟，从身边开始</h2>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
+                  从校园、公园和社区开始认识常见鸟，先学习观察方法，再进入项目、活动、物种与观察记录的完整自然观察路径。
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/bird-observation"
+                  className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  进入自然观察
+                </Link>
+                <Link
+                  href="/bird-observation/submit"
+                  className="inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  提交观察记录
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
 

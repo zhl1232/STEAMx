@@ -13,9 +13,10 @@ interface CompletionCTAProps {
     projectId: number | string
     projectTitle: string
     challengeId?: number | null
+    mode?: "project" | "observation"
 }
 
-export function CompletionCTA({ projectId, projectTitle, challengeId }: CompletionCTAProps) {
+export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project" }: CompletionCTAProps) {
     const router = useRouter()
     const { isCompleted } = useProjects()
     const { user } = useAuth()
@@ -25,6 +26,18 @@ export function CompletionCTA({ projectId, projectTitle, challengeId }: Completi
     if (isCompleted(projectId)) return null
 
     const handleClick = () => {
+        if (mode === "observation") {
+            if (!user) {
+                promptLogin(() => router.push(`/bird-observation/submit?project=${projectId}${challengeId ? `&challenge=${challengeId}` : ""}`), {
+                    title: "登录以完成观察记录",
+                    description: "登录后可提交你的观察记录，形成真实世界的观察沉淀",
+                })
+                return
+            }
+            router.push(`/bird-observation/submit?project=${projectId}${challengeId ? `&challenge=${challengeId}` : ""}`)
+            return
+        }
+
         if (!user) {
             promptLogin(() => setShowDialog(true), {
                 title: "登录以上传作品",
@@ -38,23 +51,30 @@ export function CompletionCTA({ projectId, projectTitle, challengeId }: Completi
     return (
         <>
             <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
-                <p className="text-lg font-semibold">你也完成了这个项目吗？</p>
+                <p className="text-lg font-semibold">
+                    {mode === "observation" ? "准备把这次观察记录下来了吗？" : "你也完成了这个项目吗？"}
+                </p>
                 <p className="text-sm text-muted-foreground">
-                    上传作品照片或视频，审核通过后可获得 <span className="font-semibold text-primary">20 XP</span> 和社区认可
+                    {mode === "observation"
+                        ? <>完成一条结构化观察记录，让这次任务真正沉淀成可检索的自然观察内容。</>
+                        : <>上传作品照片或视频，审核通过后可获得 <span className="font-semibold text-primary">20 XP</span> 和社区认可</>
+                    }
                 </p>
                 <Button onClick={handleClick} className="gap-2">
                     <Camera className="h-4 w-4" />
-                    上传我的作品
+                    {mode === "observation" ? "提交这次观察" : "上传我的作品"}
                 </Button>
             </div>
-            <CompleteProjectDialog
-                projectId={projectId}
-                projectTitle={projectTitle}
-                challengeId={challengeId}
-                open={showDialog}
-                onOpenChange={setShowDialog}
-                onSuccess={() => router.refresh()}
-            />
+            {mode === "project" && (
+                <CompleteProjectDialog
+                    projectId={projectId}
+                    projectTitle={projectTitle}
+                    challengeId={challengeId}
+                    open={showDialog}
+                    onOpenChange={setShowDialog}
+                    onSuccess={() => router.refresh()}
+                />
+            )}
         </>
     )
 }

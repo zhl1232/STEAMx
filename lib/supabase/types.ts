@@ -214,6 +214,7 @@ export interface Database {
           problem_statement: string | null
           iterations: Json | null
           steam_weights: Json | null
+          tags: string[] | null
         }
         Insert: {
           id?: number
@@ -237,6 +238,7 @@ export interface Database {
           problem_statement?: string | null
           iterations?: Json | null
           steam_weights?: Json | null
+          tags?: string[] | null
         }
         Update: {
           id?: number
@@ -260,6 +262,7 @@ export interface Database {
           problem_statement?: string | null
           iterations?: Json | null
           steam_weights?: Json | null
+          tags?: string[] | null
         }
         Relationships: []
       }
@@ -708,6 +711,150 @@ export interface Database {
         }
         Relationships: []
       }
+      species: {
+        Row: {
+          id: number
+          slug: string
+          common_name: string
+          scientific_name: string | null
+          aliases: string[]
+          taxon_group: string | null
+          identification_notes: string | null
+          habitat_notes: string | null
+          seasonality_notes: string | null
+          cover_image_url: string | null
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          slug: string
+          common_name: string
+          scientific_name?: string | null
+          aliases?: string[]
+          taxon_group?: string | null
+          identification_notes?: string | null
+          habitat_notes?: string | null
+          seasonality_notes?: string | null
+          cover_image_url?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          slug?: string
+          common_name?: string
+          scientific_name?: string | null
+          aliases?: string[]
+          taxon_group?: string | null
+          identification_notes?: string | null
+          habitat_notes?: string | null
+          seasonality_notes?: string | null
+          cover_image_url?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      observation_events: {
+        Row: {
+          id: number
+          user_id: string
+          project_id: number | null
+          challenge_id: number | null
+          observed_at: string
+          location_name: string
+          latitude: number | null
+          longitude: number | null
+          location_precision: string | null
+          habitat: string | null
+          weather: string | null
+          notes: string | null
+          media_urls: string[]
+          is_public: boolean
+          status: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          project_id?: number | null
+          challenge_id?: number | null
+          observed_at?: string
+          location_name: string
+          latitude?: number | null
+          longitude?: number | null
+          location_precision?: string | null
+          habitat?: string | null
+          weather?: string | null
+          notes?: string | null
+          media_urls?: string[]
+          is_public?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          project_id?: number | null
+          challenge_id?: number | null
+          observed_at?: string
+          location_name?: string
+          latitude?: number | null
+          longitude?: number | null
+          location_precision?: string | null
+          habitat?: string | null
+          weather?: string | null
+          notes?: string | null
+          media_urls?: string[]
+          is_public?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      observation_event_species: {
+        Row: {
+          id: number
+          observation_event_id: number
+          species_id: number
+          count: number | null
+          behavior_tags: string[]
+          confidence: number | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          observation_event_id: number
+          species_id: number
+          count?: number | null
+          behavior_tags?: string[]
+          confidence?: number | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          observation_event_id?: number
+          species_id?: number
+          count?: number | null
+          behavior_tags?: string[]
+          confidence?: number | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       challenges: {
         Row: {
           id: number
@@ -774,6 +921,60 @@ export interface Database {
           difficulty_stars?: number
           start_date?: string | null
           completions_count?: number
+        }
+        Relationships: []
+      }
+      project_species: {
+        Row: {
+          id: number
+          project_id: number
+          species_id: number
+          sort_order: number
+          relation_role: string
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          project_id: number
+          species_id: number
+          sort_order?: number
+          relation_role?: string
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          project_id?: number
+          species_id?: number
+          sort_order?: number
+          relation_role?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      challenge_species: {
+        Row: {
+          id: number
+          challenge_id: number
+          species_id: number
+          sort_order: number
+          relation_role: string
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          challenge_id: number
+          species_id: number
+          sort_order?: number
+          relation_role?: string
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          challenge_id?: number
+          species_id?: number
+          sort_order?: number
+          relation_role?: string
+          created_at?: string
         }
         Relationships: []
       }

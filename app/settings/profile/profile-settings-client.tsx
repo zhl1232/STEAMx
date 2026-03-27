@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { ArrowLeft, Loader2, RefreshCcw } from "lucide-react"
+import { Loader2, RefreshCcw } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import { AvatarUpload } from "@/components/features/profile/avatar-upload"
@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
+import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { useAuth } from "@/context/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { logger } from "@/lib/logger"
@@ -204,18 +205,7 @@ export default function ProfileSettingsClient() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)] w-full max-w-2xl flex-col border-x bg-background relative mx-auto">
-      <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft className="h-5 w-5" />
-          <span className="sr-only">返回</span>
-        </Button>
-        <h1 className="text-lg font-semibold">个人资料</h1>
-      </div>
+      <MobilePageHeader title="个人资料" fallbackHref="/settings" />
 
       <ScrollArea className="flex-1">
         {isLoading ? (

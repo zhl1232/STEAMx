@@ -37,7 +37,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // 服务端优化结果与浏览器均缓存 7 天，同一 URL/尺寸/质量会复用缓存
     minimumCacheTTL: 604800,
-    qualities: [75],
+    qualities: [55, 60, 70, 75],
   },
 };
 

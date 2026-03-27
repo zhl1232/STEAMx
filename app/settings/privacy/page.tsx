@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageSquareOff, Users, Globe, UserX, Loader2 } from "lucide-react";
+import { MessageSquareOff, Users, Globe, UserX, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/auth-context";
 import { createClient } from "@/lib/supabase/client";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 type MessagePrivacy = "everyone" | "followers_only" | "nobody";
 
@@ -19,7 +18,6 @@ const PRIVACY_OPTIONS: { value: MessagePrivacy; label: string; desc: string; ico
 ];
 
 export default function PrivacySettingsPage() {
-  const router = useRouter();
   const { toast } = useToast();
   const { user } = useAuth();
   const [messagePrivacy, setMessagePrivacy] = useState<MessagePrivacy>("everyone");
@@ -67,18 +65,7 @@ export default function PrivacySettingsPage() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
-      <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft className="h-5 w-5" />
-          <span className="sr-only">返回</span>
-        </Button>
-        <h1 className="text-lg font-semibold">隐私设置</h1>
-      </div>
+      <MobilePageHeader title="隐私设置" fallbackHref="/settings" />
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-6 p-4">

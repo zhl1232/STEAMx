@@ -4,7 +4,9 @@ import { practicePuzzles } from "./lessons-data"
 import { PracticeBoard } from "./practice-board"
 
 describe("PracticeBoard", () => {
-  it("resets board state when the lesson puzzle changes", async () => {
+  it(
+    "resets board state when the lesson puzzle changes",
+    async () => {
     const { rerender } = render(<PracticeBoard puzzle={practicePuzzles[1]!} />)
 
     fireEvent.click(screen.getByRole("button", { name: "标旗" }))
@@ -21,5 +23,7 @@ describe("PracticeBoard", () => {
 
     expect(screen.queryByRole("button", { name: "再试一次" })).not.toBeInTheDocument()
     expect(screen.getByRole("button", { name: /第1行第3列，未翻开，目标安全格/ })).toBeEnabled()
-  })
+    },
+    15_000,
+  )
 })

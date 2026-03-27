@@ -14,6 +14,7 @@ import { useMemo } from 'react'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
+import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import type { ShopItemType } from '@/lib/shop/items'
 import type { Profile } from '@/lib/types/database'
 import { AlertCircle } from 'lucide-react'
@@ -190,7 +191,22 @@ export default function ShopPage() {
 
   return (
     <div className="container max-w-4xl py-8 px-4">
-      <div className="flex items-center justify-between mb-6">
+      <MobilePageHeader
+        title="商店"
+        fallbackHref="/profile"
+        className="-mx-4 -mt-8 mb-6 md:hidden"
+        rightSlot={(
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="shrink-0">Lv.{level}</span>
+            <span className="inline-flex items-center gap-1 rounded-full border bg-muted/60 px-2 py-1 font-medium text-foreground">
+              <Coins className="h-3.5 w-3.5 text-amber-500" />
+              {coins}
+            </span>
+          </div>
+        )}
+      />
+
+      <div className="hidden items-center justify-between mb-6 md:flex">
         <div className="flex items-center gap-3 min-w-0">
           <Button variant="ghost" size="icon" className="shrink-0 md:h-9 md:w-9" asChild>
             <Link href="/profile" className="rounded-full" aria-label="返回">

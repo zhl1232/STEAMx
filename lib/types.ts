@@ -16,7 +16,11 @@ export type {
     Comment,
     Discussion,
     Challenge,
-    Profile
+    Profile,
+    Species,
+    ObservationEvent,
+    ObservationSpeciesSummary,
+    ObservationLinkedItem,
 } from '@/lib/mappers/types'
 
 export {
@@ -24,5 +28,8 @@ export {
     mapDbComment,
     mapDbDiscussion,
     mapDbChallenge,
-    mapDbProfile
+    mapDbProfile,
+    mapDbSpecies,
+    mapDbObservationEvent,
+    mapDbObservationEventSpecies,
 } from '@/lib/mappers/types'

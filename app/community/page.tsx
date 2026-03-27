@@ -3,6 +3,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
@@ -15,7 +16,11 @@ import { cn } from "@/lib/utils";
 
 export default function CommunityPage() {
     const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
-    const [activeTab, setActiveTab] = useState<"discussions" | "challenges">("discussions");
+    const searchParams = useSearchParams();
+    const initialTab = searchParams.get("tab") === "challenges" ? "challenges" : "discussions";
+    const [activeTab, setActiveTab] = useState<"discussions" | "challenges">(initialTab);
+    const featuredBirdChallenge = challenges.activeTimed.find((challenge) => challenge.tags.includes("鸟类"))
+        || challenges.evergreen.find((challenge) => challenge.tags.includes("鸟类"));
 
     return (
         <>
@@ -79,6 +84,37 @@ export default function CommunityPage() {
                         <DiscussionList />
                     ) : (
                         <div className="space-y-10">
+                            {featuredBirdChallenge && (
+                                <section className="rounded-3xl border bg-gradient-to-r from-emerald-50 to-sky-50 px-6 py-8 shadow-sm dark:from-emerald-950/20 dark:to-sky-950/20">
+                                    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                                        <div className="max-w-3xl">
+                                            <div className="mb-3 inline-flex rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-emerald-700 dark:bg-background/60 dark:text-emerald-300">
+                                                自然观察专题
+                                            </div>
+                                            <h2 className="text-2xl font-bold">{featuredBirdChallenge.title}</h2>
+                                            <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
+                                                从校园、公园和社区绿地开始，学习基础观察方法，提交你的第一条鸟类观察成果。现在可以直接进入挑战，也可以先去自然观察频道查看完整路径。
+                                            </p>
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-3">
+                                            <Link
+                                                href={`/community/challenge/${featuredBirdChallenge.id}`}
+                                                className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                                            >
+                                                进入挑战
+                                            </Link>
+                                            <Link
+                                                href="/bird-observation"
+                                                className="inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+                                            >
+                                                查看频道首页
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </section>
+                            )}
+
                             {challengesError && !isLoading && (
                                 <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-6 py-10 text-center">
                                     <p className="text-lg font-semibold">挑战赛加载失败</p>
