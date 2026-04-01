@@ -28,13 +28,13 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
     const handleClick = () => {
         if (mode === "observation") {
             if (!user) {
-                promptLogin(() => router.push(`/bird-observation/submit?project=${projectId}${challengeId ? `&challenge=${challengeId}` : ""}`), {
+                promptLogin(() => router.push("/bird-observation/submit"), {
                     title: "登录以完成观察记录",
                     description: "登录后可提交你的观察记录，形成真实世界的观察沉淀",
                 })
                 return
             }
-            router.push(`/bird-observation/submit?project=${projectId}${challengeId ? `&challenge=${challengeId}` : ""}`)
+            router.push("/bird-observation/submit")
             return
         }
 

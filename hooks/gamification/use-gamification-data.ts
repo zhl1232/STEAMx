@@ -104,6 +104,10 @@ export function useGamificationData() {
                 minesweeperWins: 0,
                 minesweeperExpertWins: 0,
                 minesweeperBestTime: 999,
+                // 鸟类观察统计
+                observationsSubmitted: stats.observationsSubmitted || 0,
+                speciesObserved: stats.speciesObserved || 0,
+                observationStreak: stats.observationStreak || 0,
             };
         },
         enabled,
@@ -130,8 +134,7 @@ export function useGamificationData() {
 
     const unlockBadgeMutation = useMutation({
         mutationFn: async (badgeId: string) => {
-            // 使用 upsert + ignoreDuplicates 避免 badge 已存在时返回 409
-            const { error } = await supabase
+            await supabase
                 .from('user_badges')
                 .upsert({
                     user_id: user!.id,
@@ -141,7 +144,6 @@ export function useGamificationData() {
                     onConflict: 'user_id,badge_id',
                     ignoreDuplicates: true
                 });
-            if (error) throw error;
         },
         onSuccess: (_data, badgeId) => {
             // 不使用 invalidateQueries（会导致重新 fetch → Set 引用变化 → checkBadges 再次执行 → 循环）

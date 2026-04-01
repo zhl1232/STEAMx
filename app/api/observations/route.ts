@@ -19,8 +19,6 @@ const ObservationSpeciesInputSchema = z.object({
 })
 
 const CreateObservationSchema = z.object({
-  project_id: z.number().int().positive().nullable().optional(),
-  challenge_id: z.number().int().positive().nullable().optional(),
   observed_at: z.string().min(1),
   location_name: z.string().min(1).max(200),
   latitude: z.number().min(-90).max(90),
@@ -69,8 +67,6 @@ export async function POST(request: NextRequest) {
       .from('observation_events')
       .insert({
         user_id: user.id,
-        project_id: payload.project_id ?? null,
-        challenge_id: payload.challenge_id ?? null,
         observed_at: payload.observed_at,
         location_name: payload.location_name,
         latitude: payload.latitude,

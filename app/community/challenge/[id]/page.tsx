@@ -194,29 +194,6 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          {challenge.recommendedSpecies && challenge.recommendedSpecies.length > 0 && (
-            <section className="rounded-2xl border bg-card p-6">
-              <h2 className="text-xl font-semibold">推荐观察物种</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                这些物种是本活动当前优先鼓励观察的对象，可以先从最常见、最容易辨认的开始。
-              </p>
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                {challenge.recommendedSpecies.map((species) => (
-                  <Link
-                    key={species.id}
-                    href={`/explore/species/${species.slug}`}
-                    className="rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
-                  >
-                    <div className="font-medium">{species.commonName}</div>
-                    {species.habitatNotes && (
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{species.habitatNotes}</p>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-
           {/* Submissions gallery */}
           <SubmissionGallery
             challengeId={Number(challenge.id)}
@@ -301,6 +278,19 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                       <Button variant="outline" className="w-full" onClick={handleSubmit}>
                         {challenge.completed ? '更新作品' : '提交作品'}
                       </Button>
+                    </div>
+                  )}
+
+                  {challenge.tags.includes('鸟类') && (
+                    <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-900 dark:bg-emerald-950/20">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        这是一个自然观察活动，你可以直接提交一条鸟类观察记录。
+                      </p>
+                      <Link href="/bird-observation/submit">
+                        <Button variant="outline" className="w-full border-emerald-300 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950/40">
+                          提交观察记录
+                        </Button>
+                      </Link>
                     </div>
                   )}
 

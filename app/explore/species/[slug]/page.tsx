@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -28,21 +29,34 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
       <MobileBackButton fallbackHref="/explore/species" className="hidden md:block" />
 
       <div className="mt-4 rounded-3xl border bg-card px-6 py-8 shadow-sm md:px-10 md:py-10">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">{species.commonName}</h1>
-            {species.scientificName && (
-              <p className="mt-2 text-base italic text-muted-foreground">{species.scientificName}</p>
-            )}
-            {species.aliasesDisplay && (
-              <p className="mt-2 text-sm text-muted-foreground">别名：{species.aliasesDisplay}</p>
+        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+          {species.coverImageUrl && (
+            <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl border md:h-48 md:w-48">
+              <Image
+                src={species.coverImageUrl}
+                alt={species.commonName}
+                fill
+                className="object-cover"
+                sizes="192px"
+              />
+            </div>
+          )}
+          <div className="flex flex-1 flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">{species.commonName}</h1>
+              {species.scientificName && (
+                <p className="mt-2 text-base italic text-muted-foreground">{species.scientificName}</p>
+              )}
+              {species.aliasesDisplay && (
+                <p className="mt-2 text-sm text-muted-foreground">别名：{species.aliasesDisplay}</p>
+              )}
+            </div>
+            {species.taxonGroup && (
+              <span className="rounded-full bg-muted px-3 py-1 text-sm font-medium text-muted-foreground">
+                {species.taxonGroup}
+              </span>
             )}
           </div>
-          {species.taxonGroup && (
-            <span className="rounded-full bg-muted px-3 py-1 text-sm font-medium text-muted-foreground">
-              {species.taxonGroup}
-            </span>
-          )}
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
@@ -87,8 +101,8 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
           )}
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <section className="rounded-2xl border p-5 lg:col-span-2">
+        <div className="mt-10">
+          <section className="rounded-2xl border p-5">
             <h2 className="text-xl font-semibold">如果你现在想开始观察它</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-3">
               <div className="rounded-xl border bg-muted/20 p-4">
@@ -100,51 +114,11 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
                 <div className="mt-2 text-sm leading-6">{species.seasonalityNotes || '先选择你最容易反复到达的时间段。'}</div>
               </div>
               <div className="rounded-xl border bg-muted/20 p-4">
-                <div className="text-xs text-muted-foreground">最后开始任务</div>
-                {species.relatedProjects && species.relatedProjects.length > 0 ? (
-                  <Link href={`/project/${species.relatedProjects[0].id}`} className="mt-2 block text-sm font-medium text-primary hover:underline">
-                    从“{species.relatedProjects[0].title}”开始
-                  </Link>
-                ) : (
-                  <Link href={`/bird-observation/submit?species=${species.id}`} className="mt-2 block text-sm font-medium text-primary hover:underline">
-                    直接记录一次观察
-                  </Link>
-                )}
+                <div className="text-xs text-muted-foreground">最后去记录</div>
+                <Link href={`/bird-observation/submit?species=${species.id}`} className="mt-2 block text-sm font-medium text-primary hover:underline">
+                  直接记录一次观察
+                </Link>
               </div>
-            </div>
-          </section>
-
-          <section className="rounded-2xl border p-5">
-            <h2 className="text-xl font-semibold">相关项目</h2>
-            <div className="mt-4 space-y-3">
-              {species.relatedProjects?.length ? (
-                species.relatedProjects.map((project) => (
-                  <Link key={project.id} href={`/project/${project.id}`} className="block rounded-xl border bg-muted/20 p-4 hover:bg-muted/40">
-                    {project.title}
-                  </Link>
-                ))
-              ) : (
-                <p className="text-sm text-muted-foreground">暂未关联项目。</p>
-              )}
-            </div>
-          </section>
-
-          <section className="rounded-2xl border p-5">
-            <h2 className="text-xl font-semibold">相关挑战</h2>
-            <div className="mt-4 space-y-3">
-              {species.relatedChallenges?.length ? (
-                species.relatedChallenges.map((challenge) => (
-                  <Link
-                    key={challenge.id}
-                    href={`/community/challenge/${challenge.id}`}
-                    className="block rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
-                  >
-                    {challenge.title}
-                  </Link>
-                ))
-              ) : (
-                <p className="text-sm text-muted-foreground">暂未关联挑战。</p>
-              )}
             </div>
           </section>
         </div>
@@ -173,9 +147,7 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
                   {observation.notes && (
                     <p className="mt-3 text-sm leading-6 text-foreground/90">{observation.notes}</p>
                   )}
-                  <div className="mt-3 text-xs text-primary">
-                    查看这条记录如何连接回任务与活动
-                  </div>
+                  <div className="mt-3 text-xs text-primary">查看完整记录</div>
                 </Link>
               ))
             ) : (

@@ -155,6 +155,22 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         thresholds: [3, 7, 30, 90],
         descriptionTemplate: (_, v) => `连续登录 ${v} 天`,
     },
+    {
+        seriesKey: "bird_observer",
+        label: "观察家",
+        icon: "binoculars",
+        getValue: (s) => s.observationsSubmitted ?? 0,
+        thresholds: [1, 10, 30, 100],
+        descriptionTemplate: (_, v) => `提交 ${v} 条观察记录`,
+    },
+    {
+        seriesKey: "species_collector",
+        label: "物种收集",
+        icon: "feather",
+        getValue: (s) => s.speciesObserved ?? 0,
+        thresholds: [3, 10, 30, 80],
+        descriptionTemplate: (_, v) => `观察到 ${v} 种不同物种`,
+    },
 ];
 
 const TIERED_BADGES: Badge[] = TIERED_SERIES.flatMap(buildTieredBadges);
@@ -201,6 +217,9 @@ const SINGLE_BADGES: Badge[] = [
     { id: "circuit_first_solve", name: "电路入门", description: "首次点亮灯泡", icon: "zap", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 1 },
     { id: "circuit_10", name: "电工达人", description: "累计完成 10 个电路关卡", icon: "sparkles", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 10 },
     { id: "circuit_logic", name: "逻辑门大师", description: "完成所有含逻辑门的关卡", icon: "brain", kind: "single", seriesKey: "circuit", condition: (stats) => stats.circuitLogicCleared === true },
+    // 鸟类观察专属徽章
+    { id: "first_observation", name: "第一次观察", description: "提交第一条鸟类观察记录", icon: "eye", kind: "single", seriesKey: "bird_observation", condition: (stats) => (stats.observationsSubmitted ?? 0) >= 1 },
+    { id: "observation_streak_7", name: "连续观察 7 天", description: "连续 7 天提交观察记录", icon: "flame", kind: "single", seriesKey: "bird_observation", condition: (stats) => (stats.observationStreak ?? 0) >= 7 },
 ];
 
 const RARE_BADGES: Badge[] = [
@@ -226,6 +245,7 @@ export const SERIES_ORDER: { key: string; label: string }[] = [
     { key: "sudoku", label: "数独" },
     { key: "nqueens", label: "N 皇后" },
     { key: "circuit", label: "电路拼图" },
+    { key: "bird_observation", label: "鸟类观察" },
     { key: "rare", label: "稀有限定" },
 ];
 
@@ -241,7 +261,7 @@ export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, m
         const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "circuit", "rare"]);
+    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "circuit", "bird_observation", "rare"]);
     const singleUnlocked = badges.filter((b) => b.seriesKey && singleSeries.has(b.seriesKey) && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;

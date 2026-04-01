@@ -1,7 +1,9 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { DomesticMiniMap } from '@/components/features/bird-observation/domestic-mini-map'
+import { ObservationSocialSection } from '@/components/features/bird-observation/observation-social-section'
 import { MobileBackButton } from '@/components/ui/mobile-back-button'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { getObservationById } from '@/lib/api/nature-observation-data'
@@ -79,7 +81,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
 
         {observation.mediaUrls.length > 0 && (
           <section className="mt-6 rounded-2xl border p-5">
-            <h2 className="text-lg font-semibold">证据图片</h2>
+            <h2 className="text-lg font-semibold">观察照片</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {observation.mediaUrls.map((url) => (
                 <a
@@ -87,9 +89,15 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
                   href={url}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-2xl border bg-muted/20 p-4 text-sm text-primary hover:underline"
+                  className="group relative aspect-[4/3] overflow-hidden rounded-2xl border bg-muted/20"
                 >
-                  查看图片证据
+                  <Image
+                    src={url}
+                    alt="观察照片"
+                    fill
+                    className="object-cover transition-transform group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                  />
                 </a>
               ))}
             </div>
@@ -139,35 +147,15 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
           </div>
         </section>
 
-        {(observation.project || observation.challenge) && (
-          <section className="mt-8 rounded-2xl border p-5">
-            <h2 className="text-xl font-semibold">这条记录关联到</h2>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {observation.project && (
-                <Link
-                  href={`/project/${observation.project.id}`}
-                  className="rounded-2xl border bg-muted/20 p-4 hover:bg-muted/40"
-                >
-                  <div className="text-xs text-muted-foreground">关联项目</div>
-                  <div className="mt-1 font-medium">{observation.project.title}</div>
-                </Link>
-              )}
-              {observation.challenge && (
-                <Link
-                  href={`/community/challenge/${observation.challenge.id}`}
-                  className="rounded-2xl border bg-muted/20 p-4 hover:bg-muted/40"
-                >
-                  <div className="text-xs text-muted-foreground">关联挑战</div>
-                  <div className="mt-1 font-medium">{observation.challenge.title}</div>
-                </Link>
-              )}
-            </div>
-          </section>
-        )}
+        <ObservationSocialSection
+          observationId={observation.id}
+          initialLikesCount={observation.likesCount}
+          initialCommentsCount={observation.commentsCount}
+        />
 
         <section className="mt-8 rounded-2xl border p-5">
           <h2 className="text-xl font-semibold">下一步可以做什么</h2>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
             {observation.species[0]?.speciesSlug && (
               <Link
                 href={`/explore/species/${observation.species[0].speciesSlug}`}
@@ -175,15 +163,6 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
               >
                 <div className="text-xs text-muted-foreground">认识这种鸟</div>
                 <div className="mt-1 font-medium">返回物种页</div>
-              </Link>
-            )}
-            {observation.project && (
-              <Link
-                href={`/project/${observation.project.id}`}
-                className="rounded-2xl border bg-muted/20 p-4 hover:bg-muted/40"
-              >
-                <div className="text-xs text-muted-foreground">继续这个任务</div>
-                <div className="mt-1 font-medium">回到项目页</div>
               </Link>
             )}
             <Link

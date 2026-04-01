@@ -6,7 +6,8 @@ import { PenBox } from "lucide-react";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
 import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart";
-import { Project, Profile } from "@/lib/mappers/types";
+import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
+import { ProfileObservationsPanel } from "@/components/features/profile/profile-observations-panel";
 import { User } from "@supabase/supabase-js";
 import type { UserStats } from "@/lib/gamification/types";
 import { ProjectListSkeleton } from "@/components/features/profile/project-list-skeleton";
@@ -24,6 +25,12 @@ interface MobileProfilePageProps {
   followingCount: number;
   userStats?: UserStats | null;
   isProjectsDataLoading?: boolean;
+  myObservations?: ObservationEvent[];
+  observationsTotal?: number;
+  uniqueSpeciesCount?: number;
+  isObservationsLoading?: boolean;
+  observationsLoaded?: boolean;
+  onTabChange?: (value: string) => void;
 }
 
 export function MobileProfilePage({
@@ -38,6 +45,12 @@ export function MobileProfilePage({
   followingCount,
   userStats,
   isProjectsDataLoading = false,
+  myObservations = [],
+  observationsTotal = 0,
+  uniqueSpeciesCount = 0,
+  isObservationsLoading = false,
+  observationsLoaded = false,
+  onTabChange,
 }: MobileProfilePageProps) {
   const [_activeTab, setActiveTab] = useState("works");
 
@@ -116,7 +129,14 @@ export function MobileProfilePage({
       </div>
 
       {/* Tabs Content */}
-      <Tabs defaultValue="works" className="w-full flex-1" onValueChange={setActiveTab}>
+      <Tabs
+        defaultValue="works"
+        className="w-full flex-1"
+        onValueChange={(v) => {
+          setActiveTab(v);
+          onTabChange?.(v);
+        }}
+      >
         <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b px-4">
             <TabsList className="w-full h-11 bg-transparent p-0 justify-start gap-4 overflow-x-auto scrollbar-none">
                 <TabsTrigger 
@@ -142,6 +162,15 @@ export function MobileProfilePage({
                     className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
                 >
                     完成 <span className="ml-1 text-xs text-muted-foreground font-normal">{completedProjectsCount}</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="observations"
+                  className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
+                >
+                  观察{" "}
+                  <span className="ml-1 text-xs text-muted-foreground font-normal">
+                    {observationsLoaded ? observationsTotal : ""}
+                  </span>
                 </TabsTrigger>
             </TabsList>
         </div>
@@ -192,6 +221,15 @@ export function MobileProfilePage({
                       href: "/explore"
                   }}
                />
+            </TabsContent>
+            <TabsContent value="observations" className="mt-0 space-y-4">
+              <ProfileObservationsPanel
+                observations={myObservations}
+                observationsTotal={observationsTotal}
+                uniqueSpeciesCount={uniqueSpeciesCount}
+                isLoading={isObservationsLoading}
+                isLoaded={observationsLoaded}
+              />
             </TabsContent>
         </div>
       </Tabs>

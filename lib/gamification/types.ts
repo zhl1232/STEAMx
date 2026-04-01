@@ -47,6 +47,10 @@ export interface UserStats {
     // 电路拼图专属
     circuitSolved?: number;        // 累计通关数
     circuitLogicCleared?: boolean; // 是否完成逻辑门关卡
+    // 鸟类观察专属
+    observationsSubmitted?: number;    // 提交的观察记录数
+    speciesObserved?: number;          // 观察到的不重复物种数
+    observationStreak?: number;        // 连续观察天数
 }
 
 export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";

@@ -46,6 +46,11 @@ export interface DbCommentWithProfile {
     } | null
 }
 
+/** observation_comments 联表 profiles 后的行，与 Comment 映射字段一致，另含 observation_event_id */
+export type DbObservationCommentWithProfile = DbCommentWithProfile & {
+    observation_event_id?: number
+}
+
 // 讨论详情联表 author 后的查询结果类型（不含 replies）
 export type DbDiscussionWithProfile = DbDiscussion & {
     profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
@@ -86,7 +91,6 @@ export interface Project {
     problem_statement?: string
     iterations?: Iteration[]
     steam_weights?: SteamWeights | null
-    recommendedSpecies?: Species[]
 }
 
 /**
@@ -190,7 +194,6 @@ export interface Challenge {
     resources?: ChallengeResource[]
     stages?: ChallengeStage[]
     steamWeights?: SteamWeights
-    recommendedSpecies?: Species[]
     recommendedProjects?: ObservationLinkedItem[]
     submissionsCount?: number
     completionsCount?: number
@@ -219,8 +222,6 @@ export interface ObservationSpeciesSummary {
 export interface ObservationEvent {
     id: number
     userId: string
-    projectId?: number | null
-    challengeId?: number | null
     observedAt: string
     locationName: string
     latitude?: number | null
@@ -232,9 +233,9 @@ export interface ObservationEvent {
     mediaUrls: string[]
     isPublic: boolean
     status: 'pending' | 'approved' | 'rejected' | string
+    likesCount: number
+    commentsCount: number
     species: ObservationSpeciesSummary[]
-    project?: ObservationLinkedItem | null
-    challenge?: ObservationLinkedItem | null
 }
 
 export interface ObservationLocationSummary {
@@ -258,8 +259,6 @@ export interface Species {
     coverImageUrl?: string | null
     isActive: boolean
     aliasesDisplay?: string
-    relatedProjects?: ObservationLinkedItem[]
-    relatedChallenges?: ObservationLinkedItem[]
     recentObservations?: ObservationEvent[]
     topLocations?: ObservationLocationSummary[]
 }
@@ -423,6 +422,10 @@ export function mapDbComment(
     }
 }
 
+export function mapDbObservationComment(row: DbObservationCommentWithProfile): Comment {
+    return mapDbComment(row)
+}
+
 /**
  * 将数据库 Discussion 类型映射为前端 Discussion 类型
  */
@@ -548,13 +551,10 @@ export function mapDbObservationEventSpecies(
 export function mapDbObservationEvent(
     dbObservationEvent: DbObservationEvent,
     species: ObservationSpeciesSummary[] = [],
-    links?: { project?: ObservationLinkedItem | null; challenge?: ObservationLinkedItem | null },
 ): ObservationEvent {
     return {
         id: dbObservationEvent.id,
         userId: dbObservationEvent.user_id,
-        projectId: dbObservationEvent.project_id,
-        challengeId: dbObservationEvent.challenge_id,
         observedAt: dbObservationEvent.observed_at,
         locationName: dbObservationEvent.location_name,
         latitude: dbObservationEvent.latitude,
@@ -566,9 +566,9 @@ export function mapDbObservationEvent(
         mediaUrls: dbObservationEvent.media_urls || [],
         isPublic: dbObservationEvent.is_public,
         status: dbObservationEvent.status,
+        likesCount: (dbObservationEvent as Record<string, unknown>).likes_count as number || 0,
+        commentsCount: (dbObservationEvent as Record<string, unknown>).comments_count as number || 0,
         species,
-        project: links?.project ?? null,
-        challenge: links?.challenge ?? null,
     }
 }
 

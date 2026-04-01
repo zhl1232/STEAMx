@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ErrorBoundary } from '@/components/error-boundary'
 import { ConditionalAppShell } from '@/components/conditional-app-shell'
+import { ObservationGamificationSync } from '@/components/features/gamification/observation-gamification-sync'
 import QueryProvider from '@/components/providers/query-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
@@ -77,6 +78,7 @@ export default function RootLayout({
           }}
         />
         <QueryProvider>
+          <ObservationGamificationSync />
           <AuthProvider>
             <ThemeProvider
               attribute="class"

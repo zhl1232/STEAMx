@@ -26,6 +26,8 @@ import { cn } from '@/lib/utils'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { getDisplayName } from '@/lib/utils/user'
 import { logger } from '@/lib/logger'
+import { useProfileObservations } from '@/hooks/profile/use-profile-observations'
+import { ProfileObservationsPanel } from '@/components/features/profile/profile-observations-panel'
 import { useToast } from '@/hooks/use-toast'
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data"
 import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart"
@@ -44,7 +46,8 @@ export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
   const { likedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
-  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed'>('collected')
+  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed' | 'observations'>('collected')
+  const [mobileProfileTab, setMobileProfileTab] = useState<string>('works')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
   const { userStats } = useGamificationData()
   const supabase = useMemo(() => createClient(), [])
@@ -58,7 +61,16 @@ export default function ProfilePage() {
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
   const [isProjectsDataLoading, setIsProjectsDataLoading] = useState(true)
-
+  const {
+    myObservations,
+    observationsTotal,
+    uniqueSpeciesCount,
+    isObservationsLoading,
+    observationsLoaded,
+  } = useProfileObservations(
+    activeTab === 'observations' || mobileProfileTab === 'observations',
+    user?.id,
+  )
 
   const likedProjectIds = React.useMemo(
     () => Array.from(likedProjects).map((id) => Number(id)).sort((a, b) => a - b),
@@ -266,6 +278,12 @@ export default function ProfilePage() {
                 followingCount={followingCount}
                 userStats={userStats}
                 isProjectsDataLoading={isProjectsDataLoading}
+                myObservations={myObservations}
+                observationsTotal={observationsTotal}
+                uniqueSpeciesCount={uniqueSpeciesCount}
+                isObservationsLoading={isObservationsLoading}
+                observationsLoaded={observationsLoaded}
+                onTabChange={setMobileProfileTab}
             />
         </div>
 
@@ -432,6 +450,13 @@ export default function ProfilePage() {
             >
               我做过的 ({completionStatusMap.size})
             </Button>
+            <Button
+              variant={activeTab === 'observations' ? 'default' : 'ghost'}
+              onClick={() => setActiveTab('observations')}
+              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
+            >
+              我的观察 {observationsLoaded ? `(${observationsTotal})` : ''}
+            </Button>
           </div>
 
           {/* 项目列表 */}
@@ -507,6 +532,16 @@ export default function ProfilePage() {
                       </div>
                     )
                   })}
+
+                {activeTab === 'observations' && (
+                  <ProfileObservationsPanel
+                    observations={myObservations}
+                    observationsTotal={observationsTotal}
+                    uniqueSpeciesCount={uniqueSpeciesCount}
+                    isLoading={isObservationsLoading}
+                    isLoaded={observationsLoaded}
+                  />
+                )}
               </>
             )}
           </div>

@@ -19,7 +19,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
         </div>
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">观察记录</h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          这一页是自然观察第二阶段的事实数据入口，用来承接“谁在什么时候、什么地方看到了什么”的结构化记录。
+          查看大家提交的真实观察记录，看看谁在什么时候、什么地方看到了什么鸟。
         </p>
       </div>
 

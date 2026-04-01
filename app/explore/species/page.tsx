@@ -20,9 +20,27 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
         </div>
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">鸟类物种</h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          这一页是自然观察第二阶段的物种入口骨架，用来承接常见鸟种的知识信息、最近观察记录，以及与项目和挑战的反查关系。
+          浏览当前可观察的鸟类物种，了解识别特征、常见环境和观察建议。
         </p>
       </div>
+
+      <form className="mb-6" action="/explore/species" method="get">
+        <div className="flex gap-3">
+          <input
+            type="text"
+            name="q"
+            defaultValue={query || ''}
+            placeholder="搜索物种名称、学名或类群"
+            className="flex h-10 flex-1 rounded-full border border-input bg-background px-4 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          <button
+            type="submit"
+            className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            搜索
+          </button>
+        </div>
+      </form>
 
       <div className="grid gap-4 md:grid-cols-2">
         {species.map((item) => (
