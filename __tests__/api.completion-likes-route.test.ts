@@ -24,7 +24,7 @@ vi.mock('@/lib/api/rate-limit', () => ({
 
 describe('GET /api/completions/[id]/likes', () => {
     const createClientMock = createClient as Mock<typeof createClient>
-    const requireAuthMock = requireAuth as Mock<typeof requireAuth>
+    const _requireAuthMock = requireAuth as Mock<typeof requireAuth>
     const requireRateLimitMock = requireRateLimit as Mock<typeof requireRateLimit>
 
     beforeEach(() => {

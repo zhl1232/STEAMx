@@ -855,6 +855,63 @@ export interface Database {
         }
         Relationships: []
       }
+      observation_likes: {
+        Row: {
+          user_id: string
+          observation_event_id: number
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          observation_event_id: number
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          observation_event_id?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      observation_comments: {
+        Row: {
+          id: number
+          observation_event_id: number
+          author_id: string
+          content: string
+          parent_id: number | null
+          reply_to_user_id: string | null
+          reply_to_username: string | null
+          likes_count: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          observation_event_id: number
+          author_id: string
+          content: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
+          likes_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          observation_event_id?: number
+          author_id?: string
+          content?: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
+          likes_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       challenges: {
         Row: {
           id: number
@@ -1366,6 +1423,22 @@ export interface Database {
       }
       decrement_completion_likes: {
         Args: { completion_id: number }
+        Returns: void
+      }
+      increment_observation_likes: {
+        Args: { target_observation_id: number }
+        Returns: void
+      }
+      decrement_observation_likes: {
+        Args: { target_observation_id: number }
+        Returns: void
+      }
+      increment_observation_comments: {
+        Args: { target_observation_id: number }
+        Returns: void
+      }
+      decrement_observation_comments: {
+        Args: { target_observation_id: number }
         Returns: void
       }
       increment_comment_likes: {

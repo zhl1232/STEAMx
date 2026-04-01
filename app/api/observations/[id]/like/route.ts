@@ -30,7 +30,7 @@ export async function POST(
       return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
     }
 
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from('observation_likes')
       .insert({ user_id: user.id, observation_event_id: observationId })
 
@@ -41,7 +41,7 @@ export async function POST(
       throw error
     }
 
-    await (supabase as any).rpc('increment_observation_likes', { target_observation_id: observationId })
+    await supabase.rpc('increment_observation_likes', { target_observation_id: observationId })
 
     return NextResponse.json({ liked: true })
   } catch (error) {
@@ -64,7 +64,7 @@ export async function DELETE(
       return NextResponse.json({ error: '无效的观察记录 ID' }, { status: 400 })
     }
 
-    const { error, count } = await (supabase as any)
+    const { error, count } = await supabase
       .from('observation_likes')
       .delete({ count: 'exact' })
       .eq('user_id', user.id)
@@ -73,7 +73,7 @@ export async function DELETE(
     if (error) throw error
 
     if ((count ?? 0) > 0) {
-      await (supabase as any).rpc('decrement_observation_likes', { target_observation_id: observationId })
+      await supabase.rpc('decrement_observation_likes', { target_observation_id: observationId })
     }
 
     return NextResponse.json({ liked: false })

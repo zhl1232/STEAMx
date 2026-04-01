@@ -28,7 +28,7 @@ export async function GET(
       return NextResponse.json({ error: '无效的观察记录 ID' }, { status: 400 })
     }
 
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase
       .from('observation_comments')
       .select(COMMENT_SELECT)
       .eq('observation_event_id', observationId)
@@ -94,7 +94,7 @@ export async function POST(
         return NextResponse.json({ error: '无效的 parent_id' }, { status: 400 })
       }
 
-      const { data: parentComment } = await (supabase as any)
+      const { data: parentComment } = await supabase
         .from('observation_comments')
         .select('observation_event_id, author_id, profiles:author_id(display_name)')
         .eq('id', parentId)
@@ -118,7 +118,7 @@ export async function POST(
       replyToUsername = typed.profiles?.display_name || null
     }
 
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase
       .from('observation_comments')
       .insert({
         observation_event_id: observationId,
@@ -133,7 +133,7 @@ export async function POST(
 
     if (error || !data) throw error
 
-    await (supabase as any).rpc('increment_observation_comments', { target_observation_id: observationId })
+    await supabase.rpc('increment_observation_comments', { target_observation_id: observationId })
 
     return NextResponse.json({ comment: mapDbObservationComment(data as DbObservationCommentWithProfile) })
   } catch (error) {

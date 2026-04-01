@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -59,7 +60,13 @@ export function ProfileObservationsPanel({
           >
             {obs.mediaUrls[0] && (
               <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-xl bg-muted">
-                <img src={obs.mediaUrls[0]} alt="观察照片" className="h-full w-full object-cover" />
+                <Image
+                  src={obs.mediaUrls[0]}
+                  alt="观察照片"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
               </div>
             )}
             {obs.species.length > 0 && (

@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useCommunity } from "@/context/community-context";
 import { DiscussionList } from "@/components/features/community/discussion-list";
@@ -14,7 +14,7 @@ import { MobileCommunityPage } from "@/components/community/mobile-community-pag
 import { MessageSquare, Trophy, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function CommunityPage() {
+function CommunityPageContent() {
     const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
     const searchParams = useSearchParams();
     const initialTab = searchParams.get("tab") === "challenges" ? "challenges" : "discussions";
@@ -188,5 +188,22 @@ export default function CommunityPage() {
                 </div>
             </div>
         </>
+    );
+}
+
+export default function CommunityPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="container mx-auto min-h-[400px] max-w-5xl py-12">
+                    <div className="animate-pulse space-y-4">
+                        <div className="mx-auto h-10 w-64 rounded-md bg-muted" />
+                        <div className="mx-auto h-6 w-96 max-w-full rounded-md bg-muted" />
+                    </div>
+                </div>
+            }
+        >
+            <CommunityPageContent />
+        </Suspense>
     );
 }

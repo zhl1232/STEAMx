@@ -123,7 +123,7 @@ export function DomesticMiniMap({
     } else {
       map.fitBounds(bounds.pad(0.25))
     }
-  }, [markers, activeMarkerIndex])
+  }, [markers, activeMarkerIndex, enableTimeDecay])
 
   if (markers.length === 0) {
     return null
