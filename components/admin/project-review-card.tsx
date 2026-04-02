@@ -135,13 +135,14 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
             value={rejectionReason}
             onChange={(e) => setRejectionReason(e.target.value)}
             rows={3}
+            className="rounded-2xl"
           />
           <div className="flex gap-2">
             <Button
               onClick={handleReject}
               disabled={isReviewing}
               variant="destructive"
-              className="flex-1"
+              className="flex-1 rounded-full"
             >
               确认拒绝
             </Button>
@@ -152,7 +153,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
               }}
               disabled={isReviewing}
               variant="outline"
-              className="flex-1"
+              className="flex-1 rounded-full"
             >
               取消
             </Button>
@@ -162,11 +163,11 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
     }
 
     return (
-      <div className={`flex gap-2 ${inDialog ? 'mt-6 pt-4 border-t' : 'mt-4'}`}>
+      <div className={`flex gap-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
         <Button
           onClick={handleApprove}
           disabled={isReviewing}
-          className="flex-1 bg-green-600 hover:bg-green-700"
+          className="flex-1 rounded-full bg-green-600 hover:bg-green-700"
         >
           批准上线
         </Button>
@@ -174,7 +175,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
           variant="destructive"
-          className="flex-1"
+          className="flex-1 rounded-full"
         >
           拒绝发布
         </Button>
@@ -184,7 +185,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
 
   return (
     <>
-      <Card>
+      <Card className="surface-subtle shadow-none">
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
@@ -199,13 +200,13 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
         <CardContent>
           <div className="flex gap-4 mb-4">
             {project.image_url && (
-              <div className="relative w-32 h-24 shrink-0">
+              <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl border border-border/70">
                 <OptimizedImage
                   src={project.image_url}
                   alt={project.title}
                   fill
                   variant="thumbnail"
-                  className="object-cover rounded-md"
+                  className="object-cover"
                 />
               </div>
             )}
@@ -218,10 +219,10 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
             </div>
           </div>
 
-          <div className="border-t pt-4">
+          <div className="border-t border-border/70 pt-4">
             <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full gap-2">
+                <Button variant="outline" className="w-full gap-2 rounded-2xl">
                   <Eye className="w-4 h-4" /> 查看完整详情与审核
                 </Button>
               </DialogTrigger>
@@ -234,9 +235,9 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                   <div className="space-y-6 py-4">
                     {/* 基本信息 */}
                     <section className="space-y-4">
-                      <h3 className="font-semibold text-lg border-b pb-2">基本信息</h3>
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">基本信息</h3>
                       {project.image_url && (
-                        <div className="relative w-full h-64 rounded-lg overflow-hidden border">
+                        <div className="relative h-64 w-full overflow-hidden rounded-[24px] border border-border/70">
                           <OptimizedImage
                             src={project.image_url}
                             alt={project.title}
@@ -262,19 +263,19 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                       </div>
                       <div>
                         <span className="text-muted-foreground text-sm block mb-1">项目描述:</span>
-                        <p className="text-sm leading-relaxed bg-muted/30 p-3 rounded-md">{project.description}</p>
+                        <p className="rounded-2xl border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{project.description}</p>
                       </div>
                     </section>
 
                     {/* 材料清单 */}
                     <section className="space-y-3">
-                      <h3 className="font-semibold text-lg border-b pb-2">所需材料</h3>
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">所需材料</h3>
                       {project.project_materials && project.project_materials.length > 0 ? (
-                        <ul className="list-disc list-inside space-y-1 text-sm pl-2">
+                        <ul className="space-y-2 text-sm">
                           {project.project_materials
                             .sort((a, b) => a.sort_order - b.sort_order)
                             .map((m) => (
-                              <li key={m.id}>{m.material}</li>
+                              <li key={m.id} className="rounded-2xl border border-border/70 bg-background/80 px-3 py-2">{m.material}</li>
                             ))}
                         </ul>
                       ) : (
@@ -284,20 +285,20 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
 
                     {/* 步骤 */}
                     <section className="space-y-4">
-                      <h3 className="font-semibold text-lg border-b pb-2">制作步骤</h3>
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">制作步骤</h3>
                       {project.project_steps && project.project_steps.length > 0 ? (
                         <div className="space-y-6">
                           {project.project_steps
                             .sort((a, b) => a.sort_order - b.sort_order)
                             .map((step, index) => (
-                              <div key={step.id} className="border rounded-lg p-4 bg-card">
+                              <div key={step.id} className="rounded-[24px] border border-border/70 bg-background/80 p-4">
                                 <h4 className="font-medium mb-2 flex items-center gap-2">
                                   <Badge variant="secondary" className="h-6 w-6 rounded-full p-0 flex items-center justify-center">{index + 1}</Badge>
                                   {step.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">{step.description}</p>
                                 {step.image_url && (
-                                  <div className="relative w-full h-48 rounded-md overflow-hidden bg-muted">
+                                  <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-muted">
                                     <OptimizedImage
                                       src={step.image_url}
                                       alt={step.title}

@@ -15,8 +15,8 @@ const config: Config = {
     			'2xl': '1400px'
     		}
     	},
-    	extend: {
-    		colors: {
+    		extend: {
+    			colors: {
     			border: 'hsl(var(--border))',
                 'border-highlight': 'hsl(var(--border-highlight))',
     			input: 'hsl(var(--input))',
@@ -58,19 +58,28 @@ const config: Config = {
     				'4': 'hsl(var(--chart-4))',
     				'5': 'hsl(var(--chart-5))'
     			}
-    		},
-    		borderRadius: {
-    			lg: 'var(--radius)',
-    			md: 'calc(var(--radius) - 2px)',
-    			sm: 'calc(var(--radius) - 4px)'
-    		},
-    		fontFamily: {
-    			sans: [
-    				'var(--font-inter)',
-    				'sans-serif'
-    			]
+    			},
+    			borderRadius: {
+    				lg: 'var(--radius)',
+    				md: 'calc(var(--radius) - 2px)',
+    				sm: 'calc(var(--radius) - 4px)'
+    			},
+    			fontFamily: {
+    				sans: [
+    					'var(--font-sans)',
+    					'"PingFang SC"',
+    					'"Hiragino Sans GB"',
+    					'"Microsoft YaHei"',
+    					'sans-serif'
+    				],
+    				heading: [
+    					'var(--font-heading)',
+    					'"STSong"',
+    					'"Songti SC"',
+    					'serif'
+    				]
+    			}
     		}
-    	}
     },
     plugins: [require("tailwindcss-animate")],
 };

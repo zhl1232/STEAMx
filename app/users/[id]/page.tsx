@@ -11,6 +11,7 @@ import { ProjectCard } from "@/components/features/project-card";
 import { FollowButton } from "@/components/features/social/follow-button";
 // Note: removed useFollow import as we now query follower count directly
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { useAuth } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
 import { FolderOpen, MessageCircle } from "lucide-react";
@@ -85,7 +86,7 @@ export default function PublicProfilePage() {
   }, [userId]);
 
   if (isLoading) return <ProfileSkeleton />;
-  if (!profile) return <div className="container py-20 text-center">用户不存在</div>;
+  if (!profile) return <div className="page-shell py-20 text-center">用户不存在</div>;
 
   // Redirect to own profile if viewing self
   if (currentUser?.id === userId) {
@@ -96,138 +97,167 @@ export default function PublicProfilePage() {
   const userName = profile.display_name || "匿名用户";
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-6xl">
-      {/* Header Card */}
-      <div className="bg-gradient-to-b from-muted/50 to-background rounded-2xl p-8 mb-8 border">
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          {/* Avatar */}
-          <div className="relative">
-            <div className="relative h-32 w-32 rounded-full border-4 border-background shadow-xl overflow-hidden bg-muted">
-              {profile.avatar_url ? (
-                <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
-              ) : (
-                <div className="h-full w-full flex items-center justify-center text-5xl bg-gradient-to-br from-primary/20 to-secondary/20 font-bold text-primary">
-                  {userName[0].toUpperCase()}
-                </div>
-              )}
-            </div>
-            <div className="absolute -bottom-2 -right-2 bg-background rounded-full px-3 py-1 border shadow-sm text-sm font-bold flex items-center gap-1">
-              <span className="text-yellow-500">Lv.{level}</span>
-            </div>
-          </div>
-
-          {/* Info */}
-          <div className="flex-1 text-center md:text-left space-y-4">
-            <div>
-              <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-                {profile.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="md" />}
-                {userName}
-              </h1>
-              <p className="text-muted-foreground max-w-xl mx-auto md:mx-0">
-                {profile.bio || "这个人很懒，什么都没写~"}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center md:justify-start gap-6 text-sm">
-              <div className="flex flex-col items-center md:items-start">
-                <span className="font-bold text-lg">{projects.length}</span>
-                <span className="text-muted-foreground">项目</span>
-              </div>
-              <div className="flex flex-col items-center md:items-start">
-                <span className="font-bold text-lg">{followerCount}</span>
-                <span className="text-muted-foreground">粉丝</span>
-              </div>
-              <div className="flex flex-col items-center md:items-start">
-                <span className="font-bold text-lg">{followingCount}</span>
-                <span className="text-muted-foreground">关注</span>
-              </div>
-            </div>
-
-            <div className="pt-2 flex flex-wrap items-center gap-2">
-              <FollowButton
-                targetUserId={profile.id}
-                showCount={false}
-                className="w-full md:w-auto px-8"
-              />
-              {currentUser && currentUser.id !== userId && (
-                <Button variant="outline" className="w-full md:w-auto px-8" asChild>
-                  <Link href={`/messages/${userId}`}>
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    发私信
-                  </Link>
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+    <div className="page-shell pt-6 pb-24 md:py-8">
+      <div className="md:hidden">
+        <MobilePageHeader title={userName} fallbackHref="/community" />
       </div>
 
-      {/* Content Tabs */}
-      <Tabs defaultValue="projects" className="space-y-8">
-        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-          <TabsTrigger value="projects">项目 ({projects.length})</TabsTrigger>
-          <TabsTrigger value="badges">徽章 ({unlockedBadgeIds.size})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="projects" className="space-y-6">
-          {projects.length === 0 ? (
-            <div className="text-center py-20 bg-muted/30 rounded-xl border border-dashed">
-              <FolderOpen className="mx-auto h-12 w-12 text-muted-foreground/50 mb-3" />
-              <p className="text-muted-foreground">暂无发布项目</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="badges">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {BADGES.map((badge) => {
-              const isUnlocked = unlockedBadgeIds.has(badge.id);
-              return (
-                <div
-                  key={badge.id}
-                  className={cn(
-                    "p-6 rounded-xl border flex flex-col items-center justify-center text-center gap-3 transition-all",
-                    isUnlocked
-                      ? "bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20"
-                      : "bg-muted/30 border-muted",
-                  )}
-                >
-                  <BadgeIcon 
-                    icon={badge.icon} 
-                    tier={badge.tier} 
-                    size="lg" 
-                    locked={!isUnlocked}
-                  />
-                  <div>
-                    <div className="font-bold text-sm">{badge.name}</div>
-                    <div className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                      {badge.description}
-                    </div>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_320px]">
+        <div className="space-y-6">
+          <section className="surface-panel overflow-hidden">
+            <div className="bg-gradient-to-r from-background/95 via-background/90 to-primary/[0.06] px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+              <p className="section-kicker">公开主页</p>
+              <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
+                <div className="relative">
+                  <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-background bg-muted shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)] md:h-32 md:w-32">
+                    {profile.avatar_url ? (
+                      <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/18 to-secondary/18 text-4xl font-bold text-primary">
+                        {userName[0].toUpperCase()}
+                      </div>
+                    )}
                   </div>
-                  {isUnlocked ? (
-                    <Badge
-                      variant="secondary"
-                      className="text-[10px] h-5 bg-green-500/10 text-green-700 border-green-200"
-                    >
-                      已解锁
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="text-[10px] h-5">
-                      未解锁
-                    </Badge>
-                  )}
+                  <div className="absolute -bottom-2 -right-1 rounded-full border border-border/70 bg-background/92 px-3 py-1 text-sm font-bold shadow-sm">
+                    Lv.{level}
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </TabsContent>
-      </Tabs>
+
+                <div className="flex-1 space-y-4 text-center md:text-left">
+                  <div>
+                    <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
+                      {profile.role && profile.role !== "user" ? <RoleBadge role={profile.role} size="md" /> : null}
+                      <h1 className="text-3xl font-semibold tracking-tight">{userName}</h1>
+                    </div>
+                    <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:mx-0">
+                      {profile.bio || "这个人还没有补充个人简介。"}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { label: "项目", value: projects.length },
+                      { label: "粉丝", value: followerCount },
+                      { label: "关注", value: followingCount },
+                    ].map((item) => (
+                      <div key={item.label} className="surface-subtle px-4 py-3 text-center md:text-left">
+                        <div className="text-lg font-semibold">{item.value}</div>
+                        <div className="mt-1 text-xs text-muted-foreground">{item.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <FollowButton
+                      targetUserId={profile.id}
+                      showCount={false}
+                      className="h-11 rounded-2xl px-6 text-sm font-semibold"
+                    />
+                    {currentUser && currentUser.id !== userId ? (
+                      <Button variant="outline" className="h-11 rounded-2xl px-6 text-sm font-semibold" asChild>
+                        <Link href={`/messages/${userId}`}>
+                          <MessageCircle className="mr-2 h-4 w-4" />
+                          发私信
+                        </Link>
+                      </Button>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <Tabs defaultValue="projects" className="space-y-6">
+            <TabsList className="segmented-control grid h-auto w-full max-w-[420px] grid-cols-2 rounded-full bg-transparent p-1">
+              <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
+                项目 ({projects.length})
+              </TabsTrigger>
+              <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
+                徽章 ({unlockedBadgeIds.size})
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="projects" className="space-y-6">
+              {projects.length === 0 ? (
+                <div className="surface-panel px-6 py-16 text-center">
+                  <FolderOpen className="mx-auto mb-3 h-12 w-12 text-muted-foreground/50" />
+                  <p className="text-muted-foreground">暂无发布项目</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {projects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="badges">
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
+                {BADGES.map((badge) => {
+                  const isUnlocked = unlockedBadgeIds.has(badge.id);
+                  return (
+                    <div
+                      key={badge.id}
+                      className={cn(
+                        "surface-subtle flex flex-col items-center justify-center gap-3 p-6 text-center",
+                        isUnlocked && "border-primary/25 bg-primary/[0.06]",
+                      )}
+                    >
+                      <BadgeIcon
+                        icon={badge.icon}
+                        tier={badge.tier}
+                        size="lg"
+                        locked={!isUnlocked}
+                      />
+                      <div>
+                        <div className="text-sm font-bold">{badge.name}</div>
+                        <div className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                          {badge.description}
+                        </div>
+                      </div>
+                      {isUnlocked ? (
+                        <Badge
+                          variant="secondary"
+                          className="h-5 border-green-200 bg-green-500/10 text-[10px] text-green-700"
+                        >
+                          已解锁
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="h-5 text-[10px]">
+                          未解锁
+                        </Badge>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        <aside className="space-y-6">
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">主页说明</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">这是对外公开的个人主页</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              这里主要展示这个用户已发布的项目和已解锁徽章，不直接承担完整账号设置功能。
+            </p>
+          </section>
+
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">加入互动</p>
+            <div className="mt-4 space-y-3">
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                先通过主页了解对方做过什么项目，再决定是否关注。
+              </div>
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                如果双方允许私信，可从这里直接进入消息页继续交流。
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
     </div>
   );
 }

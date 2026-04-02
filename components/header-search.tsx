@@ -38,18 +38,18 @@ export function HeaderSearch({ className }: { className?: string }) {
     }
 
     return (
-        <div className={cn("relative flex h-9 w-full max-w-sm items-center", className)}>
+        <div className={cn("relative flex h-10 w-full max-w-md items-center", className)}>
             <Input
                 type="search"
                 placeholder="搜索项目、创意..."
-                className="w-full bg-background pr-9 md:w-[200px] lg:w-[300px] h-9 focus-visible:ring-1"
+                className="h-10 w-full rounded-full border-border/70 bg-background/82 pr-11 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] focus-visible:ring-1 md:w-[220px] lg:w-[320px]"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
             />
             <button
                 onClick={handleSearch}
-                className="absolute right-0 top-0 h-9 w-9 flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
+                className="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 type="button"
             >
                 <Search className="h-4 w-4" />

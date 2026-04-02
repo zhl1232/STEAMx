@@ -6,6 +6,34 @@
 type LogLevel = 'info' | 'warn' | 'error'
 type LogContext = Record<string, unknown>
 
+function normalizeError(error: unknown): { message: string; stack?: string; details?: Record<string, unknown> } {
+    if (error instanceof Error) {
+        return {
+            message: error.message,
+            stack: error.stack,
+        }
+    }
+
+    if (error && typeof error === 'object') {
+        const candidate = error as Record<string, unknown>
+        const messageParts = [
+            typeof candidate.message === 'string' ? candidate.message : '',
+            typeof candidate.details === 'string' ? candidate.details : '',
+            typeof candidate.hint === 'string' ? candidate.hint : '',
+        ].filter(Boolean)
+
+        return {
+            message: messageParts.join(' | ') || JSON.stringify(candidate),
+            stack: typeof candidate.stack === 'string' ? candidate.stack : undefined,
+            details: candidate,
+        }
+    }
+
+    return {
+        message: String(error),
+    }
+}
+
 class Logger {
     private isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -35,13 +63,19 @@ class Logger {
      * 记录错误日志
      */
     error(error: unknown, context?: LogContext) {
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        const errorStack = error instanceof Error ? error.stack : undefined
+        const normalized = normalizeError(error)
+        const errorMessage = normalized.message
+        const errorStack = normalized.stack
 
-        console.error(`[ERROR] ${errorMessage}`, { ...context, stack: errorStack })
+        console.error(`[ERROR] ${errorMessage}`, {
+            ...context,
+            ...(normalized.details ? { error: normalized.details } : {}),
+            stack: errorStack,
+        })
 
         this.sendToMonitoring('error', errorMessage, {
             ...context,
+            ...(normalized.details ? { error: normalized.details } : {}),
             stack: errorStack,
         })
 

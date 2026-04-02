@@ -24,20 +24,19 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const liked = isLiked(project.id);
     const likesCount = project.likes + getLikesDelta(project.id);
     const [imageError, setImageError] = useState(false);
+    const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
 
     return (
-        <div className="transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20">
-            <div
-                className="group relative block overflow-hidden rounded-lg border bg-background transition-all"
-            >
+        <div className="transition-transform duration-300 hover:-translate-y-1.5">
+            <div className="group relative block overflow-hidden rounded-[24px] border border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)] transition-all hover:shadow-[0_24px_55px_-28px_rgba(15,23,42,0.34)]">
                 {/* Main Card Link Overlay */}
                 <Link
                     href={`/project/${project.id}`}
                     className="absolute inset-0 z-0"
-                    aria-label={`View project ${project.title}`}
+                    aria-label={`查看项目：${project.title}`}
                 />
 
-                <div className="aspect-video w-full overflow-hidden bg-muted relative pointer-events-none">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted pointer-events-none">
                     {!imageError ? (
                         <OptimizedImage
                             src={project.image}
@@ -54,8 +53,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <ImageOff className="h-12 w-12 text-muted-foreground/50" />
                         </div>
                     )}
-                    {/* Gradient overlay on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
 
                     {/* 状态Badge - 左上角 */}
                     {showStatus && project.status && (
@@ -77,51 +75,67 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             )}
                         </div>
                     )}
-                </div>
-                <div className="p-4 bg-gradient-to-br from-background to-background/95 relative pointer-events-none flex flex-col gap-3.5">
-                    {/* 1. 标题放在最上方，与统计数据并列 */}
-                    <div className="flex items-start justify-between gap-3">
-                        <h3 className="font-semibold text-base line-clamp-2 leading-snug group-hover:text-primary transition-colors flex-1">
-                            <SearchHighlight text={project.title} query={searchQuery} />
-                        </h3>
 
-                        {/* 统计数据放在标题右侧 */}
-                        <div className="flex items-center gap-2.5 text-xs text-muted-foreground shrink-0 pt-0.5">
-                            <span className="flex items-center gap-1 group/stat" title="评论数">
-                                <MessageCircle className="h-3.5 w-3.5 group-hover/stat:text-primary transition-colors" />
-                                <span>{project.comments_count ?? 0}</span>
-                            </span>
-                            <span className="flex items-center gap-1 group/stat" title="投币数">
-                                <CircleStop className="h-3.5 w-3.5 group-hover/stat:text-yellow-500 transition-colors" />
-                                <span>{project.coins_count || 0}</span>
-                            </span>
-                            <span className="flex items-center gap-1 group/stat" title="点赞数">
-                                <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500 group-hover/stat:text-red-600" : "group-hover/stat:text-red-500")} />
-                                <span>{likesCount}</span>
-                            </span>
+                    <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4">
+                        <div className="flex min-w-0 flex-wrap gap-2">
+                            {project.category && (
+                                <span className="inline-flex items-center rounded-full border border-white/20 bg-black/30 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
+                                    {project.category}
+                                </span>
+                            )}
+                            {project.sub_category && (
+                                <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/88 backdrop-blur-md">
+                                    {project.sub_category}
+                                </span>
+                            )}
                         </div>
-                    </div>
-
-                    {/* 2. 弱化并重新排列标签和难度 */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-primary/10 text-primary max-w-[120px] truncate">
-                            {project.category}
-                        </span>
-                        {project.sub_category && (
-                            <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 max-w-[120px] truncate">
-                                {project.sub_category}
-                            </span>
-                        )}
-                        {project.tags?.slice(0, 2).map((tag) => (
-                            <span key={tag} className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium bg-muted text-muted-foreground max-w-[120px] truncate">
-                                {tag}
-                            </span>
-                        ))}
-                        {project.difficulty_stars && (
-                            <div className="ml-1 flex items-center">
+                        {project.difficulty_stars ? (
+                            <div className="shrink-0 rounded-full border border-white/12 bg-black/26 px-2.5 py-1 backdrop-blur-md">
                                 <DifficultyStars stars={project.difficulty_stars} size="sm" />
                             </div>
-                        )}
+                        ) : null}
+                    </div>
+                </div>
+
+                <div className="relative flex flex-col gap-4 bg-gradient-to-br from-background via-background to-muted/20 p-4 pointer-events-none">
+                    <div className="space-y-2">
+                        <h3 className="flex-1 text-base font-semibold leading-snug transition-colors group-hover:text-primary">
+                            <SearchHighlight text={project.title} query={searchQuery} />
+                        </h3>
+                        <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+                            <SearchHighlight
+                                text={project.description || "适合边做边学的 STEAM 实践项目。"}
+                                query={searchQuery}
+                            />
+                        </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                        {previewTag ? (
+                            <span className="inline-flex max-w-[140px] items-center rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-medium text-primary">
+                                {previewTag}
+                            </span>
+                        ) : null}
+                        {project.tags?.length && !previewTag ? (
+                            <span className="inline-flex max-w-[160px] items-center rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
+                                {project.tags[0]}
+                            </span>
+                        ) : null}
+                    </div>
+
+                    <div className="flex items-center gap-4 border-t border-border/60 pt-3 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1.5" title="评论数">
+                            <MessageCircle className="h-3.5 w-3.5" />
+                            <span>{project.comments_count ?? 0} 评论</span>
+                        </span>
+                        <span className="flex items-center gap-1.5" title="投币数">
+                            <CircleStop className="h-3.5 w-3.5 text-amber-500" />
+                            <span>{project.coins_count || 0} 投币</span>
+                        </span>
+                        <span className="flex items-center gap-1.5" title="点赞数">
+                            <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                            <span>{likesCount} 喜欢</span>
+                        </span>
                     </div>
                 </div>
             </div>

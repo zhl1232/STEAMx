@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils"
 
 interface ObservationCommentsProps {
   observationId: number
+  onCommentCreated?: () => void
 }
 
-export function ObservationComments({ observationId }: ObservationCommentsProps) {
+export function ObservationComments({ observationId, onCommentCreated }: ObservationCommentsProps) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
@@ -66,6 +67,7 @@ export function ObservationComments({ observationId }: ObservationCommentsProps)
       setComments((prev) => [...prev, data.comment as Comment])
       setContent("")
       setReplyTo(null)
+      onCommentCreated?.()
     } catch (err) {
       toast({
         title: "评论失败",
@@ -120,7 +122,7 @@ export function ObservationComments({ observationId }: ObservationCommentsProps)
         </div>
       )}
 
-      <div className="space-y-2 pt-2 border-t">
+      <div className="space-y-2 border-t border-border/70 pt-2">
         {replyTo && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>回复 {replyTo.name}</span>
@@ -134,10 +136,10 @@ export function ObservationComments({ observationId }: ObservationCommentsProps)
           onChange={(e) => setContent(e.target.value)}
           placeholder={replyTo ? `回复 ${replyTo.name}...` : "写一条评论..."}
           rows={2}
-          className="resize-none"
+          className="resize-none rounded-2xl"
         />
         <div className="flex justify-end">
-          <Button size="sm" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
+          <Button size="sm" className="rounded-full" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
             {isSubmitting ? "发送中..." : "发送"}
           </Button>
         </div>
@@ -157,7 +159,7 @@ function CommentItem({
   const created = comment.created_at ? new Date(comment.created_at).toLocaleString("zh-CN") : comment.date
 
   return (
-    <div className="rounded-xl border bg-muted/20 p-3">
+    <div className="rounded-2xl border border-border/70 bg-background/80 p-3">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className={cn("font-medium", comment.role === "admin" && "text-primary")}>{displayName}</span>
         <span>·</span>

@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { BellRing, Loader2, Megaphone } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+
+import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { useAuth } from "@/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
-import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { cn } from "@/lib/utils";
 
 type NotificationPreference = {
   notify_followed_creator_updates: boolean;
@@ -95,53 +95,96 @@ export default function NotificationsSettingsPage() {
       value: preferences.notify_followed_creator_updates ? "已开启" : "已关闭",
       description: "关注的创作者发布动态或重大更新时，通过站内消息提醒你。",
       action: handleCreatorUpdateToggle,
+      active: preferences.notify_followed_creator_updates,
     },
     {
       icon: Megaphone,
       label: "系统通知",
       value: "默认开启",
       description: "系统安全提醒和审核结果会继续保留在站内消息中。",
-    }
+      active: true,
+    },
   ];
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
-      <MobilePageHeader title="消息通知设置" fallbackHref="/settings" />
+    <SettingsSubpageShell
+      title="消息与通知"
+      description="控制哪些信息需要主动提醒，减少噪音，只保留真正会影响你的更新。"
+      aside={
+        <>
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">提醒策略</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">站内消息优先</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              平台的重要结果仍会保留在消息页中，关闭某些提醒不会影响系统级通知的可追溯性。
+            </p>
+            <div className="mt-5 grid gap-3">
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                创作者更新适合保留少量高价值提醒。
+              </div>
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                安全、审核与账号异常提醒会继续默认保留。
+              </div>
+            </div>
+          </section>
 
-      <ScrollArea className="flex-1">
-        <div className="flex flex-col gap-6 p-4">
-          <div className="overflow-hidden rounded-2xl border bg-card">
-            {isLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-              </div>
-            ) : menuItems.map((item, index) => (
-              <div key={item.label}>
-                <button
-                  type="button"
-                  onClick={item.action}
-                  disabled={!item.action || isSaving}
-                  className="flex w-full items-center justify-between bg-card p-4 text-left transition-colors hover:bg-accent/50 active:bg-accent disabled:cursor-default disabled:opacity-70"
-                >
-                  <div className="flex items-center gap-3">
-                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <item.icon className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <span className="font-medium text-sm block">{item.label}</span>
-                      <span className="text-xs text-muted-foreground">{item.description}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">{item.value}</span>
-                  </div>
-                </button>
-                {index < menuItems.length - 1 && <Separator className="ml-14" />}
-              </div>
-            ))}
-          </div>
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">当前状态</p>
+            <h2 className="mt-3 text-xl font-semibold tracking-tight">
+              {preferences.notify_followed_creator_updates ? "已开启关注更新" : "已精简关注更新"}
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              你可以随时回来调整，不需要重新登录或刷新页面。
+            </p>
+          </section>
+        </>
+      }
+    >
+      {isLoading ? (
+        <div className="surface-subtle flex min-h-56 items-center justify-center">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
-      </ScrollArea>
-    </div>
+      ) : (
+        <div className="space-y-3">
+          {menuItems.map((item) => {
+            const isActionable = Boolean(item.action);
+
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={item.action}
+                disabled={!isActionable || isSaving}
+                className={cn(
+                  "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform",
+                  isActionable ? "hover:-translate-y-0.5" : "cursor-default",
+                  isSaving && isActionable && "opacity-80",
+                )}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold">{item.label}</div>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+                <span
+                  className={cn(
+                    "inline-flex shrink-0 rounded-full border px-3 py-1 text-xs font-medium",
+                    item.active
+                      ? "border-primary/25 bg-primary/10 text-primary"
+                      : "border-border/80 bg-background/80 text-muted-foreground",
+                  )}
+                >
+                  {item.value}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </SettingsSubpageShell>
   );
 }

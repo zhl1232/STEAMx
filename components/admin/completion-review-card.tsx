@@ -128,13 +128,14 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
             value={rejectionReason}
             onChange={(e) => setRejectionReason(e.target.value)}
             rows={3}
+            className="rounded-2xl"
           />
           <div className="flex gap-2">
             <Button
               onClick={handleReject}
               disabled={isReviewing}
               variant="destructive"
-              className="flex-1"
+              className="flex-1 rounded-full"
             >
               确认拒绝
             </Button>
@@ -145,7 +146,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
               }}
               disabled={isReviewing}
               variant="outline"
-              className="flex-1"
+              className="flex-1 rounded-full"
             >
               取消
             </Button>
@@ -155,11 +156,11 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
     }
 
     return (
-      <div className={`flex gap-2 ${inDialog ? 'mt-6 pt-4 border-t' : 'mt-4'}`}>
+      <div className={`flex gap-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
         <Button
           onClick={handleApprove}
           disabled={isReviewing}
-          className="flex-1 bg-green-600 hover:bg-green-700"
+          className="flex-1 rounded-full bg-green-600 hover:bg-green-700"
         >
           批准通过
         </Button>
@@ -167,7 +168,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
           variant="destructive"
-          className="flex-1"
+          className="flex-1 rounded-full"
         >
           拒绝
         </Button>
@@ -176,7 +177,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
   }
 
   return (
-    <Card>
+    <Card className="surface-subtle shadow-none">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
@@ -195,13 +196,13 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
       <CardContent>
         <div className="flex gap-4 mb-4">
           {firstImage && (
-            <div className="relative w-32 h-24 shrink-0">
+            <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl border border-border/70">
               <OptimizedImage
                 src={firstImage}
                 alt="作品图片"
                 fill
                 variant="thumbnail"
-                className="object-cover rounded-md"
+                className="object-cover"
               />
             </div>
           )}
@@ -216,19 +217,19 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
           </div>
         </div>
 
-        <div className="border-t pt-4">
+        <div className="border-t border-border/70 pt-4">
           <Dialog open={isDetailOpen} onOpenChange={(open) => {
             setIsDetailOpen(open)
             if (!open) {
               setShowRejectInput(false)
               setRejectionReason('')
             }
-          }}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="w-full gap-2">
-                <Eye className="w-4 h-4" /> 查看完整作品与审核
-              </Button>
-            </DialogTrigger>
+            }}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full gap-2 rounded-2xl">
+                  <Eye className="w-4 h-4" /> 查看完整作品与审核
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
               <DialogHeader>
                 <DialogTitle>{authorName} 的作品 - 审核详情</DialogTitle>
@@ -238,7 +239,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
                 <div className="space-y-6 py-4">
                   {/* 基本信息 */}
                   <section className="space-y-2">
-                    <h3 className="font-semibold text-lg border-b pb-2">基本信息</h3>
+                    <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">基本信息</h3>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="text-muted-foreground">作者:</span>
@@ -257,15 +258,15 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
 
                   {/* 作品图片 */}
                   <section className="space-y-3">
-                    <h3 className="font-semibold text-lg border-b pb-2">
-                      作品图片 ({completion.proof_images?.length || 0})
-                    </h3>
-                    <div className="grid grid-cols-2 gap-3">
-                      {completion.proof_images?.map((img, idx) => (
-                        <div key={idx} className="space-y-1">
-                          <div className="relative aspect-video rounded-lg overflow-hidden border bg-muted">
-                            <OptimizedImage
-                              src={img}
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">
+                        作品图片 ({completion.proof_images?.length || 0})
+                      </h3>
+                      <div className="grid grid-cols-2 gap-3">
+                        {completion.proof_images?.map((img, idx) => (
+                          <div key={idx} className="space-y-1">
+                            <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/70 bg-muted">
+                              <OptimizedImage
+                                src={img}
                               alt={`作品图片 ${idx + 1}`}
                               fill
                               variant="cover"
@@ -283,8 +284,8 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
                   {/* 视频 */}
                   {completion.proof_video_url && (
                     <section className="space-y-3">
-                      <h3 className="font-semibold text-lg border-b pb-2">作品视频</h3>
-                      <div className="relative aspect-video rounded-lg overflow-hidden border bg-muted">
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">作品视频</h3>
+                      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/70 bg-muted">
                         <video
                           src={completion.proof_video_url}
                           controls
@@ -300,8 +301,8 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
                   {/* 笔记 */}
                   {completion.notes && (
                     <section className="space-y-3">
-                      <h3 className="font-semibold text-lg border-b pb-2">完成笔记</h3>
-                      <p className="text-sm leading-relaxed bg-muted/30 p-3 rounded-md">{completion.notes}</p>
+                      <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">完成笔记</h3>
+                      <p className="rounded-2xl border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{completion.notes}</p>
                     </section>
                   )}
                 </div>

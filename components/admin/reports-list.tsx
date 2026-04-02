@@ -148,7 +148,7 @@ export function ReportsList() {
 
   return (
     <>
-      <Card>
+      <Card className="surface-subtle shadow-none">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -156,7 +156,7 @@ export function ReportsList() {
               <CardDescription>审核用户提交的内容举报</CardDescription>
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px]">
+              <SelectTrigger className="w-[140px] rounded-2xl">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -243,6 +243,7 @@ export function ReportsList() {
                   <Button
                     variant="outline"
                     size="sm"
+                    className="rounded-full"
                     disabled={page <= 1}
                     onClick={() => setPage((p) => p - 1)}
                   >
@@ -254,6 +255,7 @@ export function ReportsList() {
                   <Button
                     variant="outline"
                     size="sm"
+                    className="rounded-full"
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
                   >
@@ -322,7 +324,7 @@ export function ReportsList() {
                     value={reviewNote}
                     onChange={(e) => setReviewNote(e.target.value.slice(0, 1000))}
                     rows={2}
-                    className="resize-none"
+                    className="resize-none rounded-2xl"
                   />
                 </div>
               )}
@@ -334,6 +336,7 @@ export function ReportsList() {
               <>
                 <Button
                   variant="outline"
+                  className="rounded-full"
                   onClick={() => handleReview("dismissed")}
                   disabled={reviewing}
                 >
@@ -341,6 +344,7 @@ export function ReportsList() {
                 </Button>
                 <Button
                   variant="destructive"
+                  className="rounded-full"
                   onClick={() => handleReview("resolved")}
                   disabled={reviewing}
                 >
@@ -357,6 +361,7 @@ export function ReportsList() {
             ) : (
               <Button
                 variant="outline"
+                className="rounded-full"
                 onClick={() => setReviewReport(null)}
               >
                 关闭

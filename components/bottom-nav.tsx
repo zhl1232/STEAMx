@@ -62,30 +62,30 @@ export function BottomNav() {
     ];
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around border-t bg-background/95 backdrop-blur px-2 pb-[env(safe-area-inset-bottom)] supports-[backdrop-filter]:bg-background/80 md:hidden shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+        <div className="fixed bottom-2 left-3 right-3 z-50 flex items-center justify-around rounded-[22px] border border-border/70 bg-background/92 px-2 pb-[calc(0.25rem+env(safe-area-inset-bottom))] pt-1.5 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.38)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/82 md:hidden">
             {navItems.map((item) => (
                 <Link
                     key={item.href}
                     href={item.href}
                     onClick={(e) => item.protected && handleProtectedClick(e, item.href)}
                     className={cn(
-                        "relative flex flex-col items-center justify-center gap-1 min-w-[64px] rounded-lg p-1",
+                        "relative flex min-w-[56px] flex-col items-center justify-center rounded-2xl px-1.5 py-0.5",
                     )}
                 >
                     {item.primary ? (
                         <div className={cn(
-                            "absolute -top-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 border-4 border-background",
-                            item.active && "ring-2 ring-primary"
+                            "absolute top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-background bg-foreground text-background shadow-lg transition-transform hover:scale-105 active:scale-95",
+                            item.active && "ring-2 ring-foreground/15"
                         )}>
-                            <item.icon className="h-7 w-7" />
+                            <item.icon className="h-6 w-6" />
                         </div>
                     ) : (
                         <div className={cn(
-                            "flex flex-col items-center gap-1 transition-colors",
-                            item.active ? "text-primary" : "text-muted-foreground hover:text-primary"
+                            "flex flex-col items-center gap-0.5 px-2 py-1 transition-colors",
+                            item.active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                         )}>
-                            <item.icon className={cn("h-6 w-6", item.active && "stroke-[2.5px]")} />
-                            <span className="text-[10px] font-medium">{item.label}</span>
+                            <item.icon className={cn("h-5 w-5", item.active && "stroke-[2.5px]")} />
+                            <span className="text-[10px] font-medium leading-none">{item.label}</span>
                         </div>
                     )}
                 </Link>

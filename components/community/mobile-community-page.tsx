@@ -8,6 +8,7 @@ import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { Button } from "@/components/ui/button";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
 
 export function MobileCommunityPage() {
@@ -17,47 +18,49 @@ export function MobileCommunityPage() {
         || challenges.evergreen.find((challenge) => challenge.tags.includes("鸟类"));
 
     return (
-        <div className="flex flex-col min-h-screen bg-background pb-20">
-            {/* Sticky Header with Title and Tabs */}
-            <div className="sticky top-0 z-30 bg-background/95 backdrop-blur border-b">
-
-                
-                <div className="flex px-4 gap-6 pt-3">
-                    <button 
-                        onClick={() => setActiveTab("discussions")}
-                        className={cn(
-                            "pb-3 text-sm font-medium transition-colors relative",
-                            activeTab === "discussions" ? "text-primary text-base font-bold" : "text-muted-foreground"
-                        )}
-                    >
-                        讨论区
-                        {activeTab === "discussions" && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />}
-                    </button>
-                    <button 
-                         onClick={() => setActiveTab("challenges")}
-                        className={cn(
-                            "pb-3 text-sm font-medium transition-colors relative",
-                            activeTab === "challenges" ? "text-primary text-base font-bold" : "text-muted-foreground"
-                        )}
-                    >
-                        挑战赛
-                        {activeTab === "challenges" && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setActiveTab("leaderboard")}
-                        className={cn(
-                            "pb-3 text-sm font-medium transition-colors relative",
-                            activeTab === "leaderboard" ? "text-primary text-base font-bold" : "text-muted-foreground"
-                        )}
-                    >
-                        排行榜
-                        {activeTab === "leaderboard" && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />}
-                    </button>
+        <div className="flex min-h-screen flex-col bg-background pb-24">
+            <div className="mobile-subnav top-0 z-30">
+                <MobilePageHeader
+                    title="社区"
+                    fallbackHref="/"
+                    sticky={false}
+                    className="border-none bg-transparent shadow-none"
+                />
+                <div className="px-4 pb-3 pt-1">
+                    <div className="segmented-control flex w-full justify-between gap-1">
+                        <button 
+                            onClick={() => setActiveTab("discussions")}
+                            className={cn(
+                                "segmented-option min-w-0 flex-1 px-0",
+                                activeTab === "discussions" && "segmented-option-active"
+                            )}
+                        >
+                            讨论区
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab("challenges")}
+                            className={cn(
+                                "segmented-option min-w-0 flex-1 px-0",
+                                activeTab === "challenges" && "segmented-option-active"
+                            )}
+                        >
+                            挑战赛
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab("leaderboard")}
+                            className={cn(
+                                "segmented-option min-w-0 flex-1 px-0",
+                                activeTab === "leaderboard" && "segmented-option-active"
+                            )}
+                        >
+                            排行榜
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex-1 px-4 py-4 min-h-0">
+            <div className="flex-1 min-h-0 px-4 py-4">
                 {activeTab === "discussions" ? (
                     <DiscussionList />
                 ) : activeTab === "leaderboard" ? (
@@ -67,7 +70,7 @@ export function MobileCommunityPage() {
                 ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-6">
                         {featuredBirdChallenge && (
-                            <div className="rounded-2xl border bg-gradient-to-r from-emerald-50 to-sky-50 p-4 shadow-sm dark:from-emerald-950/20 dark:to-sky-950/20">
+                            <div className="surface-panel rounded-[24px] bg-gradient-to-r from-emerald-50/85 to-sky-50/88 p-4 dark:from-emerald-950/24 dark:to-sky-950/22">
                                 <div className="mb-2 inline-flex rounded-full bg-white/80 px-2.5 py-1 text-[10px] font-medium text-emerald-700 dark:bg-background/60 dark:text-emerald-300">
                                     自然观察专题
                                 </div>

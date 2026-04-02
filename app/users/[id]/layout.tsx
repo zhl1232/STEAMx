@@ -31,8 +31,8 @@ export async function generateMetadata(
 
     const previousImages = (await parent).openGraph?.images || []
 
-    const title = `${profile.display_name || '匿名用户'} 的个人主页 | Steam Explore & Share`
-    const description = profile.bio?.substring(0, 160) || '来看看这个有趣的灵魂吧！在 Steam Explore & Share上发现更多项目。'
+    const title = `${profile.display_name || '匿名用户'} 的个人主页 | STEAM 探索`
+    const description = profile.bio?.substring(0, 160) || '来看看这个有趣的灵魂吧，在 STEAM 探索里发现更多项目。'
 
     return {
         title,
@@ -41,7 +41,7 @@ export async function generateMetadata(
             title,
             description,
             url: `/users/${id}`,
-            siteName: 'Steam Explore & Share',
+            siteName: 'STEAM 探索',
             images: [
                 ...(profile.avatar_url ? [{ url: profile.avatar_url, width: 400, height: 400, alt: profile.display_name || '头像' }] : []),
                 ...previousImages,

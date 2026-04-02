@@ -1,3 +1,4 @@
+import React from 'react'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ButtonHTMLAttributes } from 'react'
@@ -43,10 +44,19 @@ vi.mock('@/components/ui/button', () => ({
     ),
 }))
 
+vi.mock('@/components/ui/sheet', () => ({
+    Sheet: ({ children, open }: { children: React.ReactNode; open: boolean }) =>
+        open ? <div data-testid="sheet">{children}</div> : null,
+    SheetContent: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    SheetHeader: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    SheetTitle: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    SheetDescription: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}))
+
 vi.mock('lucide-react', () => ({
-    ChevronDown: () => <span>down</span>,
-    ChevronUp: () => <span>up</span>,
+    SlidersHorizontal: () => <span>sliders</span>,
     X: () => <span>x</span>,
+    Sparkles: () => <span>sparkles</span>,
 }))
 
 vi.mock('@/lib/config/categories', () => ({
@@ -135,7 +145,7 @@ describe('ExploreClient', () => {
             />,
         )
 
-        await user.click(screen.getByRole('button', { name: '科学' }))
+        await user.click(screen.getByRole('button', { name: /科学/ }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
         act(() => {
@@ -189,7 +199,7 @@ describe('ExploreClient', () => {
         })
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        await user.click(screen.getByRole('button', { name: '科学' }))
+        await user.click(screen.getByRole('button', { name: /科学/ }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2))
         await waitFor(() => expect(loadMoreSignal?.aborted).toBe(true))

@@ -11,9 +11,11 @@ import {
 } from "recharts"
 import { Card } from "@/components/ui/card"
 import type { SteamRadarResult } from "@/lib/mappers/types"
+import { cn } from "@/lib/utils"
 
 type SteamRadarChartProps = {
   userId?: string
+  className?: string
   /** @deprecated Use userId prop instead. Kept for backward compatibility. */
   stats?: {
     scienceCompleted?: number
@@ -67,7 +69,7 @@ function CustomAxisTick({ payload, x, y, textAnchor }: CustomAxisTickProps) {
   )
 }
 
-export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
+export function SteamRadarChart({ userId, stats, className }: SteamRadarChartProps) {
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
@@ -151,7 +153,7 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
 
   if (loading) {
     return (
-      <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5">
+      <Card className={cn("surface-panel p-5 sm:p-6", className)}>
         <p className="text-sm text-muted-foreground text-center py-8">加载 STEAM 图谱...</p>
       </Card>
     )
@@ -159,22 +161,23 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
 
   if (error) {
     return (
-      <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5">
+      <Card className={cn("surface-panel p-5 sm:p-6", className)}>
         <p className="text-sm text-destructive text-center py-8">{error}</p>
       </Card>
     )
   }
 
   return (
-    <Card className="bg-card rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3">
+    <Card className={cn("surface-panel p-5 sm:p-6 space-y-4", className)}>
       <div>
-        <p className="text-sm font-semibold text-foreground">STEAM 能力图谱</p>
-        <p className="text-xs text-muted-foreground/70 mt-0.5 hidden sm:block">
-          综合项目完成和挑战参与，含难度系数与递减收益算法。
+        <p className="section-kicker">成长图谱</p>
+        <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">STEAM 能力图谱</p>
+        <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+          综合项目完成、挑战参与和难度系数，显示你当前更突出的 STEAM 维度。
         </p>
       </div>
 
-      <div className="h-52 sm:h-64 min-h-[208px] sm:min-h-[256px] w-full min-w-[200px]">
+      <div className="h-56 min-h-[224px] w-full min-w-[200px] sm:h-64 sm:min-h-[256px]">
         {hasData ? (
           <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={208} debounce={50}>
             <RadarChart data={data} outerRadius="78%">
@@ -276,8 +279,8 @@ export function SteamRadarChart({ userId, stats }: SteamRadarChartProps) {
       )}
 
       {activeGuidance && (
-        <p className="text-xs text-center text-muted-foreground/80 bg-muted/30 rounded-xl px-3 py-2.5">
-          💡 {activeGuidance}
+        <p className="surface-subtle px-3 py-3 text-xs leading-5 text-muted-foreground">
+          建议：{activeGuidance}
         </p>
       )}
     </Card>

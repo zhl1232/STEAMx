@@ -140,8 +140,67 @@
     border-color: hsl(var(--border));
   }
 
+  html {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground;
+    background-image:
+      radial-gradient(circle at top, hsl(var(--primary) / 0.08), transparent 30%),
+      radial-gradient(circle at 85% 18%, hsl(var(--secondary) / 0.16), transparent 22%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-heading {
+    font-family: var(--font-heading), serif;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-6xl px-4 md:px-6;
+  }
+
+  .surface-panel {
+    background-color: hsl(var(--card) / 0.88);
+    @apply rounded-[28px] border border-border/70 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] backdrop-blur-sm;
+  }
+
+  .surface-subtle {
+    background-color: hsl(var(--background) / 0.8);
+    @apply rounded-2xl border border-border/70 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.22)];
+  }
+
+  .section-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-primary/80;
+  }
+
+  .segmented-control {
+    background-color: hsl(var(--background) / 0.82);
+    @apply inline-flex items-center gap-1 rounded-full border border-border/70 p-1 shadow-sm backdrop-blur-sm;
+  }
+
+  .segmented-option {
+    @apply inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
+  }
+
+  .segmented-option-active {
+    @apply bg-foreground text-background shadow-sm hover:text-background;
+  }
+
+  .mobile-subnav {
+    background-color: hsl(var(--background) / 0.92);
+    @apply sticky z-20 border-b border-border/70 backdrop-blur-md;
   }
 }
 
@@ -205,7 +264,8 @@
 
 /* Utility for glassmorphism */
 .glass {
-  @apply bg-background/60 backdrop-blur-md border border-white/10;
+  background-color: hsl(var(--background) / 0.6);
+  @apply border border-white/10 backdrop-blur-md;
 }
 
 ::view-transition-old(root),

@@ -10,6 +10,46 @@ import { useAuth } from "@/context/auth-context";
 const EMPTY_SET = new Set<string>();
 const EMPTY_MAP = new Map<string, { unlockedAt: string }>();
 
+function isDuplicateWriteError(error: unknown): boolean {
+    if (!error || typeof error !== "object") {
+        return false;
+    }
+
+    const candidate = error as {
+        code?: string;
+        status?: number;
+        message?: string;
+        details?: string;
+        cause?: unknown;
+        error?: unknown;
+    };
+
+    if (candidate.code === "23505" || candidate.status === 409) {
+        return true;
+    }
+
+    const message = `${candidate.message ?? ""} ${candidate.details ?? ""}`.toLowerCase();
+    if (message.includes("duplicate key") || message.includes("already exists") || message.includes("conflict")) {
+        return true;
+    }
+
+    return isDuplicateWriteError(candidate.cause) || isDuplicateWriteError(candidate.error);
+}
+
+function getErrorCode(error: unknown): string | undefined {
+    if (!error || typeof error !== "object") {
+        return undefined;
+    }
+
+    const candidate = error as {
+        code?: string;
+        cause?: unknown;
+        error?: unknown;
+    };
+
+    return candidate.code || getErrorCode(candidate.cause) || getErrorCode(candidate.error);
+}
+
 export function useGamificationData() {
     const { user, profile, refreshProfile } = useAuth();
     const supabase = createClient();
@@ -134,31 +174,94 @@ export function useGamificationData() {
 
     const unlockBadgeMutation = useMutation({
         mutationFn: async (badgeId: string) => {
-            await supabase
-                .from('user_badges')
-                .upsert({
-                    user_id: user!.id,
-                    badge_id: badgeId,
-                    unlocked_at: new Date().toISOString()
-                } as never, {
-                    onConflict: 'user_id,badge_id',
-                    ignoreDuplicates: true
-                });
+            const unlockedAt = new Date().toISOString();
+            const readExistingBadge = async () => {
+                const { data: existingBadge, error: existingBadgeError } = await supabase
+                    .from('user_badges')
+                    .select('badge_id, unlocked_at')
+                    .eq('user_id', user!.id)
+                    .eq('badge_id', badgeId)
+                    .maybeSingle();
+
+                if (existingBadgeError) {
+                    throw existingBadgeError;
+                }
+
+                return {
+                    exists: !!existingBadge,
+                    inserted: false,
+                    unlockedAt: existingBadge?.unlocked_at ?? unlockedAt,
+                };
+            };
+
+            try {
+                const existingBadge = await readExistingBadge();
+                if (existingBadge.exists) {
+                    return existingBadge;
+                }
+
+                const { data, error } = await supabase
+                    .from('user_badges')
+                    .upsert({
+                        user_id: user!.id,
+                        badge_id: badgeId,
+                        unlocked_at: unlockedAt
+                    } as never, {
+                        onConflict: 'user_id,badge_id',
+                        ignoreDuplicates: true,
+                    })
+                    .select('badge_id, unlocked_at')
+                    .maybeSingle();
+
+                if (error) {
+                    if (isDuplicateWriteError(error)) {
+                        return readExistingBadge();
+                    }
+
+                    throw error;
+                }
+
+                if (data?.unlocked_at) {
+                    return {
+                        inserted: true,
+                        unlockedAt: data.unlocked_at,
+                    };
+                }
+
+                return readExistingBadge();
+            } catch (error) {
+                if (isDuplicateWriteError(error)) {
+                    return readExistingBadge();
+                }
+
+                throw error;
+            }
         },
-        onSuccess: (_data, badgeId) => {
+        onSuccess: (result, badgeId) => {
             // 不使用 invalidateQueries（会导致重新 fetch → Set 引用变化 → checkBadges 再次执行 → 循环）
-            // 改为直接更新缓存，将新 badge 合并进已有数据
+            // 改为直接更新缓存，将新 badge 合并进已有数据；即使 DB 已存在该 badge，也同步到本地缓存
             queryClient.setQueryData(
                 ['gamification', 'badges', user?.id],
                 (old: { set: Set<string>; map: Map<string, { unlockedAt: string }> } | undefined) => {
-                    if (!old) return old;
-                    const newSet = new Set(old.set);
-                    const newMap = new Map(old.map);
+                    const newSet = new Set(old?.set ?? []);
+                    const newMap = new Map(old?.map ?? []);
                     newSet.add(badgeId);
-                    newMap.set(badgeId, { unlockedAt: new Date().toISOString() });
+                    newMap.set(badgeId, { unlockedAt: result.unlockedAt });
                     return { set: newSet, map: newMap };
                 }
             );
+        },
+        retry: (failureCount, error) => {
+            if (isDuplicateWriteError(error)) {
+                return false;
+            }
+
+            const errorCode = getErrorCode(error);
+            if (errorCode === '23505') {
+                return false;
+            }
+
+            return failureCount < 2;
         }
     });
 

@@ -1,77 +1,75 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Loader2, RefreshCcw } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Loader2, RefreshCcw } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-import { AvatarUpload } from "@/components/features/profile/avatar-upload"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Textarea } from "@/components/ui/textarea"
-import { MobilePageHeader } from "@/components/ui/mobile-page-header"
-import { useAuth } from "@/context/auth-context"
-import { useToast } from "@/hooks/use-toast"
-import { logger } from "@/lib/logger"
+import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
+import { AvatarUpload } from "@/components/features/profile/avatar-upload";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
+import { logger } from "@/lib/logger";
 import {
   PROFILE_BIRTH_YEAR_OPTIONS,
   PROFILE_GENDER_OPTIONS,
   PROFILE_SETTINGS_DEFAULTS,
   type ProfileSettingsUpdateInput,
-} from "@/lib/profile/settings"
+} from "@/lib/profile/settings";
 
 type SettingsProfileResponse = {
   profile: ProfileSettingsUpdateInput & {
-    username: string | null
-    last_uploaded_avatar_url: string | null
-    avatar_url: string | null
-  }
-}
+    username: string | null;
+    last_uploaded_avatar_url: string | null;
+    avatar_url: string | null;
+  };
+};
 
 export default function ProfileSettingsClient() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const { refreshProfile } = useAuth()
-  const previewObjectUrlRef = useRef<string | null>(null)
+  const router = useRouter();
+  const { toast } = useToast();
+  const { refreshProfile } = useAuth();
+  const previewObjectUrlRef = useRef<string | null>(null);
 
-  const [form, setForm] = useState<ProfileSettingsUpdateInput>(PROFILE_SETTINGS_DEFAULTS)
-  const [username, setUsername] = useState<string | null>(null)
-  const [persistedUploadUrl, setPersistedUploadUrl] = useState<string>("")
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [loadError, setLoadError] = useState<string | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
+  const [form, setForm] = useState<ProfileSettingsUpdateInput>(PROFILE_SETTINGS_DEFAULTS);
+  const [username, setUsername] = useState<string | null>(null);
+  const [persistedUploadUrl, setPersistedUploadUrl] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const clearPreviewObjectUrl = useCallback(() => {
     if (previewObjectUrlRef.current) {
-      URL.revokeObjectURL(previewObjectUrlRef.current)
-      previewObjectUrlRef.current = null
+      URL.revokeObjectURL(previewObjectUrlRef.current);
+      previewObjectUrlRef.current = null;
     }
-  }, [])
+  }, []);
 
   const loadProfile = useCallback(async () => {
-    setIsLoading(true)
-    setLoadError(null)
+    setIsLoading(true);
+    setLoadError(null);
 
     try {
       const response = await fetch("/api/settings/profile", {
         credentials: "same-origin",
-      })
-      const data = await response.json().catch(() => null)
+      });
+      const data = await response.json().catch(() => null);
 
       if (!response.ok || !data?.profile) {
-        throw new Error(data?.error || "个人资料加载失败")
+        throw new Error(data?.error || "个人资料加载失败");
       }
 
-      const payload = (data as SettingsProfileResponse).profile
-      clearPreviewObjectUrl()
-      setSelectedFile(null)
-      setUsername(payload.username)
-      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "")
+      const payload = (data as SettingsProfileResponse).profile;
+      clearPreviewObjectUrl();
+      setSelectedFile(null);
+      setUsername(payload.username);
+      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "");
       setForm({
         display_name: payload.display_name || "",
         bio: payload.bio || "",
@@ -79,76 +77,76 @@ export default function ProfileSettingsClient() {
         birth_year: payload.birth_year,
         birth_month: payload.birth_month,
         avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
-      })
+      });
     } catch (error) {
-      logger.error(error, { context: "load profile settings" })
-      setLoadError(error instanceof Error ? error.message : "个人资料加载失败")
+      logger.error(error, { context: "load profile settings" });
+      setLoadError(error instanceof Error ? error.message : "个人资料加载失败");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [clearPreviewObjectUrl])
+  }, [clearPreviewObjectUrl]);
 
   useEffect(() => {
-    void loadProfile()
+    void loadProfile();
 
     return () => {
-      clearPreviewObjectUrl()
-    }
-  }, [clearPreviewObjectUrl, loadProfile])
+      clearPreviewObjectUrl();
+    };
+  }, [clearPreviewObjectUrl, loadProfile]);
 
   const updateField = <K extends keyof ProfileSettingsUpdateInput>(
     key: K,
     value: ProfileSettingsUpdateInput[K],
   ) => {
-    setForm((current) => ({ ...current, [key]: value }))
-  }
+    setForm((current) => ({ ...current, [key]: value }));
+  };
 
   const handleFileSelect = (file: File) => {
-    clearPreviewObjectUrl()
-    const objectUrl = URL.createObjectURL(file)
-    previewObjectUrlRef.current = objectUrl
-    setSelectedFile(file)
-    updateField("avatar_url", objectUrl)
-  }
+    clearPreviewObjectUrl();
+    const objectUrl = URL.createObjectURL(file);
+    previewObjectUrlRef.current = objectUrl;
+    setSelectedFile(file);
+    updateField("avatar_url", objectUrl);
+  };
 
   const handleDefaultAvatarSelect = (avatarUrl: string) => {
-    clearPreviewObjectUrl()
-    setSelectedFile(null)
-    updateField("avatar_url", avatarUrl)
-  }
+    clearPreviewObjectUrl();
+    setSelectedFile(null);
+    updateField("avatar_url", avatarUrl);
+  };
 
   const uploadSelectedAvatar = async () => {
     if (!selectedFile) {
-      return form.avatar_url
+      return form.avatar_url;
     }
 
-    const uploadFormData = new FormData()
-    uploadFormData.append("file", selectedFile)
-    uploadFormData.append("bucket", "avatars")
+    const uploadFormData = new FormData();
+    uploadFormData.append("file", selectedFile);
+    uploadFormData.append("bucket", "avatars");
 
     const response = await fetch("/api/upload", {
       method: "POST",
       body: uploadFormData,
-    })
-    const data = await response.json().catch(() => null)
+    });
+    const data = await response.json().catch(() => null);
 
     if (!response.ok || typeof data?.publicUrl !== "string") {
-      throw new Error(data?.error || "头像上传失败，请重试")
+      throw new Error(data?.error || "头像上传失败，请重试");
     }
 
-    return data.publicUrl as string
-  }
+    return data.publicUrl as string;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     if (isSaving) {
-      return
+      return;
     }
 
-    setIsSaving(true)
+    setIsSaving(true);
 
     try {
-      const avatarUrl = await uploadSelectedAvatar()
+      const avatarUrl = await uploadSelectedAvatar();
       const response = await fetch("/api/settings/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -156,18 +154,18 @@ export default function ProfileSettingsClient() {
           ...form,
           avatar_url: avatarUrl,
         }),
-      })
-      const data = await response.json().catch(() => null)
+      });
+      const data = await response.json().catch(() => null);
 
       if (!response.ok || !data?.profile) {
-        throw new Error(data?.error || "保存失败，请稍后重试")
+        throw new Error(data?.error || "保存失败，请稍后重试");
       }
 
-      const payload = (data as SettingsProfileResponse).profile
-      clearPreviewObjectUrl()
-      setSelectedFile(null)
-      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "")
-      setUsername(payload.username)
+      const payload = (data as SettingsProfileResponse).profile;
+      clearPreviewObjectUrl();
+      setSelectedFile(null);
+      setPersistedUploadUrl(payload.last_uploaded_avatar_url || "");
+      setUsername(payload.username);
       setForm({
         display_name: payload.display_name || "",
         bio: payload.bio || "",
@@ -175,83 +173,109 @@ export default function ProfileSettingsClient() {
         birth_year: payload.birth_year,
         birth_month: payload.birth_month,
         avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
-      })
-      await refreshProfile()
-      router.refresh()
-      toast({ title: "资料已保存" })
+      });
+      await refreshProfile();
+      router.refresh();
+      toast({ title: "资料已保存" });
     } catch (error) {
-      logger.error(error, { context: "save profile settings" })
+      logger.error(error, { context: "save profile settings" });
       toast({
         title: error instanceof Error ? error.message : "保存失败，请稍后重试",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const currentAge = (() => {
     if (!form.birth_year || !form.birth_month) {
-      return null
+      return null;
     }
 
-    const now = new Date()
-    let age = now.getFullYear() - Number(form.birth_year)
+    const now = new Date();
+    let age = now.getFullYear() - Number(form.birth_year);
     if (now.getMonth() + 1 < Number(form.birth_month)) {
-      age -= 1
+      age -= 1;
     }
-    return age
-  })()
+    return age;
+  })();
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] w-full max-w-2xl flex-col border-x bg-background relative mx-auto">
-      <MobilePageHeader title="个人资料" fallbackHref="/settings" />
+    <SettingsSubpageShell
+      title="个人资料"
+      description="补充昵称、头像和基础信息，让账号展示与个人主页保持一致。"
+      aside={
+        <>
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">资料建议</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">先让别人认出你</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              一个清晰头像和简短自我介绍，通常比堆积很多字段更有效。
+            </p>
+            <div className="mt-5 grid gap-3">
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                昵称建议保持简洁，便于在评论、消息和项目列表中识别。
+              </div>
+              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
+                简介限制在 30 字内，适合用一句话表达方向或兴趣。
+              </div>
+            </div>
+          </section>
 
-      <ScrollArea className="flex-1">
-        {isLoading ? (
-          <div className="space-y-6 p-4 pb-20">
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">账号标识</p>
+            <h2 className="mt-3 text-xl font-semibold tracking-tight">{username || "未设置账号 ID"}</h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              账号 ID 会继续作为系统内的基础标识，个人资料页主要控制外显信息。
+            </p>
+          </section>
+        </>
+      }
+    >
+      {isLoading ? (
+        <div className="space-y-4">
+          <div className="surface-subtle p-6">
             <div className="flex flex-col items-center gap-3">
               <Skeleton className="h-32 w-32 rounded-full" />
               <Skeleton className="h-4 w-24" />
             </div>
-            <Skeleton className="h-24 w-full rounded-2xl" />
-            <Skeleton className="h-28 w-full rounded-2xl" />
-            <Skeleton className="h-64 w-full rounded-2xl" />
           </div>
-        ) : loadError ? (
-          <div className="p-4 pb-20">
-            <div className="rounded-2xl border bg-card p-6 text-center">
-              <p className="text-sm text-muted-foreground">{loadError}</p>
-              <Button className="mt-4" variant="outline" onClick={() => void loadProfile()}>
-                <RefreshCcw className="mr-2 h-4 w-4" />
-                重试
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-4 pb-20">
-            <div className="rounded-2xl border bg-card p-6">
-              <div className="flex flex-col items-center gap-3">
-                <AvatarUpload
-                  value={form.avatar_url}
-                  persistedUploadUrl={persistedUploadUrl}
-                  onFileSelect={handleFileSelect}
-                  onDefaultSelect={handleDefaultAvatarSelect}
-                  disabled={isSaving}
-                  showCameraBadge
-                />
-                <div className="text-center">
-                  <p className="text-sm font-medium">头像</p>
-                  <p className="text-xs text-muted-foreground">支持 JPG、PNG、GIF、WebP，最大 2MB</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    账号 ID：{username || "未设置"}
-                  </p>
-                </div>
+          <Skeleton className="h-28 w-full rounded-[24px]" />
+          <Skeleton className="h-28 w-full rounded-[24px]" />
+          <Skeleton className="h-24 w-full rounded-[24px]" />
+        </div>
+      ) : loadError ? (
+        <div className="surface-subtle p-6 text-center">
+          <p className="text-sm leading-7 text-muted-foreground">{loadError}</p>
+          <Button className="mt-4 rounded-2xl" variant="outline" onClick={() => void loadProfile()}>
+            <RefreshCcw className="mr-2 h-4 w-4" />
+            重试
+          </Button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <section className="surface-subtle p-6">
+            <div className="flex flex-col items-center gap-3">
+              <AvatarUpload
+                value={form.avatar_url}
+                persistedUploadUrl={persistedUploadUrl}
+                onFileSelect={handleFileSelect}
+                onDefaultSelect={handleDefaultAvatarSelect}
+                disabled={isSaving}
+                showCameraBadge
+              />
+              <div className="text-center">
+                <p className="text-sm font-semibold">头像</p>
+                <p className="mt-1 text-xs text-muted-foreground">支持 JPG、PNG、GIF、WebP，最大 2MB</p>
+                <p className="mt-1 text-xs text-muted-foreground">账号 ID：{username || "未设置"}</p>
               </div>
             </div>
+          </section>
 
-            <div className="overflow-hidden rounded-2xl border bg-card">
-              <div className="grid gap-2 p-4">
+          <section className="surface-subtle p-4 sm:p-5">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
                 <Label htmlFor="display_name">昵称</Label>
                 <Input
                   id="display_name"
@@ -260,10 +284,11 @@ export default function ProfileSettingsClient() {
                   onChange={(event) => updateField("display_name", event.target.value)}
                   placeholder="显示的名称"
                   disabled={isSaving}
+                  className="h-11 rounded-2xl"
                 />
               </div>
-              <Separator />
-              <div className="grid gap-2 p-4">
+
+              <div className="grid gap-2">
                 <Label htmlFor="bio">简介</Label>
                 <div className="relative">
                   <Textarea
@@ -271,27 +296,31 @@ export default function ProfileSettingsClient() {
                     value={form.bio}
                     onChange={(event) => updateField("bio", event.target.value.slice(0, 30))}
                     placeholder="一句话介绍自己"
-                    className="min-h-[88px] resize-none pr-12"
+                    className="min-h-[96px] resize-none rounded-2xl pr-12"
                     maxLength={30}
                     rows={3}
                     disabled={isSaving}
                   />
-                  <span className="absolute bottom-2 right-3 text-xs text-muted-foreground">
+                  <span className="absolute bottom-3 right-3 text-xs text-muted-foreground">
                     {form.bio.length}/30
                   </span>
                 </div>
               </div>
             </div>
+          </section>
 
-            <div className="overflow-hidden rounded-2xl border bg-card">
-              <div className="grid gap-2 p-4">
+          <section className="surface-subtle p-4 sm:p-5">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
                 <Label htmlFor="gender">性别</Label>
                 <Select
                   value={form.gender || "none"}
-                  onValueChange={(value) => updateField("gender", value === "none" ? null : value as typeof PROFILE_GENDER_OPTIONS[number])}
+                  onValueChange={(value) =>
+                    updateField("gender", value === "none" ? null : (value as (typeof PROFILE_GENDER_OPTIONS)[number]))
+                  }
                   disabled={isSaving}
                 >
-                  <SelectTrigger id="gender">
+                  <SelectTrigger id="gender" className="h-11 rounded-2xl">
                     <SelectValue placeholder="请选择" />
                   </SelectTrigger>
                   <SelectContent>
@@ -304,8 +333,8 @@ export default function ProfileSettingsClient() {
                   </SelectContent>
                 </Select>
               </div>
-              <Separator />
-              <div className="grid gap-3 p-4">
+
+              <div className="grid gap-3">
                 <div className="flex items-center justify-between gap-3">
                   <Label>出生年月</Label>
                   <Button
@@ -314,8 +343,8 @@ export default function ProfileSettingsClient() {
                     size="sm"
                     className="h-auto px-0 text-xs text-muted-foreground hover:text-foreground"
                     onClick={() => {
-                      updateField("birth_year", null)
-                      updateField("birth_month", null)
+                      updateField("birth_year", null);
+                      updateField("birth_month", null);
                     }}
                     disabled={isSaving || (!form.birth_year && !form.birth_month)}
                   >
@@ -328,7 +357,7 @@ export default function ProfileSettingsClient() {
                     onValueChange={(value) => updateField("birth_year", value === "none" ? null : value)}
                     disabled={isSaving}
                   >
-                    <SelectTrigger className="flex-1">
+                    <SelectTrigger className="h-11 flex-1 rounded-2xl">
                       <SelectValue placeholder="年" />
                     </SelectTrigger>
                     <SelectContent>
@@ -345,7 +374,7 @@ export default function ProfileSettingsClient() {
                     onValueChange={(value) => updateField("birth_month", value === "none" ? null : value)}
                     disabled={isSaving}
                   >
-                    <SelectTrigger className="w-24">
+                    <SelectTrigger className="h-11 w-28 rounded-2xl">
                       <SelectValue placeholder="月" />
                     </SelectTrigger>
                     <SelectContent>
@@ -363,14 +392,14 @@ export default function ProfileSettingsClient() {
                 ) : null}
               </div>
             </div>
+          </section>
 
-            <Button type="submit" className="h-12 rounded-xl text-base font-semibold" disabled={isSaving}>
-              {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              保存更改
-            </Button>
-          </form>
-        )}
-      </ScrollArea>
-    </div>
-  )
+          <Button type="submit" className="h-12 rounded-2xl px-5 text-base font-semibold" disabled={isSaving}>
+            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            保存更改
+          </Button>
+        </form>
+      )}
+    </SettingsSubpageShell>
+  );
 }

@@ -9,7 +9,7 @@ import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gal
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
-import { Zap, Coins, ChevronRight } from 'lucide-react'
+import { Zap, Coins } from 'lucide-react'
 import { useState, useEffect, useMemo } from 'react'
 import { useGamification, BADGES } from '@/context/gamification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
@@ -32,6 +32,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data"
 import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart"
 import { getLatestCompletionStatusMap } from '@/lib/completion-records'
+import { RoleBadge } from '@/components/ui/role-badge'
 
 function throwIfSupabaseError(
   result: { error: { message?: string | null } | null },
@@ -46,7 +47,7 @@ export default function ProfilePage() {
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
   const { likedProjects, collectedProjects, isLoading: projectsLoading } = useProjects()
-  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed' | 'observations'>('collected')
+  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed' | 'observations'>('my-projects')
   const [mobileProfileTab, setMobileProfileTab] = useState<string>('works')
   const { unlockedBadges, userBadgeDetails, coins } = useGamification()
   const { userStats } = useGamificationData()
@@ -261,293 +262,349 @@ export default function ProfilePage() {
     fallback: '未命名用户',
   })
   const userAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || null
+  const level = Math.floor(Math.sqrt((profile?.xp || 0) / 100)) + 1
+  const totalLikesReceived = myProjects.reduce((acc, project) => acc + project.likes, 0)
+  const featuredBadges =
+    unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
+  const desktopQuickFacts = [
+    { label: '收藏', value: collectedProjects.size },
+    { label: '喜欢', value: likedProjects.size },
+    { label: '完成', value: completionStatusMap.size },
+    ...(observationsLoaded ? [{ label: '观察', value: observationsTotal }] : []),
+  ]
+  const desktopStats = [
+    { label: '作品', value: myProjects.length },
+    { label: '粉丝', value: followerCount },
+    { label: '关注', value: followingCount },
+    { label: '获赞', value: totalLikesReceived },
+  ]
+  const desktopTabs = [
+    { key: 'my-projects' as const, label: '发布', count: myProjects.length },
+    { key: 'collected' as const, label: '收藏', count: collectedProjects.size },
+    { key: 'liked' as const, label: '喜欢', count: likedProjects.size },
+    { key: 'completed' as const, label: '完成', count: completionStatusMap.size },
+    {
+      key: 'observations' as const,
+      label: '观察',
+      count: observationsLoaded ? observationsTotal : null,
+    },
+  ]
+  const showDesktopProjectSkeleton =
+    (isProjectsDataLoading && activeTab === 'my-projects') ||
+    (activeTab === 'collected' && collectedProjects.size > 0 && collectedProjectsList.length === 0) ||
+    (activeTab === 'liked' && likedProjects.size > 0 && likedProjectsList.length === 0) ||
+    (activeTab === 'completed' && isProjectsDataLoading)
 
 
   return (
     <>
-        <div className="md:hidden">
-            <MobileProfilePage 
-                user={user}
-                profile={profile}
-                myProjects={myProjects}
-                likedProjectsList={likedProjectsList}
-                collectedProjectsList={collectedProjectsList}
-                completedProjectsList={completedProjectsList}
-                completionStatusMap={completionStatusMap}
-                followerCount={followerCount}
-                followingCount={followingCount}
-                userStats={userStats}
-                isProjectsDataLoading={isProjectsDataLoading}
-                myObservations={myObservations}
-                observationsTotal={observationsTotal}
-                uniqueSpeciesCount={uniqueSpeciesCount}
-                isObservationsLoading={isObservationsLoading}
-                observationsLoaded={observationsLoaded}
-                onTabChange={setMobileProfileTab}
-            />
-        </div>
+      <div className="md:hidden">
+        <MobileProfilePage
+          user={user}
+          profile={profile}
+          myProjects={myProjects}
+          likedProjectsList={likedProjectsList}
+          collectedProjectsList={collectedProjectsList}
+          completedProjectsList={completedProjectsList}
+          completionStatusMap={completionStatusMap}
+          followerCount={followerCount}
+          followingCount={followingCount}
+          userStats={userStats}
+          isProjectsDataLoading={isProjectsDataLoading}
+          myObservations={myObservations}
+          observationsTotal={observationsTotal}
+          uniqueSpeciesCount={uniqueSpeciesCount}
+          isObservationsLoading={isObservationsLoading}
+          observationsLoaded={observationsLoaded}
+          onTabChange={setMobileProfileTab}
+        />
+      </div>
 
-        <div className="hidden md:block container mx-auto py-8 px-4 max-w-7xl">
-      <div className="flex gap-8 items-start">
-        {/* ===== 左栏：身份卡片 ===== */}
-        <div className="w-[320px] shrink-0 sticky top-24">
-          <div className="bg-card rounded-2xl border shadow-sm overflow-hidden">
-            {/* 顶部装饰渐变条 */}
-            <div className="h-20 bg-gradient-to-r from-primary/80 via-primary/60 to-secondary/70 relative">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_70%)]" />
-            </div>
+      <div className="page-shell hidden py-8 md:block">
+        <div className="space-y-6">
+          <section className="surface-panel overflow-hidden">
+            <div className="bg-gradient-to-r from-background/95 via-background/90 to-primary/[0.08] px-6 py-7 sm:px-7 sm:py-8 lg:px-8">
+              <p className="section-kicker">我的主页</p>
+              <div className="mt-4 flex flex-col gap-6 xl:flex-row xl:items-center">
+                <div className="relative mx-auto shrink-0 xl:mx-0">
+                  <AvatarWithFrame
+                    src={userAvatar}
+                    alt={userName}
+                    fallback={userName[0]?.toUpperCase()}
+                    avatarFrameId={profile?.equipped_avatar_frame_id}
+                    className="h-28 w-28 shrink-0 border-4 border-background shadow-[0_24px_60px_-34px_rgba(15,23,42,0.38)] md:h-32 md:w-32"
+                    avatarClassName="rounded-full object-cover"
+                  />
+                  <LevelGuideDialog>
+                    <button
+                      type="button"
+                      className="absolute -bottom-2 -right-1 inline-flex items-center gap-1 rounded-full border border-border/70 bg-background/92 px-3 py-1 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-background"
+                    >
+                      <Zap className="h-3.5 w-3.5 text-primary" />
+                      Lv.{level}
+                    </button>
+                  </LevelGuideDialog>
+                </div>
 
-            {/* 头像 - 上移与渐变条交叉 */}
-            <div className="px-6 -mt-12">
-              <div className="relative inline-block group">
-                <AvatarWithFrame
-                  src={userAvatar}
-                  alt={userName}
-                  fallback={userName[0]?.toUpperCase()}
-                  avatarFrameId={profile?.equipped_avatar_frame_id}
-                  className="h-24 w-24 shrink-0 border-4 border-card shadow-xl transition-transform duration-300 group-hover:scale-105"
-                  avatarClassName="rounded-full object-cover bg-gradient-to-tr from-primary to-secondary"
-                />
-                <div className="absolute bottom-1 right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-card ring-2 ring-green-500/20" title="在线" />
-              </div>
-            </div>
+                <div className="min-w-0 flex-1 space-y-5">
+                  <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {profile?.role && profile.role !== 'user' ? <RoleBadge role={profile.role} size="md" /> : null}
+                        <h1
+                          className={cn(
+                            "text-3xl font-semibold tracking-tight",
+                            getNameColorClassName(profile?.equipped_name_color_id ?? null) || "text-foreground",
+                          )}
+                        >
+                          {userName}
+                        </h1>
+                      </div>
 
-            {/* 用户名 + 等级 */}
-            <div className="px-6 pt-3 pb-2">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h1 className={cn("text-xl font-bold tracking-tight", getNameColorClassName(profile?.equipped_name_color_id ?? null) || "text-foreground")}>{userName}</h1>
-                <div className="flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-sm uppercase tracking-wider select-none">
-                  <Zap className="h-3 w-3 fill-current" />
-                  Lv.{Math.floor(Math.sqrt((profile?.xp || 0) / 100)) + 1}
+                      <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+                        {profile?.bio || "在这里整理你的作品、收藏、完成记录和自然观察，把个人主页真正养起来。"}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button asChild variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
+                        <Link href="/coins">
+                          <Coins className="mr-2 h-4 w-4 text-primary" />
+                          我的硬币 {coins.toLocaleString()}
+                        </Link>
+                      </Button>
+                      <EditProfileDialog>
+                        <Button variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
+                          编辑资料
+                        </Button>
+                      </EditProfileDialog>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {desktopQuickFacts.map((fact) => (
+                      <span
+                        key={fact.label}
+                        className="inline-flex items-center rounded-full border border-border/70 bg-background/78 px-3 py-1 text-xs font-medium text-muted-foreground"
+                      >
+                        {fact.label}
+                        <span className="ml-1.5 font-semibold text-foreground">{fact.value}</span>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                    {desktopStats.map((stat) => (
+                      <div key={stat.label} className="surface-subtle px-4 py-4 text-center md:text-left">
+                        <div className="text-lg font-semibold tabular-nums text-foreground">{stat.value}</div>
+                        <div className="mt-1 text-xs text-muted-foreground">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+          </section>
 
-            {/* 徽章展示 */}
-            <div className="px-6 pb-4">
-              <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
-                <div className="flex -space-x-1.5 cursor-pointer hover:opacity-90 transition-opacity">
-                  {(unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)).map((b) => (
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_340px]">
+            <div className="min-w-0">
+              <section className="surface-panel overflow-hidden">
+                <div className="border-b border-border/60 px-6 py-5">
+                  <p className="section-kicker">内容归档</p>
+                  <div className="mt-2">
+                    <h2 className="text-2xl font-semibold tracking-tight text-foreground">先看内容，再看成长面板</h2>
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+                      把最常用的作品、收藏、完成和观察入口放到主列，减少切页后的视线跳动。
+                    </p>
+                  </div>
+
+                  <div className="mt-4 -mx-1 overflow-x-auto px-1 no-scrollbar">
+                    <div className="segmented-control inline-flex min-w-max gap-1">
+                      {desktopTabs.map((tab) => (
+                        <button
+                          key={tab.key}
+                          type="button"
+                          onClick={() => setActiveTab(tab.key)}
+                          className={cn("segmented-option shrink-0 gap-2 whitespace-nowrap", activeTab === tab.key && "segmented-option-active")}
+                        >
+                          <span>{tab.label}</span>
+                          {tab.count !== null ? <span className="text-xs opacity-75">{tab.count}</span> : null}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+                    {showDesktopProjectSkeleton ? (
+                      <ProjectListSkeleton />
+                    ) : (
+                      <>
+                        {activeTab === 'my-projects' && myProjects.length === 0 ? (
+                          <DesktopProfileEmptyState
+                            title="还没有发布作品"
+                            description="把你的第一个项目整理出来，让个人主页真正开始生长。"
+                            href="/share"
+                            actionLabel="去分享"
+                          />
+                        ) : null}
+                        {activeTab === 'my-projects' &&
+                          myProjects.map((project) => <ProjectCard key={project.id} project={project} showStatus={true} />)}
+
+                        {activeTab === 'collected' && collectedProjectsList.length === 0 ? (
+                          <DesktopProfileEmptyState
+                            title="还没有收藏项目"
+                            description="去探索页面保存感兴趣的项目，后续回看会更方便。"
+                            href="/explore"
+                            actionLabel="去探索"
+                          />
+                        ) : null}
+                        {activeTab === 'collected' &&
+                          collectedProjectsList.map((project) => <ProjectCard key={project.id} project={project} />)}
+
+                        {activeTab === 'liked' && likedProjectsList.length === 0 ? (
+                          <DesktopProfileEmptyState
+                            title="还没有喜欢记录"
+                            description="去发现更多有趣项目，给你真正认可的作品点个喜欢。"
+                            href="/explore"
+                            actionLabel="去探索"
+                          />
+                        ) : null}
+                        {activeTab === 'liked' &&
+                          likedProjectsList.map((project) => <ProjectCard key={project.id} project={project} />)}
+
+                        {activeTab === 'completed' && completedProjectsList.length === 0 ? (
+                          <DesktopProfileEmptyState
+                            title="还没有完成项目"
+                            description="从一个小项目开始，把完成记录慢慢积累起来。"
+                            href="/explore"
+                            actionLabel="开始项目"
+                          />
+                        ) : null}
+                        {activeTab === 'completed' &&
+                          completedProjectsList.map((project) => {
+                            const completionStatus = completionStatusMap.get(Number(project.id))
+                            return (
+                              <div key={project.id} className="relative">
+                                {completionStatus?.status === 'pending' ? (
+                                  <div className="absolute left-2 top-2 z-10">
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-sm dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                      作品待审核
+                                    </span>
+                                  </div>
+                                ) : null}
+                                {completionStatus?.status === 'rejected' ? (
+                                  <div className="absolute left-2 top-2 z-10">
+                                    <span
+                                      className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-sm dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
+                                      title={completionStatus.rejectionReason}
+                                    >
+                                      作品未通过
+                                    </span>
+                                  </div>
+                                ) : null}
+                                <ProjectCard project={project} />
+                              </div>
+                            )
+                          })}
+
+                        {activeTab === 'observations' ? (
+                          <ProfileObservationsPanel
+                            observations={myObservations}
+                            observationsTotal={observationsTotal}
+                            uniqueSpeciesCount={uniqueSpeciesCount}
+                            isLoading={isObservationsLoading}
+                            isLoaded={observationsLoaded}
+                          />
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <aside className="self-start space-y-6 xl:sticky xl:top-24">
+              <section className="surface-panel p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="section-kicker">成长进度</p>
+                    <h2 className="mt-2 text-2xl font-semibold tracking-tight">当前等级与经验</h2>
+                  </div>
+                  <LevelGuideDialog>
+                    <button className="text-sm text-primary transition-colors hover:text-primary/80 hover:underline">
+                      如何升级
+                    </button>
+                  </LevelGuideDialog>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                  成长面板保留在辅助列里，方便查看，但不会再压过主要内容入口。
+                </p>
+                <div className="mt-6">
+                  <LevelProgress className="w-full" />
+                </div>
+              </section>
+
+              <section className="surface-panel p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="section-kicker">成就陈列</p>
+                    <h2 className="mt-2 text-2xl font-semibold tracking-tight">最近展示的徽章</h2>
+                  </div>
+                  <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+                    <button type="button" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
+                      查看全部
+                    </button>
+                  </BadgeGalleryDialog>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {featuredBadges.map((badge) => (
                     <BadgeIcon
-                      key={b.id}
-                      icon={b.icon}
-                      tier={b.tier}
+                      key={badge.id}
+                      icon={badge.icon}
+                      tier={badge.tier}
                       size="sm"
-                      className="w-7 h-7"
+                      className="h-8 w-8"
                       showGlow={false}
-                      locked={!unlockedBadges.has(b.id)}
+                      locked={!unlockedBadges.has(badge.id)}
                     />
                   ))}
                 </div>
-              </BadgeGalleryDialog>
-            </div>
 
-            {/* 简介 */}
-            <div className="px-6 pb-4">
-              {profile?.bio ? (
-                <p className="text-sm text-foreground/80 leading-relaxed break-words">{profile.bio}</p>
-              ) : (
-                <p className="text-sm text-muted-foreground italic">这个人很懒，什么都没写~</p>
-              )}
-            </div>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                  保持稳定产出和完成记录，个人主页的成就感会自然往上长。
+                </p>
+              </section>
 
-            {/* 硬币展示 */}
-            <div className="px-6 mb-4">
-               <Link href="/coins" className="group block">
-                <div className="bg-gradient-to-r from-amber-50/80 to-amber-100/50 dark:from-amber-950/30 dark:to-amber-900/10 border border-amber-200/60 dark:border-amber-800/30 rounded-xl p-3 flex items-center justify-between group-hover:border-amber-300 dark:group-hover:border-amber-700 transition-colors">
-                  <div className="flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
-                      <Coins className="h-4 w-4" />
-                    </div>
-                    <span className="text-sm font-medium text-amber-900/80 dark:text-amber-100/80">我的硬币</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-lg font-bold text-amber-600 dark:text-amber-400 tabular-nums tracking-tight">
-                      {coins.toLocaleString()}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-amber-400/70 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                  </div>
-                </div>
-               </Link>
-            </div>
-
-            {/* 统计数据 - 2x2 网格 */}
-            <div className="mx-6 mb-4 grid grid-cols-2 gap-px bg-border/50 rounded-xl overflow-hidden border border-border/50">
-              <div className="bg-card flex flex-col items-center py-3.5 hover:bg-muted/40 transition-colors cursor-default">
-                <span className="text-lg font-bold text-foreground tabular-nums leading-none">{followerCount}</span>
-                <span className="text-[11px] text-muted-foreground font-medium mt-1">粉丝</span>
-              </div>
-              <div className="bg-card flex flex-col items-center py-3.5 hover:bg-muted/40 transition-colors cursor-default">
-                <span className="text-lg font-bold text-foreground tabular-nums leading-none">{followingCount}</span>
-                <span className="text-[11px] text-muted-foreground font-medium mt-1">关注</span>
-              </div>
-              <div className="bg-card flex flex-col items-center py-3.5 hover:bg-muted/40 transition-colors cursor-default">
-                <span className="text-lg font-bold text-foreground tabular-nums leading-none">{myProjects.reduce((acc, p) => acc + p.likes, 0)}</span>
-                <span className="text-[11px] text-muted-foreground font-medium mt-1">获赞</span>
-              </div>
-              <div className="bg-card flex flex-col items-center py-3.5 hover:bg-muted/40 transition-colors cursor-default">
-                <span className="text-lg font-bold text-foreground tabular-nums leading-none">{myProjects.length}</span>
-                <span className="text-[11px] text-muted-foreground font-medium mt-1">作品</span>
-              </div>
-            </div>
-
-            {/* 操作按钮 */}
-            <div className="px-6 pb-6">
-              <EditProfileDialog>
-                <Button variant="outline" className="w-full gap-2 shadow-sm hover:bg-muted/80">
-                  编辑资料
-                </Button>
-              </EditProfileDialog>
-            </div>
-          </div>
-        </div>
-
-        {/* ===== 右栏：主内容区 ===== */}
-        <div className="flex-1 min-w-0">
-          {/* 等级进度 + STEAM 雷达图 */}
-          <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-4 xl:gap-6 mb-6">
-            <div className="bg-card rounded-2xl border shadow-sm p-6">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-muted-foreground">当前等级进度</span>
-                <LevelGuideDialog>
-                  <button className="text-xs text-primary hover:text-primary/80 transition-colors hover:underline flex items-center gap-1">
-                    如何快速升级?
-                  </button>
-                </LevelGuideDialog>
-              </div>
-              <LevelProgress className="w-full" />
-            </div>
-            <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
-          </div>
-
-          {/* 标签页切换 */}
-          <div className="flex gap-1 mb-6 border-b overflow-x-auto pb-0 scrollbar-none">
-            <Button
-              variant={activeTab === 'my-projects' ? 'default' : 'ghost'}
-              onClick={() => setActiveTab('my-projects')}
-              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
-            >
-              我的发布 ({myProjects.length})
-            </Button>
-            <Button
-              variant={activeTab === 'collected' ? 'default' : 'ghost'}
-              onClick={() => setActiveTab('collected')}
-              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
-            >
-              我的收藏 ({collectedProjects.size})
-            </Button>
-            <Button
-              variant={activeTab === 'liked' ? 'default' : 'ghost'}
-              onClick={() => setActiveTab('liked')}
-              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
-            >
-              我点赞的 ({likedProjects.size})
-            </Button>
-            <Button
-              variant={activeTab === 'completed' ? 'default' : 'ghost'}
-              onClick={() => setActiveTab('completed')}
-              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
-            >
-              我做过的 ({completionStatusMap.size})
-            </Button>
-            <Button
-              variant={activeTab === 'observations' ? 'default' : 'ghost'}
-              onClick={() => setActiveTab('observations')}
-              className="rounded-b-none whitespace-nowrap flex-shrink-0 px-5"
-            >
-              我的观察 {observationsLoaded ? `(${observationsTotal})` : ''}
-            </Button>
-          </div>
-
-          {/* 项目列表 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            {(isProjectsDataLoading && activeTab === 'my-projects') ||
-              (activeTab === 'collected' && collectedProjects.size > 0 && collectedProjectsList.length === 0) ||
-              (activeTab === 'liked' && likedProjects.size > 0 && likedProjectsList.length === 0) ||
-              (activeTab === 'completed' && isProjectsDataLoading) ? (
-              <ProjectListSkeleton />
-            ) : (
-              <>
-                {activeTab === 'my-projects' && myProjects.length === 0 && (
-                  <div className="col-span-full text-center py-16 text-muted-foreground">
-                    <p className="mb-4">你还没有发布任何项目</p>
-                    <Link href="/share">
-                      <Button>分享你的第一个项目</Button>
-                    </Link>
-                  </div>
-                )}
-                {activeTab === 'my-projects' &&
-                  myProjects.map((project) => <ProjectCard key={project.id} project={project} showStatus={true} />)}
-
-                {activeTab === 'collected' && collectedProjectsList.length === 0 && (
-                  <div className="col-span-full text-center py-16 text-muted-foreground">
-                    <p className="mb-4">你还没有收藏任何项目</p>
-                    <Link href="/explore">
-                      <Button>去发现有趣的项目</Button>
-                    </Link>
-                  </div>
-                )}
-                {activeTab === 'collected' &&
-                  collectedProjectsList.map((project) => <ProjectCard key={project.id} project={project} />)}
-
-                {activeTab === 'liked' && likedProjectsList.length === 0 && (
-                  <div className="col-span-full text-center py-16 text-muted-foreground">
-                    <p className="mb-4">你还没有点赞任何项目</p>
-                    <Link href="/explore">
-                      <Button>去发现有趣的项目</Button>
-                    </Link>
-                  </div>
-                )}
-                {activeTab === 'liked' &&
-                  likedProjectsList.map((project) => <ProjectCard key={project.id} project={project} />)}
-
-                {activeTab === 'completed' && completedProjectsList.length === 0 && (
-                  <div className="col-span-full text-center py-16 text-muted-foreground">
-                    <p className="mb-4">你还没有完成任何项目</p>
-                    <Link href="/explore">
-                      <Button>开始你的第一个项目</Button>
-                    </Link>
-                  </div>
-                )}
-                {activeTab === 'completed' &&
-                  completedProjectsList.map((project) => {
-                    const cs = completionStatusMap.get(Number(project.id))
-                    return (
-                      <div key={project.id} className="relative">
-                        {cs && cs.status === 'pending' && (
-                          <div className="absolute top-2 left-2 z-10">
-                            <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-300 shadow-sm dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
-                              作品待审核
-                            </span>
-                          </div>
-                        )}
-                        {cs && cs.status === 'rejected' && (
-                          <div className="absolute top-2 left-2 z-10">
-                            <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-red-100 text-red-800 border border-red-300 shadow-sm dark:bg-red-900/30 dark:text-red-400 dark:border-red-800" title={cs.rejectionReason}>
-                              作品未通过
-                            </span>
-                          </div>
-                        )}
-                        <ProjectCard project={project} />
-                      </div>
-                    )
-                  })}
-
-                {activeTab === 'observations' && (
-                  <ProfileObservationsPanel
-                    observations={myObservations}
-                    observationsTotal={observationsTotal}
-                    uniqueSpeciesCount={uniqueSpeciesCount}
-                    isLoading={isObservationsLoading}
-                    isLoaded={observationsLoaded}
-                  />
-                )}
-              </>
-            )}
+              <SteamRadarChart userId={user.id} stats={userStats ?? null} />
+            </aside>
           </div>
         </div>
       </div>
-    </div>
     </>
+  )
+}
+
+function DesktopProfileEmptyState({
+  title,
+  description,
+  href,
+  actionLabel,
+}: {
+  title: string
+  description: string
+  href: string
+  actionLabel: string
+}) {
+  return (
+    <div className="surface-subtle col-span-full px-6 py-12 text-center">
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-muted-foreground">{description}</p>
+      <Button asChild className="mt-6">
+        <Link href={href}>{actionLabel}</Link>
+      </Button>
+    </div>
   )
 }

@@ -1,29 +1,56 @@
 "use client";
 
 import { Suspense, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "@/context/auth-context";
-import { useNotifications, type Notification } from "@/context/notification-context";
-import { useConversations } from "@/hooks/use-messages";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter, useSearchParams } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import {
-  MessageSquare,
-  MessageCircle,
-  Heart,
-  UserPlus,
   CheckCheck,
+  Heart,
+  MessageCircle,
+  MessageSquare,
+  UserPlus,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 import { FollowButton } from "@/components/features/social/follow-button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { useAuth } from "@/context/auth-context";
+import { useNotifications, type Notification } from "@/context/notification-context";
+import { useConversations } from "@/hooks/use-messages";
+import { cn } from "@/lib/utils";
 
 const TABS = [
-  { key: "replies", label: "回复与@", icon: MessageSquare },
-  { key: "likes", label: "收到喜欢", icon: Heart },
-  { key: "follows", label: "新增粉丝", icon: UserPlus },
-  { key: "dm", label: "私信", icon: MessageCircle },
+  {
+    key: "replies",
+    label: "回复与@",
+    shortLabel: "回复",
+    description: "查看提及、回复与创作者动态",
+    icon: MessageSquare,
+  },
+  {
+    key: "likes",
+    label: "收到喜欢",
+    shortLabel: "喜欢",
+    description: "查看谁为你的内容点了赞",
+    icon: Heart,
+  },
+  {
+    key: "follows",
+    label: "新增粉丝",
+    shortLabel: "粉丝",
+    description: "查看新关注你的用户",
+    icon: UserPlus,
+  },
+  {
+    key: "dm",
+    label: "私信",
+    shortLabel: "私信",
+    description: "和创作者或同伴继续交流",
+    icon: MessageCircle,
+  },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -36,10 +63,7 @@ function getTabKey(value: string | null): TabKey {
 function filterByTab(notifications: Notification[], tab: TabKey): Notification[] {
   if (tab === "replies") {
     return notifications.filter(
-      (n) =>
-        n.type === "mention" ||
-        n.type === "reply" ||
-        n.type === "creator_update"
+      (n) => n.type === "mention" || n.type === "reply" || n.type === "creator_update",
     );
   }
   if (tab === "likes") return notifications.filter((n) => n.type === "like");
@@ -47,15 +71,12 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
   return [];
 }
 
-/** 各 tab 的未读数量（回复与@、收到喜欢、新增粉丝；私信暂无未读统计） */
 function getUnreadByTab(notifications: Notification[]) {
   const unread = notifications.filter((n) => !n.is_read);
+
   return {
     replies: unread.filter(
-      (n) =>
-        n.type === "mention" ||
-        n.type === "reply" ||
-        n.type === "creator_update"
+      (n) => n.type === "mention" || n.type === "reply" || n.type === "creator_update",
     ).length,
     likes: unread.filter((n) => n.type === "like").length,
     follows: unread.filter((n) => n.type === "follow").length,
@@ -63,16 +84,51 @@ function getUnreadByTab(notifications: Notification[]) {
   };
 }
 
+function MessagePageSkeleton() {
+  return (
+    <div className="page-shell pt-6 pb-24 md:pb-10">
+      <div className="surface-panel overflow-hidden">
+        <div className="border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5">
+          <div className="h-3 w-16 animate-pulse rounded-full bg-muted" />
+          <div className="mt-3 h-9 w-40 animate-pulse rounded-2xl bg-muted" />
+          <div className="mt-4 h-10 w-full animate-pulse rounded-full bg-muted" />
+        </div>
+        <div className="space-y-3 px-4 py-5 sm:px-6">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
+              <div className="h-11 w-11 animate-pulse rounded-full bg-muted" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
+                <div className="h-3 w-24 animate-pulse rounded-full bg-muted" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MessagesContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = getTabKey(searchParams.get("tab"));
+  const activeTab = TABS.find((item) => item.key === tab) ?? TABS[0];
   const setTab = (key: TabKey) => {
     router.replace(`/messages?tab=${key}`, { scroll: false });
   };
 
-  const { notifications, unreadCount, markAsRead, markAllAsRead, loadMore, hasMore, isLoadingMore, isLoading: notificationsLoading } = useNotifications();
+  const {
+    notifications,
+    unreadCount,
+    markAsRead,
+    markAllAsRead,
+    loadMore,
+    hasMore,
+    isLoadingMore,
+    isLoading: notificationsLoading,
+  } = useNotifications();
   const {
     conversations,
     isLoading: conversationsLoading,
@@ -86,299 +142,289 @@ function MessagesContent() {
   useEffect(() => {
     const el = loadMoreRef.current;
     if (!el || tab === "dm") return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting && hasMore && !isLoadingMore) loadMore();
       },
-      { rootMargin: "100px", threshold: 0 }
+      { rootMargin: "100px", threshold: 0 },
     );
+
     observer.observe(el);
     return () => observer.disconnect();
   }, [tab, hasMore, isLoadingMore, loadMore]);
 
-  const handleNotificationClick = async (n: Notification) => {
-    if (!n.is_read) await markAsRead(n.id);
-    if (n.type === "creator_update" && n.project_id) {
-      router.push(`/project/${n.project_id}`);
-    } else if (n.type === "follow" && n.from_user_id) {
-      router.push(`/users/${n.from_user_id}`);
-    } else if (n.related_type === "comment" && n.project_id && n.related_id) {
-      router.push(`/project/${n.project_id}#comment-${n.related_id}`);
+  const handleNotificationClick = async (notification: Notification) => {
+    if (!notification.is_read) await markAsRead(notification.id);
+
+    if (notification.type === "creator_update" && notification.project_id) {
+      router.push(`/project/${notification.project_id}`);
+    } else if (notification.type === "follow" && notification.from_user_id) {
+      router.push(`/users/${notification.from_user_id}`);
     } else if (
-      n.related_type === "discussion_reply" &&
-      n.discussion_id &&
-      n.related_id
+      notification.related_type === "comment" &&
+      notification.project_id &&
+      notification.related_id
     ) {
-      router.push(`/community/discussion/${n.discussion_id}#reply-${n.related_id}`);
-    } else if (n.type === "like" && n.project_id) {
-      router.push(`/project/${n.project_id}`);
+      router.push(`/project/${notification.project_id}#comment-${notification.related_id}`);
+    } else if (
+      notification.related_type === "discussion_reply" &&
+      notification.discussion_id &&
+      notification.related_id
+    ) {
+      router.push(`/community/discussion/${notification.discussion_id}#reply-${notification.related_id}`);
+    } else if (notification.type === "like" && notification.project_id) {
+      router.push(`/project/${notification.project_id}`);
     }
   };
 
   if (authLoading || !user) {
-    return (
-      <div className="container max-w-2xl mx-auto py-8 px-4">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 w-48 bg-muted rounded" />
-          <div className="h-20 bg-muted rounded" />
-          <div className="h-20 bg-muted rounded" />
-        </div>
-      </div>
-    );
+    return <MessagePageSkeleton />;
   }
 
   return (
-    <div className="container max-w-2xl mx-auto py-4 px-4 pb-24 md:pb-8">
-      <div className="flex items-center justify-between gap-3 mb-4">
-        <h1 className="text-xl font-bold">消息</h1>
-        {unreadCount > 0 && (
-          <button
-            type="button"
-            onClick={() => markAllAsRead()}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
-            aria-label="全部标为已读"
-          >
-            <CheckCheck className="h-4 w-4" />
-            <span>全部已读</span>
-          </button>
-        )}
+    <div className="page-shell pt-6 pb-24 md:pb-10">
+      <div className="mobile-subnav top-0 z-30 -mx-4 mb-4 md:hidden">
+        <MobilePageHeader
+          title="消息"
+          fallbackHref="/"
+          sticky={false}
+          className="border-none bg-transparent shadow-none"
+        />
+        <div className="px-4 pb-3 pt-1">
+          <div className="segmented-control flex w-full justify-between gap-1">
+            {TABS.map(({ key, shortLabel }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setTab(key)}
+                className={cn(
+                  "segmented-option min-w-0 flex-1 px-0",
+                  tab === key && "segmented-option-active",
+                )}
+              >
+                <span className="relative inline-flex items-center">
+                  {shortLabel}
+                  {unreadByTab[key] > 0 ? (
+                    <span className="absolute -right-2.5 top-0 h-2 w-2 rounded-full bg-destructive" aria-hidden />
+                  ) : null}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 移动端：一排 4 个紧凑入口 */}
-      <div className="grid grid-cols-4 gap-2 mb-6 md:hidden">
-        {TABS.map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setTab(key)}
-            title={label}
-            className={cn(
-              "flex flex-col items-center justify-center gap-1 min-h-[52px] py-2 px-1 rounded-lg transition-colors active:scale-[0.98]",
-              tab === key
-                ? "bg-primary/15 text-foreground"
-                : "bg-muted/50 text-muted-foreground"
-            )}
-          >
-            <span className="relative inline-flex shrink-0">
-              <Icon className="h-5 w-5" />
-              {unreadByTab[key] > 0 && (
-                <span
-                  className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-destructive"
-                  aria-hidden
-                />
-              )}
-            </span>
-            <span className="text-[11px] font-medium leading-tight text-center line-clamp-2">{label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* 桌面端：横向 Tab */}
-      <div className="hidden md:flex gap-2 mb-6">
-        {TABS.map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setTab(key)}
-            className={cn(
-              "flex items-center gap-1.5 shrink-0 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-              tab === key
-                ? "bg-primary/15 text-foreground"
-                : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted/70"
-            )}
-          >
-            <span className="relative inline-flex">
-              <Icon className="h-4 w-4" />
-              {unreadByTab[key] > 0 && (
-                <span
-                  className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-destructive"
-                  aria-hidden
-                />
-              )}
-            </span>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* 回复与@ / 收到喜欢 / 新增粉丝 */}
-      {tab !== "dm" && (
-        <>
-          {notificationsLoading ? (
-            <div className="space-y-2">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 animate-pulse"
-                >
-                  <div className="h-10 w-10 rounded-full bg-muted" />
-                  <div className="flex-1 h-4 w-48 bg-muted rounded" />
-                </div>
-              ))}
+      <section className="surface-panel overflow-hidden">
+        <div className="hidden border-b border-border/60 px-6 py-6 md:block">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="section-kicker">消息中心</p>
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight">站内通知与私信</h1>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
+                把回复、喜欢、关注和私信收拢在同一处，减少在不同页面之间来回切换。
+              </p>
             </div>
-          ) : filteredNotifications.length === 0 ? (
-            <div className="py-12 text-center text-sm text-muted-foreground">
-              {tab === "replies" && "暂无回复与@提及"}
-              {tab === "likes" && "暂无收到喜欢"}
-              {tab === "follows" && "暂无新增粉丝"}
+            {unreadCount > 0 ? (
+              <Button variant="outline" size="sm" className="gap-2 rounded-full" onClick={() => markAllAsRead()}>
+                <CheckCheck className="h-4 w-4" />
+                全部标为已读
+              </Button>
+            ) : null}
+          </div>
+
+          <div className="mt-6 segmented-control">
+            {TABS.map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setTab(key)}
+                className={cn("segmented-option gap-2", tab === key && "segmented-option-active")}
+              >
+                <span className="relative inline-flex items-center">
+                  <Icon className="h-4 w-4" />
+                  {unreadByTab[key] > 0 ? (
+                    <span className="absolute -right-1.5 -top-1 h-2 w-2 rounded-full bg-destructive" aria-hidden />
+                  ) : null}
+                </span>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="border-b border-border/60 px-4 py-4 md:hidden">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-foreground">{activeTab.label}</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeTab.description}</p>
             </div>
-          ) : (
-            <ul className="space-y-0">
-              {filteredNotifications.map((n, index) => (
-                <li key={n.id}>
-                  <div
-                    className={cn(
-                      "w-full flex items-center gap-3 min-h-14 py-4 px-3 rounded-xl md:min-h-0 md:py-3 md:rounded-lg",
-                      !n.is_read && "bg-accent/40"
-                    )}
-                  >
-                    <button
-                      type="button"
-                      className={cn(
-                        "flex items-center gap-3 min-w-0 flex-1 text-left hover:bg-muted/60 active:bg-muted/80 transition-colors rounded-lg -m-1 p-1 md:py-2 md:px-2"
-                      )}
-                      onClick={() => handleNotificationClick(n)}
-                    >
-                      {n.from_username ? (
-                        <Avatar className="h-10 w-10 shrink-0">
-                          <AvatarImage src={n.from_avatar ?? undefined} alt={n.from_username} />
-                          <AvatarFallback className="bg-primary/10">
-                            {n.from_username[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                      ) : (
-                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                          <MessageSquare className="h-5 w-5 text-primary" />
-                        </div>
-                      )}
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm truncate">{n.content}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {formatDistanceToNow(new Date(n.created_at), {
-                            addSuffix: true,
-                            locale: zhCN,
-                          })}
-                        </p>
-                      </div>
-                      {!n.is_read && (
-                        <span className="h-2 w-2 rounded-full bg-primary shrink-0" />
-                      )}
-                    </button>
-                    {tab === "follows" && n.from_user_id && (
-                      <div onClick={(e) => e.stopPropagation()} className="shrink-0">
-                        <FollowButton targetUserId={n.from_user_id} followBack className="min-w-[72px]" />
-                      </div>
-                    )}
+            {unreadCount > 0 ? (
+              <Button variant="ghost" size="sm" className="h-8 rounded-full px-3 text-xs" onClick={() => markAllAsRead()}>
+                全部已读
+              </Button>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="px-4 py-5 sm:px-5 sm:py-6 md:px-6">
+          {tab !== "dm" ? (
+            notificationsLoading ? (
+              <div className="space-y-3">
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
+                    <div className="h-11 w-11 animate-pulse rounded-full bg-muted" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 w-4/5 animate-pulse rounded-full bg-muted" />
+                      <div className="h-3 w-24 animate-pulse rounded-full bg-muted" />
+                    </div>
                   </div>
-                  {index < filteredNotifications.length - 1 && (
+                ))}
+              </div>
+            ) : filteredNotifications.length === 0 ? (
+              <div className="surface-subtle px-4 py-12 text-center">
+                <p className="text-base font-medium text-foreground">
+                  {tab === "replies" && "还没有新的回复或提及"}
+                  {tab === "likes" && "还没有新的喜欢"}
+                  {tab === "follows" && "还没有新的粉丝提醒"}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  新的互动会出现在这里，方便你继续回应和跟进。
+                </p>
+              </div>
+            ) : (
+              <ul className="space-y-3">
+                {filteredNotifications.map((notification) => (
+                  <li key={notification.id}>
                     <div
-                      className="ml-[3.25rem] border-b border-black/[0.06] my-4"
-                      aria-hidden
-                    />
-                  )}
-                </li>
-              ))}
-              {hasMore && (
-                <li key="_load-more" className="flex justify-center py-4" ref={loadMoreRef}>
-                  {isLoadingMore ? (
-                    <span className="text-sm text-muted-foreground">加载中…</span>
-                  ) : (
-                    <span className="text-sm text-muted-foreground" aria-hidden />
-                  )}
-                </li>
-              )}
-            </ul>
-          )}
-        </>
-      )}
+                      className={cn(
+                        "rounded-[24px] border border-border/60 bg-background/70 p-3 transition-colors",
+                        !notification.is_read && "border-primary/25 bg-accent/25",
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          className="flex min-w-0 flex-1 items-center gap-3 rounded-2xl text-left transition-colors hover:bg-muted/60 active:bg-muted/80"
+                          onClick={() => handleNotificationClick(notification)}
+                        >
+                          {notification.from_username ? (
+                            <Avatar className="h-11 w-11 shrink-0">
+                              <AvatarImage src={notification.from_avatar ?? undefined} alt={notification.from_username} />
+                              <AvatarFallback className="bg-primary/10">
+                                {notification.from_username[0]}
+                              </AvatarFallback>
+                            </Avatar>
+                          ) : (
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                              <MessageSquare className="h-5 w-5" />
+                            </div>
+                          )}
 
-      {/* 私信 */}
-      {tab === "dm" && (
-        <>
-          {conversationsLoading ? (
-            <div className="space-y-2">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 animate-pulse"
-                >
-                  <div className="h-12 w-12 rounded-full bg-muted" />
-                  <div className="flex-1">
-                    <div className="h-4 w-32 bg-muted rounded mb-2" />
-                    <div className="h-3 w-48 bg-muted rounded" />
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm leading-6 text-foreground">{notification.content}</p>
+                            <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                              <span>
+                                {formatDistanceToNow(new Date(notification.created_at), {
+                                  addSuffix: true,
+                                  locale: zhCN,
+                                })}
+                              </span>
+                              {!notification.is_read ? (
+                                <>
+                                  <span aria-hidden>·</span>
+                                  <span className="font-medium text-primary">未读</span>
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        </button>
+
+                        {tab === "follows" && notification.from_user_id ? (
+                          <div onClick={(event) => event.stopPropagation()} className="shrink-0">
+                            <FollowButton targetUserId={notification.from_user_id} followBack className="min-w-[72px]" />
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+
+                {hasMore ? (
+                  <li ref={loadMoreRef} className="flex justify-center pt-2">
+                    <span className="text-sm text-muted-foreground">
+                      {isLoadingMore ? "加载中…" : "继续下滑可加载更多"}
+                    </span>
+                  </li>
+                ) : null}
+              </ul>
+            )
+          ) : conversationsLoading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
+                  <div className="h-12 w-12 animate-pulse rounded-full bg-muted" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-32 animate-pulse rounded-full bg-muted" />
+                    <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
                   </div>
                 </div>
               ))}
             </div>
           ) : conversationsError ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
-              <MessageCircle className="h-12 w-12 mb-4 opacity-50" />
-              <p className="font-medium">私信加载失败</p>
-              <p className="text-sm mt-1">{conversationsError || "请稍后重试"}</p>
+            <div className="surface-subtle px-4 py-12 text-center">
+              <MessageCircle className="mx-auto h-10 w-10 text-muted-foreground/70" />
+              <p className="mt-4 text-base font-medium text-foreground">私信加载失败</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {conversationsError || "请稍后重试。"}
+              </p>
             </div>
           ) : conversations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
-              <MessageCircle className="h-12 w-12 mb-4 opacity-50" />
-              <p className="font-medium">暂无私信</p>
-              <p className="text-sm mt-1">去用户主页发起私信，与创作者协作交流吧。</p>
+            <div className="surface-subtle px-4 py-12 text-center">
+              <MessageCircle className="mx-auto h-10 w-10 text-muted-foreground/70" />
+              <p className="mt-4 text-base font-medium text-foreground">还没有私信对话</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                去用户主页发起私信，与创作者或同伴继续交流。
+              </p>
             </div>
           ) : (
-            <ul className="space-y-0">
-              {conversations.map((conv, index) => (
-                <li key={conv.peerId}>
+            <ul className="space-y-3">
+              {conversations.map((conversation) => (
+                <li key={conversation.peerId}>
                   <Link
-                    href={`/messages/${conv.peerId}`}
-                    className="flex items-center gap-3 min-h-16 py-4 px-3 rounded-xl hover:bg-muted/60 active:bg-muted/80 transition-colors md:min-h-0 md:py-3 md:rounded-lg"
+                    href={`/messages/${conversation.peerId}`}
+                    className="flex items-center gap-3 rounded-[24px] border border-border/60 bg-background/70 px-4 py-4 transition-colors hover:bg-muted/55 active:bg-muted/75"
                   >
                     <Avatar className="h-12 w-12 shrink-0">
-                      <AvatarImage
-                        src={conv.avatarUrl ?? undefined}
-                        alt={conv.displayName ?? ""}
-                      />
+                      <AvatarImage src={conversation.avatarUrl ?? undefined} alt={conversation.displayName ?? ""} />
                       <AvatarFallback className="bg-primary/10">
-                        {(conv.displayName || conv.peerId.slice(0, 2))[0]}
+                        {(conversation.displayName || conversation.peerId.slice(0, 2))[0]}
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium truncate">{conv.displayName || "用户"}</p>
-                      <p className="text-sm text-muted-foreground truncate">
-                        {conv.lastContent}
-                      </p>
+                      <p className="font-medium text-foreground">{conversation.displayName || "用户"}</p>
+                      <p className="mt-1 truncate text-sm text-muted-foreground">{conversation.lastContent}</p>
                     </div>
-                    <span className="text-xs text-muted-foreground shrink-0">
-                      {formatDistanceToNow(new Date(conv.lastAt), {
+                    <span className="shrink-0 text-xs text-muted-foreground">
+                      {formatDistanceToNow(new Date(conversation.lastAt), {
                         addSuffix: true,
                         locale: zhCN,
                       })}
                     </span>
                   </Link>
-                  {index < conversations.length - 1 && (
-                    <div
-                      className="ml-[3.75rem] border-b border-black/[0.06] my-4"
-                      aria-hidden
-                    />
-                  )}
                 </li>
               ))}
             </ul>
           )}
-        </>
-      )}
+        </div>
+      </section>
     </div>
   );
 }
 
 export default function MessagesPage() {
   return (
-    <Suspense fallback={
-      <div className="container max-w-2xl mx-auto py-8 px-4">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 w-48 bg-muted rounded" />
-          <div className="h-20 bg-muted rounded" />
-          <div className="h-20 bg-muted rounded" />
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<MessagePageSkeleton />}>
       <MessagesContent />
     </Suspense>
   );

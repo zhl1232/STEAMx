@@ -30,7 +30,7 @@ export function MobileHome({ popularProjects }: MobileHomeProps) {
                 <div className="h-2 bg-muted/20 w-full" />
 
                 {/* Tab 切换 */}
-                <div className="flex items-center gap-6 px-4 py-3 sticky top-[calc(4rem+env(safe-area-inset-top))] bg-background/95 backdrop-blur z-20 border-b">
+                <div className="flex items-center gap-6 px-4 py-3 sticky top-[calc(var(--mobile-global-header-height,4rem)+env(safe-area-inset-top))] bg-background/95 backdrop-blur z-20 border-b">
                     <button
                         onClick={() => setActiveTab("recommend")}
                         className={cn(

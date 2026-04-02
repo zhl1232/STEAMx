@@ -107,7 +107,7 @@ export function ModeratorApplicationForm() {
 
     if (authLoading || isLoading) {
         return (
-            <Card>
+            <Card className="surface-subtle shadow-none">
                 <CardHeader>
                     <Skeleton className="h-8 w-48" />
                     <Skeleton className="h-4 w-64 mt-2" />
@@ -121,7 +121,7 @@ export function ModeratorApplicationForm() {
 
     if (!user) {
         return (
-            <Card>
+            <Card className="surface-subtle shadow-none">
                 <CardHeader>
                     <CardTitle>申请成为审核员</CardTitle>
                     <CardDescription>
@@ -134,7 +134,7 @@ export function ModeratorApplicationForm() {
 
     if (!profile) {
         return (
-            <Card>
+            <Card className="surface-subtle shadow-none">
                 <CardHeader>
                     <CardTitle>申请成为审核员</CardTitle>
                     <CardDescription>
@@ -147,7 +147,7 @@ export function ModeratorApplicationForm() {
 
     if (profile.role !== 'user') {
         return (
-            <Card>
+            <Card className="surface-subtle shadow-none">
                 <CardHeader>
                     <CardTitle>申请成为审核员</CardTitle>
                     <CardDescription>
@@ -172,7 +172,7 @@ export function ModeratorApplicationForm() {
     }
 
     return (
-        <Card>
+        <Card className="surface-subtle shadow-none">
             <CardHeader>
                 <CardTitle>申请成为审核员</CardTitle>
                 <CardDescription>
@@ -260,7 +260,7 @@ export function ModeratorApplicationForm() {
                         <Button
                             onClick={handleSubmit}
                             disabled={isSubmitting || motivation.trim().length < 50}
-                            className="w-full"
+                            className="w-full rounded-2xl"
                         >
                             {isSubmitting ? "提交中..." : "提交申请"}
                         </Button>

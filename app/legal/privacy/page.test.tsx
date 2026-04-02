@@ -3,6 +3,13 @@ import { describe, expect, it, vi } from "vitest";
 
 import PrivacyPage, { metadata } from "./page";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+  }),
+}));
+
 vi.mock("next/link", () => ({
   __esModule: true,
   default: ({ children, href, ...rest }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
@@ -16,15 +23,14 @@ describe("PrivacyPage", () => {
   it("renders the published privacy version and effective date", () => {
     render(<PrivacyPage />);
 
-    expect(screen.getByRole("heading", { name: "隐私政策" })).toBeInTheDocument();
-    expect(screen.getByText("版本：v2026.03")).toBeInTheDocument();
-    expect(screen.getByText("生效日期：2026 年 3 月 20 日")).toBeInTheDocument();
+    expect(screen.getAllByText("隐私政策").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("版本：v2026.03").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("生效日期：2026 年 3 月 20 日").length).toBeGreaterThan(0);
   });
 
-  it("links to the terms page and home page", () => {
+  it("links to the terms page", () => {
     render(<PrivacyPage />);
 
-    expect(screen.getByRole("link", { name: "返回首页" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "《用户协议》" })).toHaveAttribute("href", "/legal/terms");
   });
 

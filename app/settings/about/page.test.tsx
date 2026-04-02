@@ -31,7 +31,7 @@ describe("AboutSettingsPage", () => {
 
     render(<AboutSettingsPage />);
 
-    expect(screen.getByText("暂未配置反馈邮箱")).toBeInTheDocument();
+    expect(screen.getByText(/暂未配置反馈邮箱/)).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /问题反馈/i })).not.toBeInTheDocument();
   });
 

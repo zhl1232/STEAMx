@@ -7,7 +7,7 @@ interface ObservationSubmitPhotoSectionProps {
 
 export function ObservationSubmitPhotoSection({ evidenceImage, onEvidenceChange }: ObservationSubmitPhotoSectionProps) {
   return (
-    <section className="rounded-2xl border p-5">
+    <section className="surface-subtle p-5">
       <div className="flex items-start gap-3">
         <div className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
           1

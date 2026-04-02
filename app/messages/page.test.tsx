@@ -68,9 +68,9 @@ describe('MessagesPage', () => {
     it('falls back to the replies tab when the tab query parameter is invalid', async () => {
         render(<MessagesPage />)
 
-        expect(await screen.findByText('暂无回复与@提及')).toBeInTheDocument()
-        expect(screen.queryByText('暂无收到喜欢')).not.toBeInTheDocument()
-        expect(screen.queryByText('暂无新增粉丝')).not.toBeInTheDocument()
+        expect(await screen.findByText('还没有新的回复或提及')).toBeInTheDocument()
+        expect(screen.queryByText('还没有新的喜欢')).not.toBeInTheDocument()
+        expect(screen.queryByText('还没有新的粉丝提醒')).not.toBeInTheDocument()
         expect(screen.queryByText('暂无私信')).not.toBeInTheDocument()
     })
 

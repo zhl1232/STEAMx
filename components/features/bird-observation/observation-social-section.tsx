@@ -16,19 +16,23 @@ export function ObservationSocialSection({
   initialCommentsCount,
 }: ObservationSocialSectionProps) {
   const [showComments, setShowComments] = useState(false)
+  const [commentsCount, setCommentsCount] = useState(initialCommentsCount)
 
   return (
-    <section className="mt-8 rounded-2xl border p-5">
+    <section className="surface-subtle mt-8 p-5">
       <ObservationInteractions
         observationId={observationId}
         initialLikesCount={initialLikesCount}
-        initialCommentsCount={initialCommentsCount}
+        initialCommentsCount={commentsCount}
         onToggleComments={() => setShowComments((v) => !v)}
         commentsOpen={showComments}
       />
       {showComments && (
-        <div className="mt-4 border-t pt-4">
-          <ObservationComments observationId={observationId} />
+        <div className="mt-4 border-t border-border/70 pt-4">
+          <ObservationComments
+            observationId={observationId}
+            onCommentCreated={() => setCommentsCount((count) => count + 1)}
+          />
         </div>
       )}
     </section>

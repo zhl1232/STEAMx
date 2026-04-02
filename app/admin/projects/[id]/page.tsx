@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ImageUpload } from '@/components/ui/image-upload'
+import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { useToast } from '@/hooks/use-toast'
 import { CATEGORIES } from '@/lib/config/categories'
 import { CreateProjectSchema } from '@/lib/schemas'
@@ -275,8 +276,10 @@ export default function EditProjectPage() {
 
     if (loading) {
         return (
-            <div className="flex h-screen items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin" />
+            <div className="page-shell py-8">
+                <section className="surface-panel flex min-h-[280px] items-center justify-center">
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                </section>
             </div>
         )
     }
@@ -302,34 +305,51 @@ export default function EditProjectPage() {
     // Let's assume the table has `category` column as string based on `Tag` interface in database.ts having `category?: string`.
 
     return (
-        <div className="container mx-auto py-8 px-4 max-w-4xl">
-            <div className="mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Button variant="outline" size="icon" onClick={() => router.back()}>
-                        <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                    <h1 className="text-2xl font-bold">编辑项目</h1>
-                </div>
-                <Button onClick={handleSave} disabled={saving}>
-                    {saving ? (
-                        <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            保存中
-                        </>
-                    ) : (
-                        <>
-                            <Save className="mr-2 h-4 w-4" />
-                            保存更改
-                        </>
-                    )}
-                </Button>
+        <div className="page-shell pt-6 pb-24 md:py-8">
+            <div className="md:hidden">
+                <MobilePageHeader title="编辑项目" fallbackHref="/admin" />
             </div>
+
+            <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="flex items-center gap-4">
+                        <Button variant="outline" size="icon" className="hidden rounded-2xl md:inline-flex" onClick={() => router.back()}>
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                        <div>
+                            <p className="section-kicker">后台管理</p>
+                            <h1 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">编辑项目</h1>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                                调整项目基础信息、步骤、材料和 STEAM 权重，不在这里直接处理审核状态流转。
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Button variant="outline" className="rounded-full md:hidden" onClick={() => router.back()}>
+                            返回
+                        </Button>
+                        <Button onClick={handleSave} disabled={saving} className="rounded-full">
+                            {saving ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    保存中
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    保存更改
+                                </>
+                            )}
+                        </Button>
+                    </div>
+                </div>
 
             <div className="grid gap-6">
                 {/* 基本信息 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <CardTitle>基本信息</CardTitle>
+                        <CardDescription>维护项目标题、分类、难度、状态说明与封面图片。</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid gap-2">
@@ -338,6 +358,7 @@ export default function EditProjectPage() {
                                 value={formData.title}
                                 onChange={e => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="输入项目标题"
+                                className="rounded-2xl"
                             />
                         </div>
 
@@ -348,17 +369,18 @@ export default function EditProjectPage() {
                                 onChange={e => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="简要描述项目内容..."
                                 rows={3}
+                                className="rounded-2xl"
                             />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-4 md:grid-cols-2">
                             <div className="grid gap-2">
                                 <Label>主分类</Label>
                                 <Select
                                     value={formData.category}
                                     onValueChange={val => setFormData({ ...formData, category: val, sub_category_id: null })}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-11 rounded-2xl">
                                         <SelectValue placeholder="选择分类" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -376,7 +398,7 @@ export default function EditProjectPage() {
                                     onValueChange={val => setFormData({ ...formData, sub_category_id: Number(val) })}
                                     disabled={!filteredSubCategories.length}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-11 rounded-2xl">
                                         <SelectValue placeholder="选择子分类" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -388,7 +410,7 @@ export default function EditProjectPage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-4 md:grid-cols-2">
                             <div className="grid gap-2">
                                 <Label>难度等级 (1-5星)</Label>
                                 <div className="flex items-center gap-1">
@@ -416,7 +438,7 @@ export default function EditProjectPage() {
 
                         <div className="grid gap-2">
                             <Label>状态</Label>
-                            <div className="rounded-md border bg-muted/30 px-3 py-2 text-sm">
+                            <div className="rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-sm">
                                 当前状态：{formData.status}
                             </div>
                             <p className="text-xs text-muted-foreground">
@@ -436,13 +458,14 @@ export default function EditProjectPage() {
                 </Card>
 
                 {/* STEAM 权重校正 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <CardTitle>STEAM 权重</CardTitle>
                             <Button
                                 size="sm"
                                 variant={showSteamCorrection ? "default" : "outline"}
+                                className="rounded-full"
                                 onClick={() => {
                                     if (!showSteamCorrection) {
                                         const defaults = getSteamWeights(formData.sub_category_name, formData.category)
@@ -467,7 +490,9 @@ export default function EditProjectPage() {
                         <CardContent>
                             <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                                 {Object.entries(getSteamWeights(formData.sub_category_name, formData.category)).map(([dim, val]) => (
-                                    <span key={dim}>{dim}: {val}</span>
+                                    <span key={dim} className="rounded-full border border-border/70 bg-background/80 px-3 py-1">
+                                        {dim}: {val}
+                                    </span>
                                 ))}
                             </div>
                         </CardContent>
@@ -497,11 +522,11 @@ export default function EditProjectPage() {
                 </Card>
 
                 {/* 步骤 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <CardTitle>制作步骤</CardTitle>
-                            <Button size="sm" variant="outline" onClick={addStep}>
+                            <Button size="sm" variant="outline" className="rounded-full" onClick={addStep}>
                                 <Plus className="mr-2 h-4 w-4" /> 添加步骤
                             </Button>
                         </div>
@@ -509,12 +534,12 @@ export default function EditProjectPage() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                         {formData.project_steps.map((step, index) => (
-                            <div key={index} className="relative rounded-lg border p-4">
+                            <div key={index} className="relative rounded-[24px] border border-border/70 bg-background/80 p-4">
                                 <div className="absolute right-4 top-4">
                                     <Button
                                         size="icon"
                                         variant="ghost"
-                                        className="text-destructive hover:text-destructive/90"
+                                        className="rounded-full text-destructive hover:text-destructive/90"
                                         onClick={() => removeStep(index)}
                                     >
                                         <Trash2 className="h-4 w-4" />
@@ -530,6 +555,7 @@ export default function EditProjectPage() {
                                             value={step.title}
                                             onChange={e => updateStep(index, 'title', e.target.value)}
                                             placeholder="例如：准备材料"
+                                            className="rounded-2xl"
                                         />
                                     </div>
 
@@ -539,6 +565,7 @@ export default function EditProjectPage() {
                                             value={step.description}
                                             onChange={e => updateStep(index, 'description', e.target.value)}
                                             placeholder="详细描述该步骤的操作方法..."
+                                            className="rounded-2xl"
                                         />
                                     </div>
 
@@ -560,11 +587,11 @@ export default function EditProjectPage() {
                 </Card>
 
                 {/* 材料清单 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <CardTitle>材料清单</CardTitle>
-                            <Button size="sm" variant="outline" onClick={addMaterial}>
+                            <Button size="sm" variant="outline" className="rounded-full" onClick={addMaterial}>
                                 <Plus className="mr-2 h-4 w-4" /> 添加材料
                             </Button>
                         </div>
@@ -577,11 +604,12 @@ export default function EditProjectPage() {
                                         value={mat.material}
                                         onChange={e => updateMaterial(index, e.target.value)}
                                         placeholder={`材料 ${index + 1}`}
+                                        className="rounded-2xl"
                                     />
                                     <Button
                                         size="icon"
                                         variant="ghost"
-                                        className="shrink-0 text-destructive"
+                                        className="shrink-0 rounded-full text-destructive"
                                         onClick={() => removeMaterial(index)}
                                     >
                                         <Trash2 className="h-4 w-4" />
@@ -595,6 +623,7 @@ export default function EditProjectPage() {
                     </CardContent>
                 </Card>
             </div>
+            </section>
         </div>
     )
 }

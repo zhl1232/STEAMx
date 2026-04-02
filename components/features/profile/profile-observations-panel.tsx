@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
-import { Button } from "@/components/ui/button"
-import type { ObservationEvent } from "@/lib/mappers/types"
+import { Button } from "@/components/ui/button";
+import type { ObservationEvent } from "@/lib/mappers/types";
 
 interface ProfileObservationsPanelProps {
-  observations: ObservationEvent[]
-  observationsTotal: number
-  uniqueSpeciesCount: number
-  isLoading: boolean
-  isLoaded: boolean
+  observations: ObservationEvent[];
+  observationsTotal: number;
+  uniqueSpeciesCount: number;
+  isLoading: boolean;
+  isLoaded: boolean;
 }
 
 export function ProfileObservationsPanel({
@@ -23,73 +23,82 @@ export function ProfileObservationsPanel({
 }: ProfileObservationsPanelProps) {
   if (isLoading || !isLoaded) {
     return (
-      <div className="col-span-full text-center py-16 text-muted-foreground">加载中...</div>
-    )
+      <div className="surface-panel col-span-full px-5 py-12 text-center text-sm text-muted-foreground">
+        加载观察记录中...
+      </div>
+    );
+  }
+
+  if (observations.length === 0) {
+    return (
+      <div className="surface-panel col-span-full px-5 py-12 text-center">
+        <h3 className="text-base font-semibold text-foreground">还没有观察记录</h3>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          去自然观察频道提交第一条记录，把你的发现整理进个人主页。
+        </p>
+        <Button asChild className="mt-6">
+          <Link href="/bird-observation/submit">提交第一条观察</Link>
+        </Button>
+      </div>
+    );
   }
 
   return (
     <>
-      {observations.length > 0 && (
-        <div className="col-span-full mb-2 grid grid-cols-2 gap-4">
-          <div className="rounded-2xl border bg-emerald-50/60 p-5 dark:bg-emerald-950/10">
-            <div className="text-3xl font-bold text-emerald-700 dark:text-emerald-300">{observationsTotal}</div>
-            <div className="mt-1 text-sm text-muted-foreground">观察记录总数</div>
-          </div>
-          <div className="rounded-2xl border bg-sky-50/60 p-5 dark:bg-sky-950/10">
-            <div className="text-3xl font-bold text-sky-700 dark:text-sky-300">{uniqueSpeciesCount}</div>
-            <div className="mt-1 text-sm text-muted-foreground">已观察物种数</div>
-          </div>
+      <div className="col-span-full grid grid-cols-2 gap-4">
+        <div className="surface-subtle p-5">
+          <div className="text-3xl font-semibold text-foreground">{observationsTotal}</div>
+          <div className="mt-1 text-sm text-muted-foreground">观察记录总数</div>
         </div>
-      )}
-
-      {observations.length === 0 && (
-        <div className="col-span-full text-center py-16 text-muted-foreground">
-          <p className="mb-4">你还没有提交任何观察记录</p>
-          <Link href="/bird-observation/submit">
-            <Button>提交第一条观察</Button>
-          </Link>
+        <div className="surface-subtle p-5">
+          <div className="text-3xl font-semibold text-foreground">{uniqueSpeciesCount}</div>
+          <div className="mt-1 text-sm text-muted-foreground">已观察物种数</div>
         </div>
-      )}
+      </div>
 
-      {observations.length > 0 &&
-        observations.map((obs) => (
-          <Link
-            key={obs.id}
-            href={`/explore/observations/${obs.id}`}
-            className="block rounded-2xl border bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-          >
-            {obs.mediaUrls[0] && (
-              <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-xl bg-muted">
-                <Image
-                  src={obs.mediaUrls[0]}
-                  alt="观察照片"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-              </div>
-            )}
-            {obs.species.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {obs.species.map((sp) => (
-                  <span
-                    key={sp.speciesId}
-                    className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-300"
-                  >
-                    {sp.commonName}
-                    {sp.count ? ` ×${sp.count}` : ""}
-                  </span>
-                ))}
-              </div>
-            )}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>{new Date(obs.observedAt).toLocaleDateString("zh-CN")}</span>
-              <span>·</span>
-              <span>{obs.locationName}</span>
+      {observations.map((observation) => (
+        <Link
+          key={observation.id}
+          href={`/explore/observations/${observation.id}`}
+          className="surface-panel block overflow-hidden rounded-[24px] p-4 transition-transform hover:-translate-y-0.5"
+        >
+          {observation.mediaUrls[0] ? (
+            <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-[18px] bg-muted">
+              <Image
+                src={observation.mediaUrls[0]}
+                alt="观察照片"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              />
             </div>
-            {obs.notes && <p className="mt-2 line-clamp-2 text-sm text-foreground/80">{obs.notes}</p>}
-          </Link>
-        ))}
+          ) : null}
+
+          {observation.species.length > 0 ? (
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              {observation.species.map((species) => (
+                <span
+                  key={species.speciesId}
+                  className="inline-flex rounded-full border border-primary/15 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                >
+                  {species.commonName}
+                  {species.count ? ` ×${species.count}` : ""}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span>{new Date(observation.observedAt).toLocaleDateString("zh-CN")}</span>
+            <span>·</span>
+            <span className="truncate">{observation.locationName}</span>
+          </div>
+
+          {observation.notes ? (
+            <p className="mt-2 line-clamp-2 text-sm leading-6 text-foreground/85">{observation.notes}</p>
+          ) : null}
+        </Link>
+      ))}
     </>
-  )
+  );
 }

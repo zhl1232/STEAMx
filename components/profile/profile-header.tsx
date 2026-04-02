@@ -1,27 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { OptimizedImage } from "@/components/ui/optimized-image";
+import { User } from "@supabase/supabase-js";
+import { Bell, Coins, Settings, Zap } from "lucide-react";
+
+import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
+import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
+import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
+import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
-import { Settings, Zap, Coins, ChevronRight } from "lucide-react";
-import { LevelProgress } from "@/components/features/gamification/level-progress";
-import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
-import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
-import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
+import { RoleBadge } from "@/components/ui/role-badge";
 import { useGamification, BADGES } from "@/context/gamification-context";
+import { useNotifications } from "@/context/notification-context";
 import { getBadgesForDisplay } from "@/lib/gamification/badges";
 import { Profile } from "@/lib/mappers/types";
-import { User } from "@supabase/supabase-js";
-import { BadgeIcon } from "@/components/features/gamification/badge-icon";
-import { RoleBadge } from "@/components/ui/role-badge";
 
 interface ProfileHeaderProps {
   user: User;
   profile: Profile | null;
   myProjectsCount: number;
-  likedProjectsCount: number;
-  collectedProjectsCount: number;
   totalLikesReceived: number;
   followerCount: number;
   followingCount: number;
@@ -30,174 +29,159 @@ interface ProfileHeaderProps {
 export function ProfileHeader({
   user,
   profile,
+  myProjectsCount,
   totalLikesReceived,
   followerCount,
   followingCount,
 }: ProfileHeaderProps) {
   const { unlockedBadges, userBadgeDetails, coins = 0 } = useGamification();
+  const { unreadCount } = useNotifications();
 
   const userName = profile?.display_name || user.user_metadata?.full_name || "未命名用户";
   const userAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || null;
   const currentXP = profile?.xp || 0;
   const level = Math.floor(Math.sqrt(currentXP / 100)) + 1;
   const nextLevelXP = 100 * Math.pow(level, 2);
+  const featuredBadges =
+    unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5);
+
+  const stats = [
+    { label: "作品", value: myProjectsCount },
+    { label: "粉丝", value: followerCount },
+    { label: "关注", value: followingCount },
+    { label: "获赞", value: totalLikesReceived },
+  ];
 
   return (
-    <>
-      {/* 1. 顶部横幅：模糊背景 + 右侧硬币/设置 */}
-      <div className="relative h-28 w-full overflow-hidden">
-        <OptimizedImage
-          src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2000&auto=format&fit=crop"
-          alt="Cover"
-          fill
-          variant="cover"
-          className="object-cover scale-105"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-secondary/10 to-background/80 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
+    <section className="surface-panel overflow-hidden">
+      <div className="relative overflow-hidden px-4 pb-4 pt-4">
+        {/* 多层渐变背景 - 更丰富的视觉层次 */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(166,193,238,0.32),transparent_60%),radial-gradient(circle_at_80%_20%,rgba(251,194,235,0.24),transparent_40%),radial-gradient(circle_at_20%_80%,rgba(166,193,238,0.12),transparent_50%)]" />
+        {/* 顶部装饰光斑 */}
+        <div className="absolute -top-12 left-1/2 h-32 w-56 -translate-x-1/2 rounded-full bg-primary/[0.06] blur-3xl" />
 
-        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-          <Link href="/coins">
-            <div className="flex items-center h-9 gap-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 text-white shadow-sm transition-colors">
-              <Coins className="h-4 w-4" />
-              <span className="text-sm font-medium">{coins}</span>
-            </div>
-          </Link>
-          <Link href="/settings" className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-full bg-white/20 hover:bg-white/30 text-white border-0"
-              asChild
+        <div className="relative">
+          {/* 顶部工具栏 */}
+          <div className="flex items-center justify-between gap-2">
+            <Link
+              href="/coins"
+              className="inline-flex h-9 items-center gap-2 rounded-full border border-border/50 bg-background/70 px-3.5 text-sm font-medium text-foreground shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md"
             >
-              <span>
-                <Settings className="h-5 w-5" />
-              </span>
-            </Button>
-          </Link>
-        </div>
-      </div>
+              <Coins className="h-4 w-4 text-primary" />
+              <span className="tabular-nums">{coins}</span>
+            </Link>
 
-      {/* 2. 个人信息区：头像左 + 粉丝/关注/获赞 + 编辑资料（参考图布局） */}
-      <div className="relative px-4 -mt-10 mb-4">
-        <div className="flex gap-5 items-start">
-          {/* 左侧：大头像 + 在线点 */}
-          <div className="relative shrink-0">
-            <AvatarWithFrame
-              src={userAvatar}
-              alt={userName}
-              fallback={userName[0]?.toUpperCase()}
-              avatarFrameId={profile?.equipped_avatar_frame_id}
-              className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 border-4 border-background shadow-lg"
-              avatarClassName="rounded-full object-cover bg-gradient-to-tr from-primary to-secondary"
-            />
-            <div
-              className="absolute bottom-0 right-0 h-5 w-5 rounded-full bg-green-500 border-[2px] border-background"
-              title="在线"
-            />
-          </div>
-
-          {/* 右侧：粉丝/关注/获赞 横向三列（数字在上、标签在下）+ 编辑资料 */}
-          <div className="flex flex-col justify-center gap-4 min-w-0 flex-1">
-            <div className="flex items-stretch divide-x divide-border">
-              <div className="flex flex-1 flex-col items-center justify-center px-4 py-1 min-w-[4rem]">
-                <span className="text-lg font-bold text-foreground tabular-nums">
-                  {followerCount}
-                </span>
-                <span className="text-xs text-muted-foreground mt-0.5">粉丝</span>
-              </div>
-              <div className="flex flex-1 flex-col items-center justify-center px-4 py-1 min-w-[4rem]">
-                <span className="text-lg font-bold text-foreground tabular-nums">
-                  {followingCount}
-                </span>
-                <span className="text-xs text-muted-foreground mt-0.5">关注</span>
-              </div>
-              <div className="flex flex-1 flex-col items-center justify-center px-4 py-1 min-w-[4rem]">
-                <span className="text-lg font-bold text-foreground tabular-nums">
-                  {totalLikesReceived}
-                </span>
-                <span className="text-xs text-muted-foreground mt-0.5">获赞</span>
-              </div>
-            </div>
-            <EditProfileDialog>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-lg border-primary/50 text-primary hover:bg-primary/10 w-full sm:w-fit px-5 font-medium h-9"
-              >
-                编辑资料
+            <div className="flex items-center gap-1.5">
+              <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 rounded-full border border-border/50 bg-background/70 backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md">
+                <Link href="/messages">
+                  <Bell className="h-4.5 w-4.5" />
+                  {unreadCount > 0 ? (
+                    <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-semibold leading-5 text-destructive-foreground">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  ) : null}
+                  <span className="sr-only">消息通知</span>
+                </Link>
               </Button>
-            </EditProfileDialog>
-          </div>
-        </div>
-
-        {/* 3. 用户名 + 等级（仅保留核心标识） */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          {profile?.role && profile.role !== 'user' && <RoleBadge role={profile.role} size="md" />}
-          <h1 className="text-xl font-bold text-foreground truncate">{userName}</h1>
-          <LevelGuideDialog>
-            <button
-              type="button"
-              className="flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-sm shrink-0 hover:opacity-90 transition-opacity"
-            >
-              <Zap className="h-3 w-3 fill-current" />
-              Lv.{level}
-            </button>
-          </LevelGuideDialog>
-        </div>
-
-        {/* 4. 等级进度条（增粗 + 对比度提升） */}
-        <div className="mt-3">
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-xs text-muted-foreground">等级进度</span>
-            <span className="text-xs font-semibold text-foreground/80">
-              {currentXP}/{nextLevelXP}
-            </span>
-          </div>
-          <LevelProgress showLabel={false} />
-        </div>
-
-        {/* 5. 个人描述（增加上下间距） */}
-        <div className="mt-4 mb-3">
-          {profile?.bio ? (
-            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{profile.bio}</p>
-          ) : (
-            <p className="text-sm text-muted-foreground/60 italic">这个人很懒，什么都没写~</p>
-          )}
-        </div>
-
-        {/* 6. 我的成就（独立展示区） */}
-        <BadgeGalleryDialog
-          badges={BADGES}
-          unlockedBadges={unlockedBadges}
-          userBadgeDetails={userBadgeDetails}
-        >
-          <div className="flex items-center gap-2.5 cursor-pointer group mb-2">
-            <div className="flex -space-x-1">
-              {(unlockedBadges.size > 0
-                ? getBadgesForDisplay(BADGES, unlockedBadges, 5)
-                : BADGES.slice(0, 5)
-              ).map((b) => (
-                <div key={b.id} className="relative z-0 hover:z-10 transition-transform hover:scale-110">
-                  <BadgeIcon
-                    icon={b.icon}
-                    tier={b.tier}
-                    size="sm"
-                    className="w-7 h-7"
-                    showGlow={false}
-                    locked={!unlockedBadges.has(b.id)}
-                  />
-                </div>
-              ))}
+              <Button asChild variant="ghost" size="icon" className="h-9 w-9 rounded-full border border-border/50 bg-background/70 backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md">
+                <Link href="/settings">
+                  <Settings className="h-4.5 w-4.5" />
+                  <span className="sr-only">设置</span>
+                </Link>
+              </Button>
             </div>
-            <span className="flex items-center text-[11px] text-muted-foreground/70 group-hover:text-primary transition-colors">
-              查看全部
-              <ChevronRight className="h-3 w-3 ml-0.5 shrink-0" />
-            </span>
           </div>
-        </BadgeGalleryDialog>
+
+          {/* 居中式个人信息 */}
+          <div className="mt-7 flex flex-col items-center">
+            <div className="relative">
+              <AvatarWithFrame
+                src={userAvatar}
+                alt={userName}
+                fallback={userName[0]?.toUpperCase()}
+                avatarFrameId={profile?.equipped_avatar_frame_id}
+                className="h-[88px] w-[88px] shrink-0 border-[3px] border-background shadow-[0_16px_40px_-20px_rgba(15,23,42,0.3)]"
+                avatarClassName="rounded-full object-cover"
+              />
+              <LevelGuideDialog>
+                <button
+                  type="button"
+                  className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
+                >
+                  <Zap className="h-3 w-3 text-primary" />
+                  Lv.{level}
+                </button>
+              </LevelGuideDialog>
+            </div>
+
+            <div className="mt-4 flex flex-col items-center">
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {profile?.role && profile.role !== "user" ? <RoleBadge role={profile.role} size="md" /> : null}
+                <h1 className="text-xl font-semibold tracking-tight text-foreground">{userName}</h1>
+              </div>
+
+              <p className="mt-2 max-w-[260px] text-center text-[13px] leading-5 text-muted-foreground">
+                {profile?.bio || "在这里整理作品、收藏、完成记录和自然观察。"}
+              </p>
+
+              <EditProfileDialog>
+                <Button variant="outline" size="sm" className="mt-3 h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
+                  编辑资料
+                </Button>
+              </EditProfileDialog>
+            </div>
+
+            {/* 统计数据 - 更紧凑的圆角卡片 */}
+            <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/50 bg-background/60 backdrop-blur-sm">
+              <div className="grid grid-cols-4 divide-x divide-border/40">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="px-2 py-3 text-center">
+                    <div className="text-[15px] font-semibold tabular-nums text-foreground">{stat.value}</div>
+                    <div className="mt-0.5 text-[10px] text-muted-foreground/80">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+
+      <div className="px-4 pb-4">
+        <div className="surface-subtle p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm font-medium text-foreground">最近徽章与成长</p>
+            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+              <button type="button" className="text-xs font-medium text-primary transition-colors hover:text-primary/80">
+                查看全部
+              </button>
+            </BadgeGalleryDialog>
+          </div>
+
+          <div className="mt-3 flex items-center gap-2">
+            {featuredBadges.map((badge) => (
+              <BadgeIcon
+                key={badge.id}
+                icon={badge.icon}
+                tier={badge.tier}
+                size="sm"
+                className="h-8 w-8"
+                showGlow={false}
+                locked={!unlockedBadges.has(badge.id)}
+              />
+            ))}
+          </div>
+
+          <div className="mt-4 border-t border-border/60 pt-4">
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">成长进度</span>
+              <span className="font-medium text-foreground/80">
+                {currentXP}/{nextLevelXP}
+              </span>
+            </div>
+            <LevelProgress showLabel={false} />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

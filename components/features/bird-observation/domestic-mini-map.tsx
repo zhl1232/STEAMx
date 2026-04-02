@@ -132,7 +132,7 @@ export function DomesticMiniMap({
   return (
     <div
       ref={containerRef}
-      className={`${heightClassName} w-full overflow-hidden rounded-2xl border bg-muted/20`}
+      className={`${heightClassName} w-full overflow-hidden rounded-2xl border border-border/70 bg-background/80`}
     />
   )
 }

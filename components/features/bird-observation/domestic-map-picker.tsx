@@ -127,7 +127,7 @@ export function DomesticMapPicker({ latitude, longitude, onChange, onLocationNam
     <div className="space-y-2">
       <div
         ref={containerRef}
-        className="h-72 w-full overflow-hidden rounded-2xl border bg-muted/20"
+        className="h-72 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/80"
       />
       <p className="text-xs text-muted-foreground">
         点击地图或拖动标记选点，选点后会自动识别地点名称。

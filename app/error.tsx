@@ -1,38 +1,41 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { AlertTriangle } from "lucide-react"
-import { logger } from '@/lib/logger'
+import { useEffect } from "react";
+import Link from "next/link";
+import { AlertTriangle, RotateCcw } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { PageStatus } from "@/components/ui/page-status";
+import { logger } from "@/lib/logger";
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
-    logger.error(error)
-  }, [error])
+    logger.error(error);
+  }, [error]);
 
   return (
-    <div className="flex min-h-[600px] flex-col items-center justify-center space-y-4 text-center p-8">
-      <div className="rounded-full bg-destructive/10 p-6">
-        <AlertTriangle className="h-12 w-12 text-destructive" />
-      </div>
-      <h2 className="text-3xl font-bold tracking-tight">哎呀，出错了！</h2>
-      <p className="text-muted-foreground max-w-[500px] text-lg">
-        我们在加载这个页面时遇到了一些问题。
-      </p>
-      <div className="flex gap-4 mt-6">
-        <Button variant="outline" size="lg" onClick={() => window.location.href = '/'}>
-          返回首页
-        </Button>
-        <Button size="lg" onClick={() => reset()}>
-          重试
-        </Button>
-      </div>
-    </div>
-  )
+    <PageStatus
+      kicker="加载异常"
+      title="页面暂时打不开"
+      description="我们在加载当前页面时遇到了一些问题。你可以先重试，或者先回到首页继续浏览。"
+      icon={<AlertTriangle className="h-9 w-9 text-destructive" />}
+      actions={
+        <>
+          <Button asChild variant="outline" className="rounded-full px-5">
+            <Link href="/">返回首页</Link>
+          </Button>
+          <Button onClick={() => reset()} className="gap-2 rounded-full px-5">
+            <RotateCcw className="h-4 w-4" />
+            重试
+          </Button>
+        </>
+      }
+    />
+  );
 }

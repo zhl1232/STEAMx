@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Edit, Eye } from 'lucide-react'
+import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 
 // ... Keep existing interfaces if needed, or refine ...
 interface Project {
@@ -160,8 +161,10 @@ export default function AdminPage() {
 
   if (loading || isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-center">加载中...</p>
+      <div className="page-shell py-8">
+        <section className="surface-panel px-6 py-12 text-center">
+          <p className="text-center">加载中...</p>
+        </section>
       </div>
     )
   }
@@ -181,157 +184,164 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">管理员控制台</h1>
-        <p className="text-muted-foreground">管理和审核平台内容</p>
+    <div className="page-shell pt-6 pb-24 md:py-8">
+      <div className="md:hidden">
+        <MobilePageHeader title="管理员控制台" fallbackHref="/profile" />
       </div>
 
-      <Tabs defaultValue="pending" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="pending">待审核项目 ({pendingProjects.length})</TabsTrigger>
-          <TabsTrigger value="pending-completions">待审核作品 ({pendingCompletions.length})</TabsTrigger>
-          <TabsTrigger value="reports">举报管理</TabsTrigger>
-          <TabsTrigger value="projects">所有项目</TabsTrigger>
-          {isAdmin && <TabsTrigger value="applications">审核员申请</TabsTrigger>}
-          <TabsTrigger value="challenges">挑战赛</TabsTrigger>
-          <TabsTrigger value="tags">标签管理</TabsTrigger>
-          <TabsTrigger value="users">用户管理</TabsTrigger>
-        </TabsList>
+      <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+        <div className="mb-8">
+          <p className="section-kicker">后台管理</p>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight">管理员控制台</h1>
+          <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">管理和审核平台内容</p>
+        </div>
 
-        <TabsContent value="pending" className="space-y-4">
-          {pendingProjects.length === 0 ? (
-            <Card>
-              <CardContent className="py-8 text-center">
-                <p className="text-muted-foreground">暂无待审核项目</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid gap-4">
-              {pendingProjects.map((project) => (
-                <ProjectReviewCard
-                  key={project.id}
-                  project={project}
-                  onReview={loadData}
-                />
-              ))}
-            </div>
-          )}
-        </TabsContent>
+        <Tabs defaultValue="pending" className="space-y-6">
+          <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[24px] bg-transparent p-1">
+            <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
+            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核作品 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
+            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
+            {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
+            <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战赛</TabsTrigger>
+            <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">标签管理</TabsTrigger>
+            <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="pending-completions" className="space-y-4">
-          {pendingCompletions.length === 0 ? (
-            <Card>
-              <CardContent className="py-8 text-center">
-                <p className="text-muted-foreground">暂无待审核作品</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid gap-4">
-              {pendingCompletions.map((completion) => (
-                <CompletionReviewCard
-                  key={completion.id}
-                  completion={completion}
-                  onReview={loadData}
-                />
-              ))}
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="reports" className="space-y-4">
-          <ReportsList />
-        </TabsContent>
-
-        <TabsContent value="projects" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>项目管理</CardTitle>
-              <CardDescription>查看和编辑所有项目</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>标题</TableHead>
-                    <TableHead>作者</TableHead>
-                    <TableHead>分类</TableHead>
-                    <TableHead>状态</TableHead>
-                    <TableHead>创建时间</TableHead>
-                    <TableHead className="text-right">操作</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {allProjects.map((project) => (
-                    <TableRow key={project.id}>
-                      <TableCell className="font-medium">{project.title}</TableCell>
-                      <TableCell>{project.profiles?.display_name || '未知用户'}</TableCell>
-                      <TableCell>{project.category}</TableCell>
-                      <TableCell>{getStatusBadge(project.status)}</TableCell>
-                      <TableCell>{new Date(project.created_at).toLocaleDateString('zh-CN')}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Link href={`/project/${project.id}`} target="_blank">
-                            <Button variant="ghost" size="icon" title="查看">
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </Link>
-                          <Link href={`/admin/projects/${project.id}`}>
-                            <Button variant="ghost" size="icon" title="编辑">
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {allProjects.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                        暂无项目
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {isAdmin && (
-          <TabsContent value="applications" className="space-y-4">
-            <ModeratorApplicationsList />
+          <TabsContent value="pending" className="space-y-4">
+            {pendingProjects.length === 0 ? (
+              <Card className="surface-subtle shadow-none">
+                <CardContent className="py-8 text-center">
+                  <p className="text-muted-foreground">暂无待审核项目</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {pendingProjects.map((project) => (
+                  <ProjectReviewCard
+                    key={project.id}
+                    project={project}
+                    onReview={loadData}
+                  />
+                ))}
+              </div>
+            )}
           </TabsContent>
-        )}
 
-        <TabsContent value="challenges" className="space-y-4">
-          <ChallengeManagement />
-        </TabsContent>
+          <TabsContent value="pending-completions" className="space-y-4">
+            {pendingCompletions.length === 0 ? (
+              <Card className="surface-subtle shadow-none">
+                <CardContent className="py-8 text-center">
+                  <p className="text-muted-foreground">暂无待审核作品</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {pendingCompletions.map((completion) => (
+                  <CompletionReviewCard
+                    key={completion.id}
+                    completion={completion}
+                    onReview={loadData}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
 
-        <TabsContent value="tags" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>标签管理</CardTitle>
-              <CardDescription>创建和管理项目标签</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">标签管理功能开发中...</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
+          <TabsContent value="reports" className="space-y-4">
+            <ReportsList />
+          </TabsContent>
 
-        <TabsContent value="users" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>用户管理</CardTitle>
-              <CardDescription>管理用户角色和权限</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">用户管理功能开发中...</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="projects" className="space-y-4">
+            <Card className="surface-subtle shadow-none">
+              <CardHeader>
+                <CardTitle>项目管理</CardTitle>
+                <CardDescription>查看和编辑所有项目</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>标题</TableHead>
+                      <TableHead>作者</TableHead>
+                      <TableHead>分类</TableHead>
+                      <TableHead>状态</TableHead>
+                      <TableHead>创建时间</TableHead>
+                      <TableHead className="text-right">操作</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {allProjects.map((project) => (
+                      <TableRow key={project.id}>
+                        <TableCell className="font-medium">{project.title}</TableCell>
+                        <TableCell>{project.profiles?.display_name || '未知用户'}</TableCell>
+                        <TableCell>{project.category}</TableCell>
+                        <TableCell>{getStatusBadge(project.status)}</TableCell>
+                        <TableCell>{new Date(project.created_at).toLocaleDateString('zh-CN')}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Link href={`/project/${project.id}`} target="_blank">
+                              <Button variant="ghost" size="icon" title="查看">
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </Link>
+                            <Link href={`/admin/projects/${project.id}`}>
+                              <Button variant="ghost" size="icon" title="编辑">
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                            </Link>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {allProjects.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
+                          暂无项目
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {isAdmin && (
+            <TabsContent value="applications" className="space-y-4">
+              <ModeratorApplicationsList />
+            </TabsContent>
+          )}
+
+          <TabsContent value="challenges" className="space-y-4">
+            <ChallengeManagement />
+          </TabsContent>
+
+          <TabsContent value="tags" className="space-y-4">
+            <Card className="surface-subtle shadow-none">
+              <CardHeader>
+                <CardTitle>标签管理</CardTitle>
+                <CardDescription>创建和管理项目标签</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">标签管理功能开发中...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-4">
+            <Card className="surface-subtle shadow-none">
+              <CardHeader>
+                <CardTitle>用户管理</CardTitle>
+                <CardDescription>管理用户角色和权限</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">用户管理功能开发中...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </section>
     </div>
   )
 }

@@ -41,6 +41,32 @@ interface GamificationContextType {
 
 const GamificationContext = createContext<GamificationContextType | undefined>(undefined);
 
+function isMissingBadgeDefinitionError(error: unknown): boolean {
+    if (!error || typeof error !== 'object') {
+        return false
+    }
+
+    const candidate = error as {
+        code?: string
+        message?: string
+        details?: string
+        hint?: string
+        cause?: unknown
+        error?: unknown
+    }
+
+    const combined = `${candidate.message ?? ''} ${candidate.details ?? ''} ${candidate.hint ?? ''}`.toLowerCase()
+    if (candidate.code === '23503' && combined.includes('user_badges_badge_id_fkey')) {
+        return true
+    }
+
+    return (
+        combined.includes('user_badges_badge_id_fkey') ||
+        isMissingBadgeDefinitionError(candidate.cause) ||
+        isMissingBadgeDefinitionError(candidate.error)
+    )
+}
+
 export function GamificationProvider({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
@@ -176,6 +202,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     const unlockedBadgesRef = useRef(unlockedBadges);
     // Track badges currently being processed to prevent duplicate requests/loops
     const processingBadgesRef = useRef(new Set<string>());
+    // Track badge definitions that are missing from DB to avoid spamming retries in one session
+    const unavailableBadgesRef = useRef(new Set<string>());
 
     useEffect(() => {
         unlockedBadgesRef.current = unlockedBadges;
@@ -187,9 +215,10 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         // Use the ref value to avoid recreating this function when badges change
         const currentUnlocked = unlockedBadgesRef.current;
         const processing = processingBadgesRef.current;
+        const unavailable = unavailableBadgesRef.current;
 
         BADGES.forEach((badge) => {
-            if (!currentUnlocked.has(badge.id) && !processing.has(badge.id)) {
+            if (!currentUnlocked.has(badge.id) && !processing.has(badge.id) && !unavailable.has(badge.id)) {
                 try {
                     if (badge.condition(stats)) {
                         // Mark as processing immediately
@@ -203,8 +232,12 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
                         // Trigger Mutation
                         unlockBadgeMutation.mutate(badge.id, {
-                            onSuccess: () => {
+                            onSuccess: (result) => {
                                 processing.delete(badge.id); // Clear processing flag
+                                if (!result.inserted) {
+                                    return;
+                                }
+
                                 toast({
                                     description: (
                                         <AchievementToast
@@ -227,8 +260,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                             },
                             onError: (error: unknown) => {
                                 processing.delete(badge.id); // Clear processing flag
-                                // upsert + ignoreDuplicates 不会报 409，此处仅处理真正的网络错误
-                                logger.error(error, { context: `Failed to unlock badge ${badge.id}` });
+                                if (isMissingBadgeDefinitionError(error)) {
+                                    unavailable.add(badge.id)
+                                    logger.warn(`Badge definition missing in database: ${badge.id}`, {
+                                        context: `Skipping unlock for badge ${badge.id}`,
+                                    })
+                                } else {
+                                    logger.error(error, { context: `Failed to unlock badge ${badge.id}` });
+                                }
                                 currentUnlocked.delete(badge.id);
                                 unlockedBadgesRef.current = new Set(currentUnlocked);
                             }

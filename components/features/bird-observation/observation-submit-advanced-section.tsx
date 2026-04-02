@@ -29,7 +29,7 @@ export function ObservationSubmitAdvancedSection({
   onIsPublicChange,
 }: ObservationSubmitAdvancedSectionProps) {
   return (
-    <section className="rounded-2xl border p-5">
+    <section className="surface-subtle p-5">
       <button type="button" onClick={onToggleAdvanced} className="flex w-full items-center justify-between gap-3 text-left">
         <div>
           <h2 className="text-lg font-semibold">补充更多细节</h2>
@@ -64,7 +64,7 @@ export function ObservationSubmitAdvancedSection({
                 id="locationPrecision"
                 value={locationPrecision}
                 onChange={(e) => onLocationPrecisionChange(e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="exact">精确</option>
                 <option value="approximate">近似</option>

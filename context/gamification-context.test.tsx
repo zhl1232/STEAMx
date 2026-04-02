@@ -7,6 +7,10 @@ const mockUpdateXpMutation = { mutate: vi.fn() }
 const mockUnlockBadgeMutation = { mutate: vi.fn() }
 const mockRefetchStats = vi.fn()
 const mockToast = vi.fn()
+const { mockLoggerError, mockLoggerWarn } = vi.hoisted(() => ({
+    mockLoggerError: vi.fn(),
+    mockLoggerWarn: vi.fn(),
+}))
 
 vi.mock('@/hooks/gamification/use-gamification-data', () => ({
     useGamificationData: vi.fn(() => ({
@@ -23,6 +27,13 @@ vi.mock('@/hooks/gamification/use-gamification-data', () => ({
 
 vi.mock('@/hooks/use-toast', () => ({
     useToast: () => ({ toast: mockToast }),
+}))
+
+vi.mock('@/lib/logger', () => ({
+    logger: {
+        error: mockLoggerError,
+        warn: mockLoggerWarn,
+    },
 }))
 
 vi.mock('@/lib/supabase/client', () => ({
@@ -52,13 +63,46 @@ vi.mock('canvas-confetti', () => ({
 }))
 
 function TestComponent() {
-    const { xp, level, addXp } = useGamification()
+    const { xp, level, addXp, checkBadges } = useGamification()
     return (
         <div>
             <div data-testid="xp">XP: {xp}</div>
             <div data-testid="level">Level: {level}</div>
             <button type="button" onClick={() => addXp(50)}>
                 Add XP
+            </button>
+            <button
+                type="button"
+                onClick={() =>
+                    checkBadges({
+                        projectsPublished: 0,
+                        projectsLiked: 0,
+                        projectsCompleted: 0,
+                        commentsCount: 0,
+                        scienceCompleted: 0,
+                        techCompleted: 0,
+                        engineeringCompleted: 0,
+                        artCompleted: 0,
+                        mathCompleted: 0,
+                        likesGiven: 0,
+                        likesReceived: 0,
+                        collectionsCount: 0,
+                        challengesJoined: 0,
+                        level: 1,
+                        loginDays: 0,
+                        consecutiveDays: 0,
+                        discussionsCreated: 0,
+                        repliesCount: 0,
+                        minesweeperWins: 0,
+                        minesweeperExpertWins: 0,
+                        minesweeperBestTime: 999,
+                        observationsSubmitted: 0,
+                        speciesObserved: 0,
+                        observationStreak: 0,
+                    })
+                }
+            >
+                Check Badges
             </button>
         </div>
     )
@@ -103,5 +147,71 @@ describe('GamificationContext', () => {
         })
 
         expect(mockUpdateXpMutation.mutate).toHaveBeenCalledWith(50)
+    })
+
+    it('does not show a badge toast when the badge already exists in persistence', async () => {
+        mockUnlockBadgeMutation.mutate.mockImplementation((_badgeId, options) => {
+            options?.onSuccess?.({ inserted: false, unlockedAt: new Date().toISOString() }, 'first_step', undefined)
+        })
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <GamificationProvider>
+                    <TestComponent />
+                </GamificationProvider>
+            </QueryClientProvider>,
+        )
+
+        await act(async () => {
+            screen.getByText('Check Badges').click()
+        })
+
+        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledWith(
+            'first_step',
+            expect.objectContaining({
+                onSuccess: expect.any(Function),
+                onError: expect.any(Function),
+            }),
+        )
+        expect(mockToast).not.toHaveBeenCalled()
+    })
+
+    it('stops retrying a badge in the same session when the badge definition is missing in the database', async () => {
+        mockUnlockBadgeMutation.mutate.mockImplementation((_badgeId, options) => {
+            options?.onError?.(
+                {
+                    code: '23503',
+                    message: 'insert or update on table "user_badges" violates foreign key constraint "user_badges_badge_id_fkey"',
+                    details: 'Key is not present in table "badges".',
+                },
+                'first_step',
+                undefined,
+            )
+        })
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <GamificationProvider>
+                    <TestComponent />
+                </GamificationProvider>
+            </QueryClientProvider>,
+        )
+
+        await act(async () => {
+            screen.getByText('Check Badges').click()
+        })
+
+        await act(async () => {
+            screen.getByText('Check Badges').click()
+        })
+
+        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledTimes(1)
+        expect(mockLoggerWarn).toHaveBeenCalledWith(
+            'Badge definition missing in database: first_step',
+            expect.objectContaining({
+                context: 'Skipping unlock for badge first_step',
+            }),
+        )
+        expect(mockLoggerError).not.toHaveBeenCalled()
     })
 })

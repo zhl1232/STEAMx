@@ -59,11 +59,12 @@ describe('ConversationPage', () => {
     it('shows a missing-user state instead of the empty-thread message', () => {
         render(<ConversationPage />)
 
-        expect(screen.getByText('用户不存在')).toBeInTheDocument()
-        expect(screen.getByText('该用户不存在或暂时无法发起会话')).toBeInTheDocument()
-        expect(screen.getByPlaceholderText('无法向不存在的用户发送消息')).toBeDisabled()
+        expect(screen.getAllByText('用户不存在').length).toBeGreaterThan(0)
+        expect(screen.getByText('该用户暂时不可用')).toBeInTheDocument()
+        expect(screen.getByText('该用户不存在，或当前无法向对方发起会话。')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('当前无法向该用户发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
-        expect(screen.queryByText('暂无消息，发一条打个招呼吧～')).not.toBeInTheDocument()
+        expect(screen.queryByText('还没有消息')).not.toBeInTheDocument()
     })
 
     it('shows an invalid-thread state for malformed user ids', () => {
@@ -71,8 +72,9 @@ describe('ConversationPage', () => {
 
         render(<ConversationPage />)
 
-        expect(screen.getByText('无效会话')).toBeInTheDocument()
-        expect(screen.getByText('私信地址无效，请返回消息列表重新进入会话')).toBeInTheDocument()
+        expect(screen.getAllByText('无效会话').length).toBeGreaterThan(0)
+        expect(screen.getByText('私信地址无效')).toBeInTheDocument()
+        expect(screen.getByText('请返回消息列表重新进入会话。')).toBeInTheDocument()
         expect(screen.getByPlaceholderText('无效会话地址，无法发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
     })
@@ -82,7 +84,8 @@ describe('ConversationPage', () => {
 
         render(<ConversationPage />)
 
-        expect(screen.getByText('加载失败')).toBeInTheDocument()
+        expect(screen.getAllByText('加载失败').length).toBeGreaterThan(0)
+        expect(screen.getByText('会话加载失败')).toBeInTheDocument()
         expect(screen.getByText('会话加载失败，请稍后重试')).toBeInTheDocument()
         expect(screen.getByPlaceholderText('会话加载失败，暂时无法发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()

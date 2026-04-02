@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { MessageSquareHeart, FileText, ShieldAlert, ChevronRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { ChevronRight, FileText, MessageSquareHeart, ShieldAlert } from "lucide-react";
+
+import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 
 const FAQ_ITEMS = [
   {
@@ -13,11 +12,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "如何联系客服？",
-    a: "您可通过设置中的「问题反馈」发送邮件，或在本平台内使用反馈入口与我们联系。",
+    a: "您可通过设置中的「问题反馈」发送邮件，或在平台内使用反馈入口与我们联系。",
   },
   {
     q: "项目审核需要多久？",
-    a: "一般在 1～3 个工作日内完成审核，审核结果会通过站内通知或邮件告知。",
+    a: "一般在 1 到 3 个工作日内完成审核，审核结果会通过站内通知或邮件告知。",
   },
 ];
 
@@ -26,98 +25,119 @@ export default function AboutSettingsPage() {
 
   const linkItems = [
     ...(supportEmail
-      ? [{
-          icon: MessageSquareHeart,
-          label: "问题反馈",
-          href: `mailto:${supportEmail}?subject=问题反馈`,
-          external: true,
-        }]
+      ? [
+          {
+            icon: MessageSquareHeart,
+            label: "问题反馈",
+            href: `mailto:${supportEmail}?subject=问题反馈`,
+            external: true,
+            description: "通过邮件反馈问题或建议。",
+          },
+        ]
       : []),
     {
       icon: FileText,
       label: "用户协议",
       href: "/legal/terms",
       external: false,
+      description: "查看平台的使用规则与服务条款。",
     },
     {
       icon: ShieldAlert,
       label: "隐私政策",
       href: "/legal/privacy",
       external: false,
+      description: "了解个人信息的收集、使用与保护方式。",
     },
   ];
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col bg-background relative max-w-2xl mx-auto w-full border-x">
-      <MobilePageHeader title="关于与帮助" fallbackHref="/settings" />
+    <SettingsSubpageShell
+      title="关于与帮助"
+      description="集中放置帮助入口、反馈方式和平台规则，让支持信息与设置中心保持连续。"
+      aside={
+        <>
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">平台信息</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">STEAM 探索</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              当前版本为 v1.0.0。这里负责承接帮助、政策和反馈，不再单独使用旧式内容页容器。
+            </p>
+          </section>
 
-      <ScrollArea className="flex-1">
-        <div className="flex flex-col gap-6 p-4">
-          <div className="overflow-hidden rounded-2xl border bg-card">
+          <section className="surface-panel p-5 sm:p-6">
+            <p className="section-kicker">支持建议</p>
+            <h2 className="mt-3 text-xl font-semibold tracking-tight">优先查看常见问题</h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              密码、审核与联系平台等高频问题已经整理在右侧，可先快速确认。
+            </p>
+          </section>
+        </>
+      }
+    >
+      <div className="space-y-6">
+        <section className="space-y-3">
+          <div className="px-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">帮助入口</h2>
+          </div>
+          <div className="space-y-3">
             {!supportEmail ? (
-              <>
-                <div className="flex w-full items-center justify-between bg-card p-4 text-muted-foreground">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <MessageSquareHeart className="h-4 w-4" />
-                    </div>
-                    <span className="font-medium text-sm">问题反馈</span>
+              <div className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <MessageSquareHeart className="h-5 w-5" />
                   </div>
-                  <span className="text-xs">暂未配置反馈邮箱</span>
+                  <div>
+                    <div className="font-semibold text-foreground">问题反馈</div>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">暂未配置反馈邮箱。</p>
+                  </div>
                 </div>
-                <Separator className="ml-14" />
-              </>
+                <span className="rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs">未启用</span>
+              </div>
             ) : null}
 
-            {linkItems.map((item, index) => (
-              <div key={item.label}>
-                <Link
-                  href={item.href}
-                  target={item.external ? "_blank" : undefined}
-                  rel={item.external ? "noopener noreferrer" : undefined}
-                  className="flex w-full items-center justify-between bg-card p-4 transition-colors hover:bg-accent/50 active:bg-accent"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <item.icon className="h-4 w-4" />
-                    </div>
-                    <span className="font-medium text-sm">{item.label}</span>
+            {linkItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+                className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 transition-transform hover:-translate-y-0.5"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <item.icon className="h-5 w-5" />
                   </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                </Link>
-                {index < linkItems.length - 1 && <Separator className="ml-14" />}
-              </div>
+                  <div>
+                    <div className="text-sm font-semibold">{item.label}</div>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+              </Link>
             ))}
           </div>
+        </section>
 
+        <section className="space-y-3">
+          <div className="px-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">常见问题</h2>
+          </div>
           <div className="space-y-3">
-            <h2 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              常见问题
-            </h2>
-            <div className="overflow-hidden rounded-2xl border bg-card">
-              {FAQ_ITEMS.map((faq, idx) => (
-                <details
-                  key={faq.q}
-                  className={`group border-b last:border-b-0 ${idx === 0 ? "rounded-t-2xl" : ""} ${idx === FAQ_ITEMS.length - 1 ? "rounded-b-2xl" : ""}`}
-                >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4 font-medium text-sm hover:bg-accent/50 [&::-webkit-details-marker]:hidden">
-                    <span>{faq.q}</span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
-                  </summary>
-                  <div className="border-t px-4 pb-4 pt-1 text-sm text-muted-foreground">
-                    {faq.a}
-                  </div>
-                </details>
-              ))}
-            </div>
+            {FAQ_ITEMS.map((faq) => (
+              <details key={faq.q} className="surface-subtle group px-4 py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+                  <span>{faq.q}</span>
+                  <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
+                </summary>
+                <div className="mt-3 border-t border-border/70 pt-3 text-sm leading-7 text-muted-foreground">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
           </div>
-
-          <div className="text-center w-full mt-4 flex flex-col items-center justify-center opacity-70">
-            <h3 className="font-semibold tracking-wide">Steam Explore</h3>
-            <p className="text-sm font-medium text-muted-foreground mt-1">v1.0.0</p>
-          </div>
-        </div>
-      </ScrollArea>
-    </div>
+        </section>
+      </div>
+    </SettingsSubpageShell>
   );
 }

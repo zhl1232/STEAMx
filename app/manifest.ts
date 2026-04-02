@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Steam Explore & Share',
-        short_name: 'Steam E&S',
+        name: 'STEAM 探索',
+        short_name: 'STEAM 探索',
         description: '探索社区中最酷的 STEAM 创意与互动体验',
         start_url: '/',
         display: 'standalone',

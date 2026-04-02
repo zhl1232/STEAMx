@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/context/auth-context";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Medal, Crown, Star, Award, Hammer, Calendar } from "lucide-react";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
@@ -206,38 +205,37 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
     return (
         <div className={className}>
             <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as LeaderboardType)} className="w-full">
-                <TabsList className={compact ? "grid w-full grid-cols-3 mb-4 h-10" : "grid w-full grid-cols-3 mb-8"}>
-                    <TabsTrigger value="xp" className="flex items-center justify-center text-xs sm:text-sm">
+                <TabsList className={cn("segmented-control grid h-auto w-full grid-cols-3 rounded-full bg-transparent p-1", compact ? "mb-4" : "mb-8")}>
+                    <TabsTrigger value="xp" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm flex items-center justify-center text-xs sm:text-sm">
                         <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-yellow-500" />
                         积分榜
                     </TabsTrigger>
-                    <TabsTrigger value="badges" className="flex items-center justify-center text-xs sm:text-sm">
+                    <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm flex items-center justify-center text-xs sm:text-sm">
                         <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-purple-500" />
                         徽章榜
                     </TabsTrigger>
-                    <TabsTrigger value="projects" className="flex items-center justify-center text-xs sm:text-sm">
+                    <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm flex items-center justify-center text-xs sm:text-sm">
                         <Hammer className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-blue-500" />
                         实干榜
                     </TabsTrigger>
                 </TabsList>
 
-                <Card className="rounded-xl border-border/60 shadow-sm overflow-hidden">
-                    <CardHeader className={compact ? "pb-2" : undefined}>
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <CardTitle className="flex items-center text-base sm:text-lg font-semibold">
+                <section className="surface-subtle overflow-hidden p-5 sm:p-6">
+                    <div className={cn("flex flex-wrap items-center justify-between gap-3", compact ? "mb-4" : "mb-6")}>
+                        <h3 className="flex items-center text-base font-semibold sm:text-lg">
                                 {config.icon}
                                 {config.label}
-                            </CardTitle>
-                            {currentTab === "xp" && (
-                                <div className="inline-flex rounded-lg bg-muted/60 p-0.5" role="group" aria-label="积分时间范围">
+                        </h3>
+                        {currentTab === "xp" && (
+                            <div className="segmented-control" role="group" aria-label="积分时间范围">
                                     {(["weekly", "monthly", "alltime"] as const).map((range) => (
                                         <button
                                             key={range}
                                             type="button"
                                             onClick={() => setXpTimeRange(range)}
-                                            className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors sm:px-3 sm:text-sm ${
+                                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors sm:px-3 sm:text-sm ${
                                                 xpTimeRange === range
-                                                    ? "bg-background text-foreground shadow-sm"
+                                                    ? "bg-foreground text-background shadow-sm"
                                                     : "text-muted-foreground hover:text-foreground"
                                             }`}
                                         >
@@ -245,33 +243,30 @@ export function LeaderboardContent({ compact, listMaxHeight = 480, className }: 
                                             {xpTimeRangeLabel[range]}
                                         </button>
                                     ))}
-                                </div>
-                            )}
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            {isLoading ? (
-                                <>
-                                    {[1, 2, 3, 4, 5].map((i) => (
-                                        <LeaderboardItemSkeleton key={i} />
-                                    ))}
-                                </>
-                            ) : leaderboardData.length === 0 ? (
-                                <div className="text-center py-8 text-muted-foreground text-sm">
-                                    暂无排行榜数据
-                                </div>
-                            ) : (
-                                <LeaderboardVirtualList
-                                    users={leaderboardData}
-                                    getRankIcon={getRankIcon}
-                                    valueLabel={config.valueLabel}
-                                    maxHeight={listMaxHeight}
-                                />
-                            )}
-                        </div>
-                    </CardContent>
-                </Card>
+                            </div>
+                        )}
+                    </div>
+                    <div className="space-y-4">
+                        {isLoading ? (
+                            <>
+                                {[1, 2, 3, 4, 5].map((i) => (
+                                    <LeaderboardItemSkeleton key={i} />
+                                ))}
+                            </>
+                        ) : leaderboardData.length === 0 ? (
+                            <div className="surface-subtle px-6 py-8 text-center text-sm text-muted-foreground">
+                                暂无排行榜数据
+                            </div>
+                        ) : (
+                            <LeaderboardVirtualList
+                                users={leaderboardData}
+                                getRankIcon={getRankIcon}
+                                valueLabel={config.valueLabel}
+                                maxHeight={listMaxHeight}
+                            />
+                        )}
+                    </div>
+                </section>
             </Tabs>
         </div>
     );

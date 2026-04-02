@@ -11,7 +11,7 @@ export function StageGuide({ stages }: StageGuideProps) {
   if (!stages || stages.length === 0) return null
 
   return (
-    <div className="bg-card border rounded-xl p-6">
+    <div className="surface-subtle p-6">
       <h3 className="font-semibold mb-4">阶段引导</h3>
       <div className="relative">
         {stages.map((stage, i) => (

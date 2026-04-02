@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 const PRIVACY_VERSION = "v2026.03";
 const EFFECTIVE_DATE = "2026 年 3 月 20 日";
@@ -60,46 +58,57 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="relative mx-auto flex h-[calc(100vh-4rem)] w-full max-w-2xl flex-col border-x bg-background">
-      <div className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <Button asChild variant="ghost" size="icon" className="h-9 w-9">
-          <Link href="/" aria-label="返回首页">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-        </Button>
-        <h1 className="flex-1 text-center text-lg font-semibold">隐私政策</h1>
-        <div className="w-9 shrink-0" aria-hidden="true" />
-      </div>
+    <div className="page-shell pt-6 pb-24 md:pb-10">
+      <MobilePageHeader
+        title="隐私政策"
+        fallbackHref="/settings/about"
+        className="-mx-4 -mt-6 mb-4 md:hidden"
+      />
 
-      <ScrollArea className="flex-1">
-        <div className="prose prose-sm max-w-none p-4 pb-20 dark:prose-invert">
-          <div className="rounded-2xl border bg-card/60 p-4 not-prose">
-            <p className="text-sm font-medium text-foreground">STEAM 探索隐私政策</p>
-            <div className="mt-2 space-y-1 text-sm text-muted-foreground">
-              <p>版本：{PRIVACY_VERSION}</p>
-              <p>生效日期：{EFFECTIVE_DATE}</p>
+      <div className="mx-auto max-w-3xl">
+        <section className="surface-panel overflow-hidden">
+          <div className="hidden border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20 px-6 py-6 md:block">
+            <p className="section-kicker">规则说明</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">隐私政策</h1>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+              <span>版本：{PRIVACY_VERSION}</span>
+              <span>生效日期：{EFFECTIVE_DATE}</span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              本政策说明 STEAM 探索如何收集、使用、存储、共享和保护您的个人信息。与账号、发布、互动、消息、通知和交易相关的处理规则，应与
-              <Link href="/legal/terms" className="mx-1 text-primary hover:underline">
-                《用户协议》
-              </Link>
-              一并阅读。
-            </p>
           </div>
 
-          {sections.map((section) => (
-            <section key={section.title} className="mt-6">
-              <h2 className="mt-0 text-base font-semibold">{section.title}</h2>
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="mt-3 text-muted-foreground">
-                  {paragraph}
-                </p>
+          <div className="px-4 py-5 sm:px-6 sm:py-6">
+            <div className="surface-subtle p-4">
+              <p className="text-sm font-medium text-foreground">STEAM 探索隐私政策</p>
+              <div className="mt-2 space-y-1 text-sm text-muted-foreground md:hidden">
+                <p>版本：{PRIVACY_VERSION}</p>
+                <p>生效日期：{EFFECTIVE_DATE}</p>
+              </div>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                本政策说明 STEAM 探索如何收集、使用、存储、共享和保护您的个人信息。与账号、发布、互动、消息、通知和交易相关的处理规则，应与
+                <Link href="/legal/terms" className="mx-1 text-primary hover:underline">
+                  《用户协议》
+                </Link>
+                一并阅读。
+              </p>
+            </div>
+
+            <div className="mt-8 space-y-8">
+              {sections.map((section) => (
+                <section key={section.title}>
+                  <h2 className="text-lg font-semibold tracking-tight">{section.title}</h2>
+                  <div className="mt-3 space-y-3">
+                    {section.paragraphs.map((paragraph) => (
+                      <p key={paragraph} className="text-sm leading-7 text-muted-foreground">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </section>
               ))}
-            </section>
-          ))}
-        </div>
-      </ScrollArea>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

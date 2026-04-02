@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google'
 
 import './globals.css'
 import { ErrorBoundary } from '@/components/error-boundary'
@@ -11,7 +11,17 @@ import { Toaster } from '@/components/ui/toaster'
 import { AuthProvider } from '@/context/auth-context'
 import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const sans = Noto_Sans_SC({
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const heading = Noto_Serif_SC({
+  weight: ['500', '600', '700'],
+  variable: '--font-heading',
+  display: 'swap',
+})
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -63,7 +73,7 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body className={inter.className}>
+      <body className={`${sans.variable} ${heading.variable} ${sans.className} antialiased`}>
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <script
           dangerouslySetInnerHTML={{

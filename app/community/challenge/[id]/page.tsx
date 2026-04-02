@@ -55,17 +55,21 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-12 text-center">
-        <p className="text-muted-foreground">加载中...</p>
+      <div className="page-shell py-10 md:py-14">
+        <section className="surface-panel px-6 py-12 text-center">
+          <p className="text-muted-foreground">加载中...</p>
+        </section>
       </div>
     )
   }
 
   if (!challenge) {
     return (
-      <div className="container mx-auto py-12 text-center">
-        <h1 className="text-2xl font-bold mb-4">挑战不存在</h1>
-        <Button onClick={() => router.back()}>返回上一页</Button>
+      <div className="page-shell py-10 md:py-14">
+        <section className="surface-panel px-6 py-12 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight mb-4">挑战不存在</h1>
+          <Button onClick={() => router.back()}>返回上一页</Button>
+        </section>
       </div>
     )
   }
@@ -105,79 +109,76 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
   const STEAM_LABEL: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
 
   return (
-    <div className="container mx-auto py-8 md:py-12 max-w-5xl px-4">
-      <MobilePageHeader
-        title={challenge.title}
-        fallbackHref="/community"
-        className="-mx-4 -mt-8 mb-6 md:hidden"
-      />
+    <div className="page-shell pt-6 pb-24 md:pb-10">
+      <div className="md:hidden">
+        <MobilePageHeader title={challenge.title} fallbackHref="/community" />
+      </div>
 
-      <Button variant="ghost" onClick={() => router.back()} className="hidden mb-6 pl-0 hover:pl-2 transition-all md:inline-flex">
+      <Button variant="ghost" onClick={() => router.back()} className="hidden mb-6 rounded-full px-0 text-sm hover:bg-transparent md:inline-flex">
         <ArrowLeft className="mr-2 h-4 w-4" />
         返回社区
       </Button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Cover image */}
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-            <OptimizedImage src={challenge.image} alt={challenge.title} fill variant="cover" className="object-cover" />
-            {isTimed && challenge.endDate && !isEnded && (
-              <div className="absolute top-4 right-4">
-                <CountdownTimer endDate={challenge.endDate} />
-              </div>
-            )}
-            {isEnded && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <span className="text-white text-2xl font-bold">已结束</span>
-              </div>
-            )}
-          </div>
-
-          {/* Title + status + tags */}
-          <div>
-            <div className="flex flex-wrap gap-2 mb-3">
-              <Badge variant={isTimed ? 'default' : 'secondary'}>
-                {isTimed ? '限时挑战' : '长期挑战'}
-              </Badge>
-              {challenge.difficultyStars && (
-                <Badge variant="outline">{'★'.repeat(challenge.difficultyStars)} 难度</Badge>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_320px]">
+        <div className="space-y-6">
+          <section className="surface-panel overflow-hidden">
+            <div className="relative aspect-video">
+              <OptimizedImage src={challenge.image} alt={challenge.title} fill variant="cover" className="object-cover" />
+              {isTimed && challenge.endDate && !isEnded && (
+                <div className="absolute top-4 right-4">
+                  <CountdownTimer endDate={challenge.endDate} />
+                </div>
               )}
-              {challenge.tags.map(tag => (
-                <span key={tag} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">{tag}</span>
-              ))}
+              {isEnded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/45">
+                  <span className="text-2xl font-semibold text-white">已结束</span>
+                </div>
+              )}
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-3">{challenge.title}</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">{challenge.description}</p>
-          </div>
 
-          {/* STEAM dimension tags */}
-          {challenge.steamWeights && (
-            <div className="flex flex-wrap gap-2">
-              {Object.entries(challenge.steamWeights)
-                .filter(([, v]) => v > 0)
-                .sort(([, a], [, b]) => b - a)
-                .map(([dim, weight]) => (
-                  <Badge key={dim} variant="outline" className="text-xs">
-                    {STEAM_LABEL[dim] || dim}: {weight}
-                  </Badge>
+            <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+              <p className="section-kicker">社区活动</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Badge variant={isTimed ? 'default' : 'secondary'}>
+                  {isTimed ? '限时挑战' : '长期挑战'}
+                </Badge>
+                {challenge.difficultyStars && (
+                  <Badge variant="outline">{'★'.repeat(challenge.difficultyStars)} 难度</Badge>
+                )}
+                {challenge.tags.map(tag => (
+                  <span key={tag} className="rounded-full border border-border/70 bg-background/80 px-3 py-1 text-sm font-medium text-primary">
+                    {tag}
+                  </span>
                 ))}
-            </div>
-          )}
+              </div>
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">{challenge.title}</h1>
+              <p className="mt-3 text-base leading-8 text-muted-foreground md:text-lg">{challenge.description}</p>
 
-          {/* PBL info */}
+              {challenge.steamWeights && (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {Object.entries(challenge.steamWeights)
+                    .filter(([, v]) => v > 0)
+                    .sort(([, a], [, b]) => b - a)
+                    .map(([dim, weight]) => (
+                      <Badge key={dim} variant="outline" className="text-xs">
+                        {STEAM_LABEL[dim] || dim}: {weight}
+                      </Badge>
+                    ))}
+                </div>
+              )}
+            </div>
+          </section>
+
           <PblInfo challenge={challenge} />
 
-          {/* Stages */}
           {challenge.stages && challenge.stages.length > 0 && (
             <StageGuide stages={challenge.stages} />
           )}
 
           {challenge.recommendedProjects && challenge.recommendedProjects.length > 0 && (
-            <section className="rounded-2xl border bg-card p-6">
+            <section className="surface-panel p-6">
               <h2 className="text-xl font-semibold">推荐任务</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
                 先从这些任务开始，更容易把活动目标变成真正可执行的观察行动。
               </p>
               <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -185,7 +186,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                   <Link
                     key={project.id}
                     href={`/project/${project.id}`}
-                    className="rounded-xl border bg-muted/20 p-4 hover:bg-muted/40"
+                    className="surface-subtle p-4 transition-transform hover:-translate-y-0.5"
                   >
                     <div className="font-medium">{project.title}</div>
                   </Link>
@@ -194,17 +195,17 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          {/* Submissions gallery */}
-          <SubmissionGallery
-            challengeId={Number(challenge.id)}
-            challengeType={challenge.challengeType}
-          />
+          <section className="surface-panel p-6">
+            <SubmissionGallery
+              challengeId={Number(challenge.id)}
+              challengeType={challenge.challengeType}
+            />
+          </section>
         </div>
 
-        {/* Sidebar */}
-        <div className="lg:col-span-1">
+        <aside className="lg:col-span-1">
           <div className="sticky top-24 space-y-6">
-            <div className="bg-card border rounded-xl p-6 shadow-sm">
+            <section className="surface-panel p-6">
               <div className="text-center mb-6">
                 {isTimed ? (
                   <>
@@ -302,10 +303,9 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                   )}
                 </>
               )}
-            </div>
+            </section>
 
-            {/* Rewards info */}
-            <div className="bg-muted/30 rounded-xl p-6 border">
+            <section className="surface-panel p-6">
               <h3 className="font-bold mb-4 flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-yellow-500" />
                 奖励
@@ -333,7 +333,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                       <div className="text-muted-foreground">限定徽章 + 5 硬币</div>
                     </div>
                   </div>
-                  <p className="text-muted-foreground pt-2 border-t">所有参与者均可获得 +20 XP</p>
+                  <p className="text-muted-foreground pt-2 border-t border-border/70">所有参与者均可获得 +20 XP</p>
                 </div>
               ) : (
                 <div className="space-y-3 text-sm">
@@ -351,14 +351,13 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                       <div className="text-muted-foreground">填写反思和试错记录额外 +10 XP</div>
                     </div>
                   </div>
-                  <p className="text-muted-foreground pt-2 border-t">STEAM 雷达图同步更新</p>
+                  <p className="text-muted-foreground pt-2 border-t border-border/70">STEAM 雷达图同步更新</p>
                 </div>
               )}
-            </div>
+            </section>
 
-            {/* Timed challenge: dates */}
             {isTimed && challenge.startDate && (
-              <div className="bg-card border rounded-xl p-4 text-sm space-y-1">
+              <section className="surface-panel p-4 text-sm space-y-1">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">开始</span>
                   <span>{new Date(challenge.startDate).toLocaleDateString('zh-CN')}</span>
@@ -369,10 +368,10 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                     <span>{new Date(challenge.endDate).toLocaleDateString('zh-CN')}</span>
                   </div>
                 )}
-              </div>
+              </section>
             )}
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   )

@@ -38,22 +38,27 @@ export function DiscussionItemSkeleton() {
 
 export function ChallengeCardSkeleton() {
   return (
-    <Card className="overflow-hidden">
-      <div className="h-48 w-full">
+    <Card className="overflow-hidden rounded-[24px] border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)]">
+      <div className="aspect-[16/10] w-full">
         <Skeleton className="h-full w-full" />
       </div>
-      <CardHeader>
+      <CardHeader className="space-y-3">
+        <div className="flex justify-between gap-3">
+          <Skeleton className="h-4 w-20 rounded-full" />
+          <Skeleton className="h-4 w-24 rounded-full" />
+        </div>
         <Skeleton className="h-6 w-3/4 mb-2" />
         <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-5/6" />
       </CardHeader>
       <CardContent>
         <div className="flex gap-2 mb-4">
           <Skeleton className="h-5 w-16 rounded-full" />
           <Skeleton className="h-5 w-16 rounded-full" />
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center border-t border-border/60 pt-4">
           <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-9 w-24 rounded-full" />
         </div>
       </CardContent>
     </Card>

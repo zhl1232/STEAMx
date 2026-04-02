@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { RatingStars } from './rating-stars'
@@ -49,12 +48,12 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
   }, [fetchSubmissions])
 
   if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">加载作品中...</div>
+    return <div className="surface-subtle px-6 py-10 text-center text-muted-foreground">加载作品中...</div>
   }
 
   if (submissions.length === 0) {
     return (
-      <div className="text-center py-12 text-muted-foreground">
+      <div className="surface-subtle px-6 py-12 text-center text-muted-foreground">
         <p className="text-lg">还没有作品提交</p>
         <p className="text-sm mt-1">成为第一个提交作品的人吧！</p>
       </div>
@@ -71,7 +70,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
           const isMine = user?.id === sub.author_id
           const isFeatured = sub.rating_summary.avg_score >= 4.0
           return (
-            <Card key={sub.id} className="overflow-hidden">
+            <article key={sub.id} className="surface-subtle overflow-hidden">
               <div className="relative">
                 {sub.image_url && (
                   <div className="relative aspect-video">
@@ -84,10 +83,10 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
                   </Badge>
                 )}
                 {isFeatured && challengeType === 'evergreen' && (
-                  <Badge className="absolute top-2 left-2 bg-purple-500 text-white">精选</Badge>
+                  <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground">精选</Badge>
                 )}
               </div>
-              <CardContent className="p-4 space-y-3">
+              <div className="p-4 space-y-3">
                 <div className="flex items-start justify-between">
                   <div>
                     <Link href={`/project/${sub.id}`} className="font-medium hover:text-primary transition-colors">
@@ -135,8 +134,8 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
                 {isMine && (
                   <p className="text-xs text-muted-foreground italic">这是你的作品</p>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </article>
           )
         })}
       </div>

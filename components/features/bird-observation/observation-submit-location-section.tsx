@@ -46,7 +46,7 @@ export function ObservationSubmitLocationSection({
   presetButtons,
 }: ObservationSubmitLocationSectionProps) {
   return (
-    <section className="rounded-2xl border p-5">
+    <section className="surface-subtle p-5">
       <div className="flex items-start gap-3">
         <div className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
           3
@@ -105,7 +105,7 @@ export function ObservationSubmitLocationSection({
                   key={location.id}
                   type="button"
                   onClick={() => onSelectPreset(location)}
-                  className="rounded-full border bg-background px-3 py-1.5 text-xs text-foreground hover:border-primary/50 hover:bg-muted"
+                  className="rounded-full border border-border/80 bg-background px-3 py-1.5 text-xs text-foreground transition-colors hover:border-primary/50 hover:bg-muted"
                 >
                   {location.name}
                 </button>

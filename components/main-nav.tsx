@@ -51,22 +51,26 @@ export function MainNav() {
     });
 
     return (
-        <nav className="flex items-center gap-6 text-sm font-medium">
-            {routes.map((route) => (
-                <Link
-                    key={route.href}
-                    href={route.href}
-                    className={cn(
-                        "transition-colors hover:text-primary px-3 py-2 rounded-md",
-                        route.active
-                            ? "text-foreground font-semibold bg-accent/50"
-                            : "text-foreground/60 hover:bg-accent/50"
-                    )}
-                >
-                    {route.label}
-                </Link>
-            ))}
-            <ThemeToggle />
-        </nav>
+        <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1 rounded-full border border-border/70 bg-background/72 p-1 text-sm font-medium shadow-sm backdrop-blur-sm">
+                {routes.map((route) => (
+                    <Link
+                        key={route.href}
+                        href={route.href}
+                        className={cn(
+                            "rounded-full px-3 py-2 transition-colors",
+                            route.active
+                                ? "bg-foreground text-background shadow-sm"
+                                : "text-foreground/68 hover:bg-muted hover:text-foreground"
+                        )}
+                    >
+                        {route.label}
+                    </Link>
+                ))}
+            </nav>
+            <div className="rounded-full border border-border/70 bg-background/72 p-1 shadow-sm backdrop-blur-sm">
+                <ThemeToggle />
+            </div>
+        </div>
     );
 }

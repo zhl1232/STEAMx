@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMemo, useState } from "react";
+import { User } from "@supabase/supabase-js";
 import { PenBox } from "lucide-react";
+
+import { ProfileObservationsPanel } from "@/components/features/profile/profile-observations-panel";
+import { ProjectListSkeleton } from "@/components/features/profile/project-list-skeleton";
+import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
-import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart";
-import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
-import { ProfileObservationsPanel } from "@/components/features/profile/profile-observations-panel";
-import { User } from "@supabase/supabase-js";
-import type { UserStats } from "@/lib/gamification/types";
-import { ProjectListSkeleton } from "@/components/features/profile/project-list-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
+import type { UserStats } from "@/lib/gamification/types";
 
 interface MobileProfilePageProps {
   user: User;
@@ -33,6 +34,14 @@ interface MobileProfilePageProps {
   onTabChange?: (value: string) => void;
 }
 
+const PROFILE_TABS = [
+  { value: "works", label: "作品" },
+  { value: "collected", label: "收藏" },
+  { value: "likes", label: "喜欢" },
+  { value: "completed", label: "完成" },
+  { value: "observations", label: "观察" },
+] as const;
+
 export function MobileProfilePage({
   user,
   profile,
@@ -52,187 +61,192 @@ export function MobileProfilePage({
   observationsLoaded = false,
   onTabChange,
 }: MobileProfilePageProps) {
-  const [_activeTab, setActiveTab] = useState("works");
+  const [activeTab, setActiveTab] = useState<(typeof PROFILE_TABS)[number]["value"]>("works");
 
   const myProjectsCount = myProjects.length;
   const likedProjectsCount = likedProjectsList.length;
   const collectedProjectsCount = collectedProjectsList.length;
   const completedProjectsCount = completedProjectsList.length;
-  const totalLikesReceived = myProjects.reduce((acc, p) => acc + p.likes, 0);
+  const totalLikesReceived = myProjects.reduce((acc, project) => acc + project.likes, 0);
+
+  const tabCounts = useMemo(
+    () => ({
+      works: myProjectsCount,
+      collected: collectedProjectsCount,
+      likes: likedProjectsCount,
+      completed: completedProjectsCount,
+      observations: observationsLoaded ? observationsTotal : null,
+    }),
+    [
+      myProjectsCount,
+      collectedProjectsCount,
+      likedProjectsCount,
+      completedProjectsCount,
+      observationsLoaded,
+      observationsTotal,
+    ],
+  );
 
   if (isProjectsDataLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-background pb-24">
-        <div className="h-28 bg-muted" />
-
-        <div className="px-4 -mt-10 mb-4">
-          <div className="flex gap-5 items-start">
-            <Skeleton className="h-24 w-24 rounded-full border-4 border-background" />
-            <div className="flex-1 space-y-3 pt-3">
-              <div className="grid grid-cols-3 gap-3">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
+      <div className="flex min-h-screen flex-col bg-background pb-24">
+        <div className="px-4 pt-4">
+          <div className="surface-panel overflow-hidden">
+            <div className="h-36 bg-muted/70" />
+            <div className="space-y-4 px-4 py-5">
+              <div className="flex items-start gap-4">
+                <Skeleton className="h-20 w-20 rounded-full border-4 border-background" />
+                <div className="flex-1 space-y-3 pt-2">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
               </div>
-              <Skeleton className="h-9 w-28" />
+              <div className="grid grid-cols-2 gap-3">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Skeleton key={index} className="h-16 rounded-2xl" />
+                ))}
+              </div>
             </div>
           </div>
-
-          <div className="mt-4 space-y-3">
-            <Skeleton className="h-6 w-36" />
-            <Skeleton className="h-3 w-full" />
-            <Skeleton className="h-10 w-full rounded-xl" />
-            <Skeleton className="h-4 w-40" />
-          </div>
         </div>
 
-        <div className="px-4 pt-3">
-          <Skeleton className="h-72 w-full rounded-2xl" />
-        </div>
-
-        <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b px-4 py-3">
-          <div className="flex gap-4">
-            <Skeleton className="h-5 w-12" />
-            <Skeleton className="h-5 w-12" />
-            <Skeleton className="h-5 w-12" />
-            <Skeleton className="h-5 w-12" />
+        <div className="mobile-subnav top-0 z-20 mt-4">
+          <div className="px-4 py-3">
+            <div className="-mx-1 overflow-x-auto px-1 no-scrollbar">
+              <div className="segmented-control inline-flex min-w-max gap-1">
+                {PROFILE_TABS.map((tab) => (
+                  <Skeleton key={tab.value} className="h-10 w-20 rounded-full" />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="px-4 py-4">
-          <p className="mb-4 text-sm text-muted-foreground">加载个人主页中...</p>
+          <p className="sr-only">加载个人主页中...</p>
           <div className="space-y-4">
             <ProjectListSkeleton />
           </div>
         </div>
+
+        <div className="px-4 pb-4">
+          <Skeleton className="h-72 w-full rounded-[28px]" />
+        </div>
       </div>
-    )
+    );
   }
 
-  return (
-    <div className="flex flex-col min-h-screen bg-background pb-24">
-      
-      <ProfileHeader 
-        user={user}
-        profile={profile}
-        myProjectsCount={myProjectsCount}
-        likedProjectsCount={likedProjectsCount}
-        collectedProjectsCount={collectedProjectsCount}
-        totalLikesReceived={totalLikesReceived}
-        followerCount={followerCount}
-        followingCount={followingCount}
-      />
+  const handleTabChange = (value: (typeof PROFILE_TABS)[number]["value"]) => {
+    setActiveTab(value);
+    onTabChange?.(value);
+  };
 
-      {/* STEAM 雷达图 */}
-      <div className="px-4 pt-3">
-        <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
+  return (
+    <div className="flex min-h-screen flex-col bg-background pb-24">
+      <div className="px-4 pt-4">
+        <ProfileHeader
+          user={user}
+          profile={profile}
+          myProjectsCount={myProjectsCount}
+          totalLikesReceived={totalLikesReceived}
+          followerCount={followerCount}
+          followingCount={followingCount}
+        />
       </div>
 
-      {/* Tabs Content */}
-      <Tabs
-        defaultValue="works"
-        className="w-full flex-1"
-        onValueChange={(v) => {
-          setActiveTab(v);
-          onTabChange?.(v);
-        }}
-      >
-        <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b px-4">
-            <TabsList className="w-full h-11 bg-transparent p-0 justify-start gap-4 overflow-x-auto scrollbar-none">
-                <TabsTrigger 
-                    value="works" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
+      <div className="mobile-subnav top-0 z-20 mt-4">
+        <div className="px-4 py-3">
+          <div className="-mx-1 overflow-x-auto px-1 no-scrollbar">
+            <div className="segmented-control inline-flex min-w-max gap-1">
+              {PROFILE_TABS.map((tab) => (
+                <button
+                  key={tab.value}
+                  type="button"
+                  onClick={() => handleTabChange(tab.value)}
+                  className={cn(
+                    "segmented-option shrink-0 whitespace-nowrap px-4",
+                    activeTab === tab.value && "segmented-option-active",
+                  )}
                 >
-                    作品 <span className="ml-1 text-xs text-muted-foreground font-normal">{myProjectsCount}</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                    value="collected" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
-                >
-                    收藏 <span className="ml-1 text-xs text-muted-foreground font-normal">{collectedProjectsCount}</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                    value="likes" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
-                >
-                    喜欢 <span className="ml-1 text-xs text-muted-foreground font-normal">{likedProjectsCount}</span>
-                </TabsTrigger>
-                 <TabsTrigger 
-                    value="completed" 
-                    className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
-                >
-                    完成 <span className="ml-1 text-xs text-muted-foreground font-normal">{completedProjectsCount}</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="observations"
-                  className="h-full rounded-none border-b-2 border-transparent px-0 text-muted-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:font-extrabold data-[state=active]:text-foreground font-medium text-sm shrink-0 transition-all duration-200"
-                >
-                  观察{" "}
-                  <span className="ml-1 text-xs text-muted-foreground font-normal">
-                    {observationsLoaded ? observationsTotal : ""}
+                  <span>
+                    {tab.label}
+                    {tabCounts[tab.value] !== null ? (
+                      <span className="ml-1.5 text-[11px] opacity-75">{tabCounts[tab.value]}</span>
+                    ) : null}
                   </span>
-                </TabsTrigger>
-            </TabsList>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div className="px-4 py-4 min-h-[300px]">
-            <TabsContent value="works" className="mt-0 space-y-4">
-               <ProjectList 
-                  projects={myProjects} 
-                  emptyState={{
-                      icon: <PenBox className="h-10 w-10" />,
-                      title: "暂无作品",
-                      desc: "分享你的第一个创意作品",
-                      btnText: "去分享",
-                      href: "/share"
-                  }}
-               />
-            </TabsContent>
-            <TabsContent value="collected" className="mt-0 space-y-4">
-                <ProjectList 
-                  projects={collectedProjectsList} 
-                  emptyState={{
-                      title: "暂无收藏",
-                      desc: "收藏你喜欢的项目",
-                      btnText: "去探索",
-                      href: "/explore"
-                  }}
-               />
-            </TabsContent>
-            <TabsContent value="likes" className="mt-0 space-y-4">
-                <ProjectList 
-                  projects={likedProjectsList} 
-                  emptyState={{
-                      title: "暂无喜欢",
-                      desc: "去发现更多有趣的项目",
-                      btnText: "去探索",
-                      href: "/explore"
-                  }}
-               />
-            </TabsContent>
-            <TabsContent value="completed" className="mt-0 space-y-4">
-                 <ProjectList 
-                  projects={completedProjectsList}
-                  completionStatusMap={completionStatusMap}
-                  emptyState={{
-                      title: "暂无完成",
-                      desc: "动手完成一个项目吧",
-                      btnText: "去探索",
-                      href: "/explore"
-                  }}
-               />
-            </TabsContent>
-            <TabsContent value="observations" className="mt-0 space-y-4">
-              <ProfileObservationsPanel
-                observations={myObservations}
-                observationsTotal={observationsTotal}
-                uniqueSpeciesCount={uniqueSpeciesCount}
-                isLoading={isObservationsLoading}
-                isLoaded={observationsLoaded}
-              />
-            </TabsContent>
+      <div className="px-4 py-4">
+        {activeTab === "works" ? (
+          <ProjectList
+            projects={myProjects}
+            emptyState={{
+              icon: <PenBox className="h-10 w-10" />,
+              title: "暂无作品",
+              desc: "分享你的第一个创意作品",
+              btnText: "去分享",
+              href: "/share",
+            }}
+          />
+        ) : null}
+
+        {activeTab === "collected" ? (
+          <ProjectList
+            projects={collectedProjectsList}
+            emptyState={{
+              title: "暂无收藏",
+              desc: "收藏你喜欢的项目",
+              btnText: "去探索",
+              href: "/explore",
+            }}
+          />
+        ) : null}
+
+        {activeTab === "likes" ? (
+          <ProjectList
+            projects={likedProjectsList}
+            emptyState={{
+              title: "暂无喜欢",
+              desc: "去发现更多有趣的项目",
+              btnText: "去探索",
+              href: "/explore",
+            }}
+          />
+        ) : null}
+
+        {activeTab === "completed" ? (
+          <ProjectList
+            projects={completedProjectsList}
+            completionStatusMap={completionStatusMap}
+            emptyState={{
+              title: "暂无完成",
+              desc: "动手完成一个项目吧",
+              btnText: "去探索",
+              href: "/explore",
+            }}
+          />
+        ) : null}
+
+        {activeTab === "observations" ? (
+          <ProfileObservationsPanel
+            observations={myObservations}
+            observationsTotal={observationsTotal}
+            uniqueSpeciesCount={uniqueSpeciesCount}
+            isLoading={isObservationsLoading}
+            isLoaded={observationsLoaded}
+          />
+        ) : null}
+
+        <div className="mt-6">
+          <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
         </div>
-      </Tabs>
+      </div>
     </div>
   );
 }

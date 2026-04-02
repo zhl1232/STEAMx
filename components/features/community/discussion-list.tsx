@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Heart, Tag, Trash2 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
@@ -29,76 +28,100 @@ function DiscussionCard({
     canDelete: boolean;
     onDelete: (id: string | number) => void;
 }) {
+    const previewTags = discussion.tags.slice(0, 2);
+    const overflowTagCount = Math.max(discussion.tags.length - previewTags.length, 0);
+
     return (
-        <div className="border border-border/60 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow transition-all bg-card cursor-pointer group relative">
-            <Link href={`/community/discussion/${discussion.id}`} className="absolute inset-0 z-10 rounded-xl" aria-label={`进入讨论：${discussion.title}`} />
-            <div className="relative z-0 pointer-events-none">
-                <h3 className="text-base sm:text-xl font-semibold mb-1.5 sm:mb-2 group-hover:text-primary transition-colors pr-2 leading-snug">
-                    <SearchHighlight text={discussion.title} query={searchQuery} />
-                </h3>
-                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">
-                    <span className="flex items-center gap-1 sm:gap-1.5">
-                        <AvatarWithFrame
-                            src={discussion.authorAvatar}
-                            fallback={discussion.author[0]}
-                            avatarFrameId={discussion.authorAvatarFrameId}
-                            className="size-5 sm:size-6"
-                        />
-                        <span className={cn(getNameColorClassName(discussion.authorNameColorId ?? null))}>
-                            {discussion.author}
-                        </span>
-                    </span>
-                    <span>{discussion.date}</span>
+        <article className="group relative overflow-hidden rounded-[24px] border border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.24)] transition-all hover:-translate-y-1 hover:shadow-[0_24px_55px_-28px_rgba(15,23,42,0.32)]">
+            <Link
+                href={`/community/discussion/${discussion.id}`}
+                className="absolute inset-0 z-10 rounded-[24px]"
+                aria-label={`进入讨论：${discussion.title}`}
+            />
+
+            <div className="relative z-0 flex flex-col gap-4 bg-gradient-to-br from-background via-background to-muted/20 p-5 sm:p-6 pointer-events-none">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <AvatarWithFrame
+                        src={discussion.authorAvatar}
+                        fallback={discussion.author[0]}
+                        avatarFrameId={discussion.authorAvatarFrameId}
+                        className="size-9 shrink-0"
+                    />
+                    <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                            <span className="section-kicker text-[10px] tracking-[0.24em]">社区讨论</span>
+                            <span className={cn("truncate", getNameColorClassName(discussion.authorNameColorId ?? null))}>
+                                {discussion.author}
+                            </span>
+                            <span>·</span>
+                            <span>{discussion.date}</span>
+                        </div>
+                    </div>
                 </div>
-                {discussion.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mb-2 sm:mb-3">
-                        {discussion.tags.map((tag) => (
+
+                <div className="space-y-3">
+                    <h3 className="pr-2 text-lg font-semibold leading-snug transition-colors group-hover:text-primary sm:text-xl">
+                        <SearchHighlight text={discussion.title} query={searchQuery} />
+                    </h3>
+
+                    <p className="line-clamp-3 text-sm leading-7 text-muted-foreground sm:text-[15px]">
+                        <SearchHighlight text={discussion.content} query={searchQuery} />
+                    </p>
+                </div>
+
+                {(previewTags.length > 0 || overflowTagCount > 0) && (
+                    <div className="flex flex-wrap items-center gap-2">
+                        {previewTags.map((tag) => (
                             <span
                                 key={tag}
-                                className="inline-flex items-center gap-1 rounded-full bg-pink-100 px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs font-medium text-pink-800 dark:bg-pink-900/35 dark:text-pink-200"
+                                className="inline-flex items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-medium text-primary"
                             >
                                 <Tag className="h-3 w-3 shrink-0" />
                                 {tag}
                             </span>
                         ))}
+                        {overflowTagCount > 0 && (
+                            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
+                                +{overflowTagCount} 个话题
+                            </span>
+                        )}
                     </div>
                 )}
-                <p className="text-muted-foreground line-clamp-2 text-sm sm:text-base mb-3 sm:mb-4">
-                    <SearchHighlight text={discussion.content} query={searchQuery} />
-                </p>
-                <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground border-t pt-3 sm:pt-4 pointer-events-auto relative z-20">
-                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-xs sm:text-sm">
-                        <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        {discussion.repliesCount} 回复
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent hover:text-red-500 text-xs sm:text-sm">
-                        <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        {discussion.likes} 赞
-                    </Button>
-                    {canDelete && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-auto p-0 hover:bg-transparent hover:text-destructive ml-auto"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                onDelete(discussion.id);
-                            }}
-                        >
-                            <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        </Button>
-                    )}
+
+                <div className="border-t border-border/60 pt-4 text-sm text-muted-foreground">
+                    <div className="relative z-20 flex items-center gap-5 pointer-events-auto">
+                        <span className="inline-flex items-center gap-2 text-sm">
+                            <MessageSquare className="h-4 w-4" />
+                            {discussion.repliesCount} 回复
+                        </span>
+                        <span className="inline-flex items-center gap-2 text-sm">
+                            <Heart className="h-4 w-4" />
+                            {discussion.likes} 赞
+                        </span>
+                        {canDelete && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="ml-auto h-auto p-0 hover:bg-transparent hover:text-destructive"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onDelete(discussion.id);
+                                }}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </article>
     );
 }
 
 export function DiscussionList() {
     const { user, profile } = useAuth();
     const { toast } = useToast();
-    const { promptLogin: _promptLogin } = useLoginPrompt();
     const [isCreating, setIsCreating] = useState(false);
     const [newTitle, setNewTitle] = useState("");
     const [newContent, setNewContent] = useState("");
@@ -265,30 +288,29 @@ export function DiscussionList() {
     const canModerate = profile?.role === 'admin' || profile?.role === 'moderator';
 
     return (
-        <div className="space-y-4 sm:space-y-6 pb-24 md:pb-0">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold hidden md:block">讨论区</h2>
-                {user && (
-                    <Button onClick={() => setIsCreating(!isCreating)} className="hidden md:flex">
-                        {isCreating ? "取消" : "发起讨论"}
+        <div className="space-y-4 pb-24 md:space-y-6 md:pb-0">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <p className="section-kicker hidden md:block">交流与沉淀</p>
+                    <h2 className="text-xl font-semibold tracking-tight md:mt-2 md:text-2xl">讨论区</h2>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                        用问题、经验和做法组织讨论，保持内容比装饰更靠前。
+                    </p>
+                </div>
+                {user ? (
+                    <Button
+                        onClick={() => {
+                            setIsCreating(!isCreating);
+                            if (!isCreating) {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                        }}
+                        className="w-full rounded-full md:w-auto"
+                    >
+                        {isCreating ? "取消发布" : "发起讨论"}
                     </Button>
-                )}
+                ) : null}
             </div>
-
-            {/* Mobile FAB for Creating Discussion */}
-            {user && !isCreating && (
-                <Button
-                    onClick={() => {
-                        setIsCreating(true);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    size="icon"
-                    className="md:hidden fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg z-50 bg-primary text-primary-foreground hover:scale-105 transition-transform"
-                >
-                    <MessageSquare className="h-6 w-6" />
-                    <span className="sr-only">发起讨论</span>
-                </Button>
-            )}
 
             {/* Search Component */}
             <DiscussionSearch
@@ -297,7 +319,14 @@ export function DiscussionList() {
             />
 
             {isCreating && (
-                <form onSubmit={handleSubmit} className="border rounded-lg p-4 space-y-4 bg-muted/30">
+                <form onSubmit={handleSubmit} className="surface-panel space-y-4 rounded-[24px] p-5 sm:p-6">
+                    <div>
+                        <p className="section-kicker">新讨论</p>
+                        <h3 className="mt-2 text-lg font-semibold">把你的问题描述清楚</h3>
+                        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                            标题尽量具体，内容里写清背景、现状和你希望得到的帮助。
+                        </p>
+                    </div>
                     <div className="space-y-2">
                         <label className="text-sm font-medium">标题</label>
                         <Input
@@ -317,14 +346,14 @@ export function DiscussionList() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">标签 (用逗号分隔)</label>
+                        <label className="text-sm font-medium">标签（用逗号分隔）</label>
                         <Input
                             value={newTags}
                             onChange={(e) => setNewTags(e.target.value)}
                             placeholder="例如: 科学, 实验, 求助"
                         />
                     </div>
-                    <div className="flex gap-2 justify-end">
+                    <div className="flex justify-end gap-2">
                         <Button type="button" variant="ghost" onClick={() => setIsCreating(false)}>取消</Button>
                         <Button type="submit">发布</Button>
                     </div>
@@ -333,9 +362,10 @@ export function DiscussionList() {
 
             <div>
                 {loadError ? (
-                    <div className="text-center py-20">
-                        <h3 className="text-lg font-semibold mb-2">讨论列表加载失败</h3>
-                        <p className="text-muted-foreground">{loadError}</p>
+                    <div className="surface-panel rounded-[24px] px-6 py-12 text-center">
+                        <p className="section-kicker">加载异常</p>
+                        <h3 className="mt-3 text-lg font-semibold">讨论列表加载失败</h3>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">{loadError}</p>
                         <Button className="mt-4" onClick={() => void fetchDiscussions(true)}>
                             重试
                         </Button>
@@ -354,22 +384,26 @@ export function DiscussionList() {
                         {/* Scroll sentinel for infinite loading */}
                         <div ref={sentinelRef} className="h-1" />
                         {isLoading && (
-                            <div className="text-center py-4 text-muted-foreground text-sm">加载中...</div>
+                            <div className="surface-subtle rounded-2xl px-4 py-4 text-center text-sm text-muted-foreground">
+                                正在加载更多讨论...
+                            </div>
                         )}
                         {!hasMore && discussions.length > 0 && (
-                            <div className="text-center py-4 text-muted-foreground text-xs">没有更多了</div>
+                            <div className="px-2 py-4 text-center text-xs text-muted-foreground">已经到底了</div>
                         )}
                     </div>
                 ) : !isLoading ? (
-                    <div className="text-center py-20">
-                        <div className="text-4xl mb-4">🔍</div>
-                        <h3 className="text-lg font-semibold mb-2">没有找到相关讨论</h3>
-                        <p className="text-muted-foreground">
+                    <div className="surface-panel rounded-[24px] px-6 py-12 text-center">
+                        <p className="section-kicker">当前为空</p>
+                        <h3 className="mt-3 text-lg font-semibold">没有找到相关讨论</h3>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
                             {searchQuery || selectedTag ? '换个关键词或标签试试看？' : '还没有讨论，来发起第一个吧！'}
                         </p>
                     </div>
                 ) : (
-                    <div className="text-center py-4 text-muted-foreground">加载中...</div>
+                    <div className="surface-subtle rounded-2xl px-4 py-4 text-center text-sm text-muted-foreground">
+                        正在加载讨论...
+                    </div>
                 )}
             </div>
         </div>

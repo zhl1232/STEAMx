@@ -22,6 +22,7 @@ import { mapDbProject } from "@/lib/mappers/types";
 import { Suspense } from "react";
 import { getDisplayName } from "@/lib/utils/user";
 import { logger } from "@/lib/logger";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 
@@ -452,39 +453,47 @@ function ShareForm() {
     }
 
     return (
-        <div className="container mx-auto py-8 max-w-4xl">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight mb-2">{editId ? "编辑项目" : "分享你的创意"}</h1>
-                <p className="text-muted-foreground">{editId ? "修改已发布或被拒绝的项目内容" : "将你的 STEAM 项目展示给全世界。"}</p>
+        <div className="page-shell pt-6 pb-24 md:py-8">
+            <div className="md:hidden">
+                <MobilePageHeader title={editId ? "编辑项目" : "分享项目"} fallbackHref="/profile" />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+                <div className="mb-8">
+                    <p className="section-kicker">{editId ? "项目修改" : "项目发布"}</p>
+                    <h1 className="mt-3 mb-2 text-3xl font-semibold tracking-tight">{editId ? "编辑项目" : "分享你的创意"}</h1>
+                    <p className="text-sm leading-7 text-muted-foreground md:text-base">
+                        {editId ? "修改已发布或被拒绝的项目内容" : "把你的 STEAM 项目整理成清晰作品，提交到平台中继续展示和审核。"}
+                    </p>
+                </div>
 
-                {/* 挑战关联横幅 */}
-                {challengeInfo && (
-                    <Card className="border-primary/50 bg-primary/5">
-                        <CardContent className="py-4">
-                            <div className="flex items-start gap-3">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                                    🏆
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-primary">
-                                        {challengeInfo.challengeType === 'timed' ? '限时挑战' : '长期挑战'}：{challengeInfo.title}
-                                    </p>
-                                    {challengeInfo.drivingQuestion && (
-                                        <p className="text-sm text-muted-foreground mt-1">
-                                            驱动问题：{challengeInfo.drivingQuestion}
+                <form onSubmit={handleSubmit} className="space-y-6">
+
+                    {/* 挑战关联横幅 */}
+                    {challengeInfo && (
+                        <Card className="surface-subtle border-primary/50 bg-primary/5 shadow-none">
+                            <CardContent className="py-4">
+                                <div className="flex items-start gap-3">
+                                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                                        🏆
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-primary">
+                                            {challengeInfo.challengeType === 'timed' ? '限时挑战' : '长期挑战'}：{challengeInfo.title}
                                         </p>
-                                    )}
+                                        {challengeInfo.drivingQuestion && (
+                                            <p className="mt-1 text-sm text-muted-foreground">
+                                                驱动问题：{challengeInfo.drivingQuestion}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                )}
+                            </CardContent>
+                        </Card>
+                    )}
 
                 {/* 基本信息卡片 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <CardTitle>基本信息</CardTitle>
                         <CardDescription>填写项目的基本信息</CardDescription>
@@ -512,8 +521,8 @@ function ShareForm() {
                                         type="button"
                                         onClick={() => handleInputChange("category", cat)}
                                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${formData.category === cat
-                                            ? "bg-primary text-primary-foreground border-primary"
-                                            : "bg-background hover:bg-muted text-muted-foreground border-input"
+                                            ? "bg-foreground text-background border-foreground"
+                                            : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
                                             }`}
                                     >
                                         {cat}
@@ -532,8 +541,8 @@ function ShareForm() {
                                         type="button"
                                         onClick={() => handleInputChange("subCategory", sub)}
                                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${formData.subCategory === sub
-                                            ? "bg-primary text-primary-foreground border-primary"
-                                            : "bg-background hover:bg-muted text-muted-foreground border-input"
+                                            ? "bg-foreground text-background border-foreground"
+                                            : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
                                             }`}
                                     >
                                         {sub}
@@ -566,7 +575,7 @@ function ShareForm() {
                 </Card>
 
                 {/* 项目详情卡片 */}
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardHeader>
                         <CardTitle>项目详情</CardTitle>
                         <CardDescription>详细描述你的项目</CardDescription>
@@ -593,7 +602,7 @@ function ShareForm() {
                                     variant="outline"
                                     size="sm"
                                     onClick={addStep}
-                                    className="gap-2"
+                                    className="gap-2 rounded-full"
                                 >
                                     <Plus className="h-4 w-4" />
                                     添加步骤
@@ -601,7 +610,7 @@ function ShareForm() {
                             </div>
 
                             {formData.steps.map((step, index) => (
-                                <Card key={index} className="border-2">
+                                <Card key={index} className="rounded-[24px] border-border/70 bg-background/80 shadow-none">
                                     <CardHeader className="pb-3">
                                         <div className="flex items-center justify-between">
                                             <CardTitle className="text-base">步骤 {index + 1}</CardTitle>
@@ -611,7 +620,7 @@ function ShareForm() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => removeStep(index)}
-                                                    className="text-destructive hover:text-destructive"
+                                                    className="rounded-full text-destructive hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
@@ -659,7 +668,7 @@ function ShareForm() {
 
                 {/* PBL 反思区域（仅挑战关联时显示） */}
                 {challengeInfo && (
-                    <Card>
+                    <Card className="surface-subtle shadow-none">
                         <CardHeader>
                             <CardTitle>PBL 反思</CardTitle>
                             <CardDescription>记录你的探究过程和思考</CardDescription>
@@ -687,7 +696,7 @@ function ShareForm() {
                                             ...prev,
                                             iterations: [...prev.iterations, { description: '', result: '' }]
                                         }))}
-                                        className="gap-2"
+                                        className="gap-2 rounded-full"
                                     >
                                         <Plus className="h-4 w-4" />
                                         添加记录
@@ -697,10 +706,10 @@ function ShareForm() {
                                     <p className="text-sm text-muted-foreground">记录你的每次尝试和结果，展示探究过程</p>
                                 )}
                                 {formData.iterations.map((it, i) => (
-                                    <div key={i} className="border rounded-lg p-3 space-y-2">
+                                    <div key={i} className="rounded-2xl border border-border/70 bg-background/80 p-3 space-y-2">
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-medium">尝试 #{i + 1}</span>
-                                            <Button type="button" variant="ghost" size="sm"
+                                            <Button type="button" variant="ghost" size="sm" className="rounded-full"
                                                 onClick={() => setFormData(prev => ({ ...prev, iterations: prev.iterations.filter((_, idx) => idx !== i) }))}
                                             >
                                                 <Trash2 className="h-3 w-3" />
@@ -749,7 +758,7 @@ function ShareForm() {
                         variant="outline"
                         onClick={handleSaveDraft}
                         disabled={isSavingDraft}
-                        className="gap-2"
+                        className="gap-2 rounded-full"
                     >
                         {isSavingDraft ? (
                             <CheckCircle2 className="h-4 w-4" />
@@ -760,23 +769,24 @@ function ShareForm() {
                     </Button>
 
                     <div className="flex gap-3">
-                        <Button variant="outline" type="button" onClick={() => router.back()}>
+                        <Button variant="outline" type="button" className="rounded-full" onClick={() => router.back()}>
                             取消
                         </Button>
-                        <Button type="submit" disabled={isLoading} className="gap-2">
+                        <Button type="submit" disabled={isLoading} className="gap-2 rounded-full">
                             <Upload className="h-4 w-4" />
                             {isLoading ? "提交中..." : "提交审核"}
                         </Button>
                     </div>
                 </div>
-            </form>
+                </form>
+            </section>
         </div>
     );
 }
 
 export default function SharePage() {
     return (
-        <Suspense fallback={<div className="container mx-auto py-8 text-center">Loading...</div>}>
+        <Suspense fallback={<div className="page-shell py-8 text-center text-muted-foreground">Loading...</div>}>
             <ShareForm />
         </Suspense>
     );

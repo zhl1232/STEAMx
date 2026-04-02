@@ -166,7 +166,7 @@ export function ModeratorApplicationsList() {
         return (
             <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                    <Card key={i}>
+                    <Card key={i} className="surface-subtle shadow-none">
                         <CardContent className="p-6">
                             <Skeleton className="h-32" />
                         </CardContent>
@@ -183,14 +183,14 @@ export function ModeratorApplicationsList() {
     return (
         <div className="space-y-4">
             {applications.length === 0 ? (
-                <Card>
+                <Card className="surface-subtle shadow-none">
                     <CardContent className="p-8 text-center text-muted-foreground">
                         暂无待审核的申请
                     </CardContent>
                 </Card>
             ) : (
                 applications.map((app) => (
-                    <Card key={app.id}>
+                    <Card key={app.id} className="surface-subtle shadow-none">
                         <CardHeader>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
@@ -214,19 +214,19 @@ export function ModeratorApplicationsList() {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                <div className="text-center p-3 rounded-lg bg-muted/50">
+                                <div className="rounded-2xl border border-border/70 bg-background/80 p-3 text-center">
                                     <div className="text-2xl font-bold text-primary">{app.projects_published}</div>
                                     <div className="text-muted-foreground">发布项目</div>
                                 </div>
-                                <div className="text-center p-3 rounded-lg bg-muted/50">
+                                <div className="rounded-2xl border border-border/70 bg-background/80 p-3 text-center">
                                     <div className="text-2xl font-bold text-primary">{app.projects_completed}</div>
                                     <div className="text-muted-foreground">完成项目</div>
                                 </div>
-                                <div className="text-center p-3 rounded-lg bg-muted/50">
+                                <div className="rounded-2xl border border-border/70 bg-background/80 p-3 text-center">
                                     <div className="text-2xl font-bold text-primary">{app.comments_count}</div>
                                     <div className="text-muted-foreground">评论数</div>
                                 </div>
-                                <div className="text-center p-3 rounded-lg bg-muted/50">
+                                <div className="rounded-2xl border border-border/70 bg-background/80 p-3 text-center">
                                     <div className="text-2xl font-bold text-primary">{app.badges_count}</div>
                                     <div className="text-muted-foreground">徽章数</div>
                                 </div>
@@ -240,7 +240,7 @@ export function ModeratorApplicationsList() {
 
                             <div>
                                 <Label>申请动机</Label>
-                                <div className="mt-2 p-4 rounded-lg bg-muted/30 text-sm whitespace-pre-wrap">
+                                <div className="mt-2 rounded-2xl border border-border/70 bg-background/80 p-4 text-sm whitespace-pre-wrap">
                                     {app.motivation}
                                 </div>
                             </div>
@@ -249,7 +249,7 @@ export function ModeratorApplicationsList() {
                                 <Button
                                     onClick={() => handleReview(app, "approve")}
                                     disabled={isProcessing}
-                                    className="flex-1"
+                                    className="flex-1 rounded-full"
                                 >
                                     <CheckCircle className="mr-2 h-4 w-4" />
                                     批准
@@ -258,7 +258,7 @@ export function ModeratorApplicationsList() {
                                     variant="destructive"
                                     onClick={() => handleRejectClick(app)}
                                     disabled={isProcessing}
-                                    className="flex-1"
+                                    className="flex-1 rounded-full"
                                 >
                                     <XCircle className="mr-2 h-4 w-4" />
                                     拒绝
@@ -296,19 +296,21 @@ export function ModeratorApplicationsList() {
                                 value={rejectReason}
                                 onChange={(e) => setRejectReason(e.target.value)}
                                 rows={4}
-                                className="mt-2"
+                                className="mt-2 rounded-2xl"
                             />
                         </div>
                     </div>
                     <DialogFooter>
                         <Button
                             variant="outline"
+                            className="rounded-full"
                             onClick={closeRejectDialog}
                         >
                             取消
                         </Button>
                         <Button
                             variant="destructive"
+                            className="rounded-full"
                             onClick={() => selectedApp && handleReview(selectedApp, "reject")}
                             disabled={isProcessing || !rejectReason.trim()}
                         >

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import type { ObservationLocationSummary } from "@/lib/mappers/types"
+import { cn } from "@/lib/utils"
 
 function recencyLabel(dateString: string): { text: string; className: string } {
   const ageDays = (Date.now() - new Date(dateString).getTime()) / 86_400_000
@@ -27,9 +28,9 @@ export function SpeciesHotspotPanel({ locations }: SpeciesHotspotPanelProps) {
   if (locations.length === 0) return null
 
   return (
-    <section className="rounded-2xl border bg-muted/20 p-5 md:col-span-2">
+    <section className="surface-subtle p-5 md:col-span-2">
       <h2 className="text-lg font-semibold">最近能在哪里看到它</h2>
-      <p className="mt-2 text-sm text-muted-foreground">
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">
         这些位置来自最近的真实观察记录，点选位置卡时，地图会高亮对应点位。地图上较大较亮的点表示近期记录，较小较淡的点表示较早的记录。
       </p>
 
@@ -57,16 +58,17 @@ export function SpeciesHotspotPanel({ locations }: SpeciesHotspotPanelProps) {
               const nextIndex = validLocations.findIndex((item) => item.locationName === location.locationName)
               if (nextIndex >= 0) setActiveIndex(nextIndex)
             }}
-            className={`rounded-xl border bg-background p-4 text-left transition-all hover:border-primary/50 hover:bg-muted/20 ${
-              index === activeIndex ? "border-primary/60 ring-1 ring-primary/20" : ""
-            }`}
+            className={cn(
+              "rounded-2xl border border-border/70 bg-background/80 p-4 text-left transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
+              index === activeIndex && "border-primary/60 ring-1 ring-primary/20",
+            )}
           >
             <div className="flex items-center gap-2">
               <span className="font-medium">{location.locationName}</span>
               {(() => {
                 const badge = recencyLabel(location.latestObservedAt)
                 return (
-                  <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${badge.className}`}>
+                  <span className={cn("inline-block rounded-full px-2 py-0.5 text-[10px] font-medium", badge.className)}>
                     {badge.text}
                   </span>
                 )

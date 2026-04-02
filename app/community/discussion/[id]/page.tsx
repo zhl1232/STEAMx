@@ -468,10 +468,10 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl">
-        <div className="space-y-6 sm:space-y-8">
-          <div className="h-8 w-32 bg-muted animate-pulse rounded" />
-          <div className="bg-card border rounded-xl p-4 sm:p-8 shadow-sm">
+      <div className="page-shell py-6 md:py-10">
+        <div className="space-y-6">
+          <div className="h-8 w-32 animate-pulse rounded bg-muted" />
+          <div className="surface-panel p-5 sm:p-8">
             <div className="h-6 w-48 bg-muted animate-pulse rounded mb-4" />
             <div className="h-10 w-3/4 bg-muted animate-pulse rounded mb-4" />
             <div className="h-6 w-full bg-muted animate-pulse rounded" />
@@ -483,9 +483,11 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
 
   if (notFound || !discussion) {
     return (
-      <div className="container mx-auto py-12 px-4 text-center">
-        <h1 className="text-2xl font-bold mb-4">讨论不存在</h1>
-        <Button onClick={() => router.back()}>返回上一页</Button>
+      <div className="page-shell py-10 md:py-14">
+        <section className="surface-panel px-6 py-12 text-center">
+          <h1 className="mb-4 text-2xl font-semibold tracking-tight">讨论不存在</h1>
+          <Button onClick={() => router.back()}>返回上一页</Button>
+        </section>
       </div>
     );
   }
@@ -587,139 +589,141 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
   };
 
   return (
-    <div className="container mx-auto py-6 sm:py-12 px-4 sm:px-6 max-w-4xl pb-28 md:pb-8">
-      <MobilePageHeader
-        title={discussion.title}
-        fallbackHref="/community"
-        className="-mx-4 -mt-6 mb-4 md:hidden"
-      />
+    <div className="page-shell pt-6 pb-28 md:pb-8">
+      <div className="md:hidden">
+        <MobilePageHeader title={discussion.title} fallbackHref="/community" />
+      </div>
 
       <Button
         variant="ghost"
         onClick={() => router.back()}
-        className="hidden mb-4 pl-0 hover:pl-2 transition-all text-sm md:mb-6 md:inline-flex"
+        className="hidden mb-6 rounded-full px-0 text-sm hover:bg-transparent md:inline-flex"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         返回讨论列表
       </Button>
 
-      <div className="bg-card border rounded-xl p-4 sm:p-8 shadow-sm mb-6 sm:mb-8">
-        {discussion.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-            {discussion.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 sm:px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium flex items-center gap-1"
-              >
-                <Tag className="h-3 w-3" /> {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {isEditingDiscussion ? (
-          <div className="space-y-3 mb-4">
-            <input
-              type="text"
-              value={editDiscussionTitle}
-              onChange={(e) => setEditDiscussionTitle(e.target.value)}
-              className="w-full rounded-md border bg-background px-3 py-2 text-xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/40"
-              maxLength={200}
-              disabled={isSavingDiscussion}
-            />
-            <textarea
-              value={editDiscussionContent}
-              onChange={(e) => setEditDiscussionContent(e.target.value)}
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm sm:text-lg leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/40"
-              rows={6}
-              maxLength={5000}
-              disabled={isSavingDiscussion}
-            />
-            <div className="flex items-center gap-2">
-              <Button size="sm" onClick={handleSaveDiscussion} disabled={isSavingDiscussion || !editDiscussionTitle.trim() || !editDiscussionContent.trim()}>
-                保存
-              </Button>
-              <Button size="sm" variant="ghost" onClick={() => setIsEditingDiscussion(false)} disabled={isSavingDiscussion}>
-                取消
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-4">{discussion.title}</h1>
-
-            <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8 border-b pb-4 sm:pb-6">
-              <span className="flex items-center gap-1.5 sm:gap-2">
-                <AvatarWithFrame
-                  src={discussion.authorAvatar}
-                  fallback={discussion.author[0]?.toUpperCase()}
-                  avatarFrameId={discussion.authorAvatarFrameId}
-                  className="h-6 w-6 sm:h-8 sm:w-8 rounded-full shrink-0"
-                />
+      <section className="surface-panel overflow-hidden">
+        <div className="px-5 py-6 sm:px-7 sm:py-8">
+          {discussion.tags.length > 0 && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {discussion.tags.map((tag) => (
                 <span
-                  className={cn(
-                    "font-medium",
-                    getNameColorClassName(discussion.authorNameColorId ?? null),
-                  )}
+                  key={tag}
+                  className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-background/80 px-3 py-1 text-xs font-medium text-primary"
                 >
-                  {discussion.author}
+                  <Tag className="h-3 w-3" /> {tag}
                 </span>
-              </span>
-              <span className="flex items-center gap-1.5 sm:gap-2">
-                <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                {discussion.date}
-              </span>
-              <button
-                type="button"
-                onClick={handleToggleDiscussionLike}
-                className={cn(
-                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
-                  discussionLiked
-                    ? "text-red-500"
-                    : "text-muted-foreground hover:text-red-500",
-                )}
-              >
-                <Heart
-                  className={cn(
-                    "h-3.5 w-3.5 sm:h-4 sm:w-4",
-                    discussionLiked && "fill-current",
-                  )}
-                />
-                {discussion.likes}
-              </button>
-              {user && user.id === discussion.authorId && (
+              ))}
+            </div>
+          )}
+
+          {isEditingDiscussion ? (
+            <div className="mb-4 space-y-3">
+              <input
+                type="text"
+                value={editDiscussionTitle}
+                onChange={(e) => setEditDiscussionTitle(e.target.value)}
+                className="w-full rounded-2xl border border-input bg-background px-4 py-3 text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary/40 sm:text-3xl"
+                maxLength={200}
+                disabled={isSavingDiscussion}
+              />
+              <textarea
+                value={editDiscussionContent}
+                onChange={(e) => setEditDiscussionContent(e.target.value)}
+                className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 sm:text-lg"
+                rows={6}
+                maxLength={5000}
+                disabled={isSavingDiscussion}
+              />
+              <div className="flex items-center gap-2">
+                <Button size="sm" className="rounded-full" onClick={handleSaveDiscussion} disabled={isSavingDiscussion || !editDiscussionTitle.trim() || !editDiscussionContent.trim()}>
+                  保存
+                </Button>
+                <Button size="sm" variant="ghost" className="rounded-full" onClick={() => setIsEditingDiscussion(false)} disabled={isSavingDiscussion}>
+                  取消
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <p className="section-kicker">社区讨论</p>
+              <h1 className="mt-3 mb-4 text-2xl font-semibold tracking-tight sm:text-4xl">{discussion.title}</h1>
+
+              <div className="mb-6 flex flex-wrap items-center gap-3 border-b border-border/70 pb-5 text-xs text-muted-foreground sm:gap-6 sm:text-sm">
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <AvatarWithFrame
+                    src={discussion.authorAvatar}
+                    fallback={discussion.author[0]?.toUpperCase()}
+                    avatarFrameId={discussion.authorAvatarFrameId}
+                    className="h-6 w-6 rounded-full shrink-0 sm:h-8 sm:w-8"
+                  />
+                  <span
+                    className={cn(
+                      "font-medium",
+                      getNameColorClassName(discussion.authorNameColorId ?? null),
+                    )}
+                  >
+                    {discussion.author}
+                  </span>
+                </span>
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  {discussion.date}
+                </span>
                 <button
                   type="button"
-                  onClick={handleStartEditDiscussion}
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
-                  title="编辑讨论"
+                  onClick={handleToggleDiscussionLike}
+                  className={cn(
+                    "flex items-center gap-1.5 transition-colors sm:gap-2",
+                    discussionLiked
+                      ? "text-red-500"
+                      : "text-muted-foreground hover:text-red-500",
+                  )}
                 >
-                  <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  <span className="hidden sm:inline">编辑</span>
+                  <Heart
+                    className={cn(
+                      "h-3.5 w-3.5 sm:h-4 sm:w-4",
+                      discussionLiked && "fill-current",
+                    )}
+                  />
+                  {discussion.likes}
                 </button>
-              )}
-              {user && user.id !== discussion.authorId && (
-                <ReportDialog contentType="discussion" contentId={discussion.id} />
-              )}
-            </div>
+                {user && user.id === discussion.authorId && (
+                  <button
+                    type="button"
+                    onClick={handleStartEditDiscussion}
+                    className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"
+                    title="编辑讨论"
+                  >
+                    <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="hidden sm:inline">编辑</span>
+                  </button>
+                )}
+                {user && user.id !== discussion.authorId && (
+                  <ReportDialog contentType="discussion" contentId={discussion.id} />
+                )}
+              </div>
 
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-sm sm:text-lg leading-relaxed whitespace-pre-wrap">
-                {discussion.content}
-              </p>
-            </div>
-          </>
-        )}
-      </div>
+              <div className="max-w-none">
+                <p className="whitespace-pre-wrap text-sm leading-8 sm:text-lg">
+                  {discussion.content}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
 
-      <div className="space-y-4 sm:space-y-8">
-        <h3 className="text-lg sm:text-2xl font-bold flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
-          回复 ({totalReplies})
-        </h3>
+      <section className="surface-panel mt-6 overflow-hidden">
+        <div className="px-5 py-6 sm:px-7 sm:py-8">
+          <h3 className="flex items-center gap-2 text-lg font-semibold sm:text-2xl">
+            <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
+            回复 ({totalReplies})
+          </h3>
 
-        {topLevelReplies.length > 0 ? (
-          <div className="bg-card rounded-lg">
+          {topLevelReplies.length > 0 ? (
+            <div className="mt-5 overflow-hidden rounded-[24px] border border-border/70 bg-background/75">
             {topLevelReplies.map((reply) => {
               const replyCount = getRepliesUnderRoot(discussion.replies, reply.id).length;
               const directReplies = getDirectReplies(reply.id);
@@ -789,7 +793,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             {hasMoreReplies && (
               <div
                 ref={loadMoreRef}
-                className="flex justify-center py-4 text-sm text-muted-foreground"
+                className="flex justify-center border-t border-border/60 py-4 text-sm text-muted-foreground"
               >
                 {isLoadingMoreReplies ? (
                   <span className="inline-flex items-center">
@@ -803,16 +807,17 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
             )}
 
             {!hasMoreReplies && topLevelReplies.length > 0 && (
-              <div className="text-center py-3 text-muted-foreground text-xs">没有更多了</div>
+              <div className="border-t border-border/60 py-3 text-center text-xs text-muted-foreground">没有更多了</div>
             )}
           </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
-            <MessageSquare className="h-10 w-10 mb-2 opacity-20" />
-            <p className="text-sm">暂无回复，快来抢沙发吧！</p>
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="surface-subtle mt-5 flex flex-col items-center justify-center border-dashed py-12 text-muted-foreground">
+              <MessageSquare className="mb-2 h-10 w-10 opacity-20" />
+              <p className="text-sm">暂无回复，快来抢沙发吧！</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* 回复详情 Sheet */}
       <Sheet
