@@ -18,6 +18,7 @@ import { ProjectCard } from '@/components/features/project-card'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
+import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
@@ -171,6 +172,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   return (
     <div className="relative overflow-x-hidden">
+      <ProjectDetailScrollTop />
       <div className="absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top_left,rgba(166,193,238,0.26),transparent_42%),radial-gradient(circle_at_top_right,rgba(251,194,235,0.16),transparent_36%)]" />
       <div className="page-shell pt-8 pb-24 md:pb-10">
         <MobilePageHeader
