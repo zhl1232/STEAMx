@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from "@/context/gamification-context";
+import { SERIES_ORDER } from "@/lib/gamification/badges";
 import { logger } from "@/lib/logger";
 import { PageStatus } from "@/components/ui/page-status";
 
@@ -30,6 +31,37 @@ interface PublicProfile {
   xp: number;
   role?: 'user' | 'teacher' | 'moderator' | 'admin';
   created_at: string;
+}
+
+const TIER_ORDER = { bronze: 0, silver: 1, gold: 2, platinum: 3 } as const;
+
+function groupBadgesBySeries() {
+  const grouped = new Map<string, typeof BADGES>();
+  for (const badge of BADGES) {
+    const key = badge.seriesKey ?? "other";
+    const list = grouped.get(key) ?? [];
+    list.push(badge);
+    grouped.set(key, list);
+  }
+
+  for (const [, list] of grouped) {
+    list.sort((a, b) => {
+      if (a.tier && b.tier) return TIER_ORDER[a.tier] - TIER_ORDER[b.tier];
+      return 0;
+    });
+  }
+
+  return grouped;
+}
+
+function getSeriesPanelClass(seriesKey: string) {
+  if (seriesKey === "rare") return "border-pink-200/60 bg-pink-50/60";
+  if (seriesKey === "bird_observation" || seriesKey === "bird_observer" || seriesKey === "species_collector") return "border-emerald-200/60 bg-emerald-50/60";
+  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life" || seriesKey === "circuit") return "border-cyan-200/60 bg-cyan-50/60";
+  if (seriesKey === "art_expert") return "border-pink-200/60 bg-rose-50/60";
+  if (seriesKey === "challenge" || seriesKey === "streak" || seriesKey === "minesweeper") return "border-orange-200/60 bg-orange-50/60";
+  if (seriesKey === "game24" || seriesKey === "game2048" || seriesKey === "sudoku" || seriesKey === "gomoku" || seriesKey === "hanoi" || seriesKey === "nqueens") return "border-violet-200/60 bg-violet-50/60";
+  return "border-border/60 bg-background/85";
 }
 
 function formatJoinDate(date: string) {
@@ -161,6 +193,7 @@ export default function PublicProfilePage() {
     { label: "粉丝", value: followerCount },
     { label: "关注", value: followingCount },
   ];
+  const groupedBadges = groupBadgesBySeries();
 
   return (
     <div className="page-shell pt-0 pb-24 md:py-8">
@@ -274,42 +307,70 @@ export default function PublicProfilePage() {
           </TabsContent>
 
           <TabsContent value="badges">
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-              {BADGES.map((badge) => {
-                const isUnlocked = unlockedBadgeIds.has(badge.id);
+            <div className="space-y-5">
+              {SERIES_ORDER.map(({ key, label }) => {
+                const badgesInSeries = groupedBadges.get(key) ?? [];
+                if (badgesInSeries.length === 0) return null;
+                const unlockedCount = badgesInSeries.filter((badge) => unlockedBadgeIds.has(badge.id)).length;
+
                 return (
-                  <div
-                    key={badge.id}
-                    className={cn(
-                      "surface-subtle flex flex-col items-center justify-center gap-3 p-6 text-center",
-                      isUnlocked && "border-primary/25 bg-primary/[0.06]",
-                    )}
+                  <section
+                    key={key}
+                    className={cn("rounded-[28px] border p-4 sm:p-5 dark:border-white/10 dark:bg-white/[0.03]", getSeriesPanelClass(key))}
                   >
-                    <BadgeIcon
-                      icon={badge.icon}
-                      tier={badge.tier}
-                      size="lg"
-                      locked={!isUnlocked}
-                    />
-                    <div>
-                      <div className="text-sm font-bold">{badge.name}</div>
-                      <div className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-                        {badge.description}
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-sm font-semibold tracking-tight sm:text-base">{label}</h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {unlockedCount}/{badgesInSeries.length} 枚已解锁
+                        </p>
                       </div>
+                      <Badge variant="outline" className="h-6 rounded-full border-white/60 bg-background/70 px-2.5 text-[10px] shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+                        {unlockedCount === badgesInSeries.length ? "已完成" : "进行中"}
+                      </Badge>
                     </div>
-                    {isUnlocked ? (
-                      <Badge
-                        variant="secondary"
-                        className="h-5 border-green-200 bg-green-500/10 text-[10px] text-green-700"
-                      >
-                        已解锁
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="h-5 text-[10px]">
-                        未解锁
-                      </Badge>
-                    )}
-                  </div>
+
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
+                      {badgesInSeries.map((badge) => {
+                        const isUnlocked = unlockedBadgeIds.has(badge.id);
+                        return (
+                          <div
+                            key={badge.id}
+                            className={cn(
+                              "surface-subtle flex flex-col items-center justify-center gap-3 p-6 text-center",
+                              isUnlocked && "border-primary/25 bg-primary/[0.06]",
+                            )}
+                          >
+                            <BadgeIcon
+                              icon={badge.icon}
+                              tier={badge.tier}
+                              seriesKey={badge.seriesKey}
+                              size="lg"
+                              locked={!isUnlocked}
+                            />
+                            <div>
+                              <div className="text-sm font-bold">{badge.name}</div>
+                              <div className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                                {badge.description}
+                              </div>
+                            </div>
+                            {isUnlocked ? (
+                              <Badge
+                                variant="secondary"
+                                className="h-5 border-green-200 bg-green-500/10 text-[10px] text-green-700"
+                              >
+                                已解锁
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline" className="h-5 text-[10px]">
+                                未解锁
+                              </Badge>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
                 );
               })}
             </div>

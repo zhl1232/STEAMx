@@ -277,6 +277,7 @@ export default function ProfilePage() {
                   key={badge.id}
                   icon={badge.icon}
                   tier={badge.tier}
+                  seriesKey={badge.seriesKey}
                   size="sm"
                   className="h-8 w-8"
                   showGlow={false}

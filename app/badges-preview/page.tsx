@@ -78,6 +78,7 @@ export default function BadgesPreviewPage() {
                 <BadgeIcon 
                   icon={badge.icon} 
                   tier={badge.tier || "bronze"} 
+                  seriesKey={badge.seriesKey}
                   size="lg" 
                   locked={false} 
                 />
