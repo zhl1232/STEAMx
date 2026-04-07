@@ -5,6 +5,9 @@ import {
     useCircuitPuzzle,
     LEVELS,
     getConnections,
+    getBulbTargets,
+    getSourceControls,
+    getMoveRating,
     type ComponentType,
 } from "@/hooks/useCircuitPuzzle"
 import { useGamification } from "@/context/gamification-context"
@@ -23,6 +26,7 @@ import {
     Check,
     Lock,
     MousePointerClick,
+    Star,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import confetti from "canvas-confetti"
@@ -51,12 +55,14 @@ function ComponentIcon({
     rotation,
     powered,
     fixed,
+    active = true,
     size = CELL_SIZE,
 }: {
     type: ComponentType
     rotation: number
     powered: boolean
     fixed: boolean
+    active?: boolean
     size?: number
 }) {
     const half = size / 2
@@ -93,8 +99,11 @@ function ComponentIcon({
             {/* Component body */}
             {type === "battery" && (
                 <g>
-                    <rect x={half - 10} y={half - 6} width={20} height={12} rx={2} fill={powered ? "#ef4444" : "#9ca3af"} stroke={wireColor} strokeWidth={1.5} />
+                    <rect x={half - 10} y={half - 6} width={20} height={12} rx={2} fill={active ? (powered ? "#ef4444" : "#9ca3af") : "#475569"} stroke={wireColor} strokeWidth={1.5} />
                     <text x={half} y={half + 4} textAnchor="middle" fontSize={9} fontWeight="bold" fill="white">+−</text>
+                    {!active && (
+                        <line x1={half - 8} y1={half + 10} x2={half + 8} y2={half - 10} stroke="#ef4444" strokeWidth={2} strokeLinecap="round" />
+                    )}
                 </g>
             )}
 
@@ -148,6 +157,7 @@ export default function CircuitPage() {
         level,
         levelIndex,
         levelCount,
+        unlockedLevelCount,
         grid,
         powered,
         status,
@@ -155,6 +165,7 @@ export default function CircuitPage() {
         time,
         stats,
         rotateCell,
+        toggleSource,
         nextLevel,
         prevLevel,
         resetLevel,
@@ -165,6 +176,18 @@ export default function CircuitPage() {
 
     const logicLevels = LEVELS.filter((l) => l.hasLogicGate)
     const allLogicCleared = logicLevels.length > 0 && logicLevels.every((l) => stats.solvedLevels.includes(l.id))
+    const bulbTargets = getBulbTargets(level)
+    const sourceControls = getSourceControls(level)
+    const bulbTargetByCell = new Map(bulbTargets.map((target) => [`${target.row},${target.col}`, target]))
+    const sourceControlByCell = new Map(sourceControls.map((source) => [`${source.row},${source.col}`, source]))
+    const totalStars = LEVELS.reduce((sum, currentLevel) => {
+        const bestMoves = stats.bestMoves[currentLevel.id]
+        return sum + (bestMoves != null ? getMoveRating(bestMoves, currentLevel.parMoves) : 0)
+    }, 0)
+    const perfectLevels = LEVELS.filter((currentLevel) => {
+        const bestMoves = stats.bestMoves[currentLevel.id]
+        return bestMoves != null && getMoveRating(bestMoves, currentLevel.parMoves) === 3
+    }).length
 
     useEffect(() => {
         if (status !== "solved") return
@@ -199,6 +222,7 @@ export default function CircuitPage() {
 
     const gridWidth = level.cols * CELL_SIZE
     const gridHeight = level.rows * CELL_SIZE
+    const currentRating = status === "solved" ? getMoveRating(moves, level.parMoves) : null
 
     return (
         <div className="flex flex-col xl:flex-row h-full">
@@ -254,7 +278,7 @@ export default function CircuitPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-7 w-7 rounded-lg"
-                                disabled={levelIndex >= levelCount - 1}
+                                disabled={levelIndex >= unlockedLevelCount - 1 || levelIndex >= levelCount - 1}
                                 onClick={nextLevel}
                             >
                                 <ChevronRight className="w-3 h-3" />
@@ -274,6 +298,9 @@ export default function CircuitPage() {
                                     逻辑门
                                 </span>
                             )}
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-sky-600 bg-sky-500/10">
+                                已解锁 {unlockedLevelCount}/{levelCount}
+                            </span>
                             {stats.solvedLevels.includes(level.id) && (
                                 <Check className="w-3.5 h-3.5 text-green-500" />
                             )}
@@ -295,10 +322,56 @@ export default function CircuitPage() {
                                 {formatTime(time)}
                             </span>
                         </div>
+
+                        <div className="w-px h-6 bg-border hidden sm:block" />
+
+                        <div className="flex items-center gap-1.5">
+                            <Star className="w-3.5 h-3.5 text-amber-500" />
+                            <span className="text-xs font-mono font-bold text-foreground">
+                                目标 {level.parMoves} 步
+                            </span>
+                        </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-xs text-muted-foreground mb-3 px-1">{level.description}</p>
+                    <div className="mb-3 px-1 space-y-1">
+                        <p className="text-xs text-muted-foreground">{level.description}</p>
+                        <p className="text-xs text-foreground/80">
+                            挑战目标: <span className="font-semibold">{level.objective}</span>
+                        </p>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                            {sourceControls.map((source) => {
+                                const cell = grid[source.row]?.[source.col]
+                                const isOn = cell?.active ?? source.startOn
+                                return (
+                                    <span
+                                        key={`${source.row}-${source.col}`}
+                                        className={cn(
+                                            "text-[10px] font-bold px-2 py-1 rounded-full border",
+                                            isOn
+                                                ? "text-rose-600 border-rose-500/30 bg-rose-500/10"
+                                                : "text-slate-600 border-slate-500/30 bg-slate-500/10",
+                                        )}
+                                    >
+                                        输入 {source.label}: {isOn ? "开" : "关"}
+                                    </span>
+                                )
+                            })}
+                            {bulbTargets.map((target) => (
+                                <span
+                                    key={`${target.row}-${target.col}`}
+                                    className={cn(
+                                        "text-[10px] font-bold px-2 py-1 rounded-full border",
+                                        target.required === "lit"
+                                            ? "text-emerald-600 border-emerald-500/30 bg-emerald-500/10"
+                                            : "text-slate-600 border-slate-500/30 bg-slate-500/10",
+                                    )}
+                                >
+                                    {target.label} {target.required === "lit" ? "亮" : "灭"}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
 
                     {/* Circuit grid */}
                     <div className="relative bg-muted/20 rounded-2xl p-3 sm:p-5 border border-border shadow-xl overflow-auto">
@@ -340,34 +413,61 @@ export default function CircuitPage() {
 
                             {/* Cells */}
                             {grid.map((row, r) =>
-                                row.map((cell, c) => (
-                                    <button
-                                        key={`${r}-${c}`}
-                                        className={cn(
-                                            "absolute transition-all duration-150",
-                                            cell.type !== "empty" && !cell.fixed && status !== "solved"
-                                                ? "cursor-pointer hover:bg-primary/5 active:scale-95"
-                                                : "cursor-default",
-                                            powered[r]?.[c] && "bg-green-500/5",
-                                        )}
-                                        style={{
-                                            left: c * CELL_SIZE,
-                                            top: r * CELL_SIZE,
-                                            width: CELL_SIZE,
-                                            height: CELL_SIZE,
-                                        }}
-                                        onClick={() => rotateCell(r, c)}
-                                        disabled={cell.fixed || cell.type === "empty" || status === "solved"}
-                                    >
-                                        <ComponentIcon
-                                            type={cell.type}
-                                            rotation={cell.rotation}
-                                            powered={powered[r]?.[c] ?? false}
-                                            fixed={cell.fixed}
-                                            size={CELL_SIZE}
-                                        />
-                                    </button>
-                                )),
+                                row.map((cell, c) => {
+                                    const bulbTarget = bulbTargetByCell.get(`${r},${c}`)
+                                    return (
+                                        <button
+                                            key={`${r}-${c}`}
+                                            className={cn(
+                                                "absolute transition-all duration-150",
+                                                ((cell.type !== "empty" && !cell.fixed) || (cell.type === "battery" && cell.interactive)) && status !== "solved"
+                                                    ? "cursor-pointer hover:bg-primary/5 active:scale-95"
+                                                    : "cursor-default",
+                                                powered[r]?.[c] && "bg-green-500/5",
+                                            )}
+                                            style={{
+                                                left: c * CELL_SIZE,
+                                                top: r * CELL_SIZE,
+                                                width: CELL_SIZE,
+                                                height: CELL_SIZE,
+                                            }}
+                                            onClick={() => {
+                                                if (cell.type === "battery" && cell.interactive) {
+                                                    toggleSource(r, c)
+                                                    return
+                                                }
+                                                rotateCell(r, c)
+                                            }}
+                                            disabled={(cell.fixed && !(cell.type === "battery" && cell.interactive)) || cell.type === "empty" || status === "solved"}
+                                        >
+                                            {sourceControlByCell.has(`${r},${c}`) && (
+                                                <span className="absolute right-1.5 top-1.5 z-10 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500/15 px-1 text-[9px] font-black text-rose-600">
+                                                    {sourceControlByCell.get(`${r},${c}`)?.label}
+                                                </span>
+                                            )}
+                                            {bulbTarget && (
+                                                <span
+                                                    className={cn(
+                                                        "absolute left-1.5 top-1.5 z-10 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-black",
+                                                        bulbTarget.required === "lit"
+                                                            ? "bg-emerald-500/15 text-emerald-600"
+                                                            : "bg-slate-500/15 text-slate-600",
+                                                    )}
+                                                >
+                                                    {bulbTarget.label}
+                                                </span>
+                                            )}
+                                            <ComponentIcon
+                                                type={cell.type}
+                                                rotation={cell.rotation}
+                                                powered={powered[r]?.[c] ?? false}
+                                                fixed={cell.fixed}
+                                                active={cell.active ?? true}
+                                                size={CELL_SIZE}
+                                            />
+                                        </button>
+                                    )
+                                }),
                             )}
                         </div>
 
@@ -403,6 +503,22 @@ export default function CircuitPage() {
                                             <div>
                                                 用时: <span className="text-foreground font-bold">{formatTime(time)}</span>
                                             </div>
+                                            <div className="flex items-center justify-center gap-1 pt-1">
+                                                {Array.from({ length: 3 }).map((_, index) => (
+                                                    <Star
+                                                        key={index}
+                                                        className={cn(
+                                                            "w-4 h-4",
+                                                            currentRating != null && index < currentRating
+                                                                ? "text-amber-500 fill-amber-500"
+                                                                : "text-muted-foreground/30",
+                                                        )}
+                                                    />
+                                                ))}
+                                                <span className="ml-1 text-xs">
+                                                    目标 {level.parMoves} 步
+                                                </span>
+                                            </div>
                                         </div>
                                         <div className="flex items-center gap-2 mt-2">
                                             <Button onClick={resetLevel} variant="outline" className="gap-2">
@@ -424,7 +540,7 @@ export default function CircuitPage() {
 
                     {/* Hint text */}
                     <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3 sm:mt-4">
-                        点击非固定元件旋转 90° · 连通电池与所有灯泡即过关
+                        点击可旋转元件旋转 90° · 点击带字母的电源切换输入 · 满足所有灯泡目标状态即过关
                     </p>
                 </div>
             </div>
@@ -542,6 +658,24 @@ export default function CircuitPage() {
                                         完成次数
                                     </span>
                                 </div>
+                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <Star className="w-5 h-5 text-amber-500 mb-1 fill-amber-500" />
+                                    <span className="text-2xl font-black text-foreground font-mono">
+                                        {totalStars}
+                                    </span>
+                                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                                        星级总数
+                                    </span>
+                                </div>
+                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <Sparkles className="w-5 h-5 text-sky-500 mb-1" />
+                                    <span className="text-2xl font-black text-foreground font-mono">
+                                        {perfectLevels}
+                                    </span>
+                                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                                        三星关卡
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Level completion status */}
@@ -553,7 +687,10 @@ export default function CircuitPage() {
                                 <div className="space-y-1.5">
                                     {LEVELS.map((l) => {
                                         const solved = stats.solvedLevels.includes(l.id)
+                                        const unlocked = LEVELS.findIndex((candidate) => candidate.id === l.id) < unlockedLevelCount
                                         const bestTime = stats.bestTimes[l.id]
+                                        const bestMoves = stats.bestMoves[l.id]
+                                        const bestRating = bestMoves != null ? getMoveRating(bestMoves, l.parMoves) : 0
                                         return (
                                             <div
                                                 key={l.id}
@@ -562,17 +699,22 @@ export default function CircuitPage() {
                                                 <div className="flex items-center gap-2">
                                                     {solved ? (
                                                         <Check className="w-3.5 h-3.5 text-green-500" />
+                                                    ) : unlocked ? (
+                                                        <Zap className="w-3.5 h-3.5 text-sky-500" />
                                                     ) : (
                                                         <Lock className="w-3.5 h-3.5 text-muted-foreground/30" />
                                                     )}
                                                     <span className={cn(
                                                         "font-medium",
-                                                        solved ? "text-foreground" : "text-muted-foreground/60",
+                                                        solved || unlocked ? "text-foreground" : "text-muted-foreground/60",
                                                     )}>
                                                         {l.name}
                                                     </span>
                                                     <span className={cn("text-[10px] px-1 py-px rounded", DIFFICULTY_COLORS[l.difficulty])}>
                                                         {DIFFICULTY_LABELS[l.difficulty]}
+                                                    </span>
+                                                    <span className="text-[8px] px-1 py-px rounded text-amber-600 bg-amber-500/10">
+                                                        {l.parMoves} 步
                                                     </span>
                                                     {l.hasLogicGate && (
                                                         <span className="text-[8px] px-1 py-px rounded text-blue-500 bg-blue-500/10">
@@ -580,12 +722,33 @@ export default function CircuitPage() {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <span className={cn(
-                                                    "font-mono font-bold",
-                                                    bestTime != null ? "text-foreground" : "text-muted-foreground/40",
-                                                )}>
-                                                    {bestTime != null ? formatTime(bestTime) : "—"}
-                                                </span>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="flex items-center gap-0.5">
+                                                        {Array.from({ length: 3 }).map((_, index) => (
+                                                            <Star
+                                                                key={index}
+                                                                className={cn(
+                                                                    "w-3 h-3",
+                                                                    index < bestRating
+                                                                        ? "text-amber-500 fill-amber-500"
+                                                                        : "text-muted-foreground/20",
+                                                                )}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <span className={cn(
+                                                        "font-mono font-bold",
+                                                        bestMoves != null ? "text-foreground" : "text-muted-foreground/40",
+                                                    )}>
+                                                        {bestMoves != null ? `${bestMoves}步` : "—"}
+                                                    </span>
+                                                    <span className={cn(
+                                                        "font-mono font-bold",
+                                                        bestTime != null ? "text-foreground" : "text-muted-foreground/40",
+                                                    )}>
+                                                        {bestTime != null ? formatTime(bestTime) : "—"}
+                                                    </span>
+                                                </div>
                                             </div>
                                         )
                                     })}

@@ -326,16 +326,22 @@ export function validate24Expression(
 // ── React Hook ────────────────────────────────────────────────────────
 
 export function use24Game(timerDuration = 60) {
-  const [cards, setCards] = useState<Card24[]>([])
-  const [status, setStatus] = useState<Game24Status>('idle')
+  const initialRoundRef = useRef<{ cards: Card24[]; solutions: string[] } | null>(null)
+  if (initialRoundRef.current === null) {
+    initialRoundRef.current = generateCards()
+  }
+  const initialRound = initialRoundRef.current
+
+  const [cards, setCards] = useState<Card24[]>(initialRound.cards)
+  const [status, setStatus] = useState<Game24Status>('playing')
   const [timeLeft, setTimeLeft] = useState(timerDuration)
-  const [round, setRound] = useState(0)
+  const [round, setRound] = useState(1)
   const [streak, setStreak] = useState(0)
   const [solutions, setSolutions] = useState<string[]>([])
   const [stats, setStats] = useState<Game24Stats>(() => loadStats())
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const solutionsRef = useRef<string[]>([])
+  const solutionsRef = useRef<string[]>(initialRound.solutions)
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -359,18 +365,8 @@ export function use24Game(timerDuration = 60) {
     }
   }, [timeLeft, status, clearTimer])
 
-  useEffect(() => () => clearTimer(), [clearTimer])
-
-  const dealNewRound = useCallback(() => {
+  const startTimer = useCallback(() => {
     clearTimer()
-    const { cards: newCards, solutions: newSolutions } = generateCards()
-    setCards(newCards)
-    solutionsRef.current = newSolutions
-    setSolutions([])
-    setStatus('playing')
-    setRound((prev) => prev + 1)
-    setTimeLeft(timerDuration)
-
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -383,13 +379,32 @@ export function use24Game(timerDuration = 60) {
         return prev - 1
       })
     }, 1000)
-  }, [clearTimer, timerDuration])
+  }, [clearTimer])
+
+  useEffect(() => {
+    startTimer()
+    return clearTimer
+  }, [startTimer, clearTimer])
+
+  const beginRound = useCallback((nextRound: number | ((prev: number) => number)) => {
+    const { cards: newCards, solutions: newSolutions } = generateCards()
+    setCards(newCards)
+    solutionsRef.current = newSolutions
+    setSolutions([])
+    setStatus('playing')
+    setTimeLeft(timerDuration)
+    setRound(nextRound)
+    startTimer()
+  }, [startTimer, timerDuration])
+
+  const dealNewRound = useCallback(() => {
+    beginRound((prev) => prev + 1)
+  }, [beginRound])
 
   const newGame = useCallback(() => {
-    setRound(0)
     setStreak(0)
-    dealNewRound()
-  }, [dealNewRound])
+    beginRound(1)
+  }, [beginRound])
 
   const submitExpression = useCallback(
     (expr: string): { success: boolean; error?: string } => {

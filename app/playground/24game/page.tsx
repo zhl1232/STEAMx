@@ -95,11 +95,6 @@ export default function Game24Page() {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    newGame()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
     if (status === "playing") {
       setExpression("")
       setError("")

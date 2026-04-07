@@ -66,6 +66,18 @@ describe('useMinesweeper', () => {
         expect(result.current.board).toBe(initialBoard)
     })
 
+    it('allows flagging cells before the first reveal', () => {
+        const { result } = renderHook(() => useMinesweeper('beginner'))
+
+        act(() => {
+            result.current.toggleFlag(0, 0)
+        })
+
+        expect(result.current.status).toBe('idle')
+        expect(result.current.board[0][0].isFlagged).toBe(true)
+        expect(result.current.minesLeft).toBe(DIFFICULTIES.beginner.mines - 1)
+    })
+
     it('resets elapsed time when changing difficulty before saving a new best record', async () => {
         vi.useFakeTimers()
         DIFFICULTIES.beginner = { rows: 2, cols: 2, mines: 1 }

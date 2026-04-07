@@ -231,7 +231,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
 
     const toggleFlag = (row: number, col: number, e?: React.MouseEvent | React.TouchEvent) => {
         if (e) e.preventDefault(); // 阻止默认右键菜单
-        if (status === 'idle' || status === 'won' || status === 'lost') return;
+        if (status === 'won' || status === 'lost') return;
         if (!isWithinBounds(row, col, difficulty.rows, difficulty.cols)) return;
         if (board[row][col].isRevealed) return;
 
