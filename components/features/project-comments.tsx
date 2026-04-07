@@ -20,6 +20,7 @@ import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";
 import { logger } from "@/lib/logger";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { CommentCard } from "@/components/features/shared/comment-card";
 import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
 
@@ -46,6 +47,29 @@ const mergeRootOrder = (current: string[], incoming: Comment[]): string[] => {
     next.push(id);
   }
   return next;
+};
+
+const getPreviewReplies = (
+  replies: Comment[],
+  previewCount: number,
+  highlightedCommentIds: Set<string>,
+): Comment[] => {
+  const highlightedReply = [...replies]
+    .reverse()
+    .find((reply) => highlightedCommentIds.has(String(reply.id)));
+
+  if (previewCount <= 0) {
+    return highlightedReply ? [highlightedReply] : [];
+  }
+  if (replies.length <= previewCount) return replies;
+
+  const base = replies.slice(0, previewCount);
+
+  if (!highlightedReply || base.some((reply) => String(reply.id) === String(highlightedReply.id))) {
+    return base;
+  }
+
+  return [...base.slice(0, Math.max(0, previewCount - 1)), highlightedReply];
 };
 
 const getCommentThreadIds = (items: Comment[], rootId: string | number): Set<string> => {
@@ -123,6 +147,40 @@ export function ProjectComments({
   );
 
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+  const [highlightedCommentIds, setHighlightedCommentIds] = useState<Set<string>>(new Set());
+  const highlightTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const [pendingScrollTarget, setPendingScrollTarget] = useState<{
+    id: string;
+    scope: "main" | "sheet";
+  } | null>(null);
+  const isSheetOpen = detailRootIdStack.length > 0;
+
+  const triggerCommentHighlight = useCallback((commentId: string | number) => {
+    const key = String(commentId);
+
+    setHighlightedCommentIds((prev) => {
+      const next = new Set(prev);
+      next.add(key);
+      return next;
+    });
+
+    const currentTimeout = highlightTimeoutsRef.current.get(key);
+    if (currentTimeout) {
+      clearTimeout(currentTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      setHighlightedCommentIds((prev) => {
+        if (!prev.has(key)) return prev;
+        const next = new Set(prev);
+        next.delete(key);
+        return next;
+      });
+      highlightTimeoutsRef.current.delete(key);
+    }, 2800);
+
+    highlightTimeoutsRef.current.set(key, timeoutId);
+  }, []);
 
   useEffect(() => {
     setComments(initialComments);
@@ -136,7 +194,39 @@ export function ProjectComments({
     setSheetReplyTarget(null);
     setDetailRootIdStack([]);
     setLikedComments(new Set(initialLikedCommentIds.map((id) => String(id))));
+    setHighlightedCommentIds(new Set());
+    setPendingScrollTarget(null);
   }, [projectId, initialComments, initialTotal, initialHasMore, initialLikedCommentIds]);
+
+  useEffect(() => {
+    const activeTimeouts = highlightTimeoutsRef.current;
+    return () => {
+      activeTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+      activeTimeouts.clear();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingScrollTarget) return;
+
+    const targetId = pendingScrollTarget.scope === "sheet"
+      ? `sheet-comment-${pendingScrollTarget.id}`
+      : `main-comment-${pendingScrollTarget.id}`;
+
+    const rafId = window.requestAnimationFrame(() => {
+      const element = document.getElementById(targetId);
+      if (!element) return;
+
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      });
+      setPendingScrollTarget(null);
+    });
+
+    return () => window.cancelAnimationFrame(rafId);
+  }, [pendingScrollTarget, comments, detailRootIdStack]);
 
   const handleLoadMore = useCallback(async () => {
     if (isLoadingMoreRef.current || !hasMore) return;
@@ -210,7 +300,7 @@ export function ProjectComments({
         fallback: "Me",
       }),
       userId: user?.id,
-      avatar: profile?.avatar_url || user?.user_metadata?.avatar_url,
+      avatar: profile?.avatar_url || getDefaultAvatarPath(user?.id),
       content: content || "",
       image_url: imageUrl || null,
       date: "刚刚",
@@ -246,6 +336,11 @@ export function ProjectComments({
               return Array.from(merged.values());
             });
             setTotal((prev: number) => prev + 1);
+            triggerCommentHighlight(addedReply.id);
+            setPendingScrollTarget({
+              id: String(addedReply.id),
+              scope: isSheetOpen ? "sheet" : "main",
+            });
             setReplyTarget(null);
             setSheetReplyTarget(null);
           }
@@ -260,6 +355,8 @@ export function ProjectComments({
               for (const c of [addedComment, ...prev]) merged.set(String(c.id), c);
               return Array.from(merged.values());
             });
+            triggerCommentHighlight(addedComment.id);
+            setPendingScrollTarget({ id: String(addedComment.id), scope: "main" });
             if (!addedComment.parent_id) {
               const key = String(addedComment.id);
               setRootOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
@@ -284,10 +381,10 @@ export function ProjectComments({
 
       doSubmit();
     },
-    [addComment, projectId, user, promptLogin, buildCommentPayload],
+    [addComment, projectId, user, promptLogin, buildCommentPayload, triggerCommentHighlight, isSheetOpen],
   );
 
-  const handleDeleteComment = async (commentId: string | number) => {
+  const handleDeleteComment = useCallback(async (commentId: string | number) => {
     const idsToRemove = getCommentThreadIds(comments, commentId);
     await deleteComment(commentId);
 
@@ -314,26 +411,7 @@ export function ProjectComments({
     }
 
     router.refresh();
-  };
-
-  const handleEditComment = useCallback(
-    async (commentId: number | string, content: string) => {
-      const res = await fetch(`/api/comments/${commentId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
-      });
-      if (!res.ok) throw new Error(await res.text());
-      setComments((prev: Comment[]) =>
-        prev.map((c) =>
-          String(c.id) === String(commentId)
-            ? { ...c, content, updated_at: new Date().toISOString() }
-            : c,
-        ),
-      );
-    },
-    [],
-  );
+  }, [comments, deleteComment, replyTarget, router, sheetReplyTarget]);
 
   const handleToggleLike = useCallback(
     async (commentId: string | number) => {
@@ -479,21 +557,26 @@ export function ProjectComments({
 
   const commentsListRef = useRef<HTMLDivElement>(null);
 
-  const handleReply = (target: ReplyTarget) => {
+  const handleReply = useCallback((target: ReplyTarget) => {
     setReplyTarget(target);
-  };
+  }, []);
 
-  const handleSheetReply = (target: ReplyTarget) => {
+  const handleSheetReply = useCallback((target: ReplyTarget) => {
     setSheetReplyTarget(target);
-  };
+  }, []);
 
   return (
     <div className="border-t pt-8 relative md:px-6 lg:px-8">
-      <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-        <span className="text-primary">|</span>
-        评论
-        <span className="text-base font-normal text-muted-foreground ml-1">{total}</span>
-      </h3>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-xl font-bold">
+          <span className="text-primary">|</span>
+          评论
+          {total > 0 ? (
+            <span className="ml-1 text-base font-normal text-muted-foreground">{total}</span>
+          ) : null}
+        </h3>
+        {actionsSlot ? <div className="shrink-0">{actionsSlot}</div> : null}
+      </div>
 
       <div className="mb-8">
         {comments.length > 0 ? (
@@ -504,11 +587,16 @@ export function ProjectComments({
                   const replyCount = getDescendantCount(Number(comment.id));
                   const directReplies = getDirectReplies(comment.id);
                   const previewCount = getPreviewCount(directReplies);
-                  const previewReplies = directReplies.slice(0, previewCount);
+                  const previewReplies = getPreviewReplies(
+                    directReplies,
+                    previewCount,
+                    highlightedCommentIds,
+                  );
                   return (
                     <div key={comment.id} className="border-b border-border/60 last:border-0">
                       <CommentCard
                         comment={comment}
+                        anchorId={`main-comment-${comment.id}`}
                         showReplyButton
                         noBorder
                         enableUserLink
@@ -518,13 +606,13 @@ export function ProjectComments({
                         replyTarget={replyTarget}
                         onToggleLike={handleToggleLike}
                         onDelete={handleDeleteComment}
-                        onEdit={handleEditComment}
                         onReply={handleReply}
                         onImageClick={setPreviewImageUrl}
                         reportContentType="comment"
+                        highlighted={highlightedCommentIds.has(String(comment.id))}
                       />
                       {previewReplies.length > 0 && (
-                        <div className="ml-12 sm:ml-16 pl-4 border-l border-border/60 mt-1">
+                        <div className="ml-11 mt-2 rounded-2xl border border-border/50 bg-muted/[0.22] px-2 sm:ml-14 sm:px-3">
                           {previewReplies.map((reply) => (
                             <div
                               key={reply.id}
@@ -532,6 +620,7 @@ export function ProjectComments({
                             >
                               <CommentCard
                                 comment={reply}
+                                anchorId={`main-comment-${reply.id}`}
                                 showReplyButton
                                 noBorder
                                 compact
@@ -542,10 +631,10 @@ export function ProjectComments({
                                 replyTarget={replyTarget}
                                 onToggleLike={handleToggleLike}
                                 onDelete={handleDeleteComment}
-                                onEdit={handleEditComment}
                                 onReply={handleReply}
                                 onImageClick={setPreviewImageUrl}
                                 reportContentType="comment"
+                                highlighted={highlightedCommentIds.has(String(reply.id))}
                               />
                             </div>
                           ))}
@@ -559,7 +648,7 @@ export function ProjectComments({
                             setReplyTarget(null);
                             setSheetReplyTarget(null);
                           }}
-                          className="ml-12 sm:ml-16 flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors py-2.5 pl-0 pr-3 pb-3 rounded-md hover:bg-muted/40 active:bg-muted/60"
+                          className="ml-11 mt-1 flex items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted/55 hover:text-primary active:bg-muted/70 sm:ml-14"
                         >
                           展开全部 {replyCount} 条回复
                           <ChevronRight className="h-4 w-4" />
@@ -593,6 +682,19 @@ export function ProjectComments({
             <p className="text-sm">还没有评论，快来抢沙发吧！</p>
           </div>
         )}
+      </div>
+
+      <div className="mt-6">
+        <BottomReplyBox
+          variant="inline"
+          user={user}
+          profile={profile}
+          replyTarget={replyTarget}
+          onCancelReply={() => setReplyTarget(null)}
+          canUploadImage={canUploadImage}
+          placeholder="说点什么..."
+          onSubmit={handleSubmit}
+        />
       </div>
 
       {/* 评论详情 Sheet */}
@@ -640,12 +742,14 @@ export function ProjectComments({
                   <div className="flex-1 overflow-auto px-4">
                     <CommentCard
                       comment={rootComment}
+                      anchorId={`sheet-comment-${rootComment.id}`}
                       showReplyButton={false}
                       readOnly
                       enableUserLink
                       user={user}
                       profile={profile}
                       onImageClick={setPreviewImageUrl}
+                      highlighted={highlightedCommentIds.has(String(rootComment.id))}
                     />
                     <p className="text-sm text-muted-foreground py-2">
                       相关回复共 {detailReplies.length} 条
@@ -656,6 +760,7 @@ export function ProjectComments({
                         <div key={c.id} className="border-b border-border/60 last:border-0">
                           <CommentCard
                             comment={c}
+                            anchorId={`sheet-comment-${c.id}`}
                             showReplyButton
                             noBorder
                             enableUserLink
@@ -665,10 +770,10 @@ export function ProjectComments({
                             replyTarget={sheetReplyTarget}
                             onToggleLike={handleToggleLike}
                             onDelete={handleDeleteComment}
-                            onEdit={handleEditComment}
                             onReply={handleSheetReply}
                             onImageClick={setPreviewImageUrl}
                             reportContentType="comment"
+                            highlighted={highlightedCommentIds.has(String(c.id))}
                           />
                           {childCount > 0 && (
                             <button
@@ -698,19 +803,6 @@ export function ProjectComments({
             })()}
         </SheetContent>
       </Sheet>
-
-      {/* 底部固定输入栏 */}
-      <BottomReplyBox
-        variant="fixed"
-        user={user}
-        profile={profile}
-        replyTarget={replyTarget}
-        onCancelReply={() => setReplyTarget(null)}
-        canUploadImage={canUploadImage}
-        placeholder="说点什么..."
-        actionsSlot={actionsSlot}
-        onSubmit={handleSubmit}
-      />
 
       {/* 图片预览弹窗 */}
       {previewImageUrl && (

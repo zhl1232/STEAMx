@@ -214,41 +214,58 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
         finalAvatarUrl = uploadData.publicUrl
       }
       // 若为本地默认头像（如 /avatars/default-8.svg），finalAvatarUrl 已是相对路径，直接存库即可
-      // 本次是上传时：记入 last_uploaded_avatar_url，之后即使用户改回预设，选择器里仍可显示「已上传」一格
-      const isCustomUpload = !finalAvatarUrl.startsWith("/avatars/")
       const trimmedUsername = username.trim()
 
-      let birthDate: string | null = null
-      if (birthYear && birthMonth) {
-        const m = birthMonth.padStart(2, "0")
-        birthDate = `${birthYear}-${m}-01`
+      const response = await fetch('/api/settings/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...(trimmedUsername.length >= 3 ? { username: trimmedUsername } : {}),
+          display_name: displayName,
+          bio,
+          gender: gender || null,
+          birth_year: birthYear || null,
+          birth_month: birthMonth || null,
+          avatar_url: finalAvatarUrl,
+        }),
+      })
+
+      const data = await response.json().catch(() => null)
+      if (!response.ok) {
+        throw new Error(data?.error || '保存失败，请稍后重试')
       }
 
-      const updatePayload = {
-        ...(trimmedUsername.length >= 3 ? { username: trimmedUsername } : {}),
-        display_name: displayName,
-        bio,
-        gender: gender || null,
-        birth_date: birthDate,
-        avatar_url: finalAvatarUrl,
-        updated_at: new Date().toISOString(),
-        ...(isCustomUpload ? { last_uploaded_avatar_url: finalAvatarUrl } : {}),
-      } as { username?: string; display_name: string; bio: string; gender: string | null; birth_date: string | null; avatar_url: string; updated_at: string; last_uploaded_avatar_url?: string }
-      // 选预设时只改 avatar_url，不覆盖 last_uploaded_avatar_url，所以已上传的那格会一直存在
-      if (!isCustomUpload) delete updatePayload.last_uploaded_avatar_url
-
-      const { error: _error } = await supabase
-        .from('profiles')
-        .update(updatePayload as never)
-        .eq('id', user.id)
-
-      if (_error) throw _error
+      if (data?.profile) {
+        const payload = data.profile as {
+          username?: string | null
+          display_name?: string | null
+          bio?: string | null
+          gender?: string | null
+          birth_year?: string | null
+          birth_month?: string | null
+          avatar_url?: string | null
+          last_uploaded_avatar_url?: string | null
+        }
+        setUsername(payload.username || username)
+        setDisplayName(payload.display_name || "")
+        setBio(payload.bio || "")
+        setGender(payload.gender || "")
+        setBirthYear(payload.birth_year || "")
+        setBirthMonth(payload.birth_month || "")
+        setAvatarUrl(payload.avatar_url || finalAvatarUrl)
+        setPersistedUploadUrl(payload.last_uploaded_avatar_url || "")
+      }
 
       await refreshProfile() // Refresh global profile state
       setOpen(false)
       router.refresh()
+      toast({ title: "资料已保存" })
     } catch (error) {
       logger.error("Error updating profile", { error })
+      toast({
+        title: error instanceof Error ? error.message : "保存失败，请稍后重试",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }

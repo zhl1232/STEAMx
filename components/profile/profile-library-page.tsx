@@ -1,0 +1,602 @@
+'use client'
+
+import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { useAuth } from '@/context/auth-context'
+import { Button } from '@/components/ui/button'
+import { ProjectCard } from '@/components/features/project-card'
+import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
+import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
+import { ChevronLeft } from 'lucide-react'
+import { useState, useEffect, useEffectEvent } from 'react'
+
+import type { Project } from '@/lib/types'
+import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
+import { cn } from '@/lib/utils'
+import { logger } from '@/lib/logger'
+import { useProfileObservations } from '@/hooks/profile/use-profile-observations'
+import { useToast } from '@/hooks/use-toast'
+import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
+
+const ProfileObservationsPanel = dynamic(
+  () => import('@/components/features/profile/profile-observations-panel').then((mod) => mod.ProfileObservationsPanel),
+  {
+    loading: () => (
+      <div className="surface-panel col-span-full px-5 py-12 text-center text-sm text-muted-foreground">
+        加载观察记录中...
+      </div>
+    ),
+  },
+)
+
+function getErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error && error.message) {
+    return error.message
+  }
+
+  return fallback
+}
+
+export function ProfileLibraryPage() {
+  const WORKS_PAGE_SIZE = 8
+  const { user, profile, loading: authLoading } = useAuth()
+  const { toast } = useToast()
+  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed' | 'observations'>('my-projects')
+  const [mobileProfileTab, setMobileProfileTab] = useState<string>('works')
+  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
+  const [visibleDesktopWorksCount, setVisibleDesktopWorksCount] = useState(WORKS_PAGE_SIZE)
+
+  const [myProjects, setMyProjects] = useState<Project[]>([])
+  const [myProjectsTotalCount, setMyProjectsTotalCount] = useState(0)
+  const [likedProjectsList, setLikedProjectsList] = useState<Project[]>([])
+  const [collectedProjectsList, setCollectedProjectsList] = useState<Project[]>([])
+  const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
+  const [completionStatusMap, setCompletionStatusMap] = useState<Map<number, { status: string; rejectionReason?: string }>>(new Map())
+  const [followerCount, setFollowerCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
+  const [likedProjectsCount, setLikedProjectsCount] = useState(0)
+  const [collectedProjectsCount, setCollectedProjectsCount] = useState(0)
+  const [completedProjectsCount, setCompletedProjectsCount] = useState(0)
+  const [totalLikesReceived, setTotalLikesReceived] = useState(0)
+  const [steamRadar, setSteamRadar] = useState<SteamRadarWithGuidance | null>(null)
+  const [isProjectsDataLoading, setIsProjectsDataLoading] = useState(true)
+  const [isLoadingMoreMyProjects, setIsLoadingMoreMyProjects] = useState(false)
+  const [isLikedProjectsLoading, setIsLikedProjectsLoading] = useState(false)
+  const [isCollectedProjectsLoading, setIsCollectedProjectsLoading] = useState(false)
+  const [isCompletedProjectsLoading, setIsCompletedProjectsLoading] = useState(false)
+  const [likedProjectsLoaded, setLikedProjectsLoaded] = useState(false)
+  const [collectedProjectsLoaded, setCollectedProjectsLoaded] = useState(false)
+  const [completedProjectsLoaded, setCompletedProjectsLoaded] = useState(false)
+  const {
+    myObservations,
+    observationsTotal,
+    uniqueSpeciesCount,
+    isObservationsLoading,
+    observationsLoaded,
+  } = useProfileObservations(
+    activeTab === 'observations' || mobileProfileTab === 'observations',
+    user?.id,
+  )
+  const shouldLoadLikedProjects = activeTab === 'liked' || mobileProfileTab === 'likes'
+  const shouldLoadCollectedProjects = activeTab === 'collected' || mobileProfileTab === 'collected'
+  const shouldLoadCompletedProjects = activeTab === 'completed' || mobileProfileTab === 'completed'
+  const showLoadError = useEffectEvent((description: string) => {
+    toast({
+      title: '加载失败',
+      description,
+      variant: 'destructive',
+    })
+  })
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const mediaQuery = window.matchMedia('(min-width: 768px)')
+    const updateViewport = () => setIsDesktopViewport(mediaQuery.matches)
+
+    updateViewport()
+    mediaQuery.addEventListener('change', updateViewport)
+    return () => mediaQuery.removeEventListener('change', updateViewport)
+  }, [])
+
+  useEffect(() => {
+    if (!user?.id) return
+
+    setIsProjectsDataLoading(true)
+    let cancelled = false
+
+    const loadProfileSummary = async () => {
+      try {
+        const response = await fetch('/api/profile/summary')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '个人主页摘要加载失败')
+        }
+
+        if (cancelled) return
+
+        setMyProjects((payload?.myProjects as Project[]) || [])
+        setMyProjectsTotalCount(Number(payload?.myProjectsTotalCount || 0))
+        setFollowerCount(Number(payload?.followerCount || 0))
+        setFollowingCount(Number(payload?.followingCount || 0))
+        setLikedProjectsCount(Number(payload?.likedProjectsCount || 0))
+        setCollectedProjectsCount(Number(payload?.collectedProjectsCount || 0))
+        setCompletedProjectsCount(Number(payload?.completedProjectsCount || 0))
+        setTotalLikesReceived(Number(payload?.totalLikesReceived || 0))
+        setSteamRadar((payload?.radar as SteamRadarWithGuidance | null) || null)
+        setLikedProjectsList([])
+        setCollectedProjectsList([])
+        setCompletedProjectsList([])
+        setCompletionStatusMap(new Map())
+        setLikedProjectsLoaded(false)
+        setCollectedProjectsLoaded(false)
+        setCompletedProjectsLoaded(false)
+      } catch (err) {
+        if (cancelled) return
+        logger.error('Exception in loadProfileSummary', { error: err })
+        showLoadError(getErrorMessage(err, '无法加载个人资料数据，请稍后重试'))
+      } finally {
+        if (!cancelled) {
+          setIsProjectsDataLoading(false)
+        }
+      }
+    }
+
+    loadProfileSummary()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
+
+  useEffect(() => {
+    setVisibleDesktopWorksCount(WORKS_PAGE_SIZE)
+  }, [user?.id])
+
+  const loadMoreMyProjects = async () => {
+    if (!user?.id || isLoadingMoreMyProjects || myProjects.length >= myProjectsTotalCount) return false
+
+    const nextPage = Math.floor(myProjects.length / WORKS_PAGE_SIZE) + 1
+    setIsLoadingMoreMyProjects(true)
+
+    try {
+      const response = await fetch(`/api/profile/projects?type=my-projects&page=${nextPage}&pageSize=${WORKS_PAGE_SIZE}`)
+      const payload = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(payload?.error || '作品加载失败')
+      }
+
+      const nextProjects = (payload?.projects as Project[]) || []
+      setMyProjects((prev) => [...prev, ...nextProjects])
+      setVisibleDesktopWorksCount((count) => count + WORKS_PAGE_SIZE)
+      return nextProjects.length > 0
+    } catch (err) {
+      logger.error('Exception in loadMoreMyProjects', { error: err })
+      toast({
+        title: '加载失败',
+        description: getErrorMessage(err, '无法加载更多作品，请稍后重试'),
+        variant: 'destructive',
+      })
+      return false
+    } finally {
+      setIsLoadingMoreMyProjects(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!user || isProjectsDataLoading || !shouldLoadLikedProjects || likedProjectsLoaded) return
+    if (likedProjectsCount === 0) {
+      setLikedProjectsLoaded(true)
+      return
+    }
+
+    let cancelled = false
+    setIsLikedProjectsLoading(true)
+
+    const loadLikedProjects = async () => {
+      try {
+        const response = await fetch('/api/profile/projects?type=liked')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '点赞项目加载失败')
+        }
+
+        if (cancelled) return
+
+        setLikedProjectsList((payload?.projects as Project[]) || [])
+        setLikedProjectsLoaded(true)
+      } catch (err) {
+        if (cancelled) return
+        logger.error('Exception in loadLikedProjects', { error: err })
+        showLoadError(getErrorMessage(err, '无法加载点赞项目，请稍后重试'))
+      } finally {
+        if (!cancelled) {
+          setIsLikedProjectsLoading(false)
+        }
+      }
+    }
+
+    loadLikedProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    user,
+    likedProjectsCount,
+    likedProjectsLoaded,
+    isProjectsDataLoading,
+    shouldLoadLikedProjects,
+  ])
+
+  useEffect(() => {
+    if (!user || isProjectsDataLoading || !shouldLoadCollectedProjects || collectedProjectsLoaded) return
+    if (collectedProjectsCount === 0) {
+      setCollectedProjectsLoaded(true)
+      return
+    }
+
+    let cancelled = false
+    setIsCollectedProjectsLoading(true)
+
+    const loadCollectedProjects = async () => {
+      try {
+        const response = await fetch('/api/profile/projects?type=collected')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '收藏项目加载失败')
+        }
+
+        if (cancelled) return
+
+        setCollectedProjectsList((payload?.projects as Project[]) || [])
+        setCollectedProjectsLoaded(true)
+      } catch (err) {
+        if (cancelled) return
+        logger.error('Exception in loadCollectedProjects', { error: err })
+        showLoadError(getErrorMessage(err, '无法加载收藏项目，请稍后重试'))
+      } finally {
+        if (!cancelled) {
+          setIsCollectedProjectsLoading(false)
+        }
+      }
+    }
+
+    loadCollectedProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    user,
+    collectedProjectsCount,
+    collectedProjectsLoaded,
+    isProjectsDataLoading,
+    shouldLoadCollectedProjects,
+  ])
+
+  useEffect(() => {
+    if (!user || isProjectsDataLoading || !shouldLoadCompletedProjects || completedProjectsLoaded) return
+    if (completedProjectsCount === 0) {
+      setCompletionStatusMap(new Map())
+      setCompletedProjectsList([])
+      setCompletedProjectsLoaded(true)
+      return
+    }
+
+    let cancelled = false
+    setIsCompletedProjectsLoading(true)
+
+    const loadCompletedProjects = async () => {
+      try {
+        const response = await fetch('/api/profile/projects?type=completed')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '完成项目加载失败')
+        }
+
+        if (cancelled) return
+
+        setCompletedProjectsList((payload?.projects as Project[]) || [])
+        setCompletionStatusMap(
+          new Map(
+            ((payload?.completionStatusEntries as [number, { status: string; rejectionReason?: string }][] | undefined) || []),
+          ),
+        )
+        setCompletedProjectsLoaded(true)
+      } catch (err) {
+        if (cancelled) return
+        logger.error('Exception in loadCompletedProjects', { error: err })
+        showLoadError(getErrorMessage(err, '无法加载完成项目，请稍后重试'))
+      } finally {
+        if (!cancelled) {
+          setIsCompletedProjectsLoading(false)
+        }
+      }
+    }
+
+    loadCompletedProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    user,
+    completedProjectsCount,
+    completedProjectsLoaded,
+    isProjectsDataLoading,
+    shouldLoadCompletedProjects,
+  ])
+
+  if (authLoading) {
+    return <ProfileLibrarySkeleton />
+  }
+
+  if (!user) {
+    return null
+  }
+
+  const desktopTabs = [
+    { key: 'my-projects' as const, label: '作品', count: myProjectsTotalCount },
+    { key: 'collected' as const, label: '收藏', count: collectedProjectsCount },
+    { key: 'liked' as const, label: '点赞', count: likedProjectsCount },
+    { key: 'completed' as const, label: '已完成', count: completedProjectsCount },
+    {
+      key: 'observations' as const,
+      label: '观察记录',
+      count: observationsLoaded ? observationsTotal : null,
+    },
+  ]
+  const showDesktopProjectSkeleton =
+    (isProjectsDataLoading && activeTab === 'my-projects') ||
+    (activeTab === 'collected' && isCollectedProjectsLoading) ||
+    (activeTab === 'liked' && isLikedProjectsLoading) ||
+    (activeTab === 'completed' && isCompletedProjectsLoading)
+  const visibleDesktopProjects = myProjects.slice(0, visibleDesktopWorksCount)
+  const hasMoreDesktopWorks = myProjectsTotalCount > visibleDesktopWorksCount
+
+  if (isProjectsDataLoading) {
+    return <ProfileLibrarySkeleton />
+  }
+
+  if (isDesktopViewport === null) {
+    return <ProfileLibrarySkeleton />
+  }
+
+  return isDesktopViewport ? (
+    <div className="page-shell hidden py-8 md:block">
+      <div className="space-y-6">
+        <section className="surface-panel overflow-hidden">
+          <div className="flex items-center gap-3 px-6 py-5">
+            <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl">
+              <Link href="/profile" aria-label="返回个人主页">
+                <ChevronLeft className="h-5 w-5" />
+              </Link>
+            </Button>
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">我的内容</h1>
+          </div>
+        </section>
+
+        <section className="surface-panel overflow-hidden">
+          <div className="border-b border-border/60 px-6 py-5">
+            <div className="mt-1 -mx-1 overflow-x-auto px-1 no-scrollbar">
+              <div className="segmented-control inline-flex min-w-max gap-1">
+                {desktopTabs.map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => setActiveTab(tab.key)}
+                    className={cn("segmented-option shrink-0 gap-2 whitespace-nowrap", activeTab === tab.key && "segmented-option-active")}
+                  >
+                    <span>{tab.label}</span>
+                    {tab.count !== null ? <span className="text-xs opacity-75">{tab.count}</span> : null}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+              {showDesktopProjectSkeleton ? (
+                <ProjectListSkeleton />
+              ) : (
+                <>
+                  {activeTab === 'my-projects' && myProjects.length === 0 ? (
+                    <DesktopProfileEmptyState
+                      title="还没有发布作品"
+                      description="把你的第一个项目整理出来。"
+                      href="/share"
+                      actionLabel="去分享"
+                    />
+                  ) : null}
+                  {activeTab === 'my-projects' &&
+                    visibleDesktopProjects.map((project, index) => (
+                      <div
+                        key={project.id}
+                        style={
+                          index >= 4
+                            ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
+                            : undefined
+                        }
+                      >
+                        <ProjectCard project={project} showStatus={true} />
+                      </div>
+                    ))}
+
+                  {activeTab === 'collected' && collectedProjectsList.length === 0 ? (
+                    <DesktopProfileEmptyState
+                      title="还没有收藏项目"
+                      description="去探索页面保存感兴趣的项目。"
+                      href="/explore"
+                      actionLabel="去探索"
+                    />
+                  ) : null}
+                  {activeTab === 'collected' &&
+                    collectedProjectsList.map((project, index) => (
+                      <div
+                        key={project.id}
+                        style={
+                          index >= 4
+                            ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
+                            : undefined
+                        }
+                      >
+                        <ProjectCard project={project} />
+                      </div>
+                    ))}
+
+                  {activeTab === 'liked' && likedProjectsList.length === 0 ? (
+                    <DesktopProfileEmptyState
+                      title="还没有喜欢记录"
+                      description="去发现更多有趣项目。"
+                      href="/explore"
+                      actionLabel="去探索"
+                    />
+                  ) : null}
+                  {activeTab === 'liked' &&
+                    likedProjectsList.map((project, index) => (
+                      <div
+                        key={project.id}
+                        style={
+                          index >= 4
+                            ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
+                            : undefined
+                        }
+                      >
+                        <ProjectCard project={project} />
+                      </div>
+                    ))}
+
+                  {activeTab === 'completed' && completedProjectsList.length === 0 ? (
+                    <DesktopProfileEmptyState
+                      title="还没有完成项目"
+                      description="从一个小项目开始。"
+                      href="/explore"
+                      actionLabel="开始项目"
+                    />
+                  ) : null}
+                  {activeTab === 'completed' &&
+                    completedProjectsList.map((project, index) => {
+                      const completionStatus = completionStatusMap.get(Number(project.id))
+                      return (
+                        <div
+                          key={project.id}
+                          className="relative"
+                          style={
+                            index >= 4
+                              ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
+                              : undefined
+                          }
+                        >
+                          {completionStatus?.status === 'pending' ? (
+                            <div className="absolute left-2 top-2 z-10">
+                              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-sm dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                作品待审核
+                              </span>
+                            </div>
+                          ) : null}
+                          {completionStatus?.status === 'rejected' ? (
+                            <div className="absolute left-2 top-2 z-10">
+                              <span
+                                className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-sm dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
+                                title={completionStatus.rejectionReason}
+                              >
+                                作品未通过
+                              </span>
+                            </div>
+                          ) : null}
+                          <ProjectCard project={project} />
+                        </div>
+                      )
+                    })}
+
+                  {activeTab === 'observations' ? (
+                    <ProfileObservationsPanel
+                      observations={myObservations}
+                      observationsTotal={observationsTotal}
+                      uniqueSpeciesCount={uniqueSpeciesCount}
+                      isLoading={isObservationsLoading}
+                      isLoaded={observationsLoaded}
+                    />
+                  ) : null}
+                </>
+              )}
+            </div>
+
+            {activeTab === 'my-projects' && hasMoreDesktopWorks ? (
+              <div className="mt-6 flex justify-center">
+                <button
+                  type="button"
+                  onClick={loadMoreMyProjects}
+                  disabled={isLoadingMoreMyProjects}
+                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  {isLoadingMoreMyProjects ? '加载中...' : '加载更多作品'}
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </section>
+      </div>
+    </div>
+  ) : (
+    <MobileProfilePage
+      user={user}
+      profile={profile}
+      myProjects={myProjects}
+      myProjectsTotalCount={myProjectsTotalCount}
+      totalLikesReceived={totalLikesReceived}
+      likedProjectsList={likedProjectsList}
+      collectedProjectsList={collectedProjectsList}
+      completedProjectsList={completedProjectsList}
+      completionStatusMap={completionStatusMap}
+      followerCount={followerCount}
+      followingCount={followingCount}
+      likedProjectsCount={likedProjectsCount}
+      collectedProjectsCount={collectedProjectsCount}
+      completedProjectsCount={completedProjectsCount}
+      steamRadar={steamRadar}
+      isProjectsDataLoading={isProjectsDataLoading}
+      isLoadingMoreMyProjects={isLoadingMoreMyProjects}
+      onLoadMoreMyProjects={loadMoreMyProjects}
+      myObservations={myObservations}
+      observationsTotal={observationsTotal}
+      uniqueSpeciesCount={uniqueSpeciesCount}
+      isObservationsLoading={isObservationsLoading}
+      observationsLoaded={observationsLoaded}
+      onTabChange={setMobileProfileTab}
+      showProfileHeader={false}
+      showSteamRadar={false}
+      pageTitle="我的内容"
+      backHref="/profile"
+    />
+  )
+}
+
+function DesktopProfileEmptyState({
+  title,
+  description,
+  href,
+  actionLabel,
+}: {
+  title: string
+  description: string
+  href: string
+  actionLabel: string
+}) {
+  return (
+    <div className="surface-subtle col-span-full px-6 py-12 text-center">
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-muted-foreground">{description}</p>
+      <Button asChild className="mt-6">
+        <Link href={href}>{actionLabel}</Link>
+      </Button>
+    </div>
+  )
+}

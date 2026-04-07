@@ -7,7 +7,6 @@ import {
   User as UserIcon,
   Loader2,
   LayoutDashboard,
-  Coins,
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -19,6 +18,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
+import { CoinIcon } from "@/components/icons/coin-icon"
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
 
 export function UserButton() {
@@ -56,7 +57,7 @@ export function UserButton() {
     email: user.email,
     fallback: '用户',
   })
-  const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url
+  const avatarUrl = profile?.avatar_url || getDefaultAvatarPath(user.id)
 
   return (
     <DropdownMenu>
@@ -91,7 +92,7 @@ export function UserButton() {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/shop" className="cursor-pointer">
-            <Coins className="mr-2 h-4 w-4" />
+            <CoinIcon className="mr-2 h-4 w-4" />
             <span>商店</span>
           </Link>
         </DropdownMenuItem>

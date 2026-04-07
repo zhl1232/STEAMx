@@ -7,6 +7,7 @@ import { AchievementToast } from "@/components/features/gamification/achievement
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/auth-context";
 import { logger } from "@/lib/logger";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 
 import { BADGES } from "@/lib/gamification/badges";
 
@@ -309,7 +310,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                     if (error.code === '23503' && user) {
                         try {
                             const displayName = user.user_metadata?.full_name || user.user_metadata?.name || (user.phone ? user.phone.replace(/^\+86/, '') : null)
-                            const avatarUrl = user.user_metadata?.avatar_url || '/avatars/default-1.svg'
+                            const avatarUrl = getDefaultAvatarPath(user.id)
                             await supabase
                                 .from('profiles')
                                 .upsert(

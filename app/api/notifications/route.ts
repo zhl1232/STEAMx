@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
 const PAGE_SIZE = 20
 const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
@@ -285,10 +286,7 @@ export async function POST(request: NextRequest) {
       if (profileError) throw profileError
 
       const fallbackName = user.email?.split('@')[0] || null
-      const fallbackAvatar =
-        typeof user.user_metadata?.avatar_url === 'string'
-          ? user.user_metadata.avatar_url
-          : null
+      const fallbackAvatar = getDefaultAvatarPath(user.id)
 
       fromUsername = profile?.display_name || fallbackName
       fromAvatar = profile?.avatar_url || fallbackAvatar

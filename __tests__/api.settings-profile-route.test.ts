@@ -32,6 +32,52 @@ describe('/api/settings/profile', () => {
     vi.clearAllMocks()
   })
 
+  function createProfilesTableMock(options: {
+    currentProfile?: { avatar_url: string | null; last_uploaded_avatar_url: string | null } | null
+    updateResult?: {
+      username: string | null
+      display_name: string | null
+      bio: string | null
+      gender: string | null
+      birth_date: string | null
+      avatar_url: string | null
+      last_uploaded_avatar_url: string | null
+    }
+    onUpdate?: (payload: Record<string, unknown>) => void
+  }) {
+    const currentProfile = options.currentProfile ?? {
+      avatar_url: '/avatars/default-1.svg',
+      last_uploaded_avatar_url: null,
+    }
+
+    return {
+      select: vi.fn((fields: string) => ({
+        eq: vi.fn(() => ({
+          maybeSingle: vi.fn().mockResolvedValue({
+            data:
+              fields === 'avatar_url, last_uploaded_avatar_url'
+                ? currentProfile
+                : options.updateResult ?? null,
+            error: null,
+          }),
+        })),
+      })),
+      update: vi.fn((payload: Record<string, unknown>) => {
+        options.onUpdate?.(payload)
+        return {
+          eq: vi.fn(() => ({
+            select: vi.fn(() => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: options.updateResult ?? null,
+                error: null,
+              }),
+            })),
+          })),
+        }
+      }),
+    }
+  }
+
   it('returns the current profile settings payload with split birth date', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({
       data: {
@@ -75,7 +121,9 @@ describe('/api/settings/profile', () => {
   })
 
   it('rejects avatar urls that do not belong to the current user', async () => {
-    createClientMock.mockResolvedValue({} as never)
+    createClientMock.mockResolvedValue({
+      from: vi.fn(() => createProfilesTableMock({ currentProfile: { avatar_url: '/avatars/default-1.svg', last_uploaded_avatar_url: null } })),
+    } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
 
     const response = await PATCH(new Request('http://localhost/api/settings/profile', {
@@ -101,31 +149,24 @@ describe('/api/settings/profile', () => {
   it('stores the uploaded avatar as last_uploaded_avatar_url', async () => {
     let capturedPayload: Record<string, unknown> | undefined
 
-    const maybeSingle = vi.fn().mockResolvedValue({
-      data: {
-        username: 'demo-user',
-        display_name: '测试用户',
-        bio: '简介',
-        gender: '其他',
-        birth_date: '2001-11-01',
-        avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/custom.png',
-        last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/custom.png',
-      },
-      error: null,
-    })
-
     createClientMock.mockResolvedValue({
-      from: vi.fn(() => ({
-        update: vi.fn((payload: Record<string, unknown>) => {
+      from: vi.fn(() => createProfilesTableMock({
+        currentProfile: {
+          avatar_url: '/avatars/default-1.svg',
+          last_uploaded_avatar_url: null,
+        },
+        updateResult: {
+          username: 'demo-user',
+          display_name: '测试用户',
+          bio: '简介',
+          gender: '其他',
+          birth_date: '2001-11-01',
+          avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/custom.png',
+          last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/custom.png',
+        },
+        onUpdate: (payload) => {
           capturedPayload = payload
-          return {
-            eq: vi.fn(() => ({
-              select: vi.fn(() => ({
-                maybeSingle,
-              })),
-            })),
-          }
-        }),
+        },
       })),
     } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
@@ -157,31 +198,24 @@ describe('/api/settings/profile', () => {
   it('keeps last_uploaded_avatar_url unchanged when switching back to a preset avatar', async () => {
     let capturedPayload: Record<string, unknown> | undefined
 
-    const maybeSingle = vi.fn().mockResolvedValue({
-      data: {
-        username: 'demo-user',
-        display_name: '测试用户',
-        bio: '',
-        gender: null,
-        birth_date: null,
-        avatar_url: '/avatars/default-2.svg',
-        last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/previous.png',
-      },
-      error: null,
-    })
-
     createClientMock.mockResolvedValue({
-      from: vi.fn(() => ({
-        update: vi.fn((payload: Record<string, unknown>) => {
+      from: vi.fn(() => createProfilesTableMock({
+        currentProfile: {
+          avatar_url: '/avatars/default-1.svg',
+          last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/previous.png',
+        },
+        updateResult: {
+          username: 'demo-user',
+          display_name: '测试用户',
+          bio: '',
+          gender: null,
+          birth_date: null,
+          avatar_url: '/avatars/default-2.svg',
+          last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/previous.png',
+        },
+        onUpdate: (payload) => {
           capturedPayload = payload
-          return {
-            eq: vi.fn(() => ({
-              select: vi.fn(() => ({
-                maybeSingle,
-              })),
-            })),
-          }
-        }),
+        },
       })),
     } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
@@ -208,5 +242,52 @@ describe('/api/settings/profile', () => {
       avatar_url: '/avatars/default-2.svg',
     })
     expect(capturedPayload).not.toHaveProperty('last_uploaded_avatar_url')
+  })
+
+  it('accepts a legacy uploaded avatar url already stored on the current profile', async () => {
+    let capturedPayload: Record<string, unknown> | undefined
+
+    const legacyAvatarUrl = 'https://spb-l3q6k3bebzxrok83.supabase.opentrust.net/storage/v1/object/public/avatars/54iddr4yeuk.jpg'
+
+    createClientMock.mockResolvedValue({
+      from: vi.fn(() => createProfilesTableMock({
+        currentProfile: {
+          avatar_url: legacyAvatarUrl,
+          last_uploaded_avatar_url: legacyAvatarUrl,
+        },
+        updateResult: {
+          username: 'demo-user',
+          display_name: '测试用户',
+          bio: '简介',
+          gender: null,
+          birth_date: null,
+          avatar_url: legacyAvatarUrl,
+          last_uploaded_avatar_url: legacyAvatarUrl,
+        },
+        onUpdate: (payload) => {
+          capturedPayload = payload
+        },
+      })),
+    } as never)
+    requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+
+    const response = await PATCH(new Request('http://localhost/api/settings/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        display_name: '测试用户',
+        bio: '简介',
+        gender: null,
+        birth_year: null,
+        birth_month: null,
+        avatar_url: legacyAvatarUrl,
+      }),
+    }) as never)
+
+    expect(response.status).toBe(200)
+    expect(capturedPayload).toMatchObject({
+      avatar_url: legacyAvatarUrl,
+      last_uploaded_avatar_url: legacyAvatarUrl,
+    })
   })
 })

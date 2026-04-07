@@ -10,11 +10,16 @@ describe('MobileProfilePage', () => {
         user={{ id: 'user-1', user_metadata: {} } as never}
         profile={null}
         myProjects={[]}
+        myProjectsTotalCount={0}
+        totalLikesReceived={0}
         likedProjectsList={[]}
         collectedProjectsList={[]}
         completedProjectsList={[]}
         followerCount={0}
         followingCount={0}
+        likedProjectsCount={0}
+        collectedProjectsCount={0}
+        completedProjectsCount={0}
         isProjectsDataLoading
       />
     )

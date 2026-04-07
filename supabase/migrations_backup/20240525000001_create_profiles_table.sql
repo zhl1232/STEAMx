@@ -36,7 +36,7 @@ begin
     new.id, 
     new.raw_user_meta_data->>'username', 
     new.raw_user_meta_data->>'full_name', 
-    new.raw_user_meta_data->>'avatar_url'
+    '/avatars/default-1.svg'
   );
   return new;
 end;
@@ -52,6 +52,6 @@ create or replace trigger on_auth_user_created
 --   id, 
 --   raw_user_meta_data->>'username', 
 --   raw_user_meta_data->>'full_name', 
---   raw_user_meta_data->>'avatar_url'
+--   '/avatars/default-1.svg'
 -- from auth.users
 -- on conflict (id) do nothing;

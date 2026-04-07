@@ -10,6 +10,10 @@ vi.mock('@/context/auth-context', () => ({
     useAuth: () => mockAuthState,
 }))
 
+vi.mock('next/navigation', () => ({
+    usePathname: () => '/messages',
+}))
+
 vi.mock('@/lib/logger', () => ({
     logger: {
         error: vi.fn(),

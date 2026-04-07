@@ -9,6 +9,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { logger } from "@/lib/logger";
 
@@ -44,6 +45,18 @@ type NotificationContextType = {
 };
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
+  notifications: [],
+  unreadCount: 0,
+  hasMore: false,
+  isLoadingMore: false,
+  loadMore: async () => {},
+  markAsRead: async () => {},
+  markAllAsRead: async () => {},
+  clearAll: async () => {},
+  createNotification: async () => {},
+  isLoading: false,
+};
 
 export function mergeLatestNotifications(latest: Notification[], existing: Notification[]) {
   const latestIds = new Set(latest.map((notification) => notification.id));
@@ -62,6 +75,7 @@ export function mergeLatestNotificationState(
 }
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -70,6 +84,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const notificationsRef = useRef<Notification[]>([]);
   const hasMoreRef = useRef(true);
   const { user } = useAuth();
+  const shouldLoadNotificationList = pathname === "/messages";
 
   notificationsRef.current = notifications;
   hasMoreRef.current = hasMore;
@@ -180,20 +195,29 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return;
     }
 
-    fetchNotifications({ reset: true });
+    if (shouldLoadNotificationList) {
+      fetchNotifications({ reset: true });
+    } else {
+      setNotifications([]);
+      setHasMore(true);
+      setIsLoading(false);
+    }
+
     fetchUnreadCount();
-  }, [user?.id, fetchNotifications, fetchUnreadCount]);
+  }, [user?.id, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount]);
 
   useEffect(() => {
     if (!user?.id) return;
 
     const interval = window.setInterval(() => {
-      void fetchNotifications({ reset: false, merge: true });
+      if (shouldLoadNotificationList) {
+        void fetchNotifications({ reset: false, merge: true });
+      }
       void fetchUnreadCount();
     }, 60000);
 
     return () => window.clearInterval(interval);
-  }, [user?.id, fetchNotifications, fetchUnreadCount]);
+  }, [user?.id, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount]);
 
   const markAsRead = useCallback(
     async (id: number) => {
@@ -251,11 +275,13 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       if (!response.ok) {
         logger.error("Error creating notification:", { detail: await response.text() });
       } else if (notification.user_id === user.id) {
-        fetchNotifications({ reset: true });
+        if (shouldLoadNotificationList) {
+          fetchNotifications({ reset: true });
+        }
         fetchUnreadCount();
       }
     },
-    [user, fetchNotifications, fetchUnreadCount],
+    [user, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount],
   );
 
   const clearAll = useCallback(async () => {
@@ -313,4 +339,8 @@ export function useNotifications() {
     throw new Error("useNotifications must be used within a NotificationProvider");
   }
   return context;
+}
+
+export function useOptionalNotifications() {
+  return useContext(NotificationContext) ?? EMPTY_NOTIFICATION_CONTEXT;
 }

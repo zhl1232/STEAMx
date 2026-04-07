@@ -22,6 +22,7 @@ import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
 import { canResubmitCompletion, getTrackedCompletedProjectIds } from "@/lib/completion-records";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 
 export interface ProjectCompletionProof {
   images: string[];
@@ -60,6 +61,27 @@ type ProjectContextType = {
 };
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
+const EMPTY_PROJECT_CONTEXT: ProjectContextType = {
+  projects: [],
+  likedProjects: new Set(),
+  completedProjects: new Set(),
+  collectedProjects: new Set(),
+  getLikesDelta: () => 0,
+  clearLikesDelta: () => {},
+  clearLikesDeltaForProjects: () => {},
+  addProject: async () => {},
+  addComment: async () => null,
+  toggleLike: async () => {},
+  toggleCollection: () => {},
+  isLiked: () => false,
+  isCollected: () => false,
+  completeProject: async () => {},
+  uncompleteProject: async () => {},
+  isCompleted: () => false,
+  deleteComment: async () => {},
+  updateProject: async () => {},
+  isLoading: false,
+};
 
 function normalizeProjectId(projectId: string | number): number | null {
   const normalized = typeof projectId === "number" ? projectId : Number(projectId);
@@ -346,8 +368,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
               project_id: createdProject.id,
               from_user_id: user.id,
               from_username: authorName,
-              from_avatar:
-                profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined),
+              from_avatar: profile?.avatar_url || getDefaultAvatarPath(user.id),
             }),
           );
           await Promise.all(notifications);
@@ -465,7 +486,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
               project_id: Number(projectId),
               from_user_id: user.id,
               from_username: profile?.display_name || user.email?.split("@")[0] || "未知用户",
-              from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url,
+              from_avatar: profile?.avatar_url || getDefaultAvatarPath(user.id),
             });
           }
 
@@ -593,7 +614,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
                 project_id: pid,
                 from_user_id: user.id,
                 from_username: likerName,
-                from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url || undefined,
+                from_avatar: profile?.avatar_url || getDefaultAvatarPath(user.id),
               });
             }
           } catch (err) {
@@ -933,4 +954,8 @@ export function useProjects() {
     throw new Error("useProjects must be used within a ProjectProvider");
   }
   return context;
+}
+
+export function useOptionalProjects() {
+  return useContext(ProjectContext) ?? EMPTY_PROJECT_CONTEXT;
 }

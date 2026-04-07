@@ -166,34 +166,6 @@ function SecuritySettingsContent() {
   return (
     <SettingsSubpageShell
       title="账号与安全"
-      description="处理密码、手机号与恢复流程等核心安全项，让账号信息更清楚、更可控。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">安全提醒</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">优先保留可恢复能力</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              密码和手机号都属于账号恢复链路的一部分。建议至少保持其中一项可正常使用。
-            </p>
-            <div className="mt-5 grid gap-3">
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                密码修改后会立即生效，旧密码不再可用。
-              </div>
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                手机号绑定后将用于身份确认，当前版本暂不支持换绑。
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">当前状态</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">{authPhone ? "已绑定手机号" : "建议补充手机号"}</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              {authPhone ? `当前绑定号码：${maskPhone(authPhone)}` : "补充手机号后，短信验证与恢复流程会更完整。"}
-            </p>
-          </section>
-        </>
-      }
     >
       <div className="space-y-4">
         {recoveryMode ? (

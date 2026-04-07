@@ -72,6 +72,23 @@ function toSupabaseTransformedUrl(src: string, width: number, quality: number): 
   return url.toString()
 }
 
+export function getOptimizedImageSrc(
+  src: string,
+  variant: OptimizedImageVariant = "cover",
+  qualityProp?: number,
+): string {
+  const quality = qualityProp ?? QUALITY_PRESETS[variant]
+  const width = WIDTH_PRESETS[variant]
+
+  if (variant === "cover") {
+    return src
+  }
+
+  return isSupabasePublicStorageUrl(src)
+    ? toSupabaseTransformedUrl(src, width, quality)
+    : src
+}
+
 /**
  * 用户上传图片的优化封装：统一 sizes、quality、懒加载，配合 next.config 的缓存与格式优化。
  */
@@ -89,13 +106,12 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
   const sizes = sizesProp ?? SIZE_PRESETS[variant]
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
-  const width = WIDTH_PRESETS[variant]
   // priority 与 loading="lazy" 互斥，只能二选一
   const loadingProp = priority ? undefined : (loading ?? "lazy")
   const useBlur = blurPlaceholder && !priority && (blurDataURL ?? DEFAULT_BLUR_DATA_URL)
   const rawSrc = typeof rest.src === "string" ? rest.src : null
   const useDirectSupabaseTransform = rawSrc !== null && variant !== "cover" && isSupabasePublicStorageUrl(rawSrc)
-  const src = useDirectSupabaseTransform ? toSupabaseTransformedUrl(rawSrc, width, quality) : rest.src
+  const src = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
 
   return (
     <Image

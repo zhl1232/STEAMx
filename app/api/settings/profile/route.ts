@@ -17,6 +17,11 @@ type ProfileSettingsRow = Pick<
   'username' | 'display_name' | 'bio' | 'gender' | 'birth_date' | 'avatar_url' | 'last_uploaded_avatar_url'
 >
 
+type ProfileAvatarOwnershipRow = Pick<
+  Database['public']['Tables']['profiles']['Row'],
+  'avatar_url' | 'last_uploaded_avatar_url'
+>
+
 export async function GET() {
   const supabase = await createClient()
 
@@ -88,7 +93,26 @@ export async function PATCH(request: NextRequest) {
       validateContentSafe(payload.bio, '简介')
     }
 
-    if (!isOwnedAvatarUrl(payload.avatar_url, user.id)) {
+    const { data: currentProfile, error: currentProfileError } = await supabase
+      .from('profiles')
+      .select('avatar_url, last_uploaded_avatar_url')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (currentProfileError) {
+      throw currentProfileError
+    }
+
+    if (!currentProfile) {
+      return NextResponse.json({ error: '个人资料不存在' }, { status: 404 })
+    }
+
+    const currentAvatar = currentProfile as ProfileAvatarOwnershipRow
+    const matchesExistingAvatar =
+      payload.avatar_url === currentAvatar.avatar_url ||
+      payload.avatar_url === currentAvatar.last_uploaded_avatar_url
+
+    if (!isOwnedAvatarUrl(payload.avatar_url, user.id) && !matchesExistingAvatar) {
       return NextResponse.json(
         { error: '头像必须使用当前账号上传的文件或默认头像' },
         { status: 400 },

@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { User } from "@supabase/supabase-js";
-import { Bell, Coins, Settings, Zap } from "lucide-react";
+import { ArrowUpRight, Bell, LayoutDashboard, Settings, ShieldCheck, Zap } from "lucide-react";
 
 import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
+import { CoinIcon } from "@/components/icons/coin-icon";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/ui/role-badge";
@@ -24,6 +26,14 @@ interface ProfileHeaderProps {
   totalLikesReceived: number;
   followerCount: number;
   followingCount: number;
+  worksEntryHref?: string;
+  worksEntryLabel?: string;
+  statLinks?: {
+    works?: string;
+    followers?: string;
+    following?: string;
+    likes?: string;
+  };
 }
 
 export function ProfileHeader({
@@ -33,23 +43,28 @@ export function ProfileHeader({
   totalLikesReceived,
   followerCount,
   followingCount,
+  worksEntryHref,
+  worksEntryLabel,
+  statLinks,
 }: ProfileHeaderProps) {
   const { unlockedBadges, userBadgeDetails, coins = 0 } = useGamification();
   const { unreadCount } = useNotifications();
 
   const userName = profile?.display_name || user.user_metadata?.full_name || "未命名用户";
-  const userAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || null;
+  const userAvatar = profile?.avatar_url || getDefaultAvatarPath(user.id);
   const currentXP = profile?.xp || 0;
   const level = Math.floor(Math.sqrt(currentXP / 100)) + 1;
   const nextLevelXP = 100 * Math.pow(level, 2);
   const featuredBadges =
     unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5);
+  const canReview = profile?.role === "admin" || profile?.role === "moderator";
+  const canApplyModerator = !canReview && level >= 5;
 
   const stats = [
-    { label: "作品", value: myProjectsCount },
-    { label: "粉丝", value: followerCount },
-    { label: "关注", value: followingCount },
-    { label: "获赞", value: totalLikesReceived },
+    { key: "works", label: "作品", value: myProjectsCount, href: statLinks?.works },
+    { key: "followers", label: "粉丝", value: followerCount, href: statLinks?.followers },
+    { key: "following", label: "关注", value: followingCount, href: statLinks?.following },
+    { key: "likes", label: "获赞", value: totalLikesReceived, href: statLinks?.likes },
   ];
 
   return (
@@ -67,7 +82,7 @@ export function ProfileHeader({
               href="/coins"
               className="inline-flex h-9 items-center gap-2 rounded-full border border-border/50 bg-background/70 px-3.5 text-sm font-medium text-foreground shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md"
             >
-              <Coins className="h-4 w-4 text-primary" />
+              <CoinIcon className="h-[18px] w-[18px] text-amber-500" />
               <span className="tabular-nums">{coins}</span>
             </Link>
 
@@ -106,10 +121,11 @@ export function ProfileHeader({
               <LevelGuideDialog>
                 <button
                   type="button"
-                  className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
+                  className="absolute -bottom-1.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full border border-primary/20 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm ring-1 ring-primary/10 transition-all hover:-translate-y-0.5 hover:-translate-x-1/2 hover:border-primary/35 hover:bg-background hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                 >
                   <Zap className="h-3 w-3 text-primary" />
                   Lv.{level}
+                  <ArrowUpRight className="h-2.5 w-2.5 text-primary/65" />
                 </button>
               </LevelGuideDialog>
             </div>
@@ -124,21 +140,59 @@ export function ProfileHeader({
                 {profile?.bio || "在这里整理作品、收藏、完成记录和自然观察。"}
               </p>
 
-              <EditProfileDialog>
-                <Button variant="outline" size="sm" className="mt-3 h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
-                  编辑资料
-                </Button>
-              </EditProfileDialog>
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                {worksEntryHref && worksEntryLabel ? (
+                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
+                    <Link href={worksEntryHref}>{worksEntryLabel}</Link>
+                  </Button>
+                ) : null}
+
+                <EditProfileDialog>
+                  <Button variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
+                    编辑资料
+                  </Button>
+                </EditProfileDialog>
+
+                {canReview ? (
+                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                    <Link href="/admin">
+                      <LayoutDashboard className="mr-1.5 h-3.5 w-3.5" />
+                      管理后台
+                    </Link>
+                  </Button>
+                ) : canApplyModerator ? (
+                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                    <Link href="/moderator/apply">
+                      <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
+                      申请审核员
+                    </Link>
+                  </Button>
+                ) : null}
+              </div>
             </div>
 
             {/* 统计数据 - 更紧凑的圆角卡片 */}
             <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/50 bg-background/60 backdrop-blur-sm">
               <div className="grid grid-cols-4 divide-x divide-border/40">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="px-2 py-3 text-center">
-                    <div className="text-[15px] font-semibold tabular-nums text-foreground">{stat.value}</div>
-                    <div className="mt-0.5 text-[10px] text-muted-foreground/80">{stat.label}</div>
-                  </div>
+                  stat.href ? (
+                    <Link
+                      key={stat.key}
+                      href={stat.href}
+                      className="group px-2 py-3 text-center transition-all hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+                    >
+                      <div className="text-[15px] font-semibold tabular-nums text-foreground">{stat.value}</div>
+                      <div className="mt-0.5 inline-flex items-center justify-center gap-1 text-[10px] text-muted-foreground/80">
+                        <span>{stat.label}</span>
+                        <ArrowUpRight className="h-2.5 w-2.5 text-primary/55 transition-colors group-hover:text-primary" />
+                      </div>
+                    </Link>
+                  ) : (
+                    <div key={stat.key} className="px-2 py-3 text-center">
+                      <div className="text-[15px] font-semibold tabular-nums text-foreground">{stat.value}</div>
+                      <div className="mt-0.5 text-[10px] text-muted-foreground/80">{stat.label}</div>
+                    </div>
+                  )
                 ))}
               </div>
             </div>

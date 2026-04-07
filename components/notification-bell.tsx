@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
-import { useNotifications } from "@/context/notification-context";
+import { useOptionalNotifications } from "@/context/notification-context";
 
 /**
  * 右上角通知入口：点击进入统一「消息」页（回复与@、收到喜欢、新增粉丝、私信）
@@ -12,7 +12,7 @@ import { useNotifications } from "@/context/notification-context";
  */
 export function NotificationBell() {
   const { user } = useAuth();
-  const { unreadCount } = useNotifications();
+  const { unreadCount } = useOptionalNotifications();
 
   if (!user) {
     return null;

@@ -27,36 +27,6 @@ export default function AppearanceSettingsPage() {
   return (
     <SettingsSubpageShell
       title="外观"
-      description="统一管理平台的显示模式与特殊主题，让视觉偏好和你的使用场景保持一致。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">当前选择</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-              {baseOptions.find((item) => item.value === currentTheme)?.label ?? (currentTheme === "black-gold" ? "黑金传说" : "跟随系统")}
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              主题会立即应用到全站，包括导航、卡片、表单和详情页层级。
-            </p>
-            <div className="mt-5 grid gap-3">
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                移动端和桌面端会共用同一套主题设置。
-              </div>
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                黑金主题需要账号等级达到 Lv.50 才会解锁。
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">解锁进度</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">等级越高，可选外观越完整</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              当前等级为 Lv.{level}。如果还没达到 Lv.50，可以先通过完成项目、互动和观察记录慢慢积累。
-            </p>
-          </section>
-        </>
-      }
     >
       <div className="space-y-3">
         {baseOptions.map((opt) => {

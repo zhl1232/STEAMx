@@ -22,3 +22,22 @@ const DEFAULT_AVATAR_PATH_SET = new Set<string>(DEFAULT_AVATAR_PATHS)
 export function isDefaultAvatarPath(value: string) {
   return DEFAULT_AVATAR_PATH_SET.has(value)
 }
+
+function hashSeed(seed: string) {
+  let hash = 0
+
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(index)
+    hash |= 0
+  }
+
+  return Math.abs(hash)
+}
+
+export function getDefaultAvatarPath(seed?: string | null) {
+  if (!seed) {
+    return DEFAULT_AVATAR_PATHS[0]
+  }
+
+  return DEFAULT_AVATAR_PATHS[hashSeed(seed) % DEFAULT_AVATAR_PATHS.length]
+}

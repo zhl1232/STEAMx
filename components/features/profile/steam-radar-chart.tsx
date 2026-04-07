@@ -11,11 +11,13 @@ import {
 } from "recharts"
 import { Card } from "@/components/ui/card"
 import type { SteamRadarResult } from "@/lib/mappers/types"
+import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar"
 import { cn } from "@/lib/utils"
 
 type SteamRadarChartProps = {
   userId?: string
   className?: string
+  initialRadar?: SteamRadarWithGuidance | null
   /** @deprecated Use userId prop instead. Kept for backward compatibility. */
   stats?: {
     scienceCompleted?: number
@@ -69,13 +71,25 @@ function CustomAxisTick({ payload, x, y, textAnchor }: CustomAxisTickProps) {
   )
 }
 
-export function SteamRadarChart({ userId, stats, className }: SteamRadarChartProps) {
+export function SteamRadarChart({ userId, stats, className, initialRadar = null }: SteamRadarChartProps) {
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (initialRadar) {
+      const nextGuidance: Record<string, string | null> = {}
+      for (const dim of DIM_ORDER) {
+        nextGuidance[dim] = initialRadar[dim]?.guidance || null
+      }
+      setRadarData(initialRadar as unknown as SteamRadarResult)
+      setGuidance(nextGuidance)
+      setLoading(false)
+      setError(null)
+      return
+    }
+
     if (!userId) return
     setLoading(true)
     setError(null)
@@ -103,7 +117,7 @@ export function SteamRadarChart({ userId, stats, className }: SteamRadarChartPro
         setGuidance({})
       })
       .finally(() => setLoading(false))
-  }, [userId])
+  }, [initialRadar, userId])
 
   const data = useMemo((): RadarDimData[] => {
     if (radarData) {
@@ -170,11 +184,7 @@ export function SteamRadarChart({ userId, stats, className }: SteamRadarChartPro
   return (
     <Card className={cn("surface-panel p-5 sm:p-6 space-y-4", className)}>
       <div>
-        <p className="section-kicker">成长图谱</p>
-        <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">STEAM 能力图谱</p>
-        <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-          综合项目完成、挑战参与和难度系数，显示你当前更突出的 STEAM 维度。
-        </p>
+        <p className="text-base font-semibold tracking-tight text-foreground">STEAM 雷达图</p>
       </div>
 
       <div className="h-56 min-h-[224px] w-full min-w-[200px] sm:h-64 sm:min-h-[256px]">

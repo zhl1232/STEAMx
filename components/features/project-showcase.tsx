@@ -7,7 +7,8 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Quote, X, Heart, Send, MessageCircle, Coins, ChevronLeft, ChevronRight } from "lucide-react"
+import { ExternalLink, Quote, X, Heart, Send, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react"
+import { CoinIcon } from "@/components/icons/coin-icon"
 import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -499,7 +500,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                                     </span>
                                     {!isOwnCompletion && (
                                         <span className="inline-flex items-center gap-1.5">
-                                            <Coins className="h-4 w-4 text-amber-500 shrink-0" />
+                                            <CoinIcon className="h-4 w-4 text-amber-500 shrink-0" />
                                             <span>共</span>
                                             <strong className="text-foreground/90 tabular-nums">{tipReceived}</strong>
                                             <span>硬币</span>
@@ -521,7 +522,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                                             className="gap-2 h-8 text-xs"
                                             onClick={() => promptLogin(() => {}, { title: '赞赏', description: '登录后即可用硬币赞赏创作者' })}
                                         >
-                                            <Coins className="h-3.5 w-3.5" />
+                                            <CoinIcon className="h-3.5 w-3.5" />
                                             赞赏
                                         </Button>
                                     ) : tipRemaining > 0 ? (

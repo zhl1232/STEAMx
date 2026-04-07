@@ -4,8 +4,9 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
-import { Heart, Bookmark, Coins, Flag } from "lucide-react"
+import { Heart, Bookmark, Flag } from "lucide-react"
 import { ConfettiButton } from "@/components/ui/confetti-button"
+import { CoinIcon } from "@/components/icons/coin-icon"
 import { useProjects } from "@/context/project-context"
 import { useAuth } from "@/context/auth-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -82,6 +83,8 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const likes = initialLikes + likesDelta
     const isProjectCompleted = isCompleted(projectId)
     const isProjectCollected = isCollected(projectId)
+    const showLikesCount = likes > 0
+    const showCoinsCount = projectCoinsReceived > 0
 
     const handleLike = () => {
         if (!user) {
@@ -151,29 +154,33 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
                     onClick={handleTipClick}
                     className={hasTippedProject ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500" : ""}
                 >
-                    <Coins className="h-4 w-4" />
+                    <CoinIcon className="h-4 w-4" />
                 </Button>
             </div>
-            <span className="font-bold text-base md:text-lg whitespace-nowrap">{likes} 赞</span>
+            {showLikesCount ? (
+                <span className="font-bold text-base md:text-lg whitespace-nowrap">{likes} 赞</span>
+            ) : null}
         </>
     )
 
     // 底部栏样式：默认灰色空心线框，激活后彩色实心；图标间距统一 16px
     const embeddedBar = (
-        <div className="flex items-center gap-2 text-muted-foreground -ml-2.5">
+        <div className="flex flex-wrap items-center justify-end gap-1 text-muted-foreground">
             <button
                 type="button"
                 onClick={handleLike}
-                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-red-500 active:bg-muted/50"
+                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-red-500 active:bg-muted/80"
                 title="点赞"
             >
                 <Heart className={`h-5 w-5 shrink-0 ${isProjectLiked ? "fill-current text-red-500" : "text-muted-foreground"}`} />
-                <span className="text-sm font-medium tabular-nums text-muted-foreground">{likes}</span>
+                {showLikesCount ? (
+                    <span className="text-sm font-medium tabular-nums text-muted-foreground">{likes}</span>
+                ) : null}
             </button>
             <button
                 type="button"
                 onClick={handleCollection}
-                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-amber-600 active:bg-muted/50"
+                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
                 title="收藏"
             >
                 <Bookmark className={`h-5 w-5 shrink-0 ${isProjectCollected ? "fill-current text-amber-600" : "text-muted-foreground"}`} />
@@ -181,17 +188,19 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             <button
                 type="button"
                 onClick={handleTipClick}
-                className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-amber-600 active:bg-muted/50"
+                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
                 title="投币支持项目"
             >
-                <Coins className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
-                <span className="text-sm font-medium tabular-nums text-muted-foreground">{projectCoinsReceived}</span>
+                <CoinIcon className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
+                {showCoinsCount ? (
+                    <span className="text-sm font-medium tabular-nums text-muted-foreground">{projectCoinsReceived}</span>
+                ) : null}
             </button>
             {user && user.id !== projectOwnerId && (
                 <ReportDialog contentType="project" contentId={projectId}>
                     <button
                         type="button"
-                        className="flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center px-2.5 rounded-lg transition-colors hover:text-destructive active:bg-muted/50"
+                        className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-destructive active:bg-muted/80"
                         title="举报"
                     >
                         <Flag className="h-5 w-5 shrink-0 text-muted-foreground" />

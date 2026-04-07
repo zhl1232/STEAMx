@@ -68,11 +68,7 @@ export default function SettingsPage() {
       <ScrollArea className="flex-1">
         <div className="px-4 py-4 md:px-6 md:py-8">
           <div className="hidden md:block">
-            <p className="section-kicker">账号中心</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight">设置与偏好</h1>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
-              把账号、安全、通知和隐私放到同一处管理，让这个页面看起来像平台的一部分，而不是单独的占位页。
-            </p>
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight">设置</h1>
           </div>
 
           <div className="mt-0 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1.35fr)_320px]">
@@ -96,12 +92,7 @@ export default function SettingsPage() {
                               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                                 <item.icon className="h-4 w-4" />
                               </div>
-                              <div>
-                                <div className="text-sm font-medium">{item.label}</div>
-                                <div className="text-xs text-muted-foreground">
-                                  {group.title === "账号管理" ? "管理身份与账号信息" : group.title === "支持" ? "了解平台与帮助信息" : "调整日常使用偏好"}
-                                </div>
-                              </div>
+                              <div className="text-sm font-medium">{item.label}</div>
                             </div>
                             <ChevronRight className="h-4 w-4 text-muted-foreground" />
                           </Link>
@@ -116,33 +107,9 @@ export default function SettingsPage() {
 
             <aside className="space-y-6">
               <section className="surface-panel p-5 sm:p-6">
-                <p className="section-kicker">设置概览</p>
-                <h2 className="mt-3 text-2xl font-semibold tracking-tight">你的偏好会影响体验</h2>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  从外观、消息到隐私，这里的设置会直接改变你收到的信息和页面显示方式。
-                </p>
-                <div className="mt-5 space-y-3">
-                  {[
-                    "先补充个人资料，别人更容易识别你。",
-                    "打开通知时，优先只保留你真正需要的提醒。",
-                    "隐私设置建议定期检查一次。",
-                  ].map((tip) => (
-                    <div key={tip} className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                      {tip}
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="surface-panel p-5 sm:p-6">
-                <p className="section-kicker">当前会话</p>
-                <h2 className="mt-3 text-xl font-semibold tracking-tight">退出当前账号</h2>
-                <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                  如果这是公用设备，建议退出登录后再离开。
-                </p>
                 <Button
                   variant="destructive"
-                  className="mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
                   onClick={handleLogout}
                   disabled={isLoggingOut}
                 >

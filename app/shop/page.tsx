@@ -7,17 +7,18 @@ import { SHOP_ITEMS, getShopItemById, getNameColorClassName } from '@/lib/shop/i
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { Coins, Loader2, ArrowLeft, Lock } from 'lucide-react'
+import { Loader2, ArrowLeft, Lock, AlertCircle } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast'
 import { useMemo } from 'react'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
+import { CoinIcon } from '@/components/icons/coin-icon'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import type { ShopItemType } from '@/lib/shop/items'
 import type { Profile } from '@/lib/types/database'
-import { AlertCircle } from 'lucide-react'
 
 type ShopRpcResult = {
   ok?: boolean
@@ -199,7 +200,7 @@ export default function ShopPage() {
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="shrink-0">Lv.{level}</span>
             <span className="inline-flex items-center gap-1 rounded-full border bg-muted/60 px-2 py-1 font-medium text-foreground">
-              <Coins className="h-3.5 w-3.5 text-amber-500" />
+              <CoinIcon className="h-3.5 w-3.5 text-amber-500" />
               {coins}
             </span>
           </div>
@@ -220,7 +221,7 @@ export default function ShopPage() {
         <div className="flex items-center gap-3 shrink-0">
           <span className="text-sm font-medium text-muted-foreground">Lv.{level}</span>
           <div className="flex items-center gap-1.5 rounded-lg border bg-muted/50 px-3 py-1.5">
-            <Coins className="h-4 w-4 text-amber-500" />
+            <CoinIcon className="h-4 w-4 text-amber-500" />
             <span className="font-semibold text-sm">{coins}</span>
           </div>
         </div>
@@ -270,7 +271,7 @@ export default function ShopPage() {
                   <div className="flex items-center justify-center flex-1 py-6 bg-gradient-to-b from-muted/50 to-muted/10 rounded-xl border border-border/50">
                     <AvatarWithFrame
                       avatarFrameId={item.id}
-                      src={user?.user_metadata?.avatar_url}
+                      src={profile?.avatar_url || getDefaultAvatarPath(user.id)}
                       fallback={getDisplayName({
                         profileName: null,
                         metadataFullName: user?.user_metadata?.full_name,
@@ -285,7 +286,7 @@ export default function ShopPage() {
 
                   <div className="flex items-center justify-between pt-1">
                     <div className="flex items-center gap-1.5">
-                      <Coins className="h-4 w-4 text-amber-500" />
+                      <CoinIcon className="h-4 w-4 text-amber-500" />
                       <span className="font-semibold text-sm">{item.price}</span>
                     </div>
                     <div className="w-24">
@@ -381,7 +382,7 @@ export default function ShopPage() {
 
                   <div className="flex items-center justify-between pt-1">
                     <div className="flex items-center gap-1.5">
-                      <Coins className="h-4 w-4 text-amber-500" />
+                      <CoinIcon className="h-4 w-4 text-amber-500" />
                       <span className="font-semibold text-sm">{item.price}</span>
                     </div>
                     <div className="w-24">

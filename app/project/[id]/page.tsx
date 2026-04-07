@@ -7,18 +7,13 @@ import {
   AlertTriangle,
   ArrowLeft,
   Edit,
-  FolderKanban,
-  Layers3,
-  Package2,
-  Sparkles,
-  type LucideIcon,
 } from 'lucide-react'
 
-import { ProjectCard } from '@/components/features/project-card'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
+import { ProjectDetailStats } from '@/components/features/project/project-detail-stats'
 import { ProjectShowcase } from '@/components/features/project-showcase'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
@@ -30,7 +25,6 @@ import {
   getProjectComments,
   getProjectCompletions,
   getProjectTotalCoinsReceived,
-  getRelatedProjects,
 } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 
@@ -44,22 +38,24 @@ function canAccessProject(project: Awaited<ReturnType<typeof getProjectById>>, v
   return viewerId === project.author_id
 }
 
-function DetailChip({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: LucideIcon
-  label: string
-  value: ReactNode
-}) {
+function MaterialsList({ materials }: { materials: string[] }) {
+  if (materials.length === 0) {
+    return <p className="text-sm text-muted-foreground">暂无材料清单</p>
+  }
+
   return (
-    <div className="surface-subtle rounded-[24px] p-4">
-      <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-        <Icon className="h-3.5 w-3.5" />
-        <span>{label}</span>
-      </div>
-      <div className="mt-3 text-base font-semibold text-foreground">{value}</div>
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+      {materials.map((material, index) => (
+        <div
+          key={`${material}-${index}`}
+          className="flex items-center gap-3 rounded-2xl border border-border/70 bg-background/70 px-4 py-3"
+        >
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+            {index + 1}
+          </span>
+          <span className="text-sm leading-6">{material}</span>
+        </div>
+      ))}
     </div>
   )
 }
@@ -70,7 +66,7 @@ function SectionCard({
   description,
   children,
 }: {
-  eyebrow: string
+  eyebrow?: string
   title: string
   description?: string
   children: ReactNode
@@ -78,7 +74,7 @@ function SectionCard({
   return (
     <section className="surface-panel overflow-hidden">
       <div className="border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20 px-5 py-5 sm:px-7">
-        <p className="section-kicker">{eyebrow}</p>
+        {eyebrow ? <p className="section-kicker">{eyebrow}</p> : null}
         <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
           {description ? <p className="max-w-2xl text-sm leading-6 text-muted-foreground">{description}</p> : null}
@@ -150,10 +146,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   const showStatusAlert = isAuthor && (project.status === 'pending' || project.status === 'rejected')
 
-  const relatedProjects = project.category
-    ? await getRelatedProjects(project.id, project.category, 3)
-    : []
-
   const completions = await getProjectCompletions(project.id, 8)
 
   const {
@@ -169,6 +161,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const steps = project.steps ?? []
   const tags = project.tags ?? []
   const isObservationProject = tags.includes('鸟类')
+  const projectSummary = project.description || '一个适合边做边学、逐步完成的实践项目。'
 
   return (
     <div className="relative overflow-x-hidden">
@@ -249,69 +242,39 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   </span>
                 ) : null}
               </div>
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:hidden">
-                <div className="rounded-3xl border border-white/15 bg-black/30 p-4 text-white backdrop-blur-md">
-                  <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/70">项目概览</p>
-                  <h1 className="mt-2 text-2xl font-semibold leading-tight">{project.title}</h1>
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/80">
-                    {project.description || '一个适合边做边学、逐步完成的实践项目。'}
-                  </p>
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+                <div className="flex items-center justify-between gap-3 rounded-[22px] border border-white/10 bg-black/18 px-4 py-3 text-white shadow-[0_18px_40px_-28px_rgba(0,0,0,0.7)] backdrop-blur-sm">
+                  <div className="min-w-0 flex items-center gap-2 text-sm text-white/65">
+                    <span className="shrink-0">作者</span>
+                    {project.author_id ? (
+                      <Link
+                        href={`/users/${project.author_id}`}
+                        className="truncate text-base font-semibold text-white transition-colors hover:text-white/85"
+                      >
+                        {project.author}
+                      </Link>
+                    ) : (
+                      <p className="truncate text-base font-semibold text-white">{project.author}</p>
+                    )}
+                  </div>
+                  {project.difficulty_stars ? (
+                    <DifficultyStars stars={project.difficulty_stars} size="sm" className="shrink-0" />
+                  ) : null}
                 </div>
               </div>
             </div>
 
             <div className="relative flex flex-col justify-between border-t border-border/60 bg-gradient-to-b from-background via-background/96 to-secondary/10 lg:border-l lg:border-t-0">
               <div className="p-5 sm:p-7">
-                <p className="hidden text-[11px] font-semibold uppercase tracking-[0.28em] text-primary/80 lg:block">
-                  项目概览
-                </p>
-                <h1 className="mt-1 hidden text-4xl font-semibold leading-tight tracking-tight lg:block">
-                  {project.title}
-                </h1>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {tags.slice(0, 5).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-
-                <p className="mt-5 text-sm leading-7 text-muted-foreground">
-                  {project.description || '一个适合边做边学、逐步完成的实践项目。'}
-                </p>
-
-                <div className="mt-6 rounded-[24px] border border-border/70 bg-background/80 p-4 shadow-sm shadow-black/5">
-                  <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">作者</p>
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <div>
-                      {project.author_id ? (
-                        <Link
-                          href={`/users/${project.author_id}`}
-                          className="text-base font-semibold transition-colors hover:text-primary"
-                        >
-                          {project.author}
-                        </Link>
-                      ) : (
-                        <p className="text-base font-semibold">{project.author}</p>
-                      )}
-                      <p className="mt-1 text-sm text-muted-foreground">分享真实可实践的项目体验</p>
-                    </div>
-                    {project.difficulty_stars ? (
-                      <DifficultyStars stars={project.difficulty_stars} size="sm" showLabel className="shrink-0" />
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <DetailChip icon={Layers3} label="步骤" value={steps.length > 0 ? `${steps.length} 个阶段` : '待补充'} />
-                  <DetailChip icon={Package2} label="材料" value={materials.length > 0 ? `${materials.length} 项准备` : '暂无清单'} />
-                  <DetailChip icon={FolderKanban} label="作品墙" value={`${completions.length} 份作品`} />
-                  <DetailChip icon={Sparkles} label="社区热度" value={`${projectCoinsReceived} 枚投币`} />
-                </div>
+                <ProjectDetailStats
+                  stepsCount={steps.length}
+                  materialsCount={materials.length}
+                  completions={completions}
+                  projectCoinsReceived={projectCoinsReceived}
+                  projectTitle={project.title}
+                  projectOwnerId={project.author_id}
+                  projectId={project.id}
+                />
               </div>
             </div>
           </div>
@@ -320,12 +283,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <div className="mt-10 grid gap-8 xl:grid-cols-[minmax(0,1.5fr)_320px]">
           <div className="space-y-8">
             <SectionCard
-              eyebrow="内容概览"
               title="项目简介"
-              description="先理解这个项目要做什么，再按步骤逐段完成，会更容易获得成就感。"
             >
               <div className="space-y-5 text-[15px] leading-8 text-foreground/90">
-                <p>{project.description || '暂无介绍'}</p>
+                <p>{projectSummary}</p>
                 {tags.length > 0 ? (
                   <div className="flex flex-wrap gap-2 pt-1">
                     {tags.map((tag) => (
@@ -342,35 +303,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </SectionCard>
 
             <div className="block xl:hidden">
-              <SectionCard
-                eyebrow="材料准备"
-                title="所需材料"
-                description="提前把材料准备好，做项目时会更顺。"
-              >
-                {materials.length > 0 ? (
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {materials.map((material, index) => (
-                      <div
-                        key={`${material}-${index}`}
-                        className="flex items-center gap-3 rounded-2xl border border-border/70 bg-background/70 px-4 py-3"
-                      >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                          {index + 1}
-                        </span>
-                        <span className="text-sm leading-6">{material}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">暂无材料清单</p>
-                )}
+              <SectionCard title="所需材料">
+                <MaterialsList materials={materials} />
               </SectionCard>
             </div>
 
             <SectionCard
-              eyebrow="实践流程"
               title="实践步骤"
-              description={steps.length > 0 ? '按顺序推进，每一步都尽量聚焦一个动作或一个结果。' : '作者暂时还没有补充制作步骤。'}
             >
               {steps.length > 0 ? (
                 <div className="space-y-5">
@@ -402,8 +341,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                               {index + 1}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">步骤 {index + 1}</p>
-                              <h3 className="mt-1 text-xl font-semibold tracking-tight">{step.title}</h3>
+                              <h3 className="text-xl font-semibold tracking-tight">{step.title}</h3>
                               <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
                             </div>
                           </div>
@@ -426,7 +364,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               mode={isObservationProject ? 'observation' : 'project'}
             />
 
-            <div className="overflow-hidden rounded-[28px] border border-border/70 bg-card/85 px-5 py-6 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm sm:px-7 sm:py-7">
+            <div
+              id="project-showcase"
+              className="overflow-hidden rounded-[28px] border border-border/70 bg-card/85 px-5 py-6 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm sm:px-7 sm:py-7"
+            >
               <ProjectShowcase completions={completions} projectId={project.id} projectTitle={project.title} />
             </div>
 
@@ -456,73 +397,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
           <aside className="space-y-6">
             <div className="sticky top-24 hidden space-y-6 xl:block">
-              <SectionCard
-                eyebrow="快速导览"
-                title="项目速览"
-                description="把关键信息压缩到一处，适合边看边做。"
-              >
-                <div className="space-y-4">
-                  <div className="rounded-2xl border border-border/70 bg-background/80 p-4">
-                    <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">分类与难度</p>
-                    <div className="mt-3 flex flex-wrap items-center gap-2">
-                      {project.category ? (
-                        <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-                          {project.category}
-                        </span>
-                      ) : null}
-                      {project.sub_category ? (
-                        <span className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground">
-                          {project.sub_category}
-                        </span>
-                      ) : null}
-                    </div>
-                    {project.difficulty_stars ? (
-                      <DifficultyStars stars={project.difficulty_stars} size="md" showLabel className="mt-4" />
-                    ) : null}
-                  </div>
-
-                  <div className="grid gap-3">
-                    <DetailChip icon={Layers3} label="步骤数量" value={steps.length > 0 ? `${steps.length} 步` : '未填写'} />
-                    <DetailChip icon={Package2} label="材料数量" value={materials.length > 0 ? `${materials.length} 项` : '未填写'} />
-                    <DetailChip icon={FolderKanban} label="完成作品" value={`${completions.length} 份`} />
-                    <DetailChip icon={Sparkles} label="总投币数" value={`${projectCoinsReceived}`} />
-                  </div>
-                </div>
-              </SectionCard>
-
-              <SectionCard
-                eyebrow="材料准备"
-                title="所需材料"
-                description="建议先全部准备齐，再开始进入制作。"
-              >
-                {materials.length > 0 ? (
-                  <div className="space-y-3">
-                    {materials.map((material, index) => (
-                      <div
-                        key={`${material}-${index}`}
-                        className="flex items-center gap-3 rounded-2xl border border-border/70 bg-background/70 px-4 py-3"
-                      >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                          {index + 1}
-                        </span>
-                        <span className="text-sm leading-6">{material}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">暂无材料清单</p>
-                )}
+              <SectionCard title="所需材料">
+                <MaterialsList materials={materials} />
               </SectionCard>
 
               {isObservationProject ? (
-                <SectionCard
-                  eyebrow="观察说明"
-                  title="自然观察的完成方式"
-                  description="自然观察项目更强调留下可复用的记录，而不只是交一张图。"
-                >
-                  <p className="text-sm leading-7 text-muted-foreground">
-                    在自然观察里，真正的完成不是“上传一个作品”，而是留下至少一条结构化的观察记录，写清时间、地点、物种和行为。
-                  </p>
+                <SectionCard title="观察记录">
                   <Link href="/bird-observation/submit" className="mt-5 block">
                     <Button variant="outline" className="w-full">
                       去完成一条观察记录
@@ -533,23 +413,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
           </aside>
         </div>
-
-        {relatedProjects.length > 0 ? (
-          <section className="mt-12">
-            <div className="mb-6 flex items-end justify-between gap-4">
-              <div>
-                <p className="section-kicker">继续探索</p>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight">你可能也喜欢</h2>
-              </div>
-              <p className="hidden text-sm text-muted-foreground md:block">继续延展相近主题，找到下一次实践的灵感。</p>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {relatedProjects.map((p) => (
-                <ProjectCard key={p.id} project={p} />
-              ))}
-            </div>
-          </section>
-        ) : null}
       </div>
     </div>
   )

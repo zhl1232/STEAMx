@@ -6,7 +6,7 @@ import { Heart, Settings } from "lucide-react";
 import { DifficultyStars } from "@/components/ui/difficulty-stars";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
-import { useProjects } from "@/context/project-context";
+import { useOptionalProjects } from "@/context/project-context";
 import { Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 
@@ -37,12 +37,20 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
 
   return (
     <div className="space-y-4">
-      {projects.map((project) => {
+      {projects.map((project, index) => {
         const projectId = typeof project.id === "string" ? parseInt(project.id, 10) : project.id;
         const completionStatus = !Number.isNaN(projectId) ? completionStatusMap?.get(projectId) : undefined;
 
         return (
-          <div key={project.id} className="relative">
+          <div
+            key={project.id}
+            className="relative"
+            style={
+              index >= 4
+                ? { contentVisibility: "auto", containIntrinsicSize: "140px 420px" }
+                : undefined
+            }
+          >
             {completionStatus?.status === "pending" ? (
               <div className="absolute left-3 top-3 z-10">
                 <span className="inline-flex items-center rounded-full border border-yellow-300 bg-yellow-100 px-2 py-0.5 text-[10px] font-semibold text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
@@ -69,7 +77,7 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
 }
 
 function MobileProjectItem({ project }: { project: Project }) {
-  const { isLiked, getLikesDelta } = useProjects();
+  const { isLiked, getLikesDelta } = useOptionalProjects();
   const liked = isLiked(project.id);
   const likesCount = project.likes + getLikesDelta(project.id);
 

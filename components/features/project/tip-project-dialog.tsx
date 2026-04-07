@@ -4,7 +4,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Coins, User as UserIcon } from "lucide-react"
+import { User as UserIcon } from "lucide-react"
+import { CoinIcon } from "@/components/icons/coin-icon"
 import { useAuth } from "@/context/auth-context"
 import { useGamification } from "@/context/gamification-context"
 import { useLoginPrompt } from "@/context/login-prompt-context"
@@ -131,7 +132,7 @@ export function TipProjectDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogTitle className="flex items-center gap-2">
-          <Coins className="h-5 w-5 text-amber-500" />
+          <CoinIcon className="h-5 w-5 text-amber-500" />
           {projectOnly ? '投币支持项目' : '为本项目投币'}
         </DialogTitle>
         <p className="text-sm text-muted-foreground">
@@ -220,7 +221,7 @@ function TipRow({
                 setTimeout(() => setPending(false), 500)
               }}
             >
-              <Coins className="h-3.5 w-3.5" />
+              <CoinIcon className="h-3.5 w-3.5" />
               {amount}
             </Button>
           ))}

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
 
   const difficultyParam = searchParams.get('difficulty');
-  const validDifficulties = ['easy', 'medium', 'hard', 'all', '1-2', '3-4', '5-6'] as const;
+  const validDifficulties = ['easy', 'medium', 'hard', 'all', '1', '2', '3', '4', '5', '1-2', '3-4', '5-6'] as const;
   
   // Type predicate or just check
   const difficulty: ProjectFilters['difficulty'] = (validDifficulties as readonly string[]).includes(difficultyParam || '')

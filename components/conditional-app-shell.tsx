@@ -19,14 +19,26 @@ import { NotificationProvider } from '@/context/notification-context'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
 
-function AppProviders({ children }: { children: React.ReactNode }) {
-  return (
-    <LoginPromptProvider>
-      <GamificationProvider>
-        <NotificationProvider>{children}</NotificationProvider>
-      </GamificationProvider>
-    </LoginPromptProvider>
-  )
+function AppProviders({
+  children,
+  includeGamification,
+  includeNotifications,
+}: {
+  children: React.ReactNode
+  includeGamification: boolean
+  includeNotifications: boolean
+}) {
+  let content = children
+
+  if (includeNotifications) {
+    content = <NotificationProvider>{content}</NotificationProvider>
+  }
+
+  if (includeGamification) {
+    content = <GamificationProvider>{content}</GamificationProvider>
+  }
+
+  return <LoginPromptProvider>{content}</LoginPromptProvider>
 }
 
 export function ConditionalAppShell({ children }: { children: React.ReactNode }) {
@@ -34,12 +46,14 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const { user } = useAuth()
   const smokeMode = isPlaywrightSmokeClient()
   const isAuthPage = pathname === '/login'
-  const isProfilePage = pathname === '/profile'
+  const isHomePage = pathname === '/'
+  const isProfilePage = pathname.startsWith('/profile')
   const hideMobileGlobalHeader =
-    pathname === '/profile' ||
+    pathname.startsWith('/profile') ||
     pathname === '/community' ||
     pathname === '/messages' ||
     pathname.startsWith('/messages/') ||
+    pathname.startsWith('/users/') ||
     pathname.startsWith('/settings') ||
     pathname.startsWith('/project/') ||
     pathname.startsWith('/shop') ||
@@ -53,12 +67,11 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const showMobileGlobalHeader = !hideMobileGlobalHeader
   const showMobileSearch = pathname === '/' || pathname === '/explore'
   const needsProjectProvider =
-    pathname === '/' ||
     pathname.startsWith('/explore') ||
     pathname.startsWith('/project') ||
-    pathname.startsWith('/profile') ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/users')
+  const includeHeavyUserProviders = !isHomePage
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
 
@@ -68,7 +81,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
 
   if (smokeMode) {
     return (
-      <AppProviders>
+      <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
         <div className="flex min-h-screen flex-col bg-background">
           <main className={cn('flex-1', 'pb-20 md:pb-0')}>{pageContent}</main>
         </div>
@@ -77,7 +90,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <AppProviders>
+    <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
       <div
         className="flex min-h-screen flex-col bg-background"
         style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '4rem' : '0rem' }}

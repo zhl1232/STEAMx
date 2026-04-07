@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { CoinIcon } from "@/components/icons/coin-icon";
 import {
   Info,
   Sparkles,
@@ -23,7 +24,6 @@ import {
   Crown,
   Palette,
   Shield,
-  Coins,
 } from "lucide-react";
 import { useGamification } from "@/context/gamification-context";
 import { cn } from "@/lib/utils";
@@ -57,7 +57,7 @@ const BENEFIT_TAG_CONFIG: Record<
   wealth: {
     label: "商店",
     className: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-    icon: <Coins className="h-3 w-3" />,
+    icon: <CoinIcon className="h-3 w-3" />,
   },
 };
 

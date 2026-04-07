@@ -5,6 +5,7 @@ import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
 import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
 import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
 const PHONE_EMAIL_PREFIX = 'p_'
 const PHONE_EMAIL_SUFFIX = '@phone.local'
@@ -277,7 +278,7 @@ export async function POST(req: Request) {
 
     const username = (userMetadata?.username as string | undefined) || `user_${Math.random().toString(36).slice(2, 10)}`
     const displayName = (userMetadata?.full_name as string | undefined) || phone.replace(/^\+86/, '') || '用户'
-    const avatarUrl = (userMetadata?.avatar_url as string | undefined) || '/avatars/default-1.svg'
+    const avatarUrl = getDefaultAvatarPath(userId)
     await supabaseAdmin
       .from('profiles')
       .upsert(

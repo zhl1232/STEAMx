@@ -7,7 +7,7 @@ interface SettingsSubpageShellProps {
   title: ReactNode;
   fallbackHref?: string;
   kicker?: string;
-  description: ReactNode;
+  description?: ReactNode;
   children: ReactNode;
   aside?: ReactNode;
   className?: string;
@@ -17,7 +17,7 @@ interface SettingsSubpageShellProps {
 export function SettingsSubpageShell({
   title,
   fallbackHref = "/settings",
-  kicker = "设置中心",
+  kicker,
   description,
   children,
   aside,
@@ -32,12 +32,14 @@ export function SettingsSubpageShell({
 
       <div className="page-shell flex-1 pt-6 md:pt-8">
         <div className="hidden md:block">
-          <p className="section-kicker">{kicker}</p>
+          {kicker ? <p className="section-kicker">{kicker}</p> : null}
           <h1 className="mt-3 text-4xl font-semibold tracking-tight">{title}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">{description}</p>
+          {description ? (
+            <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">{description}</p>
+          ) : null}
         </div>
 
-        <div className="mt-0 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1.35fr)_320px]">
+        <div className={cn("mt-0 grid gap-6 md:mt-8", aside ? "lg:grid-cols-[minmax(0,1.35fr)_320px]" : undefined)}>
           <section className={cn("surface-panel p-5 sm:p-6", mainClassName)}>{children}</section>
           {aside ? <aside className="space-y-6">{aside}</aside> : null}
         </div>

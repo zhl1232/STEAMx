@@ -108,10 +108,7 @@ AS $$
 DECLARE
   default_avatar text;
 BEGIN
-  default_avatar := COALESCE(
-    NULLIF(TRIM(new.raw_user_meta_data->>'avatar_url'), ''),
-    '/avatars/default-' || (1 + (abs(hashtext(new.id::text)) % 8)) || '.svg'
-  );
+  default_avatar := '/avatars/default-' || (1 + (abs(hashtext(new.id::text)) % 12)) || '.svg';
 
   INSERT INTO public.profiles (id, username, display_name, avatar_url, age_confirmed_at)
   VALUES (

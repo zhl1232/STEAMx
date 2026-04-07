@@ -10,6 +10,7 @@ import { Comment, Discussion } from "@/lib/types";
 import type { Challenge } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { isClean } from "@/lib/content-filter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -176,7 +177,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
                         discussion_id: Number(discussionId),
                         from_user_id: user.id,
                         from_username: profile?.display_name || user.email?.split('@')[0] || '未知用户',
-                        from_avatar: profile?.avatar_url || user.user_metadata?.avatar_url
+                        from_avatar: profile?.avatar_url || getDefaultAvatarPath(user.id)
                     });
                 }
 

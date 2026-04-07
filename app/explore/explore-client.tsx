@@ -2,8 +2,9 @@
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { SlidersHorizontal, X, Sparkles } from 'lucide-react'
+import { SlidersHorizontal, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
+import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
 import { useProjects } from '@/context/project-context'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
@@ -12,36 +13,34 @@ import {
     SheetContent,
     SheetHeader,
     SheetTitle,
-    SheetDescription,
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
+import type { ExploreTagScope } from '@/lib/api/explore-data'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
 
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG } from '@/lib/config/categories'
 
-// 分类图标 emoji
-const CATEGORY_ICONS: Record<string, string> = {
-    "全部": "🔍",
-    "科学": "🔬",
-    "技术": "💻",
-    "工程": "⚙️",
-    "艺术": "🎨",
-    "数学": "📐",
-    "其他": "📦",
-}
-
 // 难度选项
 const DIFFICULTY_OPTIONS = [
     { value: "all", label: "全部" },
-    { value: "1-2", label: "⭐⭐ 入门" },
-    { value: "3-4", label: "⭐⭐⭐ 进阶" },
-    { value: "5-6", label: "⭐⭐⭐⭐⭐ 挑战" },
+    { value: "1", label: "1星" },
+    { value: "2", label: "2星" },
+    { value: "3", label: "3星" },
+    { value: "4", label: "4星" },
+    { value: "5", label: "5星" },
 ]
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
+const TAGS_COLLAPSED_LIMIT = 24
+const EMPTY_TAGS: string[] = []
+const EMPTY_TAG_SCOPE: ExploreTagScope = {
+    all: [],
+    byCategory: {},
+    bySubCategory: {},
+}
 
 interface ExploreClientProps {
     initialProjects: Project[]
@@ -49,6 +48,7 @@ interface ExploreClientProps {
     initialPage?: number
     categories?: string[]
     availableTags?: string[]
+    tagScope?: ExploreTagScope
 }
 
 export function ExploreClient({
@@ -56,13 +56,16 @@ export function ExploreClient({
     initialHasMore,
     initialPage = 0,
     categories: propCategories,
-    availableTags = []
+    availableTags,
+    tagScope,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
     const { toast } = useToast()
     const { clearLikesDeltaForProjects } = useProjects()
 
     const displayCategories = propCategories || defaultCategories
+    const resolvedAvailableTags = availableTags || EMPTY_TAGS
+    const resolvedTagScope = tagScope || EMPTY_TAG_SCOPE
 
     // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
@@ -91,6 +94,7 @@ export function ExploreClient({
     const [draftSubCategory, setDraftSubCategory] = useState(selectedSubCategory)
     const [draftDifficulty, setDraftDifficulty] = useState(selectedDifficulty)
     const [draftTags, setDraftTags] = useState<string[]>(selectedTags)
+    const [showAllDraftTags, setShowAllDraftTags] = useState(false)
 
     useEffect(() => {
         setProjects(initialProjects)
@@ -126,11 +130,101 @@ export function ExploreClient({
             || (error instanceof Error && error.name === 'AbortError')
     }, [])
 
+    const preloadProjectImages = useCallback(async (nextProjects: Project[], signal: AbortSignal) => {
+        if (typeof window === 'undefined') return
+
+        const previewUrls = Array.from(
+            new Set(
+                nextProjects
+                    .slice(0, 6)
+                    .map(project => project.image)
+                    .filter((src): src is string => typeof src === 'string' && src.trim().length > 0)
+                    .map(src => getOptimizedImageSrc(src, 'card'))
+            )
+        )
+
+        await Promise.allSettled(previewUrls.map((src) => new Promise<void>((resolve, reject) => {
+            if (signal.aborted) {
+                reject(new DOMException('Aborted', 'AbortError'))
+                return
+            }
+
+            const image = new window.Image()
+            let timeoutId: number | null = null
+
+            const cleanup = () => {
+                if (timeoutId !== null) {
+                    window.clearTimeout(timeoutId)
+                }
+                signal.removeEventListener('abort', handleAbort)
+                image.onload = null
+                image.onerror = null
+            }
+
+            const finish = () => {
+                cleanup()
+                resolve()
+            }
+
+            const handleAbort = () => {
+                cleanup()
+                reject(new DOMException('Aborted', 'AbortError'))
+            }
+
+            signal.addEventListener('abort', handleAbort, { once: true })
+            image.onload = finish
+            image.onerror = finish
+            image.src = src
+
+            if (image.complete) {
+                finish()
+                return
+            }
+
+            timeoutId = window.setTimeout(finish, 1200)
+        })))
+    }, [])
+
     const currentSubCategories = useMemo(() => (
         selectedCategory === "全部"
             ? Object.values(CATEGORY_CONFIG).flat()
             : CATEGORY_CONFIG[selectedCategory] || []
     ), [selectedCategory])
+
+    const scopedAvailableTags = useMemo(() => {
+        if (draftSubCategory && resolvedTagScope.bySubCategory[draftSubCategory]) {
+            return resolvedTagScope.bySubCategory[draftSubCategory]
+        }
+
+        if (selectedCategory !== "全部" && resolvedTagScope.byCategory[selectedCategory]) {
+            return resolvedTagScope.byCategory[selectedCategory]
+        }
+
+        return resolvedTagScope.all.length > 0 ? resolvedTagScope.all : resolvedAvailableTags
+    }, [draftSubCategory, resolvedAvailableTags, resolvedTagScope, selectedCategory])
+
+    const sortedDraftTags = useMemo(() => (
+        [...scopedAvailableTags].sort((left, right) => {
+            const leftSelected = draftTags.includes(left)
+            const rightSelected = draftTags.includes(right)
+            if (leftSelected !== rightSelected) return leftSelected ? -1 : 1
+            return left.localeCompare(right, 'zh-Hans-CN', { sensitivity: 'base' })
+        })
+    ), [draftTags, scopedAvailableTags])
+
+    const visibleDraftTags = useMemo(() => (
+        showAllDraftTags || sortedDraftTags.length <= TAGS_COLLAPSED_LIMIT
+            ? sortedDraftTags
+            : sortedDraftTags.slice(0, TAGS_COLLAPSED_LIMIT)
+    ), [showAllDraftTags, sortedDraftTags])
+
+    const hiddenTagCount = sortedDraftTags.length - visibleDraftTags.length
+
+    useEffect(() => {
+        const scopedTagSet = new Set(scopedAvailableTags)
+        setDraftTags(prev => prev.filter(tag => scopedTagSet.has(tag)))
+        setShowAllDraftTags(false)
+    }, [scopedAvailableTags])
 
     const buildSearchParams = useCallback((overrides: {
         query?: string
@@ -225,6 +319,10 @@ export function ExploreClient({
                 throw new Error(await response.text())
             }
             const data = await response.json()
+            await preloadProjectImages(data.projects, controller.signal)
+            if (controller.signal.aborted) {
+                return
+            }
             setProjects(data.projects)
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
@@ -242,12 +340,16 @@ export function ExploreClient({
                 setIsFiltering(false)
             }
         }
-    }, [clearLikesDeltaForProjects, isAbortError, syncUrl, toast])
+    }, [clearLikesDeltaForProjects, isAbortError, preloadProjectImages, syncUrl, toast])
 
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category)
         setSelectedSubCategory("")
-        const params = buildSearchParams({ category, subCategory: "" })
+        setSelectedTags([])
+        setDraftSubCategory("")
+        setDraftTags([])
+        setShowAllDraftTags(false)
+        const params = buildSearchParams({ category, subCategory: "", tags: [] })
         executeFilter(params)
     }
 
@@ -284,11 +386,13 @@ export function ExploreClient({
         setDraftSubCategory(selectedSubCategory)
         setDraftDifficulty(selectedDifficulty)
         setDraftTags([...selectedTags])
+        setShowAllDraftTags(false)
         setSheetOpen(true)
     }
 
     const handleDraftSubCategoryClick = (sub: string) => {
         setDraftSubCategory(prev => prev === sub ? "" : sub)
+        setShowAllDraftTags(false)
     }
 
     const handleDraftDifficultyClick = (value: string) => {
@@ -305,6 +409,7 @@ export function ExploreClient({
         setDraftSubCategory("")
         setDraftDifficulty("all")
         setDraftTags([])
+        setShowAllDraftTags(false)
     }
 
     const handleConfirmFilters = () => {
@@ -334,34 +439,36 @@ export function ExploreClient({
             <div className="mobile-subnav top-0 -mx-4 mb-5 px-4 py-3 md:-mx-6 md:px-6">
                 <div className="flex items-center gap-2">
                     {/* 横向滚动分类 */}
-                    <div className="no-scrollbar flex flex-1 gap-1.5 overflow-x-auto">
-                        {displayCategories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => handleCategoryClick(category)}
-                                disabled={isFiltering}
-                                className={cn(
-                                    "relative flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
-                                    selectedCategory === category
-                                        ? "bg-foreground text-background shadow-md"
-                                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                                    isFiltering && "cursor-not-allowed opacity-50"
-                                )}
-                            >
-                                <span className="text-base leading-none">{CATEGORY_ICONS[category] || "📁"}</span>
-                                {category}
-                            </button>
-                        ))}
+                    <div className="no-scrollbar flex-1 overflow-x-auto">
+                        <div className="segmented-control inline-flex min-w-max gap-1">
+                            {displayCategories.map((category) => (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() => handleCategoryClick(category)}
+                                    disabled={isFiltering}
+                                    aria-pressed={selectedCategory === category}
+                                    className={cn(
+                                        "segmented-option shrink-0 whitespace-nowrap",
+                                        selectedCategory === category && "segmented-option-active",
+                                        isFiltering && "cursor-not-allowed opacity-50"
+                                    )}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {/* 筛选按钮 */}
                     <button
+                        type="button"
                         onClick={openSheet}
                         className={cn(
-                            "relative inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-2 text-sm font-medium transition-all duration-200",
+                            "relative inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border/70 bg-background/82 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur-sm transition-colors",
                             hasActiveAdvancedFilters
-                                ? "border-primary/40 bg-primary/10 text-primary shadow-sm shadow-primary/10"
-                                : "border-border/70 text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground"
+                                ? "border-primary/35 bg-primary/10 text-primary"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                         )}
                     >
                         <SlidersHorizontal className="h-3.5 w-3.5" />
@@ -377,7 +484,9 @@ export function ExploreClient({
                 {/* 已选条件 chips */}
                 {(hasActiveAdvancedFilters || searchQuery) && (
                     <div className="no-scrollbar mt-2.5 flex items-center gap-1.5 overflow-x-auto">
-                        <Sparkles className="h-3 w-3 shrink-0 text-primary/60" />
+                        <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/75">
+                            已选
+                        </span>
 
                         {searchQuery && (
                             <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary">
@@ -430,20 +539,22 @@ export function ExploreClient({
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto rounded-t-2xl px-5 pb-8 pt-6 sm:px-6">
                     <SheetHeader className="mb-5">
+                        <SheetTitle className="sr-only">项目筛选</SheetTitle>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="text-lg font-semibold">筛选条件</SheetTitle>
-                            {hasDraftFilters && (
-                                <button
-                                    onClick={handleDraftClearAll}
-                                    className="text-sm text-muted-foreground hover:text-foreground"
-                                >
-                                    重置
-                                </button>
-                            )}
+                            <div className="text-xs text-muted-foreground">
+                                {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '筛选'}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleDraftClearAll}
+                                className={cn(
+                                    "text-sm text-muted-foreground hover:text-foreground",
+                                    !hasDraftFilters && "invisible"
+                                )}
+                            >
+                                重置
+                            </button>
                         </div>
-                        <SheetDescription className="text-sm text-muted-foreground">
-                            选择子分类、难度或标签来缩小范围
-                        </SheetDescription>
                     </SheetHeader>
 
                     <div className="space-y-6">
@@ -473,6 +584,7 @@ export function ExploreClient({
                                 {DIFFICULTY_OPTIONS.map((option) => (
                                     <button
                                         key={option.value}
+                                        type="button"
                                         onClick={() => handleDraftDifficultyClick(option.value)}
                                         className={cn(
                                             "rounded-full border border-border/70 bg-background/80 px-3.5 py-2 text-sm font-medium transition-all duration-200 hover:border-primary/40 hover:bg-primary/5",
@@ -485,20 +597,25 @@ export function ExploreClient({
                             </div>
                         </div>
 
-                        {availableTags.length > 0 && (
+                        {scopedAvailableTags.length > 0 && (
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium">标签</span>
-                                    {draftTags.length > 0 && (
-                                        <span className="text-xs text-muted-foreground">
-                                            已选 {draftTags.length} 个
-                                        </span>
-                                    )}
+                                    <div>
+                                        <span className="text-sm font-medium">标签</span>
+                                        <p className="mt-1 text-xs text-muted-foreground">
+                                            当前范围 {scopedAvailableTags.length} 个标签
+                                        </p>
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">
+                                        已选 {draftTags.length} 个
+                                    </span>
                                 </div>
+
                                 <div className="flex flex-wrap gap-2">
-                                    {availableTags.map((tag) => (
+                                    {visibleDraftTags.map((tag) => (
                                         <button
                                             key={tag}
+                                            type="button"
                                             onClick={() => handleDraftTagClick(tag)}
                                             className={cn(
                                                 "rounded-full border border-border/70 bg-background/80 px-3.5 py-2 text-sm font-medium transition-all duration-200 hover:border-primary/40 hover:bg-primary/5",
@@ -509,6 +626,26 @@ export function ExploreClient({
                                         </button>
                                     ))}
                                 </div>
+
+                                {hiddenTagCount > 0 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowAllDraftTags(true)}
+                                        className="text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-foreground hover:underline"
+                                    >
+                                        展开更多标签（还有 {hiddenTagCount} 个）
+                                    </button>
+                                )}
+
+                                {showAllDraftTags && scopedAvailableTags.length > TAGS_COLLAPSED_LIMIT && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowAllDraftTags(false)}
+                                        className="text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-foreground hover:underline"
+                                    >
+                                        收起标签
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -526,11 +663,6 @@ export function ExploreClient({
                             onClick={handleConfirmFilters}
                         >
                             查看结果
-                            {draftFilterCount > 0 && (
-                                <span className="ml-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-foreground/20 px-1 text-xs">
-                                    {draftFilterCount}
-                                </span>
-                            )}
                         </Button>
                     </div>
                 </SheetContent>

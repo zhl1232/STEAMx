@@ -22,7 +22,7 @@ BEGIN
     target_admin_id, 
     'admin_migrator', 
     'System Admin', 
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=admin',
+    '/avatars/default-1.svg',
     'admin'
   )
   ON CONFLICT (id) DO UPDATE

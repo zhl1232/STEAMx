@@ -1,73 +1,113 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { PenBox } from "lucide-react";
 
-import { ProfileObservationsPanel } from "@/components/features/profile/profile-observations-panel";
 import { ProjectListSkeleton } from "@/components/features/profile/project-list-skeleton";
-import { SteamRadarChart } from "@/components/features/profile/steam-radar-chart";
+import { ProfileLibrarySkeleton } from "@/components/features/profile/profile-library-skeleton";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
 import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
-import type { UserStats } from "@/lib/gamification/types";
+import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar";
+
+const ProfileObservationsPanel = dynamic(
+  () => import("@/components/features/profile/profile-observations-panel").then((mod) => mod.ProfileObservationsPanel),
+  {
+    loading: () => (
+      <div className="surface-panel px-5 py-12 text-center text-sm text-muted-foreground">
+        加载观察记录中...
+      </div>
+    ),
+  },
+);
+
+const SteamRadarChart = dynamic(
+  () => import("@/components/features/profile/steam-radar-chart").then((mod) => mod.SteamRadarChart),
+  {
+    loading: () => <div className="surface-panel min-h-[320px] rounded-[28px]" />,
+  },
+);
 
 interface MobileProfilePageProps {
   user: User;
   profile: Profile | null;
   myProjects: Project[];
+  myProjectsTotalCount: number;
+  totalLikesReceived: number;
   likedProjectsList: Project[];
   collectedProjectsList: Project[];
   completedProjectsList: Project[];
   completionStatusMap?: Map<number, { status: string; rejectionReason?: string }>;
   followerCount: number;
   followingCount: number;
-  userStats?: UserStats | null;
+  likedProjectsCount: number;
+  collectedProjectsCount: number;
+  completedProjectsCount: number;
+  steamRadar?: SteamRadarWithGuidance | null;
   isProjectsDataLoading?: boolean;
+  isLoadingMoreMyProjects?: boolean;
+  onLoadMoreMyProjects?: () => Promise<boolean> | boolean;
   myObservations?: ObservationEvent[];
   observationsTotal?: number;
   uniqueSpeciesCount?: number;
   isObservationsLoading?: boolean;
   observationsLoaded?: boolean;
   onTabChange?: (value: string) => void;
+  showProfileHeader?: boolean;
+  showSteamRadar?: boolean;
+  pageTitle?: string;
+  backHref?: string;
 }
 
 const PROFILE_TABS = [
   { value: "works", label: "作品" },
   { value: "collected", label: "收藏" },
-  { value: "likes", label: "喜欢" },
-  { value: "completed", label: "完成" },
-  { value: "observations", label: "观察" },
+  { value: "likes", label: "点赞" },
+  { value: "completed", label: "已完成" },
+  { value: "observations", label: "观察记录" },
 ] as const;
 
 export function MobileProfilePage({
   user,
   profile,
   myProjects,
+  myProjectsTotalCount,
+  totalLikesReceived,
   likedProjectsList,
   collectedProjectsList,
   completedProjectsList,
   completionStatusMap,
   followerCount,
   followingCount,
-  userStats,
+  likedProjectsCount,
+  collectedProjectsCount,
+  completedProjectsCount,
+  steamRadar = null,
   isProjectsDataLoading = false,
+  isLoadingMoreMyProjects = false,
+  onLoadMoreMyProjects,
   myObservations = [],
   observationsTotal = 0,
   uniqueSpeciesCount = 0,
   isObservationsLoading = false,
   observationsLoaded = false,
   onTabChange,
+  showProfileHeader = true,
+  showSteamRadar = true,
+  pageTitle,
+  backHref = "/profile",
 }: MobileProfilePageProps) {
   const [activeTab, setActiveTab] = useState<(typeof PROFILE_TABS)[number]["value"]>("works");
+  const [visibleWorksCount, setVisibleWorksCount] = useState(6);
 
-  const myProjectsCount = myProjects.length;
-  const likedProjectsCount = likedProjectsList.length;
-  const collectedProjectsCount = collectedProjectsList.length;
-  const completedProjectsCount = completedProjectsList.length;
-  const totalLikesReceived = myProjects.reduce((acc, project) => acc + project.likes, 0);
+  const myProjectsCount = myProjectsTotalCount;
+  const visibleMyProjects = myProjects.slice(0, visibleWorksCount);
+  const hasMoreWorks = myProjectsTotalCount > visibleWorksCount;
 
   const tabCounts = useMemo(
     () => ({
@@ -87,7 +127,15 @@ export function MobileProfilePage({
     ],
   );
 
+  useEffect(() => {
+    setVisibleWorksCount(6);
+  }, [user.id]);
+
   if (isProjectsDataLoading) {
+    if (!showProfileHeader) {
+      return <ProfileLibrarySkeleton />;
+    }
+
     return (
       <div className="flex min-h-screen flex-col bg-background pb-24">
         <div className="px-4 pt-4">
@@ -142,20 +190,36 @@ export function MobileProfilePage({
     onTabChange?.(value);
   };
 
+  const handleLoadMoreWorks = async () => {
+    if (visibleWorksCount < myProjects.length) {
+      setVisibleWorksCount((count) => Math.min(count + 6, myProjects.length));
+      return;
+    }
+
+    const didLoadMore = await onLoadMoreMyProjects?.();
+    if (didLoadMore) {
+      setVisibleWorksCount((count) => count + 6);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background pb-24">
-      <div className="px-4 pt-4">
-        <ProfileHeader
-          user={user}
-          profile={profile}
-          myProjectsCount={myProjectsCount}
-          totalLikesReceived={totalLikesReceived}
-          followerCount={followerCount}
-          followingCount={followingCount}
-        />
-      </div>
+      {showProfileHeader ? (
+        <div className="px-4 pt-4">
+          <ProfileHeader
+            user={user}
+            profile={profile}
+            myProjectsCount={myProjectsCount}
+            totalLikesReceived={totalLikesReceived}
+            followerCount={followerCount}
+            followingCount={followingCount}
+          />
+        </div>
+      ) : pageTitle ? (
+        <MobilePageHeader title={pageTitle} fallbackHref={backHref} />
+      ) : null}
 
-      <div className="mobile-subnav top-0 z-20 mt-4">
+      <div className={cn("mobile-subnav top-0 z-20", showProfileHeader ? "mt-4" : "")}>
         <div className="px-4 py-3">
           <div className="-mx-1 overflow-x-auto px-1 no-scrollbar">
             <div className="segmented-control inline-flex min-w-max gap-1">
@@ -184,16 +248,30 @@ export function MobileProfilePage({
 
       <div className="px-4 py-4">
         {activeTab === "works" ? (
-          <ProjectList
-            projects={myProjects}
-            emptyState={{
-              icon: <PenBox className="h-10 w-10" />,
-              title: "暂无作品",
-              desc: "分享你的第一个创意作品",
-              btnText: "去分享",
-              href: "/share",
-            }}
-          />
+          <>
+            <ProjectList
+              projects={visibleMyProjects}
+              emptyState={{
+                icon: <PenBox className="h-10 w-10" />,
+                title: "暂无作品",
+                desc: "分享你的第一个创意作品",
+                btnText: "去分享",
+                href: "/share",
+              }}
+            />
+            {hasMoreWorks ? (
+              <div className="mt-5 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => void handleLoadMoreWorks()}
+                  disabled={isLoadingMoreMyProjects}
+                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  {isLoadingMoreMyProjects ? "加载中..." : "加载更多作品"}
+                </button>
+              </div>
+            ) : null}
+          </>
         ) : null}
 
         {activeTab === "collected" ? (
@@ -243,9 +321,11 @@ export function MobileProfilePage({
           />
         ) : null}
 
-        <div className="mt-6">
-          <SteamRadarChart userId={user?.id} stats={userStats ?? null} />
-        </div>
+        {showSteamRadar && steamRadar ? (
+          <div className="mt-6">
+            <SteamRadarChart userId={user?.id} initialRadar={steamRadar} />
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -30,18 +30,26 @@ interface ReportDialogProps {
   contentType: ReportContentType;
   contentId: number | string;
   children?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  hideTrigger?: boolean;
 }
 
 export function ReportDialog({
   contentType,
   contentId,
   children,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+  hideTrigger = false,
 }: ReportDialogProps) {
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [reason, setReason] = useState<ReportReason | "">("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = controlledOnOpenChange ?? setUncontrolledOpen;
 
   const handleSubmit = useCallback(async () => {
     if (!reason) {
@@ -86,22 +94,24 @@ export function ReportDialog({
     } finally {
       setLoading(false);
     }
-  }, [contentType, contentId, reason, description, toast]);
+  }, [contentType, contentId, reason, description, toast, setOpen]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children ?? (
-          <button
-            type="button"
-            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive transition-colors"
-            title="举报"
-            aria-label="举报"
-          >
-            <Flag className="h-3.5 w-3.5" />
-          </button>
-        )}
-      </DialogTrigger>
+      {!hideTrigger && (
+        <DialogTrigger asChild>
+          {children ?? (
+            <button
+              type="button"
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive transition-colors"
+              title="举报"
+              aria-label="举报"
+            >
+              <Flag className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>举报内容</DialogTitle>

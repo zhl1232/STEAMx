@@ -65,7 +65,7 @@ export function MobileCommunityPage() {
                     <DiscussionList />
                 ) : activeTab === "leaderboard" ? (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-                        <LeaderboardContent compact listMaxHeight={420} className="w-full" />
+                        <LeaderboardContent compact className="w-full" />
                     </div>
                 ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-6">

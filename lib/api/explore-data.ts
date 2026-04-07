@@ -20,9 +20,16 @@ import { logger } from "@/lib/logger";
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
 type CompletionRowForMapper = Omit<Parameters<typeof mapDbCompletion>[0], "profiles">;
+export type ExploreTagScope = {
+  all: string[];
+  byCategory: Record<string, string[]>;
+  bySubCategory: Record<string, string[]>;
+};
+
 type ExploreFilterOptions = {
   categories: string[];
   availableTags: string[];
+  tagScope: ExploreTagScope;
 };
 
 type SmokeProject = Project & {
@@ -113,13 +120,61 @@ let cachedExploreFilterOptions:
   | null = null;
 let exploreFilterOptionsPromise: Promise<ExploreFilterOptions> | null = null;
 
+function sortLabels(labels: Iterable<string>): string[] {
+  return Array.from(new Set(labels)).sort((left, right) =>
+    left.localeCompare(right, "zh-Hans-CN", { sensitivity: "base" }),
+  );
+}
+
+function buildTagScope(
+  entries: Array<{ category?: string | null; subCategory?: string | null; tags?: string[] | null }>,
+  excludedNames: Set<string>,
+): ExploreTagScope {
+  const allTags = new Set<string>();
+  const categoryTags = new Map<string, Set<string>>();
+  const subCategoryTags = new Map<string, Set<string>>();
+
+  for (const entry of entries) {
+    const tags = (entry.tags || []).filter((tag) => tag && !excludedNames.has(tag));
+    if (tags.length === 0) continue;
+
+    for (const tag of tags) {
+      allTags.add(tag);
+
+      if (entry.category) {
+        if (!categoryTags.has(entry.category)) {
+          categoryTags.set(entry.category, new Set());
+        }
+        categoryTags.get(entry.category)?.add(tag);
+      }
+
+      if (entry.subCategory) {
+        if (!subCategoryTags.has(entry.subCategory)) {
+          subCategoryTags.set(entry.subCategory, new Set());
+        }
+        subCategoryTags.get(entry.subCategory)?.add(tag);
+      }
+    }
+  }
+
+  return {
+    all: sortLabels(allTags),
+    byCategory: Object.fromEntries(
+      Array.from(categoryTags.entries()).map(([category, tags]) => [category, sortLabels(tags)]),
+    ),
+    bySubCategory: Object.fromEntries(
+      Array.from(subCategoryTags.entries()).map(([subCategory, tags]) => [subCategory, sortLabels(tags)]),
+    ),
+  };
+}
+
 /**
  * 项目筛选参数
  */
 export interface ProjectFilters {
   category?: string;
   subCategory?: string; // 按子分类筛选（单选）
-  difficulty?: "easy" | "medium" | "hard" | "all" | "1-2" | "3-4" | "5-6";
+  difficulty?: "easy" | "medium" | "hard" | "all" | "1" | "2" | "3" | "4" | "5" | "1-2" | "3-4" | "5-6";
   minDuration?: number;
   maxDuration?: number;
   materials?: string[];
@@ -153,6 +208,7 @@ function getSmokeProjects(
 
     if (filters.difficulty && filters.difficulty !== "all") {
       const stars = project.difficulty_stars || 0;
+      if (["1", "2", "3", "4", "5"].includes(filters.difficulty) && stars !== Number(filters.difficulty)) return false;
       if (filters.difficulty === "1-2" && (stars < 1 || stars > 2)) return false;
       if (filters.difficulty === "3-4" && (stars < 3 || stars > 4)) return false;
       if (filters.difficulty === "5-6" && (stars < 5 || stars > 6)) return false;
@@ -215,9 +271,19 @@ function getSmokeProjects(
 
 export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
   if (isPlaywrightSmoke()) {
+    const smokeTagScope = buildTagScope(
+      SMOKE_PROJECTS.map((project) => ({
+        category: project.category,
+        subCategory: project.sub_category,
+        tags: project.tags,
+      })),
+      new Set(SMOKE_CATEGORIES),
+    );
+
     return {
       categories: SMOKE_CATEGORIES,
       availableTags: SMOKE_TAGS,
+      tagScope: smokeTagScope,
     };
   }
 
@@ -232,22 +298,37 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
 
   exploreFilterOptionsPromise = (async () => {
     const supabase = await createClient();
-    const [{ data: categoriesData }, { data: tagsData }] = await Promise.all([
+    const [{ data: categoriesData }, { data: subCategoriesData }, { data: tagsData }] = await Promise.all([
       supabase.from("categories").select("name").order("sort_order"),
-      supabase.from("projects").select("tags").eq("status", "approved").not("tags", "is", null),
+      supabase.from("sub_categories").select("name"),
+      supabase
+        .from("projects")
+        .select("category, tags, sub_categories (name)")
+        .eq("status", "approved")
+        .not("tags", "is", null),
     ]);
 
     const categories = ["全部", ...((categoriesData as { name: string }[] | null)?.map((category) => category.name) || [])];
-    const categoryNames = new Set(categories);
-    const availableTags = Array.from(
-      new Set(
-        (((tagsData as { tags: string[] | null }[] | null) || [])
-          .flatMap((project) => project.tags || [])
-          .filter((tag) => tag && !categoryNames.has(tag))),
-      ),
-    ).sort();
+    const excludedNames = new Set([
+      ...categories,
+      ...(((subCategoriesData as { name: string }[] | null) || []).map((subCategory) => subCategory.name)),
+    ]);
+    const tagScope = buildTagScope(
+      (((tagsData as {
+        category: string | null;
+        tags: string[] | null;
+        sub_categories: { name: string | null } | { name: string | null }[] | null;
+      }[] | null) || []).map((project) => ({
+        category: project.category,
+        tags: project.tags,
+        subCategory: Array.isArray(project.sub_categories)
+          ? (project.sub_categories[0]?.name ?? null)
+          : (project.sub_categories?.name ?? null),
+      }))),
+      excludedNames,
+    );
 
-    const data = { categories, availableTags };
+    const data = { categories, availableTags: tagScope.all, tagScope };
     cachedExploreFilterOptions = {
       data,
       expiresAt: Date.now() + EXPLORE_FILTER_OPTIONS_TTL_MS,
@@ -331,7 +412,9 @@ export async function getProjects(
   }
 
   if (difficulty && difficulty !== "all") {
-    if (difficulty === "1-2") {
+    if (["1", "2", "3", "4", "5"].includes(difficulty)) {
+      query = query.eq("difficulty_stars", Number(difficulty));
+    } else if (difficulty === "1-2") {
       query = query.gte("difficulty_stars", 1).lte("difficulty_stars", 2);
     } else if (difficulty === "3-4") {
       query = query.gte("difficulty_stars", 3).lte("difficulty_stars", 4);

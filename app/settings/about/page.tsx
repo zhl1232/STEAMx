@@ -54,26 +54,6 @@ export default function AboutSettingsPage() {
   return (
     <SettingsSubpageShell
       title="关于与帮助"
-      description="集中放置帮助入口、反馈方式和平台规则，让支持信息与设置中心保持连续。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">平台信息</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">STEAM 探索</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              当前版本为 v1.0.0。这里负责承接帮助、政策和反馈，不再单独使用旧式内容页容器。
-            </p>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">支持建议</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">优先查看常见问题</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              密码、审核与联系平台等高频问题已经整理在右侧，可先快速确认。
-            </p>
-          </section>
-        </>
-      }
     >
       <div className="space-y-6">
         <section className="space-y-3">

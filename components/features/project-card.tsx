@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Heart, ImageOff, MessageCircle, CircleStop } from "lucide-react";
-import { useProjects } from "@/context/project-context";
+import { Heart, ImageOff, MessageCircle } from "lucide-react";
+import { CoinIcon } from "@/components/icons/coin-icon";
+import { useOptionalProjects } from "@/context/project-context";
 import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false }: ProjectCardProps) {
-    const { isLiked, getLikesDelta } = useProjects();
+    const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = project.likes + getLikesDelta(project.id);
     const [imageError, setImageError] = useState(false);
@@ -46,7 +47,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={() => setImageError(true)}
                             priority={priority}
-                            blurPlaceholder
                         />
                     ) : (
                         <div className="flex items-center justify-center h-full bg-muted">
@@ -129,7 +129,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <span>{project.comments_count ?? 0} 评论</span>
                         </span>
                         <span className="flex items-center gap-1.5" title="投币数">
-                            <CircleStop className="h-3.5 w-3.5 text-amber-500" />
+                            <CoinIcon className="h-[18px] w-[18px] text-amber-500" />
                             <span>{project.coins_count || 0} 投币</span>
                         </span>
                         <span className="flex items-center gap-1.5" title="点赞数">

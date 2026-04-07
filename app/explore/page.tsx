@@ -25,7 +25,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     tags: params.tags?.split(',').filter(Boolean),
   }
 
-  const [{ categories, availableTags }, { projects, hasMore }] = await Promise.all([
+  const [{ categories, availableTags, tagScope }, { projects, hasMore }] = await Promise.all([
     getExploreFilterOptions(),
     getProjects(filters, { page: initialPage, pageSize: 12 }),
   ])
@@ -37,6 +37,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       initialPage={initialPage}
       categories={categories}
       availableTags={availableTags}
+      tagScope={tagScope}
     />
   )
 }

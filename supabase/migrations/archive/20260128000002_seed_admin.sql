@@ -26,7 +26,7 @@ BEGIN
 
     -- 3. 确保 Profile 存在并设置为 Admin
     INSERT INTO public.profiles (id, username, display_name, role, avatar_url)
-    VALUES (v_user_id, 'admin', 'Admin', 'admin', 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin')
+    VALUES (v_user_id, 'admin', 'Admin', 'admin', '/avatars/default-1.svg')
     ON CONFLICT (id) DO UPDATE
     SET role = 'admin', display_name = COALESCE(public.profiles.display_name, 'Admin');
 

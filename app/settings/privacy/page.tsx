@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Globe, Loader2, MessageSquareOff, UserX, Users } from "lucide-react";
+import { Globe, Loader2, MessageSquareOff, Users } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { useAuth } from "@/context/auth-context";
@@ -68,28 +68,6 @@ export default function PrivacySettingsPage() {
   return (
     <SettingsSubpageShell
       title="隐私设置"
-      description="决定谁可以主动联系你，以及哪些互动需要被收得更紧，避免无效打扰。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">联系范围</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-              {messagePrivacy === "everyone" ? "开放联系" : messagePrivacy === "followers_only" ? "仅向熟悉的人开放" : "已关闭私信"}
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              私信权限只影响新消息入口，不影响你已经加入的现有会话与系统通知。
-            </p>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">后续扩展</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">黑名单会继续补齐</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              当前先保留私信范围控制，后续会把屏蔽列表和更细的可见性选项补进这一页。
-            </p>
-          </section>
-        </>
-      }
     >
       {isLoading ? (
         <div className="surface-subtle flex min-h-56 items-center justify-center">
@@ -139,28 +117,6 @@ export default function PrivacySettingsPage() {
             </div>
           </section>
 
-          <section className="surface-subtle p-4 sm:p-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <UserX className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold">黑名单管理</h3>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                    后续将补充屏蔽用户、限制互动等更细粒度控制。
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => toast({ title: "功能开发中" })}
-                className="inline-flex rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                0 人
-              </button>
-            </div>
-          </section>
         </div>
       )}
     </SettingsSubpageShell>

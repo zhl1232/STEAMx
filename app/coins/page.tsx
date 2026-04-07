@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import {
-  Coins,
   ArrowLeft,
   Loader2,
   AlertCircle,
@@ -17,6 +16,7 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
+import { CoinIcon } from "@/components/icons/coin-icon";
 import { useAuth } from "@/context/auth-context";
 import { useGamification } from "@/context/gamification-context";
 import { createClient } from "@/lib/supabase/client";
@@ -171,7 +171,7 @@ export default function CoinsPage() {
 
           <div className="relative flex flex-col items-center text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-amber-200 to-amber-100 shadow-inner dark:from-amber-800 dark:to-amber-900">
-              <Coins className="h-8 w-8 text-amber-600 dark:text-amber-400" />
+              <CoinIcon className="h-8 w-8 text-amber-600 dark:text-amber-400" />
             </div>
             <h2 className="mb-2 text-sm font-medium text-amber-800/80 dark:text-amber-200/80">
               当前余额
@@ -230,7 +230,7 @@ export default function CoinsPage() {
             ) : logs.length === 0 ? (
               <div className="py-16 px-4 text-center">
                 <div className="h-12 w-12 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-3">
-                  <Coins className="h-6 w-6 text-muted-foreground/40" />
+                  <CoinIcon className="h-6 w-6 text-muted-foreground/40" />
                 </div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">暂无交易记录</p>
                 <p className="text-xs text-muted-foreground/60 max-w-xs mx-auto">

@@ -4,12 +4,12 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 export default function LeaderboardPage() {
     return (
-        <div className="page-shell pt-6 pb-24 md:py-8">
+        <div className="page-shell flex min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] flex-col pt-6 pb-24 md:min-h-[calc(100vh-4rem)] md:py-8">
             <div className="md:hidden">
                 <MobilePageHeader title="社区排行榜" fallbackHref="/community" />
             </div>
 
-            <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+            <section className="surface-panel flex flex-1 flex-col overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
                 <div className="mb-8 flex items-start gap-4">
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20">
                         <Trophy className="h-7 w-7" />
@@ -23,7 +23,7 @@ export default function LeaderboardPage() {
                     </div>
                 </div>
 
-                <LeaderboardContent listMaxHeight={480} />
+                <LeaderboardContent className="flex-1" />
             </section>
         </div>
     );

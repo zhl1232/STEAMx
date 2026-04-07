@@ -204,34 +204,6 @@ export default function ProfileSettingsClient() {
   return (
     <SettingsSubpageShell
       title="个人资料"
-      description="补充昵称、头像和基础信息，让账号展示与个人主页保持一致。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">资料建议</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">先让别人认出你</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              一个清晰头像和简短自我介绍，通常比堆积很多字段更有效。
-            </p>
-            <div className="mt-5 grid gap-3">
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                昵称建议保持简洁，便于在评论、消息和项目列表中识别。
-              </div>
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                简介限制在 30 字内，适合用一句话表达方向或兴趣。
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">账号标识</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">{username || "未设置账号 ID"}</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              账号 ID 会继续作为系统内的基础标识，个人资料页主要控制外显信息。
-            </p>
-          </section>
-        </>
-      }
     >
       {isLoading ? (
         <div className="space-y-4">
