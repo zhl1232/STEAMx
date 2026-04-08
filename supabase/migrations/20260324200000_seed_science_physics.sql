@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 静电章鱼
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('静电章鱼', '用塑料袋制作一只可爱的"章鱼"，通过摩擦产生静电让它飘浮在空中。孩子将亲身体验摩擦起电的原理，观察同种电荷相互排斥的有趣现象。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/science_physics.webp', ARRAY['静电','摩擦起电','科学','物理'], '科学')
+    VALUES ('静电章鱼', '用塑料袋制作一只可爱的"章鱼"，通过摩擦产生静电让它飘浮在空中。参与者将亲身体验摩擦起电的原理，观察同种电荷相互排斥的有趣现象。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/science_physics.webp', ARRAY['静电','摩擦起电','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -52,7 +52,7 @@ BEGIN
 
     -- Project 3: 纸飞机飞行实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸飞机飞行实验', '折叠不同造型的纸飞机，测量和比较它们的飞行距离与滞空时间。孩子将通过实验了解空气动力学的基本知识，包括升力、阻力和重心对飞行的影响。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_physics.webp', ARRAY['空气动力学','科学','物理'], '科学')
+    VALUES ('纸飞机飞行实验', '折叠不同造型的纸飞机，测量和比较它们的飞行距离与滞空时间。参与者将通过实验了解空气动力学的基本知识，包括升力、阻力和重心对飞行的影响。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_physics.webp', ARRAY['空气动力学','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -71,7 +71,7 @@ BEGIN
 
     -- Project 4: 影子戏剧场
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('影子戏剧场', '制作简易影子剧场，用手电筒和剪纸表演一场精彩的影子戏。孩子将在游戏中学习光的直线传播原理，理解影子的形成原因以及大小变化规律。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/science_physics.webp', ARRAY['光的直线传播','科学','物理'], '科学')
+    VALUES ('影子戏剧场', '制作简易影子剧场，用手电筒和剪纸表演一场精彩的影子戏。参与者将在游戏中学习光的直线传播原理，理解影子的形成原因以及大小变化规律。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/science_physics.webp', ARRAY['光的直线传播','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -110,7 +110,7 @@ BEGIN
 
     -- Project 6: 水中硬币魔术
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('水中硬币魔术', '将硬币放在碗底，通过倒水让"消失"的硬币重新出现，表演一场神奇的光学魔术。孩子将直观地理解光的折射现象，明白光在不同介质中传播方向会发生改变。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/science_physics.webp', ARRAY['光的折射','科学','物理'], '科学')
+    VALUES ('水中硬币魔术', '将硬币放在碗底，通过倒水让"消失"的硬币重新出现，表演一场神奇的光学魔术。参与者将直观地理解光的折射现象，明白光在不同介质中传播方向会发生改变。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/science_physics.webp', ARRAY['光的折射','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -126,7 +126,7 @@ BEGIN
 
     -- Project 7: 自制简易潜水艇
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制简易潜水艇', '用塑料瓶制作一艘可以下沉和上浮的迷你潜水艇，体验真实潜水艇的工作原理。孩子将学习浮力和水压的关系，理解潜水艇通过改变自身重量来控制沉浮。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_physics.webp', ARRAY['浮力','水压','科学','物理'], '科学')
+    VALUES ('自制简易潜水艇', '用塑料瓶制作一艘可以下沉和上浮的迷你潜水艇，体验真实潜水艇的工作原理。参与者将学习浮力和水压的关系，理解潜水艇通过改变自身重量来控制沉浮。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_physics.webp', ARRAY['浮力','水压','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -165,7 +165,7 @@ BEGIN
 
     -- Project 9: 简易万花筒
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('简易万花筒', '用镜面材料制作一个万花筒，透过它看到无穷无尽的美丽图案。孩子将学习光的反射原理，理解多面镜子如何通过反复反射创造出对称的图案。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_physics.webp', ARRAY['光的反射','科学','物理'], '科学')
+    VALUES ('简易万花筒', '用镜面材料制作一个万花筒，透过它看到无穷无尽的美丽图案。参与者将学习光的反射原理，理解多面镜子如何通过反复反射创造出对称的图案。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_physics.webp', ARRAY['光的反射','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -184,7 +184,7 @@ BEGIN
 
     -- Project 10: 摩擦力滑道实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('摩擦力滑道实验', '搭建不同材质的滑道，让小物体从上面滑下来比较速度差异。通过对比实验，孩子将直观感受不同表面粗糙度对摩擦力大小的影响。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_physics.webp', ARRAY['摩擦力','科学','物理'], '科学')
+    VALUES ('摩擦力滑道实验', '搭建不同材质的滑道，让小物体从上面滑下来比较速度差异。通过对比实验，参与者将直观感受不同表面粗糙度对摩擦力大小的影响。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_physics.webp', ARRAY['摩擦力','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -205,7 +205,7 @@ BEGIN
 
     -- Project 11: 弹力球高度实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹力球高度实验', '从不同高度释放弹力球，测量反弹高度与下落高度的关系。孩子将学习弹性和能量转换的概念，理解为什么球不能弹回到原来的高度。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_physics.webp', ARRAY['弹性','能量','科学','物理'], '科学')
+    VALUES ('弹力球高度实验', '从不同高度释放弹力球，测量反弹高度与下落高度的关系。参与者将学习弹性和能量转换的概念，理解为什么球不能弹回到原来的高度。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_physics.webp', ARRAY['弹性','能量','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -224,7 +224,7 @@ BEGIN
 
     -- Project 12: 自制指南针
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制指南针', '用缝衣针和磁铁制作一个简易指南针，观察它如何指向南北方向。孩子将认识地球磁场的存在，理解磁铁指南北的原理以及指南针在导航中的重要作用。', v_author_id, v_sub_id, 2, 20, 'approved', '/projects/science_physics.webp', ARRAY['磁场','地磁','科学','物理'], '科学')
+    VALUES ('自制指南针', '用缝衣针和磁铁制作一个简易指南针，观察它如何指向南北方向。参与者将认识地球磁场的存在，理解磁铁指南北的原理以及指南针在导航中的重要作用。', v_author_id, v_sub_id, 2, 20, 'approved', '/projects/science_physics.webp', ARRAY['磁场','地磁','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -243,7 +243,7 @@ BEGIN
 
     -- Project 13: 声音可视化实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('声音可视化实验', '用保鲜膜和盐粒让声音变得"看得见"，观察不同声音频率产生的振动图案。孩子将直观理解声波是一种振动，不同频率的声音会产生不同的振动模式。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['声波','振动','科学','物理'], '科学')
+    VALUES ('声音可视化实验', '用保鲜膜和盐粒让声音变得"看得见"，观察不同声音频率产生的振动图案。参与者将直观理解声波是一种振动，不同频率的声音会产生不同的振动模式。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['声波','振动','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -262,7 +262,7 @@ BEGIN
 
     -- Project 14: 自制针孔相机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制针孔相机', '用鞋盒制作一台真正能成像的针孔相机，看到倒立的影像。这个经典实验让孩子深入理解小孔成像的原理，体验人类最早的成像技术。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/science_physics.webp', ARRAY['小孔成像','科学','物理'], '科学')
+    VALUES ('自制针孔相机', '用鞋盒制作一台真正能成像的针孔相机，看到倒立的影像。这个经典实验让参与者深入理解小孔成像的原理，体验人类最早的成像技术。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/science_physics.webp', ARRAY['小孔成像','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -283,7 +283,7 @@ BEGIN
 
     -- Project 15: 密度彩虹塔
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('密度彩虹塔', '利用不同密度的液体在一个杯子里叠出漂亮的彩虹分层效果。孩子将学习密度的概念，理解为什么不同液体可以像楼层一样整齐地分层。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['密度','科学','物理'], '科学')
+    VALUES ('密度彩虹塔', '利用不同密度的液体在一个杯子里叠出漂亮的彩虹分层效果。参与者将学习密度的概念，理解为什么不同液体可以像楼层一样整齐地分层。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['密度','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -304,7 +304,7 @@ BEGIN
 
     -- Project 16: 热气球模型
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('热气球模型', '制作一个简易热气球模型，观察热空气如何让它升起。孩子将亲眼看到热胀冷缩的物理现象，理解热气球飞上天空的科学原理。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/science_physics.webp', ARRAY['热胀冷缩','科学','物理'], '科学')
+    VALUES ('热气球模型', '制作一个简易热气球模型，观察热空气如何让它升起。参与者将亲眼看到热胀冷缩的物理现象，理解热气球飞上天空的科学原理。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/science_physics.webp', ARRAY['热胀冷缩','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -323,7 +323,7 @@ BEGIN
 
     -- Project 17: 自制温度计
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制温度计', '用瓶子、吸管和彩色水制作一个简易温度计，观察液柱随温度升降。孩子将理解热膨胀原理，知道温度计是如何利用液体受热膨胀来测量温度的。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['热膨胀','科学','物理'], '科学')
+    VALUES ('自制温度计', '用瓶子、吸管和彩色水制作一个简易温度计，观察液柱随温度升降。参与者将理解热膨胀原理，知道温度计是如何利用液体受热膨胀来测量温度的。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_physics.webp', ARRAY['热膨胀','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -344,7 +344,7 @@ BEGIN
 
     -- Project 18: 杠杆平衡实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('杠杆平衡实验', '用尺子和橡皮搭建杠杆，探索力矩与平衡的秘密。孩子将通过动手实验理解杠杆原理——力乘以力臂等于阻力乘以阻力臂，感受阿基米德"给我一个支点"的力量。', v_author_id, v_sub_id, 3, 25, 'approved', '/projects/science_physics.webp', ARRAY['力矩','杠杆','科学','物理'], '科学')
+    VALUES ('杠杆平衡实验', '用尺子和橡皮搭建杠杆，探索力矩与平衡的秘密。参与者将通过动手实验理解杠杆原理——力乘以力臂等于阻力乘以阻力臂，感受阿基米德"给我一个支点"的力量。', v_author_id, v_sub_id, 3, 25, 'approved', '/projects/science_physics.webp', ARRAY['力矩','杠杆','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -364,7 +364,7 @@ BEGIN
 
     -- Project 19: 液压机械臂
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('液压机械臂', '用注射器和软管制作一个液压驱动的机械臂，实现夹取物体的动作。孩子将学习帕斯卡原理，理解液压系统如何将小力放大为大力来完成工作。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/science_physics.webp', ARRAY['帕斯卡原理','科学','物理'], '科学')
+    VALUES ('液压机械臂', '用注射器和软管制作一个液压驱动的机械臂，实现夹取物体的动作。参与者将学习帕斯卡原理，理解液压系统如何将小力放大为大力来完成工作。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/science_physics.webp', ARRAY['帕斯卡原理','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -386,7 +386,7 @@ BEGIN
 
     -- Project 20: 电磁铁制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('电磁铁制作', '用铁钉和电线制作一个可以开关的电磁铁，体验电流产生磁场的奇妙。孩子将学习电磁感应的基本原理，了解电和磁之间的密切关系。', v_author_id, v_sub_id, 4, 35, 'approved', '/projects/science_physics.webp', ARRAY['电磁感应','科学','物理'], '科学')
+    VALUES ('电磁铁制作', '用铁钉和电线制作一个可以开关的电磁铁，体验电流产生磁场的奇妙。参与者将学习电磁感应的基本原理，了解电和磁之间的密切关系。', v_author_id, v_sub_id, 4, 35, 'approved', '/projects/science_physics.webp', ARRAY['电磁感应','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -406,7 +406,7 @@ BEGIN
 
     -- Project 21: 简易电动机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('简易电动机', '用铜线、磁铁和电池制作一个能旋转的简易电动机。孩子将亲手实现电能到动能的转换，理解磁场对通电导线产生力的作用。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/science_physics.webp', ARRAY['磁场与电流','科学','物理'], '科学')
+    VALUES ('简易电动机', '用铜线、磁铁和电池制作一个能旋转的简易电动机。参与者将亲手实现电能到动能的转换，理解磁场对通电导线产生力的作用。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/science_physics.webp', ARRAY['磁场与电流','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -427,7 +427,7 @@ BEGIN
 
     -- Project 22: 自制望远镜
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制望远镜', '用两片不同焦距的放大镜制作一架简易望远镜，能看清远处的物体。孩子将学习凸透镜的成像原理，理解望远镜如何通过两片透镜的组合实现放大远处物体的效果。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/science_physics.webp', ARRAY['透镜成像','科学','物理'], '科学')
+    VALUES ('自制望远镜', '用两片不同焦距的放大镜制作一架简易望远镜，能看清远处的物体。参与者将学习凸透镜的成像原理，理解望远镜如何通过两片透镜的组合实现放大远处物体的效果。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/science_physics.webp', ARRAY['透镜成像','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -447,7 +447,7 @@ BEGIN
 
     -- Project 23: 自制小型发电机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制小型发电机', '用磁铁和线圈制作一个能点亮LED灯的微型发电机。孩子将亲手实现"运动生电"的奇迹，深入理解电磁感应——转动线圈切割磁力线即可产生电流。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/science_physics.webp', ARRAY['电磁感应','科学','物理'], '科学')
+    VALUES ('自制小型发电机', '用磁铁和线圈制作一个能点亮LED灯的微型发电机。参与者将亲手实现"运动生电"的奇迹，深入理解电磁感应——转动线圈切割磁力线即可产生电流。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/science_physics.webp', ARRAY['电磁感应','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -469,7 +469,7 @@ BEGIN
 
     -- Project 24: 测量声速实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('测量声速实验', '利用回声或音叉在管中共振的方法测量声音的传播速度。孩子将掌握科学测量的方法，学习声速的概念，并感受理论与实验相结合的科学精神。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/science_physics.webp', ARRAY['声速','测量','科学','物理'], '科学')
+    VALUES ('测量声速实验', '利用回声或音叉在管中共振的方法测量声音的传播速度。参与者将掌握科学测量的方法，学习声速的概念，并感受理论与实验相结合的科学精神。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/science_physics.webp', ARRAY['声速','测量','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -490,7 +490,7 @@ BEGIN
 
     -- Project 25: 自制分光器
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制分光器', '用光盘和纸盒制作一台分光器，观察不同光源的光谱特征。孩子将学习光谱分析的基本方法，了解科学家如何通过分析光谱来判断物质的成分。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/science_physics.webp', ARRAY['光谱分析','科学','物理'], '科学')
+    VALUES ('自制分光器', '用光盘和纸盒制作一台分光器，观察不同光源的光谱特征。参与者将学习光谱分析的基本方法，了解科学家如何通过分析光谱来判断物质的成分。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/science_physics.webp', ARRAY['光谱分析','科学','物理'], '科学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

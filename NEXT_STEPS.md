@@ -280,7 +280,7 @@
   - `profiles` 表新增 `message_privacy` 列（`everyone` / `followers_only` / `nobody`），`/api/messages/send` 发送前检查接收方隐私设置。
   - `/settings/privacy` 页面完整重写，支持三选一实时保存。发送失败时显示友好中文提示。
 
-- [x] **[#11] 无年龄验证 / 家长同意机制** ✅ 已修复
+- [x] **[#11] 无年龄验证 / 监护人同意机制** ✅ 已修复
   - `profiles` 表新增 `age_confirmed_at` 列。注册页和登录弹窗均添加「我已年满 14 周岁，或已获得监护人同意使用本平台」勾选框，未勾选阻止注册。
   - 邮箱注册通过 `handle_new_user` 触发器写入 `age_confirmed_at`；SMS 注册在 profile upsert 时写入。
 

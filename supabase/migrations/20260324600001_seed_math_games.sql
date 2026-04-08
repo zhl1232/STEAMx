@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 数字配对翻牌
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数字配对翻牌', '制作一套数字配对卡片，通过翻牌找到相同数字的配对来锻炼记忆力。孩子将在游戏中熟悉数字认知，同时提升专注力和短期记忆能力。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['记忆','配对','数学','游戏'], '数学')
+    VALUES ('数字配对翻牌', '制作一套数字配对卡片，通过翻牌找到相同数字的配对来锻炼记忆力。参与者将在游戏中熟悉数字认知，同时提升专注力和短期记忆能力。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['记忆','配对','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -34,7 +34,7 @@ BEGIN
 
     -- Project 2: 骰子比大小
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('骰子比大小', '用骰子进行各种比大小的趣味数学游戏，感受随机和概率的魅力。孩子将在掷骰子的过程中练习数字比较和简单加法，初步体验概率的概念。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/sensory_box.webp', ARRAY['概率','比较','数学','游戏'], '数学')
+    VALUES ('骰子比大小', '用骰子进行各种比大小的趣味数学游戏，感受随机和概率的魅力。参与者将在掷骰子的过程中练习数字比较和简单加法，初步体验概率的概念。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/sensory_box.webp', ARRAY['概率','比较','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -51,7 +51,7 @@ BEGIN
 
     -- Project 3: 数字连线画
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数字连线画', '按照数字从小到大的顺序依次连线，最终呈现出一幅完整的图案。孩子将在有趣的绘画过程中巩固数字顺序的认知，训练手眼协调能力。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['数序','连线','数学','游戏'], '数学')
+    VALUES ('数字连线画', '按照数字从小到大的顺序依次连线，最终呈现出一幅完整的图案。参与者将在有趣的绘画过程中巩固数字顺序的认知，训练手眼协调能力。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['数序','连线','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -70,7 +70,7 @@ BEGIN
 
     -- Project 4: 测量身边的物品
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('测量身边的物品', '用不同的工具测量家中各种物品的长度、重量和容积，建立对度量单位的直观认知。孩子将学会使用测量工具，感受厘米、克、毫升等单位在日常生活中的实际意义。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['测量','单位','数学','游戏'], '数学')
+    VALUES ('测量身边的物品', '用不同的工具测量家中各种物品的长度、重量和容积，建立对度量单位的直观认知。参与者将学会使用测量工具，感受厘米、克、毫升等单位在日常生活中的实际意义。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['测量','单位','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -89,7 +89,7 @@ BEGIN
 
     -- Project 5: 概率实验：硬币与骰子
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('概率实验：硬币与骰子', '通过大量抛硬币和掷骰子实验，记录结果并统计频率，亲身验证概率理论。孩子将学会用数据说话，理解"大数定律"——实验次数越多，结果越接近理论概率。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/sensory_box.webp', ARRAY['概率','统计','数学','游戏'], '数学')
+    VALUES ('概率实验：硬币与骰子', '通过大量抛硬币和掷骰子实验，记录结果并统计频率，亲身验证概率理论。参与者将学会用数据说话，理解"大数定律"——实验次数越多，结果越接近理论概率。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/sensory_box.webp', ARRAY['概率','统计','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -108,7 +108,7 @@ BEGIN
 
     -- Project 6: 数字华容道
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数字华容道', '制作一个可以滑动数字方块的华容道游戏，通过策略性移动将打乱的数字恢复顺序。孩子将在解谜过程中锻炼空间推理能力和策略规划思维。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['策略','移动','数学','游戏'], '数学')
+    VALUES ('数字华容道', '制作一个可以滑动数字方块的华容道游戏，通过策略性移动将打乱的数字恢复顺序。参与者将在解谜过程中锻炼空间推理能力和策略规划思维。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['策略','移动','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -128,7 +128,7 @@ BEGIN
 
     -- Project 7: 速算比赛卡片
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('速算比赛卡片', '制作一套速算卡片进行限时数学运算比赛，看谁算得又快又准。孩子将在紧张有趣的竞赛氛围中提升四则运算的速度和准确率。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/sensory_box.webp', ARRAY['运算','速度','数学','游戏'], '数学')
+    VALUES ('速算比赛卡片', '制作一套速算卡片进行限时数学运算比赛，看谁算得又快又准。参与者将在紧张有趣的竞赛氛围中提升四则运算的速度和准确率。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/sensory_box.webp', ARRAY['运算','速度','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -147,7 +147,7 @@ BEGIN
 
     -- Project 8: 数字黑洞 6174
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数字黑洞 6174', '探索神秘的卡普雷卡尔常数6174——任何四位数经过特定运算后都会被"吸入"这个数字黑洞。孩子将在反复计算中发现令人惊叹的数学规律，感受数字的魔力。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['数字规律','数学','游戏'], '数学')
+    VALUES ('数字黑洞 6174', '探索神秘的卡普雷卡尔常数6174——任何四位数经过特定运算后都会被"吸入"这个数字黑洞。参与者将在反复计算中发现令人惊叹的数学规律，感受数字的魔力。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['数字规律','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -165,7 +165,7 @@ BEGIN
 
     -- Project 9: 斐波那契数列寻宝
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('斐波那契数列寻宝', '在自然界中寻找斐波那契数列的踪迹，发现花瓣、松果、贝壳中隐藏的数学密码。孩子将学习这个著名数列的规律，惊叹于数学与自然界的奇妙联系。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数列','自然','数学','游戏'], '数学')
+    VALUES ('斐波那契数列寻宝', '在自然界中寻找斐波那契数列的踪迹，发现花瓣、松果、贝壳中隐藏的数学密码。参与者将学习这个著名数列的规律，惊叹于数学与自然界的奇妙联系。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数列','自然','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -185,7 +185,7 @@ BEGIN
 
     -- Project 10: 密码学入门：凯撒密码
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('密码学入门：凯撒密码', '学习古罗马凯撒大帝使用的加密方法，用字母偏移制作密码和破解密码。孩子将体验密码学的基本思想，理解加密和解密的数学原理。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['密码','偏移','数学','游戏'], '数学')
+    VALUES ('密码学入门：凯撒密码', '学习古罗马凯撒大帝使用的加密方法，用字母偏移制作密码和破解密码。参与者将体验密码学的基本思想，理解加密和解密的数学原理。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['密码','偏移','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -204,7 +204,7 @@ BEGIN
 
     -- Project 11: 幻方填数
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('幻方填数', '在方格中填入数字使每行、每列和对角线的数字之和都相等，探索幻方的神奇规律。孩子将在填数过程中锻炼逻辑推理能力，感受古老数学谜题的魅力。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/sensory_box.webp', ARRAY['幻方','策略','数学','游戏'], '数学')
+    VALUES ('幻方填数', '在方格中填入数字使每行、每列和对角线的数字之和都相等，探索幻方的神奇规律。参与者将在填数过程中锻炼逻辑推理能力，感受古老数学谜题的魅力。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/sensory_box.webp', ARRAY['幻方','策略','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -222,7 +222,7 @@ BEGIN
 
     -- Project 12: 数独策略研究
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数独策略研究', '系统学习数独的解题策略，从简单排除法到高级技巧逐步进阶。孩子将在解数独的过程中大幅提升逻辑推理能力和系统化思维水平。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','逻辑','数学','游戏'], '数学')
+    VALUES ('数独策略研究', '系统学习数独的解题策略，从简单排除法到高级技巧逐步进阶。参与者将在解数独的过程中大幅提升逻辑推理能力和系统化思维水平。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','逻辑','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -242,7 +242,7 @@ BEGIN
 
     -- Project 13: 蒙提霍尔问题实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('蒙提霍尔问题实验', '用卡片模拟著名的"三门问题"，通过大量实验验证换门策略是否真的能提高中奖概率。孩子将亲身体验概率中的反直觉现象，学会用数据而非直觉做判断。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['概率','直觉','数学','游戏'], '数学')
+    VALUES ('蒙提霍尔问题实验', '用卡片模拟著名的"三门问题"，通过大量实验验证换门策略是否真的能提高中奖概率。参与者将亲身体验概率中的反直觉现象，学会用数据而非直觉做判断。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['概率','直觉','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -261,7 +261,7 @@ BEGIN
 
     -- Project 14: 囚徒困境模拟
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('囚徒困境模拟', '通过角色扮演模拟博弈论中经典的囚徒困境，体验合作与背叛的策略选择。孩子将初步了解博弈论的基本概念，思考为什么在竞争中合作往往是最优策略。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['博弈论','策略','数学','游戏'], '数学')
+    VALUES ('囚徒困境模拟', '通过角色扮演模拟博弈论中经典的囚徒困境，体验合作与背叛的策略选择。参与者将初步了解博弈论的基本概念，思考为什么在竞争中合作往往是最优策略。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['博弈论','策略','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -281,7 +281,7 @@ BEGIN
 
     -- Project 15: 最短路径游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('最短路径游戏', '在自制地图上寻找从起点到终点的最短路径，初步体验图论中的路径问题。孩子将学会用数学思维解决"走哪条路最近"的日常问题，锻炼空间分析能力。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['图论','路径','数学','游戏'], '数学')
+    VALUES ('最短路径游戏', '在自制地图上寻找从起点到终点的最短路径，初步体验图论中的路径问题。参与者将学会用数学思维解决"走哪条路最近"的日常问题，锻炼空间分析能力。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['图论','路径','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -302,7 +302,7 @@ BEGIN
 
     -- Project 16: 加密与解密挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('加密与解密挑战', '学习多种密码编码方法，设计自己的加密系统并挑战朋友来破解。孩子将深入了解密码学中的数学原理，体验信息安全的核心思想。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['密码学','编码','数学','游戏'], '数学')
+    VALUES ('加密与解密挑战', '学习多种密码编码方法，设计自己的加密系统并挑战朋友来破解。参与者将深入了解密码学中的数学原理，体验信息安全的核心思想。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['密码学','编码','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -322,7 +322,7 @@ BEGIN
 
     -- Project 17: 用数学分析桌游策略
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('用数学分析桌游策略', '用概率和期望值分析常见桌游中的最优策略，让数学成为赢得游戏的秘密武器。孩子将学会用数学工具进行决策分析，理解为什么有些策略长期来看更优。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['概率','期望','数学','游戏'], '数学')
+    VALUES ('用数学分析桌游策略', '用概率和期望值分析常见桌游中的最优策略，让数学成为赢得游戏的秘密武器。参与者将学会用数学工具进行决策分析，理解为什么有些策略长期来看更优。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['概率','期望','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -342,7 +342,7 @@ BEGIN
 
     -- Project 18: 抽样调查实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('抽样调查实验', '设计并执行一次真实的抽样调查，从小样本推断总体特征，体验统计学的核心方法。孩子将学会科学的调查方法，理解为什么民调和统计可以用少数人的数据推测整体情况。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['统计学','抽样','数学','游戏'], '数学')
+    VALUES ('抽样调查实验', '设计并执行一次真实的抽样调查，从小样本推断总体特征，体验统计学的核心方法。参与者将学会科学的调查方法，理解为什么民调和统计可以用少数人的数据推测整体情况。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['统计学','抽样','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -363,7 +363,7 @@ BEGIN
 
     -- Project 19: 数列与规律探索
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数列与规律探索', '研究各种有趣的数列，学会发现规律、总结公式并预测后续数字。孩子将锻炼归纳推理能力，体验从具体数字中提炼抽象规律的数学思维过程。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['数列','归纳','数学','游戏'], '数学')
+    VALUES ('数列与规律探索', '研究各种有趣的数列，学会发现规律、总结公式并预测后续数字。参与者将锻炼归纳推理能力，体验从具体数字中提炼抽象规律的数学思维过程。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['数列','归纳','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -383,7 +383,7 @@ BEGIN
 
     -- Project 20: 数学建模入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数学建模入门', '学习用数学模型描述和解决实际生活中的问题，迈出从"学数学"到"用数学"的关键一步。孩子将体验数学建模的完整流程，理解数学是解决真实世界问题的强大工具。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['建模','实际问题','数学','游戏'], '数学')
+    VALUES ('数学建模入门', '学习用数学模型描述和解决实际生活中的问题，迈出从"学数学"到"用数学"的关键一步。参与者将体验数学建模的完整流程，理解数学是解决真实世界问题的强大工具。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['建模','实际问题','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

@@ -18,7 +18,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '火山爆发模型',
-        '用小苏打和醋模拟真实的火山喷发效果！孩子将亲手搭建火山模型，观察酸碱混合后产生大量气泡的壮观场景。通过这个实验，理解酸碱反应产生二氧化碳气体的基本化学原理。',
+        '用小苏打和醋模拟真实的火山喷发效果！参与者将亲手搭建火山模型，观察酸碱混合后产生大量气泡的壮观场景。通过这个实验，理解酸碱反应产生二氧化碳气体的基本化学原理。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/science_chemistry.webp',
         ARRAY['酸碱反应','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -41,7 +41,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '牛奶星空画',
-        '在牛奶表面滴入不同颜色的色素，再用棉签蘸洗洁精轻触，看颜色奇妙地旋转扩散！孩子将观察表面张力被破坏后液体的运动规律。这个实验色彩绚烂，既是科学探索也是艺术创作。',
+        '在牛奶表面滴入不同颜色的色素，再用棉签蘸洗洁精轻触，看颜色奇妙地旋转扩散！参与者将观察表面张力被破坏后液体的运动规律。这个实验色彩绚烂，既是科学探索也是艺术创作。',
         v_author_id, v_sub_id, 1, 15, 'approved', '/projects/science_chemistry.webp',
         ARRAY['表面张力','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -63,7 +63,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '彩色泡泡实验',
-        '自制彩色泡泡液，吹出五颜六色的泡泡并观察它们在阳光下的色彩变化！孩子将了解泡泡薄膜的表面张力原理，以及色素如何在液膜中分布。这是一个充满欢乐又能学到知识的户外实验。',
+        '自制彩色泡泡液，吹出五颜六色的泡泡并观察它们在阳光下的色彩变化！参与者将了解泡泡薄膜的表面张力原理，以及色素如何在液膜中分布。这是一个充满欢乐又能学到知识的户外实验。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/science_chemistry.webp',
         ARRAY['表面张力','色素','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -87,7 +87,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '面团发酵观察',
-        '用面粉和酵母制作面团，观察发酵过程中面团如何膨胀变大！孩子将了解酵母菌这种微生物如何将糖分解并产生二氧化碳气体。实验结束还可以把面团做成小面包品尝。',
+        '用面粉和酵母制作面团，观察发酵过程中面团如何膨胀变大！参与者将了解酵母菌这种微生物如何将糖分解并产生二氧化碳气体。实验结束还可以把面团做成小面包品尝。',
         v_author_id, v_sub_id, 1, 60, 'approved', '/projects/science_chemistry.webp',
         ARRAY['酵母菌','产气','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -112,7 +112,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '盐画艺术',
-        '用胶水在纸上画出图案，撒上食盐，再滴上彩色颜料水，创作出独特的盐画！孩子将观察盐的溶解与结晶过程，了解水分蒸发后盐如何重新形成晶体。艺术与科学的完美结合。',
+        '用胶水在纸上画出图案，撒上食盐，再滴上彩色颜料水，创作出独特的盐画！参与者将观察盐的溶解与结晶过程，了解水分蒸发后盐如何重新形成晶体。艺术与科学的完美结合。',
         v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_chemistry.webp',
         ARRAY['溶解','结晶','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -135,7 +135,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制酸碱指示剂',
-        '用紫甘蓝汁制作天然的酸碱指示剂，测试家中各种液体的酸碱性！孩子将看到紫甘蓝汁遇到酸性物质变红、遇到碱性物质变绿的神奇变化。这是认识化学检测方法的入门实验。',
+        '用紫甘蓝汁制作天然的酸碱指示剂，测试家中各种液体的酸碱性！参与者将看到紫甘蓝汁遇到酸性物质变红、遇到碱性物质变绿的神奇变化。这是认识化学检测方法的入门实验。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_chemistry.webp',
         ARRAY['酸碱性','化学检测','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -161,7 +161,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '水果电池',
-        '用柠檬、铜币和锌片制作一个能点亮小灯泡的水果电池！孩子将了解电化学的基本原理，知道化学能如何转化为电能。多个水果串联还能让效果更明显。',
+        '用柠檬、铜币和锌片制作一个能点亮小灯泡的水果电池！参与者将了解电化学的基本原理，知道化学能如何转化为电能。多个水果串联还能让效果更明显。',
         v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_chemistry.webp',
         ARRAY['电化学','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -172,7 +172,7 @@ BEGIN
         (v_project_id, '镀锌铁钉 4根', 3),
         (v_project_id, '导线（带鳄鱼夹）4根', 4),
         (v_project_id, 'LED小灯泡 1个', 5),
-        (v_project_id, '小刀（需家长帮助）', 6);
+        (v_project_id, '小刀（需成年人帮助）', 6);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '插入电极', '在每个柠檬上相隔2厘米各插入一片铜片和一根锌钉，插入深度约2厘米。', 1),
@@ -185,7 +185,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '隐形墨水',
-        '用柠檬汁作为隐形墨水写下秘密信息，再用加热的方式让字迹显现！孩子将了解柠檬汁中的有机物在加热后发生氧化反应而变色的原理。像间谍一样传递秘密信息充满了趣味。',
+        '用柠檬汁作为隐形墨水写下秘密信息，再用加热的方式让字迹显现！参与者将了解柠檬汁中的有机物在加热后发生氧化反应而变色的原理。像间谍一样传递秘密信息充满了趣味。',
         v_author_id, v_sub_id, 2, 20, 'approved', '/projects/science_chemistry.webp',
         ARRAY['化学反应','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -195,20 +195,20 @@ BEGIN
         (v_project_id, '小碗', 2),
         (v_project_id, '棉签或细毛笔', 3),
         (v_project_id, '白纸', 4),
-        (v_project_id, '台灯或吹风机（需家长辅助）', 5);
+        (v_project_id, '台灯或吹风机（需成年人辅助）', 5);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '制作墨水', '将柠檬切开，挤出柠檬汁到小碗中，可以加入少量清水稀释。', 1),
         (v_project_id, '书写秘密信息', '用棉签蘸取柠檬汁，在白纸上写字或画图，等待纸张完全干透。', 2),
         (v_project_id, '晾干检查', '纸张干透后，字迹几乎不可见，可以让家人猜猜纸上写了什么。', 3),
-        (v_project_id, '加热显字', '在家长帮助下，用台灯或吹风机对纸张加热，观察字迹慢慢变为棕色显现出来。', 4),
+        (v_project_id, '加热显字', '在成年人帮助下，用台灯或吹风机对纸张加热，观察字迹慢慢变为棕色显现出来。', 4),
         (v_project_id, '讨论原理', '讨论为什么加热后字迹会显现：柠檬酸是有机物，受热后发生氧化反应变成棕色。', 5);
 
     -- Project 9: 碘液检测淀粉
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '碘液检测淀粉',
-        '用碘酒测试各种食物中是否含有淀粉，看看哪些食物会变成蓝紫色！孩子将学习碘遇淀粉变色这一经典化学检测方法。通过动手实验，了解不同食物的成分差异。',
+        '用碘酒测试各种食物中是否含有淀粉，看看哪些食物会变成蓝紫色！参与者将学习碘遇淀粉变色这一经典化学检测方法。通过动手实验，了解不同食物的成分差异。',
         v_author_id, v_sub_id, 2, 20, 'approved', '/projects/science_chemistry.webp',
         ARRAY['化学检测','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -234,7 +234,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '色彩分层饮料',
-        '利用不同浓度糖水的密度差异，制作一杯彩虹分层饮料！孩子将理解溶液密度的概念，学会如何通过控制糖的浓度来实现液体分层。这是一个视觉效果极佳的实验。',
+        '利用不同浓度糖水的密度差异，制作一杯彩虹分层饮料！参与者将理解溶液密度的概念，学会如何通过控制糖的浓度来实现液体分层。这是一个视觉效果极佳的实验。',
         v_author_id, v_sub_id, 2, 25, 'approved', '/projects/science_chemistry.webp',
         ARRAY['密度','溶液','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -259,7 +259,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制彩色晶体',
-        '用明矾或食盐培养属于自己的彩色晶体，见证小小的晶种慢慢长大的过程！孩子将学习溶解度随温度变化的规律以及结晶的原理。这需要耐心等待几天，但成果会非常惊艳。',
+        '用明矾或食盐培养属于自己的彩色晶体，见证小小的晶种慢慢长大的过程！参与者将学习溶解度随温度变化的规律以及结晶的原理。这需要耐心等待几天，但成果会非常惊艳。',
         v_author_id, v_sub_id, 3, 45, 'approved', '/projects/science_chemistry.webp',
         ARRAY['结晶','溶解度','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -284,7 +284,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '铁锈实验',
-        '对比观察铁钉在不同环境下的生锈速度，探究铁生锈需要哪些条件！孩子将通过设置对照实验，理解氧化反应的概念以及水和氧气在生锈过程中的作用。培养科学实验的对照思维。',
+        '对比观察铁钉在不同环境下的生锈速度，探究铁生锈需要哪些条件！参与者将通过设置对照实验，理解氧化反应的概念以及水和氧气在生锈过程中的作用。培养科学实验的对照思维。',
         v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_chemistry.webp',
         ARRAY['氧化反应','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -308,7 +308,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制灭火器',
-        '用小苏打和醋产生二氧化碳气体，制作一个简易灭火器扑灭小蜡烛火焰！孩子将理解二氧化碳比空气重且不支持燃烧的特性。这个实验需要在家长监督下进行，兼顾安全教育。',
+        '用小苏打和醋产生二氧化碳气体，制作一个简易灭火器扑灭小蜡烛火焰！参与者将理解二氧化碳比空气重且不支持燃烧的特性。这个实验需要在成年人监督下进行，兼顾安全教育。',
         v_author_id, v_sub_id, 3, 25, 'approved', '/projects/science_chemistry.webp',
         ARRAY['化学反应','气体','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -318,12 +318,12 @@ BEGIN
         (v_project_id, '白醋 半杯', 2),
         (v_project_id, '塑料瓶（带盖，瓶盖钻孔）', 3),
         (v_project_id, '小蜡烛 1根', 4),
-        (v_project_id, '打火机（家长操作）', 5),
+        (v_project_id, '打火机（成年人操作）', 5),
         (v_project_id, '托盘（防水）', 6);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '准备灭火器', '在塑料瓶中放入小苏打，瓶盖上钻一个小孔作为喷嘴。', 1),
-        (v_project_id, '点燃蜡烛', '请家长在托盘上点燃小蜡烛，确保周围没有易燃物。', 2),
+        (v_project_id, '点燃蜡烛', '请成年人在托盘上点燃小蜡烛，确保周围没有易燃物。', 2),
         (v_project_id, '启动灭火器', '快速将白醋从瓶盖小孔倒入瓶中并立刻盖紧，瓶内会产生大量二氧化碳气体。', 3),
         (v_project_id, '喷射灭火', '将瓶口的小孔对准蜡烛火焰，轻轻挤压瓶身让气体喷出，观察火焰熄灭。', 4),
         (v_project_id, '原理讲解', '讨论二氧化碳为什么能灭火：它比空气重，覆盖在火焰上隔绝了氧气，火就熄灭了。', 5);
@@ -332,7 +332,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'CO₂ 气球实验',
-        '不用嘴吹，利用小苏打和醋产生的二氧化碳气体自动把气球吹大！孩子将直观看到化学反应产生气体的过程。这个实验安全有趣，是理解化学反应中气体生成的绝佳方式。',
+        '不用嘴吹，利用小苏打和醋产生的二氧化碳气体自动把气球吹大！参与者将直观看到化学反应产生气体的过程。这个实验安全有趣，是理解化学反应中气体生成的绝佳方式。',
         v_author_id, v_sub_id, 3, 15, 'approved', '/projects/science_chemistry.webp',
         ARRAY['化学反应','气体','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -356,7 +356,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制肥皂',
-        '用皂基和天然精油制作属于自己的手工肥皂！孩子将了解皂化反应的基本概念，知道油脂与碱反应后如何变成清洁用品。还可以发挥创意制作不同形状和香味的肥皂。',
+        '用皂基和天然精油制作属于自己的手工肥皂！参与者将了解皂化反应的基本概念，知道油脂与碱反应后如何变成清洁用品。还可以发挥创意制作不同形状和香味的肥皂。',
         v_author_id, v_sub_id, 3, 40, 'approved', '/projects/science_chemistry.webp',
         ARRAY['皂化反应','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -381,7 +381,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '电解水实验',
-        '用电池将水分解成氢气和氧气两种气体，亲眼看到水的化学组成！孩子将通过观察两个电极上气泡数量的不同，理解水由氢和氧组成，体积比为2:1。这是经典的化学分解实验。',
+        '用电池将水分解成氢气和氧气两种气体，亲眼看到水的化学组成！参与者将通过观察两个电极上气泡数量的不同，理解水由氢和氧组成，体积比为2:1。这是经典的化学分解实验。',
         v_author_id, v_sub_id, 4, 30, 'approved', '/projects/science_chemistry.webp',
         ARRAY['电解','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -406,7 +406,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '铜币变色实验',
-        '用醋和盐清洁氧化变暗的铜币，让它们重新变得闪亮！孩子将观察金属氧化和还原的过程，理解铜表面的氧化铜如何被酸溶解。还可以用铜液让铁钉表面镀上一层铜色。',
+        '用醋和盐清洁氧化变暗的铜币，让它们重新变得闪亮！参与者将观察金属氧化和还原的过程，理解铜表面的氧化铜如何被酸溶解。还可以用铜液让铁钉表面镀上一层铜色。',
         v_author_id, v_sub_id, 4, 25, 'approved', '/projects/science_chemistry.webp',
         ARRAY['金属氧化还原','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -430,7 +430,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '蛋壳溶解实验',
-        '将鸡蛋浸泡在醋中，观察蛋壳如何被慢慢溶解，最终得到一个有弹性的"裸蛋"！孩子将了解醋酸与碳酸钙反应产生二氧化碳的过程。这个实验需要耐心等待1-2天，但结果非常神奇。',
+        '将鸡蛋浸泡在醋中，观察蛋壳如何被慢慢溶解，最终得到一个有弹性的"裸蛋"！参与者将了解醋酸与碳酸钙反应产生二氧化碳的过程。这个实验需要耐心等待1-2天，但结果非常神奇。',
         v_author_id, v_sub_id, 4, 20, 'approved', '/projects/science_chemistry.webp',
         ARRAY['酸与碳酸盐','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -453,7 +453,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '简易水质检测',
-        '用简易方法检测不同来源水的酸碱度、硬度和杂质含量！孩子将学习基本的化学分析方法，了解水质好坏对健康和环境的影响。培养环保意识和科学检测能力。',
+        '用简易方法检测不同来源水的酸碱度、硬度和杂质含量！参与者将学习基本的化学分析方法，了解水质好坏对健康和环境的影响。培养环保意识和科学检测能力。',
         v_author_id, v_sub_id, 5, 40, 'approved', '/projects/science_chemistry.webp',
         ARRAY['化学分析','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -480,7 +480,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '牛奶塑料制作',
-        '用牛奶和醋制作天然的"酪素塑料"，可以塑造成各种小物件！孩子将了解蛋白质在酸性环境中变性凝固的原理，认识高分子材料的基本概念。这是一个跨越化学与材料科学的趣味实验。',
+        '用牛奶和醋制作天然的"酪素塑料"，可以塑造成各种小物件！参与者将了解蛋白质在酸性环境中变性凝固的原理，认识高分子材料的基本概念。这是一个跨越化学与材料科学的趣味实验。',
         v_author_id, v_sub_id, 5, 45, 'approved', '/projects/science_chemistry.webp',
         ARRAY['蛋白质变性','高分子','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;

@@ -18,7 +18,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸张折叠桥',
-        '用一张普通的A4纸通过不同的折叠方式搭建一座能承重的小桥！孩子将体验折叠如何改变纸张的强度，理解折叠结构在工程中的应用。简单的材料就能创造令人惊叹的承重效果。',
+        '用一张普通的A4纸通过不同的折叠方式搭建一座能承重的小桥！参与者将体验折叠如何改变纸张的强度，理解折叠结构在工程中的应用。简单的材料就能创造令人惊叹的承重效果。',
         v_author_id, v_sub_id, 1, 15, 'approved', '/projects/eng_bridges.webp',
         ARRAY['折叠','承重','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -40,7 +40,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '积木桥梁搭建',
-        '用积木搭建各种桥梁结构，探索平衡与稳定的奥秘！孩子将在搭建过程中感受重力和支撑力的关系，了解桥梁为什么需要稳固的基础。这是低龄小朋友认识桥梁结构的最佳入门项目。',
+        '用积木搭建各种桥梁结构，探索平衡与稳定的奥秘！参与者将在搭建过程中感受重力和支撑力的关系，了解桥梁为什么需要稳固的基础。这是认识桥梁结构的绝佳入门项目。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_bridges.webp',
         ARRAY['平衡','结构','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -61,7 +61,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '吸管桥梁',
-        '用普通吸管和胶带搭建一座轻巧的桥梁，挑战用最少材料承受最大重量！孩子将学会如何连接轻质材料形成稳定结构，了解工程师如何在轻量化和强度之间寻找平衡。',
+        '用普通吸管和胶带搭建一座轻巧的桥梁，挑战用最少材料承受最大重量！参与者将学会如何连接轻质材料形成稳定结构，了解工程师如何在轻量化和强度之间寻找平衡。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/eng_bridges.webp',
         ARRAY['轻量','连接','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -83,7 +83,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸杯堆叠挑战',
-        '用纸杯和纸板交替堆叠，搭建一座又高又稳的桥塔结构！孩子将在实践中感受结构稳定性的重要，了解底部宽大、层层递减的金字塔形为何最稳定。简单材料也能建出惊人的高度。',
+        '用纸杯和纸板交替堆叠，搭建一座又高又稳的桥塔结构！参与者将在实践中感受结构稳定性的重要，了解底部宽大、层层递减的金字塔形为何最稳定。简单材料也能建出惊人的高度。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_bridges.webp',
         ARRAY['结构','稳定','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -103,7 +103,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸桥承重实验',
-        '用不同折叠方式制作纸桥并进行系统的承重测试，探索哪种折法最强！孩子将用科学对比实验的方法，量化测量不同结构的承重能力。培养实验记录和数据对比分析的能力。',
+        '用不同折叠方式制作纸桥并进行系统的承重测试，探索哪种折法最强！参与者将用科学对比实验的方法，量化测量不同结构的承重能力。培养实验记录和数据对比分析的能力。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_bridges.webp',
         ARRAY['结构','折叠','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -127,7 +127,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '冰棍棒平板桥',
-        '用冰棍棒和白胶搭建一座简单的平板桥，学习粘合与承重的关系！孩子将掌握基本的木质材料粘接技巧，了解多层叠合如何增强结构强度。完成后可以涂色装饰。',
+        '用冰棍棒和白胶搭建一座简单的平板桥，学习粘合与承重的关系！参与者将掌握基本的木质材料粘接技巧，了解多层叠合如何增强结构强度。完成后可以涂色装饰。',
         v_author_id, v_sub_id, 2, 35, 'approved', '/projects/eng_bridges.webp',
         ARRAY['粘合','承重','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -151,7 +151,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '意大利面桥',
-        '用干燥的意大利面条和棉花糖搭建桥梁，挑战脆性材料的极限！孩子将体验脆性材料在受压和受拉时的不同表现，学会如何利用三角形结构来分散应力。这是全球经典的STEM挑战项目。',
+        '用干燥的意大利面条和棉花糖搭建桥梁，挑战脆性材料的极限！参与者将体验脆性材料在受压和受拉时的不同表现，学会如何利用三角形结构来分散应力。这是全球经典的STEM挑战项目。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_bridges.webp',
         ARRAY['脆性材料','结构','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -174,7 +174,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸板拱桥',
-        '用硬纸板制作一座漂亮的拱桥，探索拱形结构为什么特别能承重！孩子将直观理解拱形如何将向下的力分散到两侧桥墩，明白古代石拱桥千年不倒的力学秘密。',
+        '用硬纸板制作一座漂亮的拱桥，探索拱形结构为什么特别能承重！参与者将直观理解拱形如何将向下的力分散到两侧桥墩，明白古代石拱桥千年不倒的力学秘密。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_bridges.webp',
         ARRAY['拱形','分力','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -197,7 +197,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '冰棍棒桁架桥',
-        '用冰棍棒搭建真正的桁架结构桥梁，体验三角形是最稳定几何形状的工程原理！孩子将学习桁架桥的基本构造，理解为什么铁路桥和钢桥大量使用三角形桁架。这是进阶桥梁工程的标志性项目。',
+        '用冰棍棒搭建真正的桁架结构桥梁，体验三角形是最稳定几何形状的工程原理！参与者将学习桁架桥的基本构造，理解为什么铁路桥和钢桥大量使用三角形桁架。这是进阶桥梁工程的标志性项目。',
         v_author_id, v_sub_id, 3, 50, 'approved', '/projects/eng_bridges.webp',
         ARRAY['桁架','三角形','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -222,7 +222,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '悬索桥模型',
-        '用绳子和纸板搭建一座迷你悬索桥，探索拉力在桥梁中的奇妙作用！孩子将了解金门大桥等著名悬索桥的工作原理，理解主缆、吊索和桥面之间的力学关系。',
+        '用绳子和纸板搭建一座迷你悬索桥，探索拉力在桥梁中的奇妙作用！参与者将了解金门大桥等著名悬索桥的工作原理，理解主缆、吊索和桥面之间的力学关系。',
         v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_bridges.webp',
         ARRAY['悬索','拉力','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -247,7 +247,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '竹签桥梁',
-        '用竹签和热熔胶搭建精致的桥梁模型，锻炼精细节点连接技巧！孩子将学习如何在小尺寸结构中保持节点的强度和精确度，体验工程中"连接决定强度"的核心理念。',
+        '用竹签和热熔胶搭建精致的桥梁模型，锻炼精细节点连接技巧！参与者将学习如何在小尺寸结构中保持节点的强度和精确度，体验工程中"连接决定强度"的核心理念。',
         v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_bridges.webp',
         ARRAY['节点','胶合','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -271,7 +271,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自锁桥（达芬奇桥）',
-        '不用任何胶水或绳子，仅靠木棍之间的摩擦力和互锁关系搭建一座自支撑桥！孩子将惊叹于达芬奇500多年前的天才设计，理解摩擦力和结构互锁如何替代粘合剂。',
+        '不用任何胶水或绳子，仅靠木棍之间的摩擦力和互锁关系搭建一座自支撑桥！参与者将惊叹于达芬奇500多年前的天才设计，理解摩擦力和结构互锁如何替代粘合剂。',
         v_author_id, v_sub_id, 3, 30, 'approved', '/projects/eng_bridges.webp',
         ARRAY['摩擦力','互锁','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -292,7 +292,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '开合桥模型',
-        '制作一座可以打开让"船只"通过的开合桥模型，引入简单的机械结构！孩子将学习铰链的工作原理，用注射器和水管模拟液压系统驱动桥面升降。机械与结构的完美结合。',
+        '制作一座可以打开让"船只"通过的开合桥模型，引入简单的机械结构！参与者将学习铰链的工作原理，用注射器和水管模拟液压系统驱动桥面升降。机械与结构的完美结合。',
         v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
         ARRAY['铰链','液压','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -318,7 +318,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '斜拉桥模型',
-        '制作一座带有标志性斜拉钢缆的桥梁模型，分析每根拉索承受力的方向和大小！孩子将了解现代斜拉桥的设计原理，理解拉索如何将桥面重量高效传递到桥塔。',
+        '制作一座带有标志性斜拉钢缆的桥梁模型，分析每根拉索承受力的方向和大小！参与者将了解现代斜拉桥的设计原理，理解拉索如何将桥面重量高效传递到桥塔。',
         v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
         ARRAY['斜拉','力分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -343,7 +343,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '承重优化挑战',
-        '在限定材料和重量条件下，设计并建造承重比最大的桥梁！孩子将体验真正的工程优化过程，反复迭代设计方案，在材料用量和承重能力之间找到最佳平衡点。',
+        '在限定材料和重量条件下，设计并建造承重比最大的桥梁！参与者将体验真正的工程优化过程，反复迭代设计方案，在材料用量和承重能力之间找到最佳平衡点。',
         v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
         ARRAY['结构优化','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -368,7 +368,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '多材料复合桥',
-        '综合使用纸板、冰棍棒、绳子等多种材料搭建一座复合桥梁，发挥每种材料的最佳特性！孩子将理解复合材料的设计理念——用抗压材料做柱子、用抗拉材料做拉索、用轻质材料做桥面。',
+        '综合使用纸板、冰棍棒、绳子等多种材料搭建一座复合桥梁，发挥每种材料的最佳特性！参与者将理解复合材料的设计理念——用抗压材料做柱子、用抗拉材料做拉索、用轻质材料做桥面。',
         v_author_id, v_sub_id, 4, 50, 'approved', '/projects/eng_bridges.webp',
         ARRAY['复合材料','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -394,7 +394,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '桥梁承重极限测试',
-        '对多种不同设计的桥梁进行系统化的极限承重测试，收集数据并分析规律！孩子将像真正的工程师一样设计实验方案、收集数据、绘制图表，用科学方法评估桥梁结构性能。',
+        '对多种不同设计的桥梁进行系统化的极限承重测试，收集数据并分析规律！参与者将像真正的工程师一样设计实验方案、收集数据、绘制图表，用科学方法评估桥梁结构性能。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
         ARRAY['测试','数据分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -419,7 +419,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '大跨度桥梁设计',
-        '挑战建造跨度超过50厘米的大型桥梁模型，解决大跨度带来的特殊工程难题！孩子将面对自重增加、中部下挠、侧向不稳等真实工程问题，学习大跨度桥梁设计的核心策略。',
+        '挑战建造跨度超过50厘米的大型桥梁模型，解决大跨度带来的特殊工程难题！参与者将面对自重增加、中部下挠、侧向不稳等真实工程问题，学习大跨度桥梁设计的核心策略。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
         ARRAY['跨度','结构','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -445,7 +445,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '桥梁材料对比实验',
-        '用相同的设计方案分别使用纸、冰棍棒、竹签、吸管等不同材料建造桥梁，系统对比材料性能！孩子将深入理解材料力学的基础概念，体验工程师选择材料时需要考虑的各种因素。',
+        '用相同的设计方案分别使用纸、冰棍棒、竹签、吸管等不同材料建造桥梁，系统对比材料性能！参与者将深入理解材料力学的基础概念，体验工程师选择材料时需要考虑的各种因素。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
         ARRAY['材料力学','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -472,7 +472,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '仿真桥梁结构分析',
-        '结合物理模型和简易力学计算，对桥梁进行仿真结构分析！孩子将学习画受力图、标注力的方向和大小，用简单数学估算各构件承受的力。这是从"搭桥玩"到"设计桥"的质的飞跃。',
+        '结合物理模型和简易力学计算，对桥梁进行仿真结构分析！参与者将学习画受力图、标注力的方向和大小，用简单数学估算各构件承受的力。这是从"搭桥玩"到"设计桥"的质的飞跃。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
         ARRAY['力学分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;

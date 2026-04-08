@@ -16,7 +16,7 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('first_comment', '发言新秀', '发表首条评论', '💭', '{"type": "comments_count", "count": 1}'),
 ('first_publish', '首次发布', '发布第一个项目', '📤', '{"type": "projects_published", "count": 1}'),
 ('first_collection', '收藏入门', '首次收藏项目', '📌', '{"type": "collections_count", "count": 1}'),
-('curious_mind', '好奇宝宝', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
+('curious_mind', '好奇探索者', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
 ('quick_learner', '快速学习者', '一周内完成 3 个项目', '⚡', '{"type": "projects_completed_weekly", "count": 3}'),
 ('social_butterfly', '社交蝴蝶', '首次参与讨论', '🦋', '{"type": "discussions_participated", "count": 1}'),
 ('challenge_rookie', '挑战新人', '首次参加挑战赛', '🎪', '{"type": "challenges_joined", "count": 1}'),

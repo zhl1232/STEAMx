@@ -50,7 +50,7 @@ DECLARE
 BEGIN
     INSERT INTO public.discussions (title, content, author_id, tags, likes_count, created_at)
     VALUES
-    ('如何培养孩子的科学兴趣？', '大家有什么好方法吗？我发现现在的孩子更喜欢玩手机。', v_user_teacher, ARRAY['教育心得', '科学'], 15, now() - interval '5 days')
+    ('如何培养科学兴趣？', '大家有什么好方法吗？我发现现在很多人更容易被手机吸引。', v_user_teacher, ARRAY['教育心得', '科学'], 15, now() - interval '5 days')
     RETURNING id INTO v_discuss_id1;
 
     INSERT INTO public.discussions (title, content, author_id, tags, likes_count, created_at)
@@ -70,7 +70,7 @@ BEGIN
 
     -- 话题1
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id1, v_user_alice, '我觉得可以多带他们做做实验，比如这个网站上的项目，从简单的磁铁、感官盲盒开始，孩子会很有兴趣。', now() - interval '4 days')
+    VALUES (v_discuss_id1, v_user_alice, '我觉得可以多带他们做做实验，比如这个网站上的项目，从简单的磁铁、感官盲盒开始，通常都会很有兴趣。', now() - interval '4 days')
     RETURNING id INTO v_r1_1;
     INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
     VALUES (v_discuss_id1, v_user_bob, v_r1_1, v_user_alice, 'alice', '同意 Alice，动手是最好的老师，做完一个小实验比看十集科普视频印象深。', now() - interval '4 days');
@@ -99,7 +99,7 @@ BEGIN
 
     -- 话题4
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id4, v_user_alice, '那个静电球我们上次也玩了，孩子特别开心，还有二楼的传声筒和光学迷宫也值得体验。', now() - interval '1 day');
+    VALUES (v_discuss_id4, v_user_alice, '那个静电球我们上次也玩了，体验特别好，还有二楼的传声筒和光学迷宫也值得体验。', now() - interval '1 day');
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id4, v_user_bob, '科技馆还有别的推荐项目吗？打算下周末带娃去，想提前做下攻略。', now() - interval '1 day');
+    VALUES (v_discuss_id4, v_user_bob, '科技馆还有别的推荐项目吗？打算下周末和家人一起去，想提前做下攻略。', now() - interval '1 day');
 END $$;

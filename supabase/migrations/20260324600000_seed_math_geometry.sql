@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 对称剪纸图案
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('对称剪纸图案', '将纸张对折后剪出图案，展开就能得到完美的对称图形。孩子在剪纸过程中直观感受对称轴的概念，发现折叠次数越多，展开后的对称图案越复杂美丽。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['对称','剪纸','数学','几何'], '数学')
+    VALUES ('对称剪纸图案', '将纸张对折后剪出图案，展开就能得到完美的对称图形。参与者在剪纸过程中直观感受对称轴的概念，发现折叠次数越多，展开后的对称图案越复杂美丽。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['对称','剪纸','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -35,7 +35,7 @@ BEGIN
 
     -- Project 2: 七巧板拼图
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('七巧板拼图', '用七块简单的几何板拼出各种有趣的图形，从动物到建筑无所不能。七巧板是中国传统益智玩具，孩子在拼摆中锻炼空间想象力，认识三角形、正方形和平行四边形的组合关系。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['图形组合','数学','几何'], '数学')
+    VALUES ('七巧板拼图', '用七块简单的几何板拼出各种有趣的图形，从动物到建筑无所不能。七巧板是中国传统益智玩具，参与者在拼摆中锻炼空间想象力，认识三角形、正方形和平行四边形的组合关系。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['图形组合','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -54,7 +54,7 @@ BEGIN
 
     -- Project 3: 找找生活中的几何
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('找找生活中的几何', '带着"几何之眼"在家里和户外寻找各种几何图形，记录它们藏在哪里。孩子将惊喜地发现圆形、三角形、长方形无处不在，从窗户到车轮，从蜂巢到路标，几何就在身边。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['几何','观察','数学','几何'], '数学')
+    VALUES ('找找生活中的几何', '带着"几何之眼"在家里和户外寻找各种几何图形，记录它们藏在哪里。参与者将惊喜地发现圆形、三角形、长方形无处不在，从窗户到车轮，从蜂巢到路标，几何就在身边。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['几何','观察','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -70,7 +70,7 @@ BEGIN
 
     -- Project 4: 用积木搭几何体
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('用积木搭几何体', '用积木搭建正方体、长方体、三棱柱等基本几何体，从不同角度观察它们的形状。孩子通过动手搭建获得对立体图形的直觉认识，学会数面、棱和顶点的数量。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['立体图形','数学','几何'], '数学')
+    VALUES ('用积木搭几何体', '用积木搭建正方体、长方体、三棱柱等基本几何体，从不同角度观察它们的形状。参与者通过动手搭建获得对立体图形的直觉认识，学会数面、棱和顶点的数量。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['立体图形','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -88,7 +88,7 @@ BEGIN
 
     -- Project 5: 正多面体纸模型
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('正多面体纸模型', '制作五种正多面体（柏拉图立体）的纸模型，从正四面体到正二十面体。孩子将在折叠粘贴中认识展开图与立体图形的关系，理解为什么宇宙中只存在五种正多面体。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/sensory_box.webp', ARRAY['立体几何','展开图','数学','几何'], '数学')
+    VALUES ('正多面体纸模型', '制作五种正多面体（柏拉图立体）的纸模型，从正四面体到正二十面体。参与者将在折叠粘贴中认识展开图与立体图形的关系，理解为什么宇宙中只存在五种正多面体。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/sensory_box.webp', ARRAY['立体几何','展开图','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -108,7 +108,7 @@ BEGIN
 
     -- Project 6: 莫比乌斯带探索
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('莫比乌斯带探索', '用纸条扭转粘合制作神奇的莫比乌斯带，发现它只有一个面和一条边。孩子将通过剪切实验见证拓扑学的奇妙——沿中线剪开莫比乌斯带不会变成两条，而是变成一个更大的环。', v_author_id, v_sub_id, 2, 20, 'approved', '/projects/sensory_box.webp', ARRAY['拓扑','单侧面','数学','几何'], '数学')
+    VALUES ('莫比乌斯带探索', '用纸条扭转粘合制作神奇的莫比乌斯带，发现它只有一个面和一条边。参与者将通过剪切实验见证拓扑学的奇妙——沿中线剪开莫比乌斯带不会变成两条，而是变成一个更大的环。', v_author_id, v_sub_id, 2, 20, 'approved', '/projects/sensory_box.webp', ARRAY['拓扑','单侧面','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -127,7 +127,7 @@ BEGIN
 
     -- Project 7: 图形镶嵌
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('图形镶嵌', '用相同或不同的几何图形密铺平面，不留间隙也不重叠，创造出美丽的镶嵌图案。孩子将探索哪些正多边形可以铺满平面，理解角度之和等于360度的镶嵌条件。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/sensory_box.webp', ARRAY['镶嵌','平铺','数学','几何'], '数学')
+    VALUES ('图形镶嵌', '用相同或不同的几何图形密铺平面，不留间隙也不重叠，创造出美丽的镶嵌图案。参与者将探索哪些正多边形可以铺满平面，理解角度之和等于360度的镶嵌条件。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/sensory_box.webp', ARRAY['镶嵌','平铺','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -147,7 +147,7 @@ BEGIN
 
     -- Project 8: 坐标画图
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('坐标画图', '在坐标纸上按照坐标点依次连线，画出隐藏的有趣图案。孩子将在游戏中熟悉坐标系的使用方法，学会用数字对（x, y）精确定位平面上的点。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['坐标系','描点','数学','几何'], '数学')
+    VALUES ('坐标画图', '在坐标纸上按照坐标点依次连线，画出隐藏的有趣图案。参与者将在游戏中熟悉坐标系的使用方法，学会用数字对（x, y）精确定位平面上的点。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['坐标系','描点','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -165,7 +165,7 @@ BEGIN
 
     -- Project 9: 黄金比例寻找
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('黄金比例寻找', '在自然界、艺术品和人体中寻找神秘的黄金比例（约1:1.618）。孩子将学会使用测量工具发现这一隐藏在万物中的数学密码，感受数学与美的深刻联系。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['黄金比例','美学','数学','几何'], '数学')
+    VALUES ('黄金比例寻找', '在自然界、艺术品和人体中寻找神秘的黄金比例（约1:1.618）。参与者将学会使用测量工具发现这一隐藏在万物中的数学密码，感受数学与美的深刻联系。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['黄金比例','美学','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -184,7 +184,7 @@ BEGIN
 
     -- Project 10: 分形图案绘制
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('分形图案绘制', '手绘谢尔宾斯基三角形和科赫雪花等经典分形图案，观察"自相似"的奇妙结构。孩子将发现局部放大后和整体形状一样的神奇现象，初步接触无穷和递归的数学思想。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['分形','自相似','数学','几何'], '数学')
+    VALUES ('分形图案绘制', '手绘谢尔宾斯基三角形和科赫雪花等经典分形图案，观察"自相似"的奇妙结构。参与者将发现局部放大后和整体形状一样的神奇现象，初步接触无穷和递归的数学思想。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['分形','自相似','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -203,7 +203,7 @@ BEGIN
 
     -- Project 11: 圆周率测量实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('圆周率测量实验', '通过测量各种圆形物品的周长和直径来亲手"发现"圆周率π。孩子将像古代数学家一样通过实验方法逼近π的值，体会测量、记录、取平均值的科学方法。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['圆周率','测量','数学','几何'], '数学')
+    VALUES ('圆周率测量实验', '通过测量各种圆形物品的周长和直径来亲手"发现"圆周率π。参与者将像古代数学家一样通过实验方法逼近π的值，体会测量、记录、取平均值的科学方法。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['圆周率','测量','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -221,7 +221,7 @@ BEGIN
 
     -- Project 12: 几何光学作图
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('几何光学作图', '用直尺和量角器画出光的反射和折射光路图，用几何方法预测光线走向。孩子将运用角度知识理解入射角等于反射角的规律，用作图方法解决光路问题。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['光路','反射折射','数学','几何'], '数学')
+    VALUES ('几何光学作图', '用直尺和量角器画出光的反射和折射光路图，用几何方法预测光线走向。参与者将运用角度知识理解入射角等于反射角的规律，用作图方法解决光路问题。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['光路','反射折射','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -241,7 +241,7 @@ BEGIN
 
     -- Project 13: 欧拉多面体公式验证
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('欧拉多面体公式验证', '数各种多面体模型的顶点、棱和面，验证欧拉公式V - E + F = 2是否总是成立。孩子将动手制作多种多面体并仔细计数，感受这个简洁公式背后的深刻数学之美。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['欧拉公式','V-E+F','数学','几何'], '数学')
+    VALUES ('欧拉多面体公式验证', '数各种多面体模型的顶点、棱和面，验证欧拉公式V - E + F = 2是否总是成立。参与者将动手制作多种多面体并仔细计数，感受这个简洁公式背后的深刻数学之美。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['欧拉公式','V-E+F','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -262,7 +262,7 @@ BEGIN
 
     -- Project 14: 四色定理地图着色
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('四色定理地图着色', '尝试用最少的颜色给地图着色，使相邻区域颜色不同，探索著名的四色定理。孩子将在动手涂色中体验图论的魅力，理解为什么任何地图最多只需要四种颜色。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['图论','着色','数学','几何'], '数学')
+    VALUES ('四色定理地图着色', '尝试用最少的颜色给地图着色，使相邻区域颜色不同，探索著名的四色定理。参与者将在动手涂色中体验图论的魅力，理解为什么任何地图最多只需要四种颜色。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['图论','着色','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -281,7 +281,7 @@ BEGIN
 
     -- Project 15: 曲面几何体纸模
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('曲面几何体纸模', '用纸条和卡纸制作圆柱、圆锥和球面近似模型，探索曲面如何从平面"变身"而来。孩子将理解展开图的概念，发现圆柱的侧面展开是长方形，圆锥的侧面展开是扇形。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['曲面','展开','数学','几何'], '数学')
+    VALUES ('曲面几何体纸模', '用纸条和卡纸制作圆柱、圆锥和球面近似模型，探索曲面如何从平面"变身"而来。参与者将理解展开图的概念，发现圆柱的侧面展开是长方形，圆锥的侧面展开是扇形。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['曲面','展开','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -301,7 +301,7 @@ BEGIN
 
     -- Project 16: 正多面体对偶关系
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('正多面体对偶关系', '探索正多面体之间的对偶关系：正方体和正八面体互为对偶，正十二面体和正二十面体互为对偶。孩子将在每个正多面体的面中心连线，发现藏在里面的另一个正多面体。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['对偶','几何','数学','几何'], '数学')
+    VALUES ('正多面体对偶关系', '探索正多面体之间的对偶关系：正方体和正八面体互为对偶，正十二面体和正二十面体互为对偶。参与者将在每个正多面体的面中心连线，发现藏在里面的另一个正多面体。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['对偶','几何','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -322,7 +322,7 @@ BEGIN
 
     -- Project 17: 分形雪花编程绘制
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('分形雪花编程绘制', '用编程（Scratch或Python Turtle）递归绘制科赫雪花和分形树等图案。孩子将把数学中的分形概念与编程中的递归思想结合，用代码创造出手工难以完成的精美分形图案。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['分形','递归','编程','数学','几何'], '数学')
+    VALUES ('分形雪花编程绘制', '用编程（Scratch或Python Turtle）递归绘制科赫雪花和分形树等图案。参与者将把数学中的分形概念与编程中的递归思想结合，用代码创造出手工难以完成的精美分形图案。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['分形','递归','编程','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -341,7 +341,7 @@ BEGIN
 
     -- Project 18: 非欧几何初探
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('非欧几何初探', '在球面和马鞍面上画"直线"和三角形，发现三角形内角和不再是180度。孩子将突破欧几里得几何的思维定势，初步接触球面几何和双曲几何的奇妙世界。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['球面','双曲面','数学','几何'], '数学')
+    VALUES ('非欧几何初探', '在球面和马鞍面上画"直线"和三角形，发现三角形内角和不再是180度。参与者将突破欧几里得几何的思维定势，初步接触球面几何和双曲几何的奇妙世界。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['球面','双曲面','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -362,7 +362,7 @@ BEGIN
 
     -- Project 19: 投影与影子几何
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('投影与影子几何', '用手电筒将立体图形的影子投射到墙面和桌面上，探索不同角度投影的形状变化。孩子将理解三维物体如何产生二维投影，学习正交投影和透视投影的区别。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['投影','截面','数学','几何'], '数学')
+    VALUES ('投影与影子几何', '用手电筒将立体图形的影子投射到墙面和桌面上，探索不同角度投影的形状变化。参与者将理解三维物体如何产生二维投影，学习正交投影和透视投影的区别。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['投影','截面','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -382,7 +382,7 @@ BEGIN
 
     -- Project 20: 球面几何与地图投影
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('球面几何与地图投影', '探索把球面地图展开到平面时产生的形变问题，比较不同地图投影方式的优劣。孩子将动手剥橘子皮来直观感受球面无法完美展开为平面，理解所有世界地图都是"有误差的"。', v_author_id, v_sub_id, 5, 55, 'approved', '/projects/sensory_box.webp', ARRAY['地图','投影变形','数学','几何'], '数学')
+    VALUES ('球面几何与地图投影', '探索把球面地图展开到平面时产生的形变问题，比较不同地图投影方式的优劣。参与者将动手剥橘子皮来直观感受球面无法完美展开为平面，理解所有世界地图都是"有误差的"。', v_author_id, v_sub_id, 5, 55, 'approved', '/projects/sensory_box.webp', ARRAY['地图','投影变形','数学','几何'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

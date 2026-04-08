@@ -18,7 +18,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸板小房子',
-        '用废旧纸板剪裁、折叠、粘贴，搭建一座迷你小房子！孩子将学习基本的建筑结构知识，理解墙壁、屋顶和门窗的比例关系。通过动手实践培养空间想象力和精细动手能力。',
+        '用废旧纸板剪裁、折叠、粘贴，搭建一座迷你小房子！参与者将学习基本的建筑结构知识，理解墙壁、屋顶和门窗的比例关系。通过动手实践培养空间想象力和精细动手能力。',
         v_author_id, v_sub_id, 1, 30, 'approved', '/projects/eng_models.webp',
         ARRAY['建筑','折叠','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -42,7 +42,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '黏土动物模型',
-        '用超轻黏土捏出各种可爱的小动物造型！孩子将锻炼手部精细运动能力，学习观察动物的身体比例和特征。这是一个充满创意和乐趣的造型入门项目。',
+        '用超轻黏土捏出各种可爱的小动物造型！参与者将锻炼手部精细运动能力，学习观察动物的身体比例和特征。这是一个充满创意和乐趣的造型入门项目。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/eng_models.webp',
         ARRAY['雕塑','造型','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -65,7 +65,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸飞机模型集',
-        '学习折叠多种经典纸飞机，探索不同机翼形状对飞行距离和稳定性的影响！孩子将初步了解空气动力学的基本概念，理解升力和阻力的关系。折好后还可以举办一场纸飞机比赛。',
+        '学习折叠多种经典纸飞机，探索不同机翼形状对飞行距离和稳定性的影响！参与者将初步了解空气动力学的基本概念，理解升力和阻力的关系。折好后还可以举办一场纸飞机比赛。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_models.webp',
         ARRAY['空气动力学','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -87,7 +87,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '折纸小船',
-        '用纸折出不同造型的小船，放在水中测试它们的浮力和载重能力！孩子将了解浮力原理和船体形状对稳定性的影响。通过动手折叠和实际测试，体会工程设计中的反复优化过程。',
+        '用纸折出不同造型的小船，放在水中测试它们的浮力和载重能力！参与者将了解浮力原理和船体形状对稳定性的影响。通过动手折叠和实际测试，体会工程设计中的反复优化过程。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_models.webp',
         ARRAY['折纸','浮力','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -109,7 +109,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '太阳系模型',
-        '用泡沫球和颜料制作一个按比例缩放的太阳系模型，展示八大行星的相对大小和位置！孩子将学习天文学基础知识，了解太阳系中各行星的特点。这是一个集科学与艺术于一体的展示项目。',
+        '用泡沫球和颜料制作一个按比例缩放的太阳系模型，展示八大行星的相对大小和位置！参与者将学习天文学基础知识，了解太阳系中各行星的特点。这是一个集科学与艺术于一体的展示项目。',
         v_author_id, v_sub_id, 2, 45, 'approved', '/projects/eng_models.webp',
         ARRAY['天文','比例','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -134,7 +134,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '纸板城堡',
-        '用纸板搭建一座拥有塔楼、城墙和吊桥的中世纪城堡模型！孩子将了解城堡建筑的基本结构和防御设计理念。这个项目需要一定的规划能力，完成后非常有成就感。',
+        '用纸板搭建一座拥有塔楼、城墙和吊桥的中世纪城堡模型！参与者将了解城堡建筑的基本结构和防御设计理念。这个项目需要一定的规划能力，完成后非常有成就感。',
         v_author_id, v_sub_id, 2, 60, 'approved', '/projects/eng_models.webp',
         ARRAY['建筑','设计','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -142,7 +142,7 @@ BEGIN
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
         (v_project_id, '大纸板箱 2-3个', 1),
         (v_project_id, '卫生纸芯（做塔楼）4个', 2),
-        (v_project_id, '剪刀和美工刀（需家长辅助）', 3),
+        (v_project_id, '剪刀和美工刀（需成年人辅助）', 3),
         (v_project_id, '白胶和热熔胶', 4),
         (v_project_id, '丙烯颜料（灰色、棕色等）', 5),
         (v_project_id, '细绳（做吊桥用）', 6),
@@ -159,7 +159,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '火山模型',
-        '用黏土和纸板制作一个可以展示内部结构的火山截面模型！孩子将了解火山的构造，包括岩浆室、火山口和不同岩层。这个模型可以清楚地展示地球内部的热能如何驱动火山喷发。',
+        '用黏土和纸板制作一个可以展示内部结构的火山截面模型！参与者将了解火山的构造，包括岩浆室、火山口和不同岩层。这个模型可以清楚地展示地球内部的热能如何驱动火山喷发。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/eng_models.webp',
         ARRAY['地质','截面','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -169,7 +169,7 @@ BEGIN
         (v_project_id, '硬纸板（底座用）', 2),
         (v_project_id, '塑料瓶（内部支撑）', 3),
         (v_project_id, '丙烯颜料', 4),
-        (v_project_id, '小刀（需家长辅助）', 5),
+        (v_project_id, '小刀（需成年人辅助）', 5),
         (v_project_id, '标签纸', 6);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
@@ -183,7 +183,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '恐龙模型',
-        '用黏土和铁丝骨架制作一个栩栩如生的恐龙模型！孩子将了解恐龙的身体结构特征，学习如何通过骨架支撑来制作大型造型。选择自己喜欢的恐龙种类，发挥创造力还原远古生物的风采。',
+        '用黏土和铁丝骨架制作一个栩栩如生的恐龙模型！参与者将了解恐龙的身体结构特征，学习如何通过骨架支撑来制作大型造型。选择自己喜欢的恐龙种类，发挥创造力还原远古生物的风采。',
         v_author_id, v_sub_id, 2, 50, 'approved', '/projects/eng_models.webp',
         ARRAY['古生物','造型','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -207,7 +207,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '人体器官模型',
-        '用黏土制作可拆卸的人体躯干模型，展示心脏、肺、胃、肝等主要器官的位置和形状！孩子将直观地了解人体内部结构。每个器官用不同颜色区分，可以取出单独观察再放回原位。',
+        '用黏土制作可拆卸的人体躯干模型，展示心脏、肺、胃、肝等主要器官的位置和形状！参与者将直观地了解人体内部结构。每个器官用不同颜色区分，可以取出单独观察再放回原位。',
         v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_models.webp',
         ARRAY['人体','解剖','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -231,7 +231,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '细胞结构模型',
-        '用果冻和各种糖果制作一个放大版的动物细胞模型，展示细胞膜、细胞核、线粒体等结构！孩子将了解细胞这个生命基本单位的内部构造。用食物来模拟微观世界，既好玩又好记。',
+        '用果冻和各种糖果制作一个放大版的动物细胞模型，展示细胞膜、细胞核、线粒体等结构！参与者将了解细胞这个生命基本单位的内部构造。用食物来模拟微观世界，既好玩又好记。',
         v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_models.webp',
         ARRAY['生物','微观','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -255,7 +255,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'DNA 双螺旋模型',
-        '用铁丝和彩色珠子制作一个DNA双螺旋结构模型，展示碱基配对的规律！孩子将了解遗传信息的载体——DNA的分子结构。用四种颜色的珠子分别代表A、T、G、C四种碱基，直观展示互补配对。',
+        '用铁丝和彩色珠子制作一个DNA双螺旋结构模型，展示碱基配对的规律！参与者将了解遗传信息的载体——DNA的分子结构。用四种颜色的珠子分别代表A、T、G、C四种碱基，直观展示互补配对。',
         v_author_id, v_sub_id, 3, 50, 'approved', '/projects/eng_models.webp',
         ARRAY['生物','分子','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -279,7 +279,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '建筑沙盘',
-        '设计并制作一个小型社区的建筑沙盘，包含房屋、道路、绿化和公共设施！孩子将学习基本的城市规划概念，理解建筑物之间的空间关系。这是一个综合性很强的模型制作项目。',
+        '设计并制作一个小型社区的建筑沙盘，包含房屋、道路、绿化和公共设施！参与者将学习基本的城市规划概念，理解建筑物之间的空间关系。这是一个综合性很强的模型制作项目。',
         v_author_id, v_sub_id, 3, 90, 'approved', '/projects/eng_models.webp',
         ARRAY['建筑','规划','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -306,7 +306,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '地球内部结构模型',
-        '制作一个可以切开展示的地球分层模型，展示地壳、地幔、外核和内核四个圈层！孩子将了解地球并非实心球体，而是由不同物质和温度的圈层组成。通过颜色区分各层，直观理解地球内部构造。',
+        '制作一个可以切开展示的地球分层模型，展示地壳、地幔、外核和内核四个圈层！参与者将了解地球并非实心球体，而是由不同物质和温度的圈层组成。通过颜色区分各层，直观理解地球内部构造。',
         v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_models.webp',
         ARRAY['地质','分层','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -314,7 +314,7 @@ BEGIN
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
         (v_project_id, '超轻黏土（红、橙、黄、蓝色）', 1),
         (v_project_id, '泡沫球（直径约10厘米）', 2),
-        (v_project_id, '小刀（需家长辅助）', 3),
+        (v_project_id, '小刀（需成年人辅助）', 3),
         (v_project_id, '丙烯颜料', 4),
         (v_project_id, '标签纸和细铁丝', 5),
         (v_project_id, '参考地球结构图', 6);
@@ -322,7 +322,7 @@ BEGIN
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '学习地球圈层', '查阅资料了解地球的四个圈层：地壳（薄而坚硬）、地幔（高温半流动）、外核（液态金属）、内核（固态金属）。', 1),
         (v_project_id, '逐层包裹', '先用红色黏土做一个小球代表内核，再依次用橙色（外核）、黄色（地幔）、蓝色（地壳）层层包裹。', 2),
-        (v_project_id, '切开截面', '在家长帮助下将球体切成两半或四分之一，露出内部的分层结构。', 3),
+        (v_project_id, '切开截面', '在成年人帮助下将球体切成两半或四分之一，露出内部的分层结构。', 3),
         (v_project_id, '绘制地表', '在蓝色地壳表面用颜料画出简化的大陆和海洋轮廓。', 4),
         (v_project_id, '标注各圈层', '用标签纸标注每一层的名称、厚度和主要特征（温度、状态等）。', 5),
         (v_project_id, '讲解地球知识', '对照模型讲解地球内部结构，讨论地震波如何帮助科学家探测地球内部。', 6);
@@ -331,7 +331,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '水循环演示模型',
-        '制作一个能真实演示蒸发、凝结和降水过程的水循环模型！在密封容器中用热水和冰块模拟自然界的水循环。孩子将直观看到水蒸气上升、遇冷凝结成水滴并"降雨"的完整过程。',
+        '制作一个能真实演示蒸发、凝结和降水过程的水循环模型！在密封容器中用热水和冰块模拟自然界的水循环。参与者将直观看到水蒸气上升、遇冷凝结成水滴并"降雨"的完整过程。',
         v_author_id, v_sub_id, 4, 50, 'approved', '/projects/eng_models.webp',
         ARRAY['水循环','动态','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -357,7 +357,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '心脏工作模型',
-        '用塑料瓶和气球制作一个可以模拟心脏泵血功能的工作模型！按压气球时水会被"泵"出，松手时水又被吸入。孩子将直观理解心脏的四个腔室如何通过收缩和舒张来推动血液循环。',
+        '用塑料瓶和气球制作一个可以模拟心脏泵血功能的工作模型！按压气球时水会被"泵"出，松手时水又被吸入。参与者将直观理解心脏的四个腔室如何通过收缩和舒张来推动血液循环。',
         v_author_id, v_sub_id, 4, 45, 'approved', '/projects/eng_models.webp',
         ARRAY['人体','循环','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -382,7 +382,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '比例建筑模型',
-        '选择一座著名建筑，按照精确比例缩小制作它的模型！孩子将学习比例尺的概念和应用，掌握精确测量和等比缩放的方法。这个项目对耐心和精确度要求较高，适合有一定手工基础的孩子。',
+        '选择一座著名建筑，按照精确比例缩小制作它的模型！参与者将学习比例尺的概念和应用，掌握精确测量和等比缩放的方法。这个项目对耐心和精确度要求较高，适合有一定手工基础的参与者。',
         v_author_id, v_sub_id, 4, 90, 'approved', '/projects/eng_models.webp',
         ARRAY['建筑','精确比例','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -390,7 +390,7 @@ BEGIN
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
         (v_project_id, '巴尔沙木或硬纸板', 1),
         (v_project_id, '直尺和三角尺', 2),
-        (v_project_id, '美工刀（需家长辅助）', 3),
+        (v_project_id, '美工刀（需成年人辅助）', 3),
         (v_project_id, '白胶', 4),
         (v_project_id, '铅笔和橡皮', 5),
         (v_project_id, '丙烯颜料', 6),
@@ -408,7 +408,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '可活动人体骨骼模型',
-        '用硬纸板制作一个各关节可以活动的人体骨骼模型！用铆钉或图钉连接各骨骼部件，实现肩、肘、髋、膝等关节的真实运动。孩子将深入了解人体骨骼系统的206块骨骼和主要关节的运动方式。',
+        '用硬纸板制作一个各关节可以活动的人体骨骼模型！用铆钉或图钉连接各骨骼部件，实现肩、肘、髋、膝等关节的真实运动。参与者将深入了解人体骨骼系统的206块骨骼和主要关节的运动方式。',
         v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_models.webp',
         ARRAY['解剖','关节','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -434,7 +434,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '生态系统微缩模型',
-        '在一个大玻璃容器中构建一个完整的微型生态系统，包含土壤、植物、水体和小动物模型！孩子将学习食物链、能量流动和物质循环等生态学核心概念。这是一个需要综合运用多学科知识的复杂项目。',
+        '在一个大玻璃容器中构建一个完整的微型生态系统，包含土壤、植物、水体和小动物模型！参与者将学习食物链、能量流动和物质循环等生态学核心概念。这是一个需要综合运用多学科知识的复杂项目。',
         v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_models.webp',
         ARRAY['生态','综合','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -461,7 +461,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '机械钟表模型',
-        '用硬纸板制作一个展示齿轮传动原理的机械钟表模型！通过多个互相咬合的齿轮，将动力从发条传递到指针。孩子将深入理解齿轮比、传动速率和机械能转换的工程原理。',
+        '用硬纸板制作一个展示齿轮传动原理的机械钟表模型！通过多个互相咬合的齿轮，将动力从发条传递到指针。参与者将深入理解齿轮比、传动速率和机械能转换的工程原理。',
         v_author_id, v_sub_id, 5, 150, 'approved', '/projects/eng_models.webp',
         ARRAY['钟表','齿轮','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
@@ -469,7 +469,7 @@ BEGIN
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
         (v_project_id, '厚硬纸板或薄木板', 1),
         (v_project_id, '圆规和直尺', 2),
-        (v_project_id, '美工刀（需家长辅助）', 3),
+        (v_project_id, '美工刀（需成年人辅助）', 3),
         (v_project_id, '竹签或木棍（做齿轮轴）', 4),
         (v_project_id, '热熔胶', 5),
         (v_project_id, '铅笔和橡皮', 6),
@@ -488,7 +488,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '城市规划沙盘',
-        '设计并制作一个完整的城市微缩沙盘，包含住宅区、商业区、工业区、交通系统和公共绿地！孩子将综合运用建筑、规划和工程知识，思考城市功能分区和交通组织的合理性。这是模型制作的高阶挑战项目。',
+        '设计并制作一个完整的城市微缩沙盘，包含住宅区、商业区、工业区、交通系统和公共绿地！参与者将综合运用建筑、规划和工程知识，思考城市功能分区和交通组织的合理性。这是模型制作的高阶挑战项目。',
         v_author_id, v_sub_id, 5, 180, 'approved', '/projects/eng_models.webp',
         ARRAY['城市','综合设计','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;

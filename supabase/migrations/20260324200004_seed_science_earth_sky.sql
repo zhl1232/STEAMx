@@ -18,7 +18,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '云的观察日记',
-        '抬头看天空，你会发现云朵每天都不一样！在这个项目中，孩子将连续观察并记录不同类型的云，学习积云、层云和卷云的区别。通过坚持记录，孩子能初步理解云与天气变化之间的关系。',
+        '抬头看天空，你会发现云朵每天都不一样！在这个项目中，参与者将连续观察并记录不同类型的云，学习积云、层云和卷云的区别。通过坚持记录，参与者能初步理解云与天气变化之间的关系。',
         v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['云','天气','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -40,7 +40,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '化石印模制作',
-        '你有没有想过恐龙时代的动植物是怎么变成化石的？在这个项目中，孩子将用黏土和小物件模拟化石形成的过程，亲手制作一枚属于自己的"化石"。通过动手操作，理解化石是如何在岩层中保存下来的。',
+        '你有没有想过恐龙时代的动植物是怎么变成化石的？在这个项目中，参与者将用黏土和小物件模拟化石形成的过程，亲手制作一枚属于自己的"化石"。通过动手操作，理解化石是如何在岩层中保存下来的。',
         v_author_id, v_sub_id, 1, 40, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['化石','地质','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -63,7 +63,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '雨量测量记录',
-        '下雨的时候，你知道到底下了多少雨吗？孩子将自制一个简易雨量计，放在室外收集雨水并测量降雨量。通过持续记录，学习天气数据的收集方法和简单的数据比较。',
+        '下雨的时候，你知道到底下了多少雨吗？参与者将自制一个简易雨量计，放在室外收集雨水并测量降雨量。通过持续记录，学习天气数据的收集方法和简单的数据比较。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天气','测量','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -87,7 +87,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '沙中寻宝',
-        '沙子里藏着很多秘密！孩子将收集一些沙子，用放大镜仔细观察沙粒的颜色、形状和大小，并尝试用筛网将不同大小的颗粒分开。通过这个活动，了解沙子的来源以及自然界的风化和分选过程。',
+        '沙子里藏着很多秘密！参与者将收集一些沙子，用放大镜仔细观察沙粒的颜色、形状和大小，并尝试用筛网将不同大小的颗粒分开。通过这个活动，了解沙子的来源以及自然界的风化和分选过程。',
         v_author_id, v_sub_id, 1, 35, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['沙石','分选','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -111,7 +111,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制风向标',
-        '风从哪里来？孩子将用简单的材料制作一个风向标，放在室外观察风的方向。通过这个项目，学习风向的概念、指南针方位以及风与天气变化的关系。',
+        '风从哪里来？参与者将用简单的材料制作一个风向标，放在室外观察风的方向。通过这个项目，学习风向的概念、指南针方位以及风与天气变化的关系。',
         v_author_id, v_sub_id, 1, 35, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天气','风向','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -136,7 +136,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '岩石收集与分类',
-        '地球上的岩石各不相同，它们有的来自火山，有的来自海底沉积，有的经历了高温高压的变化。孩子将外出收集不同的岩石，通过观察颜色、纹理和硬度，学习将岩石分为火成岩、沉积岩和变质岩三大类。',
+        '地球上的岩石各不相同，它们有的来自火山，有的来自海底沉积，有的经历了高温高压的变化。参与者将外出收集不同的岩石，通过观察颜色、纹理和硬度，学习将岩石分为火成岩、沉积岩和变质岩三大类。',
         v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['矿物','岩石','地质','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -161,7 +161,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '月相观察日记',
-        '月亮为什么有时圆有时弯？孩子将在一个月内持续观察月亮的形状变化，用画笔记录每天看到的月相。通过这个项目，理解月球绕地球运动导致月相周期变化的科学原理。',
+        '月亮为什么有时圆有时弯？参与者将在一个月内持续观察月亮的形状变化，用画笔记录每天看到的月相。通过这个项目，理解月球绕地球运动导致月相周期变化的科学原理。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天文','月亮','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -184,7 +184,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '土壤分层实验',
-        '脚下的土壤其实是由不同成分混合而成的。孩子将把土壤放入水中搅拌，观察静置后土壤自然分成不同的层次。通过这个实验，了解土壤中沙、粉砂、黏土和有机质的组成以及沉积分层的原理。',
+        '脚下的土壤其实是由不同成分混合而成的。参与者将把土壤放入水中搅拌，观察静置后土壤自然分成不同的层次。通过这个实验，了解土壤中沙、粉砂、黏土和有机质的组成以及沉积分层的原理。',
         v_author_id, v_sub_id, 2, 45, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['土壤','沉积','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -208,7 +208,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制日晷',
-        '在没有钟表的古代，人们是怎样知道时间的呢？孩子将制作一个简易日晷，利用阳光下影子的移动来判断时间。通过这个项目，学习地球自转与太阳位置变化的关系，理解古人的计时智慧。',
+        '在没有钟表的古代，人们是怎样知道时间的呢？参与者将制作一个简易日晷，利用阳光下影子的移动来判断时间。通过这个项目，学习地球自转与太阳位置变化的关系，理解古人的计时智慧。',
         v_author_id, v_sub_id, 2, 50, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天文','时间','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -232,7 +232,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '彩虹形成条件记录',
-        '彩虹是怎么出现的？孩子将用喷水壶在阳光下制造彩虹，并记录彩虹出现时的条件。通过这个项目，学习光的折射和色散原理，理解自然界中彩虹形成的科学条件。',
+        '彩虹是怎么出现的？参与者将用喷水壶在阳光下制造彩虹，并记录彩虹出现时的条件。通过这个项目，学习光的折射和色散原理，理解自然界中彩虹形成的科学条件。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['光学','天气','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -255,7 +255,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '制作地层模型',
-        '地球的表面下方藏着一层又一层的岩石和沉积物，记录着数亿年的历史。孩子将用不同颜色的材料制作一个地层模型，了解地层是如何一层层堆积形成的，以及化石如何被埋藏在不同层中。',
+        '地球的表面下方藏着一层又一层的岩石和沉积物，记录着数亿年的历史。参与者将用不同颜色的材料制作一个地层模型，了解地层是如何一层层堆积形成的，以及化石如何被埋藏在不同层中。',
         v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['地质','地层','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -281,7 +281,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '自制简易气象站',
-        '气象学家是怎样预测天气的？孩子将制作温度计读数牌、风向标和简易气压计等工具，组成一个小型气象站。通过每天记录和分析多项气象数据，培养科学观测习惯，理解各种气象要素之间的关系。',
+        '气象学家是怎样预测天气的？参与者将制作温度计读数牌、风向标和简易气压计等工具，组成一个小型气象站。通过每天记录和分析多项气象数据，培养科学观测习惯，理解各种气象要素之间的关系。',
         v_author_id, v_sub_id, 3, 90, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天气','气象观测','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -307,7 +307,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '矿物硬度测试',
-        '钻石为什么能切割玻璃？因为它是最硬的矿物！孩子将收集几种常见矿物和日常物品，按照莫氏硬度标准互相刮擦测试，给矿物排出硬度等级。通过这个实验，学习莫氏硬度计的原理和矿物鉴定的基本方法。',
+        '钻石为什么能切割玻璃？因为它是最硬的矿物！参与者将收集几种常见矿物和日常物品，按照莫氏硬度标准互相刮擦测试，给矿物排出硬度等级。通过这个实验，学习莫氏硬度计的原理和矿物鉴定的基本方法。',
         v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['矿物','莫氏硬度','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -332,7 +332,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '星座观察记录',
-        '夜空中闪烁的星星组成了美丽的星座图案。孩子将在晴朗的夜晚观察夜空，学习辨认几个著名的星座，并用星图记录它们的位置。通过持续观察，了解星座随季节变化的原因以及古人利用星座导航的故事。',
+        '夜空中闪烁的星星组成了美丽的星座图案。参与者将在晴朗的夜晚观察夜空，学习辨认几个著名的星座，并用星图记录它们的位置。通过持续观察，了解星座随季节变化的原因以及古人利用星座导航的故事。',
         v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天文','星座','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -357,7 +357,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '水循环模型',
-        '地球上的水是怎样循环往复的？孩子将用一个密封容器制作微型水循环模型，亲眼观察蒸发、凝结和降水的过程。通过这个项目，直观理解自然界水循环的完整过程以及太阳能在其中的关键作用。',
+        '地球上的水是怎样循环往复的？参与者将用一个密封容器制作微型水循环模型，亲眼观察蒸发、凝结和降水的过程。通过这个项目，直观理解自然界水循环的完整过程以及太阳能在其中的关键作用。',
         v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['水循环','蒸发','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -383,7 +383,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '火山分层模型',
-        '火山是怎样爆发的？孩子将制作一个有内部分层结构的火山模型，并用小苏打和醋模拟火山喷发。通过这个项目，学习火山的内部结构、岩浆通道以及火山喷发的化学反应原理。',
+        '火山是怎样爆发的？参与者将制作一个有内部分层结构的火山模型，并用小苏打和醋模拟火山喷发。通过这个项目，学习火山的内部结构、岩浆通道以及火山喷发的化学反应原理。',
         v_author_id, v_sub_id, 3, 75, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['火山','地质结构','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -410,7 +410,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '河流侵蚀模拟实验',
-        '河流是如何一点点改变地形的？孩子将搭建一个倾斜的沙土模型，用流水模拟河流侵蚀和沉积的过程。通过观察水流如何冲刷出河道、搬运泥沙并在下游堆积，理解自然界中河流塑造地貌的力量。',
+        '河流是如何一点点改变地形的？参与者将搭建一个倾斜的沙土模型，用流水模拟河流侵蚀和沉积的过程。通过观察水流如何冲刷出河道、搬运泥沙并在下游堆积，理解自然界中河流塑造地貌的力量。',
         v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['地质','侵蚀','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -437,7 +437,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '地震模拟与建筑抗震',
-        '地震来了，什么样的建筑不容易倒？孩子将搭建不同结构的小型建筑模型，并在模拟地震的振动台上测试它们的抗震能力。通过这个项目，了解地震的成因、地震波的传播方式，以及三角形结构在建筑抗震中的重要作用。',
+        '地震来了，什么样的建筑不容易倒？参与者将搭建不同结构的小型建筑模型，并在模拟地震的振动台上测试它们的抗震能力。通过这个项目，了解地震的成因、地震波的传播方式，以及三角形结构在建筑抗震中的重要作用。',
         v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['地震','结构','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -464,7 +464,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '晶体矿物鉴定',
-        '矿物的世界像一座宝藏等你去发掘！孩子将学习使用多种方法——包括观察晶体形状、测试硬度、检查条痕颜色和光泽——对矿物标本进行系统鉴定。通过这个项目，掌握矿物学的基本鉴定流程，培养严谨的科学观察能力。',
+        '矿物的世界像一座宝藏等你去发掘！参与者将学习使用多种方法——包括观察晶体形状、测试硬度、检查条痕颜色和光泽——对矿物标本进行系统鉴定。通过这个项目，掌握矿物学的基本鉴定流程，培养严谨的科学观察能力。',
         v_author_id, v_sub_id, 4, 80, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['矿物','鉴定','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -490,7 +490,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '本地气象数据分析',
-        '你所在城市的天气有什么规律？孩子将收集本地一段时间的气象数据，包括温度、降水、风速和湿度，使用图表进行整理和分析。通过这个项目，学习数据收集、图表绘制和数据分析的基本方法，并尝试发现本地气候的季节性规律。',
+        '你所在城市的天气有什么规律？参与者将收集本地一段时间的气象数据，包括温度、降水、风速和湿度，使用图表进行整理和分析。通过这个项目，学习数据收集、图表绘制和数据分析的基本方法，并尝试发现本地气候的季节性规律。',
         v_author_id, v_sub_id, 5, 120, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['气象','数据分析','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -515,7 +515,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '地质徒步考察记录',
-        '像真正的地质学家一样去野外考察！孩子将在大人陪同下进行一次户外地质徒步，沿途观察和记录地形地貌、岩石露头、水文特征和土壤类型。通过实地考察，综合运用所学的地球科学知识，培养野外科学考察的能力和地质记录的规范方法。',
+        '像真正的地质学家一样去野外考察！参与者将在大人陪同下进行一次户外地质徒步，沿途观察和记录地形地貌、岩石露头、水文特征和土壤类型。通过实地考察，综合运用所学的地球科学知识，培养野外科学考察的能力和地质记录的规范方法。',
         v_author_id, v_sub_id, 5, 180, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['地质','野外考察','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;

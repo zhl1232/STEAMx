@@ -18,7 +18,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'LED 发光贺卡',
-        '用铜箔胶带和LED灯珠制作一张会发光的创意贺卡！孩子将学习最基本的电路知识，了解电流从电池正极经过导线和LED回到负极的完整回路。送给家人朋友一张自己做的发光贺卡，既有趣又有心意。',
+        '用铜箔胶带和LED灯珠制作一张会发光的创意贺卡！参与者将学习最基本的电路知识，了解电流从电池正极经过导线和LED回到负极的完整回路。送给家人朋友一张自己做的发光贺卡，既有趣又有心意。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_electronics.webp',
         ARRAY['LED','电路','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -42,7 +42,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '简易手电筒',
-        '用纸杯、电池和小灯泡组装一个真正能照明的手电筒！孩子将理解简单电路中电池、导线、开关和灯泡各自的作用。完成后可以在黑暗中使用自己做的手电筒，体验动手制作的成就感。',
+        '用纸杯、电池和小灯泡组装一个真正能照明的手电筒！参与者将理解简单电路中电池、导线、开关和灯泡各自的作用。完成后可以在黑暗中使用自己做的手电筒，体验动手制作的成就感。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_electronics.webp',
         ARRAY['电路','开关','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -66,7 +66,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '锡纸导电实验',
-        '用厨房里的锡纸（铝箔）代替导线连接电路，测试哪些材料能导电、哪些不能！孩子将亲手验证导体和绝缘体的区别，建立对材料导电性的直观认识。这是一个材料简单但知识点丰富的入门实验。',
+        '用厨房里的锡纸（铝箔）代替导线连接电路，测试哪些材料能导电、哪些不能！参与者将亲手验证导体和绝缘体的区别，建立对材料导电性的直观认识。这是一个材料简单但知识点丰富的入门实验。',
         v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_electronics.webp',
         ARRAY['导体','绝缘体','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -88,7 +88,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '水果导电测试',
-        '测试不同水果是否能导电，探究哪种水果的导电能力最强！孩子将了解水果中的酸性汁液含有离子可以导电的原理。用柠檬、苹果、香蕉等常见水果来做实验，发现大自然中隐藏的电学知识。',
+        '测试不同水果是否能导电，探究哪种水果的导电能力最强！参与者将了解水果中的酸性汁液含有离子可以导电的原理。用柠檬、苹果、香蕉等常见水果来做实验，发现大自然中隐藏的电学知识。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_electronics.webp',
         ARRAY['导电性','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -112,7 +112,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'LED 创意灯',
-        '用多颗LED灯珠和并联电路制作一盏漂亮的创意小夜灯！孩子将学习并联电路的接线方式，理解并联时每个灯泡两端电压相同的特点。还可以发挥创意用彩纸和瓶子制作独特的灯罩。',
+        '用多颗LED灯珠和并联电路制作一盏漂亮的创意小夜灯！参与者将学习并联电路的接线方式，理解并联时每个灯泡两端电压相同的特点。还可以发挥创意用彩纸和瓶子制作独特的灯罩。',
         v_author_id, v_sub_id, 2, 35, 'approved', '/projects/tech_electronics.webp',
         ARRAY['电路','并联','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -124,7 +124,7 @@ BEGIN
         (v_project_id, '导线 若干', 4),
         (v_project_id, '透明塑料瓶或玻璃瓶 1个', 5),
         (v_project_id, '彩色薄纸或描图纸', 6),
-        (v_project_id, '热熔胶枪（需家长帮助）', 7);
+        (v_project_id, '热熔胶枪（需成年人帮助）', 7);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '设计灯的造型', '选择一个透明瓶子作为灯体，在纸上画出LED的摆放位置，规划好想要的发光效果。', 1),
@@ -137,7 +137,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '简易开关制作',
-        '用回形针和图钉制作几种不同类型的简易开关，控制电路的通断！孩子将理解开关的本质就是控制电路是否闭合。通过制作按压式、滑动式和拨动式开关，了解日常生活中各种开关的工作原理。',
+        '用回形针和图钉制作几种不同类型的简易开关，控制电路的通断！参与者将理解开关的本质就是控制电路是否闭合。通过制作按压式、滑动式和拨动式开关，了解日常生活中各种开关的工作原理。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_electronics.webp',
         ARRAY['开关','电路','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -162,7 +162,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '导电面团实验',
-        '制作能导电的面团和不导电的面团，用它们搭建有趣的电路！孩子将通过揉面团和点亮LED的方式学习导体与绝缘体的概念。用面团代替导线搭电路，既安全又好玩，是学习电路的绝佳方式。',
+        '制作能导电的面团和不导电的面团，用它们搭建有趣的电路！参与者将通过揉面团和点亮LED的方式学习导体与绝缘体的概念。用面团代替导线搭电路，既安全又好玩，是学习电路的绝佳方式。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_electronics.webp',
         ARRAY['导电','电路','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -187,7 +187,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '串联与并联电路对比',
-        '动手搭建串联和并联两种电路，对比观察灯泡亮度的差异！孩子将直观理解串联电路中电流只有一条路径而并联电路有多条路径的区别。这是电学学习中最重要的基础概念之一。',
+        '动手搭建串联和并联两种电路，对比观察灯泡亮度的差异！参与者将直观理解串联电路中电流只有一条路径而并联电路有多条路径的区别。这是电学学习中最重要的基础概念之一。',
         v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_electronics.webp',
         ARRAY['串联','并联','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -210,7 +210,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '简易报警器',
-        '用蜂鸣器和简易开关制作一个门窗报警器，当门被打开时会发出响亮的警报声！孩子将学习蜂鸣器的使用方法和常闭开关的原理。这个项目将电子知识应用到实际生活场景中，非常有实用价值。',
+        '用蜂鸣器和简易开关制作一个门窗报警器，当门被打开时会发出响亮的警报声！参与者将学习蜂鸣器的使用方法和常闭开关的原理。这个项目将电子知识应用到实际生活场景中，非常有实用价值。',
         v_author_id, v_sub_id, 3, 35, 'approved', '/projects/tech_electronics.webp',
         ARRAY['蜂鸣器','开关','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -235,7 +235,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '光控小夜灯',
-        '用光敏电阻制作一个天黑自动亮灯、天亮自动灭灯的智能小夜灯！孩子将了解传感器如何感知环境变化并控制电路。光敏电阻是最容易理解的传感器之一，这个项目让孩子初步认识自动控制的概念。',
+        '用光敏电阻制作一个天黑自动亮灯、天亮自动灭灯的智能小夜灯！参与者将了解传感器如何感知环境变化并控制电路。光敏电阻是最容易理解的传感器之一，这个项目让参与者初步认识自动控制的概念。',
         v_author_id, v_sub_id, 3, 40, 'approved', '/projects/tech_electronics.webp',
         ARRAY['光敏电阻','传感器','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -260,7 +260,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '电磁铁起重机',
-        '用铁钉和漆包线自制电磁铁，再搭建成一台能吸起回形针的小起重机！孩子将了解电流通过线圈产生磁场的原理。通过改变线圈圈数和电流大小，探究影响电磁铁磁力强弱的因素。',
+        '用铁钉和漆包线自制电磁铁，再搭建成一台能吸起回形针的小起重机！参与者将了解电流通过线圈产生磁场的原理。通过改变线圈圈数和电流大小，探究影响电磁铁磁力强弱的因素。',
         v_author_id, v_sub_id, 3, 40, 'approved', '/projects/tech_electronics.webp',
         ARRAY['电磁铁','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -285,7 +285,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '摩尔斯电码通信器',
-        '制作一个能发出长短信号的摩尔斯电码通信器，用灯光或声音传递秘密消息！孩子将学习数字编码的基本概念，了解信息是如何用简单的点和划来表达的。这是通信技术最早期的形式。',
+        '制作一个能发出长短信号的摩尔斯电码通信器，用灯光或声音传递秘密消息！参与者将学习数字编码的基本概念，了解信息是如何用简单的点和划来表达的。这是通信技术最早期的形式。',
         v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_electronics.webp',
         ARRAY['电报','编码','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -311,7 +311,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'Arduino LED 跑马灯',
-        '用Arduino开发板控制一排LED灯珠依次点亮形成跑马灯效果！孩子将第一次接触编程控制硬件的概念，学习如何用简单的代码让LED按照自己设计的模式闪烁。这是进入创客世界的第一步。',
+        '用Arduino开发板控制一排LED灯珠依次点亮形成跑马灯效果！参与者将第一次接触编程控制硬件的概念，学习如何用简单的代码让LED按照自己设计的模式闪烁。这是进入创客世界的第一步。',
         v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_electronics.webp',
         ARRAY['Arduino','编程','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -337,7 +337,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '触摸感应灯',
-        '制作一个用手指触摸金属片就能控制亮灭的感应灯！孩子将了解人体也是导体、能改变电路电容值的有趣原理。触摸感应是智能手机屏幕的基础技术，通过这个项目初步认识电容感应的概念。',
+        '制作一个用手指触摸金属片就能控制亮灭的感应灯！参与者将了解人体也是导体、能改变电路电容值的有趣原理。触摸感应是智能手机屏幕的基础技术，通过这个项目初步认识电容感应的概念。',
         v_author_id, v_sub_id, 4, 45, 'approved', '/projects/tech_electronics.webp',
         ARRAY['电容感应','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -362,7 +362,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '简易电子琴',
-        '用蜂鸣器和按钮制作一个能弹奏不同音调的简易电子琴！孩子将了解声音的高低由频率决定的原理，学习如何用电路产生不同频率的蜂鸣声来模拟音符。把物理声学和电子制作结合在一起。',
+        '用蜂鸣器和按钮制作一个能弹奏不同音调的简易电子琴！参与者将了解声音的高低由频率决定的原理，学习如何用电路产生不同频率的蜂鸣声来模拟音符。把物理声学和电子制作结合在一起。',
         v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_electronics.webp',
         ARRAY['蜂鸣器','频率','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -388,7 +388,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '温度感应风扇',
-        '用温度传感器和小风扇制作一个温度升高自动开启的智能风扇！孩子将学习模拟传感器的读取方法和条件判断编程。当周围温度超过设定值时风扇自动转起来，模拟真实的智能家电控制逻辑。',
+        '用温度传感器和小风扇制作一个温度升高自动开启的智能风扇！参与者将学习模拟传感器的读取方法和条件判断编程。当周围温度超过设定值时风扇自动转起来，模拟真实的智能家电控制逻辑。',
         v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_electronics.webp',
         ARRAY['传感器','Arduino','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -414,7 +414,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         'Arduino 气象站',
-        '用Arduino和多种传感器搭建一个能测量温度、湿度和气压的小型气象站！孩子将学习多个传感器的协同工作方式和数据采集的基本方法。可以连续记录天气数据，像真正的气象员一样观测气候变化。',
+        '用Arduino和多种传感器搭建一个能测量温度、湿度和气压的小型气象站！参与者将学习多个传感器的协同工作方式和数据采集的基本方法。可以连续记录天气数据，像真正的气象员一样观测气候变化。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/tech_electronics.webp',
         ARRAY['Arduino','多传感器','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -441,7 +441,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '红外遥控小车',
-        '用红外遥控器和接收模块控制一辆自制小车的前进、后退和转弯！孩子将学习红外通信的原理和电机驱动的方法。这个项目综合了机械结构搭建、电路连接和编程控制，是一个综合性很强的挑战。',
+        '用红外遥控器和接收模块控制一辆自制小车的前进、后退和转弯！参与者将学习红外通信的原理和电机驱动的方法。这个项目综合了机械结构搭建、电路连接和编程控制，是一个综合性很强的挑战。',
         v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_electronics.webp',
         ARRAY['红外','遥控','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -468,7 +468,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '超声波测距仪',
-        '用超声波传感器制作一个能精确测量距离的电子测距仪！孩子将学习声波反射测距的原理，理解"发射-反射-接收"的计时测距方法。还可以加入蜂鸣器做成倒车雷达，距离越近蜂鸣越急促。',
+        '用超声波传感器制作一个能精确测量距离的电子测距仪！参与者将学习声波反射测距的原理，理解"发射-反射-接收"的计时测距方法。还可以加入蜂鸣器做成倒车雷达，距离越近蜂鸣越急促。',
         v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_electronics.webp',
         ARRAY['超声波','Arduino','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -494,7 +494,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '蓝牙音箱制作',
-        '用蓝牙音频接收模块和功放板组装一个真正能用手机连接播放音乐的蓝牙音箱！孩子将了解无线通信、音频信号放大和扬声器发声的完整链路。这是一个实用性极高的项目，完成后可以日常使用。',
+        '用蓝牙音频接收模块和功放板组装一个真正能用手机连接播放音乐的蓝牙音箱！参与者将了解无线通信、音频信号放大和扬声器发声的完整链路。这是一个实用性极高的项目，完成后可以日常使用。',
         v_author_id, v_sub_id, 5, 90, 'approved', '/projects/tech_electronics.webp',
         ARRAY['蓝牙模块','音频','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
@@ -506,7 +506,7 @@ BEGIN
         (v_project_id, '3.7V锂电池 1块', 4),
         (v_project_id, 'TP4056 充电模块 1个', 5),
         (v_project_id, '电源开关 1个', 6),
-        (v_project_id, '导线和焊接工具（需家长帮助）', 7),
+        (v_project_id, '导线和焊接工具（需成年人帮助）', 7),
         (v_project_id, '木盒或纸盒（音箱外壳）', 8);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES

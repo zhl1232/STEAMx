@@ -95,7 +95,7 @@ BEGIN
             v_random_user := v_users[1 + floor(random() * array_length(v_users, 1))::int];
             IF (random() < 0.3 AND array_length(v_parent_ids, 1) > 0) THEN
                 v_random_parent := v_parent_ids[1 + floor(random() * array_length(v_parent_ids, 1))::int];
-                v_content := '确实很有趣，我也试了一下，孩子很喜欢。';
+                v_content := '确实很有趣，我也试了一下，很喜欢。';
                 INSERT INTO public.comments (project_id, author_id, parent_id, content) VALUES (v_proj_id1, v_random_user, v_random_parent, v_content);
             ELSE
                 v_content := '这个项目很实用，我们跟着做了一遍，步骤清晰。推荐！';
@@ -112,15 +112,15 @@ BEGIN
     -- B1. 话题1 - 科学兴趣（已有基础回复，追加更多并建链）
     IF v_discuss_id1 IS NOT NULL THEN
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id1, v_user_charlie, '我们家用的是「周末实验日」，每周末做一个网站上的小项目，孩子会提前催。', now() - interval '3 days')
+        VALUES (v_discuss_id1, v_user_charlie, '我们家用的是「周末实验日」，每周末做一个网站上的小项目，都会提前期待。', now() - interval '3 days')
         RETURNING id INTO v_rid; v_reply_ids1 := array_append(v_reply_ids1, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
         VALUES (v_discuss_id1, v_user_eve, v_rid, v_user_charlie, 'charlie', 'Charlie 这个方法好，我们也试试固定一个日子。', now() - interval '3 days');
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id1, v_user_teacher, '补充一点：可以从孩子已经喜欢的动画或游戏切入，找相关的科学小实验，兴趣会高很多。', now() - interval '2 days')
+        VALUES (v_discuss_id1, v_user_teacher, '补充一点：可以从对方已经喜欢的动画或游戏切入，找相关的科学小实验，兴趣会高很多。', now() - interval '2 days')
         RETURNING id INTO v_rid; v_reply_ids1 := array_append(v_reply_ids1, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id1, v_user_alice, '还有博物馆和科技馆的亲子活动，报名参加几次，回来再自己做类似的小制作。', now() - interval '2 days')
+        VALUES (v_discuss_id1, v_user_alice, '还有博物馆和科技馆里适合结伴参加的活动，报名参加几次，回来再自己做类似的小制作。', now() - interval '2 days')
         RETURNING id INTO v_rid; v_reply_ids1 := array_append(v_reply_ids1, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
         VALUES (v_discuss_id1, v_user_bob, v_rid, v_user_alice, 'alice', 'Alice 说得对，我们上次去了科技馆回来就做了静电球小实验。', now() - interval '1 day');
@@ -140,7 +140,7 @@ BEGIN
         VALUES (v_discuss_id2, v_user_eve, '坐等内部图！想学楼梯和塔楼的结构。', now() - interval '1 day')
         RETURNING id INTO v_rid; v_reply_ids2 := array_append(v_reply_ids2, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id2, v_user_teacher, '可以发到「作品展示」区，让更多小朋友参考。', now() - interval '1 day')
+        VALUES (v_discuss_id2, v_user_teacher, '可以发到「作品展示」区，让更多人参考。', now() - interval '1 day')
         RETURNING id INTO v_rid; v_reply_ids2 := array_append(v_reply_ids2, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
         VALUES (v_discuss_id2, v_user_charlie, v_rid, v_user_teacher, 'teacher', '好的老师，我整理一下照片就发。', now() - interval '1 day');
@@ -149,7 +149,7 @@ BEGIN
     -- B3. 话题3 - 水火箭
     IF v_discuss_id3 IS NOT NULL THEN
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id3, v_user_alice, '我儿子上次也是偏，后来发现是打气嘴和瓶口没对正，重新粘了一次就好了。', now() - interval '1 day')
+        VALUES (v_discuss_id3, v_user_alice, '我上次也是偏，后来发现是打气嘴和瓶口没对正，重新粘了一次就好了。', now() - interval '1 day')
         RETURNING id INTO v_rid; v_reply_ids3 := array_append(v_reply_ids3, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
         VALUES (v_discuss_id3, v_user_eve, '尾翼用硬卡纸的话要两面贴胶带防水，不然飞几次就软了也会偏。', now() - interval '1 day')
@@ -169,7 +169,7 @@ BEGIN
         INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
         VALUES (v_discuss_id4, v_user_eve, v_rid, v_user_charlie, 'charlie', '对，工作日去人少很多。', now() - interval '1 day');
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-        VALUES (v_discuss_id4, v_user_david, '一楼还有简单机械和齿轮区，可以动手转，孩子能玩很久。', now() - interval '1 day')
+        VALUES (v_discuss_id4, v_user_david, '一楼还有简单机械和齿轮区，可以动手转，能玩很久。', now() - interval '1 day')
         RETURNING id INTO v_rid; v_reply_ids4 := array_append(v_reply_ids4, v_rid);
         INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
         VALUES (v_discuss_id4, v_user_teacher, '建议上午去，下午有些项目会排长队。', now() - interval '1 day')
@@ -182,7 +182,7 @@ BEGIN
         '我们也是从简单实验开始入门的。',
         '科学兴趣要慢慢培养，不能急。',
         '多鼓励、少批评很有用。',
-        '可以跟孩子一起选下一个做什么项目。',
+        '可以一起选下一个做什么项目。',
         '这个网站上的项目很适合入门。',
         '城堡内部图什么时候发呀，等了好久。',
         '乐高搭完可以拍个延时视频分享。',

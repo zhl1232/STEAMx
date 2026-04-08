@@ -424,7 +424,7 @@ BEGIN
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
         '多肉植物繁殖实验',
-        '用叶插和分株两种方法繁殖多肉植物，比较不同繁殖方式的成功率。了解无性繁殖的原理，亲手培育新的多肉宝宝。',
+        '用叶插和分株两种方法繁殖多肉植物，比较不同繁殖方式的成功率。了解无性繁殖的原理，亲手培育新的多肉植株。',
         v_author_id, v_sub_id, 3, 30, 'approved', '/projects/science_plants.webp',
         ARRAY['多肉','扦插','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -564,7 +564,7 @@ BEGIN
         (v_project_id, '酒精灯或蜡烛', 5),
         (v_project_id, '消毒棉球和医用酒精', 6),
         (v_project_id, '镊子和刀片（消毒过）', 7),
-        (v_project_id, '高压锅（家长协助）', 8);
+        (v_project_id, '高压锅（成年人协助）', 8);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '制备培养基', '将琼脂粉、白砂糖和水混合加热溶解，倒入玻璃瓶中，用高压锅灭菌。', 1),

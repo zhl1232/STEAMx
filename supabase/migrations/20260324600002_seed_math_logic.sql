@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 七巧板几何挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('七巧板几何挑战', '用七块简单的几何板拼出各种有趣的图形，锻炼空间想象力和几何直觉。孩子将在拼拼摆摆中认识三角形、正方形和平行四边形，体会"部分组成整体"的数学思想。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['七巧板','拼图','数学','逻辑'], '数学')
+    VALUES ('七巧板几何挑战', '用七块简单的几何板拼出各种有趣的图形，锻炼空间想象力和几何直觉。参与者将在拼拼摆摆中认识三角形、正方形和平行四边形，体会"部分组成整体"的数学思想。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/sensory_box.webp', ARRAY['七巧板','拼图','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -35,7 +35,7 @@ BEGIN
 
     -- Project 2: 简易迷宫设计
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('简易迷宫设计', '自己动手在方格纸上设计一座迷宫，并邀请朋友来挑战。在设计过程中孩子将学会规划路径、设置死胡同和岔路口，培养逻辑规划和空间推理能力。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['迷宫','路径','数学','逻辑'], '数学')
+    VALUES ('简易迷宫设计', '自己动手在方格纸上设计一座迷宫，并邀请朋友来挑战。在设计过程中参与者将学会规划路径、设置死胡同和岔路口，培养逻辑规划和空间推理能力。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/sensory_box.webp', ARRAY['迷宫','路径','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -53,7 +53,7 @@ BEGIN
 
     -- Project 3: 找规律填数
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('找规律填数', '观察一组数字序列，发现隐藏的规律并填出缺失的数字。这个经典的数学游戏训练孩子的观察力和归纳推理能力，从简单的等差数列到有趣的斐波那契数列逐步进阶。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['规律','推理','数学','逻辑'], '数学')
+    VALUES ('找规律填数', '观察一组数字序列，发现隐藏的规律并填出缺失的数字。这个经典的数学游戏训练参与者的观察力和归纳推理能力，从简单的等差数列到有趣的斐波那契数列逐步进阶。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['规律','推理','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -70,7 +70,7 @@ BEGIN
 
     -- Project 4: 图形推理游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('图形推理游戏', '通过观察图形的形状、颜色、大小和方向变化规律，推理出下一个图形是什么。这类非语言推理游戏能有效提升孩子的视觉逻辑能力和抽象思维水平。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['图形','找规律','数学','逻辑'], '数学')
+    VALUES ('图形推理游戏', '通过观察图形的形状、颜色、大小和方向变化规律，推理出下一个图形是什么。这类非语言推理游戏能有效提升参与者的视觉逻辑能力和抽象思维水平。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/sensory_box.webp', ARRAY['图形','找规律','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -80,10 +80,10 @@ BEGIN
         (v_project_id, '几何模板（圆形、三角形、方形）', 4);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
-        (v_project_id, '单维度变化', '画出只有一个属性变化的图形序列，例如：小圆→中圆→大圆→?（大小变化），让孩子推理下一个。', 1),
+        (v_project_id, '单维度变化', '画出只有一个属性变化的图形序列，例如：小圆→中圆→大圆→?（大小变化），让参与者推理下一个。', 1),
         (v_project_id, '双维度变化', '同时改变两个属性，例如形状和颜色交替变化：红色三角→蓝色方形→红色圆形→?，增加推理难度。', 2),
-        (v_project_id, '矩阵推理', '画一个3×3的九宫格，每行每列的图形都有规律变化，空出右下角让孩子推理应该填什么图形。', 3),
-        (v_project_id, '自己出题', '孩子根据学到的规律模式，自己设计图形推理题目，锻炼逆向思维能力。', 4),
+        (v_project_id, '矩阵推理', '画一个3×3的九宫格，每行每列的图形都有规律变化，空出右下角让参与者推理应该填什么图形。', 3),
+        (v_project_id, '自己出题', '参与者根据学到的规律模式，自己设计图形推理题目，锻炼逆向思维能力。', 4),
         (v_project_id, '生活中的图案', '观察生活中的重复图案（地砖、壁纸、织物花纹），找出其中的规律和对称性。', 5);
 
     -- Project 5: 火柴棍谜题
@@ -106,17 +106,17 @@ BEGIN
 
     -- Project 6: 逻辑推理破案
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('逻辑推理破案', '化身小侦探，通过一系列线索和条件用排除法推理出真相。孩子将学习如何从多条信息中提取关键线索，通过逻辑排除缩小范围，最终找到唯一的正确答案。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['推理','排除','数学','逻辑'], '数学')
+    VALUES ('逻辑推理破案', '化身小侦探，通过一系列线索和条件用排除法推理出真相。参与者将学习如何从多条信息中提取关键线索，通过逻辑排除缩小范围，最终找到唯一的正确答案。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['推理','排除','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
-        (v_project_id, '推理谜题卡片（家长准备或打印）', 1),
+        (v_project_id, '推理谜题卡片（成年人准备或打印）', 1),
         (v_project_id, '记录本和铅笔', 2),
         (v_project_id, '推理表格（网格法辅助工具）', 3),
         (v_project_id, '角色头像卡片（可选，增加趣味）', 4);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
-        (v_project_id, '阅读案件', '仔细阅读谜题描述，例如："三个小朋友分别喜欢不同的水果和颜色，根据线索找出每人的喜好"。', 1),
+        (v_project_id, '阅读案件', '仔细阅读谜题描述，例如："三个人分别喜欢不同的水果和颜色，根据线索找出每人的喜好"。', 1),
         (v_project_id, '整理线索', '将所有条件逐条列出，用推理表格（行列分别是人物和属性）把确定的信息先填上。', 2),
         (v_project_id, '排除推理', '根据"如果A不是…那么A就是…"的逻辑，在表格中逐步排除不可能的选项，用×标记排除项。', 3),
         (v_project_id, '验证答案', '当所有空格都填满后，回头检查每条线索是否都满足，确保推理过程没有矛盾。', 4),
@@ -141,7 +141,7 @@ BEGIN
 
     -- Project 8: 路线规划游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('路线规划游戏', '在地图上规划从起点到终点的最佳路线，考虑距离、时间和经过的地点。孩子将学习基本的路径优化思想，理解"最短路径"和"最优路径"可能并不相同。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['路径','优化','数学','逻辑'], '数学')
+    VALUES ('路线规划游戏', '在地图上规划从起点到终点的最佳路线，考虑距离、时间和经过的地点。参与者将学习基本的路径优化思想，理解"最短路径"和"最优路径"可能并不相同。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/sensory_box.webp', ARRAY['路径','优化','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -160,7 +160,7 @@ BEGIN
 
     -- Project 9: 数独进阶技巧
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数独进阶技巧', '从基本的数独规则出发，学习和掌握唯余法、排除法、区块排除等进阶解题技巧。孩子将通过系统训练提升逻辑推理的严密性，体验用策略攻克难题的成就感。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','策略','数学','逻辑'], '数学')
+    VALUES ('数独进阶技巧', '从基本的数独规则出发，学习和掌握唯余法、排除法、区块排除等进阶解题技巧。参与者将通过系统训练提升逻辑推理的严密性，体验用策略攻克难题的成就感。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','策略','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -179,7 +179,7 @@ BEGIN
 
     -- Project 10: 逻辑电路与门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('逻辑电路与门', '用简单的开关和灯泡理解与门、或门、非门的工作原理，亲手搭建基本逻辑电路。孩子将认识计算机最底层的"思考方式"——用0和1进行逻辑运算，感受数字世界的奥秘。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['与或非','逻辑','数学','逻辑'], '数学')
+    VALUES ('逻辑电路与门', '用简单的开关和灯泡理解与门、或门、非门的工作原理，亲手搭建基本逻辑电路。参与者将认识计算机最底层的"思考方式"——用0和1进行逻辑运算，感受数字世界的奥秘。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['与或非','逻辑','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -199,7 +199,7 @@ BEGIN
 
     -- Project 11: 汉诺塔手工挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('汉诺塔手工挑战', '亲手制作汉诺塔道具并挑战用最少步骤完成移动，体验这个经典的递归思维问题。孩子将在动手操作中感受到递归策略的精妙，发现移动次数与层数之间的数学规律。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['递归','策略','数学','逻辑'], '数学')
+    VALUES ('汉诺塔手工挑战', '亲手制作汉诺塔道具并挑战用最少步骤完成移动，体验这个经典的递归思维问题。参与者将在动手操作中感受到递归策略的精妙，发现移动次数与层数之间的数学规律。', v_author_id, v_sub_id, 3, 35, 'approved', '/projects/sensory_box.webp', ARRAY['递归','策略','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -218,7 +218,7 @@ BEGIN
 
     -- Project 12: 七桥问题探索
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('七桥问题探索', '重现数学史上著名的柯尼斯堡七桥问题，探索能否一次走过所有桥且每座桥只经过一次。孩子将初步接触图论的基本概念，理解欧拉如何用数学证明了这个问题的不可能性。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/sensory_box.webp', ARRAY['图论','欧拉','数学','逻辑'], '数学')
+    VALUES ('七桥问题探索', '重现数学史上著名的柯尼斯堡七桥问题，探索能否一次走过所有桥且每座桥只经过一次。参与者将初步接触图论的基本概念，理解欧拉如何用数学证明了这个问题的不可能性。', v_author_id, v_sub_id, 3, 30, 'approved', '/projects/sensory_box.webp', ARRAY['图论','欧拉','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -236,7 +236,7 @@ BEGIN
 
     -- Project 13: 流程图设计
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('流程图设计', '学习用流程图的方式描述日常生活中的决策过程和操作步骤，培养编程思维。孩子将掌握顺序、分支和循环三种基本结构，为未来学习编程打下坚实的逻辑基础。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['编程思维','流程','数学','逻辑'], '数学')
+    VALUES ('流程图设计', '学习用流程图的方式描述日常生活中的决策过程和操作步骤，培养编程思维。参与者将掌握顺序、分支和循环三种基本结构，为未来学习编程打下坚实的逻辑基础。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['编程思维','流程','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -256,24 +256,24 @@ BEGIN
 
     -- Project 14: 逻辑悖论探索
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('逻辑悖论探索', '认识和讨论经典的逻辑悖论，如说谎者悖论、理发师悖论等，感受逻辑推理的奇妙边界。孩子将在思维碰撞中体会到逻辑的精妙与局限，激发对哲学和数学基础的好奇心。', v_author_id, v_sub_id, 4, 35, 'approved', '/projects/sensory_box.webp', ARRAY['悖论','哲学','数学','逻辑'], '数学')
+    VALUES ('逻辑悖论探索', '认识和讨论经典的逻辑悖论，如说谎者悖论、理发师悖论等，感受逻辑推理的奇妙边界。参与者将在思维碰撞中体会到逻辑的精妙与局限，激发对哲学和数学基础的好奇心。', v_author_id, v_sub_id, 4, 35, 'approved', '/projects/sensory_box.webp', ARRAY['悖论','哲学','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
         (v_project_id, '笔记本和铅笔', 1),
-        (v_project_id, '悖论故事卡片（家长准备）', 2),
+        (v_project_id, '悖论故事卡片（成年人准备）', 2),
         (v_project_id, '彩色便利贴', 3);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '说谎者悖论', '思考这句话："我说的这句话是假的"——如果它是真的，那它就是假的；如果它是假的，那它就是真的。讨论为什么会产生矛盾。', 1),
         (v_project_id, '理发师悖论', '一个小镇的理发师声称"只给不自己理发的人理发"——那他该不该给自己理发？用画图的方式分析两种情况都会矛盾。', 2),
-        (v_project_id, '鳄鱼悖论', '鳄鱼抓走了孩子对妈妈说"猜猜我会不会还你孩子，猜对了就还"——如果妈妈说"你不会还"，鳄鱼会怎样？讨论这个两难困境。', 3),
+        (v_project_id, '鳄鱼悖论', '鳄鱼抓走了一个人并对对方的妈妈说"猜猜我会不会把人还给你，猜对了就还"——如果对方回答"你不会还"，鳄鱼会怎样？讨论这个两难困境。', 3),
         (v_project_id, '寻找生活中的悖论', '想想生活中类似的矛盾情境：例如"别听任何人的建议"本身就是一条建议，收集并记录这些有趣的例子。', 4),
         (v_project_id, '总结与反思', '讨论悖论产生的原因（自我指涉、无限循环等），了解数学家和哲学家们如何看待和处理这些问题。', 5);
 
     -- Project 15: 博弈树分析
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('博弈树分析', '用树状图分析简单的二人博弈游戏（如取石子、井字棋），找出必胜策略。孩子将学习如何系统地列举所有可能情况，用逆推法从结果反推出最优决策。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['博弈','决策','数学','逻辑'], '数学')
+    VALUES ('博弈树分析', '用树状图分析简单的二人博弈游戏（如取石子、井字棋），找出必胜策略。参与者将学习如何系统地列举所有可能情况，用逆推法从结果反推出最优决策。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/sensory_box.webp', ARRAY['博弈','决策','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -293,7 +293,7 @@ BEGIN
 
     -- Project 16: 约瑟夫环问题
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('约瑟夫环问题', '通过模拟约瑟夫环的报数淘汰游戏，探索循环计数中的数学规律。孩子将亲手实验并记录数据，发现最后幸存者位置与总人数之间的神奇数学关系。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数学','循环','数学','逻辑'], '数学')
+    VALUES ('约瑟夫环问题', '通过模拟约瑟夫环的报数淘汰游戏，探索循环计数中的数学规律。参与者将亲手实验并记录数据，发现最后幸存者位置与总人数之间的神奇数学关系。', v_author_id, v_sub_id, 4, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数学','循环','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -312,7 +312,7 @@ BEGIN
 
     -- Project 17: 自制密室逃脱谜题
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自制密室逃脱谜题', '设计一套完整的密室逃脱谜题，包含密码锁、线索链和多种逻辑解谜环节。这是一个综合性极强的项目，孩子需要运用所学的各种逻辑推理技能来创造一场精彩的解谜冒险。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/sensory_box.webp', ARRAY['综合','设计','数学','逻辑'], '数学')
+    VALUES ('自制密室逃脱谜题', '设计一套完整的密室逃脱谜题，包含密码锁、线索链和多种逻辑解谜环节。这是一个综合性极强的项目，参与者需要运用所学的各种逻辑推理技能来创造一场精彩的解谜冒险。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/sensory_box.webp', ARRAY['综合','设计','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -335,7 +335,7 @@ BEGIN
 
     -- Project 18: NP 问题趣味入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('NP 问题趣味入门', '通过亲身体验背包问题和图着色问题，感受"容易验证但难以求解"的NP问题的本质。孩子将初步了解计算复杂度的概念，理解为什么有些看似简单的问题连超级计算机也头疼。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['计算复杂度','数学','逻辑'], '数学')
+    VALUES ('NP 问题趣味入门', '通过亲身体验背包问题和图着色问题，感受"容易验证但难以求解"的NP问题的本质。参与者将初步了解计算复杂度的概念，理解为什么有些看似简单的问题连超级计算机也头疼。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['计算复杂度','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -355,7 +355,7 @@ BEGIN
 
     -- Project 19: 图论入门：网络分析
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('图论入门：网络分析', '用图论的方法分析社交网络和交通网络，学习节点、边、度数等基本概念。孩子将把抽象的数学理论与真实的网络世界联系起来，理解网络科学的基本思想。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['图论','度','数学','逻辑'], '数学')
+    VALUES ('图论入门：网络分析', '用图论的方法分析社交网络和交通网络，学习节点、边、度数等基本概念。参与者将把抽象的数学理论与真实的网络世界联系起来，理解网络科学的基本思想。', v_author_id, v_sub_id, 5, 45, 'approved', '/projects/sensory_box.webp', ARRAY['图论','度','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -375,7 +375,7 @@ BEGIN
 
     -- Project 20: 算法思维笔记
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('算法思维笔记', '通过扑克牌排序、字典查词等日常活动，亲身体验和理解排序、搜索等基本算法思想。孩子将学会用可视化的方式记录算法步骤，建立起计算思维的基本框架。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['算法','可视化','数学','逻辑'], '数学')
+    VALUES ('算法思维笔记', '通过扑克牌排序、字典查词等日常活动，亲身体验和理解排序、搜索等基本算法思想。参与者将学会用可视化的方式记录算法步骤，建立起计算思维的基本框架。', v_author_id, v_sub_id, 5, 50, 'approved', '/projects/sensory_box.webp', ARRAY['算法','可视化','数学','逻辑'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

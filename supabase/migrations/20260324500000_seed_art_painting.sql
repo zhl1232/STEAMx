@@ -24,11 +24,11 @@ BEGIN
         (v_project_id, '水粉颜料或丙烯颜料', 2),
         (v_project_id, '调色盘或一次性纸盘', 3),
         (v_project_id, '白色卡纸', 4),
-        (v_project_id, '菜刀（需家长协助）', 5),
+        (v_project_id, '菜刀（需成年人协助）', 5),
         (v_project_id, '旧报纸（铺桌面防污）', 6);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
-        (v_project_id, '准备蔬菜印章', '请家长将蔬菜横切或纵切，露出横截面纹理，用纸巾吸干水分。', 1),
+        (v_project_id, '准备蔬菜印章', '请成年人将蔬菜横切或纵切，露出横截面纹理，用纸巾吸干水分。', 1),
         (v_project_id, '调配颜料', '在调色盘中倒入不同颜色的颜料，适当加水调到不稀不稠的程度。', 2),
         (v_project_id, '蘸取印制', '将蔬菜截面均匀蘸上颜料，轻轻按压在卡纸上，稳住几秒后提起。', 3),
         (v_project_id, '自由创作', '用不同蔬菜和颜色组合排列，创作花朵、动物或抽象图案。', 4),
@@ -36,11 +36,11 @@ BEGIN
 
     -- Project 2: 手指画创作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('手指画创作', '用手指蘸取颜料直接在纸上涂抹和点画，感受色彩与手指触感的结合。这是最原始也是最自由的绘画方式，非常适合激发孩子的创造力和色彩感知。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/art_painting.webp', ARRAY['色彩','涂鸦','艺术','绘画'], '艺术')
+    VALUES ('手指画创作', '用手指蘸取颜料直接在纸上涂抹和点画，感受色彩与手指触感的结合。这是最原始也是最自由的绘画方式，非常适合激发参与者的创造力和色彩感知。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/art_painting.webp', ARRAY['色彩','涂鸦','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
-        (v_project_id, '儿童安全手指画颜料（多色）', 1),
+        (v_project_id, '安全手指画颜料（多色）', 1),
         (v_project_id, '厚卡纸或水彩纸', 2),
         (v_project_id, '调色盘', 3),
         (v_project_id, '湿巾或湿毛巾', 4),
@@ -91,7 +91,7 @@ BEGIN
 
     -- Project 5: 自然色彩采集本
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自然色彩采集本', '带上画纸走进大自然，用颜料调配出与花朵、泥土、天空相匹配的颜色，制作一本自然色卡。这个项目训练孩子对色彩的敏锐观察力和精确调色能力。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/art_painting.webp', ARRAY['色彩','观察','艺术','绘画'], '艺术')
+    VALUES ('自然色彩采集本', '带上画纸走进大自然，用颜料调配出与花朵、泥土、天空相匹配的颜色，制作一本自然色卡。这个项目训练参与者对色彩的敏锐观察力和精确调色能力。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/art_painting.webp', ARRAY['色彩','观察','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -111,7 +111,7 @@ BEGIN
 
     -- Project 6: 对称蝴蝶画
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('对称蝴蝶画', '在纸的一半涂上颜料后对折按压，打开后得到一只色彩绚丽的对称蝴蝶。这种印染技法让孩子直观理解对称的数学概念，同时享受色彩融合的惊喜效果。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/art_painting.webp', ARRAY['对称','印染','艺术','绘画'], '艺术')
+    VALUES ('对称蝴蝶画', '在纸的一半涂上颜料后对折按压，打开后得到一只色彩绚丽的对称蝴蝶。这种印染技法让参与者直观理解对称的数学概念，同时享受色彩融合的惊喜效果。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/art_painting.webp', ARRAY['对称','印染','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -150,7 +150,7 @@ BEGIN
 
     -- Project 8: 水彩渐变天空
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('水彩渐变天空', '用水彩的湿画法画出从深蓝到橙红的渐变天空，表现日出或日落的壮美。孩子将学会控制水分和色彩流动，掌握水彩画中最基本也最迷人的渐变技法。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/art_painting.webp', ARRAY['水彩','渐变','艺术','绘画'], '艺术')
+    VALUES ('水彩渐变天空', '用水彩的湿画法画出从深蓝到橙红的渐变天空，表现日出或日落的壮美。参与者将学会控制水分和色彩流动，掌握水彩画中最基本也最迷人的渐变技法。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/art_painting.webp', ARRAY['水彩','渐变','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -208,7 +208,7 @@ BEGIN
 
     -- Project 11: 水彩植物写生
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('水彩植物写生', '选一株真实的花草进行观察写生，用水彩表现植物的形态和色彩变化。写生训练孩子"看到什么画什么"的观察能力，是绘画进阶的重要基础练习。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/art_painting.webp', ARRAY['水彩','写生','艺术','绘画'], '艺术')
+    VALUES ('水彩植物写生', '选一株真实的花草进行观察写生，用水彩表现植物的形态和色彩变化。写生训练参与者"看到什么画什么"的观察能力，是绘画进阶的重要基础练习。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/art_painting.webp', ARRAY['水彩','写生','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -362,7 +362,7 @@ BEGIN
         (v_project_id, '人物照片或请家人做模特', 6);
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
-        (v_project_id, '人体比例学习', '了解人体基本比例：成人约7-8个头高，儿童约5-6个头高，学会用头部大小衡量全身比例。', 1),
+        (v_project_id, '人体比例学习', '了解人体基本比例：成人约7-8个头高，不同成长阶段的人体比例会有所差异，学会用头部大小衡量全身比例。', 1),
         (v_project_id, '动态线练习', '快速画出人物的动态线——从头顶到脚底的一条主要曲线，抓住姿态的核心动势。', 2),
         (v_project_id, '铅笔速写', '用铅笔在3分钟内快速勾出人物的大致轮廓和主要体块关系，不拘泥于细节。', 3),
         (v_project_id, '水彩铺色', '用大笔蘸取肤色为面部和手臂铺底色，趁湿加入衣服的主要颜色，让色彩自然渗透。', 4),

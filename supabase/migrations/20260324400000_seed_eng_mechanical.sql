@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 纸板陀螺
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板陀螺', '用硬纸板和牙签制作一个旋转稳定的陀螺，探索重心与旋转的关系。孩子将在制作和调试过程中理解重心位置如何影响陀螺的平衡与旋转时间。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/eng_mechanical.webp', ARRAY['旋转','重心','工程','机械'], '工程')
+    VALUES ('纸板陀螺', '用硬纸板和牙签制作一个旋转稳定的陀螺，探索重心与旋转的关系。参与者将在制作和调试过程中理解重心位置如何影响陀螺的平衡与旋转时间。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/eng_mechanical.webp', ARRAY['旋转','重心','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -35,7 +35,7 @@ BEGIN
 
     -- Project 2: 橡皮筋动力风扇
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('橡皮筋动力风扇', '用橡皮筋的弹性势能驱动一个纸质风扇叶片旋转，感受储能与释放的过程。孩子将直观地理解弹性势能如何转化为动能，体验简易动力机械的工作方式。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性势能','工程','机械'], '工程')
+    VALUES ('橡皮筋动力风扇', '用橡皮筋的弹性势能驱动一个纸质风扇叶片旋转，感受储能与释放的过程。参与者将直观地理解弹性势能如何转化为动能，体验简易动力机械的工作方式。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性势能','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -54,7 +54,7 @@ BEGIN
 
     -- Project 3: 简易纸弹簧
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('简易纸弹簧', '用两条纸条通过交替折叠的方式制作一个能伸缩弹跳的纸弹簧。这个项目让孩子在折叠中体验弹性结构的原理，理解折叠如何赋予纸张弹性恢复力。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性','折叠','工程','机械'], '工程')
+    VALUES ('简易纸弹簧', '用两条纸条通过交替折叠的方式制作一个能伸缩弹跳的纸弹簧。这个项目让参与者在折叠中体验弹性结构的原理，理解折叠如何赋予纸张弹性恢复力。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性','折叠','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -71,7 +71,7 @@ BEGIN
 
     -- Project 4: 纸板抽签机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板抽签机', '用纸板制作一个可以随机抽出纸签的小机关，旋转手柄即可弹出一根签条。孩子将在搭建过程中接触简单机构的设计思路，体验随机机制的趣味。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构','随机','工程','机械'], '工程')
+    VALUES ('纸板抽签机', '用纸板制作一个可以随机抽出纸签的小机关，旋转手柄即可弹出一根签条。参与者将在搭建过程中接触简单机构的设计思路，体验随机机制的趣味。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构','随机','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -90,7 +90,7 @@ BEGIN
 
     -- Project 5: 橡皮筋动力车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('橡皮筋动力车', '利用橡皮筋的弹性势能驱动一辆纸板小车前进，学习能量转化和简单传动原理。孩子将通过调整橡皮筋的拧紧圈数来控制行驶距离，感受储能与动力传动的关系。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性势能','传动','工程','机械'], '工程')
+    VALUES ('橡皮筋动力车', '利用橡皮筋的弹性势能驱动一辆纸板小车前进，学习能量转化和简单传动原理。参与者将通过调整橡皮筋的拧紧圈数来控制行驶距离，感受储能与动力传动的关系。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_mechanical.webp', ARRAY['弹性势能','传动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -111,7 +111,7 @@ BEGIN
 
     -- Project 6: 纸板齿轮联动
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板齿轮联动', '用硬纸板制作两个相互咬合的齿轮，转动一个齿轮带动另一个旋转。孩子将直观地理解齿轮传动的基本原理，观察两个齿轮旋转方向相反的有趣现象。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_mechanical.webp', ARRAY['齿轮','传动','工程','机械'], '工程')
+    VALUES ('纸板齿轮联动', '用硬纸板制作两个相互咬合的齿轮，转动一个齿轮带动另一个旋转。参与者将直观地理解齿轮传动的基本原理，观察两个齿轮旋转方向相反的有趣现象。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/eng_mechanical.webp', ARRAY['齿轮','传动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -131,7 +131,7 @@ BEGIN
 
     -- Project 7: 弹珠轨道入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹珠轨道入门', '用纸板和纸筒搭建一条简易弹珠轨道，让弹珠从高处顺畅滚到低处。孩子将在搭建中学习重力势能转化为动能的过程，培养空间规划能力。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','重力','工程','机械'], '工程')
+    VALUES ('弹珠轨道入门', '用纸板和纸筒搭建一条简易弹珠轨道，让弹珠从高处顺畅滚到低处。参与者将在搭建中学习重力势能转化为动能的过程，培养空间规划能力。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','重力','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -151,7 +151,7 @@ BEGIN
 
     -- Project 8: 翻转木偶机关
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('翻转木偶机关', '制作一个凸轮驱动的纸板木偶，转动手柄木偶就能做出上下翻转的动作。孩子将学习凸轮机构如何把旋转运动变成上下往复运动，感受机械联动的趣味。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/eng_mechanical.webp', ARRAY['凸轮','联动','工程','机械'], '工程')
+    VALUES ('翻转木偶机关', '制作一个凸轮驱动的纸板木偶，转动手柄木偶就能做出上下翻转的动作。参与者将学习凸轮机构如何把旋转运动变成上下往复运动，感受机械联动的趣味。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/eng_mechanical.webp', ARRAY['凸轮','联动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -172,7 +172,7 @@ BEGIN
 
     -- Project 9: 纸板弹珠机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板弹珠机', '用纸板制作一台完整的弹珠台游戏机，包含弹射器、障碍物和得分区域。孩子将综合运用弹射、反弹等机械原理，体验从设计到搭建完整机械装置的成就感。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机械','弹射','工程','机械'], '工程')
+    VALUES ('纸板弹珠机', '用纸板制作一台完整的弹珠台游戏机，包含弹射器、障碍物和得分区域。参与者将综合运用弹射、反弹等机械原理，体验从设计到搭建完整机械装置的成就感。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机械','弹射','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -193,7 +193,7 @@ BEGIN
 
     -- Project 10: 凸轮玩具制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('凸轮玩具制作', '设计并制作一个凸轮驱动的场景玩具，转动手柄可以让多个角色做出不同的动作。孩子将深入学习凸轮的形状如何决定运动轨迹，理解往复运动的机械原理。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_mechanical.webp', ARRAY['凸轮','往复运动','工程','机械'], '工程')
+    VALUES ('凸轮玩具制作', '设计并制作一个凸轮驱动的场景玩具，转动手柄可以让多个角色做出不同的动作。参与者将深入学习凸轮的形状如何决定运动轨迹，理解往复运动的机械原理。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_mechanical.webp', ARRAY['凸轮','往复运动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -214,7 +214,7 @@ BEGIN
 
     -- Project 11: 纸板自动贩卖机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板自动贩卖机', '用纸板制作一台能投币出货的迷你自动贩卖机，包含投币检测和推送货物的机关。孩子将学习多个简单机构的组合设计，理解联动机关的工作流程。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构','联动','工程','机械'], '工程')
+    VALUES ('纸板自动贩卖机', '用纸板制作一台能投币出货的迷你自动贩卖机，包含投币检测和推送货物的机关。参与者将学习多个简单机构的组合设计，理解联动机关的工作流程。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构','联动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -236,7 +236,7 @@ BEGIN
 
     -- Project 12: 连杆机构动物
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('连杆机构动物', '用硬纸板和铆钉制作一只能活动四肢的机械动物，拉动操控杆让它做出走路或飞翔的动作。孩子将学习连杆机构的运动传递原理，理解如何将一个动作分解为多个关节的协调运动。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/eng_mechanical.webp', ARRAY['连杆','运动','工程','机械'], '工程')
+    VALUES ('连杆机构动物', '用硬纸板和铆钉制作一只能活动四肢的机械动物，拉动操控杆让它做出走路或飞翔的动作。参与者将学习连杆机构的运动传递原理，理解如何将一个动作分解为多个关节的协调运动。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/eng_mechanical.webp', ARRAY['连杆','运动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -256,7 +256,7 @@ BEGIN
 
     -- Project 13: 液压机械臂
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('液压机械臂', '用注射器和软管搭建液压系统驱动的多关节机械臂，能够夹取和搬运物体。孩子将深入学习帕斯卡原理，亲身感受液体传递压力的强大力量以及液压系统在工程中的广泛应用。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['帕斯卡原理','工程','机械'], '工程')
+    VALUES ('液压机械臂', '用注射器和软管搭建液压系统驱动的多关节机械臂，能够夹取和搬运物体。参与者将深入学习帕斯卡原理，亲身感受液体传递压力的强大力量以及液压系统在工程中的广泛应用。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['帕斯卡原理','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -279,7 +279,7 @@ BEGIN
 
     -- Project 14: 复合齿轮传动装置
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('复合齿轮传动装置', '用纸板制作一套含有多对齿轮的传动装置，实现变速和方向改变。孩子将深入理解齿轮组的传动比概念，学习如何通过齿轮组合实现加速、减速和改变旋转方向。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['齿轮组','变速','工程','机械'], '工程')
+    VALUES ('复合齿轮传动装置', '用纸板制作一套含有多对齿轮的传动装置，实现变速和方向改变。参与者将深入理解齿轮组的传动比概念，学习如何通过齿轮组合实现加速、减速和改变旋转方向。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['齿轮组','变速','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -301,7 +301,7 @@ BEGIN
 
     -- Project 15: 弹珠过山车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹珠过山车', '搭建一条包含环形翻转、螺旋下降和跳跃飞台的弹珠过山车轨道，挑战让弹珠顺利跑完全程。孩子将综合运用重力势能、动能和能量守恒的知识来设计轨道的高度与弯度。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','能量守恒','工程','机械'], '工程')
+    VALUES ('弹珠过山车', '搭建一条包含环形翻转、螺旋下降和跳跃飞台的弹珠过山车轨道，挑战让弹珠顺利跑完全程。参与者将综合运用重力势能、动能和能量守恒的知识来设计轨道的高度与弯度。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','能量守恒','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -323,7 +323,7 @@ BEGIN
 
     -- Project 16: 自动翻页机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自动翻页机', '设计并制作一台能自动翻动书页的机械装置，利用凸轮和摩擦片实现逐页翻转。孩子将在这个综合项目中学习机构设计的思维方法，将旋转运动转化为间歇性的翻页动作。', v_author_id, v_sub_id, 4, 75, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构设计','工程','机械'], '工程')
+    VALUES ('自动翻页机', '设计并制作一台能自动翻动书页的机械装置，利用凸轮和摩擦片实现逐页翻转。参与者将在这个综合项目中学习机构设计的思维方法，将旋转运动转化为间歇性的翻页动作。', v_author_id, v_sub_id, 4, 75, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构设计','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -345,7 +345,7 @@ BEGIN
 
     -- Project 17: 多级齿轮变速箱
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('多级齿轮变速箱', '制作一个包含多个档位的齿轮变速箱，能够通过拨杆切换不同的传动比。孩子将深入理解变速箱的核心原理，学习汽车和自行车变速器是如何通过齿轮组合实现速度变换的。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_mechanical.webp', ARRAY['变速','传动比','工程','机械'], '工程')
+    VALUES ('多级齿轮变速箱', '制作一个包含多个档位的齿轮变速箱，能够通过拨杆切换不同的传动比。参与者将深入理解变速箱的核心原理，学习汽车和自行车变速器是如何通过齿轮组合实现速度变换的。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_mechanical.webp', ARRAY['变速','传动比','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -367,7 +367,7 @@ BEGIN
 
     -- Project 18: 曲柄连杆发动机模型
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('曲柄连杆发动机模型', '制作一个活塞式发动机的工作模型，展示曲柄连杆机构如何将活塞的直线往复运动转化为曲轴的旋转运动。孩子将理解汽车发动机最核心的机械原理，感受工程设计的精妙之处。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_mechanical.webp', ARRAY['曲柄连杆','活塞','工程','机械'], '工程')
+    VALUES ('曲柄连杆发动机模型', '制作一个活塞式发动机的工作模型，展示曲柄连杆机构如何将活塞的直线往复运动转化为曲轴的旋转运动。参与者将理解汽车发动机最核心的机械原理，感受工程设计的精妙之处。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_mechanical.webp', ARRAY['曲柄连杆','活塞','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -389,7 +389,7 @@ BEGIN
 
     -- Project 19: 纸板自动分拣机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板自动分拣机', '制作一台能按大小或重量自动将物品分拣到不同通道的纸板机器，体验自动化分拣的工程思维。孩子将学习如何用纯机械方式实现简单的分拣逻辑，理解工业自动化的基本概念。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['分拣','传送','工程','机械'], '工程')
+    VALUES ('纸板自动分拣机', '制作一台能按大小或重量自动将物品分拣到不同通道的纸板机器，体验自动化分拣的工程思维。参与者将学习如何用纯机械方式实现简单的分拣逻辑，理解工业自动化的基本概念。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['分拣','传送','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -412,7 +412,7 @@ BEGIN
 
     -- Project 20: 鲁布·戈德堡机械
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('鲁布·戈德堡机械', '设计并搭建一台鲁布·戈德堡连锁反应装置，用一系列精心设计的机关完成一个简单的最终任务。孩子将综合运用杠杆、斜面、齿轮、重力等所有学过的机械原理，创造一台富有想象力的连锁反应奇迹。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/eng_mechanical.webp', ARRAY['连锁反应','创意','工程','机械'], '工程')
+    VALUES ('鲁布·戈德堡机械', '设计并搭建一台鲁布·戈德堡连锁反应装置，用一系列精心设计的机关完成一个简单的最终任务。参与者将综合运用杠杆、斜面、齿轮、重力等所有学过的机械原理，创造一台富有想象力的连锁反应奇迹。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/eng_mechanical.webp', ARRAY['连锁反应','创意','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

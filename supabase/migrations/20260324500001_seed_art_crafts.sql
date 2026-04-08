@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 纸盘动物面具
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸盘动物面具', '用一次性纸盘制作各种可爱的动物面具，锻炼孩子的想象力和动手能力。通过剪、贴、涂色等手工操作，创造出独一无二的动物角色面具。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/handmade_coaster.webp', ARRAY['面具','剪贴','艺术','手工'], '艺术')
+    VALUES ('纸盘动物面具', '用一次性纸盘制作各种可爱的动物面具，锻炼参与者的想象力和动手能力。通过剪、贴、涂色等手工操作，创造出独一无二的动物角色面具。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/handmade_coaster.webp', ARRAY['面具','剪贴','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -36,7 +36,7 @@ BEGIN
 
     -- Project 2: 毛根小动物
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('毛根小动物', '用彩色毛根条（扭扭棒）弯折出各种可爱的小动物造型。毛根柔软易弯折，非常适合低龄儿童锻炼手指灵活性和空间想象力。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/handmade_coaster.webp', ARRAY['造型','弯折','艺术','手工'], '艺术')
+    VALUES ('毛根小动物', '用彩色毛根条（扭扭棒）弯折出各种可爱的小动物造型。毛根柔软易弯折，很适合用来锻炼手指灵活性和空间想象力。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/handmade_coaster.webp', ARRAY['造型','弯折','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -53,7 +53,7 @@ BEGIN
 
     -- Project 3: 纸杯电话
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸杯电话', '用两个纸杯和一根棉线制作简易电话，体验声音通过振动传播的神奇。孩子在和小伙伴通话的乐趣中，直观理解声波沿固体传导的科学原理。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/handmade_coaster.webp', ARRAY['声音传播','艺术','手工'], '艺术')
+    VALUES ('纸杯电话', '用两个纸杯和一根棉线制作简易电话，体验声音通过振动传播的神奇。参与者在和小伙伴通话的乐趣中，直观理解声波沿固体传导的科学原理。', v_author_id, v_sub_id, 1, 15, 'approved', '/projects/handmade_coaster.webp', ARRAY['声音传播','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -106,7 +106,7 @@ BEGIN
 
     -- Project 6: 风筝制作与放飞
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('风筝制作与放飞', '用竹条和轻薄纸张制作一只传统菱形风筝，在户外放飞感受风的力量。孩子将在制作和放飞中了解空气动力学基础知识，体验传统手工艺的魅力。', v_author_id, v_sub_id, 2, 60, 'approved', '/projects/handmade_coaster.webp', ARRAY['空气动力学','艺术','手工'], '艺术')
+    VALUES ('风筝制作与放飞', '用竹条和轻薄纸张制作一只传统菱形风筝，在户外放飞感受风的力量。参与者将在制作和放飞中了解空气动力学基础知识，体验传统手工艺的魅力。', v_author_id, v_sub_id, 2, 60, 'approved', '/projects/handmade_coaster.webp', ARRAY['空气动力学','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -128,7 +128,7 @@ BEGIN
 
     -- Project 7: 扎染 T 恤
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('扎染 T 恤', '用橡皮筋扎出各种花样，再浸入染料制作独一无二的扎染 T 恤。这门古老的染色工艺让孩子体验色彩的融合与渗透，每件作品都是不可复制的艺术品。', v_author_id, v_sub_id, 2, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['扎染','色彩','艺术','手工'], '艺术')
+    VALUES ('扎染 T 恤', '用橡皮筋扎出各种花样，再浸入染料制作独一无二的扎染 T 恤。这门古老的染色工艺让参与者体验色彩的融合与渗透，每件作品都是不可复制的艺术品。', v_author_id, v_sub_id, 2, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['扎染','色彩','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -148,7 +148,7 @@ BEGIN
 
     -- Project 8: 纸浆画
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸浆画', '将废旧报纸制成彩色纸浆，在画板上堆塑出立体的浮雕画作品。这种独特的创作方式让孩子在环保再利用中感受材料的可塑性，创造出富有层次感的艺术作品。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/handmade_coaster.webp', ARRAY['纸浆','浮雕','艺术','手工'], '艺术')
+    VALUES ('纸浆画', '将废旧报纸制成彩色纸浆，在画板上堆塑出立体的浮雕画作品。这种独特的创作方式让参与者在环保再利用中感受材料的可塑性，创造出富有层次感的艺术作品。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/handmade_coaster.webp', ARRAY['纸浆','浮雕','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -168,7 +168,7 @@ BEGIN
 
     -- Project 9: 毛毡小挂件
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('毛毡小挂件', '用彩色不织布（毛毡）裁剪缝制可爱的小挂件，如水果、动物或星星。通过学习基础手缝针法，培养孩子的细心和耐心，制作出可以挂在书包上的精美饰品。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/handmade_coaster.webp', ARRAY['毛毡','缝制','艺术','手工'], '艺术')
+    VALUES ('毛毡小挂件', '用彩色不织布（毛毡）裁剪缝制可爱的小挂件，如水果、动物或星星。通过学习基础手缝针法，培养参与者的细心和耐心，制作出可以挂在书包上的精美饰品。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/handmade_coaster.webp', ARRAY['毛毡','缝制','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -188,7 +188,7 @@ BEGIN
 
     -- Project 10: 皮影戏道具制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('皮影戏道具制作', '用卡纸制作可活动的皮影戏人物道具，搭建小型皮影舞台进行表演。孩子将在制作中了解中国传统皮影艺术，学习关节连接技术，并通过光影表演发挥创造力。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['皮影','光影','艺术','手工'], '艺术')
+    VALUES ('皮影戏道具制作', '用卡纸制作可活动的皮影戏人物道具，搭建小型皮影舞台进行表演。参与者将在制作中了解中国传统皮影艺术，学习关节连接技术，并通过光影表演发挥创造力。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['皮影','光影','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -210,7 +210,7 @@ BEGIN
 
     -- Project 11: 木工小板凳
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('木工小板凳', '使用基本木工工具制作一张简单实用的小板凳，学习锯、钉、磨等基础技能。这是孩子接触木工的入门项目，在安全操作中体验将木材变成家具的成就感。', v_author_id, v_sub_id, 3, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['木工','工具','艺术','手工'], '艺术')
+    VALUES ('木工小板凳', '使用基本木工工具制作一张简单实用的小板凳，学习锯、钉、磨等基础技能。这是参与者接触木工的入门项目，在安全操作中体验将木材变成家具的成就感。', v_author_id, v_sub_id, 3, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['木工','工具','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -231,7 +231,7 @@ BEGIN
 
     -- Project 12: 陶艺杯子
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('陶艺杯子', '用陶土手捏技法制作一个独特的小杯子，体验泥土在手中变成器皿的神奇过程。孩子将学习揉泥、捏塑和修整的陶艺基本功，感受这门延续数千年的古老手艺。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/handmade_coaster.webp', ARRAY['陶艺','手捏','艺术','手工'], '艺术')
+    VALUES ('陶艺杯子', '用陶土手捏技法制作一个独特的小杯子，体验泥土在手中变成器皿的神奇过程。参与者将学习揉泥、捏塑和修整的陶艺基本功，感受这门延续数千年的古老手艺。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/handmade_coaster.webp', ARRAY['陶艺','手捏','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -250,7 +250,7 @@ BEGIN
 
     -- Project 13: 刺绣入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('刺绣入门', '学习基础刺绣针法，在绣布上绣出简单的花卉或文字图案。孩子将在一针一线中培养专注力和审美能力，体验这门优雅的传统手工艺术。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['刺绣','图案','艺术','手工'], '艺术')
+    VALUES ('刺绣入门', '学习基础刺绣针法，在绣布上绣出简单的花卉或文字图案。参与者将在一针一线中培养专注力和审美能力，体验这门优雅的传统手工艺术。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['刺绣','图案','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -270,7 +270,7 @@ BEGIN
 
     -- Project 14: 蜡烛制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('蜡烛制作', '用蜡块和模具制作各种造型和颜色的手工蜡烛，还可以添加香精营造氛围。孩子将在制作中了解蜡的熔化与凝固过程，体验将液态材料变成固态艺术品的乐趣。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/handmade_coaster.webp', ARRAY['蜡烛','造型','艺术','手工'], '艺术')
+    VALUES ('蜡烛制作', '用蜡块和模具制作各种造型和颜色的手工蜡烛，还可以添加香精营造氛围。参与者将在制作中了解蜡的熔化与凝固过程，体验将液态材料变成固态艺术品的乐趣。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/handmade_coaster.webp', ARRAY['蜡烛','造型','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -290,7 +290,7 @@ BEGIN
 
     -- Project 15: 竹编小篮子
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('竹编小篮子', '用竹篾条编织一个精致的小篮子，学习中国传统竹编的基本技法。孩子将在经纬交错的编织中体会传统匠人的智慧，完成一件兼具实用性与美感的手工作品。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['竹编','编织','艺术','手工'], '艺术')
+    VALUES ('竹编小篮子', '用竹篾条编织一个精致的小篮子，学习中国传统竹编的基本技法。参与者将在经纬交错的编织中体会传统匠人的智慧，完成一件兼具实用性与美感的手工作品。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['竹编','编织','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -310,7 +310,7 @@ BEGIN
 
     -- Project 16: 木工收纳盒
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('木工收纳盒', '使用锯切和榫接工艺制作一个实用的木质收纳盒，学习精确量测和组装技巧。这个项目比板凳更进一步，引入简单的榫接结构，让孩子体验传统木工的精密与优雅。', v_author_id, v_sub_id, 4, 120, 'approved', '/projects/handmade_coaster.webp', ARRAY['木工','榫接','艺术','手工'], '艺术')
+    VALUES ('木工收纳盒', '使用锯切和榫接工艺制作一个实用的木质收纳盒，学习精确量测和组装技巧。这个项目比板凳更进一步，引入简单的榫接结构，让参与者体验传统木工的精密与优雅。', v_author_id, v_sub_id, 4, 120, 'approved', '/projects/handmade_coaster.webp', ARRAY['木工','榫接','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -331,7 +331,7 @@ BEGIN
 
     -- Project 17: 皮革钥匙包
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('皮革钥匙包', '用植鞣革手工制作一个简约实用的钥匙包，学习皮革裁剪、打孔和手缝技术。孩子将通过这个项目接触皮革手工艺的基础技能，完成一件可以日常使用的精美皮具。', v_author_id, v_sub_id, 4, 80, 'approved', '/projects/handmade_coaster.webp', ARRAY['皮革','缝制','艺术','手工'], '艺术')
+    VALUES ('皮革钥匙包', '用植鞣革手工制作一个简约实用的钥匙包，学习皮革裁剪、打孔和手缝技术。参与者将通过这个项目接触皮革手工艺的基础技能，完成一件可以日常使用的精美皮具。', v_author_id, v_sub_id, 4, 80, 'approved', '/projects/handmade_coaster.webp', ARRAY['皮革','缝制','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -352,7 +352,7 @@ BEGIN
 
     -- Project 18: 微缩家具制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('微缩家具制作', '按照1:12的比例用巴尔沙木或硬纸板制作精致的微缩家具模型。孩子将学习比例缩放的数学概念、精细加工和空间结构设计，打造出一套迷你又逼真的小家具。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['微缩','精细','艺术','手工'], '艺术')
+    VALUES ('微缩家具制作', '按照1:12的比例用巴尔沙木或硬纸板制作精致的微缩家具模型。参与者将学习比例缩放的数学概念、精细加工和空间结构设计，打造出一套迷你又逼真的小家具。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['微缩','精细','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -396,7 +396,7 @@ BEGIN
 
     -- Project 20: 布艺玩偶缝制
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('布艺玩偶缝制', '从打版裁剪到缝合填充，完整制作一个布艺玩偶。孩子将学习服装打版的基础思路、多种手缝针法以及立体造型技巧，完成一个独一无二的柔软伙伴。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/handmade_coaster.webp', ARRAY['布艺','打版','艺术','手工'], '艺术')
+    VALUES ('布艺玩偶缝制', '从打版裁剪到缝合填充，完整制作一个布艺玩偶。参与者将学习服装打版的基础思路、多种手缝针法以及立体造型技巧，完成一个独一无二的柔软伙伴。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/handmade_coaster.webp', ARRAY['布艺','打版','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -418,7 +418,7 @@ BEGIN
 
     -- Project 21: 金属丝雕塑
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('金属丝雕塑', '用铝线或铜丝弯折焊接出立体的人物、动物或抽象造型雕塑作品。孩子将在三维空间中构思和创作，锻炼空间想象力和手指精细操控能力，感受线条艺术的独特魅力。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['金属丝','造型','艺术','手工'], '艺术')
+    VALUES ('金属丝雕塑', '用铝线或铜丝弯折焊接出立体的人物、动物或抽象造型雕塑作品。参与者将在三维空间中构思和创作，锻炼空间想象力和手指精细操控能力，感受线条艺术的独特魅力。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/handmade_coaster.webp', ARRAY['金属丝','造型','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -439,7 +439,7 @@ BEGIN
 
     -- Project 22: 榫卯结构木工
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('榫卯结构木工', '学习中国传统榫卯工艺，不用一颗钉子制作一个稳固的木质结构作品。孩子将深入了解古代匠人的智慧结晶，体验凸榫与凹卯精密咬合的力学之美和文化底蕴。', v_author_id, v_sub_id, 5, 180, 'approved', '/projects/handmade_coaster.webp', ARRAY['榫卯','传统工艺','艺术','手工'], '艺术')
+    VALUES ('榫卯结构木工', '学习中国传统榫卯工艺，不用一颗钉子制作一个稳固的木质结构作品。参与者将深入了解古代匠人的智慧结晶，体验凸榫与凹卯精密咬合的力学之美和文化底蕴。', v_author_id, v_sub_id, 5, 180, 'approved', '/projects/handmade_coaster.webp', ARRAY['榫卯','传统工艺','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 纸杯振动机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸杯振动机器人', '用纸杯和小马达制作一个会自己移动的振动机器人。孩子将了解偏心振动产生运动的原理，体验最简单的机器人制作乐趣。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_robots.webp', ARRAY['振动','运动','技术','机器人'], '技术')
+    VALUES ('纸杯振动机器人', '用纸杯和小马达制作一个会自己移动的振动机器人。参与者将了解偏心振动产生运动的原理，体验最简单的机器人制作乐趣。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_robots.webp', ARRAY['振动','运动','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -55,7 +55,7 @@ BEGIN
 
     -- Project 3: 气球动力机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('气球动力机器人', '利用气球放气产生的反作用力驱动一个简易小车机器人前进。孩子将直观体验牛顿第三定律，明白火箭和喷气发动机的基本工作原理。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_robots.webp', ARRAY['反作用力','技术','机器人'], '技术')
+    VALUES ('气球动力机器人', '利用气球放气产生的反作用力驱动一个简易小车机器人前进。参与者将直观体验牛顿第三定律，明白火箭和喷气发动机的基本工作原理。', v_author_id, v_sub_id, 1, 20, 'approved', '/projects/tech_robots.webp', ARRAY['反作用力','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -75,7 +75,7 @@ BEGIN
 
     -- Project 4: 纸板机器人手偶
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板机器人手偶', '用纸板和铆钉制作一个关节可动的机器人手偶，通过手指操控实现各种动作。孩子将学习简单机构和联动原理，理解机器人关节的运动方式。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_robots.webp', ARRAY['机构','联动','技术','机器人'], '技术')
+    VALUES ('纸板机器人手偶', '用纸板和铆钉制作一个关节可动的机器人手偶，通过手指操控实现各种动作。参与者将学习简单机构和联动原理，理解机器人关节的运动方式。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_robots.webp', ARRAY['机构','联动','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -94,7 +94,7 @@ BEGIN
 
     -- Project 5: 弹射机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹射机器人', '用冰棒棍和橡皮筋制作一个弹射装置造型的机器人，能将小球弹射出去。孩子将学习弹性势能转化为动能的过程，体验投石机的力学原理。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['弹性','发射','技术','机器人'], '技术')
+    VALUES ('弹射机器人', '用冰棒棍和橡皮筋制作一个弹射装置造型的机器人，能将小球弹射出去。参与者将学习弹性势能转化为动能的过程，体验投石机的力学原理。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['弹性','发射','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -114,7 +114,7 @@ BEGIN
 
     -- Project 6: 遥控纸板车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('遥控纸板车', '用纸板制作车身，配合简易遥控器实现前进和转弯，打造自己的第一辆遥控车。孩子将学习电机驱动和遥控信号的基本概念，体验远程控制的乐趣。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_robots.webp', ARRAY['遥控','传动','技术','机器人'], '技术')
+    VALUES ('遥控纸板车', '用纸板制作车身，配合简易遥控器实现前进和转弯，打造自己的第一辆遥控车。参与者将学习电机驱动和遥控信号的基本概念，体验远程控制的乐趣。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_robots.webp', ARRAY['遥控','传动','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -136,7 +136,7 @@ BEGIN
 
     -- Project 7: 简易爬坡车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('简易爬坡车', '设计一辆能爬上斜坡的小车，探索重心位置和轮胎摩擦力对爬坡能力的影响。孩子将在反复测试中学会调整设计方案，理解重心和摩擦力在机械中的重要作用。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['重心','摩擦力','技术','机器人'], '技术')
+    VALUES ('简易爬坡车', '设计一辆能爬上斜坡的小车，探索重心位置和轮胎摩擦力对爬坡能力的影响。参与者将在反复测试中学会调整设计方案，理解重心和摩擦力在机械中的重要作用。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['重心','摩擦力','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -157,7 +157,7 @@ BEGIN
 
     -- Project 8: 橡皮筋动力机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('橡皮筋动力机器人', '用橡皮筋储存的弹性势能驱动一个纸板机器人行走，不需要电池和马达。孩子将理解弹性势能到动能的转换过程，感受机械能量储存与释放的巧妙。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['弹性势能','技术','机器人'], '技术')
+    VALUES ('橡皮筋动力机器人', '用橡皮筋储存的弹性势能驱动一个纸板机器人行走，不需要电池和马达。参与者将理解弹性势能到动能的转换过程，感受机械能量储存与释放的巧妙。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_robots.webp', ARRAY['弹性势能','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -177,7 +177,7 @@ BEGIN
 
     -- Project 9: 纸板液压机械臂
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板液压机械臂', '用纸板和注射器制作一个液压驱动的机械臂，能够抬起和夹取物体。孩子将深入理解帕斯卡原理和液压传动系统，体验工业机器人的核心技术。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/tech_robots.webp', ARRAY['液压','机械','技术','机器人'], '技术')
+    VALUES ('纸板液压机械臂', '用纸板和注射器制作一个液压驱动的机械臂，能够抬起和夹取物体。参与者将深入理解帕斯卡原理和液压传动系统，体验工业机器人的核心技术。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/tech_robots.webp', ARRAY['液压','机械','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -199,7 +199,7 @@ BEGIN
 
     -- Project 10: 四足行走机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('四足行走机器人', '用纸板和连杆机构制作一个能模仿动物行走的四足机器人。孩子将学习连杆机构将旋转运动转化为往复行走运动的原理，感受仿生机器人的魅力。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_robots.webp', ARRAY['连杆机构','技术','机器人'], '技术')
+    VALUES ('四足行走机器人', '用纸板和连杆机构制作一个能模仿动物行走的四足机器人。参与者将学习连杆机构将旋转运动转化为往复行走运动的原理，感受仿生机器人的魅力。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_robots.webp', ARRAY['连杆机构','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -220,7 +220,7 @@ BEGIN
 
     -- Project 11: 风力行走机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('风力行走机器人', '制作一个仅靠风力驱动就能在桌面上行走的机器人，灵感来源于荷兰艺术家Theo Jansen的风力仿生兽。孩子将学习风能的利用方式和连杆行走机构的设计。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_robots.webp', ARRAY['风能','运动','技术','机器人'], '技术')
+    VALUES ('风力行走机器人', '制作一个仅靠风力驱动就能在桌面上行走的机器人，灵感来源于荷兰艺术家Theo Jansen的风力仿生兽。参与者将学习风能的利用方式和连杆行走机构的设计。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_robots.webp', ARRAY['风能','运动','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -239,7 +239,7 @@ BEGIN
 
     -- Project 12: 提线木偶机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('提线木偶机器人', '用纸板和线绳制作一个关节可动的提线木偶机器人，通过操纵杆控制它的四肢动作。孩子将学习联动控制机构的设计，理解机器人多关节协调运动的基本思路。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_robots.webp', ARRAY['联动','控制','技术','机器人'], '技术')
+    VALUES ('提线木偶机器人', '用纸板和线绳制作一个关节可动的提线木偶机器人，通过操纵杆控制它的四肢动作。参与者将学习联动控制机构的设计，理解机器人多关节协调运动的基本思路。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_robots.webp', ARRAY['联动','控制','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -259,7 +259,7 @@ BEGIN
 
     -- Project 13: Arduino 巡线小车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Arduino 巡线小车', '使用Arduino和红外传感器制作一辆能沿着黑线自动行驶的智能小车。孩子将首次接触编程控制硬件，学习传感器检测和条件判断的基本逻辑。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/tech_robots.webp', ARRAY['Arduino','传感器','技术','机器人'], '技术')
+    VALUES ('Arduino 巡线小车', '使用Arduino和红外传感器制作一辆能沿着黑线自动行驶的智能小车。参与者将首次接触编程控制硬件，学习传感器检测和条件判断的基本逻辑。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/tech_robots.webp', ARRAY['Arduino','传感器','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -282,7 +282,7 @@ BEGIN
 
     -- Project 14: 避障机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('避障机器人', '使用Arduino和超声波传感器制作一个能自动检测并避开障碍物的智能小车。孩子将学习超声波测距原理和简单的决策算法，让机器人具备"眼睛"的感知能力。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/tech_robots.webp', ARRAY['超声波','Arduino','技术','机器人'], '技术')
+    VALUES ('避障机器人', '使用Arduino和超声波传感器制作一个能自动检测并避开障碍物的智能小车。参与者将学习超声波测距原理和简单的决策算法，让机器人具备"眼睛"的感知能力。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/tech_robots.webp', ARRAY['超声波','Arduino','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -305,7 +305,7 @@ BEGIN
 
     -- Project 15: 机械抓手制作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('机械抓手制作', '制作一个可以远程操控抓取物体的机械抓手，模拟工业机器人末端执行器的功能。孩子将学习机械臂夹持机构的设计原理，理解连杆放大运动和力的方式。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_robots.webp', ARRAY['机械臂','夹持','技术','机器人'], '技术')
+    VALUES ('机械抓手制作', '制作一个可以远程操控抓取物体的机械抓手，模拟工业机器人末端执行器的功能。参与者将学习机械臂夹持机构的设计原理，理解连杆放大运动和力的方式。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_robots.webp', ARRAY['机械臂','夹持','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -326,7 +326,7 @@ BEGIN
 
     -- Project 16: 双足行走模型
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('双足行走模型', '制作一个能依靠重力沿斜面自动行走的双足机器人模型，模拟人类的步态运动。孩子将学习双足行走的力学平衡原理，理解重心转移和步态周期的概念。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_robots.webp', ARRAY['步态','平衡','技术','机器人'], '技术')
+    VALUES ('双足行走模型', '制作一个能依靠重力沿斜面自动行走的双足机器人模型，模拟人类的步态运动。参与者将学习双足行走的力学平衡原理，理解重心转移和步态周期的概念。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_robots.webp', ARRAY['步态','平衡','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -347,7 +347,7 @@ BEGIN
 
     -- Project 17: Arduino 蓝牙遥控车
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Arduino 蓝牙遥控车', '使用Arduino和蓝牙模块制作一辆能通过手机App遥控的智能小车。孩子将学习蓝牙无线通信的基本原理，掌握手机与硬件设备之间的数据交互方法。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_robots.webp', ARRAY['蓝牙','Arduino','技术','机器人'], '技术')
+    VALUES ('Arduino 蓝牙遥控车', '使用Arduino和蓝牙模块制作一辆能通过手机App遥控的智能小车。参与者将学习蓝牙无线通信的基本原理，掌握手机与硬件设备之间的数据交互方法。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_robots.webp', ARRAY['蓝牙','Arduino','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -370,7 +370,7 @@ BEGIN
 
     -- Project 18: 自平衡机器人入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自平衡机器人入门', '制作一个能自动保持直立平衡的两轮机器人，类似赛格威的工作原理。孩子将初步接触陀螺仪传感器和PID控制算法，理解反馈控制系统的核心思想。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['陀螺仪','PID','技术','机器人'], '技术')
+    VALUES ('自平衡机器人入门', '制作一个能自动保持直立平衡的两轮机器人，类似赛格威的工作原理。参与者将初步接触陀螺仪传感器和PID控制算法，理解反馈控制系统的核心思想。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['陀螺仪','PID','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -392,7 +392,7 @@ BEGIN
 
     -- Project 19: 机器人迷宫挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('机器人迷宫挑战', '编程让机器人自主导航通过迷宫找到出口，综合运用传感器和算法知识。孩子将学习基本的迷宫求解算法（如左手法则），培养算法思维和系统调试能力。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['算法','导航','技术','机器人'], '技术')
+    VALUES ('机器人迷宫挑战', '编程让机器人自主导航通过迷宫找到出口，综合运用传感器和算法知识。参与者将学习基本的迷宫求解算法（如左手法则），培养算法思维和系统调试能力。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['算法','导航','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -415,7 +415,7 @@ BEGIN
 
     -- Project 20: 可编程绘图机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('可编程绘图机器人', '制作一个能按照程序指令在纸上画出图案的绘图机器人，类似迷你版的CNC绘图仪。孩子将学习步进电机的精确控制和坐标系的概念，体验数控技术的魅力。', v_author_id, v_sub_id, 5, 180, 'approved', '/projects/tech_robots.webp', ARRAY['CNC','步进电机','技术','机器人'], '技术')
+    VALUES ('可编程绘图机器人', '制作一个能按照程序指令在纸上画出图案的绘图机器人，类似迷你版的CNC绘图仪。参与者将学习步进电机的精确控制和坐标系的概念，体验数控技术的魅力。', v_author_id, v_sub_id, 5, 180, 'approved', '/projects/tech_robots.webp', ARRAY['CNC','步进电机','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

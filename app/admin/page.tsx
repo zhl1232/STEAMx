@@ -67,6 +67,30 @@ interface CompletionForReview {
   } | null
 }
 
+interface PendingCompletionRow {
+  id: number
+  user_id: string
+  project_id: number
+  completed_at: string
+  proof_images: string[]
+  proof_captions: string[] | null
+  proof_video_url: string | null
+  notes: string | null
+  status: string
+}
+
+interface CompletionProfileRow {
+  id: string
+  display_name: string | null
+  avatar_url: string | null
+}
+
+interface CompletionProjectRow {
+  id: number
+  title: string | null
+  category: string | null
+}
+
 export default function AdminPage() {
   const { canReview, isAdmin, loading } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
@@ -105,25 +129,66 @@ export default function AdminPage() {
       .select(`
         id, user_id, project_id, completed_at,
         proof_images, proof_captions, proof_video_url,
-        notes, status,
-        profiles:user_id (
-          display_name,
-          avatar_url
-        ),
-        projects:project_id (
-          title,
-          category
-        )
+        notes, status
       `)
       .eq('status', 'pending')
       .order('completed_at', { ascending: false })
 
     if (error) {
       console.error('Failed to fetch pending completions', error)
+      return
     }
-    if (data) {
-      setPendingCompletions(data as unknown as CompletionForReview[])
+
+    const completionRows = (data || []) as PendingCompletionRow[]
+    if (completionRows.length === 0) {
+      setPendingCompletions([])
+      return
     }
+
+    const userIds = [...new Set(completionRows.map((row) => row.user_id))]
+    const projectIds = [...new Set(completionRows.map((row) => row.project_id))]
+
+    const [{ data: profilesData, error: profilesError }, { data: projectsData, error: projectsError }] =
+      await Promise.all([
+        supabase.from('profiles').select('id, display_name, avatar_url').in('id', userIds),
+        supabase.from('projects').select('id, title, category').in('id', projectIds),
+      ])
+
+    if (profilesError) {
+      console.error('Failed to fetch completion profiles', profilesError)
+    }
+
+    if (projectsError) {
+      console.error('Failed to fetch completion projects', projectsError)
+    }
+
+    const profilesById = new Map(
+      ((profilesData || []) as CompletionProfileRow[]).map((profile) => [
+        profile.id,
+        {
+          display_name: profile.display_name ?? '未知用户',
+          avatar_url: profile.avatar_url,
+        },
+      ]),
+    )
+
+    const projectsById = new Map(
+      ((projectsData || []) as CompletionProjectRow[]).map((project) => [
+        project.id,
+        {
+          title: project.title ?? '未知项目',
+          category: project.category ?? '',
+        },
+      ]),
+    )
+
+    setPendingCompletions(
+      completionRows.map((row) => ({
+        ...row,
+        profiles: profilesById.get(row.user_id) ?? null,
+        projects: projectsById.get(row.project_id) ?? null,
+      })),
+    )
   }, [supabase])
 
   // Fetch all projects for management

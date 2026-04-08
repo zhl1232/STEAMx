@@ -242,7 +242,7 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('first_comment', '发言新秀', '发表首条评论', '💭', '{"type": "comments_count", "count": 1}'),
 ('first_publish', '首次发布', '发布第一个项目', '📤', '{"type": "projects_published", "count": 1}'),
 ('first_collection', '收藏入门', '首次收藏项目', '📌', '{"type": "collections_count", "count": 1}'),
-('curious_mind', '好奇宝宝', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
+('curious_mind', '好奇探索者', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
 ('quick_learner', '快速学习者', '一周内完成 3 个项目', '⚡', '{"type": "projects_completed_weekly", "count": 3}'),
 ('social_butterfly', '社交蝴蝶', '首次参与讨论', '🦋', '{"type": "discussions_participated", "count": 1}'),
 ('challenge_rookie', '挑战新人', '首次参加挑战赛', '🎪', '{"type": "challenges_joined", "count": 1}'),
@@ -572,7 +572,7 @@ BEGIN
     -- 6.1 创建初始话题
     INSERT INTO public.discussions (title, content, author_id, tags, likes_count, created_at)
     VALUES
-    ('如何培养孩子的科学兴趣？', '大家有什么好方法吗？我发现现在的孩子更喜欢玩手机。', v_user_teacher, ARRAY['教育心得', '科学'], 15, now() - interval '5 days')
+    ('如何培养科学兴趣？', '大家有什么好方法吗？我发现现在很多人更容易被手机吸引。', v_user_teacher, ARRAY['教育心得', '科学'], 15, now() - interval '5 days')
     RETURNING id INTO v_discuss_id1;
 
     INSERT INTO public.discussions (title, content, author_id, tags, likes_count, created_at)
@@ -590,9 +590,9 @@ BEGIN
     ('周末去科技馆打卡了', '体验了那个静电球，头发真的竖起来了，太好玩了！推荐大家都去。', v_user_eve, ARRAY['探店', '日常'], 20, now() - interval '1 day')
     RETURNING id INTO v_discuss_id4;
 
-    -- 6.2 话题1：如何培养孩子的科学兴趣？（楼主 Teacher）
+    -- 6.2 话题1：如何培养科学兴趣？（楼主 Teacher）
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id1, v_user_alice, '我觉得可以多带他们做做实验，比如这个网站上的项目，从简单的磁铁、感官盲盒开始，孩子会很有兴趣。', now() - interval '4 days')
+    VALUES (v_discuss_id1, v_user_alice, '我觉得可以多带他们做做实验，比如这个网站上的项目，从简单的磁铁、感官盲盒开始，通常都会很有兴趣。', now() - interval '4 days')
     RETURNING id INTO v_r1_1;
 
     INSERT INTO public.discussion_replies (discussion_id, author_id, parent_id, reply_to_user_id, reply_to_username, content, created_at)
@@ -628,10 +628,10 @@ BEGIN
 
     -- 6.5 话题4：科技馆打卡（楼主 Eve）
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id4, v_user_alice, '那个静电球我们上次也玩了，孩子特别开心，还有二楼的传声筒和光学迷宫也值得体验。', now() - interval '1 day');
+    VALUES (v_discuss_id4, v_user_alice, '那个静电球我们上次也玩了，体验特别好，还有二楼的传声筒和光学迷宫也值得体验。', now() - interval '1 day');
 
     INSERT INTO public.discussion_replies (discussion_id, author_id, content, created_at)
-    VALUES (v_discuss_id4, v_user_bob, '科技馆还有别的推荐项目吗？打算下周末带娃去，想提前做下攻略。', now() - interval '1 day');
+    VALUES (v_discuss_id4, v_user_bob, '科技馆还有别的推荐项目吗？打算下周末和家人一起去，想提前做下攻略。', now() - interval '1 day');
 END $$;
 
 -- 完成提示

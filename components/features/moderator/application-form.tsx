@@ -246,7 +246,7 @@ export function ModeratorApplicationForm() {
                             <Label htmlFor="motivation">为什么想成为审核员？ <span className="text-red-500">*</span></Label>
                             <Textarea
                                 id="motivation"
-                                placeholder="分享你对社区的理解和维护社区的想法...&#10;&#10;例如：我想帮助维护一个积极向上的STEAM学习社区，确保每个项目都能给其他小朋友带来启发..."
+                                placeholder="分享你对社区的理解和维护社区的想法...&#10;&#10;例如：我想帮助维护一个积极向上的STEAM学习社区，确保每个项目都能给更多人带来启发..."
                                 value={motivation}
                                 onChange={(e) => setMotivation(e.target.value)}
                                 rows={6}

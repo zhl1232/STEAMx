@@ -32,17 +32,17 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: {
     template: '%s | STEAM 探索',
-    default: 'STEAM 探索 - 青少年基于项目学习（PBL）的探索平台',
+    default: 'STEAM 探索 - 基于项目学习（PBL）的探索平台',
   },
-  description: '基于项目学习（PBL）的 STEAM 探索平台。青少年在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
-  keywords: ['STEAM', 'PBL', '项目式学习', '教育', '项目分享', '青少年', '科学', '技术', '工程', '艺术', '数学', 'DIY', '创客'],
+  description: '基于项目学习（PBL）的 STEAM 探索平台。用户可以在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
+  keywords: ['STEAM', 'PBL', '项目式学习', '教育', '项目分享', '科学', '技术', '工程', '艺术', '数学', 'DIY', '创客'],
   authors: [{ name: 'STEAM 探索团队' }],
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
     url: 'https://steam-explore.com',
-    title: 'STEAM 探索 - 青少年基于项目学习（PBL）的探索平台',
-    description: '基于项目学习（PBL）的 STEAM 探索平台。青少年在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
+    title: 'STEAM 探索 - 基于项目学习（PBL）的探索平台',
+    description: '基于项目学习（PBL）的 STEAM 探索平台。用户可以在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。',
     siteName: 'STEAM 探索',
   },
   twitter: {

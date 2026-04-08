@@ -59,8 +59,17 @@ function isSupabasePublicStorageUrl(src: string): boolean {
   }
 }
 
+function supportsSupabaseRenderTransform(src: string): boolean {
+  try {
+    const url = new URL(src)
+    return url.hostname.endsWith(".supabase.co")
+  } catch {
+    return false
+  }
+}
+
 function toSupabaseTransformedUrl(src: string, width: number, quality: number): string {
-  if (!isSupabasePublicStorageUrl(src)) {
+  if (!isSupabasePublicStorageUrl(src) || !supportsSupabaseRenderTransform(src)) {
     return src
   }
 
@@ -84,7 +93,7 @@ export function getOptimizedImageSrc(
     return src
   }
 
-  return isSupabasePublicStorageUrl(src)
+  return isSupabasePublicStorageUrl(src) && supportsSupabaseRenderTransform(src)
     ? toSupabaseTransformedUrl(src, width, quality)
     : src
 }
@@ -110,7 +119,11 @@ export function OptimizedImage({
   const loadingProp = priority ? undefined : (loading ?? "lazy")
   const useBlur = blurPlaceholder && !priority && (blurDataURL ?? DEFAULT_BLUR_DATA_URL)
   const rawSrc = typeof rest.src === "string" ? rest.src : null
-  const useDirectSupabaseTransform = rawSrc !== null && variant !== "cover" && isSupabasePublicStorageUrl(rawSrc)
+  const useDirectSupabaseTransform =
+    rawSrc !== null &&
+    variant !== "cover" &&
+    isSupabasePublicStorageUrl(rawSrc) &&
+    supportsSupabaseRenderTransform(rawSrc)
   const src = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
 
   return (

@@ -16,7 +16,7 @@ BEGIN
 
     -- Project 1: 不插电编程：指令画图
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('不插电编程：指令画图', '不需要电脑，只用纸和笔就能体验编程的乐趣！孩子将学会用"上、下、左、右"等简单指令在格子纸上画出图案，理解程序就是一组按顺序执行的指令。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_programming.webp', ARRAY['编程思维','技术','编程'], '技术')
+    VALUES ('不插电编程：指令画图', '不需要电脑，只用纸和笔就能体验编程的乐趣！参与者将学会用"上、下、左、右"等简单指令在格子纸上画出图案，理解程序就是一组按顺序执行的指令。', v_author_id, v_sub_id, 1, 25, 'approved', '/projects/tech_programming.webp', ARRAY['编程思维','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -27,14 +27,14 @@ BEGIN
 
     INSERT INTO public.project_steps (project_id, title, description, sort_order) VALUES
         (v_project_id, '认识指令', '学习四个基本方向指令：上↑、下↓、左←、右→，以及"涂色"指令，了解每个指令让画笔移动一格。', 1),
-        (v_project_id, '跟着指令画', '家长读出一组指令序列（如：右→右→下↓涂色→下↓涂色），孩子在格子纸上按指令移动并涂色，画出简单图案。', 2),
-        (v_project_id, '自己编写指令', '孩子选择一个简单图形（如字母L、十字形），自己写出能画出该图形的指令序列。', 3),
-        (v_project_id, '交换挑战', '和家长或小伙伴交换指令，互相执行对方写的"程序"，看看能不能画出正确的图案。', 4),
+        (v_project_id, '跟着指令画', '成年人读出一组指令序列（如：右→右→下↓涂色→下↓涂色），参与者在格子纸上按指令移动并涂色，画出简单图案。', 2),
+        (v_project_id, '自己编写指令', '参与者选择一个简单图形（如字母L、十字形），自己写出能画出该图形的指令序列。', 3),
+        (v_project_id, '交换挑战', '和成年人或小伙伴交换指令，互相执行对方写的"程序"，看看能不能画出正确的图案。', 4),
         (v_project_id, '总结与思考', '讨论如果指令写错了会怎样（bug），以及怎样让指令更简洁（优化），初步体会调试和优化的概念。', 5);
 
     -- Project 2: 不插电编程：人体机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('不插电编程：人体机器人', '一个人扮演"机器人"，另一个人扮演"程序员"，通过发出精确指令完成任务。孩子将体会到计算机只能执行明确指令，学习指令的精确性和顺序的重要性。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/tech_programming.webp', ARRAY['编程思维','指令','技术','编程'], '技术')
+    VALUES ('不插电编程：人体机器人', '一个人扮演"机器人"，另一个人扮演"程序员"，通过发出精确指令完成任务。参与者将体会到计算机只能执行明确指令，学习指令的精确性和顺序的重要性。', v_author_id, v_sub_id, 1, 30, 'approved', '/projects/tech_programming.webp', ARRAY['编程思维','指令','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -53,7 +53,7 @@ BEGIN
 
     -- Project 3: Scratch 动画故事
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 动画故事', '使用 Scratch 图形化编程工具创作一段有趣的动画故事，让角色说话、移动和变换造型。孩子将学习顺序执行、事件触发等编程基础概念，同时发挥想象力创编故事。', v_author_id, v_sub_id, 1, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','动画','技术','编程'], '技术')
+    VALUES ('Scratch 动画故事', '使用 Scratch 图形化编程工具创作一段有趣的动画故事，让角色说话、移动和变换造型。参与者将学习顺序执行、事件触发等编程基础概念，同时发挥想象力创编故事。', v_author_id, v_sub_id, 1, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','动画','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -71,7 +71,7 @@ BEGIN
 
     -- Project 4: Scratch 电子贺卡
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 电子贺卡', '用 Scratch 制作一张会动、会说话的电子贺卡，送给家人或朋友。孩子将练习使用循环、外观特效和声音模块，制作出充满心意的互动贺卡。', v_author_id, v_sub_id, 1, 35, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','互动','技术','编程'], '技术')
+    VALUES ('Scratch 电子贺卡', '用 Scratch 制作一张会动、会说话的电子贺卡，送给家人或朋友。参与者将练习使用循环、外观特效和声音模块，制作出充满心意的互动贺卡。', v_author_id, v_sub_id, 1, 35, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','互动','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -89,7 +89,7 @@ BEGIN
 
     -- Project 5: Scratch 弹球游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 弹球游戏', '制作一个经典的弹球游戏：控制底部挡板反弹小球，击碎上方的砖块。孩子将学习坐标系统、角度反弹和条件判断，体验游戏编程的乐趣。', v_author_id, v_sub_id, 2, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','游戏编程','技术','编程'], '技术')
+    VALUES ('Scratch 弹球游戏', '制作一个经典的弹球游戏：控制底部挡板反弹小球，击碎上方的砖块。参与者将学习坐标系统、角度反弹和条件判断，体验游戏编程的乐趣。', v_author_id, v_sub_id, 2, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','游戏编程','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -106,7 +106,7 @@ BEGIN
 
     -- Project 6: Scratch 打地鼠游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 打地鼠游戏', '制作一个打地鼠小游戏：地鼠随机从洞里冒出来，点击它就能得分。孩子将学习随机数、计时器和计分系统的编程实现，理解事件驱动编程的概念。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','计分','技术','编程'], '技术')
+    VALUES ('Scratch 打地鼠游戏', '制作一个打地鼠小游戏：地鼠随机从洞里冒出来，点击它就能得分。参与者将学习随机数、计时器和计分系统的编程实现，理解事件驱动编程的概念。', v_author_id, v_sub_id, 2, 45, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','计分','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -123,7 +123,7 @@ BEGIN
 
     -- Project 7: Scratch 音乐创作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 音乐创作', '用 Scratch 的音乐积木块创作属于自己的乐曲，把键盘变成钢琴！孩子将学习音符、节拍和循环的概念，在编程中感受音乐的魅力。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','声音','技术','编程'], '技术')
+    VALUES ('Scratch 音乐创作', '用 Scratch 的音乐积木块创作属于自己的乐曲，把键盘变成钢琴！参与者将学习音符、节拍和循环的概念，在编程中感受音乐的魅力。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','声音','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -140,7 +140,7 @@ BEGIN
 
     -- Project 8: Scratch 画笔绘图
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 画笔绘图', '使用 Scratch 画笔功能编程绘制各种几何图案，从简单的正方形到复杂的万花筒。孩子将理解循环和角度的概念，体会数学与艺术的美妙结合。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','画笔','技术','编程'], '技术')
+    VALUES ('Scratch 画笔绘图', '使用 Scratch 画笔功能编程绘制各种几何图案，从简单的正方形到复杂的万花筒。参与者将理解循环和角度的概念，体会数学与艺术的美妙结合。', v_author_id, v_sub_id, 2, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','画笔','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -157,7 +157,7 @@ BEGIN
 
     -- Project 9: 不插电编程：排序体验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('不插电编程：排序体验', '通过实物卡片体验冒泡排序和选择排序算法，像计算机一样给数字排队。孩子将理解算法是解决问题的步骤，感受不同排序方法的效率差异。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_programming.webp', ARRAY['算法思维','技术','编程'], '技术')
+    VALUES ('不插电编程：排序体验', '通过实物卡片体验冒泡排序和选择排序算法，像计算机一样给数字排队。参与者将理解算法是解决问题的步骤，感受不同排序方法的效率差异。', v_author_id, v_sub_id, 2, 30, 'approved', '/projects/tech_programming.webp', ARRAY['算法思维','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -175,7 +175,7 @@ BEGIN
 
     -- Project 10: Python 绘图小海龟
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 绘图小海龟', '使用 Python 内置的 Turtle 库控制一只小海龟在屏幕上画出各种图形和图案。孩子将在可视化的环境中学习 Python 基础语法，包括变量、循环和函数调用。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_programming.webp', ARRAY['Python','turtle','技术','编程'], '技术')
+    VALUES ('Python 绘图小海龟', '使用 Python 内置的 Turtle 库控制一只小海龟在屏幕上画出各种图形和图案。参与者将在可视化的环境中学习 Python 基础语法，包括变量、循环和函数调用。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/tech_programming.webp', ARRAY['Python','turtle','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -193,7 +193,7 @@ BEGIN
 
     -- Project 11: 用 HTML 做个人主页
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('用 HTML 做个人主页', '学习 HTML 和 CSS 基础知识，制作一个介绍自己的个人主页网站。孩子将了解网页是如何构成的，学会使用标题、段落、图片和链接等基本元素来展示自己的兴趣爱好。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','网页','技术','编程'], '技术')
+    VALUES ('用 HTML 做个人主页', '学习 HTML 和 CSS 基础知识，制作一个介绍自己的个人主页网站。参与者将了解网页是如何构成的，学会使用标题、段落、图片和链接等基本元素来展示自己的兴趣爱好。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','网页','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -211,7 +211,7 @@ BEGIN
 
     -- Project 12: Scratch 平台跳跃游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 平台跳跃游戏', '制作一个超级马里奥风格的平台跳跃游戏，控制角色跳跃、奔跑和收集道具。孩子将学习重力模拟、碰撞检测和关卡设计，挑战更复杂的游戏编程逻辑。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','物理模拟','技术','编程'], '技术')
+    VALUES ('Scratch 平台跳跃游戏', '制作一个超级马里奥风格的平台跳跃游戏，控制角色跳跃、奔跑和收集道具。参与者将学习重力模拟、碰撞检测和关卡设计，挑战更复杂的游戏编程逻辑。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','物理模拟','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -229,7 +229,7 @@ BEGIN
 
     -- Project 13: Python 猜数字游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 猜数字游戏', '用 Python 编写一个猜数字小游戏：电脑随机想一个数，玩家来猜，程序会告诉你猜大了还是猜小了。孩子将学习条件判断、循环和随机数等核心编程概念。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Python','条件判断','技术','编程'], '技术')
+    VALUES ('Python 猜数字游戏', '用 Python 编写一个猜数字小游戏：电脑随机想一个数，玩家来猜，程序会告诉你猜大了还是猜小了。参与者将学习条件判断、循环和随机数等核心编程概念。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/tech_programming.webp', ARRAY['Python','条件判断','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -246,7 +246,7 @@ BEGIN
 
     -- Project 14: Scratch 迷宫游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 迷宫游戏', '设计并编程一个迷宫冒险游戏，控制角色避开墙壁找到出口。孩子将深入学习碰撞检测的编程实现，练习关卡设计和游戏逻辑规划。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','碰撞检测','技术','编程'], '技术')
+    VALUES ('Scratch 迷宫游戏', '设计并编程一个迷宫冒险游戏，控制角色避开墙壁找到出口。参与者将深入学习碰撞检测的编程实现，练习关卡设计和游戏逻辑规划。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','碰撞检测','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -263,7 +263,7 @@ BEGIN
 
     -- Project 15: Python 自动化小工具
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 自动化小工具', '用 Python 编写实用的自动化脚本，比如批量重命名文件、整理桌面文件夹等。孩子将学习文件操作和字符串处理，体验编程解决实际生活问题的乐趣。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Python','文件操作','技术','编程'], '技术')
+    VALUES ('Python 自动化小工具', '用 Python 编写实用的自动化脚本，比如批量重命名文件、整理桌面文件夹等。参与者将学习文件操作和字符串处理，体验编程解决实际生活问题的乐趣。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Python','文件操作','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -281,7 +281,7 @@ BEGIN
 
     -- Project 16: 网页版计算器
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('网页版计算器', '用 HTML、CSS 和 JavaScript 制作一个功能完整的网页计算器，支持加减乘除运算。孩子将学习前端三件套的协作方式，理解事件处理和DOM操作的基本概念。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','JavaScript','技术','编程'], '技术')
+    VALUES ('网页版计算器', '用 HTML、CSS 和 JavaScript 制作一个功能完整的网页计算器，支持加减乘除运算。参与者将学习前端三件套的协作方式，理解事件处理和DOM操作的基本概念。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','JavaScript','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -299,7 +299,7 @@ BEGIN
 
     -- Project 17: Python 文字冒险游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 文字冒险游戏', '用 Python 编写一个文字冒险游戏，玩家通过输入选择推动剧情发展，探索不同结局。孩子将学习字典数据结构来管理游戏场景，理解分支叙事和状态管理。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','字典','技术','编程'], '技术')
+    VALUES ('Python 文字冒险游戏', '用 Python 编写一个文字冒险游戏，玩家通过输入选择推动剧情发展，探索不同结局。参与者将学习字典数据结构来管理游戏场景，理解分支叙事和状态管理。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','字典','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -318,7 +318,7 @@ BEGIN
 
     -- Project 18: Scratch 双人对战游戏
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Scratch 双人对战游戏', '制作一个双人同屏对战游戏（如乒乓球、坦克大战），两个玩家分别用不同按键控制角色。孩子将学习多角色同时控制、碰撞交互和公平竞技规则的编程实现。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','多角色','技术','编程'], '技术')
+    VALUES ('Scratch 双人对战游戏', '制作一个双人同屏对战游戏（如乒乓球、坦克大战），两个玩家分别用不同按键控制角色。参与者将学习多角色同时控制、碰撞交互和公平竞技规则的编程实现。', v_author_id, v_sub_id, 4, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Scratch','多角色','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -336,7 +336,7 @@ BEGIN
 
     -- Project 19: Python 简易聊天机器人
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 简易聊天机器人', '用 Python 制作一个能对话的简易聊天机器人，它能理解简单问题并给出回答。孩子将学习字符串匹配和处理技巧，初步了解人工智能对话系统的基本原理。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Python','字符串','技术','编程'], '技术')
+    VALUES ('Python 简易聊天机器人', '用 Python 制作一个能对话的简易聊天机器人，它能理解简单问题并给出回答。参与者将学习字符串匹配和处理技巧，初步了解人工智能对话系统的基本原理。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/tech_programming.webp', ARRAY['Python','字符串','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -354,7 +354,7 @@ BEGIN
 
     -- Project 20: Python 数据可视化
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 数据可视化', '使用 Python 的 matplotlib 库将数据变成直观的图表，让枯燥的数字活起来。孩子将学习数据收集、整理和可视化展示的完整流程，培养用数据讲故事的能力。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','matplotlib','技术','编程'], '技术')
+    VALUES ('Python 数据可视化', '使用 Python 的 matplotlib 库将数据变成直观的图表，让枯燥的数字活起来。参与者将学习数据收集、整理和可视化展示的完整流程，培养用数据讲故事的能力。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','matplotlib','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -372,7 +372,7 @@ BEGIN
 
     -- Project 21: 网页版记事本应用
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('网页版记事本应用', '用 HTML、CSS 和 JavaScript 制作一个功能完整的网页记事本，支持添加、编辑、删除和本地保存笔记。孩子将学习 DOM 操作、事件监听和 localStorage 本地存储。', v_author_id, v_sub_id, 5, 70, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','JavaScript','技术','编程'], '技术')
+    VALUES ('网页版记事本应用', '用 HTML、CSS 和 JavaScript 制作一个功能完整的网页记事本，支持添加、编辑、删除和本地保存笔记。参与者将学习 DOM 操作、事件监听和 localStorage 本地存储。', v_author_id, v_sub_id, 5, 70, 'approved', '/projects/tech_programming.webp', ARRAY['HTML','CSS','JavaScript','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -391,7 +391,7 @@ BEGIN
 
     -- Project 22: Python 爬虫入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 爬虫入门', '用 Python 的 requests 库学习网页数据抓取的基本技术，从网页中提取有用的信息。孩子将了解网页的工作原理，学习HTTP请求和HTML解析，同时建立网络安全和道德爬虫的意识。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','requests','技术','编程'], '技术')
+    VALUES ('Python 爬虫入门', '用 Python 的 requests 库学习网页数据抓取的基本技术，从网页中提取有用的信息。参与者将了解网页的工作原理，学习HTTP请求和HTML解析，同时建立网络安全和道德爬虫的意识。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','requests','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -409,7 +409,7 @@ BEGIN
 
     -- Project 23: Python 图片批量处理
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 图片批量处理', '用 Python 的 Pillow 库编写图片处理脚本，实现批量缩放、加水印、格式转换等实用功能。孩子将学习图像处理的基本原理，体验用编程高效完成重复性工作的能力。', v_author_id, v_sub_id, 5, 55, 'approved', '/projects/tech_programming.webp', ARRAY['Python','Pillow','技术','编程'], '技术')
+    VALUES ('Python 图片批量处理', '用 Python 的 Pillow 库编写图片处理脚本，实现批量缩放、加水印、格式转换等实用功能。参与者将学习图像处理的基本原理，体验用编程高效完成重复性工作的能力。', v_author_id, v_sub_id, 5, 55, 'approved', '/projects/tech_programming.webp', ARRAY['Python','Pillow','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
