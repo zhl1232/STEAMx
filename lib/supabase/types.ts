@@ -1105,6 +1105,153 @@ export interface Database {
         }
         Relationships: []
       }
+      challenge_submissions: {
+        Row: {
+          id: number
+          challenge_id: number
+          user_id: string
+          title: string
+          notes: string | null
+          proof_images: string[]
+          proof_captions: string[] | null
+          proof_video_url: string | null
+          is_public: boolean
+          status: string
+          reviewed_by: string | null
+          reviewed_at: string | null
+          rejection_reason: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          challenge_id: number
+          user_id: string
+          title: string
+          notes?: string | null
+          proof_images?: string[]
+          proof_captions?: string[] | null
+          proof_video_url?: string | null
+          is_public?: boolean
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          challenge_id?: number
+          user_id?: string
+          title?: string
+          notes?: string | null
+          proof_images?: string[]
+          proof_captions?: string[] | null
+          proof_video_url?: string | null
+          is_public?: boolean
+          status?: string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          rejection_reason?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_submissions_challenge_id_fkey"
+            columns: ["challenge_id"]
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenge_submissions_reviewed_by_fkey_profiles"
+            columns: ["reviewed_by"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenge_submissions_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      challenge_submission_projects: {
+        Row: {
+          submission_id: number
+          project_id: number
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          submission_id: number
+          project_id: number
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          submission_id?: number
+          project_id?: number
+          sort_order?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_submission_projects_project_id_fkey"
+            columns: ["project_id"]
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenge_submission_projects_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "challenge_submissions"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      challenge_submission_ratings: {
+        Row: {
+          id: number
+          submission_id: number
+          user_id: string
+          creative_expression: number
+          completion_quality: number
+          evidence_completeness: number
+          reflection_depth: number
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          submission_id: number
+          user_id: string
+          creative_expression: number
+          completion_quality: number
+          evidence_completeness: number
+          reflection_depth: number
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          submission_id?: number
+          user_id?: string
+          creative_expression?: number
+          completion_quality?: number
+          evidence_completeness?: number
+          reflection_depth?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_submission_ratings_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "challenge_submissions"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       challenge_completions: {
         Row: {
           user_id: string

@@ -144,6 +144,8 @@ export default function CoinsPage() {
           title="我的钱包"
           fallbackHref="/profile"
           className="-mx-4 -mt-8 mb-6 md:hidden"
+          backButtonClassName="left-2"
+          titleClassName="pl-6"
         />
 
         {/* 顶部导航 */}

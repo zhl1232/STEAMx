@@ -21,6 +21,7 @@ type DbProjectMaterial = Database['public']['Tables']['project_materials']['Row'
 type DbProjectStep = Database['public']['Tables']['project_steps']['Row']
 type DbSubCategory = Database['public']['Tables']['sub_categories']['Row']
 type DbCompletedProject = Database['public']['Tables']['completed_projects']['Row']
+type DbChallengeSubmission = Database['public']['Tables']['challenge_submissions']['Row']
 type DbSpecies = Database['public']['Tables']['species']['Row']
 type DbObservationEvent = Database['public']['Tables']['observation_events']['Row']
 type DbObservationEventSpecies = Database['public']['Tables']['observation_event_species']['Row']
@@ -198,6 +199,40 @@ export interface Challenge {
     submissionsCount?: number
     completionsCount?: number
     completed?: boolean
+    mySubmissionId?: number
+    mySubmissionStatus?: 'pending' | 'approved' | 'rejected'
+    canEditSubmission?: boolean
+}
+
+export interface ChallengeSubmissionRatingSummary {
+    avgCreativeExpression: number
+    avgCompletionQuality: number
+    avgEvidenceCompleteness: number
+    avgReflectionDepth: number
+    avgScore: number
+    ratingCount: number
+}
+
+export interface ChallengeSubmission {
+    id: number
+    challengeId: number
+    userId: string
+    title: string
+    author: string
+    avatar?: string
+    avatarFrameId?: string | null
+    nameColorId?: string | null
+    createdAt: string
+    updatedAt: string
+    proofImages: string[]
+    proofCaptions?: string[]
+    proofVideoUrl?: string
+    notes?: string
+    isPublic: boolean
+    status?: 'pending' | 'approved' | 'rejected'
+    rejectionReason?: string
+    ratingSummary: ChallengeSubmissionRatingSummary
+    referenceProjects: ObservationLinkedItem[]
 }
 
 export interface ObservationLinkedItem {
@@ -512,6 +547,9 @@ export function mapDbChallenge(
         submissionsCount: (dbChallenge.submissions_count as number) ?? undefined,
         completionsCount: (dbChallenge.completions_count as number) ?? undefined,
         completed,
+        mySubmissionId: (dbChallenge.my_submission_id as number) ?? undefined,
+        mySubmissionStatus: (dbChallenge.my_submission_status as 'pending' | 'approved' | 'rejected') ?? undefined,
+        canEditSubmission: (dbChallenge.can_edit_submission as boolean) ?? undefined,
     }
 }
 
@@ -616,5 +654,44 @@ export function mapDbCompletion(
         likes: dbCompletion.likes_count ?? 0,
         status: (dbCompletion.status as 'pending' | 'approved' | 'rejected') || undefined,
         rejectionReason: dbCompletion.rejection_reason || undefined,
+    }
+}
+
+export function mapDbChallengeSubmission(
+    dbSubmission: DbChallengeSubmission & {
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
+        referenceProjects?: ObservationLinkedItem[]
+        ratingSummary?: Partial<ChallengeSubmissionRatingSummary>
+    }
+): ChallengeSubmission {
+    const ratingSummary = dbSubmission.ratingSummary || {}
+
+    return {
+        id: dbSubmission.id,
+        challengeId: dbSubmission.challenge_id,
+        userId: dbSubmission.user_id,
+        title: dbSubmission.title,
+        author: dbSubmission.profiles?.display_name || 'Unknown',
+        avatar: dbSubmission.profiles?.avatar_url || undefined,
+        avatarFrameId: dbSubmission.profiles?.equipped_avatar_frame_id ?? undefined,
+        nameColorId: dbSubmission.profiles?.equipped_name_color_id ?? undefined,
+        createdAt: dbSubmission.created_at,
+        updatedAt: dbSubmission.updated_at,
+        proofImages: dbSubmission.proof_images || [],
+        proofCaptions: dbSubmission.proof_captions ?? undefined,
+        proofVideoUrl: dbSubmission.proof_video_url || undefined,
+        notes: dbSubmission.notes || undefined,
+        isPublic: dbSubmission.is_public ?? true,
+        status: (dbSubmission.status as 'pending' | 'approved' | 'rejected') || undefined,
+        rejectionReason: dbSubmission.rejection_reason || undefined,
+        ratingSummary: {
+            avgCreativeExpression: ratingSummary.avgCreativeExpression ?? 0,
+            avgCompletionQuality: ratingSummary.avgCompletionQuality ?? 0,
+            avgEvidenceCompleteness: ratingSummary.avgEvidenceCompleteness ?? 0,
+            avgReflectionDepth: ratingSummary.avgReflectionDepth ?? 0,
+            avgScore: ratingSummary.avgScore ?? 0,
+            ratingCount: ratingSummary.ratingCount ?? 0,
+        },
+        referenceProjects: dbSubmission.referenceProjects || [],
     }
 }

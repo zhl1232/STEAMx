@@ -11,6 +11,14 @@ type ChallengeRatingProjectAccessRow = ProjectAccessRow & {
   challenge_id: number | null
 }
 
+type ChallengeRatingSubmissionAccessRow = {
+  id: number
+  user_id: string
+  challenge_id: number
+  status: string | null
+  is_public: boolean
+}
+
 export function canAccessProject(
   project: Pick<ProjectAccessRow, 'author_id' | 'status'> | null,
   viewerUserId?: string | null,
@@ -64,4 +72,31 @@ export async function getChallengeRatingProject(
   }
 
   return project
+}
+
+export async function getChallengeRatingSubmission(
+  supabase: SupabaseClient<Database>,
+  submissionId: number,
+): Promise<ChallengeRatingSubmissionAccessRow | null> {
+  const { data, error } = await supabase
+    .from('challenge_submissions')
+    .select('id, user_id, challenge_id, status, is_public')
+    .eq('id', submissionId)
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  const submission = data as ChallengeRatingSubmissionAccessRow | null
+
+  if (!submission) {
+    return null
+  }
+
+  if (submission.status !== 'approved' || !submission.is_public) {
+    return null
+  }
+
+  return submission
 }

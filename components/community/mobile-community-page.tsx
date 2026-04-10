@@ -9,13 +9,13 @@ import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { getFeaturedNatureChallenges } from "@/lib/community/featured-nature-challenges";
 import { cn } from "@/lib/utils";
 
 export function MobileCommunityPage() {
     const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
     const [activeTab, setActiveTab] = useState<"discussions" | "challenges" | "leaderboard">("discussions");
-    const featuredBirdChallenge = challenges.activeTimed.find((challenge) => challenge.tags.includes("鸟类"))
-        || challenges.evergreen.find((challenge) => challenge.tags.includes("鸟类"));
+    const featuredNatureChallenges = getFeaturedNatureChallenges(challenges);
 
     return (
         <div className="flex min-h-screen flex-col bg-background pb-24">
@@ -69,28 +69,48 @@ export function MobileCommunityPage() {
                     </div>
                 ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-6">
-                        {featuredBirdChallenge && (
+                        {featuredNatureChallenges.length > 0 && (
                             <div className="surface-panel rounded-[24px] bg-gradient-to-r from-emerald-50/85 to-sky-50/88 p-4 dark:from-emerald-950/24 dark:to-sky-950/22">
                                 <div className="mb-2 inline-flex rounded-full bg-white/80 px-2.5 py-1 text-[10px] font-medium text-emerald-700 dark:bg-background/60 dark:text-emerald-300">
                                     自然观察专题
                                 </div>
-                                <h2 className="text-lg font-bold leading-tight">{featuredBirdChallenge.title}</h2>
+                                <h2 className="text-lg font-bold leading-tight">正在进行的自然观察挑战</h2>
                                 <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                                    先进入自然观察频道，再去学习观察方法并提交你的第一条记录。
+                                    这里会优先露出自然观察方向的挑战，现在会同时显示鸟类和蚂蚁等主题。
                                 </p>
-                                <div className="mt-3 flex gap-2">
-                                    <Link
-                                        href={`/community/challenge/${featuredBirdChallenge.id}`}
-                                        className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground"
-                                    >
-                                        进入挑战
-                                    </Link>
-                                    <Link
-                                        href="/bird-observation"
-                                        className="inline-flex items-center rounded-full border px-4 py-2 text-xs font-medium"
-                                    >
-                                        频道首页
-                                    </Link>
+                                <div className="mt-3 space-y-3">
+                                    {featuredNatureChallenges.map((challenge) => (
+                                        <div key={challenge.id} className="rounded-2xl border border-border/60 bg-background/78 p-3">
+                                            <div className="flex flex-wrap items-center gap-2 text-[10px]">
+                                                <span className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary">
+                                                    {challenge.challengeType === "timed" ? "限时挑战" : "长期挑战"}
+                                                </span>
+                                                {challenge.tags.slice(0, 2).map((tag) => (
+                                                    <span key={tag} className="rounded-full bg-muted px-2 py-1 font-medium text-muted-foreground">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <h3 className="mt-2 text-sm font-semibold leading-5">{challenge.title}</h3>
+                                            <p className="mt-1 text-xs leading-5 text-muted-foreground line-clamp-2">
+                                                {challenge.description}
+                                            </p>
+                                            <div className="mt-3 flex gap-2">
+                                                <Link
+                                                    href={`/community/challenge/${challenge.id}`}
+                                                    className="inline-flex items-center rounded-full bg-primary px-3 py-1.5 text-[11px] font-medium text-primary-foreground"
+                                                >
+                                                    进入挑战
+                                                </Link>
+                                                <Link
+                                                    href="/explore/observations"
+                                                    className="inline-flex items-center rounded-full border px-3 py-1.5 text-[11px] font-medium"
+                                                >
+                                                    看记录
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}

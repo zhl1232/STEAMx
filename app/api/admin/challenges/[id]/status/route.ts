@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateNumber } from '@/lib/api/validation'
+import { settleTimedChallenge } from '@/lib/api/challenge-settlement'
 
 const VALID_TRANSITIONS: Record<string, Record<string, string[]>> = {
   timed: {
@@ -51,14 +52,7 @@ export async function PATCH(
 
     // For timed challenges ending: trigger settlement via RPC
     if (ch.challenge_type === 'timed' && targetStatus === 'ended') {
-      const { data: result, error: rpcError } = await (supabase.rpc as unknown as (
-        fn: string, args: unknown
-      ) => PromiseLike<{ data: unknown; error: unknown }>)(
-        'settle_timed_challenge',
-        { p_challenge_id: challengeId }
-      )
-
-      if (rpcError) throw rpcError
+      const result = await settleTimedChallenge(challengeId)
 
       return NextResponse.json({
         message: 'Challenge ended and settled',

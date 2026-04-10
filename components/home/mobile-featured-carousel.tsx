@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Leaf } from "lucide-react";
+import { ArrowRight, Leaf } from "lucide-react";
 
 import { homeFeaturedSlides } from "@/lib/home-featured-slides";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,16 @@ export function MobileFeaturedCarousel() {
         const total = homeFeaturedSlides.length;
         setActiveIndex(((nextIndex % total) + total) % total);
     };
+
+    useEffect(() => {
+        if (!hasMultiple) return;
+
+        const timer = window.setInterval(() => {
+            setActiveIndex((current) => (current + 1) % homeFeaturedSlides.length);
+        }, 3000);
+
+        return () => window.clearInterval(timer);
+    }, [hasMultiple]);
 
     return (
         <div className="px-4 pt-4 pb-2">
@@ -59,12 +69,17 @@ export function MobileFeaturedCarousel() {
                                         <p className="text-[13px] leading-[1.55] text-[#fff8ee]">
                                             {slide.description}
                                         </p>
-                                        <span
-                                            className="mt-4 inline-flex items-center rounded-full bg-[#fffdf6] px-3.5 py-2 text-xs font-semibold text-[#31574b] shadow-sm"
-                                        >
-                                            {slide.primaryLabel}
-                                            <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                                        </span>
+                                        <div className="mt-4 flex flex-wrap gap-2">
+                                            <span
+                                                className="inline-flex items-center rounded-full bg-[#fffdf6] px-3.5 py-2 text-xs font-semibold text-[#31574b] shadow-sm"
+                                            >
+                                                {slide.primaryLabel}
+                                                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                                            </span>
+                                            <span className="inline-flex items-center rounded-full border border-white/45 bg-white/8 px-3 py-2 text-[11px] font-medium text-white/92 backdrop-blur-sm">
+                                                {slide.secondaryLabel}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -73,26 +88,6 @@ export function MobileFeaturedCarousel() {
                     ))}
                 </div>
 
-                {hasMultiple && (
-                    <>
-                        <button
-                            type="button"
-                            onClick={() => goTo(activeIndex - 1)}
-                            className="absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-sm"
-                            aria-label="上一张专题"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => goTo(activeIndex + 1)}
-                            className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-sm"
-                            aria-label="下一张专题"
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </button>
-                    </>
-                )}
             </div>
 
             <div className="mt-3 flex items-center justify-center gap-2">

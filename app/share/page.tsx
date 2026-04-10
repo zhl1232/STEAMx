@@ -59,6 +59,15 @@ interface FormData {
 }
 
 const DRAFT_KEY = "project_draft";
+const SECTION_CARD_CLASS =
+    "surface-subtle overflow-hidden rounded-[22px] border-border/60 shadow-none";
+const SECTION_HEADER_CLASS = "px-3.5 pb-3 pt-4 sm:px-6 sm:pb-3 sm:pt-6";
+const SECTION_CONTENT_CLASS = "space-y-4 px-3.5 pb-4 sm:px-6 sm:pb-6";
+const SUBSECTION_CARD_CLASS =
+    "rounded-[18px] bg-background/72 shadow-none ring-1 ring-inset ring-border/40 sm:rounded-[20px]";
+const FIELD_CLASS = "rounded-xl border-border/60 bg-background/95 shadow-none";
+const CHIP_CLASS =
+    "min-h-10 rounded-full border px-3.5 py-2 text-[13px] font-medium leading-none transition-all sm:px-4 sm:text-sm";
 
 function ShareForm() {
     const { addProject, updateProject } = useProjects();
@@ -453,16 +462,16 @@ function ShareForm() {
     }
 
     return (
-        <div className="page-shell pt-6 pb-24 md:py-8">
+        <div className="page-shell px-3 pt-4 pb-24 sm:px-4 sm:pt-6 md:px-6 md:py-8">
             <div className="md:hidden">
                 <MobilePageHeader title={editId ? "编辑项目" : "分享项目"} fallbackHref="/profile" />
             </div>
 
-            <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-                <div className="mb-8">
+            <section className="surface-panel overflow-visible rounded-none border-0 bg-transparent px-0 py-4 shadow-none sm:overflow-hidden sm:rounded-[28px] sm:border sm:bg-card/88 sm:px-7 sm:py-7 sm:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] lg:px-8">
+                <div className="mb-6 px-1 sm:mb-8 sm:px-0">
                     <p className="section-kicker">{editId ? "项目修改" : "项目发布"}</p>
-                    <h1 className="mt-3 mb-2 text-3xl font-semibold tracking-tight">{editId ? "编辑项目" : "分享你的创意"}</h1>
-                    <p className="text-sm leading-7 text-muted-foreground md:text-base">
+                    <h1 className="mb-2 mt-3 text-[1.9rem] font-semibold tracking-tight sm:text-3xl">{editId ? "编辑项目" : "分享你的创意"}</h1>
+                    <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
                         {editId ? "修改已发布或被拒绝的项目内容" : "把你的 STEAM 项目整理成清晰作品，提交到平台中继续展示和审核。"}
                     </p>
                 </div>
@@ -471,8 +480,8 @@ function ShareForm() {
 
                     {/* 挑战关联横幅 */}
                     {challengeInfo && (
-                        <Card className="surface-subtle border-primary/50 bg-primary/5 shadow-none">
-                            <CardContent className="py-4">
+                        <Card className="surface-subtle rounded-[22px] border-primary/35 bg-primary/5 shadow-none">
+                            <CardContent className="px-3.5 py-4 sm:px-6">
                                 <div className="flex items-start gap-3">
                                     <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                                         🏆
@@ -493,12 +502,12 @@ function ShareForm() {
                     )}
 
                 {/* 基本信息卡片 */}
-                <Card className="surface-subtle shadow-none">
-                    <CardHeader>
-                        <CardTitle>基本信息</CardTitle>
+                <Card className={SECTION_CARD_CLASS}>
+                    <CardHeader className={SECTION_HEADER_CLASS}>
+                        <CardTitle className="text-xl sm:text-2xl">基本信息</CardTitle>
                         <CardDescription>填写项目的基本信息</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className={SECTION_CONTENT_CLASS}>
                         {/* 项目标题 */}
                         <div className="space-y-2">
                             <Label htmlFor="title">项目标题 *</Label>
@@ -508,6 +517,7 @@ function ShareForm() {
                                 onChange={(e) => handleInputChange("title", e.target.value)}
                                 placeholder="例如：自制水火箭"
                                 required
+                                className={FIELD_CLASS}
                             />
                         </div>
 
@@ -520,7 +530,7 @@ function ShareForm() {
                                         key={cat}
                                         type="button"
                                         onClick={() => handleInputChange("category", cat)}
-                                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${formData.category === cat
+                                        className={`${CHIP_CLASS} ${formData.category === cat
                                             ? "bg-foreground text-background border-foreground"
                                             : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
                                             }`}
@@ -540,7 +550,7 @@ function ShareForm() {
                                         key={sub}
                                         type="button"
                                         onClick={() => handleInputChange("subCategory", sub)}
-                                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${formData.subCategory === sub
+                                        className={`${CHIP_CLASS} ${formData.subCategory === sub
                                             ? "bg-foreground text-background border-foreground"
                                             : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
                                             }`}
@@ -575,12 +585,12 @@ function ShareForm() {
                 </Card>
 
                 {/* 项目详情卡片 */}
-                <Card className="surface-subtle shadow-none">
-                    <CardHeader>
-                        <CardTitle>项目详情</CardTitle>
+                <Card className={SECTION_CARD_CLASS}>
+                    <CardHeader className={SECTION_HEADER_CLASS}>
+                        <CardTitle className="text-xl sm:text-2xl">项目详情</CardTitle>
                         <CardDescription>详细描述你的项目</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className={SECTION_CONTENT_CLASS}>
                         {/* 所需材料 */}
                         <div className="space-y-2">
                             <Label htmlFor="materials">所需材料</Label>
@@ -590,19 +600,20 @@ function ShareForm() {
                                 onChange={(e) => handleInputChange("materials", e.target.value)}
                                 placeholder="每行一个材料，例如：&#10;塑料瓶 x1&#10;气球 x2&#10;胶带"
                                 rows={5}
+                                className={FIELD_CLASS}
                             />
                         </div>
 
                         {/* 制作步骤 */}
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <Label>制作步骤 *</Label>
                                 <Button
                                     type="button"
                                     variant="outline"
                                     size="sm"
                                     onClick={addStep}
-                                    className="gap-2 rounded-full"
+                                    className="w-full gap-2 rounded-full sm:w-auto"
                                 >
                                     <Plus className="h-4 w-4" />
                                     添加步骤
@@ -610,8 +621,8 @@ function ShareForm() {
                             </div>
 
                             {formData.steps.map((step, index) => (
-                                <Card key={index} className="rounded-[24px] border-border/70 bg-background/80 shadow-none">
-                                    <CardHeader className="pb-3">
+                                <Card key={index} className={SUBSECTION_CARD_CLASS}>
+                                    <CardHeader className="px-3.5 pb-2.5 pt-3.5 sm:px-5 sm:pb-3 sm:pt-5">
                                         <div className="flex items-center justify-between">
                                             <CardTitle className="text-base">步骤 {index + 1}</CardTitle>
                                             {formData.steps.length > 1 && (
@@ -620,14 +631,14 @@ function ShareForm() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => removeStep(index)}
-                                                    className="rounded-full text-destructive hover:text-destructive"
+                                                    className="h-9 w-9 rounded-full p-0 text-destructive hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             )}
                                         </div>
                                     </CardHeader>
-                                    <CardContent className="space-y-3">
+                                    <CardContent className="space-y-3 px-3.5 pb-3.5 sm:px-5 sm:pb-5">
                                         <div className="space-y-2">
                                             <Label htmlFor={`step-title-${index}`}>步骤标题</Label>
                                             <Input
@@ -635,6 +646,7 @@ function ShareForm() {
                                                 value={step.title}
                                                 onChange={(e) => handleStepChange(index, "title", e.target.value)}
                                                 placeholder={`例如：准备材料`}
+                                                className={FIELD_CLASS}
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -646,6 +658,7 @@ function ShareForm() {
                                                 placeholder="详细描述这一步需要做什么..."
                                                 rows={3}
                                                 required
+                                                className={FIELD_CLASS}
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -668,12 +681,12 @@ function ShareForm() {
 
                 {/* PBL 反思区域（仅挑战关联时显示） */}
                 {challengeInfo && (
-                    <Card className="surface-subtle shadow-none">
-                        <CardHeader>
-                            <CardTitle>PBL 反思</CardTitle>
+                    <Card className={SECTION_CARD_CLASS}>
+                        <CardHeader className={SECTION_HEADER_CLASS}>
+                            <CardTitle className="text-xl sm:text-2xl">PBL 反思</CardTitle>
                             <CardDescription>记录你的探究过程和思考</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
+                        <CardContent className={SECTION_CONTENT_CLASS}>
                             <div className="space-y-2">
                                 <Label htmlFor="problemStatement">问题重述</Label>
                                 <Textarea
@@ -682,11 +695,12 @@ function ShareForm() {
                                     onChange={(e) => setFormData(prev => ({ ...prev, problemStatement: e.target.value }))}
                                     placeholder="用你自己的话描述你要解决什么问题"
                                     rows={3}
+                                    className={FIELD_CLASS}
                                 />
                             </div>
 
                             <div className="space-y-3">
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                     <Label>试错记录</Label>
                                     <Button
                                         type="button"
@@ -696,7 +710,7 @@ function ShareForm() {
                                             ...prev,
                                             iterations: [...prev.iterations, { description: '', result: '' }]
                                         }))}
-                                        className="gap-2 rounded-full"
+                                        className="w-full gap-2 rounded-full sm:w-auto"
                                     >
                                         <Plus className="h-4 w-4" />
                                         添加记录
@@ -706,10 +720,10 @@ function ShareForm() {
                                     <p className="text-sm text-muted-foreground">记录你的每次尝试和结果，展示探究过程</p>
                                 )}
                                 {formData.iterations.map((it, i) => (
-                                    <div key={i} className="rounded-2xl border border-border/70 bg-background/80 p-3 space-y-2">
+                                    <div key={i} className="space-y-3 rounded-[16px] bg-background/72 p-3 ring-1 ring-inset ring-border/40 sm:rounded-2xl sm:p-4">
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-medium">尝试 #{i + 1}</span>
-                                            <Button type="button" variant="ghost" size="sm" className="rounded-full"
+                                            <Button type="button" variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0"
                                                 onClick={() => setFormData(prev => ({ ...prev, iterations: prev.iterations.filter((_, idx) => idx !== i) }))}
                                             >
                                                 <Trash2 className="h-3 w-3" />
@@ -723,6 +737,7 @@ function ShareForm() {
                                                 setFormData(prev => ({ ...prev, iterations: next }));
                                             }}
                                             placeholder="做了什么"
+                                            className={FIELD_CLASS}
                                         />
                                         <Input
                                             value={it.result}
@@ -732,6 +747,7 @@ function ShareForm() {
                                                 setFormData(prev => ({ ...prev, iterations: next }));
                                             }}
                                             placeholder="结果如何"
+                                            className={FIELD_CLASS}
                                         />
                                     </div>
                                 ))}
@@ -745,6 +761,7 @@ function ShareForm() {
                                     onChange={(e) => setFormData(prev => ({ ...prev, reflection: e.target.value }))}
                                     placeholder="你从这个过程中学到了什么？哪里还可以改进？"
                                     rows={4}
+                                    className={FIELD_CLASS}
                                 />
                             </div>
                         </CardContent>
@@ -752,13 +769,13 @@ function ShareForm() {
                 )}
 
                 {/* 操作按钮 */}
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-3 border-t border-border/60 pt-2 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:pt-0">
                     <Button
                         type="button"
                         variant="outline"
                         onClick={handleSaveDraft}
                         disabled={isSavingDraft}
-                        className="gap-2 rounded-full"
+                        className="w-full gap-2 rounded-full sm:w-auto"
                     >
                         {isSavingDraft ? (
                             <CheckCircle2 className="h-4 w-4" />
@@ -768,11 +785,11 @@ function ShareForm() {
                         {isSavingDraft ? "已保存" : "保存草稿"}
                     </Button>
 
-                    <div className="flex gap-3">
-                        <Button variant="outline" type="button" className="rounded-full" onClick={() => router.back()}>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                        <Button variant="outline" type="button" className="w-full rounded-full sm:w-auto" onClick={() => router.back()}>
                             取消
                         </Button>
-                        <Button type="submit" disabled={isLoading} className="gap-2 rounded-full">
+                        <Button type="submit" disabled={isLoading} className="w-full gap-2 rounded-full sm:w-auto">
                             <Upload className="h-4 w-4" />
                             {isLoading ? "提交中..." : "提交审核"}
                         </Button>

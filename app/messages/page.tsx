@@ -190,6 +190,8 @@ function MessagesContent() {
           fallbackHref="/"
           sticky={false}
           className="border-none bg-transparent shadow-none"
+          backButtonClassName="left-2"
+          titleClassName="pl-6"
         />
         <div className="px-4 pb-3 pt-1">
           <div className="segmented-control flex w-full justify-between gap-1">

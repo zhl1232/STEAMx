@@ -80,6 +80,24 @@ export const CreateProjectSchema = z.object({
   steps: z.array(ProjectStepSchema).max(50).optional().default([]),
 });
 
+export const ChallengeSubmissionSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200),
+  notes: z.string().max(5000).nullable().optional(),
+  proof_images: z.array(relativeOrAbsoluteUrlSchema).min(1, "At least one image is required").max(9),
+  proof_captions: z.array(z.string().max(200)).max(9).optional(),
+  proof_video_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
+  is_public: z.boolean().default(true),
+  reference_project_ids: z.array(z.number().int().positive()).max(10).default([]),
+});
+
+export const ChallengeSubmissionRatingSchema = z.object({
+  submissionId: z.number().int().positive(),
+  creativeExpression: z.number().int().min(1).max(5),
+  completionQuality: z.number().int().min(1).max(5),
+  evidenceCompleteness: z.number().int().min(1).max(5),
+  reflectionDepth: z.number().int().min(1).max(5),
+});
+
 // 私信消息（Supabase 响应校验）
 export const MessageSchema = z.object({
   id: z.number().int(),
@@ -110,5 +128,7 @@ export const ResetPasswordSchema = z.object({
 export type Profile = z.infer<typeof ProfileSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 export type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
+export type ChallengeSubmissionInput = z.infer<typeof ChallengeSubmissionSchema>;
+export type ChallengeSubmissionRatingInput = z.infer<typeof ChallengeSubmissionRatingSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;

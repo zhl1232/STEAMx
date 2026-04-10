@@ -21,7 +21,7 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
     const remainingTagCount = Math.max(challenge.tags.length - 1, 0);
     const primaryMetric = isTimed
         ? `${challenge.participants} 人参与`
-        : `已有 ${challenge.completionsCount || 0} 人完成`;
+        : `已有 ${challenge.submissionsCount || 0} 件作品`;
     const secondaryMeta = isTimed
         ? (challenge.daysLeft > 0 ? `剩余 ${challenge.daysLeft} 天` : '即将截止')
         : '随时开始，自主完成';
@@ -135,6 +135,11 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
                   <>
                     <CheckCircle className="mr-1.5 h-4 w-4" />
                     已完成
+                  </>
+                ) : challenge.mySubmissionStatus === 'pending' ? (
+                  <>
+                    <Trophy className="mr-1.5 h-4 w-4" />
+                    审核中
                   </>
                 ) : challenge.joined ? (
                   <>

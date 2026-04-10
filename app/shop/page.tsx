@@ -196,6 +196,8 @@ export default function ShopPage() {
         title="商店"
         fallbackHref="/profile"
         className="-mx-4 -mt-8 mb-6 md:hidden"
+        backButtonClassName="left-2"
+        titleClassName="pl-6"
         rightSlot={(
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="shrink-0">Lv.{level}</span>

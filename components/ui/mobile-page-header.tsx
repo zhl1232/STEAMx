@@ -14,6 +14,7 @@ interface MobilePageHeaderProps {
   sticky?: boolean
   className?: string
   contentClassName?: string
+  backButtonClassName?: string
   titleClassName?: string
   rightSlot?: ReactNode
 }
@@ -25,6 +26,7 @@ export function MobilePageHeader({
   sticky = true,
   className,
   contentClassName,
+  backButtonClassName,
   titleClassName,
   rightSlot,
 }: MobilePageHeaderProps) {
@@ -58,14 +60,17 @@ export function MobilePageHeader({
           type="button"
           onClick={handleBack}
           aria-label={backLabel}
-          className="absolute left-4 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className={cn(
+            "absolute -left-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            backButtonClassName,
+          )}
         >
           <ChevronLeft className="h-5 w-5" />
           <span className="sr-only">{backLabel}</span>
         </button>
 
         <div className={cn('flex min-h-10 items-center', rightSlot ? 'pr-11' : '')}>
-          <div className={cn('min-w-0 flex-1 truncate pl-10 text-left text-base font-semibold tracking-tight', titleClassName)}>
+          <div className={cn('min-w-0 flex-1 truncate pl-2 text-left text-base font-semibold tracking-tight', titleClassName)}>
             {title}
           </div>
         </div>

@@ -6,6 +6,7 @@ import { useAuth } from '@/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { CompletionReviewCard } from '@/components/admin/completion-review-card'
+import { ChallengeSubmissionReviewCard } from '@/components/admin/challenge-submission-review-card'
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
@@ -91,10 +92,48 @@ interface CompletionProjectRow {
   category: string | null
 }
 
+interface ChallengeSubmissionForReview {
+  id: number
+  challenge_id: number
+  user_id: string
+  title: string
+  notes: string | null
+  proof_images: string[]
+  proof_captions: string[] | null
+  proof_video_url: string | null
+  is_public: boolean
+  status: string
+  challenges: {
+    title: string
+  } | null
+  profiles: {
+    display_name: string
+    avatar_url: string | null
+  } | null
+  referenceProjects: {
+    id: number
+    title: string
+  }[]
+}
+
+interface PendingChallengeSubmissionRow {
+  id: number
+  challenge_id: number
+  user_id: string
+  title: string
+  notes: string | null
+  proof_images: string[]
+  proof_captions: string[] | null
+  proof_video_url: string | null
+  is_public: boolean
+  status: string
+}
+
 export default function AdminPage() {
   const { canReview, isAdmin, loading } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
+  const [pendingChallengeSubmissions, setPendingChallengeSubmissions] = useState<ChallengeSubmissionForReview[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [supabase] = useState(() => createClient())
@@ -191,6 +230,84 @@ export default function AdminPage() {
     )
   }, [supabase])
 
+  const fetchPendingChallengeSubmissions = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('challenge_submissions')
+      .select('id, challenge_id, user_id, title, notes, proof_images, proof_captions, proof_video_url, is_public, status')
+      .eq('status', 'pending')
+      .order('updated_at', { ascending: false })
+
+    if (error) {
+      console.error('Failed to fetch pending challenge submissions', error)
+      return
+    }
+
+    const submissionRows = (data || []) as PendingChallengeSubmissionRow[]
+    if (submissionRows.length === 0) {
+      setPendingChallengeSubmissions([])
+      return
+    }
+
+    const userIds = [...new Set(submissionRows.map((row) => row.user_id))]
+    const challengeIds = [...new Set(submissionRows.map((row) => row.challenge_id))]
+    const submissionIds = submissionRows.map((row) => row.id)
+
+    const [
+      { data: profilesData },
+      { data: challengesData },
+      { data: referenceLinks },
+    ] = await Promise.all([
+      supabase.from('profiles').select('id, display_name, avatar_url').in('id', userIds),
+      supabase.from('challenges').select('id, title').in('id', challengeIds),
+      supabase.from('challenge_submission_projects').select('submission_id, project_id, sort_order').in('submission_id', submissionIds),
+    ])
+
+    const referenceProjectIds = [...new Set(((referenceLinks || []) as { project_id: number }[]).map((row) => row.project_id))]
+    const { data: projectsData } = referenceProjectIds.length
+      ? await supabase.from('projects').select('id, title').in('id', referenceProjectIds)
+      : { data: [] as { id: number; title: string }[] }
+
+    const profilesById = new Map(
+      ((profilesData || []) as CompletionProfileRow[]).map((profile) => [
+        profile.id,
+        {
+          display_name: profile.display_name ?? '未知用户',
+          avatar_url: profile.avatar_url,
+        },
+      ]),
+    )
+    const challengesById = new Map(
+      ((challengesData || []) as { id: number; title: string | null }[]).map((challenge) => [
+        challenge.id,
+        { title: challenge.title ?? '未知挑战' },
+      ]),
+    )
+    const projectsById = new Map(
+      ((projectsData || []) as { id: number; title: string | null }[]).map((project) => [
+        project.id,
+        { id: project.id, title: project.title ?? '未知项目' },
+      ]),
+    )
+    const referencesBySubmissionId = new Map<number, { id: number; title: string }[]>()
+
+    for (const row of ((referenceLinks || []) as { submission_id: number; project_id: number; sort_order: number }[]).sort((a, b) => a.sort_order - b.sort_order)) {
+      const project = projectsById.get(row.project_id)
+      if (!project) continue
+      const current = referencesBySubmissionId.get(row.submission_id) || []
+      current.push(project)
+      referencesBySubmissionId.set(row.submission_id, current)
+    }
+
+    setPendingChallengeSubmissions(
+      submissionRows.map((row) => ({
+        ...row,
+        profiles: profilesById.get(row.user_id) ?? null,
+        challenges: challengesById.get(row.challenge_id) ?? null,
+        referenceProjects: referencesBySubmissionId.get(row.id) ?? [],
+      })),
+    )
+  }, [supabase])
+
   // Fetch all projects for management
   const fetchAllProjects = useCallback(async () => {
     const { data, error } = await supabase
@@ -213,9 +330,14 @@ export default function AdminPage() {
 
   const loadData = useCallback(async () => {
     setIsLoading(true)
-    await Promise.all([fetchPendingProjects(), fetchPendingCompletions(), fetchAllProjects()])
+    await Promise.all([
+      fetchPendingProjects(),
+      fetchPendingCompletions(),
+      fetchPendingChallengeSubmissions(),
+      fetchAllProjects(),
+    ])
     setIsLoading(false)
-  }, [fetchPendingProjects, fetchPendingCompletions, fetchAllProjects])
+  }, [fetchPendingProjects, fetchPendingCompletions, fetchPendingChallengeSubmissions, fetchAllProjects])
 
   useEffect(() => {
     if (!loading && canReview) {
@@ -265,6 +387,7 @@ export default function AdminPage() {
           <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[24px] bg-transparent p-1">
             <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
             <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核作品 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
             <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
             {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
@@ -306,6 +429,26 @@ export default function AdminPage() {
                   <CompletionReviewCard
                     key={completion.id}
                     completion={completion}
+                    onReview={loadData}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="pending-challenge-submissions" className="space-y-4">
+            {pendingChallengeSubmissions.length === 0 ? (
+              <Card className="surface-subtle shadow-none">
+                <CardContent className="py-8 text-center">
+                  <p className="text-muted-foreground">暂无待审核挑战作品</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {pendingChallengeSubmissions.map((submission) => (
+                  <ChallengeSubmissionReviewCard
+                    key={submission.id}
+                    submission={submission}
                     onReview={loadData}
                   />
                 ))}

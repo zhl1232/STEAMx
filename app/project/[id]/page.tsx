@@ -172,6 +172,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           title={project.title}
           fallbackHref="/explore"
           className="-mx-4 -mt-8 mb-4 md:hidden"
+          backButtonClassName="left-2"
+          titleClassName="pl-6"
         />
 
         <div className="mb-5">

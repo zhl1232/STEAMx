@@ -2,22 +2,23 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Users, Trophy, ArrowLeft, CheckCircle, Play, Sparkles } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { OptimizedImage } from "@/components/ui/optimized-image"
-import { CountdownTimer } from "@/components/ui/countdown-timer"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
-import { useCommunity } from "@/context/community-context"
+import { ArrowLeft, ArrowUpRight, CheckCircle, Play, Sparkles, Trophy, Users } from "lucide-react"
+
 import { PblInfo } from "@/components/features/challenge/pbl-info"
 import { StageGuide } from "@/components/features/challenge/stage-guide"
 import { SubmissionGallery } from "@/components/features/challenge/submission-gallery"
-import type { Challenge } from "@/lib/mappers/types"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { CountdownTimer } from "@/components/ui/countdown-timer"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
+import { OptimizedImage } from "@/components/ui/optimized-image"
+import { useAuth } from "@/context/auth-context"
+import { useCommunity } from "@/context/community-context"
+import { useLoginPrompt } from "@/context/login-prompt-context"
+import type { Challenge } from "@/lib/mappers/types"
+import { cn } from "@/lib/utils"
 
 export default function ChallengeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params)
@@ -32,11 +33,13 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
   useEffect(() => {
     postLoginJoinRef.current = async () => {
       if (!challenge) return
-      setChallenge(prev => prev ? { ...prev, joined: true, participants: prev.participants + 1 } : prev)
+      setChallenge((prev) => (prev ? { ...prev, joined: true, participants: prev.participants + 1 } : prev))
       try {
         await joinChallenge(challenge.id)
       } catch {
-        setChallenge(prev => prev ? { ...prev, joined: false, participants: Math.max(0, prev.participants - 1) } : prev)
+        setChallenge((prev) =>
+          prev ? { ...prev, joined: false, participants: Math.max(0, prev.participants - 1) } : prev,
+        )
       }
     }
   }, [challenge, joinChallenge])
@@ -50,7 +53,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
       }
       setIsLoading(false)
     }
-    fetchChallenge()
+    void fetchChallenge()
   }, [unwrappedParams.id])
 
   if (isLoading) {
@@ -67,309 +70,551 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
     return (
       <div className="page-shell py-10 md:py-14">
         <section className="surface-panel px-6 py-12 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight mb-4">挑战不存在</h1>
+          <h1 className="mb-4 text-2xl font-semibold tracking-tight">挑战不存在</h1>
           <Button onClick={() => router.back()}>返回上一页</Button>
         </section>
       </div>
     )
   }
 
-  const isTimed = challenge.challengeType === 'timed'
-  const isEnded = challenge.status === 'ended'
+  const isTimed = challenge.challengeType === "timed"
+  const isEnded = challenge.status === "ended"
+  const hasSubmission = Boolean(challenge.mySubmissionId)
+  const canEditSubmission = challenge.canEditSubmission !== false && !isEnded
+  const relatedProjects = challenge.recommendedProjects || []
+  const STEAM_LABEL: Record<string, string> = { S: "科学", T: "技术", E: "工程", A: "艺术", M: "数学" }
+  const PRIMARY_SECTION_GLOW = "pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-primary/10 via-primary/4 to-transparent sm:h-20"
+  const SECONDARY_SECTION_GLOW = "pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-secondary/30 via-secondary/12 to-transparent sm:h-20"
+  const steamWeights = challenge.steamWeights
+    ? Object.entries(challenge.steamWeights)
+        .filter(([, value]) => value > 0)
+        .sort(([, a], [, b]) => b - a)
+    : []
+  const formatDate = (value: string) => new Date(value).toLocaleDateString("zh-CN")
+  const formatCompactDate = (value: string) =>
+    new Date(value).toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" })
+  const challengeStatusLabel = isEnded ? "已结束" : isTimed ? "进行中" : "长期开放"
+  const participationValue = isTimed ? challenge.participants : challenge.submissionsCount || 0
+  const participationLabel = isTimed ? "人已参与" : "件公开作品"
+  const submissionSummary =
+    challenge.mySubmissionStatus === "approved"
+      ? "作品已通过审核，修改后会重新审核。"
+      : challenge.mySubmissionStatus === "pending"
+        ? "作品审核中，可继续补充后再提交。"
+        : challenge.mySubmissionStatus === "rejected"
+          ? "作品待修改后重新提交。"
+          : hasSubmission
+            ? "可继续补充过程和证据。"
+            : "整理好过程和证据后提交。"
+  const submissionStatusMeta =
+    challenge.mySubmissionStatus === "approved"
+      ? {
+          label: "审核通过",
+          className:
+            "bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-300",
+        }
+      : challenge.mySubmissionStatus === "pending"
+        ? {
+            label: "审核中",
+            className:
+              "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300",
+          }
+        : challenge.mySubmissionStatus === "rejected"
+          ? {
+              label: "待修改",
+              className:
+                "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300",
+            }
+          : null
+  const progressCards = [
+    {
+      label: isTimed ? "参与情况" : "作品情况",
+      value: `${participationValue}`,
+      helper: participationLabel,
+    },
+    {
+      label: "当前状态",
+      value: challengeStatusLabel,
+      helper: hasSubmission ? "已提交作品" : "未提交作品",
+    },
+    {
+      label: isTimed && challenge.endDate ? "挑战周期" : "挑战类型",
+      value:
+        isTimed && challenge.startDate && challenge.endDate
+          ? `${formatCompactDate(challenge.startDate)} - ${formatCompactDate(challenge.endDate)}`
+          : isTimed && challenge.endDate
+            ? `截止 ${formatCompactDate(challenge.endDate)}`
+            : "长期挑战",
+      helper: isTimed ? "结束后统一结算" : "可持续补充作品",
+    },
+  ]
+  const rewardItems = isTimed
+    ? [
+        {
+          icon: "🥇",
+          title: "第 1 名",
+          description: "徽章 + 20 硬币",
+          className: "border-amber-200/80 bg-amber-50/75 dark:border-amber-900/70 dark:bg-amber-950/20",
+        },
+        {
+          icon: "🥈",
+          title: "第 2 名",
+          description: "徽章 + 10 硬币",
+          className: "border-slate-200/80 bg-slate-50/75 dark:border-slate-800/70 dark:bg-slate-900/30",
+        },
+        {
+          icon: "🥉",
+          title: "第 3 名",
+          description: "徽章 + 5 硬币",
+          className: "border-orange-200/80 bg-orange-50/75 dark:border-orange-900/70 dark:bg-orange-950/20",
+        },
+        {
+          icon: "✨",
+          title: "参与奖励",
+          description: "参与即可获得 +20 XP",
+          className: "border-primary/20 bg-primary/5",
+        },
+      ]
+    : [
+        {
+          icon: "🏅",
+          title: "完成奖励",
+          description: "审核通过后计入完成",
+          className: "border-primary/20 bg-primary/5",
+        },
+        {
+          icon: "🧾",
+          title: "持续沉淀",
+          description: "结束前都可继续补材料",
+          className: "border-sky-200/80 bg-sky-50/75 dark:border-sky-900/70 dark:bg-sky-950/20",
+        },
+        {
+          icon: "🪄",
+          title: "公开展示",
+          description: "通过审核后进入作品墙",
+          className: "border-pink-200/80 bg-pink-50/75 dark:border-pink-900/70 dark:bg-pink-950/20",
+        },
+      ]
 
   const handleJoin = () => {
     if (!user) {
-      promptLogin(() => {
-        void postLoginJoinRef.current?.()
-      }, {
-        title: '登录以参与挑战',
-        description: '登录后即可报名参与挑战'
-      })
+      promptLogin(
+        () => {
+          void postLoginJoinRef.current?.()
+        },
+        {
+          title: "登录以参与挑战",
+          description: "登录后即可报名参与挑战",
+        },
+      )
       return
     }
+
     const wasJoined = challenge.joined
-    setChallenge(prev => prev ? {
-      ...prev,
-      joined: !wasJoined,
-      participants: prev.participants + (wasJoined ? -1 : 1),
-    } : prev)
+    setChallenge((prev) =>
+      prev
+        ? {
+            ...prev,
+            joined: !wasJoined,
+            participants: prev.participants + (wasJoined ? -1 : 1),
+          }
+        : prev,
+    )
     void joinChallenge(challenge.id).catch(() => {
-      setChallenge(prev => prev ? {
-        ...prev,
-        joined: wasJoined,
-        participants: prev.participants + (wasJoined ? 1 : -1),
-      } : prev)
+      setChallenge((prev) =>
+        prev
+          ? {
+              ...prev,
+              joined: wasJoined,
+              participants: prev.participants + (wasJoined ? 1 : -1),
+            }
+          : prev,
+      )
     })
   }
 
   const handleSubmit = () => {
-    router.push(`/share?challenge=${challenge.id}`)
+    router.push(`/community/challenge/${challenge.id}/submit`)
   }
 
-  const STEAM_LABEL: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
-
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pt-4 pb-24 md:pt-6 md:pb-10">
       <div className="md:hidden">
-        <MobilePageHeader title={challenge.title} fallbackHref="/community" />
+        <MobilePageHeader
+          title={challenge.title}
+          fallbackHref="/community"
+        />
       </div>
 
-      <Button variant="ghost" onClick={() => router.back()} className="hidden mb-6 rounded-full px-0 text-sm hover:bg-transparent md:inline-flex">
+      <Button
+        variant="ghost"
+        onClick={() => router.back()}
+        className="-ml-2 mb-6 hidden rounded-full px-2 text-sm hover:bg-transparent md:inline-flex"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         返回社区
       </Button>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_320px]">
-        <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.5fr)_320px] lg:gap-6">
+        <div className="space-y-4 sm:space-y-5">
           <section className="surface-panel overflow-hidden">
-            <div className="relative aspect-video">
+            <div className="relative min-h-[300px] overflow-hidden sm:min-h-[420px]">
               <OptimizedImage src={challenge.image} alt={challenge.title} fill variant="cover" className="object-cover" />
-              {isTimed && challenge.endDate && !isEnded && (
-                <div className="absolute top-4 right-4">
-                  <CountdownTimer endDate={challenge.endDate} />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.28),rgba(15,23,42,0.22)_32%,rgba(15,23,42,0.9)_100%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(166,193,238,0.32),transparent_32%),radial-gradient(circle_at_80%_18%,rgba(251,194,235,0.22),transparent_26%)]" />
+
+              <div className="absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 p-4 sm:p-6 lg:p-8">
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full bg-black/42 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+                    {isTimed ? "限时挑战" : "长期挑战"}
+                  </span>
+                  <span className="rounded-full bg-black/42 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+                    {challengeStatusLabel}
+                  </span>
                 </div>
-              )}
-              {isEnded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/45">
-                  <span className="text-2xl font-semibold text-white">已结束</span>
+
+                {isTimed && challenge.endDate && !isEnded && (
+                  <>
+                    <CountdownTimer
+                      endDate={challenge.endDate}
+                      compact
+                      className="rounded-full bg-black/42 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md md:hidden"
+                    />
+                    <CountdownTimer endDate={challenge.endDate} className="hidden md:flex" />
+                  </>
+                )}
+
+                {isEnded && (
+                  <span className="rounded-full bg-black/35 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-md">
+                    挑战已结束
+                  </span>
+                )}
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
+                <div className="max-w-3xl rounded-[24px] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-[28px] sm:px-6 sm:py-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/76">社区挑战</p>
+                  <h1 className="mt-3 text-[1.85rem] font-semibold leading-tight tracking-tight text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
+                    {challenge.title}
+                  </h1>
+                  <p className="mt-2.5 text-[13px] leading-6 text-white/92 sm:mt-3 sm:text-base sm:leading-8">
+                    {challenge.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
+                    {challenge.difficultyStars && (
+                      <span className="rounded-full bg-white/14 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm sm:px-3 sm:text-xs">
+                        {"★".repeat(challenge.difficultyStars)} 难度
+                      </span>
+                    )}
+                    {challenge.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-white/14 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm sm:px-3 sm:text-xs"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
-            <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-              <p className="section-kicker">社区活动</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Badge variant={isTimed ? 'default' : 'secondary'}>
-                  {isTimed ? '限时挑战' : '长期挑战'}
-                </Badge>
-                {challenge.difficultyStars && (
-                  <Badge variant="outline">{'★'.repeat(challenge.difficultyStars)} 难度</Badge>
-                )}
-                {challenge.tags.map(tag => (
-                  <span key={tag} className="rounded-full border border-border/70 bg-background/80 px-3 py-1 text-sm font-medium text-primary">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">{challenge.title}</h1>
-              <p className="mt-3 text-base leading-8 text-muted-foreground md:text-lg">{challenge.description}</p>
+            <div className="grid grid-cols-3 gap-2 border-t border-border/60 bg-[linear-gradient(135deg,rgba(255,255,255,0.7),rgba(166,193,238,0.12),rgba(251,194,235,0.1))] px-4 py-3 sm:px-6 lg:px-8 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.72),rgba(37,99,235,0.1),rgba(244,114,182,0.08))]">
+              {progressCards.map((card, index) => (
+                <div
+                  key={card.label}
+                  className={cn(
+                    "min-w-0 rounded-[16px] bg-white/82 px-3 py-2.5 text-left shadow-[0_18px_48px_-42px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:rounded-[18px] sm:px-3.5 dark:bg-slate-950/58",
+                    index === 1 ? "bg-white/90 dark:bg-slate-950/68" : "",
+                  )}
+                >
+                  <div className="text-[10px] font-medium tracking-[0.14em] text-foreground/56 sm:tracking-[0.16em]">
+                    {card.label}
+                  </div>
+                  <div className="mt-1 truncate text-[13px] font-semibold tracking-tight text-foreground sm:text-[15px]">
+                    {card.value}
+                  </div>
+                  <div className="mt-1 truncate text-[11px] text-muted-foreground">
+                    {card.helper}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-              {challenge.steamWeights && (
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {Object.entries(challenge.steamWeights)
-                    .filter(([, v]) => v > 0)
-                    .sort(([, a], [, b]) => b - a)
-                    .map(([dim, weight]) => (
-                      <Badge key={dim} variant="outline" className="text-xs">
+            {steamWeights.length > 0 && (
+              <div className="border-t border-border/60 px-4 py-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="section-kicker">STEAM 侧重</p>
+                  <div className="flex flex-wrap gap-2">
+                    {steamWeights.map(([dim, weight]) => (
+                      <Badge key={dim} variant="secondary" className="rounded-full border-0 bg-background/72 text-xs">
                         {STEAM_LABEL[dim] || dim}: {weight}
                       </Badge>
                     ))}
+                  </div>
                 </div>
+              </div>
+            )}
+          </section>
+
+          <section className="surface-panel relative overflow-hidden p-3.5 md:hidden">
+            <div className={SECONDARY_SECTION_GLOW} />
+            <div className="relative">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-lg font-semibold tracking-tight">加入后提交作品</h2>
+                <div className="inline-flex items-center gap-2 rounded-full bg-background/82 px-3 py-2 text-sm shadow-[0_18px_48px_-40px_rgba(15,23,42,0.12)]">
+                  {isTimed ? <Users className="h-4 w-4 text-primary" /> : <CheckCircle className="h-4 w-4 text-primary" />}
+                  <span className="font-semibold tracking-tight">{participationValue}</span>
+                </div>
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Badge variant="secondary" className="rounded-full border-0 bg-background/76">
+                  {challengeStatusLabel}
+                </Badge>
+                {challenge.joined && !isEnded && (
+                  <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
+                    {isTimed ? '已报名' : '已参与'}
+                  </span>
+                )}
+                {submissionStatusMeta && (
+                  <span className={cn("rounded-full px-3 py-1 text-xs font-medium", submissionStatusMeta.className)}>
+                    {submissionStatusMeta.label}
+                  </span>
+                )}
+              </div>
+
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                {isEnded
+                  ? hasSubmission
+                    ? '挑战已结束，你的挑战作品会继续保留在作品墙中。'
+                    : '挑战已结束，作品提交通道已关闭。'
+                  : hasSubmission
+                    ? '已提交，可继续补充材料。'
+                    : challenge.joined
+                      ? '已加入，准备好后可直接提交。'
+                      : '先加入，再提交作品。'}
+              </p>
+
+              {!isEnded && (
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <Button className="h-10 rounded-xl text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                    {hasSubmission ? '更新作品' : '提交作品'}
+                  </Button>
+                  <Button
+                    onClick={handleJoin}
+                    variant={challenge.joined ? "secondary" : "outline"}
+                    className={cn(
+                      "h-10 rounded-xl text-sm font-semibold transition-all",
+                      challenge.joined ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-950/20 dark:text-green-300" : "",
+                    )}
+                  >
+                    {challenge.joined ? (isTimed ? '已报名' : '已加入') : (isTimed ? '报名挑战' : '加入挑战')}
+                  </Button>
+                </div>
+              )}
+
+              {challenge.tags.includes("鸟类") && (
+                <Link
+                  href="/bird-observation/submit"
+                  className="mt-3 flex items-center justify-between rounded-[18px] bg-emerald-50/80 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-40px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
+                >
+                  <span>补充观察记录</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
               )}
             </div>
           </section>
 
-          <PblInfo challenge={challenge} />
+          <section className="surface-panel relative overflow-hidden p-3.5 sm:p-6">
+            <div className={PRIMARY_SECTION_GLOW} />
+            <div className="relative">
+              <PblInfo challenge={challenge} />
+            </div>
+          </section>
 
           {challenge.stages && challenge.stages.length > 0 && (
-            <StageGuide stages={challenge.stages} />
-          )}
-
-          {challenge.recommendedProjects && challenge.recommendedProjects.length > 0 && (
-            <section className="surface-panel p-6">
-              <h2 className="text-xl font-semibold">推荐任务</h2>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                先从这些任务开始，更容易把活动目标变成真正可执行的观察行动。
-              </p>
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                {challenge.recommendedProjects.map((project) => (
-                  <Link
-                    key={project.id}
-                    href={`/project/${project.id}`}
-                    className="surface-subtle p-4 transition-transform hover:-translate-y-0.5"
-                  >
-                    <div className="font-medium">{project.title}</div>
-                  </Link>
-                ))}
+            <section className="surface-panel relative overflow-hidden p-3.5 sm:p-6">
+              <div className={SECONDARY_SECTION_GLOW} />
+              <div className="relative">
+                <StageGuide stages={challenge.stages} />
               </div>
             </section>
           )}
 
-          <section className="surface-panel p-6">
-            <SubmissionGallery
-              challengeId={Number(challenge.id)}
-              challengeType={challenge.challengeType}
-            />
+          {relatedProjects.length > 0 && (
+            <section className="surface-panel relative overflow-hidden p-3.5 sm:p-6">
+              <div className={PRIMARY_SECTION_GLOW} />
+              <div className="relative">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">相关项目</h2>
+                  <span className="hidden text-xs text-muted-foreground md:inline-flex">
+                    {relatedProjects.length} 个项目
+                  </span>
+                </div>
+                <div className="mt-4 grid gap-2.5 md:grid-cols-2 xl:grid-cols-3">
+                  {relatedProjects.map((project, index) => (
+                    <Link
+                      key={project.id}
+                      href={`/project/${project.id}`}
+                      className="group rounded-[18px] bg-[linear-gradient(135deg,rgba(255,255,255,0.82),rgba(166,193,238,0.12),rgba(251,194,235,0.08))] px-3.5 py-3 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.9),rgba(166,193,238,0.16),rgba(251,194,235,0.1))] hover:shadow-[0_20px_50px_-34px_rgba(59,130,246,0.26)] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.78),rgba(37,99,235,0.1),rgba(244,114,182,0.08))]"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-background/82 px-2 text-[11px] font-semibold text-muted-foreground">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <h3 className="min-w-0 flex-1 truncate text-sm font-semibold tracking-tight transition-colors group-hover:text-primary sm:text-[15px]">
+                          {project.title}
+                        </h3>
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-background/82 text-muted-foreground transition-all group-hover:text-primary">
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          <section className="surface-panel relative overflow-hidden p-3.5 sm:p-6">
+            <div className={PRIMARY_SECTION_GLOW} />
+            <div className="relative">
+              <SubmissionGallery challengeId={Number(challenge.id)} challengeType={challenge.challengeType} />
+            </div>
           </section>
         </div>
 
         <aside className="lg:col-span-1">
-          <div className="sticky top-24 space-y-6">
-            <section className="surface-panel p-6">
-              <div className="text-center mb-6">
-                {isTimed ? (
-                  <>
-                    <div className="text-4xl font-bold mb-2">{challenge.participants}</div>
-                    <div className="text-muted-foreground flex items-center justify-center gap-2">
-                      <Users className="h-4 w-4" />
-                      人参与
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-4xl font-bold mb-2">{challenge.completionsCount || 0}</div>
-                    <div className="text-muted-foreground flex items-center justify-center gap-2">
-                      <CheckCircle className="h-4 w-4" />
-                      人已完成
-                    </div>
-                  </>
-                )}
+          <div className="sticky top-24 space-y-4">
+            <section className="surface-panel hidden overflow-hidden p-0 md:block">
+              <div className="bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(166,193,238,0.14),rgba(251,194,235,0.12))] px-4 py-4 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.72),rgba(37,99,235,0.12),rgba(244,114,182,0.1))]">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-lg font-semibold tracking-tight">提交挑战作品</h2>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-background/84 px-3.5 py-2 text-sm shadow-[0_18px_48px_-42px_rgba(15,23,42,0.14)] backdrop-blur-sm">
+                    {isTimed ? <Users className="h-4 w-4 text-primary" /> : <CheckCircle className="h-4 w-4 text-primary" />}
+                    <span className="font-semibold tracking-tight">{participationValue}</span>
+                    <span className="text-[11px] text-muted-foreground">{participationLabel}</span>
+                  </div>
+                </div>
               </div>
 
-              {!isEnded && (
-                <>
-                  {challenge.recommendedProjects && challenge.recommendedProjects.length > 0 && (
-                    <div className="mb-4 rounded-xl border bg-primary/5 p-4">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        如果你是第一次进入这个活动，最简单的开始方式不是先研究规则，而是先做一个推荐任务。
-                      </p>
-                      <Link href={`/project/${challenge.recommendedProjects[0].id}`} className="block">
-                        <Button className="w-full h-12 text-base font-semibold">
-                          开始第一个任务
-                        </Button>
-                      </Link>
-                      <p className="mt-2 text-xs text-muted-foreground text-center">
-                        推荐起步任务：{challenge.recommendedProjects[0].title}
-                      </p>
+              <div className="space-y-3 p-4">
+                <div className="rounded-[20px] bg-background/76 px-3.5 py-3.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.12)]">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="secondary" className="rounded-full border-0 bg-background/78">
+                      {challengeStatusLabel}
+                    </Badge>
+                    {challenge.joined && !isEnded && (
+                      <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
+                        {isTimed ? "已报名" : "已参与"}
+                      </span>
+                    )}
+                    {submissionStatusMeta && (
+                      <span className={cn("rounded-full px-3 py-1 text-xs font-medium", submissionStatusMeta.className)}>
+                        {submissionStatusMeta.label}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="mt-2.5 text-sm leading-6 text-muted-foreground">
+                    {isEnded
+                      ? hasSubmission
+                        ? "挑战已结束，你的挑战作品会继续保留在作品墙中。"
+                        : "挑战已结束，作品提交通道已关闭。"
+                      : submissionSummary}
+                  </p>
+
+                  {challenge.completed && !submissionStatusMeta && (
+                    <div className="mt-2.5 inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
+                      <CheckCircle className="h-3.5 w-3.5" />
+                      已有审核通过的挑战作品
                     </div>
                   )}
-                  <div className="space-y-3">
+                </div>
+
+                {!isEnded && (
+                  <div className="space-y-2.5">
+                    <Button className="h-10 w-full rounded-xl text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                      {hasSubmission ? "更新作品" : "提交作品"}
+                    </Button>
                     <Button
                       onClick={handleJoin}
                       variant={challenge.joined ? "secondary" : "outline"}
                       className={cn(
-                        "w-full h-11 text-base font-semibold transition-all",
-                        challenge.joined ? "bg-green-100 hover:bg-green-200 text-green-700 border-green-300 dark:bg-green-950/20 dark:text-green-300" : ""
+                        "h-10 w-full rounded-xl text-sm font-semibold transition-all",
+                        challenge.joined ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-950/20 dark:text-green-300" : "",
                       )}
                     >
                       {challenge.joined ? (
                         <>
-                          <CheckCircle className="mr-2 h-5 w-5" />
-                          {isTimed ? '已报名' : '已参与'}
+                          <CheckCircle className="mr-2 h-4 w-4" />
+                          {isTimed ? "已报名挑战" : "已加入挑战"}
                         </>
                       ) : (
                         <>
-                          {isTimed ? <Trophy className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
-                          {isTimed ? '报名活动' : '参与活动'}
+                          {isTimed ? <Trophy className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+                          {isTimed ? "报名挑战" : "加入挑战"}
                         </>
                       )}
                     </Button>
-                    {!challenge.joined && (
-                      <p className="text-xs text-center text-muted-foreground">
-                        活动报名是可选动作，先开始任务也能帮助你更快进入状态。
-                      </p>
-                    )}
-                  </div>
-
-                  {challenge.joined && (
-                    <div className="mt-4 text-center">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        {challenge.completed ? '你已完成此挑战，可以继续改进作品' : '准备好提交作品了吗？'}
-                      </p>
-                      <Button variant="outline" className="w-full" onClick={handleSubmit}>
-                        {challenge.completed ? '更新作品' : '提交作品'}
-                      </Button>
-                    </div>
-                  )}
-
-                  {challenge.tags.includes('鸟类') && (
-                    <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-900 dark:bg-emerald-950/20">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        这是一个自然观察活动，你可以直接提交一条鸟类观察记录。
-                      </p>
-                      <Link href="/bird-observation/submit">
-                        <Button variant="outline" className="w-full border-emerald-300 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950/40">
-                          提交观察记录
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
-
-                  {challenge.completed && (
-                    <div className="mt-3 flex items-center justify-center gap-2 text-green-600">
-                      <CheckCircle className="h-4 w-4" />
-                      <span className="text-sm font-medium">已完成</span>
-                    </div>
-                  )}
-                </>
-              )}
-            </section>
-
-            <section className="surface-panel p-6">
-              <h3 className="font-bold mb-4 flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-yellow-500" />
-                奖励
-              </h3>
-              {isTimed ? (
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🥇</span>
-                    <div>
-                      <div className="font-semibold">第1名</div>
-                      <div className="text-muted-foreground">限定徽章 + 20 硬币</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🥈</span>
-                    <div>
-                      <div className="font-semibold">第2名</div>
-                      <div className="text-muted-foreground">限定徽章 + 10 硬币</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🥉</span>
-                    <div>
-                      <div className="font-semibold">第3名</div>
-                      <div className="text-muted-foreground">限定徽章 + 5 硬币</div>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground pt-2 border-t border-border/70">所有参与者均可获得 +20 XP</p>
-                </div>
-              ) : (
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🏅</span>
-                    <div>
-                      <div className="font-semibold">完成奖励</div>
-                      <div className="text-muted-foreground">+20 XP + 完成徽章</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">✨</span>
-                    <div>
-                      <div className="font-semibold">PBL 加分</div>
-                      <div className="text-muted-foreground">填写反思和试错记录额外 +10 XP</div>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground pt-2 border-t border-border/70">STEAM 雷达图同步更新</p>
-                </div>
-              )}
-            </section>
-
-            {isTimed && challenge.startDate && (
-              <section className="surface-panel p-4 text-sm space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">开始</span>
-                  <span>{new Date(challenge.startDate).toLocaleDateString('zh-CN')}</span>
-                </div>
-                {challenge.endDate && (
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">截止</span>
-                    <span>{new Date(challenge.endDate).toLocaleDateString('zh-CN')}</span>
                   </div>
                 )}
-              </section>
-            )}
+
+                {challenge.tags.includes("鸟类") && (
+                  <Link
+                    href="/bird-observation/submit"
+                    className="flex items-center justify-between rounded-[18px] bg-emerald-50/75 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-38px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
+                  >
+                    <span>补充观察记录</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
+            </section>
+
+            <section className="surface-panel overflow-hidden p-0">
+              <div className="flex items-center justify-between border-b border-border/60 px-4 py-3.5">
+                <h3 className="flex items-center gap-2 text-sm font-semibold">
+                  <Sparkles className="h-4 w-4 text-yellow-500" />
+                  奖励说明
+                </h3>
+                <Badge variant="secondary" className="rounded-full border-0 bg-background/76">
+                  {isTimed ? "按排名结算" : "完成后解锁"}
+                </Badge>
+              </div>
+
+              <div className="grid gap-2 p-4">
+                {rewardItems.map((item) => (
+                  <div key={item.title} className={cn("rounded-[18px] px-3 py-2.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.1)]", item.className)}>
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-[14px] bg-background/82 text-base shadow-sm">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <div className="text-[13px] font-semibold">{item.title}</div>
+                        <div className="mt-0.5 text-xs leading-5 text-muted-foreground">{item.description}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {isTimed && challenge.startDate && (
+                <div className="border-t border-border/60 px-4 py-3.5 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">开始</span>
+                    <span>{formatDate(challenge.startDate)}</span>
+                  </div>
+                  {challenge.endDate && (
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="text-muted-foreground">截止</span>
+                      <span>{formatDate(challenge.endDate)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </section>
           </div>
         </aside>
       </div>

@@ -169,9 +169,9 @@ export default async function Home() {
                 <div className="mb-3 inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
                   自然观察频道
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">北京春季观鸟，从身边开始</h2>
+                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">自然观察，从身边开始</h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
-                  从校园、公园和社区开始认识常见鸟，先学习观察方法，再进入项目、活动、物种与观察记录的完整自然观察路径。
+                  现在首页同时提供观鸟入口和观察挑战入口。你可以先去鸟类频道学习结构化观察，也可以直接进入蚂蚁等多日观察挑战。
                 </p>
               </div>
 
@@ -180,13 +180,13 @@ export default async function Home() {
                   href="/bird-observation"
                   className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
-                  进入自然观察
+                  进入观鸟频道
                 </Link>
                 <Link
-                  href="/bird-observation/submit"
+                  href="/community?tab=challenges"
                   className="inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
                 >
-                  提交观察记录
+                  查看观察挑战
                 </Link>
               </div>
             </div>
