@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useCommunity } from "@/context/community-context";
+import { useCommunity } from '@/lib/context/community-context';
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";

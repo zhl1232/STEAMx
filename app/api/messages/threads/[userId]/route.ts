@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
 import { MessageSchema } from '@/lib/schemas'
-import type { Message } from '@/lib/types/database'
+import type { Message } from '@/lib/mappers/types'
 
 function parseNumber(value: string | null, fallback: number) {
   const parsed = Number.parseInt(value || '', 10)

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { useAuth } from '@/context/auth-context'
+import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
@@ -10,7 +10,7 @@ import { ProjectListSkeleton } from '@/components/features/profile/project-list-
 import { ChevronLeft } from 'lucide-react'
 import { useState, useEffect, useEffectEvent } from 'react'
 
-import type { Project } from '@/lib/types'
+import type { Project } from '@/lib/mappers/types'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
 import { cn } from '@/lib/utils'
 import { logger } from '@/lib/logger'

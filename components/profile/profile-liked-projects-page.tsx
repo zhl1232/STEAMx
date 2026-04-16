@@ -9,7 +9,7 @@ import { ProjectCard } from '@/components/features/project-card'
 import { Button } from '@/components/ui/button'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { logger } from '@/lib/logger'
-import type { Project } from '@/lib/types'
+import type { Project } from '@/lib/mappers/types'
 
 export function ProfileLikedProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])

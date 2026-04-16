@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { useSudoku } from "./useSudoku"
+import { useSudoku } from "./use-sudoku"
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn(() => null),

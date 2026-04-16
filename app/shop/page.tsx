@@ -1,7 +1,7 @@
 'use client'
 
-import { useAuth } from '@/context/auth-context'
-import { useGamification } from '@/context/gamification-context'
+import { useAuth } from '@/lib/context/auth-context'
+import { useGamification } from '@/lib/context/gamification-context'
 import { createClient } from '@/lib/supabase/client'
 import { SHOP_ITEMS, getShopItemById, getNameColorClassName } from '@/lib/shop/items'
 import { Button } from '@/components/ui/button'
@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import type { ShopItemType } from '@/lib/shop/items'
-import type { Profile } from '@/lib/types/database'
+import type { Profile } from '@/lib/mappers/types'
 
 type ShopRpcResult = {
   ok?: boolean

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu, Rocket } from "lucide-react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { cn } from "@/lib/utils";
 
 export function MobileNav() {

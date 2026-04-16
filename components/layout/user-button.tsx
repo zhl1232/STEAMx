@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@/context/auth-context'
+import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
   LogOut,

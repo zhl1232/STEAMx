@@ -12,12 +12,12 @@ import React, {
 import { createClient } from "@/lib/supabase/client";
 import { type Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { useAuth } from "@/context/auth-context";
-import { useGamification } from "@/context/gamification-context";
-import { useNotifications } from "@/context/notification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useGamification } from '@/lib/context/gamification-context';
+import { useNotifications } from '@/lib/context/notification-context';
 import { useToast } from "@/hooks/use-toast";
 import { mapComment, mapProject, type DbComment, type DbProject } from "@/lib/mappers/project";
-import { Project, Comment } from "@/lib/types";
+import { Project, Comment } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";

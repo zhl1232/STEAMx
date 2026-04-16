@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Medal, Crown, Star, Award, Hammer, Calendar } from "lucide-react";

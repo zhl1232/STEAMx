@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Discussion } from "@/lib/types";
+import { Discussion } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Heart, Tag, Trash2 } from "lucide-react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { DiscussionSearch, SortOption } from "./discussion-search";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";

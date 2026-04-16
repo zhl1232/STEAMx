@@ -19,7 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { getNameColorClassName } from "@/lib/shop/items";
 import type { Comment, Profile, ReplyTarget } from "@/lib/mappers/types";
-import type { ReportContentType } from "@/lib/types/database";
+import type { ReportContentType } from "@/lib/mappers/types";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export interface CommentCardProps {

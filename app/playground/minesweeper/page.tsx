@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useMinesweeper, DIFFICULTIES } from "@/hooks/useMinesweeper"
-import { useGamification } from "@/context/gamification-context"
+import { useMinesweeper, DIFFICULTIES } from "@/hooks/playground/use-minesweeper"
+import { useGamification } from '@/lib/context/gamification-context'
 import { Bomb, Flag, Timer, Trophy, RefreshCw, BookOpen, ChevronRight, MousePointerClick, Medal, Star } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 

@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { useConversationMessages, useSendMessage } from "@/hooks/use-messages";
-import type { Message } from "@/lib/types/database";
+import type { Message } from "@/lib/mappers/types";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

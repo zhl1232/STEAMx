@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useCallback } from 'react'
-import { LoginDialog } from '@/components/login-dialog'
+import { LoginDialog } from '@/components/layout/login-dialog'
 
 interface LoginPromptContextType {
   promptLogin: (callback?: () => void, options?: {

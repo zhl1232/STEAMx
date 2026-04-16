@@ -12,10 +12,10 @@ import {
   ChevronLeft,
   X,
 } from "lucide-react";
-import { useProjects } from "@/context/project-context";
-import { useAuth } from "@/context/auth-context";
-import { useGamification } from "@/context/gamification-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useProjects } from '@/lib/context/project-context';
+import { useAuth } from '@/lib/context/auth-context';
+import { useGamification } from '@/lib/context/gamification-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";

@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useFollow } from "@/hooks/use-follow";
 import { Loader2, UserPlus, UserCheck } from "lucide-react";
-import { useAuth } from "@/context/auth-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { cn } from "@/lib/utils";
 
 interface FollowButtonProps {

@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useHanoi, type HanoiPeg, type HanoiSpeed } from "@/hooks/useHanoi"
-import { useGamification } from "@/context/gamification-context"
+import { useHanoi, type HanoiPeg, type HanoiSpeed } from "@/hooks/playground/use-hanoi"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

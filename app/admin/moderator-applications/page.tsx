@@ -3,7 +3,7 @@
 import { ModeratorApplicationsList } from "@/components/admin/moderator-applications-list";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 
 export default function ModeratorApplicationsPage() {
     const { isAdmin, loading } = useAuth();

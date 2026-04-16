@@ -5,7 +5,7 @@ import { Check, Crown, Lock, Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
-import { useGamification } from "@/context/gamification-context";
+import { useGamification } from '@/lib/context/gamification-context';
 import { cn } from "@/lib/utils";
 
 const baseOptions = [

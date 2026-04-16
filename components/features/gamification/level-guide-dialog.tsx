@@ -25,7 +25,7 @@ import {
   Palette,
   Shield,
 } from "lucide-react";
-import { useGamification } from "@/context/gamification-context";
+import { useGamification } from '@/lib/context/gamification-context';
 import { cn } from "@/lib/utils";
 
 interface LevelGuideDialogProps {

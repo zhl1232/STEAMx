@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ConfettiButton } from "@/components/ui/confetti-button"
-import { useProjects } from "@/context/project-context"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useProjects } from '@/lib/context/project-context'
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 
 interface ProjectMarkDoneProps {

@@ -17,8 +17,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 import { CoinIcon } from "@/components/icons/coin-icon";
-import { useAuth } from "@/context/auth-context";
-import { useGamification } from "@/context/gamification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useGamification } from '@/lib/context/gamification-context';
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { getShopItemById } from "@/lib/shop/items";

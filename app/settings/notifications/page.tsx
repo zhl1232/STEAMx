@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BellRing, Loader2, Megaphone } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";

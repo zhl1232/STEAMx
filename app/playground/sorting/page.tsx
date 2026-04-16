@@ -1,6 +1,6 @@
 "use client"
 
-import { useSortingRace, type SortingAlgorithm, type SortingSpeed } from "@/hooks/useSortingRace"
+import { useSortingRace, type SortingAlgorithm, type SortingSpeed } from "@/hooks/playground/use-sorting-race"
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {

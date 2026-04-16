@@ -695,3 +695,30 @@ export function mapDbChallengeSubmission(
         referenceProjects: dbSubmission.referenceProjects || [],
     }
 }
+
+// ============================================================
+// 消息 & 举报类型（从 lib/types/database 迁移）
+// ============================================================
+
+export interface Message {
+  id: number;
+  sender_id: string;
+  receiver_id: string;
+  content: string;
+  created_at: string;
+}
+
+export type ReportContentType =
+  | "project"
+  | "discussion"
+  | "discussion_reply"
+  | "comment"
+  | "message"
+  | "completion_comment";
+
+export type ReportReason =
+  | "spam"
+  | "harassment"
+  | "inappropriate"
+  | "illegal"
+  | "other";

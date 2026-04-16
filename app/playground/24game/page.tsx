@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { use24Game, type Card24 } from "@/hooks/use24Game"
-import { useGamification } from "@/context/gamification-context"
+import { use24Game, type Card24 } from "@/hooks/playground/use-24-game"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"

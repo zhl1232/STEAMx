@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { useAuth } from '@/context/auth-context'
+import { useAuth } from '@/lib/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { CompletionReviewCard } from '@/components/admin/completion-review-card'

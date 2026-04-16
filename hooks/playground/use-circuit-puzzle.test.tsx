@@ -9,7 +9,7 @@ import {
     simulateCircuit,
     type CellComponent,
     useCircuitPuzzle,
-} from "./useCircuitPuzzle"
+} from "./use-circuit-puzzle"
 
 const { getPlaygroundItemMock, setPlaygroundItemMock, storageState } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn(),

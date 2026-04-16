@@ -2,13 +2,13 @@ import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google'
 
 import './globals.css'
-import { ErrorBoundary } from '@/components/error-boundary'
-import { ConditionalAppShell } from '@/components/conditional-app-shell'
+import { ErrorBoundary } from '@/components/layout/error-boundary'
+import { ConditionalAppShell } from '@/components/layout/conditional-app-shell'
 import { ObservationGamificationSync } from '@/components/features/gamification/observation-gamification-sync'
 import QueryProvider from '@/components/providers/query-provider'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/layout/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
-import { AuthProvider } from '@/context/auth-context'
+import { AuthProvider } from '@/lib/context/auth-context'
 import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 
 const sans = Noto_Sans_SC({

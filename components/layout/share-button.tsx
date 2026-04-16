@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 
 export function ShareButton() {
     const { user, loading } = useAuth();

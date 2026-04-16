@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { SlidersHorizontal, X } from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
 import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
-import { useProjects } from '@/context/project-context'
+import { useProjects } from '@/lib/context/project-context'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import {

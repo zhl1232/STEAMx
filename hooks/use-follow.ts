@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/context/auth-context";
-import { useNotifications } from "@/context/notification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useNotifications } from '@/lib/context/notification-context';
 import { useToast } from "@/hooks/use-toast";
 import { logger } from "@/lib/logger";
 

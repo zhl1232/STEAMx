@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { createClient } from "@/lib/supabase/client";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 

@@ -3,7 +3,7 @@
  * 统一处理从数据库到应用层的数据转换
  */
 
-import type { Project, Comment } from '@/lib/types'
+import type { Project, Comment } from '@/lib/mappers/types'
 
 /**
  * 数据库项目类型（简化版，包含常见字段）

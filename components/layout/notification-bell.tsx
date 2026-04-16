@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth-context";
-import { useOptionalNotifications } from "@/context/notification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useOptionalNotifications } from '@/lib/context/notification-context';
 
 /**
  * 右上角通知入口：点击进入统一「消息」页（回复与@、收到喜欢、新增粉丝、私信）

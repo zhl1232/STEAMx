@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react"
 import { Heart, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { cn } from "@/lib/utils"
 
 interface ObservationInteractionsProps {

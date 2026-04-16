@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import type { ReportContentType, ReportReason } from "@/lib/types/database";
+import type { ReportContentType, ReportReason } from "@/lib/mappers/types";
 
 const REASON_OPTIONS: { value: ReportReason; label: string }[] = [
   { value: "spam", label: "垃圾信息" },

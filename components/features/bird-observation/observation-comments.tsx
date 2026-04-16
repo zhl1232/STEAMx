@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { useToast } from "@/hooks/use-toast"
 import type { Comment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"

@@ -4,8 +4,8 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { useToast } from "@/hooks/use-toast"
 import { dispatchObservationCreated } from "@/lib/gamification/observation-events"
 import { birdObservationLocationPresets } from "@/lib/bird-observation-content"

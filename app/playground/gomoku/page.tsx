@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useGomoku, type GomokuMode } from "@/hooks/useGomoku"
-import { useGamification } from "@/context/gamification-context"
+import { useGomoku, type GomokuMode } from "@/hooks/playground/use-gomoku"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"

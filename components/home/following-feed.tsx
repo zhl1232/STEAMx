@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/context/auth-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { Project } from "@/lib/mappers/types";
 import { ProjectCard } from "@/components/features/project-card";
 import { Button } from "@/components/ui/button";

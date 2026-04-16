@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { useAuth } from "@/context/auth-context";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { useAuth } from '@/lib/context/auth-context';
 
 export function MainNav() {
     const pathname = usePathname();

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useCommunity } from "@/context/community-context";
+import { useCommunity } from '@/lib/context/community-context';
 import type { Discussion, Comment, ReplyTarget } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +16,9 @@ import {
   Pencil,
 } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
-import { useAuth } from "@/context/auth-context";
-import { useGamification } from "@/context/gamification-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useGamification } from '@/lib/context/gamification-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";

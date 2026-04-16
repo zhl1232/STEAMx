@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useAuth } from "@/context/auth-context";
-import { useProjects } from "@/context/project-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useProjects } from '@/lib/context/project-context';
 import { uploadFileSecureWithProgress } from "@/lib/utils/upload";
 import { useToast } from "@/hooks/use-toast";
 import {

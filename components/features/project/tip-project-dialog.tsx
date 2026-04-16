@@ -6,9 +6,9 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { User as UserIcon } from "lucide-react"
 import { CoinIcon } from "@/components/icons/coin-icon"
-import { useAuth } from "@/context/auth-context"
-import { useGamification } from "@/context/gamification-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useAuth } from '@/lib/context/auth-context'
+import { useGamification } from '@/lib/context/gamification-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { useToast } from "@/hooks/use-toast"
 import { getApiErrorMessage } from "@/lib/utils/http"
 import { useQuery, useQueryClient } from "@tanstack/react-query"

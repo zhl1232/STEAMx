@@ -5,8 +5,8 @@ import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Heart, ImageOff, MessageCircle } from "lucide-react";
 import { CoinIcon } from "@/components/icons/coin-icon";
-import { useOptionalProjects } from "@/context/project-context";
-import { Project } from "@/lib/types";
+import { useOptionalProjects } from '@/lib/context/project-context';
+import { Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 
 import { DifficultyStars } from "@/components/ui/difficulty-stars";

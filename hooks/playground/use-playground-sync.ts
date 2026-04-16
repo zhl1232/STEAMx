@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { createClient } from "@/lib/supabase/client";
 import {
   PLAYGROUND_CHANGE_EVENT,

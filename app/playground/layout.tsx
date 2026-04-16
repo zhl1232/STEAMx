@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { PLAYGROUND_KEYS, removePlaygroundItem, getPlaygroundItem } from "@/lib/playground/storage"
-import { usePlaygroundSync } from "@/hooks/usePlaygroundSync"
+import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 
 const games = [
     {

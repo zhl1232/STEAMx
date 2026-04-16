@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { useToast } from "@/hooks/use-toast";
-import type { Message } from "@/lib/types/database";
+import type { Message } from "@/lib/mappers/types";
 import { MessageSchema } from "@/lib/schemas";
 import { getApiErrorMessage } from "@/lib/utils/http";
 

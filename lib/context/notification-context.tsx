@@ -10,7 +10,7 @@ import React, {
   useRef,
 } from "react";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
 
 export type Notification = {

@@ -4,9 +4,9 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useProjects } from "@/context/project-context"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useProjects } from '@/lib/context/project-context'
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 
 interface CompletionCTAProps {

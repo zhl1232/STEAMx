@@ -4,7 +4,7 @@ import { CheckCircle, Play, Trophy, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/ui/countdown-timer";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { useCommunity } from "@/context/community-context";
+import { useCommunity } from '@/lib/context/community-context';
 import type { Challenge } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 

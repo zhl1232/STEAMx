@@ -17,8 +17,8 @@ import { FollowButton } from "@/components/features/social/follow-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
-import { useAuth } from "@/context/auth-context";
-import { useNotifications, type Notification } from "@/context/notification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useNotifications, type Notification } from '@/lib/context/notification-context';
 import { useConversations } from "@/hooks/use-messages";
 import { cn } from "@/lib/utils";
 

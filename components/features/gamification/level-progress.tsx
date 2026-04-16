@@ -1,6 +1,6 @@
 "use client";
 
-import { useGamification } from "@/context/gamification-context";
+import { useGamification } from '@/lib/context/gamification-context';
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 

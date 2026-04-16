@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useMemo, useCallback } from "react"
-import { useSudoku, type SudokuDifficulty } from "@/hooks/useSudoku"
-import { useGamification } from "@/context/gamification-context"
+import { useSudoku, type SudokuDifficulty } from "@/hooks/playground/use-sudoku"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

@@ -9,8 +9,8 @@ import {
     getSourceControls,
     getMoveRating,
     type ComponentType,
-} from "@/hooks/useCircuitPuzzle"
-import { useGamification } from "@/context/gamification-context"
+} from "@/hooks/playground/use-circuit-puzzle"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

@@ -1,6 +1,6 @@
 "use client"
 
-import { CommunityProvider } from "@/context/community-context"
+import { CommunityProvider } from '@/lib/context/community-context'
 
 export default function CommunityLayout({ children }: { children: React.ReactNode }) {
     return (

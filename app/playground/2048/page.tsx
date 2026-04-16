@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { use2048, type TileData } from "@/hooks/use2048"
-import { useGamification } from "@/context/gamification-context"
+import { use2048, type TileData } from "@/hooks/playground/use-2048"
+import { useGamification } from '@/lib/context/gamification-context'
 import { Trophy, RefreshCw, Undo2, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Sparkles, Brain, Target, Lightbulb, Star } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"

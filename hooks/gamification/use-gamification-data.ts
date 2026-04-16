@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { UserStats } from "@/lib/gamification/types";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 
 // 稳定的默认值，避免每次渲染创建新对象
 const EMPTY_SET = new Set<string>();

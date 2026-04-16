@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { createClient } from "@/lib/supabase/client";
 import { getApiErrorMessage } from "@/lib/utils/http";
 import { useToast } from "@/hooks/use-toast";

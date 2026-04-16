@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { normalize24Expression, use24Game, validate24Expression } from './use24Game'
+import { normalize24Expression, use24Game, validate24Expression } from './use-24-game'
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
   getPlaygroundItemMock: vi.fn(() => null),

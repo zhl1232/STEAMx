@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Heart, Bookmark, Flag } from "lucide-react"
 import { ConfettiButton } from "@/components/ui/confetti-button"
 import { CoinIcon } from "@/components/icons/coin-icon"
-import { useProjects } from "@/context/project-context"
-import { useAuth } from "@/context/auth-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useProjects } from '@/lib/context/project-context'
+import { useAuth } from '@/lib/context/auth-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { ReportDialog } from "@/components/ui/report-dialog"

@@ -6,7 +6,7 @@ import { Heart, Settings } from "lucide-react";
 import { DifficultyStars } from "@/components/ui/difficulty-stars";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
-import { useOptionalProjects } from "@/context/project-context";
+import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 

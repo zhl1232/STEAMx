@@ -14,8 +14,8 @@ import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/ui/role-badge";
-import { useGamification, BADGES } from "@/context/gamification-context";
-import { useNotifications } from "@/context/notification-context";
+import { useGamification, BADGES } from '@/lib/context/gamification-context';
+import { useNotifications } from '@/lib/context/notification-context';
 import { getBadgesForDisplay } from "@/lib/gamification/badges";
 import { Profile } from "@/lib/mappers/types";
 

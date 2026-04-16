@@ -5,7 +5,7 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { uploadFileSecure, validateFileType, validateFileSize } from '@/lib/utils/upload'
-import { useAuth } from '@/context/auth-context'
+import { useAuth } from '@/lib/context/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import { logger } from '@/lib/logger'
 

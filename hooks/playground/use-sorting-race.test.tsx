@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-import { useSortingRace } from "./useSortingRace"
+import { useSortingRace } from "./use-sorting-race"
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn(() => null),

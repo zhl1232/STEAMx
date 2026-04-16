@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { useNQueens } from "./useNQueens"
+import { useNQueens } from "./use-nqueens"
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn(() => null),

@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import { useAuth } from '@/context/auth-context'
+import { useAuth } from '@/lib/context/auth-context'
 import type { ChallengeSubmission } from '@/lib/mappers/types'
 
 interface SubmissionGalleryProps {

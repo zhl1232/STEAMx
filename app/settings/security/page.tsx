@@ -7,7 +7,7 @@ import { ChevronDown, KeyRound, Loader2, Smartphone } from "lucide-react";
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/lib/context/auth-context';
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";

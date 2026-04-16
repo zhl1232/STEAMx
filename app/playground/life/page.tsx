@@ -1,8 +1,8 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { useGameOfLife } from "@/hooks/useGameOfLife"
-import { useGamification } from "@/context/gamification-context"
+import { useGameOfLife } from "@/hooks/playground/use-game-of-life"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { KeyboardHelp } from "@/components/features/playground/keyboard-help"

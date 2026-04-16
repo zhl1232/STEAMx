@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react"
-import { useNQueens, type NQueensMode, type NQueensSpeed, type CellState } from "@/hooks/useNQueens"
-import { useGamification } from "@/context/gamification-context"
+import { useNQueens, type NQueensMode, type NQueensSpeed, type CellState } from "@/hooks/playground/use-nqueens"
+import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

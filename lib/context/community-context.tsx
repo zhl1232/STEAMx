@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useAuth } from "@/context/auth-context";
-import { useGamification } from "@/context/gamification-context";
-import { useNotifications } from "@/context/notification-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useGamification } from '@/lib/context/gamification-context';
+import { useNotifications } from '@/lib/context/notification-context';
 import { mapComment, type DbComment } from "@/lib/mappers/project";
-import { Comment, Discussion } from "@/lib/types";
+import { Comment, Discussion } from "@/lib/mappers/types";
 import type { Challenge } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";

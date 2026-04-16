@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Compass, PlusCircle, MessageSquare, User } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/auth-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 
 export function BottomNav() {
     const pathname = usePathname();

@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useCommunity } from "@/context/community-context";
+import { useCommunity } from '@/lib/context/community-context';
 import { DiscussionList } from "@/components/features/community/discussion-list";
 import { ChallengeCard } from "@/components/features/community/challenge-card";
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";

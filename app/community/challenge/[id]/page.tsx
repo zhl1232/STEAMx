@@ -14,9 +14,9 @@ import { Button } from "@/components/ui/button"
 import { CountdownTimer } from "@/components/ui/countdown-timer"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
-import { useAuth } from "@/context/auth-context"
-import { useCommunity } from "@/context/community-context"
-import { useLoginPrompt } from "@/context/login-prompt-context"
+import { useAuth } from '@/lib/context/auth-context'
+import { useCommunity } from '@/lib/context/community-context'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { Challenge } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 

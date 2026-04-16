@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { use2048 } from './use2048'
+import { use2048 } from './use-2048'
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn(() => null),

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { FolderKanban, Layers3, Package2 } from "lucide-react";
 import { CoinIcon } from "@/components/icons/coin-icon";
-import { useAuth } from "@/context/auth-context";
-import { useLoginPrompt } from "@/context/login-prompt-context";
+import { useAuth } from '@/lib/context/auth-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { cn } from "@/lib/utils";
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog";
 import type { ProjectCompletion } from "@/lib/mappers/types";
