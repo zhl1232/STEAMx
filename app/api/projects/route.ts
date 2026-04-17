@@ -4,10 +4,11 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { validateProjectContent } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
-import type { Database } from '@/lib/supabase/types'
+import type { Database, Json } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
+import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
-import { resolveSubCategoryId } from '@/lib/subcategories'
+import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
@@ -117,6 +118,16 @@ export async function POST(request: Request) {
       )
     }
 
+    const resolvedSubCategoryName =
+      sub_category?.trim() || await getSubCategoryNameById(supabase, resolvedSubCategoryId)
+    const steamWeights = inferProjectSteamWeights({
+      title,
+      description,
+      category,
+      subCategory: resolvedSubCategoryName,
+      steps,
+    })
+
     // 创建项目
     const newProject: ProjectInsert = {
       title,
@@ -131,6 +142,7 @@ export async function POST(request: Request) {
       reflection,
       problem_statement,
       iterations,
+      steam_weights: steamWeights as unknown as Json,
       author_id: user.id,
       status: 'pending',
     }

@@ -18,7 +18,8 @@ import { getApiErrorMessage } from '@/lib/utils/http'
 import { Slider } from '@/components/ui/slider'
 import { Loader2, Trash2, Plus, Save, ArrowLeft, Star } from 'lucide-react'
 import { logger } from '@/lib/logger'
-import { getSteamWeights, type SteamWeights } from '@/lib/config/subcategory-steam-weights'
+import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
+import type { SteamWeights } from '@/lib/config/subcategory-steam-weights'
 
 interface SubCategory {
     id: number
@@ -76,6 +77,13 @@ export default function EditProjectPage() {
     const [dbSubCategories, setDbSubCategories] = useState<SubCategory[]>([])
     const [showSteamCorrection, setShowSteamCorrection] = useState(false)
     const [supabase] = useState(() => createClient())
+    const suggestedSteamWeights = inferProjectSteamWeights({
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        subCategory: formData.sub_category_name,
+        steps: formData.project_steps,
+    })
 
     const fetchData = useCallback(async () => {
         if (!id) return
@@ -378,7 +386,7 @@ export default function EditProjectPage() {
                                 <Label>主分类</Label>
                                 <Select
                                     value={formData.category}
-                                    onValueChange={val => setFormData({ ...formData, category: val, sub_category_id: null })}
+                                    onValueChange={val => setFormData({ ...formData, category: val, sub_category_id: null, sub_category_name: undefined })}
                                 >
                                     <SelectTrigger className="h-11 rounded-2xl">
                                         <SelectValue placeholder="选择分类" />
@@ -395,7 +403,15 @@ export default function EditProjectPage() {
                                 <Label>子分类</Label>
                                 <Select
                                     value={formData.sub_category_id ? String(formData.sub_category_id) : ""}
-                                    onValueChange={val => setFormData({ ...formData, sub_category_id: Number(val) })}
+                                    onValueChange={val => {
+                                        const nextSubCategoryId = Number(val)
+                                        const nextSubCategory = filteredSubCategories.find((item) => item.id === nextSubCategoryId)
+                                        setFormData({
+                                            ...formData,
+                                            sub_category_id: nextSubCategoryId,
+                                            sub_category_name: nextSubCategory?.name,
+                                        })
+                                    }}
                                     disabled={!filteredSubCategories.length}
                                 >
                                     <SelectTrigger className="h-11 rounded-2xl">
@@ -468,8 +484,7 @@ export default function EditProjectPage() {
                                 className="rounded-full"
                                 onClick={() => {
                                     if (!showSteamCorrection) {
-                                        const defaults = getSteamWeights(formData.sub_category_name, formData.category)
-                                        setFormData(prev => ({ ...prev, steam_weights: { ...defaults } }))
+                                        setFormData(prev => ({ ...prev, steam_weights: { ...suggestedSteamWeights } }))
                                     } else {
                                         setFormData(prev => ({ ...prev, steam_weights: null }))
                                     }
@@ -481,15 +496,15 @@ export default function EditProjectPage() {
                         </div>
                         <CardDescription>
                             {showSteamCorrection
-                                ? '调整各维度权重后保存。未校正时使用子分类默认权重。'
-                                : `当前使用默认权重：${formData.sub_category_name || formData.category || '其他'}`
+                                ? '调整各维度权重后保存。未手动校正时会采用系统按项目内容生成的建议权重。'
+                                : `当前将使用系统建议权重：${formData.sub_category_name || formData.category || '其他'}`
                             }
                         </CardDescription>
                     </CardHeader>
                     {!showSteamCorrection && (
                         <CardContent>
                             <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-                                {Object.entries(getSteamWeights(formData.sub_category_name, formData.category)).map(([dim, val]) => (
+                                {Object.entries(suggestedSteamWeights).map(([dim, val]) => (
                                     <span key={dim} className="rounded-full border border-border/70 bg-background/80 px-3 py-1">
                                         {dim}: {val}
                                     </span>

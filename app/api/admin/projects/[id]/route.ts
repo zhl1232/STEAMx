@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateNumber } from '@/lib/api/validation'
+import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database, Json } from '@/lib/supabase/types'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
+import { getSubCategoryNameById } from '@/lib/subcategories'
 import { z } from 'zod'
 
 import type { SteamWeights } from '@/lib/config/subcategory-steam-weights'
@@ -74,8 +76,20 @@ export async function PATCH(
     }
 
     const payload = parsed.data
-    const steamWeights =
-      ((payload.steam_weights as SteamWeights | null) ?? null) as AdminUpdateProjectArgs['p_steam_weights']
+    let steamWeights: AdminUpdateProjectArgs['p_steam_weights']
+
+    if (payload.steam_weights) {
+      steamWeights = payload.steam_weights as unknown as Json
+    } else {
+      const resolvedSubCategoryName = await getSubCategoryNameById(supabase, payload.sub_category_id ?? null)
+      steamWeights = inferProjectSteamWeights({
+        title: payload.title,
+        description: payload.description,
+        category: payload.category,
+        subCategory: resolvedSubCategoryName,
+        steps: payload.project_steps,
+      }) as unknown as AdminUpdateProjectArgs['p_steam_weights']
+    }
 
     const { data, error } = await callRpc(supabase, 'admin_update_project', {
       p_project_id: projectId,

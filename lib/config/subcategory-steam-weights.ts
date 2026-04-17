@@ -25,7 +25,7 @@ export const SUBCATEGORY_STEAM_WEIGHTS: Record<string, SteamWeights> = {
   "雕塑":     { S: 0,  T: 5,  E: 10, A: 35, M: 5  },
   "几何探索": { S: 5,  T: 0,  E: 5,  A: 10, M: 35 },
   "数学游戏": { S: 0,  T: 5,  E: 0,  A: 5,  M: 35 },
-  "逻辑谜题": { S: 5,  T: 10, E: 0,  A: 0,  M: 35 },
+  "逻辑谜题": { S: 0,  T: 0,  E: 5,  A: 5,  M: 35 },
 }
 
 export const CATEGORY_STEAM_WEIGHTS: Record<string, SteamWeights> = {

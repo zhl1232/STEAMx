@@ -5,10 +5,12 @@ import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { validateProjectContent } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateNumber } from '@/lib/api/validation'
+import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
 import { CreateProjectSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
-import { resolveSubCategoryId } from '@/lib/subcategories'
+import type { Json } from '@/lib/supabase/types'
+import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
 
 const UpdateProjectSchema = CreateProjectSchema.extend({
   request_re_review: z.boolean().optional().default(true),
@@ -87,6 +89,16 @@ export async function PATCH(
       return NextResponse.json({ error: 'Invalid sub category' }, { status: 400 })
     }
 
+    const resolvedSubCategoryName =
+      sub_category?.trim() || await getSubCategoryNameById(supabase, resolvedSubCategoryId)
+    const steamWeights = inferProjectSteamWeights({
+      title,
+      description,
+      category,
+      subCategory: resolvedSubCategoryName,
+      steps,
+    })
+
     const { error: projectError } = await supabase
       .from('projects')
       .update({
@@ -101,6 +113,7 @@ export async function PATCH(
         reflection: reflection ?? null,
         problem_statement: problem_statement ?? null,
         iterations,
+        steam_weights: steamWeights as unknown as Json,
         updated_at: new Date().toISOString(),
       } as never)
       .eq('id', projectId)

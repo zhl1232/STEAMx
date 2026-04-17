@@ -75,3 +75,24 @@ export async function resolveSubCategoryId(
 
   return (subCategoryRow as Pick<SubCategoryRow, 'id'>).id
 }
+
+export async function getSubCategoryNameById(
+  supabase: SupabaseClient<Database>,
+  subCategoryId?: number | null,
+): Promise<string | null> {
+  if (typeof subCategoryId !== 'number' || !Number.isInteger(subCategoryId) || subCategoryId <= 0) {
+    return null
+  }
+
+  const { data, error } = await supabase
+    .from('sub_categories')
+    .select('name')
+    .eq('id', subCategoryId)
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  return (data as Pick<SubCategoryRow, 'name'> | null)?.name ?? null
+}
