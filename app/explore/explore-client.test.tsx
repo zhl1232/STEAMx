@@ -16,7 +16,7 @@ vi.mock('next/navigation', () => ({
     useSearchParams: () => currentSearchParams,
 }))
 
-vi.mock('@/context/project-context', () => ({
+vi.mock('@/lib/context/project-context', () => ({
     useProjects: () => ({
         clearLikesDeltaForProjects,
     }),
@@ -53,11 +53,16 @@ vi.mock('@/components/ui/sheet', () => ({
     SheetDescription: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-vi.mock('lucide-react', () => ({
-    SlidersHorizontal: () => <span>sliders</span>,
-    X: () => <span>x</span>,
-    Sparkles: () => <span>sparkles</span>,
-}))
+vi.mock('lucide-react', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('lucide-react')>()
+
+    return {
+        ...actual,
+        SlidersHorizontal: () => <span>sliders</span>,
+        X: () => <span>x</span>,
+        Sparkles: () => <span>sparkles</span>,
+    }
+})
 
 vi.mock('@/lib/config/categories', () => ({
     CATEGORY_CONFIG: {

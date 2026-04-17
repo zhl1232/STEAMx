@@ -50,7 +50,7 @@ vi.mock('@/lib/supabase/client', () => ({
     }),
 }))
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: 'test-user' },
         profile: { coins: 0 },

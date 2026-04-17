@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react"
+import { act, fireEvent, render } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import HanoiPage from "./page"
@@ -11,13 +11,13 @@ vi.mock("canvas-confetti", () => ({
     default: vi.fn(),
 }))
 
-vi.mock("@/context/gamification-context", () => ({
+vi.mock("@/lib/context/gamification-context", () => ({
     useGamification: () => ({
         checkBadges: vi.fn(),
     }),
 }))
 
-vi.mock("@/hooks/useHanoi", () => ({
+vi.mock("@/hooks/playground/use-hanoi", () => ({
     useHanoi: () => ({
         pegs: { A: [3, 2, 1], B: [], C: [] },
         diskCount: 3,
@@ -49,25 +49,29 @@ describe("HanoiPage", () => {
         vi.clearAllMocks()
     })
 
-    it("responds to advertised peg shortcuts", () => {
+    it("responds to advertised peg shortcuts", async () => {
         render(<HanoiPage />)
 
-        fireEvent.keyDown(window, { key: "1" })
-        fireEvent.keyDown(window, { key: "b" })
-        fireEvent.keyDown(window, { key: "C" })
+        await act(async () => {})
+
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "1", bubbles: true, cancelable: true }))
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "b", bubbles: true, cancelable: true }))
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "C", bubbles: true, cancelable: true }))
 
         expect(selectPegMock).toHaveBeenNthCalledWith(1, "A")
         expect(selectPegMock).toHaveBeenNthCalledWith(2, "B")
         expect(selectPegMock).toHaveBeenNthCalledWith(3, "C")
     })
 
-    it("ignores peg shortcuts while typing in an input", () => {
+    it("ignores peg shortcuts while typing in an input", async () => {
         render(
             <div>
                 <input aria-label="name" />
                 <HanoiPage />
             </div>,
         )
+
+        await act(async () => {})
 
         const input = document.querySelector("input")
         if (!input) {

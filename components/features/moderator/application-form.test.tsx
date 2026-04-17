@@ -25,7 +25,7 @@ let mockEligibilityState = {
     isLoading: false,
 }
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => mockAuth,
 }))
 

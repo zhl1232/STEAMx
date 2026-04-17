@@ -14,7 +14,7 @@ const mockBadgeUpsertSelect = vi.fn()
 const mockBadgeUpsertMaybeSingle = vi.fn()
 const mockRpc = vi.fn()
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: 'test-user' },
         profile: { xp: 0 },

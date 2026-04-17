@@ -6,7 +6,7 @@ import { useFollow } from './use-follow'
 const mockCreateNotification = vi.fn()
 const mockToast = vi.fn()
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: {
             id: '11111111-1111-1111-1111-111111111111',
@@ -21,7 +21,7 @@ vi.mock('@/context/auth-context', () => ({
     }),
 }))
 
-vi.mock('@/context/notification-context', () => ({
+vi.mock('@/lib/context/notification-context', () => ({
     useNotifications: () => ({
         createNotification: mockCreateNotification,
     }),

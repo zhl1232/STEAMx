@@ -34,7 +34,7 @@ vi.mock('next/link', () => ({
   ),
 }))
 
-vi.mock('@/context/community-context', () => ({
+vi.mock('@/lib/context/community-context', () => ({
   useCommunity: () => mockCommunityState,
 }))
 

@@ -17,11 +17,11 @@ vi.mock('@/hooks/use-follow', () => ({
     })),
 }))
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: vi.fn(() => ({ user: { id: 'current-user' } })),
 }))
 
-vi.mock('@/context/login-prompt-context', () => ({
+vi.mock('@/lib/context/login-prompt-context', () => ({
     useLoginPrompt: vi.fn(() => ({ promptLogin: mockPromptLogin })),
 }))
 

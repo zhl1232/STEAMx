@@ -26,14 +26,14 @@ vi.mock('next/link', () => ({
     ),
 }))
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: '11111111-1111-1111-1111-111111111111' },
         loading: false,
     }),
 }))
 
-vi.mock('@/context/notification-context', () => ({
+vi.mock('@/lib/context/notification-context', () => ({
     useNotifications: () => ({
         notifications: [],
         unreadCount: 0,

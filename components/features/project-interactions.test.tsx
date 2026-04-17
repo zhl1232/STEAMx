@@ -15,7 +15,7 @@ vi.mock('@tanstack/react-query', () => ({
     useQuery: (...args: unknown[]) => mockUseQuery(...args),
 }))
 
-vi.mock('@/context/project-context', () => ({
+vi.mock('@/lib/context/project-context', () => ({
     useProjects: () => ({
         toggleLike: vi.fn(),
         isLiked: vi.fn(() => false),
@@ -27,13 +27,13 @@ vi.mock('@/context/project-context', () => ({
     }),
 }))
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: '11111111-1111-1111-1111-111111111111' },
     }),
 }))
 
-vi.mock('@/context/login-prompt-context', () => ({
+vi.mock('@/lib/context/login-prompt-context', () => ({
     useLoginPrompt: () => ({
         promptLogin: vi.fn(),
     }),

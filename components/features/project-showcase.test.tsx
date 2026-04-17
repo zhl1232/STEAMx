@@ -17,15 +17,15 @@ vi.mock('@/lib/supabase/client', () => ({
     })),
 }))
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: vi.fn(() => ({ user: { id: mockUserId } })),
 }))
 
-vi.mock('@/context/login-prompt-context', () => ({
+vi.mock('@/lib/context/login-prompt-context', () => ({
     useLoginPrompt: vi.fn(() => ({ promptLogin: vi.fn() })),
 }))
 
-vi.mock('@/context/gamification-context', () => ({
+vi.mock('@/lib/context/gamification-context', () => ({
     useGamification: vi.fn(() => ({ coins: 100, level: 1 })),
 }))
 

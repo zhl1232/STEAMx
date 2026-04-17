@@ -6,7 +6,7 @@ const mockAuthState = {
     user: { id: 'user-1' },
 }
 
-vi.mock('@/context/auth-context', () => ({
+vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => mockAuthState,
 }))
 
