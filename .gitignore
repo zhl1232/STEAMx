@@ -45,3 +45,6 @@ deploy-*.log
 missing_project_covers.json
 *-backup-before-regenerate/
 tmp-*.mjs
+docs/project_review_report.md
+docs/project_optimization_diff.md
+docs/online_projects_review.md

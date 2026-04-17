@@ -1,10 +1,5 @@
 WITH mappings(title, category, image_url) AS (
   VALUES
-    ('磁铁钓鱼游戏', NULL, '/projects/magnet_fishing.webp'),
-    ('制作不倒翁', NULL, '/projects/tumbler_toy.webp'),
-    ('感官盲盒挑战', NULL, '/projects/sensory_box.webp'),
-    ('金鱼观察日记', NULL, '/projects/goldfish_observation.webp'),
-    ('手工杯垫制作', NULL, '/projects/handmade_coaster.webp'),
     ('静电章鱼', '科学', '/projects/generated/project-0006.webp'),
     ('彩虹制造机', '科学', '/projects/generated/project-0007.webp'),
     ('纸飞机飞行实验', '科学', '/projects/generated/project-0008.webp'),

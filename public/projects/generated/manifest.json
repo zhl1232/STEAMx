@@ -1,45 +1,5 @@
 [
   {
-    "index": 1,
-    "title": "磁铁钓鱼游戏",
-    "sourceFile": "20260130000001_seed_init.sql",
-    "generated": false,
-    "filename": null,
-    "imageUrl": null
-  },
-  {
-    "index": 2,
-    "title": "制作不倒翁",
-    "sourceFile": "20260130000001_seed_init.sql",
-    "generated": false,
-    "filename": null,
-    "imageUrl": null
-  },
-  {
-    "index": 3,
-    "title": "感官盲盒挑战",
-    "sourceFile": "20260130000001_seed_init.sql",
-    "generated": false,
-    "filename": null,
-    "imageUrl": null
-  },
-  {
-    "index": 4,
-    "title": "金鱼观察日记",
-    "sourceFile": "20260130000001_seed_init.sql",
-    "generated": false,
-    "filename": null,
-    "imageUrl": null
-  },
-  {
-    "index": 5,
-    "title": "手工杯垫制作",
-    "sourceFile": "20260130000001_seed_init.sql",
-    "generated": false,
-    "filename": null,
-    "imageUrl": null
-  },
-  {
     "index": 6,
     "title": "静电章鱼",
     "sourceFile": "20260324200000_seed_science_physics.sql",

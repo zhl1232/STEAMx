@@ -18,7 +18,7 @@ type RateLimitRule = {
  * Next.js Proxy
  * 用于在每个请求中刷新 Supabase 认证 token，并对 API 路由做速率限制。
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (isPlaywrightSmoke()) {
     return NextResponse.next({
       request: {

@@ -89,11 +89,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   notificationsRef.current = notifications;
   hasMoreRef.current = hasMore;
 
+  const fetchingUnreadRef = useRef(false);
   const fetchUnreadCount = useCallback(async () => {
     if (!user) {
       setUnreadCount(0);
       return;
     }
+    if (fetchingUnreadRef.current) return;
+    fetchingUnreadRef.current = true;
     try {
       const response = await fetch("/api/notifications/unread-count");
       if (response.status === 401) {
@@ -108,9 +111,13 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setUnreadCount(Number(payload?.count ?? 0));
     } catch (error) {
       logger.error(error, { context: "Error fetching unread count" });
+    } finally {
+      fetchingUnreadRef.current = false;
     }
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
+  const fetchingNotificationsRef = useRef(false);
   const fetchNotifications = useCallback(
     async ({ reset = true, merge = false }: { reset?: boolean; merge?: boolean } = {}) => {
       if (!user) {
@@ -120,6 +127,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setIsLoading(false);
         return;
       }
+      if (fetchingNotificationsRef.current) return;
+      fetchingNotificationsRef.current = true;
       if (reset) setIsLoading(true);
       try {
         const response = await fetch("/api/notifications");
@@ -150,10 +159,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       } catch (error) {
         logger.error(error, { context: "Error fetching notifications" });
       } finally {
+        fetchingNotificationsRef.current = false;
         if (reset) setIsLoading(false);
       }
     },
-    [user],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user?.id],
   );
 
   const loadMore = useCallback(async () => {
@@ -184,11 +195,17 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     } finally {
       setIsLoadingMore(false);
     }
-  }, [user, hasMore, isLoadingMore]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, hasMore, isLoadingMore]);
+
+  const fetchUnreadCountRef = useRef(fetchUnreadCount);
+  const fetchNotificationsRef = useRef(fetchNotifications);
+  fetchUnreadCountRef.current = fetchUnreadCount;
+  fetchNotificationsRef.current = fetchNotifications;
 
   useEffect(() => {
     if (!user?.id) {
-      setNotifications([]);
+      setNotifications((prev) => (prev.length === 0 ? prev : []));
       setUnreadCount(0);
       setHasMore(true);
       setIsLoading(false);
@@ -196,28 +213,28 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     }
 
     if (shouldLoadNotificationList) {
-      fetchNotifications({ reset: true });
+      fetchNotificationsRef.current({ reset: true });
     } else {
-      setNotifications([]);
+      setNotifications((prev) => (prev.length === 0 ? prev : []));
       setHasMore(true);
       setIsLoading(false);
     }
 
-    fetchUnreadCount();
-  }, [user?.id, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount]);
+    fetchUnreadCountRef.current();
+  }, [user?.id, shouldLoadNotificationList]);
 
   useEffect(() => {
     if (!user?.id) return;
 
     const interval = window.setInterval(() => {
       if (shouldLoadNotificationList) {
-        void fetchNotifications({ reset: false, merge: true });
+        void fetchNotificationsRef.current({ reset: false, merge: true });
       }
-      void fetchUnreadCount();
+      void fetchUnreadCountRef.current();
     }, 60000);
 
     return () => window.clearInterval(interval);
-  }, [user?.id, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount]);
+  }, [user?.id, shouldLoadNotificationList]);
 
   const markAsRead = useCallback(
     async (id: number) => {
@@ -242,7 +259,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
       setUnreadCount((c) => Math.max(0, c - 1));
     },
-    [user],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user?.id],
   );
 
   const markAllAsRead = useCallback(async () => {
@@ -259,7 +277,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const createNotification = useCallback(
     async (notification: Omit<Notification, "id" | "is_read" | "created_at">) => {
@@ -299,7 +318,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     setNotifications([]);
     setUnreadCount(0);
     setHasMore(true);
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const contextValue = useMemo(
     () => ({
