@@ -26,6 +26,16 @@ type DbSpecies = Database['public']['Tables']['species']['Row']
 type DbObservationEvent = Database['public']['Tables']['observation_events']['Row']
 type DbObservationEventSpecies = Database['public']['Tables']['observation_event_species']['Row']
 
+function normalizeTagList(tags?: string[] | null): string[] {
+    return Array.from(
+        new Set(
+            (tags || [])
+                .map((tag) => tag?.trim())
+                .filter((tag): tag is string => Boolean(tag))
+        )
+    )
+}
+
 // 评论/回复的数据库查询结果类型（comments 或 discussion_replies 联表 profiles 后的形状）
 export interface DbCommentWithProfile {
     id: number
@@ -393,6 +403,8 @@ export function mapDbProject(
         tags?: string[]
     }
 ): Project {
+    const tags = normalizeTagList(dbProject.tags)
+
     return {
         id: dbProject.id,
         title: dbProject.title,
@@ -420,7 +432,7 @@ export function mapDbProject(
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
         difficulty_stars: dbProject.difficulty_stars ?? 3,
         duration: dbProject.duration || undefined,
-        tags: dbProject.tags || [],
+        tags,
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
         rejection_reason: dbProject.rejection_reason ?? null,
         challenge_id: ('challenge_id' in dbProject ? (dbProject as Record<string, unknown>).challenge_id as number | null : null),

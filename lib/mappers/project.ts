@@ -5,6 +5,16 @@
 
 import type { Project, Comment } from '@/lib/mappers/types'
 
+function normalizeTagList(tags?: string[] | null): string[] {
+  return Array.from(
+    new Set(
+      (tags || [])
+        .map((tag) => tag?.trim())
+        .filter((tag): tag is string => Boolean(tag))
+    )
+  )
+}
+
 /**
  * 数据库项目类型（简化版，包含常见字段）
  */
@@ -73,7 +83,7 @@ export function mapProject(p: DbProject, authorName?: string): Project {
     status: p.status,  // 审核状态
     difficulty: p.difficulty,  // 难度
     duration: p.duration,  // 时长
-    tags: p.tags || []  // 标签
+    tags: normalizeTagList(p.tags)  // 标签
   }
 }
 

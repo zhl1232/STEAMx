@@ -42,6 +42,16 @@ const EMPTY_TAG_SCOPE: ExploreTagScope = {
     bySubCategory: {},
 }
 
+function normalizeTagList(tags: string[]) {
+    return Array.from(
+        new Set(
+            tags
+                .map((tag) => tag.trim())
+                .filter(Boolean)
+        )
+    )
+}
+
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
@@ -72,7 +82,7 @@ export function ExploreClient({
     const initialCategory = searchParams.get("category") || "全部"
     const initialSubCategory = searchParams.get("subCategory") || ""
     const initialDifficulty = searchParams.get("difficulty") || "all"
-    const initialTags = searchParams.get("tags")?.split(",").filter(Boolean) || []
+    const initialTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
     const [page, setPage] = useState(initialPage + 1)
@@ -108,7 +118,7 @@ export function ExploreClient({
         const nextCategory = searchParams.get("category") || "全部"
         const nextSubCategory = searchParams.get("subCategory") || ""
         const nextDifficulty = searchParams.get("difficulty") || "all"
-        const nextTags = searchParams.get("tags")?.split(",").filter(Boolean) || []
+        const nextTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
 
         setSearchQuery(nextQuery)
         setSelectedCategory(nextCategory)
@@ -248,6 +258,15 @@ export function ExploreClient({
 
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags])
+
+    const buildProjectDetailHref = useCallback((projectId: string | number, index: number) => {
+        const params = buildSearchParams()
+        params.set('from', 'explore')
+        params.set('sourceIndex', String(index))
+
+        const query = params.toString()
+        return query ? `/project/${projectId}?${query}` : `/project/${projectId}`
+    }, [buildSearchParams])
 
     const syncUrl = useCallback((params: URLSearchParams) => {
         const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
@@ -672,14 +691,28 @@ export function ExploreClient({
             <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => {
                     const isPriority = index < 2
+                    const detailHref = buildProjectDetailHref(project.id, index)
                     if (projects.length === index + 1) {
                         return (
                             <div ref={lastProjectElementRef} key={project.id}>
-                                <ProjectCard project={project} searchQuery={searchQuery} priority={isPriority} />
+                                <ProjectCard
+                                    project={project}
+                                    searchQuery={searchQuery}
+                                    priority={isPriority}
+                                    href={detailHref}
+                                />
                             </div>
                         )
                     } else {
-                        return <ProjectCard key={project.id} project={project} searchQuery={searchQuery} priority={isPriority} />
+                        return (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                searchQuery={searchQuery}
+                                priority={isPriority}
+                                href={detailHref}
+                            />
+                        )
                     }
                 })}
 

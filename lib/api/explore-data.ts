@@ -394,9 +394,12 @@ export async function getProjects(
     .range(from, to);
 
   if (sortBy === "popular") {
-    query = query.order("likes_count", { ascending: false }).order("created_at", { ascending: false });
+    query = query
+      .order("likes_count", { ascending: false })
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false });
   } else {
-    query = query.order("created_at", { ascending: false });
+    query = query.order("created_at", { ascending: false }).order("id", { ascending: false });
   }
 
   if (sanitizedSearch) {
@@ -475,6 +478,24 @@ export async function getProjects(
   const hasMore = total > to + 1;
 
   return { projects, total, hasMore };
+}
+
+export async function getProjectAtIndex(
+  filters: ProjectFilters = {},
+  index: number,
+  pagination: Pick<PaginationOptions, 'sortBy'> = {},
+): Promise<Project | null> {
+  if (!Number.isInteger(index) || index < 0) {
+    return null;
+  }
+
+  const { projects } = await getProjects(filters, {
+    page: index,
+    pageSize: 1,
+    sortBy: pagination.sortBy,
+  });
+
+  return projects[0] ?? null;
 }
 
 /**

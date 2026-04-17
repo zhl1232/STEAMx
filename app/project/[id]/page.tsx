@@ -12,6 +12,7 @@ import {
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
+import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStats } from '@/components/features/project/project-detail-stats'
 import { ProjectShowcase } from '@/components/features/project-showcase'
@@ -21,15 +22,82 @@ import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
+  getProjectAtIndex,
   getProjectById,
   getProjectComments,
   getProjectCompletions,
+  getRelatedProjects,
   getProjectTotalCoinsReceived,
+  type ProjectFilters,
 } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>
+  searchParams?: Promise<{
+    from?: string | string[]
+    sourceIndex?: string | string[]
+    q?: string | string[]
+    category?: string | string[]
+    subCategory?: string | string[]
+    difficulty?: string | string[]
+    tags?: string | string[]
+  }>
+}
+
+function getSingleSearchParam(value?: string | string[]) {
+  if (Array.isArray(value)) return value[0]
+  return value
+}
+
+function buildExploreSearchParams(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>) {
+  const params = new URLSearchParams()
+  const query = getSingleSearchParam(searchParams?.q)
+  const category = getSingleSearchParam(searchParams?.category)
+  const subCategory = getSingleSearchParam(searchParams?.subCategory)
+  const difficulty = getSingleSearchParam(searchParams?.difficulty)
+  const tags = getSingleSearchParam(searchParams?.tags)
+
+  if (query) params.set('q', query)
+  if (category) params.set('category', category)
+  if (subCategory) params.set('subCategory', subCategory)
+  if (difficulty) params.set('difficulty', difficulty)
+  if (tags) params.set('tags', tags)
+
+  return params
+}
+
+function buildExploreHref(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>) {
+  const params = buildExploreSearchParams(searchParams)
+  return params.size > 0 ? `/explore?${params.toString()}` : '/explore'
+}
+
+function buildProjectHref(
+  projectId: string | number,
+  searchParams?: Awaited<ProjectDetailPageProps['searchParams']>,
+  sourceIndex?: number,
+) {
+  const params = buildExploreSearchParams(searchParams)
+
+  if (Number.isInteger(sourceIndex) && (sourceIndex ?? -1) >= 0) {
+    params.set('from', 'explore')
+    params.set('sourceIndex', String(sourceIndex))
+  }
+
+  const query = params.toString()
+  return query ? `/project/${projectId}?${query}` : `/project/${projectId}`
+}
+
+function parseProjectFilters(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>): ProjectFilters {
+  const tagsValue = getSingleSearchParam(searchParams?.tags)
+
+  return {
+    searchQuery: getSingleSearchParam(searchParams?.q),
+    category: getSingleSearchParam(searchParams?.category),
+    subCategory: getSingleSearchParam(searchParams?.subCategory),
+    difficulty: getSingleSearchParam(searchParams?.difficulty) as ProjectFilters['difficulty'],
+    tags: tagsValue ? tagsValue.split(',').filter(Boolean) : undefined,
+  }
 }
 
 function canAccessProject(project: Awaited<ReturnType<typeof getProjectById>>, viewerId?: string) {
@@ -126,8 +194,9 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({ params, searchParams }: ProjectDetailPageProps) {
   const { id } = await params
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
 
   const project = await getProjectById(id)
   if (!project) {
@@ -144,24 +213,44 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound()
   }
 
+  const fromExplore = getSingleSearchParam(resolvedSearchParams?.from) === 'explore'
+  const parsedSourceIndex = Number.parseInt(getSingleSearchParam(resolvedSearchParams?.sourceIndex) || '', 10)
+  const sourceIndex = Number.isInteger(parsedSourceIndex) && parsedSourceIndex >= 0 ? parsedSourceIndex : null
+  const exploreFilters = parseProjectFilters(resolvedSearchParams)
+  const exploreBackHref = buildExploreHref(resolvedSearchParams)
+
   const showStatusAlert = isAuthor && (project.status === 'pending' || project.status === 'rejected')
 
-  const completions = await getProjectCompletions(project.id, 8)
+  const [completions, commentsData, projectCoinsReceived, nextProject, relatedProjects] = await Promise.all([
+    getProjectCompletions(project.id, 8),
+    getProjectComments(project.id, 0, 5, { userId: user?.id }),
+    getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0),
+    fromExplore && sourceIndex !== null ? getProjectAtIndex(exploreFilters, sourceIndex + 1) : Promise.resolve(null),
+    fromExplore ? Promise.resolve([]) : getRelatedProjects(project.id, project.category, 1),
+  ])
 
   const {
     comments: initialComments,
     total: totalComments,
     hasMore: hasMoreComments,
     likedCommentIds: initialLikedCommentIds,
-  } = await getProjectComments(project.id, 0, 5, { userId: user?.id })
-
-  const projectCoinsReceived = await getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0)
+  } = commentsData
 
   const materials = project.materials ?? []
   const steps = project.steps ?? []
   const tags = project.tags ?? []
   const isObservationProject = tags.includes('鸟类')
   const projectSummary = project.description || '一个适合边做边学、逐步完成的实践项目。'
+  const continuationProject = nextProject && Number(nextProject.id) !== Number(project.id)
+    ? nextProject
+    : (!fromExplore ? relatedProjects[0] ?? null : null)
+  const continuationHref = continuationProject
+    ? buildProjectHref(
+        continuationProject.id,
+        resolvedSearchParams,
+        fromExplore && sourceIndex !== null ? sourceIndex + 1 : undefined,
+      )
+    : exploreBackHref
 
   return (
     <div className="relative overflow-x-hidden">
@@ -170,7 +259,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       <div className="page-shell pt-8 pb-24 md:pb-10">
         <MobilePageHeader
           title={project.title}
-          fallbackHref="/explore"
+          fallbackHref={exploreBackHref}
           className="-mx-4 -mt-8 mb-4 md:hidden"
           backButtonClassName="left-2"
           titleClassName="pl-6"
@@ -178,7 +267,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
         <div className="mb-5">
           <Link
-            href="/explore"
+            href={exploreBackHref}
             className="hidden items-center text-sm text-muted-foreground transition-colors hover:text-foreground md:inline-flex"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -372,6 +461,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             >
               <ProjectShowcase completions={completions} projectId={project.id} projectTitle={project.title} />
             </div>
+
+            {(continuationProject || fromExplore) ? (
+              <ProjectContinuationCard
+                kind={continuationProject ? (fromExplore ? 'next' : 'related') : 'back'}
+                href={continuationHref}
+                project={continuationProject}
+              />
+            ) : null}
 
             <div className="overflow-hidden rounded-[28px] border border-border/70 bg-card/85 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm">
               <ProjectComments

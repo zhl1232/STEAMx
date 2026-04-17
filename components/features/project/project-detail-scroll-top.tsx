@@ -1,25 +1,21 @@
 "use client"
 
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 import { usePathname } from "next/navigation"
 
 export function ProjectDetailScrollTop() {
   const pathname = usePathname()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return
     if (window.location.hash) return
     if (window.scrollY <= 0) return
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const frameId = window.requestAnimationFrame(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-      })
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
     })
-
-    return () => window.cancelAnimationFrame(frameId)
   }, [pathname])
 
   return null

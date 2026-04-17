@@ -18,21 +18,23 @@ interface ProjectCardProps {
     showStatus?: boolean;  // 是否显示状态Badge，默认false
     /** 首屏优先加载（用于探索页前几张卡片，提升 LCP） */
     priority?: boolean;
+    href?: string;
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = project.likes + getLikesDelta(project.id);
     const [imageError, setImageError] = useState(false);
     const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
+    const detailHref = href || `/project/${project.id}`;
 
     return (
         <div className="transition-transform duration-300 hover:-translate-y-1.5">
             <div className="group relative block overflow-hidden rounded-[24px] border border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)] transition-all hover:shadow-[0_24px_55px_-28px_rgba(15,23,42,0.34)]">
                 {/* Main Card Link Overlay */}
                 <Link
-                    href={`/project/${project.id}`}
+                    href={detailHref}
                     className="absolute inset-0 z-0"
                     aria-label={`查看项目：${project.title}`}
                 />
