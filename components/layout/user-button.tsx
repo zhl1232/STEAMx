@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,13 +18,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { CoinIcon } from "@/components/icons/coin-icon"
+import { LoginDialog } from '@/components/layout/login-dialog'
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
 
 export function UserButton() {
   const { user, profile, loading, signOut, canReview } = useAuth()
+  const [loginOpen, setLoginOpen] = useState(false)
 
   if (loading) {
     return (
@@ -35,11 +39,28 @@ export function UserButton() {
 
   if (!user) {
     return (
-      <Link href="/login">
-        <Button variant="default" size="sm">
-          登录
-        </Button>
-      </Link>
+      <>
+        <Link
+          href="/login"
+          onClick={(event) => {
+            event.preventDefault()
+            setLoginOpen(true)
+          }}
+        >
+          <Button
+            variant="default"
+            size="sm"
+          >
+            登录
+          </Button>
+        </Link>
+        <LoginDialog
+          open={loginOpen}
+          onOpenChange={setLoginOpen}
+          title="登录或注册"
+          description="登录后即可查看个人中心、消息和互动记录"
+        />
+      </>
     )
   }
 
