@@ -18,7 +18,7 @@ export function LoginDialog({
   onOpenChange,
   onSuccess,
   title = '登录以继续',
-  description = '登录后即可点赞、评论和分享项目'
+  description
 }: LoginDialogProps) {
   const [mounted, setMounted] = useState(false)
 

@@ -1,12 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   AlertCircle,
   ArrowLeft,
   CheckCircle2,
-  ChevronRight,
   Loader2,
   Lock,
   Mail,
@@ -123,7 +122,6 @@ export function AuthFlow({
   const [otpStep, setOtpStep] = useState<OtpStep>('input')
 
   const [termsAgreed, setTermsAgreed] = useState(false)
-  const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [checkboxShake, setCheckboxShake] = useState(false)
   const [otpCooldown, setOtpCooldown] = useState(0)
 
@@ -139,33 +137,31 @@ export function AuthFlow({
 
   const otpMode = method === 'phone' && !usePhonePassword && mode !== 'forgot_password'
   const showPasswordField = (method === 'email' && mode !== 'forgot_password') || (method === 'phone' && mode === 'sign_in' && usePhonePassword)
+  const showPhoneSignInToggle = method === 'phone' && mode === 'sign_in'
+  const showOtpField = otpMode && otpStep === 'verify'
 
   const resolvedTitle = title ?? (mode === 'sign_in' ? '欢迎回来' : mode === 'sign_up' ? '创建账号' : '找回密码')
-  const resolvedDescription = description ?? (mode === 'sign_in'
-    ? '手机号快捷验证优先，邮箱密码作为备用方式。'
-    : mode === 'sign_up'
-      ? '用手机号快速开始，也可以改用邮箱创建账号。'
-      : '目前仅支持通过邮箱发送重置链接。')
+  const resolvedDescription = description?.trim() || null
   const successTarget = nextPath ?? getSafeNextPath()
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
-  const descriptionId = presentation === 'page' ? 'auth-page-description' : 'auth-layer-description'
+  const descriptionId = resolvedDescription
+    ? (presentation === 'page' ? 'auth-page-description' : 'auth-layer-description')
+    : undefined
 
-  const methodOptions = useMemo(() => [
+  const methodOptions = [
     {
       key: 'phone' as const,
       label: '手机号',
-      helper: mode === 'sign_in' ? '验证码直达' : '验证码注册',
       icon: Smartphone,
       disabled: mode === 'forgot_password',
     },
     {
       key: 'email' as const,
       label: '邮箱',
-      helper: mode === 'forgot_password' ? '发送重置链接' : '密码登录',
       icon: Mail,
       disabled: false,
     },
-  ], [mode])
+  ]
 
   useEffect(() => {
     if (otpCooldown <= 0) return
@@ -208,17 +204,7 @@ export function AuthFlow({
     if (!termsAgreed) {
       toast({
         title: '请先同意条款',
-        description: '注册前请先阅读并同意《服务条款》和《隐私政策》。',
-        variant: 'destructive',
-      })
-      shakeConsent()
-      return false
-    }
-
-    if (!ageConfirmed) {
-      toast({
-        title: '请确认年龄',
-        description: '注册前请确认年龄或已获得监护人同意。',
+        description: '注册前请先阅读并同意《服务条款》和《隐私政策》，并确认已年满 14 周岁或已获得监护人同意。',
         variant: 'destructive',
       })
       shakeConsent()
@@ -482,7 +468,7 @@ export function AuthFlow({
 
   const renderFieldLabel = () => (method === 'phone' ? '手机号' : '邮箱')
   const renderFieldValue = () => (method === 'phone' ? phone : email)
-  const renderFieldPlaceholder = () => (method === 'phone' ? '13800138000' : 'name@example.com')
+  const renderFieldPlaceholder = () => (method === 'phone' ? '请输入手机号' : '请输入邮箱')
 
   return (
     <div className={cn(
@@ -511,9 +497,11 @@ export function AuthFlow({
             <h1 id={titleId} className="font-heading text-3xl font-semibold tracking-tight text-foreground">
               {resolvedTitle}
             </h1>
-            <p id={descriptionId} className="text-sm leading-6 text-muted-foreground">
-              {resolvedDescription}
-            </p>
+            {resolvedDescription && (
+              <p id={descriptionId} className="text-sm leading-6 text-muted-foreground">
+                {resolvedDescription}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-3 gap-2 rounded-[20px] bg-muted/35 p-1">
@@ -580,7 +568,6 @@ export function AuthFlow({
                           <Icon className="h-4 w-4" />
                           {option.label}
                         </div>
-                        <div className="mt-1 text-xs">{option.helper}</div>
                       </button>
                     )
                   })}
@@ -610,9 +597,9 @@ export function AuthFlow({
                   <label className="text-sm font-medium text-foreground/86">{renderFieldLabel()}</label>
                   <div className="relative">
                     {method === 'phone' ? (
-                      <Smartphone className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+                      <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     ) : (
-                      <Mail className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     )}
                     <Input
                       type={method === 'phone' ? 'tel' : 'email'}
@@ -631,14 +618,38 @@ export function AuthFlow({
                       required
                     />
                   </div>
-                  {method === 'phone' ? (
-                    <p className="text-xs text-muted-foreground">默认使用短信验证码，适合移动端快速登录。</p>
-                  ) : mode === 'forgot_password' ? (
-                    <p className="text-xs text-muted-foreground">我们会向你的邮箱发送重置密码链接。</p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">邮箱方式适合已有密码账号或桌面端登录。</p>
-                  )}
                 </div>
+
+                {showPhoneSignInToggle && (
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/60 bg-muted/30 p-1">
+                      <button
+                        type="button"
+                        onClick={() => setUsePhonePassword(false)}
+                        className={cn(
+                          'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
+                          !usePhonePassword
+                            ? 'bg-background text-foreground shadow-sm'
+                            : 'text-muted-foreground hover:bg-background/70'
+                        )}
+                      >
+                        验证码
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setUsePhonePassword(true)}
+                        className={cn(
+                          'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
+                          usePhonePassword
+                            ? 'bg-background text-foreground shadow-sm'
+                            : 'text-muted-foreground hover:bg-background/70'
+                        )}
+                      >
+                        密码
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {showPasswordField && (
                   <div className="space-y-2">
@@ -655,7 +666,7 @@ export function AuthFlow({
                       )}
                     </div>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         type="password"
                         placeholder="请输入至少 6 位密码"
@@ -667,120 +678,60 @@ export function AuthFlow({
                         required
                       />
                     </div>
-                    {method === 'phone' && mode === 'sign_in' && (
-                      <button
-                        type="button"
-                        onClick={() => setUsePhonePassword(false)}
-                        className="text-xs font-medium text-primary hover:underline"
-                      >
-                        改用短信验证码
-                      </button>
-                    )}
                   </div>
                 )}
 
-                {otpMode && (
+                {showOtpField && (
                   <div className="space-y-3 rounded-[22px] border border-border/60 bg-muted/30 p-4">
-                    {otpStep === 'verify' ? (
-                      <>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-foreground/86">短信验证码</label>
-                          <div className="flex overflow-hidden rounded-2xl border border-input bg-background">
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              autoComplete="one-time-code"
-                              placeholder="请输入 6 位验证码"
-                              value={otp}
-                              onChange={(event) => setOtp(event.target.value.replace(/\D/g, ''))}
-                              className="h-12 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted-foreground"
-                              maxLength={6}
-                              required
-                            />
-                            <button
-                              type="button"
-                              onClick={handleSendOtp}
-                              disabled={otpCooldown > 0 || loading}
-                              className="shrink-0 border-l border-border px-4 text-sm font-medium text-primary disabled:opacity-50"
-                            >
-                              {otpCooldown > 0 ? `${otpCooldown}s` : '重发'}
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-                          <span>短信验证成功后会直接继续。</span>
-                          {mode === 'sign_in' && (
-                            <button
-                              type="button"
-                              onClick={() => setUsePhonePassword(true)}
-                              className="font-medium text-primary hover:underline"
-                            >
-                              改用密码
-                            </button>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="space-y-2">
-                        <div className="text-sm font-medium text-foreground/86">短信验证</div>
-                        <p className="text-sm leading-6 text-muted-foreground">
-                          {mode === 'sign_in'
-                            ? '输入手机号后即可获取验证码，适合移动端快速登录。'
-                            : '注册时会先发送验证码，验证成功后自动创建并登录账号。'}
-                        </p>
-                        {mode === 'sign_in' && (
-                          <button
-                            type="button"
-                            onClick={() => setUsePhonePassword(true)}
-                            className="text-xs font-medium text-primary hover:underline"
-                          >
-                            我记得密码，改用密码登录
-                          </button>
-                        )}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between gap-3">
+                        <label className="text-sm font-medium text-foreground/86">短信验证码</label>
+                        <button
+                          type="button"
+                          onClick={handleSendOtp}
+                          disabled={otpCooldown > 0 || loading}
+                          className="text-xs font-medium text-primary disabled:text-muted-foreground"
+                        >
+                          {otpCooldown > 0 ? `${otpCooldown}s 后重发` : '重新发送'}
+                        </button>
                       </div>
-                    )}
+                      <div className="flex overflow-hidden rounded-2xl border border-input bg-background">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          placeholder="请输入 6 位验证码"
+                          value={otp}
+                          onChange={(event) => setOtp(event.target.value.replace(/\D/g, ''))}
+                          className="h-12 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted-foreground/55"
+                          maxLength={6}
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {mode === 'sign_up' && (
-                  <div className="space-y-3">
-                    <div
-                      className={cn(
-                        'flex items-start gap-3 rounded-[22px] border border-border/60 bg-muted/25 px-4 py-3',
-                        checkboxShake && 'animate-[shake_0.4s_ease-in-out]'
-                      )}
-                    >
-                      <Checkbox
-                        id={`${presentation}-terms`}
-                        checked={termsAgreed}
-                        onCheckedChange={(checked) => setTermsAgreed(checked === true)}
-                        className="mt-0.5"
-                      />
-                      <label htmlFor={`${presentation}-terms`} className="text-sm leading-6 text-muted-foreground">
-                        我已阅读并同意
-                        <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
-                        和
-                        <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
-                      </label>
-                    </div>
-
-                    <div
-                      className={cn(
-                        'flex items-start gap-3 rounded-[22px] border border-border/60 bg-muted/25 px-4 py-3',
-                        checkboxShake && !ageConfirmed && 'animate-[shake_0.4s_ease-in-out]'
-                      )}
-                    >
-                      <Checkbox
-                        id={`${presentation}-age`}
-                        checked={ageConfirmed}
-                        onCheckedChange={(checked) => setAgeConfirmed(checked === true)}
-                        className="mt-0.5"
-                      />
-                      <label htmlFor={`${presentation}-age`} className="text-sm leading-6 text-muted-foreground">
-                        我已年满 14 周岁，或已获得监护人同意使用本平台
-                      </label>
-                    </div>
+                  <div
+                    className={cn(
+                      'flex items-start gap-3 rounded-[22px] border border-border/60 bg-muted/25 px-4 py-3',
+                      checkboxShake && 'animate-[shake_0.4s_ease-in-out]'
+                    )}
+                  >
+                    <Checkbox
+                      id={`${presentation}-terms`}
+                      checked={termsAgreed}
+                      onCheckedChange={(checked) => setTermsAgreed(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor={`${presentation}-terms`} className="text-sm leading-6 text-muted-foreground">
+                      我已阅读并同意
+                      <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
+                      和
+                      <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
+                      ，并确认已年满 14 周岁，或已获得监护人同意使用本平台
+                    </label>
                   </div>
                 )}
 
@@ -793,32 +744,14 @@ export function AuthFlow({
                   ) : mode === 'forgot_password' ? (
                     '发送重置链接'
                   ) : otpMode ? (
-                    otpStep === 'input' ? (mode === 'sign_up' ? '获取验证码并继续注册' : '获取验证码') : (mode === 'sign_up' ? '验证并创建账号' : '验证并登录')
+                    otpStep === 'input' ? (mode === 'sign_up' ? '获取验证码' : '获取验证码') : (mode === 'sign_up' ? '确认注册' : '确认登录')
                   ) : mode === 'sign_in' ? (
-                    method === 'phone' ? '手机号密码登录' : '邮箱登录'
+                    '登录'
                   ) : (
-                    '邮箱注册'
+                    '注册'
                   )}
                 </Button>
               </form>
-
-              <div className="flex items-center justify-between gap-4 rounded-[22px] border border-border/60 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
-                <div>
-                  {mode === 'sign_in'
-                    ? '第一次来这里？'
-                    : mode === 'sign_up'
-                      ? '已经有账号了？'
-                      : '想直接登录或注册？'}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => switchMode(mode === 'sign_in' ? 'sign_up' : 'sign_in')}
-                  className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
-                >
-                  {mode === 'sign_in' ? '去注册' : '去登录'}
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
           </div>
         </div>
       </div>

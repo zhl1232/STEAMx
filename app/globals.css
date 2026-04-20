@@ -6,6 +6,9 @@
 
 @layer base {
   :root {
+    --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    --font-heading: "STSong", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+
     /* 浅色模式背景：极淡的冷白 */
     --background: 220 30% 98%;
     --foreground: 220 40% 10%;
@@ -146,6 +149,13 @@
   }
 
   body {
+    font-family:
+      "PingFang SC",
+      "Hiragino Sans GB",
+      "Microsoft YaHei",
+      "Noto Sans CJK SC",
+      "Source Han Sans SC",
+      sans-serif;
     @apply bg-background font-sans text-foreground;
     background-image:
       radial-gradient(circle at top, hsl(var(--primary) / 0.08), transparent 30%),
@@ -157,7 +167,12 @@
   h2,
   h3,
   .font-heading {
-    font-family: var(--font-heading), serif;
+    font-family:
+      "STSong",
+      "Songti SC",
+      "Noto Serif CJK SC",
+      "Source Han Serif SC",
+      serif;
   }
 
   ::selection {

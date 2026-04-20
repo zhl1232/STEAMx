@@ -89,8 +89,7 @@ function MobileProjectItem({ project }: { project: Project }) {
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-muted">
         <OptimizedImage
           src={
-            project.image ||
-            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop"
+            project.image || "/projects/tech_programming.webp"
           }
           alt={project.title}
           fill

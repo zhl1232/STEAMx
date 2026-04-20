@@ -114,7 +114,6 @@ export function BottomNav() {
                     }
                 }}
                 title="登录后继续"
-                description={pendingHref === "/profile" ? "登录后即可进入个人中心" : "登录后即可继续当前操作"}
             />
         </div>
     );

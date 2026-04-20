@@ -5,7 +5,7 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://steam-explore.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
     // 基础静态路由
     const routes: MetadataRoute.Sitemap = [

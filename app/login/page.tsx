@@ -12,7 +12,6 @@ export default function LoginPage() {
       <AuthFlow
         presentation="page"
         title="登录或注册"
-        description="支持手机号验证码和邮箱密码。登录成功后会自动继续你的原操作。"
         onBack={() => router.back()}
       />
     </div>

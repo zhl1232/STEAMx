@@ -51,7 +51,6 @@ export function UserButton() {
           open={loginOpen}
           onOpenChange={setLoginOpen}
           title="登录或注册"
-          description="登录后即可查看个人中心、消息和互动记录"
         />
       </>
     )

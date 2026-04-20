@@ -4,12 +4,12 @@
  */
 
 export const CATEGORY_THEME_IMAGES: Record<string, string> = {
-  '科学': 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=675&fit=crop&q=85',
-  '技术': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=675&fit=crop&q=85',
-  '工程': 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=675&fit=crop&q=85',
-  '艺术': 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200&h=675&fit=crop&q=85',
-  '数学': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=675&fit=crop&q=85',
-  '其他': 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?w=1200&h=675&fit=crop&q=85',
+  '科学': '/projects/science_physics.webp',
+  '技术': '/projects/tech_programming.webp',
+  '工程': '/projects/eng_mechanical.webp',
+  '艺术': '/projects/art_painting.webp',
+  '数学': '/projects/generated/project-0393.webp',
+  '其他': '/projects/sensory_box.webp',
 }
 
 /**
