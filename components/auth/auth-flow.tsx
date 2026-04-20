@@ -10,8 +10,6 @@ import {
   Loader2,
   Lock,
   Mail,
-  MessageSquareMore,
-  ShieldCheck,
   Smartphone,
 } from 'lucide-react'
 
@@ -490,125 +488,76 @@ export function AuthFlow({
     <div className={cn(
       'relative overflow-hidden',
       presentation === 'page'
-        ? 'mx-auto w-full max-w-5xl rounded-[32px] border border-border/70 bg-card/96 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)]'
-        : 'h-full bg-background'
+        ? 'mx-auto w-full max-w-md rounded-[28px] border border-border/70 bg-card shadow-[0_18px_60px_-40px_rgba(15,23,42,0.35)]'
+        : 'rounded-t-[28px] border border-b-0 border-border/70 bg-background shadow-[0_-18px_60px_-40px_rgba(15,23,42,0.35)] md:rounded-[28px] md:border-b md:bg-card'
     )}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_34%),radial-gradient(circle_at_top_right,rgba(16,185,129,0.10),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.98))]" />
-
       <div className={cn(
-        'relative',
-        presentation === 'page' ? 'grid min-h-[min(880px,100dvh-3rem)] gap-0 md:grid-cols-[0.95fr_1.05fr]' : 'flex h-full flex-col'
+        'relative space-y-5',
+        presentation === 'page'
+          ? 'p-5 sm:p-6'
+          : 'max-h-[92dvh] overflow-y-auto px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] sm:p-6'
       )}>
-        <section className={cn(
-          'flex flex-col',
-          presentation === 'page'
-            ? 'justify-between border-b border-border/60 px-5 py-5 sm:px-8 sm:py-8 md:border-b-0 md:border-r'
-            : 'min-h-0 flex-1 px-4 pb-5 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6'
-        )}>
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={presentation === 'page' ? onBack : onClose}
-                className="inline-flex h-10 items-center gap-2 rounded-full border border-border/70 bg-background/78 px-4 text-sm font-medium text-foreground/82 transition-colors hover:bg-background"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                返回
-              </button>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                更接近日常 App 的移动端流程
-              </div>
-            </div>
+        <div className="space-y-4">
+          <button
+            type="button"
+            onClick={presentation === 'page' ? onBack : onClose}
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground/82 transition-colors hover:bg-muted"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            返回
+          </button>
 
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
-                <MessageSquareMore className="h-3.5 w-3.5" />
-                {mode === 'sign_in' ? '先登录，再继续当前操作' : mode === 'sign_up' ? '注册后直接进入账号' : '邮箱找回密码'}
-              </div>
-
-              <div className="space-y-2">
-                <h1 id={titleId} className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                  {resolvedTitle}
-                </h1>
-                <p id={descriptionId} className="max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
-                  {resolvedDescription}
-                </p>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                <button
-                  type="button"
-                  onClick={() => switchMode('sign_in')}
-                  className={cn(
-                    'rounded-[22px] border px-4 py-3 text-left transition-colors',
-                    mode === 'sign_in'
-                      ? 'border-primary/30 bg-primary/10 text-foreground'
-                      : 'border-border/60 bg-background/70 text-muted-foreground hover:bg-background'
-                  )}
-                >
-                  <div className="text-sm font-semibold">登录</div>
-                  <div className="mt-1 text-xs">直接继续当前操作</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => switchMode('sign_up')}
-                  className={cn(
-                    'rounded-[22px] border px-4 py-3 text-left transition-colors',
-                    mode === 'sign_up'
-                      ? 'border-primary/30 bg-primary/10 text-foreground'
-                      : 'border-border/60 bg-background/70 text-muted-foreground hover:bg-background'
-                  )}
-                >
-                  <div className="text-sm font-semibold">注册</div>
-                  <div className="mt-1 text-xs">首次使用快速创建</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => switchMode('forgot_password')}
-                  className={cn(
-                    'rounded-[22px] border px-4 py-3 text-left transition-colors',
-                    mode === 'forgot_password'
-                      ? 'border-primary/30 bg-primary/10 text-foreground'
-                      : 'border-border/60 bg-background/70 text-muted-foreground hover:bg-background'
-                  )}
-                >
-                  <div className="text-sm font-semibold">找回密码</div>
-                  <div className="mt-1 text-xs">邮箱重置链接</div>
-                </button>
-              </div>
-            </div>
-
-            {presentation === 'page' && (
-              <div className="hidden rounded-[28px] border border-border/60 bg-background/65 p-6 md:block">
-                <div className="space-y-4">
-                  <div className="text-sm font-semibold text-foreground">为什么这样改</div>
-                  <div className="space-y-3 text-sm leading-6 text-muted-foreground">
-                    <p>手机号默认走验证码，减少移动端输入负担。</p>
-                    <p>注册与登录拆开表达，条款只在注册时出现，不再阻断日常登录。</p>
-                    <p>受保护操作会留在当前上下文完成认证，成功后继续原动作。</p>
-                  </div>
-                </div>
-              </div>
-            )}
+          <div className="space-y-2">
+            <h1 id={titleId} className="font-heading text-3xl font-semibold tracking-tight text-foreground">
+              {resolvedTitle}
+            </h1>
+            <p id={descriptionId} className="text-sm leading-6 text-muted-foreground">
+              {resolvedDescription}
+            </p>
           </div>
 
-          {presentation !== 'page' && (
-            <div className="mt-6 rounded-[24px] border border-border/60 bg-muted/35 p-4 text-xs leading-5 text-muted-foreground">
-              手机号验证码优先，邮箱密码保留为备用方式。登录完成后会继续当前操作。
-            </div>
-          )}
-        </section>
+          <div className="grid grid-cols-3 gap-2 rounded-[20px] bg-muted/35 p-1">
+            <button
+              type="button"
+              onClick={() => switchMode('sign_in')}
+              className={cn(
+                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
+                mode === 'sign_in'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:bg-background/70'
+              )}
+            >
+              登录
+            </button>
+            <button
+              type="button"
+              onClick={() => switchMode('sign_up')}
+              className={cn(
+                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
+                mode === 'sign_up'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:bg-background/70'
+              )}
+            >
+              注册
+            </button>
+            <button
+              type="button"
+              onClick={() => switchMode('forgot_password')}
+              className={cn(
+                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
+                mode === 'forgot_password'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:bg-background/70'
+              )}
+            >
+              找回密码
+            </button>
+          </div>
+        </div>
 
-        <section className={cn(
-          'relative flex flex-col justify-center',
-          presentation === 'page' ? 'px-5 py-6 sm:px-8 sm:py-8' : 'px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-6'
-        )}>
-          <div className={cn(
-            'rounded-[30px] border border-border/70 bg-background/84 p-4 shadow-[0_28px_80px_-48px_rgba(15,23,42,0.45)] backdrop-blur sm:p-6',
-            presentation === 'page' ? 'md:mx-auto md:w-full md:max-w-xl' : 'mt-auto'
-          )}>
-            <div className="space-y-5">
+        <div className="rounded-[24px] border border-border/70 bg-background p-4 shadow-sm sm:p-5">
+          <div className="space-y-5">
               {mode !== 'forgot_password' && (
                 <div className="grid grid-cols-2 gap-2 rounded-[22px] border border-border/60 bg-muted/35 p-1">
                   {methodOptions.map((option) => {
@@ -870,9 +819,8 @@ export function AuthFlow({
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
-            </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   )

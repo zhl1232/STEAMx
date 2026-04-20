@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import { AuthFlow } from '@/components/auth/auth-flow'
 
@@ -19,6 +20,13 @@ export function LoginDialog({
   title = '登录以继续',
   description = '登录后即可点赞、评论和分享项目'
 }: LoginDialogProps) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    return () => setMounted(false)
+  }, [])
+
   useEffect(() => {
     if (!open) return
 
@@ -32,22 +40,22 @@ export function LoginDialog({
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [onOpenChange, open])
 
-  if (!open) return null
+  if (!mounted || !open) return null
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[90]">
       <button
         type="button"
         aria-label="关闭登录层"
         className="absolute inset-0 bg-slate-950/30 backdrop-blur-sm"
-        onMouseDown={() => onOpenChange(false)}
+        onClick={() => onOpenChange(false)}
       />
 
-      <div className="absolute inset-0 md:flex md:items-center md:justify-center md:p-6">
+      <div className="absolute inset-x-0 bottom-0 top-0 flex items-end justify-center md:items-center md:p-6">
         <div
           role="dialog"
           aria-modal="true"
-          className="h-full w-full md:h-auto md:max-w-4xl"
+          className="w-full md:max-w-md"
           onClick={(event) => event.stopPropagation()}
         >
           <AuthFlow
@@ -62,6 +70,7 @@ export function LoginDialog({
           />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

@@ -40,20 +40,13 @@ export function UserButton() {
   if (!user) {
     return (
       <>
-        <Link
-          href="/login"
-          onClick={(event) => {
-            event.preventDefault()
-            setLoginOpen(true)
-          }}
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => setLoginOpen(true)}
         >
-          <Button
-            variant="default"
-            size="sm"
-          >
-            登录
-          </Button>
-        </Link>
+          登录
+        </Button>
         <LoginDialog
           open={loginOpen}
           onOpenChange={setLoginOpen}

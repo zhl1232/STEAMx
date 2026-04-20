@@ -74,18 +74,17 @@ export function BottomNav() {
 
                 if (item.protected && !user) {
                     return (
-                        <Link
+                        <button
                             key={item.href}
-                            href={`/login?next=${encodeURIComponent(item.href)}`}
-                            onClick={(event) => {
-                                event.preventDefault();
+                            type="button"
+                            onClick={() => {
                                 setPendingHref(item.href);
                                 setLoginOpen(true);
                             }}
                             className="relative flex min-w-[56px] flex-col items-center justify-center rounded-2xl px-1.5 py-0.5"
                         >
                             {content}
-                        </Link>
+                        </button>
                     )
                 }
 
