@@ -389,9 +389,9 @@ BEGIN
         (v_project_id, '本地存储', '使用localStorage将笔记数据以JSON格式保存在浏览器中，页面加载时自动读取并显示已保存的笔记。', 5),
         (v_project_id, '高级功能', '添加笔记搜索过滤、按时间排序、笔记分类标签、双击确认删除等功能，提升应用实用性。', 6);
 
-    -- Project 22: Python 爬虫入门
+    -- Project 22: Python 网页列表抓取
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('Python 爬虫入门', '用 Python 的 requests 库学习网页数据抓取的基本技术，从网页中提取有用的信息。参与者将了解网页的工作原理，学习HTTP请求和HTML解析，同时建立网络安全和道德爬虫的意识。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','requests','技术','编程'], '技术')
+    VALUES ('Python 网页列表抓取', '用 Python 抓取一个网页中的标题或列表信息，并整理成结构化结果。通过一个具体抓取任务练习请求、解析和输出。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/tech_programming.webp', ARRAY['Python','requests','技术','编程'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

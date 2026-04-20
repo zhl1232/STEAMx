@@ -442,7 +442,7 @@ BEGIN
     VALUES (
         '红外遥控小车',
         '用红外遥控器和接收模块控制一辆自制小车的前进、后退和转弯！参与者将学习红外通信的原理和电机驱动的方法。这个项目综合了机械结构搭建、电路连接和编程控制，是一个综合性很强的挑战。',
-        v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_electronics.webp',
+        v_author_id, v_sub_id, 5, 120, 'draft', '/projects/tech_electronics.webp',
         ARRAY['红外','遥控','技术','电子'], '技术'
     ) RETURNING id INTO v_project_id;
 

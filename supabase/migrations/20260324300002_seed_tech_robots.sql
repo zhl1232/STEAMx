@@ -368,9 +368,9 @@ BEGIN
         (v_project_id, '联调测试', '上传程序，用手机App发送指令测试小车各方向运动，调整电机转速和转弯时间参数。', 5),
         (v_project_id, '功能扩展', '添加PWM调速功能实现变速控制，或加装蜂鸣器和LED灯增加声光效果，打造个性化遥控车。', 6);
 
-    -- Project 18: 自平衡机器人入门
+    -- Project 18: 双轮自平衡小车调试
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自平衡机器人入门', '制作一个能自动保持直立平衡的两轮机器人，类似赛格威的工作原理。参与者将初步接触陀螺仪传感器和PID控制算法，理解反馈控制系统的核心思想。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['陀螺仪','PID','技术','机器人'], '技术')
+    VALUES ('双轮自平衡小车调试', '搭建双轮自平衡小车并反复调整传感器和参数，让小车尽可能保持直立。通过调试理解平衡控制的基本思路。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['陀螺仪','PID','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -392,7 +392,7 @@ BEGIN
 
     -- Project 19: 机器人迷宫挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('机器人迷宫挑战', '编程让机器人自主导航通过迷宫找到出口，综合运用传感器和算法知识。参与者将学习基本的迷宫求解算法（如左手法则），培养算法思维和系统调试能力。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tech_robots.webp', ARRAY['算法','导航','技术','机器人'], '技术')
+    VALUES ('机器人迷宫挑战', '编程让机器人自主导航通过迷宫找到出口，综合运用传感器和算法知识。参与者将学习基本的迷宫求解算法（如左手法则），培养算法思维和系统调试能力。', v_author_id, v_sub_id, 5, 150, 'draft', '/projects/tech_robots.webp', ARRAY['算法','导航','技术','机器人'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

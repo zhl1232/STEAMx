@@ -14,9 +14,9 @@ BEGIN
     SELECT id INTO v_sub_id FROM public.sub_categories WHERE name = '3D打印' LIMIT 1;
     IF v_sub_id IS NULL THEN RAISE EXCEPTION '找不到子分类: 3D打印'; END IF;
 
-    -- Project 1: 设计你的名字标牌
+    -- Project 1: 3D 打印名字标牌
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('设计你的名字标牌', '使用TinkerCAD软件设计一个带有自己名字的个性化标牌，并用3D打印机打印出来。参与者将学习基础的3D建模操作，理解从数字设计到实体制造的完整流程。', v_author_id, v_sub_id, 1, 40, 'approved', '/projects/tech_3dprint.webp', ARRAY['TinkerCAD','入门','技术','3D打印'], '技术')
+    VALUES ('3D 打印名字标牌', '用建模软件制作一个带自己名字的标牌并打印出来。通过一个明确产物学习文字建模和尺寸控制。', v_author_id, v_sub_id, 1, 40, 'approved', '/projects/tech_3dprint.webp', ARRAY['TinkerCAD','入门','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -141,9 +141,9 @@ BEGIN
         (v_project_id, '打印与组装', '分别打印上下两个半球，放入钢珠后用胶水粘合两半球体，确保密封但钢珠能自由滚动。', 4),
         (v_project_id, '测试游玩', '摇晃和旋转迷宫球，尝试将钢珠引导通过迷宫到达终点，和朋友比赛谁先完成。', 5);
 
-    -- Project 8: 动物模型设计
+    -- Project 8: 3D 打印动物摆件
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('动物模型设计', '用3D建模软件设计一个自己喜爱的小动物模型并打印出来，如小猫、小狗或小兔子。参与者将学习有机形状的建模方法，提升空间想象力和艺术造型能力。', v_author_id, v_sub_id, 2, 55, 'approved', '/projects/tech_3dprint.webp', ARRAY['建模','雕刻','技术','3D打印'], '技术')
+    VALUES ('3D 打印动物摆件', '参考动物照片建一个简单摆件模型并打印。通过小型有机造型练习基础建模。', v_author_id, v_sub_id, 2, 55, 'approved', '/projects/tech_3dprint.webp', ARRAY['建模','雕刻','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -180,9 +180,9 @@ BEGIN
         (v_project_id, '测试传动', '转动大齿轮观察小齿轮的转速变化，验证传动比：小齿轮转速 = 大齿轮转速 × 大齿轮齿数 ÷ 小齿轮齿数。', 5),
         (v_project_id, '扩展创造', '尝试添加更多齿轮组成齿轮链，在最后一个齿轮上装上箭头指针，制成一个有趣的机械联动装置。', 6);
 
-    -- Project 10: 可组装积木设计
+    -- Project 10: 拼插积木块建模
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('可组装积木设计', '设计一套可以互相拼接的3D打印积木，各部件之间通过凸起和凹槽精确配合。参与者将学习制造公差的概念，理解零件配合精度对组装效果的重要影响。', v_author_id, v_sub_id, 3, 75, 'approved', '/projects/tech_3dprint.webp', ARRAY['公差','配合','技术','3D打印'], '技术')
+    VALUES ('拼插积木块建模', '设计两块可以稳定拼接的积木块并打印测试配合效果。通过小范围任务理解公差与配合。', v_author_id, v_sub_id, 3, 75, 'approved', '/projects/tech_3dprint.webp', ARRAY['公差','配合','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -217,9 +217,9 @@ BEGIN
         (v_project_id, '参数调试', '修改不同参数观察花瓶造型变化，如增大波浪幅度让瓶身更有动感，找到最满意的造型。', 4),
         (v_project_id, '螺旋花瓶模式打印', '在切片软件中启用"花瓶模式"（螺旋外壁），一层连续打印出光滑无缝的花瓶。', 5);
 
-    -- Project 12: 建筑模型设计
+    -- Project 12: 单体小屋模型建模
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('建筑模型设计', '选择一座喜欢的建筑物，按照一定比例缩小设计并3D打印出精美的建筑模型。参与者将学习比例尺的概念和建筑结构的基本知识，提升空间想象力。', v_author_id, v_sub_id, 3, 80, 'approved', '/projects/tech_3dprint.webp', ARRAY['建筑','比例','技术','3D打印'], '技术')
+    VALUES ('单体小屋模型建模', '围绕门窗、屋顶和墙体设计一栋单体小屋模型并打印。通过一个明确建筑对象练习比例和结构。', v_author_id, v_sub_id, 3, 80, 'approved', '/projects/tech_3dprint.webp', ARRAY['建筑','比例','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -319,7 +319,7 @@ BEGIN
 
     -- Project 17: 行星齿轮组
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('行星齿轮组', '设计并打印一套完整的行星齿轮机构——包括太阳轮、行星轮、行星架和齿圈。参与者将深入学习行星齿轮系的传动原理，理解自动变速箱中这一核心机构的工作方式。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_3dprint.webp', ARRAY['齿轮系','传动','技术','3D打印'], '技术')
+    VALUES ('行星齿轮组', '设计并打印一套完整的行星齿轮机构——包括太阳轮、行星轮、行星架和齿圈。参与者将深入学习行星齿轮系的传动原理，理解自动变速箱中这一核心机构的工作方式。', v_author_id, v_sub_id, 5, 120, 'draft', '/projects/tech_3dprint.webp', ARRAY['齿轮系','传动','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -337,9 +337,9 @@ BEGIN
         (v_project_id, '高精度打印', '以0.1毫米层高打印所有零件，用不同颜色区分各部件，打印后仔细去除毛刺。', 5),
         (v_project_id, '组装与演示', '涂抹少量润滑油，组装整个行星齿轮系，固定齿圈转动太阳轮，观察行星架的减速输出效果。', 6);
 
-    -- Project 18: 可折叠结构设计
+    -- Project 18: 折叠支架建模
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('可折叠结构设计', '设计一个能够从平面展开为立体结构的折叠机构，如折叠杯、折叠盒或折叠手机架。参与者将学习折叠铰链和活动连杆的设计方法，探索折纸数学在工程中的应用。', v_author_id, v_sub_id, 5, 110, 'approved', '/projects/tech_3dprint.webp', ARRAY['折叠','铰链','技术','3D打印'], '技术')
+    VALUES ('折叠支架建模', '设计一个可展开和收起的小支架，并验证折叠结构是否顺畅。通过具体装置练习折叠结构建模。', v_author_id, v_sub_id, 5, 110, 'approved', '/projects/tech_3dprint.webp', ARRAY['折叠','铰链','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -379,7 +379,7 @@ BEGIN
 
     -- Project 20: 仿生结构设计
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('仿生结构设计', '从自然界中获取灵感，模仿蜂巢、骨骼或贝壳等天然结构设计轻量高强度的3D打印零件。参与者将学习仿生学的核心思想，理解自然界经过亿万年进化出的结构为何如此高效。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tech_3dprint.webp', ARRAY['仿生学','优化','技术','3D打印'], '技术')
+    VALUES ('仿生结构设计', '从自然界中获取灵感，模仿蜂巢、骨骼或贝壳等天然结构设计轻量高强度的3D打印零件。参与者将学习仿生学的核心思想，理解自然界经过亿万年进化出的结构为何如此高效。', v_author_id, v_sub_id, 5, 120, 'draft', '/projects/tech_3dprint.webp', ARRAY['仿生学','优化','技术','3D打印'], '技术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

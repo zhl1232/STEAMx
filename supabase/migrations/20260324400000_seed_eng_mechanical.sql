@@ -129,9 +129,9 @@ BEGIN
         (v_project_id, '测试联动', '转动大齿轮，观察小齿轮被带动旋转，注意两个齿轮的旋转方向相反。', 4),
         (v_project_id, '探索传动比', '数一数大齿轮和小齿轮各有多少个齿，转动大齿轮一圈时小齿轮转了几圈，理解齿数比决定转速比。', 5);
 
-    -- Project 7: 弹珠轨道入门
+    -- Project 7: 双坡弹珠轨道搭建
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹珠轨道入门', '用纸板和纸筒搭建一条简易弹珠轨道，让弹珠从高处顺畅滚到低处。参与者将在搭建中学习重力势能转化为动能的过程，培养空间规划能力。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','重力','工程','机械'], '工程')
+    VALUES ('双坡弹珠轨道搭建', '搭建一段包含两个坡面的弹珠轨道，让弹珠顺利从起点滚到终点。通过局部结构搭建理解坡度和连接。', v_author_id, v_sub_id, 2, 25, 'approved', '/projects/eng_mechanical.webp', ARRAY['轨道','重力','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -172,7 +172,7 @@ BEGIN
 
     -- Project 9: 纸板弹珠机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板弹珠机', '用纸板制作一台完整的弹珠台游戏机，包含弹射器、障碍物和得分区域。参与者将综合运用弹射、反弹等机械原理，体验从设计到搭建完整机械装置的成就感。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机械','弹射','工程','机械'], '工程')
+    VALUES ('纸板弹珠机', '用纸板制作一台完整的弹珠台游戏机，包含弹射器、障碍物和得分区域。参与者将综合运用弹射、反弹等机械原理，体验从设计到搭建完整机械装置的成就感。', v_author_id, v_sub_id, 3, 60, 'draft', '/projects/eng_mechanical.webp', ARRAY['机械','弹射','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -214,7 +214,7 @@ BEGIN
 
     -- Project 11: 纸板自动贩卖机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板自动贩卖机', '用纸板制作一台能投币出货的迷你自动贩卖机，包含投币检测和推送货物的机关。参与者将学习多个简单机构的组合设计，理解联动机关的工作流程。', v_author_id, v_sub_id, 3, 60, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构','联动','工程','机械'], '工程')
+    VALUES ('纸板自动贩卖机', '用纸板制作一台能投币出货的迷你自动贩卖机，包含投币检测和推送货物的机关。参与者将学习多个简单机构的组合设计，理解联动机关的工作流程。', v_author_id, v_sub_id, 3, 60, 'draft', '/projects/eng_mechanical.webp', ARRAY['机构','联动','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -323,7 +323,7 @@ BEGIN
 
     -- Project 16: 自动翻页机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自动翻页机', '设计并制作一台能自动翻动书页的机械装置，利用凸轮和摩擦片实现逐页翻转。参与者将在这个综合项目中学习机构设计的思维方法，将旋转运动转化为间歇性的翻页动作。', v_author_id, v_sub_id, 4, 75, 'approved', '/projects/eng_mechanical.webp', ARRAY['机构设计','工程','机械'], '工程')
+    VALUES ('自动翻页机', '设计并制作一台能自动翻动书页的机械装置，利用凸轮和摩擦片实现逐页翻转。参与者将在这个综合项目中学习机构设计的思维方法，将旋转运动转化为间歇性的翻页动作。', v_author_id, v_sub_id, 4, 75, 'draft', '/projects/eng_mechanical.webp', ARRAY['机构设计','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -345,7 +345,7 @@ BEGIN
 
     -- Project 17: 多级齿轮变速箱
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('多级齿轮变速箱', '制作一个包含多个档位的齿轮变速箱，能够通过拨杆切换不同的传动比。参与者将深入理解变速箱的核心原理，学习汽车和自行车变速器是如何通过齿轮组合实现速度变换的。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_mechanical.webp', ARRAY['变速','传动比','工程','机械'], '工程')
+    VALUES ('多级齿轮变速箱', '制作一个包含多个档位的齿轮变速箱，能够通过拨杆切换不同的传动比。参与者将深入理解变速箱的核心原理，学习汽车和自行车变速器是如何通过齿轮组合实现速度变换的。', v_author_id, v_sub_id, 5, 120, 'draft', '/projects/eng_mechanical.webp', ARRAY['变速','传动比','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -389,7 +389,7 @@ BEGIN
 
     -- Project 19: 纸板自动分拣机
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('纸板自动分拣机', '制作一台能按大小或重量自动将物品分拣到不同通道的纸板机器，体验自动化分拣的工程思维。参与者将学习如何用纯机械方式实现简单的分拣逻辑，理解工业自动化的基本概念。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_mechanical.webp', ARRAY['分拣','传送','工程','机械'], '工程')
+    VALUES ('纸板自动分拣机', '制作一台能按大小或重量自动将物品分拣到不同通道的纸板机器，体验自动化分拣的工程思维。参与者将学习如何用纯机械方式实现简单的分拣逻辑，理解工业自动化的基本概念。', v_author_id, v_sub_id, 5, 90, 'draft', '/projects/eng_mechanical.webp', ARRAY['分拣','传送','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -412,7 +412,7 @@ BEGIN
 
     -- Project 20: 鲁布·戈德堡机械
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('鲁布·戈德堡机械', '设计并搭建一台鲁布·戈德堡连锁反应装置，用一系列精心设计的机关完成一个简单的最终任务。参与者将综合运用杠杆、斜面、齿轮、重力等所有学过的机械原理，创造一台富有想象力的连锁反应奇迹。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/eng_mechanical.webp', ARRAY['连锁反应','创意','工程','机械'], '工程')
+    VALUES ('鲁布·戈德堡机械', '设计并搭建一台鲁布·戈德堡连锁反应装置，用一系列精心设计的机关完成一个简单的最终任务。参与者将综合运用杠杆、斜面、齿轮、重力等所有学过的机械原理，创造一台富有想象力的连锁反应奇迹。', v_author_id, v_sub_id, 5, 150, 'draft', '/projects/eng_mechanical.webp', ARRAY['连锁反应','创意','工程','机械'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

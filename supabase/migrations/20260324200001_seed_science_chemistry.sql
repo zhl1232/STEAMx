@@ -83,11 +83,11 @@ BEGIN
         (v_project_id, '观察泡泡', '观察泡泡表面的颜色和光泽变化，讨论为什么泡泡是圆形的，表面张力如何让液膜保持形状。', 4),
         (v_project_id, '泡泡画创作', '在白纸上方吹泡泡，让彩色泡泡落在纸上留下美丽的痕迹，制作一幅泡泡画。', 5);
 
-    -- Project 4: 面团发酵观察
+    -- Project 4: 气球酵母发酵实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '面团发酵观察',
-        '用面粉和酵母制作面团，观察发酵过程中面团如何膨胀变大！参与者将了解酵母菌这种微生物如何将糖分解并产生二氧化碳气体。实验结束还可以把面团做成小面包品尝。',
+        '气球酵母发酵实验',
+        '把酵母、温水和少量糖装进瓶中，用气球观察发酵产生的气体。通过对比不同条件下气球鼓起的速度，理解酵母发酵和产气过程。',
         v_author_id, v_sub_id, 1, 60, 'approved', '/projects/science_chemistry.webp',
         ARRAY['酵母菌','产气','科学','化学'], '科学'
     ) RETURNING id INTO v_project_id;

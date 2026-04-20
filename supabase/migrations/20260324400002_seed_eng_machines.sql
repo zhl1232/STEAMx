@@ -235,7 +235,7 @@ BEGIN
 
     -- Project 12: 弹射器优化挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('弹射器优化挑战', '在基础投石机的基础上进行系统优化，通过调整发射角度、臂长比例和弹性强度，挑战将弹丸发射到最远距离。运用科学实验方法记录数据，找到最优发射方案。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/eng_machines.webp', ARRAY['弹射','角度','工程','机器'], '工程')
+    VALUES ('弹射器优化挑战', '在基础投石机的基础上进行系统优化，通过调整发射角度、臂长比例和弹性强度，挑战将弹丸发射到最远距离。运用科学实验方法记录数据，找到最优发射方案。', v_author_id, v_sub_id, 3, 45, 'draft', '/projects/eng_machines.webp', ARRAY['弹射','角度','工程','机器'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -365,7 +365,7 @@ BEGIN
 
     -- Project 18: 多级水力发电站
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('多级水力发电站', '搭建一个多级梯田式水力发电模型，水从高处逐级流下依次驱动多个涡轮发电。通过这个综合工程项目，理解级联发电的效率优势和水资源多次利用的智慧。', v_author_id, v_sub_id, 5, 75, 'approved', '/projects/eng_machines.webp', ARRAY['水力','级联','工程','机器'], '工程')
+    VALUES ('多级水力发电站', '搭建一个多级梯田式水力发电模型，水从高处逐级流下依次驱动多个涡轮发电。通过这个综合工程项目，理解级联发电的效率优势和水资源多次利用的智慧。', v_author_id, v_sub_id, 5, 75, 'draft', '/projects/eng_machines.webp', ARRAY['水力','级联','工程','机器'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -388,7 +388,7 @@ BEGIN
 
     -- Project 19: 自动喂食器
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('自动喂食器', '设计并制作一个简易的自动定量喂食器，利用重力和机械联动实现定时定量地释放食物。结合齿轮传动、凸轮机构等简单机械原理，打造一个实用的自动化装置。', v_author_id, v_sub_id, 5, 70, 'approved', '/projects/eng_machines.webp', ARRAY['机构','定量','工程','机器'], '工程')
+    VALUES ('自动喂食器', '设计并制作一个简易的自动定量喂食器，利用重力和机械联动实现定时定量地释放食物。结合齿轮传动、凸轮机构等简单机械原理，打造一个实用的自动化装置。', v_author_id, v_sub_id, 5, 70, 'draft', '/projects/eng_machines.webp', ARRAY['机构','定量','工程','机器'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -410,7 +410,7 @@ BEGIN
 
     -- Project 20: 风力水泵
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('风力水泵', '建造一个风力驱动的水泵模型，让风车通过曲柄连杆机构带动活塞泵将水抽起。这个项目综合运用风车、曲柄连杆和活塞泵三种简单机械，是一项完整的机械工程挑战。', v_author_id, v_sub_id, 5, 75, 'approved', '/projects/eng_machines.webp', ARRAY['风能','泵送','工程','机器'], '工程')
+    VALUES ('风力水泵', '建造一个风力驱动的水泵模型，让风车通过曲柄连杆机构带动活塞泵将水抽起。这个项目综合运用风车、曲柄连杆和活塞泵三种简单机械，是一项完整的机械工程挑战。', v_author_id, v_sub_id, 5, 75, 'draft', '/projects/eng_machines.webp', ARRAY['风能','泵送','工程','机器'], '工程')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

@@ -220,9 +220,9 @@ BEGIN
         (v_project_id, '学习构造法', '学习"阶梯法"构造奇数阶幻方：从顶部中间开始，沿右上方向依次填数，遇到边界则绕到对面继续。', 4),
         (v_project_id, '挑战四阶', '尝试构造4×4的四阶幻方，用1-16填入，幻和为34，难度大幅提升但也更有成就感。', 5);
 
-    -- Project 12: 数独策略研究
+    -- Project 12: 唯一候选法解数独
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数独策略研究', '系统学习数独的解题策略，从简单排除法到高级技巧逐步进阶。参与者将在解数独的过程中大幅提升逻辑推理能力和系统化思维水平。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','逻辑','数学','游戏'], '数学')
+    VALUES ('唯一候选法解数独', '聚焦数独中的唯一候选法，用这一种策略完成一题标准数独。通过单一技巧训练逻辑推理。', v_author_id, v_sub_id, 3, 40, 'approved', '/projects/sensory_box.webp', ARRAY['数独','逻辑','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -302,7 +302,7 @@ BEGIN
 
     -- Project 16: 加密与解密挑战
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('加密与解密挑战', '学习多种密码编码方法，设计自己的加密系统并挑战朋友来破解。参与者将深入了解密码学中的数学原理，体验信息安全的核心思想。', v_author_id, v_sub_id, 4, 50, 'approved', '/projects/sensory_box.webp', ARRAY['密码学','编码','数学','游戏'], '数学')
+    VALUES ('加密与解密挑战', '学习多种密码编码方法，设计自己的加密系统并挑战朋友来破解。参与者将深入了解密码学中的数学原理，体验信息安全的核心思想。', v_author_id, v_sub_id, 4, 50, 'draft', '/projects/sensory_box.webp', ARRAY['密码学','编码','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -322,7 +322,7 @@ BEGIN
 
     -- Project 17: 用数学分析桌游策略
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('用数学分析桌游策略', '用概率和期望值分析常见桌游中的最优策略，让数学成为赢得游戏的秘密武器。参与者将学会用数学工具进行决策分析，理解为什么有些策略长期来看更优。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['概率','期望','数学','游戏'], '数学')
+    VALUES ('用数学分析桌游策略', '用概率和期望值分析常见桌游中的最优策略，让数学成为赢得游戏的秘密武器。参与者将学会用数学工具进行决策分析，理解为什么有些策略长期来看更优。', v_author_id, v_sub_id, 5, 60, 'draft', '/projects/sensory_box.webp', ARRAY['概率','期望','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -342,7 +342,7 @@ BEGIN
 
     -- Project 18: 抽样调查实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('抽样调查实验', '设计并执行一次真实的抽样调查，从小样本推断总体特征，体验统计学的核心方法。参与者将学会科学的调查方法，理解为什么民调和统计可以用少数人的数据推测整体情况。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['统计学','抽样','数学','游戏'], '数学')
+    VALUES ('抽样调查实验', '设计并执行一次真实的抽样调查，从小样本推断总体特征，体验统计学的核心方法。参与者将学会科学的调查方法，理解为什么民调和统计可以用少数人的数据推测整体情况。', v_author_id, v_sub_id, 5, 60, 'draft', '/projects/sensory_box.webp', ARRAY['统计学','抽样','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -383,7 +383,7 @@ BEGIN
 
     -- Project 20: 数学建模入门
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('数学建模入门', '学习用数学模型描述和解决实际生活中的问题，迈出从"学数学"到"用数学"的关键一步。参与者将体验数学建模的完整流程，理解数学是解决真实世界问题的强大工具。', v_author_id, v_sub_id, 5, 60, 'approved', '/projects/sensory_box.webp', ARRAY['建模','实际问题','数学','游戏'], '数学')
+    VALUES ('数学建模入门', '学习用数学模型描述和解决实际生活中的问题，迈出从"学数学"到"用数学"的关键一步。参与者将体验数学建模的完整流程，理解数学是解决真实世界问题的强大工具。', v_author_id, v_sub_id, 5, 60, 'draft', '/projects/sensory_box.webp', ARRAY['建模','实际问题','数学','游戏'], '数学')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

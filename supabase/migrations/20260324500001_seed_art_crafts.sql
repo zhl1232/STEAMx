@@ -248,9 +248,9 @@ BEGIN
         (v_project_id, '修整表面', '用刮刀和湿手指修整杯子的形状和表面，使之圆润光滑，底部压平确保能稳定放置。', 4),
         (v_project_id, '装饰上色', '在杯身刻画花纹或等完全干燥后用丙烯颜料上色，创作出个人专属的艺术杯子。', 5);
 
-    -- Project 13: 刺绣入门
+    -- Project 13: 叶片针法刺绣
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('刺绣入门', '学习基础刺绣针法，在绣布上绣出简单的花卉或文字图案。参与者将在一针一线中培养专注力和审美能力，体验这门优雅的传统手工艺术。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['刺绣','图案','艺术','手工'], '艺术')
+    VALUES ('叶片针法刺绣', '用平针和回针绣出一枚叶片图案，练习基础针法和线迹控制。通过一个小作品进入刺绣。', v_author_id, v_sub_id, 3, 50, 'approved', '/projects/handmade_coaster.webp', ARRAY['刺绣','图案','艺术','手工'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

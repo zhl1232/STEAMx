@@ -280,7 +280,7 @@ BEGIN
     VALUES (
         '建筑沙盘',
         '设计并制作一个小型社区的建筑沙盘，包含房屋、道路、绿化和公共设施！参与者将学习基本的城市规划概念，理解建筑物之间的空间关系。这是一个综合性很强的模型制作项目。',
-        v_author_id, v_sub_id, 3, 90, 'approved', '/projects/eng_models.webp',
+        v_author_id, v_sub_id, 3, 90, 'draft', '/projects/eng_models.webp',
         ARRAY['建筑','规划','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -409,7 +409,7 @@ BEGIN
     VALUES (
         '可活动人体骨骼模型',
         '用硬纸板制作一个各关节可以活动的人体骨骼模型！用铆钉或图钉连接各骨骼部件，实现肩、肘、髋、膝等关节的真实运动。参与者将深入了解人体骨骼系统的206块骨骼和主要关节的运动方式。',
-        v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_models.webp',
+        v_author_id, v_sub_id, 5, 120, 'draft', '/projects/eng_models.webp',
         ARRAY['解剖','关节','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -435,7 +435,7 @@ BEGIN
     VALUES (
         '生态系统微缩模型',
         '在一个大玻璃容器中构建一个完整的微型生态系统，包含土壤、植物、水体和小动物模型！参与者将学习食物链、能量流动和物质循环等生态学核心概念。这是一个需要综合运用多学科知识的复杂项目。',
-        v_author_id, v_sub_id, 5, 120, 'approved', '/projects/eng_models.webp',
+        v_author_id, v_sub_id, 5, 120, 'draft', '/projects/eng_models.webp',
         ARRAY['生态','综合','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -489,7 +489,7 @@ BEGIN
     VALUES (
         '城市规划沙盘',
         '设计并制作一个完整的城市微缩沙盘，包含住宅区、商业区、工业区、交通系统和公共绿地！参与者将综合运用建筑、规划和工程知识，思考城市功能分区和交通组织的合理性。这是模型制作的高阶挑战项目。',
-        v_author_id, v_sub_id, 5, 180, 'approved', '/projects/eng_models.webp',
+        v_author_id, v_sub_id, 5, 180, 'draft', '/projects/eng_models.webp',
         ARRAY['城市','综合设计','工程','模型'], '工程'
     ) RETURNING id INTO v_project_id;
 

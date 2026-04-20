@@ -255,9 +255,9 @@ BEGIN
         (v_project_id, '细节刻画', '用雕塑工具刻画细节纹理，如花瓣的脉络、叶片的锯齿等，丰富浮雕的表现力。', 5),
         (v_project_id, '晾干与上色', '将浮雕作品自然晾干，可以保持黏土原色，也可以用颜料上色增强视觉效果。', 6);
 
-    -- Project 13: 肥皂雕刻入门
+    -- Project 13: 几何印章肥皂雕刻
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('肥皂雕刻入门', '用雕刻工具在肥皂上进行减材雕刻，学习"去掉多余部分，留下想要的形状"的雕刻思维。肥皂质地柔软易于切削，是参与者学习减材雕刻的理想入门材料。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/tumbler_toy.webp', ARRAY['雕刻','减材','艺术','雕塑'], '艺术')
+    VALUES ('几何印章肥皂雕刻', '在肥皂上雕刻出简单几何印章，练习减材雕刻的基本手法。通过明确产物体验造型与切削。', v_author_id, v_sub_id, 4, 45, 'approved', '/projects/tumbler_toy.webp', ARRAY['雕刻','减材','艺术','雕塑'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -298,7 +298,7 @@ BEGIN
 
     -- Project 15: 环保材料装置艺术
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('环保材料装置艺术', '收集生活中的废旧物品，组合创作一件有主题的装置艺术作品。参与者将学习当代艺术的表达方式，用废旧材料传达环保理念，培养创新思维和批判性思考。', v_author_id, v_sub_id, 4, 90, 'approved', '/projects/tumbler_toy.webp', ARRAY['废旧材料','装置','艺术','雕塑'], '艺术')
+    VALUES ('环保材料装置艺术', '收集生活中的废旧物品，组合创作一件有主题的装置艺术作品。参与者将学习当代艺术的表达方式，用废旧材料传达环保理念，培养创新思维和批判性思考。', v_author_id, v_sub_id, 4, 90, 'draft', '/projects/tumbler_toy.webp', ARRAY['废旧材料','装置','艺术','雕塑'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -385,7 +385,7 @@ BEGIN
 
     -- Project 19: 大型纸板公共雕塑
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('大型纸板公共雕塑', '利用回收的大型瓦楞纸板，团队协作搭建一座大型公共雕塑作品。这个项目锻炼团队协作能力和空间想象力，让参与者体验从设计到搭建大型作品的完整流程。', v_author_id, v_sub_id, 5, 150, 'approved', '/projects/tumbler_toy.webp', ARRAY['大型','协作','艺术','雕塑'], '艺术')
+    VALUES ('大型纸板公共雕塑', '利用回收的大型瓦楞纸板，团队协作搭建一座大型公共雕塑作品。这个项目锻炼团队协作能力和空间想象力，让参与者体验从设计到搭建大型作品的完整流程。', v_author_id, v_sub_id, 5, 150, 'draft', '/projects/tumbler_toy.webp', ARRAY['大型','协作','艺术','雕塑'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -407,7 +407,7 @@ BEGIN
 
     -- Project 20: 多材料组合雕塑
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('多材料组合雕塑', '综合运用黏土、金属丝、木片、石膏、织物等多种材料创作一件组合雕塑。这是对所有雕塑技法的综合应用，参与者需要思考如何让不同材质和谐共存，表达统一的艺术主题。', v_author_id, v_sub_id, 5, 120, 'approved', '/projects/tumbler_toy.webp', ARRAY['综合材料','艺术','雕塑'], '艺术')
+    VALUES ('多材料组合雕塑', '综合运用黏土、金属丝、木片、石膏、织物等多种材料创作一件组合雕塑。这是对所有雕塑技法的综合应用，参与者需要思考如何让不同材质和谐共存，表达统一的艺术主题。', v_author_id, v_sub_id, 5, 120, 'draft', '/projects/tumbler_toy.webp', ARRAY['综合材料','艺术','雕塑'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

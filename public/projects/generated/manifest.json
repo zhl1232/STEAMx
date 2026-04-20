@@ -225,7 +225,7 @@
   },
   {
     "index": 34,
-    "title": "面团发酵观察",
+    "title": "气球酵母发酵实验",
     "sourceFile": "20260324200001_seed_science_chemistry.sql",
     "generated": true,
     "filename": "project-0034.webp",
@@ -433,7 +433,7 @@
   },
   {
     "index": 60,
-    "title": "鱼的呼吸观察",
+    "title": "鱼鳃开合频率记录",
     "sourceFile": "20260324200002_seed_science_animals.sql",
     "generated": true,
     "filename": "project-0060.webp",
@@ -457,7 +457,7 @@
   },
   {
     "index": 63,
-    "title": "贝壳收集与分类",
+    "title": "贝壳形状分类卡",
     "sourceFile": "20260324200002_seed_science_animals.sql",
     "generated": true,
     "filename": "project-0063.webp",
@@ -473,7 +473,7 @@
   },
   {
     "index": 65,
-    "title": "鱼的身体结构观察",
+    "title": "鱼鳍和鱼鳃结构识别",
     "sourceFile": "20260324200002_seed_science_animals.sql",
     "generated": true,
     "filename": "project-0065.webp",
@@ -553,7 +553,7 @@
   },
   {
     "index": 75,
-    "title": "种子发芽观察日记",
+    "title": "绿豆发芽对照实验",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0075.webp",
@@ -561,7 +561,7 @@
   },
   {
     "index": 76,
-    "title": "树叶标本采集与分类",
+    "title": "树叶分类标本卡",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0076.webp",
@@ -593,7 +593,7 @@
   },
   {
     "index": 80,
-    "title": "植物向光性观察",
+    "title": "纸箱植物向光实验",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0080.webp",
@@ -601,7 +601,7 @@
   },
   {
     "index": 81,
-    "title": "花的解剖观察",
+    "title": "一朵花的结构解剖",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0081.webp",
@@ -633,7 +633,7 @@
   },
   {
     "index": 85,
-    "title": "年轮观察日记",
+    "title": "树桩年轮判读",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0085.webp",
@@ -761,7 +761,7 @@
   },
   {
     "index": 101,
-    "title": "雨量测量记录",
+    "title": "自制雨量筒测雨",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
     "generated": true,
     "filename": "project-0101.webp",
@@ -785,7 +785,7 @@
   },
   {
     "index": 104,
-    "title": "岩石收集与分类",
+    "title": "岩石硬度分类实验",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
     "generated": true,
     "filename": "project-0104.webp",
@@ -817,7 +817,7 @@
   },
   {
     "index": 108,
-    "title": "彩虹形成条件记录",
+    "title": "喷雾彩虹角度实验",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
     "generated": true,
     "filename": "project-0108.webp",
@@ -1081,7 +1081,7 @@
   },
   {
     "index": 141,
-    "title": "Python 爬虫入门",
+    "title": "Python 网页列表抓取",
     "sourceFile": "20260324300000_seed_tech_programming.sql",
     "generated": true,
     "filename": "project-0141.webp",
@@ -1393,7 +1393,7 @@
   },
   {
     "index": 180,
-    "title": "自平衡机器人入门",
+    "title": "双轮自平衡小车调试",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
     "filename": "project-0180.webp",
@@ -1417,7 +1417,7 @@
   },
   {
     "index": 183,
-    "title": "设计你的名字标牌",
+    "title": "3D 打印名字标牌",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
     "generated": true,
     "filename": "project-0183.webp",
@@ -1473,7 +1473,7 @@
   },
   {
     "index": 190,
-    "title": "动物模型设计",
+    "title": "3D 打印动物摆件",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
     "generated": true,
     "filename": "project-0190.webp",
@@ -1489,7 +1489,7 @@
   },
   {
     "index": 192,
-    "title": "可组装积木设计",
+    "title": "拼插积木块建模",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
     "generated": true,
     "filename": "project-0192.webp",
@@ -1505,7 +1505,7 @@
   },
   {
     "index": 194,
-    "title": "建筑模型设计",
+    "title": "单体小屋模型建模",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
     "generated": true,
     "filename": "project-0194.webp",
@@ -1553,7 +1553,7 @@
   },
   {
     "index": 200,
-    "title": "可折叠结构设计",
+    "title": "折叠支架建模",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
     "generated": true,
     "filename": "project-0200.webp",
@@ -1625,7 +1625,7 @@
   },
   {
     "index": 209,
-    "title": "弹珠轨道入门",
+    "title": "双坡弹珠轨道搭建",
     "sourceFile": "20260324400000_seed_eng_mechanical.sql",
     "generated": true,
     "filename": "project-0209.webp",
@@ -1889,7 +1889,7 @@
   },
   {
     "index": 242,
-    "title": "仿真桥梁结构分析",
+    "title": "双桥型受力仿真对比",
     "sourceFile": "20260324400001_seed_eng_bridges.sql",
     "generated": true,
     "filename": "project-0242.webp",
@@ -2265,7 +2265,7 @@
   },
   {
     "index": 289,
-    "title": "点彩画入门",
+    "title": "点彩水果画",
     "sourceFile": "20260324500000_seed_art_painting.sql",
     "generated": true,
     "filename": "project-0289.webp",
@@ -2305,7 +2305,7 @@
   },
   {
     "index": 294,
-    "title": "光影素描入门",
+    "title": "球体明暗素描",
     "sourceFile": "20260324500000_seed_art_painting.sql",
     "generated": true,
     "filename": "project-0294.webp",
@@ -2473,7 +2473,7 @@
   },
   {
     "index": 315,
-    "title": "刺绣入门",
+    "title": "叶片针法刺绣",
     "sourceFile": "20260324500001_seed_art_crafts.sql",
     "generated": true,
     "filename": "project-0315.webp",
@@ -2649,7 +2649,7 @@
   },
   {
     "index": 337,
-    "title": "肥皂雕刻入门",
+    "title": "几何印章肥皂雕刻",
     "sourceFile": "20260324500002_seed_art_sculpture.sql",
     "generated": true,
     "filename": "project-0337.webp",
@@ -2961,7 +2961,7 @@
   },
   {
     "index": 376,
-    "title": "数独策略研究",
+    "title": "唯一候选法解数独",
     "sourceFile": "20260324600001_seed_math_games.sql",
     "generated": true,
     "filename": "project-0376.webp",
@@ -3129,7 +3129,7 @@
   },
   {
     "index": 397,
-    "title": "流程图设计",
+    "title": "日常任务流程图",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0397.webp",
@@ -3145,7 +3145,7 @@
   },
   {
     "index": 399,
-    "title": "博弈树分析",
+    "title": "三层决策树推演",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0399.webp",
@@ -3169,7 +3169,7 @@
   },
   {
     "index": 402,
-    "title": "NP 问题趣味入门",
+    "title": "旅行商路线谜题",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0402.webp",
@@ -3177,7 +3177,7 @@
   },
   {
     "index": 403,
-    "title": "图论入门：网络分析",
+    "title": "班级关系网络图",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0403.webp",
@@ -3185,7 +3185,7 @@
   },
   {
     "index": 404,
-    "title": "算法思维笔记",
+    "title": "冒泡排序卡片演示",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0404.webp",

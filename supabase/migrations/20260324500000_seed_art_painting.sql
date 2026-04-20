@@ -128,9 +128,9 @@ BEGIN
         (v_project_id, '揭开欣赏', '小心展开纸张，一只色彩对称的蝴蝶便出现了，观察两侧的图案是否完全一样。', 4),
         (v_project_id, '完善细节', '用黑色记号笔画出蝴蝶的身体、触角和翅膀边缘，让蝴蝶更加生动。', 5);
 
-    -- Project 7: 点彩画入门
+    -- Project 7: 点彩水果画
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('点彩画入门', '学习印象派大师修拉的点彩技法，用一个个小色点拼出完整的画面。当退后几步观看时，各色点会在眼中自动混合成丰富的色调，非常神奇。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/art_painting.webp', ARRAY['点彩','色彩混合','艺术','绘画'], '艺术')
+    VALUES ('点彩水果画', '用点彩技法画一个水果，练习用密集色点形成体积和颜色变化。通过单个对象完成一次点彩练习。', v_author_id, v_sub_id, 2, 35, 'approved', '/projects/art_painting.webp', ARRAY['点彩','色彩混合','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -227,9 +227,9 @@ BEGIN
         (v_project_id, '细节刻画', '用小笔画出叶片的细微纹理、花蕊的形态和茎秆的质感。', 5),
         (v_project_id, '调整完善', '退后观察整体效果，补充不够深的暗部、提亮高光区域，完成写生作品。', 6);
 
-    -- Project 12: 光影素描入门
+    -- Project 12: 球体明暗素描
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('光影素描入门', '通过画一个简单的球体或苹果，学习用铅笔表现光影明暗的基本方法。理解亮面、暗面、投影和反光的关系，这是素描绘画的核心基础技能。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/art_painting.webp', ARRAY['素描','明暗','艺术','绘画'], '艺术')
+    VALUES ('球体明暗素描', '以球体或苹果为对象，练习亮面、暗面、投影和反光的关系。通过单一对象掌握最基础的光影素描。', v_author_id, v_sub_id, 3, 45, 'approved', '/projects/art_painting.webp', ARRAY['素描','明暗','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES
@@ -393,7 +393,7 @@ BEGIN
 
     -- Project 20: 连环画创作
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
-    VALUES ('连环画创作', '构思一个简短的故事，用连续多幅画面来讲述，学习叙事绘画的分镜技巧。连环画创作需要综合运用构图、人物设计、场景绘制和故事节奏等多种能力，是绘画的高级综合训练。', v_author_id, v_sub_id, 5, 90, 'approved', '/projects/art_painting.webp', ARRAY['叙事','分镜','艺术','绘画'], '艺术')
+    VALUES ('连环画创作', '构思一个简短的故事，用连续多幅画面来讲述，学习叙事绘画的分镜技巧。连环画创作需要综合运用构图、人物设计、场景绘制和故事节奏等多种能力，是绘画的高级综合训练。', v_author_id, v_sub_id, 5, 90, 'draft', '/projects/art_painting.webp', ARRAY['叙事','分镜','艺术','绘画'], '艺术')
     RETURNING id INTO v_project_id;
 
     INSERT INTO public.project_materials (project_id, material, sort_order) VALUES

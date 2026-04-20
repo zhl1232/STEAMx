@@ -76,7 +76,7 @@ BEGIN
     VALUES (
         '蚂蚁觅食路线追踪',
         '在蚂蚁经常出没的地方放置少量食物，观察蚂蚁发现食物后的行为和搬运路线。了解蚂蚁的信息素通讯方式，认识昆虫的群体协作行为。',
-        v_author_id, v_sub_id, 1, 35, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 1, 35, 'draft', '/projects/science_animals.webp',
         ARRAY['昆虫','行为','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -101,7 +101,7 @@ BEGIN
     VALUES (
         '喂鸟观察站',
         '用简单的材料制作一个鸟类喂食器，挂在窗外或阳台上，吸引附近的小鸟前来取食。通过每天观察记录，认识身边常见的鸟类，培养关爱动物的意识。',
-        v_author_id, v_sub_id, 1, 45, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 1, 45, 'draft', '/projects/science_animals.webp',
         ARRAY['鸟类','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -126,7 +126,7 @@ BEGIN
     VALUES (
         '宠物行为观察日记',
         '选择家里或朋友家的宠物（猫、狗、仓鼠等），连续几天观察和记录它们的日常行为，如进食、睡眠、玩耍等。学习科学观察和记录方法，了解动物的基本需求。',
-        v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 1, 30, 'draft', '/projects/science_animals.webp',
         ARRAY['动物行为','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -150,7 +150,7 @@ BEGIN
     VALUES (
         '蝌蚪变青蛙观察',
         '在春天采集几只蝌蚪，放在适宜的容器中饲养，每天观察蝌蚪从长出后腿到变成小青蛙的全过程。认识两栖动物的变态发育，了解生命的奇妙变化。',
-        v_author_id, v_sub_id, 1, 20, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 1, 20, 'draft', '/projects/science_animals.webp',
         ARRAY['两栖动物','变态发育','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -176,7 +176,7 @@ BEGIN
     VALUES (
         '小区鸟类图鉴',
         '在一周内多次到小区或公园里观察鸟类，用文字和图画记录它们的外形特征、叫声和行为，最终制作成一本属于自己的鸟类图鉴小册子。',
-        v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 2, 60, 'draft', '/projects/science_animals.webp',
         ARRAY['鸟类','观察记录','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -203,7 +203,7 @@ BEGIN
     VALUES (
         '蚂蚁王国观察记',
         '制作一个简易的蚂蚁观察巢，长期观察蚂蚁的社会分工和协作行为。了解蚂蚁群体中工蚁、兵蚁和蚁后的不同角色，认识昆虫的社会性行为。',
-        v_author_id, v_sub_id, 2, 50, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 2, 50, 'draft', '/projects/science_animals.webp',
         ARRAY['昆虫','社会行为','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -252,12 +252,12 @@ BEGIN
         (v_project_id, '总结讨论', '讨论蚯蚓如何混合土壤、改善土壤结构，以及蚯蚓对植物生长的帮助。实验结束后将蚯蚓放回花园。', 5);
 
     -- ============================================
-    -- 项目 10: 鱼的呼吸观察 ★2
+    -- 项目 10: 鱼鳃开合频率记录 ★2
     -- ============================================
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '鱼的呼吸观察',
-        '通过观察鱼的鳃盖开合来探究鱼的呼吸方式。在不同水温条件下计数鳃盖运动频率，了解温度对鱼呼吸速率的影响，认识水生动物的呼吸适应。',
+        '鱼鳃开合频率记录',
+        '选择一条鱼，在固定时间内记录鱼鳃开合次数，并比较不同时间段或环境下的变化。通过量化记录认识鱼类呼吸节奏。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_animals.webp',
         ARRAY['鱼类','呼吸','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -283,7 +283,7 @@ BEGIN
     VALUES (
         '蜘蛛织网观察',
         '在花园或阳台角落找到蜘蛛网，仔细观察蜘蛛网的结构和蜘蛛的织网过程。了解蜘蛛网的几何之美和蜘蛛捕食的策略，认识蛛形纲动物的特征。',
-        v_author_id, v_sub_id, 2, 50, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 2, 50, 'draft', '/projects/science_animals.webp',
         ARRAY['蛛形纲','行为','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -308,7 +308,7 @@ BEGIN
     VALUES (
         '螃蟹行为观察',
         '观察小螃蟹的爬行方式、进食行为和对环境的反应。通过简单的实验了解螃蟹为什么横着走路，认识甲壳动物的身体结构与运动方式的关系。',
-        v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 2, 40, 'draft', '/projects/science_animals.webp',
         ARRAY['甲壳动物','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -328,12 +328,12 @@ BEGIN
         (v_project_id, '总结报告', '整理观察记录，画出螃蟹的运动示意图，写出甲壳动物的主要特征。', 5);
 
     -- ============================================
-    -- 项目 13: 贝壳收集与分类 ★2
+    -- 项目 13: 贝壳形状分类卡 ★2
     -- ============================================
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '贝壳收集与分类',
-        '在海边或水族市场收集各种贝壳，按照形状、颜色、大小和纹理进行分类整理。学习科学分类的基本方法，了解不同贝类动物的外壳特征和生活环境。',
+        '贝壳形状分类卡',
+        '收集几枚常见贝壳，按照形状、纹理和开口方式制作分类卡片。通过对比特征练习观察和分类。',
         v_author_id, v_sub_id, 2, 50, 'approved', '/projects/science_animals.webp',
         ARRAY['贝类','分类','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -361,7 +361,7 @@ BEGIN
     VALUES (
         '蝴蝶生命周期记录',
         '饲养菜粉蝶的幼虫（菜青虫），完整记录卵→幼虫→蛹→成虫的变态发育全过程。通过长期观察和绘图记录，深入理解昆虫完全变态发育的生命周期。',
-        v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 3, 60, 'draft', '/projects/science_animals.webp',
         ARRAY['昆虫','生命周期','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -383,12 +383,12 @@ BEGIN
         (v_project_id, '制作生命周期图', '将所有观察记录和图画整理成一张完整的蝴蝶生命周期图，标注每个阶段的持续天数。', 6);
 
     -- ============================================
-    -- 项目 15: 鱼的身体结构观察 ★3
+    -- 项目 15: 鱼鳍和鱼鳃结构识别 ★3
     -- ============================================
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '鱼的身体结构观察',
-        '通过对一条新鲜鱼的外部形态和内部结构进行细致观察，了解鱼类适应水中生活的身体特征。学习使用简单的解剖工具，培养科学观察和记录能力。',
+        '鱼鳍和鱼鳃结构识别',
+        '观察鱼的鳍、鳃盖和身体侧线，画出结构示意图并标注功能。用一次明确的识别任务认识鱼类身体结构。',
         v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_animals.webp',
         ARRAY['鱼类','解剖','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -417,7 +417,7 @@ BEGIN
     VALUES (
         '鸟巢观察与记录',
         '在春夏季节寻找鸟巢，从远处安全地观察鸟类的筑巢过程和育雏行为。记录鸟巢的位置、材料和结构，了解不同鸟类筑巢策略的差异。',
-        v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 3, 60, 'draft', '/projects/science_animals.webp',
         ARRAY['鸟类','筑巢','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -472,7 +472,7 @@ BEGIN
     VALUES (
         '水生生物观察',
         '从池塘或小溪中采集水样，用放大镜和简易显微镜观察水中的各种微小生物。认识水蚤、水螅、水蜗牛等常见水生生物，了解淡水生态系统的多样性。',
-        v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 3, 60, 'draft', '/projects/science_animals.webp',
         ARRAY['水生动物','生态','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -500,7 +500,7 @@ BEGIN
     VALUES (
         '鸟类迁徙追踪记录',
         '在春秋迁徙季节，通过长期定点观察和网络数据查询，记录候鸟经过本地的种类和时间。了解鸟类迁徙的原因和路线，学习使用观鸟数据平台。',
-        v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 4, 90, 'draft', '/projects/science_animals.webp',
         ARRAY['鸟类','迁徙','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -527,7 +527,7 @@ BEGIN
     VALUES (
         '昆虫夜间观察',
         '利用灯光诱集的方法，在夏夜观察被光源吸引来的各种昆虫。比较不同颜色光源对昆虫的吸引效果，探究昆虫的趋光性，了解夜行性昆虫的多样性。',
-        v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 4, 90, 'draft', '/projects/science_animals.webp',
         ARRAY['昆虫','趋光性','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -555,7 +555,7 @@ BEGIN
     VALUES (
         '潮间带生物调查',
         '在退潮时前往海边潮间带，系统调查不同潮位带的生物种类和分布规律。学习使用样方法进行简单的生态调查，了解潮间带生态系统的独特性。',
-        v_author_id, v_sub_id, 4, 120, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 4, 120, 'draft', '/projects/science_animals.webp',
         ARRAY['海洋生物','生态','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -584,7 +584,7 @@ BEGIN
     VALUES (
         '动物足迹识别',
         '到公园、林地或泥地中寻找并记录动物留下的足迹和痕迹。学习制作足迹石膏模型，通过对比资料识别不同动物的足迹特征，锻炼野外观察能力。',
-        v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 4, 90, 'draft', '/projects/science_animals.webp',
         ARRAY['动物','野外观察','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -613,7 +613,7 @@ BEGIN
     VALUES (
         '本地鸟类多样性调查',
         '运用样线法和样点法，对本地不同生境（城市公园、农田、湿地等）的鸟类多样性进行系统调查。学习使用科学调查方法和数据分析工具，完成一份正式的鸟类多样性调查报告。',
-        v_author_id, v_sub_id, 5, 180, 'approved', '/projects/science_animals.webp',
+        v_author_id, v_sub_id, 5, 180, 'draft', '/projects/science_animals.webp',
         ARRAY['鸟类','生态调查','科学','动物'], '科学'
     ) RETURNING id INTO v_project_id;
 

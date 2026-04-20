@@ -19,7 +19,7 @@ BEGIN
     VALUES (
         '云的观察日记',
         '抬头看天空，你会发现云朵每天都不一样！在这个项目中，参与者将连续观察并记录不同类型的云，学习积云、层云和卷云的区别。通过坚持记录，参与者能初步理解云与天气变化之间的关系。',
-        v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_earth_sky.webp',
+        v_author_id, v_sub_id, 1, 30, 'draft', '/projects/science_earth_sky.webp',
         ARRAY['云','天气','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -59,11 +59,11 @@ BEGIN
         (v_project_id, '晾干成型', '将黏土印模放在通风处自然晾干，风干黏土通常需要24小时完全变硬。', 4),
         (v_project_id, '观察与讨论', '观察你的"化石"印模，讨论真正的化石是怎样经过数百万年在岩石中形成的。', 5);
 
-    -- Project 3: 雨量测量记录
+    -- Project 3: 自制雨量筒测雨
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '雨量测量记录',
-        '下雨的时候，你知道到底下了多少雨吗？参与者将自制一个简易雨量计，放在室外收集雨水并测量降雨量。通过持续记录，学习天气数据的收集方法和简单的数据比较。',
+        '自制雨量筒测雨',
+        '用透明瓶自制雨量筒，在一次降雨后测量降水高度并记录结果。通过简单工具学习降雨测量。',
         v_author_id, v_sub_id, 1, 25, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['天气','测量','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -132,11 +132,11 @@ BEGIN
         (v_project_id, '标注方位', '用指南针确定东南西北方向，在底座上标注四个方位。', 4),
         (v_project_id, '观察风向', '将风向标放到室外空旷处，观察箭头指向哪个方向，记录每天不同时间的风向变化。', 5);
 
-    -- Project 6: 岩石收集与分类
+    -- Project 6: 岩石硬度分类实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '岩石收集与分类',
-        '地球上的岩石各不相同，它们有的来自火山，有的来自海底沉积，有的经历了高温高压的变化。参与者将外出收集不同的岩石，通过观察颜色、纹理和硬度，学习将岩石分为火成岩、沉积岩和变质岩三大类。',
+        '岩石硬度分类实验',
+        '准备几块常见岩石，用指甲、硬币等工具测试硬度并比较纹理。通过简单实验学习岩石分类的基本方法。',
         v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['矿物','岩石','地质','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -162,7 +162,7 @@ BEGIN
     VALUES (
         '月相观察日记',
         '月亮为什么有时圆有时弯？参与者将在一个月内持续观察月亮的形状变化，用画笔记录每天看到的月相。通过这个项目，理解月球绕地球运动导致月相周期变化的科学原理。',
-        v_author_id, v_sub_id, 2, 30, 'approved', '/projects/science_earth_sky.webp',
+        v_author_id, v_sub_id, 2, 30, 'draft', '/projects/science_earth_sky.webp',
         ARRAY['天文','月亮','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -228,11 +228,11 @@ BEGIN
         (v_project_id, '测试日晷', '第二天在同一位置和方向放好日晷，观察影子是否对准昨天标记的时间线，验证日晷的准确性。', 4),
         (v_project_id, '思考与讨论', '讨论为什么影子会移动（地球自转），以及不同季节日晷的影子长度会有什么变化。', 5);
 
-    -- Project 10: 彩虹形成条件记录
+    -- Project 10: 喷雾彩虹角度实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '彩虹形成条件记录',
-        '彩虹是怎么出现的？参与者将用喷水壶在阳光下制造彩虹，并记录彩虹出现时的条件。通过这个项目，学习光的折射和色散原理，理解自然界中彩虹形成的科学条件。',
+        '喷雾彩虹角度实验',
+        '在阳光下用喷壶制造小彩虹，改变站位和喷水方向观察彩虹变化。用一次可重复实验理解彩虹形成条件。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_earth_sky.webp',
         ARRAY['光学','天气','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -333,7 +333,7 @@ BEGIN
     VALUES (
         '星座观察记录',
         '夜空中闪烁的星星组成了美丽的星座图案。参与者将在晴朗的夜晚观察夜空，学习辨认几个著名的星座，并用星图记录它们的位置。通过持续观察，了解星座随季节变化的原因以及古人利用星座导航的故事。',
-        v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_earth_sky.webp',
+        v_author_id, v_sub_id, 3, 60, 'draft', '/projects/science_earth_sky.webp',
         ARRAY['天文','星座','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -491,7 +491,7 @@ BEGIN
     VALUES (
         '本地气象数据分析',
         '你所在城市的天气有什么规律？参与者将收集本地一段时间的气象数据，包括温度、降水、风速和湿度，使用图表进行整理和分析。通过这个项目，学习数据收集、图表绘制和数据分析的基本方法，并尝试发现本地气候的季节性规律。',
-        v_author_id, v_sub_id, 5, 120, 'approved', '/projects/science_earth_sky.webp',
+        v_author_id, v_sub_id, 5, 120, 'draft', '/projects/science_earth_sky.webp',
         ARRAY['气象','数据分析','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -516,7 +516,7 @@ BEGIN
     VALUES (
         '地质徒步考察记录',
         '像真正的地质学家一样去野外考察！参与者将在大人陪同下进行一次户外地质徒步，沿途观察和记录地形地貌、岩石露头、水文特征和土壤类型。通过实地考察，综合运用所学的地球科学知识，培养野外科学考察的能力和地质记录的规范方法。',
-        v_author_id, v_sub_id, 5, 180, 'approved', '/projects/science_earth_sky.webp',
+        v_author_id, v_sub_id, 5, 180, 'draft', '/projects/science_earth_sky.webp',
         ARRAY['地质','野外考察','科学','地球'], '科学'
     ) RETURNING id INTO v_project_id;
 

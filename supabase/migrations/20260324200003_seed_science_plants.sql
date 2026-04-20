@@ -14,11 +14,11 @@ BEGIN
     SELECT id INTO v_sub_id FROM public.sub_categories WHERE name = '植物观察' LIMIT 1;
     IF v_sub_id IS NULL THEN RAISE EXCEPTION '找不到子分类: 植物观察'; END IF;
 
-    -- Project 1: 种子发芽观察日记
+    -- Project 1: 绿豆发芽对照实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '种子发芽观察日记',
-        '选择几种常见的种子，在不同条件下进行发芽实验。每天观察并记录种子的变化过程，了解种子萌发所需的条件以及植物生长的基本规律。',
+        '绿豆发芽对照实验',
+        '用两组绿豆分别在不同水分或光照条件下发芽，对比生长变化。通过简单对照实验理解发芽需要的条件。',
         v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_plants.webp',
         ARRAY['种子','植物生长','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -37,11 +37,11 @@ BEGIN
         (v_project_id, '每日观察记录', '每天用喷壶给需要浇水的杯子保湿，观察种子的变化并画下来或拍照记录。', 4),
         (v_project_id, '总结发现', '一周后对比三杯种子的发芽情况，总结种子发芽需要哪些条件。', 5);
 
-    -- Project 2: 树叶标本采集与分类
+    -- Project 2: 树叶分类标本卡
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '树叶标本采集与分类',
-        '到户外采集不同形状和颜色的树叶，制作精美的标本并尝试分类。通过观察叶片的形态特征，认识常见树木种类，培养分类和归纳能力。',
+        '树叶分类标本卡',
+        '选取几片不同树叶，按叶形、叶缘和叶脉制作标本卡并分类。通过一次标本制作练习树叶识别。',
         v_author_id, v_sub_id, 1, 45, 'approved', '/projects/science_plants.webp',
         ARRAY['树木','标本','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -133,11 +133,11 @@ BEGIN
         (v_project_id, '观察变色', '每隔几小时观察一次花瓣的颜色变化，记录哪种颜色最先出现。', 4),
         (v_project_id, '探究原理', '讨论花瓣为什么会变色，画一画水分从茎到花瓣的运输路径。', 5);
 
-    -- Project 6: 植物向光性观察
+    -- Project 6: 纸箱植物向光实验
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '植物向光性观察',
-        '用简单的纸盒制作迷宫，观察植物幼苗如何绕过障碍物朝着光源生长。通过实验理解植物的向光性，感受植物对环境的适应能力。',
+        '纸箱植物向光实验',
+        '在纸箱侧面开孔，观察幼苗如何朝光源弯曲生长。通过控制光照方向，理解植物向光性。',
         v_author_id, v_sub_id, 1, 30, 'approved', '/projects/science_plants.webp',
         ARRAY['植物生长','向光性','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -156,11 +156,11 @@ BEGIN
         (v_project_id, '记录数据', '连续观察一周，记录豆苗每天弯曲的角度和生长的长度。', 4),
         (v_project_id, '得出结论', '总结植物为什么会朝着有光的方向弯曲生长，了解向光性的意义。', 5);
 
-    -- Project 7: 花的解剖观察
+    -- Project 7: 一朵花的结构解剖
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '花的解剖观察',
-        '挑选一朵完整的花，小心地将各个部分分离并观察。认识花萼、花瓣、雄蕊和雌蕊等结构，了解花的基本组成和各部分的功能。',
+        '一朵花的结构解剖',
+        '解剖一朵真实花朵，分辨花瓣、雄蕊、雌蕊和萼片。通过拆解和标注认识花的基本结构。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_plants.webp',
         ARRAY['园林花卉','花的结构','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -185,7 +185,7 @@ BEGIN
     VALUES (
         '阳台小菜园',
         '在阳台或窗台上种植小白菜、香葱等蔬菜，体验从播种到收获的完整过程。学习植物种植的基本方法，培养耐心和责任感。',
-        v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_plants.webp',
+        v_author_id, v_sub_id, 2, 60, 'draft', '/projects/science_plants.webp',
         ARRAY['蔬菜','种植','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -210,7 +210,7 @@ BEGIN
     VALUES (
         '野花图鉴绘制',
         '到户外寻找各种野花，用画笔记录它们的样貌并查阅资料制作手绘图鉴。在观察与绘画中认识身边常见的野生植物，提升自然观察力。',
-        v_author_id, v_sub_id, 2, 60, 'approved', '/projects/science_plants.webp',
+        v_author_id, v_sub_id, 2, 60, 'draft', '/projects/science_plants.webp',
         ARRAY['野花','手绘','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -253,11 +253,11 @@ BEGIN
         (v_project_id, '对比分析', '2小时后比较5片苹果的颜色差异，排列出变色速度从快到慢的顺序。', 4),
         (v_project_id, '探讨原理', '查阅资料了解苹果变色的原因，总结哪些方法可以有效防止氧化。', 5);
 
-    -- Project 11: 年轮观察日记
+    -- Project 11: 树桩年轮判读
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '年轮观察日记',
-        '找到树木截面或木头切片，观察和计数年轮。通过研究年轮的宽窄变化了解树木的生长历史，感受大自然中蕴含的时间密码。',
+        '树桩年轮判读',
+        '观察树桩或木片截面的年轮，统计圈数并尝试判断树龄和生长快慢。用一次判读任务认识年轮含义。',
         v_author_id, v_sub_id, 2, 40, 'approved', '/projects/science_plants.webp',
         ARRAY['树木','年轮','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
@@ -353,7 +353,7 @@ BEGIN
     VALUES (
         '无土栽培实验',
         '不用泥土，利用营养液和支撑材料种植蔬菜或花卉。对比无土栽培与土壤种植的生长差异，理解植物生长所需的基本营养元素。',
-        v_author_id, v_sub_id, 3, 60, 'approved', '/projects/science_plants.webp',
+        v_author_id, v_sub_id, 3, 60, 'draft', '/projects/science_plants.webp',
         ARRAY['水培','营养液','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -502,7 +502,7 @@ BEGIN
     VALUES (
         '校园植物多样性调查',
         '对校园内的植物进行系统调查，记录各区域的植物种类和数量。学习生物多样性调查的基本方法，了解校园生态环境，提出绿化改善建议。',
-        v_author_id, v_sub_id, 4, 90, 'approved', '/projects/science_plants.webp',
+        v_author_id, v_sub_id, 4, 90, 'draft', '/projects/science_plants.webp',
         ARRAY['植物','生态调查','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
 
@@ -579,7 +579,7 @@ BEGIN
     VALUES (
         '校园植物分布图绘制',
         '通过实地考察将校园中各种植物的位置标注在地图上，制作一份详细的校园植物生态地图。综合运用植物识别、地图绘制和数据分析技能，为校园绿化提供参考。',
-        v_author_id, v_sub_id, 5, 120, 'approved', '/projects/science_plants.webp',
+        v_author_id, v_sub_id, 5, 120, 'draft', '/projects/science_plants.webp',
         ARRAY['植物','生态地图','科学','植物'], '科学'
     ) RETURNING id INTO v_project_id;
 

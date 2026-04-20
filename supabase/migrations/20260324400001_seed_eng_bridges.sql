@@ -41,7 +41,7 @@ BEGIN
     VALUES (
         '积木桥梁搭建',
         '用积木搭建各种桥梁结构，探索平衡与稳定的奥秘！参与者将在搭建过程中感受重力和支撑力的关系，了解桥梁为什么需要稳固的基础。这是认识桥梁结构的绝佳入门项目。',
-        v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 1, 20, 'draft', '/projects/eng_bridges.webp',
         ARRAY['平衡','结构','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -84,7 +84,7 @@ BEGIN
     VALUES (
         '纸杯堆叠挑战',
         '用纸杯和纸板交替堆叠，搭建一座又高又稳的桥塔结构！参与者将在实践中感受结构稳定性的重要，了解底部宽大、层层递减的金字塔形为何最稳定。简单材料也能建出惊人的高度。',
-        v_author_id, v_sub_id, 1, 20, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 1, 20, 'draft', '/projects/eng_bridges.webp',
         ARRAY['结构','稳定','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -293,7 +293,7 @@ BEGIN
     VALUES (
         '开合桥模型',
         '制作一座可以打开让"船只"通过的开合桥模型，引入简单的机械结构！参与者将学习铰链的工作原理，用注射器和水管模拟液压系统驱动桥面升降。机械与结构的完美结合。',
-        v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 4, 60, 'draft', '/projects/eng_bridges.webp',
         ARRAY['铰链','液压','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -319,7 +319,7 @@ BEGIN
     VALUES (
         '斜拉桥模型',
         '制作一座带有标志性斜拉钢缆的桥梁模型，分析每根拉索承受力的方向和大小！参与者将了解现代斜拉桥的设计原理，理解拉索如何将桥面重量高效传递到桥塔。',
-        v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 4, 60, 'draft', '/projects/eng_bridges.webp',
         ARRAY['斜拉','力分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -344,7 +344,7 @@ BEGIN
     VALUES (
         '承重优化挑战',
         '在限定材料和重量条件下，设计并建造承重比最大的桥梁！参与者将体验真正的工程优化过程，反复迭代设计方案，在材料用量和承重能力之间找到最佳平衡点。',
-        v_author_id, v_sub_id, 4, 60, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 4, 60, 'draft', '/projects/eng_bridges.webp',
         ARRAY['结构优化','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -395,7 +395,7 @@ BEGIN
     VALUES (
         '桥梁承重极限测试',
         '对多种不同设计的桥梁进行系统化的极限承重测试，收集数据并分析规律！参与者将像真正的工程师一样设计实验方案、收集数据、绘制图表，用科学方法评估桥梁结构性能。',
-        v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 5, 90, 'draft', '/projects/eng_bridges.webp',
         ARRAY['测试','数据分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -420,7 +420,7 @@ BEGIN
     VALUES (
         '大跨度桥梁设计',
         '挑战建造跨度超过50厘米的大型桥梁模型，解决大跨度带来的特殊工程难题！参与者将面对自重增加、中部下挠、侧向不稳等真实工程问题，学习大跨度桥梁设计的核心策略。',
-        v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 5, 90, 'draft', '/projects/eng_bridges.webp',
         ARRAY['跨度','结构','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -446,7 +446,7 @@ BEGIN
     VALUES (
         '桥梁材料对比实验',
         '用相同的设计方案分别使用纸、冰棍棒、竹签、吸管等不同材料建造桥梁，系统对比材料性能！参与者将深入理解材料力学的基础概念，体验工程师选择材料时需要考虑的各种因素。',
-        v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
+        v_author_id, v_sub_id, 5, 90, 'draft', '/projects/eng_bridges.webp',
         ARRAY['材料力学','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
@@ -468,12 +468,12 @@ BEGIN
         (v_project_id, '数据对比分析', '制作综合对比表格和图表，从承重、效率比、建造难度、成本等维度全面对比。', 5),
         (v_project_id, '结论与选材建议', '总结每种材料的优缺点，讨论在真实工程中不同场景下该如何选择桥梁材料。', 6);
 
-    -- Project 20: 仿真桥梁结构分析
+    -- Project 20: 双桥型受力仿真对比
     INSERT INTO public.projects (title, description, author_id, sub_category_id, difficulty_stars, duration, status, image_url, tags, category)
     VALUES (
-        '仿真桥梁结构分析',
-        '结合物理模型和简易力学计算，对桥梁进行仿真结构分析！参与者将学习画受力图、标注力的方向和大小，用简单数学估算各构件承受的力。这是从"搭桥玩"到"设计桥"的质的飞跃。',
-        v_author_id, v_sub_id, 5, 90, 'approved', '/projects/eng_bridges.webp',
+        '双桥型受力仿真对比',
+        '选取两种桥型做基础受力仿真，对比变形和受力分布差异。通过一次小范围仿真练习结构对比分析。',
+        v_author_id, v_sub_id, 5, 90, 'draft', '/projects/eng_bridges.webp',
         ARRAY['力学分析','工程','桥梁'], '工程'
     ) RETURNING id INTO v_project_id;
 
