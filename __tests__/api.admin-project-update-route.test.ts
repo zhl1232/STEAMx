@@ -3,7 +3,7 @@
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 import { NextRequest } from 'next/server'
 
-import { PATCH } from '@/app/api/admin/projects/[id]/route'
+import { GET, PATCH } from '@/app/api/admin/projects/[id]/route'
 import { PermissionError, requireRole } from '@/lib/api/auth'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
@@ -23,6 +23,108 @@ vi.mock('@/lib/api/auth', async (importOriginal) => {
 vi.mock('@/lib/supabase/rpc', () => ({
   callRpc: vi.fn(),
 }))
+
+describe('GET /api/admin/projects/[id]', () => {
+  const createClientMock = createClient as Mock<typeof createClient>
+  const requireRoleMock = requireRole as Mock<typeof requireRole>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    requireRoleMock.mockResolvedValue({
+      user: { id: 'moderator-1' },
+      role: 'moderator',
+    } as never)
+  })
+
+  it('returns project details for reviewers', async () => {
+    const maybeSingleMock = vi.fn().mockResolvedValue({
+      data: {
+        id: 3,
+        title: '项目标题',
+        description: '项目描述',
+        category: '科学',
+        image_url: '/uploads/project.png',
+        status: 'approved',
+        created_at: '2026-04-20T09:00:00.000Z',
+        duration: 90,
+        difficulty_stars: 4,
+        profiles: {
+          username: 'alice',
+          display_name: 'Alice',
+          avatar_url: '/avatars/alice.png',
+        },
+        sub_categories: { name: '物理' },
+        project_steps: [
+          { id: 1, title: '步骤一', description: '说明', image_url: null, sort_order: 1 },
+        ],
+        project_materials: [
+          { id: 1, material: '纸板', sort_order: 1 },
+        ],
+      },
+      error: null,
+    })
+    const eqMock = vi.fn().mockReturnValue({ maybeSingle: maybeSingleMock })
+    const selectMock = vi.fn().mockReturnValue({ eq: eqMock })
+    const routeSupabase = {
+      from: vi.fn().mockReturnValue({ select: selectMock }),
+    }
+
+    createClientMock.mockResolvedValue(routeSupabase as never)
+
+    const response = await GET(new NextRequest('http://localhost/api/admin/projects/3') as never, {
+      params: Promise.resolve({ id: '3' }),
+    })
+
+    expect(response.status).toBe(200)
+    await expect(response.json()).resolves.toEqual({
+      project: {
+        id: 3,
+        title: '项目标题',
+        description: '项目描述',
+        category: '科学',
+        image_url: '/uploads/project.png',
+        status: 'approved',
+        created_at: '2026-04-20T09:00:00.000Z',
+        duration: 90,
+        difficulty_stars: 4,
+        profiles: {
+          username: 'alice',
+          display_name: 'Alice',
+          avatar_url: '/avatars/alice.png',
+        },
+        sub_categories: { name: '物理' },
+        project_steps: [
+          { id: 1, title: '步骤一', description: '说明', image_url: null, sort_order: 1 },
+        ],
+        project_materials: [
+          { id: 1, material: '纸板', sort_order: 1 },
+        ],
+      },
+    })
+    expect(routeSupabase.from).toHaveBeenCalledWith('projects')
+    expect(eqMock).toHaveBeenCalledWith('id', 3)
+  })
+
+  it('returns 404 when the detail target is missing', async () => {
+    const maybeSingleMock = vi.fn().mockResolvedValue({ data: null, error: null })
+    const routeSupabase = {
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({ maybeSingle: maybeSingleMock }),
+        }),
+      }),
+    }
+
+    createClientMock.mockResolvedValue(routeSupabase as never)
+
+    const response = await GET(new NextRequest('http://localhost/api/admin/projects/999') as never, {
+      params: Promise.resolve({ id: '999' }),
+    })
+
+    expect(response.status).toBe(404)
+    await expect(response.json()).resolves.toEqual({ error: 'Project not found' })
+  })
+})
 
 describe('PATCH /api/admin/projects/[id]', () => {
   const createClientMock = createClient as Mock<typeof createClient>

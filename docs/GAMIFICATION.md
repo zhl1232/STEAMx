@@ -40,7 +40,7 @@ components/
 | 人气之星 | likesReceived | 10 | 100 | 500 | 2000 |
 | 成就里程碑 | projectsCompleted | 5 | 25 | 100 | 500 |
 | 等级晋升 | level | 5 | 25 | 50 | 100 |
-| 挑战赛 | challengesJoined | 3 | 10 | 50 | 100 |
+| 挑战 | challengesJoined | 3 | 10 | 50 | 100 |
 | 连续打卡 | consecutiveDays | 3 | 7 | 30 | 90 |
 
 ### 单档 / 手动授予

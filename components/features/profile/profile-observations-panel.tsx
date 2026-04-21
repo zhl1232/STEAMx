@@ -37,7 +37,7 @@ export function ProfileObservationsPanel({
           去自然观察频道提交第一条记录，把你的发现整理进个人主页。
         </p>
         <Button asChild className="mt-6">
-          <Link href="/bird-observation/submit">提交第一条观察</Link>
+          <Link href="/nature/submit">提交第一条观察</Link>
         </Button>
       </div>
     );
@@ -59,7 +59,7 @@ export function ProfileObservationsPanel({
       {observations.map((observation) => (
         <Link
           key={observation.id}
-          href={`/explore/observations/${observation.id}`}
+          href={`/nature/observations/${observation.id}`}
           className="surface-panel block overflow-hidden rounded-[24px] p-4 transition-transform hover:-translate-y-0.5"
         >
           {observation.mediaUrls[0] ? (

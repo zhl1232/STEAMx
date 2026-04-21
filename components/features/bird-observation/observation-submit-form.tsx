@@ -136,7 +136,7 @@ export function ObservationSubmitForm({
     if (!user) {
       promptLogin(undefined, {
         title: "登录以上传观察记录",
-        description: "登录后即可提交你的鸟类观察记录",
+        description: "登录后即可提交你的自然观察记录",
       })
       return
     }
@@ -201,7 +201,7 @@ export function ObservationSubmitForm({
 
       toast({ title: "观察记录已提交", description: "接下来可以去看物种页，或继续记录下一条观察。" })
       dispatchObservationCreated()
-      router.push(`/bird-observation/submitted/${payload.observation.id}`)
+      router.push(`/nature/submitted/${payload.observation.id}`)
       router.refresh()
     } catch (error) {
       toast({

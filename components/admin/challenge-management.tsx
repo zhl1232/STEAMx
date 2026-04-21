@@ -90,7 +90,7 @@ export function ChallengeManagement() {
       const res = await fetch(url)
 
       if (!res.ok) {
-        throw new Error(await getApiErrorMessage(res, '加载挑战赛失败'))
+        throw new Error(await getApiErrorMessage(res, '加载挑战失败'))
       }
 
       const data = await res.json()
@@ -99,7 +99,7 @@ export function ChallengeManagement() {
       setChallenges([])
       toast({
         title: '加载失败',
-        description: error instanceof Error ? error.message : '加载挑战赛失败',
+        description: error instanceof Error ? error.message : '加载挑战失败',
         variant: 'destructive',
       })
     } finally {
@@ -262,7 +262,7 @@ export function ChallengeManagement() {
         <div className="space-y-2">
           <p className="section-kicker">挑战运营</p>
           <div>
-            <h2 className="text-2xl font-semibold tracking-tight">挑战赛管理</h2>
+            <h2 className="text-2xl font-semibold tracking-tight">挑战管理</h2>
             <p className="mt-2 text-sm text-muted-foreground">创建、发布和维护平台挑战内容</p>
           </div>
         </div>
@@ -458,7 +458,7 @@ export function ChallengeManagement() {
           </div>
         ) : challenges.length === 0 ? (
           <div className="surface-subtle rounded-[24px] border border-border/70 py-10 text-center shadow-none">
-            <p className="text-muted-foreground">暂无挑战赛</p>
+            <p className="text-muted-foreground">暂无挑战</p>
           </div>
         ) : (
           <div className="overflow-hidden rounded-[24px] border border-border/70 bg-background/95">

@@ -55,13 +55,49 @@ function groupBadgesBySeries() {
 }
 
 function getSeriesPanelClass(seriesKey: string) {
-  if (seriesKey === "rare") return "border-pink-200/60 bg-pink-50/60";
-  if (seriesKey === "bird_observation" || seriesKey === "bird_observer" || seriesKey === "species_collector") return "border-emerald-200/60 bg-emerald-50/60";
-  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life" || seriesKey === "circuit") return "border-cyan-200/60 bg-cyan-50/60";
-  if (seriesKey === "art_expert") return "border-pink-200/60 bg-rose-50/60";
-  if (seriesKey === "challenge" || seriesKey === "streak" || seriesKey === "minesweeper") return "border-orange-200/60 bg-orange-50/60";
-  if (seriesKey === "game24" || seriesKey === "game2048" || seriesKey === "sudoku" || seriesKey === "gomoku" || seriesKey === "hanoi" || seriesKey === "nqueens") return "border-violet-200/60 bg-violet-50/60";
-  return "border-border/60 bg-background/85";
+  if (seriesKey === "rare") {
+    return "border-pink-200/70 bg-gradient-to-br from-pink-50/90 via-background to-rose-50/70 dark:border-fuchsia-400/20 dark:from-fuchsia-950/35 dark:via-slate-950 dark:to-rose-950/25";
+  }
+  if (seriesKey === "bird_observation" || seriesKey === "bird_observer" || seriesKey === "species_collector") {
+    return "border-emerald-200/70 bg-gradient-to-br from-emerald-50/90 via-background to-teal-50/70 dark:border-emerald-400/20 dark:from-emerald-950/35 dark:via-slate-950 dark:to-teal-950/25";
+  }
+  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life" || seriesKey === "circuit") {
+    return "border-cyan-200/70 bg-gradient-to-br from-cyan-50/90 via-background to-sky-50/70 dark:border-cyan-400/20 dark:from-cyan-950/35 dark:via-slate-950 dark:to-sky-950/25";
+  }
+  if (seriesKey === "art_expert") {
+    return "border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-background to-amber-50/65 dark:border-rose-400/20 dark:from-rose-950/35 dark:via-slate-950 dark:to-amber-950/20";
+  }
+  if (seriesKey === "challenge" || seriesKey === "streak" || seriesKey === "minesweeper") {
+    return "border-orange-200/70 bg-gradient-to-br from-orange-50/90 via-background to-red-50/65 dark:border-orange-400/20 dark:from-orange-950/35 dark:via-slate-950 dark:to-red-950/20";
+  }
+  if (seriesKey === "game24" || seriesKey === "game2048" || seriesKey === "sudoku" || seriesKey === "gomoku" || seriesKey === "hanoi" || seriesKey === "nqueens") {
+    return "border-violet-200/70 bg-gradient-to-br from-violet-50/90 via-background to-indigo-50/70 dark:border-violet-400/20 dark:from-violet-950/35 dark:via-slate-950 dark:to-indigo-950/25";
+  }
+  return "border-border/60 bg-gradient-to-br from-background via-background to-muted/40 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900/80";
+}
+
+function getSeriesStatusClass(isComplete: boolean) {
+  if (isComplete) {
+    return "border-emerald-200/80 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200";
+  }
+
+  return "border-white/60 bg-background/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70";
+}
+
+function getBadgeCardClass(isUnlocked: boolean) {
+  if (isUnlocked) {
+    return "border-primary/20 bg-white/85 shadow-[0_20px_40px_-28px_rgba(59,130,246,0.32)] dark:border-primary/30 dark:bg-white/[0.07] dark:shadow-[0_20px_40px_-28px_rgba(96,165,250,0.28)]";
+  }
+
+  return "bg-background/82 dark:bg-slate-950/65";
+}
+
+function getUnlockBadgeClass(isUnlocked: boolean) {
+  if (isUnlocked) {
+    return "h-5 border-emerald-200/80 bg-emerald-500/10 text-[10px] text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/12 dark:text-emerald-200";
+  }
+
+  return "h-5 border-border/70 bg-background/65 text-[10px] text-muted-foreground dark:border-white/10 dark:bg-white/[0.04] dark:text-white/65";
 }
 
 function formatJoinDate(date: string) {
@@ -318,7 +354,7 @@ export default function PublicProfilePage() {
                 return (
                   <section
                     key={key}
-                    className={cn("rounded-[28px] border p-4 sm:p-5 dark:border-white/10 dark:bg-white/[0.03]", getSeriesPanelClass(key))}
+                    className={cn("rounded-[28px] border p-4 shadow-[0_24px_60px_-42px_rgba(15,23,42,0.28)] sm:p-5", getSeriesPanelClass(key))}
                   >
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div>
@@ -327,7 +363,13 @@ export default function PublicProfilePage() {
                           {unlockedCount}/{badgesInSeries.length} 枚已解锁
                         </p>
                       </div>
-                      <Badge variant="outline" className="h-6 rounded-full border-white/60 bg-background/70 px-2.5 text-[10px] shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "h-6 rounded-full px-2.5 text-[10px] shadow-sm",
+                          getSeriesStatusClass(unlockedCount === badgesInSeries.length),
+                        )}
+                      >
                         {unlockedCount === badgesInSeries.length ? "已完成" : "进行中"}
                       </Badge>
                     </div>
@@ -340,7 +382,7 @@ export default function PublicProfilePage() {
                             key={badge.id}
                             className={cn(
                               "surface-subtle flex flex-col items-center justify-center gap-3 p-6 text-center",
-                              isUnlocked && "border-primary/25 bg-primary/[0.06]",
+                              getBadgeCardClass(isUnlocked),
                             )}
                           >
                             <BadgeIcon
@@ -359,12 +401,12 @@ export default function PublicProfilePage() {
                             {isUnlocked ? (
                               <Badge
                                 variant="secondary"
-                                className="h-5 border-green-200 bg-green-500/10 text-[10px] text-green-700"
+                                className={getUnlockBadgeClass(true)}
                               >
                                 已解锁
                               </Badge>
                             ) : (
-                              <Badge variant="outline" className="h-5 text-[10px]">
+                              <Badge variant="outline" className={getUnlockBadgeClass(false)}>
                                 未解锁
                               </Badge>
                             )}

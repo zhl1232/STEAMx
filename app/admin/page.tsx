@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
 import { useAuth } from '@/lib/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
+import { AllProjectsManagement, type AdminProjectSummary } from '@/components/admin/all-projects-management'
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { CompletionReviewCard } from '@/components/admin/completion-review-card'
 import { ChallengeSubmissionReviewCard } from '@/components/admin/challenge-submission-review-card'
@@ -12,10 +12,6 @@ import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Edit, Eye } from 'lucide-react'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 
 // ... Keep existing interfaces if needed, or refine ...
@@ -134,7 +130,7 @@ export default function AdminPage() {
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
   const [pendingChallengeSubmissions, setPendingChallengeSubmissions] = useState<ChallengeSubmissionForReview[]>([])
-  const [allProjects, setAllProjects] = useState<Project[]>([])
+  const [allProjects, setAllProjects] = useState<AdminProjectSummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [supabase] = useState(() => createClient())
 
@@ -313,7 +309,13 @@ export default function AdminPage() {
     const { data, error } = await supabase
       .from('projects')
       .select(`
-        *,
+        id,
+        title,
+        description,
+        category,
+        image_url,
+        status,
+        created_at,
         profiles:author_id (
           username,
           display_name,
@@ -324,7 +326,7 @@ export default function AdminPage() {
       .limit(50)
 
     if (!error && data) {
-      setAllProjects(data as unknown as Project[])
+      setAllProjects(data as unknown as AdminProjectSummary[])
     }
   }, [supabase])
 
@@ -360,16 +362,6 @@ export default function AdminPage() {
     return null
   }
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'approved': return <Badge variant="secondary" className="bg-green-100 text-green-800">已发布</Badge>
-      case 'pending': return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">待审核</Badge>
-      case 'rejected': return <Badge variant="secondary" className="bg-red-100 text-red-800">已拒绝</Badge>
-      case 'draft': return <Badge variant="secondary" className="bg-gray-100 text-gray-800">草稿</Badge>
-      default: return <Badge variant="outline">{status}</Badge>
-    }
-  }
-
   return (
     <div className="page-shell pt-6 pb-24 md:py-8">
       <div className="md:hidden">
@@ -391,7 +383,7 @@ export default function AdminPage() {
             <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
             {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
-            <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战赛</TabsTrigger>
+            <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战</TabsTrigger>
             <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">标签管理</TabsTrigger>
             <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
           </TabsList>
@@ -461,58 +453,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-4">
-            <Card className="surface-subtle shadow-none">
-              <CardHeader>
-                <CardTitle>项目管理</CardTitle>
-                <CardDescription>查看和编辑所有项目</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>标题</TableHead>
-                      <TableHead>作者</TableHead>
-                      <TableHead>分类</TableHead>
-                      <TableHead>状态</TableHead>
-                      <TableHead>创建时间</TableHead>
-                      <TableHead className="text-right">操作</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {allProjects.map((project) => (
-                      <TableRow key={project.id}>
-                        <TableCell className="font-medium">{project.title}</TableCell>
-                        <TableCell>{project.profiles?.display_name || '未知用户'}</TableCell>
-                        <TableCell>{project.category}</TableCell>
-                        <TableCell>{getStatusBadge(project.status)}</TableCell>
-                        <TableCell>{new Date(project.created_at).toLocaleDateString('zh-CN')}</TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Link href={`/project/${project.id}`} target="_blank">
-                              <Button variant="ghost" size="icon" title="查看">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </Link>
-                            <Link href={`/admin/projects/${project.id}`}>
-                              <Button variant="ghost" size="icon" title="编辑">
-                                <Edit className="h-4 w-4" />
-                              </Button>
-                            </Link>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    {allProjects.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
-                          暂无项目
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+            <AllProjectsManagement projects={allProjects} />
           </TabsContent>
 
           {isAdmin && (

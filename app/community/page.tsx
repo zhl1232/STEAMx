@@ -75,7 +75,7 @@ function CommunityPageContent() {
                                 )}
                             >
                                 <Trophy className="mr-2 h-4 w-4" />
-                                挑战赛
+                                挑战
                             </button>
                         </div>
                     </div>
@@ -129,7 +129,7 @@ function CommunityPageContent() {
                                                                 进入挑战
                                                             </Link>
                                                             <Link
-                                                                href="/explore/observations"
+                                                                href="/nature/observations"
                                                                 className="inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
                                                             >
                                                                 查看观察记录
@@ -144,7 +144,7 @@ function CommunityPageContent() {
 
                                 {challengesError && !isLoading && (
                                     <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-6 py-10 text-center">
-                                        <p className="text-lg font-semibold">挑战赛加载失败</p>
+                                        <p className="text-lg font-semibold">挑战加载失败</p>
                                         <p className="mt-2 text-sm text-muted-foreground">{challengesError}</p>
                                         <Button className="mt-4" onClick={() => void reloadChallenges()}>
                                             重试
@@ -169,7 +169,7 @@ function CommunityPageContent() {
                                 {!challengesError && challenges.evergreen && challenges.evergreen.length > 0 && (
                                     <section className="space-y-4">
                                         <div className="mb-4 flex items-center justify-between">
-                                            <h2 className="text-2xl font-bold">常驻学习挑战</h2>
+                                            <h2 className="text-2xl font-bold">长期学习挑战</h2>
                                             <p className="text-muted-foreground">自主学习，随时完成</p>
                                         </div>
                                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -203,7 +203,7 @@ function CommunityPageContent() {
 
                                 {!challengesError && !isLoading && !challenges.activeTimed?.length && !challenges.evergreen?.length && !challenges.ended?.length && (
                                     <div className="py-12 text-center text-muted-foreground">
-                                        <p className="text-lg">暂无挑战赛</p>
+                                        <p className="text-lg">暂无挑战</p>
                                         <p className="mt-1 text-sm">敬请期待新的挑战！</p>
                                     </div>
                                 )}

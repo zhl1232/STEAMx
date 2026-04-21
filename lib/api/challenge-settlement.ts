@@ -147,7 +147,7 @@ export async function settleTimedChallenge(challengeId: number) {
         amount: prize,
         action_type: 'challenge_prize',
         resource_id: String(challengeId),
-        counterparty_display_text: `挑战作品第 ${submission.rank} 名`,
+        counterparty_display_text: `挑战第${submission.rank}名奖励`,
       } as never)
 
     if (coinLogError) throw coinLogError

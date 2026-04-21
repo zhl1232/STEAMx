@@ -474,7 +474,7 @@ export function CompleteProjectDialog({
                             <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
                                 <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
                                 <p className="text-sm text-blue-700 dark:text-blue-300">
-                                    此项目关联了挑战赛。填写反思与试错记录可额外获得{" "}
+                                    此项目关联了挑战。填写反思与试错记录可额外获得{" "}
                                     <span className="font-semibold">+10 XP</span>。
                                 </p>
                             </div>

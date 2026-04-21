@@ -47,7 +47,7 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
 
           <div className="absolute left-4 top-4 flex flex-wrap gap-2">
             <span className="inline-flex items-center rounded-full border border-white/18 bg-black/32 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
-              {isTimed ? '限时挑战' : '常驻挑战'}
+              {isTimed ? '限时挑战' : '长期挑战'}
             </span>
             {previewTag ? (
               <span
@@ -80,7 +80,7 @@ export function ChallengeCard({ challenge }: ChallengeCardProps) {
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
               <span className="section-kicker text-[10px] tracking-[0.24em]">
-                {isTimed ? '限时竞赛' : '长期练习'}
+                {isTimed ? '限时竞赛' : '长期学习'}
               </span>
               <span>{secondaryMeta}</span>
             </div>

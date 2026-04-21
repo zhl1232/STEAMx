@@ -145,7 +145,7 @@ export function LevelGuideDialog({ children }: LevelGuideDialogProps) {
       desc: "动手完成他人的项目",
     },
     {
-      action: "参加挑战赛",
+      action: "参加挑战",
       reward: "+10",
       icon: <Target className="h-4 w-4 text-red-500" />,
       desc: "报名参与主题挑战",

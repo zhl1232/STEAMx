@@ -185,6 +185,9 @@ export default function ProfilePage() {
                         </Link>
                       </Button>
                       <Button asChild variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
+                        <Link href="/share">发布项目</Link>
+                      </Button>
+                      <Button asChild variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
                         <Link href="/profile/library">我的内容</Link>
                       </Button>
                       <EditProfileDialog>
@@ -311,6 +314,16 @@ export default function ProfilePage() {
       </div>
 
       <div className="space-y-4 px-4 py-4">
+        <section className="surface-panel rounded-[28px] p-5">
+          <div className="grid grid-cols-2 gap-3">
+            <Button asChild variant="outline" className="h-11 rounded-2xl text-sm font-semibold">
+              <Link href="/share">发布项目</Link>
+            </Button>
+            <Button asChild variant="outline" className="h-11 rounded-2xl text-sm font-semibold">
+              <Link href="/profile/library">我的内容</Link>
+            </Button>
+          </div>
+        </section>
         {steamRadar ? (
           <SteamRadarChart initialRadar={steamRadar} />
         ) : (

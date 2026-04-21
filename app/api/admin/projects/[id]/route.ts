@@ -10,8 +10,6 @@ import { createClient } from '@/lib/supabase/server'
 import { getSubCategoryNameById } from '@/lib/subcategories'
 import { z } from 'zod'
 
-import type { SteamWeights } from '@/lib/config/subcategory-steam-weights'
-
 const SteamWeightsSchema = z.object({
   S: z.number().int().min(0).max(100),
   T: z.number().int().min(0).max(100),
@@ -47,6 +45,73 @@ function getErrorCode(error: unknown) {
   }
 
   return null
+}
+
+/**
+ * GET /api/admin/projects/[id]
+ * 管理端读取项目完整详情
+ * 需要 moderator/admin 权限
+ */
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const supabase = await createClient()
+
+  try {
+    await requireRole(supabase, ['moderator', 'admin'])
+
+    const { id } = await params
+    const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
+
+    const { data, error } = await supabase
+      .from('projects')
+      .select(`
+        id,
+        title,
+        description,
+        category,
+        image_url,
+        status,
+        created_at,
+        duration,
+        difficulty_stars,
+        profiles:author_id (
+          username,
+          display_name,
+          avatar_url
+        ),
+        sub_categories (
+          name
+        ),
+        project_steps (
+          id,
+          title,
+          description,
+          image_url,
+          sort_order
+        ),
+        project_materials (
+          id,
+          material,
+          sort_order
+        )
+      `)
+      .eq('id', projectId)
+      .maybeSingle()
+
+    if (error) {
+      throw error
+    }
+
+    if (!data) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+
+    return NextResponse.json({ project: data })
+  } catch (error) {
+    return handleApiError(error)
+  }
 }
 
 /**

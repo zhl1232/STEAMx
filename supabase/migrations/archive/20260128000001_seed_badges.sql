@@ -19,7 +19,7 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('curious_mind', '好奇探索者', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
 ('quick_learner', '快速学习者', '一周内完成 3 个项目', '⚡', '{"type": "projects_completed_weekly", "count": 3}'),
 ('social_butterfly', '社交蝴蝶', '首次参与讨论', '🦋', '{"type": "discussions_participated", "count": 1}'),
-('challenge_rookie', '挑战新人', '首次参加挑战赛', '🎪', '{"type": "challenges_joined", "count": 1}'),
+('challenge_rookie', '挑战新人', '首次参加挑战', '🎪', '{"type": "challenges_joined", "count": 1}'),
 
 -- ==================== 🔬 科学专家系列 (10个) ====================
 ('science_beginner', '科学萌新', '完成 1 个科学类项目', '🔬', '{"type": "science_completed", "count": 1}'),
@@ -141,13 +141,13 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('level_100', '满级大佬', '达到等级 100', '👑', '{"type": "level", "count": 100}'),
 ('level_max', '传说玩家', '达到等级 150', '🌌', '{"type": "level", "count": 150}'),
 
--- ==================== 🎮 挑战赛系列 (6个) ====================
-('challenger', '挑战者', '参加 3 次挑战赛', '🎮', '{"type": "challenges_joined", "count": 3}'),
-('challenge_enthusiast', '挑战爱好者', '参加 5 次挑战赛', '🎯', '{"type": "challenges_joined", "count": 5}'),
-('challenge_veteran', '挑战老将', '参加 10 次挑战赛', '⚔️', '{"type": "challenges_joined", "count": 10}'),
-('challenge_master', '挑战大师', '参加 20 次挑战赛', '🏹', '{"type": "challenges_joined", "count": 20}'),
-('challenge_champion', '挑战冠军', '参加 50 次挑战赛', '🏆', '{"type": "challenges_joined", "count": 50}'),
-('challenge_legend', '挑战传奇', '参加 100 次挑战赛', '🎪', '{"type": "challenges_joined", "count": 100}'),
+-- ==================== 🎮 挑战系列 (6个) ====================
+('challenger', '挑战者', '参加 3 次挑战', '🎮', '{"type": "challenges_joined", "count": 3}'),
+('challenge_enthusiast', '挑战爱好者', '参加 5 次挑战', '🎯', '{"type": "challenges_joined", "count": 5}'),
+('challenge_veteran', '挑战老将', '参加 10 次挑战', '⚔️', '{"type": "challenges_joined", "count": 10}'),
+('challenge_master', '挑战大师', '参加 20 次挑战', '🏹', '{"type": "challenges_joined", "count": 20}'),
+('challenge_champion', '挑战冠军', '参加 50 次挑战', '🏆', '{"type": "challenges_joined", "count": 50}'),
+('challenge_legend', '挑战传奇', '参加 100 次挑战', '🎪', '{"type": "challenges_joined", "count": 100}'),
 
 -- ==================== 🔥 连续打卡系列 (5个) ====================
 ('week_streak', '周活跃用户', '连续登录 7 天', '🔥', '{"type": "consecutive_days", "count": 7}'),

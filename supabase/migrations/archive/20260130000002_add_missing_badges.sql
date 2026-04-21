@@ -104,12 +104,12 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('level_100', '满级大佬', '达到等级 100', '👑', '{"type": "level", "count": 100}'),
 ('level_max', '传说玩家', '达到等级 150', '🌌', '{"type": "level", "count": 150}'),
 
--- 挑战赛系列
-('challenge_enthusiast', '挑战爱好者', '参加 5 次挑战赛', '🎯', '{"type": "challenges_joined", "count": 5}'),
-('challenge_veteran', '挑战老将', '参加 10 次挑战赛', '⚔️', '{"type": "challenges_joined", "count": 10}'),
-('challenge_master', '挑战大师', '参加 20 次挑战赛', '🏹', '{"type": "challenges_joined", "count": 20}'),
-('challenge_champion', '挑战冠军', '参加 50 次挑战赛', '🏆', '{"type": "challenges_joined", "count": 50}'),
-('challenge_legend', '挑战传奇', '参加 100 次挑战赛', '🎪', '{"type": "challenges_joined", "count": 100}'),
+-- 挑战系列
+('challenge_enthusiast', '挑战爱好者', '参加 5 次挑战', '🎯', '{"type": "challenges_joined", "count": 5}'),
+('challenge_veteran', '挑战老将', '参加 10 次挑战', '⚔️', '{"type": "challenges_joined", "count": 10}'),
+('challenge_master', '挑战大师', '参加 20 次挑战', '🏹', '{"type": "challenges_joined", "count": 20}'),
+('challenge_champion', '挑战冠军', '参加 50 次挑战', '🏆', '{"type": "challenges_joined", "count": 50}'),
+('challenge_legend', '挑战传奇', '参加 100 次挑战', '🎪', '{"type": "challenges_joined", "count": 100}'),
 
 -- 连续打卡系列
 ('month_streak', '月活跃用户', '连续登录 30 天', '🔥', '{"type": "consecutive_days", "count": 30}'),

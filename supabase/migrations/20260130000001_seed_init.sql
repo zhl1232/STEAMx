@@ -245,7 +245,7 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('curious_mind', '好奇探索者', '浏览超过 10 个项目', '🔍', '{"type": "projects_viewed", "count": 10}'),
 ('quick_learner', '快速学习者', '一周内完成 3 个项目', '⚡', '{"type": "projects_completed_weekly", "count": 3}'),
 ('social_butterfly', '社交蝴蝶', '首次参与讨论', '🦋', '{"type": "discussions_participated", "count": 1}'),
-('challenge_rookie', '挑战新人', '首次参加挑战赛', '🎪', '{"type": "challenges_joined", "count": 1}'),
+('challenge_rookie', '挑战新人', '首次参加挑战', '🎪', '{"type": "challenges_joined", "count": 1}'),
 -- 科学系列
 ('science_beginner', '科学萌新', '完成 1 个科学类项目', '🔬', '{"type": "science_completed", "count": 1}'),
 ('science_enthusiast', '科学爱好者', '完成 3 个科学类项目', '🧪', '{"type": "science_completed", "count": 3}'),
@@ -279,8 +279,8 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 -- 等级
 ('level_5', '初出茅庐', '达到等级 5', '🔰', '{"type": "level", "count": 5}'),
 ('level_10', '崭露头角', '达到等级 10', '⬆️', '{"type": "level", "count": 10}'),
--- 挑战赛
-('challenger', '挑战者', '参加 3 次挑战赛', '🎮', '{"type": "challenges_joined", "count": 3}'),
+-- 挑战
+('challenger', '挑战者', '参加 3 次挑战', '🎮', '{"type": "challenges_joined", "count": 3}'),
 -- 连续打卡
 ('week_streak', '周活跃用户', '连续登录 7 天', '🔥', '{"type": "consecutive_days", "count": 7}')
 ON CONFLICT (id) DO UPDATE SET

@@ -19,6 +19,11 @@ export function MainNav() {
             active: pathname === "/explore" || pathname === "/project" || pathname?.startsWith("/project/"),
         },
         {
+            href: "/nature",
+            label: "自然观察",
+            active: pathname === "/nature" || pathname?.startsWith("/nature/"),
+        },
+        {
             href: "/playground",
             label: "游乐场",
             active: pathname === "/playground" || pathname?.startsWith("/playground/"),

@@ -416,7 +416,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
               {challenge.tags.includes("鸟类") && (
                 <Link
-                  href="/bird-observation/submit"
+                  href="/nature/submit?topic=birds"
                   className="mt-3 flex items-center justify-between rounded-[18px] bg-emerald-50/80 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-40px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
                 >
                   <span>补充观察记录</span>
@@ -563,7 +563,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
                 {challenge.tags.includes("鸟类") && (
                   <Link
-                    href="/bird-observation/submit"
+                    href="/nature/submit?topic=birds"
                     className="flex items-center justify-between rounded-[18px] bg-emerald-50/75 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-38px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
                   >
                     <span>补充观察记录</span>

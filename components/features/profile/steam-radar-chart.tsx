@@ -247,7 +247,7 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null 
               还没有足够的数据来绘制雷达图
             </p>
             <p className="text-xs text-muted-foreground/80 mt-1.5 max-w-xs">
-              参与挑战赛或完成项目，解锁你的 STEAM 能力图谱。
+              参与挑战或完成项目，解锁你的 STEAM 能力图谱。
             </p>
           </div>
         )}

@@ -502,7 +502,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
               {isObservationProject ? (
                 <SectionCard title="观察记录">
-                  <Link href="/bird-observation/submit" className="mt-5 block">
+                  <Link href="/nature/submit" className="mt-5 block">
                     <Button variant="outline" className="w-full">
                       去完成一条观察记录
                     </Button>

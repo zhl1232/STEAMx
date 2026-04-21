@@ -58,6 +58,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname.startsWith('/project/') ||
     pathname.startsWith('/shop') ||
     pathname.startsWith('/coins') ||
+    pathname.startsWith('/nature') ||
     pathname.startsWith('/bird-observation') ||
     pathname.startsWith('/legal/') ||
     pathname.startsWith('/explore/species/') ||

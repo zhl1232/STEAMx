@@ -73,10 +73,10 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('level_gold', '等级晋升 · 金', '达到等级 50', '🌟', '{"seriesKey":"level","tier":"gold"}'::jsonb),
 ('level_platinum', '等级晋升 · 白金', '达到等级 100', '🌟', '{"seriesKey":"level","tier":"platinum"}'::jsonb),
 -- challenge (4)
-('challenge_bronze', '挑战赛 · 铜', '参加挑战赛 3 次', '🎮', '{"seriesKey":"challenge","tier":"bronze"}'::jsonb),
-('challenge_silver', '挑战赛 · 银', '参加挑战赛 10 次', '🎮', '{"seriesKey":"challenge","tier":"silver"}'::jsonb),
-('challenge_gold', '挑战赛 · 金', '参加挑战赛 50 次', '🎮', '{"seriesKey":"challenge","tier":"gold"}'::jsonb),
-('challenge_platinum', '挑战赛 · 白金', '参加挑战赛 100 次', '🎮', '{"seriesKey":"challenge","tier":"platinum"}'::jsonb),
+('challenge_bronze', '挑战 · 铜', '参加挑战 3 次', '🎮', '{"seriesKey":"challenge","tier":"bronze"}'::jsonb),
+('challenge_silver', '挑战 · 银', '参加挑战 10 次', '🎮', '{"seriesKey":"challenge","tier":"silver"}'::jsonb),
+('challenge_gold', '挑战 · 金', '参加挑战 50 次', '🎮', '{"seriesKey":"challenge","tier":"gold"}'::jsonb),
+('challenge_platinum', '挑战 · 白金', '参加挑战 100 次', '🎮', '{"seriesKey":"challenge","tier":"platinum"}'::jsonb),
 -- streak (4)
 ('streak_bronze', '连续打卡 · 铜', '连续登录 3 天', '🔥', '{"seriesKey":"streak","tier":"bronze"}'::jsonb),
 ('streak_silver', '连续打卡 · 银', '连续登录 7 天', '🔥', '{"seriesKey":"streak","tier":"silver"}'::jsonb),
@@ -90,7 +90,7 @@ INSERT INTO public.badges (id, name, description, icon, condition) VALUES
 ('first_publish', '首次发布', '发布第一个项目', '📤', '{"kind":"single","seriesKey":"first_steps"}'::jsonb),
 ('first_collection', '收藏入门', '首次收藏项目', '📌', '{"kind":"single","seriesKey":"first_steps"}'::jsonb),
 ('social_butterfly', '社交蝴蝶', '首次参与讨论', '🦋', '{"kind":"single","seriesKey":"first_steps"}'::jsonb),
-('challenge_rookie', '挑战新人', '首次参加挑战赛', '🎪', '{"kind":"single","seriesKey":"first_steps"}'::jsonb),
+('challenge_rookie', '挑战新人', '首次参加挑战', '🎪', '{"kind":"single","seriesKey":"first_steps"}'::jsonb),
 -- rare (5)
 ('early_bird', '平台先驱', '前 100 名注册用户', '🦅', '{"kind":"single","seriesKey":"rare"}'::jsonb),
 ('bug_hunter', '漏洞猎人', '发现并报告平台 Bug', '🐛', '{"kind":"single","seriesKey":"rare"}'::jsonb),

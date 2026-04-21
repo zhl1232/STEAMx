@@ -78,7 +78,7 @@ UPDATE public.badges SET description = '完成项目 50 个'  WHERE id = 'milest
 UPDATE public.badges SET description = '完成项目 100 个' WHERE id = 'milestone_platinum';
 
 -- challenge: [3, 10, 50, 100] → [2, 6, 15, 30]
-UPDATE public.badges SET description = '参加挑战赛 2 次'  WHERE id = 'challenge_bronze';
-UPDATE public.badges SET description = '参加挑战赛 6 次'  WHERE id = 'challenge_silver';
-UPDATE public.badges SET description = '参加挑战赛 15 次' WHERE id = 'challenge_gold';
-UPDATE public.badges SET description = '参加挑战赛 30 次' WHERE id = 'challenge_platinum';
+UPDATE public.badges SET description = '参加挑战 2 次'  WHERE id = 'challenge_bronze';
+UPDATE public.badges SET description = '参加挑战 6 次'  WHERE id = 'challenge_silver';
+UPDATE public.badges SET description = '参加挑战 15 次' WHERE id = 'challenge_gold';
+UPDATE public.badges SET description = '参加挑战 30 次' WHERE id = 'challenge_platinum';

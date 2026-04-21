@@ -68,7 +68,7 @@ describe("CoinsPage", () => {
           action_type: "challenge_prize",
           resource_id: "7",
           created_at: "2026-03-20T12:00:00.000Z",
-          counterparty_display_text: "挑战赛第1名奖励",
+          counterparty_display_text: "挑战第1名奖励",
         },
       ],
       isLoading: false,
@@ -79,7 +79,7 @@ describe("CoinsPage", () => {
 
     render(<CoinsPage />);
 
-    expect(screen.getByText("挑战赛第1名奖励")).toBeInTheDocument();
+    expect(screen.getByText("挑战第1名奖励")).toBeInTheDocument();
     expect(screen.queryByText("challenge_prize")).not.toBeInTheDocument();
   });
 

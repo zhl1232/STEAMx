@@ -64,7 +64,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
         if (!response.ok) {
             const detail = await response.text();
             logger.error('Error fetching challenges:', { detail });
-            setChallengesError('挑战赛加载失败，请稍后重试');
+            setChallengesError('挑战加载失败，请稍后重试');
             return;
         }
 
@@ -247,7 +247,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
             const changed = Boolean(payload?.changed);
 
             if (!isJoined && changed) {
-                await addXp(10, "参加挑战赛", "join_challenge", cid);
+                await addXp(10, "参加挑战", "join_challenge", cid);
             }
         } catch (error) {
             // Restore snapshot instead of re-applying the toggle (which would apply the same direction twice)

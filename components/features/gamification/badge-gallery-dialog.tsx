@@ -44,7 +44,7 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     popularity: "作品或发言被更多人看见和认可。",
     milestone: "持续完成项目带来的长期里程碑。",
     level: "等级增长对应的整体成长轨迹。",
-    challenge: "参与挑战赛，进入更明确的目标场景。",
+    challenge: "参与挑战，进入更明确的目标场景。",
     streak: "连续登录和持续返回形成的习惯强度。",
     bird_observer: "观察记录数量，代表持续看见自然的次数。",
     species_collector: "不同物种的累计发现，更强调广度。",
@@ -62,35 +62,98 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     rare: "限定、纪念或人工授予的特别徽章。",
 };
 
-const SERIES_THEME: Partial<Record<string, { section: string; chip: string }>> = {
-    intro_likes: { section: "border-amber-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.14),transparent_42%),linear-gradient(180deg,rgba(255,251,235,0.92),rgba(255,255,255,0.94))]", chip: "border-amber-200/70 bg-amber-50/90 text-amber-700" },
-    intro_publish: { section: "border-sky-200/60 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.12),transparent_42%),linear-gradient(180deg,rgba(239,246,255,0.92),rgba(255,255,255,0.94))]", chip: "border-sky-200/70 bg-sky-50/90 text-sky-700" },
-    intro_collections: { section: "border-emerald-200/60 bg-[radial-gradient(circle_at_top_left,rgba(52,211,153,0.14),transparent_42%),linear-gradient(180deg,rgba(236,253,245,0.92),rgba(255,255,255,0.94))]", chip: "border-emerald-200/70 bg-emerald-50/90 text-emerald-700" },
-    science_expert: { section: "border-cyan-200/60 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.16),transparent_40%),linear-gradient(180deg,rgba(236,254,255,0.92),rgba(255,255,255,0.94))]", chip: "border-cyan-200/70 bg-cyan-50/90 text-cyan-700" },
-    tech_expert: { section: "border-indigo-200/60 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.14),transparent_42%),linear-gradient(180deg,rgba(238,242,255,0.92),rgba(255,255,255,0.94))]", chip: "border-indigo-200/70 bg-indigo-50/90 text-indigo-700" },
-    engineering_expert: { section: "border-orange-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.12),transparent_42%),linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,255,255,0.94))]", chip: "border-orange-200/70 bg-orange-50/90 text-orange-700" },
-    art_expert: { section: "border-pink-200/60 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.12),transparent_42%),linear-gradient(180deg,rgba(253,242,248,0.92),rgba(255,255,255,0.94))]", chip: "border-pink-200/70 bg-pink-50/90 text-pink-700" },
-    math_expert: { section: "border-emerald-200/60 bg-[radial-gradient(circle_at_top_left,rgba(74,222,128,0.14),transparent_42%),linear-gradient(180deg,rgba(236,253,245,0.92),rgba(255,255,255,0.94))]", chip: "border-emerald-200/70 bg-emerald-50/90 text-emerald-700" },
-    social: { section: "border-fuchsia-200/60 bg-[radial-gradient(circle_at_top_left,rgba(192,132,252,0.12),transparent_42%),linear-gradient(180deg,rgba(250,245,255,0.92),rgba(255,255,255,0.94))]", chip: "border-fuchsia-200/70 bg-fuchsia-50/90 text-fuchsia-700" },
-    popularity: { section: "border-rose-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,113,133,0.12),transparent_42%),linear-gradient(180deg,rgba(255,241,242,0.92),rgba(255,255,255,0.94))]", chip: "border-rose-200/70 bg-rose-50/90 text-rose-700" },
-    milestone: { section: "border-yellow-200/60 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.14),transparent_42%),linear-gradient(180deg,rgba(254,252,232,0.92),rgba(255,255,255,0.94))]", chip: "border-yellow-200/70 bg-yellow-50/90 text-yellow-700" },
-    level: { section: "border-violet-200/60 bg-[radial-gradient(circle_at_top_left,rgba(196,181,253,0.14),transparent_42%),linear-gradient(180deg,rgba(245,243,255,0.92),rgba(255,255,255,0.94))]", chip: "border-violet-200/70 bg-violet-50/90 text-violet-700" },
-    challenge: { section: "border-orange-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.16),transparent_42%),linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,255,255,0.94))]", chip: "border-orange-200/70 bg-orange-50/90 text-orange-700" },
-    streak: { section: "border-red-200/60 bg-[radial-gradient(circle_at_top_left,rgba(248,113,113,0.16),transparent_42%),linear-gradient(180deg,rgba(254,242,242,0.92),rgba(255,255,255,0.94))]", chip: "border-red-200/70 bg-red-50/90 text-red-700" },
-    bird_observer: { section: "border-teal-200/60 bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.14),transparent_42%),linear-gradient(180deg,rgba(240,253,250,0.92),rgba(255,255,255,0.94))]", chip: "border-teal-200/70 bg-teal-50/90 text-teal-700" },
-    species_collector: { section: "border-lime-200/60 bg-[radial-gradient(circle_at_top_left,rgba(134,239,172,0.14),transparent_42%),linear-gradient(180deg,rgba(247,254,231,0.92),rgba(255,255,255,0.94))]", chip: "border-lime-200/70 bg-lime-50/90 text-lime-700" },
-    first_steps: { section: "border-violet-200/60 bg-[radial-gradient(circle_at_top_left,rgba(167,139,250,0.12),transparent_42%),linear-gradient(180deg,rgba(245,243,255,0.92),rgba(255,255,255,0.94))]", chip: "border-violet-200/70 bg-violet-50/90 text-violet-700" },
-    minesweeper: { section: "border-zinc-300/70 bg-[radial-gradient(circle_at_top_left,rgba(248,113,113,0.12),transparent_40%),linear-gradient(180deg,rgba(250,250,250,0.94),rgba(255,255,255,0.96))]", chip: "border-zinc-300/80 bg-zinc-50/90 text-zinc-700" },
-    gomoku: { section: "border-amber-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.12),transparent_40%),linear-gradient(180deg,rgba(255,251,235,0.94),rgba(255,255,255,0.96))]", chip: "border-amber-200/70 bg-amber-50/90 text-amber-700" },
-    game2048: { section: "border-yellow-200/60 bg-[radial-gradient(circle_at_top_left,rgba(253,224,71,0.14),transparent_40%),linear-gradient(180deg,rgba(254,252,232,0.94),rgba(255,255,255,0.96))]", chip: "border-yellow-200/70 bg-yellow-50/90 text-yellow-700" },
-    game24: { section: "border-emerald-200/60 bg-[radial-gradient(circle_at_top_left,rgba(74,222,128,0.14),transparent_40%),linear-gradient(180deg,rgba(236,253,245,0.94),rgba(255,255,255,0.96))]", chip: "border-emerald-200/70 bg-emerald-50/90 text-emerald-700" },
-    life: { section: "border-lime-200/60 bg-[radial-gradient(circle_at_top_left,rgba(163,230,53,0.14),transparent_40%),linear-gradient(180deg,rgba(247,254,231,0.94),rgba(255,255,255,0.96))]", chip: "border-lime-200/70 bg-lime-50/90 text-lime-700" },
-    hanoi: { section: "border-orange-200/60 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.12),transparent_40%),linear-gradient(180deg,rgba(255,247,237,0.94),rgba(255,255,255,0.96))]", chip: "border-orange-200/70 bg-orange-50/90 text-orange-700" },
-    sudoku: { section: "border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.12),transparent_40%),linear-gradient(180deg,rgba(248,250,252,0.94),rgba(255,255,255,0.96))]", chip: "border-slate-200/80 bg-slate-50/90 text-slate-700" },
-    nqueens: { section: "border-violet-200/60 bg-[radial-gradient(circle_at_top_left,rgba(196,181,253,0.12),transparent_40%),linear-gradient(180deg,rgba(245,243,255,0.94),rgba(255,255,255,0.96))]", chip: "border-violet-200/70 bg-violet-50/90 text-violet-700" },
-    circuit: { section: "border-cyan-200/60 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.14),transparent_40%),linear-gradient(180deg,rgba(236,254,255,0.94),rgba(255,255,255,0.96))]", chip: "border-cyan-200/70 bg-cyan-50/90 text-cyan-700" },
-    bird_observation: { section: "border-emerald-200/60 bg-[radial-gradient(circle_at_top_left,rgba(110,231,183,0.14),transparent_40%),linear-gradient(180deg,rgba(236,253,245,0.94),rgba(255,255,255,0.96))]", chip: "border-emerald-200/70 bg-emerald-50/90 text-emerald-700" },
-    rare: { section: "border-pink-200/60 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.12),transparent_42%),linear-gradient(180deg,rgba(253,242,248,0.94),rgba(255,255,255,0.96))]", chip: "border-pink-200/70 bg-pink-50/90 text-pink-700" },
+type SeriesTheme = { section: string; chip: string };
+
+const THEME_AMBER: SeriesTheme = {
+    section: "border-amber-200/70 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.16),transparent_42%),linear-gradient(180deg,rgba(255,251,235,0.94),rgba(255,255,255,0.96))] dark:border-amber-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.22),transparent_36%),linear-gradient(180deg,rgba(41,30,12,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-amber-200/80 bg-amber-50/95 text-amber-800 dark:border-amber-300/55 dark:bg-amber-950/85 dark:text-amber-50",
+};
+const THEME_SKY: SeriesTheme = {
+    section: "border-sky-200/70 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.14),transparent_42%),linear-gradient(180deg,rgba(239,246,255,0.94),rgba(255,255,255,0.96))] dark:border-sky-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.2),transparent_36%),linear-gradient(180deg,rgba(11,33,58,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-sky-200/80 bg-sky-50/95 text-sky-800 dark:border-sky-300/55 dark:bg-sky-950/85 dark:text-sky-50",
+};
+const THEME_EMERALD: SeriesTheme = {
+    section: "border-emerald-200/70 bg-[radial-gradient(circle_at_top_left,rgba(52,211,153,0.16),transparent_42%),linear-gradient(180deg,rgba(236,253,245,0.94),rgba(255,255,255,0.96))] dark:border-emerald-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(52,211,153,0.2),transparent_36%),linear-gradient(180deg,rgba(8,44,37,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-emerald-200/80 bg-emerald-50/95 text-emerald-800 dark:border-emerald-300/55 dark:bg-emerald-950/85 dark:text-emerald-50",
+};
+const THEME_CYAN: SeriesTheme = {
+    section: "border-cyan-200/70 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.18),transparent_40%),linear-gradient(180deg,rgba(236,254,255,0.94),rgba(255,255,255,0.96))] dark:border-cyan-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.24),transparent_34%),linear-gradient(180deg,rgba(7,41,49,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-cyan-200/80 bg-cyan-50/95 text-cyan-800 dark:border-cyan-300/55 dark:bg-cyan-950/85 dark:text-cyan-50",
+};
+const THEME_INDIGO: SeriesTheme = {
+    section: "border-indigo-200/70 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.16),transparent_42%),linear-gradient(180deg,rgba(238,242,255,0.94),rgba(255,255,255,0.96))] dark:border-indigo-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.22),transparent_36%),linear-gradient(180deg,rgba(24,31,72,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-indigo-200/80 bg-indigo-50/95 text-indigo-800 dark:border-indigo-300/55 dark:bg-indigo-950/85 dark:text-indigo-50",
+};
+const THEME_PINK: SeriesTheme = {
+    section: "border-pink-200/70 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.14),transparent_42%),linear-gradient(180deg,rgba(253,242,248,0.94),rgba(255,255,255,0.96))] dark:border-pink-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.2),transparent_36%),linear-gradient(180deg,rgba(61,20,44,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-pink-200/80 bg-pink-50/95 text-pink-800 dark:border-pink-300/55 dark:bg-pink-950/85 dark:text-pink-50",
+};
+const THEME_FUCHSIA: SeriesTheme = {
+    section: "border-fuchsia-200/70 bg-[radial-gradient(circle_at_top_left,rgba(192,132,252,0.14),transparent_42%),linear-gradient(180deg,rgba(250,245,255,0.94),rgba(255,255,255,0.96))] dark:border-fuchsia-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(192,132,252,0.2),transparent_36%),linear-gradient(180deg,rgba(57,21,67,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-fuchsia-200/80 bg-fuchsia-50/95 text-fuchsia-800 dark:border-fuchsia-300/55 dark:bg-fuchsia-950/85 dark:text-fuchsia-50",
+};
+const THEME_ROSE: SeriesTheme = {
+    section: "border-rose-200/70 bg-[radial-gradient(circle_at_top_left,rgba(251,113,133,0.14),transparent_42%),linear-gradient(180deg,rgba(255,241,242,0.94),rgba(255,255,255,0.96))] dark:border-rose-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(251,113,133,0.2),transparent_36%),linear-gradient(180deg,rgba(63,22,36,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-rose-200/80 bg-rose-50/95 text-rose-800 dark:border-rose-300/55 dark:bg-rose-950/85 dark:text-rose-50",
+};
+const THEME_YELLOW: SeriesTheme = {
+    section: "border-yellow-200/70 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.16),transparent_42%),linear-gradient(180deg,rgba(254,252,232,0.94),rgba(255,255,255,0.96))] dark:border-yellow-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.22),transparent_36%),linear-gradient(180deg,rgba(53,43,11,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-yellow-200/80 bg-yellow-50/95 text-yellow-800 dark:border-yellow-300/55 dark:bg-yellow-950/85 dark:text-yellow-50",
+};
+const THEME_VIOLET: SeriesTheme = {
+    section: "border-violet-200/70 bg-[radial-gradient(circle_at_top_left,rgba(196,181,253,0.16),transparent_42%),linear-gradient(180deg,rgba(245,243,255,0.94),rgba(255,255,255,0.96))] dark:border-violet-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(196,181,253,0.22),transparent_36%),linear-gradient(180deg,rgba(40,24,67,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-violet-200/80 bg-violet-50/95 text-violet-800 dark:border-violet-300/55 dark:bg-violet-950/85 dark:text-violet-50",
+};
+const THEME_ORANGE: SeriesTheme = {
+    section: "border-orange-200/70 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.16),transparent_42%),linear-gradient(180deg,rgba(255,247,237,0.94),rgba(255,255,255,0.96))] dark:border-orange-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.22),transparent_36%),linear-gradient(180deg,rgba(63,31,15,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-orange-200/80 bg-orange-50/95 text-orange-800 dark:border-orange-300/55 dark:bg-orange-950/85 dark:text-orange-50",
+};
+const THEME_RED: SeriesTheme = {
+    section: "border-red-200/70 bg-[radial-gradient(circle_at_top_left,rgba(248,113,113,0.16),transparent_42%),linear-gradient(180deg,rgba(254,242,242,0.94),rgba(255,255,255,0.96))] dark:border-red-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(248,113,113,0.22),transparent_36%),linear-gradient(180deg,rgba(64,24,24,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-red-200/80 bg-red-50/95 text-red-800 dark:border-red-300/55 dark:bg-red-950/85 dark:text-red-50",
+};
+const THEME_TEAL: SeriesTheme = {
+    section: "border-teal-200/70 bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.16),transparent_42%),linear-gradient(180deg,rgba(240,253,250,0.94),rgba(255,255,255,0.96))] dark:border-teal-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.22),transparent_36%),linear-gradient(180deg,rgba(9,47,43,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-teal-200/80 bg-teal-50/95 text-teal-800 dark:border-teal-300/55 dark:bg-teal-950/85 dark:text-teal-50",
+};
+const THEME_LIME: SeriesTheme = {
+    section: "border-lime-200/70 bg-[radial-gradient(circle_at_top_left,rgba(134,239,172,0.16),transparent_42%),linear-gradient(180deg,rgba(247,254,231,0.94),rgba(255,255,255,0.96))] dark:border-lime-400/30 dark:bg-[radial-gradient(circle_at_top_left,rgba(163,230,53,0.22),transparent_36%),linear-gradient(180deg,rgba(35,54,12,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-lime-200/80 bg-lime-50/95 text-lime-800 dark:border-lime-300/55 dark:bg-lime-950/85 dark:text-lime-50",
+};
+const THEME_ZINC: SeriesTheme = {
+    section: "border-zinc-300/80 bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.14),transparent_40%),linear-gradient(180deg,rgba(248,250,252,0.94),rgba(255,255,255,0.96))] dark:border-slate-400/25 dark:bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.18),transparent_34%),linear-gradient(180deg,rgba(32,39,49,0.96),rgba(9,14,26,0.98))]",
+    chip: "border-slate-200/80 bg-slate-50/95 text-slate-800 dark:border-slate-300/45 dark:bg-slate-900/90 dark:text-slate-50",
+};
+
+const SERIES_THEME: Partial<Record<string, SeriesTheme>> = {
+    intro_likes: THEME_AMBER,
+    intro_publish: THEME_SKY,
+    intro_collections: THEME_EMERALD,
+    science_expert: THEME_CYAN,
+    tech_expert: THEME_INDIGO,
+    engineering_expert: THEME_ORANGE,
+    art_expert: THEME_PINK,
+    math_expert: THEME_EMERALD,
+    social: THEME_FUCHSIA,
+    popularity: THEME_ROSE,
+    milestone: THEME_YELLOW,
+    level: THEME_VIOLET,
+    challenge: THEME_ORANGE,
+    streak: THEME_RED,
+    bird_observer: THEME_TEAL,
+    species_collector: THEME_LIME,
+    first_steps: THEME_VIOLET,
+    minesweeper: THEME_ZINC,
+    gomoku: THEME_AMBER,
+    game2048: THEME_YELLOW,
+    game24: THEME_EMERALD,
+    life: THEME_LIME,
+    hanoi: THEME_ORANGE,
+    sudoku: THEME_ZINC,
+    nqueens: THEME_VIOLET,
+    circuit: THEME_CYAN,
+    bird_observation: THEME_EMERALD,
+    rare: THEME_PINK,
 };
 
 // TIER_STYLES removed as they are now in BadgeIcon
@@ -222,14 +285,12 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <div
-                        className={`
-                            relative overflow-hidden rounded-xl border p-2 sm:p-3 flex flex-col items-center text-center gap-1.5 sm:gap-2
-                            transition-all duration-200 group h-full cursor-pointer hover:shadow-md
-                            ${isUnlocked
-                                ? "bg-gradient-to-br from-white/40 to-white/10 dark:from-white/10 dark:to-white/5 border-white/20 shadow-sm"
-                                : "bg-muted/30 border-muted opacity-80"
-                            }
-                        `}
+                        className={cn(
+                            "relative flex h-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-xl border p-2 text-center transition-all duration-200 group hover:shadow-md sm:gap-2 sm:p-3",
+                            isUnlocked
+                                ? "bg-gradient-to-br from-white/80 via-white/60 to-white/35 border-white/70 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.35)] hover:border-primary/30 dark:from-slate-800/96 dark:via-slate-900/94 dark:to-slate-950/92 dark:border-white/12 dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78)] dark:hover:border-primary/25"
+                                : "bg-white/55 border-slate-200/80 opacity-95 dark:bg-slate-950/82 dark:border-white/8 dark:opacity-100",
+                        )}
                     >
                         <div className="flex justify-center p-1 sm:p-2">
                             <BadgeIcon 
@@ -245,12 +306,12 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         <div className="w-full flex-1 flex flex-col justify-start min-h-0">
                             <div className={cn(
                                 "font-semibold text-[10px] sm:text-sm line-clamp-1",
-                                isUnlocked ? "text-foreground" : "text-muted-foreground"
+                                isUnlocked ? "text-foreground" : "text-slate-700 dark:text-slate-300"
                             )}>
                                 {badge.name}
                             </div>
                             {/* Hide description on mobile for cleaner look */}
-                            <div className="hidden sm:block text-[10px] sm:text-xs text-muted-foreground mt-1 line-clamp-2 leading-tight">
+                            <div className="mt-1 hidden line-clamp-2 text-[10px] leading-tight text-slate-600 dark:text-slate-400 sm:block sm:text-xs">
                                 {badge.description}
                             </div>
                         </div>
@@ -318,9 +379,8 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                 <section
                     key={seriesKey}
                     className={cn(
-                        "relative rounded-[24px] border p-3 shadow-sm sm:p-4",
-                        "backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.03]",
-                        theme?.section ?? "border-border/60 bg-background/95"
+                        "relative rounded-[24px] border p-3 shadow-sm backdrop-blur-sm dark:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.72)] sm:p-4",
+                        theme?.section ?? "border-border/70 bg-background/95 dark:border-white/10 dark:bg-slate-900/95"
                     )}
                 >
                     {completed ? (
@@ -332,7 +392,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         <div className="min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
                                 <h3 className="text-sm font-semibold tracking-tight text-foreground sm:text-base">{label}</h3>
-                                <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-medium sm:text-[11px] dark:border-white/10 dark:bg-white/5 dark:text-white/70", theme?.chip ?? "border-border/70 bg-muted/70 text-muted-foreground")}>
+                                <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-medium shadow-sm sm:text-[11px]", theme?.chip ?? "border-border/70 bg-muted/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70")}>
                                     {progressText}
                                 </span>
                                 {completed ? (
@@ -342,7 +402,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                                     </span>
                                 ) : null}
                             </div>
-                            <p className="mt-1 max-w-2xl text-[11px] leading-5 text-muted-foreground sm:text-xs">
+                            <p className="mt-1 max-w-2xl text-[11px] leading-5 text-slate-600 dark:text-slate-300 sm:text-xs">
                                 {SERIES_COPY[seriesKey] ?? "这一组徽章记录了同一方向上的进展。"}
                             </p>
                         </div>

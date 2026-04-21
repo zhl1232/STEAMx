@@ -99,7 +99,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
     <div className="space-y-5">
       {hasContent && (
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight">挑战说明</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">任务说明</h2>
 
           {infoCards.length > 0 && (
             <div className="grid gap-3 md:grid-cols-2">

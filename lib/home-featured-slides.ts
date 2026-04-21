@@ -17,9 +17,9 @@ export const homeFeaturedSlides: HomeFeaturedSlide[] = [
     title: '北京春季观鸟',
     description: '从校园和公园开始，记下你的第一条观察。',
     primaryLabel: '开始第一次观察',
-    primaryHref: '/bird-observation',
+    primaryHref: '/nature/birds',
     secondaryLabel: '查看常见鸟种',
-    secondaryHref: '/explore/species',
+    secondaryHref: '/nature/species',
     theme: 'nature',
   },
   {
@@ -30,7 +30,7 @@ export const homeFeaturedSlides: HomeFeaturedSlide[] = [
     primaryLabel: '查看观察挑战',
     primaryHref: '/community?tab=challenges',
     secondaryLabel: '浏览观察记录',
-    secondaryHref: '/explore/observations',
+    secondaryHref: '/nature/observations',
     theme: 'nature',
   },
 ]

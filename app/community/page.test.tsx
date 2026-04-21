@@ -72,27 +72,27 @@ describe('CommunityPage', () => {
   it('shows the challenge error state instead of the empty state when challenge loading fails', () => {
     mockCommunityState = {
       ...mockCommunityState,
-      challengesError: '挑战赛加载失败，请稍后重试',
+      challengesError: '挑战加载失败，请稍后重试',
     }
 
     render(<CommunityPage />)
 
-    fireEvent.click(screen.getByRole('button', { name: '挑战赛' }))
+    fireEvent.click(screen.getByRole('button', { name: '挑战' }))
 
-    expect(screen.getByText('挑战赛加载失败')).toBeInTheDocument()
-    expect(screen.getByText('挑战赛加载失败，请稍后重试')).toBeInTheDocument()
-    expect(screen.queryByText('暂无挑战赛')).not.toBeInTheDocument()
+    expect(screen.getByText('挑战加载失败')).toBeInTheDocument()
+    expect(screen.getByText('挑战加载失败，请稍后重试')).toBeInTheDocument()
+    expect(screen.queryByText('暂无挑战')).not.toBeInTheDocument()
   })
 
   it('retries challenge loading from the inline error state', () => {
     mockCommunityState = {
       ...mockCommunityState,
-      challengesError: '挑战赛加载失败，请稍后重试',
+      challengesError: '挑战加载失败，请稍后重试',
     }
 
     render(<CommunityPage />)
 
-    fireEvent.click(screen.getByRole('button', { name: '挑战赛' }))
+    fireEvent.click(screen.getByRole('button', { name: '挑战' }))
     fireEvent.click(screen.getByRole('button', { name: '重试' }))
 
     expect(mockReloadChallenges).toHaveBeenCalledTimes(1)

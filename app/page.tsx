@@ -171,16 +171,16 @@ export default async function Home() {
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight md:text-3xl">自然观察，从身边开始</h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
-                  现在首页同时提供观鸟入口和观察挑战入口。你可以先去鸟类频道学习结构化观察，也可以直接进入蚂蚁等多日观察挑战。
+                  现在首页同时提供自然观察频道和观察挑战入口。你可以先进入自然观察频道查看专题、物种和记录，也可以直接进入蚂蚁等多日观察挑战。
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/bird-observation"
+                  href="/nature"
                   className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
-                  进入观鸟频道
+                  进入自然观察
                 </Link>
                 <Link
                   href="/community?tab=challenges"

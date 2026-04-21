@@ -44,7 +44,7 @@ export function MobileCommunityPage() {
                                 activeTab === "challenges" && "segmented-option-active"
                             )}
                         >
-                            挑战赛
+                            挑战
                         </button>
                         <button
                             type="button"
@@ -103,7 +103,7 @@ export function MobileCommunityPage() {
                                                     进入挑战
                                                 </Link>
                                                 <Link
-                                                    href="/explore/observations"
+                                                    href="/nature/observations"
                                                     className="inline-flex items-center rounded-full border px-3 py-1.5 text-[11px] font-medium"
                                                 >
                                                     看记录
@@ -117,7 +117,7 @@ export function MobileCommunityPage() {
 
                         {challengesError && !isLoading ? (
                             <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-8 text-center">
-                                <p className="font-semibold">挑战赛加载失败</p>
+                                <p className="font-semibold">挑战加载失败</p>
                                 <p className="mt-2 text-sm text-muted-foreground">{challengesError}</p>
                                 <Button className="mt-4" onClick={() => void reloadChallenges()}>
                                     重试
@@ -143,7 +143,7 @@ export function MobileCommunityPage() {
                                 )}
                                 {challenges.evergreen.length > 0 && (
                                     <div>
-                                        <h2 className="text-lg font-bold mb-2">学习挑战</h2>
+                                        <h2 className="text-lg font-bold mb-2">长期学习挑战</h2>
                                         <div className="grid gap-4 grid-cols-1">
                                             {challenges.evergreen.map((challenge) => (
                                                 <ChallengeCard key={challenge.id} challenge={challenge} />
@@ -163,7 +163,7 @@ export function MobileCommunityPage() {
                                 )}
                                 {!challenges.activeTimed.length && !challenges.evergreen.length && !challenges.ended.length && (
                                     <div className="text-center py-8 text-muted-foreground">
-                                        <p>暂无挑战赛</p>
+                                        <p>暂无挑战</p>
                                     </div>
                                 )}
                             </>

@@ -12,7 +12,7 @@ export interface UserStats {
     likesGiven: number;            // 给出的点赞数
     likesReceived: number;         // 收到的点赞数
     collectionsCount: number;     // 收藏数
-    challengesJoined: number;     // 参与的挑战赛数
+    challengesJoined: number;     // 参与的挑战数
     level: number;                 // 当前等级
     loginDays: number;             // 登录天数
     consecutiveDays: number;      // 连续登录天数

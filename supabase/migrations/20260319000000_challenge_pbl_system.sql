@@ -302,7 +302,7 @@ BEGIN
       -- Award coins
       INSERT INTO public.coin_logs (user_id, amount, action_type, resource_id, counterparty_display_text)
       VALUES (v_ranked.author_id, v_coins, 'challenge_prize', p_challenge_id::text,
-              '挑战赛第' || v_rank || '名奖励');
+              '挑战第' || v_rank || '名奖励');
 
       UPDATE public.profiles SET coins = coins + v_coins WHERE id = v_ranked.author_id;
     END IF;
