@@ -302,6 +302,7 @@ export interface Species {
     habitatNotes?: string | null
     seasonalityNotes?: string | null
     coverImageUrl?: string | null
+    audioUrl?: string | null
     isActive: boolean
     aliasesDisplay?: string
     recentObservations?: ObservationEvent[]
@@ -578,6 +579,7 @@ export function mapDbSpecies(dbSpecies: DbSpecies): Species {
         habitatNotes: dbSpecies.habitat_notes,
         seasonalityNotes: dbSpecies.seasonality_notes,
         coverImageUrl: dbSpecies.cover_image_url,
+        audioUrl: dbSpecies.audio_url,
         isActive: dbSpecies.is_active,
     }
 }

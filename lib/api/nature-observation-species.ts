@@ -15,6 +15,7 @@ import type {
   ObservationEventSpeciesRow,
   SpeciesRow,
 } from './nature-observation-internal-types'
+import { normalizeSpeciesRow } from './nature-observation-cover-image'
 
 export interface SpeciesListOptions {
   query?: string
@@ -53,7 +54,7 @@ export async function getSpeciesList(
 
   const rows = (data || []) as SpeciesRow[]
   return {
-    species: rows.map((row) => mapDbSpecies(row as never)),
+    species: rows.map((row) => mapDbSpecies(normalizeSpeciesRow(row) as never)),
     total: count || 0,
     hasMore: (count || 0) > to + 1,
   }
@@ -76,7 +77,7 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
 
   if (!data) return null
 
-  const baseSpecies = mapDbSpecies(data as never)
+  const baseSpecies = mapDbSpecies(normalizeSpeciesRow(data as SpeciesRow) as never)
 
   const { data: linkedRows, error: linkedError } = await supabase
     .from('observation_event_species')

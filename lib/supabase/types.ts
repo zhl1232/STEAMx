@@ -742,6 +742,7 @@ export interface Database {
           habitat_notes: string | null
           seasonality_notes: string | null
           cover_image_url: string | null
+          audio_url: string | null
           is_active: boolean
           created_at: string
           updated_at: string
@@ -757,6 +758,7 @@ export interface Database {
           habitat_notes?: string | null
           seasonality_notes?: string | null
           cover_image_url?: string | null
+          audio_url?: string | null
           is_active?: boolean
           created_at?: string
           updated_at?: string
@@ -772,6 +774,7 @@ export interface Database {
           habitat_notes?: string | null
           seasonality_notes?: string | null
           cover_image_url?: string | null
+          audio_url?: string | null
           is_active?: boolean
           created_at?: string
           updated_at?: string

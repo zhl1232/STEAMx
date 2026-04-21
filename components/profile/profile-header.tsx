@@ -26,8 +26,6 @@ interface ProfileHeaderProps {
   totalLikesReceived: number;
   followerCount: number;
   followingCount: number;
-  worksEntryHref?: string;
-  worksEntryLabel?: string;
   statLinks?: {
     works?: string;
     followers?: string;
@@ -43,8 +41,6 @@ export function ProfileHeader({
   totalLikesReceived,
   followerCount,
   followingCount,
-  worksEntryHref,
-  worksEntryLabel,
   statLinks,
 }: ProfileHeaderProps) {
   const { unlockedBadges, userBadgeDetails, coins = 0 } = useGamification();
@@ -141,12 +137,6 @@ export function ProfileHeader({
               </p>
 
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-                {worksEntryHref && worksEntryLabel ? (
-                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
-                    <Link href={worksEntryHref}>{worksEntryLabel}</Link>
-                  </Button>
-                ) : null}
-
                 <EditProfileDialog>
                   <Button variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
                     编辑资料

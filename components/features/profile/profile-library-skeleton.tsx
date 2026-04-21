@@ -26,7 +26,7 @@ function MobileProfileLibrarySkeleton() {
       </div>
 
       <div className="px-4 py-4">
-        <p className="sr-only">加载我的内容中...</p>
+        <p className="sr-only">加载内容库中...</p>
         <div className="space-y-4">
           <ProjectListSkeleton />
         </div>

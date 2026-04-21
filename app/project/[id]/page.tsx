@@ -261,8 +261,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           title={project.title}
           fallbackHref={exploreBackHref}
           className="-mx-4 -mt-8 mb-4 md:hidden"
-          backButtonClassName="left-2"
-          titleClassName="pl-6"
         />
 
         <div className="mb-5">

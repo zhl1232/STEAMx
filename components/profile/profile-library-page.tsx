@@ -372,13 +372,19 @@ export function ProfileLibraryPage() {
     <div className="page-shell hidden py-8 md:block">
       <div className="space-y-6">
         <section className="surface-panel overflow-hidden">
-          <div className="flex items-center gap-3 px-6 py-5">
+          <div className="flex items-start gap-3 px-6 py-5">
             <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl">
               <Link href="/profile" aria-label="返回个人主页">
                 <ChevronLeft className="h-5 w-5" />
               </Link>
             </Button>
-            <h1 className="text-xl font-semibold tracking-tight text-foreground">我的内容</h1>
+            <div className="min-w-0 pt-1">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/70">个人空间</p>
+              <h1 className="mt-1 text-xl font-semibold tracking-tight text-foreground">内容库</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                统一查看作品、收藏、点赞、完成记录和观察记录。
+              </p>
+            </div>
           </div>
         </section>
 
@@ -573,7 +579,7 @@ export function ProfileLibraryPage() {
       onTabChange={setMobileProfileTab}
       showProfileHeader={false}
       showSteamRadar={false}
-      pageTitle="我的内容"
+      pageTitle="内容库"
       backHref="/profile"
     />
   )

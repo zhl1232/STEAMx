@@ -22,6 +22,8 @@
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
     "prepare": "husky",
     "compress:images": "node scripts/compress-project-images.mjs",
+    "birds:fetch-media": "node scripts/fetch-bird-media-from-wikimedia.mjs",
+    "birds:sync-media-db": "node scripts/sync-bird-media-to-db.mjs",
     "db:push": "node scripts/db-push.mjs push",
     "db:status": "node scripts/db-push.mjs status",
     "db:baseline": "node scripts/db-push.mjs baseline"
@@ -90,6 +92,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^17.3.0",
+    "happy-dom": "^20.9.0",
     "husky": "^9.1.7",
     "jsdom": "^29.0.0",
     "postcss": "^8",

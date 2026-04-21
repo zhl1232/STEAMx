@@ -1,0 +1,3585 @@
+{
+  "generatedAt": "2026-04-21T09:55:57.945Z",
+  "source": "db",
+  "totalSpecies": 135,
+  "summary": {
+    "total": 135,
+    "image": {
+      "downloaded": 0,
+      "exists": 0,
+      "not_found": 0,
+      "error": 0,
+      "skipped": 135
+    },
+    "audio": {
+      "downloaded": 123,
+      "exists": 0,
+      "not_found": 12,
+      "error": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "slug": "little-grebe",
+      "commonName": "小䴙䴘",
+      "scientificName": "Tachybaptus ruficollis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/little-grebe.ogg",
+        "source": "https://xeno-canto.org/1101786/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101786-Oriental-Magpie-Robin-鹊鸲-song-凤头鹰-call-X8-CICADA-植物园-2505170553_1354----A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "great-cormorant",
+      "commonName": "普通鸬鹚",
+      "scientificName": "Phalacrocorax carbo",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/great-cormorant.ogg",
+        "source": "https://xeno-canto.org/1099018/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1099018-Great-Cormorant-普通鸬鹚-call-飞回停歇地降落-香港米埔自然教室-小锅-+JS4006单麦-250209_1058----A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "grey-heron",
+      "commonName": "苍鹭",
+      "scientificName": "Ardea cinerea",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/grey-heron.ogg",
+        "source": "https://xeno-canto.org/1099051/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Uku Paal",
+          "credit": "Estonia · xeno-canto",
+          "fileName": "XC1099051-ardcin-a-RISTNA-260412_2098.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "great-egret",
+      "commonName": "大白鹭",
+      "scientificName": "Ardea alba",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/great-egret.ogg",
+        "source": "https://xeno-canto.org/1094410/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "David Darrell-Lambert",
+          "credit": "United Arab Emirates · xeno-canto",
+          "fileName": "XC1094410-Great-White-Egret-alba-alarm-very-good-2026-01-19-Al-Zorah-Protected-Area,-Ajman,-UAE_218_edited.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "little-egret",
+      "commonName": "白鹭",
+      "scientificName": "Egretta garzetta",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/little-egret.ogg",
+        "source": "https://xeno-canto.org/1083150/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jonathan Onongo",
+          "credit": "Uganda · xeno-canto",
+          "fileName": "XC1083150-7976.-Little-Egret---Lutembe-Bay---21-FEB-2026---0934---1.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "black-crowned-night-heron",
+      "commonName": "夜鹭",
+      "scientificName": "Nycticorax nycticorax",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/black-crowned-night-heron.ogg",
+        "source": "https://xeno-canto.org/1099223/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Vandousselaere Patrick",
+          "credit": "Belgium · xeno-canto",
+          "fileName": "XC1099223-260413-231531-Kwak.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "mallard",
+      "commonName": "绿头鸭",
+      "scientificName": "Anas platyrhynchos",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/mallard.ogg",
+        "source": "https://xeno-canto.org/1101725/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Tony Rinaud",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1101725-20260326_130000_13_24_mallard_amp5.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "podiceps-cristatus",
+      "commonName": "凤头䴙䴘",
+      "scientificName": "Podiceps cristatus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/podiceps-cristatus.ogg",
+        "source": "https://xeno-canto.org/1097809/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ulf Elman",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1097809-260412_0375-1_2D-Skäggdopping.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ardeola-bacchus",
+      "commonName": "池鹭",
+      "scientificName": "Ardeola bacchus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ardeola-bacchus.ogg",
+        "source": "https://xeno-canto.org/1071098/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Chi-Hsuan Shao",
+          "credit": "Taiwan · xeno-canto",
+          "fileName": "XC1071098-20260105-0916-池鷺-edit.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ixobrychus-sinensis",
+      "commonName": "黄斑苇鳽",
+      "scientificName": "Ixobrychus sinensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ixobrychus-sinensis.ogg",
+        "source": "https://xeno-canto.org/1099302/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ding Li Yong",
+          "credit": "Singapore · xeno-canto",
+          "fileName": "XC1099302-Yellow-Bittern_Marina-Grove6.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "botaurus-stellaris",
+      "commonName": "大麻鳽",
+      "scientificName": "Botaurus stellaris",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/botaurus-stellaris.ogg",
+        "source": "https://xeno-canto.org/1100776/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Greg P",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1100776-BUTOR-18-04-26.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ciconia-nigra",
+      "commonName": "黑鹳",
+      "scientificName": "Ciconia nigra",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ciconia-nigra.ogg",
+        "source": "https://xeno-canto.org/999435/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Francesco Sottile",
+          "credit": "Italy · xeno-canto",
+          "fileName": "XC999435-Ciconia-nigra_2025_05_18_1109_alarm-call.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "cygnus-cygnus",
+      "commonName": "大天鹅",
+      "scientificName": "Cygnus cygnus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cygnus-cygnus.ogg",
+        "source": "https://xeno-canto.org/1093479/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Miika Silfverberg",
+          "credit": "Finland · xeno-canto",
+          "fileName": "XC1093479-Laulujoutsen.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "cygnus-columbianus",
+      "commonName": "小天鹅",
+      "scientificName": "Cygnus columbianus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cygnus-columbianus.ogg",
+        "source": "https://xeno-canto.org/1090812/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Flemming H. Nielsen",
+          "credit": "Denmark · xeno-canto",
+          "fileName": "XC1090812-260322_.pibesv..mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "anser-cygnoides",
+      "commonName": "鸿雁",
+      "scientificName": "Anser cygnoides",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/anser-cygnoides.ogg",
+        "source": "https://xeno-canto.org/575590/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jorge Leitão",
+          "credit": "Netherlands · xeno-canto",
+          "fileName": "XC575590-2020.07.13_10.36_01.MP3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "anser-anser",
+      "commonName": "灰雁",
+      "scientificName": "Anser anser",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/anser-anser.ogg",
+        "source": "https://xeno-canto.org/1100773/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Miika Silfverberg",
+          "credit": "Finland · xeno-canto",
+          "fileName": "XC1100773-Merihanhi.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "tadorna-ferruginea",
+      "commonName": "赤麻鸭",
+      "scientificName": "Tadorna ferruginea",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/tadorna-ferruginea.ogg",
+        "source": "https://xeno-canto.org/1098960/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1098960-Ruddy-Shelduck-赤麻鸭-call-昆明滇池草海湿地-JS4006-A10--251218_0732---B.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aix-galericulata",
+      "commonName": "鸳鸯",
+      "scientificName": "Aix galericulata",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/aix-galericulata.ogg",
+        "source": "https://xeno-canto.org/1093384/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Shuangqi Liu",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1093384-260404_0631.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "sibirionetta-formosa",
+      "commonName": "花脸鸭",
+      "scientificName": "Sibirionetta Formosa",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/sibirionetta-formosa.ogg",
+        "source": "https://xeno-canto.org/674861/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Albert Lastukhin",
+          "credit": "Russian Federation · xeno-canto",
+          "fileName": "XC674861-Sibirionetta formosa 210612-13_002,оз. Утиное,17-50--01-54,BB.MP3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "anas-poecilorhyncha",
+      "commonName": "斑嘴鸭",
+      "scientificName": "Anas poecilorhyncha",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/anas-poecilorhyncha.ogg",
+        "source": "https://xeno-canto.org/571156/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Rajgopal Patil",
+          "credit": "India · xeno-canto",
+          "fileName": "XC571156-Duck-Indian-Spot-billed-Anas-poecilorhyncha-Bhose-Dam--Chakan-20200624-025-RNP.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "netta-rufina",
+      "commonName": "赤嘴潜鸭",
+      "scientificName": "Netta rufina",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/netta-rufina.ogg",
+        "source": "https://xeno-canto.org/996808/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "David Darrell-Lambert",
+          "credit": "United Kingdom · xeno-canto",
+          "fileName": "XC996808-Red-crested-Pochard-displaying-very-good-2018-05-10-Buckingham-Palace_444_mk_003_short.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aythya-ferina",
+      "commonName": "红头潜鸭",
+      "scientificName": "Aythya ferina",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/aythya-ferina.ogg",
+        "source": "https://xeno-canto.org/994666/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "David Darrell-Lambert",
+          "credit": "United Kingdom · xeno-canto",
+          "fileName": "XC994666-Pochard-displaying-very-good-2020-04-08-Buckingham-Palace_1937_edited.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aythya-fuligula",
+      "commonName": "凤头潜鸭",
+      "scientificName": "Aythya fuligula",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/aythya-fuligula.ogg",
+        "source": "https://xeno-canto.org/1085464/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Timo Roeke",
+          "credit": "Netherlands · xeno-canto",
+          "fileName": "XC1085464-260306---kuifeend---Haaksbergerveen.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "bucephala-clangula",
+      "commonName": "鹊鸭",
+      "scientificName": "Bucephala clangula",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/bucephala-clangula.ogg",
+        "source": "https://xeno-canto.org/1084061/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "David Darrell-Lambert",
+          "credit": "United Kingdom · xeno-canto",
+          "fileName": "XC1084061-Commonn-Goldeneye-wing-beats-very-good-2026-02-28-Abberton-Reservoir,-Essex,-England_517_edited.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "mergellus-albellus",
+      "commonName": "斑头秋沙鸭",
+      "scientificName": "Mergellus albellus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/mergellus-albellus.ogg",
+        "source": "https://xeno-canto.org/618773/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jarek Matusiak",
+          "credit": "Poland · xeno-canto",
+          "fileName": "XC618773-JAREK-MATUSIAK-A-1068 (2) bielaczek f ostrzegawczy (2).mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "mergus-merganser",
+      "commonName": "普通秋沙鸭",
+      "scientificName": "Mergus merganser",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/mergus-merganser.ogg",
+        "source": "https://xeno-canto.org/658946/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lars Edenius",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC658946-Storskrake_09.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "pandion-haliaetus",
+      "commonName": "鹗",
+      "scientificName": "Pandion haliaetus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/pandion-haliaetus.ogg",
+        "source": "https://xeno-canto.org/1101240/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Don Profota",
+          "credit": "United States · xeno-canto",
+          "fileName": "XC1101240-Osprey-PB-4-19-26.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "pernis-ptilorhynchus",
+      "commonName": "凤头蜂鹰",
+      "scientificName": "Pernis ptilorhynchus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/pernis-ptilorhynchus.ogg",
+        "source": "https://xeno-canto.org/1071701/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Leons Mathew Abraham",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1071701-ohbu.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "milvus-migrans",
+      "commonName": "黑鸢",
+      "scientificName": "Milvus migrans",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/milvus-migrans.ogg",
+        "source": "https://xeno-canto.org/1099002/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1099002-Black-Kite-黑鸢-call-亚成鸟-几只抢食物-香港米埔-小锅-+JS4006单麦-250209_0826----A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "haliaeetus-albicilla",
+      "commonName": "白尾海雕",
+      "scientificName": "Haliaeetus albicilla",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/haliaeetus-albicilla.ogg",
+        "source": "https://xeno-canto.org/1086857/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Roland Arnison",
+          "credit": "United Kingdom · xeno-canto",
+          "fileName": "XC1086857-244-WT-Eagle-CLEAN.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aegypius-monachus",
+      "commonName": "秃鹫",
+      "scientificName": "Aegypius monachus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/aegypius-monachus.ogg",
+        "source": "https://xeno-canto.org/1080294/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Frank Lambert",
+          "credit": "Spain · xeno-canto",
+          "fileName": "XC1080294-Cinereous-Vulture-FL-1st-calls-feeding-station-26Apr25-12.16p-LS119836_1a.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "circus-cyaneus",
+      "commonName": "白尾鹞",
+      "scientificName": "Circus cyaneus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/circus-cyaneus.ogg",
+        "source": "https://xeno-canto.org/973843/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Robin et Julien SOURIOU",
+          "credit": "France · xeno-canto",
+          "fileName": "XC973843-Busard-saint-martin---30052022.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "accipiter-nisus",
+      "commonName": "雀鹰",
+      "scientificName": "Accipiter nisus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/accipiter-nisus.ogg",
+        "source": "https://xeno-canto.org/1071299/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Denis Dujardin",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1071299-2601061130-Epervier-d-Europe-XC.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "buteo-buteo",
+      "commonName": "普通𫛭",
+      "scientificName": "Buteo buteo",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/buteo-buteo.ogg",
+        "source": "https://xeno-canto.org/1082476/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Tiziano Beretti",
+          "credit": "Switzerland · xeno-canto",
+          "fileName": "XC1082476-Poiana_11.02.2026_17.15.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aquila-chrysaetos",
+      "commonName": "金雕",
+      "scientificName": "Aquila chrysaetos",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/aquila-chrysaetos.ogg",
+        "source": "https://xeno-canto.org/1045328/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lars Edenius",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1045328-Kungsörn_17.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "falco-tinnunculus",
+      "commonName": "红隼",
+      "scientificName": "Falco tinnunculus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/falco-tinnunculus.ogg",
+        "source": "https://xeno-canto.org/1098974/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Benoit Froelich",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1098974-Faucon-crécerelle_Tue-Apr-14-2026-00-23-21.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "falco-amurensis",
+      "commonName": "红脚隼",
+      "scientificName": "Falco amurensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/falco-amurensis.ogg",
+        "source": "https://xeno-canto.org/1001998/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ding Li Yong",
+          "credit": "Mongolia · xeno-canto",
+          "fileName": "XC1001998-Amur-Falcon_Chinggis.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "falco-subbuteo",
+      "commonName": "燕隼",
+      "scientificName": "Falco subbuteo",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/falco-subbuteo.ogg",
+        "source": "https://xeno-canto.org/960301/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Csont-Kelemen Mátyás",
+          "credit": "Romania · xeno-canto",
+          "fileName": "XC960301-Falsub-alarm-Chituc-2022.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "falco-peregrinus",
+      "commonName": "游隼",
+      "scientificName": "Falco peregrinus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/falco-peregrinus.ogg",
+        "source": "https://xeno-canto.org/1092708/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Romuald Mikusek",
+          "credit": "Poland · xeno-canto",
+          "fileName": "XC1092708-010426_013_F.pereg.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "coturnix-japonica",
+      "commonName": "鹌鹑",
+      "scientificName": "Coturnix japonica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/coturnix-japonica.ogg",
+        "source": "https://xeno-canto.org/485732/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Stanislas Wroza",
+          "credit": "Russian Federation · xeno-canto",
+          "fileName": "XC485732-2019-06-22 Selenga caille du Japon chant.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "crossoptilon-mantchuricum",
+      "commonName": "褐马鸡",
+      "scientificName": "Crossoptilon mantchuricum",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/crossoptilon-mantchuricum.ogg",
+        "source": "https://xeno-canto.org/793502/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "王自堃",
+          "credit": "China · xeno-canto",
+          "fileName": "XC793502-190601_028褐马鸡.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "phasianus-colchicus",
+      "commonName": "环颈雉",
+      "scientificName": "Phasianus colchicus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/phasianus-colchicus.ogg",
+        "source": "https://xeno-canto.org/1101151/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ulf Elman",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1101151-260409_0353-1_2D-Fasan.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "grus-grus",
+      "commonName": "灰鹤",
+      "scientificName": "Grus grus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/grus-grus.ogg",
+        "source": "https://xeno-canto.org/1094236/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jens Schöller",
+          "credit": "Germany · xeno-canto",
+          "fileName": "XC1094236-Kch_Ruf_20260406.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "gallinula-chloropus",
+      "commonName": "黑水鸡",
+      "scientificName": "Gallinula chloropus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/gallinula-chloropus.ogg",
+        "source": "https://xeno-canto.org/1101734/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Robin Gailly",
+          "credit": "Belgium · xeno-canto",
+          "fileName": "XC1101734-2026-04-20_00h49_GALPOU_fort.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "fulica-atra",
+      "commonName": "白骨顶",
+      "scientificName": "Fulica atra",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/fulica-atra.ogg",
+        "source": "https://xeno-canto.org/1101112/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "WINDELS Martin",
+          "credit": "Belgium · xeno-canto",
+          "fileName": "XC1101112-FOULQUE-MACROULE_Lutte-territoriale-ou-de-couples-5-individus-minimum_RNOP-MI-ETANG-AUX-BLANCS_20260406-19H11_P-Z-PB-P_XC.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "otis-tarda",
+      "commonName": "大鸨",
+      "scientificName": "Otis tarda",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/otis-tarda.ogg",
+        "source": "https://xeno-canto.org/922367/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Grzegorz Lorek",
+          "credit": "Hungary · xeno-canto",
+          "fileName": "XC922367-11.07.2024---12.45---Otis-tarda.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "himantopus-himantopus",
+      "commonName": "黑翅长脚鹬",
+      "scientificName": "Himantopus himantopus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/himantopus-himantopus.ogg",
+        "source": "https://xeno-canto.org/1099179/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1099179-Black-winged-Stilt-黑翅长脚鹬-call-连云港临洪河口--X8-CICADA-2508231629_1501.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "vanellus-vanellus",
+      "commonName": "凤头麦鸡",
+      "scientificName": "Vanellus vanellus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/vanellus-vanellus.ogg",
+        "source": "https://xeno-canto.org/1094240/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jens Schöller",
+          "credit": "Germany · xeno-canto",
+          "fileName": "XC1094240-Ki_Balzflug_20260406.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "charadrius-dubius",
+      "commonName": "金眶鸻",
+      "scientificName": "Charadrius dubius",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/charadrius-dubius.ogg",
+        "source": "https://xeno-canto.org/1101798/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Harald Semela",
+          "credit": "Greece · xeno-canto",
+          "fileName": "XC1101798-20260413-08-30-Charadrius-dubius-curonicus---Paralia-Kourna,-Crete.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "gallinago-gallinago",
+      "commonName": "扇尾沙锥",
+      "scientificName": "Gallinago gallinago",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/gallinago-gallinago.ogg",
+        "source": "https://xeno-canto.org/1100275/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lucien Hueber",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1100275-251202_becassine_des_marais.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "chroicocephalus-ridibundus",
+      "commonName": "红嘴鸥",
+      "scientificName": "Chroicocephalus ridibundus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/chroicocephalus-ridibundus.ogg",
+        "source": "https://xeno-canto.org/1101389/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Astrid Cervantes",
+          "credit": "Belgium · xeno-canto",
+          "fileName": "XC1101389-6)--Kokmeeuw-van-14.04-----04.15u.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "chlidonias-hybrida",
+      "commonName": "灰翅浮鸥",
+      "scientificName": "Chlidonias hybrida",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/chlidonias-hybrida.ogg",
+        "source": "https://xeno-canto.org/1074734/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Pere Josa",
+          "credit": "Spain · xeno-canto",
+          "fileName": "XC1074734-Chlhyb_11012026_Serrallo_RD_HPF3.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "streptopelia-orientalis",
+      "commonName": "山斑鸠",
+      "scientificName": "Streptopelia orientalis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/streptopelia-orientalis.ogg",
+        "source": "https://xeno-canto.org/1067601/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Hans Matheve",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1067601-Oriental-Turtle-Dove-(song,-IN,-Mandala-Lodge,-250402_001).wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "streptopelia-chinensis",
+      "commonName": "珠颈斑鸠",
+      "scientificName": "Streptopelia chinensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "cuculus-micropterus",
+      "commonName": "四声杜鹃",
+      "scientificName": "Cuculus micropterus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cuculus-micropterus.ogg",
+        "source": "https://xeno-canto.org/1101770/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101770-Indian-Cuckoo-四声杜鹃-song-X8-CICADA-世纪公园2505250447_1398---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "cuculus-canorus",
+      "commonName": "大杜鹃",
+      "scientificName": "Cuculus canorus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cuculus-canorus.ogg",
+        "source": "https://xeno-canto.org/1101766/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101766-Common-Cuckoo-大杜鹃-song-X8-CICADA-世纪公园2505250624_1408----B.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "otus-sunia",
+      "commonName": "红角鸮",
+      "scientificName": "Otus sunia",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/otus-sunia.ogg",
+        "source": "https://xeno-canto.org/1100561/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Sathyan Meppayur",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1100561-Oriental-Scops-Owl.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "bubo-bubo",
+      "commonName": "雕鸮",
+      "scientificName": "Bubo bubo",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/bubo-bubo.ogg",
+        "source": "https://xeno-canto.org/1101044/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Clement Bruneau",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1101044-ZOOM0067_CriGrandDuc.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "strix-aluco",
+      "commonName": "灰林鸮",
+      "scientificName": "Strix aluco",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/strix-aluco.ogg",
+        "source": "https://xeno-canto.org/1098991/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jack Berteau",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1098991-251027-MP-3138-23h16-maison-chouette-hulotte.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "athene-noctua",
+      "commonName": "纵纹腹小鸮",
+      "scientificName": "Athene noctua",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/athene-noctua.ogg",
+        "source": "https://xeno-canto.org/1101831/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Austrian Ornithological Centre (AOC) - Branch office Seebarn",
+          "credit": "Austria · xeno-canto",
+          "fileName": "XC1101831-Standort-18---19.03.2026----18.42---Steinkauz-Duett-und-Ruf-.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ninox-japonica",
+      "commonName": "日本鹰鸮",
+      "scientificName": "Ninox japonica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ninox-japonica.ogg",
+        "source": "https://xeno-canto.org/1040477/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lars Lachmann",
+          "credit": "Taiwan · xeno-canto",
+          "fileName": "XC1040477-recording-20250424-203502_Northern-Boobook.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "asio-otus",
+      "commonName": "长耳鸮",
+      "scientificName": "Asio otus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/asio-otus.ogg",
+        "source": "https://xeno-canto.org/1100246/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Andreas Gullberg",
+          "credit": "Norway · xeno-canto",
+          "fileName": "XC1100246-Sun-Jan-18-2026-23-08-42.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "asio-flammeus",
+      "commonName": "短耳鸮",
+      "scientificName": "Asio flammeus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/asio-flammeus.ogg",
+        "source": "https://xeno-canto.org/1078228/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Paul Kelly",
+          "credit": "Ireland · xeno-canto",
+          "fileName": "XC1078228-seowl1sttac.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "caprimulgus-indicus",
+      "commonName": "普通夜鹰",
+      "scientificName": "Caprimulgus indicus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/caprimulgus-indicus.ogg",
+        "source": "https://xeno-canto.org/404907/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "kedar dhepe",
+          "credit": "India · xeno-canto",
+          "fileName": "XC404907-Indian nightjar.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "apus-apus",
+      "commonName": "普通雨燕",
+      "scientificName": "Apus apus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/apus-apus.ogg",
+        "source": "https://xeno-canto.org/1087549/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Zsombor Károlyi",
+          "credit": "Cyprus · xeno-canto",
+          "fileName": "XC1087549-230503-01a-Commonswift-MtOlympos-Vid.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "alcedo-atthis",
+      "commonName": "普通翠鸟",
+      "scientificName": "Alcedo atthis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/alcedo-atthis.ogg",
+        "source": "https://xeno-canto.org/1094162/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Michael John O Mahony",
+          "credit": "Spain · xeno-canto",
+          "fileName": "XC1094162-kf1-31-m-730pm.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "halcyon-pileata",
+      "commonName": "蓝翡翠",
+      "scientificName": "Halcyon pileata",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/halcyon-pileata.ogg",
+        "source": "https://xeno-canto.org/1073298/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ding Li Yong",
+          "credit": "Thailand · xeno-canto",
+          "fileName": "XC1073298-Black-capped-Kingfisher_Nong-Mai-Deng.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "megaceryle-lugubris",
+      "commonName": "冠鱼狗",
+      "scientificName": "Megaceryle lugubris",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/megaceryle-lugubris.ogg",
+        "source": "https://xeno-canto.org/864418/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "王自堃",
+          "credit": "China · xeno-canto",
+          "fileName": "XC864418-240128_005_冠鱼狗.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "upupa-epops",
+      "commonName": "戴胜",
+      "scientificName": "Upupa epops",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/upupa-epops.ogg",
+        "source": "https://xeno-canto.org/1100383/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Thierry THOMAS",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1100383-2026.04.16-14h00-Huppe-cris-de-vol.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "jynx-torquilla",
+      "commonName": "蚁䴕",
+      "scientificName": "Jynx torquilla",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/jynx-torquilla.ogg",
+        "source": "https://xeno-canto.org/1101152/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Baltasar Pinheiro",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1101152-göktyta1.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "dendrocopos-canicapillus",
+      "commonName": "星头啄木鸟",
+      "scientificName": "Dendrocopos canicapillus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "dendrocopos-major",
+      "commonName": "大斑啄木鸟",
+      "scientificName": "Dendrocopos major",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/dendrocopos-major.ogg",
+        "source": "https://xeno-canto.org/1100295/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Francesco Sottile",
+          "credit": "Italy · xeno-canto",
+          "fileName": "XC1100295-Dendrocopus-major_T_0411_1904.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "picus-canus",
+      "commonName": "灰头绿啄木鸟",
+      "scientificName": "Picus canus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/picus-canus.ogg",
+        "source": "https://xeno-canto.org/1094986/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "András Schmidt",
+          "credit": "Austria · xeno-canto",
+          "fileName": "XC1094986-PICCAN020330.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "melanocorypha-mongolica",
+      "commonName": "蒙古百灵",
+      "scientificName": "Melanocorypha mongolica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "alauda-arvensis",
+      "commonName": "云雀",
+      "scientificName": "Alauda arvensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/alauda-arvensis.ogg",
+        "source": "https://xeno-canto.org/1100278/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lucien Hueber",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1100278-260204_alouette_des_champs.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "hirundo-rustica",
+      "commonName": "家燕",
+      "scientificName": "Hirundo rustica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/hirundo-rustica.ogg",
+        "source": "https://xeno-canto.org/1101752/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Jorge Leitão",
+          "credit": "Portugal · xeno-canto",
+          "fileName": "XC1101752-A260420_104204_000~1.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "cecropis-daurica",
+      "commonName": "金腰燕",
+      "scientificName": "Cecropis daurica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cecropis-daurica.ogg",
+        "source": "https://xeno-canto.org/1096381/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Kasper Wieck",
+          "credit": "Turkey · xeno-canto",
+          "fileName": "XC1096381-rostgump-sång.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "motacilla-alba",
+      "commonName": "白鹡鸰",
+      "scientificName": "Motacilla alba",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/motacilla-alba.ogg",
+        "source": "https://xeno-canto.org/1101083/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Théo Treels",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1101083-Bergeronnette-.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "anthus-hodgsoni",
+      "commonName": "树鹨",
+      "scientificName": "Anthus hodgsoni",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/anthus-hodgsoni.ogg",
+        "source": "https://xeno-canto.org/1094811/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Paul Coiffard",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1094811-Pipit-à-dos-olive-A-flight-call,-not-seen-20260406_1003-Pointe-de-Grave.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "anthus-spinoletta",
+      "commonName": "水鹨",
+      "scientificName": "Anthus spinoletta",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/anthus-spinoletta.ogg",
+        "source": "https://xeno-canto.org/1101693/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Tony Rinaud",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1101693-20260325_170000_18_31_water_pipit_amp5.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "pycnonotus-sinensis",
+      "commonName": "白头鹎",
+      "scientificName": "Pycnonotus sinensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/pycnonotus-sinensis.ogg",
+        "source": "https://xeno-canto.org/1101792/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101792-Light-vented-Bulbul-白头鹎-song-斑鸫-白腹鸫-戴胜-黄喉鹀-call声景-R07-primo-272-滨江森林公园-20251206_091926.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "bombycilla-garrulus",
+      "commonName": "太平鸟",
+      "scientificName": "Bombycilla garrulus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/bombycilla-garrulus.ogg",
+        "source": "https://xeno-canto.org/1051902/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ulf Elman",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1051902-251102_0072-1_2B-Sidensvans-domherre.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "bombycilla-japonica",
+      "commonName": "小太平鸟",
+      "scientificName": "Bombycilla japonica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/bombycilla-japonica.ogg",
+        "source": "https://xeno-canto.org/839061/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC839061-Japanese-Waxwing小太平鸟-call-2004251036-海湾森林公园SHADOW_1541S12.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "lanius-cristatus",
+      "commonName": "红尾伯劳",
+      "scientificName": "Lanius cristatus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/lanius-cristatus.ogg",
+        "source": "https://xeno-canto.org/1043058/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "artist": "Ujjal Kishor De",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1043058-2025-09-24,-Brown-Shrike,-ACK.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "lanius-sphenocercus",
+      "commonName": "楔尾伯劳",
+      "scientificName": "Lanius sphenocercus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/lanius-sphenocercus.ogg",
+        "source": "https://xeno-canto.org/267592/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Albert Lastukhin",
+          "credit": "Russian Federation · xeno-canto",
+          "fileName": "XC267592-Lanius sphenocercus 150513_001,AAAA3+.MP3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "oriolus-chinensis",
+      "commonName": "黑枕黄鹂",
+      "scientificName": "Oriolus chinensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "dicrurus-macrocercus",
+      "commonName": "黑卷尾",
+      "scientificName": "Dicrurus macrocercus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/dicrurus-macrocercus.ogg",
+        "source": "https://xeno-canto.org/1088310/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ding Li Yong",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1088310-Black-Drongo_Sultanpur1.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "acridotheres-cristatellus",
+      "commonName": "八哥",
+      "scientificName": "Acridotheres cristatellus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/acridotheres-cristatellus.ogg",
+        "source": "https://xeno-canto.org/1098649/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1098649-Crested-Myna-八哥-song-泉州滨海公园-primo164-A10-250802_0552---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "sturnus-cineraceus",
+      "commonName": "灰椋鸟",
+      "scientificName": "Sturnus cineraceus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "cyanopica-cyanus",
+      "commonName": "灰喜鹊",
+      "scientificName": "Cyanopica cyanus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cyanopica-cyanus.ogg",
+        "source": "https://xeno-canto.org/1101780/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101780-Azure-winged-Magpie-灰喜鹊-call-小群-X8-CICADA-植物园-2505170619_1361---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "urocissa-erythrorhyncha",
+      "commonName": "红嘴蓝鹊",
+      "scientificName": "Urocissa erythrorhyncha",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "pica-pica",
+      "commonName": "喜鹊",
+      "scientificName": "Pica pica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/pica-pica.ogg",
+        "source": "https://xeno-canto.org/1100082/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Thierry THOMAS",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1100082-2026.04.15-08h17-Pie.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "corvus-dauuricus",
+      "commonName": "达乌里寒鸦",
+      "scientificName": "Corvus dauuricus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "corvus-corone",
+      "commonName": "小嘴乌鸦",
+      "scientificName": "Corvus corone",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/corvus-corone.ogg",
+        "source": "https://xeno-canto.org/1089434/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Vandousselaere Patrick",
+          "credit": "Belgium · xeno-canto",
+          "fileName": "XC1089434-260318-025021-Kleine-zilverreiger.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "corvus-macrorhynchos",
+      "commonName": "大嘴乌鸦",
+      "scientificName": "Corvus macrorhynchos",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/corvus-macrorhynchos.ogg",
+        "source": "https://xeno-canto.org/1084683/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Lucas CHEN",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1084683-大嘴乌鸦.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "cinclus-pallasii",
+      "commonName": "褐河乌",
+      "scientificName": "Cinclus pallasii",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/cinclus-pallasii.ogg",
+        "source": "https://xeno-canto.org/1048566/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1048566-褐河乌-call-四川青川清溪镇-锦江宾馆--A10-primo-164--250925_0650--A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "troglodytes-troglodytes",
+      "commonName": "鹪鹩",
+      "scientificName": "Troglodytes troglodytes",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/troglodytes-troglodytes.ogg",
+        "source": "https://xeno-canto.org/1101632/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Elias A. Ryberg",
+          "credit": "Norway · xeno-canto",
+          "fileName": "XC1101632-Gjerdesmertt-XC-2--Helgøya-Elias-A.Ryberg20260420142435_009.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "calliope-calliope",
+      "commonName": "红喉歌鸲",
+      "scientificName": "Calliope calliope",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/calliope-calliope.ogg",
+        "source": "https://xeno-canto.org/1098963/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1098963-Siberian-Rubythroat-红点颏-song-昆明滇池草海湿地-JS4006-A10--251218_0722---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "luscinia-svecica",
+      "commonName": "蓝喉歌鸲",
+      "scientificName": "Luscinia svecica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/luscinia-svecica.ogg",
+        "source": "https://xeno-canto.org/1100555/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Sathyan Meppayur",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1100555-Bluethroat.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "larvivora-cyane",
+      "commonName": "蓝歌鸲",
+      "scientificName": "Larvivora cyane",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/larvivora-cyane.ogg",
+        "source": "https://xeno-canto.org/1067682/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Arend Wassink",
+          "credit": "Thailand · xeno-canto",
+          "fileName": "XC1067682-Siberian-Blue-Robin-Larvivora-cyane-5-females-calls-Lung-Sin-waterhole-Petchaburi-province-Thailand-23-November-2025.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "tarsiger-cyanurus",
+      "commonName": "红胁蓝尾鸲",
+      "scientificName": "Tarsiger cyanurus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/tarsiger-cyanurus.ogg",
+        "source": "https://xeno-canto.org/1080279/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Albert Lastukhin &amp; I. Fedorov",
+          "credit": "Russian Federation · xeno-canto",
+          "fileName": "XC1080279-Tarsiger-cyanurus-DVRA0007,-22.06.2022,-Мома,AAB.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "phoenicurus-auroreus",
+      "commonName": "北红尾鸲",
+      "scientificName": "Phoenicurus auroreus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/phoenicurus-auroreus.ogg",
+        "source": "https://xeno-canto.org/1098730/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1098730-Daurian-Redstart-北红尾鸲-song-JS4006-A10-昆明树木园-251219_0947---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "rhyacornis-fuliginosus",
+      "commonName": "红尾水鸲",
+      "scientificName": "Rhyacornis fuliginosus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "saxicola-torquata",
+      "commonName": "黑喉石䳭",
+      "scientificName": "Saxicola torquata",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "zoothera-dauma",
+      "commonName": "虎斑地鸫",
+      "scientificName": "Zoothera dauma",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/zoothera-dauma.ogg",
+        "source": "https://xeno-canto.org/489637/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Andrew Spencer",
+          "credit": "India · xeno-canto",
+          "fileName": "XC489637-Scaly Thrush2019-4-21-1.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "turdus-merula",
+      "commonName": "乌鸫",
+      "scientificName": "Turdus merula",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/turdus-merula.ogg",
+        "source": "https://xeno-canto.org/1101705/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Elias A. Ryberg",
+          "credit": "Norway · xeno-canto",
+          "fileName": "XC1101705-Svarttrost-XC--Langodden-Ringsaker-Elias-A.Ryberg20260420103903_003.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "turdus-ruficollis",
+      "commonName": "赤颈鸫",
+      "scientificName": "Turdus ruficollis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/turdus-ruficollis.ogg",
+        "source": "https://xeno-canto.org/1065979/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Hans Matheve",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1065979-Red-throated-Thrush-(call,-IN,-Mishmi-Monal-Point,-250324_048).wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "turdus-naumanni",
+      "commonName": "红尾鸫",
+      "scientificName": "Turdus naumanni",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/turdus-naumanni.ogg",
+        "source": "https://xeno-canto.org/1010630/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "artist": "Jochem Verweij",
+          "credit": "Mongolia · xeno-canto",
+          "fileName": "XC1010630-240928_0542.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "turdus-eunomus",
+      "commonName": "斑鸫",
+      "scientificName": "Turdus eunomus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/turdus-eunomus.ogg",
+        "source": "https://xeno-canto.org/1101795/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101795-Dusky-Thrush-斑鸫-戴胜-乌鸫-白头鹎-call-X8-CICADA-滨江森林公园-2512060728_1721--B.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "muscicapa-griseisticta",
+      "commonName": "灰纹鹟",
+      "scientificName": "Muscicapa griseisticta",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/muscicapa-griseisticta.ogg",
+        "source": "https://xeno-canto.org/1000556/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Ray Tsu 诸仁",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1000556-20250522-0156-上海田林-灰纹鹟？-0059-m10c.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "muscapa-sibirica",
+      "commonName": "乌鹟",
+      "scientificName": "Muscicapa sibirica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/muscapa-sibirica.ogg",
+        "source": "https://xeno-canto.org/1067614/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Hans Matheve",
+          "credit": "India · xeno-canto",
+          "fileName": "XC1067614-Dark-sided-Flycatcher-(song,-IN,-Eaglenest,-Singchung-Bugun,-250403_012).wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ficedula-zanthopygia",
+      "commonName": "白眉姬鹟",
+      "scientificName": "Ficedula zanthopygia",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ficedula-zanthopygia.ogg",
+        "source": "https://xeno-canto.org/1076998/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Étienne Leroy",
+          "credit": "Singapore · xeno-canto",
+          "fileName": "XC1076998-251114-Gobe-mouche-à-croupion-jaune@Singapour.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "ficedula-albicilla",
+      "commonName": "红喉姬鹟",
+      "scientificName": "Ficedula albicilla",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/ficedula-albicilla.ogg",
+        "source": "https://xeno-canto.org/1045297/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Penghui Lou",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1045297-红喉姬鹟-wc-10.4.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "terpsiphone-incei",
+      "commonName": "寿带",
+      "scientificName": "Terpsiphone incei",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/terpsiphone-incei.ogg",
+        "source": "https://xeno-canto.org/1023162/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Ray Tsu 诸仁",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1023162-20250726-0753-海湾森林-寿带雏鸟-0656-hisound-dr100m3.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "garrulax-davidi",
+      "commonName": "山噪鹛",
+      "scientificName": "Garrulax davidi",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "sinosuthora-webbiana",
+      "commonName": "棕头鸦雀",
+      "scientificName": "Sinosuthora webbiana",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/sinosuthora-webbiana.ogg",
+        "source": "https://xeno-canto.org/1070113/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "JJSUN",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1070113-棕头鸦雀.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "rhopophilus-pekinensis",
+      "commonName": "山鹛",
+      "scientificName": "Rhopophilus pekinensis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/rhopophilus-pekinensis.ogg",
+        "source": "https://xeno-canto.org/824053/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC824053-Dusky-Warbler-褐柳莺-song-山鹛-song-2308020626-多伦-SHADOW_3752S12.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "acrocephalus-orientalis",
+      "commonName": "东方大苇莺",
+      "scientificName": "Acrocephalus orientalis",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/acrocephalus-orientalis.ogg",
+        "source": "https://xeno-canto.org/1100682/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ding Li Yong",
+          "credit": "Singapore · xeno-canto",
+          "fileName": "XC1100682-Oriental-Reed-Warbler_Marina-Grove10.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "phylloscopus-inornatus",
+      "commonName": "黄眉柳莺",
+      "scientificName": "Phylloscopus inornatus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/phylloscopus-inornatus.ogg",
+        "source": "https://xeno-canto.org/1101495/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101495-Yellow-browed-Warbler-黄眉柳莺-call-声景-九龙山-241007_0830---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "regulus-regulus",
+      "commonName": "戴菊",
+      "scientificName": "Regulus regulus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/regulus-regulus.ogg",
+        "source": "https://xeno-canto.org/1101796/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Bo Shunqi 薄顺奇",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1101796-Goldcrest-戴菊-call-X8-CICADA-滨江森林公园-2512061053_1728---A.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "zosterops-erythropleurus",
+      "commonName": "红胁绣眼鸟",
+      "scientificName": "Zosterops erythropleurus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/zosterops-erythropleurus.ogg",
+        "source": "https://xeno-canto.org/963372/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "David Darrell-Lambert",
+          "credit": "Thailand · xeno-canto",
+          "fileName": "XC963372-Chestnut-sided-White-eye-call-very-good-2025-01-17-Teochew-Cemetery,-Bangkok,-Thailand_003_edited.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "aegithalos-caudatus",
+      "commonName": "银喉长尾山雀",
+      "scientificName": "Audatus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "poecile-palustris",
+      "commonName": "沼泽山雀",
+      "scientificName": "Poecile palustris",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/poecile-palustris.ogg",
+        "source": "https://xeno-canto.org/1101821/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Paweł Głogowski",
+          "credit": "Poland · xeno-canto",
+          "fileName": "XC1101821-sikorauboga-call1-20dB-20260401-153001-(mp3cut.net).mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "pardaliparus-venustulus",
+      "commonName": "黄腹山雀",
+      "scientificName": "Pardaliparus venustulus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/pardaliparus-venustulus.ogg",
+        "source": "https://xeno-canto.org/1083216/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Shuangqi Liu",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1083216-260222_0943.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "parus-major",
+      "commonName": "大山雀",
+      "scientificName": "Parus major",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/parus-major.ogg",
+        "source": "https://xeno-canto.org/1101755/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "João Ferreira Tomás",
+          "credit": "Spain · xeno-canto",
+          "fileName": "XC1101755-Parus-major_song-male_Vadelosa-sur_180426_0711.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "sitta-villosa",
+      "commonName": "黑头䴓",
+      "scientificName": "Sitta villosa",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/sitta-villosa.ogg",
+        "source": "https://xeno-canto.org/1054254/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Geoff Carey",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1054254-Sitta-villosa-bangsi-md052-39.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "certhiaiaris",
+      "commonName": "欧亚旋木雀",
+      "scientificName": "Certhia familiaris",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/certhiaiaris.ogg",
+        "source": "https://xeno-canto.org/1101058/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+          "artist": "Ulf Elman",
+          "credit": "Sweden · xeno-canto",
+          "fileName": "XC1101058-260418_0418-1_2B-Trädkrypare.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "passer-montanus",
+      "commonName": "麻雀",
+      "scientificName": "Passer montanus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/passer-montanus.ogg",
+        "source": "https://xeno-canto.org/1094306/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Hannu Varkki",
+          "credit": "Finland · xeno-canto",
+          "fileName": "XC1094306-PASMON-2024-07-03-09-32-PAI-s,fc-A.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "fringilla-montifringilla",
+      "commonName": "燕雀",
+      "scientificName": "Fringilla montifringilla",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/fringilla-montifringilla.ogg",
+        "source": "https://xeno-canto.org/1097532/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "András Schmidt",
+          "credit": "Hungary · xeno-canto",
+          "fileName": "XC1097532-FRIMON020406b.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "chloris-sinica",
+      "commonName": "金翅雀",
+      "scientificName": "Chloris sinica",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/chloris-sinica.ogg",
+        "source": "https://xeno-canto.org/1087885/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Ray Tsu 诸仁",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1087885-20260312-1754-松江百花港-金翅雀call-1-hisound-dr100m3.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "spinus-spinus",
+      "commonName": "黄雀",
+      "scientificName": "Spinus spinus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/spinus-spinus.ogg",
+        "source": "https://xeno-canto.org/1099137/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Uku Paal",
+          "credit": "Estonia · xeno-canto",
+          "fileName": "XC1099137-SPISPI-RISTNA-260410_2093.mp3"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "eophona-migratoria",
+      "commonName": "黑尾蜡嘴雀",
+      "scientificName": "Eophona migratoria",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "not_found",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      }
+    },
+    {
+      "slug": "emberiza-pusilla",
+      "commonName": "小鹀",
+      "scientificName": "Emberiza pusilla",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/emberiza-pusilla.ogg",
+        "source": "https://xeno-canto.org/1094810/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Paul Coiffard",
+          "credit": "France · xeno-canto",
+          "fileName": "XC1094810-Bruant-nain-A-flight-call-w-spotters-in-bg-20260406_1056-Pointe-de-Grave.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "phylloscopus-proregulus",
+      "commonName": "黄腰柳莺",
+      "scientificName": "Phylloscopus proregulus",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/phylloscopus-proregulus.ogg",
+        "source": "https://xeno-canto.org/1096320/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Sergi Carreras",
+          "credit": "Spain · xeno-canto",
+          "fileName": "XC1096320-Mosquiter-reietó-2.wav"
+        },
+        "error": null
+      }
+    },
+    {
+      "slug": "emberiza-elegans",
+      "commonName": "黄喉鹀",
+      "scientificName": "Emberiza elegans",
+      "wikidataQid": null,
+      "image": {
+        "status": "skipped",
+        "file": null,
+        "source": null,
+        "meta": null,
+        "error": null
+      },
+      "audio": {
+        "status": "downloaded",
+        "file": "public/birds/audio/emberiza-elegans.ogg",
+        "source": "https://xeno-canto.org/1089214/download",
+        "meta": {
+          "mime": "audio/ogg",
+          "license": "CC BY-NC-SA",
+          "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "artist": "Ray Tsu 诸仁",
+          "credit": "China · xeno-canto",
+          "fileName": "XC1089214-20260311-0719-松江百花港-黄喉鹀callsong-0631-m10j_R.wav"
+        },
+        "error": null
+      }
+    }
+  ]
+}

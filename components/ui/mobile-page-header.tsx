@@ -52,34 +52,39 @@ export function MobilePageHeader({
     >
       <div
         className={cn(
-          'relative min-h-12 px-4 py-1',
+          'min-h-12 pl-2.5 pr-4 py-1',
           contentClassName,
         )}
       >
-        <button
-          type="button"
-          onClick={handleBack}
-          aria-label={backLabel}
+        <div
           className={cn(
-            "absolute -left-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-            backButtonClassName,
+            'grid min-h-10 items-center gap-2',
+            rightSlot ? 'grid-cols-[auto_minmax(0,1fr)_auto]' : 'grid-cols-[auto_minmax(0,1fr)]',
           )}
         >
-          <ChevronLeft className="h-5 w-5" />
-          <span className="sr-only">{backLabel}</span>
-        </button>
+          <button
+            type="button"
+            onClick={handleBack}
+            aria-label={backLabel}
+            className={cn(
+              'inline-flex h-9 w-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+              backButtonClassName,
+            )}
+          >
+            <ChevronLeft className="h-5 w-5" />
+            <span className="sr-only">{backLabel}</span>
+          </button>
 
-        <div className={cn('flex min-h-10 items-center', rightSlot ? 'pr-11' : '')}>
-          <div className={cn('min-w-0 flex-1 truncate pl-2 text-left text-base font-semibold tracking-tight', titleClassName)}>
+          <div className={cn('min-w-0 truncate text-left text-base font-semibold tracking-tight', titleClassName)}>
             {title}
           </div>
-        </div>
 
-        {rightSlot ? (
-          <div className="absolute right-4 top-1/2 flex h-9 -translate-y-1/2 items-center justify-end">
-            {rightSlot}
-          </div>
-        ) : null}
+          {rightSlot ? (
+            <div className="flex h-9 items-center justify-end">
+              {rightSlot}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   )

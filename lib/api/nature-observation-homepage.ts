@@ -12,6 +12,7 @@ import type {
   ObservationEventRow,
   SpeciesRow,
 } from './nature-observation-internal-types'
+import { normalizeSpeciesRow } from './nature-observation-cover-image'
 import { loadObservationSpeciesForEvents } from './nature-observation-events'
 
 export interface BirdHomepageData {
@@ -53,7 +54,7 @@ export async function getBirdObservationFeaturedSpecies(limit = 8): Promise<Spec
     return []
   }
 
-  return ((data || []) as SpeciesRow[]).map((row) => mapDbSpecies(row as never))
+  return ((data || []) as SpeciesRow[]).map((row) => mapDbSpecies(normalizeSpeciesRow(row) as never))
 }
 
 export async function getBirdObservationRecentObservations(limit = 6): Promise<ObservationEvent[]> {

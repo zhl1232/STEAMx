@@ -138,8 +138,6 @@ export default function ConversationPage() {
           title={displayName}
           fallbackHref="/messages"
           className="-mx-4 -mt-6 mb-4 md:hidden"
-          backButtonClassName="left-2"
-          titleClassName="pl-6"
           rightSlot={
             <Avatar className="h-9 w-9">
               <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />

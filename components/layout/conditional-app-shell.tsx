@@ -48,7 +48,9 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const isAuthPage = pathname === '/login'
   const isHomePage = pathname === '/'
   const isProfilePage = pathname.startsWith('/profile')
+  const hideGlobalHeader = pathname.startsWith('/share')
   const hideMobileGlobalHeader =
+    hideGlobalHeader ||
     pathname.startsWith('/profile') ||
     pathname === '/community' ||
     pathname === '/messages' ||
@@ -98,6 +100,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
       >
         <header className={cn(
           "sticky top-0 z-50 w-full border-b border-border/70 bg-background/88 shadow-[0_10px_36px_-26px_rgba(15,23,42,0.32)] backdrop-blur-xl transition-colors duration-300 pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-background/78",
+          hideGlobalHeader && "hidden",
           !showMobileGlobalHeader && "hidden md:block",
           isProfilePage
             ? "md:border-white/10 md:bg-background/66"

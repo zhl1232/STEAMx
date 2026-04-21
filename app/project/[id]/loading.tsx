@@ -12,8 +12,6 @@ export default function Loading() {
           title="项目详情"
           fallbackHref="/explore"
           className="-mx-4 -mt-8 mb-4 md:hidden"
-          backButtonClassName="left-2"
-          titleClassName="pl-6"
         />
 
         <div className="mb-5">

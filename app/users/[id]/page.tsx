@@ -238,8 +238,6 @@ export default function PublicProfilePage() {
           title={userName}
           fallbackHref="/community"
           className="-mx-4 mb-4"
-          backButtonClassName="left-2"
-          titleClassName="pl-6"
         />
       </div>
 

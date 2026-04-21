@@ -63,8 +63,6 @@ export default function PrivacyPage() {
         title="隐私政策"
         fallbackHref="/settings/about"
         className="-mx-4 -mt-6 mb-4 md:hidden"
-        backButtonClassName="left-2"
-        titleClassName="pl-6"
       />
 
       <div className="mx-auto max-w-3xl">

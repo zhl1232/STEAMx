@@ -188,7 +188,7 @@ export default function ProfilePage() {
                         <Link href="/share">发布项目</Link>
                       </Button>
                       <Button asChild variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
-                        <Link href="/profile/library">我的内容</Link>
+                        <Link href="/profile/library">内容库</Link>
                       </Button>
                       <EditProfileDialog>
                         <Button variant="outline" className="h-11 rounded-2xl px-5 text-sm font-semibold">
@@ -302,8 +302,6 @@ export default function ProfilePage() {
           totalLikesReceived={totalLikesReceived}
           followerCount={followerCount}
           followingCount={followingCount}
-          worksEntryHref="/profile/library"
-          worksEntryLabel="我的内容"
           statLinks={{
             works: '/profile/library',
             followers: '/profile/followers',
@@ -320,7 +318,7 @@ export default function ProfilePage() {
               <Link href="/share">发布项目</Link>
             </Button>
             <Button asChild variant="outline" className="h-11 rounded-2xl text-sm font-semibold">
-              <Link href="/profile/library">我的内容</Link>
+              <Link href="/profile/library">内容库</Link>
             </Button>
           </div>
         </section>
