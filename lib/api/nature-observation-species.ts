@@ -28,16 +28,13 @@ export async function getSpeciesList(
 ): Promise<{ species: Species[]; total: number; hasMore: boolean }> {
   const supabase = await createClient()
   const { query, page = 0, pageSize = 12 } = options
-  const from = page * pageSize
-  const to = from + pageSize - 1
   const sanitizedQuery = sanitizeSearch(query ?? '')
 
   let request = supabase
     .from('species')
-    .select('*', { count: 'exact' })
+    .select('*')
     .eq('is_active', true)
     .order('common_name', { ascending: true })
-    .range(from, to)
 
   if (sanitizedQuery) {
     request = request.or(
@@ -45,7 +42,7 @@ export async function getSpeciesList(
     )
   }
 
-  const { data, error, count } = await request
+  const { data, error } = await request
 
   if (error) {
     logger.error('Error fetching species list', { error })
@@ -53,11 +50,83 @@ export async function getSpeciesList(
   }
 
   const rows = (data || []) as SpeciesRow[]
-  return {
-    species: rows.map((row) => mapDbSpecies(normalizeSpeciesRow(row) as never)),
-    total: count || 0,
-    hasMore: (count || 0) > to + 1,
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  let observedSpeciesIds = new Set<number>()
+  if (user?.id) {
+    const { data: eventRows, error: eventError } = await supabase
+      .from('observation_events')
+      .select('id')
+      .eq('user_id', user.id)
+
+    if (eventError) {
+      logger.error('Error fetching user observation events for species list', { error: eventError, userId: user.id })
+    } else {
+      const eventIds = ((eventRows || []) as Array<{ id: number }>).map((row) => row.id)
+
+      if (eventIds.length > 0) {
+        const { data: linkedRows, error: linkedError } = await supabase
+          .from('observation_event_species')
+          .select('species_id')
+          .in('observation_event_id', eventIds)
+
+        if (linkedError) {
+          logger.error('Error fetching user observed species for species list', { error: linkedError, userId: user.id })
+        } else {
+          observedSpeciesIds = new Set<number>(
+            ((linkedRows || []) as Array<{ species_id: number | null }>)
+              .map((row) => row.species_id)
+              .filter((speciesId): speciesId is number => typeof speciesId === 'number'),
+          )
+        }
+      }
+    }
   }
+
+  const sortedRows = [...rows].sort((left, right) => {
+    const leftObserved = observedSpeciesIds.has(left.id)
+    const rightObserved = observedSpeciesIds.has(right.id)
+    if (leftObserved !== rightObserved) {
+      return leftObserved ? 1 : -1
+    }
+    return left.common_name.localeCompare(right.common_name, 'zh-CN')
+  })
+
+  const total = sortedRows.length
+  const from = page * pageSize
+  const to = from + pageSize
+  const pagedRows = sortedRows.slice(from, to)
+
+  return {
+    species: pagedRows.map((row) => ({
+      ...mapDbSpecies(normalizeSpeciesRow(row) as never),
+      observedByCurrentUser: observedSpeciesIds.has(row.id),
+    })),
+    total,
+    hasMore: total > to,
+  }
+}
+
+export async function getSpeciesById(id: number): Promise<Species | null> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('species')
+    .select('*')
+    .eq('id', id)
+    .eq('is_active', true)
+    .maybeSingle()
+
+  if (error) {
+    logger.error('Error fetching species by id', { error, id })
+    return null
+  }
+
+  if (!data) return null
+
+  return mapDbSpecies(normalizeSpeciesRow(data as SpeciesRow) as never)
 }
 
 export async function getSpeciesBySlug(slug: string): Promise<Species | null> {

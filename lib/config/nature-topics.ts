@@ -1,0 +1,47 @@
+export type NatureTopicStatus = 'available' | 'upcoming'
+
+export interface NatureTopicConfig {
+  id: string
+  slug: string
+  title: string
+  subtitle: string
+  description: string
+  status: NatureTopicStatus
+  href?: string
+}
+
+export const natureTopics: NatureTopicConfig[] = [
+  {
+    id: 'birds',
+    slug: 'birds',
+    title: '鸟类观察',
+    subtitle: '已上线专题',
+    description: '从校园、公园和社区出发，记录常见鸟类的出现时间、地点与行为。',
+    status: 'available',
+    href: '/nature/birds',
+  },
+  {
+    id: 'insects',
+    slug: 'insects',
+    title: '昆虫观察',
+    subtitle: '专题预告',
+    description: '围绕常见昆虫建立观察清单，覆盖季节变化与栖息环境。',
+    status: 'upcoming',
+  },
+  {
+    id: 'plants',
+    slug: 'plants',
+    title: '植物观察',
+    subtitle: '专题预告',
+    description: '聚焦本地植物识别和生长周期，形成可追踪的物候记录。',
+    status: 'upcoming',
+  },
+  {
+    id: 'fungi',
+    slug: 'fungi',
+    title: '真菌观察',
+    subtitle: '专题预告',
+    description: '记录雨后和潮湿环境中的真菌线索，逐步补全本地真菌档案。',
+    status: 'upcoming',
+  },
+]

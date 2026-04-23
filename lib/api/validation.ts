@@ -224,6 +224,27 @@ export function isOwnedCommentImageUrl(imageUrl: string, userId: string): boolea
   }
 }
 
+export function isOwnedProjectImageUrl(imageUrl: string, userId: string, pathPrefix?: string): boolean {
+  let pathname = imageUrl
+  if (!imageUrl.startsWith('/')) {
+    try {
+      pathname = new URL(imageUrl).pathname
+    } catch {
+      return false
+    }
+  }
+
+  const prefix = '/storage/v1/object/public/project-images/'
+  if (!pathname.startsWith(prefix)) {
+    return false
+  }
+
+  const relativePath = pathname.slice(prefix.length)
+  const expectedPrefix = pathPrefix ? `${pathPrefix}/${userId}/` : `${userId}/`
+
+  return relativePath.startsWith(expectedPrefix)
+}
+
 /**
  * 清理和限制搜索字符串
  * @param search 搜索字符串

@@ -4,7 +4,7 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateEnum, validateNumber, validateOptionalString } from '@/lib/api/validation'
 
-const CONTENT_TYPES = ['project', 'discussion', 'discussion_reply', 'comment', 'message', 'completion_comment'] as const
+const CONTENT_TYPES = ['project', 'discussion', 'discussion_reply', 'comment', 'message', 'completion_comment', 'observation'] as const
 const REASONS = ['spam', 'harassment', 'inappropriate', 'illegal', 'other'] as const
 
 export async function POST(request: NextRequest) {

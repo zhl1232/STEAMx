@@ -1,78 +1,135 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Feather, MapPin, Sprout } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
-import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
+import { ObservationPhotoFrame } from "@/components/features/bird-observation/observation-photo-frame";
+import { TopicHotspotPanel } from "@/components/features/bird-observation/topic-hotspot-panel";
+import { getBirdObservationFeaturedSpecies, getBirdObservationRecentObservations } from "@/lib/api/nature-observation-data";
+import type { ObservationEvent, ObservationLocationSummary } from "@/lib/mappers/types";
+
+const FEATURED_SPECIES_LIMIT = 6;
+const HOTSPOT_SAMPLE_LIMIT = 30;
+const HOTSPOT_DISPLAY_LIMIT = 6;
+const OBSERVATION_DISPLAY_LIMIT = 12;
+
+function buildTopicHotspots(observations: ObservationEvent[]): ObservationLocationSummary[] {
+  const grouped = new Map<string, ObservationLocationSummary>();
+
+  for (const observation of observations) {
+    const locationName = observation.locationName?.trim() || "未命名地点";
+    const existing = grouped.get(locationName);
+
+    if (!existing) {
+      grouped.set(locationName, {
+        locationName,
+        observationCount: 1,
+        latestObservedAt: observation.observedAt,
+        latitude: observation.latitude ?? null,
+        longitude: observation.longitude ?? null,
+      });
+      continue;
+    }
+
+    grouped.set(locationName, {
+      ...existing,
+      observationCount: existing.observationCount + 1,
+      latestObservedAt:
+        new Date(observation.observedAt).getTime() > new Date(existing.latestObservedAt).getTime()
+          ? observation.observedAt
+          : existing.latestObservedAt,
+      latitude: existing.latitude ?? observation.latitude ?? null,
+      longitude: existing.longitude ?? observation.longitude ?? null,
+    });
+  }
+
+  return Array.from(grouped.values())
+    .sort((left, right) => {
+      if (right.observationCount !== left.observationCount) {
+        return right.observationCount - left.observationCount;
+      }
+      return new Date(right.latestObservedAt).getTime() - new Date(left.latestObservedAt).getTime();
+    })
+    .slice(0, HOTSPOT_DISPLAY_LIMIT);
+}
 
 export default async function NatureBirdsPage() {
-  const homepage = await getBirdObservationHomepageData();
-  const spotlightSpecies = homepage.featuredSpecies.slice(0, 6);
-  const firstSpecies = homepage.featuredSpecies[0] ?? null;
+  const [spotlightSpecies, recentObservations] = await Promise.all([
+    getBirdObservationFeaturedSpecies(FEATURED_SPECIES_LIMIT),
+    getBirdObservationRecentObservations(HOTSPOT_SAMPLE_LIMIT),
+  ]);
+
+  const firstSpecies = spotlightSpecies[0] ?? null;
   const submitHref = firstSpecies
     ? `/nature/submit?topic=birds&species=${firstSpecies.id}`
     : "/nature/submit?topic=birds";
+  const displayObservations = recentObservations.slice(0, OBSERVATION_DISPLAY_LIMIT);
+  const hotspots = buildTopicHotspots(recentObservations);
 
   return (
     <NatureShell
       title="鸟类"
       description="从能反复到达的校园、公园和社区开始，记录时间、地点、物种与行为，把鸟类观察作为自然观察频道里的第一个专题。"
       fallbackHref="/nature"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">观察提示</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">先从稳定地点开始</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              同一个地点反复记录，更容易看出季节变化、常见物种和活动模式。
-            </p>
-            <div className="mt-5 grid gap-3">
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                先拍一张能核对物种的照片，再补地点和备注。
-              </div>
-              <div className="surface-subtle px-4 py-3 text-sm leading-6 text-foreground/90">
-                记录越简洁越好，先完成一条，再逐步补充细节。
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">专题入口</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">继续去看频道公共能力</h2>
-            <div className="mt-4 space-y-3">
-              <Link
-                href={firstSpecies ? `/nature/species/${firstSpecies.slug}` : "/nature/species?topic=birds"}
-                className="surface-subtle block px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-              >
-                浏览物种档案
-              </Link>
-              <Link
-                href="/nature/observations?topic=birds"
-                className="surface-subtle block px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-              >
-                查看公开观察记录
-              </Link>
-            </div>
-          </section>
-        </>
-      }
     >
-      <section className="surface-panel overflow-hidden">
-        <div className="bg-gradient-to-r from-emerald-50/90 via-background/95 to-sky-50/90 px-5 py-6 dark:from-emerald-950/24 dark:via-card/95 dark:to-sky-950/24 sm:px-7 sm:py-7 lg:px-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300">
-            <Sprout className="h-3.5 w-3.5" />
-            二级专题
+      <section className="surface-panel overflow-hidden p-5 sm:p-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="section-kicker">专题物种</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">鸟类物种</h2>
           </div>
-          <div className="mt-4 max-w-3xl">
-            <p className="text-sm font-medium tracking-[0.22em] text-emerald-700/80 dark:text-emerald-300/80">
-              鸟类 · 校园 / 公园 / 社区
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">把第一条鸟类观察记录留在你熟悉的地方</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-              鸟类是自然观察频道里当前已经落地的专题。你可以从提交记录开始，再回到物种页和观察流继续整理、比较和互动。
-            </p>
+          <Link
+            href="/nature/species"
+            className="hidden items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:inline-flex"
+          >
+            查看全部
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {spotlightSpecies.length > 0 ? (
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {spotlightSpecies.map((species) => (
+              <Link
+                key={species.id}
+                href={`/nature/species/${species.slug}`}
+                className="surface-subtle block rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5 hover:border-primary/35"
+              >
+                <p className="text-base font-medium text-foreground">{species.commonName}</p>
+                {species.scientificName ? (
+                  <p className="mt-1 text-xs italic leading-5 text-muted-foreground">{species.scientificName}</p>
+                ) : null}
+                {species.taxonGroup ? (
+                  <p className="mt-2 line-clamp-1 text-xs text-muted-foreground">{species.taxonGroup}</p>
+                ) : null}
+              </Link>
+            ))}
           </div>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        ) : (
+          <div className="surface-subtle mt-5 rounded-2xl px-4 py-6 text-sm text-muted-foreground">
+            暂无可展示的专题物种。
+          </div>
+        )}
+
+        <div className="mt-5 sm:hidden">
+          <Link
+            href="/nature/species"
+            className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            查看全部物种
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <TopicHotspotPanel locations={hotspots} />
+
+      <section className="surface-panel overflow-hidden p-5 sm:p-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="section-kicker">专题观察记录</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">最近公开记录</h2>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
             <Link
               href={submitHref}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
@@ -81,72 +138,33 @@ export default async function NatureBirdsPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href={firstSpecies ? `/nature/species/${firstSpecies.slug}` : "/nature/species?topic=birds"}
-              className="inline-flex items-center justify-center rounded-full border border-border/80 bg-background/80 px-5 py-3 text-sm font-medium transition-colors hover:bg-muted/70"
-            >
-              浏览物种
-            </Link>
-          </div>
-
-          {spotlightSpecies.length > 0 ? (
-            <div className="mt-8">
-              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <Feather className="h-4 w-4 text-emerald-700 dark:text-emerald-300" />
-                常见物种
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {spotlightSpecies.map((species) => (
-                  <Link
-                    key={species.id}
-                    href={`/nature/species/${species.slug}`}
-                    className="inline-flex rounded-full border border-border/80 bg-background/80 px-3 py-2 text-sm transition-colors hover:bg-muted/70"
-                  >
-                    {species.commonName}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
-
-      {homepage.recentObservations.length > 0 ? (
-        <section className="surface-panel overflow-hidden p-5 sm:p-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="section-kicker">最近动态</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">大家最近观察到了什么</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">
-                最近提交的公开观察记录，可继续进入详情查看图片、地点与物种信息。
-              </p>
-            </div>
-            <Link
-              href="/nature/observations?topic=birds"
-              className="hidden items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:inline-flex"
+              href="/nature/observations"
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
             >
               查看全部
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
+        </div>
 
+        {displayObservations.length > 0 ? (
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {homepage.recentObservations.slice(0, 6).map((observation) => (
+            {displayObservations.map((observation) => (
               <Link
                 key={observation.id}
                 href={`/nature/observations/${observation.id}`}
                 className="surface-subtle block overflow-hidden transition-transform hover:-translate-y-0.5"
               >
                 {observation.mediaUrls[0] ? (
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={observation.mediaUrls[0]}
-                      alt={observation.locationName}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
+                  <ObservationPhotoFrame
+                    src={observation.mediaUrls[0]}
+                    alt={observation.locationName}
+                    className="aspect-[16/9]"
+                    paddingClassName="p-2.5"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 ) : null}
+
                 <div className="p-4">
                   {observation.species.length > 0 ? (
                     <div className="flex flex-wrap gap-1.5">
@@ -178,8 +196,12 @@ export default async function NatureBirdsPage() {
               </Link>
             ))}
           </div>
-        </section>
-      ) : null}
+        ) : (
+          <div className="surface-subtle mt-5 rounded-2xl border border-dashed border-border/80 bg-background/70 px-4 py-6 text-sm text-muted-foreground">
+            暂无可展示的专题观察记录。
+          </div>
+        )}
+      </section>
     </NatureShell>
   );
 }

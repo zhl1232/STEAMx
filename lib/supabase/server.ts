@@ -39,3 +39,24 @@ export const createClient = async (): Promise<SupabaseClient<Database, 'public'>
     }
   )
 }
+
+/**
+ * 仅用于公开读取，不依赖请求级 cookie（可用于缓存函数）。
+ */
+export const createPublicClient = (): SupabaseClient<Database, 'public'> => {
+  const { url, anonKey } = getSupabaseEnv()
+
+  return createServerClient<Database>(
+    url,
+    anonKey,
+    {
+      cookies: {
+        get() {
+          return undefined
+        },
+        set(_name: string, _value: string, _options: CookieOptions) {},
+        remove(_name: string, _options: CookieOptions) {},
+      },
+    }
+  )
+}

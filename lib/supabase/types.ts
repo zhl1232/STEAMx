@@ -877,6 +877,54 @@ export interface Database {
         }
         Relationships: []
       }
+      observation_media_analyses: {
+        Row: {
+          id: number
+          user_id: string
+          image_url: string
+          status: string
+          model_name: string | null
+          moderation_pass: boolean | null
+          moderation_reason: string | null
+          quality_pass: boolean | null
+          quality_reason: string | null
+          species_candidates: Json
+          raw_response: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          image_url: string
+          status?: string
+          model_name?: string | null
+          moderation_pass?: boolean | null
+          moderation_reason?: string | null
+          quality_pass?: boolean | null
+          quality_reason?: string | null
+          species_candidates?: Json
+          raw_response?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          image_url?: string
+          status?: string
+          model_name?: string | null
+          moderation_pass?: boolean | null
+          moderation_reason?: string | null
+          quality_pass?: boolean | null
+          quality_reason?: string | null
+          species_candidates?: Json
+          raw_response?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       observation_likes: {
         Row: {
           user_id: string

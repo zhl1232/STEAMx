@@ -37,9 +37,9 @@ export function NatureShell({
           <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">{description}</p>
         </div>
 
-        <div className="mt-0 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1.5fr)_320px]">
-          <main className={cn("space-y-6", mainClassName)}>{children}</main>
-          {aside ? <aside className="space-y-6">{aside}</aside> : null}
+        <div className={cn("mt-0 grid grid-cols-1 gap-6 md:mt-8", aside ? "lg:grid-cols-[minmax(0,1.5fr)_320px]" : "lg:grid-cols-1")}>
+          <main className={cn("min-w-0 space-y-6", mainClassName)}>{children}</main>
+          {aside ? <aside className="min-w-0 space-y-6">{aside}</aside> : null}
         </div>
       </div>
     </div>

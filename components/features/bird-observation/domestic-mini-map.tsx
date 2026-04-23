@@ -40,20 +40,24 @@ export function DomesticMiniMap({
   const mapRef = useRef<import("leaflet").Map | null>(null)
   const markersLayerRef = useRef<import("leaflet").LayerGroup | null>(null)
   const leafletRef = useRef<LeafletModule | null>(null)
+  const resizeObserverRef = useRef<ResizeObserver | null>(null)
+  const rafIdRef = useRef<number | null>(null)
+  const timeoutIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     let isMounted = true
 
     const init = async () => {
       if (!containerRef.current || mapRef.current || markers.length === 0) return
+      const container = containerRef.current
 
       const L = await import("leaflet")
-      if (!isMounted || !containerRef.current) return
+      if (!isMounted || !container) return
 
       leafletRef.current = L
 
       const first = markers[0]
-      const map = L.map(containerRef.current, {
+      const map = L.map(container, {
         zoomControl: false,
         attributionControl: true,
         dragging: true,
@@ -75,18 +79,65 @@ export function DomesticMiniMap({
       const layer = L.layerGroup().addTo(map)
       markersLayerRef.current = layer
       mapRef.current = map
+
+      // Keep leaflet layers beneath page-level sticky actions and nav bars.
+      const panes = {
+        tilePane: 1,
+        overlayPane: 2,
+        shadowPane: 3,
+        markerPane: 4,
+        tooltipPane: 5,
+        popupPane: 6,
+      } as const
+
+      for (const [paneName, zIndex] of Object.entries(panes)) {
+        const pane = map.getPane(paneName)
+        if (pane) pane.style.zIndex = String(zIndex)
+      }
+
+      const controlContainer = container.querySelector<HTMLElement>(".leaflet-control-container")
+      if (controlContainer) {
+        controlContainer.style.zIndex = "7"
+      }
+
+      const resizeObserver = new ResizeObserver(() => {
+        if (!mapRef.current) return
+        map.invalidateSize()
+      })
+      resizeObserver.observe(container)
+      resizeObserverRef.current = resizeObserver
+
+      rafIdRef.current = window.requestAnimationFrame(() => {
+        if (!mapRef.current) return
+        map.invalidateSize()
+      })
+
+      timeoutIdRef.current = window.setTimeout(() => {
+        if (!mapRef.current) return
+        map.invalidateSize()
+      }, 120)
     }
 
     init()
 
     return () => {
       isMounted = false
+      if (rafIdRef.current != null) {
+        window.cancelAnimationFrame(rafIdRef.current)
+        rafIdRef.current = null
+      }
+      if (timeoutIdRef.current != null) {
+        window.clearTimeout(timeoutIdRef.current)
+        timeoutIdRef.current = null
+      }
+      resizeObserverRef.current?.disconnect()
+      resizeObserverRef.current = null
       markersLayerRef.current?.clearLayers()
       markersLayerRef.current = null
       mapRef.current?.remove()
       mapRef.current = null
     }
-  }, [markers])
+  }, [])
 
   useEffect(() => {
     const L = leafletRef.current
@@ -132,7 +183,7 @@ export function DomesticMiniMap({
   return (
     <div
       ref={containerRef}
-      className={`${heightClassName} w-full overflow-hidden rounded-2xl border border-border/70 bg-background/80`}
+      className={`${heightClassName} relative z-0 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/80`}
     />
   )
 }

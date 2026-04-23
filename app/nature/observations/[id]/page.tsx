@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { ArrowUpRight, Clock3, MapPin, Navigation } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
+import { ObservationMediaGallery } from "@/components/features/bird-observation/observation-media-gallery";
+import { ObservationOwnerActions } from "@/components/features/bird-observation/observation-owner-actions";
 import { ObservationSocialSection } from "@/components/features/bird-observation/observation-social-section";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { ReportDialog } from "@/components/ui/report-dialog";
 import { getObservationById } from "@/lib/api/nature-observation-data";
+import { HeroImagePreview } from "./hero-image-preview";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
@@ -20,163 +24,176 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
     notFound();
   }
 
+  const observedAtLabel = new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(observation.observedAt));
+  const primarySpecies = observation.species[0];
+  const heroImage = observation.mediaUrls[0];
+  const amapHref =
+    observation.latitude != null && observation.longitude != null
+      ? `https://uri.amap.com/marker?position=${observation.longitude},${observation.latitude}&name=${encodeURIComponent(observation.locationName)}&src=steam-explore`
+      : null;
+
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pb-36 pt-0 md:pb-12 md:pt-6">
       <div className="md:hidden">
-        <MobilePageHeader title="观察记录详情" fallbackHref="/nature/observations" />
+        <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
+          <MobilePageHeader
+            title="观察记录详情"
+            fallbackHref="/nature/observations"
+            sticky={false}
+            className="border-none bg-transparent shadow-none"
+          />
+        </div>
       </div>
 
-      <section className="surface-panel overflow-hidden">
-        <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-          <p className="section-kicker">自然观察</p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">观察记录 #{observation.id}</h1>
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            <span>{new Date(observation.observedAt).toLocaleString("zh-CN")}</span>
-            <span>·</span>
-            <span className="inline-flex items-center gap-1">
-              <MapPin className="h-3.5 w-3.5" />
-              {observation.locationName}
-            </span>
-            {observation.habitat ? (
-              <>
-                <span>·</span>
-                <span>{observation.habitat}</span>
-              </>
-            ) : null}
-            {observation.weather ? (
-              <>
-                <span>·</span>
-                <span>{observation.weather}</span>
-              </>
-            ) : null}
-          </div>
-
-          {observation.latitude != null && observation.longitude != null ? (
-            <div className="mt-6 surface-subtle p-4">
-              <DomesticMiniMap
-                markers={[
-                  {
-                    latitude: observation.latitude,
-                    longitude: observation.longitude,
-                    label: observation.locationName,
-                  },
-                ]}
-              />
-              <a
-                href={`https://uri.amap.com/marker?position=${observation.longitude},${observation.latitude}&name=${encodeURIComponent(observation.locationName)}&src=steam-explore`}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-3 inline-flex text-sm font-medium text-primary hover:underline"
-              >
-                在高德地图中查看这个观察点
-              </a>
-            </div>
-          ) : null}
-
-          {observation.notes ? (
-            <div className="mt-6 surface-subtle p-5">
-              <h2 className="text-lg font-semibold">记录说明</h2>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">{observation.notes}</p>
-            </div>
-          ) : null}
-
-          {observation.mediaUrls.length > 0 ? (
-            <section className="mt-6 surface-subtle p-5">
-              <h2 className="text-lg font-semibold">观察照片</h2>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {observation.mediaUrls.map((url) => (
-                  <a
-                    key={url}
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/70 bg-background/80"
-                  >
-                    <Image
-                      src={url}
-                      alt="观察照片"
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
-                  </a>
-                ))}
+      <div className="mx-auto w-full max-w-5xl">
+        <section className="overflow-hidden bg-background">
+          {heroImage ? (
+            <HeroImagePreview
+              heroImage={heroImage}
+              primarySpecies={primarySpecies}
+              observationId={observation.id}
+            />
+          ) : (
+            <div className="flex aspect-[5/4] items-end bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.18),_transparent_35%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.16),_transparent_32%),linear-gradient(160deg,_rgba(255,255,255,0.96),_rgba(240,249,255,0.9))] p-6 dark:bg-[radial-gradient(circle_at_top_left,_rgba(74,222,128,0.14),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(96,165,250,0.14),_transparent_34%),linear-gradient(160deg,_rgba(10,18,26,0.96),_rgba(8,16,24,0.92))] sm:aspect-[16/10] md:aspect-[16/9]">
+              <div className="rounded-3xl border border-border/70 bg-background/84 px-4 py-3 backdrop-blur">
+                <div className="text-sm text-muted-foreground">暂未上传观察照片</div>
+                <div className="mt-1 text-lg font-semibold">{primarySpecies?.commonName ?? `观察记录 #${observation.id}`}</div>
               </div>
-            </section>
-          ) : null}
+            </div>
+          )}
 
-          <section className="mt-8 surface-subtle p-5">
-            <h2 className="text-xl font-semibold">观察到的物种</h2>
-            <div className="mt-4 space-y-4">
-              {observation.species.map((item) => (
-                <div key={item.speciesId} className="rounded-2xl border border-border/70 bg-background/80 p-4">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {item.speciesSlug ? (
-                      <Link href={`/nature/species/${item.speciesSlug}`} className="text-lg font-semibold hover:text-primary hover:underline">
-                        {item.commonName}
+          <div className="space-y-5 px-6 py-5 sm:px-8 sm:py-6 md:px-9">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="section-kicker">自然观察</span>
+              <span className="inline-flex rounded-full border border-border/70 bg-muted/30 px-3 py-1 text-xs text-muted-foreground">
+                公开观察记录
+              </span>
+            </div>
+
+            <div className="space-y-3.5">
+              <div className="flex flex-wrap items-end gap-x-3 gap-y-2">
+                <h1 className="text-3xl font-bold tracking-[-0.03em] text-foreground md:text-5xl">
+                  {primarySpecies?.commonName ?? `观察记录 #${observation.id}`}
+                </h1>
+                {primarySpecies?.scientificName ? (
+                  <div className="flex flex-wrap items-center gap-2 pb-1">
+                    <p className="text-base italic text-muted-foreground md:text-lg">{primarySpecies.scientificName}</p>
+                    {primarySpecies.speciesSlug ? (
+                      <Link
+                        href={`/nature/species/${primarySpecies.speciesSlug}`}
+                        aria-label="查看物种百科"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-muted/45 text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                      >
+                        <ArrowUpRight className="h-4 w-4" />
+                        <span className="sr-only">查看物种百科</span>
                       </Link>
-                    ) : (
-                      <h3 className="text-lg font-semibold">{item.commonName}</h3>
-                    )}
-                    {item.count ? (
-                      <span className="rounded-full border border-border/80 bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
-                        数量：{item.count}
-                      </span>
-                    ) : null}
-                    {item.confidence != null ? (
-                      <span className="rounded-full border border-border/80 bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
-                        置信度：{Math.round(item.confidence * 100)}%
-                      </span>
                     ) : null}
                   </div>
+                ) : primarySpecies?.speciesSlug ? (
+                  <Link
+                    href={`/nature/species/${primarySpecies.speciesSlug}`}
+                    aria-label="查看物种百科"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-muted/45 text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                    <span className="sr-only">查看物种百科</span>
+                  </Link>
+                ) : null}
+              </div>
 
-                  {item.behaviorTags.length > 0 ? (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {item.behaviorTags.map((tag) => (
-                        <span key={`${item.speciesId}-${tag}`} className="rounded-full border border-border/80 bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
+              <div className="flex flex-wrap items-center gap-2.5 text-sm text-muted-foreground md:text-[15px]">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted/45 px-3.5 py-1.5">
+                  <Clock3 className="h-4 w-4" />
+                  {observedAtLabel}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted/45 px-3.5 py-1.5">
+                  <MapPin className="h-4 w-4" />
+                  {observation.locationName}
+                </span>
+                <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">点赞 {observation.likesCount}</span>
+                <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">评论 {observation.commentsCount}</span>
+              </div>
 
-                  {item.notes ? (
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.notes}</p>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          </section>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <ObservationOwnerActions observationId={observation.id} ownerId={observation.userId} />
+                <ReportDialog contentType="observation" contentId={observation.id}>
+                  <button
+                    type="button"
+                    className="inline-flex h-9 items-center justify-center rounded-full border border-border/70 bg-muted/40 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                  >
+                    举报记录
+                  </button>
+                </ReportDialog>
+              </div>
 
-          <ObservationSocialSection
-            observationId={observation.id}
-            initialLikesCount={observation.likesCount}
-            initialCommentsCount={observation.commentsCount}
-          />
-
-          <section className="mt-8 surface-subtle p-5">
-            <h2 className="text-xl font-semibold">下一步可以做什么</h2>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {observation.species[0]?.speciesSlug ? (
-                <Link
-                  href={`/nature/species/${observation.species[0].speciesSlug}`}
-                  className="rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5"
-                >
-                  <div className="text-xs text-muted-foreground">认识这种物种</div>
-                  <div className="mt-1 font-medium">返回物种页</div>
-                </Link>
+              {observation.notes ? (
+                <p className="max-w-3xl text-sm leading-7 text-foreground/85 md:text-base">{observation.notes}</p>
               ) : null}
-              <Link
-                href="/nature/submit"
-                className="rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5"
-              >
-                <div className="text-xs text-muted-foreground">继续沉淀</div>
-                <div className="mt-1 font-medium">再记录一次观察</div>
-              </Link>
             </div>
+
+            <ObservationSocialSection
+              observationId={observation.id}
+              initialLikesCount={observation.likesCount}
+              initialCommentsCount={observation.commentsCount}
+              className="mt-2 border-0 bg-transparent p-0 shadow-none"
+              commentsClassName="mt-4 rounded-[24px] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
+              mobileFloatingBar
+              submitHref="/nature/submit"
+            />
+          </div>
+        </section>
+
+        {observation.mediaUrls.length > 1 ? (
+          <div className="px-6 pb-2 sm:px-8 md:px-9">
+            <section className="rounded-[28px] border border-border/70 bg-card/88 p-4 sm:p-5">
+              <h2 className="text-sm font-medium text-foreground">更多观察照片</h2>
+              <ObservationMediaGallery mediaUrls={observation.mediaUrls} />
+            </section>
+          </div>
+        ) : null}
+
+        <div className="px-6 py-5 sm:px-8 sm:py-6 md:px-9">
+          <section className="overflow-hidden rounded-[30px] border border-border/60 bg-card/80 shadow-[0_18px_48px_-42px_rgba(15,23,42,0.16)]">
+            {observation.latitude != null && observation.longitude != null ? (
+              <div className="relative">
+                <DomesticMiniMap
+                  markers={[
+                    {
+                      latitude: observation.latitude,
+                      longitude: observation.longitude,
+                      label: observation.locationName,
+                    },
+                  ]}
+                  heightClassName="h-80 sm:h-[22rem]"
+                />
+                {amapHref ? (
+                  <a
+                    href={amapHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="打开导航"
+                    className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/94 text-foreground shadow-[0_10px_24px_-18px_rgba(15,23,42,0.45)] backdrop-blur transition-colors hover:bg-background"
+                  >
+                    <Navigation className="h-5 w-5" />
+                    <span className="sr-only">打开导航</span>
+                  </a>
+                ) : null}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-border/80 px-4 py-10 text-center text-sm text-muted-foreground">
+                暂无定位信息
+              </div>
+            )}
           </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

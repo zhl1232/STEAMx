@@ -304,6 +304,7 @@ export interface Species {
     coverImageUrl?: string | null
     audioUrl?: string | null
     isActive: boolean
+    observedByCurrentUser?: boolean
     aliasesDisplay?: string
     recentObservations?: ObservationEvent[]
     topLocations?: ObservationLocationSummary[]
@@ -728,7 +729,8 @@ export type ReportContentType =
   | "discussion_reply"
   | "comment"
   | "message"
-  | "completion_comment";
+  | "completion_comment"
+  | "observation";
 
 export type ReportReason =
   | "spam"

@@ -2,6 +2,7 @@
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
+  devIndicators: false,
   turbopack: {
     // Turbopack-specific options can be added here if needed
   },

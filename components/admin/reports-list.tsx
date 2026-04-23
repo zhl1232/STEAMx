@@ -52,6 +52,7 @@ const CONTENT_TYPE_LABELS: Record<string, string> = {
   comment: "评论",
   message: "私信",
   completion_comment: "完成评论",
+  observation: "观察记录",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -89,6 +90,7 @@ export function ReportsList() {
 
   const [reviewReport, setReviewReport] = useState<ReportItem | null>(null);
   const [reviewNote, setReviewNote] = useState("");
+  const [reviewAction, setReviewAction] = useState<"none" | "hide_observation">("none");
   const [reviewing, setReviewing] = useState(false);
 
   const fetchReports = useCallback(async () => {
@@ -123,7 +125,7 @@ export function ReportsList() {
       const res = await fetch(`/api/admin/reports/${reviewReport.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, reviewer_note: reviewNote.trim() || undefined }),
+        body: JSON.stringify({ status, reviewer_note: reviewNote.trim() || undefined, action: reviewAction }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -132,6 +134,7 @@ export function ReportsList() {
       toast({ title: status === "resolved" ? "已标记为已解决" : "已驳回" });
       setReviewReport(null);
       setReviewNote("");
+      setReviewAction("none");
       fetchReports();
     } catch (err) {
       toast({
@@ -228,6 +231,7 @@ export function ReportsList() {
                           onClick={() => {
                             setReviewReport(report);
                             setReviewNote("");
+                            setReviewAction("none");
                           }}
                         >
                           {report.status === "pending" ? "处理" : "详情"}
@@ -274,6 +278,7 @@ export function ReportsList() {
           if (!open) {
             setReviewReport(null);
             setReviewNote("");
+            setReviewAction("none");
           }
         }}
       >
@@ -319,6 +324,17 @@ export function ReportsList() {
 
               {reviewReport.status === "pending" && (
                 <div className="space-y-2 pt-2">
+                  {reviewReport.content_type === "observation" ? (
+                    <Select value={reviewAction} onValueChange={(value) => setReviewAction(value as "none" | "hide_observation")}>
+                      <SelectTrigger className="rounded-2xl">
+                        <SelectValue placeholder="处理动作" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">仅处理举报</SelectItem>
+                        <SelectItem value="hide_observation">处理并下架观察记录</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : null}
                   <Textarea
                     placeholder="审核备注（选填）"
                     value={reviewNote}

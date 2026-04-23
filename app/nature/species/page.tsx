@@ -44,6 +44,9 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
               <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
                 浏览自然观察频道中的物种档案，了解识别特征、常见环境和最近观察线索。
               </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                已观察过的物种会带有标记，并在列表中靠后展示。
+              </p>
               {total > 0 ? (
                 <p className="mt-4 text-xs font-medium tabular-nums text-muted-foreground">
                   目录中共 <span className="text-foreground">{total.toLocaleString()}</span> 个物种

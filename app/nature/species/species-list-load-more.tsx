@@ -111,7 +111,14 @@ export function SpeciesListLoadMore({
               <div className="space-y-3 p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
-                    <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">{item.commonName}</h2>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">{item.commonName}</h2>
+                      {item.observedByCurrentUser ? (
+                        <span className="inline-flex rounded-full border border-emerald-300/80 bg-emerald-50/80 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300">
+                          已观察
+                        </span>
+                      ) : null}
+                    </div>
                     {commonNamePinyin ? (
                       <p className="mt-1 text-xs tracking-[0.08em] text-primary/80">{commonNamePinyin}</p>
                     ) : null}

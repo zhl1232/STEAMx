@@ -48,6 +48,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const isAuthPage = pathname === '/login'
   const isHomePage = pathname === '/'
   const isProfilePage = pathname.startsWith('/profile')
+  const hideMobileBottomNav = /^\/nature\/observations\/[^/]+$/.test(pathname)
   const hideGlobalHeader = pathname.startsWith('/share')
   const hideMobileGlobalHeader =
     hideGlobalHeader ||
@@ -69,12 +70,17 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname.startsWith('/community/challenge/')
   const showMobileGlobalHeader = !hideMobileGlobalHeader
   const showMobileSearch = pathname === '/' || pathname === '/explore'
+  const isNatureRoute = pathname === '/nature' || pathname.startsWith('/nature/')
+  const needsGamificationOnAnonymousNature =
+    pathname === '/nature/submit' || pathname.startsWith('/nature/submitted/')
   const needsProjectProvider =
     pathname.startsWith('/explore') ||
     pathname.startsWith('/project') ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/users')
-  const includeHeavyUserProviders = !isHomePage
+  const skipHeavyProvidersForAnonymousNature =
+    isNatureRoute && !user && !needsGamificationOnAnonymousNature
+  const includeHeavyUserProviders = !isHomePage && !skipHeavyProvidersForAnonymousNature
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
 
@@ -86,7 +92,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     return (
       <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
         <div className="flex min-h-screen flex-col bg-background">
-          <main className={cn('flex-1', 'pb-20 md:pb-0')}>{pageContent}</main>
+          <main className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-20', 'md:pb-0')}>{pageContent}</main>
         </div>
       </AppProviders>
     )
@@ -151,8 +157,8 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
             </div>
           </div>
         </header>
-        <main className={cn('flex-1', 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0')}>{pageContent}</main>
-        <BottomNav />
+        <main className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}>{pageContent}</main>
+        {!hideMobileBottomNav ? <BottomNav /> : null}
       </div>
     </AppProviders>
   )

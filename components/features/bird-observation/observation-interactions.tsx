@@ -1,99 +1,91 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import { Heart, MessageCircle } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Heart, Loader2, MessageCircle } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
-import { useAuth } from '@/lib/context/auth-context'
-import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { cn } from "@/lib/utils"
 
 interface ObservationInteractionsProps {
-  observationId: number
-  initialLikesCount: number
-  initialCommentsCount: number
+  liked: boolean
+  likesCount: number
+  commentsCount: number
+  isLiking?: boolean
+  onLike: () => void
   onToggleComments?: () => void
   commentsOpen?: boolean
+  className?: string
+  compact?: boolean
 }
 
 export function ObservationInteractions({
-  observationId,
-  initialLikesCount,
-  initialCommentsCount,
+  liked,
+  likesCount,
+  commentsCount,
+  isLiking = false,
+  onLike,
   onToggleComments,
   commentsOpen,
+  className,
+  compact = false,
 }: ObservationInteractionsProps) {
-  const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
-  const [liked, setLiked] = useState(false)
-  const [likesCount, setLikesCount] = useState(initialLikesCount)
-  const [isLiking, setIsLiking] = useState(false)
-
-  useEffect(() => {
-    if (!user) return
-    fetch(`/api/observations/${observationId}/like`, { method: "HEAD" })
-      .catch(() => {})
-
-    const controller = new AbortController()
-    const checkLike = async () => {
-      try {
-        const res = await fetch(`/api/observations/${observationId}`, { signal: controller.signal })
-        if (!res.ok) return
-      } catch {}
-    }
-    checkLike()
-    return () => controller.abort()
-  }, [user, observationId])
-
-  const handleLike = useCallback(async () => {
-    if (!user) {
-      promptLogin(undefined, { title: "登录以点赞", description: "登录后即可为观察记录点赞" })
-      return
-    }
-    if (isLiking) return
-    setIsLiking(true)
-
-    const wasLiked = liked
-    setLiked(!wasLiked)
-    setLikesCount((c) => c + (wasLiked ? -1 : 1))
-
-    try {
-      const res = await fetch(`/api/observations/${observationId}/like`, {
-        method: wasLiked ? "DELETE" : "POST",
-      })
-      if (!res.ok) throw new Error()
-    } catch {
-      setLiked(wasLiked)
-      setLikesCount((c) => c + (wasLiked ? 1 : -1))
-    } finally {
-      setIsLiking(false)
-    }
-  }, [user, liked, isLiking, observationId, promptLogin])
+  const buttonSizeClass = compact ? "h-11 px-3.5 text-xs" : "h-10 px-4 text-sm"
 
   return (
-    <div className="flex items-center gap-3">
+    <div className={cn("flex items-center gap-3", className)}>
       <Button
         variant="ghost"
         size="sm"
-        onClick={handleLike}
+        onClick={onLike}
+        disabled={isLiking}
         className={cn(
-          "gap-2 text-muted-foreground transition-colors",
+          "min-w-[92px] rounded-full border border-border/70 bg-muted/45 text-foreground/80 transition-colors hover:bg-muted/75 hover:text-foreground",
+          buttonSizeClass,
           liked && "text-red-500 hover:text-red-600",
         )}
       >
-        <Heart className={cn("h-4 w-4", liked && "fill-current")} />
-        {likesCount > 0 ? likesCount : "点赞"}
+        <motion.span
+          key={liked ? "liked" : "idle"}
+          animate={liked ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="inline-flex"
+        >
+          {isLiking ? <Loader2 className="h-4 w-4 animate-spin" /> : <Heart className={cn("h-4 w-4", liked && "fill-current")} />}
+        </motion.span>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={`${liked}-${likesCount}`}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16 }}
+          >
+            {likesCount > 0 ? likesCount : "点赞"}
+          </motion.span>
+        </AnimatePresence>
       </Button>
       <Button
         variant="ghost"
         size="sm"
         onClick={onToggleComments}
         className={cn(
-          "gap-2 text-muted-foreground transition-colors",
+          "min-w-[92px] rounded-full border border-border/70 bg-muted/45 text-foreground/80 transition-colors hover:bg-muted/75 hover:text-foreground",
+          buttonSizeClass,
           commentsOpen && "text-primary",
         )}
       >
         <MessageCircle className="h-4 w-4" />
-        {initialCommentsCount > 0 ? initialCommentsCount : "评论"}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={String(commentsCount)}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16 }}
+          >
+            {commentsCount > 0 ? commentsCount : "评论"}
+          </motion.span>
+        </AnimatePresence>
       </Button>
     </div>
   )

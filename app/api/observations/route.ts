@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import {
+  getObservationAnalysisErrorMessage,
+  isObservationAnalysisPassed,
+  parseStoredSpeciesCandidates,
+  type ObservationMediaAnalysisRow,
+} from '@/lib/ai/observation-media-analysis'
 import { getObservations } from '@/lib/api/nature-observation-data'
+import { isOwnedProjectImageUrl } from '@/lib/api/validation'
+import { buildObservationRewardSummary } from '@/lib/api/observation-gamification'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
@@ -62,6 +70,42 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = parsed.data
+    const uniqueMediaUrls = Array.from(new Set(payload.media_urls))
+
+    if (uniqueMediaUrls.some((url) => !isOwnedProjectImageUrl(url, user.id, 'observations'))) {
+      return NextResponse.json({ error: '观察图片必须使用当前账号上传的文件' }, { status: 400 })
+    }
+
+    const { data: analysisRows, error: analysisError } = await supabase
+      .from('observation_media_analyses')
+      .select('*')
+      .eq('user_id', user.id)
+      .in('image_url', uniqueMediaUrls)
+
+    if (analysisError) {
+      throw analysisError
+    }
+
+    const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
+      ((analysisRows || []) as ObservationMediaAnalysisRow[]).map((row) => [row.image_url, row]),
+    )
+
+    for (const imageUrl of uniqueMediaUrls) {
+      const analysis = analysisMap.get(imageUrl)
+      if (!isObservationAnalysisPassed(analysis)) {
+        return NextResponse.json(
+          { error: getObservationAnalysisErrorMessage(analysis) },
+          { status: 400 },
+        )
+      }
+    }
+
+    const selectedSpeciesId = payload.species_entries[0]?.species_id ?? null
+    const matchedCandidate = selectedSpeciesId
+      ? uniqueMediaUrls
+          .flatMap((imageUrl) => parseStoredSpeciesCandidates(analysisMap.get(imageUrl)?.species_candidates))
+          .find((candidate) => candidate.speciesId === selectedSpeciesId)
+      : null
 
     const { data: observation, error: observationError } = await supabase
       .from('observation_events')
@@ -96,7 +140,7 @@ export async function POST(request: NextRequest) {
             count: entry.count ?? null,
             behavior_tags: entry.behavior_tags,
             notes: entry.notes ?? null,
-            confidence: null,
+            confidence: matchedCandidate?.speciesId === entry.species_id ? matchedCandidate.confidence : null,
           })),
         )
 
@@ -111,7 +155,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ observation }, { status: 201 })
+    const rewardSummary = await buildObservationRewardSummary(user.id, observation.id)
+
+    return NextResponse.json({ observation, rewardSummary }, { status: 201 })
   } catch (error) {
     return handleApiError(error)
   }

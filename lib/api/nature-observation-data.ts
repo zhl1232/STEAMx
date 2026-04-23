@@ -24,5 +24,5 @@ export {
 } from './nature-observation-homepage'
 export type { BirdHomepageData } from './nature-observation-homepage'
 
-export { getSpeciesList, getSpeciesBySlug } from './nature-observation-species'
+export { getSpeciesList, getSpeciesById, getSpeciesBySlug } from './nature-observation-species'
 export type { SpeciesListOptions } from './nature-observation-species'

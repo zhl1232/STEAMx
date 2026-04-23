@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 
 import "./globals.css";
 import { ErrorBoundary } from "@/components/layout/error-boundary";
@@ -64,18 +65,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="zh" suppressHydrationWarning>
       <body className="antialiased">
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.__name = (n) => n;
-              try {
-                if (window.localStorage.getItem("theme") === "black-gold") {
-                  document.documentElement.classList.add("dark", "black-gold");
-                }
-              } catch {}
-            `,
-          }}
-        />
+        <Script id="bootstrap-runtime-helpers" strategy="beforeInteractive">
+          {`
+            window.__name = (n) => n;
+            try {
+              if (window.localStorage.getItem("theme") === "black-gold") {
+                document.documentElement.classList.add("dark", "black-gold");
+              }
+            } catch {}
+          `}
+        </Script>
         <QueryProvider>
           <ObservationGamificationSync />
           <AuthProvider>

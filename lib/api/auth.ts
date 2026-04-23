@@ -144,11 +144,24 @@ export function handleApiError(error: unknown): NextResponse {
     )
   }
 
-  // 其他错误 - 生产环境隐藏详细信息
-  const errorMessage =
-    process.env.NODE_ENV === 'development'
-      ? (error instanceof Error ? error.message : 'Internal server error')
-      : 'Internal server error'
+  // 其他错误 - 开发环境尽量透出结构化后端错误，生产环境保持通用消息
+  let errorMessage = 'Internal server error'
+
+  if (process.env.NODE_ENV === 'development') {
+    if (error instanceof Error) {
+      errorMessage = error.message
+    } else if (error && typeof error === 'object') {
+      const candidate = error as Record<string, unknown>
+      const parts = [
+        typeof candidate.code === 'string' ? `code=${candidate.code}` : '',
+        typeof candidate.message === 'string' ? candidate.message : '',
+        typeof candidate.details === 'string' ? candidate.details : '',
+        typeof candidate.hint === 'string' ? `hint=${candidate.hint}` : '',
+      ].filter(Boolean)
+
+      errorMessage = parts.join(' | ') || JSON.stringify(candidate)
+    }
+  }
 
   return NextResponse.json({ error: errorMessage }, { status: 500 })
 }

@@ -1,7 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Loader2, MessageCircleMore } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
@@ -23,6 +27,14 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
   const [content, setContent] = useState("")
   const [replyTo, setReplyTo] = useState<{ id: number; name: string } | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
+  const focusEditor = useCallback(() => {
+    requestAnimationFrame(() => {
+      textareaRef.current?.focus()
+      textareaRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+    })
+  }, [])
 
   const loadComments = useCallback(async () => {
     try {
@@ -68,6 +80,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
       setContent("")
       setReplyTo(null)
       onCommentCreated?.()
+      focusEditor()
     } catch (err) {
       toast({
         title: "评论失败",
@@ -92,33 +105,55 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
   return (
     <div className="space-y-4">
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">加载评论中...</p>
+        <div className="space-y-3">
+          <Skeleton className="h-16 rounded-2xl" />
+          <Skeleton className="h-16 rounded-2xl" />
+        </div>
       ) : comments.length === 0 ? (
-        <p className="text-sm text-muted-foreground">暂无评论，来说点什么吧。</p>
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border/80 bg-background/60 px-4 py-8 text-center">
+          <MessageCircleMore className="h-5 w-5 text-muted-foreground/80" aria-hidden />
+          <p className="text-sm text-muted-foreground">暂无评论，来说点什么吧。</p>
+        </div>
       ) : (
         <div className="space-y-3">
-          {rootComments.map((comment) => (
-            <div key={String(comment.id)}>
-              <CommentItem
-                comment={comment}
-                onReply={(id, name) => {
-                  setReplyTo({ id, name })
-                  setContent("")
-                }}
-              />
-              {(repliesMap.get(Number(comment.id)) || []).map((reply) => (
-                <div key={String(reply.id)} className="ml-8 mt-2">
-                  <CommentItem
-                    comment={reply}
-                    onReply={(id, name) => {
-                      setReplyTo({ id, name })
-                      setContent("")
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
+          <AnimatePresence initial={false}>
+            {rootComments.map((comment) => (
+              <motion.div
+                key={String(comment.id)}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <CommentItem
+                  comment={comment}
+                  onReply={(id, name) => {
+                    setReplyTo({ id, name })
+                    setContent("")
+                    focusEditor()
+                  }}
+                />
+                {(repliesMap.get(Number(comment.id)) || []).map((reply) => (
+                  <motion.div
+                    key={String(reply.id)}
+                    className="ml-8 mt-2"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <CommentItem
+                      comment={reply}
+                      onReply={(id, name) => {
+                        setReplyTo({ id, name })
+                        setContent("")
+                        focusEditor()
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
 
@@ -132,6 +167,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
           </div>
         )}
         <Textarea
+          ref={textareaRef}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={replyTo ? `回复 ${replyTo.name}...` : "写一条评论..."}
@@ -140,7 +176,14 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
         />
         <div className="flex justify-end">
           <Button size="sm" className="rounded-full" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
-            {isSubmitting ? "发送中..." : "发送"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                发送中...
+              </>
+            ) : (
+              "发送"
+            )}
           </Button>
         </div>
       </div>

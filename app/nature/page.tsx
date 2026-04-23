@@ -1,206 +1,200 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Compass, Feather, PlusCircle } from "lucide-react";
+import {
+  ArrowRight,
+  Binoculars,
+  Compass,
+  Heart,
+  Leaf,
+  MapPin,
+  MessageCircle,
+  MoveHorizontal,
+  Sparkles,
+} from "lucide-react";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
+import { ObservationPhotoFrame } from "@/components/features/bird-observation/observation-photo-frame";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
-
-const channelCards = [
-  {
-    title: "鸟类专题",
-    description: "进入当前专题",
-    href: "/nature/birds",
-    icon: Feather,
-  },
-  {
-    title: "物种",
-    description: "浏览物种档案",
-    href: "/nature/species",
-    icon: Compass,
-  },
-  {
-    title: "观察记录",
-    description: "看大家最近看到了什么",
-    href: "/nature/observations",
-    icon: ArrowRight,
-  },
-  {
-    title: "提交记录",
-    description: "记录这次观察",
-    href: "/nature/submit",
-    icon: PlusCircle,
-  },
-];
+import { natureTopics } from "@/lib/config/nature-topics";
 
 export default async function NaturePage() {
   const homepage = await getBirdObservationHomepageData();
-  const featuredSpecies = homepage.featuredSpecies.slice(0, 6);
-  const recentObservations = homepage.recentObservations.slice(0, 4);
+  const recentObservations = homepage.recentObservations.slice(0, 8);
+
+  const topicIcons = {
+    birds: Binoculars,
+    insects: Sparkles,
+    plants: Leaf,
+    fungi: Compass,
+  } as const;
+  const topicCardClassName =
+    "group relative isolate block w-[clamp(15.5rem,78vw,21.5rem)] shrink-0 snap-start overflow-hidden rounded-3xl border border-border/70 bg-card/88 p-4 mt-2 shadow-[0_18px_50px_-34px_rgba(21,60,45,0.48)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_26px_64px_-34px_rgba(26,91,64,0.56)] sm:w-[clamp(17.5rem,62vw,23rem)] md:w-auto";
 
   return (
     <NatureShell
       title="自然观察"
-      description="看物种、翻记录，或者把这次观察直接记下来。"
-      aside={
-        <>
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">当前可用</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">鸟类专题已上线</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">从校园、公园和社区开始，先留下第一条鸟类观察。</p>
-            <Link
-              href="/nature/birds"
-              className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-            >
-              进入鸟类专题
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </section>
-
-          <section className="surface-panel p-5 sm:p-6">
-            <p className="section-kicker">快速入口</p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight">现在就可以开始</h2>
-            <div className="mt-4 space-y-3">
-              <Link
-                href="/nature/species"
-                className="surface-subtle block px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-              >
-                浏览物种
-              </Link>
-              <Link
-                href="/nature/observations"
-                className="surface-subtle block px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-              >
-                查看观察记录
-              </Link>
-              <Link
-                href="/nature/submit"
-                className="surface-subtle block px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-              >
-                提交一条记录
-              </Link>
-            </div>
-          </section>
-        </>
-      }
+      description="先浏览专题，再看社区最新观察；想发布记录可直接使用底部观察入口。"
     >
-      <section className="surface-panel overflow-hidden">
-        <div className="bg-gradient-to-r from-emerald-50/90 via-background/95 to-sky-50/90 px-5 py-6 dark:from-emerald-950/24 dark:via-card/95 dark:to-sky-950/24 sm:px-7 sm:py-7 lg:px-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300">
-            <Feather className="h-3.5 w-3.5" />
-            自然观察
-          </div>
-          <div className="mt-4 max-w-3xl">
-            <p className="text-sm font-medium tracking-[0.22em] text-emerald-700/80 dark:text-emerald-300/80">物种 · 记录 · 提交</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">先看见，再记下来</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">从常见物种开始认识环境，再把时间、地点和照片整理成自己的观察记录。</p>
-          </div>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Link
-              href="/nature/submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
-            >
-              开始记录
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/nature/species"
-              className="inline-flex items-center justify-center rounded-full border border-border/80 bg-background/80 px-5 py-3 text-sm font-medium transition-colors hover:bg-muted/70"
-            >
-              浏览物种
-            </Link>
-          </div>
-        </div>
-      </section>
+      <section className="surface-panel relative overflow-hidden p-5 sm:p-6">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-r from-emerald-200/35 via-lime-100/20 to-cyan-100/35 dark:from-emerald-900/20 dark:via-lime-900/10 dark:to-cyan-900/20" />
 
-      <section className="surface-panel overflow-hidden p-5 sm:p-6">
-        <div>
-          <p className="section-kicker">快速入口</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">从这里进入</h2>
+        <div className="relative z-10 mb-4">
+          <p className="section-kicker">专题</p>
         </div>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {channelCards.map((card) => {
-            const Icon = card.icon;
-            return (
-              <Link
-                key={card.href}
-                href={card.href}
-                className="surface-subtle block p-5 transition-transform hover:-translate-y-0.5"
-              >
-                <div className="inline-flex rounded-full border border-border/80 bg-background/80 p-3">
-                  <Icon className="h-5 w-5" />
+        <div className="relative z-10">
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-card/95 via-card/60 to-transparent md:hidden" />
+          <div
+            className="no-scrollbar flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-8 touch-pan-x md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:pr-0"
+            aria-label="可用专题，左右滑动查看更多"
+          >
+            {natureTopics.map((topic) => {
+              const isAvailable = topic.status === "available";
+              const TopicIcon = topicIcons[topic.slug as keyof typeof topicIcons] ?? Sparkles;
+              const statusClassName = isAvailable
+                ? "inline-flex items-center gap-1 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300"
+                : "inline-flex items-center gap-1 rounded-full border border-amber-200/80 bg-amber-50/90 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300";
+
+              const content = (
+                <>
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -left-16 bottom-[-4.5rem] h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/12"
+                  />
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-teal-300/25 blur-2xl dark:bg-teal-500/15"
+                  />
+                  <div className="relative z-10 flex items-start justify-between gap-4">
+                    <div className={statusClassName}>
+                      <Sparkles className="h-3.5 w-3.5" />
+                      {isAvailable ? "已上线" : "即将上线"}
+                    </div>
+                    <div>
+                      <TopicIcon className="h-[18px] w-[18px]" />
+                    </div>
+                  </div>
+                  <h3 className="relative z-10 mt-5 text-lg font-semibold tracking-tight">
+                    {topic.title}
+                  </h3>
+                  <p className="relative z-10 mt-1 text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+                    {topic.subtitle}
+                  </p>
+                  <p className="relative z-10 mt-3 text-sm leading-6 text-muted-foreground">
+                    {topic.description}
+                  </p>
+                  <div className="relative z-10 mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                    {isAvailable ? "进入专题并开始记录" : "已加入专题路线图"}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </div>
+                </>
+              );
+
+              if (isAvailable && topic.href) {
+                return (
+                  <Link key={topic.id} href={topic.href} className={topicCardClassName}>
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <div key={topic.id} className={`${topicCardClassName} opacity-95`} aria-disabled>
+                  {content}
                 </div>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight">{card.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{card.description}</p>
-              </Link>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+        <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground md:hidden">
+          <MoveHorizontal className="h-3.5 w-3.5" />
+          左右滑动查看更多专题
         </div>
       </section>
-
-      {featuredSpecies.length > 0 ? (
-        <section className="surface-panel overflow-hidden p-5 sm:p-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="section-kicker">常见物种</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">先从熟悉的名字开始</h2>
-            </div>
-            <Link href="/nature/species" className="hidden text-sm font-medium text-primary hover:text-primary/80 sm:inline-flex">
-              查看全部物种
-            </Link>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {featuredSpecies.map((species) => (
-              <Link
-                key={species.id}
-                href={`/nature/species/${species.slug}`}
-                className="inline-flex rounded-full border border-border/80 bg-background/80 px-3 py-2 text-sm transition-colors hover:bg-muted/70"
-              >
-                {species.commonName}
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {recentObservations.length > 0 ? (
-        <section className="surface-panel overflow-hidden p-5 sm:p-6">
-          <div className="flex items-end justify-between gap-4">
+        <section className="surface-panel relative overflow-hidden p-5 sm:p-6">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-r from-cyan-200/28 via-teal-100/15 to-emerald-200/24 dark:from-cyan-900/15 dark:via-teal-900/10 dark:to-emerald-900/15" />
+          <div className="pointer-events-none absolute -right-12 bottom-[-4rem] h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-500/12" />
+
+          <div className="relative z-10 mb-5 flex items-end justify-between gap-4">
             <div>
-              <p className="section-kicker">最近观察</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">看看别人刚记录了什么</h2>
+              <p className="section-kicker">最近记录</p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight">社区最新观察</h2>
             </div>
-            <Link href="/nature/observations" className="hidden text-sm font-medium text-primary hover:text-primary/80 sm:inline-flex">
+            <Link
+              href="/nature/observations"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/15"
+            >
               查看全部
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {recentObservations.map((observation) => (
+
+          <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {recentObservations.map((observation, index) => (
               <Link
                 key={observation.id}
                 href={`/nature/observations/${observation.id}`}
-                className="surface-subtle block overflow-hidden transition-transform hover:-translate-y-0.5"
+                className="surface-subtle group block overflow-hidden rounded-3xl border border-border/70 bg-card/90 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_24px_60px_-34px_rgba(34,89,67,0.5)]"
               >
                 {observation.mediaUrls[0] ? (
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={observation.mediaUrls[0]}
-                      alt={observation.locationName}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
+                  <ObservationPhotoFrame
+                    src={observation.mediaUrls[0]}
+                    alt={observation.locationName}
+                    className="aspect-[16/9]"
+                    paddingClassName="p-2.5"
+                    imageClassName="transition duration-500 group-hover:scale-[1.04]"
+                    priority={index === 0}
+                    sizes="(min-width: 1280px) 30vw, (min-width: 640px) 46vw, 100vw"
+                  />
                 ) : null}
-                <div className="p-4">
+
+                <div className="space-y-3 p-4">
+                  {observation.species.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {observation.species.slice(0, 3).map((item) => (
+                        <span
+                          key={`${observation.id}-${item.speciesId}`}
+                          className="rounded-full border border-border/70 bg-background/85 px-2.5 py-1 text-xs font-medium text-foreground/90"
+                        >
+                          {item.commonName}
+                          {item.count ? ` ×${item.count}` : ""}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+
                   <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <span>{new Date(observation.observedAt).toLocaleDateString("zh-CN")}</span>
                     <span>·</span>
-                    <span>{observation.locationName}</span>
+                    <span className="inline-flex min-w-0 items-center gap-1">
+                      <MapPin className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{observation.locationName}</span>
+                    </span>
                   </div>
+
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1">
+                      <Heart className="h-3.5 w-3.5" />
+                      {observation.likesCount}
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1">
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      {observation.commentsCount}
+                    </span>
+                  </div>
+
                   {observation.notes ? (
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-foreground/80">{observation.notes}</p>
+                    <p className="line-clamp-2 text-sm leading-6 text-foreground/85">
+                      {observation.notes}
+                    </p>
                   ) : null}
+
+                  {observation.notes ? null : (
+                    <p className="text-sm leading-6 text-muted-foreground">
+                      暂无备注，点击查看完整记录。
+                    </p>
+                  )}
                 </div>
               </Link>
             ))}
