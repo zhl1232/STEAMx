@@ -5,14 +5,16 @@ import Link from "next/link";
 import { Clock3, MapPin, Sprout } from "lucide-react";
 
 import type { ObservationEvent } from "@/lib/mappers/types";
+import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { cn } from "@/lib/utils";
 
 interface ObservationCardProps {
   observation: ObservationEvent;
   className?: string;
+  fromHref?: string;
 }
 
-export function ObservationCard({ observation, className }: ObservationCardProps) {
+export function ObservationCard({ observation, className, fromHref }: ObservationCardProps) {
   const heroImage = observation.mediaUrls[0];
   const title = observation.species[0]?.commonName ?? `观察记录 #${observation.id}`;
   const summary = observation.notes?.trim();
@@ -27,7 +29,7 @@ export function ObservationCard({ observation, className }: ObservationCardProps
 
   return (
     <Link
-      href={`/nature/observations/${observation.id}`}
+      href={appendNatureFrom(`/nature/observations/${observation.id}`, fromHref)}
       className={cn(
         "group overflow-hidden rounded-[24px] border border-border/70 bg-card/90 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_20px_46px_-28px_rgba(15,23,42,0.45)]",
         className,

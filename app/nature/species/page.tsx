@@ -15,6 +15,13 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
   const params = await searchParams;
   const page = Math.max(0, parseInt(params.page || "0", 10) || 0);
   const query = params.q || undefined;
+  const fromHref = (() => {
+    const queryParams = new URLSearchParams();
+    if (query) queryParams.set("q", query);
+    if (page > 0) queryParams.set("page", String(page));
+    const serialized = queryParams.toString();
+    return serialized ? `/nature/species?${serialized}` : "/nature/species";
+  })();
   const { species, hasMore, total } = await getSpeciesList({
     query,
     page,
@@ -89,12 +96,13 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
             <SpeciesListLoadMore
               key={`${query ?? ""}-${page}`}
               initialSpecies={species}
-              initialPage={page}
-              pageSize={SPECIES_PAGE_SIZE}
-              query={query}
-              initialHasMore={hasMore}
-              total={total}
-            />
+            initialPage={page}
+            pageSize={SPECIES_PAGE_SIZE}
+            query={query}
+            initialHasMore={hasMore}
+            total={total}
+            fromHref={fromHref}
+          />
           ) : null}
 
           {species.length === 0 ? (

@@ -6,14 +6,17 @@ import { AudioLines, Binoculars, CalendarDays, Feather, MapPin } from "lucide-re
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
+import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 
 interface SpeciesDetailPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
 }
 
-export default async function SpeciesDetailPage({ params }: SpeciesDetailPageProps) {
+export default async function SpeciesDetailPage({ params, searchParams }: SpeciesDetailPageProps) {
   const { slug } = await params;
+  const query = await searchParams;
   const species = await getSpeciesBySlug(slug);
 
   if (!species) {
@@ -24,6 +27,13 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
   const recentObservationCount = recentObservations.length;
   const hotspotCount = species.topLocations?.length ?? 0;
   const hasRecentObservations = recentObservationCount > 0;
+  const currentPath = `/nature/species/${species.slug}`;
+  const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
+  const submitHref = buildNatureSubmitHref({
+    topic: "birds",
+    speciesId: species.id,
+    from: currentPath,
+  });
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
   const aliasesPinyin = toSpeciesPinyinLabel(species.aliasesDisplay);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
@@ -37,7 +47,7 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
         <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
           <MobilePageHeader
             title={species.commonName}
-            fallbackHref="/nature/species"
+            fallbackHref={fallbackHref}
             sticky={false}
             className="border-none bg-transparent shadow-none"
           />
@@ -194,7 +204,7 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
               {hasRecentObservations ? (
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/nature/submit?species=${species.id}`}
+                    href={submitHref}
                     className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                   >
                     记录这只鸟的观察
@@ -207,7 +217,7 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
                 recentObservations.map((observation) => (
                   <Link
                     key={observation.id}
-                    href={`/nature/observations/${observation.id}`}
+                    href={appendNatureFrom(`/nature/observations/${observation.id}`, currentPath)}
                     className="block rounded-2xl border border-border/70 bg-background/80 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm"
                   >
                     <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -229,7 +239,7 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
                 <div className="rounded-2xl border border-dashed border-border/80 bg-background/70 p-4">
                   <p className="text-sm text-muted-foreground">暂时还没有观察记录。</p>
                   <Link
-                    href={`/nature/submit?species=${species.id}`}
+                    href={submitHref}
                     className="mt-3 inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                   >
                     记录这只鸟的观察

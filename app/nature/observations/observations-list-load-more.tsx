@@ -12,6 +12,7 @@ interface ObservationsListLoadMoreProps {
   pageSize: number;
   initialHasMore: boolean;
   total: number;
+  fromHref?: string;
 }
 
 export function ObservationsListLoadMore({
@@ -20,6 +21,7 @@ export function ObservationsListLoadMore({
   pageSize,
   initialHasMore,
   total,
+  fromHref,
 }: ObservationsListLoadMoreProps) {
   const [items, setItems] = useState(initialObservations);
   const [page, setPage] = useState(initialPage);
@@ -75,7 +77,7 @@ export function ObservationsListLoadMore({
     <>
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {items.map((observation) => (
-          <ObservationCard key={observation.id} observation={observation} />
+          <ObservationCard key={observation.id} observation={observation} fromHref={fromHref} />
         ))}
       </div>
 

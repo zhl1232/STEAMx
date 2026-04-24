@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 
 interface ObservationSubmitSuccessDialogProps {
   open: boolean
@@ -106,7 +107,11 @@ export function ObservationSubmitSuccessDialog({
 
           <div className="grid gap-3 border-t border-white/10 bg-black/26 p-4 sm:grid-cols-2 sm:p-5">
             <Link
-              href={observationId ? `/nature/observations/${observationId}` : "/nature/observations"}
+              href={
+                observationId
+                  ? appendNatureFrom(`/nature/observations/${observationId}`, "/nature/submit")
+                  : "/nature/observations"
+              }
               className="inline-flex h-12 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 transition-colors hover:bg-white/90"
             >
               查看这条记录

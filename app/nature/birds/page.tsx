@@ -6,6 +6,7 @@ import { ObservationPhotoFrame } from "@/components/features/bird-observation/ob
 import { TopicHotspotPanel } from "@/components/features/bird-observation/topic-hotspot-panel";
 import { getBirdObservationFeaturedSpecies, getBirdObservationRecentObservations } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent, ObservationLocationSummary } from "@/lib/mappers/types";
+import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const FEATURED_SPECIES_LIMIT = 6;
 const HOTSPOT_SAMPLE_LIMIT = 30;
@@ -59,9 +60,11 @@ export default async function NatureBirdsPage() {
   ]);
 
   const firstSpecies = spotlightSpecies[0] ?? null;
-  const submitHref = firstSpecies
-    ? `/nature/submit?topic=birds&species=${firstSpecies.id}`
-    : "/nature/submit?topic=birds";
+  const submitHref = buildNatureSubmitHref({
+    topic: "birds",
+    speciesId: firstSpecies?.id,
+    from: "/nature/birds",
+  });
   const displayObservations = recentObservations.slice(0, OBSERVATION_DISPLAY_LIMIT);
   const hotspots = buildTopicHotspots(recentObservations);
 
@@ -91,7 +94,7 @@ export default async function NatureBirdsPage() {
             {spotlightSpecies.map((species) => (
               <Link
                 key={species.id}
-                href={`/nature/species/${species.slug}`}
+                href={appendNatureFrom(`/nature/species/${species.slug}`, "/nature/birds")}
                 className="surface-subtle block rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5 hover:border-primary/35"
               >
                 <p className="text-base font-medium text-foreground">{species.commonName}</p>
@@ -152,7 +155,7 @@ export default async function NatureBirdsPage() {
             {displayObservations.map((observation) => (
               <Link
                 key={observation.id}
-                href={`/nature/observations/${observation.id}`}
+                href={appendNatureFrom(`/nature/observations/${observation.id}`, "/nature/birds")}
                 className="surface-subtle block overflow-hidden transition-transform hover:-translate-y-0.5"
               >
                 {observation.mediaUrls[0] ? (

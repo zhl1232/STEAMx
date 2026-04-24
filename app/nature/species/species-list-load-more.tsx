@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import type { Species } from "@/lib/mappers/types";
+import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 
 interface SpeciesListLoadMoreProps {
@@ -15,6 +16,7 @@ interface SpeciesListLoadMoreProps {
   query?: string;
   initialHasMore: boolean;
   total: number;
+  fromHref?: string;
 }
 
 export function SpeciesListLoadMore({
@@ -24,6 +26,7 @@ export function SpeciesListLoadMore({
   query,
   initialHasMore,
   total,
+  fromHref,
 }: SpeciesListLoadMoreProps) {
   const [items, setItems] = useState(initialSpecies);
   const [page, setPage] = useState(initialPage);
@@ -87,7 +90,7 @@ export function SpeciesListLoadMore({
           return (
             <Link
               key={item.id}
-              href={`/nature/species/${item.slug}`}
+              href={appendNatureFrom(`/nature/species/${item.slug}`, fromHref)}
               className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-[24px] border border-border/70 bg-card/85 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
               style={{ animationDelay: `${staggerMs}ms` }}
             >

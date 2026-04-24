@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock3, MapPin, Navigation } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -10,14 +9,17 @@ import { ObservationSocialSection } from "@/components/features/bird-observation
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { getObservationById } from "@/lib/api/nature-observation-data";
+import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { HeroImagePreview } from "./hero-image-preview";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ from?: string }>;
 }
 
-export default async function ObservationDetailPage({ params }: ObservationDetailPageProps) {
+export default async function ObservationDetailPage({ params, searchParams }: ObservationDetailPageProps) {
   const { id } = await params;
+  const query = await searchParams;
   const observation = await getObservationById(id);
 
   if (!observation) {
@@ -34,6 +36,16 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
   }).format(new Date(observation.observedAt));
   const primarySpecies = observation.species[0];
   const heroImage = observation.mediaUrls[0];
+  const currentPath = `/nature/observations/${observation.id}`;
+  const fallbackHref = normalizeNatureFrom(query.from, "/nature/observations");
+  const primarySpeciesHref = primarySpecies?.speciesSlug
+    ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
+    : null;
+  const submitHref = buildNatureSubmitHref({
+    topic: "birds",
+    speciesId: primarySpecies?.speciesId,
+    from: currentPath,
+  });
   const amapHref =
     observation.latitude != null && observation.longitude != null
       ? `https://uri.amap.com/marker?position=${observation.longitude},${observation.latitude}&name=${encodeURIComponent(observation.locationName)}&src=steam-explore`
@@ -45,7 +57,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
         <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
           <MobilePageHeader
             title="观察记录详情"
-            fallbackHref="/nature/observations"
+            fallbackHref={fallbackHref}
             sticky={false}
             className="border-none bg-transparent shadow-none"
           />
@@ -87,7 +99,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
                     <p className="text-base italic text-muted-foreground md:text-lg">{primarySpecies.scientificName}</p>
                     {primarySpecies.speciesSlug ? (
                       <Link
-                        href={`/nature/species/${primarySpecies.speciesSlug}`}
+                        href={primarySpeciesHref ?? `/nature/species/${primarySpecies.speciesSlug}`}
                         aria-label="查看物种百科"
                         className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-muted/45 text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
                       >
@@ -98,7 +110,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
                   </div>
                 ) : primarySpecies?.speciesSlug ? (
                   <Link
-                    href={`/nature/species/${primarySpecies.speciesSlug}`}
+                    href={primarySpeciesHref ?? `/nature/species/${primarySpecies.speciesSlug}`}
                     aria-label="查看物种百科"
                     className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-muted/45 text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
                   >
@@ -122,6 +134,20 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
+                {primarySpeciesHref ? (
+                  <Link
+                    href={primarySpeciesHref}
+                    className="inline-flex h-9 items-center justify-center rounded-full border border-border/70 bg-muted/40 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                  >
+                    回到该物种
+                  </Link>
+                ) : null}
+                <Link
+                  href={submitHref}
+                  className="inline-flex h-9 items-center justify-center rounded-full border border-border/70 bg-muted/40 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                >
+                  再记一条
+                </Link>
                 <ObservationOwnerActions observationId={observation.id} ownerId={observation.userId} />
                 <ReportDialog contentType="observation" contentId={observation.id}>
                   <button
@@ -145,7 +171,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
               className="mt-2 border-0 bg-transparent p-0 shadow-none"
               commentsClassName="mt-4 rounded-[24px] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
               mobileFloatingBar
-              submitHref="/nature/submit"
+              submitHref={submitHref}
             />
           </div>
         </section>

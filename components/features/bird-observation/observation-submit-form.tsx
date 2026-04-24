@@ -41,6 +41,7 @@ export interface SpeciesOption {
 interface ObservationSubmitFormProps {
   speciesOptions: SpeciesOption[]
   isBirdTopic?: boolean
+  initialSpeciesId?: number | null
 }
 
 interface SpeciesSearchResponse {
@@ -88,6 +89,7 @@ function getProgressValue(count: number, threshold: number) {
 export function ObservationSubmitForm({
   speciesOptions,
   isBirdTopic = false,
+  initialSpeciesId = null,
 }: ObservationSubmitFormProps) {
   const router = useRouter()
   const { toast } = useToast()
@@ -102,7 +104,7 @@ export function ObservationSubmitForm({
   const [latitude, setLatitude] = useState("")
   const [longitude, setLongitude] = useState("")
   const [notes, setNotes] = useState("")
-  const [speciesId, setSpeciesId] = useState("")
+  const [speciesId, setSpeciesId] = useState(() => (initialSpeciesId ? String(initialSpeciesId) : ""))
   const [speciesQuery, setSpeciesQuery] = useState("")
   const [speciesResults, setSpeciesResults] = useState<SpeciesOption[]>([])
   const [isSearchingSpecies, setIsSearchingSpecies] = useState(false)
@@ -143,6 +145,10 @@ export function ObservationSubmitForm({
   const selectedSpecies = useMemo(
     () => allSpecies.find((option) => String(option.id) === speciesId) ?? null,
     [allSpecies, speciesId],
+  )
+  const initialSpecies = useMemo(
+    () => allSpecies.find((option) => option.id === initialSpeciesId) ?? null,
+    [allSpecies, initialSpeciesId],
   )
 
   const analysisMap = useMemo(
@@ -337,6 +343,12 @@ export function ObservationSubmitForm({
   }, [selectedSpecies, speciesQuery])
 
   useEffect(() => {
+    if (!initialSpecies) return
+    setSpeciesId(String(initialSpecies.id))
+    setSpeciesQuery((current) => current || initialSpecies.commonName)
+  }, [initialSpecies])
+
+  useEffect(() => {
     const query = speciesQuery.trim()
     if (!query) {
       setSpeciesResults(allSpecies.slice(0, 8))
@@ -389,8 +401,8 @@ export function ObservationSubmitForm({
     setLatitude("")
     setLongitude("")
     setNotes("")
-    setSpeciesId("")
-    setSpeciesQuery("")
+    setSpeciesId(initialSpecies ? String(initialSpecies.id) : "")
+    setSpeciesQuery(initialSpecies?.commonName ?? "")
     setLocationPrecision("approximate")
     autoLocateAfterPhotoRef.current = false
     void tryLocate(false)

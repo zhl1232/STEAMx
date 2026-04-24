@@ -13,6 +13,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
   const page = Math.max(0, parseInt(params.page || "0", 10) || 0);
   const pageSize = 12;
   const { observations, hasMore, total } = await getObservations({ page, pageSize });
+  const fromHref = page > 0 ? `/nature/observations?page=${page}` : "/nature/observations";
 
   return (
     <div className="page-shell pt-6 pb-24 md:pb-10">
@@ -34,6 +35,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
             pageSize={pageSize}
             initialHasMore={hasMore}
             total={total}
+            fromHref={fromHref}
           />
           <noscript>
             <div className="mt-8 flex justify-end">

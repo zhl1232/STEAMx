@@ -15,10 +15,15 @@ import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationPhotoFrame } from "@/components/features/bird-observation/observation-photo-frame";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
 import { natureTopics } from "@/lib/config/nature-topics";
+import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 export default async function NaturePage() {
   const homepage = await getBirdObservationHomepageData();
   const recentObservations = homepage.recentObservations.slice(0, 8);
+  const submitHref = buildNatureSubmitHref({
+    topic: "birds",
+    from: "/nature",
+  });
 
   const topicIcons = {
     birds: Binoculars,
@@ -32,8 +37,36 @@ export default async function NaturePage() {
   return (
     <NatureShell
       title="自然观察"
-      description="先浏览专题，再看社区最新观察；想发布记录可直接使用底部观察入口。"
+      description="进入观察频道后可直接发布记录，再继续浏览专题、物种和社区最新观察；当前发布先支持鸟类专题。"
     >
+      <section className="surface-panel relative overflow-hidden p-5 sm:p-6">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(110,231,183,0.26),transparent_36%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.18),transparent_34%)]" />
+        <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="section-kicker">现在就开始</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">先记下这一刻，再沿着记录继续发现</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
+              现在可直接发布鸟类观察。提交成功后会进入记录详情，你也可以继续补下一条，形成连续样本。
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={submitHref}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+            >
+              发布观察
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/nature/birds"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border/70 bg-background/82 px-5 py-3 text-sm font-medium transition-colors hover:bg-muted/70"
+            >
+              先看鸟类专题
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="surface-panel relative overflow-hidden p-5 sm:p-6">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-r from-emerald-200/35 via-lime-100/20 to-cyan-100/35 dark:from-emerald-900/20 dark:via-lime-900/10 dark:to-cyan-900/20" />
 
@@ -134,7 +167,7 @@ export default async function NaturePage() {
             {recentObservations.map((observation, index) => (
               <Link
                 key={observation.id}
-                href={`/nature/observations/${observation.id}`}
+                href={appendNatureFrom(`/nature/observations/${observation.id}`, "/nature")}
                 className="surface-subtle group block overflow-hidden rounded-3xl border border-border/70 bg-card/90 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_24px_60px_-34px_rgba(34,89,67,0.5)]"
               >
                 {observation.mediaUrls[0] ? (
