@@ -35,11 +35,22 @@ describe('PATCH /api/admin/reports/[id]', () => {
       data: null,
       error: null,
     })
-    const select = vi.fn(() => ({
+    const eqLoad = vi.fn(() => ({
       maybeSingle,
     }))
+    const select = vi.fn(() => ({
+      eq: eqLoad,
+    }))
+
+    const updateMaybeSingle = vi.fn().mockResolvedValue({
+      data: null,
+      error: null,
+    })
+    const updateSelect = vi.fn(() => ({
+      maybeSingle: updateMaybeSingle,
+    }))
     const eqPending = vi.fn(() => ({
-      select,
+      select: updateSelect,
     }))
     const eqId = vi.fn(() => ({
       eq: eqPending,
@@ -51,7 +62,7 @@ describe('PATCH /api/admin/reports/[id]', () => {
     createClientMock.mockResolvedValue({
       from: vi.fn((table: string) => {
         if (table === 'reports') {
-          return { update }
+          return { select, update }
         }
         throw new Error(`Unexpected table: ${table}`)
       }),
@@ -67,5 +78,6 @@ describe('PATCH /api/admin/reports/[id]', () => {
 
     expect(response.status).toBe(404)
     await expect(response.json()).resolves.toEqual({ error: '举报不存在或已处理' })
+    expect(update).not.toHaveBeenCalled()
   })
 })
