@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import type { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 import {
   AlertTriangle,
   ArrowLeft,
@@ -507,42 +507,75 @@ function StepItem({
 
 export async function generateMetadata(
   { params }: ProjectDetailPageProps,
-  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { id } = await params
   const project = await getProjectById(id)
-  if (!project) return { title: '项目未找到' }
+  if (!project) {
+    return {
+      title: '项目未找到',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  }
 
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
   if (!canAccessProject(project, user?.id)) {
-    return { title: '项目未找到' }
+    return {
+      title: '项目未找到',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
   }
-
-  const previousImages = (await parent).openGraph?.images || []
+  const description = project.description?.substring(0, 160) || 'STEAM 探索上的实践项目详情页。'
+  const canonicalPath = `/project/${id}`
+  const keywords = Array.from(
+    new Set(
+      [project.title, project.category, project.sub_category, ...(project.tags || []), 'STEAM项目', '项目式学习']
+        .filter((value): value is string => Boolean(value)),
+    ),
+  )
 
   return {
-    title: `${project.title} | STEAM 探索`,
-    description: project.description?.substring(0, 160) || 'STEAM 探索上的实践项目详情页。',
+    title: project.title,
+    description,
+    keywords,
+    alternates: {
+      canonical: canonicalPath,
+    },
     openGraph: {
       title: project.title,
-      description: project.description?.substring(0, 160) || 'STEAM 探索上的实践项目详情页。',
-      url: `/project/${id}`,
+      description,
+      url: canonicalPath,
       siteName: 'STEAM 探索',
-      images: project.image
-        ? [{ url: project.image, width: 1200, height: 630, alt: project.title }, ...previousImages]
-        : previousImages,
+      ...(project.image
+        ? {
+            images: [{ url: project.image, width: 1200, height: 630, alt: project.title }],
+          }
+        : {}),
       type: 'article',
       ...(project.author ? { authors: [project.author] } : {}),
     },
     twitter: {
-      card: 'summary_large_image',
+      card: project.image ? 'summary_large_image' : 'summary',
       title: project.title,
-      description: project.description?.substring(0, 160) || 'STEAM 探索上的实践项目详情页。',
+      description,
       ...(project.image ? { images: [project.image] } : {}),
     },
+    ...(project.status !== 'approved'
+      ? {
+          robots: {
+            index: false,
+            follow: false,
+          },
+        }
+      : {}),
   }
 }
 

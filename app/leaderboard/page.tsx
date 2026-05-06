@@ -1,7 +1,16 @@
+import type { Metadata } from "next";
 import { Medal, Sparkles, Trophy } from "lucide-react";
 
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = buildPageMetadata({
+    title: "社区排行榜",
+    description: "查看 STEAM 探索社区中的等级、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。",
+    path: "/leaderboard",
+    keywords: ["社区排行榜", "STEAM成长榜", "创作排行"],
+});
 
 export default function LeaderboardPage() {
     return (

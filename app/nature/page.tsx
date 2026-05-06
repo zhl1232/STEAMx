@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -35,11 +36,20 @@ import type {
   ObservationHotspotSummary,
 } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent } from "@/lib/mappers/types";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
 const lakeImage = "/assets/observation-list-reeds-sky-bg.png";
 const speciesImage = "/assets/species-archive-blue-tech-bg.png";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "自然观察",
+  description:
+    "记录鸟类、植物、昆虫和真菌等真实自然观察，查看社区热点、物种档案和公开观察记录，把身边生态变化积累成可追踪的数据。",
+  path: "/nature",
+  keywords: ["自然观察", "鸟类观察", "物种识别", "观察记录", "校园自然"],
+});
 
 type ImageSource = string | StaticImageData;
 

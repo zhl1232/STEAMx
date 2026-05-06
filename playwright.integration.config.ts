@@ -16,6 +16,7 @@ const port = new URL(baseURL).port || '3001'
 
 export default defineConfig({
   testDir: './e2e/integration',
+  timeout: 90_000,
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

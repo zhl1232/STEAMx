@@ -16,6 +16,41 @@ const admin = createClient(supabaseUrl, serviceRoleKey, {
   },
 })
 
+function defaultAvatarPath(userId: string) {
+  let hash = 0
+  for (const char of userId) {
+    hash = (hash * 31 + char.charCodeAt(0)) | 0
+  }
+
+  return `/avatars/default-${1 + (Math.abs(hash) % 12)}.svg`
+}
+
+async function ensureProfileRow(params: {
+  userId: string
+  username: string
+  fullName: string
+}) {
+  const existingProfile = await admin
+    .from('profiles')
+    .select('id')
+    .eq('id', params.userId)
+    .maybeSingle()
+
+  if (existingProfile.error) throw existingProfile.error
+  if (existingProfile.data) return
+
+  const { error } = await admin.from('profiles').insert({
+    id: params.userId,
+    username: params.username,
+    display_name: params.fullName,
+    avatar_url: defaultAvatarPath(params.userId),
+    role: 'user',
+    age_confirmed_at: new Date().toISOString(),
+  })
+
+  if (error) throw error
+}
+
 async function findUserByEmail(email: string): Promise<AdminUser | null> {
   const normalized = email.trim().toLowerCase()
   let page = 1
@@ -54,6 +89,53 @@ export async function confirmUserEmail(email: string) {
   if (error) throw error
 
   return user.id
+}
+
+export async function ensureEmailUser(params: {
+  email: string
+  password: string
+  fullName?: string
+  username?: string
+}) {
+  const normalizedEmail = params.email.trim().toLowerCase()
+  const fallbackName = normalizedEmail.split('@')[0] || 'e2e-user'
+  const fullName = params.fullName ?? fallbackName
+  const username =
+    params.username ??
+    `e2e_${fallbackName.replace(/[^a-z0-9_]/gi, '_').slice(0, 20)}`
+
+  const existing = await findUserByEmail(normalizedEmail)
+
+  if (existing) {
+    const { error } = await admin.auth.admin.updateUserById(existing.id, {
+      password: params.password,
+      email_confirm: true,
+      user_metadata: {
+        username,
+        full_name: fullName,
+      },
+    })
+
+    if (error) throw error
+    await ensureProfileRow({ userId: existing.id, username, fullName })
+    return existing.id
+  }
+
+  const { data, error } = await admin.auth.admin.createUser({
+    email: normalizedEmail,
+    password: params.password,
+    email_confirm: true,
+    user_metadata: {
+      username,
+      full_name: fullName,
+    },
+  })
+
+  if (error) throw error
+  if (!data.user) throw new Error(`Unable to create user for email: ${normalizedEmail}`)
+
+  await ensureProfileRow({ userId: data.user.id, username, fullName })
+  return data.user.id
 }
 
 export async function deleteUserByEmail(email: string) {

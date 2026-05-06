@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useEffect, useState, type ReactNode } from "react";
@@ -552,19 +551,13 @@ function CommunityPageContent() {
     }, []);
 
     return (
-        <>
-            <Head>
-                <title>STEAM 创客社区 - 讨论与挑战</title>
-                <meta name="description" content="加入 STEAM 创客社区，参与讨论和挑战，分享创意，赢取徽章。" />
-            </Head>
-
-            <div className="min-h-screen bg-[linear-gradient(180deg,#f7fbff_0%,#f2f7fd_54%,hsl(var(--background))_100%)] dark:bg-[linear-gradient(180deg,#07101d_0%,#0a1421_56%,hsl(var(--background))_100%)]">
-                <MobileCommunityHeader />
-                <main className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-4 min-[390px]:px-5 md:px-8 md:py-6">
-                    <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
-                        <CommunityHero metrics={metrics} />
-                        <NatureFeatureCard challenge={featureChallenge} />
-                    </div>
+        <div className="min-h-screen bg-[linear-gradient(180deg,#f7fbff_0%,#f2f7fd_54%,hsl(var(--background))_100%)] dark:bg-[linear-gradient(180deg,#07101d_0%,#0a1421_56%,hsl(var(--background))_100%)]">
+            <MobileCommunityHeader />
+            <main className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-4 min-[390px]:px-5 md:px-8 md:py-6">
+                <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
+                    <CommunityHero metrics={metrics} />
+                    <NatureFeatureCard challenge={featureChallenge} />
+                </div>
 
                     <div
                         className={cn(
@@ -615,9 +608,8 @@ function CommunityPageContent() {
                             action
                         />
                     ) : null}
-                </main>
-            </div>
-        </>
+            </main>
+        </div>
     );
 }
 

@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ObservationsListLoadMore } from "@/app/nature/observations/observations-list-load-more";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getObservations } from "@/lib/api/nature-observation-data";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "观察记录",
+  description: "查看社区公开的自然观察记录，了解大家在什么时间、什么地点观察到了哪些物种与生态现象。",
+  path: "/nature/observations",
+  keywords: ["观察记录", "自然观察记录", "观鸟记录", "社区观察"],
+});
 
 interface ObservationsPageProps {
   searchParams: Promise<{ page?: string }>;

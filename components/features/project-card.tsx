@@ -137,7 +137,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 src={project.image}
                                 alt={project.title}
                                 fill
-                                variant="card"
+                                variant="featured"
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 onError={() => setImageError(true)}
                                 priority={priority}

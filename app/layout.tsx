@@ -9,8 +9,9 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
+import { getMetadataBase } from "@/lib/seo/site";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const metadataBase = getMetadataBase();
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -19,40 +20,42 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase,
+  applicationName: "STEAM 探索",
   title: {
     template: "%s | STEAM 探索",
-    default: "STEAM 探索 - 基于项目学习（PBL）的探索平台",
+    default: "STEAM 探索",
   },
   description:
-    "基于项目学习（PBL）的 STEAM 探索平台。用户可以在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。",
+    "STEAM 项目式学习与自然观察社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。",
   keywords: [
     "STEAM",
+    "STEAM教育",
     "PBL",
     "项目式学习",
-    "教育",
-    "项目分享",
-    "科学",
-    "技术",
-    "工程",
-    "艺术",
-    "数学",
-    "DIY",
-    "创客",
+    "科学实验",
+    "创客教育",
+    "自然观察",
+    "鸟类观察",
+    "项目分享社区",
   ],
   authors: [{ name: "STEAM 探索团队" }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    url: appUrl,
-    title: "STEAM 探索 - 基于项目学习（PBL）的探索平台",
+    url: "/",
+    title: "STEAM 探索",
     description:
-      "基于项目学习（PBL）的 STEAM 探索平台。用户可以在做中学，发现、分享并完成科学、技术、工程、艺术与数学项目。",
+      "STEAM 项目式学习与自然观察社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。",
     siteName: "STEAM 探索",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "STEAM 探索",
-    description: "基于项目学习（PBL）的 STEAM 探索平台",
+    description: "STEAM 项目式学习与自然观察社区",
   },
   robots: {
     index: true,

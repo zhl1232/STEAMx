@@ -1,11 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Search } from "lucide-react";
 
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesList } from "@/lib/api/nature-observation-data";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { SpeciesListLoadMore } from "./species-list-load-more";
 
 const SPECIES_PAGE_SIZE = 12;
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "物种档案",
+  description: "浏览自然观察频道中的物种档案，查看常见名称、学名、识别特征、常见环境以及最近观察线索。",
+  path: "/nature/species",
+  keywords: ["物种档案", "鸟类图鉴", "物种识别", "学名查询"],
+});
 
 interface SpeciesPageProps {
   searchParams: Promise<{ q?: string; page?: string }>;

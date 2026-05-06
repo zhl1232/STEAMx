@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
+
 import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationSubmitForm } from "@/components/features/bird-observation/observation-submit-form";
 import { getSpeciesList } from "@/lib/api/nature-observation-data";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 
 interface ObservationSubmitPageProps {
@@ -10,6 +13,13 @@ interface ObservationSubmitPageProps {
     from?: string;
   }>;
 }
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "发布观察记录",
+  description: "提交自然观察记录，补充物种、地点、时间与媒体信息，把一次观察沉淀为可追踪的图鉴进度。",
+  path: "/nature/submit",
+  noIndex: true,
+});
 
 export default async function ObservationSubmitPage({ searchParams }: ObservationSubmitPageProps) {
   const params = await searchParams;

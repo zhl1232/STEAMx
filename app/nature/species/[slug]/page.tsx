@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,12 +7,49 @@ import { AudioLines, Binoculars, CalendarDays, Feather, MapPin } from "lucide-re
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 
 interface SpeciesDetailPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ from?: string }>;
+}
+
+export async function generateMetadata({ params }: SpeciesDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const species = await getSpeciesBySlug(slug);
+
+  if (!species) {
+    return {
+      title: "物种未找到",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const description =
+    species.identificationNotes ||
+    species.habitatNotes ||
+    species.seasonalityNotes ||
+    `${species.commonName} 的物种档案，包含识别特征、常见环境和近期观察线索。`;
+
+  return buildPageMetadata({
+    title: species.commonName,
+    description: description.slice(0, 160),
+    path: `/nature/species/${species.slug}`,
+    image: species.coverImageUrl || undefined,
+    keywords: [
+      species.commonName,
+      species.scientificName,
+      species.aliasesDisplay,
+      species.taxonGroup,
+      "物种档案",
+      "自然观察",
+    ],
+  });
 }
 
 export default async function SpeciesDetailPage({ params, searchParams }: SpeciesDetailPageProps) {

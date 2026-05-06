@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Bird, Camera, MapPin } from "lucide-react";
@@ -7,12 +8,20 @@ import { ObservationPhotoFrame } from "@/components/features/bird-observation/ob
 import { TopicHotspotPanel } from "@/components/features/bird-observation/topic-hotspot-panel";
 import { getBirdObservationFeaturedSpecies, getBirdObservationRecentObservations } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent, ObservationLocationSummary } from "@/lib/mappers/types";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const FEATURED_SPECIES_LIMIT = 6;
 const HOTSPOT_SAMPLE_LIMIT = 30;
 const HOTSPOT_DISPLAY_LIMIT = 6;
 const OBSERVATION_DISPLAY_LIMIT = 12;
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "鸟类观察",
+  description: "从校园、公园和社区开始做鸟类观察，查看常见物种、公开记录与热点地点，建立自己的观鸟入门路径。",
+  path: "/nature/birds",
+  keywords: ["鸟类观察", "观鸟", "校园鸟类", "鸟类识别", "自然观察"],
+});
 
 function buildTopicHotspots(observations: ObservationEvent[]): ObservationLocationSummary[] {
   const grouped = new Map<string, ObservationLocationSummary>();

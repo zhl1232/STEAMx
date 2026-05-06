@@ -18,7 +18,7 @@ test.describe('私信系统', () => {
 
   test('主导航在未登录时不显示私信链接', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('header')).toBeVisible();
+    await expect(page.getByRole('main')).toBeVisible();
     const nav = page.locator('nav a[href="/messages"]');
     await expect(nav).toHaveCount(0);
   });

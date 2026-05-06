@@ -1,42 +1,29 @@
 import type { Page } from '@playwright/test'
-import { expect } from '@playwright/test'
-import { confirmUserEmail } from './supabase-admin'
+import { ensureEmailUser } from './supabase-admin'
 
 type AuthOptions = {
   email: string
   password: string
 }
 
-export async function signUpAndLogin(page: Page, { email, password }: AuthOptions) {
+async function openEmailAuthForm(page: Page, mode: 'sign_in' | 'sign_up') {
   await page.goto('/login')
-  await page.getByRole('button', { name: '立即注册' }).click()
-  await page.getByPlaceholder('name@example.com / 13800138000').fill(email)
-  await page.getByPlaceholder('••••••••').fill(password)
-  await page.locator('#terms').click()
-  await page.getByRole('button', { name: '注册' }).click()
+  await page.getByRole('button', { name: mode === 'sign_in' ? '登录' : '注册', exact: true }).first().click()
+  await page.getByRole('button', { name: '邮箱', exact: true }).click()
+  return page.getByRole('form', { name: /欢迎回到 STEAM 探索/ })
+}
 
-  const registeredAndLoggedIn = await page
-    .waitForURL(/\/$/, { timeout: 8000 })
-    .then(() => true)
-    .catch(() => false)
+async function loginWithEmail(page: Page, { email, password }: AuthOptions) {
+  const form = await openEmailAuthForm(page, 'sign_in')
+  await form.getByPlaceholder('请输入邮箱').fill(email)
+  await form.getByPlaceholder('请输入至少 6 位密码').fill(password)
+  await form.getByRole('button', { name: '登录', exact: true }).click()
+  await page.waitForURL(/\/$/, { timeout: 25000 })
+}
 
-  if (!registeredAndLoggedIn) {
-    const alreadyRegistered = await page
-      .getByText('该邮箱已被注册')
-      .first()
-      .isVisible()
-      .catch(() => false)
-
-    if (!alreadyRegistered) {
-      await expect(page.getByText('注册成功')).toBeVisible({ timeout: 8000 })
-      await confirmUserEmail(email)
-    }
-
-    await page.getByRole('button', { name: '立即登录' }).click()
-    await page.getByPlaceholder('name@example.com / 13800138000').fill(email)
-    await page.getByPlaceholder('••••••••').fill(password)
-    await page.locator('#terms').click()
-    await page.getByRole('button', { name: '登录' }).click()
-    await page.waitForURL(/\/$/, { timeout: 8000 })
-  }
+export async function signUpAndLogin(page: Page, { email, password }: AuthOptions) {
+  // Integration runs against shared Supabase environments where public signups
+  // may be disabled. Seed the user via admin API, then verify the real login UI.
+  await ensureEmailUser({ email, password })
+  await loginWithEmail(page, { email, password })
 }

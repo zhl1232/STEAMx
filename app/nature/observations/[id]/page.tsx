@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Clock3, MapPin, Navigation } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -9,12 +10,49 @@ import { ObservationSocialSection } from "@/components/features/bird-observation
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { getObservationById } from "@/lib/api/nature-observation-data";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { HeroImagePreview } from "./hero-image-preview";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ from?: string }>;
+}
+
+export async function generateMetadata({ params }: ObservationDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const observation = await getObservationById(id);
+
+  if (!observation) {
+    return {
+      title: "观察记录未找到",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const primarySpecies = observation.species[0];
+  const title = primarySpecies?.commonName
+    ? `${primarySpecies.commonName} 观察记录`
+    : `观察记录 #${observation.id}`;
+  const description = (observation.notes || `${observation.locationName} 的自然观察记录。`).slice(0, 160);
+
+  return buildPageMetadata({
+    title,
+    description,
+    path: `/nature/observations/${observation.id}`,
+    image: observation.mediaUrls[0] || undefined,
+    keywords: [
+      primarySpecies?.commonName,
+      primarySpecies?.scientificName,
+      observation.locationName,
+      "自然观察记录",
+      "鸟类观察",
+    ],
+    noIndex: !observation.isPublic,
+  });
 }
 
 export default async function ObservationDetailPage({ params, searchParams }: ObservationDetailPageProps) {

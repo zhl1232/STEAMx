@@ -1,5 +1,5 @@
 import React from 'react'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
 interface UserProfileLayoutProps {
@@ -8,8 +8,7 @@ interface UserProfileLayoutProps {
 }
 
 export async function generateMetadata(
-    { params }: UserProfileLayoutProps,
-    parent: ResolvingMetadata
+    { params }: UserProfileLayoutProps
 ): Promise<Metadata> {
     const { id } = await params
     const supabase = await createClient()
@@ -29,27 +28,31 @@ export async function generateMetadata(
     const profile = data as ProfileMetadata | null;
     if (!profile) return { title: '用户未找到' }
 
-    const previousImages = (await parent).openGraph?.images || []
-
-    const title = `${profile.display_name || '匿名用户'} 的个人主页 | STEAM 探索`
+    const displayName = profile.display_name || '匿名用户'
+    const title = `${displayName} 的个人主页`
     const description = profile.bio?.substring(0, 160) || '来看看这个有趣的灵魂吧，在 STEAM 探索里发现更多项目。'
 
     return {
         title,
         description,
+        keywords: [displayName, '用户主页', 'STEAM 社区'],
+        alternates: {
+            canonical: `/users/${id}`,
+        },
         openGraph: {
             title,
             description,
             url: `/users/${id}`,
             siteName: 'STEAM 探索',
-            images: [
-                ...(profile.avatar_url ? [{ url: profile.avatar_url, width: 400, height: 400, alt: profile.display_name || '头像' }] : []),
-                ...previousImages,
-            ],
+            ...(profile.avatar_url
+                ? {
+                    images: [{ url: profile.avatar_url, width: 400, height: 400, alt: profile.display_name || '头像' }],
+                }
+                : {}),
             type: 'profile',
         },
         twitter: {
-            card: 'summary',
+            card: profile.avatar_url ? 'summary_large_image' : 'summary',
             title,
             description,
             images: profile.avatar_url ? [profile.avatar_url] : [],

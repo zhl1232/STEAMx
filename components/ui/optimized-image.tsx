@@ -13,6 +13,11 @@ const SIZE_PRESETS = {
   avatar: "128px",
   /** 卡片封面：限制桌面目标宽度，避免请求过大的图 */
   card: "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 360px",
+  /**
+   * 首页「热门」左侧重点大卡：实际占位可达半栏 ~720px+，沿用 card 的 360px 会导致拉伸发糊。
+   */
+  featured:
+    "(max-width: 640px) 92vw, (max-width: 1024px) 70vw, (max-width: 1536px) 52vw, 720px",
   /** 上传预览/封面：单块大图 */
   cover: "(max-width: 768px) 100vw, 960px",
   /** 作品墙网格：2/4 列 */
@@ -24,6 +29,7 @@ const SIZE_PRESETS = {
 const QUALITY_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
   avatar: 60,
   card: 60,
+  featured: 72,
   cover: 70,
   grid: 55,
   thumbnail: 55,
@@ -32,6 +38,7 @@ const QUALITY_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
 const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
   avatar: 128,
   card: 480,
+  featured: 960,
   cover: 1280,
   grid: 320,
   thumbnail: 160,
