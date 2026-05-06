@@ -1,48 +1,138 @@
 import Link from "next/link";
-import { ArrowRight, Map } from "lucide-react";
+import { ArrowRight, CalendarDays, Map, MapPin } from "lucide-react";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
+import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
+import { getNatureObservationHotspots } from "@/lib/api/nature-observation-data";
 
-export default function NatureMapPage() {
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
+function formatCount(value: number) {
+  return value.toLocaleString("zh-CN");
+}
+
+export default async function NatureMapPage() {
+  const hotspots = await getNatureObservationHotspots(50);
+  const validHotspots = hotspots.filter((hotspot) => hotspot.latitude != null && hotspot.longitude != null);
+  const totalRecords = hotspots.reduce((sum, hotspot) => sum + hotspot.observationCount, 0);
+
   return (
     <NatureShell
       title="观察地图"
-      description="地图入口先独立出来，后续承接点位、热区、时间筛选和专题视角。"
+      description="基于公开自然观察记录中的真实经纬度，查看当前社区的观察热点。"
       fallbackHref="/nature"
       aside={
         <section className="surface-panel p-5 sm:p-6">
-          <p className="section-kicker">当前阶段</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">先保留独立入口</h2>
+          <p className="section-kicker">地图数据</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight">{formatCount(hotspots.length)} 个热点地点</h2>
           <p className="mt-3 text-sm leading-7 text-muted-foreground">
-            地图能力会作为自然观察频道的公共基础设施存在，不挂在某一个专题下面。
+            由 {formatCount(totalRecords)} 条公开观察记录聚合而来；点越大表示该地点记录越多，颜色和透明度会随最近记录时间变化。
           </p>
         </section>
       }
     >
-      <section className="surface-panel overflow-hidden p-6 sm:p-8">
-        <div className="inline-flex rounded-full border border-sky-200/80 bg-sky-50/90 p-3 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-300">
-          <Map className="h-5 w-5" />
-        </div>
-        <h2 className="mt-5 text-3xl font-semibold tracking-tight">地图能力正在整理中</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          这一页会在后续接入观察点位、热区、专题筛选和时间视图。当前可以先从观察记录流和物种页继续浏览。
-        </p>
-
-        <div className="mt-8 flex flex-wrap gap-3">
+      <section className="surface-panel overflow-hidden p-5 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="inline-flex rounded-full border border-sky-200/80 bg-sky-50/90 p-3 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-300">
+              <Map className="h-5 w-5" />
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight">真实观察热点图</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+              只展示带坐标的公开记录；隐藏坐标或未填写坐标的记录不会出现在地图上。
+            </p>
+          </div>
           <Link
-            href="/nature/observations"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+            href="/nature/submit"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
           >
-            去看观察记录
+            发布观察
             <ArrowRight className="h-4 w-4" />
           </Link>
+        </div>
+
+        {validHotspots.length > 0 ? (
+          <div className="mt-6">
+            <DomesticMiniMap
+              markers={validHotspots.map((hotspot) => ({
+                latitude: hotspot.latitude as number,
+                longitude: hotspot.longitude as number,
+                label: hotspot.locationName,
+                observedAt: hotspot.latestObservedAt,
+                weight: hotspot.observationCount,
+              }))}
+              heightClassName="h-[420px]"
+              enableTimeDecay
+            />
+          </div>
+        ) : (
+          <div className="surface-subtle mt-6 rounded-2xl border border-dashed border-border/80 px-5 py-12 text-center text-sm leading-7 text-muted-foreground">
+            当前公开观察记录里还没有可展示的坐标。新的带坐标观察通过审核后会自动出现在这里。
+          </div>
+        )}
+      </section>
+
+      <section className="surface-panel overflow-hidden p-5 sm:p-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="section-kicker">热点列表</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">按记录数排序</h2>
+          </div>
           <Link
-            href="/nature/species"
-            className="inline-flex items-center rounded-full border border-border/80 bg-background/80 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted/70"
+            href="/nature/observations"
+            className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
           >
-            去看物种
+            查看观察记录
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {hotspots.map((hotspot, index) => (
+            <div key={hotspot.locationName} className="surface-subtle rounded-2xl border border-border/70 bg-background/80 p-4">
+              <div className="flex items-start gap-3">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-amber-500 text-sm font-semibold text-white">
+                  {index + 1}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate text-base font-semibold">{hotspot.locationName}</h3>
+                  <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {formatCount(hotspot.observationCount)} 条记录
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <CalendarDays className="h-3.5 w-3.5" />
+                      最近 {formatDate(hotspot.latestObservedAt)}
+                    </span>
+                  </div>
+                  {hotspot.latitude != null && hotspot.longitude != null ? (
+                    <a
+                      href={`https://uri.amap.com/marker?position=${hotspot.longitude},${hotspot.latitude}&name=${encodeURIComponent(hotspot.locationName)}&src=steam-explore`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-flex text-xs font-medium text-primary hover:underline"
+                    >
+                      在高德中查看位置
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {hotspots.length === 0 ? (
+          <div className="surface-subtle mt-5 rounded-2xl border border-dashed border-border/80 px-5 py-10 text-center text-sm text-muted-foreground">
+            暂无真实热点地点。
+          </div>
+        ) : null}
       </section>
     </NatureShell>
   );

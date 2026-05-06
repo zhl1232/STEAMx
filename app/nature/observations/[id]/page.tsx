@@ -53,19 +53,14 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
 
   return (
     <div className="page-shell pb-36 pt-0 md:pb-12 md:pt-6">
-      <div className="md:hidden">
-        <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
-          <MobilePageHeader
-            title="观察记录详情"
-            fallbackHref={fallbackHref}
-            sticky={false}
-            className="border-none bg-transparent shadow-none"
-          />
-        </div>
-      </div>
+      <MobilePageHeader
+        title="观察记录详情"
+        fallbackHref={fallbackHref}
+        className="-mx-4 mb-4 md:hidden"
+      />
 
       <div className="mx-auto w-full max-w-5xl">
-        <section className="overflow-hidden bg-background">
+        <section className="surface-panel overflow-hidden">
           {heroImage ? (
             <HeroImagePreview
               heroImage={heroImage}
@@ -85,7 +80,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
             <div className="flex flex-wrap items-center gap-2">
               <span className="section-kicker">自然观察</span>
               <span className="inline-flex rounded-full border border-border/70 bg-muted/30 px-3 py-1 text-xs text-muted-foreground">
-                公开观察记录
+                {observation.isPublic ? "公开观察记录" : "仅自己可见"}
               </span>
             </div>
 
@@ -129,8 +124,12 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                   <MapPin className="h-4 w-4" />
                   {observation.locationName}
                 </span>
-                <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">点赞 {observation.likesCount}</span>
-                <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">评论 {observation.commentsCount}</span>
+                {observation.isPublic ? (
+                  <>
+                    <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">点赞 {observation.likesCount}</span>
+                    <span className="inline-flex rounded-full bg-muted/45 px-3.5 py-1.5">评论 {observation.commentsCount}</span>
+                  </>
+                ) : null}
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -149,14 +148,16 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                   再记一条
                 </Link>
                 <ObservationOwnerActions observationId={observation.id} ownerId={observation.userId} />
-                <ReportDialog contentType="observation" contentId={observation.id}>
-                  <button
-                    type="button"
-                    className="inline-flex h-9 items-center justify-center rounded-full border border-border/70 bg-muted/40 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
-                  >
-                    举报记录
-                  </button>
-                </ReportDialog>
+                {observation.isPublic ? (
+                  <ReportDialog contentType="observation" contentId={observation.id}>
+                    <button
+                      type="button"
+                      className="inline-flex h-9 items-center justify-center rounded-full border border-border/70 bg-muted/40 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/75 hover:text-foreground"
+                    >
+                      举报记录
+                    </button>
+                  </ReportDialog>
+                ) : null}
               </div>
 
               {observation.notes ? (
@@ -164,21 +165,23 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               ) : null}
             </div>
 
-            <ObservationSocialSection
-              observationId={observation.id}
-              initialLikesCount={observation.likesCount}
-              initialCommentsCount={observation.commentsCount}
-              className="mt-2 border-0 bg-transparent p-0 shadow-none"
-              commentsClassName="mt-4 rounded-[24px] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
-              mobileFloatingBar
-              submitHref={submitHref}
-            />
+            {observation.isPublic ? (
+              <ObservationSocialSection
+                observationId={observation.id}
+                initialLikesCount={observation.likesCount}
+                initialCommentsCount={observation.commentsCount}
+                className="mt-2 border-0 bg-transparent p-0 shadow-none"
+                commentsClassName="mt-4 rounded-[24px] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
+                mobileFloatingBar
+                submitHref={submitHref}
+              />
+            ) : null}
           </div>
         </section>
 
         {observation.mediaUrls.length > 1 ? (
           <div className="px-6 pb-2 sm:px-8 md:px-9">
-            <section className="rounded-[28px] border border-border/70 bg-card/88 p-4 sm:p-5">
+            <section className="surface-subtle p-4 sm:p-5">
               <h2 className="text-sm font-medium text-foreground">更多观察照片</h2>
               <ObservationMediaGallery mediaUrls={observation.mediaUrls} />
             </section>
@@ -186,7 +189,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
         ) : null}
 
         <div className="px-6 py-5 sm:px-8 sm:py-6 md:px-9">
-          <section className="overflow-hidden rounded-[30px] border border-border/60 bg-card/80 shadow-[0_18px_48px_-42px_rgba(15,23,42,0.16)]">
+          <section className="surface-panel overflow-hidden">
             {observation.latitude != null && observation.longitude != null ? (
               <div className="relative">
                 <DomesticMiniMap

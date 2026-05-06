@@ -28,7 +28,6 @@ export interface AdminProjectSummary {
 }
 
 interface AdminProjectDetail extends AdminProjectSummary {
-  duration: number | null
   difficulty_stars: number | null
   sub_categories: {
     name: string | null
@@ -241,7 +240,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                           </div>
                         ) : detail ? (
                           <div className="space-y-5">
-                            <div className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-4">
+                            <div className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-3">
                               <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3">
                                 <div className="text-xs text-muted-foreground">作者</div>
                                 <div className="mt-1 font-medium">{authorName}</div>
@@ -256,12 +255,6 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                                   {detail.category || "未分类"}
                                   {detail.sub_categories?.name ? ` / ${detail.sub_categories.name}` : ""}
                                   {` / ${formatDifficulty(detail.difficulty_stars)}`}
-                                </div>
-                              </div>
-                              <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3">
-                                <div className="text-xs text-muted-foreground">预计时长</div>
-                                <div className="mt-1 font-medium">
-                                  {detail.duration ? `${detail.duration} 分钟` : "未设置"}
                                 </div>
                               </div>
                             </div>

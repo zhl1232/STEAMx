@@ -21,8 +21,15 @@ export {
   getBirdObservationFeaturedSpecies,
   getBirdObservationRecentObservations,
   getBirdObservationHomepageData,
+  getNatureObservationHotspots,
 } from './nature-observation-homepage'
-export type { BirdHomepageData } from './nature-observation-homepage'
+export type {
+  BirdHomepageData,
+  NatureObservationStats,
+  NatureTopicKey,
+  NatureTopicSummary,
+  ObservationHotspotSummary,
+} from './nature-observation-homepage'
 
 export { getSpeciesList, getSpeciesById, getSpeciesBySlug } from './nature-observation-species'
 export type { SpeciesListOptions } from './nature-observation-species'

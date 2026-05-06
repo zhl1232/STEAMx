@@ -32,6 +32,7 @@ export interface ObservationMediaAnalysisResult {
   moderationReason: string | null
   qualityPass: boolean
   qualityReason: string | null
+  noteSuggestion: string | null
   speciesCandidates: ObservationSpeciesCandidate[]
   rawResponse: unknown
 }
@@ -43,6 +44,7 @@ export interface ObservationMediaAnalysisResponse {
   moderationReason: string | null
   qualityPass: boolean | null
   qualityReason: string | null
+  noteSuggestion: string | null
   speciesCandidates: ObservationSpeciesCandidate[]
 }
 
@@ -58,10 +60,19 @@ const ProviderPayloadSchema = z.object({
   moderation_reason: z.string().trim().min(1).nullable().optional(),
   quality_pass: z.boolean(),
   quality_reason: z.string().trim().min(1).nullable().optional(),
+  note_suggestion: z.string().trim().min(1).nullable().optional(),
   species_candidates: z.array(ProviderCandidateSchema).max(5).default([]),
 })
 
 type ProviderPayload = z.infer<typeof ProviderPayloadSchema>
+
+function isAnalysisStatus(value: string): value is ObservationMediaAnalysisStatus {
+  return ANALYSIS_STATUS_VALUES.includes(value as ObservationMediaAnalysisStatus)
+}
+
+function normalizeAnalysisStatus(value: string): ObservationMediaAnalysisStatus {
+  return isAnalysisStatus(value) ? value : 'error'
+}
 
 function normalizeText(value: string | null | undefined): string {
   return (value || '')
@@ -74,6 +85,24 @@ function clipReason(value: string | null | undefined): string | null {
   const trimmed = value?.trim()
   if (!trimmed) return null
   return trimmed.slice(0, 200)
+}
+
+function clipNoteSuggestion(value: string | null | undefined): string | null {
+  let trimmed = value?.trim().replace(/\s+/g, ' ')
+  if (!trimmed) return null
+
+  trimmed = trimmed
+    .replace(/^(?:这张)?(?:图片|照片|画面)(?:中|里)?(?:展示了|显示了|呈现了|拍到了|可见|可以看到)/, '我看到')
+    .replace(/^(?:这张)?(?:图片|照片|画面)(?:中|里)?有/, '我看到')
+    .replace(/^主体(?:是|为)/, '我看到')
+    .replace(/背景为/g, '周围是')
+    .replace(/背景中有/g, '周围有')
+
+  if (!trimmed.startsWith('我')) {
+    trimmed = `我看到${trimmed}`
+  }
+
+  return trimmed.slice(0, 180)
 }
 
 function extractJsonBlock(content: string): string {
@@ -192,6 +221,7 @@ export function mapVisionPayloadToAnalysisResult(
     moderationReason: clipReason(payload.moderation_reason),
     qualityPass: payload.quality_pass,
     qualityReason: clipReason(payload.quality_reason),
+    noteSuggestion: status === 'passed' ? clipNoteSuggestion(payload.note_suggestion) : null,
     speciesCandidates: matchedCandidates.slice(0, 3),
     rawResponse,
   }
@@ -222,11 +252,12 @@ export function parseStoredSpeciesCandidates(value: unknown): ObservationSpecies
 export function mapAnalysisRowToResponse(row: ObservationMediaAnalysisRow): ObservationMediaAnalysisResponse {
   return {
     imageUrl: row.image_url,
-    status: row.status as ObservationMediaAnalysisStatus,
+    status: normalizeAnalysisStatus(row.status),
     moderationPass: row.moderation_pass,
     moderationReason: row.moderation_reason,
     qualityPass: row.quality_pass,
     qualityReason: row.quality_reason,
+    noteSuggestion: row.note_suggestion,
     speciesCandidates: parseStoredSpeciesCandidates(row.species_candidates),
   }
 }

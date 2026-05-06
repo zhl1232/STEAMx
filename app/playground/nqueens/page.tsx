@@ -153,10 +153,10 @@ export default function NQueensPage() {
     const canInteract = mode === "manual" && status !== "solved"
 
     return (
-        <div className="flex flex-col xl:flex-row h-full">
+        <div className="playground-game-page">
             {/* Left: Game area */}
-            <div className="flex-1 p-2 sm:p-6 xl:p-12 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] w-full overflow-hidden">
-                <div className="max-w-full lg:max-w-3xl w-full bg-card/60 p-3 sm:p-6 rounded-3xl border border-border backdrop-blur-xl shadow-2xl relative">
+            <div className="playground-game-main playground-game-center overflow-hidden">
+                <div className="max-w-full lg:max-w-3xl w-full playground-game-board relative">
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
@@ -368,7 +368,7 @@ export default function NQueensPage() {
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-3xl border border-amber-400/50 shadow-2xl flex flex-col items-center gap-3"
+                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                     >
                                         <div className="flex items-center gap-2 text-amber-500">
                                             <Trophy className="w-8 h-8 animate-bounce" />
@@ -401,7 +401,7 @@ export default function NQueensPage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
-                                    className="absolute inset-x-3 sm:inset-x-5 bottom-3 sm:bottom-5 z-20 bg-background/95 backdrop-blur-lg px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-primary/30 shadow-2xl"
+                                    className="absolute inset-x-3 sm:inset-x-5 bottom-3 sm:bottom-5 z-20 bg-background/95 backdrop-blur-lg px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-primary/30 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)]"
                                 >
                                     <div className="flex flex-wrap items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">

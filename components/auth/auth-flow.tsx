@@ -474,13 +474,13 @@ export function AuthFlow({
     <div className={cn(
       'relative overflow-hidden',
       presentation === 'page'
-        ? 'mx-auto w-full max-w-md rounded-[28px] border border-border/70 bg-card shadow-[0_18px_60px_-40px_rgba(15,23,42,0.35)]'
-        : 'rounded-t-[28px] border border-b-0 border-border/70 bg-background shadow-[0_-18px_60px_-40px_rgba(15,23,42,0.35)] md:rounded-[28px] md:border-b md:bg-card'
+        ? 'surface-panel mx-auto w-full max-w-md lg:max-w-none'
+        : 'surface-panel rounded-t-[28px] border-b-0 md:rounded-[28px] md:border-b'
     )}>
       <div className={cn(
         'relative space-y-5',
         presentation === 'page'
-          ? 'p-5 sm:p-6'
+          ? 'p-4 sm:p-6'
           : 'max-h-[92dvh] overflow-y-auto px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] sm:p-6'
       )}>
         <div className="space-y-4">
@@ -504,15 +504,15 @@ export function AuthFlow({
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-2 rounded-[20px] bg-muted/35 p-1">
+          <div className="segmented-control grid w-full grid-cols-3 rounded-[20px]">
             <button
               type="button"
               onClick={() => switchMode('sign_in')}
               className={cn(
                 'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
                 mode === 'sign_in'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:bg-background/70'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               登录
@@ -523,8 +523,8 @@ export function AuthFlow({
               className={cn(
                 'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
                 mode === 'sign_up'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:bg-background/70'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               注册
@@ -535,8 +535,8 @@ export function AuthFlow({
               className={cn(
                 'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
                 mode === 'forgot_password'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:bg-background/70'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               找回密码
@@ -544,10 +544,10 @@ export function AuthFlow({
           </div>
         </div>
 
-        <div className="rounded-[24px] border border-border/70 bg-background p-4 shadow-sm sm:p-5">
+        <div className="surface-subtle rounded-[24px] p-4 sm:p-5">
           <div className="space-y-5">
               {mode !== 'forgot_password' && (
-                <div className="grid grid-cols-2 gap-2 rounded-[22px] border border-border/60 bg-muted/35 p-1">
+                <div className="grid grid-cols-2 gap-2 rounded-[22px] border border-border/60 bg-background/60 p-1">
                   {methodOptions.map((option) => {
                     const Icon = option.icon
 
@@ -560,8 +560,8 @@ export function AuthFlow({
                         className={cn(
                           'rounded-[18px] px-3 py-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50',
                           method === option.key
-                            ? 'bg-background text-foreground shadow-sm'
-                            : 'text-muted-foreground hover:bg-background/70'
+                            ? 'bg-foreground text-background shadow-sm'
+                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
                         )}
                       >
                         <div className="flex items-center gap-2 text-sm font-semibold">
@@ -622,15 +622,15 @@ export function AuthFlow({
 
                 {showPhoneSignInToggle && (
                   <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/60 bg-muted/30 p-1">
+                    <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/60 bg-background/60 p-1">
                       <button
                         type="button"
                         onClick={() => setUsePhonePassword(false)}
                         className={cn(
                           'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
                           !usePhonePassword
-                            ? 'bg-background text-foreground shadow-sm'
-                            : 'text-muted-foreground hover:bg-background/70'
+                            ? 'bg-foreground text-background shadow-sm'
+                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
                         )}
                       >
                         验证码
@@ -641,8 +641,8 @@ export function AuthFlow({
                         className={cn(
                           'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
                           usePhonePassword
-                            ? 'bg-background text-foreground shadow-sm'
-                            : 'text-muted-foreground hover:bg-background/70'
+                            ? 'bg-foreground text-background shadow-sm'
+                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
                         )}
                       >
                         密码

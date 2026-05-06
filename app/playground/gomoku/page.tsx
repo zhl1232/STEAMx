@@ -81,8 +81,8 @@ export default function GomokuPage() {
     }, [status, winnerInfo])
 
     return (
-        <div className="flex flex-col xl:flex-row h-full">
-            <div className="flex-1 p-2 sm:p-6 xl:p-10 flex flex-col items-center xl:justify-center w-full">
+        <div className="playground-game-page">
+            <div className="playground-game-main xl:justify-center">
                 {/* Header: title + controls */}
                 <div className="w-full max-w-4xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">

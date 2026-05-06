@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { Eye } from 'lucide-react'
+import { CheckCircle2, Clock3, Eye, ImageIcon, XCircle } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -85,37 +85,49 @@ export function ChallengeSubmissionReviewCard({
   }
 
   return (
-    <article className="surface-subtle space-y-4 rounded-[24px] border border-border/70 p-4 sm:p-5">
-      <div className="flex gap-4">
-        <div className="relative h-28 w-36 shrink-0 overflow-hidden rounded-2xl bg-muted">
+    <article className="surface-subtle space-y-4 rounded-[24px] border border-border/70 bg-background/74 p-4 shadow-none sm:p-5">
+      <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
+        <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
           {cover ? (
             <OptimizedImage src={cover} alt={submission.title} fill variant="cover" className="object-cover" />
-          ) : null}
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+              <ImageIcon className="h-5 w-5" />
+              无图片凭证
+            </div>
+          )}
         </div>
 
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">挑战作品</Badge>
+            <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">挑战作品</Badge>
+            <Badge variant="secondary" className="rounded-[10px] bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">待审核</Badge>
             <Badge variant="outline">{submission.is_public ? '公开' : '未公开'}</Badge>
           </div>
-          <h3 className="text-lg font-semibold">{submission.title}</h3>
+          <h3 className="line-clamp-2 text-lg font-semibold leading-snug">{submission.title}</h3>
           <p className="text-sm text-muted-foreground">挑战：{challengeTitle}</p>
-          <p className="text-sm text-muted-foreground">作者：{authorName}</p>
+          <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <span>作者：{authorName}</span>
+            <span className="inline-flex items-center gap-1">
+              <Clock3 className="h-3.5 w-3.5" />
+              作品 ID：{submission.id}
+            </span>
+          </p>
           {submission.notes ? (
             <p className="line-clamp-2 text-sm text-muted-foreground">{submission.notes}</p>
           ) : null}
           <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-            <span>{submission.proof_images.length} 张图片</span>
-            {submission.proof_video_url ? <span>含视频</span> : null}
-            {submission.referenceProjects.length > 0 ? <span>{submission.referenceProjects.length} 个参考项目</span> : null}
+            <Badge variant="outline">{submission.proof_images.length} 张图片</Badge>
+            {submission.proof_video_url ? <Badge variant="outline">含视频</Badge> : null}
+            {submission.referenceProjects.length > 0 ? <Badge variant="outline">{submission.referenceProjects.length} 个参考项目</Badge> : null}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="grid gap-2 border-t border-border/70 pt-4 md:grid-cols-[auto_auto_minmax(0,1fr)] md:items-center">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" className="rounded-full">
               <Eye className="mr-2 h-4 w-4" />
               查看详情
             </Button>
@@ -165,17 +177,20 @@ export function ChallengeSubmissionReviewCard({
           </DialogContent>
         </Dialog>
 
-        <Button onClick={() => void review('approve')} disabled={loading}>
+        <Button className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400" onClick={() => void review('approve')} disabled={loading}>
+          <CheckCircle2 className="mr-2 h-4 w-4" />
           批准
         </Button>
 
-        <div className="flex min-w-[280px] flex-1 gap-2">
+        <div className="grid min-w-0 gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
           <Input
             value={rejectReason}
             onChange={(event) => setRejectReason(event.target.value)}
             placeholder="填写驳回原因"
+            className="rounded-full"
           />
-          <Button variant="destructive" onClick={() => void review('reject')} disabled={loading}>
+          <Button variant="destructive" className="rounded-full" onClick={() => void review('reject')} disabled={loading}>
+            <XCircle className="mr-2 h-4 w-4" />
             拒绝
           </Button>
         </div>

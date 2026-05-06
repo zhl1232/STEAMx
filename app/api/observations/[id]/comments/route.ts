@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { getObservationById } from '@/lib/api/nature-observation-data'
 import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import {
@@ -26,6 +27,11 @@ export async function GET(
 
     if (!Number.isInteger(observationId) || observationId <= 0) {
       return NextResponse.json({ error: '无效的观察记录 ID' }, { status: 400 })
+    }
+
+    const observation = await getObservationById(observationId)
+    if (!observation) {
+      return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
     }
 
     const { data, error } = await supabase

@@ -68,6 +68,8 @@ export default function PrivacySettingsPage() {
   return (
     <SettingsSubpageShell
       title="隐私设置"
+      kicker="可见性与联系"
+      description="控制谁可以通过私信联系你。这里的选择会影响新会话发起，不会删除已有对话。"
     >
       {isLoading ? (
         <div className="surface-subtle flex min-h-56 items-center justify-center">

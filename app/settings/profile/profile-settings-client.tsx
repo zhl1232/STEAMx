@@ -204,6 +204,8 @@ export default function ProfileSettingsClient() {
   return (
     <SettingsSubpageShell
       title="个人资料"
+      kicker="账号名片"
+      description="更新头像、昵称与基础资料。这些信息会展示在个人主页、讨论和作品互动中。"
     >
       {isLoading ? (
         <div className="space-y-4">

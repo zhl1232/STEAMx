@@ -8,7 +8,6 @@ describe('CreateProjectSchema', () => {
         category: '工程',
         difficulty: 'easy' as const,
         difficulty_stars: 2,
-        duration: 30,
         status: 'pending' as const,
         image_url: '/projects/paper-bridge.webp',
         materials: ['A4 纸', '胶带'],

@@ -202,9 +202,9 @@ export interface Database {
           sub_category_id: number | null
           difficulty: string | null
           difficulty_stars: number
-          duration: number | null
           likes_count: number
           views_count: number
+          comments_count: number
           created_at: string
           updated_at: string
           status: string
@@ -226,9 +226,9 @@ export interface Database {
           sub_category_id?: number | null
           difficulty?: string | null
           difficulty_stars?: number
-          duration?: number | null
           likes_count?: number
           views_count?: number
+          comments_count?: number
           created_at?: string
           updated_at?: string
           status?: string
@@ -250,9 +250,9 @@ export interface Database {
           sub_category_id?: number | null
           difficulty?: string | null
           difficulty_stars?: number
-          duration?: number | null
           likes_count?: number
           views_count?: number
+          comments_count?: number
           created_at?: string
           updated_at?: string
           status?: string
@@ -888,6 +888,7 @@ export interface Database {
           moderation_reason: string | null
           quality_pass: boolean | null
           quality_reason: string | null
+          note_suggestion: string | null
           species_candidates: Json
           raw_response: Json | null
           created_at: string
@@ -903,6 +904,7 @@ export interface Database {
           moderation_reason?: string | null
           quality_pass?: boolean | null
           quality_reason?: string | null
+          note_suggestion?: string | null
           species_candidates?: Json
           raw_response?: Json | null
           created_at?: string
@@ -918,6 +920,7 @@ export interface Database {
           moderation_reason?: string | null
           quality_pass?: boolean | null
           quality_reason?: string | null
+          note_suggestion?: string | null
           species_candidates?: Json
           raw_response?: Json | null
           created_at?: string
@@ -1739,7 +1742,6 @@ export interface Database {
           p_sub_category_id?: number | null
           p_difficulty_stars?: number
           p_image_url?: string | null
-          p_duration?: number
           p_steam_weights?: Json | null
           p_steps?: Json
           p_materials?: Json
@@ -1882,7 +1884,6 @@ export interface Database {
           sub_category_id: number | null
           difficulty: string | null
           difficulty_stars: number
-          duration: number | null
           likes_count: number
           views_count: number | null
           status: string

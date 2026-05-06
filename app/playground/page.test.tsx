@@ -28,7 +28,8 @@ describe("PlaygroundPage", () => {
     it("refreshes the overview when playground stats change after mount", async () => {
         render(<PlaygroundPage />)
 
-        expect(screen.queryByText("总游玩局数")).not.toBeInTheDocument()
+        expect(screen.getByText("总游玩局数")).toBeInTheDocument()
+        expect(screen.getAllByText("0").length).toBeGreaterThan(0)
 
         storageState.set("gomoku_records", { totalGames: 3, wins: 2 })
 

@@ -1,5 +1,7 @@
 "use client"
 
+import Link from 'next/link'
+import type { ComponentType } from 'react'
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/lib/context/auth-context'
 import { createClient } from '@/lib/supabase/client'
@@ -10,9 +12,21 @@ import { ChallengeSubmissionReviewCard } from '@/components/admin/challenge-subm
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
+import { Button } from '@/components/ui/button'
+import {
+  Archive,
+  CheckCircle2,
+  FileClock,
+  Flag,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 
 // ... Keep existing interfaces if needed, or refine ...
 interface Project {
@@ -125,13 +139,37 @@ interface PendingChallengeSubmissionRow {
   status: string
 }
 
+interface AdminMetricCardProps {
+  icon: ComponentType<{ className?: string }>
+  label: string
+  value: number
+  helper: string
+  tone: string
+}
+
+function AdminMetricCard({ icon: Icon, label, value, helper, tone }: AdminMetricCardProps) {
+  return (
+    <div className="surface-subtle flex min-w-0 items-center gap-3 rounded-[18px] border border-border/70 bg-background/78 p-4 shadow-none">
+      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${tone}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm text-muted-foreground">{label}</p>
+        <p className="mt-1 text-3xl font-black leading-none tabular-nums text-foreground">{value}</p>
+        <p className="mt-1 truncate text-xs text-muted-foreground">{helper}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function AdminPage() {
-  const { canReview, isAdmin, loading } = useAuth()
+  const { canReview, isAdmin, loading, profile } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
   const [pendingChallengeSubmissions, setPendingChallengeSubmissions] = useState<ChallengeSubmissionForReview[]>([])
   const [allProjects, setAllProjects] = useState<AdminProjectSummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [query, setQuery] = useState('')
   const [supabase] = useState(() => createClient())
 
   // Fetch pending projects for review
@@ -362,6 +400,58 @@ export default function AdminPage() {
     return null
   }
 
+  const normalizedQuery = query.trim().toLowerCase()
+  const filterText = (...parts: Array<string | number | null | undefined>) =>
+    !normalizedQuery || parts.filter(Boolean).join(' ').toLowerCase().includes(normalizedQuery)
+  const visiblePendingProjects = pendingProjects.filter((project) =>
+    filterText(
+      project.title,
+      project.description,
+      project.category,
+      project.sub_category,
+      project.profiles.display_name,
+      project.profiles.username,
+      project.id,
+    ),
+  )
+  const visiblePendingCompletions = pendingCompletions.filter((completion) =>
+    filterText(
+      completion.projects?.title,
+      completion.projects?.category,
+      completion.profiles?.display_name,
+      completion.notes,
+      completion.id,
+    ),
+  )
+  const visiblePendingChallengeSubmissions = pendingChallengeSubmissions.filter((submission) =>
+    filterText(
+      submission.title,
+      submission.challenges?.title,
+      submission.profiles?.display_name,
+      submission.notes,
+      submission.id,
+    ),
+  )
+  const visibleAllProjects = allProjects.filter((project) =>
+    filterText(
+      project.title,
+      project.description,
+      project.category,
+      project.status,
+      project.profiles?.display_name,
+      project.profiles?.username,
+      project.id,
+    ),
+  )
+  const adminName = profile?.display_name || profile?.username || '管理员'
+  const roleLabel = isAdmin ? '超级管理员' : '审核员'
+  const todayLabel = new Date().toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'long',
+  })
+
   return (
     <div className="page-shell pt-6 pb-24 md:py-8">
       <div className="md:hidden">
@@ -369,10 +459,74 @@ export default function AdminPage() {
       </div>
 
       <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-        <div className="mb-8">
-          <p className="section-kicker">后台管理</p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight">管理员控制台</h1>
-          <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">管理和审核平台内容</p>
+        <div className="mb-7 overflow-hidden rounded-[24px] border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="flex min-w-0 items-center gap-4">
+              <Avatar className="h-16 w-16 shrink-0 border-4 border-background shadow-sm sm:h-20 sm:w-20">
+                <AvatarImage src={profile?.avatar_url || undefined} />
+                <AvatarFallback className="bg-[hsl(var(--brand-blue)/0.12)] text-lg font-bold text-[hsl(var(--brand-blue))]">
+                  {adminName.slice(0, 1)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0">
+                <p className="section-kicker">后台管理</p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <h1 className="truncate text-3xl font-semibold tracking-tight">{adminName}</h1>
+                  <span className="inline-flex items-center gap-1 rounded-[10px] bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    {roleLabel}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                  今天是 {todayLabel}，请优先处理待审核内容与风险反馈。
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              <Button asChild variant="outline" className="rounded-full">
+                <Link href="/settings/security">
+                  <ShieldCheck className="mr-2 h-4 w-4" />
+                  安全中心
+                </Link>
+              </Button>
+              <Button variant="outline" className="rounded-full" onClick={() => void loadData()}>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                刷新队列
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <AdminMetricCard
+              icon={FileClock}
+              label="待审核项目"
+              value={pendingProjects.length}
+              helper={visiblePendingProjects.length !== pendingProjects.length ? `当前筛选 ${visiblePendingProjects.length}` : '项目发布队列'}
+              tone="bg-blue-100 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300"
+            />
+            <AdminMetricCard
+              icon={Archive}
+              label="待审核作品"
+              value={pendingCompletions.length}
+              helper="完成证明队列"
+              tone="bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300"
+            />
+            <AdminMetricCard
+              icon={Sparkles}
+              label="挑战作品"
+              value={pendingChallengeSubmissions.length}
+              helper="挑战提交队列"
+              tone="bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300"
+            />
+            <AdminMetricCard
+              icon={Flag}
+              label="项目总览"
+              value={allProjects.length}
+              helper="最近 50 个项目"
+              tone="bg-rose-100 text-rose-700 dark:bg-rose-400/10 dark:text-rose-300"
+            />
+          </div>
         </div>
 
         <Tabs defaultValue="pending" className="space-y-6">
@@ -388,16 +542,32 @@ export default function AdminPage() {
             <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
           </TabsList>
 
+          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <label className="relative block">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="搜索标题、提交者、分类或 ID"
+                className="control-field h-12 w-full rounded-2xl bg-[hsl(var(--surface-raised)/0.9)] pl-11 pr-4 text-sm"
+              />
+            </label>
+            <div className="flex items-center gap-2 rounded-2xl border border-border/70 bg-background/70 px-4 py-3 text-sm text-muted-foreground">
+              <CheckCircle2 className="h-4 w-4 text-[hsl(var(--brand-green))]" />
+              最新提交优先
+            </div>
+          </div>
+
           <TabsContent value="pending" className="space-y-4">
-            {pendingProjects.length === 0 ? (
+            {visiblePendingProjects.length === 0 ? (
               <Card className="surface-subtle shadow-none">
                 <CardContent className="py-8 text-center">
-                  <p className="text-muted-foreground">暂无待审核项目</p>
+                  <p className="text-muted-foreground">{query ? '当前筛选下暂无待审核项目' : '暂无待审核项目'}</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="grid gap-4">
-                {pendingProjects.map((project) => (
+                {visiblePendingProjects.map((project) => (
                   <ProjectReviewCard
                     key={project.id}
                     project={project}
@@ -409,15 +579,15 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="pending-completions" className="space-y-4">
-            {pendingCompletions.length === 0 ? (
+            {visiblePendingCompletions.length === 0 ? (
               <Card className="surface-subtle shadow-none">
                 <CardContent className="py-8 text-center">
-                  <p className="text-muted-foreground">暂无待审核作品</p>
+                  <p className="text-muted-foreground">{query ? '当前筛选下暂无待审核作品' : '暂无待审核作品'}</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="grid gap-4">
-                {pendingCompletions.map((completion) => (
+                {visiblePendingCompletions.map((completion) => (
                   <CompletionReviewCard
                     key={completion.id}
                     completion={completion}
@@ -429,15 +599,15 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="pending-challenge-submissions" className="space-y-4">
-            {pendingChallengeSubmissions.length === 0 ? (
+            {visiblePendingChallengeSubmissions.length === 0 ? (
               <Card className="surface-subtle shadow-none">
                 <CardContent className="py-8 text-center">
-                  <p className="text-muted-foreground">暂无待审核挑战作品</p>
+                  <p className="text-muted-foreground">{query ? '当前筛选下暂无待审核挑战作品' : '暂无待审核挑战作品'}</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="grid gap-4">
-                {pendingChallengeSubmissions.map((submission) => (
+                {visiblePendingChallengeSubmissions.map((submission) => (
                   <ChallengeSubmissionReviewCard
                     key={submission.id}
                     submission={submission}
@@ -453,7 +623,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-4">
-            <AllProjectsManagement projects={allProjects} />
+            <AllProjectsManagement projects={visibleAllProjects} />
           </TabsContent>
 
           {isAdmin && (

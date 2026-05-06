@@ -49,12 +49,13 @@ describe('parseObservationVisionPayload', () => {
   it('parses fenced json content', () => {
     const payload = parseObservationVisionPayload(`
 \`\`\`json
-{"moderation_pass":true,"moderation_reason":null,"quality_pass":true,"quality_reason":null,"species_candidates":[]}
+{"moderation_pass":true,"moderation_reason":null,"quality_pass":true,"quality_reason":null,"note_suggestion":"我看到一只鸟停在枝头，姿态较稳定，周围有绿叶遮挡，可补充记录停留位置和活动状态。","species_candidates":[]}
 \`\`\`
 `)
 
     expect(payload.moderation_pass).toBe(true)
     expect(payload.quality_pass).toBe(true)
+    expect(payload.note_suggestion).toContain('我看到')
   })
 })
 
@@ -66,6 +67,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         moderation_reason: null,
         quality_pass: true,
         quality_reason: null,
+        note_suggestion: '我看到一只体型较小的鸟停在枝头，头部和脸侧特征比较清楚，周围环境为树木枝叶。',
         species_candidates: [
           {
             common_name: '麻雀',
@@ -94,6 +96,33 @@ describe('mapVisionPayloadToAnalysisResult', () => {
       scientificName: 'Passer montanus',
       confidence: 0.93,
     })
+    expect(result.noteSuggestion).toContain('枝头')
+    expect(result.noteSuggestion?.startsWith('我')).toBe(true)
+  })
+
+  it('normalizes third-person note suggestions into first-person observation voice', () => {
+    const result = mapVisionPayloadToAnalysisResult(
+      {
+        moderation_pass: true,
+        moderation_reason: null,
+        quality_pass: true,
+        quality_reason: null,
+        note_suggestion: '画面展示了一只猛禽在蓝天背景下低空飞行，双翼展开呈浅V字形，翼尖黑色，主体清晰。',
+        species_candidates: [
+          {
+            common_name: '麻雀',
+            scientific_name: null,
+            confidence: 0.93,
+            reason: '体型小，头顶棕褐色，脸侧有黑斑',
+          },
+        ],
+      },
+      speciesRows,
+      'qwen3.6-plus',
+      { ok: true },
+    )
+
+    expect(result.noteSuggestion).toBe('我看到一只猛禽在蓝天背景下低空飞行，双翼展开呈浅V字形，翼尖黑色，主体清晰。')
   })
 
   it('marks low quality responses as failed_low_quality', () => {
@@ -103,6 +132,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         moderation_reason: null,
         quality_pass: false,
         quality_reason: '主体过远且模糊',
+        note_suggestion: '画面中的鸟较远，主体不清晰。',
         species_candidates: [
           {
             common_name: '麻雀',
@@ -120,6 +150,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
     expect(result.status).toBe('failed_low_quality')
     expect(result.speciesCandidates).toEqual([])
     expect(result.qualityReason).toBe('主体过远且模糊')
+    expect(result.noteSuggestion).toBeNull()
   })
 
   it('marks unmatched species as failed_unrecognized', () => {
@@ -129,6 +160,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         moderation_reason: null,
         quality_pass: true,
         quality_reason: null,
+        note_suggestion: '画面中的鸟站在浅水区域，腿部较长，周围环境较开阔。',
         species_candidates: [
           {
             common_name: '火烈鸟',
@@ -145,5 +177,6 @@ describe('mapVisionPayloadToAnalysisResult', () => {
 
     expect(result.status).toBe('failed_unrecognized')
     expect(result.speciesCandidates).toEqual([])
+    expect(result.noteSuggestion).toBeNull()
   })
 })

@@ -67,7 +67,7 @@ export default function TermsPage() {
 
       <div className="mx-auto max-w-3xl">
         <section className="surface-panel overflow-hidden">
-          <div className="hidden border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20 px-6 py-6 md:block">
+          <div className="hidden border-b border-border/60 bg-[hsl(var(--surface-muted)/0.56)] px-6 py-6 md:block">
             <p className="section-kicker">规则说明</p>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">用户协议</h1>
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">

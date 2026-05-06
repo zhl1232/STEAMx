@@ -166,6 +166,8 @@ function SecuritySettingsContent() {
   return (
     <SettingsSubpageShell
       title="账号与安全"
+      kicker="登录保护"
+      description="管理登录密码和手机号绑定。涉及身份验证的操作会给出明确反馈。"
     >
       <div className="space-y-4">
         {recoveryMode ? (

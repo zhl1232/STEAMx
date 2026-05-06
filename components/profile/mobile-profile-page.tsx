@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { PenBox } from "lucide-react";
@@ -106,6 +107,7 @@ export function MobileProfilePage({
   const [visibleWorksCount, setVisibleWorksCount] = useState(6);
 
   const myProjectsCount = myProjectsTotalCount;
+  const displayName = profile?.display_name || profile?.username || user.email?.split("@")[0] || "我的内容";
   const visibleMyProjects = myProjects.slice(0, visibleWorksCount);
   const hasMoreWorks = myProjectsTotalCount > visibleWorksCount;
 
@@ -137,7 +139,7 @@ export function MobileProfilePage({
     }
 
     return (
-      <div className="flex min-h-screen flex-col bg-background pb-24">
+      <div className="flex min-h-screen flex-col bg-background pb-[calc(6rem+env(safe-area-inset-bottom))]">
         <div className="px-4 pt-4">
           <div className="surface-panel overflow-hidden">
             <div className="h-36 bg-muted/70" />
@@ -203,7 +205,7 @@ export function MobileProfilePage({
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background pb-24">
+    <div className="flex min-h-screen flex-col bg-background pb-[calc(6rem+env(safe-area-inset-bottom))]">
       {showProfileHeader ? (
         <div className="px-4 pt-4">
           <ProfileHeader
@@ -216,10 +218,44 @@ export function MobileProfilePage({
           />
         </div>
       ) : pageTitle ? (
-        <MobilePageHeader title={pageTitle} fallbackHref={backHref} />
+        <>
+          <MobilePageHeader title={pageTitle} fallbackHref={backHref} />
+          <section className="px-4 pt-4">
+            <div className="surface-panel relative overflow-hidden p-4">
+              <Image
+                src="/assets/profile-library-soft-blue-hero.png"
+                alt=""
+                fill
+                className="object-cover opacity-42 dark:opacity-22"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/92 via-background/74 to-background/18" />
+              <div className="relative">
+                <p className="section-kicker">内容库</p>
+                <h1 className="mt-3 text-2xl font-semibold tracking-tight">{displayName}</h1>
+                <p className="mt-2 max-w-[18rem] text-sm leading-6 text-muted-foreground">
+                  管理作品、收藏、完成记录和自然观察。
+                </p>
+                <div className="mt-4 grid grid-cols-4 gap-2">
+                  {[
+                    ["作品", myProjectsCount],
+                    ["收藏", collectedProjectsCount],
+                    ["完成", completedProjectsCount],
+                    ["观察", observationsLoaded ? observationsTotal : uniqueSpeciesCount],
+                  ].map(([label, value]) => (
+                    <div key={label} className="rounded-2xl border border-border/70 bg-background/76 px-2 py-2 text-center backdrop-blur">
+                      <p className="text-base font-semibold tabular-nums">{value}</p>
+                      <p className="mt-0.5 text-[10px] text-muted-foreground">{label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
       ) : null}
 
-      <div className={cn("mobile-subnav top-0 z-20", showProfileHeader ? "mt-4" : "")}>
+      <div className={cn("mobile-subnav top-0 z-20", showProfileHeader ? "mt-4" : pageTitle ? "mt-4" : "")}>
         <div className="px-4 py-3">
           <div className="-mx-1 overflow-x-auto px-1 no-scrollbar">
             <div className="segmented-control inline-flex min-w-max gap-1">
@@ -265,7 +301,7 @@ export function MobileProfilePage({
                   type="button"
                   onClick={() => void handleLoadMoreWorks()}
                   disabled={isLoadingMoreMyProjects}
-                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                  className="h-10 rounded-full border border-border/80 bg-background/80 px-5 text-sm font-medium transition-colors hover:bg-muted"
                 >
                   {isLoadingMoreMyProjects ? "加载中..." : "加载更多作品"}
                 </button>

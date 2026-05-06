@@ -1,0 +1,5 @@
+# .codex/config.toml
+model_provider = "openai"
+
+# 可选：如果你想在这个项目中指定具体的官方模型，可以在这里一并覆盖
+# model = "gpt-5.5"

@@ -1,44 +1,29 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Button } from "@/components/ui/button"
 import { Heart, Bookmark, Flag } from "lucide-react"
-import { ConfettiButton } from "@/components/ui/confetti-button"
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { useProjects } from '@/lib/context/project-context'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
-import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { ReportDialog } from "@/components/ui/report-dialog"
-import type { ProjectCompletion } from "@/lib/mappers/types"
 
 interface ProjectInteractionsProps {
     projectId: number | string
     projectTitle: string
     likes: number
-    /** 本项目的完成作品列表，用于投币弹窗内直接赞赏 */
-    completions?: ProjectCompletion[]
     /** 项目作者 ID，用于直接投给项目 */
     projectOwnerId: string
-    /** 嵌入模式：无卡片、紧凑布局，用于与回复框并排（不含「我做过这个」） */
-    embedded?: boolean
-    /** 评论总数，用于底部栏显示评论数（仅 embedded 时使用） */
-    commentsCount?: number
     /** 项目收到的投币总数（项目 + 完成作品），用于底部栏展示「投给项目的硬币」 */
     projectCoinsReceived?: number
-    /** 关联的挑战 ID，用于完成弹窗 PBL 联动提示 */
-    challengeId?: number | null
 }
 
-export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, completions = [], projectOwnerId, embedded = false, commentsCount: _commentsCount = 0, projectCoinsReceived = 0, challengeId }: ProjectInteractionsProps) {
-    const router = useRouter()
-    const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected, isCompleted } = useProjects()
+export function ProjectInteractions({ projectId, projectTitle, likes: initialLikes, projectOwnerId, projectCoinsReceived = 0 }: ProjectInteractionsProps) {
+    const { toggleLike, isLiked, getLikesDelta, clearLikesDelta, toggleCollection, isCollected } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
-    const [showCompleteDialog, setShowCompleteDialog] = useState(false)
     const [showTipDialog, setShowTipDialog] = useState(false)
     const normalizedTipProjectId = Number(projectId)
     const tipProjectQueryId =
@@ -81,7 +66,6 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
     const isProjectLiked = isLiked(projectId)
     const likesDelta = getLikesDelta(projectId)
     const likes = initialLikes + likesDelta
-    const isProjectCompleted = isCompleted(projectId)
     const isProjectCollected = isCollected(projectId)
     const showLikesCount = likes > 0
     const showCoinsCount = projectCoinsReceived > 0
@@ -108,152 +92,54 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
         toggleCollection(projectId)
     }
 
-    const handleCompleteClick = () => {
-        if (!user) {
-            promptLogin(() => setShowCompleteDialog(true), {
-                title: '登录以上传作品',
-                description: '登录后可上传你的作品，获得 XP 和成就徽章'
-            })
-            return
-        }
-
-        // 已完成状态下不允许再次点击（已上传作品证明，不应随意取消）
-        if (isProjectCompleted) {
-            return
-        }
-
-        // 未完成，打开对话框
-        setShowCompleteDialog(true)
-    }
-
-    const iconButtons = (
-        <>
-            <div className="flex items-center gap-2 shrink-0">
-                <Button
-                    variant={isProjectLiked ? "default" : "outline"}
-                    size="icon"
-                    onClick={handleLike}
-                    className={isProjectLiked ? "bg-red-500 hover:bg-red-600 text-white border-red-500" : ""}
-                    title="点赞"
-                >
-                    <Heart className={`h-4 w-4 ${isProjectLiked ? "fill-current" : ""}`} />
-                </Button>
-                <Button
-                    variant={isProjectCollected ? "default" : "outline"}
-                    size="icon"
-                    onClick={handleCollection}
-                    className={isProjectCollected ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500" : ""}
-                    title="收藏"
-                >
-                    <Bookmark className={`h-4 w-4 ${isProjectCollected ? "fill-current" : ""}`} />
-                </Button>
-                <Button
-                    variant={hasTippedProject ? "default" : "outline"}
-                    size="icon"
-                    title="投币"
-                    onClick={handleTipClick}
-                    className={hasTippedProject ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500" : ""}
-                >
-                    <CoinIcon className="h-4 w-4" />
-                </Button>
-            </div>
-            {showLikesCount ? (
-                <span className="font-bold text-base md:text-lg whitespace-nowrap">{likes} 赞</span>
-            ) : null}
-        </>
-    )
-
-    // 底部栏样式：默认灰色空心线框，激活后彩色实心；图标间距统一 16px
-    const embeddedBar = (
-        <div className="flex flex-wrap items-center justify-end gap-1 text-muted-foreground">
-            <button
-                type="button"
-                onClick={handleLike}
-                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-red-500 active:bg-muted/80"
-                title="点赞"
-            >
-                <Heart className={`h-5 w-5 shrink-0 ${isProjectLiked ? "fill-current text-red-500" : "text-muted-foreground"}`} />
-                {showLikesCount ? (
-                    <span className="text-sm font-medium tabular-nums text-muted-foreground">{likes}</span>
-                ) : null}
-            </button>
-            <button
-                type="button"
-                onClick={handleCollection}
-                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
-                title="收藏"
-            >
-                <Bookmark className={`h-5 w-5 shrink-0 ${isProjectCollected ? "fill-current text-amber-600" : "text-muted-foreground"}`} />
-            </button>
-            <button
-                type="button"
-                onClick={handleTipClick}
-                className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
-                title="投币支持项目"
-            >
-                <CoinIcon className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
-                {showCoinsCount ? (
-                    <span className="text-sm font-medium tabular-nums text-muted-foreground">{projectCoinsReceived}</span>
-                ) : null}
-            </button>
-            {user && user.id !== projectOwnerId && (
-                <ReportDialog contentType="project" contentId={projectId}>
-                    <button
-                        type="button"
-                        className="flex items-center gap-1.5 min-h-[36px] min-w-[36px] justify-center rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-destructive active:bg-muted/80"
-                        title="举报"
-                    >
-                        <Flag className="h-5 w-5 shrink-0 text-muted-foreground" />
-                    </button>
-                </ReportDialog>
-            )}
-        </div>
-    )
-
-    if (embedded) {
-        return (
-            <>
-                {embeddedBar}
-                <TipProjectDialog
-                    open={showTipDialog}
-                    onOpenChange={setShowTipDialog}
-                    completions={completions}
-                    projectTitle={projectTitle}
-                    projectOwnerId={projectOwnerId}
-                    projectId={projectId}
-                    projectOnly
-                />
-            </>
-        )
-    }
-
     return (
         <>
-            <div className="rounded-lg border p-3 space-y-3 md:p-4 md:space-y-4 md:sticky md:top-24 bg-background">
-                <div className="flex items-center justify-between gap-3">
-                    {iconButtons}
-                </div>
-                <ConfettiButton
-                    className="w-full"
-                    isCompleted={isProjectCompleted}
-                    onClick={handleCompleteClick}
-                    disabled={isProjectCompleted}
+            <div className="flex flex-wrap items-center justify-end gap-1 text-muted-foreground">
+                <button
+                    type="button"
+                    onClick={handleLike}
+                    className="flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-red-500 active:bg-muted/80"
+                    title="点赞"
                 >
-                    {isProjectCompleted ? "✅ 已完成" : "上传我的作品"}
-                </ConfettiButton>
+                    <Heart className={`h-5 w-5 shrink-0 ${isProjectLiked ? "fill-current text-red-500" : "text-muted-foreground"}`} />
+                    {showLikesCount ? (
+                        <span className="text-sm font-medium tabular-nums text-muted-foreground">{likes}</span>
+                    ) : null}
+                </button>
+                <button
+                    type="button"
+                    onClick={handleCollection}
+                    className="flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
+                    title="收藏"
+                >
+                    <Bookmark className={`h-5 w-5 shrink-0 ${isProjectCollected ? "fill-current text-amber-600" : "text-muted-foreground"}`} />
+                </button>
+                <button
+                    type="button"
+                    onClick={handleTipClick}
+                    className="flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-amber-600 active:bg-muted/80"
+                    title="投币支持项目"
+                >
+                    <CoinIcon className={`h-5 w-5 shrink-0 ${hasTippedProject ? "text-amber-600" : "text-muted-foreground"}`} />
+                    {showCoinsCount ? (
+                        <span className="text-sm font-medium tabular-nums text-muted-foreground">{projectCoinsReceived}</span>
+                    ) : null}
+                </button>
+                {user && user.id !== projectOwnerId && (
+                    <ReportDialog contentType="project" contentId={projectId}>
+                        <button
+                            type="button"
+                            className="flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-full px-2.5 transition-colors hover:bg-muted/60 hover:text-destructive active:bg-muted/80"
+                            title="举报"
+                        >
+                            <Flag className="h-5 w-5 shrink-0 text-muted-foreground" />
+                        </button>
+                    </ReportDialog>
+                )}
             </div>
-            <CompleteProjectDialog
-                projectId={projectId}
-                projectTitle={projectTitle}
-                challengeId={challengeId}
-                open={showCompleteDialog}
-                onOpenChange={setShowCompleteDialog}
-                onSuccess={() => router.refresh()}
-            />
             <TipProjectDialog
                 open={showTipDialog}
                 onOpenChange={setShowTipDialog}
-                completions={completions}
                 projectTitle={projectTitle}
                 projectOwnerId={projectOwnerId}
                 projectId={projectId}

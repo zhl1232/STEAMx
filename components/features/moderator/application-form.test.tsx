@@ -64,8 +64,9 @@ describe('ModeratorApplicationForm', () => {
     it('asks unauthenticated visitors to log in instead of saying they are already moderators', () => {
         render(<ModeratorApplicationForm />)
 
-        expect(screen.getByText('请先登录后再申请审核员资格')).toBeInTheDocument()
-        expect(screen.queryByText('你已经是审核员或管理员，无需再次申请')).not.toBeInTheDocument()
+        expect(screen.getByText('请先登录')).toBeInTheDocument()
+        expect(screen.getByText('登录后才能查看申请资格并提交审核员申请。')).toBeInTheDocument()
+        expect(screen.queryByText('无需重复申请')).not.toBeInTheDocument()
     })
 
     it('shows the already-moderator message only for non-user roles', () => {
@@ -77,6 +78,9 @@ describe('ModeratorApplicationForm', () => {
 
         render(<ModeratorApplicationForm />)
 
-        expect(screen.getByText('你已经是审核员或管理员，无需再次申请')).toBeInTheDocument()
+        expect(screen.getByText('无需重复申请')).toBeInTheDocument()
+        expect(
+            screen.getByText('你已经是审核员或管理员，可以直接进入后台处理内容。'),
+        ).toBeInTheDocument()
     })
 })

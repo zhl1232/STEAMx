@@ -4,6 +4,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { callRpc } from "@/lib/supabase/rpc";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
 import {
@@ -29,6 +30,8 @@ export type ExploreTagScope = {
 type ExploreFilterOptions = {
   categories: string[];
   availableTags: string[];
+  /** 按在项目中的出现次数降序，用于侧栏「热门标签」 */
+  popularTags: string[];
   tagScope: ExploreTagScope;
 };
 
@@ -58,7 +61,6 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     ],
     difficulty: "easy",
     difficulty_stars: 2,
-    duration: 20,
     tags: ["磁力", "观察"],
     status: "approved",
     createdAt: "2026-03-06T09:00:00.000Z",
@@ -82,7 +84,6 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     ],
     difficulty: "medium",
     difficulty_stars: 4,
-    duration: 35,
     tags: ["平衡", "结构"],
     status: "approved",
     createdAt: "2026-03-08T10:30:00.000Z",
@@ -106,7 +107,6 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     ],
     difficulty: "easy",
     difficulty_stars: 3,
-    duration: 25,
     tags: ["编织", "配色"],
     status: "approved",
     createdAt: "2026-03-04T08:15:00.000Z",
@@ -124,6 +124,27 @@ function sortLabels(labels: Iterable<string>): string[] {
   return Array.from(new Set(labels)).sort((left, right) =>
     left.localeCompare(right, "zh-Hans-CN", { sensitivity: "base" }),
   );
+}
+
+/** 与 `buildTagScope` 相同的排除规则，按标签被多少个项目使用排序 */
+function rankTagsByPopularity(
+  entries: Array<{ tags?: string[] | null }>,
+  excludedNames: Set<string>,
+): string[] {
+  const counts = new Map<string, number>();
+  for (const entry of entries) {
+    for (const tag of entry.tags || []) {
+      if (!tag || excludedNames.has(tag)) continue;
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return Array.from(counts.entries())
+    .sort(
+      (a, b) =>
+        b[1] - a[1] ||
+        a[0].localeCompare(b[0], "zh-Hans-CN", { sensitivity: "base" }),
+    )
+    .map(([tag]) => tag);
 }
 
 function buildTagScope(
@@ -175,11 +196,89 @@ export interface ProjectFilters {
   category?: string;
   subCategory?: string; // 按子分类筛选（单选）
   difficulty?: "easy" | "medium" | "hard" | "all" | "1" | "2" | "3" | "4" | "5" | "1-2" | "3-4" | "5-6";
-  minDuration?: number;
-  maxDuration?: number;
   materials?: string[];
   tags?: string[]; // 标签筛选（多选）
   searchQuery?: string;
+}
+
+/** 热门列表首页在「无筛选、全部类」时多取一批再按类轮询穿插，避免单一分类霸屏 */
+const EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER = 4;
+const EXPLORE_POPULAR_BLEND_POOL_MAX = 200;
+const EXPLORE_POPULAR_CATEGORY_BLEND_ORDER = ["科学", "技术", "工程", "艺术", "数学"] as const;
+
+function shouldBlendPopularExplore(filters: ProjectFilters, pagination: PaginationOptions): boolean {
+  const { page = 0, sortBy = "popular" } = pagination;
+  if (sortBy !== "popular" || page !== 0) return false;
+  const { category, subCategory, difficulty, materials, tags, searchQuery } = filters;
+  if (category && category !== "全部") return false;
+  if (subCategory) return false;
+  if (difficulty && difficulty !== "all") return false;
+  if (materials?.length) return false;
+  if (tags?.length) return false;
+  if (searchQuery?.trim()) return false;
+  return true;
+}
+
+function diversifyPopularByCategory<T extends { id: string | number; category?: string | null }>(
+  rows: T[],
+  targetLen: number,
+): T[] {
+  if (rows.length === 0 || targetLen <= 0) return [];
+  if (rows.length <= targetLen) return rows.slice(0, targetLen);
+
+  const byCat = new Map<string, T[]>();
+  for (const row of rows) {
+    const c = row.category || "其他";
+    if (!byCat.has(c)) byCat.set(c, []);
+    byCat.get(c)!.push(row);
+  }
+
+  const catRotation: string[] = [...EXPLORE_POPULAR_CATEGORY_BLEND_ORDER];
+  for (const c of byCat.keys()) {
+    if (!catRotation.includes(c)) catRotation.push(c);
+  }
+
+  const used = new Set<string>();
+  const keyOf = (id: string | number) => String(id);
+  const out: T[] = [];
+
+  const maxPasses = rows.length * catRotation.length + 1;
+  for (let pass = 0; pass < maxPasses && out.length < targetLen; pass++) {
+    let addedThisPass = false;
+    for (const cat of catRotation) {
+      if (out.length >= targetLen) break;
+      const bucket = byCat.get(cat);
+      if (!bucket?.length) continue;
+      const pick = bucket.find((r) => !used.has(keyOf(r.id)));
+      if (!pick) continue;
+      used.add(keyOf(pick.id));
+      out.push(pick);
+      addedThisPass = true;
+    }
+    if (!addedThisPass) break;
+  }
+
+  for (const row of rows) {
+    if (out.length >= targetLen) break;
+    if (!used.has(keyOf(row.id))) {
+      used.add(keyOf(row.id));
+      out.push(row);
+    }
+  }
+
+  return out;
+}
+
+function orderProjectsByPopularity<Query extends { order: (column: string, options: { ascending: boolean }) => Query }>(
+  query: Query,
+): Query {
+  return query
+    .order("likes_count", { ascending: false })
+    .order("comments_count", { ascending: false })
+    .order("coins_count", { ascending: false })
+    .order("views_count", { ascending: false })
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false });
 }
 
 /**
@@ -195,7 +294,7 @@ function getSmokeProjects(
   filters: ProjectFilters = {},
   pagination: PaginationOptions = {},
 ): { projects: Project[]; total: number; hasMore: boolean } {
-  const { page = 0, pageSize = 12, sortBy = "latest" } = pagination;
+  const { page = 0, pageSize = 12, sortBy = "popular" } = pagination;
 
   const filteredProjects = SMOKE_PROJECTS.filter((project) => {
     if (filters.category && filters.category !== "全部" && project.category !== filters.category) {
@@ -215,14 +314,6 @@ function getSmokeProjects(
       if (["easy", "medium", "hard"].includes(filters.difficulty) && project.difficulty !== filters.difficulty) {
         return false;
       }
-    }
-
-    if (filters.minDuration !== undefined && (project.duration || 0) < filters.minDuration) {
-      return false;
-    }
-
-    if (filters.maxDuration !== undefined && (project.duration || 0) > filters.maxDuration) {
-      return false;
     }
 
     if (filters.materials?.length) {
@@ -251,16 +342,38 @@ function getSmokeProjects(
   });
 
   const sortedProjects = [...filteredProjects].sort((left, right) => {
-    if (sortBy === "popular" && right.likes !== left.likes) {
-      return right.likes - left.likes;
+    if (sortBy === "popular") {
+      const score = (p: SmokeProject) =>
+        p.likes * 1_000_000 +
+        (p.comments_count ?? 0) * 10_000 +
+        (p.coins_count ?? 0) * 10_000 +
+        (p.views_count ?? 0);
+      const d = score(right) - score(left);
+      if (d !== 0) return d > 0 ? 1 : d < 0 ? -1 : 0;
     }
 
     return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
   });
 
+  const useBlend = shouldBlendPopularExplore(filters, pagination);
+  let pageSlice: SmokeProject[];
+  if (useBlend) {
+    const poolSize = Math.min(
+      pageSize * EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER,
+      sortedProjects.length,
+      EXPLORE_POPULAR_BLEND_POOL_MAX,
+    );
+    const pool = sortedProjects.slice(0, poolSize);
+    pageSlice = diversifyPopularByCategory(pool, pageSize);
+  } else {
+    const from = page * pageSize;
+    const to = from + pageSize;
+    pageSlice = sortedProjects.slice(from, to);
+  }
+
   const from = page * pageSize;
   const to = from + pageSize;
-  const projects = sortedProjects.slice(from, to).map(({ createdAt: _createdAt, ...project }) => project);
+  const projects = pageSlice.map(({ createdAt: _createdAt, ...project }) => project);
 
   return {
     projects,
@@ -271,18 +384,24 @@ function getSmokeProjects(
 
 export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
   if (isPlaywrightSmoke()) {
+    const smokeExcluded = new Set(SMOKE_CATEGORIES);
     const smokeTagScope = buildTagScope(
       SMOKE_PROJECTS.map((project) => ({
         category: project.category,
         subCategory: project.sub_category,
         tags: project.tags,
       })),
-      new Set(SMOKE_CATEGORIES),
+      smokeExcluded,
+    );
+    const smokePopularTags = rankTagsByPopularity(
+      SMOKE_PROJECTS.map((project) => ({ tags: project.tags })),
+      smokeExcluded,
     );
 
     return {
       categories: SMOKE_CATEGORIES,
       availableTags: SMOKE_TAGS,
+      popularTags: smokePopularTags,
       tagScope: smokeTagScope,
     };
   }
@@ -313,22 +432,30 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
       ...categories,
       ...(((subCategoriesData as { name: string }[] | null) || []).map((subCategory) => subCategory.name)),
     ]);
-    const tagScope = buildTagScope(
-      (((tagsData as {
+    const projectRows =
+      (tagsData as {
         category: string | null;
         tags: string[] | null;
         sub_categories: { name: string | null } | { name: string | null }[] | null;
-      }[] | null) || []).map((project) => ({
+      }[] | null) || [];
+
+    const tagScope = buildTagScope(
+      projectRows.map((project) => ({
         category: project.category,
         tags: project.tags,
         subCategory: Array.isArray(project.sub_categories)
           ? (project.sub_categories[0]?.name ?? null)
           : (project.sub_categories?.name ?? null),
-      }))),
+      })),
       excludedNames,
     );
 
-    const data = { categories, availableTags: tagScope.all, tagScope };
+    const popularTags = rankTagsByPopularity(
+      projectRows.map((project) => ({ tags: project.tags })),
+      excludedNames,
+    );
+
+    const data = { categories, availableTags: tagScope.all, popularTags, tagScope };
     cachedExploreFilterOptions = {
       data,
       expiresAt: Date.now() + EXPLORE_FILTER_OPTIONS_TTL_MS,
@@ -364,18 +491,21 @@ export async function getProjects(
     category,
     subCategory,
     difficulty,
-    minDuration,
-    maxDuration,
     materials,
     tags,
     searchQuery,
   } = filters;
   const sanitizedSearch = searchQuery ? sanitizeSearch(searchQuery) : "";
 
-  const { page = 0, pageSize = 12, sortBy = "latest" } = pagination;
+  const { page = 0, pageSize = 12, sortBy = "popular" } = pagination;
 
   const from = page * pageSize;
   const to = from + pageSize - 1;
+  const usePopularCategoryBlend = shouldBlendPopularExplore(filters, pagination);
+  const rangeStart = usePopularCategoryBlend ? 0 : from;
+  const rangeEnd = usePopularCategoryBlend
+    ? Math.min(pageSize * EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER - 1, EXPLORE_POPULAR_BLEND_POOL_MAX - 1)
+    : to;
 
   const materialsJoin = materials && materials.length > 0 ? "project_materials!inner (*)" : "project_materials (*)";
   const subCategoriesJoin = subCategory ? "sub_categories!inner (name)" : "sub_categories (name)";
@@ -387,17 +517,60 @@ export async function getProjects(
       ${subCategoriesJoin}
     `;
 
+  if (usePopularCategoryBlend) {
+    const poolLimit = Math.min(pageSize, EXPLORE_POPULAR_BLEND_POOL_MAX);
+    const categoryQueries = EXPLORE_POPULAR_CATEGORY_BLEND_ORDER.map((categoryName) =>
+      orderProjectsByPopularity(
+        supabase
+          .from("projects")
+          .select(selectStatement)
+          .eq("status", "approved")
+          .eq("category", categoryName),
+      ).limit(poolLimit),
+    );
+    const fallbackQuery = orderProjectsByPopularity(
+      supabase
+        .from("projects")
+        .select(selectStatement)
+        .eq("status", "approved"),
+    ).range(rangeStart, rangeEnd);
+    const countQuery = supabase
+      .from("projects")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "approved");
+
+    const [categoryResults, fallbackResult, countResult] = await Promise.all([
+      Promise.all(categoryQueries),
+      fallbackQuery,
+      countQuery,
+    ]);
+    const results = [...categoryResults, fallbackResult, countResult];
+
+    const firstError = results.find((result) => result.error)?.error;
+    if (firstError) {
+      logger.error("Error fetching category-balanced popular projects", { error: firstError });
+    } else {
+      const categoryRows = categoryResults.flatMap((result) => result.data || []);
+      const fallbackRows = fallbackResult.data || [];
+      const rows = diversifyPopularByCategory(
+        [...categoryRows, ...fallbackRows] as unknown as ProjectRowForMapper[],
+        pageSize,
+      );
+      const projects = rows.map(mapDbProject);
+      const total = countResult.count || 0;
+      const hasMore = total > to + 1;
+
+      return { projects, total, hasMore };
+    }
+  }
+
   let query = supabase
     .from("projects")
     .select(selectStatement, { count: "exact" })
-    .eq("status", "approved")
-    .range(from, to);
+    .eq("status", "approved");
 
   if (sortBy === "popular") {
-    query = query
-      .order("likes_count", { ascending: false })
-      .order("created_at", { ascending: false })
-      .order("id", { ascending: false });
+    query = orderProjectsByPopularity(query);
   } else {
     query = query.order("created_at", { ascending: false }).order("id", { ascending: false });
   }
@@ -432,18 +605,11 @@ export async function getProjects(
     query = query.contains("tags", tags);
   }
 
-  if (minDuration !== undefined || maxDuration !== undefined) {
-    if (minDuration !== undefined) {
-      query = query.gte("duration", minDuration);
-    }
-    if (maxDuration !== undefined) {
-      query = query.lte("duration", maxDuration);
-    }
-  }
-
   if (materials && materials.length > 0) {
     query = query.in("project_materials.material", materials);
   }
+
+  query = query.range(rangeStart, rangeEnd);
 
   const { data, error, count } = await query;
 
@@ -452,25 +618,9 @@ export async function getProjects(
     return { projects: [], total: 0, hasMore: false };
   }
 
-  const rows = (data || []) as unknown as ProjectRowForMapper[];
-  const projectIds = rows.map((project) => project.id);
-
-  if (projectIds.length > 0) {
-    const { data: countRows, error: countError } = await supabase.rpc("get_projects_comments_count_batch", {
-      p_project_ids: projectIds.map((id) => Number(id)),
-    });
-    if (countError) {
-      logger.error("Error fetching comments count batch", { error: countError });
-    }
-    const countByProjectId = new Map(
-      ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
-        row.project_id,
-        row.comment_count,
-      ]),
-    );
-    for (const row of rows) {
-      (row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0;
-    }
+  let rows = (data || []) as unknown as ProjectRowForMapper[];
+  if (usePopularCategoryBlend && rows.length > 0) {
+    rows = diversifyPopularByCategory(rows, pageSize);
   }
 
   const projects = rows.map(mapDbProject);
@@ -506,9 +656,11 @@ export async function getRecommendedProjects(
   userSteam: Record<string, number> | null,
   ageGroup: string | null,
   pagination: { limit?: number; offset?: number } = {},
+  options: { fallbackToPopular?: boolean } = {},
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   const supabase = await createClient();
   const { limit = 6, offset = 0 } = pagination;
+  const { fallbackToPopular = true } = options;
 
   const { data, error } = await callRpc(supabase, "get_recommended_projects", {
     p_user_steam: userSteam,
@@ -518,8 +670,15 @@ export async function getRecommendedProjects(
   });
 
   if (error) {
-    logger.error("Error fetching recommended projects, falling back to popular", { error });
-    return getProjects({}, { page: 0, pageSize: pagination.limit ?? 6, sortBy: "popular" });
+    logger.error("Error fetching recommended projects", { error, fallbackToPopular });
+
+    if (!fallbackToPopular) {
+      return { projects: [], total: 0, hasMore: false };
+    }
+
+    const pageSize = pagination.limit ?? 6;
+    const fallbackPage = Math.floor(offset / pageSize);
+    return getProjects({}, { page: fallbackPage, pageSize, sortBy: "popular" });
   }
 
   const rows = data || [];
@@ -586,13 +745,12 @@ export async function getRecommendedProjects(
       steps: [],
       difficulty: (fallbackRow?.difficulty as "easy" | "medium" | "hard") || undefined,
       difficulty_stars: fallbackRow?.difficulty_stars || 3,
-      duration: fallbackRow?.duration || undefined,
       tags: [],
       status: (fallbackRow?.status as "draft" | "pending" | "approved" | "rejected") || "approved",
     };
   });
 
-  return { projects, total: rows.length, hasMore: false };
+  return { projects, total: rows.length, hasMore: rows.length >= limit };
 }
 
 /**
@@ -637,7 +795,7 @@ export async function getProjectTotalCoinsReceived(
     return SMOKE_PROJECTS.find((project) => Number(project.id) === numericProjectId)?.coins_count ?? fallback
   }
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin || await createClient()
   const { data, error } = await callRpc(supabase, 'get_project_total_coins_received', {
     p_project_id: numericProjectId,
   })
@@ -649,6 +807,33 @@ export async function getProjectTotalCoinsReceived(
 
   const totalCoins = Number(data)
   return Number.isFinite(totalCoins) ? totalCoins : fallback
+}
+
+export async function getProjectCollectionsCount(
+  projectId: string | number,
+  fallback: number = 0,
+): Promise<number> {
+  const numericProjectId = Number(projectId)
+  if (!Number.isInteger(numericProjectId) || numericProjectId <= 0) {
+    return fallback
+  }
+
+  if (isPlaywrightSmoke()) {
+    return fallback
+  }
+
+  const supabase = supabaseAdmin || await createClient()
+  const { count, error } = await supabase
+    .from('collections')
+    .select('project_id', { count: 'exact', head: true })
+    .eq('project_id', numericProjectId)
+
+  if (error) {
+    logger.error('Error fetching project collections count', { error, projectId: numericProjectId })
+    return fallback
+  }
+
+  return count ?? fallback
 }
 
 /**
@@ -903,4 +1088,33 @@ export async function getProjectCompletions(
       profiles: profile || null,
     });
   });
+}
+
+export async function getProjectCompletionsCount(
+  projectId: string | number,
+  fallback: number = 0,
+): Promise<number> {
+  const numericProjectId = Number(projectId);
+  if (!Number.isInteger(numericProjectId) || numericProjectId <= 0) {
+    return fallback;
+  }
+
+  if (isPlaywrightSmoke()) {
+    return 0;
+  }
+
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from("completed_projects")
+    .select("id", { count: "exact", head: true })
+    .eq("project_id", numericProjectId)
+    .eq("is_public", true)
+    .eq("status", "approved");
+
+  if (error) {
+    logger.error("Error fetching project completions count", { error, projectId: numericProjectId });
+    return fallback;
+  }
+
+  return count ?? fallback;
 }

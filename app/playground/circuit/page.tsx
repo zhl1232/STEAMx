@@ -225,10 +225,10 @@ export default function CircuitPage() {
     const currentRating = status === "solved" ? getMoveRating(moves, level.parMoves) : null
 
     return (
-        <div className="flex flex-col xl:flex-row h-full">
+        <div className="playground-game-page">
             {/* Left: Game area */}
-            <div className="flex-1 relative p-2 sm:p-6 xl:p-12 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] w-full overflow-hidden">
-                <div className="max-w-full lg:max-w-2xl w-full bg-card/60 p-3 sm:p-6 rounded-3xl border border-border backdrop-blur-xl shadow-2xl relative">
+            <div className="playground-game-main playground-game-center relative overflow-hidden">
+                <div className="max-w-full lg:max-w-2xl w-full playground-game-board relative">
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
@@ -484,7 +484,7 @@ export default function CircuitPage() {
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-3xl border border-teal-400/50 shadow-2xl flex flex-col items-center gap-3"
+                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-teal-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                     >
                                         <div className="flex items-center gap-2 text-teal-500">
                                             <Trophy className="w-8 h-8 animate-bounce" />

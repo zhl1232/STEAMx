@@ -93,6 +93,11 @@ export default function Game24Page() {
 
   const [expression, setExpression] = useState("")
   const [error, setError] = useState("")
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   useEffect(() => {
     if (status === "playing") {
@@ -138,10 +143,41 @@ export default function Game24Page() {
     }
   }
 
+  const appendToken = (token: string) => {
+    setExpression((prev) => `${prev}${token}`)
+    if (error) setError("")
+  }
+
+  const deleteToken = () => {
+    setExpression((prev) => prev.slice(0, -1))
+    if (error) setError("")
+  }
+
+  if (!isMounted) {
+    return (
+      <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-6">
+        <div className="w-full max-w-2xl rounded-[22px] border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur">
+          <div className="mb-5 flex items-center gap-3">
+            <div className="h-10 w-10 animate-pulse rounded-2xl bg-primary/15" />
+            <div className="space-y-2">
+              <div className="h-5 w-44 animate-pulse rounded-full bg-muted" />
+              <div className="h-3 w-64 animate-pulse rounded-full bg-muted/70" />
+            </div>
+          </div>
+          <div className="flex justify-center gap-2 sm:gap-4">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="h-[100px] w-[72px] animate-pulse rounded-2xl bg-muted sm:h-[140px] sm:w-[100px] md:h-[170px] md:w-[120px]" />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-col xl:flex-row h-full">
+    <div className="playground-game-page">
       {/* Main game area */}
-      <div className="flex-1 p-2 sm:p-6 xl:p-10 flex flex-col items-center xl:justify-center w-full">
+      <div className="playground-game-main xl:justify-center">
         {/* Header */}
         <div className="w-full max-w-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
           <div className="flex items-center gap-3">
@@ -263,6 +299,47 @@ export default function Game24Page() {
                 支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
                 <span className="font-mono">1 / 11 / 12 / 13</span>。
               </p>
+              <div className="grid grid-cols-6 gap-1.5 rounded-2xl border border-border/70 bg-muted/35 p-2 sm:hidden">
+                {cards.map((card, index) => (
+                  <button
+                    key={`${card.suit}-${card.value}-${index}-quick`}
+                    type="button"
+                    onClick={() => appendToken(card.label)}
+                    className="min-h-10 rounded-xl bg-background text-sm font-black shadow-sm active:scale-95"
+                    aria-label={`输入 ${card.label}`}
+                  >
+                    {card.label}
+                  </button>
+                ))}
+                {["+", "-", "×", "÷", "(", ")"].map((token) => (
+                  <button
+                    key={token}
+                    type="button"
+                    onClick={() => appendToken(token)}
+                    className="min-h-10 rounded-xl bg-background text-sm font-black text-primary shadow-sm active:scale-95"
+                    aria-label={`输入 ${token}`}
+                  >
+                    {token}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={deleteToken}
+                  className="col-span-3 min-h-10 rounded-xl bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                >
+                  删除
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExpression("")
+                    if (error) setError("")
+                  }}
+                  className="col-span-3 min-h-10 rounded-xl bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                >
+                  清空
+                </button>
+              </div>
               {error && (
                 <p className="text-xs text-red-500 pl-1">{error}</p>
               )}
@@ -291,7 +368,7 @@ export default function Game24Page() {
 
           {/* Solutions panel */}
           {(status === "solved" || status === "skipped" || status === "timeout") && solutions.length > 0 && (
-            <Card className="bg-card/60 backdrop-blur-xl border-border p-4 space-y-3">
+            <Card className="playground-info-panel space-y-3 p-4">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-primary" />
                 <h3 className="text-sm font-semibold">可行解法</h3>

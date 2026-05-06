@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
@@ -29,6 +30,10 @@ export interface BottomReplyBoxProps {
   variant?: "fixed" | "sheet" | "inline";
   /** Slot rendered to the right when not focused (e.g. like/share buttons) */
   actionsSlot?: React.ReactNode;
+  /** Fixed composer placement: above global bottom nav, or directly at the screen bottom. */
+  fixedPlacement?: "aboveNav" | "screen";
+  /** Render fixed composer under document.body so it is independent of page section layout. */
+  portalFixed?: boolean;
   /** Default placeholder when no reply target is active */
   placeholder?: string;
   onSubmit: (
@@ -50,6 +55,8 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
   canUploadImage = false,
   variant = "fixed",
   actionsSlot,
+  fixedPlacement = "aboveNav",
+  portalFixed = false,
   placeholder: defaultPlaceholder = "分享你的观点...",
   onSubmit,
 }: BottomReplyBoxProps) {
@@ -62,6 +69,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { toast } = useToast();
 
   const activeTarget = replyTarget ?? defaultTarget ?? null;
@@ -140,13 +148,23 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
     }
   }, [replyTarget]);
 
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const wrapperClass = variant === "fixed"
-    ? "fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 right-0 md:sticky md:bottom-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3 border-t border-border/80 dark:border-border md:border-t-0 px-4 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:shadow-none"
+    ? cn(
+      "fixed left-0 right-0 z-40 border-t border-border/80 bg-background/95 px-4 pt-3 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:sticky md:bottom-0 md:border-t-0 md:py-3 md:shadow-none",
+      portalFixed && "md:hidden",
+      fixedPlacement === "screen"
+        ? "bottom-0 pb-[calc(0.65rem+env(safe-area-inset-bottom))]"
+        : "bottom-[calc(4rem+env(safe-area-inset-bottom))] pb-3",
+    )
     : variant === "inline"
       ? "rounded-[24px] border border-border/70 bg-background/85 px-4 py-4 shadow-sm shadow-black/5"
       : "shrink-0 border-t bg-background px-4 py-3";
 
-  return (
+  const content = (
     <div className={wrapperClass}>
       <div className="max-w-4xl mx-auto w-full">
         <div className={cn("flex gap-3", isExpanded ? "items-start" : "items-center")}>
@@ -285,4 +303,10 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
       </div>
     </div>
   );
+
+  if (variant === "fixed" && portalFixed) {
+    return mounted ? createPortal(content, document.body) : null;
+  }
+
+  return content;
 });

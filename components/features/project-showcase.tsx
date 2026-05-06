@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, type ReactNode } from "react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectCompletion } from "@/lib/mappers/types"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
@@ -22,38 +22,52 @@ interface ProjectShowcaseProps {
     completions: ProjectCompletion[]
     projectId?: number | string
     projectTitle?: string
+    title?: string
+    totalCount?: number
+    emptyActionSlot?: ReactNode
 }
 
-export function ProjectShowcase({ completions, projectId: _projectId, projectTitle: _projectTitle }: ProjectShowcaseProps) {
+export function ProjectShowcase({
+    completions,
+    projectId: _projectId,
+    projectTitle: _projectTitle,
+    title = "作品墙",
+    totalCount,
+    emptyActionSlot,
+}: ProjectShowcaseProps) {
     const [selectedCompletion, setSelectedCompletion] = useState<ProjectCompletion | null>(null)
 
     const isEmpty = !completions || completions.length === 0
+    const displayCount = totalCount ?? completions.length
 
     return (
-        <div className="space-y-6">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-                作品墙
-                {!isEmpty && (
-                    <span className="text-sm font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                        {completions.length}
+        <div className="space-y-4">
+            <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight text-foreground">
+                {title}
+                {displayCount > 0 && (
+                    <span className="rounded-full border border-border/70 bg-muted/70 px-2 py-0.5 text-sm font-normal text-muted-foreground">
+                        {displayCount}
                     </span>
                 )}
             </h2>
 
             {isEmpty && (
-                <div className="flex flex-col items-center gap-2 py-12 text-center rounded-xl border border-dashed border-muted-foreground/20">
-                    <p className="text-muted-foreground">还没有人完成这个项目</p>
-                    <p className="text-sm text-muted-foreground/70">成为第一个展示作品的人吧！</p>
+                <div className="surface-subtle flex flex-col items-center gap-3 border-dashed px-4 py-10 text-center">
+                    <div className="space-y-1">
+                        <p className="font-medium text-foreground">还没有人完成这个项目</p>
+                        <p className="text-sm leading-6 text-muted-foreground">成为第一个展示作品的人吧。</p>
+                    </div>
+                    {emptyActionSlot ? <div className="pt-1">{emptyActionSlot}</div> : null}
                 </div>
             )}
 
             {!isEmpty && (
                 <>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="flex gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-3 md:overflow-visible">
                         {completions.map((completion, index) => (
                             <div
                                 key={`${completion.id}-${index}`}
-                                className="group relative aspect-square rounded-xl overflow-hidden bg-muted cursor-pointer ring-offset-background transition-all hover:ring-2 hover:ring-primary"
+                                className="surface-card group relative aspect-[16/10] min-w-[150px] cursor-pointer overflow-hidden bg-muted ring-offset-background transition-all hover:-translate-y-0.5 hover:border-primary/35 focus-within:ring-2 focus-within:ring-ring md:aspect-square md:min-w-0"
                                 onClick={() => setSelectedCompletion(completion)}
                             >
                                 {completion.proofImages[0] ? (
@@ -69,7 +83,7 @@ export function ProjectShowcase({ completions, projectId: _projectId, projectTit
                                         无图
                                     </div>
                                 )}
-                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 opacity-0 transition-opacity group-hover:opacity-100">
+                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/78 to-transparent p-3 pt-8 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                                     <div className="flex items-center gap-2 text-white">
                                         <AvatarWithFrame
                                             src={completion.avatar}
@@ -472,7 +486,7 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
                     </div>
 
                     {/* 互动区：点赞 + 数据展示 + 赞赏 */}
-                    <div className="rounded-xl bg-muted/25 border border-border/50 overflow-hidden">
+                    <div className="surface-subtle overflow-hidden">
                         <div className="p-4 space-y-4">
                             {/* 第一行：点赞按钮 + 弹幕/硬币统计 */}
                             <div className="flex flex-wrap items-center gap-3">
@@ -555,8 +569,8 @@ function CompletionDetail({ completion, onClose }: { completion: ProjectCompleti
 
                     {/* 心得体会 */}
                     {completion.notes ? (
-                        <div className="rounded-xl border border-border/50 bg-muted/10 overflow-hidden">
-                            <div className="pl-4 border-l-4 border-primary/40 py-4 pr-4 space-y-3">
+                        <div className="surface-subtle px-4 py-4">
+                            <div className="space-y-3">
                                 <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
                                     <Quote className="h-4 w-4 text-primary shrink-0" aria-hidden />
                                     心得体会

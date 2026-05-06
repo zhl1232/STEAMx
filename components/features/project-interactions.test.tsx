@@ -23,7 +23,6 @@ vi.mock('@/lib/context/project-context', () => ({
         clearLikesDelta: vi.fn(),
         toggleCollection: vi.fn(),
         isCollected: vi.fn(() => false),
-        isCompleted: vi.fn(() => false),
     }),
 }))
 
@@ -39,10 +38,6 @@ vi.mock('@/lib/context/login-prompt-context', () => ({
     }),
 }))
 
-vi.mock('@/components/features/project/complete-project-dialog', () => ({
-    CompleteProjectDialog: () => null,
-}))
-
 vi.mock('@/components/features/project/tip-project-dialog', () => ({
     TipProjectDialog: (props: unknown) => {
         mockTipProjectDialog(props)
@@ -52,12 +47,6 @@ vi.mock('@/components/features/project/tip-project-dialog', () => ({
 
 vi.mock('@/components/ui/report-dialog', () => ({
     ReportDialog: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}))
-
-vi.mock('@/components/ui/confetti-button', () => ({
-    ConfettiButton: ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
-        <button {...props}>{children}</button>
-    ),
 }))
 
 describe('ProjectInteractions', () => {
@@ -72,9 +61,7 @@ describe('ProjectInteractions', () => {
                 projectId="42"
                 projectTitle="测试项目"
                 likes={0}
-                completions={[]}
                 projectOwnerId="owner-1"
-                embedded
             />
         )
 
@@ -85,40 +72,21 @@ describe('ProjectInteractions', () => {
         )
     })
 
-    it('keeps the full tip dialog in non-embedded mode so completion tips remain available', () => {
+    it('passes project tipping metadata to the tip dialog', () => {
         render(
             <ProjectInteractions
                 projectId={42}
                 projectTitle="测试项目"
                 likes={0}
-                completions={[
-                    {
-                        id: 7,
-                        author: 'Alice',
-                        avatar: undefined,
-                        proofImages: [],
-                        completedAt: '2026-03-20',
-                        likes: 0,
-                        notes: '',
-                        projectId: 42,
-                        userId: 'user-2',
-                        isPublic: true,
-                    },
-                ]}
                 projectOwnerId="owner-1"
             />
         )
 
         expect(mockTipProjectDialog).toHaveBeenCalledWith(
             expect.objectContaining({
-                completions: expect.arrayContaining([
-                    expect.objectContaining({ id: 7 }),
-                ]),
-            })
-        )
-        expect(mockTipProjectDialog).toHaveBeenCalledWith(
-            expect.not.objectContaining({
-                projectOnly: true,
+                projectId: 42,
+                projectOwnerId: 'owner-1',
+                projectTitle: '测试项目',
             })
         )
     })

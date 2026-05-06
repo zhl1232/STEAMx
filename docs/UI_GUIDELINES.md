@@ -40,7 +40,6 @@ These files currently define the baseline and should be treated as the first ref
 - `components/ui/mobile-page-header.tsx`
 - `components/features/project-card.tsx`
 - `app/community/page.tsx`
-- `components/community/mobile-community-page.tsx`
 - `app/settings/page.tsx`
 - `components/features/design-system-content.tsx`
 

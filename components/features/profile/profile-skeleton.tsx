@@ -1,8 +1,378 @@
-function SkeletonBlock({ className }: { className: string }) {
-  return <div className={`animate-pulse rounded-[20px] bg-muted ${className}`} />
+type ProfileSkeletonVariant = "dashboard" | "public";
+
+function SkeletonBlock({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-[20px] bg-muted/75 ${className}`} />;
 }
 
-function MobileProfileSkeleton() {
+function SectionTitleSkeleton() {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-2.5">
+        <SkeletonBlock className="h-10 w-10 shrink-0" />
+        <SkeletonBlock className="h-5 w-32 rounded-full" />
+      </div>
+      <SkeletonBlock className="h-8 w-16 rounded-full" />
+    </div>
+  );
+}
+
+function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
+  return (
+    <section className={`surface-panel relative overflow-hidden ${compact ? "rounded-[24px]" : "min-h-[270px] rounded-[20px]"}`}>
+      <div className="absolute inset-0">
+        <div
+          className={
+            compact
+              ? "absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.82)_54%,rgba(255,255,255,0.18)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]"
+              : "absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.92)_34%,rgba(238,247,255,0.62)_60%,rgba(16,46,88,0.18)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]"
+          }
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_17%_18%,hsl(var(--brand-blue)/0.12),transparent_26%),radial-gradient(circle_at_62%_86%,hsl(var(--brand-green)/0.10),transparent_34%)]" />
+        {!compact ? <SkeletonBlock className="absolute bottom-6 right-8 h-40 w-[36%] rounded-[28px] bg-muted/35" /> : null}
+      </div>
+
+      <div className={`relative ${compact ? "px-5 pb-4 pt-5" : "px-7 pb-5 pt-7"}`}>
+        <div className={`flex gap-6 ${compact ? "flex-col" : "min-h-[156px] flex-wrap items-start"}`}>
+          <div className={`flex items-center gap-5 ${compact ? "" : "min-w-0 md:min-w-[420px] xl:min-w-[520px]"}`}>
+            <div className="relative shrink-0">
+              <SkeletonBlock className={`${compact ? "h-[88px] w-[88px]" : "h-[112px] w-[112px]"} rounded-full border-[5px] border-background`} />
+              <SkeletonBlock className="absolute -bottom-1.5 left-1/2 h-7 w-20 -translate-x-1/2 rounded-full bg-muted/90" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <SkeletonBlock className="h-7 w-20 rounded-full" />
+                <SkeletonBlock className="h-7 w-24 rounded-full" />
+              </div>
+              <SkeletonBlock className={`mt-2 rounded-full ${compact ? "h-8 w-44" : "h-9 w-52"}`} />
+              <SkeletonBlock className="mt-3 h-4 w-full max-w-[460px] rounded-full" />
+              <SkeletonBlock className="mt-2 h-4 w-3/4 max-w-[360px] rounded-full" />
+
+              {!compact ? (
+                <>
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <SkeletonBlock className="h-8 w-28 rounded-full" />
+                    <SkeletonBlock className="h-8 w-36 rounded-full" />
+                  </div>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <SkeletonBlock className="h-11 w-28 rounded-[20px]" />
+                    <SkeletonBlock className="h-4 w-48 rounded-full" />
+                  </div>
+                </>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`grid overflow-hidden border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60 ${
+            compact ? "mt-5 grid-cols-4 rounded-2xl" : "mt-6 max-w-[610px] grid-cols-4 rounded-[18px]"
+          }`}
+        >
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className={`flex items-center justify-center gap-3 ${compact ? "min-h-[72px] flex-col gap-1.5 px-2 py-3" : "min-h-[62px] px-4 py-3"} ${
+                index > 0 ? "border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]" : ""
+              }`}
+            >
+              <SkeletonBlock className={`${compact ? "h-9 w-9" : "h-10 w-10"} shrink-0`} />
+              <div className={compact ? "w-full" : "min-w-0"}>
+                <SkeletonBlock className={`mx-auto h-5 rounded-full ${compact ? "w-10" : "w-12"}`} />
+                <SkeletonBlock className={`mx-auto mt-2 h-3 rounded-full ${compact ? "w-8" : "w-10"}`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MobileActionGridSkeleton() {
+  return (
+    <section className="surface-panel grid grid-cols-4 gap-2 p-3">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div key={index} className="grid min-h-[86px] place-items-center gap-2 rounded-[16px] px-2 py-3 text-center">
+          <SkeletonBlock className="h-11 w-11" />
+          <SkeletonBlock className="h-3 w-12 rounded-full" />
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function GrowthTaskRowsSkeleton({ count = 5 }: { count?: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: count }).map((_, index) => (
+        <div key={index} className="rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.5)] p-3">
+          <div className="flex items-center justify-between gap-3">
+            <SkeletonBlock className="h-4 w-32 rounded-full" />
+            <SkeletonBlock className="h-5 w-14 rounded-full" />
+          </div>
+          <SkeletonBlock className="mt-3 h-2 w-full rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MobileDashboardProfileSkeleton() {
+  return (
+    <div className="min-h-screen bg-[linear-gradient(180deg,hsl(var(--app-canvas))_0%,hsl(var(--background))_48%,hsl(var(--app-canvas-soft))_100%)] pb-24 text-foreground dark:bg-[linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--app-canvas))_58%,hsl(var(--background))_100%)] md:hidden">
+      <div className="px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
+        <div className="mb-4 flex min-h-11 items-center justify-between gap-3">
+          <SkeletonBlock className="h-8 w-16 rounded-full" />
+          <div className="flex items-center gap-2">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonBlock key={index} className="h-11 w-11 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />
+            ))}
+          </div>
+        </div>
+
+        <DashboardHeroSkeleton compact />
+      </div>
+
+      <div className="space-y-4 px-4">
+        <MobileActionGridSkeleton />
+
+        <div className="grid grid-cols-2 gap-3">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <section key={index} className="surface-panel min-h-[164px] p-4">
+              <SkeletonBlock className="h-4 w-24 rounded-full" />
+              <SkeletonBlock className="mt-5 h-8 w-20 rounded-full" />
+              <SkeletonBlock className="mt-5 h-2 w-full rounded-full" />
+              <SkeletonBlock className="mt-3 h-3 w-24 rounded-full" />
+            </section>
+          ))}
+        </div>
+
+        <section className="surface-panel p-4">
+          <SectionTitleSkeleton />
+          <div className="mt-4 flex justify-between gap-4">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="flex min-w-[58px] flex-col items-center">
+                <SkeletonBlock className="h-11 w-11 rounded-full" />
+                <SkeletonBlock className="mt-2 h-3 w-12 rounded-full" />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="surface-panel p-4">
+          <SectionTitleSkeleton />
+          <div className="mt-4">
+            <GrowthTaskRowsSkeleton />
+          </div>
+        </section>
+
+        <section className="surface-panel p-4">
+          <SectionTitleSkeleton />
+          <div className="mt-4 flex gap-3 overflow-hidden">
+            {Array.from({ length: 2 }).map((_, index) => (
+              <div key={index} className="w-[176px] shrink-0 overflow-hidden rounded-[10px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]">
+                <SkeletonBlock className="h-[104px] w-full rounded-none" />
+                <div className="p-3">
+                  <SkeletonBlock className="h-4 w-28 rounded-full" />
+                  <SkeletonBlock className="mt-2 h-3 w-full rounded-full" />
+                  <SkeletonBlock className="mt-2 h-3 w-2/3 rounded-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="surface-panel p-4">
+          <SectionTitleSkeleton />
+          <div className="mt-4 space-y-3">
+            {Array.from({ length: 2 }).map((_, index) => (
+              <div key={index} className="flex gap-3 rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+                <SkeletonBlock className="h-14 w-14 shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <SkeletonBlock className="h-4 w-28 rounded-full" />
+                  <SkeletonBlock className="mt-2 h-3 w-full rounded-full" />
+                  <SkeletonBlock className="mt-2 h-3 w-2/3 rounded-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="surface-panel mb-2 rounded-[20px] p-5">
+          <SectionTitleSkeleton />
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <SkeletonBlock key={index} className="h-16 rounded-[16px]" />
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function DashboardChartSkeleton() {
+  return (
+    <div className="mt-5 flex flex-1 items-center justify-center">
+      <SkeletonBlock className="h-[214px] w-[214px] rounded-full" />
+    </div>
+  );
+}
+
+function ProjectStripSkeleton() {
+  return (
+    <div className="mt-4 flex gap-3 overflow-hidden">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div key={index} className="min-w-[178px] flex-1 overflow-hidden rounded-[10px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]">
+          <SkeletonBlock className="h-[118px] w-full rounded-none" />
+          <div className="p-3">
+            <SkeletonBlock className="h-4 w-32 rounded-full" />
+            <SkeletonBlock className="mt-2 h-3 w-full rounded-full" />
+            <SkeletonBlock className="mt-2 h-3 w-2/3 rounded-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ObservationRowsSkeleton({ count = 3 }: { count?: number }) {
+  return (
+    <div className="mt-4 space-y-3">
+      {Array.from({ length: count }).map((_, index) => (
+        <div key={index} className="flex gap-3 rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+          <SkeletonBlock className="h-12 w-12 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <SkeletonBlock className="h-4 w-28 rounded-full" />
+            <SkeletonBlock className="mt-2 h-3 w-full rounded-full" />
+            <SkeletonBlock className="mt-2 h-3 w-2/3 rounded-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DesktopDashboardProfileSkeleton() {
+  return (
+    <div className="hidden md:block">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#f4f9ff_0%,hsl(var(--background))_42%,#f7fbff_100%)] pb-10 text-foreground dark:bg-[linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--app-canvas))_58%,hsl(var(--background))_100%)]">
+        <div className="mx-auto w-full max-w-[1840px] px-4 py-4 min-[390px]:px-5 md:px-8 md:py-6">
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_350px]">
+            <main className="min-w-0 space-y-4">
+              <DashboardHeroSkeleton compact={false} />
+
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-12">
+                <section className="surface-panel flex min-h-[388px] flex-col rounded-[20px] p-5 xl:col-span-4">
+                  <SectionTitleSkeleton />
+                  <DashboardChartSkeleton />
+                </section>
+
+                <section className="surface-panel flex min-h-[388px] flex-col overflow-hidden rounded-[20px] p-5 xl:col-span-5">
+                  <SectionTitleSkeleton />
+                  <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,1fr)_108px]">
+                    <div className="min-w-0">
+                      <SkeletonBlock className="h-10 w-32 rounded-full" />
+                      <SkeletonBlock className="mt-5 h-2 w-full rounded-full" />
+                      <SkeletonBlock className="mt-3 h-4 w-44 rounded-full" />
+                    </div>
+                    <SkeletonBlock className="h-[108px] w-[108px] rounded-full" />
+                  </div>
+                  <div className="mt-5 grid grid-cols-5 gap-3">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <div key={index} className="flex flex-col items-center">
+                        <SkeletonBlock className="h-12 w-12 rounded-full" />
+                        <SkeletonBlock className="mt-2 h-3 w-12 rounded-full" />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="surface-panel flex min-h-[388px] flex-col rounded-[20px] p-5 xl:col-span-3">
+                  <SectionTitleSkeleton />
+                  <SkeletonBlock className="mt-4 h-24 w-full rounded-[20px]" />
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <SkeletonBlock key={index} className="h-16 rounded-[16px]" />
+                    ))}
+                  </div>
+                </section>
+
+                <section className="surface-panel rounded-[20px] p-5 md:col-span-2 xl:col-span-6">
+                  <SectionTitleSkeleton />
+                  <ProjectStripSkeleton />
+                </section>
+
+                <section className="surface-panel rounded-[20px] p-5 xl:col-span-3">
+                  <SectionTitleSkeleton />
+                  <ObservationRowsSkeleton />
+                </section>
+
+                <section className="surface-panel rounded-[20px] p-5 xl:col-span-3">
+                  <SectionTitleSkeleton />
+                  <ObservationRowsSkeleton count={2} />
+                </section>
+
+                <section className="surface-panel rounded-[20px] p-5 md:col-span-2 xl:col-span-6">
+                  <SectionTitleSkeleton />
+                  <div className="mt-6 space-y-5">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="grid grid-cols-[40px_minmax(0,1fr)] gap-4">
+                        <SkeletonBlock className="h-10 w-10 rounded-full" />
+                        <div>
+                          <SkeletonBlock className="h-4 w-40 rounded-full" />
+                          <SkeletonBlock className="mt-3 h-3 w-full rounded-full" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </main>
+
+            <aside className="space-y-4">
+              <section className="surface-panel rounded-[20px] p-5">
+                <SectionTitleSkeleton />
+                <div className="mt-4">
+                  <GrowthTaskRowsSkeleton />
+                </div>
+              </section>
+
+              <section className="surface-panel rounded-[20px] p-5">
+                <SkeletonBlock className="h-36 w-full rounded-[18px]" />
+                <SkeletonBlock className="mt-4 h-5 w-36 rounded-full" />
+                <SkeletonBlock className="mt-3 h-3 w-full rounded-full" />
+                <SkeletonBlock className="mt-2 h-3 w-2/3 rounded-full" />
+                <SkeletonBlock className="mt-4 h-9 w-24 rounded-[10px]" />
+              </section>
+
+              <section className="surface-panel rounded-[20px] p-5">
+                <SectionTitleSkeleton />
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <SkeletonBlock key={index} className="h-16 rounded-[16px]" />
+                  ))}
+                </div>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DashboardProfileSkeleton() {
+  return (
+    <>
+      <MobileDashboardProfileSkeleton />
+      <DesktopDashboardProfileSkeleton />
+    </>
+  );
+}
+
+function PublicMobileProfileSkeleton() {
   return (
     <div className="flex min-h-screen flex-col bg-background pb-24 md:hidden">
       <div className="px-4 pt-4">
@@ -79,10 +449,10 @@ function MobileProfileSkeleton() {
         </section>
       </div>
     </div>
-  )
+  );
 }
 
-function DesktopProfileSkeleton() {
+function PublicDesktopProfileSkeleton() {
   return (
     <div className="hidden md:block">
       <div className="page-shell py-8">
@@ -163,14 +533,18 @@ function DesktopProfileSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function ProfileSkeleton() {
+function PublicProfileSkeleton() {
   return (
     <>
-      <MobileProfileSkeleton />
-      <DesktopProfileSkeleton />
+      <PublicMobileProfileSkeleton />
+      <PublicDesktopProfileSkeleton />
     </>
-  )
+  );
+}
+
+export function ProfileSkeleton({ variant = "dashboard" }: { variant?: ProfileSkeletonVariant }) {
+  return variant === "public" ? <PublicProfileSkeleton /> : <DashboardProfileSkeleton />;
 }

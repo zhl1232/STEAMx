@@ -99,7 +99,7 @@ export default function ConversationPage() {
 
   if (authLoading || (user && !otherUserId)) {
     return (
-      <div className="page-shell pt-6 pb-24 md:pb-10">
+      <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
         <div className="mx-auto w-full max-w-3xl">
           <div className="surface-panel overflow-hidden">
             <div className="h-14 animate-pulse border-b border-border/60 bg-muted/60" />
@@ -132,7 +132,7 @@ export default function ConversationPage() {
         : peer?.display_name || "用户";
 
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
         <MobilePageHeader
           title={displayName}
@@ -146,7 +146,7 @@ export default function ConversationPage() {
           }
         />
 
-        <section className="surface-panel flex min-h-[calc(100dvh-8.75rem)] flex-1 flex-col overflow-hidden md:min-h-[calc(100vh-10rem)]">
+        <section className="surface-panel flex min-h-[calc(100dvh-9.25rem)] flex-1 flex-col overflow-hidden md:min-h-[calc(100vh-10rem)]">
           <div className="hidden items-center justify-between gap-4 border-b border-border/60 px-6 py-5 md:flex">
             <div className="flex min-w-0 items-center gap-3">
               <Avatar className="h-11 w-11 shrink-0">
@@ -164,7 +164,7 @@ export default function ConversationPage() {
             <div className="flex min-h-full flex-col py-4">
               {hasMore && !isLoading ? (
                 <div className="mb-3 text-center text-xs text-muted-foreground">
-                  {isLoadingMore ? "加载中..." : "上滑加载更早的消息"}
+                  {isLoadingMore ? "加载中…" : "上滑加载更早的消息"}
                 </div>
               ) : null}
 
@@ -216,7 +216,7 @@ export default function ConversationPage() {
                       ? "会话加载失败，暂时无法发送消息"
                       : isMissingPeer
                         ? "当前无法向该用户发送消息"
-                        : "输入消息..."
+                        : "输入消息…"
                 }
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
@@ -271,7 +271,7 @@ function MessageBubble({ message, isMe }: { message: Message; isMe: boolean }) {
     <div className={`group flex items-end gap-1.5 ${isMe ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[80%] rounded-[22px] px-3.5 py-2.5 ${
-          isMe ? "bg-primary text-primary-foreground" : "bg-muted"
+          isMe ? "bg-primary text-primary-foreground" : "bg-[hsl(var(--surface-muted))] text-foreground"
         }`}
       >
         <p className="break-words whitespace-pre-wrap text-sm">{message.content}</p>

@@ -74,7 +74,6 @@ export async function GET(
         image_url,
         status,
         created_at,
-        duration,
         difficulty_stars,
         profiles:author_id (
           username,
@@ -164,7 +163,6 @@ export async function PATCH(
       p_sub_category_id: payload.sub_category_id ?? null,
       p_difficulty_stars: payload.difficulty_stars,
       p_image_url: payload.image_url ?? null,
-      p_duration: payload.duration,
       p_steam_weights: steamWeights as Json | null,
       p_steps: payload.project_steps,
       p_materials: payload.project_materials.map((material, index) => ({

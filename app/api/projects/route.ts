@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
   const page = Math.max(0, parseInt(searchParams.get('page') || '0', 10) || 0)
   const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '12', 10) || 12))
-  const sortBy = searchParams.get('sortBy') === 'popular' ? 'popular' : 'latest'
+  const sortBy = searchParams.get('sortBy') === 'latest' ? 'latest' : 'popular'
 
   try {
     const { projects, hasMore } = await getProjects(filters, { page, pageSize, sortBy })
@@ -92,7 +92,6 @@ export async function POST(request: Request) {
       sub_category,
       difficulty,
       difficulty_stars,
-      duration,
       image_url,
       challenge_id,
       reflection,
@@ -136,7 +135,6 @@ export async function POST(request: Request) {
       sub_category_id: resolvedSubCategoryId,
       difficulty: difficulty ?? null,
       difficulty_stars,
-      duration,
       image_url,
       challenge_id,
       reflection,

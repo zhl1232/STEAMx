@@ -11,11 +11,20 @@ interface FollowButtonProps {
     targetUserId: string;
     className?: string;
     showCount?: boolean;
+    variant?: "default" | "outline";
+    showIcon?: boolean;
     /** 在「新增粉丝」等场景下显示为「回关」而非「关注」 */
     followBack?: boolean;
 }
 
-export function FollowButton({ targetUserId, className, showCount = false, followBack = false }: FollowButtonProps) {
+export function FollowButton({
+    targetUserId,
+    className,
+    showCount = false,
+    variant = "default",
+    showIcon = true,
+    followBack = false,
+}: FollowButtonProps) {
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { isFollowing, isLoading, follow, unfollow, isPending, followerCount } = useFollow(targetUserId);
@@ -47,7 +56,7 @@ export function FollowButton({ targetUserId, className, showCount = false, follo
 
     return (
         <Button
-            variant={isFollowing ? "outline" : "default"}
+            variant={isFollowing ? "outline" : variant}
             size="sm"
             onClick={handleClick}
             disabled={isLoading || isPending}
@@ -57,13 +66,13 @@ export function FollowButton({ targetUserId, className, showCount = false, follo
                 <Loader2 className="h-4 w-4 animate-spin" />
             ) : isFollowing ? (
                 <>
-                    <UserCheck className="h-4 w-4" />
+                    {showIcon ? <UserCheck className="h-4 w-4" /> : null}
                     <span className="group-hover:hidden">已关注</span>
                     <span className="hidden group-hover:inline">取消关注</span>
                 </>
             ) : (
                 <>
-                    <UserPlus className="h-4 w-4" />
+                    {showIcon ? <UserPlus className="h-4 w-4" /> : null}
                     {followBack ? "回关" : "关注"}
                 </>
             )}

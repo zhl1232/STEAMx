@@ -34,7 +34,6 @@ interface ProjectFormData {
     sub_category_id: number | null
     difficulty_stars: number
     image_url: string | null
-    duration: number
     status: 'draft' | 'pending' | 'approved' | 'rejected'
     project_steps: {
         title: string
@@ -57,7 +56,6 @@ const INITIAL_DATA: ProjectFormData = {
     sub_category_id: null,
     difficulty_stars: 2,
     image_url: null,
-    duration: 60,
     status: 'draft',
     project_steps: [],
     project_materials: [],
@@ -129,7 +127,6 @@ export default function EditProjectPage() {
                     category: project.category || '',
                     sub_category_id: project.sub_category_id || null, 
                     difficulty_stars: project.difficulty_stars,
-                    duration: project.duration || 60,
                     status: project.status || 'draft',
                     image_url: project.image_url,
                     project_steps: (project.project_steps || [])
@@ -204,7 +201,6 @@ export default function EditProjectPage() {
                     sub_category_id: formData.sub_category_id,
                     difficulty_stars: formData.difficulty_stars,
                     image_url: formData.image_url,
-                    duration: formData.duration,
                     steam_weights: showSteamCorrection ? formData.steam_weights : null,
                     project_steps: formData.project_steps,
                     project_materials: formData.project_materials,

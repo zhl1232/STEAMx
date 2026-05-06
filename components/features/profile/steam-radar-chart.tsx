@@ -18,6 +18,7 @@ type SteamRadarChartProps = {
   userId?: string
   className?: string
   initialRadar?: SteamRadarWithGuidance | null
+  showHeader?: boolean
   /** @deprecated Use userId prop instead. Kept for backward compatibility. */
   stats?: {
     scienceCompleted?: number
@@ -71,7 +72,7 @@ function CustomAxisTick({ payload, x, y, textAnchor }: CustomAxisTickProps) {
   )
 }
 
-export function SteamRadarChart({ userId, stats, className, initialRadar = null }: SteamRadarChartProps) {
+export function SteamRadarChart({ userId, stats, className, initialRadar = null, showHeader = true }: SteamRadarChartProps) {
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
@@ -183,9 +184,11 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null 
 
   return (
     <Card className={cn("surface-panel p-5 sm:p-6 space-y-4", className)}>
-      <div>
-        <p className="text-base font-semibold tracking-tight text-foreground">STEAM 雷达图</p>
-      </div>
+      {showHeader ? (
+        <div>
+          <p className="text-base font-semibold tracking-tight text-foreground">STEAM 雷达图</p>
+        </div>
+      ) : null}
 
       <div className="h-56 min-h-[224px] w-full min-w-[200px] sm:h-64 sm:min-h-[256px]">
         {hasData ? (

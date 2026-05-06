@@ -3,20 +3,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { useAuth } from '@/lib/context/auth-context';
 
 export function MainNav() {
     const pathname = usePathname();
-    const { user } = useAuth();
-    const isProtectedRoute = (href: string) =>
-        href.startsWith("/messages") || href === "/shop";
-
     const routes = [
         {
             href: "/explore",
             label: "探索",
             active: pathname === "/explore" || pathname === "/project" || pathname?.startsWith("/project/"),
+        },
+        {
+            href: "/community",
+            label: "社区",
+            active: pathname === "/community" || pathname?.startsWith("/community/"),
+        },
+        {
+            href: "/leaderboard",
+            label: "排行榜",
+            active: pathname === "/leaderboard" || pathname?.startsWith("/leaderboard/"),
         },
         {
             href: "/nature",
@@ -28,54 +32,24 @@ export function MainNav() {
             label: "游乐场",
             active: pathname === "/playground" || pathname?.startsWith("/playground/"),
         },
-        {
-            href: "/community",
-            label: "社区",
-            active: pathname === "/community" || pathname?.startsWith("/community/"),
-        },
-        {
-            href: "/messages?tab=dm",
-            label: "私信",
-            active: pathname === "/messages" || pathname?.startsWith("/messages/"),
-        },
-        {
-            href: "/leaderboard",
-            label: "排行榜",
-            active: pathname === "/leaderboard" || pathname?.startsWith("/leaderboard/"),
-        },
-        {
-            href: "/shop",
-            label: "商店",
-            active: pathname === "/shop" || pathname?.startsWith("/shop/"),
-        },
-    ].filter(route => {
-        if (!user && isProtectedRoute(route.href)) {
-            return false;
-        }
-        return true;
-    });
+    ];
 
     return (
-        <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1 rounded-full border border-border/70 bg-background/72 p-1 text-sm font-medium shadow-sm backdrop-blur-sm">
-                {routes.map((route) => (
-                    <Link
-                        key={route.href}
-                        href={route.href}
-                        className={cn(
-                            "rounded-full px-3 py-2 transition-colors",
-                            route.active
-                                ? "bg-foreground text-background shadow-sm"
-                                : "text-foreground/68 hover:bg-muted hover:text-foreground"
-                        )}
-                    >
-                        {route.label}
-                    </Link>
-                ))}
-            </nav>
-            <div className="rounded-full border border-border/70 bg-background/72 p-1 shadow-sm backdrop-blur-sm">
-                <ThemeToggle />
-            </div>
-        </div>
+        <nav className="flex items-center gap-4 text-[14px] font-semibold text-[#1f2937] dark:text-[#d9e4f2] xl:gap-7 xl:text-[15px] 2xl:gap-9">
+            {routes.map((route) => (
+                <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn(
+                        "relative flex h-16 shrink-0 items-center whitespace-nowrap px-1 transition-colors hover:text-[#1478ea] dark:hover:text-[#8bbdff]",
+                        route.active
+                            ? "text-[#1478ea] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-[#1478ea] dark:text-[#8bbdff] dark:after:bg-[#8bbdff]"
+                            : "text-[#1f2937] dark:text-[#d9e4f2]"
+                    )}
+                >
+                    {route.label}
+                </Link>
+            ))}
+        </nav>
     );
 }

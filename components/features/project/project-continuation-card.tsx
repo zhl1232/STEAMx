@@ -5,6 +5,7 @@ import type { Project } from '@/lib/mappers/types'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
 import { OptimizedImage } from '@/components/ui/optimized-image'
+import { cn } from '@/lib/utils'
 
 type ContinuationKind = 'next' | 'related' | 'back'
 
@@ -12,6 +13,8 @@ interface ProjectContinuationCardProps {
   kind: ContinuationKind
   href: string
   project?: Project | null
+  compact?: boolean
+  className?: string
 }
 
 const COPY = {
@@ -29,19 +32,32 @@ const COPY = {
   },
 } as const
 
-export function ProjectContinuationCard({ kind, href, project }: ProjectContinuationCardProps) {
+export function ProjectContinuationCard({ kind, href, project, compact = false, className }: ProjectContinuationCardProps) {
   const copy = COPY[kind]
 
   return (
-    <section className="overflow-hidden rounded-[28px] border border-border/70 bg-card/85 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm">
-      <div className="border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20 px-5 py-5 sm:px-7">
+    <section className={cn(
+      "overflow-hidden border border-border/70 bg-card/85 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm",
+      compact ? "rounded-[18px]" : "rounded-[28px]",
+      className,
+    )}>
+      <div className={cn(
+        "border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20",
+        compact ? "px-5 py-4" : "px-5 py-5 sm:px-7",
+      )}>
         <p className="section-kicker">{copy.kicker}</p>
       </div>
 
-      <div className="px-5 py-6 sm:px-7 sm:py-7">
+      <div className={compact ? "px-5 py-5" : "px-5 py-6 sm:px-7 sm:py-7"}>
         {project ? (
-          <div className="grid gap-5 rounded-[24px] border border-border/70 bg-background/80 p-4 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.24)] sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]">
-            <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-muted">
+          <div className={cn(
+            "grid gap-5 border border-border/70 bg-background/80 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.24)]",
+            compact ? "rounded-[16px] p-3.5" : "rounded-[24px] p-4 sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]",
+          )}>
+            <div className={cn(
+              "relative aspect-[16/10] overflow-hidden bg-muted",
+              compact ? "rounded-[12px]" : "rounded-[22px]",
+            )}>
               <OptimizedImage
                 src={project.image}
                 alt={project.title}
@@ -68,8 +84,11 @@ export function ProjectContinuationCard({ kind, href, project }: ProjectContinua
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold tracking-tight sm:text-2xl">{project.title}</h3>
-                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
+                  <h3 className={compact ? "text-base font-bold leading-snug tracking-tight" : "text-xl font-semibold tracking-tight sm:text-2xl"}>{project.title}</h3>
+                  <p className={cn(
+                    "mt-3 line-clamp-3 text-sm text-muted-foreground",
+                    compact ? "leading-6" : "leading-7",
+                  )}>
                     {project.description || '继续看看这个实践项目，找找下一步想动手的方向。'}
                   </p>
                 </div>
@@ -77,7 +96,7 @@ export function ProjectContinuationCard({ kind, href, project }: ProjectContinua
 
               <div className="flex flex-wrap items-center gap-3">
                 <Link href={href}>
-                  <Button className="gap-2 rounded-full">
+                  <Button className={cn("gap-2", compact ? "h-9 rounded-[8px]" : "rounded-full")}>
                     {copy.buttonLabel}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -89,12 +108,15 @@ export function ProjectContinuationCard({ kind, href, project }: ProjectContinua
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-start gap-4 rounded-[24px] border border-dashed border-border/70 bg-background/65 px-5 py-6 sm:px-6">
+          <div className={cn(
+            "flex flex-col items-start gap-4 border border-dashed border-border/70 bg-background/65 px-5 py-6",
+            compact ? "rounded-[16px]" : "rounded-[24px] sm:px-6",
+          )}>
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Compass className="h-5 w-5" />
             </div>
             <Link href={href}>
-              <Button className="gap-2 rounded-full">
+              <Button className={cn("gap-2", compact ? "h-9 rounded-[8px]" : "rounded-full")}>
                 {copy.buttonLabel}
                 <ArrowRight className="h-4 w-4" />
               </Button>

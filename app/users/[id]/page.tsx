@@ -167,7 +167,7 @@ export default function PublicProfilePage() {
     return () => controller.abort();
   }, [userId]);
 
-  if (isLoading) return <ProfileSkeleton />;
+  if (isLoading) return <ProfileSkeleton variant="public" />;
   if (!userId) {
     return (
       <PageStatus

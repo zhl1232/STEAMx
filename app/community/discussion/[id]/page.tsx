@@ -603,6 +603,8 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
         返回讨论列表
       </Button>
 
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <main className="min-w-0">
       <section className="surface-panel overflow-hidden">
         <div className="px-5 py-6 sm:px-7 sm:py-8">
           {discussion.tags.length > 0 && (
@@ -818,6 +820,54 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           )}
         </div>
       </section>
+        </main>
+
+        <aside className="hidden lg:block">
+          <div className="sticky top-24 space-y-4">
+            <section className="surface-panel p-4">
+              <p className="section-kicker">讨论信息</p>
+              <h2 className="mt-3 text-lg font-semibold tracking-tight">参与概览</h2>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="rounded-2xl bg-background/72 px-3 py-3">
+                  <p className="text-xs text-muted-foreground">回复</p>
+                  <p className="mt-1 text-xl font-semibold tabular-nums">{totalReplies}</p>
+                </div>
+                <div className="rounded-2xl bg-background/72 px-3 py-3">
+                  <p className="text-xs text-muted-foreground">点赞</p>
+                  <p className="mt-1 text-xl font-semibold tabular-nums">{discussion.likes}</p>
+                </div>
+              </div>
+            </section>
+
+            <section className="surface-panel p-4">
+              <p className="text-sm font-semibold tracking-tight">回复建议</p>
+              <div className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground">
+                <p>结合自己的观察、项目经验或资料来源回复，方便其他同学继续讨论。</p>
+                <p>如果要指出问题，优先说明依据和可验证的做法。</p>
+              </div>
+              <Button
+                className="mt-4 w-full rounded-full"
+                onClick={() => setReplyTarget(null)}
+              >
+                参与讨论
+              </Button>
+            </section>
+
+            {discussion.tags.length > 0 ? (
+              <section className="surface-panel p-4">
+                <p className="text-sm font-semibold tracking-tight">话题标签</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {discussion.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-border/70 bg-background/75 px-3 py-1 text-xs font-medium text-primary">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+        </aside>
+      </div>
 
       {/* 回复详情 Sheet */}
       <Sheet

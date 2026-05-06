@@ -28,9 +28,11 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
 
   return (
     <NatureShell
-      title="观察记录"
-      description="用一张照片点亮一条自然观察，把它收进你的图鉴进度里。"
+      title="发布观察记录"
+      description="记录身边的自然、确认物种和地点，把一次观察沉淀为可追踪的图鉴进度。"
       fallbackHref={fallbackHref}
+      className="max-w-none bg-[var(--obs-page-bg,#f3f8f1)] text-foreground dark:bg-[var(--obs-page-bg-dark,#0b1117)]"
+      contentClassName="max-w-[1500px] md:px-8"
       mainClassName="space-y-0"
     >
       <ObservationSubmitForm

@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
-import { ChevronLeft } from 'lucide-react'
+import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart } from 'lucide-react'
 import { useState, useEffect, useEffectEvent } from 'react'
 
 import type { Project } from '@/lib/mappers/types'
@@ -371,19 +372,47 @@ export function ProfileLibraryPage() {
   return isDesktopViewport ? (
     <div className="page-shell hidden py-8 md:block">
       <div className="space-y-6">
-        <section className="surface-panel overflow-hidden">
-          <div className="flex items-start gap-3 px-6 py-5">
-            <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl">
-              <Link href="/profile" aria-label="返回个人主页">
-                <ChevronLeft className="h-5 w-5" />
-              </Link>
-            </Button>
-            <div className="min-w-0 pt-1">
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/70">个人空间</p>
-              <h1 className="mt-1 text-xl font-semibold tracking-tight text-foreground">内容库</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
-                统一查看作品、收藏、点赞、完成记录和观察记录。
-              </p>
+        <section className="surface-panel relative overflow-hidden">
+          <div className="absolute inset-0">
+            <Image
+              src="/assets/profile-library-soft-blue-hero.png"
+              alt=""
+              fill
+              priority
+              className="object-cover opacity-70 dark:opacity-34"
+              sizes="1152px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/94 via-background/78 to-background/32" />
+          </div>
+          <div className="relative grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+            <div className="flex items-start gap-3">
+              <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl bg-background/62">
+                <Link href="/profile" aria-label="返回个人主页">
+                  <ChevronLeft className="h-5 w-5" />
+                </Link>
+              </Button>
+              <div className="min-w-0 pt-1">
+                <p className="section-kicker">个人空间</p>
+                <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">我的内容库</h1>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
+                  统一查看作品、收藏、点赞、完成记录和自然观察，把你的学习证据集中保存。
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: '作品', value: myProjectsTotalCount, icon: FolderOpen },
+                { label: '收藏', value: collectedProjectsCount, icon: Heart },
+                { label: '已完成', value: completedProjectsCount, icon: CheckCircle2 },
+                { label: '观察记录', value: observationsLoaded ? observationsTotal : uniqueSpeciesCount, icon: Feather },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-border/70 bg-background/78 px-4 py-3 backdrop-blur">
+                  <item.icon className="h-4 w-4 text-primary" />
+                  <p className="mt-2 text-xl font-semibold tabular-nums">{item.value}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{item.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -417,7 +446,7 @@ export function ProfileLibraryPage() {
                     <DesktopProfileEmptyState
                       title="还没有发布作品"
                       description="把你的第一个项目整理出来。"
-                      href="/share"
+                      href="/project"
                       actionLabel="去分享"
                     />
                   ) : null}

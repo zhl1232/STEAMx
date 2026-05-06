@@ -66,24 +66,21 @@ export function ProfileHeader({
   return (
     <section className="surface-panel overflow-hidden">
       <div className="relative overflow-hidden px-4 pb-4 pt-4">
-        {/* 多层渐变背景 - 更丰富的视觉层次 */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(166,193,238,0.32),transparent_60%),radial-gradient(circle_at_80%_20%,rgba(251,194,235,0.24),transparent_40%),radial-gradient(circle_at_20%_80%,rgba(166,193,238,0.12),transparent_50%)]" />
-        {/* 顶部装饰光斑 */}
-        <div className="absolute -top-12 left-1/2 h-32 w-56 -translate-x-1/2 rounded-full bg-primary/[0.06] blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-muted)/0.72),transparent_72%)]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
         <div className="relative">
-          {/* 顶部工具栏 */}
           <div className="flex items-center justify-between gap-2">
             <Link
               href="/coins"
-              className="inline-flex h-9 items-center gap-2 rounded-full border border-border/50 bg-background/70 px-3.5 text-sm font-medium text-foreground shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md"
+              className="inline-flex h-9 items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3.5 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted/70"
             >
               <CoinIcon className="h-[18px] w-[18px] text-amber-500" />
               <span className="tabular-nums">{coins}</span>
             </Link>
 
             <div className="flex items-center gap-1.5">
-              <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 rounded-full border border-border/50 bg-background/70 backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md">
+              <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 rounded-full border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
                 <Link href="/messages">
                   <Bell className="h-4.5 w-4.5" />
                   {unreadCount > 0 ? (
@@ -94,7 +91,7 @@ export function ProfileHeader({
                   <span className="sr-only">消息通知</span>
                 </Link>
               </Button>
-              <Button asChild variant="ghost" size="icon" className="h-9 w-9 rounded-full border border-border/50 bg-background/70 backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md">
+              <Button asChild variant="ghost" size="icon" className="h-9 w-9 rounded-full border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
                 <Link href="/settings">
                   <Settings className="h-4.5 w-4.5" />
                   <span className="sr-only">设置</span>
@@ -103,7 +100,6 @@ export function ProfileHeader({
             </div>
           </div>
 
-          {/* 居中式个人信息 */}
           <div className="mt-7 flex flex-col items-center">
             <div className="relative">
               <AvatarWithFrame
@@ -117,7 +113,7 @@ export function ProfileHeader({
               <LevelGuideDialog>
                 <button
                   type="button"
-                  className="absolute -bottom-1.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full border border-primary/20 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm ring-1 ring-primary/10 transition-all hover:-translate-y-0.5 hover:-translate-x-1/2 hover:border-primary/35 hover:bg-background hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="absolute -bottom-1.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full border border-primary/20 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:-translate-x-1/2 hover:border-primary/35 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                 >
                   <Zap className="h-3 w-3 text-primary" />
                   Lv.{level}
@@ -161,8 +157,7 @@ export function ProfileHeader({
               </div>
             </div>
 
-            {/* 统计数据 - 更紧凑的圆角卡片 */}
-            <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/50 bg-background/60 backdrop-blur-sm">
+            <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/70 backdrop-blur-sm">
               <div className="grid grid-cols-4 divide-x divide-border/40">
                 {stats.map((stat) => (
                   stat.href ? (

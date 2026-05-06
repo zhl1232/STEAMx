@@ -60,15 +60,19 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full max-w-5xl flex-col pb-24">
+    <div className="mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full max-w-5xl flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="设置" fallbackHref="/profile" />
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="px-4 py-4 md:px-6 md:py-8">
+        <div className="page-shell py-4 md:py-8">
           <div className="hidden md:block">
+            <p className="section-kicker">账号中心</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight">设置</h1>
+            <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
+              管理个人资料、安全、通知、隐私和帮助入口。设置项按使用场景分组，和各子页面保持同一层级。
+            </p>
           </div>
 
           <div className="mt-0 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1.35fr)_320px]">
@@ -107,6 +111,10 @@ export default function SettingsPage() {
 
             <aside className="space-y-6">
               <section className="surface-panel p-5 sm:p-6">
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-foreground">账号操作</p>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">退出登录不会删除你的作品、收藏和消息记录。</p>
+                </div>
                 <Button
                   variant="destructive"
                   className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"

@@ -14,9 +14,10 @@ interface CompletionCTAProps {
     projectTitle: string
     challengeId?: number | null
     mode?: "project" | "observation"
+    variant?: "card" | "inline"
 }
 
-export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project" }: CompletionCTAProps) {
+export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project", variant = "card" }: CompletionCTAProps) {
     const router = useRouter()
     const { isCompleted } = useProjects()
     const { user } = useAuth()
@@ -48,6 +49,29 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
         setShowDialog(true)
     }
 
+    const actionLabel = mode === "observation" ? "提交这次观察" : "上传我的作品"
+
+    if (variant === "inline") {
+        return (
+            <>
+                <Button onClick={handleClick} className="h-9 gap-2 rounded-[8px] px-4">
+                    <Camera className="h-4 w-4" />
+                    {actionLabel}
+                </Button>
+                {mode === "project" && (
+                    <CompleteProjectDialog
+                        projectId={projectId}
+                        projectTitle={projectTitle}
+                        challengeId={challengeId}
+                        open={showDialog}
+                        onOpenChange={setShowDialog}
+                        onSuccess={() => router.refresh()}
+                    />
+                )}
+            </>
+        )
+    }
+
     return (
         <>
             <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
@@ -62,7 +86,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                 </p>
                 <Button onClick={handleClick} className="gap-2">
                     <Camera className="h-4 w-4" />
-                    {mode === "observation" ? "提交这次观察" : "上传我的作品"}
+                    {actionLabel}
                 </Button>
             </div>
             {mode === "project" && (

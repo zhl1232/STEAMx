@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useMinesweeper, DIFFICULTIES } from "@/hooks/playground/use-minesweeper"
 import { useGamification } from '@/lib/context/gamification-context'
@@ -38,6 +38,8 @@ export default function MinesweeperPage() {
 
     const [activeTab, setActiveTab] = useState<"course" | "leaderboard">("course")
     const [isFlagMode, setIsFlagMode] = useState(false)
+    const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const longPressTriggeredRef = useRef(false)
 
     // 胜利时触发扫雷徽章检测
     useEffect(() => {
@@ -76,11 +78,20 @@ export default function MinesweeperPage() {
 
     const currentBest = difficultyName ? bestTimes[difficultyName] : undefined
 
+    const clearLongPressTimer = () => {
+        if (longPressTimerRef.current) {
+            clearTimeout(longPressTimerRef.current)
+            longPressTimerRef.current = null
+        }
+    }
+
+    useEffect(() => clearLongPressTimer, [])
+
     return (
-        <div className="flex flex-col xl:flex-row h-full">
+        <div className="playground-game-page">
             {/* 左侧游戏区 */}
-            <div className="flex-1 p-2 sm:p-6 xl:p-12 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] w-full overflow-hidden">
-                <div className="max-w-full lg:max-w-max w-full bg-card/60 p-3 sm:p-6 rounded-3xl border border-border backdrop-blur-xl shadow-2xl relative">
+            <div className="playground-game-main playground-game-center overflow-hidden">
+                <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
 
                     {/* Header */}
                     <div className="flex flex-col md:flex-row items-center justify-between min-w-full gap-4 mb-4 sm:mb-8 bg-background/60 p-4 rounded-xl border border-border shadow-inner">
@@ -147,7 +158,11 @@ export default function MinesweeperPage() {
                         </div>
                         <div className="text-xs text-muted-foreground bg-muted/30 py-2.5 px-5 rounded-full border border-border/50 hidden md:flex items-center gap-2 shadow-inner">
                             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                            <span>电脑端可直接 <strong className="text-foreground">右键</strong> 快速标记，移动端推荐使用 <strong className="text-foreground">上方切换</strong> 模式</span>
+                            <span>电脑端可直接 <strong className="text-foreground">右键</strong> 快速标记，移动端可 <strong className="text-foreground">长按格子</strong> 或使用 <strong className="text-foreground">上方切换</strong> 模式</span>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-full border border-border/50 bg-muted/30 px-4 py-2 text-xs text-muted-foreground md:hidden">
+                            <span className="h-2 w-2 rounded-full bg-primary" />
+                            长按格子可快速插旗
                         </div>
                     </div>
 
@@ -161,7 +176,7 @@ export default function MinesweeperPage() {
                                         animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
                                         className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-xl"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-3xl border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-2xl flex items-center gap-4">
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-[22px] border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex items-center gap-4">
                                             <Bomb className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" /> 游戏结束
                                         </div>
                                     </motion.div>
@@ -172,7 +187,7 @@ export default function MinesweeperPage() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         className="absolute inset-0 z-10 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-xl"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-3xl border border-primary/50 shadow-2xl flex flex-col items-center gap-2">
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-[22px] border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-2">
                                             <div className="flex items-center gap-3 text-primary font-black text-xl sm:text-3xl">
                                                 <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500 animate-bounce" /> 恭喜通关！
                                             </div>
@@ -195,6 +210,10 @@ export default function MinesweeperPage() {
                                         <div
                                             key={`${rIdx}-${cIdx}`}
                                             onClick={() => {
+                                                if (longPressTriggeredRef.current) {
+                                                    longPressTriggeredRef.current = false
+                                                    return
+                                                }
                                                 if (cell.isRevealed) {
                                                     autoReveal(rIdx, cIdx)
                                                 } else if (isFlagMode) {
@@ -207,6 +226,21 @@ export default function MinesweeperPage() {
                                                 e.preventDefault()
                                                 toggleFlag(rIdx, cIdx, e)
                                             }}
+                                            onTouchStart={() => {
+                                                clearLongPressTimer()
+                                                longPressTriggeredRef.current = false
+                                                if (cell.isRevealed || status === "won" || status === "lost") return
+                                                longPressTimerRef.current = setTimeout(() => {
+                                                    longPressTriggeredRef.current = true
+                                                    toggleFlag(rIdx, cIdx)
+                                                    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+                                                        navigator.vibrate?.(12)
+                                                    }
+                                                }, 420)
+                                            }}
+                                            onTouchMove={clearLongPressTimer}
+                                            onTouchEnd={clearLongPressTimer}
+                                            onTouchCancel={clearLongPressTimer}
                                             className={`
                         w-9 h-9 sm:w-11 sm:h-11 border border-border/50 flex items-center justify-center text-base sm:text-xl font-black cursor-pointer transition-all duration-150 select-none
                         ${cell.isRevealed

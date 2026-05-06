@@ -42,6 +42,7 @@ export function SpeciesHotspotPanel({ locations }: SpeciesHotspotPanelProps) {
               longitude: location.longitude as number,
               label: location.locationName,
               observedAt: location.latestObservedAt,
+              weight: location.observationCount,
             }))}
             activeMarkerIndex={Math.min(activeIndex, Math.max(validLocations.length - 1, 0))}
             enableTimeDecay
@@ -50,7 +51,7 @@ export function SpeciesHotspotPanel({ locations }: SpeciesHotspotPanelProps) {
       )}
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
-        {locations.slice(0, 6).map((location, index) => (
+        {locations.slice(0, 6).map((location) => (
           <button
             key={location.locationName}
             type="button"
@@ -60,7 +61,7 @@ export function SpeciesHotspotPanel({ locations }: SpeciesHotspotPanelProps) {
             }}
             className={cn(
               "rounded-2xl border border-border/70 bg-background/80 p-4 text-left transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
-              index === activeIndex && "border-primary/60 ring-1 ring-primary/20",
+              validLocations[activeIndex]?.locationName === location.locationName && "border-primary/60 ring-1 ring-primary/20",
             )}
           >
             <div className="flex items-center gap-2">

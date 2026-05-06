@@ -36,6 +36,7 @@ function buildPrompt() {
     '  "moderation_reason": string|null,',
     '  "quality_pass": boolean,',
     '  "quality_reason": string|null,',
+    '  "note_suggestion": string|null,',
     '  "species_candidates": [',
     '    {',
     '      "common_name": string,',
@@ -49,6 +50,11 @@ function buildPrompt() {
     '- confidence 取值 0 到 1。',
     '- 低质、模糊、主体过远、逆光严重、遮挡严重时，quality_pass 必须为 false。',
     '- 如果包含未成年人隐私风险、血腥、色情、违法等不适宜内容，moderation_pass 必须为 false。',
+    '- note_suggestion 只在审核和质量都通过时填写，生成 40 到 90 字中文观察备注。',
+    '- note_suggestion 必须使用第一人称观察记录语气，像用户自己写下的备注，例如“我看到一只……”。',
+    '- note_suggestion 不要使用“画面展示了”“图片中”“照片里”“背景为”等第三方解说口吻。',
+    '- note_suggestion 只描述可见事实，如主体姿态、可能行为、环境、光线、距离；不要编造地点、时间、数量或未出现的行为。',
+    '- note_suggestion 避免写死物种结论，可用“我看到一只鸟”“疑似鹞属鸟类”等谨慎表达。',
     '- 不要编造不存在的物种名。',
   ].join('\n')
 }

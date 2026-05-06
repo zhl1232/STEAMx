@@ -15,6 +15,7 @@ export function BottomNav() {
     const { user } = useAuth();
     const [loginOpen, setLoginOpen] = useState(false);
     const [pendingHref, setPendingHref] = useState<string | null>(null);
+    const isNatureRoute = pathname === "/nature" || pathname.startsWith("/nature/");
 
     const navItems = [
         {
@@ -31,7 +32,7 @@ export function BottomNav() {
         },
         {
             href: "/nature",
-            label: "观察",
+            label: "自然",
             icon: Feather,
             active: pathname === "/nature" || pathname.startsWith("/nature/"),
         },
@@ -51,17 +52,36 @@ export function BottomNav() {
     ];
 
     return (
-        <div className="fixed bottom-2 left-3 right-3 z-50 flex items-center gap-1 rounded-[22px] border border-border/70 bg-background/92 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.38)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/82 md:hidden">
+        <div
+            className={cn(
+                "fixed bottom-2 left-4 right-4 z-50 flex items-center gap-1 rounded-[28px] border bg-white/[0.94] px-2.5 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_22px_58px_-30px_rgba(27,70,126,0.42)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.88] md:hidden",
+                isNatureRoute
+                    ? "border-[#d5e8da] dark:border-[#274d37] dark:bg-[#0d1d14]/[0.92] dark:shadow-none dark:supports-[backdrop-filter]:bg-[#0d1d14]/[0.86]"
+                    : "border-[#e2ebf5] dark:border-[#2a3a50] dark:bg-[#111a28]/[0.92] dark:shadow-none dark:supports-[backdrop-filter]:bg-[#111a28]/[0.84]",
+            )}
+        >
             {navItems.map((item) => {
+                const isNatureItem = item.href === "/nature";
+                const activeTextClass = isNatureItem
+                    ? "text-[#16844b] dark:text-[#74d79a]"
+                    : "text-[#1478ea] dark:text-[#8bbdff]";
+                const inactiveTextClass = isNatureItem
+                    ? "text-[#334155] hover:bg-[#eef8ef] hover:text-[#16844b] dark:text-[#c5cfdd] dark:hover:bg-[#172a1e] dark:hover:text-[#74d79a]"
+                    : "text-[#334155] hover:bg-[#eef5ff] hover:text-[#1478ea] dark:text-[#c5cfdd] dark:hover:bg-[#172234] dark:hover:text-[#8bbdff]";
+                const activeIconClass = isNatureItem
+                    ? "bg-[#16844b] text-white shadow-[0_12px_22px_-14px_rgba(22,132,75,0.8)] dark:bg-[#2fb76b] dark:text-[#041208]"
+                    : "bg-[#1478ea] text-white shadow-[0_12px_22px_-14px_rgba(20,120,234,0.8)] dark:bg-[#2f8df0]";
                 const content = (
                     <div className={cn(
-                        "flex w-full flex-col items-center justify-center gap-1 rounded-[18px] px-1 py-2 transition-all",
+                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[16px] px-1 py-1.5 transition-all",
                         item.active
-                            ? "bg-foreground text-background shadow-[0_16px_34px_-24px_rgba(15,23,42,0.52)]"
-                            : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                            ? activeTextClass
+                            : inactiveTextClass,
                     )}>
-                        <item.icon className={cn("h-5 w-5", item.active && "stroke-[2.5px]")} />
-                        <span className="text-[10px] font-medium leading-none">{item.label}</span>
+                        <span className={cn("grid h-7 w-7 place-items-center rounded-[10px]", item.active && activeIconClass)}>
+                            <item.icon className={cn("h-[18px] w-[18px]", item.active && "stroke-[2.6px]")} />
+                        </span>
+                        <span className="text-[11px] font-semibold leading-none">{item.label}</span>
                     </div>
                 )
 

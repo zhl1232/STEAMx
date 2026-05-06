@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
-import { Camera, CheckCircle2, ImageIcon, Loader2, Plus, Sparkles, X } from "lucide-react"
+import { Camera, CheckCircle2, Loader2, Plus, Sparkles, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ export interface ObservationMediaAnalysis {
   moderationReason: string | null
   qualityPass: boolean | null
   qualityReason: string | null
+  noteSuggestion: string | null
   speciesCandidates: Array<{
     speciesId: number
     commonName: string
@@ -32,9 +33,10 @@ interface ObservationSubmitPhotoSectionProps {
   onEvidenceChange: (urls: string[]) => void
   analyses?: ObservationMediaAnalysis[]
   isAnalyzing?: boolean
+  showHeader?: boolean
 }
 
-const MAX_IMAGES = 5
+const MAX_IMAGES = 10
 
 function getAnalysisBadge(status?: ObservationMediaAnalysis["status"]) {
   switch (status) {
@@ -78,6 +80,7 @@ export function ObservationSubmitPhotoSection({
   onEvidenceChange,
   analyses = [],
   isAnalyzing = false,
+  showHeader = true,
 }: ObservationSubmitPhotoSectionProps) {
   const { user } = useAuth()
   const { toast } = useToast()
@@ -176,31 +179,33 @@ export function ObservationSubmitPhotoSection({
 
   return (
     <section className="space-y-4">
-      <div>
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-xl font-semibold tracking-tight text-foreground">
-            先把它拍下来
-          </h2>
-          <div className="flex shrink-0 items-center gap-2">
-            <span className="shrink-0 whitespace-nowrap rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300">
-              {evidenceImages.length}/{MAX_IMAGES}
-            </span>
-            <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-border/70 bg-background/85 px-2.5 py-1 text-[11px] font-medium leading-none text-muted-foreground">
-              {isAnalyzing ? (
-                <Loader2 className="h-3 w-3 animate-spin" />
-              ) : evidenceImages.length === 0 ? (
-                <Camera className="h-3 w-3" />
-              ) : (
-                <CheckCircle2 className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-              )}
-              {photoStepStatus}
-            </span>
+      {showHeader ? (
+        <div>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              先把它拍下来
+            </h2>
+            <div className="flex shrink-0 items-center gap-2">
+              <span className="shrink-0 whitespace-nowrap rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300">
+                {evidenceImages.length}/{MAX_IMAGES}
+              </span>
+              <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-border/70 bg-background/85 px-2.5 py-1 text-[11px] font-medium leading-none text-muted-foreground">
+                {isAnalyzing ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : evidenceImages.length === 0 ? (
+                  <Camera className="h-3 w-3" />
+                ) : (
+                  <CheckCircle2 className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                )}
+                {photoStepStatus}
+              </span>
+            </div>
           </div>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            至少上传 1 张清晰照片，越清楚越容易识别。
+          </p>
         </div>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          至少上传 1 张清晰照片，越清楚越容易识别。
-        </p>
-      </div>
+      ) : null}
 
       {isAnalyzing && evidenceImages.length > 0 ? (
         <div className="rounded-2xl border border-sky-200/80 bg-sky-50/80 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/20 dark:text-sky-200">
@@ -208,9 +213,10 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      <div className="overflow-hidden rounded-[28px] border border-border/70 bg-stone-950 text-white shadow-[0_26px_60px_-40px_rgba(15,23,42,0.55)]">
-        {heroImage ? (
-          <div className="relative aspect-video">
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]">
+        <div className="overflow-hidden rounded-lg border border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] [box-shadow:var(--obs-panel-shadow)]">
+          {heroImage ? (
+            <div className="relative aspect-[16/11] min-h-[180px] sm:min-h-[210px] md:aspect-[16/10]">
             <OptimizedImage
               src={heroImage}
               alt="观察头图"
@@ -219,10 +225,10 @@ export function ObservationSubmitPhotoSection({
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/72 via-stone-950/10 to-transparent" />
-            <div className="absolute left-4 top-4 flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/28 px-3 py-1.5 text-xs font-medium backdrop-blur-md">
+            <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2 sm:left-4 sm:top-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/35 px-3 py-1.5 text-xs font-medium backdrop-blur-md">
                 <Sparkles className="h-3.5 w-3.5" />
-                本次观察头图
+                封面照片
               </div>
               {heroBadge ? (
                 <Badge variant="outline" className={heroBadge.className}>
@@ -234,53 +240,41 @@ export function ObservationSubmitPhotoSection({
               type="button"
               variant="secondary"
               size="icon"
-              className="absolute right-4 top-4 h-10 w-10 rounded-full border border-white/18 bg-black/35 text-white hover:bg-black/55"
+              className="absolute right-3 top-3 h-9 w-9 rounded-full border border-white/18 bg-black/45 text-white hover:bg-black/60 sm:right-4 sm:top-4"
               onClick={() => handleRemove(0)}
             >
               <X className="h-4 w-4" />
             </Button>
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
               <div className="max-w-[18rem]">
-                <p className="text-sm font-medium">它已经准备好点亮图鉴了</p>
+                <p className="text-sm font-medium">照片已进入识别流程</p>
                 <p className="mt-1 text-xs leading-5 text-white/76">
-                  接下来只要确认物种和位置，就能把这一刻正式收录。
+                  确认物种、地点和备注后即可发布。
                 </p>
               </div>
-              {canAddMore ? (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="shrink-0 rounded-full border border-white/18 bg-white/12 text-white hover:bg-white/18"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isUploading}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  再添照片
-                </Button>
-              ) : null}
             </div>
           </div>
         ) : (
           <button
             type="button"
-            className="group flex aspect-video w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-slate-300 bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.14),transparent_36%),linear-gradient(180deg,rgba(248,250,252,0.96),rgba(241,245,249,0.98))] px-6 text-center text-slate-600 transition duration-300 hover:border-emerald-400 hover:bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.2),transparent_40%),linear-gradient(180deg,rgba(248,250,252,1),rgba(236,253,245,0.98))] hover:text-slate-700 dark:border-slate-700 dark:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.12),transparent_34%),linear-gradient(180deg,rgba(20,24,31,0.92),rgba(15,23,42,0.94))] dark:text-slate-300 dark:hover:border-emerald-500 dark:hover:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),transparent_40%),linear-gradient(180deg,rgba(20,24,31,0.96),rgba(6,18,17,0.98))]"
+            className="group flex aspect-[16/11] min-h-[180px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-[var(--obs-border-strong)] [background:var(--obs-photo-bg)] px-6 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:text-[var(--obs-text)] sm:min-h-[210px] md:aspect-[16/10]"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
           >
             {isUploading ? (
               <>
                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-500/60 border-t-transparent" />
-                <p className="text-base font-medium text-slate-800 dark:text-slate-100">上传中...</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400">正在处理 {uploadingCount} 张图片</p>
+                <p className="text-base font-medium text-[var(--obs-text)]">上传中...</p>
+                <p className="text-sm text-[var(--obs-muted-2)]">正在处理 {uploadingCount} 张图片</p>
               </>
             ) : (
               <>
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-500 transition-transform duration-300 group-hover:scale-105 group-hover:border-emerald-300 group-hover:text-emerald-600 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-300 dark:group-hover:border-emerald-500/60 dark:group-hover:text-emerald-300">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--obs-border-strong)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] transition-transform duration-300 group-hover:scale-105 group-hover:border-[var(--obs-accent)]">
                   <Camera className="h-7 w-7" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-semibold tracking-tight text-slate-800 dark:text-slate-100">上传或拍摄照片</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-lg font-semibold tracking-tight text-[var(--obs-text)]">上传或拍摄照片</p>
+                  <p className="text-sm text-[var(--obs-muted-2)]">
                     支持多选，JPG / PNG / GIF / WebP，单张最大 5MB
                   </p>
                 </div>
@@ -288,14 +282,34 @@ export function ObservationSubmitPhotoSection({
             )}
           </button>
         )}
+        </div>
+
+        {evidenceImages.length > 0 ? (
+          <button
+            type="button"
+            className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-5 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)] md:min-h-0"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={!canAddMore || isUploading}
+          >
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-[var(--obs-accent)] text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
+            </span>
+            <span className="text-base font-semibold text-[var(--obs-text)]">
+              {canAddMore ? "添加更多照片" : "照片已达上限"}
+            </span>
+            <span className="text-xs leading-5 text-[var(--obs-muted-2)]">
+              {evidenceImages.length}/{MAX_IMAGES} · 支持 JPG / PNG
+            </span>
+          </button>
+        ) : null}
       </div>
 
       {galleryImages.length > 0 ? (
-        <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 lg:grid-cols-6">
           {galleryImages.map((url, index) => {
             const badge = getAnalysisBadge(analysisByImage.get(url)?.status)
             return (
-              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-2xl border border-border/70 bg-background">
+              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-lg border border-[var(--obs-border-strong)] bg-[var(--obs-control)]">
                 <div className="relative aspect-square">
                   <OptimizedImage
                     src={url}
@@ -316,7 +330,7 @@ export function ObservationSubmitPhotoSection({
                 <button
                   type="button"
                   onClick={() => handleRemove(index + 1)}
-                  className="absolute right-1.5 top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition group-hover:opacity-100"
+                  className="absolute right-1.5 top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition group-hover:opacity-100"
                   aria-label={`删除补充照片 ${index + 2}`}
                 >
                   <X className="h-3.5 w-3.5" />
@@ -324,16 +338,6 @@ export function ObservationSubmitPhotoSection({
               </div>
             )
           })}
-          {canAddMore ? (
-            <button
-              type="button"
-              className="flex aspect-square items-center justify-center rounded-2xl border border-dashed border-border/80 bg-muted/35 text-muted-foreground transition-colors hover:bg-muted"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading}
-            >
-              <ImageIcon className="h-5 w-5" />
-            </button>
-          ) : null}
         </div>
       ) : null}
 

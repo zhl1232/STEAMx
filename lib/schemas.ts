@@ -65,7 +65,6 @@ export const CreateProjectSchema = z.object({
   ),
   difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
   difficulty_stars: z.number().int().min(1).max(6).default(1),
-  duration: z.number().min(0).default(60),
   status: z.enum(['draft', 'pending', 'approved', 'rejected']).default('draft'),
   image_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
   challenge_id: z.number().int().positive().nullable().optional(),

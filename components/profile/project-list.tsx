@@ -53,7 +53,7 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
           >
             {completionStatus?.status === "pending" ? (
               <div className="absolute left-3 top-3 z-10">
-                <span className="inline-flex items-center rounded-full border border-yellow-300 bg-yellow-100 px-2 py-0.5 text-[10px] font-semibold text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                <span className="inline-flex items-center rounded-full border border-[hsl(var(--brand-amber)/0.26)] bg-[hsl(var(--brand-amber)/0.14)] px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--brand-amber))]">
                   作品待审核
                 </span>
               </div>
@@ -61,7 +61,7 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
             {completionStatus?.status === "rejected" ? (
               <div className="absolute left-3 top-3 z-10">
                 <span
-                  className="inline-flex items-center rounded-full border border-red-300 bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-800 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
+                  className="inline-flex items-center rounded-full border border-destructive/25 bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive"
                   title={completionStatus.rejectionReason}
                 >
                   作品未通过
@@ -84,7 +84,7 @@ function MobileProjectItem({ project }: { project: Project }) {
   return (
     <Link
       href={`/project/${project.id}`}
-      className="surface-panel flex gap-3 rounded-[24px] p-3 transition-transform hover:-translate-y-0.5"
+      className="surface-card flex gap-3 p-3 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))]"
     >
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-muted">
         <OptimizedImage
@@ -141,8 +141,8 @@ function EmptyState({
   href: string;
 }) {
   return (
-    <div className="surface-panel px-5 py-10 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted/70 text-muted-foreground">
+    <div className="surface-subtle px-5 py-10 text-center">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border/70 bg-background/70 text-muted-foreground">
         {icon || <Settings className="h-8 w-8" />}
       </div>
       <h3 className="mt-4 text-base font-semibold text-foreground">{title}</h3>

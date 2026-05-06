@@ -151,7 +151,6 @@ describe('GET /api/profile/summary', () => {
           description: 'Build a feeder',
           status: undefined,
           difficulty: undefined,
-          duration: undefined,
           tags: [],
         },
       ],

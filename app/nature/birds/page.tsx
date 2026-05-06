@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Bird, Camera, MapPin } from "lucide-react";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationPhotoFrame } from "@/components/features/bird-observation/observation-photo-frame";
@@ -74,6 +75,62 @@ export default async function NatureBirdsPage() {
       description="从能反复到达的校园、公园和社区开始，记录时间、地点、物种与行为，把鸟类观察作为自然观察频道里的第一个专题。"
       fallbackHref="/nature"
     >
+      <section className="surface-panel relative overflow-hidden p-0">
+        <div className="grid min-h-[260px] gap-0 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="relative min-h-[260px]">
+            <Image
+              src="/assets/bird-topic-campus-lake-hero.png"
+              alt=""
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 1024px) 760px, 100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/88 via-background/44 to-background/10" />
+            <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-7">
+              <p className="section-kicker">鸟类专题</p>
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">从校园水岸开始观察鸟类</h1>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+                记录物种、行为和地点，把一次散步变成可复盘的自然观察档案。
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link
+                  href={submitHref}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+                >
+                  开始记录
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/nature/species"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border/80 bg-background/72 px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  查看鸟类图鉴
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid content-center gap-3 border-t border-border/60 bg-background/62 p-5 lg:border-l lg:border-t-0">
+            {[
+              { icon: Bird, label: "专题物种", value: spotlightSpecies.length },
+              { icon: Camera, label: "近期记录", value: displayObservations.length },
+              { icon: MapPin, label: "热点地点", value: hotspots.length },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center gap-3 rounded-2xl bg-background/80 px-4 py-3">
+                <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary">
+                  <item.icon className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-xl font-semibold tabular-nums">{item.value}</p>
+                  <p className="text-xs text-muted-foreground">{item.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="surface-panel overflow-hidden p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4">
           <div>
@@ -95,15 +152,32 @@ export default async function NatureBirdsPage() {
               <Link
                 key={species.id}
                 href={appendNatureFrom(`/nature/species/${species.slug}`, "/nature/birds")}
-                className="surface-subtle block rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5 hover:border-primary/35"
+                className="surface-subtle group block overflow-hidden rounded-2xl border border-border/70 bg-background/80 transition-transform hover:-translate-y-0.5 hover:border-primary/35"
               >
-                <p className="text-base font-medium text-foreground">{species.commonName}</p>
-                {species.scientificName ? (
-                  <p className="mt-1 text-xs italic leading-5 text-muted-foreground">{species.scientificName}</p>
-                ) : null}
-                {species.taxonGroup ? (
-                  <p className="mt-2 line-clamp-1 text-xs text-muted-foreground">{species.taxonGroup}</p>
-                ) : null}
+                <div className="relative aspect-[4/3] bg-muted/40">
+                  {species.coverImageUrl ? (
+                    <Image
+                      src={species.coverImageUrl}
+                      alt={species.commonName}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(min-width: 1280px) 260px, (min-width: 640px) 50vw, 100vw"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-muted-foreground">
+                      <Bird className="h-8 w-8" />
+                    </div>
+                  )}
+                </div>
+                <div className="p-4">
+                  <p className="text-base font-medium text-foreground">{species.commonName}</p>
+                  {species.scientificName ? (
+                    <p className="mt-1 text-xs italic leading-5 text-muted-foreground">{species.scientificName}</p>
+                  ) : null}
+                  {species.taxonGroup ? (
+                    <p className="mt-2 line-clamp-1 text-xs text-muted-foreground">{species.taxonGroup}</p>
+                  ) : null}
+                </div>
               </Link>
             ))}
           </div>

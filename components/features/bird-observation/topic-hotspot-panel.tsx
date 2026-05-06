@@ -44,6 +44,7 @@ export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
               longitude: location.longitude as number,
               label: location.locationName,
               observedAt: location.latestObservedAt,
+              weight: location.observationCount,
             }))}
             activeMarkerIndex={Math.min(activeIndex, Math.max(validLocations.length - 1, 0))}
             enableTimeDecay

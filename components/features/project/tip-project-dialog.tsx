@@ -12,23 +12,17 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { useToast } from "@/hooks/use-toast"
 import { getApiErrorMessage } from "@/lib/utils/http"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import type { ProjectCompletion } from "@/lib/mappers/types"
 
 interface TipProjectDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  completions: ProjectCompletion[]
   projectTitle: string
   projectOwnerId: string
   projectId: string | number
-  /** 为 true 时仅展示「投给项目」入口（如底部栏），不展示完成作品列表 */
-  projectOnly?: boolean
 }
 
 type TipTarget = {
-  type: 'project' | 'completion'
   id: number // strict number for DB
-  userId: string
   label: string
   desc?: string
 }
@@ -36,11 +30,9 @@ type TipTarget = {
 export function TipProjectDialog({
   open,
   onOpenChange,
-  completions,
   projectTitle,
   projectOwnerId,
   projectId,
-  projectOnly = false,
 }: TipProjectDialogProps) {
   const { user, refreshProfile } = useAuth()
   const { coins = 0 } = useGamification()
@@ -49,36 +41,14 @@ export function TipProjectDialog({
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  // 构建打赏目标列表
-  const targets: TipTarget[] = []
-
-  // 1. 项目作者 (如果不是自己)
-  if (user && projectOwnerId !== user.id) {
-    targets.push({
-      type: 'project',
-      id: Number(projectId),
-      userId: projectOwnerId,
-      label: `项目作者`,
-      desc: projectOnly ? '投币支持本项目' : '感谢项目的创意与分享',
-    })
-  }
-
-  // 2. 完成作品作者 (仅当非 projectOnly 时展示)
-  if (!projectOnly) {
-    completions.forEach((c) => {
-      if (user && c.userId !== user.id) {
-        targets.push({
-          type: 'completion',
-          id: c.id,
-          userId: c.userId,
-          label: c.author,
-          desc: '完成作品',
-        })
+  const target: TipTarget | null = user && projectOwnerId !== user.id
+    ? {
+        id: Number(projectId),
+        label: '项目作者',
+        desc: '投币支持本项目',
       }
-    })
-  }
+    : null
 
-  // 统一打赏处理
   const handleTip = async (target: TipTarget, amount: number) => {
     if (!user) {
       promptLogin(() => {}, { title: "投币", description: "登录后即可用硬币赞赏" })
@@ -90,7 +60,7 @@ export function TipProjectDialog({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          resourceType: target.type,
+          resourceType: "project",
           resourceId: target.id,
           amount,
         }),
@@ -105,10 +75,7 @@ export function TipProjectDialog({
         throw new Error(res?.error || "tip_failed")
       }
 
-      queryClient.invalidateQueries({ queryKey: ["tip_my", target.type, target.id] })
-      if (target.type === "completion") {
-        queryClient.invalidateQueries({ queryKey: ["completion_tips", target.id] })
-      }
+      queryClient.invalidateQueries({ queryKey: ["tip_my", "project", target.id] })
       queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
       refreshProfile()
       router.refresh()
@@ -133,33 +100,28 @@ export function TipProjectDialog({
       <DialogContent className="max-w-sm">
         <DialogTitle className="flex items-center gap-2">
           <CoinIcon className="h-5 w-5 text-amber-500" />
-          {projectOnly ? '投币支持项目' : '为本项目投币'}
+          投币支持项目
         </DialogTitle>
         <p className="text-sm text-muted-foreground">
-          {projectOnly
-            ? <>投币给「{projectTitle}」的项目作者。每人对本项目最多投 2 硬币。</>
-            : <>对「{projectTitle}」及完成作品赞赏。每人对每个对象最多投 2 硬币。</>}
+          投币给「{projectTitle}」的项目作者。每人对本项目最多投 2 硬币。
           <br />
           当前余额：<strong>{coins}</strong> 硬币
         </p>
 
-        {targets.length === 0 ? (
-           <p className="text-sm text-muted-foreground py-4 text-center">
-             {(!user || user.id === projectOwnerId)
-               ? "不能给自己投币"
-               : "暂无对象可赞赏"}
-           </p>
+        {!target ? (
+          <p className="py-4 text-center text-sm text-muted-foreground">
+            {(!user || user.id === projectOwnerId)
+              ? "不能给自己投币"
+              : "暂无对象可赞赏"}
+          </p>
         ) : (
-          <ul className="space-y-3 max-h-[60vh] overflow-y-auto">
-            {targets.map((t) => (
-              <TipRow
-                key={`${t.type}-${t.id}`}
-        target={t}
-        coins={coins}
-        onTip={handleTip}
-      />
-    ))}
-  </ul>
+          <ul className="max-h-[60vh] space-y-3 overflow-y-auto">
+            <TipRow
+              target={target}
+              coins={coins}
+              onTip={handleTip}
+            />
+          </ul>
         )}
       </DialogContent>
     </Dialog>
@@ -177,10 +139,10 @@ function TipRow({
 }) {
   // 查询我看这个资源已经投了多少
   const { data: myTipped = 0 } = useQuery({
-    queryKey: ["tip_my", target.type, target.id],
+    queryKey: ["tip_my", "project", target.id],
     queryFn: async () => {
       const params = new URLSearchParams({
-        resourceType: target.type,
+        resourceType: "project",
         resourceId: String(target.id),
       })
       const response = await fetch(`/api/tips/my?${params.toString()}`)
@@ -199,21 +161,21 @@ function TipRow({
     <li className="flex items-center justify-between gap-2 rounded-lg border p-3">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-            {target.type === 'project' && <UserIcon className="h-3 w-3 text-primary" />}
-            <p className="font-medium text-sm truncate">{target.label}</p>
+          <UserIcon className="h-3 w-3 text-primary" />
+          <p className="truncate text-sm font-medium">{target.label}</p>
         </div>
         <p className="text-xs text-muted-foreground">
           {target.desc} • 我已投 {myTipped}/2
         </p>
       </div>
       {tipRemaining > 0 ? (
-        <div className="flex gap-1 shrink-0">
+        <div className="flex shrink-0 gap-1">
           {[1, 2].filter((a) => a <= tipRemaining && coins >= a).map((amount) => (
             <Button
               key={amount}
               variant="outline"
               size="sm"
-              className="gap-1 h-8 px-2"
+              className="h-8 gap-1 px-2"
               disabled={pending}
               onClick={() => {
                 setPending(true)
@@ -227,9 +189,9 @@ function TipRow({
           ))}
         </div>
       ) : (
-          <span className="text-xs text-muted-foreground shrink-0 bg-muted px-2 py-1 rounded">
-              已达上限
-          </span>
+        <span className="shrink-0 rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
+          已达上限
+        </span>
       )}
     </li>
   )

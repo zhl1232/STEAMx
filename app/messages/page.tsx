@@ -86,7 +86,7 @@ function getUnreadByTab(notifications: Notification[]) {
 
 function MessagePageSkeleton() {
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
       <div className="surface-panel overflow-hidden">
         <div className="border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5">
           <div className="h-3 w-16 animate-pulse rounded-full bg-muted" />
@@ -183,7 +183,7 @@ function MessagesContent() {
   }
 
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
       <div className="mobile-subnav top-0 z-30 -mx-4 mb-4 md:hidden">
         <MobilePageHeader
           title="消息"
@@ -298,8 +298,8 @@ function MessagesContent() {
                   <li key={notification.id}>
                     <div
                       className={cn(
-                        "rounded-[24px] border border-border/60 bg-background/70 p-3 transition-colors",
-                        !notification.is_read && "border-primary/25 bg-accent/25",
+                        "surface-card p-3 transition-colors",
+                        !notification.is_read && "border-primary/25 bg-primary/[0.06]",
                       )}
                     >
                       <div className="flex items-center gap-3">
@@ -393,7 +393,7 @@ function MessagesContent() {
                 <li key={conversation.peerId}>
                   <Link
                     href={`/messages/${conversation.peerId}`}
-                    className="flex items-center gap-3 rounded-[24px] border border-border/60 bg-background/70 px-4 py-4 transition-colors hover:bg-muted/55 active:bg-muted/75"
+                    className="surface-card flex items-center gap-3 px-4 py-4 transition-colors hover:bg-muted/55 active:bg-muted/75"
                   >
                     <Avatar className="h-12 w-12 shrink-0">
                       <AvatarImage src={conversation.avatarUrl ?? undefined} alt={conversation.displayName ?? ""} />

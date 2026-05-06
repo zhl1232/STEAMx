@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 import { DifficultyStars } from "@/components/ui/difficulty-stars";
 import { SearchHighlight } from "@/components/ui/search-highlight";
+import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 
 interface ProjectCardProps {
     project: Project;
@@ -19,19 +20,225 @@ interface ProjectCardProps {
     /** 首屏优先加载（用于探索页前几张卡片，提升 LCP） */
     priority?: boolean;
     href?: string;
+    variant?: "default" | "featured" | "compact";
+    className?: string;
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href }: ProjectCardProps) {
+function getCategoryTone(category?: string): CategoryTone {
+    if (category === "技术") return "tech";
+    if (category === "工程") return "engineering";
+    if (category === "艺术") return "art";
+    if (category === "数学") return "math";
+    if (category === "其他") return "playground";
+    return "science";
+}
+
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", className }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
-    const likesCount = project.likes + getLikesDelta(project.id);
+    const likesCount = (project.likes || 0) + getLikesDelta(project.id);
     const [imageError, setImageError] = useState(false);
     const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
     const detailHref = href || `/project/${project.id}`;
+    const categoryTone = getCategoryTone(project.category);
+
+    if (variant === "compact") {
+        return (
+            <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", className)}>
+                <div className="surface-card surface-card-interactive group relative grid h-full min-h-[128px] grid-cols-[minmax(112px,40%)_minmax(0,1fr)] overflow-hidden sm:flex sm:min-h-0 sm:flex-col sm:rounded-[12px]">
+                    <Link
+                        href={detailHref}
+                        className="absolute inset-0 z-0"
+                        aria-label={`查看项目：${project.title}`}
+                    />
+
+                    <div className="pointer-events-none relative h-full min-h-[128px] w-full overflow-hidden bg-[hsl(var(--surface-muted))] sm:aspect-[16/8.5] sm:h-auto sm:min-h-0">
+                        {!imageError ? (
+                            <OptimizedImage
+                                src={project.image}
+                                alt={project.title}
+                                fill
+                                variant="card"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                onError={() => setImageError(true)}
+                                priority={priority}
+                            />
+                        ) : (
+                            <div className="flex h-full items-center justify-center bg-[hsl(var(--surface-muted))]">
+                                <ImageOff className="h-8 w-8 text-muted-foreground/70 sm:h-9 sm:w-9" />
+                            </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    </div>
+
+                    <div className="pointer-events-none relative flex min-w-0 flex-col justify-between gap-2 p-3 sm:flex-1 sm:p-3.5">
+                        <h3 className="line-clamp-2 min-w-0 text-[15px] font-bold leading-5 text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:line-clamp-1 sm:leading-6">
+                            <SearchHighlight text={project.title} query={searchQuery} />
+                        </h3>
+
+                        <div className="flex min-h-5 flex-wrap items-center gap-1.5">
+                            {project.category && (
+                                <ToneBadge tone={categoryTone} className="rounded-[6px] px-1.5 py-0.5">
+                                    {project.category}
+                                </ToneBadge>
+                            )}
+                            {project.sub_category && (
+                                <span className="inline-flex rounded-[6px] bg-[hsl(var(--brand-green)/0.12)] px-1.5 py-0.5 text-[11px] font-semibold text-[hsl(var(--brand-green))]">
+                                    {project.sub_category}
+                                </span>
+                            )}
+                            {previewTag ? (
+                                <span className="inline-flex max-w-[96px] truncate rounded-[6px] bg-[hsl(var(--brand-amber)/0.14)] px-1.5 py-0.5 text-[11px] font-semibold text-[hsl(var(--brand-amber))]">
+                                    {previewTag}
+                                </span>
+                            ) : null}
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 border-t border-[hsl(var(--surface-border))] pt-2 text-[11px] font-semibold text-muted-foreground sm:mt-auto sm:pt-3">
+                            <div className="flex min-w-0 items-center gap-2.5">
+                                <span className="flex items-center gap-1" title="点赞数">
+                                    <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                                    {likesCount || 0}
+                                </span>
+                                <span className="flex items-center gap-1" title="评论数">
+                                    <MessageCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                                    {project.comments_count ?? 0}
+                                </span>
+                                <span className="flex items-center gap-1" title="硬币数">
+                                    <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
+                                    {project.coins_count ?? 0}
+                                </span>
+                            </div>
+                            {project.difficulty_stars ? (
+                                <div className="shrink-0 rounded-full border border-[hsl(var(--brand-amber)/0.32)] bg-[hsl(var(--brand-amber)/0.14)] px-1.5 py-0.5">
+                                    <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                                </div>
+                            ) : null}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === "featured") {
+        return (
+            <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1.5", className)}>
+                <div className="surface-card surface-card-interactive group relative flex h-full flex-col overflow-hidden">
+                    <Link
+                        href={detailHref}
+                        className="absolute inset-0 z-0"
+                        aria-label={`查看重点推荐项目：${project.title}`}
+                    />
+
+                    <div className="pointer-events-none relative aspect-[16/10] w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
+                        {!imageError ? (
+                            <OptimizedImage
+                                src={project.image}
+                                alt={project.title}
+                                fill
+                                variant="card"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                onError={() => setImageError(true)}
+                                priority={priority}
+                            />
+                        ) : (
+                            <div className="flex h-full items-center justify-center bg-[hsl(var(--surface-muted))]">
+                                <ImageOff className="h-10 w-10 text-muted-foreground/70" />
+                            </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/68 via-slate-950/12 to-transparent" />
+
+                        {showStatus && project.status && (
+                            <div className="absolute left-3 top-3 z-10">
+                                {project.status === 'pending' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-sm dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                        待审核
+                                    </span>
+                                )}
+                                {project.status === 'approved' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-green-300 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800 shadow-sm dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                        已发布
+                                    </span>
+                                )}
+                                {project.status === 'rejected' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-sm dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                        已拒绝
+                                    </span>
+                                )}
+                            </div>
+                        )}
+
+                        <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-3.5 min-[390px]:p-4">
+                            <div className="flex min-w-0 flex-wrap gap-2">
+                                {project.category && (
+                                    <span className="inline-flex items-center rounded-full border border-white/20 bg-black/34 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
+                                        {project.category}
+                                    </span>
+                                )}
+                                {project.sub_category && (
+                                    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/14 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-md">
+                                        {project.sub_category}
+                                    </span>
+                                )}
+                            </div>
+                            {project.difficulty_stars ? (
+                                <div className="shrink-0 rounded-full border border-white/14 bg-black/30 px-2.5 py-1 backdrop-blur-md">
+                                    <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                                </div>
+                            ) : null}
+                        </div>
+                    </div>
+
+                    <div className="pointer-events-none relative flex flex-col gap-3 p-4">
+                        <div className="space-y-2">
+                            <h3 className="line-clamp-2 text-[18px] font-extrabold leading-snug text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]">
+                                <SearchHighlight text={project.title} query={searchQuery} />
+                            </h3>
+                            <p className="line-clamp-2 text-[13px] leading-5 text-muted-foreground">
+                                <SearchHighlight
+                                    text={project.description || "适合边做边学的 STEAM 实践项目。"}
+                                    query={searchQuery}
+                                />
+                            </p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                            {previewTag ? (
+                                <span className="inline-flex max-w-[160px] truncate rounded-[8px] bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--brand-blue))]">
+                                    {previewTag}
+                                </span>
+                            ) : null}
+                            {project.tags?.length && !previewTag ? (
+                                <span className="inline-flex max-w-[160px] truncate rounded-[8px] bg-[hsl(var(--surface-muted))] px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+                                    {project.tags[0]}
+                                </span>
+                            ) : null}
+                        </div>
+
+                        <div className="flex items-center gap-4 border-t border-[hsl(var(--surface-border))] pt-3 text-[12px] font-semibold text-muted-foreground">
+                            <span className="flex items-center gap-1.5" title="点赞数">
+                                <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                                {likesCount || 0}
+                            </span>
+                            <span className="flex items-center gap-1.5" title="评论数">
+                                <MessageCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                                {project.comments_count ?? 0}
+                            </span>
+                            <span className="flex items-center gap-1.5" title="硬币数">
+                                <CoinIcon className="h-4 w-4 text-[hsl(var(--brand-amber))]" />
+                                {project.coins_count ?? 0}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="transition-transform duration-300 hover:-translate-y-1.5">
-            <div className="group relative block overflow-hidden rounded-[24px] border border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)] transition-all hover:shadow-[0_24px_55px_-28px_rgba(15,23,42,0.34)]">
+        <div className={cn("transition-transform duration-300 hover:-translate-y-1.5", className)}>
+            <div className="surface-card surface-card-interactive group relative block overflow-hidden">
                 {/* Main Card Link Overlay */}
                 <Link
                     href={detailHref}

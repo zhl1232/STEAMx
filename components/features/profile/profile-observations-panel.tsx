@@ -94,6 +94,12 @@ export function ProfileObservationsPanel({
             <span className="truncate">{observation.locationName}</span>
           </div>
 
+          <div className="mt-2">
+            <span className="inline-flex rounded-full border border-border/70 bg-muted/35 px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              {observation.isPublic ? "公开" : "仅自己可见"}
+            </span>
+          </div>
+
           {observation.notes ? (
             <p className="mt-2 line-clamp-2 text-sm leading-6 text-foreground/85">{observation.notes}</p>
           ) : null}

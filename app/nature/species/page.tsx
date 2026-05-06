@@ -30,21 +30,15 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
 
   return (
     <div className="page-shell pb-24 pt-0 md:pb-10 md:pt-6">
-      <div className="md:hidden">
-        <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
-          <MobilePageHeader
-            title="物种"
-            fallbackHref="/nature"
-            sticky={false}
-            className="border-none bg-transparent shadow-none"
-          />
-        </div>
-      </div>
+      <MobilePageHeader
+        title="物种"
+        fallbackHref="/nature"
+        className="-mx-4 mb-4 md:hidden"
+      />
 
       <section className="surface-panel overflow-hidden">
         <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-          <div className="relative overflow-hidden rounded-[28px] border border-border/70 bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.1),_transparent_42%),radial-gradient(circle_at_20%_80%,_rgba(56,189,248,0.09),_transparent_48%),linear-gradient(165deg,_rgba(255,255,255,0.92),_rgba(248,250,252,0.82))] p-5 dark:bg-[radial-gradient(circle_at_top_right,_rgba(74,222,128,0.12),_transparent_40%),radial-gradient(circle_at_20%_80%,_rgba(56,189,248,0.1),_transparent_45%),linear-gradient(165deg,_rgba(12,18,24,0.94),_rgba(8,14,20,0.9))] sm:p-6">
-            <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-primary/[0.07] blur-3xl dark:bg-primary/[0.09]" aria-hidden />
+          <div className="surface-subtle p-5 sm:p-6">
             <div className="relative">
               <p className="section-kicker">自然观察</p>
               <h1 className="mt-3 font-heading text-3xl font-semibold tracking-tight md:text-4xl">物种档案</h1>

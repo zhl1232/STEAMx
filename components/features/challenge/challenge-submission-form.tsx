@@ -250,6 +250,14 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   }
 
   const recommendedProjects = useMemo(() => challenge?.recommendedProjects || [], [challenge?.recommendedProjects])
+  const submissionChecks = [
+    { label: '作品标题', done: Boolean(title.trim()) },
+    { label: '作品图片', done: proofImages.length > 0 },
+    { label: '过程说明', done: Boolean(notes.trim()) },
+    { label: '公开状态', done: isPublic },
+    { label: '参考项目', done: referenceProjectIds.length > 0 || recommendedProjects.length === 0 },
+  ]
+  const doneChecks = submissionChecks.filter((item) => item.done).length
 
   const handleSubmit = async () => {
     if (!user) {
@@ -354,13 +362,20 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   return (
     <div className="space-y-6">
       <section className="surface-panel p-5 sm:p-6">
-        <p className="section-kicker">挑战作品</p>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-          {submission ? '更新挑战作品' : '提交挑战作品'}
-        </h1>
-        <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
-          {challenge.title}
-        </p>
+        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+          <div>
+            <p className="section-kicker">挑战作品</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+              {submission ? '更新挑战作品' : '提交挑战作品'}
+            </h1>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
+              {challenge.title}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border/70 bg-background/74 px-4 py-3 text-sm text-muted-foreground">
+            <span className="font-semibold text-foreground">{doneChecks}/5</span> 项信息已确认
+          </div>
+        </div>
 
         {submission?.status === 'rejected' && submission.rejectionReason ? (
           <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
@@ -387,17 +402,18 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
         ) : null}
       </section>
 
-      <section className="surface-panel space-y-5 p-5 sm:p-6">
-        <div className="space-y-2">
-          <Label htmlFor="challenge-submission-title">作品标题</Label>
-          <Input
-            id="challenge-submission-title"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            placeholder="例如：两周气压火箭迭代记录"
-            disabled={isReadOnly}
-          />
-        </div>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="surface-panel space-y-5 p-5 sm:p-6">
+          <div className="space-y-2">
+            <Label htmlFor="challenge-submission-title">作品标题</Label>
+            <Input
+              id="challenge-submission-title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              placeholder="例如：两周气压火箭迭代记录"
+              disabled={isReadOnly}
+            />
+          </div>
 
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-3">
@@ -558,15 +574,42 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
           </span>
         </label>
 
-        <div className="flex flex-wrap justify-end gap-3">
-          <Button type="button" variant="outline" onClick={() => router.push(`/community/challenge/${challengeId}`)}>
-            返回挑战
-          </Button>
-          <Button type="button" onClick={handleSubmit} disabled={isSubmitting || isReadOnly}>
-            {isSubmitting ? '提交中...' : submission ? '保存更新' : '提交作品'}
-          </Button>
-        </div>
-      </section>
+          <div className="sticky bottom-0 z-20 -mx-5 flex flex-wrap justify-end gap-3 border-t border-border/60 bg-background/92 px-5 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0">
+            <Button type="button" variant="outline" onClick={() => router.push(`/community/challenge/${challengeId}`)}>
+              返回挑战
+            </Button>
+            <Button type="button" onClick={handleSubmit} disabled={isSubmitting || isReadOnly}>
+              {isSubmitting ? '提交中...' : submission ? '保存更新' : '提交作品'}
+            </Button>
+          </div>
+        </section>
+
+        <aside className="hidden lg:block">
+          <div className="sticky top-24 space-y-4">
+            <section className="surface-subtle p-4">
+              <p className="section-kicker">提交检查</p>
+              <h2 className="mt-3 text-lg font-semibold tracking-tight">作品墙展示信息</h2>
+              <div className="mt-4 space-y-2">
+                {submissionChecks.map((item) => (
+                  <div key={item.label} className="flex items-center justify-between rounded-2xl bg-background/72 px-3 py-2.5 text-sm">
+                    <span className="text-muted-foreground">{item.label}</span>
+                    <span className={item.done ? 'font-medium text-primary' : 'text-muted-foreground'}>
+                      {item.done ? '完成' : '待补充'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="surface-subtle p-4">
+              <p className="text-sm font-semibold tracking-tight">审核提示</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                图片、说明和参考项目会一起进入审核。公开且通过审核后，作品会展示在挑战作品墙。
+              </p>
+            </section>
+          </div>
+        </aside>
+      </div>
     </div>
   )
 }

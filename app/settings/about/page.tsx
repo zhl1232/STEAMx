@@ -54,6 +54,8 @@ export default function AboutSettingsPage() {
   return (
     <SettingsSubpageShell
       title="关于与帮助"
+      kicker="支持与规则"
+      description="查看帮助入口、平台协议和常见问题。文本页与设置页使用同一阅读节奏。"
     >
       <div className="space-y-6">
         <section className="space-y-3">

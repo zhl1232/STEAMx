@@ -85,7 +85,6 @@ describe('POST /api/projects', () => {
         category: '科学',
         sub_category_id: 9,
         difficulty_stars: 2,
-        duration: 30,
         materials: [],
         steps: [],
       }),

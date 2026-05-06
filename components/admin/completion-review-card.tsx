@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Eye } from 'lucide-react'
+import { CheckCircle2, Clock3, Eye, ImageIcon, XCircle } from 'lucide-react'
 
 interface CompletionForReview {
   id: number
@@ -156,20 +156,22 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
     }
 
     return (
-      <div className={`flex gap-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
+      <div className={`grid gap-2 sm:grid-cols-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
         <Button
           onClick={handleApprove}
           disabled={isReviewing}
-          className="flex-1 rounded-full bg-green-600 hover:bg-green-700"
+          className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400"
         >
+          <CheckCircle2 className="mr-2 h-4 w-4" />
           批准通过
         </Button>
         <Button
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
           variant="destructive"
-          className="flex-1 rounded-full"
+          className="rounded-full"
         >
+          <XCircle className="mr-2 h-4 w-4" />
           拒绝
         </Button>
       </div>
@@ -177,26 +179,41 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
   }
 
   return (
-    <Card className="surface-subtle shadow-none">
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="text-lg mb-1">
+    <Card className="surface-subtle overflow-hidden rounded-[24px] border border-border/70 bg-background/74 shadow-none">
+      <CardHeader className="pb-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              {projectCategory && (
+                <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                  {projectCategory}
+                </Badge>
+              )}
+              <Badge variant="secondary" className="rounded-[10px] bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                待审核作品
+              </Badge>
+            </div>
+            <CardTitle className="line-clamp-2 text-lg leading-snug">
               {authorName} 的作品
             </CardTitle>
-            <CardDescription>
-              项目: {projectTitle}
-              {' · '}
-              提交于 {new Date(completion.completed_at).toLocaleString('zh-CN')}
+            <CardDescription className="mt-2 flex flex-wrap items-center gap-2">
+              <span>项目：{projectTitle}</span>
+              <span className="hidden sm:inline">·</span>
+              <span className="inline-flex items-center gap-1">
+                <Clock3 className="h-3.5 w-3.5" />
+                {new Date(completion.completed_at).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+              </span>
             </CardDescription>
           </div>
-          {projectCategory && <Badge>{projectCategory}</Badge>}
+          <div className="shrink-0 rounded-2xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300">
+            {completion.proof_images?.length || 0} 张凭证
+          </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-4 mb-4">
-          {firstImage && (
-            <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl border border-border/70">
+        <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
+          <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
+            {firstImage ? (
               <OptimizedImage
                 src={firstImage}
                 alt="作品图片"
@@ -204,13 +221,19 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
                 variant="thumbnail"
                 className="object-cover"
               />
-            </div>
-          )}
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+                <ImageIcon className="h-5 w-5" />
+                无图片凭证
+              </div>
+            )}
+          </div>
           <div className="flex-1 space-y-2">
             {completion.notes && (
               <p className="text-sm text-muted-foreground line-clamp-3">{completion.notes}</p>
             )}
-            <div className="flex gap-2 text-xs text-muted-foreground">
+            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <Badge variant="outline">作品 ID：{completion.id}</Badge>
               <Badge variant="outline">{completion.proof_images?.length || 0} 张图片</Badge>
               {completion.proof_video_url && <Badge variant="outline">含视频</Badge>}
             </div>
@@ -218,6 +241,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
         </div>
 
         <div className="border-t border-border/70 pt-4">
+          {renderActions()}
           <Dialog open={isDetailOpen} onOpenChange={(open) => {
             setIsDetailOpen(open)
             if (!open) {
@@ -226,7 +250,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
             }
             }}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full gap-2 rounded-2xl">
+                <Button variant="outline" className="mt-2 w-full gap-2 rounded-2xl sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整作品与审核
                 </Button>
               </DialogTrigger>

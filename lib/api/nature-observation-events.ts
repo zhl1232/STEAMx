@@ -95,13 +95,17 @@ export async function getObservations(
 
 export async function getObservationById(id: string | number): Promise<ObservationEvent | null> {
   const supabase = await createClient()
+  const observationId = Number(id)
+
+  if (!Number.isInteger(observationId) || observationId <= 0) {
+    return null
+  }
 
   const { data, error } = await supabase
     .from('observation_events')
     .select('*')
-    .eq('id', Number(id))
+    .eq('id', observationId)
     .eq('status', 'approved')
-    .eq('is_public', true)
     .maybeSingle()
 
   if (error) {
@@ -110,6 +114,13 @@ export async function getObservationById(id: string | number): Promise<Observati
   }
 
   if (!data) return null
+
+  if (!data.is_public) {
+    const { data: authData } = await supabase.auth.getUser()
+    if (!authData.user || authData.user.id !== data.user_id) {
+      return null
+    }
+  }
 
   const speciesByEvent = await loadObservationSpeciesForEvents([data.id])
   return mapDbObservationEvent(data as never, speciesByEvent.get(data.id) || [])

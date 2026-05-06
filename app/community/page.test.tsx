@@ -39,24 +39,37 @@ vi.mock('@/lib/context/community-context', () => ({
 }))
 
 vi.mock('@/components/features/community/discussion-list', () => ({
-  DiscussionList: () => <div>discussion-list</div>,
-}))
-
-vi.mock('@/components/community/mobile-community-page', () => ({
-  MobileCommunityPage: () => <div>mobile-community-page</div>,
-}))
-
-vi.mock('@/components/features/community/challenge-card', () => ({
-  ChallengeCard: ({ challenge }: { challenge: { title: string } }) => <div>{challenge.title}</div>,
+  DiscussionList: ({ tabsSlot }: { tabsSlot?: React.ReactNode }) => (
+    <div>
+      {tabsSlot}
+      <div>discussion-list</div>
+    </div>
+  ),
 }))
 
 vi.mock('@/components/ui/loading-skeleton', () => ({
   ChallengeCardSkeleton: () => <div>loading</div>,
 }))
 
+vi.mock('@/components/layout/notification-bell', () => ({
+  NotificationBell: () => <button type="button">消息</button>,
+}))
+
+vi.mock('@/components/layout/user-button', () => ({
+  UserButton: () => <button type="button">用户</button>,
+}))
+
+vi.mock('@/components/layout/logo', () => ({
+  SteamLogo: () => <span>logo</span>,
+}))
+
 describe('CommunityPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ total: 0 }),
+    }))
     mockCommunityState = {
       challenges: {
         activeTimed: [],

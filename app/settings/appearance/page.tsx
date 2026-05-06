@@ -27,6 +27,8 @@ export default function AppearanceSettingsPage() {
   return (
     <SettingsSubpageShell
       title="外观"
+      kicker="显示偏好"
+      description="选择全站明暗模式。外观设置只影响视觉呈现，不改变内容和账号数据。"
     >
       <div className="space-y-3">
         {baseOptions.map((opt) => {

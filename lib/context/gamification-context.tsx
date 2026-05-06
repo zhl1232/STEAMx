@@ -32,6 +32,7 @@ interface GamificationContextType {
     level: number;
     unlockedBadges: Set<string>;
     userBadgeDetails: Map<string, { unlockedAt: string }>;
+    userStats?: UserStats;
     addXp: (amount: number, reason?: string, actionType?: string, resourceId?: string | number) => void;
     checkBadges: (stats: UserStats) => void;
     nextLevelXp: number;
@@ -388,13 +389,14 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         level,
         unlockedBadges,
         userBadgeDetails,
+        userStats,
         addXp,
         checkBadges,
         nextLevelXp,
         progress,
         levelTotalNeeded,
         levelProgress
-    }), [xp, coins, level, unlockedBadges, userBadgeDetails, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
+    }), [xp, coins, level, unlockedBadges, userBadgeDetails, userStats, addXp, checkBadges, nextLevelXp, progress, levelTotalNeeded, levelProgress]);
 
     return (
         <GamificationContext.Provider value={contextValue}>

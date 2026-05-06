@@ -30,7 +30,16 @@ export function SettingsSubpageShell({
         <MobilePageHeader title={title} fallbackHref={fallbackHref} />
       </div>
 
-      <div className="page-shell flex-1 pt-6 md:pt-8">
+      <div className="page-shell flex-1 pt-4 md:pt-8">
+        {(kicker || description) ? (
+          <div className="surface-subtle mb-4 px-4 py-4 md:hidden">
+            {kicker ? <p className="section-kicker">{kicker}</p> : null}
+            {description ? (
+              <p className={cn("text-sm leading-6 text-muted-foreground", kicker && "mt-2")}>{description}</p>
+            ) : null}
+          </div>
+        ) : null}
+
         <div className="hidden md:block">
           {kicker ? <p className="section-kicker">{kicker}</p> : null}
           <h1 className="mt-3 text-4xl font-semibold tracking-tight">{title}</h1>

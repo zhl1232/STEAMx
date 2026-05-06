@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       .select(`
         *,
         profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-      `)
+      `, { count: 'exact' })
 
     if (searchQuery) {
       query = query.or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`)
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 
     query = query.range(from, to)
 
-    const { data, error } = await query
+    const { data, count, error } = await query
     if (error) throw error
 
     const rows = (data as unknown as {
@@ -120,7 +120,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       discussions,
-      hasMore: rows.length === pageSize,
+      total: count ?? rows.length,
+      hasMore: typeof count === 'number' ? count > to + 1 : rows.length === pageSize,
     })
   } catch (error) {
     logger.error('Error in GET /api/discussions', { error })

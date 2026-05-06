@@ -75,7 +75,12 @@ export async function POST(request: NextRequest) {
       'failed_unrecognized',
     ])
 
-    const toAnalyze = imageUrls.filter((url) => !finalStatuses.has((existingMap.get(url)?.status || 'error') as ObservationMediaAnalysisStatus))
+    const toAnalyze = imageUrls.filter((url) => {
+      const existing = existingMap.get(url)
+      const status = (existing?.status || 'error') as ObservationMediaAnalysisStatus
+      if (!finalStatuses.has(status)) return true
+      return status === 'passed' && !existing?.note_suggestion
+    })
 
     if (toAnalyze.length > 0) {
       const { error: pendingError } = await supabase
@@ -108,6 +113,7 @@ export async function POST(request: NextRequest) {
               moderation_reason: result.moderationReason,
               quality_pass: result.qualityPass,
               quality_reason: result.qualityReason,
+              note_suggestion: result.noteSuggestion,
               species_candidates: result.speciesCandidates as unknown as Json,
               raw_response: result.rawResponse as Json,
             })
@@ -125,6 +131,7 @@ export async function POST(request: NextRequest) {
               status: 'error',
               moderation_reason: null,
               quality_reason: null,
+              note_suggestion: null,
             })
             .eq('user_id', user.id)
             .eq('image_url', imageUrl)

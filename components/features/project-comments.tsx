@@ -19,6 +19,7 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";
+import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { CommentCard } from "@/components/features/shared/comment-card";
@@ -107,6 +108,10 @@ interface ProjectCommentsProps {
   initialHasMore?: boolean;
   initialLikedCommentIds?: Array<string | number>;
   actionsSlot?: React.ReactNode;
+  commentBoxId?: string;
+  mobileFixedComposerActionsSlot?: React.ReactNode;
+  hideInlineComposerOnMobile?: boolean;
+  preserveScrollOnSubmit?: boolean;
 }
 
 export function ProjectComments({
@@ -116,6 +121,10 @@ export function ProjectComments({
   initialHasMore = false,
   initialLikedCommentIds = [],
   actionsSlot,
+  commentBoxId = "project-comment-box",
+  mobileFixedComposerActionsSlot,
+  hideInlineComposerOnMobile = false,
+  preserveScrollOnSubmit = false,
 }: ProjectCommentsProps) {
   const router = useRouter();
   const { addComment, deleteComment } = useProjects();
@@ -337,10 +346,12 @@ export function ProjectComments({
             });
             setTotal((prev: number) => prev + 1);
             triggerCommentHighlight(addedReply.id);
-            setPendingScrollTarget({
-              id: String(addedReply.id),
-              scope: isSheetOpen ? "sheet" : "main",
-            });
+            if (!preserveScrollOnSubmit) {
+              setPendingScrollTarget({
+                id: String(addedReply.id),
+                scope: isSheetOpen ? "sheet" : "main",
+              });
+            }
             setReplyTarget(null);
             setSheetReplyTarget(null);
           }
@@ -356,7 +367,9 @@ export function ProjectComments({
               return Array.from(merged.values());
             });
             triggerCommentHighlight(addedComment.id);
-            setPendingScrollTarget({ id: String(addedComment.id), scope: "main" });
+            if (!preserveScrollOnSubmit) {
+              setPendingScrollTarget({ id: String(addedComment.id), scope: "main" });
+            }
             if (!addedComment.parent_id) {
               const key = String(addedComment.id);
               setRootOrder((prev) => [key, ...prev.filter((id) => id !== key)]);
@@ -381,7 +394,7 @@ export function ProjectComments({
 
       doSubmit();
     },
-    [addComment, projectId, user, promptLogin, buildCommentPayload, triggerCommentHighlight, isSheetOpen],
+    [addComment, projectId, user, promptLogin, buildCommentPayload, triggerCommentHighlight, isSheetOpen, preserveScrollOnSubmit],
   );
 
   const handleDeleteComment = useCallback(async (commentId: string | number) => {
@@ -684,7 +697,25 @@ export function ProjectComments({
         )}
       </div>
 
-      <div className="mt-6">
+      {mobileFixedComposerActionsSlot ? (
+        <div className="md:hidden">
+          <BottomReplyBox
+            variant="fixed"
+            fixedPlacement="screen"
+            portalFixed
+            user={user}
+            profile={profile}
+            replyTarget={replyTarget}
+            onCancelReply={() => setReplyTarget(null)}
+            canUploadImage={canUploadImage}
+            placeholder="写评论..."
+            actionsSlot={mobileFixedComposerActionsSlot}
+            onSubmit={handleSubmit}
+          />
+        </div>
+      ) : null}
+
+      <div id={commentBoxId} className={cn("mt-6 scroll-mt-24", hideInlineComposerOnMobile && "hidden md:block")}>
         <BottomReplyBox
           variant="inline"
           user={user}

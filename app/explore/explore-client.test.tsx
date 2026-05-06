@@ -9,8 +9,21 @@ import type { Project } from '@/lib/mappers/types'
 
 const clearLikesDeltaForProjects = vi.fn()
 const toast = vi.fn()
+let mockAuth = {
+    user: null as { id: string } | null,
+    loading: false,
+}
+let mockGamification = {
+    level: 1,
+    progress: 0,
+    levelProgress: 0,
+    levelTotalNeeded: 100,
+    unlockedBadges: new Set<string>(),
+    userStats: undefined as { projectsCompleted: number } | undefined,
+}
 let currentSearchParams = new URLSearchParams()
 let latestIntersectionCallback: IntersectionObserverCallback | null = null
+let intersectionCallbacks: IntersectionObserverCallback[] = []
 
 vi.mock('next/navigation', () => ({
     useSearchParams: () => currentSearchParams,
@@ -20,6 +33,14 @@ vi.mock('@/lib/context/project-context', () => ({
     useProjects: () => ({
         clearLikesDeltaForProjects,
     }),
+}))
+
+vi.mock('@/lib/context/auth-context', () => ({
+    useAuth: () => mockAuth,
+}))
+
+vi.mock('@/lib/context/gamification-context', () => ({
+    useGamification: () => mockGamification,
 }))
 
 vi.mock('@/hooks/use-toast', () => ({
@@ -83,6 +104,7 @@ class MockIntersectionObserver implements IntersectionObserver {
 
     constructor(callback: IntersectionObserverCallback) {
         latestIntersectionCallback = callback
+        intersectionCallbacks.push(callback)
     }
 
     disconnect() {}
@@ -101,14 +123,16 @@ function makeProject(id: number, title: string): Project {
 }
 
 function triggerIntersection() {
-    if (!latestIntersectionCallback) {
+    if (intersectionCallbacks.length === 0) {
         throw new Error('IntersectionObserver callback not registered')
     }
 
-    latestIntersectionCallback(
-        [{ isIntersecting: true } as IntersectionObserverEntry],
-        {} as IntersectionObserver,
-    )
+    for (const callback of intersectionCallbacks) {
+        callback(
+            [{ isIntersecting: true } as IntersectionObserverEntry],
+            {} as IntersectionObserver,
+        )
+    }
 }
 
 function createAbortError() {
@@ -118,10 +142,94 @@ function createAbortError() {
 describe('ExploreClient', () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        mockAuth = {
+            user: null,
+            loading: false,
+        }
+        mockGamification = {
+            level: 1,
+            progress: 0,
+            levelProgress: 0,
+            levelTotalNeeded: 100,
+            unlockedBadges: new Set<string>(),
+            userStats: undefined,
+        }
         currentSearchParams = new URLSearchParams()
         latestIntersectionCallback = null
+        intersectionCallbacks = []
         vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)
         vi.stubGlobal('fetch', vi.fn())
+    })
+
+    it('shows a progress-saving prompt for signed-out users', () => {
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.getByText('保存你的探索进度')).toBeInTheDocument()
+        expect(screen.getByText('登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。')).toBeInTheDocument()
+        expect(screen.getByRole('link', { name: '登录保存进度' })).toHaveAttribute('href', '/login')
+    })
+
+    it('shows exploration progress for signed-in users', () => {
+        mockAuth = {
+            user: { id: 'user-1' },
+            loading: false,
+        }
+        mockGamification = {
+            level: 4,
+            progress: 62.5,
+            levelProgress: 250,
+            levelTotalNeeded: 400,
+            unlockedBadges: new Set(['first_step', 'explorer']),
+            userStats: { projectsCompleted: 3 },
+        }
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.getByText('你的探索进度')).toBeInTheDocument()
+        expect(screen.getByText('Lv.4')).toBeInTheDocument()
+        expect(screen.getByText('62%')).toBeInTheDocument()
+        expect(screen.getByText('距离下一级还差 150 XP')).toBeInTheDocument()
+        expect(screen.getByText('3 个')).toBeInTheDocument()
+        expect(screen.getByText('2 枚')).toBeInTheDocument()
+        expect(screen.getByRole('link', { name: '查看探索记录' })).toHaveAttribute('href', '/profile/library')
+    })
+
+    it('keeps completed projects in a syncing state until stats load', () => {
+        mockAuth = {
+            user: { id: 'user-1' },
+            loading: false,
+        }
+        mockGamification = {
+            level: 2,
+            progress: 25,
+            levelProgress: 75,
+            levelTotalNeeded: 300,
+            unlockedBadges: new Set(),
+            userStats: undefined,
+        }
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.getByText('完成项目')).toBeInTheDocument()
+        expect(screen.getByText('同步中')).toBeInTheDocument()
     })
 
     it('keeps the next page index when a filter request fails', async () => {
@@ -153,8 +261,9 @@ describe('ExploreClient', () => {
         await user.click(screen.getByRole('button', { name: /科学/ }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
-        act(() => {
+        await act(async () => {
             triggerIntersection()
+            await Promise.resolve()
         })
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2))
@@ -199,8 +308,12 @@ describe('ExploreClient', () => {
             />,
         )
 
-        act(() => {
+        await screen.findByText('初始项目')
+        await waitFor(() => expect(latestIntersectionCallback).not.toBeNull())
+
+        await act(async () => {
             triggerIntersection()
+            await Promise.resolve()
         })
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))

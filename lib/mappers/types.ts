@@ -85,6 +85,7 @@ export interface Project {
     sub_category_id?: number
     sub_category?: string // 子分类名称
     likes: number
+    views_count?: number
     coins_count?: number
     comments_count?: number
     description?: string
@@ -93,7 +94,6 @@ export interface Project {
     comments?: Comment[]
     difficulty?: 'easy' | 'medium' | 'hard'
     difficulty_stars?: number  // 1-6 星
-    duration?: number
     tags?: string[]
     status?: 'draft' | 'pending' | 'approved' | 'rejected'
     rejection_reason?: string | null
@@ -267,6 +267,7 @@ export interface ObservationSpeciesSummary {
 export interface ObservationEvent {
     id: number
     userId: string
+    authorDisplayName?: string | null
     observedAt: string
     locationName: string
     latitude?: number | null
@@ -417,6 +418,7 @@ export function mapDbProject(
         sub_category_id: dbProject.sub_category_id || undefined,
         sub_category: dbProject.sub_categories?.name || undefined,
         likes: dbProject.likes_count,
+        views_count: ('views_count' in dbProject ? Number((dbProject as Record<string, unknown>).views_count) : 0),
         coins_count: ('coins_count' in dbProject ? Number((dbProject as Record<string, unknown>).coins_count) : 0),
         comments_count: ('comments_count' in dbProject ? Number((dbProject as Record<string, unknown>).comments_count) : 0),
         description: dbProject.description || '',
@@ -433,7 +435,6 @@ export function mapDbProject(
         comments: dbProject.comments?.map(c => mapDbComment(c)) || [],
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
         difficulty_stars: dbProject.difficulty_stars ?? 3,
-        duration: dbProject.duration || undefined,
         tags,
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
         rejection_reason: dbProject.rejection_reason ?? null,

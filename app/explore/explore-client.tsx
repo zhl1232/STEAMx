@@ -1,13 +1,29 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
+import { Fragment, useState, useRef, useCallback, useEffect, useMemo, type FormEvent } from 'react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { SlidersHorizontal, X } from 'lucide-react'
+import {
+    BarChart3,
+    Lightbulb,
+    Search,
+    SlidersHorizontal,
+    Sparkles,
+    Target,
+    Trophy,
+    Users,
+    UserCircle,
+    X,
+} from 'lucide-react'
 import { ProjectCard } from '@/components/features/project-card'
 import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
+import { Progress } from '@/components/ui/progress'
 import { useProjects } from '@/lib/context/project-context'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
+import { FilterChip } from '@/components/ui/filter-chip'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Surface } from '@/components/ui/surface'
 import {
     Sheet,
     SheetContent,
@@ -17,6 +33,8 @@ import {
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
+import { useAuth } from '@/lib/context/auth-context'
+import { useGamification } from '@/lib/context/gamification-context'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
 
@@ -33,13 +51,163 @@ const DIFFICULTY_OPTIONS = [
     { value: "5", label: "5星" },
 ]
 
+const MOBILE_DIFFICULTY_CHIPS = [
+    { value: "1", label: "1星", tone: "green" as const },
+    { value: "2", label: "2星", tone: "amber" as const },
+    { value: "3", label: "3星", tone: "primary" as const },
+]
+
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
 const TAGS_COLLAPSED_LIMIT = 24
+const DESKTOP_SUB_CATEGORY_LIMIT = 14
+const DESKTOP_TAG_LIMIT = 16
 const EMPTY_TAGS: string[] = []
 const EMPTY_TAG_SCOPE: ExploreTagScope = {
     all: [],
     byCategory: {},
     bySubCategory: {},
+}
+
+type SortBy = 'latest' | 'popular'
+
+const SORT_OPTIONS: Array<{ value: SortBy; label: string }> = [
+    { value: 'latest', label: '最新发布' },
+    { value: 'popular', label: '最受欢迎' },
+]
+
+function MobileWeeklyChallengeCard() {
+    return (
+        <section className="surface-card relative overflow-hidden border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-3.5 sm:hidden">
+            <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-3">
+                <div className="relative min-h-[96px] overflow-hidden rounded-[12px] bg-[linear-gradient(135deg,hsl(var(--brand-blue))_0%,hsl(var(--brand-green))_100%)]">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(255,255,255,0.72),transparent_22%),radial-gradient(circle_at_78%_82%,rgba(255,255,255,0.36),transparent_26%)] dark:bg-[radial-gradient(circle_at_28%_20%,rgba(186,230,253,0.48),transparent_24%),radial-gradient(circle_at_78%_82%,rgba(52,211,153,0.24),transparent_28%)]" />
+                    <div className="relative flex h-full items-center justify-center">
+                        <div className="h-0 w-0 rotate-[-16deg] border-b-[17px] border-l-[52px] border-t-[17px] border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.28)] dark:border-l-emerald-50 dark:drop-shadow-[0_12px_18px_rgba(0,0,0,0.34)]" />
+                    </div>
+                </div>
+                <div className="min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-bold text-[hsl(var(--brand-green))]">本周挑战</span>
+                        <span className="shrink-0 text-xs font-medium text-muted-foreground">剩余 5 天</span>
+                    </div>
+                    <h2 className="mt-1 line-clamp-1 text-[16px] font-bold leading-6 text-foreground">
+                        纸飞机飞行距离挑战赛
+                    </h2>
+                    <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
+                        设计并制作一架纸飞机，测试飞行距离并分享你的设计思路。
+                    </p>
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                        <span className="inline-flex min-w-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                            <Users className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">1,258 人参与</span>
+                        </span>
+                        <Link href="/community" className="shrink-0 rounded-[10px] bg-[hsl(var(--brand-green))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_22px_-16px_hsl(var(--brand-green)/0.78)]">
+                            参与挑战
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+function ExplorationProgressCard() {
+    const { user, loading } = useAuth()
+    const {
+        level,
+        progress,
+        levelProgress,
+        levelTotalNeeded,
+        unlockedBadges,
+        userStats,
+    } = useGamification()
+
+    if (!user) {
+        return (
+            <Surface className="border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-4">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                        <h2 className="flex items-center gap-2 text-base font-bold text-[hsl(var(--tone-tech))]">
+                            <BarChart3 className="h-[18px] w-[18px]" />
+                            保存你的探索进度
+                        </h2>
+                        <p className="mt-3 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-80">
+                            登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。
+                        </p>
+                        <Link href="/login" className="mt-4 inline-flex rounded-[10px] bg-[hsl(var(--brand-green))] px-4 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)]">
+                            登录保存进度
+                        </Link>
+                    </div>
+                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[hsl(var(--surface-raised)/0.74)] text-[hsl(var(--brand-green))] shadow-inner">
+                        <UserCircle className="h-8 w-8" />
+                    </div>
+                </div>
+            </Surface>
+        )
+    }
+
+    const safeProgress = Math.min(Math.max(progress, 0), 100)
+    const remainingXp = Math.max(levelTotalNeeded - levelProgress, 0)
+    const completedProjectsLabel = userStats ? `${userStats.projectsCompleted} 个` : '同步中'
+
+    return (
+        <Surface className="overflow-hidden border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-4">
+            <div className="flex items-start justify-between gap-3">
+                <h2 className="flex min-w-0 flex-1 items-center gap-2 text-base font-bold text-[hsl(var(--tone-tech))]">
+                    <BarChart3 className="h-[18px] w-[18px] shrink-0" />
+                    你的探索进度
+                </h2>
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-[16px] bg-[hsl(var(--surface-raised)/0.82)] text-[hsl(var(--brand-green))] shadow-inner">
+                    <UserCircle className="h-7 w-7" />
+                </div>
+            </div>
+            <div className="mt-4 space-y-3">
+                <div className="rounded-[14px] border border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--surface-raised)/0.76)] p-3.5 shadow-[0_18px_36px_-32px_hsl(var(--tone-tech)/0.6)]">
+                    <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                            <p className="text-[11px] font-semibold text-muted-foreground">当前等级</p>
+                            <p className="mt-1 text-[28px] font-black leading-none text-[hsl(var(--tone-tech))]">Lv.{level}</p>
+                        </div>
+                        <div className="shrink-0 rounded-full bg-[hsl(var(--brand-green)/0.12)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--brand-green))]">
+                            {Math.floor(safeProgress)}%
+                        </div>
+                    </div>
+                    <Progress value={safeProgress} className="mt-3 h-2" />
+                    <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        {remainingXp > 0 ? `距离下一级还差 ${remainingXp} XP` : '已达到当前等级目标'}
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-[12px] bg-[hsl(var(--surface-raised)/0.66)] p-3">
+                        <p className="text-[11px] font-medium text-muted-foreground">完成项目</p>
+                        <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{loading ? '同步中' : completedProjectsLabel}</p>
+                    </div>
+                    <div className="rounded-[12px] bg-[hsl(var(--surface-raised)/0.66)] p-3">
+                        <p className="text-[11px] font-medium text-muted-foreground">已获徽章</p>
+                        <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{unlockedBadges.size} 枚</p>
+                    </div>
+                </div>
+
+                <Link
+                    href="/profile/library"
+                    className="inline-flex w-full items-center justify-center rounded-[12px] bg-[hsl(var(--brand-green))] px-4 py-2.5 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)] transition hover:bg-[hsl(var(--brand-green)/0.92)]"
+                >
+                    查看探索记录
+                </Link>
+            </div>
+        </Surface>
+    )
+}
+
+function normalizeSortBy(value: string | null | undefined): SortBy {
+    return value === 'latest' ? 'latest' : 'popular'
+}
+
+/** 仅依据 URL：无 `sortBy` 时用站点默认（最受欢迎），避免客户端改 URL 后排序与地址栏不一致 */
+function sortFromSearchParam(raw: string | null): SortBy {
+    if (raw === null || raw === '') return normalizeSortBy(undefined)
+    return normalizeSortBy(raw)
 }
 
 function normalizeTagList(tags: string[]) {
@@ -58,6 +226,8 @@ interface ExploreClientProps {
     initialPage?: number
     categories?: string[]
     availableTags?: string[]
+    /** 服务端按标签在项目中的出现次数排序；为空时侧栏回退为 `availableTags` 前若干项 */
+    popularTags?: string[]
     tagScope?: ExploreTagScope
 }
 
@@ -67,6 +237,7 @@ export function ExploreClient({
     initialPage = 0,
     categories: propCategories,
     availableTags,
+    popularTags: popularTagsProp,
     tagScope,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
@@ -75,7 +246,14 @@ export function ExploreClient({
 
     const displayCategories = propCategories || defaultCategories
     const resolvedAvailableTags = availableTags || EMPTY_TAGS
+    const resolvedPopularTags = popularTagsProp ?? EMPTY_TAGS
     const resolvedTagScope = tagScope || EMPTY_TAG_SCOPE
+
+    const hotTags = useMemo(() => {
+        const ranked =
+            resolvedPopularTags.length > 0 ? resolvedPopularTags : resolvedAvailableTags
+        return ranked.slice(0, 10)
+    }, [resolvedPopularTags, resolvedAvailableTags])
 
     // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
@@ -83,6 +261,7 @@ export function ExploreClient({
     const initialSubCategory = searchParams.get("subCategory") || ""
     const initialDifficulty = searchParams.get("difficulty") || "all"
     const initialTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
+    const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
     const [page, setPage] = useState(initialPage + 1)
@@ -92,12 +271,18 @@ export function ExploreClient({
     const observer = useRef<IntersectionObserver | null>(null)
     const activeFilterRequest = useRef<AbortController | null>(null)
     const activeLoadMoreRequest = useRef<AbortController | null>(null)
+    const pageRef = useRef(initialPage + 1)
+    const hasMoreRef = useRef(initialHasMore)
+    const isLoadingMoreRef = useRef(false)
+    const isFilteringRef = useRef(false)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
     const [selectedDifficulty, setSelectedDifficulty] = useState(initialDifficulty)
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
+    const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
+    const [showDesktopFilters, setShowDesktopFilters] = useState(false)
 
     // Sheet 状态
     const [sheetOpen, setSheetOpen] = useState(false)
@@ -109,9 +294,18 @@ export function ExploreClient({
     useEffect(() => {
         setProjects(initialProjects)
         setHasMore(initialHasMore)
+        hasMoreRef.current = initialHasMore
         setPage(initialPage + 1)
+        pageRef.current = initialPage + 1
         clearLikesDeltaForProjects(initialProjects.map(p => p.id))
     }, [initialProjects, initialHasMore, initialPage, clearLikesDeltaForProjects])
+
+    useEffect(() => {
+        pageRef.current = page
+        hasMoreRef.current = hasMore
+        isLoadingMoreRef.current = isLoadingMore
+        isFilteringRef.current = isFiltering
+    }, [page, hasMore, isLoadingMore, isFiltering])
 
     useEffect(() => {
         const nextQuery = searchParams.get("q") || ""
@@ -119,12 +313,14 @@ export function ExploreClient({
         const nextSubCategory = searchParams.get("subCategory") || ""
         const nextDifficulty = searchParams.get("difficulty") || "all"
         const nextTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
+        const nextSortBy = sortFromSearchParam(searchParams.get("sortBy"))
 
         setSearchQuery(nextQuery)
         setSelectedCategory(nextCategory)
         setSelectedSubCategory(nextSubCategory)
         setSelectedDifficulty(nextDifficulty)
         setSelectedTags(nextTags)
+        setSelectedSortBy(nextSortBy)
     }, [searchParams])
 
     useEffect(() => {
@@ -242,6 +438,7 @@ export function ExploreClient({
         subCategory?: string
         difficulty?: string
         tags?: string[]
+        sortBy?: SortBy
     } = {}) => {
         const params = new URLSearchParams()
         const query = overrides.query ?? searchQuery
@@ -249,15 +446,17 @@ export function ExploreClient({
         const subCategory = overrides.subCategory ?? selectedSubCategory
         const difficulty = overrides.difficulty ?? selectedDifficulty
         const tags = overrides.tags ?? selectedTags
+        const sortBy = overrides.sortBy ?? selectedSortBy
 
         if (query) params.set('q', query)
         if (category !== '全部') params.set('category', category)
         if (subCategory) params.set('subCategory', subCategory)
         if (difficulty !== 'all') params.set('difficulty', difficulty)
         if (tags.length > 0) params.set('tags', tags.join(','))
+        if (sortBy !== 'popular') params.set('sortBy', sortBy)
 
         return params
-    }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags])
+    }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, selectedSortBy])
 
     const buildProjectDetailHref = useCallback((projectId: string | number, index: number) => {
         const params = buildSearchParams()
@@ -274,14 +473,15 @@ export function ExploreClient({
     }, [])
 
     const loadMore = useCallback(async () => {
-        if (isLoadingMore || isFiltering || !hasMore) return
+        if (isLoadingMoreRef.current || isFilteringRef.current || !hasMoreRef.current) return
 
         activeLoadMoreRequest.current?.abort()
         const controller = new AbortController()
         activeLoadMoreRequest.current = controller
         setIsLoadingMore(true)
+        isLoadingMoreRef.current = true
         const params = buildSearchParams()
-        params.set('page', String(page))
+        params.set('page', String(pageRef.current))
 
         try {
             const response = await fetch(`/api/projects?${params.toString()}`, {
@@ -294,7 +494,12 @@ export function ExploreClient({
             setProjects(prev => [...prev, ...data.projects])
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
-            setPage(prev => prev + 1)
+            hasMoreRef.current = data.hasMore
+            setPage(prev => {
+                const nextPage = prev + 1
+                pageRef.current = nextPage
+                return nextPage
+            })
         } catch (error) {
             if (isAbortError(error)) {
                 return
@@ -305,22 +510,24 @@ export function ExploreClient({
             if (activeLoadMoreRequest.current === controller) {
                 activeLoadMoreRequest.current = null
                 setIsLoadingMore(false)
+                isLoadingMoreRef.current = false
             }
         }
-    }, [isLoadingMore, isFiltering, hasMore, page, buildSearchParams, clearLikesDeltaForProjects, isAbortError, toast])
+    }, [buildSearchParams, clearLikesDeltaForProjects, isAbortError, toast])
 
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
         if (isLoadingMore || isFiltering) return
         if (observer.current) observer.current.disconnect()
+        if (!node) return
 
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
+            if (entries[0].isIntersecting && hasMoreRef.current) {
                 loadMore()
             }
         })
 
-        if (node) observer.current.observe(node)
-    }, [isLoadingMore, isFiltering, hasMore, loadMore])
+        observer.current.observe(node)
+    }, [isLoadingMore, isFiltering, loadMore])
 
     const executeFilter = useCallback(async (params: URLSearchParams) => {
         activeFilterRequest.current?.abort()
@@ -329,6 +536,7 @@ export function ExploreClient({
         activeFilterRequest.current = controller
 
         setIsFiltering(true)
+        isFilteringRef.current = true
 
         try {
             const response = await fetch(`/api/projects?${params.toString()}`, {
@@ -345,7 +553,9 @@ export function ExploreClient({
             setProjects(data.projects)
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
+            hasMoreRef.current = data.hasMore
             setPage(1)
+            pageRef.current = 1
             syncUrl(params)
         } catch (error) {
             if (isAbortError(error)) {
@@ -357,6 +567,7 @@ export function ExploreClient({
             if (activeFilterRequest.current === controller) {
                 activeFilterRequest.current = null
                 setIsFiltering(false)
+                isFilteringRef.current = false
             }
         }
     }, [clearLikesDeltaForProjects, isAbortError, preloadProjectImages, syncUrl, toast])
@@ -369,6 +580,47 @@ export function ExploreClient({
         setDraftTags([])
         setShowAllDraftTags(false)
         const params = buildSearchParams({ category, subCategory: "", tags: [] })
+        executeFilter(params)
+    }
+
+    const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const query = searchQuery.trim()
+        setSearchQuery(query)
+        const params = buildSearchParams({ query })
+        executeFilter(params)
+    }
+
+    const handleSortChange = (sortBy: SortBy) => {
+        setSelectedSortBy(sortBy)
+        const params = buildSearchParams({ sortBy })
+        executeFilter(params)
+    }
+
+    const handleSubCategoryClick = (subCategory: string) => {
+        const nextSubCategory = selectedSubCategory === subCategory ? "" : subCategory
+        setSelectedSubCategory(nextSubCategory)
+        setSelectedTags([])
+        setDraftSubCategory(nextSubCategory)
+        setDraftTags([])
+        const params = buildSearchParams({ subCategory: nextSubCategory, tags: [] })
+        executeFilter(params)
+    }
+
+    const handleDifficultyClick = (difficulty: string) => {
+        setSelectedDifficulty(difficulty)
+        setDraftDifficulty(difficulty)
+        const params = buildSearchParams({ difficulty })
+        executeFilter(params)
+    }
+
+    const handleTagClick = (tag: string) => {
+        const nextTags = selectedTags.includes(tag)
+            ? selectedTags.filter((selectedTag) => selectedTag !== tag)
+            : [...selectedTags, tag]
+        setSelectedTags(nextTags)
+        setDraftTags(nextTags)
+        const params = buildSearchParams({ tags: nextTags })
         executeFilter(params)
     }
 
@@ -447,111 +699,477 @@ export function ExploreClient({
 
     const hasActiveAdvancedFilters = !!selectedSubCategory || selectedDifficulty !== "all" || selectedTags.length > 0
     const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (selectedDifficulty !== "all" ? 1 : 0) + selectedTags.length
+    const hasAnyActiveFilters = selectedCategory !== "全部" || hasActiveAdvancedFilters || !!searchQuery
     const hasDraftFilters = !!draftSubCategory || draftDifficulty !== "all" || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
     const sheetSubCategories = currentSubCategories
+    const desktopSubCategories = showDesktopFilters || currentSubCategories.length <= DESKTOP_SUB_CATEGORY_LIMIT
+        ? currentSubCategories
+        : currentSubCategories.slice(0, DESKTOP_SUB_CATEGORY_LIMIT)
+    const hiddenDesktopSubCategoryCount = currentSubCategories.length - desktopSubCategories.length
+    const desktopTags = showDesktopFilters || sortedDraftTags.length <= DESKTOP_TAG_LIMIT
+        ? sortedDraftTags
+        : sortedDraftTags.slice(0, DESKTOP_TAG_LIMIT)
+    const hiddenDesktopTagCount = sortedDraftTags.length - desktopTags.length
+    const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === selectedSortBy)?.label || SORT_OPTIONS[0].label
 
     return (
-        <div className="page-shell pb-6 md:pb-8">
-            {/* 分类导航条 - sticky 吸顶 */}
-            <div className="mobile-subnav top-0 -mx-4 mb-5 px-4 py-3 md:-mx-6 md:px-6">
-                <div className="flex items-center gap-2">
-                    {/* 横向滚动分类 */}
-                    <div className="no-scrollbar flex-1 overflow-x-auto">
-                        <div className="segmented-control inline-flex min-w-max gap-1">
-                            {displayCategories.map((category) => (
-                                <button
-                                    key={category}
-                                    type="button"
-                                    onClick={() => handleCategoryClick(category)}
-                                    disabled={isFiltering}
-                                    aria-pressed={selectedCategory === category}
-                                    className={cn(
-                                        "segmented-option shrink-0 whitespace-nowrap",
-                                        selectedCategory === category && "segmented-option-active",
-                                        isFiltering && "cursor-not-allowed opacity-50"
+        <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[linear-gradient(180deg,hsl(var(--app-canvas)/0.98)_0%,hsl(var(--app-canvas-soft)/0.72)_56%,hsl(var(--app-canvas-soft)/0)_100%)] md:h-[560px]"
+            />
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-95 dark:hidden md:h-[560px]"
+                style={{
+                    backgroundImage: "url('/assets/explore-page-bg-light.webp')",
+                    backgroundPosition: 'right top',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'max(100%, 1840px) auto',
+                    maskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                }}
+            />
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[420px] opacity-95 dark:block md:h-[560px]"
+                style={{
+                    backgroundImage: "url('/assets/explore-page-bg-dark.webp')",
+                    backgroundPosition: 'right top',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'max(100%, 1840px) auto',
+                    maskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                }}
+            />
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-[260px] h-[460px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:top-[300px] md:h-[560px]"
+            />
+            <div className="relative z-10" aria-hidden={sheetOpen}>
+                <div className="mx-auto w-full min-w-0 max-w-[1840px] px-4 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
+                    <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
+                        <main className="surface-panel relative min-w-0 overflow-hidden rounded-[22px] md:rounded-[20px]">
+                            <h1 className="sr-only">探索项目</h1>
+                            <div className="border-b border-[hsl(var(--surface-border))] p-3.5 md:p-5">
+                                <form id="explore-search" onSubmit={handleSearchSubmit} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 md:grid-cols-[minmax(0,1fr)_176px_auto]">
+                                    <label className="relative col-span-2 hidden md:col-span-1 md:block">
+                                        <span className="sr-only">搜索项目</span>
+                                        <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                                        <input
+                                            type="search"
+                                            value={searchQuery}
+                                            onChange={(event) => setSearchQuery(event.target.value)}
+                                            placeholder="搜索项目、材料、作者..."
+                                            className="control-field h-12 w-full rounded-[14px] pl-11 pr-4 text-[15px] font-medium placeholder:text-muted-foreground/70 md:h-11 md:rounded-[12px] md:text-sm"
+                                        />
+                                    </label>
+
+                                    <label className="relative block">
+                                        <span className="sr-only">排序方式</span>
+                                        <Select
+                                            value={selectedSortBy}
+                                            onValueChange={(value) => handleSortChange(normalizeSortBy(value))}
+                                        >
+                                            <SelectTrigger className="h-10 rounded-[13px] px-4 text-sm font-semibold md:h-11 md:rounded-[12px]">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent align="end" className="rounded-[14px]">
+                                                {SORT_OPTIONS.map((option) => (
+                                                    <SelectItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </label>
+
+                                    <button
+                                        type="button"
+                                        onClick={openSheet}
+                                        className={cn(
+                                            "relative inline-flex h-10 items-center justify-center gap-2 rounded-[13px] border px-4 text-sm font-semibold transition md:h-11 md:rounded-[12px]",
+                                            hasActiveAdvancedFilters
+                                                ? "filter-chip-active"
+                                                : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
+                                        )}
+                                    >
+                                        <SlidersHorizontal className="h-4 w-4" />
+                                        <span>筛选</span>
+                                        {advancedFilterCount > 0 && (
+                                            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold text-[hsl(var(--brand-blue-foreground))]">
+                                                {advancedFilterCount}
+                                            </span>
+                                        )}
+                                    </button>
+                                </form>
+
+                                <div className="no-scrollbar mt-4 overflow-x-auto md:mt-4">
+                                    <div className="flex min-w-max items-center gap-3 border-b border-[hsl(var(--surface-border))] pb-3 md:min-w-0 md:flex-wrap md:border-b-0 md:pb-0">
+                                        {displayCategories.map((category) => (
+                                            <FilterChip
+                                                key={category}
+                                                onClick={() => handleCategoryClick(category)}
+                                                disabled={isFiltering}
+                                                aria-pressed={selectedCategory === category}
+                                                active={selectedCategory === category}
+                                                solid={selectedCategory === category}
+                                                size="md"
+                                                className="min-w-[68px] rounded-[14px] px-5 text-[15px] md:min-w-0 md:rounded-[10px] md:text-sm"
+                                            >
+                                                {category}
+                                            </FilterChip>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 space-y-3 md:mt-4 md:border-t md:border-[hsl(var(--surface-border))] md:pt-4">
+                                    <div className="no-scrollbar flex items-center gap-2 overflow-x-auto md:hidden">
+                                        {MOBILE_DIFFICULTY_CHIPS.map((option) => {
+                                            const active = selectedDifficulty === option.value
+                                            return (
+                                                <FilterChip
+                                                    key={option.value}
+                                                    onClick={() => handleDifficultyClick(active ? "all" : option.value)}
+                                                    active={active}
+                                                    solid={active}
+                                                    tinted
+                                                    tone={option.tone}
+                                                    size="md"
+                                                    className="h-9 rounded-[12px] text-sm font-bold md:h-9"
+                                                >
+                                                    {option.label}
+                                                </FilterChip>
+                                            )
+                                        })}
+                                        {selectedCategory !== "全部" && (
+                                            <FilterChip
+                                                onClick={() => handleCategoryClick("全部")}
+                                                active
+                                                size="md"
+                                                className="h-9 rounded-[12px] px-3.5 text-sm font-bold md:h-9"
+                                            >
+                                                已选：{selectedCategory}
+                                                <X className="h-3.5 w-3.5" />
+                                            </FilterChip>
+                                        )}
+                                    </div>
+
+                                    {currentSubCategories.length > 0 && (
+                                        <div className="hidden flex-wrap items-center gap-2 md:flex">
+                                            <span className="mr-1 text-xs font-semibold text-muted-foreground">方向:</span>
+                                            <FilterChip
+                                                onClick={handleRemoveSubCategory}
+                                                active={!selectedSubCategory}
+                                            >
+                                                全部
+                                            </FilterChip>
+                                            {desktopSubCategories.map((subCategory) => (
+                                                <FilterChip
+                                                    key={subCategory}
+                                                    onClick={() => handleSubCategoryClick(subCategory)}
+                                                    active={selectedSubCategory === subCategory}
+                                                >
+                                                    {subCategory}
+                                                </FilterChip>
+                                            ))}
+                                            {hiddenDesktopSubCategoryCount > 0 && (
+                                                <FilterChip
+                                                    onClick={() => setShowDesktopFilters(true)}
+                                                    active
+                                                >
+                                                    +{hiddenDesktopSubCategoryCount}
+                                                </FilterChip>
+                                            )}
+                                        </div>
                                     )}
-                                >
-                                    {category}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
 
-                    {/* 筛选按钮 */}
-                    <button
-                        type="button"
-                        onClick={openSheet}
-                        className={cn(
-                            "relative inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border/70 bg-background/82 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur-sm transition-colors",
-                            hasActiveAdvancedFilters
-                                ? "border-primary/35 bg-primary/10 text-primary"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                        )}
-                    >
-                        <SlidersHorizontal className="h-3.5 w-3.5" />
-                        <span className="hidden sm:inline">筛选</span>
-                        {advancedFilterCount > 0 && (
-                            <span className="inline-flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
-                                {advancedFilterCount}
-                            </span>
-                        )}
-                    </button>
+                                    <div className="hidden flex-wrap items-center gap-2 md:flex">
+                                        <span className="mr-1 text-xs font-semibold text-muted-foreground">难度:</span>
+                                        {DIFFICULTY_OPTIONS.map((option) => (
+                                            <FilterChip
+                                                key={option.value}
+                                                onClick={() => handleDifficultyClick(option.value)}
+                                                active={selectedDifficulty === option.value}
+                                            >
+                                                {option.label}
+                                            </FilterChip>
+                                        ))}
+                                    </div>
+
+                                    {(showDesktopFilters || selectedTags.length > 0) && desktopTags.length > 0 && (
+                                        <div className="hidden flex-wrap items-center gap-2 md:flex">
+                                            <span className="mr-1 text-xs font-semibold text-muted-foreground">标签:</span>
+                                            {desktopTags.map((tag) => (
+                                                <FilterChip
+                                                    key={tag}
+                                                    onClick={() => handleTagClick(tag)}
+                                                    active={selectedTags.includes(tag)}
+                                                >
+                                                    {tag}
+                                                </FilterChip>
+                                            ))}
+                                            {hiddenDesktopTagCount > 0 && (
+                                                <FilterChip
+                                                    onClick={() => setShowDesktopFilters(true)}
+                                                    active
+                                                >
+                                                    +{hiddenDesktopTagCount}
+                                                </FilterChip>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    <div className="hidden flex-wrap items-center justify-between gap-3 md:flex">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            {hasAnyActiveFilters ? (
+                                                <>
+                                                    <span className="text-xs font-semibold text-muted-foreground">已选条件:</span>
+                                                    {selectedCategory !== "全部" && (
+                                                        <FilterChip
+                                                            onClick={() => handleCategoryClick("全部")}
+                                                            active
+                                                            shape="pill"
+                                                        >
+                                                            {selectedCategory}
+                                                            <X className="h-3 w-3" />
+                                                        </FilterChip>
+                                                    )}
+                                                    {searchQuery && (
+                                                        <span className="filter-chip-base filter-chip-active rounded-full px-3 py-1 text-xs">
+                                                            {searchQuery}
+                                                        </span>
+                                                    )}
+                                                    {selectedSubCategory && (
+                                                        <FilterChip
+                                                            onClick={handleRemoveSubCategory}
+                                                            active
+                                                            shape="pill"
+                                                        >
+                                                            {selectedSubCategory}
+                                                            <X className="h-3 w-3" />
+                                                        </FilterChip>
+                                                    )}
+                                                    {selectedDifficulty !== "all" && (
+                                                        <FilterChip
+                                                            onClick={handleRemoveDifficulty}
+                                                            active
+                                                            shape="pill"
+                                                        >
+                                                            {getDifficultyLabel(selectedDifficulty)}
+                                                            <X className="h-3 w-3" />
+                                                        </FilterChip>
+                                                    )}
+                                                    {selectedTags.map(tag => (
+                                                        <FilterChip
+                                                            key={tag}
+                                                            onClick={() => handleRemoveTag(tag)}
+                                                            active
+                                                            shape="pill"
+                                                        >
+                                                            {tag}
+                                                            <X className="h-3 w-3" />
+                                                        </FilterChip>
+                                                    ))}
+                                                </>
+                                            ) : (
+                                                <span className="hidden text-xs text-muted-foreground md:inline">当前按「{selectedSortLabel}」展示所有项目</span>
+                                            )}
+                                        </div>
+
+                                        <div className="hidden items-center gap-3 md:flex">
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowDesktopFilters((value) => !value)}
+                                                className="text-xs font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline"
+                                            >
+                                                {showDesktopFilters ? '收起条件' : '更多条件'}
+                                            </button>
+                                            {hasAnyActiveFilters && (
+                                                <button
+                                                    type="button"
+                                                    onClick={handleClearFilters}
+                                                    className="text-xs font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                                                >
+                                                    清空全部
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-4 md:p-5">
+                                {isFiltering && (
+                                    <div className="mb-4 flex items-center gap-2 rounded-[14px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted))] px-4 py-3 text-sm font-semibold text-muted-foreground">
+                                        <Sparkles className="h-4 w-4 animate-pulse text-[hsl(var(--brand-blue))]" />
+                                        正在更新项目列表...
+                                    </div>
+                                )}
+
+                                <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                                    {projects.map((project, index) => {
+                                        const isPriority = index < 4
+                                        const detailHref = buildProjectDetailHref(project.id, index)
+                                        const card = (
+                                            <ProjectCard
+                                                project={project}
+                                                searchQuery={searchQuery}
+                                                priority={isPriority}
+                                                href={detailHref}
+                                                variant="compact"
+                                            />
+                                        )
+                                        const projectNode = projects.length === index + 1 ? (
+                                            <div ref={lastProjectElementRef}>
+                                                {card}
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                {card}
+                                            </div>
+                                        )
+
+                                        return (
+                                            <Fragment key={project.id}>
+                                                {projectNode}
+                                                {index === 2 && <MobileWeeklyChallengeCard />}
+                                            </Fragment>
+                                        )
+                                    })}
+
+                                    {isLoadingMore && (
+                                        <>
+                                            {[1, 2, 3, 4].map((i) => (
+                                                <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" />
+                                            ))}
+                                        </>
+                                    )}
+                                </div>
+
+                                {!isLoadingMore && !isFiltering && projects.length === 0 && (
+                                    <div className="mt-8 flex flex-col items-center justify-center rounded-[18px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
+                                        <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
+                                            <Search className="h-7 w-7" />
+                                        </div>
+                                        <h3 className="text-lg font-semibold">没有找到相关项目</h3>
+                                        <p className="mt-2 max-w-xs text-sm text-muted-foreground">
+                                            换个关键词、类别或减少筛选条件再试试看。
+                                        </p>
+                                        <Button
+                                            variant="outline"
+                                            onClick={handleClearFilters}
+                                            className="mt-5 rounded-full"
+                                        >
+                                            清除所有筛选
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        </main>
+
+                        <aside className="hidden min-w-0 xl:block">
+                            <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
+                                <Surface className="p-4">
+                                    <div className="mb-3 flex items-center justify-between gap-2">
+                                        <h2 className="text-base font-bold text-foreground">热门标签</h2>
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowDesktopFilters(true)}
+                                            className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-blue))] underline-offset-2 hover:underline"
+                                        >
+                                            查看全部
+                                        </button>
+                                    </div>
+                                    {hotTags.length === 0 ? (
+                                        <p className="text-xs leading-5 text-muted-foreground">
+                                            暂无标签数据（项目通过审核并填写标签后会显示在这里）
+                                        </p>
+                                    ) : (
+                                        <div className="flex flex-wrap gap-2">
+                                            {hotTags.map((tag) => (
+                                                <button
+                                                    key={tag}
+                                                    type="button"
+                                                    onClick={() => handleTagClick(tag)}
+                                                    disabled={isFiltering}
+                                                    className={cn(
+                                                        "rounded-[9px] px-3 py-1.5 text-left text-xs font-semibold transition disabled:opacity-60",
+                                                        selectedTags.includes(tag)
+                                                            ? "filter-chip-active"
+                                                            : "bg-[hsl(var(--surface-muted))] text-muted-foreground hover:bg-[hsl(var(--surface-border))] hover:text-foreground",
+                                                    )}
+                                                >
+                                                    {tag}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </Surface>
+
+                                <Surface className="p-4">
+                                    <div className="mb-3 flex items-center justify-between">
+                                        <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
+                                            <Trophy className="h-[18px] w-[18px] text-[hsl(var(--brand-amber))]" />
+                                            本周挑战
+                                        </h2>
+                                        <span className="text-xs text-muted-foreground">挑战进行中</span>
+                                    </div>
+                                    <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
+                                        <div className="relative overflow-hidden rounded-[10px] bg-gradient-to-br from-[#0b68c9] to-[#9fd4ff]">
+                                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.72),transparent_20%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.34),transparent_24%)]" />
+                                            <div className="relative flex h-full min-h-[92px] items-center justify-center">
+                                                <div className="h-0 w-0 rotate-[-16deg] border-b-[18px] border-l-[52px] border-t-[18px] border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.32)]" />
+                                            </div>
+                                        </div>
+                                        <div className="min-w-0">
+                                            <h3 className="line-clamp-2 text-sm font-bold leading-5 text-foreground">
+                                                纸飞机飞行距离挑战赛
+                                            </h3>
+                                            <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
+                                                设计并制作一架纸飞机，测试飞行距离并分享你的设计思路。
+                                            </p>
+                                            <div className="mt-3 flex items-center justify-between gap-2">
+                                                <span className="text-xs font-semibold text-muted-foreground">1,258 人参与</span>
+                                                <Link href="/community" className="rounded-[10px] bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
+                                                    参与挑战
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Surface>
+
+                                <ExplorationProgressCard />
+
+                                <Surface className="p-4">
+                                    <div className="mb-3 flex items-center justify-between">
+                                        <h2 className="text-base font-bold text-foreground">探索小贴士</h2>
+                                        <Lightbulb className="h-5 w-5 text-[hsl(var(--brand-amber))]" />
+                                    </div>
+                                    <div className="space-y-3 text-xs leading-5 text-muted-foreground">
+                                        <p className="flex gap-2">
+                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
+                                            先从 1星、2星项目开始，循序渐进。
+                                        </p>
+                                        <p className="flex gap-2">
+                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
+                                            查看项目所需材料和安全提示。
+                                        </p>
+                                        <p className="flex gap-2">
+                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
+                                            动手实践后记录并分享你的成果。
+                                        </p>
+                                    </div>
+                                    <Link href="/community" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
+                                        了解更多使用指南 →
+                                    </Link>
+                                </Surface>
+                            </div>
+                        </aside>
+                    </div>
                 </div>
-
-                {/* 已选条件 chips */}
-                {(hasActiveAdvancedFilters || searchQuery) && (
-                    <div className="no-scrollbar mt-2.5 flex items-center gap-1.5 overflow-x-auto">
-                        <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/75">
-                            已选
-                        </span>
-
-                        {searchQuery && (
-                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary">
-                                搜索: {searchQuery}
-                            </span>
-                        )}
-
-                        {selectedSubCategory && (
-                            <button
-                                onClick={handleRemoveSubCategory}
-                                className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/15"
-                            >
-                                {selectedSubCategory}
-                                <X className="h-3 w-3" />
-                            </button>
-                        )}
-
-                        {selectedDifficulty !== "all" && (
-                            <button
-                                onClick={handleRemoveDifficulty}
-                                className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/15"
-                            >
-                                {getDifficultyLabel(selectedDifficulty)}
-                                <X className="h-3 w-3" />
-                            </button>
-                        )}
-
-                        {selectedTags.map(tag => (
-                            <button
-                                key={tag}
-                                onClick={() => handleRemoveTag(tag)}
-                                className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/15"
-                            >
-                                {tag}
-                                <X className="h-3 w-3" />
-                            </button>
-                        ))}
-
-                        <button
-                            onClick={handleClearFilters}
-                            className="shrink-0 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-                        >
-                            清除
-                        </button>
-                    </div>
-                )}
             </div>
 
             {/* 筛选 Bottom Sheet */}
@@ -581,18 +1199,18 @@ export function ExploreClient({
                             <div className="space-y-3">
                                 <span className="text-sm font-medium">子分类</span>
                                 <div className="flex flex-wrap gap-2">
-                                    {sheetSubCategories.map((sub) => (
-                                        <button
-                                            key={sub}
-                                            onClick={() => handleDraftSubCategoryClick(sub)}
-                                            className={cn(
-                                                "rounded-full border border-border/70 bg-background/80 px-3.5 py-2 text-sm font-medium transition-all duration-200 hover:border-primary/40 hover:bg-primary/5",
-                                                draftSubCategory === sub && "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary"
-                                            )}
-                                        >
-                                            {sub}
-                                        </button>
-                                    ))}
+	                                    {sheetSubCategories.map((sub) => (
+	                                        <FilterChip
+	                                            key={sub}
+	                                            onClick={() => handleDraftSubCategoryClick(sub)}
+	                                            active={draftSubCategory === sub}
+	                                            shape="pill"
+	                                            size="md"
+	                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+	                                        >
+	                                            {sub}
+	                                        </FilterChip>
+	                                    ))}
                                 </div>
                             </div>
                         )}
@@ -600,19 +1218,18 @@ export function ExploreClient({
                         <div className="space-y-3">
                             <span className="text-sm font-medium">难度等级</span>
                             <div className="flex flex-wrap gap-2">
-                                {DIFFICULTY_OPTIONS.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        type="button"
-                                        onClick={() => handleDraftDifficultyClick(option.value)}
-                                        className={cn(
-                                            "rounded-full border border-border/70 bg-background/80 px-3.5 py-2 text-sm font-medium transition-all duration-200 hover:border-primary/40 hover:bg-primary/5",
-                                            draftDifficulty === option.value && "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary"
-                                        )}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
+	                                {DIFFICULTY_OPTIONS.map((option) => (
+	                                    <FilterChip
+	                                        key={option.value}
+	                                        onClick={() => handleDraftDifficultyClick(option.value)}
+	                                        active={draftDifficulty === option.value}
+	                                        shape="pill"
+	                                        size="md"
+	                                        className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+	                                    >
+	                                        {option.label}
+	                                    </FilterChip>
+	                                ))}
                             </div>
                         </div>
 
@@ -631,19 +1248,18 @@ export function ExploreClient({
                                 </div>
 
                                 <div className="flex flex-wrap gap-2">
-                                    {visibleDraftTags.map((tag) => (
-                                        <button
-                                            key={tag}
-                                            type="button"
-                                            onClick={() => handleDraftTagClick(tag)}
-                                            className={cn(
-                                                "rounded-full border border-border/70 bg-background/80 px-3.5 py-2 text-sm font-medium transition-all duration-200 hover:border-primary/40 hover:bg-primary/5",
-                                                draftTags.includes(tag) && "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary"
-                                            )}
-                                        >
-                                            {tag}
-                                        </button>
-                                    ))}
+	                                    {visibleDraftTags.map((tag) => (
+	                                        <FilterChip
+	                                            key={tag}
+	                                            onClick={() => handleDraftTagClick(tag)}
+	                                            active={draftTags.includes(tag)}
+	                                            shape="pill"
+	                                            size="md"
+	                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+	                                        >
+	                                            {tag}
+	                                        </FilterChip>
+	                                    ))}
                                 </div>
 
                                 {hiddenTagCount > 0 && (
@@ -686,61 +1302,6 @@ export function ExploreClient({
                     </div>
                 </SheetContent>
             </Sheet>
-
-            {/* 项目网格 */}
-            <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project, index) => {
-                    const isPriority = index < 2
-                    const detailHref = buildProjectDetailHref(project.id, index)
-                    if (projects.length === index + 1) {
-                        return (
-                            <div ref={lastProjectElementRef} key={project.id}>
-                                <ProjectCard
-                                    project={project}
-                                    searchQuery={searchQuery}
-                                    priority={isPriority}
-                                    href={detailHref}
-                                />
-                            </div>
-                        )
-                    } else {
-                        return (
-                            <ProjectCard
-                                key={project.id}
-                                project={project}
-                                searchQuery={searchQuery}
-                                priority={isPriority}
-                                href={detailHref}
-                            />
-                        )
-                    }
-                })}
-
-                {isLoadingMore && (
-                    <>
-                        {[1, 2, 3].map((i) => (
-                            <ProjectCardSkeleton key={`skeleton-${i}`} />
-                        ))}
-                    </>
-                )}
-            </div>
-
-            {!isLoadingMore && !isFiltering && projects.length === 0 && (
-                <div className="mt-12 flex flex-col items-center justify-center py-16 text-center">
-                    <div className="mb-4 text-5xl">🔍</div>
-                    <h3 className="text-lg font-semibold">没有找到相关项目</h3>
-                    <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-                        换个关键词或者类别试试看？
-                    </p>
-                    <Button
-                        variant="outline"
-                        onClick={handleClearFilters}
-                        className="mt-5 rounded-full"
-                    >
-                        清除所有筛选
-                    </Button>
-                </div>
-            )}
         </div>
     )
 }

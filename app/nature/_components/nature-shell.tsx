@@ -11,6 +11,7 @@ interface NatureShellProps {
   children: ReactNode;
   aside?: ReactNode;
   className?: string;
+  contentClassName?: string;
   mainClassName?: string;
 }
 
@@ -22,6 +23,7 @@ export function NatureShell({
   children,
   aside,
   className,
+  contentClassName,
   mainClassName,
 }: NatureShellProps) {
   return (
@@ -30,7 +32,7 @@ export function NatureShell({
         <MobilePageHeader title={title} fallbackHref={fallbackHref} />
       </div>
 
-      <div className="page-shell flex-1 pt-6 md:pt-8">
+      <div className={cn("page-shell flex-1 pt-6 md:pt-8", contentClassName)}>
         <div className="hidden md:block">
           <p className="section-kicker">{kicker}</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight">{title}</h1>

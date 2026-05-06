@@ -23,6 +23,7 @@ import { Suspense } from "react";
 import { getDisplayName } from "@/lib/utils/user";
 import { logger } from "@/lib/logger";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { cn } from "@/lib/utils";
 
 const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 
@@ -157,7 +158,7 @@ function ShareForm() {
                             iterations: (proj.iterations as IterationFormData[]) || [],
                         }));
                         // Use editId-like behavior for existing submission
-                        router.replace(`/share?edit=${existing.id}&challenge=${challengeParam}`);
+                        router.replace(`/project?edit=${existing.id}&challenge=${challengeParam}`);
                         toast({ title: "已加载你之前的作品", description: "你可以继续改进" });
                     }
                 }
@@ -388,7 +389,6 @@ function ShareForm() {
                 sub_category: formData.subCategory,
                 difficulty: defaultDifficulty,
                 difficulty_stars: defaultStars,
-                duration: 60,
                 likes: 0,
                 description: firstStepDescription.length > 100
                     ? `${firstStepDescription.slice(0, 100)}...`
@@ -456,6 +456,16 @@ function ShareForm() {
         }
     };
 
+    const completedSteps = formData.steps.filter((step) => step.description.trim()).length;
+    const completionChecks = [
+        { label: "项目标题", done: Boolean(formData.title.trim()) },
+        { label: "项目分类", done: Boolean(formData.category) },
+        { label: "制作步骤", done: completedSteps > 0 },
+        { label: "材料清单", done: Boolean(formData.materials.trim()) },
+        { label: "封面图片", done: Boolean(formData.coverImage) },
+    ];
+    const requiredDoneCount = completionChecks.filter((item) => item.done).length;
+
     // 未登录时不显示内容(将重定向)
     if (!user) {
         return null;
@@ -476,7 +486,8 @@ function ShareForm() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+                    <div className="min-w-0 space-y-6">
 
                     {/* 挑战关联横幅 */}
                     {challengeInfo && (
@@ -768,8 +779,58 @@ function ShareForm() {
                     </Card>
                 )}
 
+                    </div>
+
+                    <aside className="hidden lg:block">
+                        <div className="sticky top-24 space-y-4">
+                            <section className="surface-subtle p-4">
+                                <p className="section-kicker">发布检查</p>
+                                <h2 className="mt-3 text-lg font-semibold tracking-tight">提交前确认</h2>
+                                <div className="mt-4 space-y-2">
+                                    {completionChecks.map((item) => (
+                                        <div key={item.label} className="flex items-center justify-between rounded-2xl bg-background/72 px-3 py-2.5 text-sm">
+                                            <span className="text-muted-foreground">{item.label}</span>
+                                            <span className={cn(
+                                                "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium",
+                                                item.done ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground",
+                                            )}>
+                                                <CheckCircle2 className="h-3.5 w-3.5" />
+                                                {item.done ? "完成" : "待补充"}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            <section className="surface-subtle overflow-hidden">
+                                <div className="border-b border-border/60 px-4 py-4">
+                                    <p className="text-sm font-semibold tracking-tight">项目预览</p>
+                                    <p className="mt-1 text-xs text-muted-foreground">{requiredDoneCount}/5 项信息已完善</p>
+                                </div>
+                                <div className="p-4">
+                                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted/50">
+                                        {formData.coverImage ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img src={formData.coverImage} alt="" className="h-full w-full object-cover" />
+                                        ) : (
+                                            <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+                                                默认使用 {formData.category} 主题图
+                                            </div>
+                                        )}
+                                    </div>
+                                    <h3 className="mt-3 line-clamp-2 text-base font-semibold tracking-tight">
+                                        {formData.title.trim() || "未命名项目"}
+                                    </h3>
+                                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                                        {formData.steps.find((step) => step.description.trim())?.description || "补充第一个制作步骤后，这里会生成项目摘要。"}
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+                    </aside>
+
                 {/* 操作按钮 */}
-                <div className="flex flex-col gap-3 border-t border-border/60 pt-2 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:pt-0">
+                <div className="sticky bottom-0 z-20 -mx-3 flex flex-col gap-3 border-t border-border/60 bg-background/92 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0 lg:col-span-2">
                     <Button
                         type="button"
                         variant="outline"
@@ -801,10 +862,14 @@ function ShareForm() {
     );
 }
 
-export default function SharePage() {
+export function ProjectPublishPage() {
     return (
-        <Suspense fallback={<div className="page-shell py-8 text-center text-muted-foreground">Loading...</div>}>
+        <Suspense fallback={<div className="page-shell py-8 text-center text-muted-foreground">加载中...</div>}>
             <ShareForm />
         </Suspense>
     );
+}
+
+export default function SharePage() {
+    return <ProjectPublishPage />
 }

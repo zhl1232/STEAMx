@@ -68,6 +68,7 @@ describe('GET /api/discussions', () => {
           tags: ['科学'],
         }),
       ],
+      total: 1,
       hasMore: false,
     })
   })

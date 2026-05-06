@@ -269,8 +269,8 @@ export default function GameOfLifePage() {
     }, [status, start, pause, step, randomize, clear])
 
     return (
-        <div className="flex flex-col xl:flex-row h-full" onMouseUp={endPaint} onMouseLeave={endPaint}>
-            <div className="flex-1 p-2 sm:p-6 xl:p-10 flex flex-col items-center xl:justify-center w-full min-w-0 relative">
+        <div className="playground-game-page" onMouseUp={endPaint} onMouseLeave={endPaint}>
+            <div className="playground-game-main relative xl:justify-center">
                 {/* Header */}
                 <div className="w-full max-w-5xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">
@@ -394,7 +394,7 @@ export default function GameOfLifePage() {
                 {/* Canvas Grid */}
                 <div
                     ref={containerRef}
-                    className="w-full max-w-5xl rounded-2xl border border-border bg-card/60 backdrop-blur-xl p-1 sm:p-2 shadow-inner"
+                    className="w-full max-w-5xl rounded-[20px] border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-1 sm:p-2 shadow-inner"
                 >
                     <canvas
                         ref={canvasRef}

@@ -46,7 +46,6 @@ describe('GET /api/admin/projects/[id]', () => {
         image_url: '/uploads/project.png',
         status: 'approved',
         created_at: '2026-04-20T09:00:00.000Z',
-        duration: 90,
         difficulty_stars: 4,
         profiles: {
           username: 'alice',
@@ -85,7 +84,6 @@ describe('GET /api/admin/projects/[id]', () => {
         image_url: '/uploads/project.png',
         status: 'approved',
         created_at: '2026-04-20T09:00:00.000Z',
-        duration: 90,
         difficulty_stars: 4,
         profiles: {
           username: 'alice',
@@ -166,7 +164,6 @@ describe('PATCH /api/admin/projects/[id]', () => {
         description: '',
         category: '错误分类',
         difficulty_stars: 0,
-        duration: -1,
         project_steps: [],
         project_materials: [],
       }),
@@ -196,7 +193,6 @@ describe('PATCH /api/admin/projects/[id]', () => {
         sub_category_id: null,
         difficulty_stars: 3,
         image_url: '/uploads/project.png',
-        duration: 60,
         project_steps: [{ title: '步骤一', description: '说明', image_url: null }],
         project_materials: [{ material: '纸板' }],
       }),
@@ -226,7 +222,6 @@ describe('PATCH /api/admin/projects/[id]', () => {
         sub_category_id: 12,
         difficulty_stars: 4,
         image_url: '/uploads/project.png',
-        duration: 90,
         status: 'approved',
         steam_weights: { S: 20, T: 20, E: 20, A: 20, M: 20 },
         project_steps: [{ title: '步骤一', description: '说明', image_url: null }],
@@ -248,7 +243,6 @@ describe('PATCH /api/admin/projects/[id]', () => {
       p_sub_category_id: 12,
       p_difficulty_stars: 4,
       p_image_url: '/uploads/project.png',
-      p_duration: 90,
       p_steam_weights: { S: 20, T: 20, E: 20, A: 20, M: 20 },
       p_steps: [{ title: '步骤一', description: '说明', image_url: null }],
       p_materials: [

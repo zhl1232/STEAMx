@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Eye } from 'lucide-react'
+import { CheckCircle2, Clock3, Eye, XCircle } from 'lucide-react'
 
 // 定义与 page.tsx 对应的接口
 interface Project {
@@ -163,20 +163,22 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
     }
 
     return (
-      <div className={`flex gap-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
+      <div className={`grid gap-2 sm:grid-cols-2 ${inDialog ? 'mt-6 border-t border-border/70 pt-4' : 'mt-4'}`}>
         <Button
           onClick={handleApprove}
           disabled={isReviewing}
-          className="flex-1 rounded-full bg-green-600 hover:bg-green-700"
+          className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400"
         >
+          <CheckCircle2 className="mr-2 h-4 w-4" />
           批准上线
         </Button>
         <Button
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
           variant="destructive"
-          className="flex-1 rounded-full"
+          className="rounded-full"
         >
+          <XCircle className="mr-2 h-4 w-4" />
           拒绝发布
         </Button>
       </div>
@@ -185,22 +187,37 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
 
   return (
     <>
-      <Card className="surface-subtle shadow-none">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <CardTitle className="text-xl mb-1">{project.title}</CardTitle>
-              <CardDescription>
-                由 {project.profiles.display_name || project.profiles.username} 提交
+      <Card className="surface-subtle overflow-hidden rounded-[24px] border border-border/70 bg-background/74 shadow-none">
+        <CardHeader className="pb-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                  {project.category}
+                </Badge>
+                <Badge variant="secondary" className="rounded-[10px] bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                  待审核
+                </Badge>
+              </div>
+              <CardTitle className="line-clamp-2 text-xl leading-snug">{project.title}</CardTitle>
+              <CardDescription className="mt-2 flex flex-wrap items-center gap-2">
+                <span>由 {project.profiles.display_name || project.profiles.username} 提交</span>
+                <span className="hidden sm:inline">·</span>
+                <span className="inline-flex items-center gap-1">
+                  <Clock3 className="h-3.5 w-3.5" />
+                  {new Date(project.created_at).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                </span>
               </CardDescription>
             </div>
-            <Badge>{project.category}</Badge>
+            <div className="shrink-0 rounded-2xl border border-green-200 bg-green-50 px-3 py-2 text-sm font-semibold text-green-700 dark:border-green-400/20 dark:bg-green-400/10 dark:text-green-300">
+              低风险
+            </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 mb-4">
-            {project.image_url && (
-              <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl border border-border/70">
+          <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
+            <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
+              {project.image_url ? (
                 <OptimizedImage
                   src={project.image_url}
                   alt={project.title}
@@ -208,21 +225,29 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                   variant="thumbnail"
                   className="object-cover"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+                  无封面图
+                </div>
+              )}
+            </div>
             <div className="flex-1 space-y-2">
               <p className="text-sm text-muted-foreground line-clamp-3">{project.description}</p>
-              <div className="flex gap-2 text-xs text-muted-foreground">
+              <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                <Badge variant="outline">项目 ID：{project.id}</Badge>
                 <Badge variant="outline">{project.difficulty}</Badge>
                 {project.sub_category && <Badge variant="outline">{project.sub_category}</Badge>}
+                <Badge variant="outline">{project.project_steps?.length || 0} 步</Badge>
+                <Badge variant="outline">{project.project_materials?.length || 0} 项材料</Badge>
               </div>
             </div>
           </div>
 
           <div className="border-t border-border/70 pt-4">
+            {renderActions()}
             <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full gap-2 rounded-2xl">
+                <Button variant="outline" className="mt-2 w-full gap-2 rounded-2xl sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整详情与审核
                 </Button>
               </DialogTrigger>

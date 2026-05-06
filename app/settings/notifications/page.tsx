@@ -109,6 +109,8 @@ export default function NotificationsSettingsPage() {
   return (
     <SettingsSubpageShell
       title="消息与通知"
+      kicker="通知规则"
+      description="管理站内提醒的触发范围。系统安全和审核结果会继续保留，避免错过关键状态。"
     >
       {isLoading ? (
         <div className="surface-subtle flex min-h-56 items-center justify-center">
@@ -125,6 +127,8 @@ export default function NotificationsSettingsPage() {
                 type="button"
                 onClick={item.action}
                 disabled={!isActionable || isSaving}
+                role={isActionable ? "switch" : undefined}
+                aria-checked={isActionable ? item.active : undefined}
                 className={cn(
                   "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform",
                   isActionable ? "hover:-translate-y-0.5" : "cursor-default",
@@ -140,16 +144,26 @@ export default function NotificationsSettingsPage() {
                     <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
                   </div>
                 </div>
-                <span
-                  className={cn(
-                    "inline-flex shrink-0 rounded-full border px-3 py-1 text-xs font-medium",
-                    item.active
-                      ? "border-primary/25 bg-primary/10 text-primary"
-                      : "border-border/80 bg-background/80 text-muted-foreground",
-                  )}
-                >
-                  {item.value}
-                </span>
+                {isActionable ? (
+                  <span
+                    className={cn(
+                      "relative inline-flex h-7 w-12 shrink-0 rounded-full border transition-colors",
+                      item.active ? "border-primary bg-primary/90" : "border-border/80 bg-muted",
+                    )}
+                    aria-hidden
+                  >
+                    <span
+                      className={cn(
+                        "absolute top-1 h-5 w-5 rounded-full bg-background shadow-sm transition-transform",
+                        item.active ? "translate-x-6" : "translate-x-1",
+                      )}
+                    />
+                  </span>
+                ) : (
+                  <span className="inline-flex shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                    {item.value}
+                  </span>
+                )}
               </button>
             );
           })}

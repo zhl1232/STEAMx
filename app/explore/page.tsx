@@ -9,7 +9,13 @@ interface ExplorePageProps {
     difficulty?: string
     tags?: string
     page?: string
+    sortBy?: string | string[]
   }>
+}
+
+function firstParam(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0]
+  return value
 }
 
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
@@ -24,10 +30,11 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     difficulty: params.difficulty as ProjectFilters['difficulty'],
     tags: params.tags?.split(',').filter(Boolean),
   }
+  const sortBy = firstParam(params.sortBy) === 'latest' ? 'latest' : 'popular'
 
-  const [{ categories, availableTags, tagScope }, { projects, hasMore }] = await Promise.all([
+  const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore }] = await Promise.all([
     getExploreFilterOptions(),
-    getProjects(filters, { page: initialPage, pageSize: 12 }),
+    getProjects(filters, { page: initialPage, pageSize: 12, sortBy }),
   ])
 
   return (
@@ -37,6 +44,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       initialPage={initialPage}
       categories={categories}
       availableTags={availableTags}
+      popularTags={popularTags}
       tagScope={tagScope}
     />
   )

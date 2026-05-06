@@ -69,9 +69,9 @@ export default function SortingPage() {
     const isActive = status === "running" || status === "paused"
 
     return (
-        <div className="flex flex-col xl:flex-row h-full">
+        <div className="playground-game-page">
             {/* Left: main visualization area */}
-            <div className="flex-1 p-2 sm:p-6 xl:p-10 flex flex-col items-center xl:justify-center w-full min-w-0">
+            <div className="playground-game-main xl:justify-center">
                 {/* Header */}
                 <div className="w-full max-w-5xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">
@@ -215,7 +215,7 @@ export default function SortingPage() {
                 </div>
 
                 {/* Bar visualization */}
-                <div className="w-full max-w-5xl rounded-2xl border border-border bg-card/60 backdrop-blur-xl p-2 sm:p-4 shadow-inner">
+                <div className="w-full max-w-5xl rounded-[20px] border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-2 sm:p-4 shadow-inner">
                     <div className="relative h-[300px] sm:h-[400px] flex items-end gap-px bg-muted/20 rounded-xl overflow-hidden px-1 pb-1">
                         {bars.map((bar, i) => (
                             <div

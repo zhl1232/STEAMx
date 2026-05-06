@@ -32,7 +32,6 @@ export type DbProject = {
   created_at: string
   status?: 'draft' | 'pending' | 'approved' | 'rejected'  // 审核状态
   difficulty?: 'easy' | 'medium' | 'hard'  // 难度
-  duration?: number  // 时长
   tags?: string[]  // 标签
   profiles?: {
     display_name?: string
@@ -82,7 +81,6 @@ export function mapProject(p: DbProject, authorName?: string): Project {
     description: p.description || '',
     status: p.status,  // 审核状态
     difficulty: p.difficulty,  // 难度
-    duration: p.duration,  // 时长
     tags: normalizeTagList(p.tags)  // 标签
   }
 }

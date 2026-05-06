@@ -43,20 +43,15 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
 
   return (
     <div className="page-shell pb-24 pt-0 md:pb-10 md:pt-6">
-      <div className="md:hidden">
-        <div className="sticky top-0 z-30 bg-background/92 backdrop-blur-md">
-          <MobilePageHeader
-            title={species.commonName}
-            fallbackHref={fallbackHref}
-            sticky={false}
-            className="border-none bg-transparent shadow-none"
-          />
-        </div>
-      </div>
+      <MobilePageHeader
+        title={species.commonName}
+        fallbackHref={fallbackHref}
+        className="-mx-4 mb-4 md:hidden"
+      />
 
       <section className="surface-panel overflow-hidden">
         <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-          <div className="relative overflow-hidden rounded-[28px] border border-border/70 bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_bottom_left,_rgba(56,189,248,0.1),_transparent_45%),linear-gradient(160deg,_rgba(255,255,255,0.9),_rgba(248,250,252,0.78))] p-5 dark:bg-[radial-gradient(circle_at_top_right,_rgba(74,222,128,0.16),_transparent_38%),radial-gradient(circle_at_bottom_left,_rgba(56,189,248,0.14),_transparent_42%),linear-gradient(160deg,_rgba(12,18,24,0.92),_rgba(8,14,20,0.88))] sm:p-6">
+          <div className="surface-subtle p-5 sm:p-6">
             <div className="flex flex-col gap-6 md:flex-row md:items-start">
               <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-[24px] border border-border/70 shadow-sm md:h-48 md:w-48 md:max-w-none">
                 {species.coverImageUrl ? (
@@ -105,7 +100,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
                 </div>
 
                 {species.taxonGroup ? (
-                  <div className="space-y-2 rounded-2xl border border-border/80 bg-background/80 p-3 text-sm text-muted-foreground shadow-sm">
+                  <div className="rounded-2xl border border-border/80 bg-background/80 p-3 text-sm text-muted-foreground">
                     <div className="font-medium text-foreground">{species.taxonGroup}</div>
                     {taxonGroupPinyin ? <div className="text-xs text-primary/75">{taxonGroupPinyin}</div> : null}
                     {(family || genus) ? (

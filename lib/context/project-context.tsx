@@ -39,6 +39,8 @@ type ProjectContextType = {
   collectedProjects: Set<number>;
   /** 自页面加载以来点赞数的变化量，用于详情页/卡片等显示实时点赞数 */
   getLikesDelta: (projectId: string | number) => number;
+  /** 自页面加载以来收藏数的变化量，用于详情页多处收藏入口保持数字一致 */
+  getCollectionsDelta: (projectId: string | number) => number;
   /** 拿到服务端最新 likes 后调用，避免与 delta 重复计算导致多算一次 */
   clearLikesDelta: (projectId: string | number) => void;
   clearLikesDeltaForProjects: (projectIds: (string | number)[]) => void;
@@ -67,6 +69,7 @@ const EMPTY_PROJECT_CONTEXT: ProjectContextType = {
   completedProjects: new Set(),
   collectedProjects: new Set(),
   getLikesDelta: () => 0,
+  getCollectionsDelta: () => 0,
   clearLikesDelta: () => {},
   clearLikesDeltaForProjects: () => {},
   addProject: async () => {},
@@ -98,6 +101,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [collectedProjects, setCollectedProjects] = useState<Set<number>>(new Set());
   /** 项目点赞数相对服务端初始值的增量（key: projectId），用于详情页等未在 projects 列表中的项目也能实时更新数字 */
   const [projectLikesDelta, setProjectLikesDelta] = useState<Record<string, number>>({});
+  const [projectCollectionsDelta, setProjectCollectionsDelta] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
 
   const [supabase] = useState<SupabaseClient<Database>>(() => createClient());
@@ -166,6 +170,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     setCompletedProjects(new Set());
     setCollectedProjects(new Set());
     setProjectLikesDelta({});
+    setProjectCollectionsDelta({});
     setIsLoading(false);
   }, [user?.id, fetchUserInteractions]);
 
@@ -292,7 +297,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         sub_category: project.sub_category ?? null,
         difficulty: project.difficulty,
         difficulty_stars: project.difficulty_stars ?? 1,
-        duration: project.duration ?? 60,
         status: project.status || "pending",
         image_url: project.image || null,
         challenge_id: project.challenge_id ?? null,
@@ -413,7 +417,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           sub_category: project.sub_category ?? null,
           difficulty: project.difficulty,
           difficulty_stars: project.difficulty_stars ?? 1,
-          duration: project.duration ?? 60,
           image_url: project.image || null,
           reflection: project.reflection || null,
           problem_statement: project.problem_statement || null,
@@ -665,6 +668,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         collectedProjectsRef.current = newSet;
         return newSet;
       });
+      const delta = isCollected ? -1 : 1;
+      setProjectCollectionsDelta((prev) => ({
+        ...prev,
+        [String(projectId)]: (prev[String(projectId)] ?? 0) + delta,
+      }));
 
       try {
         if (isCollected) {
@@ -688,6 +696,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           collectedProjectsRef.current = newSet;
           return newSet;
         });
+        setProjectCollectionsDelta((prev) => ({
+          ...prev,
+          [String(projectId)]: (prev[String(projectId)] ?? 0) - delta,
+        }));
         logger.error(error, { context: "Error toggling collection" });
         toast({
           title: "收藏失败",
@@ -825,6 +837,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     (projectId: string | number) => projectLikesDelta[String(projectId)] ?? 0,
     [projectLikesDelta],
   );
+  const getCollectionsDelta = useCallback(
+    (projectId: string | number) => projectCollectionsDelta[String(projectId)] ?? 0,
+    [projectCollectionsDelta],
+  );
   const clearLikesDelta = useCallback((projectId: string | number) => {
     setProjectLikesDelta((prev) => {
       const next = { ...prev };
@@ -907,6 +923,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       completedProjects,
       collectedProjects,
       getLikesDelta,
+      getCollectionsDelta,
       clearLikesDelta,
       clearLikesDeltaForProjects,
       addProject,
@@ -928,6 +945,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       completedProjects,
       collectedProjects,
       getLikesDelta,
+      getCollectionsDelta,
       clearLikesDelta,
       clearLikesDeltaForProjects,
       addProject,
