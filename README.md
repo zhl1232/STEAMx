@@ -216,7 +216,6 @@ Husky 会在提交时自动检查提交信息格式。
 ## 📚 相关文档
 
 - [docs/database-psql.md](./docs/database-psql.md) - psql 迁移与重置说明
-- [docs/archive/AUTH_USER_GUIDE.md](./docs/archive/AUTH_USER_GUIDE.md) - 认证历史说明
 
 ## 🤝 贡献
 
