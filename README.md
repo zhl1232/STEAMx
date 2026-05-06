@@ -205,7 +205,7 @@ Husky 会在提交时自动检查提交信息格式。
 
 ## 🚧 开发路线图
 
-查看 [NEXT_STEPS.md](./NEXT_STEPS.md) 了解后续开发计划。
+查看 [docs/NEXT_STEPS.md](./docs/NEXT_STEPS.md) 了解后续开发计划。
 
 ## ☁️ 部署
 

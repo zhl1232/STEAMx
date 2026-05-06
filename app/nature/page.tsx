@@ -25,9 +25,6 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { MobileHotspotsCard } from "@/app/nature/_components/mobile-hotspots-card";
-import heroImage from "@/docs/ui-gpt-designs/assets/nature-hero-lakeside-observation.png";
-import lakeImage from "@/docs/ui-gpt-designs/assets/observation-list-reeds-sky-bg.png";
-import speciesImage from "@/docs/ui-gpt-designs/assets/species-archive-blue-tech-bg.png";
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
 import { SteamLogo } from "@/components/layout/logo";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
@@ -39,6 +36,10 @@ import type {
 } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
+
+const heroImage = "/assets/nature-hero-lakeside-observation.png";
+const lakeImage = "/assets/observation-list-reeds-sky-bg.png";
+const speciesImage = "/assets/species-archive-blue-tech-bg.png";
 
 type ImageSource = string | StaticImageData;
 
@@ -636,7 +637,7 @@ export default async function NaturePage() {
       <MobileNatureHeader />
 
       <section className="relative isolate overflow-hidden md:min-h-[430px]">
-        <Image src={heroImage} alt="" fill priority placeholder="blur" className="object-cover object-[center_36%] dark:brightness-75 md:object-center" sizes="100vw" />
+        <Image src={heroImage} alt="" fill priority placeholder="blur" blurDataURL={natureBlurDataUrl} className="object-cover object-[center_36%] dark:brightness-75 md:object-center" sizes="100vw" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[42%] bg-gradient-to-t from-black/[0.62] via-black/[0.18] to-transparent md:h-[48%] md:from-black/[0.52] md:via-black/[0.16]" />
 
         <div className="relative z-10 mx-auto grid max-w-[1840px] gap-8 px-5 pb-16 pt-10 md:px-10 md:py-8 lg:grid-cols-[minmax(0,1fr)_440px] lg:px-12">

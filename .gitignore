@@ -48,3 +48,7 @@ tmp-*.mjs
 docs/project_review_report.md
 docs/project_optimization_diff.md
 docs/online_projects_review.md
+
+# local design references / mockup exports
+docs/ui-gpt-designs/
+docs/ui-design-mockups/

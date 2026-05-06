@@ -1,4 +1,4 @@
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { type ComponentType } from "react";
 import {
@@ -21,9 +21,6 @@ import {
 import { RecommendationPanel } from "@/components/home/recommendation-panel";
 import { Surface } from "@/components/ui/surface";
 import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge";
-import heroImage from "@/docs/ui-gpt-designs/assets/home-hero-steam-lake.png";
-import heroWideImage from "@/docs/ui-gpt-designs/assets/home-hero-steam-lake-banner.webp";
-import natureImage from "@/docs/ui-gpt-designs/assets/home-nature-channel-bird.png";
 import { SteamLogo } from "@/components/layout/logo";
 import { ProjectCard } from "@/components/features/project-card";
 import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
@@ -31,6 +28,10 @@ import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/ho
 import { type HomepageRecommendationMode } from "@/lib/home/recommendations";
 import { type Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
+
+const heroImage = "/assets/home-hero-steam-lake.png";
+const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
+const natureImage = "/assets/home-nature-channel-bird.png";
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -186,7 +187,7 @@ function getShowcaseProjects(projects: Project[]) {
   });
 }
 
-function HomeHero({ image }: { image: StaticImageData }) {
+function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-[18px] md:rounded-[16px]">
       <div className="relative min-h-[236px] md:min-h-[220px]">

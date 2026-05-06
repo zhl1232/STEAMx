@@ -15,8 +15,6 @@ import { SteamLogo } from "@/components/layout/logo";
 import { UserButton } from "@/components/layout/user-button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import type { Challenge } from "@/lib/mappers/types";
-import communityHeroImage from "@/docs/ui-gpt-designs/assets/community-hero-kids-robot.png";
-import natureFeatureImage from "@/docs/ui-gpt-designs/assets/home-nature-channel-bird.png";
 
 import {
     ArrowRight,
@@ -31,6 +29,9 @@ import {
     UsersRound,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const communityHeroImage = "/assets/community-hero-kids-robot.png";
+const natureFeatureImage = "/assets/home-nature-channel-bird.png";
 
 type CommunityTab = "discussions" | "challenges";
 type ChallengeGroups = {
