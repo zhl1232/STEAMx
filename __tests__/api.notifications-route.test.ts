@@ -47,6 +47,49 @@ describe('GET /api/notifications', () => {
         expect(requireRateLimitMock).toHaveBeenCalled()
         expect(from).not.toHaveBeenCalled()
     })
+
+    it('applies the optional limit parameter up to the page-size cap', async () => {
+        const limit = vi.fn().mockResolvedValue({
+            data: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+            error: null,
+        })
+        const order = vi.fn(() => ({ limit }))
+        const eq = vi.fn(() => ({ order }))
+        const select = vi.fn(() => ({ eq }))
+        const from = vi.fn(() => ({ select }))
+
+        createClientMock.mockResolvedValue({ from } as never)
+        requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+
+        const response = await GET(
+            new NextRequest('http://localhost/api/notifications?limit=5'),
+        )
+
+        expect(response.status).toBe(200)
+        expect(limit).toHaveBeenCalledWith(5)
+        await expect(response.json()).resolves.toEqual({
+            notifications: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+            hasMore: true,
+        })
+    })
+
+    it('caps large limit values at 20', async () => {
+        const limit = vi.fn().mockResolvedValue({ data: [], error: null })
+        const order = vi.fn(() => ({ limit }))
+        const eq = vi.fn(() => ({ order }))
+        const select = vi.fn(() => ({ eq }))
+        const from = vi.fn(() => ({ select }))
+
+        createClientMock.mockResolvedValue({ from } as never)
+        requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+
+        const response = await GET(
+            new NextRequest('http://localhost/api/notifications?limit=200'),
+        )
+
+        expect(response.status).toBe(200)
+        expect(limit).toHaveBeenCalledWith(20)
+    })
 })
 
 describe('POST /api/notifications', () => {

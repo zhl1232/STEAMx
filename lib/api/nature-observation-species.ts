@@ -9,6 +9,14 @@ import {
   type Species,
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import {
+  buildSpeciesTopicCounts,
+  getNatureTopicLabel,
+  normalizeSpeciesTopicFilter,
+  resolveSpeciesNatureTopicKey,
+  type SpeciesTopicCount,
+  type SpeciesTopicFilter,
+} from '@/lib/utils/nature-topic-classification'
 
 import type {
   ObservationEventRow,
@@ -19,15 +27,17 @@ import { normalizeSpeciesRow } from './nature-observation-cover-image'
 
 export interface SpeciesListOptions {
   query?: string
+  topic?: SpeciesTopicFilter | string | null
   page?: number
   pageSize?: number
 }
 
 export async function getSpeciesList(
   options: SpeciesListOptions = {},
-): Promise<{ species: Species[]; total: number; hasMore: boolean }> {
+): Promise<{ species: Species[]; total: number; hasMore: boolean; topicCounts: SpeciesTopicCount[] }> {
   const supabase = await createClient()
   const { query, page = 0, pageSize = 12 } = options
+  const topic = normalizeSpeciesTopicFilter(options.topic)
   const sanitizedQuery = sanitizeSearch(query ?? '')
 
   let request = supabase
@@ -46,7 +56,7 @@ export async function getSpeciesList(
 
   if (error) {
     logger.error('Error fetching species list', { error })
-    return { species: [], total: 0, hasMore: false }
+    return { species: [], total: 0, hasMore: false, topicCounts: buildSpeciesTopicCounts([]) }
   }
 
   const rows = (data || []) as SpeciesRow[]
@@ -85,13 +95,26 @@ export async function getSpeciesList(
     }
   }
 
-  const sortedRows = [...rows].sort((left, right) => {
-    const leftObserved = observedSpeciesIds.has(left.id)
-    const rightObserved = observedSpeciesIds.has(right.id)
+  const rowsWithTopic = rows.map((row) => {
+    const topicKey = resolveSpeciesNatureTopicKey(row)
+    return {
+      row,
+      topicKey,
+      topicLabel: getNatureTopicLabel(topicKey),
+    }
+  })
+  const topicCounts = buildSpeciesTopicCounts(rowsWithTopic)
+  const filteredRows = topic === 'all'
+    ? rowsWithTopic
+    : rowsWithTopic.filter((item) => item.topicKey === topic)
+
+  const sortedRows = [...filteredRows].sort((left, right) => {
+    const leftObserved = observedSpeciesIds.has(left.row.id)
+    const rightObserved = observedSpeciesIds.has(right.row.id)
     if (leftObserved !== rightObserved) {
       return leftObserved ? 1 : -1
     }
-    return left.common_name.localeCompare(right.common_name, 'zh-CN')
+    return left.row.common_name.localeCompare(right.row.common_name, 'zh-CN')
   })
 
   const total = sortedRows.length
@@ -100,12 +123,15 @@ export async function getSpeciesList(
   const pagedRows = sortedRows.slice(from, to)
 
   return {
-    species: pagedRows.map((row) => ({
+    species: pagedRows.map(({ row, topicKey, topicLabel }) => ({
       ...mapDbSpecies(normalizeSpeciesRow(row) as never),
+      topicKey,
+      topicLabel,
       observedByCurrentUser: observedSpeciesIds.has(row.id),
     })),
     total,
     hasMore: total > to,
+    topicCounts,
   }
 }
 

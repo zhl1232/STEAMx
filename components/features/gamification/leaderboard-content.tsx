@@ -1,31 +1,33 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
     Award,
-    BookOpenCheck,
     Calendar,
+    CheckCircle2,
     ChevronRight,
-    Flame,
+    Circle,
     Hammer,
+    Loader2,
     LockKeyhole,
     ShieldCheck,
     Star,
-    Target,
-    ThumbsUp,
     Trophy,
     UserRoundPlus,
 } from "lucide-react";
 
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import type { BadgeTier } from "@/lib/gamification/types";
 import { logger } from "@/lib/logger";
+import type { GrowthTaskId, ProfileGrowthTask } from "@/lib/profile/growth-tasks";
 import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
 
@@ -73,14 +75,73 @@ const RANK_STYLES: Record<number, { badge: string; card: string; value: string; 
 };
 
 const PODIUM_ORDER = [2, 1, 3] as const;
+const XP_TIME_RANGE_LABEL: Record<XpTimeRange, string> = { weekly: "本周", monthly: "本月", alltime: "总榜" };
+const GROWTH_TASK_PREVIEW_LIMIT = 3;
+
+const GROWTH_TASK_STATUS_ORDER: Record<ProfileGrowthTask["status"], number> = {
+    claimable: 0,
+    in_progress: 1,
+    claimed: 2,
+};
+
+function getGrowthTaskPreview(tasks: ProfileGrowthTask[]) {
+    return [...tasks]
+        .sort((a, b) => {
+            const statusDiff = GROWTH_TASK_STATUS_ORDER[a.status] - GROWTH_TASK_STATUS_ORDER[b.status];
+            if (statusDiff !== 0) return statusDiff;
+            return b.progress - a.progress;
+        })
+        .slice(0, GROWTH_TASK_PREVIEW_LIMIT);
+}
+
+function LeaderboardGrowthGraduatedCard() {
+    return (
+        <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/90 to-white p-4 dark:border-blue-400/20 dark:from-blue-500/10 dark:to-white/[0.02]">
+            <div className="flex items-start gap-2">
+                <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
+                <div className="min-w-0">
+                    <div className="font-semibold text-slate-900 dark:text-slate-100">成长任务已毕业</div>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                        新手引导全部完成，来挑战下一阶段，把作品带到更大的舞台吧。
+                    </p>
+                    <Link
+                        href="/community?tab=challenges"
+                        className="mt-3 inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-700 dark:text-blue-300"
+                    >
+                        前往挑战中心
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function getValueColumnLabel(tab: LeaderboardType, range: XpTimeRange) {
+    if (tab === "xp") return `${XP_TIME_RANGE_LABEL[range]}经验`;
+    if (tab === "badges") return "徽章数量";
+    return "项目数量";
+}
+
+function getRowHighlights(tab: LeaderboardType, rank: number) {
+    if (tab === "badges") {
+        return rank <= 10 ? ["徽章解锁", "成长成就"] : ["成就积累", "持续成长"];
+    }
+
+    if (tab === "projects") {
+        return rank <= 10 ? ["项目实践", "完成记录"] : ["实践积累", "稳步推进"];
+    }
+
+    return rank <= 10 ? ["经验表现", "持续探索"] : ["持续记录", "稳步成长"];
+}
 
 function getTabConfig(tab: LeaderboardType): LeaderboardConfig {
     switch (tab) {
         case "xp":
             return {
-                label: "积分榜",
+                label: "经验榜",
                 icon: <Star className="h-4 w-4" />,
-                valueLabel: "积分",
+                valueLabel: "经验",
                 description: "按经验值统计持续探索与学习贡献",
             };
         case "badges":
@@ -118,7 +179,7 @@ function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: stri
     }
 
     return [
-        { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", label: "积分先锋" },
+        { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", label: "经验先锋" },
         { icon: "flame", tier: rank === 1 ? "gold" : "silver", label: "持续探索" },
         { icon: "message_circle", tier: rank === 3 ? "bronze" : "silver", label: "社区贡献" },
     ];
@@ -126,7 +187,7 @@ function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: stri
 
 function PodiumBadgeStrip({ tab, rank }: { tab: LeaderboardType; rank: number }) {
     return (
-        <div className="mt-4 flex items-center justify-center gap-3">
+        <div className="mt-4 hidden items-center justify-center gap-3 md:flex">
             {getPodiumBadges(tab, rank).map((badge) => (
                 <div key={`${badge.icon}-${badge.tier}`} className="group relative" title={badge.label}>
                     <BadgeIcon icon={badge.icon} tier={badge.tier} size="md" showGlow />
@@ -141,7 +202,7 @@ function RankBadge({ rank }: { rank: number }) {
         return (
             <span
                 className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br text-sm font-black shadow-lg",
+                    "inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-xs font-black shadow-lg sm:h-9 sm:w-9 sm:text-sm",
                     RANK_STYLES[rank].badge,
                 )}
             >
@@ -151,7 +212,7 @@ function RankBadge({ rank }: { rank: number }) {
     }
 
     return (
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-600 dark:bg-white/[0.08] dark:text-slate-300">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600 dark:bg-white/[0.08] dark:text-slate-300 sm:h-9 sm:w-9 sm:text-sm">
             {rank}
         </span>
     );
@@ -174,7 +235,7 @@ function PodiumCard({
     return (
         <article
             className={cn(
-                "relative flex min-h-[214px] flex-col items-center justify-between overflow-visible rounded-[22px] border px-4 pb-5 pt-9 text-center shadow-[0_26px_56px_-42px_hsl(var(--surface-shadow)/0.58)]",
+                "relative flex min-h-[136px] flex-col items-center justify-between overflow-visible rounded-[18px] border px-1.5 pb-2.5 pt-5 text-center shadow-[0_26px_56px_-42px_hsl(var(--surface-shadow)/0.58)] md:min-h-[214px] md:rounded-[22px] md:px-4 md:pb-5 md:pt-9",
                 style.card,
                 isChampion && "md:-translate-y-4 md:min-h-[232px] md:pb-6 md:pt-10",
                 !user && "border-dashed bg-gradient-to-br from-white via-slate-50 to-blue-50/70 opacity-95 dark:from-white/[0.05] dark:via-white/[0.03] dark:to-blue-400/10",
@@ -183,7 +244,7 @@ function PodiumCard({
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
                 <RankBadge rank={rank} />
             </div>
-            <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/60 blur-2xl dark:bg-white/10" />
+            <div className="pointer-events-none absolute -right-4 -top-8 h-24 w-24 rounded-full bg-white/60 blur-2xl dark:bg-white/10 md:-right-8" />
             <div className="pointer-events-none absolute inset-x-5 bottom-3 h-8 rounded-[999px] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-xl dark:via-white/10" />
 
             {user ? (
@@ -193,44 +254,44 @@ function PodiumCard({
                         fallback={user.name[0] ?? "?"}
                         avatarFrameId={user.avatarFrameId}
                         className={cn(
-                            "h-16 w-16 border-4 border-white shadow-lg dark:border-slate-900",
-                            isChampion && "h-20 w-20",
+                            "h-10 w-10 border-2 border-white shadow-lg dark:border-slate-900 md:h-16 md:w-16 md:border-4",
+                            isChampion && "h-11 w-11 md:h-20 md:w-20",
                         )}
-                        avatarClassName={cn("h-16 w-16", isChampion && "h-20 w-20")}
+                        avatarClassName={cn("h-10 w-10 md:h-16 md:w-16", isChampion && "h-11 w-11 md:h-20 md:w-20")}
                     />
 
-                    <div className="mt-4 min-w-0">
-                        <div className={cn("truncate text-base font-bold text-slate-950 dark:text-slate-50", getNameColorClassName(user.nameColorId ?? null))}>
+                    <div className="mt-2 min-w-0 md:mt-4">
+                        <div className={cn("truncate text-xs font-bold text-slate-950 dark:text-slate-50 md:text-base", getNameColorClassName(user.nameColorId ?? null))}>
                             {user.name}
                         </div>
-                        <div className="mt-2 inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 dark:bg-blue-400/10 dark:text-blue-300">
+                        <div className="mt-1 inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-400/10 dark:text-blue-300 md:mt-2 md:px-2.5 md:py-1 md:text-xs">
                             Lv.{user.level}
                         </div>
                     </div>
 
-                    <div className={cn("mt-4 text-2xl font-black tabular-nums", style.value)}>
+                    <div className={cn("mt-2 text-base font-black leading-none tabular-nums md:mt-4 md:text-2xl", style.value)}>
                         {user.value.toLocaleString()}
-                        <span className="ml-1 text-sm font-semibold">{valueLabel}</span>
+                        <span className="ml-0 block text-[10px] font-semibold leading-4 md:ml-1 md:inline md:text-sm">{valueLabel}</span>
                     </div>
 
                     <PodiumBadgeStrip tab={currentTab} rank={rank} />
                 </>
             ) : (
                 <>
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-blue-200 bg-white/80 text-blue-500 shadow-sm dark:border-blue-300/25 dark:bg-white/[0.06] dark:text-blue-300">
-                        {rank === 1 ? <Trophy className="h-7 w-7" /> : <UserRoundPlus className="h-7 w-7" />}
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-dashed border-blue-200 bg-white/80 text-blue-500 shadow-sm dark:border-blue-300/25 dark:bg-white/[0.06] dark:text-blue-300 md:h-16 md:w-16">
+                        {rank === 1 ? <Trophy className="h-5 w-5 md:h-7 md:w-7" /> : <UserRoundPlus className="h-5 w-5 md:h-7 md:w-7" />}
                     </div>
-                    <div className="mt-4">
-                        <div className="text-base font-black text-slate-700 dark:text-slate-200">虚位以待</div>
-                        <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-border/70 dark:bg-white/[0.05]">
+                    <div className="mt-2 md:mt-4">
+                        <div className="text-xs font-black text-slate-700 dark:text-slate-200 md:text-base">虚位以待</div>
+                        <div className="mt-2 hidden items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-border/70 dark:bg-white/[0.05] md:inline-flex">
                             <LockKeyhole className="h-3.5 w-3.5" />
                             第 {rank} 名席位
                         </div>
                     </div>
-                    <p className="mt-4 max-w-[13rem] text-sm leading-6 text-muted-foreground">
+                    <p className="mt-4 hidden max-w-[13rem] text-sm leading-6 text-muted-foreground md:block">
                         完成记录、挑战或互动后，就能登上这里。
                     </p>
-                    <div className="mt-4 h-12 w-full max-w-[9rem] rounded-t-[18px] border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10" />
+                    <div className="mt-4 hidden h-12 w-full max-w-[9rem] rounded-t-[18px] border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10 md:block" />
                 </>
             )}
         </article>
@@ -239,9 +300,9 @@ function PodiumCard({
 
 function PodiumSkeleton() {
     return (
-        <div className="grid gap-4 md:grid-cols-3 md:items-end">
+        <div className="grid grid-cols-3 gap-2 md:gap-4 md:items-end">
             {[1, 2, 3].map((item) => (
-                <div key={item} className="h-[190px] animate-pulse rounded-[22px] border border-border/60 bg-muted/50" />
+                <div key={item} className="h-[126px] animate-pulse rounded-[18px] border border-border/60 bg-muted/50 md:h-[190px] md:rounded-[22px]" />
             ))}
         </div>
     );
@@ -251,15 +312,19 @@ function LeaderboardRow({
     user,
     rank,
     valueLabel,
+    currentTab,
 }: {
     user: LeaderboardUser;
     rank: number;
     valueLabel: string;
+    currentTab: LeaderboardType;
 }) {
+    const highlights = getRowHighlights(currentTab, rank);
+
     return (
         <div
             className={cn(
-                "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/50 px-4 py-3.5 transition-colors last:border-b-0 hover:bg-blue-50/50 dark:hover:bg-white/[0.04] sm:grid-cols-[64px_minmax(0,1fr)_96px_132px]",
+                "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/50 px-4 py-3.5 transition-colors last:border-b-0 hover:bg-blue-50/50 dark:hover:bg-white/[0.04] sm:grid-cols-[64px_minmax(0,1fr)_96px_132px] xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5",
                 user.isCurrentUser && "bg-blue-50/90 ring-1 ring-inset ring-blue-200/80 dark:bg-blue-400/10 dark:ring-blue-300/20",
             )}
         >
@@ -267,13 +332,13 @@ function LeaderboardRow({
                 <RankBadge rank={rank} />
             </div>
 
-            <div className="flex min-w-0 items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3 xl:gap-4">
                 <AvatarWithFrame
                     src={user.avatar}
                     fallback={user.name[0] ?? "?"}
                     avatarFrameId={user.avatarFrameId}
-                    className="h-11 w-11 shrink-0 border-2 border-background shadow-sm"
-                    avatarClassName="h-11 w-11"
+                    className="h-11 w-11 shrink-0 border-2 border-background shadow-sm xl:h-12 xl:w-12"
+                    avatarClassName="h-11 w-11 xl:h-12 xl:w-12"
                 />
                 <div className="min-w-0">
                     <div className="flex min-w-0 flex-wrap items-center gap-2">
@@ -285,7 +350,7 @@ function LeaderboardRow({
                         ) : null}
                     </div>
                     <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                        <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300">
+                        <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300 xl:hidden">
                             Lv.{user.level}
                         </span>
                         <span className="hidden sm:inline">持续探索者</span>
@@ -293,15 +358,37 @@ function LeaderboardRow({
                 </div>
             </div>
 
-            <div className="hidden text-center text-xs text-muted-foreground sm:block">
-                {rank <= 10 ? "代表成就" : "稳步成长"}
+            <div className="hidden text-center text-xs text-muted-foreground sm:block xl:hidden">
+                {highlights[0]}
+            </div>
+
+            <div className="hidden items-center justify-center xl:flex">
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300">
+                    Lv.{user.level}
+                </span>
             </div>
 
             <div className="text-right">
-                <div className="text-xl font-black tabular-nums text-blue-600 dark:text-blue-300">
+                <div className="text-xl font-black tabular-nums text-blue-600 dark:text-blue-300 xl:text-2xl">
                     {user.value.toLocaleString()}
                 </div>
                 <div className="mt-0.5 text-xs text-muted-foreground">{valueLabel}</div>
+            </div>
+
+            <div className="hidden min-w-0 items-center justify-end gap-2 xl:flex">
+                {highlights.map((highlight, index) => (
+                    <span
+                        key={highlight}
+                        className={cn(
+                            "truncate rounded-full px-2.5 py-1 text-xs font-semibold",
+                            index === 0
+                                ? "bg-blue-50 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300"
+                                : "bg-amber-50 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300",
+                        )}
+                    >
+                        {highlight}
+                    </span>
+                ))}
             </div>
         </div>
     );
@@ -345,87 +432,184 @@ function CurrentUserStrip({
     );
 }
 
-function LeaderboardSidePanel() {
-    const rules = [
-        { icon: BookOpenCheck, label: "作品通过审核", value: "+50 ~ 300 积分" },
-        { icon: Target, label: "完成官方挑战", value: "+50 ~ 500 积分" },
-        { icon: ThumbsUp, label: "获得认可", value: "+1 ~ 20 积分" },
-    ];
-    const tasks = [
-        { label: "发布 1 个观察记录", progress: "1/1", value: "+80 积分", done: true },
-        { label: "完成 1 个挑战任务", progress: "0/1", value: "+120 积分", done: false },
-        { label: "帮助 3 位新手", progress: "2/3", value: "+60 积分", done: false },
-    ];
-
-    return (
-        <aside className="hidden space-y-5 lg:block">
-            <section className="surface-panel p-5">
-                <div className="mb-4 flex items-center gap-2">
-                    <ShieldCheck className="h-5 w-5 text-emerald-500" />
-                    <h3 className="font-bold">排行榜规则</h3>
-                </div>
-                <p className="text-sm leading-6 text-muted-foreground">作品通过审核、完成挑战、收到认可都可获得积分。</p>
-                <div className="mt-4 space-y-3">
-                    {rules.map((rule) => {
-                        const Icon = rule.icon;
-                        return (
-                            <div key={rule.label} className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-background/70 px-3 py-2.5 text-sm dark:bg-white/[0.03]">
-                                <span className="flex items-center gap-2 text-muted-foreground">
-                                    <Icon className="h-4 w-4 text-blue-500" />
-                                    {rule.label}
-                                </span>
-                                <span className="shrink-0 font-semibold text-emerald-600 dark:text-emerald-300">{rule.value}</span>
-                            </div>
-                        );
-                    })}
-                </div>
-                <Link href="/community" className="mt-4 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
-                    查看完整规则
+function LeaderboardGrowthTaskList({
+    isSignedIn,
+    tasks,
+    growthTasksGraduatedAt,
+    isLoading,
+    hasError,
+    claimingTaskId,
+    onClaimGrowthTask,
+    onReloadGrowthTasks,
+}: {
+    isSignedIn: boolean;
+    tasks: ProfileGrowthTask[] | null;
+    growthTasksGraduatedAt: string | null;
+    isLoading: boolean;
+    hasError: boolean;
+    claimingTaskId: GrowthTaskId | null;
+    onClaimGrowthTask: (taskId: GrowthTaskId) => void;
+    onReloadGrowthTasks: () => void;
+}) {
+    if (!isSignedIn) {
+        return (
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 text-sm dark:border-blue-300/20 dark:bg-blue-400/10">
+                <div className="font-semibold text-slate-900 dark:text-slate-100">登录后查看你的成长任务进度</div>
+                <p className="mt-2 leading-6 text-muted-foreground">成长任务会根据个人中心的真实项目、观察和连续探索记录同步。</p>
+                <Link href="/login" className="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
+                    去登录
                     <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="space-y-4">
+                {[1, 2, 3].map((item) => (
+                    <div key={item} className="space-y-2">
+                        <div className="h-4 w-4/5 animate-pulse rounded bg-muted" />
+                        <div className="h-1.5 animate-pulse rounded-full bg-muted" />
+                        <div className="ml-auto h-3 w-16 animate-pulse rounded bg-muted" />
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    if (hasError) {
+        return (
+            <div className="rounded-2xl border border-orange-200 bg-orange-50/70 p-4 text-sm dark:border-orange-300/20 dark:bg-orange-400/10">
+                <div className="font-semibold text-orange-700 dark:text-orange-300">成长任务加载失败</div>
+                <p className="mt-2 leading-6 text-muted-foreground">没有展示临时数据，稍后可重新同步真实进度。</p>
+                <button
+                    type="button"
+                    onClick={onReloadGrowthTasks}
+                    className="mt-3 rounded-full bg-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-orange-600"
+                >
+                    重试
+                </button>
+            </div>
+        );
+    }
+
+    if (growthTasksGraduatedAt) {
+        return <LeaderboardGrowthGraduatedCard />;
+    }
+
+    const previewTasks = getGrowthTaskPreview(tasks ?? []);
+
+    if (previewTasks.length === 0) {
+        return <div className="rounded-2xl border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无成长任务数据</div>;
+    }
+
+    return (
+        <div className="space-y-4">
+            {previewTasks.map((task) => {
+                const isClaiming = claimingTaskId === task.id;
+                return (
+                    <div key={task.id} className="space-y-2">
+                        <div className="flex items-center justify-between gap-3 text-sm">
+                            <span className="flex min-w-0 items-center gap-2 font-medium">
+                                <span className={cn("shrink-0", task.done ? "text-emerald-500" : "text-blue-500")}>
+                                    {task.done ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+                                </span>
+                                <span className="truncate">{task.label}</span>
+                            </span>
+                            <span className="shrink-0 text-xs text-muted-foreground">{task.status === "claimed" ? "已领取" : task.progressLabel}</span>
+                        </div>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                            <div
+                                className={cn("h-full rounded-full", task.done ? "bg-emerald-500" : "bg-blue-500")}
+                                style={{ width: `${task.progress}%` }}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between gap-3">
+                            <span className="text-xs font-semibold text-orange-500">{task.reward}</span>
+                            {task.status === "claimable" ? (
+                                <button
+                                    type="button"
+                                    disabled={isClaiming}
+                                    onClick={() => onClaimGrowthTask(task.id)}
+                                    className="inline-flex h-7 min-w-14 items-center justify-center rounded-full bg-blue-600 px-3 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                >
+                                    {isClaiming ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "领取"}
+                                </button>
+                            ) : task.status === "claimed" ? (
+                                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-300">已完成</span>
+                            ) : (
+                                <Link href={task.href} className="text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
+                                    去完成
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
+            <Link href="/profile" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
+                查看全部任务
+                <ChevronRight className="ml-1 h-4 w-4" />
+            </Link>
+        </div>
+    );
+}
+
+function LeaderboardSidePanel({
+    isSignedIn,
+    growthTasks,
+    growthTasksGraduatedAt,
+    growthTasksLoading,
+    growthTasksError,
+    claimingTaskId,
+    onClaimGrowthTask,
+    onReloadGrowthTasks,
+}: {
+    isSignedIn: boolean;
+    growthTasks: ProfileGrowthTask[] | null;
+    growthTasksGraduatedAt: string | null;
+    growthTasksLoading: boolean;
+    growthTasksError: boolean;
+    claimingTaskId: GrowthTaskId | null;
+    onClaimGrowthTask: (taskId: GrowthTaskId) => void;
+    onReloadGrowthTasks: () => void;
+}) {
+    return (
+        <aside className="hidden self-start lg:sticky lg:top-20 lg:block lg:space-y-5">
+            <section className="surface-panel p-5 lg:p-6">
+                <div className="mb-4 flex items-center gap-2">
+                    <ShieldCheck className="h-5 w-5 text-emerald-500" />
+                    <h3 className="font-bold">成长体系</h3>
+                </div>
+                <p className="text-sm leading-6 text-muted-foreground">
+                    经验规则、等级进度和升级权益统一在成长体系中查看，排行榜按真实经验记录更新。
+                </p>
+                <LevelGuideDialog defaultTab="earn">
+                    <button
+                        type="button"
+                        className="mt-4 inline-flex min-h-9 items-center rounded-full border border-blue-200 bg-blue-50/70 px-4 text-sm font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300 dark:hover:bg-blue-400/15"
+                    >
+                        查看成长体系
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                    </button>
+                </LevelGuideDialog>
             </section>
 
-            <section className="surface-panel p-5">
+            <section className="surface-panel p-5 lg:p-6">
                 <div className="mb-4 flex items-center gap-2">
                     <Calendar className="h-5 w-5 text-blue-500" />
-                    <h3 className="font-bold">本周任务</h3>
+                    <h3 className="font-bold">成长任务</h3>
                 </div>
-                <div className="space-y-4">
-                    {tasks.map((task) => (
-                        <div key={task.label} className="space-y-2">
-                            <div className="flex items-center justify-between gap-3 text-sm">
-                                <span className="flex min-w-0 items-center gap-2 font-medium">
-                                    <span className={cn("h-2.5 w-2.5 rounded-full", task.done ? "bg-emerald-500" : "bg-blue-500")} />
-                                    <span className="truncate">{task.label}</span>
-                                </span>
-                                <span className="shrink-0 text-xs text-muted-foreground">{task.progress}</span>
-                            </div>
-                            <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                                <div className={cn("h-full rounded-full", task.done ? "w-full bg-emerald-500" : "w-2/3 bg-blue-500")} />
-                            </div>
-                            <div className="text-right text-xs font-semibold text-orange-500">{task.value}</div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            <section className="surface-panel overflow-hidden p-5">
-                <div className="flex items-center gap-2">
-                    <Flame className="h-5 w-5 text-orange-500" />
-                    <h3 className="font-bold">积分小贴士</h3>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">坚持记录和互相帮助，积分会稳步提升。</p>
-                <div className="mt-5 flex h-24 items-end gap-2">
-                    {[32, 48, 68, 92].map((height, index) => (
-                        <div key={height} className="flex flex-1 flex-col items-center gap-2">
-                            <div
-                                className="w-full rounded-t-xl bg-gradient-to-t from-blue-500 to-cyan-300 shadow-[0_10px_22px_-14px_rgba(37,99,235,0.8)]"
-                                style={{ height }}
-                            />
-                            <span className="text-[10px] text-muted-foreground">W{index + 1}</span>
-                        </div>
-                    ))}
-                </div>
+                <LeaderboardGrowthTaskList
+                    isSignedIn={isSignedIn}
+                    tasks={growthTasks}
+                    growthTasksGraduatedAt={growthTasksGraduatedAt}
+                    isLoading={growthTasksLoading}
+                    hasError={growthTasksError}
+                    claimingTaskId={claimingTaskId}
+                    onClaimGrowthTask={onClaimGrowthTask}
+                    onReloadGrowthTasks={onReloadGrowthTasks}
+                />
             </section>
         </aside>
     );
@@ -437,11 +621,112 @@ export interface LeaderboardContentProps {
 }
 
 export function LeaderboardContent({ compact, className }: LeaderboardContentProps) {
-    const { user } = useAuth();
+    const { user, refreshProfile } = useAuth();
+    const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(true);
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
     const [currentTab, setCurrentTab] = useState<LeaderboardType>("xp");
     const [xpTimeRange, setXpTimeRange] = useState<XpTimeRange>("weekly");
+    const [growthTasks, setGrowthTasks] = useState<ProfileGrowthTask[] | null>(null);
+    const [growthTasksGraduatedAt, setGrowthTasksGraduatedAt] = useState<string | null>(null);
+    const [growthTasksLoading, setGrowthTasksLoading] = useState(false);
+    const [growthTasksError, setGrowthTasksError] = useState(false);
+    const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null);
+
+    const loadGrowthTasks = useCallback(
+        async (signal?: AbortSignal) => {
+            if (!user?.id) {
+                setGrowthTasks(null);
+                setGrowthTasksGraduatedAt(null);
+                setGrowthTasksLoading(false);
+                setGrowthTasksError(false);
+                return;
+            }
+
+            try {
+                setGrowthTasksLoading(true);
+                setGrowthTasksError(false);
+
+                const response = await fetch("/api/profile/growth-tasks/sync", {
+                    method: "POST",
+                    signal,
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(payload?.error || "成长任务加载失败");
+                }
+                if (signal?.aborted) return;
+                setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || []);
+                const nextGraduatedAt =
+                    typeof payload?.graduatedAt === "string" && payload.graduatedAt ? payload.graduatedAt : null;
+                setGrowthTasksGraduatedAt(nextGraduatedAt);
+            } catch (error) {
+                if ((error as { name?: string }).name === "AbortError") return;
+                logger.warn("Failed to load leaderboard growth tasks", { error });
+                setGrowthTasks([]);
+                setGrowthTasksGraduatedAt(null);
+                setGrowthTasksError(true);
+            } finally {
+                if (!signal?.aborted) {
+                    setGrowthTasksLoading(false);
+                }
+            }
+        },
+        [user?.id],
+    );
+
+    const handleClaimGrowthTask = useCallback(
+        async (taskId: GrowthTaskId) => {
+            if (!user?.id || claimingTaskId) return;
+
+            setClaimingTaskId(taskId);
+            try {
+                const response = await fetch("/api/profile/growth-tasks/claim", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ taskId }),
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(payload?.error || "领取失败");
+                }
+
+                await refreshProfile();
+                await loadGrowthTasks();
+
+                if (payload?.graduated) {
+                    return;
+                }
+
+                if (payload?.alreadyClaimed) {
+                    toast({ title: "奖励已领取" });
+                    return;
+                }
+
+                toast({
+                    title: "领取成功",
+                    description: payload?.taskLabel
+                        ? `已领取「${payload.taskLabel}」奖励，+${Number(payload?.xpGranted || 0)} 经验`
+                        : `已领取 +${Number(payload?.xpGranted || 0)} 经验`,
+                });
+            } catch (error) {
+                toast({
+                    title: "领取失败",
+                    description: error instanceof Error ? error.message : "请稍后重试",
+                    variant: "destructive",
+                });
+            } finally {
+                setClaimingTaskId(null);
+            }
+        },
+        [claimingTaskId, loadGrowthTasks, refreshProfile, toast, user?.id],
+    );
+
+    useEffect(() => {
+        const controller = new AbortController();
+        void loadGrowthTasks(controller.signal);
+        return () => controller.abort();
+    }, [loadGrowthTasks]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -486,7 +771,6 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
     }, [user, currentTab, xpTimeRange]);
 
     const config = getTabConfig(currentTab);
-    const xpTimeRangeLabel: Record<XpTimeRange, string> = { weekly: "本周", monthly: "本月", alltime: "总榜" };
     const podiumUsers = useMemo(() => {
         const top = leaderboardData.slice(0, 3);
         return PODIUM_ORDER.map((rank) => ({ user: top[rank - 1] ?? null, rank }));
@@ -494,62 +778,74 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
     const listUsers = leaderboardData.slice(3);
     const currentUserIndex = leaderboardData.findIndex((row) => row.isCurrentUser);
     const currentUser = currentUserIndex >= 0 ? leaderboardData[currentUserIndex] : null;
+    const valueColumnLabel = getValueColumnLabel(currentTab, xpTimeRange);
 
     return (
-        <div className={cn("grid gap-5 lg:grid-cols-[minmax(0,1fr)_330px]", className)}>
+        <div className={cn("grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_400px]", className)}>
             <section className="min-w-0">
                 <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as LeaderboardType)} className="w-full">
-                    <div className="surface-panel p-3 sm:p-4">
-                        <TabsList className={cn("grid h-auto w-full grid-cols-3 rounded-2xl bg-muted/60 p-1 dark:bg-white/[0.04]", compact && "mb-0")}>
-                            {(["xp", "badges", "projects"] as const).map((tab) => {
-                                const tabConfig = getTabConfig(tab);
-                                return (
-                                    <TabsTrigger
-                                        key={tab}
-                                        value={tab}
-                                        className="min-h-11 rounded-xl text-sm font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)]"
-                                    >
-                                        <span className="mr-1.5 hidden sm:inline-flex">{tabConfig.icon}</span>
-                                        {tabConfig.label}
-                                    </TabsTrigger>
-                                );
-                            })}
-                        </TabsList>
+                    <div className="surface-panel p-2.5 sm:p-4 lg:p-5">
+                        <div className="flex flex-col gap-2.5 sm:gap-3 xl:flex-row xl:items-start xl:justify-between">
+                            <TabsList className={cn("grid h-auto w-full grid-cols-3 rounded-[18px] bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[430px] sm:rounded-2xl xl:max-w-[460px]", compact && "mb-0")}>
+                                {(["xp", "badges", "projects"] as const).map((tab) => {
+                                    const tabConfig = getTabConfig(tab);
+                                    return (
+                                        <TabsTrigger
+                                            key={tab}
+                                            value={tab}
+                                            className="min-h-10 rounded-xl text-xs font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)] sm:min-h-11 sm:text-sm"
+                                        >
+                                            <span className="mr-1.5 hidden sm:inline-flex">{tabConfig.icon}</span>
+                                            {tabConfig.label}
+                                        </TabsTrigger>
+                                    );
+                                })}
+                            </TabsList>
 
-                        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center xl:justify-end">
+                                {currentTab === "xp" ? (
+                                    <div className="inline-grid w-full grid-cols-3 rounded-full border border-border/70 bg-background/70 p-1 text-sm shadow-sm dark:bg-white/[0.03] sm:w-auto" role="group" aria-label="经验时间范围">
+                                        {(["weekly", "monthly", "alltime"] as const).map((range) => (
+                                            <button
+                                                key={range}
+                                                type="button"
+                                                onClick={() => setXpTimeRange(range)}
+                                                className={cn(
+                                                    "min-h-8 rounded-full px-3 font-semibold text-muted-foreground transition-colors hover:text-foreground sm:min-h-9 sm:px-4",
+                                                    xpTimeRange === range && "bg-blue-600 text-white shadow-sm hover:text-white",
+                                                )}
+                                            >
+                                                {XP_TIME_RANGE_LABEL[range]}
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="inline-flex min-h-10 items-center self-start rounded-full border border-border/70 bg-background/70 px-3 text-sm font-semibold text-muted-foreground shadow-sm dark:bg-white/[0.03] sm:min-h-11 sm:px-4">
+                                        按已通过记录统计
+                                    </div>
+                                )}
+                                <div className="hidden min-h-8 items-center self-start rounded-full bg-blue-50/80 px-3 text-[11px] font-semibold text-blue-700 dark:bg-blue-400/10 dark:text-blue-300 sm:inline-flex sm:min-h-11 sm:px-4 sm:text-xs">
+                                    榜单数据按记录更新
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="hidden border-t border-border/60 sm:mt-4 sm:block sm:pt-4">
                             <div>
-                                <h2 className="flex items-center gap-2 text-lg font-bold">
+                                <h2 className="flex items-center gap-2 text-base font-bold sm:text-lg">
                                     <span className="text-blue-600 dark:text-blue-300">{config.icon}</span>
                                     {config.label}
                                 </h2>
-                                <p className="mt-1 text-sm text-muted-foreground">{config.description}</p>
+                                <p className="mt-1 text-xs leading-5 text-muted-foreground sm:text-sm">{config.description}</p>
                             </div>
-
-                            {currentTab === "xp" ? (
-                                <div className="inline-grid grid-cols-3 rounded-full border border-border/70 bg-background/70 p-1 text-sm shadow-sm dark:bg-white/[0.03]" role="group" aria-label="积分时间范围">
-                                    {(["weekly", "monthly", "alltime"] as const).map((range) => (
-                                        <button
-                                            key={range}
-                                            type="button"
-                                            onClick={() => setXpTimeRange(range)}
-                                            className={cn(
-                                                "min-h-9 rounded-full px-4 font-semibold text-muted-foreground transition-colors hover:text-foreground",
-                                                xpTimeRange === range && "bg-blue-600 text-white shadow-sm hover:text-white",
-                                            )}
-                                        >
-                                            {xpTimeRangeLabel[range]}
-                                        </button>
-                                    ))}
-                                </div>
-                            ) : null}
                         </div>
                     </div>
 
-                    <div className="mt-5">
+                    <div className="mt-4 md:mt-5">
                         {isLoading ? (
                             <PodiumSkeleton />
                         ) : (
-                            <div className="grid gap-4 md:grid-cols-3 md:items-end">
+                            <div className="grid grid-cols-3 gap-2 md:gap-4 md:items-end xl:gap-5">
                                 {podiumUsers.map((item) => (
                                     <PodiumCard
                                         key={item.user?.id ?? `vacant-${item.rank}`}
@@ -564,11 +860,13 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                     </div>
 
                     <div className="surface-panel mt-5 overflow-hidden">
-                        <div className="hidden grid-cols-[64px_minmax(0,1fr)_96px_132px] border-b border-border/70 bg-muted/40 px-4 py-3 text-xs font-semibold text-muted-foreground sm:grid">
+                        <div className="hidden grid-cols-[64px_minmax(0,1fr)_96px_132px] border-b border-border/70 bg-muted/40 px-4 py-3 text-xs font-semibold text-muted-foreground sm:grid xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5">
                             <span className="text-center">排名</span>
                             <span>用户</span>
-                            <span className="text-center">状态</span>
-                            <span className="text-right">{config.label}</span>
+                            <span className="text-center xl:hidden">状态</span>
+                            <span className="hidden text-center xl:block">等级</span>
+                            <span className="text-right">{valueColumnLabel}</span>
+                            <span className="hidden text-right xl:block">代表表现</span>
                         </div>
                         {isLoading ? (
                             <div className="space-y-2 p-4">
@@ -578,7 +876,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                             </div>
                         ) : listUsers.length > 0 ? (
                             listUsers.map((row, index) => (
-                                <LeaderboardRow key={row.id} user={row} rank={index + 4} valueLabel={config.valueLabel} />
+                                <LeaderboardRow key={row.id} user={row} rank={index + 4} valueLabel={config.valueLabel} currentTab={currentTab} />
                             ))
                         ) : leaderboardData.length > 0 ? (
                             <div className="px-6 py-10 text-center text-sm text-muted-foreground">前 3 名之后暂无更多用户</div>
@@ -591,24 +889,21 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                         <CurrentUserStrip user={currentUser} rank={currentUserIndex + 1} valueLabel={config.valueLabel} />
                     ) : null}
 
-                    <section className="surface-panel mt-5 flex items-center justify-between gap-4 p-4 lg:hidden">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 dark:bg-blue-400/10 dark:text-blue-300">
-                                <Trophy className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold">完成观察记录可获得积分</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">发布高质量记录、获得互动都会提升排名。</p>
-                            </div>
-                        </div>
-                        <Link href="/nature/submit" className="hidden shrink-0 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm sm:inline-flex">
-                            去观察
-                        </Link>
-                    </section>
                 </Tabs>
             </section>
 
-            <LeaderboardSidePanel />
+            <LeaderboardSidePanel
+                isSignedIn={Boolean(user?.id)}
+                growthTasks={growthTasks}
+                growthTasksGraduatedAt={growthTasksGraduatedAt}
+                growthTasksLoading={growthTasksLoading}
+                growthTasksError={growthTasksError}
+                claimingTaskId={claimingTaskId}
+                onClaimGrowthTask={handleClaimGrowthTask}
+                onReloadGrowthTasks={() => {
+                    void loadGrowthTasks();
+                }}
+            />
         </div>
     );
 }

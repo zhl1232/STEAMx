@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   AlertCircle,
   ArrowLeft,
-  ArrowRight,
   CheckCircle2,
   CircleHelp,
   Loader2,
@@ -116,35 +115,45 @@ function CategoryIcon({ type, className }: { type: ShopItemType; className?: str
 }
 
 function ShopHero({
-  coins,
   level,
   displayName,
   avatarSrc,
   progress,
   levelProgress,
   levelTotalNeeded,
+  selectedItem,
+  equippedAvatarFrameId,
+  equippedNameColorId,
 }: {
-  coins: number;
   level: number;
   displayName: string;
   avatarSrc: string;
   progress: number;
   levelProgress: number;
   levelTotalNeeded: number;
+  selectedItem: ShopItem | undefined;
+  equippedAvatarFrameId: string | null;
+  equippedNameColorId: string | null;
 }) {
   const safeProgress = Math.max(0, Math.min(progress || 0, 100));
+  const previewFrameId = selectedItem?.type === "avatar_frame" ? selectedItem.id : equippedAvatarFrameId;
+  const previewNameColorId = selectedItem?.type === "name_color" ? selectedItem.id : equippedNameColorId;
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-blue-200/70 bg-[hsl(var(--surface-raised)/0.92)] shadow-[0_28px_70px_-48px_hsl(var(--surface-shadow)/0.58)] dark:border-blue-300/20">
+    <section
+      aria-label="商店个人预览"
+      className="relative overflow-hidden rounded-[28px] border border-blue-200/70 bg-[hsl(var(--surface-raised)/0.92)] shadow-[0_28px_70px_-48px_hsl(var(--surface-shadow)/0.58)] dark:border-blue-300/20"
+    >
       <div
-        className="absolute inset-0 bg-[length:780px_auto] bg-[right_-250px_center] bg-no-repeat opacity-65 dark:opacity-30 md:bg-[right_-160px_center]"
+        className="absolute inset-0 bg-cover bg-center opacity-65 dark:opacity-30"
         style={{ backgroundImage: "url('/assets/reward-shop-blue-coins-bg.png')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--surface-raised))] via-[hsl(var(--surface-raised)/0.88)] to-[hsl(var(--surface-raised)/0.22)] dark:from-[hsl(var(--background)/0.94)] dark:via-[hsl(var(--background)/0.78)] dark:to-[hsl(var(--background)/0.22)]" />
 
-      <div className="relative grid gap-5 p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-8">
+      <div className="relative p-5 sm:p-6 md:p-8">
         <div className="flex min-w-0 items-center gap-4">
           <AvatarWithFrame
+            avatarFrameId={previewFrameId}
             src={avatarSrc}
             fallback={displayName[0] ?? "?"}
             className="h-20 w-20 shrink-0 border-4 border-white shadow-lg dark:border-slate-900 sm:h-24 sm:w-24"
@@ -152,7 +161,7 @@ function ShopHero({
           />
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="truncate text-2xl font-black tracking-tight text-slate-950 dark:text-slate-50 sm:text-3xl">
+              <h1 className={cn("truncate text-2xl font-black tracking-tight text-slate-950 dark:text-slate-50 sm:text-3xl", getNameColorClassName(previewNameColorId))}>
                 {displayName}
               </h1>
               <span className="rounded-lg bg-blue-600 px-2.5 py-1 text-sm font-bold text-white shadow-sm">Lv.{level}</span>
@@ -166,41 +175,8 @@ function ShopHero({
             </div>
           </div>
         </div>
-
-        <div className="rounded-2xl border border-blue-200/70 bg-white/80 px-5 py-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.06] md:min-w-[260px]">
-          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-            <CoinIcon className="h-4 w-4 text-amber-500" />
-            当前硬币
-          </div>
-          <div className="mt-2 text-4xl font-black tracking-tight text-blue-600 dark:text-blue-300">
-            {coins.toLocaleString()}
-          </div>
-          <Link href="/coins" className="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
-            查看钱包
-            <ArrowRight className="ml-1 h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-
-      <div className="relative flex items-center justify-between gap-4 border-t border-blue-100 bg-white/60 px-5 py-3 text-sm text-muted-foreground backdrop-blur dark:border-white/10 dark:bg-white/[0.04] sm:px-6 md:px-8">
-        <span className="flex items-center gap-2">
-          <StarDot />
-          硬币可通过发布记录、完成挑战等方式获得
-        </span>
-        <Link href="/community" className="hidden items-center font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300 sm:inline-flex">
-          了解规则
-          <ArrowRight className="ml-1 h-4 w-4" />
-        </Link>
       </div>
     </section>
-  );
-}
-
-function StarDot() {
-  return (
-    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-400/10 dark:text-amber-300">
-      <Sparkles className="h-3.5 w-3.5" />
-    </span>
   );
 }
 
@@ -219,15 +195,15 @@ function ShopItemVisual({
         avatarFrameId={item.id}
         src={avatarSrc}
         fallback={displayName[0] ?? "?"}
-        className="h-24 w-24 sm:h-28 sm:w-28"
-        avatarClassName="h-24 w-24 sm:h-28 sm:w-28"
+        className="h-20 w-20 min-[390px]:h-24 min-[390px]:w-24 sm:h-28 sm:w-28"
+        avatarClassName="h-20 w-20 min-[390px]:h-24 min-[390px]:w-24 sm:h-28 sm:w-28"
       />
     );
   }
 
   return (
-    <div className="flex h-24 w-full items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 px-3 dark:from-blue-400/10 dark:to-cyan-400/10 sm:h-28">
-      <span className={cn("max-w-full truncate text-2xl font-black", getNameColorClassName(item.id))}>
+    <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 px-3 dark:from-blue-400/10 dark:to-cyan-400/10 min-[390px]:h-24 sm:h-28">
+      <span className={cn("max-w-full truncate text-xl font-black min-[390px]:text-2xl", getNameColorClassName(item.id))}>
         {displayName}
       </span>
     </div>
@@ -249,10 +225,12 @@ function ShopItemButton({
   onPurchase: (event: MouseEvent<HTMLButtonElement>) => void;
   onEquip: (event: MouseEvent<HTMLButtonElement>, itemId: string | null) => void;
 }) {
+  const buttonClassName = "h-11 min-w-[4.25rem] rounded-xl px-2 text-xs font-bold sm:h-9 sm:min-w-20 sm:px-3 sm:text-sm";
+
   if (state.owned) {
     if (state.equipped) {
       return (
-        <Button variant="outline" size="sm" className="h-9 min-w-20 rounded-xl px-3" onClick={(event) => onEquip(event, null)} disabled={equipPending}>
+        <Button variant="outline" size="sm" className={buttonClassName} onClick={(event) => onEquip(event, null)} disabled={equipPending}>
           {equipPending ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />}
           卸下
         </Button>
@@ -260,7 +238,7 @@ function ShopItemButton({
     }
 
     return (
-      <Button size="sm" className="h-9 min-w-20 rounded-xl px-3" onClick={(event) => onEquip(event, item.id)} disabled={equipPending}>
+      <Button size="sm" className={buttonClassName} onClick={(event) => onEquip(event, item.id)} disabled={equipPending}>
         {equipPending ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : null}
         使用
       </Button>
@@ -269,7 +247,7 @@ function ShopItemButton({
 
   if (state.levelLocked) {
     return (
-      <Button size="sm" className="h-9 min-w-20 rounded-xl px-3" disabled>
+      <Button size="sm" className={buttonClassName} disabled>
         <Lock className="mr-1.5 h-3.5 w-3.5" />
         Lv.{item.minLevel}
       </Button>
@@ -279,7 +257,7 @@ function ShopItemButton({
   return (
     <Button
       size="sm"
-      className="h-9 min-w-20 rounded-xl px-3"
+      className={buttonClassName}
       disabled={!state.canBuy || purchasePending}
       onClick={onPurchase}
     >
@@ -330,10 +308,13 @@ function ShopItemCard({
       tabIndex={0}
       onClick={() => onSelect(item.id)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") onSelect(item.id);
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect(item.id);
+        }
       }}
       className={cn(
-        "group relative flex min-h-[286px] cursor-pointer flex-col overflow-hidden rounded-[22px] border bg-[hsl(var(--surface-raised)/0.92)] p-3 shadow-[0_18px_46px_-36px_hsl(var(--surface-shadow)/0.48)] outline-none transition hover:-translate-y-0.5 hover:border-blue-300 focus-visible:ring-2 focus-visible:ring-ring dark:bg-white/[0.04] sm:min-h-[318px] sm:p-4",
+        "group relative flex min-h-[270px] cursor-pointer flex-col overflow-hidden rounded-[20px] border bg-[hsl(var(--surface-raised)/0.92)] p-3 shadow-[0_18px_46px_-36px_hsl(var(--surface-shadow)/0.48)] outline-none transition hover:-translate-y-0.5 hover:border-blue-300 focus-visible:ring-2 focus-visible:ring-ring dark:bg-white/[0.04] min-[390px]:min-h-[286px] sm:min-h-[318px] sm:rounded-[22px] sm:p-4",
         selected ? "border-blue-500 ring-2 ring-blue-500/20" : "border-border/75",
         state.levelLocked && "saturate-[0.75]",
       )}
@@ -347,7 +328,7 @@ function ShopItemCard({
         ) : null}
       </div>
 
-      <div className="relative mt-3 flex flex-1 items-center justify-center rounded-2xl bg-gradient-to-b from-blue-50/80 to-white dark:from-blue-400/10 dark:to-white/[0.03]">
+      <div className="relative mt-3 flex h-[104px] items-center justify-center rounded-2xl bg-gradient-to-b from-blue-50/80 to-white dark:from-blue-400/10 dark:to-white/[0.03] min-[390px]:h-[122px] sm:h-[142px]">
         <ShopItemVisual item={item} avatarSrc={avatarSrc} displayName={displayName} />
         {state.levelLocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-white/70 text-slate-600 backdrop-blur-[2px] dark:bg-slate-950/70 dark:text-slate-200">
@@ -357,17 +338,17 @@ function ShopItemCard({
         ) : null}
       </div>
 
-      <div className="mt-4 min-w-0">
+      <div className="mt-3 min-w-0 sm:mt-4">
         <h3 className="truncate text-base font-bold text-slate-950 dark:text-slate-50">{item.name}</h3>
-        <p className="mt-1 line-clamp-2 min-h-10 text-sm leading-5 text-muted-foreground">
+        <p className="mt-1 line-clamp-2 min-h-9 text-xs leading-[18px] text-muted-foreground sm:min-h-10 sm:text-sm sm:leading-5">
           {item.type === "avatar_frame" ? "展示在个人主页与排行榜头像周围" : "让昵称在社区互动中更有辨识度"}
         </p>
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-1.5 text-orange-500">
+      <div className="mt-3 flex items-center justify-between gap-2 sm:mt-4 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 text-orange-500">
           <CoinIcon className="h-4 w-4" />
-          <span className="truncate text-lg font-black tabular-nums">{item.price}</span>
+          <span className="whitespace-nowrap text-base font-black tabular-nums sm:text-lg">{item.price}</span>
         </div>
         <ShopItemButton
           item={item}
@@ -605,7 +586,6 @@ export default function ShopPage() {
       canBuy: !owned && !levelLocked && coins >= item.price,
     };
   };
-
   if (authLoading || !user) {
     return <LoadingState label="加载账号中..." />;
   }
@@ -648,7 +628,7 @@ export default function ShopPage() {
         )}
       />
 
-      <main className="page-shell pt-5 md:pt-8">
+      <main className="mx-auto w-full max-w-[1840px] px-4 pt-5 min-[390px]:px-5 md:px-8 md:pt-8">
         <div className="mb-5 hidden items-center gap-4 md:flex">
           <Button variant="ghost" size="icon" asChild className="-ml-2 shrink-0 rounded-full hover:bg-muted">
             <Link href="/profile" aria-label="返回个人中心">
@@ -661,19 +641,21 @@ export default function ShopPage() {
           </div>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_330px] xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0 space-y-5">
             <ShopHero
-              coins={coins}
               level={level}
               displayName={displayName}
               avatarSrc={avatarSrc}
               progress={progress}
               levelProgress={levelProgress}
               levelTotalNeeded={levelTotalNeeded}
+              selectedItem={selectedItem}
+              equippedAvatarFrameId={equippedAvatarFrameId}
+              equippedNameColorId={equippedNameColorId}
             />
 
-            <section className="surface-panel overflow-hidden p-4 sm:p-5">
+            <section className="surface-panel overflow-hidden p-3.5 min-[390px]:p-4 sm:p-5">
               <Tabs value={activeType} onValueChange={(value) => setActiveType(value as ShopItemType)}>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <TabsList className="grid h-auto w-full grid-cols-2 rounded-2xl bg-muted/60 p-1 sm:max-w-md dark:bg-white/[0.04]">
@@ -695,7 +677,7 @@ export default function ShopPage() {
                   </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-5 sm:mt-6">
                   <div className="mb-4 flex items-end justify-between gap-4">
                     <div>
                       <h2 className="text-xl font-black text-slate-950 dark:text-slate-50">
@@ -710,7 +692,7 @@ export default function ShopPage() {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-3">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
                     {activeItems.map((item) => (
                       <ShopItemCard
                         key={item.id}
@@ -745,7 +727,7 @@ export default function ShopPage() {
             </section>
           </section>
 
-          <div className="hidden lg:block">
+          <div className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
             <PreviewPanel
               selectedItem={selectedItem}
               displayName={displayName}

@@ -370,9 +370,9 @@ export function ProfileLibraryPage() {
   }
 
   return isDesktopViewport ? (
-    <div className="page-shell hidden py-8 md:block">
+    <div className="mx-auto hidden w-full max-w-[1840px] px-4 py-8 min-[390px]:px-5 md:block md:px-8">
       <div className="space-y-6">
-        <section className="surface-panel relative overflow-hidden">
+        <section className="surface-panel relative min-h-[254px] overflow-hidden">
           <div className="absolute inset-0">
             <Image
               src="/assets/profile-library-soft-blue-hero.png"
@@ -380,11 +380,11 @@ export function ProfileLibraryPage() {
               fill
               priority
               className="object-cover opacity-70 dark:opacity-34"
-              sizes="1152px"
+              sizes="(min-width: 1840px) 1776px, (min-width: 768px) calc(100vw - 4rem), 100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/94 via-background/78 to-background/32" />
           </div>
-          <div className="relative grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+          <div className="relative grid min-h-[254px] gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)] lg:items-end xl:px-8">
             <div className="flex items-start gap-3">
               <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl bg-background/62">
                 <Link href="/profile" aria-label="返回个人主页">
@@ -395,12 +395,12 @@ export function ProfileLibraryPage() {
                 <p className="section-kicker">个人空间</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">我的内容库</h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                  统一查看作品、收藏、点赞、完成记录和自然观察，把你的学习证据集中保存。
+                  统一查看作品、收藏、点赞、完成记录和自然观察，把你的探索证据集中保存。
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid w-full grid-cols-2 gap-2 lg:justify-self-end">
               {[
                 { label: '作品', value: myProjectsTotalCount, icon: FolderOpen },
                 { label: '收藏', value: collectedProjectsCount, icon: Heart },
@@ -437,7 +437,7 @@ export function ProfileLibraryPage() {
           </div>
 
           <div className="p-6">
-            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {showDesktopProjectSkeleton ? (
                 <ProjectListSkeleton />
               ) : (

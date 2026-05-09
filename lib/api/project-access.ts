@@ -5,6 +5,7 @@ type ProjectAccessRow = {
   id: number
   author_id: string
   status: string | null
+  title?: string | null
 }
 
 type ChallengeRatingProjectAccessRow = ProjectAccessRow & {
@@ -35,7 +36,7 @@ export async function getAccessibleProject(
 ): Promise<ProjectAccessRow | null> {
   const { data, error } = await supabase
     .from('projects')
-    .select('id, author_id, status')
+    .select('id, author_id, status, title')
     .eq('id', projectId)
     .maybeSingle()
 

@@ -4,6 +4,7 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { getAccessibleProject } from '@/lib/api/project-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
 const ALLOWED_TYPES = new Set(['project', 'completion'])
 
@@ -26,16 +27,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid amount (1–2)' }, { status: 400 })
     }
 
+    let recipientUserId: string | null = null
+    let projectId: number | null = null
+    let projectTitle = '项目'
+
     if (resourceType === 'project') {
       const project = await getAccessibleProject(supabase, resourceId, user.id)
       if (!project) {
         return NextResponse.json({ error: '项目不存在' }, { status: 404 })
       }
+      recipientUserId = project.author_id
+      projectId = project.id
+      projectTitle = project.title || projectTitle
     } else {
       const completion = await getAccessibleCompletion(supabase, resourceId, user.id)
       if (!completion) {
         return NextResponse.json({ error: '作品不存在' }, { status: 404 })
       }
+      recipientUserId = completion.user_id
+      projectId = completion.project_id
+
+      const { data: project, error: projectError } = await supabase
+        .from('projects')
+        .select('title')
+        .eq('id', completion.project_id)
+        .maybeSingle()
+
+      if (projectError) throw projectError
+      projectTitle = (project as { title?: string | null } | null)?.title || projectTitle
     }
 
     const { data, error } = await supabase.rpc('tip_resource', {
@@ -49,6 +68,36 @@ export async function POST(request: NextRequest) {
     const result = data as { ok?: boolean; error?: string } | null
     if (!result?.ok) {
       return NextResponse.json({ ok: false, error: result?.error || 'tip_failed' }, { status: 422 })
+    }
+
+    if (recipientUserId && recipientUserId !== user.id && projectId) {
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('display_name, avatar_url')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (profileError) throw profileError
+
+      const typedProfile = profile as { display_name?: string | null; avatar_url?: string | null } | null
+      const actorName = typedProfile?.display_name || user.email?.split('@')[0] || '用户'
+      const actorAvatar = typedProfile?.avatar_url || getDefaultAvatarPath(user.id)
+
+      const { error: notificationError } = await supabase
+        .from('notifications')
+        .insert({
+          user_id: recipientUserId,
+          type: 'tip',
+          content: `${actorName} 给你的《${projectTitle}》投了 ${amount} 枚币`,
+          related_type: 'project',
+          related_id: projectId,
+          project_id: projectId,
+          from_user_id: user.id,
+          from_username: actorName,
+          from_avatar: actorAvatar,
+        } as never)
+
+      if (notificationError) throw notificationError
     }
 
     return NextResponse.json({ ok: true })

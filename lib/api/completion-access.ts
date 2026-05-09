@@ -4,6 +4,7 @@ import type { Database } from '@/lib/supabase/types'
 type CompletionAccessRow = {
   id: number
   user_id: string
+  project_id: number
   is_public: boolean | null
   status: string | null
 }

@@ -5,8 +5,9 @@ import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
-const PAGE_SIZE = 20
-const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow'])
+const DEFAULT_PAGE_SIZE = 20
+const MAX_PAGE_SIZE = 20
+const USER_ALLOWED_TYPES = new Set(['mention', 'reply', 'like', 'follow', 'tip'])
 const ALLOWED_TYPES = new Set([
   ...USER_ALLOWED_TYPES,
   'system',
@@ -58,29 +59,48 @@ async function assertNotificationPayloadAllowed(params: {
     return
   }
 
-  if (type === 'like') {
+  if (type === 'like' || type === 'tip') {
     if (relatedType !== 'project' || !projectId) {
-      return NextResponse.json({ error: 'Invalid like notification payload' }, { status: 400 })
+      return NextResponse.json({ error: `Invalid ${type} notification payload` }, { status: 400 })
     }
 
-    const [{ data: project, error: projectError }, { data: likeRow, error: likeError }] = await Promise.all([
-      supabase
-        .from('projects')
-        .select('author_id')
-        .eq('id', projectId)
-        .maybeSingle(),
-      supabase
-        .from('likes')
-        .select('user_id')
-        .eq('user_id', actorUserId)
-        .eq('project_id', projectId)
-        .maybeSingle(),
-    ])
+    const { data: project, error: projectError } = await supabase
+      .from('projects')
+      .select('author_id')
+      .eq('id', projectId)
+      .maybeSingle()
 
     if (projectError) throw projectError
-    if (likeError) throw likeError
+    if (!project || (project as { author_id: string }).author_id !== recipientUserId) {
+      return NextResponse.json({ error: `Invalid ${type} notification payload` }, { status: 403 })
+    }
 
-    if (!project || (project as { author_id: string }).author_id !== recipientUserId || !likeRow) {
+    if (type === 'tip') {
+      const { data: tipLog, error: tipLogError } = await supabase
+        .from('coin_logs')
+        .select('id')
+        .eq('user_id', actorUserId)
+        .eq('action_type', 'tip')
+        .eq('resource_id', `project:${projectId}`)
+        .lt('amount', 0)
+        .maybeSingle()
+
+      if (tipLogError) throw tipLogError
+      if (!tipLog) {
+        return NextResponse.json({ error: 'Invalid tip notification payload' }, { status: 403 })
+      }
+      return
+    }
+
+    const { data: likeRow, error: likeError } = await supabase
+      .from('likes')
+      .select('user_id')
+      .eq('user_id', actorUserId)
+      .eq('project_id', projectId)
+      .maybeSingle()
+
+    if (likeError) throw likeError
+    if (!likeRow) {
       return NextResponse.json({ error: 'Invalid like notification payload' }, { status: 403 })
     }
     return
@@ -189,13 +209,16 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const beforeParam = searchParams.get('before')
     const before = beforeParam ? validateDateTimeString(beforeParam, 'before') : null
+    const limitParam = searchParams.get('limit')
+    const requestedLimit = limitParam ? toPositiveInteger(limitParam) : null
+    const pageSize = Math.min(requestedLimit || DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE)
 
     let query = supabase
       .from('notifications')
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
-      .limit(PAGE_SIZE)
+      .limit(pageSize)
 
     if (before) {
       query = query.lt('created_at', before)
@@ -205,7 +228,7 @@ export async function GET(request: NextRequest) {
     if (error) throw error
 
     const list = (data || []) as Record<string, unknown>[]
-    const hasMore = list.length === PAGE_SIZE
+    const hasMore = list.length === pageSize
 
     return NextResponse.json({ notifications: list, hasMore })
   } catch (error) {

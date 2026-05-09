@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import ShopPage, { getShopMutationErrorMessage } from './page'
@@ -16,6 +17,13 @@ vi.mock('next/link', () => ({
       {children}
     </a>
   ),
+}))
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+  }),
 }))
 
 vi.mock('@/lib/context/auth-context', () => ({
@@ -94,6 +102,35 @@ describe('ShopPage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '刷新重试' }))
     expect(mockRefetchInventory).toHaveBeenCalledTimes(1)
+  })
+
+  it('uses the top profile card as the item preview', () => {
+    render(<ShopPage />)
+
+    expect(screen.queryByRole('region', { name: '手机实时预览' })).not.toBeInTheDocument()
+    const topPreview = screen.getByRole('region', { name: '商店个人预览' })
+    expect(within(topPreview).getByText('测试用户')).toBeInTheDocument()
+    expect(topPreview.querySelector('.avatar-frame-pixel-border')).toBeInTheDocument()
+
+    const lockedItemCard = screen.getByText('深海琉璃').closest('article')
+    expect(lockedItemCard).not.toBeNull()
+    fireEvent.click(lockedItemCard!)
+
+    expect(topPreview.querySelector('.avatar-frame-crystal-glass')).toBeInTheDocument()
+    expect(within(topPreview).queryByText('Lv.5 解锁')).not.toBeInTheDocument()
+  })
+
+  it('previews name color items in the top profile card', async () => {
+    const user = userEvent.setup()
+    render(<ShopPage />)
+
+    await user.click(screen.getByRole('tab', { name: /昵称颜色/ }))
+
+    await waitFor(() => {
+      const topPreview = screen.getByRole('region', { name: '商店个人预览' })
+      expect(within(topPreview).getByText('测试用户')).toHaveClass('name-color-cherry')
+      expect(within(topPreview).queryByText('昵称效果')).not.toBeInTheDocument()
+    })
   })
 
   it('maps min level purchase errors to a readable message', () => {

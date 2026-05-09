@@ -1809,6 +1809,22 @@ export interface Database {
             consecutiveDays: number
             discussionsCreated: number
             repliesCount: number
+            observationsSubmitted: number
+            speciesObserved: number
+            observationStreak: number
+        }
+      }
+      get_user_study_checkin_summary: {
+        Args: { target_user_id: string; window_days?: number }
+        Returns: {
+          streak: number
+          todayCompleted: boolean
+          streakThroughDate: string | null
+          days: {
+            date: string
+            label: string
+            completed: boolean
+          }[]
         }
       }
       daily_check_in: {

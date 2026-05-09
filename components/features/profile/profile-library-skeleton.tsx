@@ -38,10 +38,10 @@ function MobileProfileLibrarySkeleton() {
 function DesktopProfileLibrarySkeleton() {
   return (
     <div className="hidden md:block">
-      <div className="page-shell py-8">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 min-[390px]:px-5 md:px-8">
         <div className="space-y-6">
-          <section className="surface-panel overflow-hidden">
-            <div className="flex items-center gap-3 px-6 py-5">
+          <section className="surface-panel min-h-[254px] overflow-hidden">
+            <div className="flex items-center gap-3 px-6 py-5 xl:px-8">
               <Skeleton className="h-10 w-10 rounded-xl" />
               <Skeleton className="h-7 w-28 rounded-full" />
             </div>
@@ -59,7 +59,7 @@ function DesktopProfileLibrarySkeleton() {
             </div>
 
             <div className="p-6">
-              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 <ProjectListSkeleton />
               </div>
             </div>

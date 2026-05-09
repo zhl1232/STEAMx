@@ -2,15 +2,15 @@
 
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { useEffect, useEffectEvent, useMemo, useState } from 'react'
+import { useCallback, useEffect, useEffectEvent, useMemo, useState, type ReactNode } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 import {
   Award,
   BookOpen,
   CalendarDays,
   CalendarCheck2,
   ChevronRight,
-  CheckCircle2,
-  Circle,
   Compass,
   Edit3,
   Eye,
@@ -33,6 +33,9 @@ import {
 
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { BadgeIcon } from '@/components/features/gamification/badge-icon'
+import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-tasks-graduated-card'
+import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
+import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
@@ -44,11 +47,19 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { RoleBadge } from '@/components/ui/role-badge'
 import { useAuth } from '@/lib/context/auth-context'
 import { BADGES, useGamification } from '@/lib/context/gamification-context'
-import { useNotifications } from '@/lib/context/notification-context'
+import { useNotifications, type Notification } from '@/lib/context/notification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import { getNotificationTargetHref } from '@/lib/notifications/navigation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
+import { getCompletedGrowthTaskCount, resolveGrowthTasks, toGrowthTaskInput } from '@/lib/profile/growth-tasks'
+import {
+  type ProfileStudyCheckInSummary,
+  type StudyCheckInLoadState,
+} from '@/lib/profile/study-checkin'
+import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { cn } from '@/lib/utils'
@@ -71,6 +82,10 @@ const EMPTY_STATE_IMAGE_SRC = {
   community: '/assets/profile-generated/empty-community.png',
 } as const
 
+/** 卡片内引导操作：浅底 + 描边，避免与头图「我的内容」主按钮抢视觉层级 */
+const profileSoftCtaClassName =
+  'inline-flex items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--brand-blue)/0.24)] bg-sky-50/90 px-3.5 text-sm font-semibold text-[hsl(var(--brand-blue))] shadow-none transition hover:bg-sky-100/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)] dark:border-[hsl(var(--brand-blue)/0.3)] dark:bg-[hsl(var(--brand-blue)/0.12)] dark:text-[hsl(var(--brand-blue))] dark:hover:bg-[hsl(var(--brand-blue)/0.2)]'
+
 type ProfileContext = {
   userName: string
   userAvatar: string
@@ -89,15 +104,6 @@ type ProfileStat = {
   value: number
   href: string
   icon: ProfileIconName
-}
-
-type GrowthTask = {
-  label: string
-  href: string
-  reward: string
-  progressLabel: string
-  progress: number
-  done: boolean
 }
 
 const PROFILE_ICON_META = {
@@ -146,20 +152,6 @@ function formatShortDate(value?: string | null) {
   })
 }
 
-function formatMonthDay(date: Date) {
-  return `${date.getMonth() + 1}.${String(date.getDate()).padStart(2, '0')}`
-}
-
-function getRecentDayLabels(count: number) {
-  const today = new Date()
-
-  return Array.from({ length: count }, (_, index) => {
-    const date = new Date(today)
-    date.setDate(today.getDate() - (count - index - 1))
-    return formatMonthDay(date)
-  })
-}
-
 function getInitial(name: string) {
   return name.trim().charAt(0).toUpperCase() || '探'
 }
@@ -184,21 +176,26 @@ function getObservationTitle(observation: ObservationEvent) {
 }
 
 export default function ProfilePage() {
-  const { user, profile, loading: authLoading } = useAuth()
+  const { user, profile, loading: authLoading, refreshProfile } = useAuth()
   const { toast } = useToast()
-  const { unlockedBadges, userBadgeDetails } = useGamification()
+  const { unlockedBadges, userBadgeDetails, userStats, refetchStats } = useGamification()
   const { unreadCount } = useNotifications()
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
   const [myProjects, setMyProjects] = useState<Project[]>([])
   const [myProjectsTotalCount, setMyProjectsTotalCount] = useState(0)
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
-  const [completedProjectsCount, setCompletedProjectsCount] = useState(0)
   const [totalLikesReceived, setTotalLikesReceived] = useState(0)
   const [steamRadar, setSteamRadar] = useState<SteamRadarWithGuidance | null>(null)
   const [myObservations, setMyObservations] = useState<ObservationEvent[]>([])
   const [observationsTotal, setObservationsTotal] = useState(0)
-  const [observationsLoaded, setObservationsLoaded] = useState(false)
+  const [studyCheckInSummary, setStudyCheckInSummary] = useState<ProfileStudyCheckInSummary | null>(null)
+  const [studyCheckInState, setStudyCheckInState] = useState<StudyCheckInLoadState>('loading')
+  const [growthTasks, setGrowthTasks] = useState<ProfileGrowthTask[] | null>(null)
+  const [growthTasksGraduatedAt, setGrowthTasksGraduatedAt] = useState<string | null>(null)
+  const [growthGraduationSparkle, setGrowthGraduationSparkle] = useState(false)
+  const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null)
+  const [profileTimelineEvents, setProfileTimelineEvents] = useState<ProfileTimelineEvent[] | null>(null)
 
   const showLoadError = useEffectEvent((description: string) => {
     toast({
@@ -207,6 +204,20 @@ export default function ProfilePage() {
       variant: 'destructive',
     })
   })
+
+  const loadGrowthTasks = useCallback(async () => {
+    const response = await fetch('/api/profile/growth-tasks/sync', { method: 'POST' })
+    const payload = await response.json().catch(() => ({}))
+
+    if (!response.ok) {
+      throw new Error(payload?.error || '成长任务加载失败')
+    }
+
+    setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || [])
+    const nextGraduatedAt =
+      typeof payload?.graduatedAt === 'string' && payload.graduatedAt ? payload.graduatedAt : null
+    setGrowthTasksGraduatedAt(nextGraduatedAt)
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -239,7 +250,6 @@ export default function ProfilePage() {
         setMyProjectsTotalCount(Number(payload?.myProjectsTotalCount || 0))
         setFollowerCount(Number(payload?.followerCount || 0))
         setFollowingCount(Number(payload?.followingCount || 0))
-        setCompletedProjectsCount(Number(payload?.completedProjectsCount || 0))
         setTotalLikesReceived(Number(payload?.totalLikesReceived || 0))
         setSteamRadar((payload?.radar as SteamRadarWithGuidance | null) || null)
       } catch (err) {
@@ -260,10 +270,139 @@ export default function ProfilePage() {
     if (!user?.id) return
 
     let cancelled = false
+    setProfileTimelineEvents(null)
+
+    const loadTimeline = async () => {
+      try {
+        const response = await fetch('/api/profile/timeline?limit=5')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '探索轨迹加载失败')
+        }
+
+        if (cancelled) return
+        setProfileTimelineEvents((payload?.events as ProfileTimelineEvent[] | undefined) || [])
+      } catch (err) {
+        if (cancelled) return
+        logger.warn('Failed to load profile timeline', { error: err })
+        setProfileTimelineEvents([])
+      }
+    }
+
+    loadTimeline()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
+
+  useEffect(() => {
+    if (!user?.id) return
+
+    let cancelled = false
+
+    const syncGrowthTasks = async () => {
+      try {
+        const response = await fetch('/api/profile/growth-tasks/sync', { method: 'POST' })
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '成长任务加载失败')
+        }
+
+        if (cancelled) return
+        setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || [])
+        const nextGraduatedAt =
+          typeof payload?.graduatedAt === 'string' && payload.graduatedAt ? payload.graduatedAt : null
+        setGrowthTasksGraduatedAt(nextGraduatedAt)
+      } catch (err) {
+        if (cancelled) return
+        logger.warn('Failed to sync growth tasks', { error: err })
+      }
+    }
+
+    syncGrowthTasks()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
+
+  const handleClaimGrowthTask = useCallback(async (taskId: GrowthTaskId) => {
+    if (claimingTaskId) return
+
+    setClaimingTaskId(taskId)
+
+    try {
+      const response = await fetch('/api/profile/growth-tasks/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taskId }),
+      })
+      const payload = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(payload?.error || '领取失败')
+      }
+
+      if (payload?.graduated) {
+        setGrowthTasksGraduatedAt(new Date().toISOString())
+        setGrowthGraduationSparkle(true)
+        window.setTimeout(() => setGrowthGraduationSparkle(false), 600)
+      }
+
+      await refreshProfile()
+      await loadGrowthTasks()
+
+      if (payload?.graduated) {
+        void refetchStats()
+        toast({
+          title: '成长任务全部完成',
+          description: '解锁「探索启程」徽章，开启下一段冒险吧',
+        })
+        return
+      }
+
+      if (payload?.alreadyClaimed) {
+        toast({ title: '奖励已领取' })
+        return
+      }
+
+      toast({
+        title: '领取成功',
+        description: payload?.taskLabel
+          ? `已领取「${payload.taskLabel}」奖励，+${Number(payload?.xpGranted || 0)} XP`
+          : `已领取 +${Number(payload?.xpGranted || 0)} XP`,
+      })
+    } catch (err) {
+      toast({
+        title: '领取失败',
+        description: getErrorMessage(err, '请稍后重试'),
+        variant: 'destructive',
+      })
+    } finally {
+      setClaimingTaskId(null)
+    }
+  }, [claimingTaskId, loadGrowthTasks, refreshProfile, refetchStats, toast])
+
+  const fallbackGrowthTasks = useMemo(
+    () =>
+      resolveGrowthTasks(
+        toGrowthTaskInput({
+          bio: profile?.bio,
+          stats: userStats,
+        }),
+      ),
+    [profile?.bio, userStats],
+  )
+
+  useEffect(() => {
+    if (!user?.id) return
+
+    let cancelled = false
 
     const loadObservations = async () => {
-      setObservationsLoaded(false)
-
       try {
         const response = await fetch('/api/observations/mine?pageSize=6')
         const payload = await response.json().catch(() => ({}))
@@ -281,8 +420,6 @@ export default function ProfilePage() {
         logger.warn('Failed to load profile observations', { error: err })
         setMyObservations([])
         setObservationsTotal(0)
-      } finally {
-        if (!cancelled) setObservationsLoaded(true)
       }
     }
 
@@ -293,17 +430,39 @@ export default function ProfilePage() {
     }
   }, [user?.id])
 
-  const uniqueSpeciesCount = useMemo(() => {
-    const speciesIds = new Set<number>()
+  useEffect(() => {
+    if (!user?.id) return
 
-    for (const observation of myObservations) {
-      for (const species of observation.species) {
-        speciesIds.add(species.speciesId)
+    let cancelled = false
+    setStudyCheckInState('loading')
+
+    const loadStudyCheckIn = async () => {
+      try {
+        const response = await fetch('/api/profile/study-checkin')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '探索打卡加载失败')
+        }
+
+        if (cancelled) return
+
+        setStudyCheckInSummary((payload as ProfileStudyCheckInSummary | null) ?? null)
+        setStudyCheckInState('ready')
+      } catch (err) {
+        if (cancelled) return
+        logger.warn('Failed to load study check-in summary', { error: err })
+        setStudyCheckInSummary(null)
+        setStudyCheckInState('error')
       }
     }
 
-    return speciesIds.size
-  }, [myObservations])
+    loadStudyCheckIn()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
 
   if (authLoading || isDesktopViewport === null) {
     return <ProfileSkeleton />
@@ -330,58 +489,14 @@ export default function ProfilePage() {
   const xpNeededThisLevel = Math.max(1, nextLevelXP - currentLevelBaseXP)
   const featuredBadges =
     unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
-  const profileComplete = Boolean(profile?.display_name && profile?.bio && profile?.avatar_url)
-
   const stats: ProfileStat[] = [
     { key: 'works', label: '作品', value: myProjectsTotalCount, href: '/profile/library', icon: 'works' },
     { key: 'followers', label: '粉丝', value: followerCount, href: '/profile/followers', icon: 'followers' },
     { key: 'following', label: '关注', value: followingCount, href: '/profile/following', icon: 'following' },
     { key: 'likes', label: '获赞', value: totalLikesReceived, href: '/profile/likes', icon: 'likes' },
   ]
-
-  const growthTasks: GrowthTask[] = [
-    {
-      label: '完善个人资料',
-      href: '/settings/profile',
-      reward: '+50 经验值',
-      progressLabel: profileComplete ? '已完成' : '待完善',
-      progress: profileComplete ? 100 : 40,
-      done: profileComplete,
-    },
-    {
-      label: '发布 1 个项目',
-      href: '/share',
-      reward: '+100 经验值',
-      progressLabel: `${Math.min(myProjectsTotalCount, 1)}/1`,
-      progress: clampProgress(myProjectsTotalCount, 1),
-      done: myProjectsTotalCount >= 1,
-    },
-    {
-      label: '记录 3 条自然观察',
-      href: '/nature/submit',
-      reward: '+80 经验值',
-      progressLabel: `${Math.min(observationsTotal, 3)}/3`,
-      progress: observationsLoaded ? clampProgress(observationsTotal, 3) : 0,
-      done: observationsTotal >= 3,
-    },
-    {
-      label: '获得 20 个点赞',
-      href: '/profile/likes',
-      reward: '+50 经验值',
-      progressLabel: `${Math.min(totalLikesReceived, 20)}/20`,
-      progress: clampProgress(totalLikesReceived, 20),
-      done: totalLikesReceived >= 20,
-    },
-    {
-      label: '完成 3 个项目',
-      href: '/profile/library',
-      reward: '+100 经验值',
-      progressLabel: `${Math.min(completedProjectsCount, 3)}/3`,
-      progress: clampProgress(completedProjectsCount, 3),
-      done: completedProjectsCount >= 3,
-    },
-  ]
-  const completedTaskCount = growthTasks.filter((task) => task.done).length
+  const resolvedGrowthTasks = growthTasks ?? fallbackGrowthTasks
+  const completedTaskCount = getCompletedGrowthTaskCount(resolvedGrowthTasks)
 
   const profileContext = {
     userName,
@@ -398,26 +513,30 @@ export default function ProfilePage() {
   const pageData = {
     profileContext,
     stats,
-    growthTasks,
+    growthTasks: resolvedGrowthTasks,
+    growthTasksGraduatedAt,
+    growthGraduationSparkle,
     completedTaskCount,
+    claimingTaskId,
+    onClaimGrowthTask: handleClaimGrowthTask,
     featuredBadges,
     unlockedBadges,
     userBadgeDetails,
     myProjects,
     myProjectsTotalCount,
-    completedProjectsCount,
     steamRadar,
     myObservations,
     observationsTotal,
-    uniqueSpeciesCount,
-    unreadCount,
+    studyCheckInSummary,
+    studyCheckInState,
+    profileTimelineEvents,
     profile,
   }
 
   return isDesktopViewport ? (
     <DesktopProfilePage {...pageData} />
   ) : (
-    <MobileProfilePage {...pageData} />
+    <MobileProfilePage {...pageData} unreadCount={unreadCount} />
   )
 }
 
@@ -425,41 +544,52 @@ function DesktopProfilePage({
   profileContext,
   stats,
   growthTasks,
+  growthTasksGraduatedAt,
+  growthGraduationSparkle,
   completedTaskCount,
+  claimingTaskId,
+  onClaimGrowthTask,
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
   myProjects,
   myProjectsTotalCount,
-  completedProjectsCount,
   steamRadar,
   myObservations,
   observationsTotal,
-  uniqueSpeciesCount,
+  studyCheckInSummary,
+  studyCheckInState,
+  profileTimelineEvents,
   profile,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
-  growthTasks: GrowthTask[]
+  growthTasks: ProfileGrowthTask[]
+  growthTasksGraduatedAt: string | null
+  growthGraduationSparkle: boolean
   completedTaskCount: number
+  claimingTaskId: GrowthTaskId | null
+  onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   myProjects: Project[]
   myProjectsTotalCount: number
-  completedProjectsCount: number
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
-  uniqueSpeciesCount: number
-  unreadCount: number
+  studyCheckInSummary: ProfileStudyCheckInSummary | null
+  studyCheckInState: StudyCheckInLoadState
+  profileTimelineEvents: ProfileTimelineEvent[] | null
   profile: ReturnType<typeof useAuth>['profile']
 }) {
+  const isExploreVacuum = !steamRadar && myProjects.length === 0 && myObservations.length === 0
+
   return (
     <div className="min-h-screen bg-background pb-10 text-foreground">
-      <div className="page-shell py-4 min-[390px]:py-5 md:py-6">
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_350px]">
-          <main className="min-w-0 space-y-4">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 min-w-0 space-y-6 xl:col-span-8">
             <ProfileHero
               profileContext={profileContext}
               stats={stats}
@@ -467,72 +597,64 @@ function DesktopProfilePage({
               compact={false}
             />
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-12">
-              <section className="surface-panel flex min-h-[388px] flex-col rounded-[20px] p-5 xl:col-span-4">
-                <SectionTitle iconName="timeline" title="STEAM 能力雷达" actionHref="/profile/library" actionLabel="查看内容库" />
-                {steamRadar ? (
-                  <SteamRadarChart
-                    initialRadar={steamRadar}
-                    showHeader={false}
-                    className="mt-3 border-0 bg-transparent p-0 shadow-none xl:[&>div:first-of-type]:h-[214px] xl:[&>div:first-of-type]:min-h-[214px] xl:[&>p]:line-clamp-2"
-                  />
-                ) : (
-                  <EmptyBlock
-                    icon={Compass}
-                    iconName="timeline"
-                    title="还没有足够的数据"
-                    description="完成项目和挑战后，这里会生成你的 STEAM 能力图谱。"
-                    href="/explore"
-                    action="去完成一次挑战"
-                  />
-                )}
-              </section>
-
+            <div className="grid gap-4 lg:grid-cols-2">
               <ExperienceBadgesPanel
                 profileContext={profileContext}
                 featuredBadges={featuredBadges}
                 unlockedBadges={unlockedBadges}
                 userBadgeDetails={userBadgeDetails}
-                className="xl:col-span-5 xl:min-h-[388px]"
+                className={cn(isExploreVacuum && 'lg:col-span-2')}
               />
 
-              <StudyCheckInPanel profileContext={profileContext} className="xl:col-span-3 xl:min-h-[388px]" />
-
-              <section className="surface-panel rounded-[20px] p-5 md:col-span-2 xl:col-span-6">
-                <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
-                <ProjectShowcase projects={myProjects} total={myProjectsTotalCount} />
-              </section>
-
-              <section className="surface-panel rounded-[20px] p-5 xl:col-span-3">
-                <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
-                <ObservationList observations={myObservations} total={observationsTotal} />
-              </section>
-
-              <CommunityFeedPanel
-                profileContext={profileContext}
-                projects={myProjects}
-                observations={myObservations}
-                className="xl:col-span-3"
-              />
-
-              <LearningTimeline
-                profileContext={profileContext}
-                projects={myProjects}
-                observations={myObservations}
-                className="md:col-span-2 xl:col-span-6"
-              />
+              {!isExploreVacuum ? (
+                <section className="surface-panel flex min-h-[260px] flex-col rounded-[20px] p-6 lg:min-h-[300px]">
+                  <SectionTitle iconName="timeline" title="STEAM 能力雷达" />
+                  {steamRadar ? (
+                    <SteamRadarChart
+                      initialRadar={steamRadar}
+                      showHeader={false}
+                      className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[200px] [&>p]:line-clamp-2"
+                    />
+                  ) : (
+                    <SteamRadarEmptyPlaceholder />
+                  )}
+                </section>
+              ) : null}
             </div>
-          </main>
 
-          <aside className="space-y-4">
-            <GrowthTasksPanel tasks={growthTasks} completedTaskCount={completedTaskCount} />
+            {isExploreVacuum ? (
+              <ProfileStarterHub />
+            ) : (
+              <div className="grid gap-4 lg:grid-cols-2">
+                <section className="surface-panel rounded-[20px] p-6">
+                  <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
+                  <ProjectShowcase projects={myProjects} total={myProjectsTotalCount} emptyDensity="compact" />
+                </section>
+
+                <section className="surface-panel rounded-[20px] p-6">
+                  <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
+                  <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" />
+                </section>
+              </div>
+            )}
+
+            <LearningTimeline events={profileTimelineEvents} />
+          </div>
+
+          <aside className="col-span-12 min-w-0 space-y-6 xl:col-span-4">
+            <GrowthTasksPanel
+              tasks={growthTasks}
+              growthTasksGraduatedAt={growthTasksGraduatedAt}
+              growthGraduationSparkle={growthGraduationSparkle}
+              completedTaskCount={completedTaskCount}
+              claimingTaskId={claimingTaskId}
+              onClaim={onClaimGrowthTask}
+            />
+            <StudyCheckInPanel studyCheckInSummary={studyCheckInSummary} studyCheckInState={studyCheckInState} />
             <RecommendedChallengePanel />
-            <AchievementSummary
-              completedProjectsCount={completedProjectsCount}
-              observationsTotal={observationsTotal}
-              uniqueSpeciesCount={uniqueSpeciesCount}
-              xp={profileContext.currentXP}
-              level={profileContext.level}
+            <CommunityFeedPanel
+              projects={myProjects}
+              compactEmpty={isExploreVacuum}
             />
           </aside>
         </div>
@@ -545,32 +667,38 @@ function MobileProfilePage({
   profileContext,
   stats,
   growthTasks,
+  growthTasksGraduatedAt,
+  growthGraduationSparkle,
   completedTaskCount,
+  claimingTaskId,
+  onClaimGrowthTask,
   featuredBadges,
   unlockedBadges,
   myProjects,
   myProjectsTotalCount,
-  completedProjectsCount,
   steamRadar,
   myObservations,
   observationsTotal,
-  uniqueSpeciesCount,
+  profileTimelineEvents,
   unreadCount,
   profile,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
-  growthTasks: GrowthTask[]
+  growthTasks: ProfileGrowthTask[]
+  growthTasksGraduatedAt: string | null
+  growthGraduationSparkle: boolean
   completedTaskCount: number
+  claimingTaskId: GrowthTaskId | null
+  onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   myProjects: Project[]
   myProjectsTotalCount: number
-  completedProjectsCount: number
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
-  uniqueSpeciesCount: number
+  profileTimelineEvents: ProfileTimelineEvent[] | null
   unreadCount: number
   profile: ReturnType<typeof useAuth>['profile']
 }) {
@@ -591,7 +719,18 @@ function MobileProfilePage({
 
         <div className="grid grid-cols-2 gap-3">
           <section className="surface-panel min-h-[164px] p-4">
-            <p className="text-sm font-semibold text-foreground">经验与等级</p>
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-sm font-semibold text-foreground">经验与等级</p>
+              <LevelGuideDialog>
+                <button
+                  type="button"
+                  className="inline-flex min-h-7 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                >
+                  规则
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </LevelGuideDialog>
+            </div>
             <div className="mt-5 flex items-end gap-2">
               <span className="text-3xl font-extrabold text-[hsl(var(--brand-blue))]">
                 Lv.{profileContext.level}
@@ -618,19 +757,21 @@ function MobileProfilePage({
           </section>
         </div>
 
-        <section className="surface-panel p-4">
+        <section id="profile-badges-anchor" className="surface-panel p-4">
           <SectionTitle iconName="achievement" title="最近获得的徽章" actionHref="/badges-preview" actionLabel="全部徽章" />
           <BadgeShowcase badges={featuredBadges} unlockedBadges={unlockedBadges} compact />
         </section>
 
-        <section className="surface-panel p-4">
-          <SectionTitle iconName="growth" title={`成长任务（${completedTaskCount}/5）`} actionHref="/profile/library" actionLabel="查看全部" />
-          <div className="mt-4 space-y-3">
-            {growthTasks.slice(0, 5).map((task) => (
-              <GrowthTaskRow key={task.label} task={task} />
-            ))}
-          </div>
-        </section>
+        <GrowthTasksPanel
+          tasks={growthTasks}
+          growthTasksGraduatedAt={growthTasksGraduatedAt}
+          growthGraduationSparkle={growthGraduationSparkle}
+          completedTaskCount={completedTaskCount}
+          claimingTaskId={claimingTaskId}
+          onClaim={onClaimGrowthTask}
+        />
+
+        <LearningTimeline events={profileTimelineEvents} compact />
 
         <section className="surface-panel p-4">
           <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
@@ -641,15 +782,6 @@ function MobileProfilePage({
           <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
           <ObservationList observations={myObservations} total={observationsTotal} mobile />
         </section>
-
-        <AchievementSummary
-          completedProjectsCount={completedProjectsCount}
-          observationsTotal={observationsTotal}
-          uniqueSpeciesCount={uniqueSpeciesCount}
-          xp={profileContext.currentXP}
-          level={profileContext.level}
-          compact
-        />
       </div>
     </div>
   )
@@ -719,7 +851,7 @@ function ProfileHero({
         <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-muted)/0.34),transparent_58%)]" />
       </div>
 
-      <div className={cn('relative', compact ? 'px-5 pb-4 pt-5' : 'px-7 pb-5 pt-7')}>
+      <div className={cn('relative', compact ? 'px-5 pb-4 pt-5' : 'px-7 pb-0 pt-7')}>
         <div className={cn('flex gap-6', compact ? 'flex-col' : 'min-h-[156px] flex-wrap items-start')}>
           <div className={cn('flex items-center gap-5', compact ? '' : 'min-w-0 md:min-w-[420px] xl:min-w-[520px]')}>
             <div className="relative shrink-0">
@@ -776,11 +908,11 @@ function ProfileHero({
                       加入时间：{profileContext.joinedAt}
                     </span>
                   </div>
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
                     <Button asChild className="h-11 rounded-[20px] bg-[hsl(var(--brand-blue))] px-5 text-sm font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_18px_40px_-24px_hsl(var(--brand-blue)/0.8)] hover:bg-[hsl(var(--brand-blue)/0.92)]">
-                      <Link href="/project">
-                        <Rocket className="mr-2 h-4 w-4" />
-                        发布项目
+                      <Link href="/profile/library">
+                        <Library className="mr-2 h-4 w-4" />
+                        我的内容
                       </Link>
                     </Button>
                     <Button asChild variant="outline" className="h-11 rounded-[20px] border-[hsl(var(--brand-green)/0.28)] bg-[hsl(var(--surface-raised)/0.72)] px-4 text-sm font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]">
@@ -802,11 +934,19 @@ function ProfileHero({
           </div>
         </div>
 
-        <div className={cn('grid overflow-hidden border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60', compact ? 'mt-5 grid-cols-4 rounded-2xl' : 'mt-6 max-w-[610px] grid-cols-4 rounded-[18px]')}>
+        <div
+          className={cn(
+            'grid grid-cols-4 overflow-hidden',
+            compact
+              ? 'mt-5 rounded-2xl border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60'
+              : 'mt-8 border-t border-[hsl(var(--surface-border))] bg-sky-50/80 pb-1 pt-1 dark:bg-muted/25',
+          )}
+        >
           {stats.map((stat, index) => (
             <ProfileStatTile key={stat.key} stat={stat} compact={compact} bordered={index > 0} />
           ))}
         </div>
+        {!compact ? <div className="h-5 shrink-0" aria-hidden="true" /> : null}
       </div>
     </section>
   )
@@ -818,8 +958,11 @@ function ProfileStatTile({ stat, compact, bordered }: { stat: ProfileStat; compa
       href={stat.href}
       className={cn(
         'group flex items-center justify-center gap-3 transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
-        compact ? 'min-h-[72px] flex-col gap-1.5 px-2 py-3 text-center' : 'min-h-[62px] px-4 py-3',
-        bordered && 'border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]',
+        compact ? 'min-h-[72px] flex-col gap-1.5 px-2 py-3 text-center' : 'min-h-[60px] px-4 py-3.5',
+        bordered &&
+          (compact
+            ? 'border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]'
+            : 'border-l border-[hsl(var(--surface-border))]'),
       )}
     >
       <ProfileImageIcon name={stat.icon} variant="heroStat" className={compact ? 'h-9 w-9' : 'h-10 w-10'} />
@@ -874,12 +1017,14 @@ function SectionTitle({
   title,
   actionHref,
   actionLabel,
+  actionSlot,
 }: {
   icon?: LucideIcon
   iconName?: ProfileIconName
   title: string
   actionHref?: string
   actionLabel?: string
+  actionSlot?: ReactNode
 }) {
   return (
     <div className="flex items-center justify-between gap-3">
@@ -893,7 +1038,9 @@ function SectionTitle({
         ) : null}
         <h2 className="truncate text-base font-semibold text-foreground">{title}</h2>
       </div>
-      {actionHref && actionLabel ? (
+      {actionSlot ? (
+        actionSlot
+      ) : actionHref && actionLabel ? (
         <Link href={actionHref} className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)]">
           {actionLabel}
           <ChevronRight className="h-3.5 w-3.5" />
@@ -959,12 +1106,58 @@ function MiniRadarPreview({ radar }: { radar: SteamRadarWithGuidance }) {
   )
 }
 
+function radarWebRingPoints(outerRadius: number) {
+  return MINI_RADAR_DIMENSIONS.map((_, index) => {
+    const angle = (-90 + index * 72) * (Math.PI / 180)
+    return `${(50 + Math.cos(angle) * outerRadius).toFixed(2)},${(50 + Math.sin(angle) * outerRadius).toFixed(2)}`
+  }).join(' ')
+}
+
+function SteamRadarEmptyPlaceholder() {
+  const ringRadii = [40, 26, 14]
+  const spokeRadius = 40
+
+  return (
+    <div className="mt-4 flex min-h-[200px] flex-1 flex-col items-center justify-center gap-4 rounded-[14px] bg-[hsl(var(--surface-muted)/0.45)] px-4 py-7 dark:bg-[hsl(var(--surface-muted)/0.35)]">
+      <div className="relative mx-auto aspect-square w-[min(200px,88%)] max-w-[210px] shrink-0">
+        <svg viewBox="0 0 100 100" className="h-full w-full text-muted-foreground/55 dark:text-muted-foreground/45" aria-hidden>
+          {ringRadii.map((r) => (
+            <polygon key={r} points={radarWebRingPoints(r)} fill="none" stroke="currentColor" strokeWidth="0.55" vectorEffect="non-scaling-stroke" />
+          ))}
+          {MINI_RADAR_DIMENSIONS.map((_, index) => {
+            const angle = (-90 + index * 72) * (Math.PI / 180)
+            return (
+              <line
+                key={index}
+                x1="50"
+                y1="50"
+                x2={(50 + Math.cos(angle) * spokeRadius).toFixed(2)}
+                y2={(50 + Math.sin(angle) * spokeRadius).toFixed(2)}
+                stroke="currentColor"
+                strokeWidth="0.45"
+                vectorEffect="non-scaling-stroke"
+              />
+            )
+          })}
+        </svg>
+      </div>
+      <div className="max-w-xs px-1 text-center">
+        <p className="text-sm font-semibold leading-snug text-muted-foreground">参与挑战，点亮你的能力雷达</p>
+        <p className="mt-1.5 text-xs leading-5 text-muted-foreground/90">完成项目或挑战后，这里会显示你的 STEAM 五维图谱。</p>
+      </div>
+      <Link href="/explore" className={cn(profileSoftCtaClassName, 'h-9 w-fit shrink-0')}>
+        去探索项目
+      </Link>
+    </div>
+  )
+}
+
 function MobileActionGrid() {
   const actions = [
-    { label: '发布项目', href: '/share', icon: Rocket, tone: 'text-[hsl(var(--brand-blue))] bg-[hsl(var(--brand-blue)/0.12)]' },
+    { label: '我的内容', href: '/profile/library', icon: Library, tone: 'text-[hsl(var(--brand-blue))] bg-[hsl(var(--brand-blue)/0.12)]' },
     { label: '我的钱包', href: '/coins', icon: WalletCards, tone: 'text-[hsl(var(--brand-green))] bg-[hsl(var(--brand-green)/0.12)]' },
     { label: '创客商店', href: '/shop', icon: ShoppingBag, tone: 'text-[hsl(var(--brand-amber))] bg-[hsl(var(--brand-amber)/0.14)]' },
-    { label: '内容库', href: '/profile/library', icon: Library, tone: 'text-violet-500 bg-violet-500/10' },
+    { label: '分享作品', href: '/share', icon: Rocket, tone: 'text-violet-500 bg-violet-500/10' },
   ]
 
   return (
@@ -1038,8 +1231,25 @@ function ExperienceBadgesPanel({
   const levelProgressPercent = clampProgress(profileContext.xpIntoLevel, profileContext.xpNeededThisLevel)
 
   return (
-    <section className={cn('surface-panel flex flex-col overflow-hidden rounded-[20px] p-5', className)}>
-      <SectionTitle iconName="achievement" title="经验与等级" actionHref="/profile/library" actionLabel="成长体系" />
+    <section
+      id="profile-badges-anchor"
+      className={cn('surface-panel flex flex-col overflow-hidden rounded-[20px] p-6', className)}
+    >
+      <SectionTitle
+        iconName="achievement"
+        title="经验与等级"
+        actionSlot={(
+          <LevelGuideDialog>
+            <button
+              type="button"
+              className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            >
+              查看规则
+              <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </LevelGuideDialog>
+        )}
+      />
 
       <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,1fr)_108px]">
         <div className="min-w-0">
@@ -1091,64 +1301,29 @@ function ExperienceBadgesPanel({
 }
 
 function StudyCheckInPanel({
-  profileContext,
+  studyCheckInSummary,
+  studyCheckInState,
   className,
 }: {
-  profileContext: ProfileContext
+  studyCheckInSummary: ProfileStudyCheckInSummary | null
+  studyCheckInState: StudyCheckInLoadState
   className?: string
 }) {
-  const dayLabels = getRecentDayLabels(6)
-  const streakDays = Math.max(7, Math.min(28, profileContext.level * 4))
-
   return (
-    <section className={cn('surface-panel flex flex-col rounded-[20px] p-5', className)}>
-      <SectionTitle iconName="progress" title="学习打卡" actionHref="/profile/library" actionLabel="日历" />
-
-      <div className="mt-4 rounded-[20px] bg-[linear-gradient(135deg,#f4fbf7,#eef7ff)] p-4 dark:bg-[linear-gradient(135deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold text-muted-foreground">连续打卡</p>
-            <div className="mt-1 flex items-end gap-1">
-              <span className="text-[34px] font-extrabold leading-none text-[hsl(var(--brand-green))]">{streakDays}</span>
-              <span className="pb-1 text-sm font-bold text-foreground">天</span>
-            </div>
-          </div>
-          <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[18px] bg-white shadow-[0_16px_34px_-26px_rgba(27,96,54,0.62)] dark:bg-background/60">
-            <CalendarDays className="h-9 w-9 text-[hsl(var(--brand-amber))]" />
-          </div>
-        </div>
-        <p className="mt-3 text-xs leading-5 text-muted-foreground">继续加油，养成探索习惯。</p>
-      </div>
-
-      <div className="mt-4 grid grid-cols-6 gap-2">
-        {dayLabels.map((label, index) => {
-          const isToday = index === dayLabels.length - 1
-          return (
-            <div key={label} className="text-center">
-              <span className={cn('mx-auto grid h-7 w-7 place-items-center rounded-full', isToday ? 'bg-[hsl(var(--brand-green))] text-white' : 'bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]')}>
-                <CheckCircle2 className="h-4 w-4" />
-              </span>
-              <span className="mt-1 block text-[11px] font-medium text-muted-foreground">{isToday ? '今天' : label}</span>
-            </div>
-          )
-        })}
-      </div>
-
-      <div className="mt-auto pt-4">
-        <div className="rounded-[12px] border border-[hsl(var(--brand-green)/0.16)] bg-[hsl(var(--brand-green)/0.07)] px-3 py-2.5">
-          <p className="text-xs font-bold text-[hsl(var(--brand-green))]">今日探索提示</p>
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">把一个好奇问题写下来，明天用实验或观察验证它。</p>
-        </div>
-      </div>
-    </section>
+    <StudyCheckInCard
+      title={<SectionTitle iconName="progress" title="探索打卡" />}
+      summary={studyCheckInSummary}
+      state={studyCheckInState}
+      className={className}
+    />
   )
 }
 
 function RecommendedChallengePanel() {
   return (
-    <section className="surface-panel rounded-[20px] p-5">
+    <section className="surface-panel rounded-[20px] p-6">
       <SectionTitle iconName="emptyProjects" title="推荐下一步挑战" actionHref="/community?tab=challenges" actionLabel="查看全部" />
-      <Link href="/community?tab=challenges" className="surface-card mt-4 grid grid-cols-[106px_minmax(0,1fr)] gap-3 p-2 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
+      <Link href="/community?tab=challenges" className="surface-card mt-4 grid grid-cols-[106px_minmax(0,1fr)] gap-3 p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
         <div className="relative min-h-[108px] overflow-hidden rounded-[10px] bg-[hsl(var(--surface-border))]">
           <OptimizedImage src={RECOMMENDED_CHALLENGE_IMAGE} alt="纸飞机飞行距离挑战赛" fill variant="thumbnail" className="object-cover" />
         </div>
@@ -1163,9 +1338,7 @@ function RecommendedChallengePanel() {
               <UsersRound className="h-3.5 w-3.5" />
               1,258 人参与
             </span>
-            <span className="inline-flex h-8 items-center rounded-[10px] bg-[hsl(var(--brand-blue))] px-3 text-xs font-bold text-white">
-              去参与
-            </span>
+            <span className={cn(profileSoftCtaClassName, 'h-8 shrink-0 px-3 text-xs font-semibold')}>去参与</span>
           </div>
         </div>
       </Link>
@@ -1174,86 +1347,127 @@ function RecommendedChallengePanel() {
 }
 
 function CommunityFeedPanel({
-  profileContext,
   projects,
-  observations,
   className,
+  compactEmpty = false,
 }: {
-  profileContext: ProfileContext
   projects: Project[]
-  observations: ObservationEvent[]
   className?: string
+  compactEmpty?: boolean
 }) {
-  const feedItems = [
-    projects[0]
-      ? {
-          key: `project-${projects[0].id}`,
-          tone: '创客工坊',
-          title: `发布了新项目：${projects[0].title}`,
-          meta: '刚刚更新',
-          image: projects[0].image,
-          href: `/project/${projects[0].id}`,
+  const [notifications, setNotifications] = useState<Notification[] | null>(null)
+  const [loadFailed, setLoadFailed] = useState(false)
+  const { user } = useAuth()
+
+  useEffect(() => {
+    if (!user?.id) {
+      setNotifications([])
+      return
+    }
+
+    let cancelled = false
+
+    const loadNotifications = async () => {
+      setLoadFailed(false)
+      try {
+        const response = await fetch('/api/notifications?limit=5')
+        const payload = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          throw new Error(payload?.error || '最近通知加载失败')
         }
-      : null,
-    observations[0]
-      ? {
-          key: `observation-${observations[0].id}`,
-          tone: '自然小达人',
-          title: `分享了观察记录：${getObservationTitle(observations[0])}`,
-          meta: formatShortDate(observations[0].observedAt),
-          image: observations[0].mediaUrls[0] || '',
-          href: `/nature/observations/${observations[0].id}`,
-        }
-      : null,
-    projects[1]
-      ? {
-          key: `project-${projects[1].id}`,
-          tone: '科学少年',
-          title: `评论了你的项目：${projects[1].title}`,
-          meta: '昨天 16:05',
-          image: projects[1].image,
-          href: `/project/${projects[1].id}`,
-        }
-      : null,
-  ].filter((item): item is NonNullable<typeof item> => Boolean(item))
+
+        if (cancelled) return
+        setNotifications((payload?.notifications as Notification[] | undefined) || [])
+      } catch (err) {
+        if (cancelled) return
+        logger.warn('Failed to load profile notification preview', { error: err })
+        setLoadFailed(true)
+        setNotifications([])
+      }
+    }
+
+    setNotifications(null)
+    loadNotifications()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
+
+  const projectImageById = useMemo(() => {
+    return new Map(projects.map((project) => [project.id, project.image]))
+  }, [projects])
 
   return (
-    <section className={cn('surface-panel rounded-[20px] p-5', className)}>
-      <SectionTitle iconName="community" title="社区动态" actionHref="/community" actionLabel="查看全部" />
-      {feedItems.length > 0 ? (
+    <section className={cn('surface-panel rounded-[20px] p-6', className)}>
+      <SectionTitle iconName="community" title="最近通知" actionHref="/messages" actionLabel="查看全部" />
+      {notifications === null ? (
         <div className="mt-4 space-y-3">
-          {feedItems.map((item) => (
-            <Link key={item.key} href={item.href} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-[12px] p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-              <AvatarWithFrame
-                src={profileContext.userAvatar}
-                alt={profileContext.userName}
-                fallback={getInitial(profileContext.userName)}
-                className="h-8 w-8 border-2 border-background"
-                avatarClassName="rounded-full object-cover"
-              />
-              <span className="min-w-0">
-                <span className="block text-xs font-bold text-[hsl(var(--brand-green))]">{item.tone}</span>
-                <span className="mt-0.5 line-clamp-2 text-xs leading-4 text-foreground">{item.title}</span>
-                <span className="mt-0.5 block text-[11px] text-muted-foreground">{item.meta}</span>
-              </span>
-              <span className="relative h-11 w-[52px] overflow-hidden rounded-[10px] bg-[hsl(var(--surface-muted))]">
-                {item.image ? (
-                  <OptimizedImage src={item.image} alt="" fill variant="thumbnail" className="object-cover" />
-                ) : (
-                  <MessageCircle className="m-3 h-5 w-5 text-[hsl(var(--brand-blue))]" />
-                )}
-              </span>
-            </Link>
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-[12px] p-1.5">
+              <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+              <div className="space-y-2">
+                <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
+                <div className="h-2.5 w-20 animate-pulse rounded-full bg-muted" />
+              </div>
+              <div className="h-11 w-[52px] animate-pulse rounded-[10px] bg-muted" />
+            </div>
           ))}
         </div>
+      ) : notifications.length > 0 ? (
+        <div className="mt-4 space-y-3">
+          {notifications.map((notification) => {
+            const href = getNotificationTargetHref(notification) || '/messages'
+            const image = notification.project_id ? projectImageById.get(notification.project_id) : null
+            const displayName = notification.from_username || '系统通知'
+
+            return (
+              <Link key={notification.id} href={href} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-[12px] p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+                <AvatarWithFrame
+                  src={notification.from_avatar || undefined}
+                  alt={displayName}
+                  fallback={getInitial(displayName)}
+                  className="h-8 w-8 border-2 border-background"
+                  avatarClassName="rounded-full object-cover"
+                />
+                <span className="min-w-0">
+                  <span className="block text-xs font-bold text-[hsl(var(--brand-green))]">{displayName}</span>
+                  <span className="mt-0.5 line-clamp-2 text-xs leading-4 text-foreground">{notification.content}</span>
+                  <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                    {formatDistanceToNow(new Date(notification.created_at), {
+                      addSuffix: true,
+                      locale: zhCN,
+                    })}
+                  </span>
+                </span>
+                <span className="relative h-11 w-[52px] overflow-hidden rounded-[10px] bg-[hsl(var(--surface-muted))]">
+                  {image ? (
+                    <OptimizedImage src={image} alt="" fill variant="thumbnail" className="object-cover" />
+                  ) : (
+                    <MessageCircle className="m-3 h-5 w-5 text-[hsl(var(--brand-blue))]" />
+                  )}
+                </span>
+              </Link>
+            )
+          })}
+        </div>
+      ) : compactEmpty ? (
+        <p className="mt-3 rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-3 py-2.5 text-center text-xs leading-5 text-muted-foreground">
+          {loadFailed ? '最近通知暂时加载失败。' : '还没有通知，去社区互动后会出现在这里。'}
+          <Link href="/community" className="ml-1 font-bold text-[hsl(var(--brand-blue))]">
+            去社区看看
+          </Link>
+        </p>
       ) : (
         <EmptyBlock
           icon={MessageCircle}
           iconName="community"
-          title="暂无社区动态"
-          description="参加一个挑战，或给同伴的作品留下一条有帮助的观察。"
-          href="/community?tab=challenges"
-          action="去参加挑战"
+          title={loadFailed ? '通知加载失败' : '还没有通知'}
+          description={loadFailed ? '请稍后再查看，或前往消息中心刷新。' : '收到回复、喜欢、关注或打赏时，会在这里显示最近动态。'}
+          href={loadFailed ? '/messages' : '/community'}
+          action={loadFailed ? '去消息中心' : '去社区互动'}
+          density="compact"
         />
       )}
     </section>
@@ -1261,136 +1475,131 @@ function CommunityFeedPanel({
 }
 
 function LearningTimeline({
-  profileContext,
-  projects,
-  observations,
+  events,
   className,
-}: {
-  profileContext: ProfileContext
-  projects: Project[]
-  observations: ObservationEvent[]
-  className?: string
-}) {
-  const dayLabels = getRecentDayLabels(6)
-  const items = [
-    { date: dayLabels[0], label: '加入探索', detail: profileContext.joinedAt, iconName: 'timeline' as const, active: true },
-    { date: dayLabels[1], label: '发布作品', detail: projects[0]?.title || '准备第一个项目', iconName: 'emptyProjects' as const, active: projects.length > 0 },
-    { date: dayLabels[2], label: '自然观察', detail: observations[0] ? `${getObservationTitle(observations[0])}` : '记录 3 条', iconName: 'observation' as const, active: observations.length > 0 },
-    { date: dayLabels[3], label: '获得徽章', detail: '项目达人', iconName: 'liked' as const, active: true },
-    { date: dayLabels[5], label: '经验提升', detail: '探索值持续成长', iconName: 'likes' as const, active: true },
-  ]
-
-  return (
-    <section className={cn('surface-panel rounded-[20px] p-5', className)}>
-      <SectionTitle iconName="timeline" title="学习轨迹" actionHref="/profile/library" actionLabel="查看详情" />
-      <div className="mt-5 grid grid-cols-5 gap-2">
-        {items.map((item, index) => {
-          return (
-            <div key={`${item.label}-${item.date}`} className="relative min-w-0 text-center">
-              {index > 0 ? (
-                <span className="absolute left-[-50%] top-5 h-0.5 w-full bg-[hsl(var(--surface-border))]" aria-hidden="true" />
-              ) : null}
-              <ProfileImageIcon
-                name={item.iconName}
-                variant="timeline"
-                className={cn('relative z-10 mx-auto h-11 w-11', !item.active && 'opacity-55 grayscale')}
-              />
-              <span className="mt-2 block text-xs font-semibold text-muted-foreground">{item.date}</span>
-              <span className="mt-1 block truncate text-xs font-bold text-foreground">{item.label}</span>
-              <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{item.detail}</span>
-            </div>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
-
-function GrowthTasksPanel({ tasks, completedTaskCount }: { tasks: GrowthTask[]; completedTaskCount: number }) {
-  return (
-    <section className="surface-panel rounded-[20px] p-5">
-      <SectionTitle iconName="growth" title={`成长任务（${completedTaskCount}/5）`} actionHref="/profile/library" actionLabel="查看全部" />
-      <div className="mt-5 space-y-3">
-        {tasks.map((task) => (
-          <GrowthTaskRow key={task.label} task={task} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function GrowthTaskRow({ task }: { task: GrowthTask }) {
-  return (
-    <Link href={task.href} className="surface-subtle group block p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
-      <div className="flex items-start gap-3">
-        <span className={cn('mt-0.5 text-[hsl(var(--brand-green))]', !task.done && 'text-muted-foreground')}>
-          {task.done ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="flex items-center justify-between gap-3">
-            <span className="text-sm font-semibold text-foreground">{task.label}</span>
-            <span className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-green))]">{task.reward}</span>
-          </span>
-          <span className="mt-2 flex items-center gap-3">
-            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]">
-              <span className="block h-full rounded-full bg-[hsl(var(--brand-blue))]" style={{ width: `${task.progress}%` }} />
-            </span>
-            <span className="w-14 text-right text-xs font-medium text-muted-foreground">{task.progressLabel}</span>
-          </span>
-        </span>
-      </div>
-    </Link>
-  )
-}
-
-function AchievementSummary({
-  completedProjectsCount,
-  observationsTotal,
-  uniqueSpeciesCount,
-  xp,
-  level,
   compact = false,
 }: {
-  completedProjectsCount: number
-  observationsTotal: number
-  uniqueSpeciesCount: number
-  xp: number
-  level: number
+  events: ProfileTimelineEvent[] | null
+  className?: string
   compact?: boolean
 }) {
-  const items = [
-    { label: '完成项目', value: `${formatCompactNumber(completedProjectsCount)} 个`, iconName: 'projects' as const },
-    { label: '自然观察', value: `${formatCompactNumber(observationsTotal)} 条`, iconName: 'observation' as const },
-    { label: '识别物种', value: `${formatCompactNumber(uniqueSpeciesCount)} 种`, iconName: 'observation' as const },
-  ]
+  const visibleEvents = events ? [...events].reverse() : []
 
   return (
-    <section className={cn('surface-panel rounded-[20px] p-5', compact && 'mb-2')}>
-      <SectionTitle iconName="achievement" title="成就总览" actionHref="/badges-preview" actionLabel="查看详情" />
-      <div className="mt-4 grid grid-cols-3 gap-3">
-        {items.map((item) => (
-          <div key={item.label} className="surface-subtle p-3 text-center">
-            <ProfileImageIcon name={item.iconName} className="mx-auto h-8 w-8 rounded-[9px]" />
-            <div className="mt-2 text-base font-semibold tabular-nums text-foreground">{item.value}</div>
-            <div className="mt-1 text-xs font-medium text-muted-foreground">{item.label}</div>
-          </div>
+    <section className={cn('surface-panel rounded-[20px] p-6', className)}>
+      <SectionTitle iconName="timeline" title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
+      {events === null ? (
+        <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
+          <ProfileImageIcon name="timeline" className="h-10 w-10" />
+          正在同步真实轨迹
+        </div>
+      ) : visibleEvents.length === 0 ? (
+        <EmptyBlock
+          icon={Radar}
+          iconName="timeline"
+          title="还没有探索轨迹"
+          description="发布作品、完成项目或提交观察后，这里会显示真实记录。"
+          href="/explore"
+          action="去探索项目"
+          density="compact"
+        />
+      ) : (
+        <div
+          className={cn('mt-5 grid gap-2', compact && 'gap-1.5')}
+          style={{ gridTemplateColumns: `repeat(${visibleEvents.length}, minmax(0, 1fr))` }}
+        >
+          {visibleEvents.map((item, index) => {
+            const detailParts = [
+              item.detail,
+              item.statusLabel,
+              item.xpAmount ? `+${item.xpAmount} XP` : null,
+            ].filter(Boolean)
+            const content = (
+              <>
+                {index > 0 ? (
+                  <span className="absolute left-[-50%] top-5 h-0.5 w-full bg-[hsl(var(--surface-border))]" aria-hidden="true" />
+                ) : null}
+                <ProfileImageIcon
+                  name={item.iconName}
+                  variant="timeline"
+                  className={cn('relative z-10 mx-auto h-11 w-11', item.status === 'rejected' && 'opacity-70 grayscale')}
+                />
+                <span className="mt-2 block text-xs font-semibold text-muted-foreground">{item.dateLabel}</span>
+                <span className="mt-1 block truncate text-xs font-bold text-foreground">{item.label}</span>
+                <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{detailParts.join(' / ')}</span>
+              </>
+            )
+
+            return item.href ? (
+              <Link key={item.id} href={item.href} className="relative min-w-0 rounded-[12px] px-1 pb-1 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+                {content}
+              </Link>
+            ) : (
+              <div key={item.id} className="relative min-w-0 px-1 pb-1 text-center">
+                {content}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </section>
+  )
+}
+
+function GrowthTasksPanel({
+  tasks,
+  growthTasksGraduatedAt,
+  growthGraduationSparkle,
+  completedTaskCount,
+  claimingTaskId,
+  onClaim,
+}: {
+  tasks: ProfileGrowthTask[]
+  growthTasksGraduatedAt: string | null
+  growthGraduationSparkle: boolean
+  completedTaskCount: number
+  claimingTaskId: GrowthTaskId | null
+  onClaim: (taskId: GrowthTaskId) => void
+}) {
+  if (growthTasksGraduatedAt) {
+    return (
+      <GrowthTasksGraduatedCard
+        tasks={tasks}
+        showSparkle={growthGraduationSparkle}
+        claimingTaskId={claimingTaskId}
+        onClaim={onClaim}
+      />
+    )
+  }
+
+  return (
+    <section className="surface-panel rounded-[20px] p-6">
+      <SectionTitle iconName="growth" title={`成长任务（${completedTaskCount}/5）`} />
+      <div className="mt-5 space-y-3">
+        {tasks.map((task) => (
+          <GrowthTaskRow
+            key={task.id}
+            task={task}
+            claimPending={claimingTaskId === task.id}
+            onClaim={onClaim}
+          />
         ))}
-      </div>
-      <div className="mt-4 rounded-[10px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.5)] p-4">
-        <div className="flex items-center justify-between text-sm">
-          <span className="font-semibold text-foreground">累计经验值</span>
-          <span className="font-extrabold text-[hsl(var(--brand-blue))]">{xp.toLocaleString()}</span>
-        </div>
-        <div className="mt-3 flex items-center justify-between text-sm">
-          <span className="font-semibold text-foreground">全球排名</span>
-          <span className="rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-extrabold text-[hsl(var(--brand-blue))]">前 {Math.max(1, 20 - level)}%</span>
-        </div>
       </div>
     </section>
   )
 }
 
-function ProjectShowcase({ projects, total, mobile = false }: { projects: Project[]; total: number; mobile?: boolean }) {
+function ProjectShowcase({
+  projects,
+  total,
+  mobile = false,
+  emptyDensity = 'default',
+}: {
+  projects: Project[]
+  total: number
+  mobile?: boolean
+  emptyDensity?: 'default' | 'compact'
+}) {
   if (projects.length === 0) {
     return (
       <EmptyBlock
@@ -1400,22 +1609,24 @@ function ProjectShowcase({ projects, total, mobile = false }: { projects: Projec
         description="把今天完成的小实验、模型或观察整理成作品，点亮你的第一个展示位。"
         href="/project"
         action="启动第一个 STEAM 项目"
+        density={emptyDensity}
       />
     )
   }
 
-  const visibleProjects = projects.slice(0, mobile ? 6 : 4)
+  const visibleProjects = projects.slice(0, mobile ? 6 : 8)
 
   return (
     <div className={cn('mt-4', mobile ? '-mx-1 overflow-x-auto px-1' : '')}>
-      <div className={cn(mobile ? 'flex w-max gap-3 pb-1' : 'grid gap-4 md:grid-cols-2 xl:grid-cols-4')}>
+      <div
+        className={cn(
+          mobile ? 'flex w-max gap-3 pb-1' : 'grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4',
+        )}
+      >
         {visibleProjects.map((project) => (
           <MiniProjectCard key={project.id} project={project} mobile={mobile} />
         ))}
       </div>
-      {total > visibleProjects.length ? (
-        <p className="mt-3 text-xs text-muted-foreground">还有 {total - visibleProjects.length} 个作品在内容库中。</p>
-      ) : null}
     </div>
   )
 }
@@ -1424,30 +1635,43 @@ function MiniProjectCard({ project, mobile }: { project: Project; mobile: boolea
   return (
     <Link
       href={`/project/${project.id}`}
-      className={cn('surface-card group block overflow-hidden transition hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))]', mobile ? 'w-[176px]' : '')}
+      className={cn(
+        'surface-card group flex h-full flex-col overflow-hidden transition-shadow duration-200 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md',
+        mobile ? 'w-[176px]' : '',
+      )}
     >
-      <div className={cn('relative overflow-hidden bg-[hsl(var(--surface-muted))]', mobile ? 'h-[96px]' : 'aspect-[16/10]')}>
+      <div
+        className={cn(
+          'relative shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]',
+          mobile ? 'aspect-[16/10]' : 'aspect-[16/10]',
+        )}
+      >
         {project.image ? (
-          <OptimizedImage src={project.image} alt={project.title} fill variant="card" className="object-cover transition duration-500 group-hover:scale-105" />
+          <OptimizedImage
+            src={project.image}
+            alt={project.title}
+            fill
+            variant="card"
+            className="object-cover transition duration-300 group-hover:scale-[1.03]"
+          />
         ) : (
-          <div className="grid h-full place-items-center text-muted-foreground">
+          <div className="grid h-full place-items-center text-muted-foreground/80">
             <FolderOpen className="h-8 w-8" />
           </div>
         )}
       </div>
-      <div className="p-3">
-        <h3 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-foreground">{project.title}</h3>
-        <div className="mt-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span className="truncate rounded-[8px] bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 font-semibold text-[hsl(var(--brand-blue))]">
-            {project.category || '项目'}
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="inline-flex items-center gap-1">
-              <Eye className="h-3.5 w-3.5" />
+      <div className={cn('flex min-h-0 flex-1 flex-col', mobile ? 'p-3' : 'px-3.5 pb-3 pt-2.5')}>
+        <h3 className="truncate font-sans text-[13px] font-medium leading-snug tracking-tight text-foreground">
+          {project.title}
+        </h3>
+        <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-[hsl(var(--surface-border))]/80 pt-2 text-[11px] tabular-nums text-muted-foreground">
+          <span className="inline-flex w-full justify-end items-center gap-2 text-muted-foreground/90">
+            <span className="inline-flex items-center gap-0.5">
+              <Eye className="h-3 w-3 opacity-70" aria-hidden />
               {formatCompactNumber(project.views_count || 0)}
             </span>
-            <span className="inline-flex items-center gap-1">
-              <Heart className="h-3.5 w-3.5" />
+            <span className="inline-flex items-center gap-0.5">
+              <Heart className="h-3 w-3 opacity-70" aria-hidden />
               {formatCompactNumber(project.likes || 0)}
             </span>
           </span>
@@ -1457,7 +1681,17 @@ function MiniProjectCard({ project, mobile }: { project: Project; mobile: boolea
   )
 }
 
-function ObservationList({ observations, total, mobile = false }: { observations: ObservationEvent[]; total: number; mobile?: boolean }) {
+function ObservationList({
+  observations,
+  total,
+  mobile = false,
+  emptyDensity = 'default',
+}: {
+  observations: ObservationEvent[]
+  total: number
+  mobile?: boolean
+  emptyDensity?: 'default' | 'compact'
+}) {
   if (observations.length === 0) {
     return (
       <EmptyBlock
@@ -1467,6 +1701,7 @@ function ObservationList({ observations, total, mobile = false }: { observations
         description="拍下校园、公园或窗边的自然线索，让这里成为你的发现图鉴。"
         href="/nature/submit"
         action="去记录今天见到的第一只鸟"
+        density={emptyDensity}
       />
     )
   }
@@ -1480,7 +1715,7 @@ function ObservationList({ observations, total, mobile = false }: { observations
           <Link
             key={observation.id}
             href={`/nature/observations/${observation.id}`}
-            className={cn('surface-card group block transition hover:bg-[hsl(var(--surface-muted)/0.82)]', mobile ? 'w-[172px] overflow-hidden' : 'p-3')}
+            className={cn('surface-card group block transition hover:bg-[hsl(var(--surface-muted)/0.82)]', mobile ? 'w-[172px] overflow-hidden' : 'p-4')}
           >
             <div className={cn('flex gap-3', mobile && 'block')}>
               <div className={cn('relative shrink-0 overflow-hidden rounded-[12px] bg-[hsl(var(--surface-border))]', mobile ? 'h-[92px] w-full rounded-none' : 'h-16 w-20')}>
@@ -1517,6 +1752,60 @@ function ObservationList({ observations, total, mobile = false }: { observations
   )
 }
 
+function ProfileStarterHub() {
+  return (
+    <section className="surface-panel overflow-hidden rounded-[20px]">
+      <div className="grid gap-0 md:grid-cols-[minmax(0,200px)_1fr]">
+        <div className="relative flex min-h-[140px] items-center justify-center bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.12),hsl(var(--brand-green)/0.08))] px-6 py-6 dark:bg-[linear-gradient(160deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
+          <span className="relative block h-[120px] w-full max-w-[180px]">
+            <OptimizedImage
+              src={EMPTY_STATE_IMAGE_SRC.emptyProjects}
+              alt=""
+              fill
+              variant="thumbnail"
+              className="object-contain drop-shadow-sm"
+            />
+          </span>
+        </div>
+        <div className="flex flex-col justify-center gap-4 p-6">
+          <div>
+            <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
+              新手出发
+            </span>
+            <h3 className="mt-2 text-lg font-bold tracking-tight text-foreground">从这里点亮你的探索档案</h3>
+            <p className="mt-2 max-w-prose text-sm leading-6 text-muted-foreground">
+              一次小实验、一张观察照片，都会让个人主页变成真正属于你的成长记录。
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/project" className={cn(profileSoftCtaClassName, 'h-10 px-5 text-sm font-semibold')}>
+              <Rocket className="h-4 w-4" />
+              发布第一个项目
+            </Link>
+            <Link
+              href="/nature/submit"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--brand-green)/0.28)] bg-emerald-50/90 px-4 text-sm font-semibold text-[hsl(var(--brand-green))] transition hover:bg-emerald-100/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.25)] dark:border-[hsl(var(--brand-green)/0.32)] dark:bg-[hsl(var(--brand-green)/0.1)] dark:hover:bg-[hsl(var(--brand-green)/0.16)]"
+            >
+              <Leaf className="h-4 w-4" />
+              记录第一只鸟
+            </Link>
+          </div>
+          <Link
+            href="/community?tab=challenges"
+            className="inline-flex w-fit items-center gap-0.5 text-sm font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.85)]"
+          >
+            去参加社区挑战
+            <ChevronRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+      <p className="border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-6 py-3 text-xs leading-5 text-muted-foreground dark:bg-muted/20">
+        完成项目或挑战后，会解锁 STEAM 能力图谱与下方探索轨迹。
+      </p>
+    </section>
+  )
+}
+
 function EmptyBlock({
   icon: Icon,
   iconName,
@@ -1524,6 +1813,7 @@ function EmptyBlock({
   description,
   href,
   action,
+  density = 'default',
 }: {
   icon: LucideIcon
   iconName?: ProfileIconName
@@ -1531,36 +1821,52 @@ function EmptyBlock({
   description: string
   href: string
   action: string
+  density?: 'default' | 'compact'
 }) {
   const imageSrc = iconName && iconName in EMPTY_STATE_IMAGE_SRC
     ? EMPTY_STATE_IMAGE_SRC[iconName as keyof typeof EMPTY_STATE_IMAGE_SRC]
     : null
+  const compact = density === 'compact'
 
   return (
-    <div className="surface-subtle mt-4 flex min-h-[178px] flex-col justify-between px-4 py-4 text-left">
+    <div
+      className={cn(
+        'surface-subtle mt-4 flex flex-col justify-between text-left',
+        compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4',
+      )}
+    >
       <div className="flex items-start gap-3">
         {imageSrc ? (
-          <span className="relative h-20 w-20 shrink-0 overflow-visible">
+          <span className={cn('relative shrink-0 overflow-visible', compact ? 'h-14 w-14' : 'h-20 w-20')}>
             <OptimizedImage src={imageSrc} alt="" fill variant="thumbnail" className="object-contain" />
           </span>
         ) : iconName ? (
-          <ProfileImageIcon name={iconName} className="h-12 w-12" />
+          <ProfileImageIcon name={iconName} className={compact ? 'h-10 w-10' : 'h-12 w-12'} />
         ) : (
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-[20px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
-            <Icon className="h-6 w-6" />
+          <span
+            className={cn(
+              'grid shrink-0 place-items-center rounded-[20px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
+              compact ? 'h-10 w-10' : 'h-12 w-12',
+            )}
+          >
+            <Icon className={compact ? 'h-5 w-5' : 'h-6 w-6'} />
           </span>
         )}
         <div className="min-w-0">
-          <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
-            下一步任务
-          </span>
-          <h3 className="mt-2 text-base font-semibold text-foreground">{title}</h3>
-          <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{description}</p>
+          {!compact ? (
+            <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
+              下一步任务
+            </span>
+          ) : null}
+          <h3 className={cn('font-semibold text-foreground', compact ? 'mt-0 text-sm' : 'mt-2 text-base')}>{title}</h3>
+          <p className={cn('text-muted-foreground', compact ? 'mt-1 line-clamp-2 text-xs leading-5' : 'mt-1.5 text-sm leading-6')}>
+            {description}
+          </p>
         </div>
       </div>
-      <Button asChild className="mt-4 h-9 w-fit rounded-full px-3 text-sm font-semibold">
-        <Link href={href}>{action}</Link>
-      </Button>
+      <Link href={href} className={cn(profileSoftCtaClassName, 'w-fit shrink-0', compact ? 'mt-1 h-8 px-3 text-xs' : 'mt-4 h-9')}>
+        {action}
+      </Link>
     </div>
   )
 }

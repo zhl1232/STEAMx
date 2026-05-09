@@ -52,6 +52,16 @@ describe("Minesweeper Badge Logic", () => {
     });
 });
 
+describe("Growth graduate badge", () => {
+    test("growth_graduate requires growthTasksGraduated flag", () => {
+        const badge = BADGES.find((b) => b.id === "growth_graduate");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ growthTasksGraduated: false }))).toBe(false);
+        expect(badge!.condition(createStats({ growthTasksGraduated: undefined }))).toBe(false);
+        expect(badge!.condition(createStats({ growthTasksGraduated: true }))).toBe(true);
+    });
+});
+
 describe("Badge System Logic (Dynamic Badges)", () => {
     test("first_step badge should always be true", () => {
         const badge = BADGES.find((b) => b.id === "first_step");

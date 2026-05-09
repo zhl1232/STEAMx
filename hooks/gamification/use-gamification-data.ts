@@ -148,6 +148,7 @@ export function useGamificationData() {
                 observationsSubmitted: stats.observationsSubmitted || 0,
                 speciesObserved: stats.speciesObserved || 0,
                 observationStreak: stats.observationStreak || 0,
+                growthTasksGraduated: stats.growthTasksGraduated === true,
             };
         },
         enabled,

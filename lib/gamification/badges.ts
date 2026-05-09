@@ -180,6 +180,15 @@ const SINGLE_BADGES: Badge[] = [
     { id: "explorer", name: "初级探索者", description: "完成 1 个项目", icon: "compass", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.projectsCompleted >= 1 },
     { id: "social_butterfly", name: "社交蝴蝶", description: "首次参与讨论", icon: "butterfly", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.commentsCount >= 1 || stats.discussionsCreated >= 1 || stats.repliesCount >= 1 },
     { id: "challenge_rookie", name: "挑战新人", description: "首次参加挑战", icon: "flag_checkered", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.challengesJoined >= 1 },
+    {
+        id: "growth_graduate",
+        name: "探索启程",
+        description: "完成全部 5 项成长任务",
+        icon: "rocket",
+        kind: "single",
+        seriesKey: "first_steps",
+        condition: (stats) => stats.growthTasksGraduated === true,
+    },
     // 扫雷专属徽章
     { id: "minesweeper_rookie", name: "排雷新兵", description: "首次通关扫雷（任意难度）", icon: "bomb", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperWins >= 1 },
     { id: "minesweeper_expert", name: "排雷专家", description: "完成高级难度扫雷通关", icon: "shield_star", kind: "single", seriesKey: "minesweeper", condition: (stats) => stats.minesweeperExpertWins >= 1 },

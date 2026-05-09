@@ -1,8 +1,18 @@
 export type NatureTopicStatus = 'available' | 'upcoming'
 
+export const natureTopicKeys = ['birds', 'insects', 'plants', 'fungi'] as const
+export type NatureTopicKey = (typeof natureTopicKeys)[number]
+
+export const natureTopicLabels: Record<NatureTopicKey, string> = {
+  birds: '鸟类',
+  insects: '昆虫',
+  plants: '植物',
+  fungi: '真菌',
+}
+
 export interface NatureTopicConfig {
-  id: string
-  slug: string
+  id: NatureTopicKey
+  slug: NatureTopicKey
   title: string
   subtitle: string
   description: string

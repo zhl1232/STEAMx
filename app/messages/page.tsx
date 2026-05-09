@@ -20,6 +20,7 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { useAuth } from '@/lib/context/auth-context';
 import { useNotifications, type Notification } from '@/lib/context/notification-context';
 import { useConversations } from "@/hooks/use-messages";
+import { getNotificationTargetHref } from "@/lib/notifications/navigation";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -66,7 +67,7 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
       (n) => n.type === "mention" || n.type === "reply" || n.type === "creator_update",
     );
   }
-  if (tab === "likes") return notifications.filter((n) => n.type === "like");
+  if (tab === "likes") return notifications.filter((n) => n.type === "like" || n.type === "tip");
   if (tab === "follows") return notifications.filter((n) => n.type === "follow");
   return [];
 }
@@ -78,7 +79,7 @@ function getUnreadByTab(notifications: Notification[]) {
     replies: unread.filter(
       (n) => n.type === "mention" || n.type === "reply" || n.type === "creator_update",
     ).length,
-    likes: unread.filter((n) => n.type === "like").length,
+    likes: unread.filter((n) => n.type === "like" || n.type === "tip").length,
     follows: unread.filter((n) => n.type === "follow").length,
     dm: 0,
   };
@@ -157,25 +158,8 @@ function MessagesContent() {
   const handleNotificationClick = async (notification: Notification) => {
     if (!notification.is_read) await markAsRead(notification.id);
 
-    if (notification.type === "creator_update" && notification.project_id) {
-      router.push(`/project/${notification.project_id}`);
-    } else if (notification.type === "follow" && notification.from_user_id) {
-      router.push(`/users/${notification.from_user_id}`);
-    } else if (
-      notification.related_type === "comment" &&
-      notification.project_id &&
-      notification.related_id
-    ) {
-      router.push(`/project/${notification.project_id}#comment-${notification.related_id}`);
-    } else if (
-      notification.related_type === "discussion_reply" &&
-      notification.discussion_id &&
-      notification.related_id
-    ) {
-      router.push(`/community/discussion/${notification.discussion_id}#reply-${notification.related_id}`);
-    } else if (notification.type === "like" && notification.project_id) {
-      router.push(`/project/${notification.project_id}`);
-    }
+    const href = getNotificationTargetHref(notification);
+    if (href) router.push(href);
   };
 
   if (authLoading || !user) {

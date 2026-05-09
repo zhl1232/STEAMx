@@ -5,6 +5,7 @@
  */
 
 import type { Database } from '@/lib/supabase/types'
+import type { NatureTopicKey } from '@/lib/config/nature-topics'
 import { formatRelativeTime } from '@/lib/date-utils'
 
 // ============================================================
@@ -284,12 +285,23 @@ export interface ObservationEvent {
     species: ObservationSpeciesSummary[]
 }
 
+export interface ObservationHotspotSpeciesSummary {
+    speciesId: number
+    speciesSlug?: string
+    commonName: string
+    scientificName?: string | null
+    observationCount: number
+    totalCount: number | null
+    latestObservedAt: string
+}
+
 export interface ObservationLocationSummary {
     locationName: string
     observationCount: number
     latestObservedAt: string
     latitude?: number | null
     longitude?: number | null
+    species?: ObservationHotspotSpeciesSummary[]
 }
 
 export interface Species {
@@ -305,6 +317,8 @@ export interface Species {
     coverImageUrl?: string | null
     audioUrl?: string | null
     isActive: boolean
+    topicKey?: NatureTopicKey | null
+    topicLabel?: string
     observedByCurrentUser?: boolean
     aliasesDisplay?: string
     recentObservations?: ObservationEvent[]

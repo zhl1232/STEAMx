@@ -8,7 +8,7 @@ async function expectHealthyPage(page: Page, path: string) {
 
 test('首页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/')
-  await expect(page).toHaveTitle(/STEAM 探索/)
+  await expect(page).toHaveTitle(/STEAM 项目式学习与自然观察社区/)
 })
 
 test('探索页 smoke', async ({ page }) => {

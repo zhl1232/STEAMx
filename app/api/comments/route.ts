@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateContentSafe, isOwnedCommentImageUrl } from '@/lib/api/validation'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
 const COMMENT_SELECT = `
   *,
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, status')
+      .select('author_id, status, title')
       .eq('id', projectId)
       .maybeSingle()
 
@@ -59,7 +60,8 @@ export async function POST(request: NextRequest) {
     if (!projectRow) {
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
     }
-    if (!canAccessProject(projectRow as { author_id: string; status: string | null }, user.id)) {
+    const typedProject = projectRow as { author_id: string; status: string | null; title?: string | null }
+    if (!canAccessProject(typedProject, user.id)) {
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
     }
 
@@ -134,6 +136,45 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error || !data) throw error
+
+    const typedComment = data as {
+      id: number
+      profiles?: { display_name?: string | null; avatar_url?: string | null } | null
+    }
+    const actorName = typedComment.profiles?.display_name || user.email?.split('@')[0] || '用户'
+    const actorAvatar = typedComment.profiles?.avatar_url || getDefaultAvatarPath(user.id)
+    const recipients = new Set<string>()
+
+    if (typedProject.author_id && typedProject.author_id !== user.id) {
+      recipients.add(typedProject.author_id)
+    }
+    if (replyToUserId && replyToUserId !== user.id) {
+      recipients.add(replyToUserId)
+    }
+
+    if (recipients.size > 0) {
+      const projectTitle = typedProject.title || '项目'
+      const notificationRows = [...recipients].map((recipientId) => ({
+        user_id: recipientId,
+        type: 'reply',
+        content:
+          recipientId === replyToUserId
+            ? `${actorName} 回复了你在《${projectTitle}》下的评论`
+            : `${actorName} 评论了你的项目《${projectTitle}》`,
+        related_type: 'comment',
+        related_id: typedComment.id,
+        project_id: projectId,
+        from_user_id: user.id,
+        from_username: actorName,
+        from_avatar: actorAvatar,
+      }))
+
+      const { error: notificationError } = await supabase
+        .from('notifications')
+        .insert(notificationRows as never)
+
+      if (notificationError) throw notificationError
+    }
 
     return NextResponse.json({ comment: data })
   } catch (error) {

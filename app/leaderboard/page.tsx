@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Medal, Sparkles, Trophy } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
@@ -7,9 +7,9 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
     title: "社区排行榜",
-    description: "查看 STEAM 探索社区中的等级、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。",
+    description: "查看 STEAM 探索社区中的等级、经验、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。",
     path: "/leaderboard",
-    keywords: ["社区排行榜", "STEAM成长榜", "创作排行"],
+    keywords: ["社区排行榜", "STEAM经验榜", "创作排行"],
 });
 
 export default function LeaderboardPage() {
@@ -24,43 +24,27 @@ export default function LeaderboardPage() {
                 />
             </div>
 
-            <main className="page-shell pt-5 md:pt-8">
-                <section className="relative overflow-hidden rounded-[28px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.86)] px-5 py-8 shadow-[0_26px_70px_-48px_hsl(var(--surface-shadow)/0.55)] backdrop-blur sm:px-7 md:px-8 lg:px-10">
+            <main className="mx-auto w-full max-w-[1840px] px-4 pt-4 min-[390px]:px-5 md:px-8 md:pt-8">
+                <section className="relative overflow-hidden rounded-[24px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-5 shadow-[0_28px_78px_-50px_hsl(var(--surface-shadow)/0.58)] backdrop-blur sm:rounded-[30px] sm:px-7 sm:py-8 md:px-9 lg:px-10 xl:px-12">
                     <div
-                        className="absolute inset-0 bg-[length:780px_auto] bg-[right_-120px_top_-80px] bg-no-repeat opacity-90 dark:opacity-35 md:bg-[length:880px_auto] md:bg-[right_top_-160px]"
-                        style={{ backgroundImage: "url('/assets/leaderboard-blue-honor-bg.png')" }}
+                        className="absolute inset-0 bg-cover bg-[position:58%_center] bg-no-repeat opacity-95 dark:opacity-35 md:bg-center"
+                        style={{ backgroundImage: "url('/assets/leaderboard-community-honor-bg.webp')" }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--surface-raised))] via-[hsl(var(--surface-raised)/0.88)] to-[hsl(var(--surface-raised)/0.18)] dark:from-[hsl(var(--background)/0.92)] dark:via-[hsl(var(--background)/0.72)] dark:to-[hsl(var(--background)/0.2)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_6%,hsl(var(--brand-blue)/0.12),transparent_36%),linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.9)_34%,hsl(var(--surface-raised)/0.52)_62%,hsl(var(--surface-raised)/0.18)_100%)] dark:bg-[radial-gradient(circle_at_78%_6%,hsl(var(--brand-blue)/0.2),transparent_36%),linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.82)_42%,hsl(var(--background)/0.42)_100%)]" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/35 to-transparent dark:from-white/[0.04]" />
 
-                    <div className="relative flex min-h-[220px] flex-col justify-between gap-8 md:min-h-[250px] lg:flex-row lg:items-end">
-                        <div className="max-w-2xl">
+                    <div className="relative flex md:min-h-[250px] md:items-center xl:min-h-[274px]">
+                        <div className="max-w-3xl self-center">
                             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
                                 <Trophy className="h-3.5 w-3.5" />
                                 社区荣誉榜
                             </div>
-                            <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl">
+                            <h1 className="mt-4 text-[2rem] font-black leading-tight tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
                                 社区排行榜
                             </h1>
-                            <p className="mt-4 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300">
+                            <p className="mt-3 line-clamp-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:line-clamp-none sm:text-lg sm:leading-8">
                                 看见持续探索、认真创作和互相帮助的伙伴，用清晰的成长记录赢得荣誉。
                             </p>
-                        </div>
-
-                        <div className="grid max-w-md grid-cols-3 gap-3 text-center lg:w-[390px]">
-                            {[
-                                { icon: Trophy, label: "积分榜", value: "XP" },
-                                { icon: Medal, label: "徽章榜", value: "成就" },
-                                { icon: Sparkles, label: "实干榜", value: "项目" },
-                            ].map((item) => (
-                                <div
-                                    key={item.label}
-                                    className="rounded-2xl border border-white/70 bg-white/75 px-3 py-4 shadow-[0_16px_36px_-28px_rgba(37,99,235,0.65)] backdrop-blur dark:border-white/10 dark:bg-white/[0.06]"
-                                >
-                                    <item.icon className="mx-auto h-5 w-5 text-blue-600 dark:text-blue-300" />
-                                    <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">{item.label}</div>
-                                    <div className="mt-1 text-xs text-muted-foreground">{item.value}</div>
-                                </div>
-                            ))}
                         </div>
                     </div>
                 </section>

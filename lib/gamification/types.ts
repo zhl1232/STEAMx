@@ -51,6 +51,8 @@ export interface UserStats {
     observationsSubmitted?: number;    // 提交的观察记录数
     speciesObserved?: number;          // 观察到的不重复物种数
     observationStreak?: number;        // 连续观察天数
+    /** 成长任务毕业哨兵（xp_logs profile_growth_task_graduation v1） */
+    growthTasksGraduated?: boolean;
 }
 
 export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";

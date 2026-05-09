@@ -18,13 +18,16 @@ export type { ObservationListOptions } from './nature-observation-events'
 
 export {
   getCuratedChallengeProjects,
+  getBirdObservationCategoryStats,
   getBirdObservationFeaturedSpecies,
   getBirdObservationRecentObservations,
+  getBirdObservationTopicHotspots,
   getBirdObservationHomepageData,
   getNatureObservationHotspots,
 } from './nature-observation-homepage'
 export type {
   BirdHomepageData,
+  BirdObservationCategoryStats,
   NatureObservationStats,
   NatureTopicKey,
   NatureTopicSummary,

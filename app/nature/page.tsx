@@ -326,7 +326,7 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
   );
 
   const className =
-    "group relative block w-[206px] shrink-0 overflow-hidden rounded-lg shadow-[0_14px_36px_-28px_rgba(18,60,42,0.52)] ring-1 ring-[#c9dfcf] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_22px_50px_-34px_rgba(18,60,42,0.64)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:shadow-[0_18px_42px_-32px_rgba(0,0,0,0.8)] dark:ring-white/10 dark:hover:shadow-[0_24px_54px_-34px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-auto";
+    "group relative block w-[206px] shrink-0 overflow-hidden rounded-lg shadow-[0_14px_36px_-28px_rgba(18,60,42,0.52)] ring-1 ring-[#c9dfcf] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_22px_50px_-34px_rgba(18,60,42,0.64)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:shadow-[0_18px_42px_-32px_rgba(0,0,0,0.8)] dark:ring-white/10 dark:hover:shadow-[0_24px_54px_-34px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-auto";
 
   if (topic.href) {
     return (
@@ -347,7 +347,7 @@ function ObservationCard({ item, priority = false }: { item: ObservationPreview;
   return (
     <Link
       href={item.href}
-      className="group block w-[78vw] max-w-[312px] shrink-0 snap-center overflow-hidden rounded-lg border border-[#d8e8dc] bg-white shadow-[0_16px_44px_-34px_rgba(23,58,41,0.55)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#9fceb0] hover:shadow-[0_24px_60px_-38px_rgba(23,58,41,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:border-[#233f2e] dark:bg-[#0f1f16] dark:shadow-[0_18px_46px_-34px_rgba(0,0,0,0.8)] dark:hover:border-[#43865a] dark:hover:shadow-[0_24px_62px_-40px_rgba(0,0,0,0.95)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-auto md:max-w-none md:snap-align-none"
+      className="group block w-[78vw] max-w-[312px] shrink-0 snap-center overflow-hidden rounded-lg border border-[#d8e8dc] bg-white shadow-[0_16px_44px_-34px_rgba(23,58,41,0.55)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:border-[#9fceb0] hover:shadow-[0_24px_60px_-38px_rgba(23,58,41,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:border-[#233f2e] dark:bg-[#0f1f16] dark:shadow-[0_18px_46px_-34px_rgba(0,0,0,0.8)] dark:hover:border-[#43865a] dark:hover:shadow-[0_24px_62px_-40px_rgba(0,0,0,0.95)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-auto md:max-w-none md:snap-align-none"
     >
       <div className="relative aspect-[1.12] overflow-hidden bg-[#e8f1e9] dark:bg-[#16251b] md:aspect-[1.32]">
         {item.image ? (
@@ -541,7 +541,7 @@ function DataStatusCard({
               </div>
               <Link
                 href={item.href}
-                className="group/status-action inline-flex min-h-11 min-w-[76px] shrink-0 items-center justify-center gap-0.5 rounded-lg border border-[#91cfaa] bg-white px-3 text-sm font-semibold text-[#16844b] transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-[#16844b] hover:text-white hover:shadow-[0_12px_24px_-18px_rgba(22,132,75,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.98] dark:border-[#3f8054] dark:bg-[#122319] dark:text-[#8ee8ae] dark:hover:bg-[#2fb76b] dark:hover:text-[#041208] dark:hover:shadow-[0_14px_28px_-20px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d]"
+                className="group/status-action inline-flex min-h-11 min-w-[76px] shrink-0 items-center justify-center gap-0.5 rounded-lg border border-[#91cfaa] bg-white px-3 text-sm font-semibold text-[#16844b] transition-all duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-[#16844b] hover:text-white hover:shadow-[0_12px_24px_-18px_rgba(22,132,75,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.98] dark:border-[#3f8054] dark:bg-[#122319] dark:text-[#8ee8ae] dark:hover:bg-[#2fb76b] dark:hover:text-[#041208] dark:hover:shadow-[0_14px_28px_-20px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d]"
               >
                 查看
                 <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover/status-action:translate-x-0.5" />
@@ -620,8 +620,12 @@ function MobileNatureHeader() {
           <Link href="/messages" className="relative grid h-11 w-11 place-items-center rounded-full text-[#1f2b3a] transition-colors hover:bg-[#eef5ff] dark:text-[#d9e4f2] dark:hover:bg-white/[0.08]" aria-label="消息">
             <Bell className="h-7 w-7" />
           </Link>
-          <Link href="/profile" className="grid h-11 w-11 place-items-center rounded-full bg-[#eef3ee] text-[#1f2b3a] transition-colors hover:bg-[#e2ece4] dark:bg-white/[0.08] dark:text-[#d9e4f2] dark:hover:bg-white/[0.12]" aria-label="个人中心">
-            <UserRound className="h-6 w-6" />
+          <Link
+            href="/profile"
+            className="grid h-11 w-11 place-items-center rounded-full border border-[#8ab7ff]/55 bg-[linear-gradient(145deg,#f7fbff,#dcecff)] text-[#0f4ea8] shadow-[0_10px_24px_-16px_rgba(15,78,168,0.72),0_0_0_1px_rgba(255,255,255,0.72)_inset] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#6ea4ff] hover:bg-[linear-gradient(145deg,#ffffff,#cfe4ff)] hover:shadow-[0_16px_30px_-16px_rgba(15,78,168,0.8),0_0_0_1px_rgba(255,255,255,0.82)_inset] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8bbdff] focus-visible:ring-offset-2 focus-visible:ring-offset-white active:translate-y-0 dark:border-[#5a8ed8]/65 dark:bg-[linear-gradient(145deg,rgba(139,189,255,0.25),rgba(90,142,216,0.2))] dark:text-[#cfe5ff] dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:hover:border-[#74a8f2] dark:hover:bg-[linear-gradient(145deg,rgba(139,189,255,0.34),rgba(90,142,216,0.28))] dark:hover:shadow-[0_20px_36px_-20px_rgba(0,0,0,0.84),0_0_0_1px_rgba(255,255,255,0.16)_inset] dark:focus-visible:ring-offset-[#07130d]"
+            aria-label="个人中心"
+          >
+            <UserRound className="h-6 w-6 drop-shadow-[0_1px_1px_rgba(255,255,255,0.35)] dark:drop-shadow-none" />
           </Link>
         </div>
       </div>

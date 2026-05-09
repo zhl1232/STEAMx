@@ -8,7 +8,7 @@ import { SpeciesHotspotPanel } from "@/components/features/bird-observation/spec
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 
 interface SpeciesDetailPageProps {
@@ -63,7 +63,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
 
   const recentObservations = species.recentObservations ?? [];
   const recentObservationCount = recentObservations.length;
-  const hotspotCount = species.topLocations?.length ?? 0;
   const hasRecentObservations = recentObservationCount > 0;
   const currentPath = `/nature/species/${species.slug}`;
   const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
@@ -80,11 +79,11 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const taxonGroupPinyin = toSpeciesPinyinLabel(species.taxonGroup);
 
   return (
-    <div className="page-shell pb-24 pt-0 md:pb-10 md:pt-6">
+    <div className="mx-auto w-full max-w-[1840px] px-4 pb-24 pt-0 min-[390px]:px-5 md:px-8 md:pb-10 md:pt-8">
       <MobilePageHeader
         title={species.commonName}
         fallbackHref={fallbackHref}
-        className="-mx-4 mb-4 md:hidden"
+        className="-mx-4 mb-4 min-[390px]:-mx-5 md:hidden"
       />
 
       <section className="surface-panel overflow-hidden">
@@ -215,72 +214,26 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
             </section>
 
             {species.topLocations && species.topLocations.length > 0 ? (
-              <SpeciesHotspotPanel locations={species.topLocations} />
+              <SpeciesHotspotPanel
+                locations={species.topLocations}
+                recentObservations={recentObservations}
+                currentPath={currentPath}
+              />
             ) : null}
           </div>
 
-          <section className="mt-10 surface-subtle p-5">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-semibold">最近观察记录</h2>
-                <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
-                    最近记录 {recentObservationCount} 条
-                  </span>
-                  {hotspotCount > 0 ? (
-                    <span className="inline-flex items-center rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
-                      热点地点 {hotspotCount} 处
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-              {hasRecentObservations ? (
-                <div className="flex items-center gap-2">
-                  <Link
-                    href={submitHref}
-                    className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-                  >
-                    记录这只鸟的观察
-                  </Link>
-                </div>
-              ) : null}
-            </div>
-            <div className="mt-4 space-y-4">
-              {hasRecentObservations ? (
-                recentObservations.map((observation) => (
-                  <Link
-                    key={observation.id}
-                    href={appendNatureFrom(`/nature/observations/${observation.id}`, currentPath)}
-                    className="block rounded-2xl border border-border/70 bg-background/80 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm"
-                  >
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                      <span className="rounded-full border border-border/70 bg-background px-2 py-1">
-                        {new Date(observation.observedAt).toLocaleString("zh-CN")}
-                      </span>
-                      <span className="rounded-full border border-border/70 bg-background px-2 py-1">{observation.locationName}</span>
-                      {observation.habitat ? (
-                        <span className="rounded-full border border-border/70 bg-background px-2 py-1">{observation.habitat}</span>
-                      ) : null}
-                    </div>
-                    {observation.notes ? (
-                      <p className="mt-3 text-sm leading-6 text-foreground/90">{observation.notes}</p>
-                    ) : null}
-                    <div className="mt-3 text-xs text-primary">查看完整记录</div>
-                  </Link>
-                ))
-              ) : (
-                <div className="rounded-2xl border border-dashed border-border/80 bg-background/70 p-4">
-                  <p className="text-sm text-muted-foreground">暂时还没有观察记录。</p>
-                  <Link
-                    href={submitHref}
-                    className="mt-3 inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-                  >
-                    记录这只鸟的观察
-                  </Link>
-                </div>
-              )}
-            </div>
-          </section>
+          {!hasRecentObservations ? (
+            <section className="mt-8 surface-subtle p-5">
+              <h2 className="text-lg font-semibold">最近观察线索</h2>
+              <p className="mt-3 text-sm text-muted-foreground">暂时还没有公开观察记录。</p>
+              <Link
+                href={submitHref}
+                className="mt-4 inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+              >
+                记录这只鸟的观察
+              </Link>
+            </section>
+          ) : null}
         </div>
       </section>
     </div>

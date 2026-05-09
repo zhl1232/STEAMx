@@ -16,7 +16,7 @@ import { logger } from "@/lib/logger";
 export type Notification = {
   id: number;
   user_id: string;
-  type: "mention" | "reply" | "like" | "follow" | "system" | "creator_update";
+  type: "mention" | "reply" | "like" | "follow" | "system" | "creator_update" | "tip";
   content: string;
   related_type?: "comment" | "discussion_reply" | "project" | "discussion";
   related_id?: number;

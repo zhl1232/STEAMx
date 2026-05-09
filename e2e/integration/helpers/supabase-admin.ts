@@ -144,3 +144,11 @@ export async function deleteUserByEmail(email: string) {
   const { error } = await admin.auth.admin.deleteUser(user.id)
   if (error) throw error
 }
+
+/** Service-role delete: removes discussion and cascaded replies / likes. */
+export async function deleteDiscussionByTitle(title: string) {
+  const trimmed = title.trim()
+  if (!trimmed) return
+  const { error } = await admin.from('discussions').delete().eq('title', trimmed)
+  if (error) throw error
+}

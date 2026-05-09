@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import type { Species } from "@/lib/mappers/types";
+import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
 import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 
@@ -14,6 +15,7 @@ interface SpeciesListLoadMoreProps {
   initialPage: number;
   pageSize: number;
   query?: string;
+  topic?: SpeciesTopicFilter;
   initialHasMore: boolean;
   total: number;
   fromHref?: string;
@@ -24,6 +26,7 @@ export function SpeciesListLoadMore({
   initialPage,
   pageSize,
   query,
+  topic = "all",
   initialHasMore,
   total,
   fromHref,
@@ -44,6 +47,7 @@ export function SpeciesListLoadMore({
       p.set("page", String(page + 1));
       p.set("pageSize", String(pageSize));
       if (query) p.set("q", query);
+      if (topic !== "all") p.set("topic", topic);
       const res = await fetch(`/api/species?${p.toString()}`);
       if (!res.ok) throw new Error("fetch failed");
       const data = (await res.json()) as { species: Species[]; hasMore: boolean };
@@ -56,7 +60,7 @@ export function SpeciesListLoadMore({
       fetchingRef.current = false;
       setLoading(false);
     }
-  }, [hasMore, page, pageSize, query]);
+  }, [hasMore, page, pageSize, query, topic]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -79,7 +83,7 @@ export function SpeciesListLoadMore({
 
   return (
     <>
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {items.map((item, index) => {
           const commonNamePinyin = toSpeciesPinyinLabel(item.commonName);
           const { family, genus } = splitTaxonGroup(item.taxonGroup);
@@ -91,16 +95,16 @@ export function SpeciesListLoadMore({
             <Link
               key={item.id}
               href={appendNatureFrom(`/nature/species/${item.slug}`, fromHref)}
-              className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-[24px] border border-border/70 bg-card/85 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
+              className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-[20px] border border-border/70 bg-card/88 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
               style={{ animationDelay: `${staggerMs}ms` }}
             >
-              <div className="relative aspect-[4/3] overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.2),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.85))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.18),transparent_40%),linear-gradient(160deg,rgba(9,14,22,0.96),rgba(14,24,32,0.9))]">
+              <div className="relative aspect-[16/10] overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.2),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.85))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.18),transparent_40%),linear-gradient(160deg,rgba(9,14,22,0.96),rgba(14,24,32,0.9))] sm:aspect-[4/3] 2xl:aspect-[16/11]">
                 {item.coverImageUrl ? (
                   <Image
                     src={item.coverImageUrl}
                     alt={item.commonName}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    sizes="(min-width: 1536px) 25vw, (min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     quality={60}
                   />
@@ -115,7 +119,10 @@ export function SpeciesListLoadMore({
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">{item.commonName}</h2>
+                      <h2 className="text-lg font-semibold tracking-tight sm:text-xl">{item.commonName}</h2>
+                      <span className="inline-flex rounded-full border border-sky-200/80 bg-sky-50/80 px-2 py-0.5 text-[10px] font-medium text-sky-800 dark:border-sky-900/70 dark:bg-sky-950/30 dark:text-sky-200">
+                        {item.topicLabel ?? "未分类"}
+                      </span>
                       {item.observedByCurrentUser ? (
                         <span className="inline-flex rounded-full border border-emerald-300/80 bg-emerald-50/80 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300">
                           已观察
