@@ -1,28 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { type ComponentType } from "react";
 import {
   ArrowRight,
-  Code2,
   FlaskConical,
-  Gamepad2,
   Heart,
   Leaf,
   Lightbulb,
   MessageCircle,
-  Palette,
-  Sigma,
   ThumbsUp,
   Trophy,
   UsersRound,
-  Wrench,
 } from "lucide-react";
 
 import { RecommendationPanel } from "@/components/home/recommendation-panel";
 import { Surface } from "@/components/ui/surface";
-import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge";
+import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { SteamLogo } from "@/components/layout/logo";
 import { ProjectCard } from "@/components/features/project-card";
+import { CATEGORY_META } from "@/lib/config/categories";
 import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
 import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/home/community-feed";
 import { type HomepageRecommendationMode } from "@/lib/home/recommendations";
@@ -36,60 +31,41 @@ const natureImage = "/assets/home-nature-channel-bird.png";
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
 const homeCategoryTiles: Array<{
+  metaKey: keyof typeof CATEGORY_META;
   href: string;
-  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
-  title: string;
-  description: string;
-  tone: CategoryTone;
+  labelOverride?: string;
   countSource: HomeCategoryCountSource;
 }> = [
   {
+    metaKey: "科学",
     href: "/explore?category=科学",
-    icon: FlaskConical,
-    title: "科学",
-    description: "探索自然规律",
     countSource: { type: "projects", category: "科学" },
-    tone: "science",
   },
   {
+    metaKey: "技术",
     href: "/explore?category=技术",
-    icon: Code2,
-    title: "技术",
-    description: "创造数字世界",
     countSource: { type: "projects", category: "技术" },
-    tone: "tech",
   },
   {
+    metaKey: "工程",
     href: "/explore?category=工程",
-    icon: Wrench,
-    title: "工程",
-    description: "解决实际问题",
     countSource: { type: "projects", category: "工程" },
-    tone: "engineering",
   },
   {
+    metaKey: "艺术",
     href: "/explore?category=艺术",
-    icon: Palette,
-    title: "艺术",
-    description: "表达创意灵感",
     countSource: { type: "projects", category: "艺术" },
-    tone: "art",
   },
   {
+    metaKey: "数学",
     href: "/explore?category=数学",
-    icon: Sigma,
-    title: "数学",
-    description: "发现逻辑之美",
     countSource: { type: "projects", category: "数学" },
-    tone: "math",
   },
   {
+    metaKey: "其他",
     href: "/playground",
-    icon: Gamepad2,
-    title: "游乐场",
-    description: "在玩法中探索",
+    labelOverride: "游乐场",
     countSource: { type: "playground" },
-    tone: "playground",
   },
 ];
 
@@ -282,13 +258,14 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
   return (
     <div className="grid grid-cols-2 gap-3 pb-1 min-[380px]:grid-cols-3 md:grid-cols-3 md:gap-4 min-[1280px]:grid-cols-6">
       {homeCategoryTiles.map((category) => {
-        const Icon = category.icon;
-        const tone = categoryToneClasses[category.tone];
+        const meta = CATEGORY_META[category.metaKey];
+        const Icon = meta.icon;
+        const tone = categoryToneClasses[meta.tone ?? "science"];
         const countLabel = formatCategoryTileCountLabel(category.countSource, categoryTileCounts);
 
         return (
           <Link
-            key={category.title}
+            key={category.metaKey}
             href={category.href}
             className={cn(
               "surface-card-interactive group flex min-w-0 flex-col items-center justify-center rounded-[18px] border px-3 py-3.5 text-center transition hover:-translate-y-0.5 min-[380px]:min-h-[114px] md:min-h-[116px] md:flex-row md:items-center md:justify-start md:gap-3 md:rounded-[10px] md:px-4 md:py-4 md:text-left min-[1480px]:gap-4 min-[1480px]:px-5",
@@ -298,8 +275,8 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
           >
             <Icon className={cn("h-6 w-6 shrink-0 transition group-hover:scale-105 min-[390px]:h-7 min-[390px]:w-7 md:h-10 md:w-10 min-[1480px]:h-11 min-[1480px]:w-11", tone.text)} strokeWidth={2.2} />
             <div className="mt-2 min-w-0 md:mt-0">
-              <h2 className={cn("whitespace-nowrap font-sans text-[12px] font-bold leading-none min-[390px]:text-[13px] md:text-[18px] min-[1480px]:text-[20px]", tone.text)}>{category.title}</h2>
-              <p className="mt-2 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{category.description}</p>
+              <h2 className={cn("whitespace-nowrap font-sans text-[12px] font-bold leading-none min-[390px]:text-[13px] md:text-[18px] min-[1480px]:text-[20px]", tone.text)}>{category.labelOverride ?? meta.label}</h2>
+              <p className="mt-2 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{meta.description}</p>
               <p className="mt-1.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground min-[390px]:text-[11px] md:mt-3 md:text-[12px] min-[1480px]:text-[14px]">{countLabel}</p>
             </div>
           </Link>

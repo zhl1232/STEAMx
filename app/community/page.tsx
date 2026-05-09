@@ -9,9 +9,7 @@ import { DiscussionList } from "@/components/features/community/discussion-list"
 import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
 import { Button } from "@/components/ui/button";
 import { getFeaturedNatureChallenges } from "@/lib/community/featured-nature-challenges";
-import { NotificationBell } from "@/components/layout/notification-bell";
-import { SteamLogo } from "@/components/layout/logo";
-import { UserButton } from "@/components/layout/user-button";
+import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import type { Challenge } from "@/lib/mappers/types";
 
@@ -22,7 +20,7 @@ import {
     Image as ImageIcon,
     MessageCircle,
     MessageSquare,
-    Search,
+
     Sparkles,
     Trophy,
     UsersRound,
@@ -40,10 +38,10 @@ type ChallengeGroups = {
 };
 
 const heroMetricToneClassNames = [
-    "md:text-[#2f6f9f] md:dark:text-[#9cc9ef]",
-    "md:text-[#2d8464] md:dark:text-[#91dab9]",
-    "md:text-[#b96b2f] md:dark:text-[#f3b37a]",
-    "md:text-[#7566b4] md:dark:text-[#bfb6f4]",
+    "text-[#1b4f7a] dark:text-[#9cc9ef] md:text-[#2f6f9f] md:dark:text-[#9cc9ef]",
+    "text-[#1e6d55] dark:text-[#91dab9] md:text-[#2d8464] md:dark:text-[#91dab9]",
+    "text-[#8a4a1e] dark:text-[#f3b37a] md:text-[#b96b2f] md:dark:text-[#f3b37a]",
+    "text-[#4f4096] dark:text-[#bfb6f4] md:text-[#7566b4] md:dark:text-[#bfb6f4]",
 ] as const;
 
 const communityValues = [
@@ -89,35 +87,6 @@ function buildHeroMetrics(challengeGroups: ChallengeGroups, discussionTotal: num
     ] as const;
 }
 
-function MobileCommunityHeader() {
-    return (
-        <header className="sticky top-0 z-40 border-b border-[#dfe8f2]/80 bg-[#f7fbff]/92 px-5 pb-3 pt-[calc(0.85rem+env(safe-area-inset-top))] backdrop-blur-xl dark:border-[#243348] dark:bg-[#07101d]/92 md:hidden">
-            <div className="flex h-11 items-center justify-between gap-3">
-                <Link href="/" className="flex min-w-0 items-center gap-2.5">
-                    <SteamLogo className="h-8 w-8 shrink-0" />
-                    <span className="truncate text-[22px] font-black tracking-normal text-[#143f7d] dark:text-[#8bbdff]">
-                        STEAM 探索
-                    </span>
-                </Link>
-                <nav className="flex shrink-0 items-center gap-1.5">
-                    <Link
-                        href="/explore"
-                        className="grid h-10 w-10 place-items-center rounded-full text-[#0d1b34] transition hover:bg-[#eaf3ff] dark:text-[#d9e4f2] dark:hover:bg-[#172234]"
-                        aria-label="搜索"
-                    >
-                        <Search className="h-6 w-6" strokeWidth={2.05} />
-                    </Link>
-                    <div className="[&_button]:h-10 [&_button]:w-10 [&_svg]:h-6 [&_svg]:w-6">
-                        <NotificationBell />
-                    </div>
-                    <div className="[&_button]:h-10 [&_button]:w-10">
-                        <UserButton />
-                    </div>
-                </nav>
-            </div>
-        </header>
-    );
-}
 
 function CommunityHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetrics> }) {
     return (
@@ -146,17 +115,17 @@ function CommunityHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetric
                         </p>
                     </div>
 
-                    <div className="mt-auto grid max-w-[610px] grid-cols-4 gap-1 rounded-[14px] border border-white/15 bg-black/50 px-2 py-2 shadow-[0_16px_32px_-22px_rgba(0,0,0,0.72)] backdrop-blur-md md:mt-6 md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0">
+                    <div className="mt-auto grid max-w-[610px] grid-cols-4 gap-1 rounded-[14px] border border-white/60 bg-white/55 px-2 py-2 backdrop-blur-sm min-[390px]:gap-2 min-[390px]:px-3 dark:border-white/10 dark:bg-[#0b1626]/55 md:mt-6 md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0">
                         {metrics.map((metric) => (
                             <div
                                 key={metric.label}
-                                className="min-w-0 px-1 py-1.5 text-center md:px-2 md:py-1"
+                                className="min-w-0 overflow-hidden px-1 py-1.5 text-center md:px-2 md:py-1"
                             >
-                                <metric.icon className="mx-auto mb-1 h-5 w-5 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.52)] md:hidden" strokeWidth={2.4} />
-                                <div className={cn("text-[20px] font-black leading-none text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.58)] md:text-[28px] md:drop-shadow-[0_2px_8px_rgba(255,255,255,0.72)]", metric.color)}>
+                                <metric.icon className="mx-auto mb-1 h-5 w-5 text-[#1f2937] dark:text-white/85 md:hidden" strokeWidth={2.4} />
+                                <div className={cn("text-[20px] font-black leading-none tabular-nums md:text-[28px] md:drop-shadow-[0_2px_8px_rgba(255,255,255,0.72)]", metric.color)}>
                                     {metric.value}
                                 </div>
-                                <div className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-white/90 drop-shadow-[0_2px_7px_rgba(0,0,0,0.65)] md:text-[13px] md:text-[#2d3b52] md:drop-shadow-[0_1px_6px_rgba(255,255,255,0.76)] md:dark:text-[#d4e1f1] md:dark:drop-shadow-[0_2px_7px_rgba(0,0,0,0.85)]">
+                                <div className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-[#2d3b52] dark:text-[#d4e1f1] md:text-[13px] md:text-[#2d3b52] md:drop-shadow-[0_1px_6px_rgba(255,255,255,0.76)] md:dark:text-[#d4e1f1] md:dark:drop-shadow-[0_2px_7px_rgba(0,0,0,0.85)]">
                                     {metric.label}
                                 </div>
                             </div>
@@ -552,7 +521,7 @@ function CommunityPageContent() {
 
     return (
         <div className="min-h-screen bg-[linear-gradient(180deg,#f7fbff_0%,#f2f7fd_54%,hsl(var(--background))_100%)] dark:bg-[linear-gradient(180deg,#07101d_0%,#0a1421_56%,hsl(var(--background))_100%)]">
-            <MobileCommunityHeader />
+            <MobileGlobalHeader />
             <main className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-4 min-[390px]:px-5 md:px-8 md:py-6">
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
                     <CommunityHero metrics={metrics} />

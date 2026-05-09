@@ -9,9 +9,9 @@ import {
     Search,
     SlidersHorizontal,
     Sparkles,
+    Star,
     Target,
     Trophy,
-    Users,
     UserCircle,
     X,
 } from 'lucide-react'
@@ -22,6 +22,7 @@ import { useProjects } from '@/lib/context/project-context'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
+import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Surface } from '@/components/ui/surface'
 import {
@@ -39,7 +40,8 @@ import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
 
 // 类别配置：主分类 -> 子分类映射
-import { CATEGORY_CONFIG } from '@/lib/config/categories'
+import { CATEGORY_CONFIG, CATEGORY_META } from '@/lib/config/categories'
+import { categoryToneClasses } from '@/components/ui/tone-badge'
 
 // 难度选项
 const DIFFICULTY_OPTIONS = [
@@ -49,12 +51,6 @@ const DIFFICULTY_OPTIONS = [
     { value: "3", label: "3星" },
     { value: "4", label: "4星" },
     { value: "5", label: "5星" },
-]
-
-const MOBILE_DIFFICULTY_CHIPS = [
-    { value: "1", label: "1星", tone: "green" as const },
-    { value: "2", label: "2星", tone: "amber" as const },
-    { value: "3", label: "3星", tone: "primary" as const },
 ]
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
@@ -74,42 +70,6 @@ const SORT_OPTIONS: Array<{ value: SortBy; label: string }> = [
     { value: 'latest', label: '最新发布' },
     { value: 'popular', label: '最受欢迎' },
 ]
-
-function MobileWeeklyChallengeCard() {
-    return (
-        <section className="surface-card relative overflow-hidden border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-3.5 sm:hidden">
-            <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-3">
-                <div className="relative min-h-[96px] overflow-hidden rounded-[12px] bg-[linear-gradient(135deg,hsl(var(--brand-blue))_0%,hsl(var(--brand-green))_100%)]">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(255,255,255,0.72),transparent_22%),radial-gradient(circle_at_78%_82%,rgba(255,255,255,0.36),transparent_26%)] dark:bg-[radial-gradient(circle_at_28%_20%,rgba(186,230,253,0.48),transparent_24%),radial-gradient(circle_at_78%_82%,rgba(52,211,153,0.24),transparent_28%)]" />
-                    <div className="relative flex h-full items-center justify-center">
-                        <div className="h-0 w-0 rotate-[-16deg] border-b-[17px] border-l-[52px] border-t-[17px] border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.28)] dark:border-l-emerald-50 dark:drop-shadow-[0_12px_18px_rgba(0,0,0,0.34)]" />
-                    </div>
-                </div>
-                <div className="min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-bold text-[hsl(var(--brand-green))]">本周挑战</span>
-                        <span className="shrink-0 text-xs font-medium text-muted-foreground">剩余 5 天</span>
-                    </div>
-                    <h2 className="mt-1 line-clamp-1 text-[16px] font-bold leading-6 text-foreground">
-                        纸飞机飞行距离挑战赛
-                    </h2>
-                    <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
-                        设计并制作一架纸飞机，测试飞行距离并分享你的设计思路。
-                    </p>
-                    <div className="mt-2 flex items-center justify-between gap-2">
-                        <span className="inline-flex min-w-0 items-center gap-1 text-xs font-medium text-muted-foreground">
-                            <Users className="h-3.5 w-3.5 shrink-0" />
-                            <span className="truncate">1,258 人参与</span>
-                        </span>
-                        <Link href="/community" className="shrink-0 rounded-[10px] bg-[hsl(var(--brand-green))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_22px_-16px_hsl(var(--brand-green)/0.78)]">
-                            参与挑战
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
 
 function ExplorationProgressCard() {
     const { user, loading } = useAuth()
@@ -716,6 +676,17 @@ export function ExploreClient({
 
     return (
         <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+            <MobileGlobalHeader
+                variant="search"
+                searchValue={searchQuery}
+                searchPlaceholder="搜索项目、材料、作者..."
+                onSearchChange={setSearchQuery}
+                onSearchSubmit={(value) => {
+                    const trimmed = value.trim()
+                    setSearchQuery(trimmed)
+                    executeFilter(buildSearchParams({ query: trimmed }))
+                }}
+            />
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[linear-gradient(180deg,hsl(var(--app-canvas)/0.98)_0%,hsl(var(--app-canvas-soft)/0.72)_56%,hsl(var(--app-canvas-soft)/0)_100%)] md:h-[560px]"
@@ -753,8 +724,8 @@ export function ExploreClient({
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className="surface-panel relative min-w-0 overflow-hidden rounded-[22px] md:rounded-[20px]">
                             <h1 className="sr-only">探索项目</h1>
-                            <div className="border-b border-[hsl(var(--surface-border))] p-3.5 md:p-5">
-                                <form id="explore-search" onSubmit={handleSearchSubmit} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 md:grid-cols-[minmax(0,1fr)_176px_auto]">
+                            <div className="border-b border-[hsl(var(--surface-border))] bg-transparent p-3.5 md:p-5">
+                                <form id="explore-search" onSubmit={handleSearchSubmit} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2.5 md:grid-cols-[minmax(0,1fr)_176px_auto] md:gap-3">
                                     <label className="relative col-span-2 hidden md:col-span-1 md:block">
                                         <span className="sr-only">搜索项目</span>
                                         <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
@@ -773,7 +744,7 @@ export function ExploreClient({
                                             value={selectedSortBy}
                                             onValueChange={(value) => handleSortChange(normalizeSortBy(value))}
                                         >
-                                            <SelectTrigger className="h-10 rounded-[13px] px-4 text-sm font-semibold md:h-11 md:rounded-[12px]">
+                                            <SelectTrigger className="h-9 rounded-[12px] border-transparent bg-transparent px-3 text-[13px] font-semibold text-foreground shadow-none hover:bg-[hsl(var(--surface-muted))] md:h-11 md:rounded-[12px] md:border md:bg-[hsl(var(--surface-raised)/0.86)] md:px-4 md:text-sm">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent align="end" className="rounded-[14px]">
@@ -790,16 +761,16 @@ export function ExploreClient({
                                         type="button"
                                         onClick={openSheet}
                                         className={cn(
-                                            "relative inline-flex h-10 items-center justify-center gap-2 rounded-[13px] border px-4 text-sm font-semibold transition md:h-11 md:rounded-[12px]",
+                                            "relative inline-flex h-9 items-center justify-center gap-1.5 rounded-[12px] border px-3 text-[13px] font-semibold transition md:h-11 md:gap-2 md:rounded-[12px] md:px-4 md:text-sm",
                                             hasActiveAdvancedFilters
-                                                ? "filter-chip-active"
+                                                ? "border-[hsl(var(--brand-amber)/0.5)] bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))] md:filter-chip-active"
                                                 : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
                                         )}
                                     >
                                         <SlidersHorizontal className="h-4 w-4" />
                                         <span>筛选</span>
                                         {advancedFilterCount > 0 && (
-                                            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold text-[hsl(var(--brand-blue-foreground))]">
+                                            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">
                                                 {advancedFilterCount}
                                             </span>
                                         )}
@@ -807,44 +778,80 @@ export function ExploreClient({
                                 </form>
 
                                 <div className="no-scrollbar mt-4 overflow-x-auto md:mt-4">
-                                    <div className="flex min-w-max items-center gap-3 border-b border-[hsl(var(--surface-border))] pb-3 md:min-w-0 md:flex-wrap md:border-b-0 md:pb-0">
-                                        {displayCategories.map((category) => (
-                                            <FilterChip
-                                                key={category}
-                                                onClick={() => handleCategoryClick(category)}
-                                                disabled={isFiltering}
-                                                aria-pressed={selectedCategory === category}
-                                                active={selectedCategory === category}
-                                                solid={selectedCategory === category}
-                                                size="md"
-                                                className="min-w-[68px] rounded-[14px] px-5 text-[15px] md:min-w-0 md:rounded-[10px] md:text-sm"
-                                            >
-                                                {category}
-                                            </FilterChip>
-                                        ))}
+                                    <div className="flex min-w-max items-center gap-2 pb-3 md:min-w-0 md:flex-wrap md:gap-3 md:border-b-0 md:pb-0">
+                                        {displayCategories.map((category) => {
+                                            const meta = CATEGORY_META[category]
+                                            const isActive = selectedCategory === category
+                                            const tone = meta?.tone
+                                            const activeToneBg = isActive && tone ? categoryToneClasses[tone].badge : undefined
+                                            const Icon = meta?.icon ?? Sparkles
+                                            return (
+                                                <FilterChip
+                                                    key={category}
+                                                    onClick={() => handleCategoryClick(category)}
+                                                    disabled={isFiltering}
+                                                    aria-pressed={isActive}
+                                                    active={isActive}
+                                                    solid={isActive && !tone}
+                                                    size="md"
+                                                    className={cn(
+                                                        "min-w-[68px] rounded-full px-4 text-[14px] font-semibold md:min-w-0 md:rounded-[10px] md:px-5 md:text-sm",
+                                                        isActive && tone ? cn(activeToneBg, "border-transparent shadow-sm") : undefined,
+                                                    )}
+                                                >
+                                                    <Icon className="mr-1 h-4 w-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                                                    {category}
+                                                </FilterChip>
+                                            )
+                                        })}
                                     </div>
                                 </div>
 
                                 <div className="mt-3 space-y-3 md:mt-4 md:border-t md:border-[hsl(var(--surface-border))] md:pt-4">
-                                    <div className="no-scrollbar flex items-center gap-2 overflow-x-auto md:hidden">
-                                        {MOBILE_DIFFICULTY_CHIPS.map((option) => {
-                                            const active = selectedDifficulty === option.value
-                                            return (
-                                                <FilterChip
-                                                    key={option.value}
-                                                    onClick={() => handleDifficultyClick(active ? "all" : option.value)}
-                                                    active={active}
-                                                    solid={active}
-                                                    tinted
-                                                    tone={option.tone}
-                                                    size="md"
-                                                    className="h-9 rounded-[12px] text-sm font-bold md:h-9"
-                                                >
-                                                    {option.label}
-                                                </FilterChip>
-                                            )
-                                        })}
-                                        {selectedCategory !== "全部" && (
+                                    <div className="flex items-center justify-between gap-3 md:hidden">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[12px] text-muted-foreground">难度</span>
+                                            <div className="flex items-center gap-0.5">
+                                                {[1, 2, 3, 4, 5].map((n) => {
+                                                    const current = selectedDifficulty === 'all' ? 0 : Number(selectedDifficulty)
+                                                    const active = current >= n
+                                                    return (
+                                                        <button
+                                                            key={n}
+                                                            type="button"
+                                                            aria-label={`筛选 ${n} 星难度`}
+                                                            aria-pressed={selectedDifficulty === String(n)}
+                                                            onClick={() => handleDifficultyClick(selectedDifficulty === String(n) ? 'all' : String(n))}
+                                                            disabled={isFiltering}
+                                                            className="grid h-8 w-8 place-items-center rounded-full transition active:bg-[hsl(var(--surface-muted))] disabled:opacity-60"
+                                                        >
+                                                            <Star
+                                                                className={cn(
+                                                                    "h-5 w-5 transition-colors",
+                                                                    active
+                                                                        ? "fill-[hsl(var(--brand-amber))] text-[hsl(var(--brand-amber))]"
+                                                                        : "fill-transparent text-muted-foreground/30",
+                                                                )}
+                                                                strokeWidth={1.6}
+                                                            />
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                        {selectedDifficulty !== 'all' ? (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDifficultyClick('all')}
+                                                className="text-[12px] font-medium text-muted-foreground transition hover:text-foreground"
+                                            >
+                                                全部
+                                            </button>
+                                        ) : null}
+                                    </div>
+
+                                    {selectedCategory !== "全部" && (
+                                        <div className="flex items-center gap-2 md:hidden">
                                             <FilterChip
                                                 onClick={() => handleCategoryClick("全部")}
                                                 active
@@ -854,8 +861,8 @@ export function ExploreClient({
                                                 已选：{selectedCategory}
                                                 <X className="h-3.5 w-3.5" />
                                             </FilterChip>
-                                        )}
-                                    </div>
+                                        </div>
+                                    )}
 
                                     {currentSubCategories.length > 0 && (
                                         <div className="hidden flex-wrap items-center gap-2 md:flex">
@@ -1009,7 +1016,7 @@ export function ExploreClient({
                                     </div>
                                 )}
 
-                                <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                                <div className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
                                     {projects.map((project, index) => {
                                         const isPriority = index < 4
                                         const detailHref = buildProjectDetailHref(project.id, index)
@@ -1035,7 +1042,6 @@ export function ExploreClient({
                                         return (
                                             <Fragment key={project.id}>
                                                 {projectNode}
-                                                {index === 2 && <MobileWeeklyChallengeCard />}
                                             </Fragment>
                                         )
                                     })}

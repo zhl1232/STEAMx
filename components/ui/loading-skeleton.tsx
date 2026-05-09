@@ -1,5 +1,3 @@
-import { Fragment } from "react"
-
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
@@ -7,28 +5,33 @@ import { Surface } from "@/components/ui/surface"
 export function ProjectCardSkeleton({ variant = "featured" }: { variant?: "featured" | "compact" } = {}) {
   if (variant === "compact") {
     return (
-      <div className="surface-card grid min-h-[128px] grid-cols-[minmax(112px,40%)_minmax(0,1fr)] overflow-hidden sm:flex sm:min-h-0 sm:flex-col">
-        <div className="relative h-full min-h-[128px] w-full overflow-hidden bg-muted sm:aspect-[16/8.5] sm:h-auto sm:min-h-0">
-          <Skeleton className="h-full w-full rounded-none" />
-        </div>
-
-        <div className="flex min-w-0 flex-col justify-between gap-2 p-3 sm:flex-1 sm:p-3.5">
-          <div className="space-y-1.5">
-            <Skeleton className="h-4 w-4/5 rounded-full" />
-            <Skeleton className="h-4 w-2/3 rounded-full sm:hidden" />
-          </div>
-          <div className="flex min-h-5 flex-wrap items-center gap-1.5">
-            <Skeleton className="h-5 w-11 rounded-[6px]" />
-            <Skeleton className="h-5 w-14 rounded-[6px]" />
-            <Skeleton className="h-5 w-12 rounded-[6px]" />
-          </div>
-          <div className="flex items-center justify-between gap-2 border-t border-border/60 pt-2 sm:mt-auto sm:pt-3">
-            <div className="flex items-center gap-2.5">
-              <Skeleton className="h-4 w-8 rounded-full" />
-              <Skeleton className="h-4 w-8 rounded-full" />
-              <Skeleton className="h-4 w-8 rounded-full" />
+      <div className="h-full">
+        <div className="surface-card surface-card-interactive relative grid h-full grid-cols-[128px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[16px] p-2.5 sm:flex sm:flex-col sm:gap-0 sm:p-0">
+          <div className="relative aspect-square w-full overflow-hidden rounded-[12px] bg-muted sm:aspect-[16/8.5] sm:rounded-none">
+            <Skeleton className="h-full w-full rounded-none" />
+            <div className="pointer-events-none absolute bottom-1.5 right-1.5">
+              <Skeleton className="h-4 w-12 rounded-full bg-black/35" />
             </div>
-            <Skeleton className="h-5 w-14 shrink-0 rounded-full" />
+          </div>
+
+          <div className="flex min-w-0 flex-col justify-between gap-2 py-0.5 sm:flex-1 sm:p-3.5">
+            <div className="min-w-0 space-y-1.5">
+              <Skeleton className="h-5 w-[88%] rounded-md sm:h-6 sm:w-3/4" />
+              <Skeleton className="h-5 w-[65%] rounded-md sm:hidden" />
+              <div className="flex min-w-0 items-center gap-1.5">
+                <Skeleton className="h-5 w-10 shrink-0 rounded-md" />
+                <Skeleton className="h-3 min-w-0 flex-1 max-w-[6.5rem] rounded-full" />
+              </div>
+              <Skeleton className="h-3 w-full rounded-full" />
+              <Skeleton className="h-3 w-[92%] rounded-full" />
+              <Skeleton className="h-3 w-[70%] rounded-full" />
+            </div>
+
+            <div className="flex items-center gap-3 sm:mt-auto">
+              <Skeleton className="h-3 w-7 rounded-full" />
+              <Skeleton className="h-3 w-7 rounded-full" />
+              <Skeleton className="h-3.5 w-8 rounded-full" />
+            </div>
           </div>
         </div>
       </div>
@@ -69,59 +72,44 @@ export function ProjectCardSkeleton({ variant = "featured" }: { variant?: "featu
   )
 }
 
-/** 与 `MobileWeeklyChallengeCard` 占位一致：仅窄屏（sm 以下）插在网格第三项后 */
-function MobileWeeklyChallengeCardSkeleton() {
-  return (
-    <section className="surface-card relative overflow-hidden border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-3.5 sm:hidden">
-      <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-3">
-        <Skeleton className="min-h-[96px] rounded-[12px]" />
-        <div className="flex min-w-0 flex-col gap-2">
-          <div className="flex items-center justify-between gap-2">
-            <Skeleton className="h-3.5 w-16 rounded-full" />
-            <Skeleton className="h-3.5 w-14 rounded-full" />
-          </div>
-          <Skeleton className="h-5 w-4/5 rounded-[6px]" />
-          <Skeleton className="h-3 w-full rounded-full" />
-          <Skeleton className="h-3 w-5/6 rounded-full" />
-          <div className="mt-1 flex items-center justify-between gap-2">
-            <Skeleton className="h-3.5 w-24 rounded-full" />
-            <Skeleton className="h-8 w-[4.5rem] shrink-0 rounded-[10px]" />
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 /**
  * 与 `ExploreClient` 主面板顶部一致：搜索 / 排序 / 筛选 + 类别条 + 移动端难度条。
  * 外层需包在 `surface-panel` 内（含 `border-b` 容器）。
  */
 export function ExploreToolbarSkeleton() {
-  const categoryWidths = ["w-[76px]", "w-[52px]", "w-[52px]", "w-[52px]", "w-[52px]", "w-[64px]", "w-14"]
+  const categoryWidths = ["w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]"]
 
   return (
     <div className="border-b border-[hsl(var(--surface-border))] p-3.5 md:p-5">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 md:grid-cols-[minmax(0,1fr)_176px_auto]">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2.5 md:grid-cols-[minmax(0,1fr)_176px_auto] md:gap-3">
         <Skeleton className="hidden h-11 w-full rounded-[12px] md:block" />
-        <Skeleton className="h-10 w-full rounded-[13px] md:h-11 md:rounded-[12px]" />
-        <Skeleton className="h-10 w-[100px] shrink-0 rounded-[13px] md:h-11 md:w-[100px] md:rounded-[12px]" />
+        <Skeleton className="h-9 w-full rounded-[12px] md:h-11 md:rounded-[12px]" />
+        <Skeleton className="h-9 w-[100px] shrink-0 rounded-[12px] md:h-11 md:w-[100px]" />
       </div>
       <div className="no-scrollbar mt-4 overflow-x-auto md:mt-4">
-        <div className="flex min-w-max items-center gap-3 border-b border-[hsl(var(--surface-border))] pb-3 md:min-w-0 md:flex-wrap md:border-b-0 md:pb-0">
+        <div className="flex min-w-max items-center gap-2 pb-3 md:min-w-0 md:flex-wrap md:gap-3 md:border-b-0 md:pb-0">
           {categoryWidths.map((width, index) => (
             <Skeleton
               key={index}
-              className={`h-9 shrink-0 rounded-[14px] md:h-9 md:rounded-[10px] ${width}`}
+              className={`h-9 shrink-0 rounded-full md:rounded-[10px] ${width}`}
             />
           ))}
         </div>
       </div>
-      <div className="mt-3 md:mt-4 md:border-t md:border-[hsl(var(--surface-border))] md:pt-4">
-        <div className="no-scrollbar flex items-center gap-2 overflow-x-auto md:hidden">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-9 w-16 shrink-0 rounded-[12px]" />
-          ))}
+      <div className="mt-3 space-y-3 md:mt-4 md:border-t md:border-[hsl(var(--surface-border))] md:pt-4">
+        <div className="flex items-center justify-between gap-3 md:hidden">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-3 w-8 rounded-full" />
+            <div className="flex items-center gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-8 w-8 shrink-0 rounded-full" />
+              ))}
+            </div>
+          </div>
+          <Skeleton className="h-3 w-10 rounded-full" />
+        </div>
+        <div className="md:hidden">
+          <Skeleton className="h-9 w-[8.5rem] rounded-[12px]" />
         </div>
       </div>
     </div>
@@ -166,10 +154,37 @@ function ExploreSidebarSkeleton() {
   )
 }
 
+/**
+ * 与 `ExploreClient` 内 `MobileGlobalHeader variant="search"` 一致（探索路由在壳层不挂全局移动头）。
+ * 仅 `md:hidden`，桌面端由 `ConditionalAppShell` 的顶栏承担。
+ */
+function ExploreMobileSearchHeaderSkeleton() {
+  return (
+    <header
+      aria-hidden="true"
+      className="sticky top-0 z-50 w-full border-b border-[#dfe8f2] bg-white/92 shadow-[0_10px_36px_-28px_rgba(27,70,126,0.25)] backdrop-blur-xl pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-white/82 dark:border-[#243348] dark:bg-[#070b12]/94 dark:shadow-none dark:supports-[backdrop-filter]:bg-[#070b12]/84 md:hidden"
+    >
+      <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
+        <div className="mr-2 shrink-0">
+          <Skeleton className="h-8 w-8 rounded-xl" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <Skeleton className="h-10 w-full rounded-[14px]" />
+        </div>
+        <nav className="ml-2 flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2">
+          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+        </nav>
+      </div>
+    </header>
+  )
+}
+
 /** 与 `ExploreClient` 画布、max-w-[1840px]、双栏与项目网格（含 ≥1400px 四列）对齐 */
 export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+      <ExploreMobileSearchHeaderSkeleton />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[linear-gradient(180deg,hsl(var(--app-canvas)/0.98)_0%,hsl(var(--app-canvas-soft)/0.72)_56%,hsl(var(--app-canvas-soft)/0)_100%)] md:h-[560px]"
@@ -210,12 +225,9 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
               <h1 className="sr-only">探索项目</h1>
               <ExploreToolbarSkeleton />
               <div className="p-4 md:p-5">
-                <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                <div className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
                   {Array.from({ length: count }).map((_, index) => (
-                    <Fragment key={index}>
-                      <ProjectCardSkeleton variant="compact" />
-                      {index === 2 && <MobileWeeklyChallengeCardSkeleton />}
-                    </Fragment>
+                    <ProjectCardSkeleton key={index} variant="compact" />
                   ))}
                 </div>
               </div>

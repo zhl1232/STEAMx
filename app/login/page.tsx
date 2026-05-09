@@ -45,7 +45,7 @@ export default function LoginPage() {
             <p className="mt-3 max-w-lg text-sm leading-7 text-muted-foreground">
               登录后可保存项目进度、提交挑战作品、收藏灵感并同步个人内容库。
             </p>
-            <div className="mt-5 grid grid-cols-4 gap-2">
+            <div className="mt-5 grid grid-cols-2 gap-2 min-[390px]:grid-cols-4">
               {[
                 { label: '项目', value: '28.7k', icon: Beaker },
                 { label: '挑战', value: '12.4k', icon: Sparkles },
@@ -54,7 +54,7 @@ export default function LoginPage() {
               ].map((item) => (
                 <div key={item.label} className="rounded-2xl border border-border/70 bg-background/82 px-2.5 py-3 text-center backdrop-blur">
                   <item.icon className="mx-auto h-4 w-4 text-primary" />
-                  <p className="mt-1 text-sm font-semibold tracking-tight">{item.value}</p>
+                  <p className="mt-1 text-sm font-semibold leading-none tracking-tight tabular-nums">{item.value}</p>
                   <p className="mt-0.5 text-[11px] text-muted-foreground">{item.label}</p>
                 </div>
               ))}

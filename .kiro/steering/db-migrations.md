@@ -1,0 +1,35 @@
+---
+inclusion: fileMatch
+fileMatchPattern: ['supabase/migrations/**/*.sql', 'scripts/db-push.mjs']
+---
+
+# 数据库迁移规则
+
+本项目使用**自定义迁移工具**（`scripts/db-push.mjs`），因为数据库托管在第三方 Supabase（阿里云 opentrust.net），不支持官方 `supabase db push` CLI。
+
+## 迁移文件
+
+- **目录**：`supabase/migrations/`
+- **命名格式**：`YYYYMMDDHHMMSS_description.sql`（例如 `20260316100000_profiles_check_constraints.sql`）
+
+## 常用命令
+
+| 命令 | 说明 |
+|------|------|
+| `pnpm db:push` | 应用所有待执行的迁移（通过 Supabase pg-meta API，非直连 Postgres） |
+| `pnpm db:status` | 查看迁移状态（已执行 / 待执行） |
+| `pnpm db:baseline` | 首次接入时，将所有现有迁移标记为「已执行」 |
+| `pnpm db:push -- --dry-run` | 仅预览，不实际执行 |
+
+## 环境变量
+
+从 `.env.local` 读取：
+
+- `NEXT_PUBLIC_SUPABASE_URL`：Supabase 项目 URL
+- `SUPABASE_SERVICE_ROLE_KEY`：Service Role Key（在 Dashboard → API 中查找）
+
+## 重要提醒
+
+1. **禁止使用** `supabase db push`，在第三方托管环境下无法工作。
+2. 迁移追踪表：`public._schema_migrations`
+3. 创建新的迁移 SQL 文件后，**提醒用户执行** `pnpm db:push` 以应用迁移。

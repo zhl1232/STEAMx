@@ -85,11 +85,15 @@ vi.mock('lucide-react', async (importOriginal) => {
     }
 })
 
-vi.mock('@/lib/config/categories', () => ({
-    CATEGORY_CONFIG: {
-        科学: ['物理'],
-    },
-}))
+vi.mock('@/lib/config/categories', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/lib/config/categories')>()
+    return {
+        ...actual,
+        CATEGORY_CONFIG: {
+            科学: ['物理'],
+        },
+    }
+})
 
 vi.mock('@/lib/logger', () => ({
     logger: {
@@ -371,7 +375,7 @@ describe('ExploreClient', () => {
         await user.click(screen.getByRole('button', { name: '科学' }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
-        await user.click(screen.getByRole('button', { name: /筛选/ }))
+        await user.click(screen.getByRole('button', { name: /sliders/ }))
 
         expect(screen.getByRole('button', { name: '1星' })).toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '编织' })).not.toBeInTheDocument()

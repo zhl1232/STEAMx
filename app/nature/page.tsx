@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   ArrowRight,
-  Bell,
   Bug,
   Camera,
   Check,
@@ -17,17 +16,15 @@ import {
   MapPin,
   MessageCircle,
   NotebookPen,
-  Search,
   Sprout,
   Telescope,
-  UserRound,
   UsersRound,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { MobileHotspotsCard } from "@/app/nature/_components/mobile-hotspots-card";
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
-import { SteamLogo } from "@/components/layout/logo";
+import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
 import type {
   NatureObservationStats,
@@ -605,33 +602,6 @@ function DesktopSidebar({
   );
 }
 
-function MobileNatureHeader() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-[#dfe8e6] bg-white/[0.94] px-5 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] backdrop-blur-xl dark:border-[#24382d] dark:bg-[#07130d]/[0.94] md:hidden">
-      <div className="flex min-h-12 items-center justify-between gap-3">
-        <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="返回首页">
-          <SteamLogo className="h-9 w-9 shrink-0" />
-          <span className="truncate text-[26px] font-black leading-none text-[#133f7a] dark:text-[#8bbdff]">STEAM 探索</span>
-        </Link>
-        <div className="flex shrink-0 items-center gap-2">
-          <Link href="/explore" className="grid h-11 w-11 place-items-center rounded-full text-[#1f2b3a] transition-colors hover:bg-[#eef5ff] dark:text-[#d9e4f2] dark:hover:bg-white/[0.08]" aria-label="搜索">
-            <Search className="h-7 w-7" />
-          </Link>
-          <Link href="/messages" className="relative grid h-11 w-11 place-items-center rounded-full text-[#1f2b3a] transition-colors hover:bg-[#eef5ff] dark:text-[#d9e4f2] dark:hover:bg-white/[0.08]" aria-label="消息">
-            <Bell className="h-7 w-7" />
-          </Link>
-          <Link
-            href="/profile"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#8ab7ff]/55 bg-[linear-gradient(145deg,#f7fbff,#dcecff)] text-[#0f4ea8] shadow-[0_10px_24px_-16px_rgba(15,78,168,0.72),0_0_0_1px_rgba(255,255,255,0.72)_inset] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#6ea4ff] hover:bg-[linear-gradient(145deg,#ffffff,#cfe4ff)] hover:shadow-[0_16px_30px_-16px_rgba(15,78,168,0.8),0_0_0_1px_rgba(255,255,255,0.82)_inset] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8bbdff] focus-visible:ring-offset-2 focus-visible:ring-offset-white active:translate-y-0 dark:border-[#5a8ed8]/65 dark:bg-[linear-gradient(145deg,rgba(139,189,255,0.25),rgba(90,142,216,0.2))] dark:text-[#cfe5ff] dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:hover:border-[#74a8f2] dark:hover:bg-[linear-gradient(145deg,rgba(139,189,255,0.34),rgba(90,142,216,0.28))] dark:hover:shadow-[0_20px_36px_-20px_rgba(0,0,0,0.84),0_0_0_1px_rgba(255,255,255,0.16)_inset] dark:focus-visible:ring-offset-[#07130d]"
-            aria-label="个人中心"
-          >
-            <UserRound className="h-6 w-6 drop-shadow-[0_1px_1px_rgba(255,255,255,0.35)] dark:drop-shadow-none" />
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
 
 export default async function NaturePage() {
   const homepage = await getBirdObservationHomepageData();
@@ -648,7 +618,7 @@ export default async function NaturePage() {
 
   return (
     <div className="min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] bg-[#f5faf6] text-[#18251f] dark:bg-[#07130d] dark:text-[#eef8ef]">
-      <MobileNatureHeader />
+      <MobileGlobalHeader />
 
       <section className="relative isolate overflow-hidden md:min-h-[430px]">
         <Image src={heroImage} alt="" fill priority placeholder="blur" blurDataURL={natureBlurDataUrl} className="object-cover object-[center_36%] dark:brightness-75 md:object-center" sizes="100vw" />

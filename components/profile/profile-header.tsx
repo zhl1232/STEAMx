@@ -57,7 +57,6 @@ export function ProfileHeader({
   const canApplyModerator = !canReview && level >= 5;
 
   const stats = [
-    { key: "works", label: "作品", value: myProjectsCount, href: statLinks?.works },
     { key: "followers", label: "粉丝", value: followerCount, href: statLinks?.followers },
     { key: "following", label: "关注", value: followingCount, href: statLinks?.following },
     { key: "likes", label: "获赞", value: totalLikesReceived, href: statLinks?.likes },
@@ -157,8 +156,8 @@ export function ProfileHeader({
               </div>
             </div>
 
-            <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/70 backdrop-blur-sm">
-              <div className="grid grid-cols-4 divide-x divide-border/40">
+              <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/70 backdrop-blur-sm">
+              <div className="grid grid-cols-3 divide-x divide-border/40">
                 {stats.map((stat) => (
                   stat.href ? (
                     <Link

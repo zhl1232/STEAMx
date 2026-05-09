@@ -41,6 +41,7 @@ import { LevelGuideDialog } from '@/components/features/gamification/level-guide
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
+import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
@@ -490,7 +491,6 @@ export default function ProfilePage() {
   const featuredBadges =
     unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
   const stats: ProfileStat[] = [
-    { key: 'works', label: '作品', value: myProjectsTotalCount, href: '/profile/library', icon: 'works' },
     { key: 'followers', label: '粉丝', value: followerCount, href: '/profile/followers', icon: 'followers' },
     { key: 'following', label: '关注', value: followingCount, href: '/profile/following', icon: 'following' },
     { key: 'likes', label: '获赞', value: totalLikesReceived, href: '/profile/likes', icon: 'likes' },
@@ -704,8 +704,33 @@ function MobileProfilePage({
 }) {
   return (
     <div className="min-h-screen bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
-      <div className="px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
-        <MobileTopBar unreadCount={unreadCount} />
+      <MobileGlobalHeader
+        variant="title"
+        title="我的"
+        showNotification={false}
+        showUserButton={false}
+        rightSlot={
+          <>
+            <ThemeToggle />
+            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0">
+              <Link href="/settings" aria-label="设置">
+                <Settings className="h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 shrink-0">
+              <Link href="/messages" aria-label="消息">
+                <Mail className="h-5 w-5" />
+                {unreadCount > 0 ? (
+                  <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-bold leading-5 text-destructive-foreground">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                ) : null}
+              </Link>
+            </Button>
+          </>
+        }
+      />
+      <div className="px-4 pb-4">
         <ProfileHero
           profileContext={profileContext}
           stats={stats}
@@ -787,34 +812,6 @@ function MobileProfilePage({
   )
 }
 
-function MobileTopBar({ unreadCount }: { unreadCount: number }) {
-  return (
-    <div className="mb-4 flex min-h-11 items-center justify-between gap-3">
-      <h1 className="text-[28px] font-semibold leading-none text-foreground">我的</h1>
-      <div className="flex items-center gap-2">
-        <div className="grid h-11 w-11 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)] shadow-sm backdrop-blur-md">
-          <ThemeToggle />
-        </div>
-        <Button asChild variant="ghost" size="icon" className="h-11 w-11 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)] shadow-sm backdrop-blur-md">
-          <Link href="/settings" aria-label="设置">
-            <Settings className="h-5 w-5" />
-          </Link>
-        </Button>
-        <Button asChild variant="ghost" size="icon" className="relative h-11 w-11 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)] shadow-sm backdrop-blur-md">
-          <Link href="/messages" aria-label="消息">
-            <Mail className="h-5 w-5" />
-            {unreadCount > 0 ? (
-              <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-bold leading-5 text-destructive-foreground">
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
-            ) : null}
-          </Link>
-        </Button>
-      </div>
-    </div>
-  )
-}
-
 function ProfileHero({
   profileContext,
   stats,
@@ -884,15 +881,29 @@ function ProfileHero({
                   {profileContext.levelTitle}
                 </span>
               </div>
-              <h2
-                className={cn(
-                  'mt-2 truncate font-semibold tracking-normal text-foreground',
-                  compact ? 'text-[26px]' : 'text-[30px]',
-                  getNameColorClassName(profile?.equipped_name_color_id ?? null),
-                )}
-              >
-                {profileContext.userName}
-              </h2>
+              <div className={cn('mt-2 flex min-w-0 items-center gap-2', compact ? 'pr-1' : '')}>
+                <h2
+                  className={cn(
+                    'min-w-0 flex-1 truncate font-semibold tracking-normal text-foreground',
+                    compact ? 'text-[26px]' : 'text-[30px]',
+                    getNameColorClassName(profile?.equipped_name_color_id ?? null),
+                  )}
+                >
+                  {profileContext.userName}
+                </h2>
+                {compact ? (
+                  <EditProfileDialog>
+                    <button
+                      type="button"
+                      className="inline-flex h-9 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.88)] px-3 text-xs font-semibold text-muted-foreground shadow-sm backdrop-blur-md transition hover:bg-[hsl(var(--surface-muted)/0.75)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      aria-label="编辑资料"
+                    >
+                      <Edit3 className="h-4 w-4" />
+                      <span className="ml-1 hidden min-[360px]:inline">编辑</span>
+                    </button>
+                  </EditProfileDialog>
+                ) : null}
+              </div>
               <p className={cn('mt-2 text-muted-foreground', compact ? 'line-clamp-2 text-sm leading-6' : 'max-w-2xl text-sm leading-7')}>
                 {profile?.bio || '热爱科学与创造，喜欢用动手实践探索世界的奥秘。'}
               </p>
@@ -936,7 +947,7 @@ function ProfileHero({
 
         <div
           className={cn(
-            'grid grid-cols-4 overflow-hidden',
+            'grid grid-cols-3 overflow-hidden',
             compact
               ? 'mt-5 rounded-2xl border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60'
               : 'mt-8 border-t border-[hsl(var(--surface-border))] bg-sky-50/80 pb-1 pt-1 dark:bg-muted/25',
@@ -957,20 +968,24 @@ function ProfileStatTile({ stat, compact, bordered }: { stat: ProfileStat; compa
     <Link
       href={stat.href}
       className={cn(
-        'group flex items-center justify-center gap-3 transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
-        compact ? 'min-h-[72px] flex-col gap-1.5 px-2 py-3 text-center' : 'min-h-[60px] px-4 py-3.5',
+        'group flex items-center justify-center transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
+        compact
+          ? 'min-h-[60px] flex-col justify-center gap-0.5 px-1.5 py-2.5 text-center'
+          : 'min-h-[60px] gap-3 px-4 py-3.5',
         bordered &&
           (compact
             ? 'border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]'
             : 'border-l border-[hsl(var(--surface-border))]'),
       )}
     >
-      <ProfileImageIcon name={stat.icon} variant="heroStat" className={compact ? 'h-9 w-9' : 'h-10 w-10'} />
+      {!compact ? <ProfileImageIcon name={stat.icon} variant="heroStat" className="h-10 w-10" /> : null}
       <span className={compact ? 'block' : 'min-w-0'}>
-        <span className={cn('block font-semibold tabular-nums text-foreground', compact ? 'text-xl leading-5' : 'text-xl')}>
+        <span className={cn('block font-semibold tabular-nums text-foreground', compact ? 'text-lg leading-6' : 'text-xl')}>
           {formatCompactNumber(stat.value)}
         </span>
-        <span className="mt-0.5 block text-xs font-medium text-muted-foreground">{stat.label}</span>
+        <span className={cn('block text-muted-foreground', compact ? 'text-[11px] font-medium' : 'mt-0.5 text-xs font-medium')}>
+          {stat.label}
+        </span>
       </span>
     </Link>
   )
@@ -1157,15 +1172,14 @@ function MobileActionGrid() {
     { label: '我的内容', href: '/profile/library', icon: Library, tone: 'text-[hsl(var(--brand-blue))] bg-[hsl(var(--brand-blue)/0.12)]' },
     { label: '我的钱包', href: '/coins', icon: WalletCards, tone: 'text-[hsl(var(--brand-green))] bg-[hsl(var(--brand-green)/0.12)]' },
     { label: '创客商店', href: '/shop', icon: ShoppingBag, tone: 'text-[hsl(var(--brand-amber))] bg-[hsl(var(--brand-amber)/0.14)]' },
-    { label: '分享作品', href: '/share', icon: Rocket, tone: 'text-violet-500 bg-violet-500/10' },
   ]
 
   return (
-    <section className="surface-panel grid grid-cols-5 gap-1.5 p-3 min-[390px]:gap-2">
+    <section className="surface-panel grid grid-cols-3 gap-2 p-3 min-[390px]:gap-3">
       {actions.map((action) => {
         const Icon = action.icon
         return (
-          <Link key={action.label} href={action.href} className="grid min-h-[78px] place-items-center gap-1.5 rounded-[16px] px-1 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)] min-[390px]:min-h-[86px] min-[390px]:gap-2 min-[390px]:px-2 min-[390px]:py-3">
+          <Link key={action.label} href={action.href} className="grid min-h-[78px] place-items-center gap-1.5 rounded-[16px] px-2 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)] min-[390px]:min-h-[86px] min-[390px]:gap-2 min-[390px]:py-3">
             <span className={cn('grid h-10 w-10 place-items-center rounded-[18px] min-[390px]:h-11 min-[390px]:w-11 min-[390px]:rounded-[20px]', action.tone)}>
               <Icon className="h-5 w-5 min-[390px]:h-6 min-[390px]:w-6" />
             </span>
@@ -1173,14 +1187,6 @@ function MobileActionGrid() {
           </Link>
         )
       })}
-      <EditProfileDialog>
-        <button type="button" className="grid min-h-[78px] place-items-center gap-1.5 rounded-[16px] px-1 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 min-[390px]:min-h-[86px] min-[390px]:gap-2 min-[390px]:px-2 min-[390px]:py-3">
-          <span className="grid h-10 w-10 place-items-center rounded-[18px] bg-violet-500/10 text-violet-500 min-[390px]:h-11 min-[390px]:w-11 min-[390px]:rounded-[20px]">
-            <Edit3 className="h-5 w-5 min-[390px]:h-6 min-[390px]:w-6" />
-          </span>
-          <span className="text-xs font-bold text-foreground">编辑资料</span>
-        </button>
-      </EditProfileDialog>
     </section>
   )
 }

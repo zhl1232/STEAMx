@@ -4,8 +4,9 @@ import { cn } from "@/lib/utils"
 
 interface DifficultyStarsProps {
     stars: number // 1-6 星
-    size?: "sm" | "md" | "lg"
+    size?: "xs" | "sm" | "md" | "lg"
     showLabel?: boolean
+    tone?: "default" | "white"
     className?: string
 }
 
@@ -19,6 +20,7 @@ const DIFFICULTY_LABELS: Record<number, string> = {
 }
 
 const SIZE_CLASSES = {
+    xs: "text-[10px] gap-[1px]",
     sm: "text-xs gap-0.5",
     md: "text-sm gap-1",
     lg: "text-base gap-1",
@@ -28,19 +30,22 @@ export function DifficultyStars({
     stars,
     size = "sm",
     showLabel = false,
+    tone = "default",
     className
 }: DifficultyStarsProps) {
     // 确保星级在 1-6 范围内
     const validStars = Math.max(1, Math.min(6, stars))
     const isLegendary = validStars === 6
+    const filledClass = tone === "white" ? "text-white" : "text-yellow-500"
+    const emptyClass = tone === "white" ? "text-white/40" : "text-gray-300 dark:text-gray-600"
 
     if (isLegendary) {
         // 6 星传说级 - 特殊样式
         return (
             <div className={cn("inline-flex items-center", SIZE_CLASSES[size], className)}>
-                <span className="text-purple-500 animate-pulse" title="传说级">💫</span>
+                <span className={cn("animate-pulse", tone === "white" ? "text-white" : "text-purple-500")} title="传说级">💫</span>
                 {showLabel && (
-                    <span className="ml-1 text-purple-500 font-medium">
+                    <span className={cn("ml-1 font-medium", tone === "white" ? "text-white" : "text-purple-500")}>
                         {DIFFICULTY_LABELS[6]}
                     </span>
                 )}
@@ -56,14 +61,14 @@ export function DifficultyStars({
                     key={index}
                     className={cn(
                         "transition-colors",
-                        index < validStars ? "text-yellow-500" : "text-gray-300 dark:text-gray-600"
+                        index < validStars ? filledClass : emptyClass
                     )}
                 >
                     ★
                 </span>
             ))}
             {showLabel && (
-                <span className="ml-1 text-muted-foreground">
+                <span className={cn("ml-1", tone === "white" ? "text-white/90" : "text-muted-foreground")}>
                     {DIFFICULTY_LABELS[validStars]}
                 </span>
             )}
