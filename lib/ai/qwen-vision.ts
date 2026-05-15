@@ -8,13 +8,51 @@ import {
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_MODEL = 'qwen3.6-plus'
 
+type ObservationVisionErrorCode =
+  | 'missing_config'
+  | 'provider_http_error'
+  | 'provider_empty_response'
+  | 'provider_invalid_response'
+
+export class ObservationVisionError extends Error {
+  code: ObservationVisionErrorCode
+  userMessage: string
+  status?: number
+  details?: unknown
+
+  constructor({
+    code,
+    message,
+    userMessage,
+    status,
+    details,
+  }: {
+    code: ObservationVisionErrorCode
+    message: string
+    userMessage: string
+    status?: number
+    details?: unknown
+  }) {
+    super(message)
+    this.name = 'ObservationVisionError'
+    this.code = code
+    this.userMessage = userMessage
+    this.status = status
+    this.details = details
+  }
+}
+
 function getDashScopeConfig() {
   const apiKey = process.env.DASHSCOPE_API_KEY
   const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
   const model = process.env.DASHSCOPE_VISION_MODEL || DEFAULT_MODEL
 
   if (!apiKey) {
-    throw new Error('Missing required environment variable: DASHSCOPE_API_KEY')
+    throw new ObservationVisionError({
+      code: 'missing_config',
+      message: 'Missing required environment variable: DASHSCOPE_API_KEY',
+      userMessage: '服务端未配置视觉识别密钥，请检查线上环境变量。',
+    })
   }
 
   return { apiKey, baseUrl, model }
@@ -97,7 +135,13 @@ export async function analyzeObservationImageWithQwen(
       (rawResponse && typeof rawResponse === 'object' && 'error' in rawResponse
         ? JSON.stringify((rawResponse as { error?: unknown }).error)
         : null) || `DashScope request failed (${response.status})`
-    throw new Error(message)
+    throw new ObservationVisionError({
+      code: 'provider_http_error',
+      message,
+      userMessage: `视觉识别服务返回错误（${response.status}），请检查模型、密钥或上游额度。`,
+      status: response.status,
+      details: rawResponse,
+    })
   }
 
   const content = Array.isArray((rawResponse as { choices?: Array<{ message?: { content?: unknown } }> })?.choices)
@@ -117,6 +161,62 @@ export async function analyzeObservationImageWithQwen(
       .join('\n')
   }
 
-  const parsed = parseObservationVisionPayload(textContent)
-  return mapVisionPayloadToAnalysisResult(parsed, speciesRows, model, rawResponse)
+  if (!textContent.trim()) {
+    throw new ObservationVisionError({
+      code: 'provider_empty_response',
+      message: 'DashScope response did not include message content',
+      userMessage: '视觉识别服务返回空结果，请稍后重试。',
+      details: rawResponse,
+    })
+  }
+
+  try {
+    const parsed = parseObservationVisionPayload(textContent)
+    return mapVisionPayloadToAnalysisResult(parsed, speciesRows, model, rawResponse)
+  } catch (error) {
+    throw new ObservationVisionError({
+      code: 'provider_invalid_response',
+      message: error instanceof Error ? error.message : 'Failed to parse DashScope response',
+      userMessage: '视觉识别服务返回格式异常，请检查模型是否支持 JSON 输出。',
+      details: rawResponse,
+    })
+  }
+}
+
+export function getObservationVisionUserMessage(error: unknown): string {
+  if (error instanceof ObservationVisionError) {
+    return error.userMessage
+  }
+
+  if (error instanceof Error && error.message.includes('DASHSCOPE_API_KEY')) {
+    return '服务端未配置视觉识别密钥，请检查线上环境变量。'
+  }
+
+  return '图片识别失败，请稍后重试。'
+}
+
+export function serializeObservationVisionError(error: unknown): Record<string, unknown> {
+  if (error instanceof ObservationVisionError) {
+    return {
+      code: error.code,
+      message: error.message,
+      userMessage: error.userMessage,
+      status: error.status ?? null,
+      details: error.details ?? null,
+    }
+  }
+
+  if (error instanceof Error) {
+    return {
+      code: 'unknown_error',
+      message: error.message,
+      userMessage: getObservationVisionUserMessage(error),
+    }
+  }
+
+  return {
+    code: 'unknown_error',
+    message: String(error),
+    userMessage: getObservationVisionUserMessage(error),
+  }
 }

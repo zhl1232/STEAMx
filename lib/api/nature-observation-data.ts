@@ -22,6 +22,14 @@ export {
   getBirdObservationFeaturedSpecies,
   getBirdObservationRecentObservations,
   getBirdObservationTopicHotspots,
+  getTopicObservationCategoryStats,
+  getTopicObservationFeaturedSpecies,
+  getTopicObservationRecentObservations,
+  getTopicObservationHotspots,
+  getTreeObservationCategoryStats,
+  getTreeObservationFeaturedSpecies,
+  getTreeObservationRecentObservations,
+  getTreeObservationHotspots,
   getBirdObservationHomepageData,
   getNatureObservationHotspots,
 } from './nature-observation-homepage'
@@ -32,6 +40,8 @@ export type {
   NatureTopicKey,
   NatureTopicSummary,
   ObservationHotspotSummary,
+  TopicObservationCategoryStats,
+  TreeObservationCategoryStats,
 } from './nature-observation-homepage'
 
 export { getSpeciesList, getSpeciesById, getSpeciesBySlug } from './nature-observation-species'

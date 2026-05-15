@@ -10,17 +10,23 @@ CREATE TABLE IF NOT EXISTS public.species (
     scientific_name TEXT,
     aliases TEXT[] NOT NULL DEFAULT '{}',
     taxon_group TEXT,
+    nature_topic TEXT,
     identification_notes TEXT,
     habitat_notes TEXT,
     seasonality_notes TEXT,
     cover_image_url TEXT,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT species_nature_topic_check
+        CHECK (nature_topic IS NULL OR nature_topic IN ('birds', 'insects', 'plants', 'fungi'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_species_common_name ON public.species (common_name);
 CREATE INDEX IF NOT EXISTS idx_species_is_active ON public.species (is_active);
+CREATE INDEX IF NOT EXISTS idx_species_nature_topic
+    ON public.species (nature_topic)
+    WHERE is_active = TRUE;
 
 CREATE TABLE IF NOT EXISTS public.observation_events (
     id BIGSERIAL PRIMARY KEY,

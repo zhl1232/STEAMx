@@ -12,6 +12,7 @@ import { createClient } from '@/lib/supabase/server'
 import {
   buildSpeciesTopicCounts,
   getNatureTopicLabel,
+  isVisibleSpeciesTopicKey,
   normalizeSpeciesTopicFilter,
   resolveSpeciesNatureTopicKey,
   type SpeciesTopicCount,
@@ -23,13 +24,25 @@ import type {
   ObservationEventSpeciesRow,
   SpeciesRow,
 } from './nature-observation-internal-types'
-import { normalizeSpeciesRow } from './nature-observation-cover-image'
+import { getSpeciesImageUrls, normalizeSpeciesRow } from './nature-observation-cover-image'
 
 export interface SpeciesListOptions {
   query?: string
   topic?: SpeciesTopicFilter | string | null
   page?: number
   pageSize?: number
+}
+
+function mapSpeciesWithDerivedFields(row: SpeciesRow): Species {
+  const normalizedRow = normalizeSpeciesRow(row)
+  const topicKey = resolveSpeciesNatureTopicKey(row)
+
+  return {
+    ...mapDbSpecies(normalizedRow as never),
+    imageUrls: getSpeciesImageUrls(normalizedRow),
+    topicKey,
+    topicLabel: getNatureTopicLabel(topicKey),
+  }
 }
 
 export async function getSpeciesList(
@@ -100,13 +113,13 @@ export async function getSpeciesList(
     return {
       row,
       topicKey,
-      topicLabel: getNatureTopicLabel(topicKey),
     }
   })
   const topicCounts = buildSpeciesTopicCounts(rowsWithTopic)
+  const visibleRows = rowsWithTopic.filter((item) => isVisibleSpeciesTopicKey(item.topicKey))
   const filteredRows = topic === 'all'
-    ? rowsWithTopic
-    : rowsWithTopic.filter((item) => item.topicKey === topic)
+    ? visibleRows
+    : visibleRows.filter((item) => item.topicKey === topic)
 
   const sortedRows = [...filteredRows].sort((left, right) => {
     const leftObserved = observedSpeciesIds.has(left.row.id)
@@ -123,10 +136,8 @@ export async function getSpeciesList(
   const pagedRows = sortedRows.slice(from, to)
 
   return {
-    species: pagedRows.map(({ row, topicKey, topicLabel }) => ({
-      ...mapDbSpecies(normalizeSpeciesRow(row) as never),
-      topicKey,
-      topicLabel,
+    species: pagedRows.map(({ row }) => ({
+      ...mapSpeciesWithDerivedFields(row),
       observedByCurrentUser: observedSpeciesIds.has(row.id),
     })),
     total,
@@ -152,7 +163,7 @@ export async function getSpeciesById(id: number): Promise<Species | null> {
 
   if (!data) return null
 
-  return mapDbSpecies(normalizeSpeciesRow(data as SpeciesRow) as never)
+  return mapSpeciesWithDerivedFields(data as SpeciesRow)
 }
 
 export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
@@ -172,7 +183,7 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
 
   if (!data) return null
 
-  const baseSpecies = mapDbSpecies(normalizeSpeciesRow(data as SpeciesRow) as never)
+  const baseSpecies = mapSpeciesWithDerivedFields(data as SpeciesRow)
 
   const { data: linkedRows, error: linkedError } = await supabase
     .from('observation_event_species')

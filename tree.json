@@ -1,0 +1,1334 @@
+[
+{
+"slug": "liriodendron-chinense",
+"common_name": "鹅掌楸",
+"scientific_name": "Liriodendron chinense",
+"aliases": [
+"马褂木"
+],
+"taxon_group": "木兰科 鹅掌楸属",
+"identification_notes": "乔木，高10~40米；树皮灰褐色，有不规则纵裂纹；叶互生，形似马褂；花单生，黄绿色；小坚果条形，聚合成圆锥状。",
+"habitat_notes": "北京有栽培，在北京植物园、北京大学等地可见。",
+"seasonality_notes": "花期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/liriodendron-chinense.jpg",
+"is_active": true
+},
+{
+"slug": "liriodendron-sinoamericanum",
+"common_name": "杂交鹅掌楸",
+"scientific_name": "Liriodendron sinoamericanum",
+"aliases": [
+"杂种鹅掌楸",
+"杂交马褂木"
+],
+"taxon_group": "木兰科 鹅掌楸属",
+"identification_notes": "乔木，高10~50米；树皮灰褐色，有不规则纵裂纹；叶互生，形似马褂；花单生，橙黄色；小坚果条形，聚合成圆锥状。",
+"habitat_notes": "北京常见栽培，有时用作行道树，在植物园及高校可见。",
+"seasonality_notes": "花期4月至5月，果期9月至10月，秋季叶片变为黄色。",
+"cover_image_url": "/trees/liriodendron-sinoamericanum.jpg",
+"is_active": true
+},
+{
+"slug": "berberis-amurensis",
+"common_name": "黄芦木",
+"scientific_name": "Berberis amurensis",
+"aliases": [
+"大叶小檗"
+],
+"taxon_group": "小檗科 小檗属",
+"identification_notes": "灌木，高2~3.5米；茎具刺，常三分叉；叶簇生，椭圆形或卵形；总状花序，花黄色；浆果长圆形，红色。",
+"habitat_notes": "野生于中高海拔山区，百花山、白草畔等地可见；偶见栽培。",
+"seasonality_notes": "花期5月至6月，果期8月至9月。",
+"cover_image_url": "/trees/berberis-amurensis.jpg",
+"is_active": true
+},
+{
+"slug": "berberis-thunbergii-atropurpurea",
+"common_name": "紫叶小檗",
+"scientific_name": "Berberis thunbergii 'Atropurpurea'",
+"aliases": [
+"红叶小檗",
+"紫叶日本小檗"
+],
+"taxon_group": "小檗科 小檗属",
+"identification_notes": "灌木，高约1米；枝条红色，茎具刺；叶簇生，倒卵形，暗绿色或紫红色；伞形花序，花黄色；浆果椭圆形，红色。",
+"habitat_notes": "北京常见栽培，常作绿篱，多见于公园、校园及居民小区。",
+"seasonality_notes": "花期4月至5月，果期10月至11月。",
+"cover_image_url": "/trees/berberis-thunbergii-atropurpurea.jpg",
+"is_active": true
+},
+{
+"slug": "platanus-acerifolia",
+"common_name": "二球悬铃木",
+"scientific_name": "Platanus acerifolia",
+"aliases": [
+"英国梧桐",
+"法国梧桐",
+"法桐"
+],
+"taxon_group": "悬铃木科 悬铃木属",
+"identification_notes": "乔木，高20~40米；树皮淡黄褐色，块状脱落；叶互生，掌状分裂；头状花序，球形；聚合果球形，1~3枚成串。",
+"habitat_notes": "北京常见栽培，常用作行道树，多见于公园、校园及居民小区。",
+"seasonality_notes": "花期4月至5月，果期9月至11月。",
+"cover_image_url": "/trees/platanus-acerifolia.jpg",
+"is_active": true
+},
+{
+"slug": "platanus-occidentalis",
+"common_name": "一球悬铃木",
+"scientific_name": "Platanus occidentalis",
+"aliases": [
+"美国梧桐"
+],
+"taxon_group": "悬铃木科 悬铃木属",
+"identification_notes": "乔木，高20~40米；树皮褐色，有浅沟，小块状脱落；叶互生，掌状浅裂；头状花序，球形；聚合果球形，1~2枚成串。",
+"habitat_notes": "北京常见栽培，有时用作行道树，日坛公园等地可见。",
+"seasonality_notes": "花期4月至5月，果期9月至11月。",
+"cover_image_url": "/trees/platanus-occidentalis.jpg",
+"is_active": true
+},
+{
+"slug": "buxus-sinica",
+"common_name": "黄杨",
+"scientific_name": "Buxus sinica",
+"aliases": [
+"锦熟黄杨",
+"瓜子黄杨",
+"小叶黄杨"
+],
+"taxon_group": "黄杨科 黄杨属",
+"identification_notes": "常绿灌木，高约1米；小枝四棱形；叶对生，革质，卵状椭圆形；头状花序，雌花绿色，雄花黄色；蒴果近球形，具3枚凸起。",
+"habitat_notes": "北京常见栽培，常用作绿篱，各大公园、小区可见。",
+"seasonality_notes": "常绿，花期3月至4月，四季皆可观察。",
+"cover_image_url": "/trees/buxus-sinica.jpg",
+"is_active": true
+},
+{
+"slug": "ribes-burejense",
+"common_name": "刺果茶藨子",
+"scientific_name": "Ribes burejense",
+"aliases": [
+"刺梨",
+"刺李"
+],
+"taxon_group": "茶藨子科 茶藨子属",
+"identification_notes": "灌木，高1~2米；枝具粗刺和密集的细针刺；叶簇生，掌状分裂；花单生，红白色至红褐色；浆果球形，具刺，成熟时带红色。",
+"habitat_notes": "野生于中海拔山区，百花山等地可见；偶见栽培。",
+"seasonality_notes": "花期4月至5月，果期7月至8月。",
+"cover_image_url": "/trees/ribes-burejense.jpg",
+"is_active": true
+},
+{
+"slug": "ampelopsis-aconitifolia-var-palmiloba",
+"common_name": "掌裂草葡萄",
+"scientific_name": "Ampelopsis aconitifolia var. palmiloba",
+"aliases": [
+"光叶草葡萄",
+"草白蔹"
+],
+"taxon_group": "葡萄科 蛇葡萄属",
+"identification_notes": "木质藤本；卷须2~3叉分枝；叶互生，3~5掌状深裂至基部；二歧聚伞花序，花黄绿色；浆果球形，成熟时橙黄色或橙红色。",
+"habitat_notes": "野生于中低海拔山区、平原及城市中，圆明园遗址公园等地可见；偶见栽培。",
+"seasonality_notes": "花期5月至7月，果期9月至10月。",
+"cover_image_url": "/trees/ampelopsis-aconitifolia-var-palmiloba.jpg",
+"is_active": true
+},
+{
+"slug": "ampelopsis-humulifolia",
+"common_name": "葎叶蛇葡萄",
+"scientific_name": "Ampelopsis humulifolia",
+"aliases": [
+"葎叶白蔹",
+"七角白蔹"
+],
+"taxon_group": "葡萄科 蛇葡萄属",
+"identification_notes": "木质藤本；卷须2叉分枝；叶互生，心状五角形，常3~5掌状分裂；多歧聚伞花序，花黄绿色；浆果近球形，成熟时蓝紫色或紫红色。",
+"habitat_notes": "野生于中低海拔山区及平原，香山、阳台山等地可见；偶见栽培。",
+"seasonality_notes": "花期5月至7月，果期8月至10月。",
+"cover_image_url": "/trees/ampelopsis-humulifolia.jpg",
+"is_active": true
+},
+{
+"slug": "parthenocissus-quinquefolia",
+"common_name": "五叶地锦",
+"scientific_name": "Parthenocissus quinquefolia",
+"aliases": [
+"爬山虎",
+"五叶爬山虎",
+"美国爬山虎"
+],
+"taxon_group": "葡萄科 地锦属",
+"identification_notes": "木质藤本；卷须5~9分枝，顶端可扩大成吸盘；叶互生，掌状复叶，小叶5枚；多歧聚伞花序，花黄绿色；浆果球形，紫黑色。",
+"habitat_notes": "北京常见栽培，多用于垂直绿化，清华大学、颐和园等地可见。",
+"seasonality_notes": "花期6月至7月，果期9月至10月，秋季叶片变为深红色。",
+"cover_image_url": "/trees/parthenocissus-quinquefolia.jpg",
+"is_active": true
+},
+{
+"slug": "albizia-julibrissin",
+"common_name": "合欢",
+"scientific_name": "Albizia julibrissin",
+"aliases": [
+"绒球花",
+"马缨花",
+"考试花"
+],
+"taxon_group": "豆科 合欢属",
+"identification_notes": "乔木，高10~16米；树皮灰色；叶互生，二回偶数羽状复叶；头状花序圆锥状排列，花粉红色，聚集成半球状；荚果带状，扁平。",
+"habitat_notes": "北京常见栽培，四得公园、紫竹院公园等地可见。",
+"seasonality_notes": "花期6月至8月，傍晚开花，白天叶片展开，入夜闭合。",
+"cover_image_url": "/trees/albizia-julibrissin.jpg",
+"is_active": true
+},
+{
+"slug": "amorpha-fruticosa",
+"common_name": "紫穗槐",
+"scientific_name": "Amorpha fruticosa",
+"aliases": [
+"土条",
+"棉槐",
+"棉条",
+"板条"
+],
+"taxon_group": "豆科 紫穗槐属",
+"identification_notes": "灌木，高1~4米；叶互生，奇数羽状复叶；穗状花序，花深紫色或紫褐色，仅1枚花瓣；荚果条形，微弯曲，成熟时棕褐色。",
+"habitat_notes": "北京有栽培，奥林匹克森林公园等地可见，常种于路边、沟渠边防风固沙。",
+"seasonality_notes": "花期5月至6月。",
+"cover_image_url": "/trees/amorpha-fruticosa.jpg",
+"is_active": true
+},
+{
+"slug": "gleditsia-sinensis",
+"common_name": "皂荚",
+"scientific_name": "Gleditsia sinensis",
+"aliases": [
+"皂角"
+],
+"taxon_group": "豆科 皂荚属",
+"identification_notes": "乔木，高5~30米；树皮灰褐色，具簇生、分枝的粗壮枝刺；叶互生，偶数羽状复叶；总状花序，花黄白色；荚果带状，成熟时黑色或褐色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，八大处等地可见。",
+"seasonality_notes": "花期5月至6月，果期10月。",
+"cover_image_url": "/trees/gleditsia-sinensis.jpg",
+"is_active": true
+},
+{
+"slug": "robinia-ambigua-idahoensis",
+"common_name": "红花刺槐",
+"scientific_name": "Robinia ×ambigua 'Idahoensis'",
+"aliases": [
+"紫花洋槐",
+"香花槐"
+],
+"taxon_group": "豆科 刺槐属",
+"identification_notes": "乔木，高10~25米；树皮灰褐或深褐色，具纵裂；叶互生，奇数羽状复叶，托叶刺状；总状花序下垂，花紫红色，花冠蝶形；荚果长圆形扁平。",
+"habitat_notes": "北京有栽培，四得公园、奥林匹克森林公园等地可见。",
+"seasonality_notes": "花期5月至6月。",
+"cover_image_url": "/trees/robinia-ambigua-idahoensis.jpg",
+"is_active": true
+},
+{
+"slug": "robinia-pseudoacacia",
+"common_name": "刺槐",
+"scientific_name": "Robinia pseudoacacia",
+"aliases": [
+"洋槐",
+"槐花"
+],
+"taxon_group": "豆科 刺槐属",
+"identification_notes": "乔木，高10~25米；树皮灰褐或黑褐色，具纵裂；叶互生，奇数羽状复叶，托叶刺状；总状花序下垂，花白色，花冠蝶形；荚果长圆形扁平。",
+"habitat_notes": "北京常见栽培，有时用作行道树，多公园小区可见。",
+"seasonality_notes": "花期4月至5月。",
+"cover_image_url": "/trees/robinia-pseudoacacia.jpg",
+"is_active": true
+},
+{
+"slug": "styphnolobium-japonicum",
+"common_name": "槐",
+"scientific_name": "Styphnolobium japonicum",
+"aliases": [
+"槐树",
+"国槐",
+"守宫槐"
+],
+"taxon_group": "豆科 槐属",
+"identification_notes": "乔木，高10~25米；树皮灰褐色，具纵裂；叶互生，奇数羽状复叶；圆锥花序，花黄白色，花冠蝶形；荚果串珠状。",
+"habitat_notes": "北京常见栽培，常用作行道树，天坛公园、颐和园等地可见。",
+"seasonality_notes": "花期7月至8月，果期9月至10月。",
+"cover_image_url": "/trees/styphnolobium-japonicum.jpg",
+"is_active": true
+},
+{
+"slug": "styphnolobium-japonicum-pendula",
+"common_name": "龙爪槐",
+"scientific_name": "Styphnolobium japonicum 'Pendula'",
+"aliases": [
+"倒垂槐",
+"倒栽槐",
+"蟠槐"
+],
+"taxon_group": "豆科 槐属",
+"identification_notes": "小乔木，高3~10米；大枝向上扭转，小枝下垂；叶互生，奇数羽状复叶；圆锥花序，花黄白色，花冠蝶形；荚果串珠状。",
+"habitat_notes": "北京常见栽培，日坛公园、云居寺等地可见，常嫁接于普通槐树上。",
+"seasonality_notes": "花期7月至8月。",
+"cover_image_url": "/trees/styphnolobium-japonicum-pendula.jpg",
+"is_active": true
+},
+{
+"slug": "armeniaca-sibirica",
+"common_name": "山杏",
+"scientific_name": "Armeniaca sibirica",
+"aliases": [
+"西伯利亚杏"
+],
+"taxon_group": "蔷薇科 杏属",
+"identification_notes": "灌木或小乔木，高2~6米；树皮暗灰色；叶互生，卵形或近圆形，先端常有尾尖；花单生，先叶开放，白色或粉红色；核果扁球形，成熟时黄色或橘红色。",
+"habitat_notes": "野生于中低海拔山区，西山、八达岭长城附近等地可见；亦有栽培。",
+"seasonality_notes": "花期3月至5月，果期6月至8月。",
+"cover_image_url": "/trees/armeniaca-sibirica.jpg",
+"is_active": true
+},
+{
+"slug": "cotoneaster-horizontalis",
+"common_name": "平枝栒子",
+"scientific_name": "Cotoneaster horizontalis",
+"aliases": [
+"铺地蜈蚣"
+],
+"taxon_group": "蔷薇科 栒子属",
+"identification_notes": "灌木，高0.3~1米；枝水平开张，常呈整齐的两列状；叶互生，宽椭圆形；花粉红色，花瓣5枚；果实梨果状，球形，红色。",
+"habitat_notes": "北京常见栽培，多作为绿篱或地被植物种植在公园或假山上。",
+"seasonality_notes": "花期4月至5月，果期9月至10月，红果凌冬不落。",
+"cover_image_url": "/trees/cotoneaster-horizontalis.jpg",
+"is_active": true
+},
+{
+"slug": "crataegus-pinnatifida",
+"common_name": "山楂",
+"scientific_name": "Crataegus pinnatifida",
+"aliases": [
+"酸楂",
+"小红果"
+],
+"taxon_group": "蔷薇科 山楂属",
+"identification_notes": "乔木，高约6米；叶互生，羽状深裂，边缘有不规则锐齿；伞房花序，花白色，花瓣5枚；梨果近球形，深红色，果实较小。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，清华大学等地可见。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/crataegus-pinnatifida.jpg",
+"is_active": true
+},
+{
+"slug": "crataegus-pinnatifida-var-major",
+"common_name": "山里红",
+"scientific_name": "Crataegus pinnatifida var. major",
+"aliases": [
+"红果",
+"大山楂"
+],
+"taxon_group": "蔷薇科 山楂属",
+"identification_notes": "乔木，高约6米；树皮灰色或灰褐色，粗糙；叶互生，羽状浅裂；伞房花序，花白色，花瓣5枚；梨果近球形，深红色，果实较大。",
+"habitat_notes": "野生于中低海拔山区；亦常见栽培，多公园及小区可见。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/crataegus-pinnatifida-var-major.jpg",
+"is_active": true
+},
+{
+"slug": "eriobotrya-japonica",
+"common_name": "枇杷",
+"scientific_name": "Eriobotrya japonica",
+"aliases": [
+"卢橘",
+"金弹"
+],
+"taxon_group": "蔷薇科 枇杷属",
+"identification_notes": "常绿小乔木，高5~10米；小枝具黄褐色绒毛；叶互生，叶片披针形或倒卵形，革质；圆锥花序，花白色或淡黄白色；梨果球形或长圆形，黄色。",
+"habitat_notes": "北京偶见栽培，在北京语言大学等地及居民小区中可见。",
+"seasonality_notes": "常绿，花期10月至12月，室外栽种罕见结果。",
+"cover_image_url": "/trees/eriobotrya-japonica.jpg",
+"is_active": true
+},
+{
+"slug": "malus-baccata",
+"common_name": "山荆子",
+"scientific_name": "Malus baccata",
+"aliases": [
+"山定子",
+"山丁子"
+],
+"taxon_group": "蔷薇科 苹果属",
+"identification_notes": "乔木，高5~15米；树皮浅褐色，常凹凸；叶互生，椭圆形或卵形；伞形花序，花白色，花瓣5枚；梨果近球形，成熟时红色或黄色。",
+"habitat_notes": "野生于中低海拔山区，玉渡山等地可见；偶见栽培。",
+"seasonality_notes": "花期4月至5月，果期8月至9月。",
+"cover_image_url": "/trees/malus-baccata.jpg",
+"is_active": true
+},
+{
+"slug": "padus-avium",
+"common_name": "稠李",
+"scientific_name": "Padus avium",
+"aliases": [
+"臭李子",
+"稠梨子"
+],
+"taxon_group": "蔷薇科 稠李属",
+"identification_notes": "乔木，高5~15米；树皮灰褐色，有不规则裂纹；叶互生，长圆形或倒卵形，先端具尾尖；总状花序，花白色；核果椭圆形，成熟时黑红色或黑色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，清华大学、天坛公园等地可见。",
+"seasonality_notes": "花期5月至6月，果期7月至9月。",
+"cover_image_url": "/trees/padus-avium.jpg",
+"is_active": true
+},
+{
+"slug": "physocarpus-opulifolius-luteus",
+"common_name": "金叶风箱果",
+"scientific_name": "Physocarpus opulifolius 'Luteus'",
+"aliases": [
+"金叶无毛风箱果"
+],
+"taxon_group": "蔷薇科 风箱果属",
+"identification_notes": "灌木，高1~3米；叶互生，三角状卵形，三浅裂，新叶淡黄色；伞形总状花序，花白色；蓇葖果卵形，稍膨大，成熟前常为淡红色。",
+"habitat_notes": "北京有栽培，在奥林匹克森林公园等地及一些小区中可见。",
+"seasonality_notes": "花期4月至5月，果期8月至9月，春季至秋季新叶均为淡黄色。",
+"cover_image_url": "/trees/physocarpus-opulifolius-luteus.jpg",
+"is_active": true
+},
+{
+"slug": "prunus-cerasifera-f-atropurpurea",
+"common_name": "紫叶李",
+"scientific_name": "Prunus cerasifera f. atropurpurea",
+"aliases": [
+"红叶李"
+],
+"taxon_group": "蔷薇科 李属",
+"identification_notes": "小乔木，高5~7米；树皮平滑；叶互生，椭圆形，暗绿色、红褐色或紫红色；花单生，白色；核果近球形，成熟时红色或紫色。",
+"habitat_notes": "北京常见栽培，各大公园、校园、路边及居民小区广见。",
+"seasonality_notes": "花期3月至5月，果期6月至7月，全年生紫红色叶。",
+"cover_image_url": "/trees/prunus-cerasifera-f-atropurpurea.jpg",
+"is_active": true
+},
+{
+"slug": "prunus-salicina",
+"common_name": "李",
+"scientific_name": "Prunus salicina",
+"aliases": [
+"玉皇李"
+],
+"taxon_group": "蔷薇科 李属",
+"identification_notes": "乔木，高5~12米；树皮灰褐色，多起伏；叶互生，长圆形；花常3朵并生，白色，花瓣5枚；核果球形，黄绿色或紫红色。",
+"habitat_notes": "北京有栽培，有时也会逸为野生，奥林匹克森林公园等地可见。",
+"seasonality_notes": "花期3月至4月，果期7月至8月。",
+"cover_image_url": "/trees/prunus-salicina.jpg",
+"is_active": true
+},
+{
+"slug": "pyrus-betulifolia",
+"common_name": "杜梨",
+"scientific_name": "Pyrus betulifolia",
+"aliases": [
+"棠梨",
+"野梨子",
+"梨树丁子"
+],
+"taxon_group": "蔷薇科 梨属",
+"identification_notes": "乔木，高5~10米；树皮灰褐色，有深纵裂，枝上有时具刺；叶互生，菱状卵形或长卵形；伞形总状花序，花白色；梨果近球形，褐色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，天坛公园等地可见，常作嫁接砧木。",
+"seasonality_notes": "花期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/pyrus-betulifolia.jpg",
+"is_active": true
+},
+{
+"slug": "rubus-crataegifolius",
+"common_name": "牛叠肚",
+"scientific_name": "Rubus crataegifolius",
+"aliases": [
+"山楂叶悬钩子"
+],
+"taxon_group": "蔷薇科 悬钩子属",
+"identification_notes": "灌木，高1~2米；枝、叶柄、叶脉上具钩状皮刺；叶互生，卵形，3~5掌状浅裂；花簇生或为总状花序，白色；聚合果球形，成熟时红色。",
+"habitat_notes": "野生于中低海拔山区；偶见栽培。",
+"seasonality_notes": "花期5月至7月，果期6月至9月。",
+"cover_image_url": "/trees/rubus-crataegifolius.jpg",
+"is_active": true
+},
+{
+"slug": "sorbus-pohuashanensis",
+"common_name": "花楸树",
+"scientific_name": "Sorbus pohuashanensis",
+"aliases": [
+"百花花楸"
+],
+"taxon_group": "蔷薇科 花楸属",
+"identification_notes": "乔木，高5~8米；树皮褐色，具灰白色皮孔；叶互生，奇数羽状复叶互生；复伞房花序，花白色；梨果近球形，成熟时橘红色。",
+"habitat_notes": "野生于中高海拔山区，百花山等地可见；偶见栽培。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/sorbus-pohuashanensis.jpg",
+"is_active": true
+},
+{
+"slug": "elaeagnus-angustifolia",
+"common_name": "沙枣",
+"scientific_name": "Elaeagnus angustifolia",
+"aliases": [
+"银柳"
+],
+"taxon_group": "胡颓子科 胡颓子属",
+"identification_notes": "乔木，高5~10米；幼枝、叶片、果实均具银白色鳞片；叶互生，条状披针形；花簇生，黄色，无花瓣；坚果呈核果状，成熟时粉红色。",
+"habitat_notes": "北京偶见栽培，北京植物园、世园公园等地可见。",
+"seasonality_notes": "花期4月至5月，果期8月至9月。",
+"cover_image_url": "/trees/elaeagnus-angustifolia.jpg",
+"is_active": true
+},
+{
+"slug": "rhamnus-parvifolia",
+"common_name": "小叶鼠李",
+"scientific_name": "Rhamnus parvifolia",
+"aliases": [
+"麻梨",
+"黑格铃",
+"大绿",
+"琉璃枝"
+],
+"taxon_group": "鼠李科 鼠李属",
+"identification_notes": "灌木，高1~2米；枝端和分叉处具刺；叶常对生，菱状椭圆形；雌雄异株，花簇生，黄绿色，花瓣4枚；核果球形，黑色。",
+"habitat_notes": "野生于中低海拔山区，多生于山地岩缝之间。",
+"seasonality_notes": "花期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/rhamnus-parvifolia.jpg",
+"is_active": true
+},
+{
+"slug": "ziziphus-jujuba",
+"common_name": "枣",
+"scientific_name": "Ziziphus jujuba",
+"aliases": [
+"红枣树",
+"大枣"
+],
+"taxon_group": "鼠李科 枣属",
+"identification_notes": "乔木，高5~10米；新枝常呈“之”字形弯曲，具托叶刺；叶互生，卵形，基部偏斜；花单生或为聚伞花序，黄绿色；核果球形或长圆形，红色。",
+"habitat_notes": "北京常见栽培，广见于公园、校园及居民小区。",
+"seasonality_notes": "花期5月至6月，果期8月至9月。",
+"cover_image_url": "/trees/ziziphus-jujuba.jpg",
+"is_active": true
+},
+{
+"slug": "ziziphus-jujuba-var-spinosa",
+"common_name": "酸枣",
+"scientific_name": "Ziziphus jujuba var. spinosa",
+"aliases": [
+"棘",
+"山枣树"
+],
+"taxon_group": "鼠李科 枣属",
+"identification_notes": "灌木，高1~3米；新枝呈“之”字形弯曲，具托叶刺；叶互生，卵形，基部偏斜；花黄绿色；核果球形，成熟时红色。",
+"habitat_notes": "野生于中低海拔山区及平原，多处荒地、山坡可见。",
+"seasonality_notes": "花期5月至6月，果期8月至9月。",
+"cover_image_url": "/trees/ziziphus-jujuba-var-spinosa.jpg",
+"is_active": true
+},
+{
+"slug": "ulmus-parvifolia",
+"common_name": "榔榆",
+"scientific_name": "Ulmus parvifolia",
+"aliases": [
+"小叶榆"
+],
+"taxon_group": "榆科 榆属",
+"identification_notes": "乔木，高5~25米；树皮灰褐色，裂成不规则鳞片状脱落；叶互生，披针状卵形，基部偏斜；花簇生，黄褐色；翅果椭圆形。",
+"habitat_notes": "北京有栽培，天坛公园等地可见，常作盆景树种。",
+"seasonality_notes": "秋季开花，花期8月至9月，果期9月至10月。",
+"cover_image_url": "/trees/ulmus-parvifolia.jpg",
+"is_active": true
+},
+{
+"slug": "ulmus-pumila",
+"common_name": "榆树",
+"scientific_name": "Ulmus pumila",
+"aliases": [
+"家榆",
+"白榆"
+],
+"taxon_group": "榆科 榆属",
+"identification_notes": "乔木，高5~25米，有时灌木状；树皮暗灰色，粗糙，不规则纵裂；叶互生，卵形，基部偏斜；花先叶开放，黄褐色或紫红色；翅果近圆形。",
+"habitat_notes": "野生于中低海拔山区、平原及城市中，也常见栽培。",
+"seasonality_notes": "花期3月至4月，果期4月至5月。",
+"cover_image_url": "/trees/ulmus-pumila.jpg",
+"is_active": true
+},
+{
+"slug": "ulmus-pumila-jinye",
+"common_name": "金叶榆",
+"scientific_name": "Ulmus pumila 'Jinye'",
+"aliases": [
+"中华金叶榆"
+],
+"taxon_group": "榆科 榆属",
+"identification_notes": "形态与榆树相似，有时当作灌木栽种，但叶片为淡黄色。",
+"habitat_notes": "北京有栽培，日坛公园、世园公园等地可见，作为彩叶树栽种。",
+"seasonality_notes": "从春至秋都可观察其淡黄色叶。",
+"cover_image_url": "/trees/ulmus-pumila-jinye.jpg",
+"is_active": true
+},
+{
+"slug": "celtis-bungeana",
+"common_name": "黑弹树",
+"scientific_name": "Celtis bungeana",
+"aliases": [
+"小叶朴"
+],
+"taxon_group": "大麻科 朴属",
+"identification_notes": "乔木，高5~10米；树皮灰色，光滑，散生皮孔；叶互生，卵形；聚伞花序，花黄褐色；核果近球形，成熟时紫黑色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，清华大学等地可见。",
+"seasonality_notes": "花期4月，果期9月至11月，秋季叶变黄色。",
+"cover_image_url": "/trees/celtis-bungeana.jpg",
+"is_active": true
+},
+{
+"slug": "pteroceltis-tatarinowii",
+"common_name": "青檀",
+"scientific_name": "Pteroceltis tatarinowii",
+"aliases": [
+"檀树",
+"翼朴"
+],
+"taxon_group": "大麻科 青檀属",
+"identification_notes": "乔木，高10~20米；树皮灰色，不规则长片状剥落；叶互生，宽卵形，先端æ果近球状，具翅。",
+"habitat_notes": "野生于中低海拔山区，上方山等地可见；亦有栽培。",
+"seasonality_notes": "花期4月，果期5月至8月。",
+"cover_image_url": "/trees/pteroceltis-tatarinowii.jpg",
+"is_active": true
+},
+{
+"slug": "broussonetia-papyrifera",
+"common_name": "构树",
+"scientific_name": "Broussonetia papyrifera",
+"aliases": [
+"狗树",
+"毛桃"
+],
+"taxon_group": "桑科 构属",
+"identification_notes": "乔木，高5~20米；植物体具白色乳汁；叶互ç裂；雌雄异株，雌花头状球形暗红；聚花果球形，橙红色。",
+"habitat_notes": "野生于中低海拔山区、平原及城市中；亦有栽培。",
+"seasonality_notes": "花期4月至5月，果期7月至10月。",
+"cover_image_url": "/trees/broussonetia-papyrifera.jpg",
+"is_active": true
+},
+{
+"slug": "maclura-tricuspidata",
+"common_name": "柘",
+"scientific_name": "Maclura tricuspidata",
+"aliases": [
+"柘桑"
+],
+"taxon_group": "桑科 橙桑属",
+"identification_notes": "小乔木，é7米；树皮灰褐色，小枝有棘刺；叶互生，卵形；雌雄异株，头状花序球形；聚花果球形，成熟时橙红色。",
+"habitat_notes": "北京偶见栽培，潭柘寺、清华大学等地可见。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/maclura-tricuspidata.jpg",
+"is_active": true
+},
+{
+"slug": "morus-alba",
+"common_name": "桑",
+"scientific_name": "Morus alba",
+"aliases": [
+"家桑",
+"白桑"
+],
+"taxon_group": "桑科 桑属",
+"identification_notes": "乔木，高3~10米；树皮灰色，不规则浅纵裂；叶互生，阔卵形，有时分裂；通常雌雄异株；聚花果(桑葚)成熟时白色、红色或紫黑色。",
+"habitat_notes": "北京常见栽培，也有野生植株，各大公园及小区可见。",
+"seasonality_notes": "花期4月至5月，果期5月至6月。",
+"cover_image_url": "/trees/morus-alba.jpg",
+"is_active": true
+},
+{
+"slug": "morus-mongolica",
+"common_name": "蒙桑",
+"scientific_name": "Morus mongolica",
+"aliases": ["岩桑"],
+"taxon_group": "桑科 桑属",
+"identification_notes": "灌木，高2~5米；叶互生，长卵形，叶缘锯齿有长芒，先端具尾尖；雌雄异株；聚花果圆柱形，成熟时红色或紫黑色。",
+"habitat_notes": "野生于中低海拔山区，百花山、上方山等地可见。",
+"seasonality_notes": "花期4月至5月，果期6月至7月。",
+"cover_image_url": "/trees/morus-mongolica.jpg",
+"is_active": true
+},
+{
+"slug": "castanea-mollissima",
+"common_name": "栗",
+"scientific_name": "Castanea mollissima",
+"aliases": [
+"板栗",
+"毛栗子"
+],
+"taxon_group": "壳斗科 栗属",
+"identification_notes": "乔木，高10~20米；树皮灰褐色，有深纵裂；叶互生，长圆形，叶缘锯齿具芒刺；雌雄同株异花；坚果褐色，生于多刺的壳斗内。",
+"habitat_notes": "北京常见栽培，多见于怀柔、密云、昌平等山区。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/castanea-mollissima.jpg",
+"is_active": true
+},
+{
+"slug": "quercus-dentata",
+"common_name": "槲树",
+"scientific_name": "Quercus dentata",
+"aliases": [
+"柞栎",
+"波罗栎",
+"大叶波罗"
+],
+"taxon_group": "壳斗科 栎属",
+"identification_notes": "乔木，高10~25米；树皮灰褐色，深纵裂；叶互生，长椭圆状倒卵形，边缘具波状齿；雌雄同株异花；坚果壳斗杯形，小苞片窄披针形反曲。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，清华大学等地可见。",
+"seasonality_notes": "花期4月。",
+"cover_image_url": "/trees/quercus-dentata.jpg",
+"is_active": true
+},
+{
+"slug": "quercus-mongolica",
+"common_name": "蒙古栎",
+"scientific_name": "Quercus mongolica",
+"aliases": [
+"蒙栎",
+"小叶槲树"
+],
+"taxon_group": "壳斗科 栎属",
+"identification_notes": "乔木，高10~30米；树皮灰褐色，纵裂；叶互生，长倒卵形，边缘具波状齿；雌雄同株异花；坚果壳斗扁杯形，小苞片半球形瘤状凸起。",
+"habitat_notes": "野生于中低海拔山区；亦有栽等地可见。",
+"seasonality_notes": "花期4月至5月，果期8月至10月。",
+"cover_image_url": "/trees/quercus-mongolica.jpg",
+"is_active": true
+},
+{
+"slug": "quercus-variabilis",
+"common_name": "栓皮栎",
+"scientific_name": "Quercus variabilis",
+"aliases": [
+"软木栎"
+],
+"taxon_group": "壳斗科 栎属",
+"identification_notes": "乔木，高15~30米；树皮黑褐色，有“人”字形纵裂，木栓层发达；叶卵状披针形，边缘具刺芒状锯齿；雌雄同株异花；坚果壳斗。",
+"habitat_notes": "野生于中低海拔山区，上方山等地可见；偶见栽培。",
+"seasonality_notes": "花期4月至5月，果期翌年9月至10月。",
+"cover_image_url": "/trees/quercus-variabilis.jpg",
+"is_active": true
+},
+{
+"slug": "juglans-mandshurica",
+"common_name": "胡桃楸",
+"scientific_name": "Juglans mandshurica",
+"aliases": [
+"核桃楸"
+],
+"taxon_group": "胡桃科 胡桃属",
+"identification_notes": "乔木，高10~20米；树皮灰色，具浅纵裂；叶互生，奇数羽状复åª异花；核果长圆形，顶端尖，成串下垂生长。",
+"habitat_notes": "野生于中低海拔山区，松山等地可见；偶见栽培。",
+"seasonality_notes": "花期4月至5月，果期7月至9月。",
+"cover_image_url": "/trees/juglans-mandshurica.jpg",
+"is_active": true
+},
+{
+"slug": "juglans-regia",
+"common_name": "胡桃",
+"scientific_name": "Juglans regia",
+"aliases": [
+"核桃"
+],
+"taxon_group": "胡桃科 胡桃属",
+"identification_notes": "乔木，高10~25米；树皮灰白色，有复叶；雌雄同株异花，雄花柔荑花序下垂；核果近球形，1~2枚生于果梗。",
+"habitat_notes": "北京常见栽培，多公园、校园及京郊村镇均可见到。",
+"seasonality_notes": "花期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/juglans-regia.jpg",
+"is_active": true
+},
+{
+"slug": "pterocarya-stenoptera",
+"common_name": "枫杨",
+"scientific_name": "Pterocarya stenoptera",
+"aliases": [
+"麻柳"
+],
+"taxon_group": "胡桃科 枫杨属",
+"identification_notes": "5~30米；树皮浅灰色，具深纵裂；叶互生，偶数羽状复叶，叶轴有翅；果序下垂，坚果长圆形，具2枚硬翅。",
+"habitat_notes": "北京有栽培，紫竹院公园、奥林匹克森林公园等地可见。",
+"seasonality_notes": "花期4月至5月，果期8月至10月。",
+"cover_image_url": "/trees/pterocarya-stenoptera.jpg",
+"is_active": true
+},
+{
+"slug": "betula-albosinensis",
+"common_name": "红桦",
+"scientific_name": "Betula albosinensis",
+"aliases": [
+"纸皮桦",
+"红ç¦"
+],
+"taxon_group": "桦木科 桦木属",
+"identification_notes": "乔木，高15~30米；树皮淡红褐色或紫红色，纸质，层状剥落；叶互生，卵状长圆形；果序圆柱形，小坚果具翅。",
+"habitat_notes": "野生于中高海拔山区，百花山、松山等地可见。",
+"seasonality_notes": "花期5月至6月，果期7月至8月。",
+"cover_image_url": "/trees/betula-albosinensis.jpg",
+"is_active": true
+},
+{
+"slug": "betula-dahurica",
+"common_name": "黑桦",
+"scientific_name": "Betula dahurica",
+"aliases": [
+"棘皮桦"
+],
+"taxon_group": "桦木科 桦木属",
+"identification_notes": "树皮黑褐色或灰褐色，会发生纸状剥落，其他形态与红桦相似。",
+"habitat_notes": "分布在北京小龙门林场、百花山、东灵山等地。",
+"seasonality_notes": "花期5月至6月，果期7月至8月。",
+"cover_image_url": "/trees/betula-dahurica.jpg",
+"is_active": true
+},
+{
+"slug": "betula-chinensis",
+"common_name": "坚桦",
+"scientific_name": "Betula chinensis",
+"aliases": [
+"杵榆"
+],
+"taxon_group": "桦木科 桦木属",
+"identification_notes": "灌木或小乔木状，高2~5米；树皮黑灰色，纵裂或不开裂，无纸状剥落现象；叶宽卵形，形似榆树；木质坚重。",
+"habitat_notes": "野生于中高海拔山区，百花山、玉渡山等地可见。",
+"seasonality_notes": "花期5月至6月，果期6月至9月。",
+"cover_image_url": "/trees/betula-chinensis.jpg",
+"is_active": true
+},
+{
+"slug": "betula-platyphylla",
+"common_name": "白桦",
+"scientific_name": "Betula platyphylla",
+"aliases": [
+"桦皮树"
+],
+"taxon_group": "桦木科 桦木属",
+"identification_notes": "乔木，高10~27米；树皮灰白色，层状剥落；叶互生，三角状卵形或菱形；雌雄同株异花；果序圆柱状下垂，小坚果具翅。",
+"habitat_notes": "野生于中高海拔山区，松山等地可见；偶见栽培。",
+"seasonality_notes": "花期4月至5月，果期6月至9月。",
+"cover_image_url": "/trees/betula-platyphylla.jpg",
+"is_active": true
+},
+{
+"slug": "carpinus-turczaninowii",
+"common_name": "鹅耳枥",
+"scientific_name": "Carpinus turczaninowii",
+"aliases": [
+"北鹅耳枥",
+"土姜"
+],
+"taxon_group": "桦木科 鹅耳枥属",
+"identification_notes": "乔木，高5~10米；树皮灰褐色粗糙；叶互生，卵状椭圆形；雌雄同株异花；果序下垂，小坚果藏于叶状苞片内，似绿色叶片串。",
+"habitat_notes": "野生于中低海拔山区；偶见栽培，常作盆景。",
+"seasonality_notes": "花期4月至5月，果期9月，",
+"cover_image_url": "/trees/carpinus-turczaninowii.jpg",
+"is_active": true
+},
+{
+"slug": "corylus-heterophylla",
+"common_name": "榛",
+"scientific_name": "Corylus heterophylla",
+"aliases": [
+"平榛",
+"榛子"
+],
+"taxon_group": "桦木科 榛属",
+"identification_notes": "灌木或小乔木，高1~7米；叶互生，宽倒卵形，顶端平截；雌雄同株异花；坚果近球形，外有钟状（叶片状）果苞。",
+"habitat_notes": "野生于中低海拔山区；偶见栽培。",
+"seasonality_notes":"期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/corylus-heterophylla.jpg",
+"is_active": true
+},
+{
+"slug": "corylus-mandshurica",
+"common_name": "毛榛",
+"scientific_name": "Corylus mandshurica",
+"aliases": [
+"胡榛子",
+"角榛",
+"野榛子"
+],
+"taxon_group": "桦木科 榛属",
+"identification_notes": "灌木，高2~4米；叶顶端无明显平截，具骤尖或尾尖；坚果外有管状果苞，果苞密被黄色刚毛和白色短柔毛，扎手。",
+"habitat_notes": "野生于中低海拔山区",
+"seasonality_notes": "花期4月至5月，果期9月。",
+"cover_image_url": "/trees/corylus-mandshurica.jpg",
+"is_active": true
+},
+{
+"slug": "celastrus-orbiculatus",
+"common_name": "南蛇藤",
+"scientific_name": "Celastrus orbiculatus",
+"aliases": [
+"蔓性落霜红",
+"南蛇风"
+],
+"taxon_group": "卫矛科 南蛇藤属",
+"identification_notes": "攀援性灌木，常缠绕于乔木上；叶互生，椭圆形；蒴果近球状，成熟时黄色壳开裂，露出带有红色假种皮的种子。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，作绿化观赏。",
+"seasonality_notes": "花期5月至6月，果期9月至10月。",
+"cover_image_url": "/trees/celastrus-orbiculatus.jpg",
+"is_active": true
+},
+{
+"slug": "euonymus-alatus",
+"common_name": "卫矛",
+"scientific_name": "Euonymus alatus",
+"aliases": [
+"鬼箭羽"
+],
+"taxon_group": "卫矛科 卫矛属",
+"identification_notes": "灌木，高1~3米；小枝常带2~4列木栓质翅，形如箭羽；叶对生，长椭圆形；蒴果三棱状椭圆形ï²出红色种子。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培。",
+"seasonality_notes": "花期5月至6月，果期9月至10月，秋季昼夜温差大时叶变红。",
+"cover_image_url": "/trees/euonymus-alatus.jpg",
+"is_active": true
+},
+{
+"slug": "euonymus-alatus-compactus",
+"common_name": "密冠卫矛",
+"scientific_name": "Euonymus alatus 'Compactus'",
+"aliases": [
+"火焰卫矛"
+],
+"taxon_group": "卫矛科 卫矛属",
+"identification_notes": "为卫矛的园艺品种，形态与卫矛相似，秋季叶片变为红色，北京市区改良后的植株通常不结果。",
+"habitat_notes": "北京市区常见栽培，紫竹院公园等地可见。",
+"seasonality_notes": "秋季叶片变红，适宜秋季观察。",
+"cover_image_url": "/trees/euonymus-alatus-compactus.jpg",
+"is_active": true
+},
+{
+"slug": "euonymus-japonicus",
+"common_name": "冬青卫矛",
+"scientific_name": "Euonymus japonicus",
+"aliases": [
+"大叶黄杨"
+],
+"taxon_group": "卫矛科 卫矛属",
+"identification_notes": "乔木；叶对生，革质，椭圆形；花白绿色，花瓣4枚；蒴果三棱状球形，淡红色，裂开露出橘红色种子。",
+"habitat_notes": "北京常见栽培，多作绿篱，广泛分布于街边及小区。",
+"seasonality_notes": "常绿植物，花期6月至7月，果期10月至12月。",
+"cover_image_url": "/trees/euonymus-japonicus.jpg",
+"is_active": true
+},
+{
+"slug": "euonymus-maackii",
+"common_name": "白杜",
+"scientific_name": "Euonymus maackii",
+"aliases": [
+"明开夜合",
+"丝ç",
+"白杜卫矛"
+],
+"taxon_group": "卫矛科 卫矛属",
+"identification_notes": "小乔木，高5~8米；树皮灰褐色，有网状裂纹；叶对生，卵状椭圆形；聚伞花序白绿色；蒴果倒心形，粉红色，露出红色种子。",
+"habitat_notes": "北京常见栽培，天坛公园等地可见，可能有野生植株。",
+"seasonality_notes": "花期5月，果期9月至11月。",
+"cover_image_url": "/trees/euonymus-maackii.jpg",
+"is_active": true
+},
+{
+"slug": "populus-alba",
+"common_name": "银白杨",
+"scientific_name": "Populus alba",
+"aliases": [
+"白杨"
+],
+"taxon_group": "杨柳科 杨属",
+"identification_notes": "乔木，高15~30米；树皮白色或灰白色；小枝、幼叶、叶柄均有白色绒毛；叶背面白色；雌雄异株，蒴果圆锥形，种子具白毛。",
+"habitat_notes": "北京有栽培，常作行道树，多选用树干笔直的雄株。",
+"seasonality_notes": "花期3月至4月，果期5月。",
+"cover_image_url": "/trees/populus-alba.jpg",
+"is_active": true
+},
+{
+"slug": "populus-canadensis",
+"common_name": "加杨",
+"scientific_name": "Populus canadensis",
+"aliases": [
+"加拿大杨",
+"欧美杨"
+],
+"taxon_group": "杨柳科 杨属",
+"identification_notes": "乔木，高15~35米；树皮暗灰色，有深纵裂；叶互生，三角状卵形；雌雄异株，雄花红色，雌花绿色；蒴果卵圆形。",
+"habitat_notes": "北京常见栽培，曾大量用作行道树。",
+"seasonality_notes": "花期3月至4月，果期5月。",
+"cover_image_url": "/trees/populus-canadensis.jpg",
+"is_active": true
+},
+{
+"slug": "populus-nigra-var-italica",
+"common_name": "钻天杨",
+"scientific_name": "Populus nigra var. italica",
+"aliases": [
+"美国白杨",
+"美杨",
+"笔杨"
+],
+"taxon_group": "杨柳科 杨属",
+"identification_notes": "乔木，高20~30米；树冠细长圆柱形，侧枝斜向上朝天生长；叶菱状三角形；雌雄异株；蒴果圆锥形。",
+"habitat_notes": "北京常见栽培，多栽种于空旷处或水畔。",
+"seasonality_notes": "花期3月至4月",
+"cover_image_url": "/trees/populus-nigra-var-italica.jpg",
+"is_active": true
+},
+{
+"slug": "populus-tomentosa",
+"common_name": "毛白杨",
+"scientific_name": "Populus tomentosa",
+"aliases": [
+"大叶杨"
+],
+"taxon_group": "杨柳科 杨属",
+"identification_notes": "乔木，高15~30米；树皮灰白或黑灰色，有菱形皮孔；叶互生，宽大；雌雄异株，雌株果实成熟后散发飞絮（含极少种子）。",
+"habitat_notes": "北京常见栽培，多见于公园及小区，是飞絮主要来源",
+"seasonality_notes": "花期3月至4月，果期4月至5月。",
+"cover_image_url": "/trees/populus-tomentosa.jpg",
+"is_active": true
+},
+{
+"slug": "salix-babylonica",
+"common_name": "垂柳",
+"scientific_name": "Salix babylonica",
+"aliases": [
+"垂杨柳"
+],
+"taxon_group": "杨柳科 柳属",
+"identification_notes": "乔木，高10~18米；树皮灰黑，枝条下垂；叶狭披针形；雌雄异株，柔荑花序；蒴果卵形，果实成熟开裂散布含种子的柳絮。",
+"habitat_notes": "北京常见栽å",
+"seasonality_notes": "花期3月至4月，果期4月。",
+"cover_image_url": "/trees/salix-babylonica.jpg",
+"is_active": true
+},
+{
+"slug": "cotinus-coggygria-var-cinerea",
+"common_name": "黄栌",
+"scientific_name": "Cotinus coggygria var. cinerea",
+"aliases": [
+"红叶",
+"西山红叶"
+],
+"taxon_group": "漆树科 黄栌属",
+"identification_notes": "灌木，高3~5米；叶互生，圆形或卵圆形；果序上密布紫红色羽毛状的不育花梗，形似烟雾；秋叶变红。",
+"habitat_notes":"拔山区，香山等地可见；亦常见栽培。",
+"seasonality_notes": "花期4月至5月，果期6月至7月，秋季赏红叶。",
+"cover_image_url": "/trees/cotinus-coggygria-var-cinerea.jpg",
+"is_active": true
+},
+{
+"slug": "pistacia-chinensis",
+"common_name": "黄连木",
+"scientific_name": "Pistacia chinensis",
+"aliases": [
+"楷木",
+"木黄连"
+],
+"taxon_group": "漆树科 黄连木属",
+"identification_notes": "乔木，高10~20米；树皮暗褐色，鳞片状剥落；叶互生，奇数羽状复叶；核果扁球形，紫红色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培，秋季叶变红色。",
+"seasonality_notes": "花期4月至5月，果期7月至9月。",
+"cover_image_url": "/trees/pistacia-chinensis.jpg",
+"is_active": true
+},
+{
+"slug": "rhus-chinensis",
+"common_name": "盐麸木",
+"scientific_name": "Rhus chinensis",
+"aliases": [
+"五倍子树",
+"盐肤木"
+],
+"taxon_group": "漆树科 盐麸木属",
+"identification_notes": "灌木或小乔木，高2~10米；具白色ä¶复叶；花黄白色；核果球形，红色，果皮有时带咸酸的白色粉末。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培。",
+"seasonality_notes": "花期7月至8月，果期9月至10月。",
+"cover_image_url": "/trees/rhus-chinensis.jpg",
+"is_active": true
+},
+{
+"slug": "rhus-typhina",
+"common_name": "火炬树",
+"scientific_name": "Rhus typhina",
+"aliases": [
+"鹿角漆",
+"火炬漆"
+],
+"taxon_group": "漆树科 盐麸木属",
+"identification_notes": "灌木或小乔木，é10米；具白色乳汁；叶互生，奇数羽状复叶；核果球形，深红色，密被绒毛，果序聚集形如火炬。",
+"habitat_notes": "北京常见栽培，多见于路边、荒地，根部侧芽萌发力极强。",
+"seasonality_notes": "花期6月至7月，果期8月至10月，秋季叶变红色。",
+"cover_image_url": "/trees/rhus-typhina.jpg",
+"is_active": true
+},
+{
+"slug": "acer-freemanii-autumn-blaze",
+"common_name": "秋火焰银红槭",
+"scientific_name": "Acer × freemanii 'Sienna Glen'",
+"aliases" : [
+"秋火槭",
+"火焰槭",
+"自由人槭",
+"美国红枫"
+],
+"taxon_group": "无患子科 槭属",
+"identification_notes": "乔木，高10~18米；树皮灰白；叶对生，掌状3~5裂；雌雄异株，翅果两枚相连，张开成锐角。",
+"habitat_notes": "北京常见栽培，是红花槭和银白槭的杂交选育品种。",
+"seasonality_notes": "秋季叶片大面积变红，红叶期长。",
+"cover_image_url": "/trees/acer-freemanii-autumn-blaze.jpg",
+"is_active": true
+},
+{
+"slug": "acer-negundo",
+"common_name": "梣叶槭",
+"scientific_name": "Acer negundo",
+"aliases": [
+"复叶槭",
+"美国槭",
+"白蜡槭"
+],
+"taxon_group": "无患子科 槭属",
+"identification_notes": "乔木，高10~20米；叶对生，奇数羽状复叶（似白蜡树）；雌雄异株，翅果相连张开成锐角。",
+"habitat_notes": "北京有栽培，常作为绿化树种，有金叶、花叶等园艺品种。",
+"seasonality_notes": "花期3月至4月，果期6月至8月。",
+"cover_image_url": "/trees/acer-negundo.jpg",
+"is_active": true},
+{
+"slug": "acer-palmatum",
+"common_name": "鸡爪槭",
+"scientific_name": "Acer palmatum",
+"aliases": [
+"七角枫"
+],
+"taxon_group": "无患子科 槭属",
+"identification_notes": "小乔木，高5~8米；叶对生，掌状5~9深裂，形似鸡爪；伞房花序；翅果两枚相连成钝角。",
+"habitat_notes": "北京有栽培，多见于校园及公园，因喜潮湿，叶尖常现干焦。",
+"seasonality_notes": "花期4月，果期9月至10月，秋季赏红叶。",
+"cover_image_url": "/trees/acertum.jpg",
+"is_active": true
+},
+{
+"slug": "acer-tataricum-subsp-ginnala",
+"common_name": "茶条槭",
+"scientific_name": "Acer tataricum subsp. ginnala",
+"aliases": [
+"茶条",
+"茶条枫",
+"华北茶条槭"
+],
+"taxon_group": "无患子科 槭属",
+"identification_notes": "灌木或小乔木，高4~6米；叶对生，圆卵形，3~5裂；伞房花序黄白色；两翅果近乎平行相连。",
+"habitat_notes": "北京有栽培，多见于校园及绿地。",
+"seasonality_notes": "花期4月至5月，果期7æ³8月，秋叶变红。",
+"cover_image_url": "/trees/acer-tataricum-subsp-ginnala.jpg",
+"is_active": true
+},
+{
+"slug": "acer-truncatum",
+"common_name": "元宝槭",
+"scientific_name": "Acer truncatum",
+"aliases": [
+"元宝树",
+"元宝枫",
+"平基槭",
+"色木"
+],
+"taxon_group": "无患子科 槭属",
+"identification_notes": "乔木，高5~10米；叶对生，五边形，通常5裂，基部平截；两枚翅果相连形似元宝。",
+"habitat_notes": "野生于中低海拔山区；亦常见栽培，多",
+"seasonality_notes": "花期4月至5月，果期9月至10月，秋叶依温差变红或黄。",
+"cover_image_url": "/trees/acer-truncatum.jpg",
+"is_active": true
+},
+{
+"slug": "aesculus-chinensis",
+"common_name": "七叶树",
+"scientific_name": "Aesculus chinensis",
+"aliases": [
+"娑罗树",
+"菩提树"
+],
+"taxon_group": "无患子科 七叶树属",
+"identification_notes": "乔木，高15~25米；叶互生，掌状复叶，小叶常5~7枚；总状花序，花白色；果实球形，种子似栗子，有毒。",
+"habitat_notes": "北京常见栽培，多见于寺庙及公园。",
+"seasonality_notes": "花期5月至6月，果期8月至9月。",
+"cover_image_url": "/trees/aesculus-chinensis.jpg",
+"is_active": true
+},
+{
+"slug": "koelreuteria-bipinnata-integrifoliola",
+"common_name": "全缘叶栾树",
+"scientific_name": "Koelreuteria bipinnata 'Integrifoliola'",
+"aliases": [
+"黄山栾树",
+"灯笼树"
+],
+"taxon_group": "无患子科 栾属",
+"identification_notes": "乔木，高10~20米；叶二回奇数羽状复叶，小囊状，成熟时淡红褐色，似灯笼。",
+"habitat_notes": "北京有栽培，常作为行道树。",
+"seasonality_notes": "花期7月至9月，果期9月至11月。",
+"cover_image_url": "/trees/koelreuteria-bipinnata-integrifoliola.jpg",
+"is_active": true
+},
+{
+"slug": "koelreuteria-paniculata",
+"common_name": "栾树",
+"scientific_name": "Koelreuteria paniculata",
+"aliases": [
+"黑叶树",
+"木兰树"
+],
+"taxon_group": "无患子科 栾属",
+"identification_notes": "乔木，高5~10米；叶一回或二回奇数羽状复叶；花黄色；蒴果囊状具3棱，成熟时褐色，种子黑色球形。",
+"habitat_notes": "北京常见栽培，多见于公园及校园，山区或有野生。",
+"seasonality_notes": "花期6月至9月，果期8月至10月。",
+"cover_image_url": "/trees/koelreuteria-paniculata.jpg",
+"is_active": true
+},
+{
+"slug": "citrus-trifoliata",
+"common_name": "枳",
+"scientific_name": "Citrus trifoliata",
+"aliases": [
+"枸橘",
+"臭橘"
+],
+"taxon_group": "芸香科 柑橘属",
+"identification_notes": "灌木或小乔木，高1~6米；具粗壮枝刺；叶互生，三出复叶；花单生或成对，白色；柑果近球形，黄或橙黄色，味极酸涩。",
+"habitat_notes": "北京有栽培，常作绿篱使用，因密生粗刺防人穿行。",
+"seasonality_notes": "花期4月至5月，果期8月至10月。",
+"cover_image_url": "/trees/citrus-trifoliata.jpg",
+"is_active": true
+},
+{
+"slug": "phellodendron-amurense",
+"common_name": "黄檗",
+"scientific_name": "Phellodendron amurense",
+"aliases": [
+"",
+"黄菠萝",
+"黄波椤"
+],
+"taxon_group": "芸香科 黄檗属",
+"identification_notes": "乔木，高10~20米；树皮浅灰褐色，内层黄色味苦；叶对生，奇数羽状复叶；雌雄异株；核果球形，成熟时蓝黑色。",
+"habitat_notes": "野生于中低海拔山区；亦有栽培。国家二级重点保护植物。",
+"seasonality_notes": "花期4月至7月，果期7月至10月。",
+"cover_image_url": "/trees/phellodendron-amurense.jpg",
+"is_active": true
+},
+{
+"slug": "tetradium-danii",
+"common_name": "臭檀吴萸",
+"scientific_name": "Tetradium daniellii",
+"aliases": [
+"臭檀"
+],
+"taxon_group": "芸香科 吴茱萸属",
+"identification_notes": "乔木，高10~20米；树皮暗灰色平滑；叶对生，奇数羽状复叶；植株具特殊气味；花白色；蓇葖果成熟时红褐色。",
+"habitat_notes": "野生于中低海拔山区。",
+"seasonality_notes": "花期6月至7月，果期9月至10月。",
+"cover_image_url": "/trees/tetradium-daniellii.jpg",
+"is_active": true
+},
+{
+"slug": "zanthoxylum-bungeanum",
+"common_name": "花椒",
+"scientific_name": "Zanthoxylum bungeanum",
+"aliases": [],
+"taxon_group": "芸香科 花椒属",
+"identification_notes": "小乔木，高2~7米；茎褐色常具瘤状凸起，枝有短刺；叶互生，奇数羽状复叶；花黄绿色；蓇葖果球形，紫红色。",
+"habitat_notes": "北京有栽培，村中、小区及公园多见。",
+"seasonality_notes": "花期4月至5月，果期7月至9月。",
+"cover_image_url": "/trees/zanthoxylum-bungeanum.jpg",
+"is_active": true
+},
+{
+"slug": "ailanthus-altissima",
+"common_name": "臭椿",
+"scientific_name": "Ailanthus altissima",
+"aliases": [
+"虎眼树"
+],
+"taxon_group": "苦木科 臭椿属",
+"identification_notes": "乔木，高10~30米；树皮灰黑色平滑；叶互生，奇数羽状复叶，揉碎有臭味，小叶基部具腺体；翅果长圆形。",
+"habitat_notes": "野生于中低海拔山区、平原及城市中，也常见栽培。",
+"seasonality_notes": "花期5月至6月，果期8月至10月。",
+"cover_image_url": "/trees/ailanthus-altissima.jpg",
+"is_active": true
+},
+{
+"slug": "toona-sinensis",
+"common_name": "香椿",
+"scientific_name": "Toona sinensis",
+"aliases": [
+"椿树"
+],
+"taxon_group": "楝科 香椿属",
+"identification_notes": "乔木，高5~25米；树皮褐色，片状条状脱落；通常为偶数羽状复叶；聚伞花序，花白色；蒴果成熟时深褐色开裂。",
+"habitat_notes": "北京常见栽培，多见于小区、校园及山区。",
+"seasonality_notes": "花期5月至6月。",
+"cover_image_url": "/trees/toona-sinensis.jpg",
+"is_active": true
+},
+{
+"slug": "firmiana-simplex",
+"common_name": "梧桐",
+"scientific_name": "Firmiana simplex",
+"aliases": [
+"青桐"
+],
+"taxon_group": "锦葵科 梧桐属",
+"identification_notes": "乔木，高5~15米；树皮青绿色，平滑；叶互生，掌状3~5裂；花单性，淡黄色；蓇葖果开裂呈叶状，种子生于果皮边缘。",
+"habitat_notes": "北京常见栽培，各大校园及居民小区可见。",
+"seasonality_notes": "è月，秋季落叶早。",
+"cover_image_url": "/trees/firmiana-simplex.jpg",
+"is_active": true
+},
+{
+"slug": "ginkgo-biloba",
+"common_name": "银杏",
+"scientific_name": "Ginkgo biloba",
+"aliases": [
+"白果",
+"鸭掌树",
+"公孙树"
+],
+"taxon_group": "银杏科 银杏属",
+"identification_notes": "乔木，高10~40米；叶簇生，扇形，先端常有缺口；雌雄异株；种子核果状，成熟时橙黄色外皮有臭味，有毒。",
+"habitat_notes": "北京常见栽培，为常见行道树及风景。",
+"seasonality_notes": "花期3月至4月，果期9月至10月，秋季叶变金黄。",
+"cover_image_url": "/trees/ginkgo-biloba.jpg",
+"is_active": true
+},
+{
+"slug": "platycladus-orientalis",
+"common_name": "侧柏",
+"scientific_name": "Platycladus orientalis",
+"aliases": [
+"柏树",
+"香柯树"
+],
+"taxon_group": "柏科 侧柏属",
+"identification_notes": "常绿乔木，高10~20米；小枝扁平排成一平面；叶交互对生，鳞形；球果成熟时褐色，开裂。",
+"habitat_notes": "北京常见栽树之一，多古树。",
+"seasonality_notes": "花期4月至5月，果期9月至10月。",
+"cover_image_url": "/trees/platycladus-orientalis.jpg",
+"is_active": true
+},
+{
+"slug": "pinus-tabuliformis",
+"common_name": "油松",
+"scientific_name": "Pinus tabuliformis",
+"aliases": [
+"赤松",
+"红皮松"
+],
+"taxon_group": "松科 松属",
+"identification_notes": "常绿乔木，高5~25米；树皮灰褐色鳞片状开裂；叶簇生，2针一束；雌雄同株；球果卵形，种子具薄翅可随风传播。",
+"habitat_notes": "北京常见栽培，山区亦有天然林分布。",
+"seasonality_notes": "花期4月至5月，果期翌年9月至10月。",
+"cover_image_url": "/trees/pinus-tabuliformis.jpg",
+"is_active": true
+}
+]

@@ -279,7 +279,7 @@ export function getObservationAnalysisErrorMessage(row: ObservationMediaAnalysis
     case 'pending':
       return '图片识别仍在处理中，请稍后再提交'
     case 'error':
-      return '图片识别失败，请重新上传或稍后重试'
+      return row.moderation_reason || '图片识别失败，请重新上传或稍后重试'
     default:
       return '图片识别未通过'
   }

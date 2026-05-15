@@ -32,6 +32,8 @@ export function DomesticMapPicker({
   const [isReady, setIsReady] = useState(false)
   const [isGeocoding, setIsGeocoding] = useState(false)
   const geocodeAbortRef = useRef<AbortController | null>(null)
+  const onChangeRef = useRef(onChange)
+  const doReverseGeocodeRef = useRef<(lat: number, lng: number) => void>(() => {})
 
   if (!initialPointRef.current) {
     initialPointRef.current = {
@@ -61,6 +63,15 @@ export function DomesticMapPicker({
     },
     [onLocationNameSuggestion],
   )
+
+  // Keep refs in sync so the init effect always uses the latest callbacks
+  // without needing them in the dependency array.
+  useEffect(() => {
+    onChangeRef.current = onChange
+  }, [onChange])
+  useEffect(() => {
+    doReverseGeocodeRef.current = doReverseGeocode
+  }, [doReverseGeocode])
 
   useEffect(() => {
     let isMounted = true
@@ -100,16 +111,16 @@ export function DomesticMapPicker({
         const point = marker.getLatLng()
         const lat = point.lat.toFixed(6)
         const lng = point.lng.toFixed(6)
-        onChange({ latitude: lat, longitude: lng })
-        doReverseGeocode(point.lat, point.lng)
+        onChangeRef.current({ latitude: lat, longitude: lng })
+        doReverseGeocodeRef.current(point.lat, point.lng)
       })
 
       map.on("click", (event) => {
         marker.setLatLng(event.latlng)
         const lat = event.latlng.lat.toFixed(6)
         const lng = event.latlng.lng.toFixed(6)
-        onChange({ latitude: lat, longitude: lng })
-        doReverseGeocode(event.latlng.lat, event.latlng.lng)
+        onChangeRef.current({ latitude: lat, longitude: lng })
+        doReverseGeocodeRef.current(event.latlng.lat, event.latlng.lng)
       })
 
       mapRef.current = map
@@ -123,11 +134,18 @@ export function DomesticMapPicker({
       isMounted = false
       geocodeAbortRef.current?.abort()
       markerRef.current?.remove()
-      mapRef.current?.remove()
+      if (mapRef.current) {
+        // Stop any in-progress zoom/pan animation before removing the map,
+        // otherwise the transitionend callback fires on a destroyed pane.
+        mapRef.current.stop()
+        mapRef.current.remove()
+      }
       markerRef.current = null
       mapRef.current = null
     }
-  }, [onChange, doReverseGeocode])
+    // Map is initialised once; callbacks are accessed via refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (!mapRef.current || !markerRef.current || !leafletRef.current || !latitude || !longitude) return

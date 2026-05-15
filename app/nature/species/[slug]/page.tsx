@@ -1,19 +1,62 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AudioLines, Binoculars, CalendarDays, Feather, MapPin } from "lucide-react";
+import type { CSSProperties, ReactNode } from "react";
+import { AudioLines, Binoculars, CalendarDays, Feather, Leaf, MapPin } from "lucide-react";
 
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
+import { SpeciesImageGallery } from "./species-image-gallery";
 
 interface SpeciesDetailPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ from?: string }>;
+}
+
+
+
+interface TextInfoCardProps {
+  icon: ReactNode;
+  title: string;
+  text: string;
+  illustrationSrc: string;
+  children?: ReactNode;
+}
+
+function TextInfoCard({ icon, title, text, illustrationSrc, children }: TextInfoCardProps) {
+  return (
+    <section className="surface-subtle relative isolate overflow-hidden rounded-[22px] bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] transition-colors hover:bg-background sm:min-h-[178px] sm:p-6">
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-0 w-[60%] opacity-[0.52] dark:opacity-30 lg:w-[55%]"
+        style={{
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.15) 18%, rgba(0,0,0,0.5) 40%, black 65%)",
+          maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.15) 18%, rgba(0,0,0,0.5) 40%, black 65%)",
+        }}
+        aria-hidden
+      >
+        <Image src={illustrationSrc} alt="" fill className="object-cover object-right mix-blend-multiply dark:invert dark:mix-blend-screen" sizes="(max-width: 640px) 240px, 420px" />
+      </div>
+      <div className="relative z-10 flex items-center gap-2">
+        {icon}
+        <h2 className="text-lg font-semibold sm:text-xl">{title}</h2>
+      </div>
+      <div className="relative z-10 mt-3 text-sm leading-7 text-muted-foreground sm:mt-4">
+        <div
+          className="pointer-events-none float-right -mr-5 -mt-10 mb-1 ml-5 h-32 w-[48%] opacity-0 sm:-mr-6 sm:-mt-12 sm:ml-4 sm:h-32 sm:w-44 lg:h-36 lg:w-52"
+          style={{
+            shapeOutside: "ellipse(48% 42% at 63% 56%)",
+          }}
+          aria-hidden
+        />
+        <p>{text}</p>
+        {children}
+      </div>
+    </section>
+  );
 }
 
 export async function generateMetadata({ params }: SpeciesDetailPageProps): Promise<Metadata> {
@@ -66,172 +109,228 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const hasRecentObservations = recentObservationCount > 0;
   const currentPath = `/nature/species/${species.slug}`;
   const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
-  const submitHref = buildNatureSubmitHref({
-    topic: "birds",
-    speciesId: species.id,
-    from: currentPath,
-  });
+  const isBirdSpecies = species.topicKey === "birds";
+  const archiveLabel = isBirdSpecies ? "鸟类档案" : species.topicKey === "plants" ? "树种档案" : "物种档案";
+  const galleryImageUrls = species.imageUrls?.length
+    ? species.imageUrls
+    : species.coverImageUrl
+      ? [species.coverImageUrl]
+      : [];
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
   const aliasesPinyin = toSpeciesPinyinLabel(species.aliasesDisplay);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
-  const familyPinyin = toSpeciesPinyinLabel(family);
-  const genusPinyin = toSpeciesPinyinLabel(genus);
-  const taxonGroupPinyin = toSpeciesPinyinLabel(species.taxonGroup);
+  const topicAssetPrefix = isBirdSpecies ? "/assets/species-detail/bird" : "/assets/species-detail/tree";
+  const heroIllustrationUrl = `${topicAssetPrefix}-hero.png`;
+  const identificationIllustrationUrl = `${topicAssetPrefix}-identification.png`;
+  const habitatIllustrationUrl = `${topicAssetPrefix}-habitat.png`;
+  const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;
+  const audioIllustrationUrl = "/assets/species-detail/bird-audio.png";
+  const heroIllustrationStyle: CSSProperties = {
+    backgroundImage: `url(${heroIllustrationUrl})`,
+    backgroundPosition: "right top",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.6) 45%, black 70%)",
+    maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.6) 45%, black 70%)",
+  };
+  const taxonSummaryItems = [
+    species.aliasesDisplay ? { label: "别名", value: species.aliasesDisplay, pinyin: aliasesPinyin } : null,
+    species.taxonGroup ? { label: "分类", value: species.taxonGroup, pinyin: null } : null,
+  ].filter((item): item is { label: string; value: string; pinyin: string | null } => Boolean(item));
+  const taxonomyRankItems = [
+    family ? { rank: "科", name: family } : null,
+    genus ? { rank: "属", name: genus } : null,
+    {
+      rank: "种",
+      name: species.commonName,
+    },
+  ].filter((item): item is { rank: string; name: string } => Boolean(item));
+  const detailInfoCardCount = [
+    species.identificationNotes,
+    species.habitatNotes,
+    species.seasonalityNotes,
+    isBirdSpecies,
+  ].filter(Boolean).length;
+  const detailInfoGridColumnsClass =
+    detailInfoCardCount >= 4
+      ? "md:grid-cols-2 xl:grid-cols-4"
+      : detailInfoCardCount === 3
+        ? "md:grid-cols-2 xl:grid-cols-3"
+        : detailInfoCardCount === 2
+          ? "md:grid-cols-2"
+          : "";
 
   return (
-    <div className="mx-auto w-full max-w-[1840px] px-4 pb-24 pt-0 min-[390px]:px-5 md:px-8 md:pb-10 md:pt-8">
+    <div className="mx-auto w-full max-w-[1840px] px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
       <MobilePageHeader
         title={species.commonName}
         fallbackHref={fallbackHref}
-        className="-mx-4 mb-4 min-[390px]:-mx-5 md:hidden"
+        className="mb-0 md:hidden"
       />
 
-      <section className="surface-panel overflow-hidden">
-        <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-          <div className="surface-subtle p-5 sm:p-6">
-            <div className="flex flex-col gap-6 md:flex-row md:items-start">
-              <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-[24px] border border-border/70 shadow-sm md:h-48 md:w-48 md:max-w-none">
-                {species.coverImageUrl ? (
-                  <Image
-                    src={species.coverImageUrl}
-                    alt={species.commonName}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 192px"
-                    quality={60}
-                  />
-                ) : (
-                  <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.35),_transparent_45%),linear-gradient(160deg,_rgba(240,253,250,0.95),_rgba(240,249,255,0.92)_52%,_rgba(250,245,255,0.9))] p-4 dark:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_transparent_38%),linear-gradient(160deg,_rgba(6,20,18,0.96),_rgba(11,27,34,0.94)_52%,_rgba(26,18,38,0.92))]">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-background/70 text-emerald-700 shadow-sm dark:bg-background/10 dark:text-emerald-300">
-                      <Feather className="h-6 w-6" />
-                    </div>
-                    <div className="rounded-2xl border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
-                      <div className="text-sm font-semibold">{species.commonName}</div>
-                      {commonNamePinyin ? (
-                        <div className="mt-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
-                      ) : null}
-                      {species.scientificName ? (
-                        <div className="mt-1 text-[11px] italic leading-5 text-muted-foreground">{species.scientificName}</div>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
+      <section className="md:surface-panel overflow-hidden md:rounded-[24px]">
+        <div className="px-4 pb-5 pt-2 min-[390px]:px-5 sm:p-7">
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:items-stretch">
+            {/* 移动端：图片区先渲染，撑满宽度 */}
+            {galleryImageUrls.length > 0 ? (
+              <div className="-mx-4 min-[390px]:-mx-5 sm:mx-0">
+                <SpeciesImageGallery imageUrls={galleryImageUrls} speciesName={species.commonName} />
               </div>
+            ) : (
+              <div className="relative aspect-[4/3] min-h-[220px] min-w-0 overflow-hidden rounded-[18px] border border-border/70 bg-muted/40 shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
+                <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.35),_transparent_45%),linear-gradient(160deg,_rgba(240,253,250,0.95),_rgba(240,249,255,0.92)_52%,_rgba(250,245,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_transparent_38%),linear-gradient(160deg,_rgba(6,20,18,0.96),_rgba(11,27,34,0.94)_52%,_rgba(26,18,38,0.92))]">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-background/70 text-emerald-700 shadow-sm dark:bg-background/10 dark:text-emerald-300">
+                    <Feather className="h-7 w-7" />
+                  </div>
+                  <div className="rounded-2xl border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
+                    <div className="text-sm font-semibold">{species.commonName}</div>
+                    {commonNamePinyin ? (
+                      <div className="mt-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
+                    ) : null}
+                    {species.scientificName ? (
+                      <div className="mt-1 text-[11px] italic leading-5 text-muted-foreground">{species.scientificName}</div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            )}
 
-              <div className="flex flex-1 flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <p className="section-kicker">物种档案</p>
-                  <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">{species.commonName}</h1>
+            <div className="relative isolate flex min-w-0 flex-col overflow-hidden rounded-[20px] pt-1 lg:pt-2">
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[62%] opacity-[0.55] mix-blend-multiply dark:opacity-30 dark:invert dark:mix-blend-screen md:block" style={heroIllustrationStyle} aria-hidden />
+              <div className="relative z-10 flex flex-1 flex-col justify-between">
+                <div className="min-w-[280px] lg:max-w-[58%]">
+                  <p className="inline-flex rounded-lg bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{archiveLabel}</p>
+                  <h1 className="mt-3 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight md:mt-4 md:text-5xl">
+                  {species.commonName}
+                  {species.topicKey === "plants" ? <Leaf className="h-6 w-6 text-primary/60" aria-hidden /> : null}
+                  </h1>
                   {commonNamePinyin ? (
-                    <p className="mt-2 text-sm tracking-[0.08em] text-primary/80">{commonNamePinyin}</p>
+                    <p className="mt-1.5 text-sm font-medium tracking-[0.08em] text-primary/78 md:mt-2 md:text-base">{commonNamePinyin}</p>
                   ) : null}
                   {species.scientificName ? (
-                    <p className="mt-2 text-base italic text-muted-foreground">{species.scientificName}</p>
+                    <p className="mt-2 text-base italic text-muted-foreground md:mt-4 md:text-lg">{species.scientificName}</p>
                   ) : null}
-                  {species.aliasesDisplay ? (
-                    <div className="mt-3 space-y-1 text-sm leading-6 text-muted-foreground">
-                      <p>别名：{species.aliasesDisplay}</p>
-                      {aliasesPinyin ? <p className="text-xs text-primary/70">{aliasesPinyin}</p> : null}
-                    </div>
+
+                  {taxonSummaryItems.length > 0 ? (
+                    <dl className="mt-4 space-y-2 text-sm leading-6 md:mt-6 md:space-y-2.5">
+                      {taxonSummaryItems.map((item) => (
+                        <div key={item.label} className="flex min-w-0 gap-2 text-muted-foreground">
+                          <dt className="shrink-0 text-foreground/75">{item.label}：</dt>
+                          <dd className="min-w-0">
+                            <span>{item.value}</span>
+                            {item.pinyin ? <span className="ml-2 text-xs text-primary/70">{item.pinyin}</span> : null}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
                   ) : null}
                 </div>
 
-                {species.taxonGroup ? (
-                  <div className="rounded-2xl border border-border/80 bg-background/80 p-3 text-sm text-muted-foreground">
-                    <div className="font-medium text-foreground">{species.taxonGroup}</div>
-                    {taxonGroupPinyin ? <div className="text-xs text-primary/75">{taxonGroupPinyin}</div> : null}
-                    {(family || genus) ? (
-                      <div className="flex flex-wrap gap-2 text-xs">
-                        {family ? (
-                          <span className="rounded-full border border-border/70 bg-background px-2 py-1">
-                            科：{family}
-                            {familyPinyin ? ` (${familyPinyin})` : ""}
-                          </span>
-                        ) : null}
-                        {genus ? (
-                          <span className="rounded-full border border-border/70 bg-background px-2 py-1">
-                            属：{genus}
-                            {genusPinyin ? ` (${genusPinyin})` : ""}
-                          </span>
-                        ) : null}
-                      </div>
-                    ) : null}
+                {taxonomyRankItems.length > 0 ? (
+                  <div className="relative z-10 mt-5 rounded-[18px] border border-border/80 bg-white/85 p-4 shadow-[0_18px_44px_-36px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-md dark:bg-background/90 lg:mt-auto">
+                    <dl className="grid grid-cols-3 gap-3 text-center">
+                      {taxonomyRankItems.map((item) => (
+                        <div key={item.rank} className="min-w-0 border-r border-border/70 px-2 last:border-r-0">
+                          <dt className="text-xs font-medium text-muted-foreground">{item.rank}</dt>
+                          <dd className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
                 ) : null}
               </div>
             </div>
-
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className={`mt-7 grid gap-4 ${detailInfoGridColumnsClass}`}>
             {species.identificationNotes ? (
-              <section className="surface-subtle p-5 transition-colors hover:bg-background/80">
-                <div className="flex items-center gap-2">
-                  <Binoculars className="h-4 w-4 text-primary" />
-                  <h2 className="text-lg font-semibold">识别特征</h2>
-                </div>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{species.identificationNotes}</p>
-              </section>
+              <TextInfoCard
+                icon={<Leaf className="h-5 w-5 text-emerald-600" />}
+                title="识别特征"
+                text={species.identificationNotes}
+                illustrationSrc={identificationIllustrationUrl}
+              />
             ) : null}
 
             {species.habitatNotes ? (
-              <section className="surface-subtle p-5 transition-colors hover:bg-background/80">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <h2 className="text-lg font-semibold">常见环境</h2>
-                </div>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{species.habitatNotes}</p>
-              </section>
+              <TextInfoCard
+                icon={<MapPin className="h-5 w-5 text-emerald-600" />}
+                title="常见环境"
+                text={species.habitatNotes}
+                illustrationSrc={habitatIllustrationUrl}
+              />
             ) : null}
 
             {species.seasonalityNotes ? (
-              <section className="surface-subtle p-5 transition-colors hover:bg-background/80 md:col-span-2">
-                <div className="flex items-center gap-2">
-                  <CalendarDays className="h-4 w-4 text-primary" />
-                  <h2 className="text-lg font-semibold">常见时段</h2>
-                </div>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{species.seasonalityNotes}</p>
-              </section>
+              <TextInfoCard
+                icon={<CalendarDays className="h-5 w-5 text-emerald-600" />}
+                title="常见时段"
+                text={species.seasonalityNotes}
+                illustrationSrc={seasonalityIllustrationUrl}
+              />
             ) : null}
 
-            <section className="surface-subtle p-5 md:col-span-2">
-              <div className="flex items-center gap-2">
-                <AudioLines className="h-4 w-4 text-primary" />
-                <h2 className="text-lg font-semibold">鸟鸣音频</h2>
-              </div>
-              {species.audioUrl ? (
-                <>
-                  <p className="mt-2 text-sm text-muted-foreground">音频按需加载，点击后开始缓冲播放。</p>
-                  <div className="mt-4 rounded-xl border border-border/70 bg-background/80 p-3">
+            {isBirdSpecies ? (
+              <TextInfoCard
+                icon={<AudioLines className="h-5 w-5 text-emerald-600" />}
+                title="鸟鸣音频"
+                text={species.audioUrl ? "音频按需加载，点击后开始缓冲播放。" : "暂未收录该物种音频，后续会持续补充。"}
+                illustrationSrc={audioIllustrationUrl}
+              >
+                {species.audioUrl ? (
+                  <div className="clear-both mt-4">
                     <audio className="w-full" controls preload="none" src={species.audioUrl}>
                       你的浏览器不支持音频播放，可直接打开链接：{species.audioUrl}
                     </audio>
                   </div>
-                </>
-              ) : (
-                <p className="mt-3 text-sm text-muted-foreground">暂未收录该物种音频，后续会持续补充。</p>
-              )}
-            </section>
+                ) : null}
+              </TextInfoCard>
+            ) : null}
+          </div>
 
-            {species.topLocations && species.topLocations.length > 0 ? (
+          {species.topLocations && species.topLocations.length > 0 ? (
+            <div className="mt-4">
               <SpeciesHotspotPanel
                 locations={species.topLocations}
                 recentObservations={recentObservations}
                 currentPath={currentPath}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
 
           {!hasRecentObservations ? (
-            <section className="mt-8 surface-subtle p-5">
-              <h2 className="text-lg font-semibold">最近观察线索</h2>
-              <p className="mt-3 text-sm text-muted-foreground">暂时还没有公开观察记录。</p>
-              <Link
-                href={submitHref}
-                className="mt-4 inline-flex items-center rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-              >
-                记录这只鸟的观察
-              </Link>
+            <section className="surface-subtle relative mt-6 overflow-hidden rounded-[22px] p-5 sm:p-6">
+              <div className="relative z-10">
+                <div className="flex items-center gap-2">
+                  <Binoculars className="h-5 w-5 text-muted-foreground/70" />
+                  <h2 className="text-lg font-semibold text-muted-foreground">最近观察记录</h2>
+                </div>
+                <div className="mt-4 flex min-h-[100px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-background/40">
+                  <p className="text-sm text-muted-foreground/80">暂无相关的公开观察数据</p>
+                </div>
+              </div>
+            </section>
+          ) : null}
+
+          {hasRecentObservations ? (
+            <section className="surface-subtle relative mt-6 overflow-hidden rounded-[22px] p-6">
+              <div className="relative z-10">
+                <div className="flex items-center gap-2">
+                  <Binoculars className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold">最近观察记录</h2>
+                </div>
+                <div className="mt-4 grid gap-3">
+                  {recentObservations.slice(0, 3).map((observation) => (
+                    <div key={observation.id} className="rounded-2xl border border-border/70 bg-background/70 p-4">
+                      <p className="text-sm font-medium text-foreground">{observation.locationName}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{observation.observedAt}</p>
+                      {observation.notes ? (
+                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{observation.notes}</p>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </section>
           ) : null}
         </div>

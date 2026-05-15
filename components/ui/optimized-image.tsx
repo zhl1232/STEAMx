@@ -30,9 +30,9 @@ const QUALITY_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
   avatar: 60,
   card: 60,
   featured: 72,
-  cover: 70,
-  grid: 55,
-  thumbnail: 55,
+  cover: 72,
+  grid: 60,
+  thumbnail: 48,
 }
 
 const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {

@@ -48,10 +48,9 @@ export function SpeciesHotspotPanel({
 
   const activeLocationName = validLocations[activeIndex]?.locationName
   const recentObservationCount = recentObservations.length
-
   return (
-    <section className="surface-subtle p-5 md:col-span-2">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+    <section className="surface-subtle relative overflow-hidden p-5 lg:col-span-2">
+      <div className="relative z-10 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold">最近观察线索</h2>
           <p className="mt-2 max-w-4xl text-sm leading-6 text-muted-foreground">
@@ -69,7 +68,7 @@ export function SpeciesHotspotPanel({
       </div>
 
       {validLocations.length > 0 && (
-        <div className="mt-4">
+        <div className="relative z-10 mt-4">
           <DomesticMiniMap
             markers={validLocations.map((location) => ({
               latitude: location.latitude as number,
@@ -84,7 +83,7 @@ export function SpeciesHotspotPanel({
         </div>
       )}
 
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <div className="relative z-10 mt-4 grid gap-3 md:grid-cols-2">
         {locations.slice(0, 6).map((location) => {
           const matchedObservation = observationByLocationKey.get(
             locationObservationKey(location.locationName, location.latestObservedAt),

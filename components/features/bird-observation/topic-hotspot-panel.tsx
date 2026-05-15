@@ -18,9 +18,11 @@ function recencyLabel(dateString: string): { text: string; className: string } {
 
 interface TopicHotspotPanelProps {
   locations: ObservationLocationSummary[]
+  topicLabel?: string
+  fromHref?: string
 }
 
-export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
+export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref = "/nature/birds" }: TopicHotspotPanelProps) {
   const validLocations = useMemo(
     () => locations.filter((location) => location.latitude != null && location.longitude != null),
     [locations],
@@ -36,7 +38,7 @@ export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
           <p className="section-kicker">热点地图</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">最近都在哪里出现</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-            根据公开审核记录整理近期线索：地点卡会显示最近观察到的鸟类，但不代表一定能再次遇见。
+            根据公开审核记录整理近期线索：地点卡会显示最近观察到的{topicLabel}，但不代表一定能再次遇见。
           </p>
         </div>
       </div>
@@ -95,7 +97,7 @@ export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
               </button>
 
               {location.species && location.species.length > 0 ? (
-                <div className="mt-3 flex flex-wrap gap-1.5" aria-label={`${location.locationName} 最近观察到的鸟类`}>
+                <div className="mt-3 flex flex-wrap gap-1.5" aria-label={`${location.locationName} 最近观察到的${topicLabel}`}>
                   {location.species.map((species) => {
                     const label =
                       species.observationCount > 1
@@ -115,7 +117,7 @@ export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
                     return (
                       <Link
                         key={species.speciesId}
-                        href={appendNatureFrom(`/nature/species/${species.speciesSlug}`, "/nature/birds")}
+                        href={appendNatureFrom(`/nature/species/${species.speciesSlug}`, fromHref)}
                         className={className}
                       >
                         {label}
@@ -124,7 +126,7 @@ export function TopicHotspotPanel({ locations }: TopicHotspotPanelProps) {
                   })}
                 </div>
               ) : (
-                <p className="mt-3 text-xs leading-5 text-muted-foreground">这个地点暂时没有可展示的已识别鸟类。</p>
+                <p className="mt-3 text-xs leading-5 text-muted-foreground">这个地点暂时没有可展示的已识别{topicLabel}。</p>
               )}
 
               {location.latitude != null && location.longitude != null ? (

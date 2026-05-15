@@ -315,6 +315,7 @@ export interface Species {
     habitatNotes?: string | null
     seasonalityNotes?: string | null
     coverImageUrl?: string | null
+    imageUrls?: string[]
     audioUrl?: string | null
     isActive: boolean
     topicKey?: NatureTopicKey | null

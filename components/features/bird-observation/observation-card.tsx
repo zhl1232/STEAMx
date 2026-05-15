@@ -43,7 +43,7 @@ export function ObservationCard({ observation, className, fromHref }: Observatio
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            quality={65}
+            quality={60}
           />
         ) : (
           <div className="flex h-full w-full items-end bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.2),transparent_42%),radial-gradient(circle_at_82%_8%,rgba(59,130,246,0.18),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.86))] p-4 dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.16),transparent_44%),radial-gradient(circle_at_82%_8%,rgba(59,130,246,0.14),transparent_42%),linear-gradient(160deg,rgba(8,14,22,0.94),rgba(12,20,30,0.9))]">

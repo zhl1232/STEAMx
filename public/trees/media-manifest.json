@@ -1,0 +1,1001 @@
+{
+  "generatedAt": "2026-05-11T08:48:55.338Z",
+  "perSpecies": 5,
+  "summary": {
+    "total": 87,
+    "downloaded": 31,
+    "exists": 53,
+    "not_found": 2,
+    "error": 1,
+    "totalImages": 380
+  },
+  "results": [
+    {
+      "slug": "liriodendron-chinense",
+      "scientificName": "Liriodendron chinense",
+      "images": [
+        "liriodendron-chinense-1.jpg",
+        "liriodendron-chinense-2.jpg",
+        "liriodendron-chinense-3.jpg",
+        "liriodendron-chinense-4.jpg",
+        "liriodendron-chinense-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "liriodendron-sinoamericanum",
+      "scientificName": "Liriodendron sinoamericanum",
+      "images": [
+        "liriodendron-sinoamericanum-1.jpg",
+        "liriodendron-sinoamericanum-2.jpg",
+        "liriodendron-sinoamericanum-3.jpg",
+        "liriodendron-sinoamericanum-4.jpg",
+        "liriodendron-sinoamericanum-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "berberis-amurensis",
+      "scientificName": "Berberis amurensis",
+      "images": [
+        "berberis-amurensis-1.jpg",
+        "berberis-amurensis-2.jpg",
+        "berberis-amurensis-3.jpg",
+        "berberis-amurensis-4.jpg",
+        "berberis-amurensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "berberis-thunbergii-atropurpurea",
+      "scientificName": "Berberis thunbergii 'Atropurpurea'",
+      "images": [
+        "berberis-thunbergii-atropurpurea-1.jpg",
+        "berberis-thunbergii-atropurpurea-2.jpg",
+        "berberis-thunbergii-atropurpurea-3.jpg",
+        "berberis-thunbergii-atropurpurea-4.jpg",
+        "berberis-thunbergii-atropurpurea-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platanus-acerifolia",
+      "scientificName": "Platanus acerifolia",
+      "images": [
+        "platanus-acerifolia-1.jpg",
+        "platanus-acerifolia-2.jpg",
+        "platanus-acerifolia-3.jpg",
+        "platanus-acerifolia-4.jpg",
+        "platanus-acerifolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platanus-occidentalis",
+      "scientificName": "Platanus occidentalis",
+      "images": [
+        "platanus-occidentalis-1.webp",
+        "platanus-occidentalis-2.webp",
+        "platanus-occidentalis-3.webp",
+        "platanus-occidentalis-4.jpg",
+        "platanus-occidentalis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "buxus-sinica",
+      "scientificName": "Buxus sinica",
+      "images": [
+        "buxus-sinica-1.jpg",
+        "buxus-sinica-2.jpg",
+        "buxus-sinica-3.jpg",
+        "buxus-sinica-4.jpg",
+        "buxus-sinica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ribes-burejense",
+      "scientificName": "Ribes burejense",
+      "images": [
+        "ribes-burejense-1.jpg",
+        "ribes-burejense-2.jpg",
+        "ribes-burejense-3.jpg",
+        "ribes-burejense-4.jpg",
+        "ribes-burejense-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ampelopsis-aconitifolia-var-palmiloba",
+      "scientificName": "Ampelopsis aconitifolia var. palmiloba",
+      "images": [
+        "ampelopsis-aconitifolia-var-palmiloba-1.jpg",
+        "ampelopsis-aconitifolia-var-palmiloba-2.jpg",
+        "ampelopsis-aconitifolia-var-palmiloba-3.jpg",
+        "ampelopsis-aconitifolia-var-palmiloba-4.jpg",
+        "ampelopsis-aconitifolia-var-palmiloba-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "ampelopsis-humulifolia",
+      "scientificName": "Ampelopsis humulifolia",
+      "images": [
+        "ampelopsis-humulifolia-1.jpg",
+        "ampelopsis-humulifolia-2.jpg",
+        "ampelopsis-humulifolia-3.jpg",
+        "ampelopsis-humulifolia-4.jpg",
+        "ampelopsis-humulifolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "parthenocissus-quinquefolia",
+      "scientificName": "Parthenocissus quinquefolia",
+      "images": [
+        "parthenocissus-quinquefolia-1.jpg",
+        "parthenocissus-quinquefolia-2.jpg",
+        "parthenocissus-quinquefolia-3.jpg",
+        "parthenocissus-quinquefolia-4.jpg",
+        "parthenocissus-quinquefolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "albizia-julibrissin",
+      "scientificName": "Albizia julibrissin",
+      "images": [
+        "albizia-julibrissin-3.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "amorpha-fruticosa",
+      "scientificName": "Amorpha fruticosa",
+      "images": [
+        "amorpha-fruticosa-1.jpg",
+        "amorpha-fruticosa-2.jpg",
+        "amorpha-fruticosa-3.jpg",
+        "amorpha-fruticosa-4.jpg",
+        "amorpha-fruticosa-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gleditsia-sinensis",
+      "scientificName": "Gleditsia sinensis",
+      "images": [
+        "gleditsia-sinensis-1.jpg",
+        "gleditsia-sinensis-3.jpg",
+        "gleditsia-sinensis-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "robinia-ambigua-idahoensis",
+      "scientificName": "Robinia ×ambigua 'Idahoensis'",
+      "images": [
+        "robinia-ambigua-idahoensis-1.jpg",
+        "robinia-ambigua-idahoensis-2.jpg",
+        "robinia-ambigua-idahoensis-3.jpg",
+        "robinia-ambigua-idahoensis-4.jpg",
+        "robinia-ambigua-idahoensis-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "robinia-pseudoacacia",
+      "scientificName": "Robinia pseudoacacia",
+      "images": [
+        "robinia-pseudoacacia-3.jpg",
+        "robinia-pseudoacacia-4.jpg",
+        "robinia-pseudoacacia-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "styphnolobium-japonicum",
+      "scientificName": "Styphnolobium japonicum",
+      "images": [
+        "styphnolobium-japonicum-1.jpg",
+        "styphnolobium-japonicum-2.jpg",
+        "styphnolobium-japonicum-3.jpg",
+        "styphnolobium-japonicum-4.jpg",
+        "styphnolobium-japonicum-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "styphnolobium-japonicum-pendula",
+      "scientificName": "Styphnolobium japonicum 'Pendula'",
+      "images": [
+        "styphnolobium-japonicum-pendula-1.jpg",
+        "styphnolobium-japonicum-pendula-2.jpg",
+        "styphnolobium-japonicum-pendula-3.jpg",
+        "styphnolobium-japonicum-pendula-4.jpg",
+        "styphnolobium-japonicum-pendula-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "armeniaca-sibirica",
+      "scientificName": "Armeniaca sibirica",
+      "images": [
+        "armeniaca-sibirica-1.jpg",
+        "armeniaca-sibirica-2.jpg",
+        "armeniaca-sibirica-3.jpg",
+        "armeniaca-sibirica-4.jpg",
+        "armeniaca-sibirica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cotoneaster-horizontalis",
+      "scientificName": "Cotoneaster horizontalis",
+      "images": [
+        "cotoneaster-horizontalis-1.jpg",
+        "cotoneaster-horizontalis-2.jpg",
+        "cotoneaster-horizontalis-3.jpg",
+        "cotoneaster-horizontalis-4.jpg",
+        "cotoneaster-horizontalis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "crataegus-pinnatifida",
+      "scientificName": "Crataegus pinnatifida",
+      "images": [
+        "crataegus-pinnatifida-4.jpg",
+        "crataegus-pinnatifida-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "crataegus-pinnatifida-var-major",
+      "scientificName": "Crataegus pinnatifida var. major",
+      "images": [
+        "crataegus-pinnatifida-var-major-4.jpg",
+        "crataegus-pinnatifida-var-major-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "eriobotrya-japonica",
+      "scientificName": "Eriobotrya japonica",
+      "images": [
+        "eriobotrya-japonica-2.jpg",
+        "eriobotrya-japonica-3.jpg",
+        "eriobotrya-japonica-4.jpg",
+        "eriobotrya-japonica-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "malus-baccata",
+      "scientificName": "Malus baccata",
+      "images": [
+        "malus-baccata-1.jpg",
+        "malus-baccata-2.jpg",
+        "malus-baccata-3.jpg",
+        "malus-baccata-4.jpg",
+        "malus-baccata-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "padus-avium",
+      "scientificName": "Padus avium",
+      "images": [
+        "padus-avium-1.jpg",
+        "padus-avium-2.jpg",
+        "padus-avium-3.jpg",
+        "padus-avium-4.jpg",
+        "padus-avium-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "physocarpus-opulifolius-luteus",
+      "scientificName": "Physocarpus opulifolius 'Luteus'",
+      "images": [
+        "physocarpus-opulifolius-luteus-1.jpg",
+        "physocarpus-opulifolius-luteus-2.jpg",
+        "physocarpus-opulifolius-luteus-3.jpg",
+        "physocarpus-opulifolius-luteus-4.jpg",
+        "physocarpus-opulifolius-luteus-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "prunus-cerasifera-f-atropurpurea",
+      "scientificName": "Prunus cerasifera f. atropurpurea",
+      "images": [
+        "prunus-cerasifera-f-atropurpurea-1.jpg",
+        "prunus-cerasifera-f-atropurpurea-2.jpg",
+        "prunus-cerasifera-f-atropurpurea-3.jpg",
+        "prunus-cerasifera-f-atropurpurea-4.jpg",
+        "prunus-cerasifera-f-atropurpurea-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "prunus-salicina",
+      "scientificName": "Prunus salicina",
+      "images": [
+        "prunus-salicina-1.jpg",
+        "prunus-salicina-2.jpg",
+        "prunus-salicina-3.jpg",
+        "prunus-salicina-4.jpg",
+        "prunus-salicina-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pyrus-betulifolia",
+      "scientificName": "Pyrus betulifolia",
+      "images": [
+        "pyrus-betulifolia-4.jpg",
+        "pyrus-betulifolia-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "rubus-crataegifolius",
+      "scientificName": "Rubus crataegifolius",
+      "images": [
+        "rubus-crataegifolius-1.jpg",
+        "rubus-crataegifolius-2.jpg",
+        "rubus-crataegifolius-3.jpg",
+        "rubus-crataegifolius-4.jpg",
+        "rubus-crataegifolius-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sorbus-pohuashanensis",
+      "scientificName": "Sorbus pohuashanensis",
+      "images": [
+        "sorbus-pohuashanensis-1.jpg",
+        "sorbus-pohuashanensis-2.jpg",
+        "sorbus-pohuashanensis-3.jpg",
+        "sorbus-pohuashanensis-4.jpg",
+        "sorbus-pohuashanensis-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "elaeagnus-angustifolia",
+      "scientificName": "Elaeagnus angustifolia",
+      "images": [
+        "elaeagnus-angustifolia-1.jpg",
+        "elaeagnus-angustifolia-2.jpg",
+        "elaeagnus-angustifolia-3.jpg",
+        "elaeagnus-angustifolia-4.jpg",
+        "elaeagnus-angustifolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "rhamnus-parvifolia",
+      "scientificName": "Rhamnus parvifolia",
+      "images": [
+        "rhamnus-parvifolia-1.jpg",
+        "rhamnus-parvifolia-2.jpg",
+        "rhamnus-parvifolia-3.jpg",
+        "rhamnus-parvifolia-4.jpg",
+        "rhamnus-parvifolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ziziphus-jujuba",
+      "scientificName": "Ziziphus jujuba",
+      "images": [
+        "ziziphus-jujuba-1.jpg",
+        "ziziphus-jujuba-2.jpg",
+        "ziziphus-jujuba-3.jpg",
+        "ziziphus-jujuba-4.jpg",
+        "ziziphus-jujuba-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ziziphus-jujuba-var-spinosa",
+      "scientificName": "Ziziphus jujuba var. spinosa",
+      "images": [
+        "ziziphus-jujuba-var-spinosa-1.jpg",
+        "ziziphus-jujuba-var-spinosa-2.jpg",
+        "ziziphus-jujuba-var-spinosa-3.jpg",
+        "ziziphus-jujuba-var-spinosa-4.jpg",
+        "ziziphus-jujuba-var-spinosa-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "ulmus-parvifolia",
+      "scientificName": "Ulmus parvifolia",
+      "images": [
+        "ulmus-parvifolia-1.jpg",
+        "ulmus-parvifolia-2.jpg",
+        "ulmus-parvifolia-3.jpg",
+        "ulmus-parvifolia-4.jpg",
+        "ulmus-parvifolia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ulmus-pumila",
+      "scientificName": "Ulmus pumila",
+      "images": [
+        "ulmus-pumila-1.jpg",
+        "ulmus-pumila-2.jpg",
+        "ulmus-pumila-3.jpg",
+        "ulmus-pumila-4.jpg",
+        "ulmus-pumila-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ulmus-pumila-jinye",
+      "scientificName": "Ulmus pumila 'Jinye'",
+      "images": [
+        "ulmus-pumila-jinye-1.jpg",
+        "ulmus-pumila-jinye-2.jpg",
+        "ulmus-pumila-jinye-3.jpg",
+        "ulmus-pumila-jinye-4.jpg",
+        "ulmus-pumila-jinye-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "celtis-bungeana",
+      "scientificName": "Celtis bungeana",
+      "images": [
+        "celtis-bungeana-1.jpg",
+        "celtis-bungeana-2.jpg",
+        "celtis-bungeana-3.jpg",
+        "celtis-bungeana-4.jpg",
+        "celtis-bungeana-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pteroceltis-tatarinowii",
+      "scientificName": "Pteroceltis tatarinowii",
+      "images": [
+        "pteroceltis-tatarinowii-1.jpg",
+        "pteroceltis-tatarinowii-2.jpg",
+        "pteroceltis-tatarinowii-3.jpg",
+        "pteroceltis-tatarinowii-4.jpg",
+        "pteroceltis-tatarinowii-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "broussonetia-papyrifera",
+      "scientificName": "Broussonetia papyrifera",
+      "images": [
+        "broussonetia-papyrifera-1.jpg",
+        "broussonetia-papyrifera-2.jpg",
+        "broussonetia-papyrifera-3.jpg",
+        "broussonetia-papyrifera-4.jpg",
+        "broussonetia-papyrifera-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "maclura-tricuspidata",
+      "scientificName": "Maclura tricuspidata",
+      "images": [
+        "maclura-tricuspidata-1.jpg",
+        "maclura-tricuspidata-2.jpg",
+        "maclura-tricuspidata-3.jpg",
+        "maclura-tricuspidata-4.jpg",
+        "maclura-tricuspidata-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "morus-alba",
+      "scientificName": "Morus alba",
+      "images": [
+        "morus-alba-4.jpg",
+        "morus-alba-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "morus-mongolica",
+      "scientificName": "Morus mongolica",
+      "images": [
+        "morus-mongolica-1.jpg",
+        "morus-mongolica-2.jpg",
+        "morus-mongolica-3.jpg",
+        "morus-mongolica-4.jpg",
+        "morus-mongolica-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "castanea-mollissima",
+      "scientificName": "Castanea mollissima",
+      "images": [
+        "castanea-mollissima-1.jpg",
+        "castanea-mollissima-2.jpg",
+        "castanea-mollissima-3.jpg",
+        "castanea-mollissima-4.jpg",
+        "castanea-mollissima-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "quercus-dentata",
+      "scientificName": "Quercus dentata",
+      "images": [
+        "quercus-dentata-1.jpg",
+        "quercus-dentata-2.jpg",
+        "quercus-dentata-3.jpg",
+        "quercus-dentata-4.jpg",
+        "quercus-dentata-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "quercus-mongolica",
+      "scientificName": "Quercus mongolica",
+      "images": [
+        "quercus-mongolica-1.jpg",
+        "quercus-mongolica-2.jpg",
+        "quercus-mongolica-3.jpg",
+        "quercus-mongolica-4.jpg",
+        "quercus-mongolica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "quercus-variabilis",
+      "scientificName": "Quercus variabilis",
+      "images": [
+        "quercus-variabilis-1.jpg",
+        "quercus-variabilis-3.jpg",
+        "quercus-variabilis-4.jpg",
+        "quercus-variabilis-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "juglans-mandshurica",
+      "scientificName": "Juglans mandshurica",
+      "images": [
+        "juglans-mandshurica-1.jpg",
+        "juglans-mandshurica-2.jpg",
+        "juglans-mandshurica-3.jpg",
+        "juglans-mandshurica-4.jpg",
+        "juglans-mandshurica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "juglans-regia",
+      "scientificName": "Juglans regia",
+      "images": [
+        "juglans-regia-1.jpg",
+        "juglans-regia-2.jpg",
+        "juglans-regia-3.jpg",
+        "juglans-regia-4.jpg",
+        "juglans-regia-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pterocarya-stenoptera",
+      "scientificName": "Pterocarya stenoptera",
+      "images": [
+        "pterocarya-stenoptera-1.jpg",
+        "pterocarya-stenoptera-2.jpg",
+        "pterocarya-stenoptera-3.jpg",
+        "pterocarya-stenoptera-4.jpg",
+        "pterocarya-stenoptera-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "betula-albosinensis",
+      "scientificName": "Betula albosinensis",
+      "images": [
+        "betula-albosinensis-1.jpg",
+        "betula-albosinensis-2.jpg",
+        "betula-albosinensis-3.jpg",
+        "betula-albosinensis-4.jpg",
+        "betula-albosinensis-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "betula-chinensis",
+      "scientificName": "Betula chinensis",
+      "images": [
+        "betula-chinensis-1.jpg",
+        "betula-chinensis-2.jpg",
+        "betula-chinensis-3.jpg",
+        "betula-chinensis-4.jpg",
+        "betula-chinensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "betula-platyphylla",
+      "scientificName": "Betula platyphylla",
+      "images": [
+        "betula-platyphylla-1.jpg",
+        "betula-platyphylla-2.jpg",
+        "betula-platyphylla-3.jpg",
+        "betula-platyphylla-4.jpg",
+        "betula-platyphylla-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "corylus-heterophylla",
+      "scientificName": "Corylus heterophylla",
+      "images": [
+        "corylus-heterophylla-1.jpg",
+        "corylus-heterophylla-2.jpg",
+        "corylus-heterophylla-3.jpg",
+        "corylus-heterophylla-4.jpg",
+        "corylus-heterophylla-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "corylus-mandshurica",
+      "scientificName": "Corylus mandshurica",
+      "images": [
+        "corylus-mandshurica-1.jpg",
+        "corylus-mandshurica-2.jpg",
+        "corylus-mandshurica-3.jpg",
+        "corylus-mandshurica-4.jpg",
+        "corylus-mandshurica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "celastrus-orbiculatus",
+      "scientificName": "Celastrus orbiculatus",
+      "images": [
+        "celastrus-orbiculatus-4.jpg",
+        "celastrus-orbiculatus-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "euonymus-alatus",
+      "scientificName": "Euonymus alatus",
+      "images": [
+        "euonymus-alatus-1.jpg",
+        "euonymus-alatus-2.jpg",
+        "euonymus-alatus-3.jpg",
+        "euonymus-alatus-4.jpg",
+        "euonymus-alatus-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "euonymus-alatus-compactus",
+      "scientificName": "Euonymus alatus 'Compactus'",
+      "images": [
+        "euonymus-alatus-compactus-1.jpg",
+        "euonymus-alatus-compactus-2.jpg",
+        "euonymus-alatus-compactus-3.jpg",
+        "euonymus-alatus-compactus-4.jpg",
+        "euonymus-alatus-compactus-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "euonymus-japonicus",
+      "scientificName": "Euonymus japonicus",
+      "images": [
+        "euonymus-japonicus-1.jpg",
+        "euonymus-japonicus-2.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "euonymus-maackii",
+      "scientificName": "Euonymus maackii",
+      "images": [
+        "euonymus-maackii-2.jpg",
+        "euonymus-maackii-3.jpg",
+        "euonymus-maackii-4.jpg",
+        "euonymus-maackii-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "populus-alba",
+      "scientificName": "Populus alba",
+      "images": [
+        "populus-alba-1.jpg",
+        "populus-alba-2.jpg",
+        "populus-alba-3.jpg",
+        "populus-alba-4.jpg",
+        "populus-alba-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "populus-canadensis",
+      "scientificName": "Populus canadensis",
+      "images": [
+        "populus-canadensis-1.jpg",
+        "populus-canadensis-2.jpg",
+        "populus-canadensis-3.jpg",
+        "populus-canadensis-4.jpg",
+        "populus-canadensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "populus-nigra-var-italica",
+      "scientificName": "Populus nigra var. italica",
+      "images": [
+        "populus-nigra-var-italica-1.jpg",
+        "populus-nigra-var-italica-2.jpg",
+        "populus-nigra-var-italica-3.jpg",
+        "populus-nigra-var-italica-4.jpg",
+        "populus-nigra-var-italica-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "populus-tomentosa",
+      "scientificName": "Populus tomentosa",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "salix-babylonica",
+      "scientificName": "Salix babylonica",
+      "images": [
+        "salix-babylonica-3.jpg",
+        "salix-babylonica-4.jpg",
+        "salix-babylonica-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "cotinus-coggygria-var-cinerea",
+      "scientificName": "Cotinus coggygria var. cinerea",
+      "images": [
+        "cotinus-coggygria-var-cinerea-2.jpg",
+        "cotinus-coggygria-var-cinerea-3.jpg",
+        "cotinus-coggygria-var-cinerea-4.jpg",
+        "cotinus-coggygria-var-cinerea-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "pistacia-chinensis",
+      "scientificName": "Pistacia chinensis",
+      "images": [
+        "pistacia-chinensis-1.jpg",
+        "pistacia-chinensis-2.jpg",
+        "pistacia-chinensis-3.jpg",
+        "pistacia-chinensis-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "rhus-chinensis",
+      "scientificName": "Rhus chinensis",
+      "images": [
+        "rhus-chinensis-1.jpg",
+        "rhus-chinensis-2.jpg",
+        "rhus-chinensis-3.jpg",
+        "rhus-chinensis-4.jpg",
+        "rhus-chinensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "rhus-typhina",
+      "scientificName": "Rhus typhina",
+      "images": [
+        "rhus-typhina-1.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "acer-freemanii-autumn-blaze",
+      "scientificName": "Acer freemanii Autumn Blaze",
+      "images": [],
+      "status": "error",
+      "error": "fetch failed"
+    },
+    {
+      "slug": "acer-negundo",
+      "scientificName": "Acer negundo",
+      "images": [
+        "acer-negundo-1.jpg",
+        "acer-negundo-2.jpg",
+        "acer-negundo-3.jpg",
+        "acer-negundo-4.jpg",
+        "acer-negundo-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "acer-palmatum",
+      "scientificName": "Acer palmatum",
+      "images": [
+        "acer-palmatum-1.jpg",
+        "acer-palmatum-2.jpg",
+        "acer-palmatum-3.jpg",
+        "acer-palmatum-4.jpg",
+        "acer-palmatum-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "acer-tataricum-subsp-ginnala",
+      "scientificName": "Acer tataricum subsp. ginnala",
+      "images": [
+        "acer-tataricum-subsp-ginnala-1.jpg",
+        "acer-tataricum-subsp-ginnala-2.jpg",
+        "acer-tataricum-subsp-ginnala-3.jpg",
+        "acer-tataricum-subsp-ginnala-4.jpg",
+        "acer-tataricum-subsp-ginnala-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "acer-truncatum",
+      "scientificName": "Acer truncatum",
+      "images": [
+        "acer-truncatum-3.jpg",
+        "acer-truncatum-4.jpg",
+        "acer-truncatum-5.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "aesculus-chinensis",
+      "scientificName": "Aesculus chinensis",
+      "images": [
+        "aesculus-chinensis-1.jpg",
+        "aesculus-chinensis-2.jpg",
+        "aesculus-chinensis-3.jpg",
+        "aesculus-chinensis-4.jpg",
+        "aesculus-chinensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "koelreuteria-bipinnata-integrifoliola",
+      "scientificName": "Koelreuteria bipinnata 'Integrifoliola'",
+      "images": [
+        "koelreuteria-bipinnata-integrifoliola-1.jpg",
+        "koelreuteria-bipinnata-integrifoliola-2.jpg",
+        "koelreuteria-bipinnata-integrifoliola-3.jpg",
+        "koelreuteria-bipinnata-integrifoliola-4.jpg",
+        "koelreuteria-bipinnata-integrifoliola-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "koelreuteria-paniculata",
+      "scientificName": "Koelreuteria paniculata",
+      "images": [
+        "koelreuteria-paniculata-1.jpg",
+        "koelreuteria-paniculata-2.jpg",
+        "koelreuteria-paniculata-3.jpg",
+        "koelreuteria-paniculata-4.jpg",
+        "koelreuteria-paniculata-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "citrus-trifoliata",
+      "scientificName": "Citrus trifoliata",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "phellodendron-amurense",
+      "scientificName": "Phellodendron amurense",
+      "images": [
+        "phellodendron-amurense-1.jpg",
+        "phellodendron-amurense-2.jpg",
+        "phellodendron-amurense-3.jpg",
+        "phellodendron-amurense-4.jpg",
+        "phellodendron-amurense-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "tetradium-danii",
+      "scientificName": "Tetradium daniellii",
+      "images": [
+        "tetradium-danii-1.jpg",
+        "tetradium-danii-2.jpg",
+        "tetradium-danii-3.jpg",
+        "tetradium-danii-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "ailanthus-altissima",
+      "scientificName": "Ailanthus altissima",
+      "images": [
+        "ailanthus-altissima-1.jpg",
+        "ailanthus-altissima-2.jpg",
+        "ailanthus-altissima-3.jpg",
+        "ailanthus-altissima-4.jpg",
+        "ailanthus-altissima-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "toona-sinensis",
+      "scientificName": "Toona sinensis",
+      "images": [
+        "toona-sinensis-1.jpg",
+        "toona-sinensis-2.jpg",
+        "toona-sinensis-3.jpg",
+        "toona-sinensis-4.jpg",
+        "toona-sinensis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "firmiana-simplex",
+      "scientificName": "Firmiana simplex",
+      "images": [
+        "firmiana-simplex-1.jpg",
+        "firmiana-simplex-2.jpg",
+        "firmiana-simplex-3.jpg",
+        "firmiana-simplex-4.jpg",
+        "firmiana-simplex-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ginkgo-biloba",
+      "scientificName": "Ginkgo biloba",
+      "images": [
+        "ginkgo-biloba-1.jpg",
+        "ginkgo-biloba-2.jpg",
+        "ginkgo-biloba-3.jpg",
+        "ginkgo-biloba-4.jpg",
+        "ginkgo-biloba-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platycladus-orientalis",
+      "scientificName": "Platycladus orientalis",
+      "images": [
+        "platycladus-orientalis-1.jpg",
+        "platycladus-orientalis-2.jpg",
+        "platycladus-orientalis-3.jpg",
+        "platycladus-orientalis-4.jpg",
+        "platycladus-orientalis-5.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pinus-tabuliformis",
+      "scientificName": "Pinus tabuliformis",
+      "images": [
+        "pinus-tabuliformis-1.jpg",
+        "pinus-tabuliformis-2.jpg",
+        "pinus-tabuliformis-3.jpg",
+        "pinus-tabuliformis-4.jpg",
+        "pinus-tabuliformis-5.jpg"
+      ],
+      "status": "exists"
+    }
+  ]
+}

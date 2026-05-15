@@ -6,7 +6,11 @@ import {
   type ObservationMediaAnalysisRow,
   type ObservationMediaAnalysisStatus,
 } from '@/lib/ai/observation-media-analysis'
-import { analyzeObservationImageWithQwen } from '@/lib/ai/qwen-vision'
+import {
+  analyzeObservationImageWithQwen,
+  getObservationVisionUserMessage,
+  serializeObservationVisionError,
+} from '@/lib/ai/qwen-vision'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { isOwnedProjectImageUrl } from '@/lib/api/validation'
@@ -73,13 +77,15 @@ export async function POST(request: NextRequest) {
       'failed_unsafe',
       'failed_low_quality',
       'failed_unrecognized',
+      'error',
     ])
 
     const toAnalyze = imageUrls.filter((url) => {
       const existing = existingMap.get(url)
-      const status = (existing?.status || 'error') as ObservationMediaAnalysisStatus
-      if (!finalStatuses.has(status)) return true
-      return status === 'passed' && !existing?.note_suggestion
+      if (!existing) return true
+
+      const status = existing.status as ObservationMediaAnalysisStatus
+      return !finalStatuses.has(status)
     })
 
     if (toAnalyze.length > 0) {
@@ -124,14 +130,16 @@ export async function POST(request: NextRequest) {
             throw error
           }
         } catch (error) {
+          const failureReason = getObservationVisionUserMessage(error)
           logger.error('Observation media analysis failed', { error, imageUrl, userId: user.id })
           await supabase
             .from('observation_media_analyses')
             .update({
               status: 'error',
-              moderation_reason: null,
+              moderation_reason: failureReason,
               quality_reason: null,
               note_suggestion: null,
+              raw_response: serializeObservationVisionError(error) as Json,
             })
             .eq('user_id', user.id)
             .eq('image_url', imageUrl)

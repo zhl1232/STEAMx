@@ -70,5 +70,15 @@ jobs:
             docker load -i /tmp/steam-app.tar
             rm -f /tmp/steam-app.tar
             cd /opt/steam-app
+            missing_runtime=""
+            for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY DASHSCOPE_API_KEY; do
+              if ! grep -qE "^${name}=.+" .env.production; then
+                missing_runtime="$missing_runtime $name"
+              fi
+            done
+            if [ -n "$missing_runtime" ]; then
+              echo "Missing runtime variables in /opt/steam-app/.env.production:$missing_runtime" >&2
+              exit 1
+            fi
             docker compose up -d --force-recreate --no-build
             docker image prune -f

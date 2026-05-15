@@ -154,7 +154,12 @@ export function DomesticMiniMap({
       resizeObserverRef.current = null
       markersLayerRef.current?.clearLayers()
       markersLayerRef.current = null
-      mapRef.current?.remove()
+      if (mapRef.current) {
+        // Stop any in-progress zoom/pan animation before removing the map,
+        // otherwise the transitionend callback fires on a destroyed pane.
+        mapRef.current.stop()
+        mapRef.current.remove()
+      }
       mapRef.current = null
       leafletRef.current = null
     }

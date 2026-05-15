@@ -738,6 +738,7 @@ export interface Database {
           scientific_name: string | null
           aliases: string[]
           taxon_group: string | null
+          nature_topic: string | null
           identification_notes: string | null
           habitat_notes: string | null
           seasonality_notes: string | null
@@ -754,6 +755,7 @@ export interface Database {
           scientific_name?: string | null
           aliases?: string[]
           taxon_group?: string | null
+          nature_topic?: string | null
           identification_notes?: string | null
           habitat_notes?: string | null
           seasonality_notes?: string | null
@@ -770,6 +772,7 @@ export interface Database {
           scientific_name?: string | null
           aliases?: string[]
           taxon_group?: string | null
+          nature_topic?: string | null
           identification_notes?: string | null
           habitat_notes?: string | null
           seasonality_notes?: string | null

@@ -6,7 +6,12 @@ import {
 
 export type SpeciesTopicFilter = NatureTopicKey | 'all'
 
+const visibleSpeciesTopicKeys = ['birds', 'plants'] as const
+type VisibleSpeciesTopicKey = (typeof visibleSpeciesTopicKeys)[number]
+
 export interface SpeciesTopicSource {
+  nature_topic?: string | null
+  natureTopic?: string | null
   common_name?: string | null
   commonName?: string | null
   scientific_name?: string | null
@@ -125,9 +130,13 @@ export function isNatureTopicKey(value: string | null | undefined): value is Nat
   return natureTopicKeys.includes(value as NatureTopicKey)
 }
 
+export function isVisibleSpeciesTopicKey(value: string | null | undefined): value is VisibleSpeciesTopicKey {
+  return visibleSpeciesTopicKeys.includes(value as VisibleSpeciesTopicKey)
+}
+
 export function normalizeSpeciesTopicFilter(value: string | null | undefined): SpeciesTopicFilter {
   if (value === 'all' || value == null || value === '') return 'all'
-  return isNatureTopicKey(value) ? value : 'all'
+  return isVisibleSpeciesTopicKey(value) ? value : 'all'
 }
 
 export function getNatureTopicLabel(topicKey: NatureTopicKey | null | undefined) {
@@ -135,6 +144,11 @@ export function getNatureTopicLabel(topicKey: NatureTopicKey | null | undefined)
 }
 
 export function resolveSpeciesNatureTopicKey(row: SpeciesTopicSource): NatureTopicKey | null {
+  const explicitTopic = row.nature_topic ?? row.natureTopic
+  if (isNatureTopicKey(explicitTopic)) {
+    return explicitTopic
+  }
+
   const commonName = row.common_name ?? row.commonName ?? ''
   const scientificName = row.scientific_name ?? row.scientificName ?? ''
   const taxonGroup = row.taxon_group ?? row.taxonGroup ?? ''
@@ -149,9 +163,11 @@ export function resolveSpeciesNatureTopicKey(row: SpeciesTopicSource): NatureTop
 }
 
 export function buildSpeciesTopicCounts(rows: Array<{ topicKey?: NatureTopicKey | null }>): SpeciesTopicCount[] {
+  const visibleRows = rows.filter((row) => row.topicKey && isVisibleSpeciesTopicKey(row.topicKey))
+
   return [
-    { key: 'all', label: '全部', count: rows.length },
-    ...natureTopicKeys.map((key) => ({
+    { key: 'all', label: '全部', count: visibleRows.length },
+    ...visibleSpeciesTopicKeys.map((key) => ({
       key,
       label: natureTopicLabels[key],
       count: rows.filter((row) => row.topicKey === key).length,

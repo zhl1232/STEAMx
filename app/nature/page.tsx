@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Clock3,
   Feather,
-  Flower2,
   Heart,
   Leaf,
   MapPin,
@@ -18,6 +17,7 @@ import {
   NotebookPen,
   Sprout,
   Telescope,
+  Trees,
   UsersRound,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -107,10 +107,11 @@ const topicCardBase: TopicCardBase[] = [
   },
   {
     key: "plants",
-    title: "植物",
-    subtitle: "认识身边的植物",
-    image: "/projects/science_plants.webp",
-    icon: Flower2,
+    title: "树木",
+    subtitle: "读懂树叶与年轮",
+    href: "/nature/trees",
+    image: "/trees/images/ginkgo-biloba-1.jpg",
+    icon: Trees,
     tint: "from-[#eff8d8]/90 via-[#cdeba0]/[0.36] to-transparent dark:from-[#243f12]/[0.94] dark:via-[#51721c]/[0.66] dark:to-[#17230c]/[0.38]",
   },
   {

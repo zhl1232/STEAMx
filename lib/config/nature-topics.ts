@@ -6,7 +6,7 @@ export type NatureTopicKey = (typeof natureTopicKeys)[number]
 export const natureTopicLabels: Record<NatureTopicKey, string> = {
   birds: '鸟类',
   insects: '昆虫',
-  plants: '植物',
+  plants: '树木',
   fungi: '真菌',
 }
 
@@ -41,10 +41,11 @@ export const natureTopics: NatureTopicConfig[] = [
   {
     id: 'plants',
     slug: 'plants',
-    title: '植物观察',
-    subtitle: '专题预告',
-    description: '聚焦本地植物识别和生长周期，形成可追踪的物候记录。',
-    status: 'upcoming',
+    title: '树木观察',
+    subtitle: '已上线专题',
+    description: '聚焦本地树木识别和物候变化，记录树叶、树皮、花果等长期线索。',
+    status: 'available',
+    href: '/nature/trees',
   },
   {
     id: 'fungi',

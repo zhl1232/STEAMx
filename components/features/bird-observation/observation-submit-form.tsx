@@ -110,6 +110,7 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
   "failed_unsafe",
   "failed_low_quality",
   "failed_unrecognized",
+  "error",
 ])
 
 type LocationPrecision = (typeof LOCATION_PRECISION_VALUES)[number]
@@ -419,8 +420,7 @@ function normalizeMediaAnalysis(value: unknown, allowedImageUrls: Set<string>): 
 
 function shouldAnalyzeImage(analysis: ObservationMediaAnalysis | undefined) {
   if (!analysis) return true
-  if (!MEDIA_ANALYSIS_FINAL_STATUSES.has(analysis.status)) return true
-  return analysis.status === "passed" && !analysis.noteSuggestion
+  return !MEDIA_ANALYSIS_FINAL_STATUSES.has(analysis.status)
 }
 
 function normalizeObservationDraft(value: unknown): ObservationDraft | null {
@@ -522,6 +522,7 @@ export function ObservationSubmitForm({
   const autoLocateAfterPhotoRef = useRef(false)
   const draftRestoreTriedRef = useRef(false)
   const draftRestoredSpeciesRef = useRef(false)
+  const pendingAnalysisImageUrlsRef = useRef(new Set<string>())
   const photoSectionRef = useRef<HTMLElement | null>(null)
   const speciesSectionRef = useRef<HTMLElement | null>(null)
   const locationSectionRef = useRef<HTMLElement | null>(null)
@@ -738,7 +739,7 @@ export function ObservationSubmitForm({
     }
 
     const imageUrlsToAnalyze = evidenceImages
-      .filter((url) => shouldAnalyzeImage(analysisMap.get(url)))
+      .filter((url) => !pendingAnalysisImageUrlsRef.current.has(url) && shouldAnalyzeImage(analysisMap.get(url)))
       .slice(0, 5)
 
     if (imageUrlsToAnalyze.length === 0) {
@@ -754,6 +755,8 @@ export function ObservationSubmitForm({
     }
 
     const controller = new AbortController()
+    const pendingAnalysisImageUrls = pendingAnalysisImageUrlsRef.current
+    imageUrlsToAnalyze.forEach((url) => pendingAnalysisImageUrls.add(url))
     const timeout = window.setTimeout(async () => {
       setIsAnalyzingImages(true)
       try {
@@ -795,6 +798,7 @@ export function ObservationSubmitForm({
           })
         }
       } finally {
+        imageUrlsToAnalyze.forEach((url) => pendingAnalysisImageUrls.delete(url))
         if (!controller.signal.aborted) {
           setIsAnalyzingImages(false)
         }
@@ -803,6 +807,7 @@ export function ObservationSubmitForm({
 
     return () => {
       controller.abort()
+      imageUrlsToAnalyze.forEach((url) => pendingAnalysisImageUrls.delete(url))
       window.clearTimeout(timeout)
     }
   }, [analysisMap, evidenceImages, toast, user])
@@ -912,7 +917,7 @@ export function ObservationSubmitForm({
       if (failedAnalysis.status === "failed_unrecognized") {
         return "有图片暂时无法识别，请换更清晰的照片"
       }
-      return "图片识别尚未完成，请稍后再试"
+      return failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"
     }
 
     return analysisPendingCount > 0 ? "图片识别尚未完成，请稍后再试" : "请先完成图片识别"
@@ -1009,7 +1014,7 @@ export function ObservationSubmitForm({
             ? failedAnalysis.moderationReason || "有图片不适合提交观察记录"
             : failedAnalysis.status === "failed_unrecognized"
               ? "有图片暂时无法识别，请换更清晰的照片"
-              : "图片识别尚未完成，请稍后再试"
+              : failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"
         : analysisPendingCount > 0
           ? "图片识别尚未完成，请稍后再试"
           : "请先完成图片识别"
@@ -1369,7 +1374,7 @@ export function ObservationSubmitForm({
                       ? failedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"
                       : failedAnalysis.status === "failed_unrecognized"
                         ? "暂时无法从这张图片识别出可靠鸟类候选，请换一张更清晰的照片。"
-                        : "图片识别失败，请删除后重新上传。"}
+                        : failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"}
                 </div>
               ) : null}
 

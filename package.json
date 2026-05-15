@@ -10,7 +10,8 @@
     ]
   },
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev --webpack",
+    "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

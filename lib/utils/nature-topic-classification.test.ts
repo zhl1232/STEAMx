@@ -18,9 +18,11 @@ describe('nature topic classification', () => {
 
   it('normalizes filters and labels invalid topics safely', () => {
     expect(normalizeSpeciesTopicFilter('birds')).toBe('birds')
+    expect(normalizeSpeciesTopicFilter('plants')).toBe('plants')
+    expect(normalizeSpeciesTopicFilter('insects')).toBe('all')
     expect(normalizeSpeciesTopicFilter('bad-topic')).toBe('all')
     expect(normalizeSpeciesTopicFilter(null)).toBe('all')
-    expect(getNatureTopicLabel('plants')).toBe('植物')
+    expect(getNatureTopicLabel('plants')).toBe('树木')
     expect(getNatureTopicLabel(null)).toBe('未分类')
   })
 
@@ -30,14 +32,13 @@ describe('nature topic classification', () => {
         { topicKey: 'birds' },
         { topicKey: 'birds' },
         { topicKey: 'plants' },
+        { topicKey: 'insects' },
         { topicKey: null },
       ]),
     ).toEqual([
-      { key: 'all', label: '全部', count: 4 },
+      { key: 'all', label: '全部', count: 3 },
       { key: 'birds', label: '鸟类', count: 2 },
-      { key: 'insects', label: '昆虫', count: 0 },
-      { key: 'plants', label: '植物', count: 1 },
-      { key: 'fungi', label: '真菌', count: 0 },
+      { key: 'plants', label: '树木', count: 1 },
     ])
   })
 })
