@@ -1774,6 +1774,16 @@ export interface Database {
           project_count: number
         }[]
       }
+      get_observation_leaderboard: {
+        Args: { limit_count: number }
+        Returns: {
+          id: string
+          display_name: string | null
+          avatar_url: string | null
+          xp: number
+          observation_count: number
+        }[]
+      }
       get_leaderboard_xp_weekly: {
         Args: { limit_count: number }
         Returns: {

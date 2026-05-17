@@ -10,6 +10,7 @@ import {
     ChevronRight,
     Circle,
     Hammer,
+    Leaf,
     Loader2,
     LockKeyhole,
     ShieldCheck,
@@ -43,7 +44,7 @@ export interface LeaderboardUser {
     isCurrentUser?: boolean;
 }
 
-export type LeaderboardType = "xp" | "badges" | "projects";
+export type LeaderboardType = "xp" | "badges" | "projects" | "observations";
 export type XpTimeRange = "weekly" | "monthly" | "alltime";
 
 type LeaderboardConfig = {
@@ -76,6 +77,7 @@ const RANK_STYLES: Record<number, { badge: string; card: string; value: string; 
 
 const PODIUM_ORDER = [2, 1, 3] as const;
 const XP_TIME_RANGE_LABEL: Record<XpTimeRange, string> = { weekly: "本周", monthly: "本月", alltime: "总榜" };
+const LEADERBOARD_TABS = ["xp", "badges", "projects", "observations"] as const;
 const GROWTH_TASK_PREVIEW_LIMIT = 3;
 
 const GROWTH_TASK_STATUS_ORDER: Record<ProfileGrowthTask["status"], number> = {
@@ -120,6 +122,7 @@ function LeaderboardGrowthGraduatedCard() {
 function getValueColumnLabel(tab: LeaderboardType, range: XpTimeRange) {
     if (tab === "xp") return `${XP_TIME_RANGE_LABEL[range]}经验`;
     if (tab === "badges") return "徽章数量";
+    if (tab === "observations") return "条记录";
     return "项目数量";
 }
 
@@ -130,6 +133,10 @@ function getRowHighlights(tab: LeaderboardType, rank: number) {
 
     if (tab === "projects") {
         return rank <= 10 ? ["项目实践", "完成记录"] : ["实践积累", "稳步推进"];
+    }
+
+    if (tab === "observations") {
+        return rank <= 10 ? ["自然观察", "公开记录"] : ["观察积累", "持续记录"];
     }
 
     return rank <= 10 ? ["经验表现", "持续探索"] : ["持续记录", "稳步成长"];
@@ -158,6 +165,13 @@ function getTabConfig(tab: LeaderboardType): LeaderboardConfig {
                 valueLabel: "个项目",
                 description: "按发布与完成的项目统计实践成果",
             };
+        case "observations":
+            return {
+                label: "观察榜",
+                icon: <Leaf className="h-4 w-4" />,
+                valueLabel: "条记录",
+                description: "按公开通过的自然观察记录统计",
+            };
     }
 }
 
@@ -175,6 +189,14 @@ function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: stri
             { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", label: "工程挑战优胜" },
             { icon: "blueprint", tier: "silver", label: "实践达人" },
             { icon: "target", tier: rank === 1 ? "gold" : "bronze", label: "目标达成" },
+        ];
+    }
+
+    if (tab === "observations") {
+        return [
+            { icon: "binoculars", tier: rank === 1 ? "gold" : "silver", label: "自然观察先锋" },
+            { icon: "feather", tier: "silver", label: "公开记录达人" },
+            { icon: "sparkles", tier: rank === 3 ? "bronze" : "silver", label: "生态探索者" },
         ];
     }
 
@@ -786,14 +808,14 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                 <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as LeaderboardType)} className="w-full">
                     <div className="surface-panel p-2.5 sm:p-4 lg:p-5">
                         <div className="flex flex-col gap-2.5 sm:gap-3 xl:flex-row xl:items-start xl:justify-between">
-                            <TabsList className={cn("grid h-auto w-full grid-cols-3 rounded-[18px] bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[430px] sm:rounded-2xl xl:max-w-[460px]", compact && "mb-0")}>
-                                {(["xp", "badges", "projects"] as const).map((tab) => {
+                            <TabsList className={cn("grid h-auto w-full grid-cols-4 rounded-[18px] bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[560px] sm:rounded-2xl xl:max-w-[600px]", compact && "mb-0")}>
+                                {LEADERBOARD_TABS.map((tab) => {
                                     const tabConfig = getTabConfig(tab);
                                     return (
                                         <TabsTrigger
                                             key={tab}
                                             value={tab}
-                                            className="min-h-10 rounded-xl text-xs font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)] sm:min-h-11 sm:text-sm"
+                                            className="min-h-10 rounded-xl px-1.5 text-[11px] font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)] sm:min-h-11 sm:px-3 sm:text-sm"
                                         >
                                             <span className="mr-1.5 hidden sm:inline-flex">{tabConfig.icon}</span>
                                             {tabConfig.label}

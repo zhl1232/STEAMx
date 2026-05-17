@@ -5,8 +5,60 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { reverseGeocode } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
 
-type LeafletModule = typeof import("leaflet")
+// ---------------------------------------------------------------------------
+// 高德瓦片 URL – 与 DomesticMiniMap 共用，不需要 API Key
+// ---------------------------------------------------------------------------
+const TILE_URL = "https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}"
+const TILE_SUBDOMAINS = ["1", "2", "3", "4"]
+const TILE_SIZE = 256
+const MIN_ZOOM = 3
+const MAX_ZOOM = 18
 
+// ---------------------------------------------------------------------------
+// Mercator projection helpers
+// ---------------------------------------------------------------------------
+function lngToPixelX(lng: number, zoom: number) {
+  return ((lng + 180) / 360) * Math.pow(2, zoom) * TILE_SIZE
+}
+
+function latToPixelY(lat: number, zoom: number) {
+  const rad = (lat * Math.PI) / 180
+  return ((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * Math.pow(2, zoom) * TILE_SIZE
+}
+
+function pixelXToLng(px: number, zoom: number) {
+  return (px / TILE_SIZE / Math.pow(2, zoom)) * 360 - 180
+}
+
+function pixelYToLat(py: number, zoom: number) {
+  const n = Math.PI - (2 * Math.PI * py) / TILE_SIZE / Math.pow(2, zoom)
+  return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)))
+}
+
+// ---------------------------------------------------------------------------
+// Tile cache & loading
+// ---------------------------------------------------------------------------
+const tileCache = new Map<string, HTMLImageElement>()
+
+function getTileUrl(x: number, y: number, z: number) {
+  const s = TILE_SUBDOMAINS[Math.abs(x + y) % TILE_SUBDOMAINS.length]
+  return TILE_URL.replace("{s}", s).replace("{x}", String(x)).replace("{y}", String(y)).replace("{z}", String(z))
+}
+
+function loadTile(x: number, y: number, z: number): HTMLImageElement {
+  const key = `${z}/${x}/${y}`
+  const cached = tileCache.get(key)
+  if (cached) return cached
+  const img = new Image()
+  img.crossOrigin = "anonymous"
+  img.src = getTileUrl(x, y, z)
+  tileCache.set(key, img)
+  return img
+}
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 interface DomesticMapPickerProps {
   latitude: string
   longitude: string
@@ -16,6 +68,9 @@ interface DomesticMapPickerProps {
   mapClassName?: string
 }
 
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 export function DomesticMapPicker({
   latitude,
   longitude,
@@ -25,139 +80,277 @@ export function DomesticMapPicker({
   mapClassName,
 }: DomesticMapPickerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const mapRef = useRef<import("leaflet").Map | null>(null)
-  const markerRef = useRef<import("leaflet").Marker | null>(null)
-  const leafletRef = useRef<LeafletModule | null>(null)
-  const initialPointRef = useRef<{ latitude: number; longitude: number; zoom: number } | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const stateRef = useRef({
+    centerLng: longitude ? Number(longitude) : 116.4074,
+    centerLat: latitude ? Number(latitude) : 39.9042,
+    zoom: latitude && longitude ? 14 : 11,
+    markerLng: longitude ? Number(longitude) : 116.4074,
+    markerLat: latitude ? Number(latitude) : 39.9042,
+    draggingMap: false,
+    draggingMarker: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    dragStartLng: 0,
+    dragStartLat: 0,
+  })
   const [isReady, setIsReady] = useState(false)
   const [isGeocoding, setIsGeocoding] = useState(false)
   const geocodeAbortRef = useRef<AbortController | null>(null)
   const onChangeRef = useRef(onChange)
-  const doReverseGeocodeRef = useRef<(lat: number, lng: number) => void>(() => {})
+  const onLocationNameSuggestionRef = useRef(onLocationNameSuggestion)
+  const animRef = useRef<number | null>(null)
 
-  if (!initialPointRef.current) {
-    initialPointRef.current = {
-      latitude: latitude ? Number(latitude) : 39.9042,
-      longitude: longitude ? Number(longitude) : 116.4074,
-      zoom: latitude && longitude ? 14 : 11,
-    }
-  }
+  useEffect(() => { onChangeRef.current = onChange }, [onChange])
+  useEffect(() => { onLocationNameSuggestionRef.current = onLocationNameSuggestion }, [onLocationNameSuggestion])
 
-  const doReverseGeocode = useCallback(
-    async (lat: number, lng: number) => {
-      if (!onLocationNameSuggestion) return
+  const doReverseGeocode = useCallback(async (lat: number, lng: number) => {
+    if (!onLocationNameSuggestionRef.current) return
 
-      geocodeAbortRef.current?.abort()
-      const controller = new AbortController()
-      geocodeAbortRef.current = controller
+    geocodeAbortRef.current?.abort()
+    const controller = new AbortController()
+    geocodeAbortRef.current = controller
 
-      setIsGeocoding(true)
-      try {
-        const name = await reverseGeocode(lat, lng, controller.signal)
-        if (name && !controller.signal.aborted) {
-          onLocationNameSuggestion(name)
-        }
-      } finally {
-        if (!controller.signal.aborted) setIsGeocoding(false)
+    setIsGeocoding(true)
+    try {
+      const name = await reverseGeocode(lat, lng, controller.signal)
+      if (name && !controller.signal.aborted) {
+        onLocationNameSuggestionRef.current(name)
       }
-    },
-    [onLocationNameSuggestion],
-  )
-
-  // Keep refs in sync so the init effect always uses the latest callbacks
-  // without needing them in the dependency array.
-  useEffect(() => {
-    onChangeRef.current = onChange
-  }, [onChange])
-  useEffect(() => {
-    doReverseGeocodeRef.current = doReverseGeocode
-  }, [doReverseGeocode])
-
-  useEffect(() => {
-    let isMounted = true
-
-    const init = async () => {
-      if (!containerRef.current || mapRef.current) return
-      const L = await import("leaflet")
-
-      if (!isMounted || !containerRef.current) return
-
-      leafletRef.current = L
-      const initialPoint = initialPointRef.current ?? { latitude: 39.9042, longitude: 116.4074, zoom: 11 }
-
-      const map = L.map(containerRef.current, {
-        zoomControl: false,
-        attributionControl: true,
-      }).setView([initialPoint.latitude, initialPoint.longitude], initialPoint.zoom)
-
-      L.control.zoom({ position: "bottomright" }).addTo(map)
-
-      L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}", {
-        subdomains: ["1", "2", "3", "4"],
-        maxZoom: 18,
-        minZoom: 3,
-        attribution: "高德地图",
-      }).addTo(map)
-
-      const pinIcon = L.divIcon({
-        className: "",
-        html: `<div style="width:20px;height:20px;border-radius:9999px;background:#2563eb;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:grab;"></div>`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-      })
-      const marker = L.marker([initialPoint.latitude, initialPoint.longitude], { draggable: true, icon: pinIcon }).addTo(map)
-
-      marker.on("dragend", () => {
-        const point = marker.getLatLng()
-        const lat = point.lat.toFixed(6)
-        const lng = point.lng.toFixed(6)
-        onChangeRef.current({ latitude: lat, longitude: lng })
-        doReverseGeocodeRef.current(point.lat, point.lng)
-      })
-
-      map.on("click", (event) => {
-        marker.setLatLng(event.latlng)
-        const lat = event.latlng.lat.toFixed(6)
-        const lng = event.latlng.lng.toFixed(6)
-        onChangeRef.current({ latitude: lat, longitude: lng })
-        doReverseGeocodeRef.current(event.latlng.lat, event.latlng.lng)
-      })
-
-      mapRef.current = map
-      markerRef.current = marker
-      setIsReady(true)
+    } finally {
+      if (!controller.signal.aborted) setIsGeocoding(false)
     }
-
-    init()
-
-    return () => {
-      isMounted = false
-      geocodeAbortRef.current?.abort()
-      markerRef.current?.remove()
-      if (mapRef.current) {
-        // Stop any in-progress zoom/pan animation before removing the map,
-        // otherwise the transitionend callback fires on a destroyed pane.
-        mapRef.current.stop()
-        mapRef.current.remove()
-      }
-      markerRef.current = null
-      mapRef.current = null
-    }
-    // Map is initialised once; callbacks are accessed via refs.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    if (!mapRef.current || !markerRef.current || !leafletRef.current || !latitude || !longitude) return
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
+    const dpr = window.devicePixelRatio || 1
+    const rect = canvas.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+
+    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+    }
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+    const { centerLng, centerLat, zoom, markerLng, markerLat } = stateRef.current
+    const centerPx = lngToPixelX(centerLng, zoom)
+    const centerPy = latToPixelY(centerLat, zoom)
+    const isDark = document.documentElement.classList.contains("dark")
+
+    // Draw tiles
+    const tileStartX = Math.floor((centerPx - width / 2) / TILE_SIZE)
+    const tileStartY = Math.floor((centerPy - height / 2) / TILE_SIZE)
+    const tileEndX = Math.ceil((centerPx + width / 2) / TILE_SIZE)
+    const tileEndY = Math.ceil((centerPy + height / 2) / TILE_SIZE)
+    const maxTile = Math.pow(2, zoom)
+
+    let allLoaded = true
+    for (let tx = tileStartX; tx <= tileEndX; tx++) {
+      for (let ty = tileStartY; ty <= tileEndY; ty++) {
+        if (ty < 0 || ty >= maxTile) continue
+        const wrappedTx = ((tx % maxTile) + maxTile) % maxTile
+        const img = loadTile(wrappedTx, ty, zoom)
+        const screenX = tx * TILE_SIZE - centerPx + width / 2
+        const screenY = ty * TILE_SIZE - centerPy + height / 2
+
+        if (img.complete && img.naturalWidth > 0) {
+          if (isDark) ctx.filter = "invert(0.88) hue-rotate(180deg) saturate(0.58) brightness(0.72) contrast(0.9)"
+          ctx.drawImage(img, screenX, screenY, TILE_SIZE, TILE_SIZE)
+          if (isDark) ctx.filter = "none"
+        } else {
+          allLoaded = false
+          ctx.fillStyle = isDark ? "#0b1710" : "#e8f1e9"
+          ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE)
+          img.onload = () => { if (canvasRef.current) draw() }
+        }
+      }
+    }
+
+    // Draw marker pin
+    const mx = lngToPixelX(markerLng, zoom) - centerPx + width / 2
+    const my = latToPixelY(markerLat, zoom) - centerPy + height / 2
+
+    ctx.save()
+    // Shadow
+    ctx.beginPath()
+    ctx.arc(mx, my, 14, 0, Math.PI * 2)
+    ctx.fillStyle = "rgba(0,0,0,0.25)"
+    ctx.fill()
+    // White border
+    ctx.beginPath()
+    ctx.arc(mx, my, 13, 0, Math.PI * 2)
+    ctx.fillStyle = "#fff"
+    ctx.fill()
+    // Blue dot
+    ctx.beginPath()
+    ctx.arc(mx, my, 10, 0, Math.PI * 2)
+    ctx.fillStyle = "#2563eb"
+    ctx.fill()
+    ctx.restore()
+
+    // Attribution
+    ctx.save()
+    ctx.font = "11px sans-serif"
+    ctx.fillStyle = isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)"
+    ctx.textAlign = "right"
+    ctx.fillText("高德地图", width - 6, height - 6)
+    ctx.restore()
+
+    if (!allLoaded) {
+      animRef.current = requestAnimationFrame(draw)
+    }
+  }, [])
+
+  // Init
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container || !canvasRef.current) return
+
+    setIsReady(true)
+    draw()
+
+    const observer = new ResizeObserver(() => draw())
+    observer.observe(container)
+
+    return () => {
+      observer.disconnect()
+      geocodeAbortRef.current?.abort()
+      if (animRef.current != null) cancelAnimationFrame(animRef.current)
+    }
+  }, [draw])
+
+  // Sync external lat/lng changes
+  useEffect(() => {
+    if (!latitude || !longitude) return
     const nextLat = Number(latitude)
     const nextLng = Number(longitude)
     if (!Number.isFinite(nextLat) || !Number.isFinite(nextLng)) return
 
-    const nextPoint = leafletRef.current.latLng(nextLat, nextLng)
-    markerRef.current.setLatLng(nextPoint)
-    mapRef.current.setView(nextPoint, Math.max(mapRef.current.getZoom(), 14))
-  }, [latitude, longitude])
+    const s = stateRef.current
+    s.markerLat = nextLat
+    s.markerLng = nextLng
+    s.centerLat = nextLat
+    s.centerLng = nextLng
+    s.zoom = Math.max(s.zoom, 14)
+    draw()
+  }, [latitude, longitude, draw])
+
+  // Pointer interactions (drag map & click to place marker)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    let pointerDownAt = 0
+
+    const onPointerDown = (e: PointerEvent) => {
+      const s = stateRef.current
+      const rect = canvas.getBoundingClientRect()
+      const clickX = e.clientX - rect.left
+      const clickY = e.clientY - rect.top
+
+      // Check if clicking on the marker to drag it
+      const centerPx = lngToPixelX(s.centerLng, s.zoom)
+      const centerPy = latToPixelY(s.centerLat, s.zoom)
+      const mx = lngToPixelX(s.markerLng, s.zoom) - centerPx + rect.width / 2
+      const my = latToPixelY(s.markerLat, s.zoom) - centerPy + rect.height / 2
+      const dist = Math.sqrt((clickX - mx) ** 2 + (clickY - my) ** 2)
+
+      pointerDownAt = Date.now()
+
+      if (dist < 20) {
+        s.draggingMarker = true
+      } else {
+        s.draggingMap = true
+        s.dragStartX = e.clientX
+        s.dragStartY = e.clientY
+        s.dragStartLng = s.centerLng
+        s.dragStartLat = s.centerLat
+      }
+      canvas.setPointerCapture(e.pointerId)
+      canvas.style.cursor = s.draggingMarker ? "grabbing" : "grabbing"
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      const s = stateRef.current
+      if (s.draggingMarker) {
+        const rect = canvas.getBoundingClientRect()
+        const clickX = e.clientX - rect.left
+        const clickY = e.clientY - rect.top
+        const centerPx = lngToPixelX(s.centerLng, s.zoom)
+        const centerPy = latToPixelY(s.centerLat, s.zoom)
+        s.markerLng = pixelXToLng(centerPx - rect.width / 2 + clickX, s.zoom)
+        s.markerLat = pixelYToLat(centerPy - rect.height / 2 + clickY, s.zoom)
+        draw()
+      } else if (s.draggingMap) {
+        const dx = e.clientX - s.dragStartX
+        const dy = e.clientY - s.dragStartY
+        s.centerLng = pixelXToLng(lngToPixelX(s.dragStartLng, s.zoom) - dx, s.zoom)
+        s.centerLat = pixelYToLat(latToPixelY(s.dragStartLat, s.zoom) - dy, s.zoom)
+        draw()
+      }
+    }
+
+    const onPointerUp = (e: PointerEvent) => {
+      const s = stateRef.current
+      const elapsed = Date.now() - pointerDownAt
+
+      if (s.draggingMarker) {
+        const lat = s.markerLat.toFixed(6)
+        const lng = s.markerLng.toFixed(6)
+        onChangeRef.current({ latitude: lat, longitude: lng })
+        doReverseGeocode(s.markerLat, s.markerLng)
+      } else if (s.draggingMap && elapsed < 200) {
+        // Short click = place marker
+        const rect = canvas.getBoundingClientRect()
+        const clickX = e.clientX - rect.left
+        const clickY = e.clientY - rect.top
+        const centerPx = lngToPixelX(s.centerLng, s.zoom)
+        const centerPy = latToPixelY(s.centerLat, s.zoom)
+        s.markerLng = pixelXToLng(centerPx - rect.width / 2 + clickX, s.zoom)
+        s.markerLat = pixelYToLat(centerPy - rect.height / 2 + clickY, s.zoom)
+        draw()
+        const lat = s.markerLat.toFixed(6)
+        const lng = s.markerLng.toFixed(6)
+        onChangeRef.current({ latitude: lat, longitude: lng })
+        doReverseGeocode(s.markerLat, s.markerLng)
+      }
+
+      s.draggingMap = false
+      s.draggingMarker = false
+      canvas.style.cursor = "grab"
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      const s = stateRef.current
+      const delta = e.deltaY > 0 ? -1 : 1
+      s.zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, s.zoom + delta))
+      draw()
+    }
+
+    canvas.addEventListener("pointerdown", onPointerDown)
+    canvas.addEventListener("pointermove", onPointerMove)
+    canvas.addEventListener("pointerup", onPointerUp)
+    canvas.addEventListener("pointercancel", onPointerUp)
+    canvas.addEventListener("wheel", onWheel, { passive: false })
+    canvas.style.cursor = "grab"
+
+    return () => {
+      canvas.removeEventListener("pointerdown", onPointerDown)
+      canvas.removeEventListener("pointermove", onPointerMove)
+      canvas.removeEventListener("pointerup", onPointerUp)
+      canvas.removeEventListener("pointercancel", onPointerUp)
+      canvas.removeEventListener("wheel", onWheel)
+    }
+  }, [draw, doReverseGeocode])
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -168,7 +361,9 @@ export function DomesticMapPicker({
             "h-72 w-full overflow-hidden rounded-2xl border border-border/70 [background:var(--obs-map-bg)]",
             mapClassName,
           )}
-        />
+        >
+          <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" style={{ touchAction: "none" }} />
+        </div>
         {!isReady ? (
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl border border-transparent">
             <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(28deg,transparent_0_44%,rgba(143,211,156,0.18)_45%_47%,transparent_48%_100%),linear-gradient(150deg,transparent_0_52%,rgba(105,181,132,0.16)_53%_55%,transparent_56%_100%),radial-gradient(circle_at_64%_42%,rgba(77,199,112,0.28),transparent_9%)]" />

@@ -7,6 +7,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import {
   Award,
+  Bell,
   BookOpen,
   CalendarDays,
   CalendarCheck2,
@@ -18,7 +19,6 @@ import {
   Heart,
   Library,
   Leaf,
-  Mail,
   MessageCircle,
   Radar,
   Rocket,
@@ -40,7 +40,6 @@ import { EditProfileDialog } from '@/components/features/profile/edit-profile-di
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
-import { ThemeToggle } from '@/components/layout/theme-toggle'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Button } from '@/components/ui/button'
@@ -711,20 +710,19 @@ function MobileProfilePage({
         showUserButton={false}
         rightSlot={
           <>
-            <ThemeToggle />
-            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0">
-              <Link href="/settings" aria-label="设置">
-                <Settings className="h-5 w-5" />
-              </Link>
-            </Button>
             <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 shrink-0">
               <Link href="/messages" aria-label="消息">
-                <Mail className="h-5 w-5" />
+                <Bell className="h-5 w-5" />
                 {unreadCount > 0 ? (
                   <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-bold leading-5 text-destructive-foreground">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 ) : null}
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0">
+              <Link href="/settings" aria-label="设置">
+                <Settings className="h-5 w-5" />
               </Link>
             </Button>
           </>

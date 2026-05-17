@@ -75,6 +75,8 @@ export default async function NatureMapPage() {
                 label: hotspot.locationName,
                 observedAt: hotspot.latestObservedAt,
                 weight: hotspot.observationCount,
+                imageUrl: hotspot.imageUrl,
+                summary: `最近 ${formatDate(hotspot.latestObservedAt)} 有观察记录，共 ${formatCount(hotspot.observationCount)} 条公开记录。`,
               }))}
               heightClassName="h-[420px]"
               enableTimeDecay

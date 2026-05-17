@@ -192,4 +192,51 @@ describe('LeaderboardContent growth tasks panel', () => {
     expect(await screen.findByText('登录后查看你的成长任务进度')).toBeInTheDocument()
     expect(fetchMock.mock.calls.some(([input]) => String(input) === '/api/profile/growth-tasks/sync')).toBe(false)
   })
+
+  it('loads the observation leaderboard tab and renders observation counts', async () => {
+    const user = userEvent.setup()
+    fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
+      const url = String(input)
+
+      if (url.startsWith('/api/leaderboard')) {
+        const params = new URL(url, 'http://localhost').searchParams
+        if (params.get('type') === 'observations') {
+          return new Response(
+            JSON.stringify({
+              users: [
+                { id: 'observer-1', name: '观察员', xp: 900, level: 4, value: 12, avatar: null },
+                { id: 'observer-2', name: '记录员', xp: 500, level: 3, value: 8, avatar: null },
+                { id: 'observer-3', name: '探索员', xp: 300, level: 2, value: 5, avatar: null },
+                { id: 'observer-4', name: '同行者', xp: 100, level: 2, value: 3, avatar: null },
+              ],
+            }),
+            { status: 200 },
+          )
+        }
+
+        return new Response(JSON.stringify({ users: [] }), { status: 200 })
+      }
+
+      if (url === '/api/profile/growth-tasks/sync') {
+        return new Response(JSON.stringify({ tasks: [], completedTaskCount: 0, graduatedAt: null }), { status: 200 })
+      }
+
+      return new Response(JSON.stringify({ error: 'unexpected request' }), { status: 404 })
+    })
+
+    render(<LeaderboardContent />)
+
+    await user.click(await screen.findByRole('tab', { name: /观察榜/ }))
+
+    await waitFor(() => {
+      expect(
+        fetchMock.mock.calls.some(([input]) => {
+          const url = String(input)
+          return url.startsWith('/api/leaderboard') && new URL(url, 'http://localhost').searchParams.get('type') === 'observations'
+        }),
+      ).toBe(true)
+    })
+    expect(await screen.findByText('同行者')).toBeInTheDocument()
+    expect(screen.getAllByText('条记录').length).toBeGreaterThan(0)
+  })
 })

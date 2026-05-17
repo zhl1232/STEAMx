@@ -9,7 +9,10 @@ import {
   Loader2,
   Lock,
   Mail,
+  Pencil,
+  ShieldCheck,
   Smartphone,
+  KeyRound,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -97,12 +100,20 @@ function getFriendlyErrorMessage(error: unknown) {
   return errorMessage
 }
 
+function getInitialEmailMode(initialMode: AuthMode): 'sign_in' | 'sign_up' {
+  return initialMode === 'sign_up' ? 'sign_up' : 'sign_in'
+}
+
+function isEmailIdentifier(value: string) {
+  return value.includes('@')
+}
+
 export function AuthFlow({
   presentation,
   title,
   description,
   initialMode = 'sign_in',
-  initialMethod = 'phone',
+  initialMethod = 'email',
   nextPath,
   onBack,
   onClose,
@@ -111,9 +122,10 @@ export function AuthFlow({
   const supabase = createClient()
   const { toast } = useToast()
 
-  const [mode, setMode] = useState<AuthMode>(initialMode)
-  const [method, setMethod] = useState<AuthMethod>(initialMethod)
-  const [usePhonePassword, setUsePhonePassword] = useState(false)
+  const [method, setMethod] = useState<AuthMethod>(initialMode === 'forgot_password' ? 'email' : initialMethod)
+  const [emailMode, setEmailMode] = useState<'sign_in' | 'sign_up'>(getInitialEmailMode(initialMode))
+  const [isResetMode, setIsResetMode] = useState(initialMode === 'forgot_password')
+  const [phoneRecoveryAfterOtp, setPhoneRecoveryAfterOtp] = useState(false)
 
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
@@ -122,7 +134,7 @@ export function AuthFlow({
   const [otpStep, setOtpStep] = useState<OtpStep>('input')
 
   const [termsAgreed, setTermsAgreed] = useState(false)
-  const [checkboxShake, setCheckboxShake] = useState(false)
+  const [consentError, setConsentError] = useState<string | null>(null)
   const [otpCooldown, setOtpCooldown] = useState(0)
 
   const [loading, setLoading] = useState(false)
@@ -134,34 +146,24 @@ export function AuthFlow({
   const phoneDigits = phoneValue.replace(/\D/g, '')
   const isPhone = phoneDigits.length >= 11
   const formattedPhone = isPhone ? toE164(phoneValue) : ''
+  const isPhoneMethod = method === 'phone'
+  const isSignUpPhoneIdentifier = emailMode === 'sign_up' && !!emailValue && !isEmailIdentifier(emailValue)
+  const showPasswordField = !isResetMode && !isPhoneMethod && !(emailMode === 'sign_up' && isSignUpPhoneIdentifier)
+  const showConsent = (isPhoneMethod && !phoneRecoveryAfterOtp) || (emailMode === 'sign_up' && !isResetMode)
+  const passwordIdentifierLabel = isResetMode ? '邮箱或手机号' : '手机号或邮箱'
+  const passwordIdentifierPlaceholder = isResetMode ? '请输入邮箱或手机号' : '请输入手机号或邮箱'
 
-  const otpMode = method === 'phone' && !usePhonePassword && mode !== 'forgot_password'
-  const showPasswordField = (method === 'email' && mode !== 'forgot_password') || (method === 'phone' && mode === 'sign_in' && usePhonePassword)
-  const showPhoneSignInToggle = method === 'phone' && mode === 'sign_in'
-  const showOtpField = otpMode && otpStep === 'verify'
-
-  const resolvedTitle = title ?? (mode === 'sign_in' ? '欢迎回来' : mode === 'sign_up' ? '创建账号' : '找回密码')
-  const resolvedDescription = description?.trim() || null
+  const resolvedTitle = title ?? (isPhoneMethod ? '短信验证' : isResetMode ? '找回密码' : emailMode === 'sign_in' ? '账号登录' : '创建账号')
+  const resolvedDescription = description?.trim() || (isPhoneMethod
+    ? (phoneRecoveryAfterOtp ? '验证后设置新密码。' : '输入验证码完成注册。')
+    : isResetMode
+      ? '邮箱收邮件，手机号用验证码。'
+      : null)
   const successTarget = nextPath ?? getSafeNextPath()
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
   const descriptionId = resolvedDescription
     ? (presentation === 'page' ? 'auth-page-description' : 'auth-layer-description')
     : undefined
-
-  const methodOptions = [
-    {
-      key: 'phone' as const,
-      label: '手机号',
-      icon: Smartphone,
-      disabled: mode === 'forgot_password',
-    },
-    {
-      key: 'email' as const,
-      label: '邮箱',
-      icon: Mail,
-      disabled: false,
-    },
-  ]
 
   useEffect(() => {
     if (otpCooldown <= 0) return
@@ -173,17 +175,19 @@ export function AuthFlow({
   }, [otpCooldown])
 
   useEffect(() => {
+    if (phoneRecoveryAfterOtp) return
+    setError(null)
+    setMessage(null)
+    setConsentError(null)
+  }, [method, emailMode, isResetMode, phoneRecoveryAfterOtp])
+
+  useEffect(() => {
+    if (phoneRecoveryAfterOtp) return
     setOtp('')
     setOtpStep('input')
     setError(null)
     setMessage(null)
-  }, [method, mode, phoneValue, usePhonePassword])
-
-  useEffect(() => {
-    if (mode === 'forgot_password' && method !== 'email') {
-      setMethod('email')
-    }
-  }, [method, mode])
+  }, [phoneValue, phoneRecoveryAfterOtp])
 
   useEffect(() => {
     if (presentation !== 'page') return
@@ -193,28 +197,30 @@ export function AuthFlow({
     }
   }, [presentation])
 
-  const shakeConsent = () => {
-    setCheckboxShake(true)
-    window.setTimeout(() => setCheckboxShake(false), 500)
-  }
-
-  const requireRegistrationConsent = () => {
-    if (mode !== 'sign_up') return true
+  const requireConsent = () => {
+    if (!showConsent) return true
 
     if (!termsAgreed) {
+      const nextMessage = '请先同意服务条款、隐私政策，并确认年龄或监护人授权。'
+      setConsentError(nextMessage)
       toast({
-        title: '请先同意条款',
-        description: '注册前请先阅读并同意《服务条款》和《隐私政策》，并确认已年满 14 周岁或已获得监护人同意。',
+        title: '请先确认使用授权',
+        description: nextMessage,
         variant: 'destructive',
       })
-      shakeConsent()
       return false
     }
 
+    setConsentError(null)
     return true
   }
 
   const completeSuccess = () => {
+    if (phoneRecoveryAfterOtp) {
+      window.location.href = '/settings/security?mode=recovery'
+      return
+    }
+
     if (onSuccess) {
       onSuccess()
       return
@@ -223,9 +229,10 @@ export function AuthFlow({
     window.location.href = successTarget
   }
 
-  const handleSendOtp = async () => {
-    if (!requireRegistrationConsent()) return
-    if (!formattedPhone) {
+  const handleSendOtp = async (rawPhone = phoneValue) => {
+    if (!requireConsent()) return
+    const nextFormattedPhone = toE164(rawPhone)
+    if (!nextFormattedPhone) {
       setError('请输入有效的手机号')
       return
     }
@@ -239,7 +246,7 @@ export function AuthFlow({
       const res = await fetch('/api/auth/sms/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: formattedPhone, type: 'login' }),
+        body: JSON.stringify({ phone: nextFormattedPhone, type: 'login' }),
       })
       const text = await res.text()
       let data: { error?: string } = {}
@@ -254,9 +261,11 @@ export function AuthFlow({
         throw new Error(typeof data.error === 'string' ? data.error : `请求失败 ${res.status}`)
       }
 
-      setMessage(mode === 'sign_up' ? '验证码已发送，验证后会直接创建并登录账号。' : '验证码已发送，请输入收到的短信验证码。')
+      setMessage('验证码已发送，请输入短信里的 6 位数字。')
       setOtpCooldown(OTP_COOLDOWN_SECONDS)
       setOtpStep('verify')
+      setPhone(rawPhone)
+      setMethod('phone')
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') console.error('OTP send error:', err)
       setError(getOtpErrorMessage(err))
@@ -266,7 +275,7 @@ export function AuthFlow({
   }
 
   const handleVerifyOtp = async () => {
-    if (!requireRegistrationConsent()) return
+    if (!requireConsent()) return
     if (!formattedPhone) {
       setError('请输入有效的手机号')
       return
@@ -316,11 +325,31 @@ export function AuthFlow({
   }
 
   const handleResetPassword = async () => {
-    setLoading(true)
     setError(null)
     setMessage(null)
 
     try {
+      if (!emailValue) {
+        throw new Error('请输入邮箱或手机号')
+      }
+
+      if (!isEmailIdentifier(emailValue)) {
+        const formattedRecoveryPhone = toE164(emailValue)
+        if (!formattedRecoveryPhone || formattedRecoveryPhone.replace(/\D/g, '').length < 11) {
+          throw new Error('请输入有效的手机号或邮箱')
+        }
+        setPhone(emailValue)
+        setMethod('phone')
+        setIsResetMode(false)
+        setEmailMode('sign_in')
+        setOtpStep('input')
+        setOtp('')
+        setPhoneRecoveryAfterOtp(true)
+        setMessage('请先完成短信验证。验证后设置新密码。')
+        return
+      }
+
+      setLoading(true)
       const result = ResetPasswordSchema.safeParse({ email: emailValue })
       if (!result.success) throw new Error(result.error.issues[0].message)
 
@@ -339,26 +368,46 @@ export function AuthFlow({
   }
 
   const handleEmailPasswordAuth = async () => {
-    if (mode === 'sign_up' && !requireRegistrationConsent()) return
+    if (emailMode === 'sign_up' && !requireConsent()) return
 
     setLoading(true)
     setError(null)
     setMessage(null)
 
     try {
-      const result = LoginSchema.safeParse({ email: emailValue, password })
-      if (!result.success) throw new Error(result.error.issues[0].message)
+      if (emailMode === 'sign_in') {
+        if (!emailValue) throw new Error('请输入手机号或邮箱')
+        if (!password || password.length < 6) throw new Error('密码长度至少需要 6 位。')
 
-      if (mode === 'sign_in') {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email: emailValue,
-          password,
-        })
+        const credentials = isEmailIdentifier(emailValue)
+          ? { email: emailValue, password }
+          : { phone: toE164(emailValue), password }
+
+        if ('phone' in credentials && !credentials.phone) {
+          throw new Error('请输入有效的手机号或邮箱')
+        }
+
+        const { error: signInError } = await supabase.auth.signInWithPassword(credentials)
 
         if (signInError) throw signInError
         completeSuccess()
         return
       }
+
+      if (!emailValue) throw new Error('请输入手机号或邮箱')
+
+      if (!isEmailIdentifier(emailValue)) {
+        const formattedSignUpPhone = toE164(emailValue)
+        if (!formattedSignUpPhone) throw new Error('请输入有效的手机号或邮箱')
+        setPhone(emailValue)
+        setOtp('')
+        setOtpStep('input')
+        await handleSendOtp(emailValue)
+        return
+      }
+
+      const result = LoginSchema.safeParse({ email: emailValue, password })
+      if (!result.success) throw new Error(result.error.issues[0].message)
 
       const username = `user_${Math.random().toString(36).slice(2, 10)}`
       const { error: signUpError } = await supabase.auth.signUp({
@@ -390,45 +439,10 @@ export function AuthFlow({
     }
   }
 
-  const handlePhonePasswordSignIn = async () => {
-    if (!formattedPhone) {
-      setError('请输入有效的手机号')
-      return
-    }
-    if (!password) {
-      setError('请输入密码')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setMessage(null)
-
-    try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        phone: formattedPhone,
-        password,
-      })
-
-      if (signInError) throw signInError
-      completeSuccess()
-    } catch (err: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('Phone password auth error:', err)
-      setError(getFriendlyErrorMessage(err))
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (mode === 'forgot_password') {
-      await handleResetPassword()
-      return
-    }
-
-    if (otpMode) {
+    if (isPhoneMethod) {
       if (otpStep === 'input') {
         await handleSendOtp()
       } else {
@@ -437,255 +451,122 @@ export function AuthFlow({
       return
     }
 
-    if (method === 'phone') {
-      await handlePhonePasswordSignIn()
+    if (isResetMode) {
+      await handleResetPassword()
       return
     }
 
     await handleEmailPasswordAuth()
   }
 
-  const switchMode = (nextMode: AuthMode) => {
-    const wasForgotPassword = mode === 'forgot_password'
-    setMode(nextMode)
-    if (nextMode === 'forgot_password') {
-      setMethod('email')
-    } else if (wasForgotPassword) {
-      setMethod(initialMethod)
-    }
-    setUsePhonePassword(false)
+  const switchEmailMode = (nextMode: 'sign_in' | 'sign_up') => {
+    setMethod('email')
+    setEmailMode(nextMode)
+    setIsResetMode(false)
     setError(null)
     setMessage(null)
+    setPhoneRecoveryAfterOtp(false)
   }
-
-  const switchMethod = (nextMethod: AuthMethod) => {
-    if (mode === 'forgot_password') return
-    setMethod(nextMethod)
-    setUsePhonePassword(false)
-    setError(null)
-    setMessage(null)
-  }
-
-  const renderFieldLabel = () => (method === 'phone' ? '手机号' : '邮箱')
-  const renderFieldValue = () => (method === 'phone' ? phone : email)
-  const renderFieldPlaceholder = () => (method === 'phone' ? '请输入手机号' : '请输入邮箱')
 
   return (
     <div className={cn(
-      'relative overflow-hidden',
+      'relative overflow-hidden border bg-card shadow-[0_24px_70px_-48px_hsl(var(--surface-shadow)/0.44)]',
       presentation === 'page'
-        ? 'surface-panel mx-auto w-full max-w-md lg:max-w-none'
-        : 'surface-panel rounded-t-[28px] border-b-0 md:rounded-[28px] md:border-b'
+        ? 'mx-auto w-full max-w-md rounded-[24px] lg:max-w-none'
+        : 'rounded-t-[28px] border-b-0 md:rounded-[28px] md:border-b'
     )}>
       <div className={cn(
-        'relative space-y-5',
+        'relative',
         presentation === 'page'
           ? 'p-4 sm:p-6'
           : 'max-h-[92dvh] overflow-y-auto px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] sm:p-6'
       )}>
-        <div className="space-y-4">
-          <button
-            type="button"
-            onClick={presentation === 'page' ? onBack : onClose}
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground/82 transition-colors hover:bg-muted"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            返回
-          </button>
+        <div className="space-y-5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-2">
+              <h1 id={titleId} className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {resolvedTitle}
+              </h1>
+              {resolvedDescription && (
+                <p id={descriptionId} className="max-w-[34rem] text-sm leading-6 text-muted-foreground">
+                  {resolvedDescription}
+                </p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <h1 id={titleId} className="font-heading text-3xl font-semibold tracking-tight text-foreground">
-              {resolvedTitle}
-            </h1>
-            {resolvedDescription && (
-              <p id={descriptionId} className="text-sm leading-6 text-muted-foreground">
-                {resolvedDescription}
-              </p>
-            )}
-          </div>
-
-          <div className="segmented-control grid w-full grid-cols-3 rounded-[20px]">
             <button
               type="button"
-              onClick={() => switchMode('sign_in')}
-              className={cn(
-                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
-                mode === 'sign_in'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
+              onClick={presentation === 'page' ? onBack : onClose}
+              className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-border bg-background px-3 text-sm font-medium text-foreground/82 transition-colors hover:bg-muted"
             >
-              登录
-            </button>
-            <button
-              type="button"
-              onClick={() => switchMode('sign_up')}
-              className={cn(
-                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
-                mode === 'sign_up'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              注册
-            </button>
-            <button
-              type="button"
-              onClick={() => switchMode('forgot_password')}
-              className={cn(
-                'rounded-[16px] px-3 py-2.5 text-sm font-medium transition-colors',
-                mode === 'forgot_password'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              找回密码
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">{presentation === 'page' ? '返回' : '关闭'}</span>
             </button>
           </div>
-        </div>
 
-        <div className="surface-subtle rounded-[24px] p-4 sm:p-5">
-          <div className="space-y-5">
-              {mode !== 'forgot_password' && (
-                <div className="grid grid-cols-2 gap-2 rounded-[22px] border border-border/60 bg-background/60 p-1">
-                  {methodOptions.map((option) => {
-                    const Icon = option.icon
+          {error && (
+            <div className="rounded-[18px] border border-destructive/25 bg-background p-4 text-destructive shadow-sm">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                <p className="text-sm leading-6">{error}</p>
+              </div>
+            </div>
+          )}
 
-                    return (
-                      <button
-                        key={option.key}
-                        type="button"
-                        disabled={option.disabled}
-                        onClick={() => switchMethod(option.key)}
-                        className={cn(
-                          'rounded-[18px] px-3 py-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50',
-                          method === option.key
-                            ? 'bg-foreground text-background shadow-sm'
-                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
-                        )}
-                      >
-                        <div className="flex items-center gap-2 text-sm font-semibold">
-                          <Icon className="h-4 w-4" />
-                          {option.label}
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
+          {message && (
+            <div className="rounded-[18px] border border-emerald-500/25 bg-background p-4 text-emerald-700 shadow-sm dark:text-emerald-300">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                <p className="text-sm leading-6">{message}</p>
+              </div>
+            </div>
+          )}
 
-              {error && (
-                <div className="rounded-[20px] border border-destructive/20 bg-destructive/10 p-4 text-destructive">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                    <p className="text-sm leading-6">{error}</p>
-                  </div>
-                </div>
-              )}
-
-              {message && (
-                <div className="rounded-[20px] border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-700">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-                    <p className="text-sm leading-6">{message}</p>
-                  </div>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4" aria-labelledby={titleId} aria-describedby={descriptionId}>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/86">{renderFieldLabel()}</label>
-                  <div className="relative">
-                    {method === 'phone' ? (
-                      <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    ) : (
-                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    )}
-                    <Input
-                      type={method === 'phone' ? 'tel' : 'email'}
-                      inputMode={method === 'phone' ? 'numeric' : 'email'}
-                      autoComplete={method === 'phone' ? 'tel-national' : 'email'}
-                      placeholder={renderFieldPlaceholder()}
-                      value={renderFieldValue()}
-                      onChange={(event) => {
-                        if (method === 'phone') {
-                          setPhone(event.target.value)
-                        } else {
-                          setEmail(event.target.value)
-                        }
-                      }}
-                      className="h-12 rounded-2xl border-border/70 bg-background/80 pl-10 text-[15px]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {showPhoneSignInToggle && (
+          <form onSubmit={handleSubmit} className="space-y-4" aria-labelledby={titleId} aria-describedby={descriptionId}>
+            {isPhoneMethod ? (
+              <>
+                {otpStep === 'input' ? (
                   <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/60 bg-background/60 p-1">
-                      <button
-                        type="button"
-                        onClick={() => setUsePhonePassword(false)}
-                        className={cn(
-                          'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
-                          !usePhonePassword
-                            ? 'bg-foreground text-background shadow-sm'
-                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
-                        )}
-                      >
-                        验证码
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setUsePhonePassword(true)}
-                        className={cn(
-                          'rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
-                          usePhonePassword
-                            ? 'bg-foreground text-background shadow-sm'
-                            : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
-                        )}
-                      >
-                        密码
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {showPasswordField && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-4">
-                      <label className="text-sm font-medium text-foreground/86">密码</label>
-                      {method === 'email' && mode === 'sign_in' && (
-                        <button
-                          type="button"
-                          onClick={() => switchMode('forgot_password')}
-                          className="text-xs font-medium text-primary hover:underline"
-                        >
-                          忘记密码
-                        </button>
-                      )}
-                    </div>
+                    <label htmlFor={`${presentation}-phone`} className="text-sm font-medium text-foreground/86">手机号</label>
                     <div className="relative">
-                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        type="password"
-                        placeholder="请输入至少 6 位密码"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        autoComplete={mode === 'sign_in' ? 'current-password' : 'new-password'}
-                        minLength={6}
-                        className="h-12 rounded-2xl border-border/70 bg-background/80 pl-10 text-[15px]"
+                        id={`${presentation}-phone`}
+                        type="tel"
+                        inputMode="numeric"
+                        autoComplete="tel-national"
+                        placeholder="请输入手机号"
+                        value={phone}
+                        onChange={(event) => setPhone(event.target.value)}
+                        className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
                         required
                       />
                     </div>
                   </div>
-                )}
+                ) : (
+                  <div className="rounded-[20px] border border-border/80 bg-background p-4 shadow-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">输入短信验证码</p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">已发送到 {phoneValue}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOtpStep('input')
+                          setOtp('')
+                          setMessage(null)
+                        }}
+                        className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                        修改
+                      </button>
+                    </div>
 
-                {showOtpField && (
-                  <div className="space-y-3 rounded-[22px] border border-border/60 bg-muted/30 p-4">
-                    <div className="space-y-2">
+                    <div className="mt-4 space-y-2">
                       <div className="flex items-center justify-between gap-3">
-                        <label className="text-sm font-medium text-foreground/86">短信验证码</label>
+                        <label htmlFor={`${presentation}-otp`} className="text-sm font-medium text-foreground/86">验证码</label>
                         <button
                           type="button"
                           onClick={handleSendOtp}
@@ -695,64 +576,189 @@ export function AuthFlow({
                           {otpCooldown > 0 ? `${otpCooldown}s 后重发` : '重新发送'}
                         </button>
                       </div>
-                      <div className="flex overflow-hidden rounded-2xl border border-input bg-background">
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          autoComplete="one-time-code"
-                          placeholder="请输入 6 位验证码"
-                          value={otp}
-                          onChange={(event) => setOtp(event.target.value.replace(/\D/g, ''))}
-                          className="h-12 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted-foreground/55"
-                          maxLength={6}
-                          required
-                        />
-                      </div>
+                      <Input
+                        id={`${presentation}-otp`}
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        placeholder="请输入 6 位验证码"
+                        value={otp}
+                        onChange={(event) => setOtp(event.target.value.replace(/\D/g, ''))}
+                        className="h-12 rounded-2xl border-border/80 bg-background text-[15px]"
+                        maxLength={6}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {!isResetMode && !isPhoneMethod && (
+                  <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/80 bg-muted p-1">
+                    <button
+                      type="button"
+                      onClick={() => switchEmailMode('sign_in')}
+                      className={cn(
+                        'rounded-[14px] px-3 py-2.5 text-sm font-medium transition-colors',
+                        emailMode === 'sign_in'
+                          ? 'bg-background text-foreground shadow-sm'
+                          : 'text-muted-foreground hover:text-foreground'
+                      )}
+                    >
+                      登录
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => switchEmailMode('sign_up')}
+                      className={cn(
+                        'rounded-[14px] px-3 py-2.5 text-sm font-medium transition-colors',
+                        emailMode === 'sign_up'
+                          ? 'bg-background text-foreground shadow-sm'
+                          : 'text-muted-foreground hover:text-foreground'
+                      )}
+                    >
+                      注册
+                    </button>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <label htmlFor={`${presentation}-email`} className="text-sm font-medium text-foreground/86">{passwordIdentifierLabel}</label>
+                  <div className="relative">
+                    {isEmailIdentifier(emailValue) ? (
+                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    ) : emailMode === 'sign_up' || isResetMode ? (
+                      <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    ) : (
+                      <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    )}
+                    <Input
+                      id={`${presentation}-email`}
+                      type="text"
+                      inputMode="text"
+                      autoComplete={emailMode === 'sign_up' ? 'email tel' : 'username'}
+                      placeholder={passwordIdentifierPlaceholder}
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {showPasswordField && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-4">
+                      <label htmlFor={`${presentation}-password`} className="text-sm font-medium text-foreground/86">密码</label>
+                      {emailMode === 'sign_in' && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsResetMode(true)
+                            setError(null)
+                            setMessage(null)
+                          }}
+                          className="text-xs font-medium text-primary hover:underline"
+                        >
+                          忘记密码
+                        </button>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id={`${presentation}-password`}
+                        type="password"
+                        placeholder="请输入至少 6 位密码"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        autoComplete={emailMode === 'sign_in' ? 'current-password' : 'new-password'}
+                        minLength={6}
+                        className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
+                        required
+                      />
                     </div>
                   </div>
                 )}
 
-                {mode === 'sign_up' && (
-                  <div
-                    className={cn(
-                      'flex items-start gap-3 rounded-[22px] border border-border/60 bg-muted/25 px-4 py-3',
-                      checkboxShake && 'animate-[shake_0.4s_ease-in-out]'
-                    )}
-                  >
-                    <Checkbox
-                      id={`${presentation}-terms`}
-                      checked={termsAgreed}
-                      onCheckedChange={(checked) => setTermsAgreed(checked === true)}
-                      className="mt-0.5"
-                    />
-                    <label htmlFor={`${presentation}-terms`} className="text-sm leading-6 text-muted-foreground">
-                      我已阅读并同意
-                      <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
-                      和
-                      <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
-                      ，并确认已年满 14 周岁，或已获得监护人同意使用本平台
-                    </label>
+                {emailMode === 'sign_up' && isSignUpPhoneIdentifier && !isResetMode && (
+                  <div className="flex items-start gap-2 rounded-[18px] border border-primary/20 bg-background px-4 py-3 text-xs leading-5 text-muted-foreground shadow-sm">
+                    <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    手机号注册免密码，验证码完成。
                   </div>
                 )}
 
-                <Button type="submit" className="h-12 w-full rounded-2xl text-base font-semibold" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      处理中...
-                    </>
-                  ) : mode === 'forgot_password' ? (
-                    '发送重置链接'
-                  ) : otpMode ? (
-                    otpStep === 'input' ? (mode === 'sign_up' ? '获取验证码' : '获取验证码') : (mode === 'sign_up' ? '确认注册' : '确认登录')
-                  ) : mode === 'sign_in' ? (
-                    '登录'
-                  ) : (
-                    '注册'
-                  )}
-                </Button>
-              </form>
-          </div>
+                {isResetMode && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsResetMode(false)
+                      setError(null)
+                      setMessage(null)
+                    }}
+                    className="text-sm font-medium text-primary hover:underline"
+                  >
+                    返回密码登录
+                  </button>
+                )}
+              </>
+            )}
+
+            {showConsent && (
+              <div className={cn(
+                'rounded-[18px] border px-4 py-3',
+                consentError
+                  ? 'border-destructive/30 bg-background'
+                  : 'border-border/80 bg-background'
+              )}>
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id={`${presentation}-terms`}
+                    checked={termsAgreed}
+                    onCheckedChange={(checked) => {
+                      setTermsAgreed(checked === true)
+                      if (checked === true) setConsentError(null)
+                    }}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor={`${presentation}-terms`} className="text-sm leading-6 text-muted-foreground">
+                    我已阅读并同意
+                    <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
+                    和
+                    <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
+                    ，并确认已年满 14 周岁，或已获得监护人同意使用本平台。
+                  </label>
+                </div>
+                {consentError && (
+                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-destructive">
+                    <AlertCircle className="h-3.5 w-3.5" />
+                    {consentError}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <Button type="submit" className="h-12 w-full rounded-2xl text-base font-semibold" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  处理中...
+                </>
+              ) : isPhoneMethod ? (
+                otpStep === 'input' ? '获取验证码' : '确认并继续'
+              ) : isResetMode ? (
+                '继续找回密码'
+              ) : emailMode === 'sign_in' ? (
+                '登录'
+              ) : isSignUpPhoneIdentifier ? (
+                '获取验证码'
+              ) : (
+                '注册'
+              )}
+            </Button>
+          </form>
+
         </div>
       </div>
     </div>

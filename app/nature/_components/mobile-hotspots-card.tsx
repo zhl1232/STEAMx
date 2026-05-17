@@ -19,6 +19,12 @@ const fallbackImages = [
   "/birds/images/alcedo-atthis.jpg",
 ];
 
+const hotspotRankColors = ["#eba93c", "#0f9a5a", "#2f80ed", "#8aa33e"];
+
+function getHotspotRankColor(index: number) {
+  return hotspotRankColors[index % hotspotRankColors.length];
+}
+
 function getHotspotImage(hotspot: ObservationHotspotSummary, index: number) {
   return hotspot.imageUrl || fallbackImages[index % fallbackImages.length];
 }
@@ -32,9 +38,9 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
           <MapPin className="h-5 w-5 shrink-0 text-[#16844b] dark:text-[#74d79a]" />
-          <h2 className="truncate text-[20px] font-bold leading-7 text-[#18251f] dark:text-[#eef8ef]">本地热点观察地</h2>
+          <h2 className="truncate text-[20px] font-bold leading-7 text-[#18251f] dark:text-[#eef8ef]">热点观察地</h2>
         </div>
-        <div className="grid h-9 shrink-0 grid-cols-2 rounded-full bg-[#eef7ef] p-1 dark:bg-[#172a1e]">
+        <div className="grid h-10 shrink-0 grid-cols-2 rounded-full bg-[#eef7ef] p-1 dark:bg-[#172a1e]">
           <button
             type="button"
             aria-pressed={view === "list"}
@@ -68,16 +74,18 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
         <div className="mt-4 space-y-3">
           {validHotspots.length > 0 ? (
             <DomesticMiniMap
-              markers={validHotspots.slice(0, 8).map((hotspot) => ({
+              markers={validHotspots.slice(0, 8).map((hotspot, index) => ({
                 latitude: hotspot.latitude as number,
                 longitude: hotspot.longitude as number,
                 label: hotspot.locationName,
                 observedAt: hotspot.latestObservedAt,
                 weight: hotspot.observationCount,
+                color: getHotspotRankColor(index),
+                imageUrl: hotspot.imageUrl,
+                summary: `这里累计 ${hotspot.observationCount.toLocaleString("zh-CN")} 条公开观察记录。`,
               }))}
               heightClassName="h-48"
               enableTimeDecay
-              enableDragInteractions={false}
             />
           ) : (
             <div className="flex min-h-48 items-center rounded-lg border border-dashed border-[#d7eadb] bg-[#eef8ef] px-4 text-sm leading-6 text-[#65736c] dark:border-[#31503c] dark:bg-[#15271c] dark:text-[#9fb1a6]">
@@ -90,24 +98,43 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
           </Link>
         </div>
       ) : (
-        <div className="mt-3 space-y-3">
-          {hotspots.slice(0, 4).map((hotspot, index) => (
-            <Link key={hotspot.locationName} href="/nature/map" className="flex min-h-11 items-center gap-3">
-              <div className="relative h-12 w-[72px] shrink-0 overflow-hidden rounded-lg bg-[#dbeee0] dark:bg-[#16251b]">
-                <Image src={getHotspotImage(hotspot, index)} alt="" fill className="object-cover dark:brightness-[.85]" sizes="72px" />
-                <span className="absolute left-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-[#6d7d32]/[0.86] text-[11px] font-bold text-white dark:bg-[#d18a22]/90">
+        <div className="mt-4 space-y-3">
+          {hotspots.slice(0, 3).map((hotspot, index) => (
+            <Link
+              key={hotspot.locationName}
+              href="/nature/map"
+              className="group block overflow-hidden rounded-lg bg-[#e8f1e9] shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
+            >
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <Image
+                  src={getHotspotImage(hotspot, index)}
+                  alt=""
+                  fill
+                  className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04] dark:brightness-[.82]"
+                  sizes="(max-width: 768px) calc(100vw - 64px), 360px"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,15,10,0.05)_0%,rgba(4,15,10,0.18)_42%,rgba(4,15,10,0.72)_100%)]" />
+                <span
+                  className="absolute left-3 top-3 grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-white shadow-[0_8px_18px_-12px_rgba(0,0,0,0.75)]"
+                  style={{ backgroundColor: getHotspotRankColor(index) }}
+                >
                   {index + 1}
                 </span>
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-bold text-[#24342c] dark:text-[#edf7ef]">{hotspot.locationName}</p>
-                <p className="text-xs leading-5 text-[#77867e] dark:text-[#9fb1a6]">公开记录 {hotspot.observationCount} 条</p>
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3 text-white">
+                  <div className="min-w-0">
+                    <p className="line-clamp-1 text-[15px] font-bold leading-5 [text-shadow:0_2px_8px_rgba(0,0,0,0.55)]">{hotspot.locationName}</p>
+                    <p className="mt-1 text-xs font-semibold text-white/82 [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">公开记录 {hotspot.observationCount} 条</p>
+                  </div>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 text-[#16844b] backdrop-blur transition-transform duration-300 motion-safe:group-hover:translate-x-1">
+                    <ChevronRight className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
           {hotspots.length === 0 ? (
             <div className="rounded-lg border border-dashed border-[#d7eadb] px-3 py-4 text-sm text-[#65736c] dark:border-[#31503c] dark:text-[#9fb1a6]">
-              暂无真实热点地点。
+              暂无热点地点。
             </div>
           ) : null}
         </div>

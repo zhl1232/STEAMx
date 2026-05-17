@@ -21,6 +21,39 @@ import { NotificationProvider } from '@/lib/context/notification-context'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
 
+const pageOwnedMobileHeaderRoots = [
+  '/profile',
+  '/messages',
+  '/users',
+  '/settings',
+  '/project',
+  '/shop',
+  '/coins',
+  '/nature',
+  '/legal',
+  '/share',
+  '/community/discussion',
+  '/community/challenge',
+  '/explore/species',
+  '/explore/observations',
+  '/leaderboard',
+  '/admin',
+  '/moderator',
+  '/playground',
+] as const
+
+function isPathOrDescendant(pathname: string, root: string) {
+  return pathname === root || pathname.startsWith(`${root}/`)
+}
+
+export function hasPageOwnedMobileHeader(pathname: string) {
+  return (
+    pathname === '/explore' ||
+    pathname === '/community' ||
+    pageOwnedMobileHeaderRoots.some((root) => isPathOrDescendant(pathname, root))
+  )
+}
+
 function AppProviders({
   children,
   includeGamification,
@@ -60,25 +93,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
     pathname.startsWith('/project/')
   const hideGlobalHeader = pathname.startsWith('/share')
-  const hideMobileGlobalHeader =
-    hideGlobalHeader ||
-    pathname === '/explore' ||
-    pathname.startsWith('/profile') ||
-    pathname === '/community' ||
-    pathname === '/messages' ||
-    pathname.startsWith('/messages/') ||
-    pathname.startsWith('/users/') ||
-    pathname.startsWith('/settings') ||
-    pathname === '/project' ||
-    pathname.startsWith('/project/') ||
-    pathname.startsWith('/shop') ||
-    pathname.startsWith('/coins') ||
-    pathname.startsWith('/nature') ||
-    pathname.startsWith('/legal/') ||
-    pathname.startsWith('/explore/species/') ||
-    pathname.startsWith('/explore/observations/') ||
-    pathname.startsWith('/community/discussion/') ||
-    pathname.startsWith('/community/challenge/')
+  const hideMobileGlobalHeader = hasPageOwnedMobileHeader(pathname)
   const showMobileGlobalHeader = !hideMobileGlobalHeader
   const isNatureRoute = pathname === '/nature' || pathname.startsWith('/nature/')
   const needsGamificationOnAnonymousNature =

@@ -1,5 +1,13 @@
-# .codex/config.toml
+model_provider = "freemodel"
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+disable_response_storage = true
+preferred_auth_method = "apikey"
 
-# 可选：如果你想在这个项目中指定具体的官方模型，可以在这里一并覆盖
-# model = "gpt-5.5"
-
+[model_providers.freemodel]
+name = "freemodel"
+# 【修改点 1】: 结尾加上 /v1 (大多数第三方代理都需要)
+base_url = "https://api.freemodel.dev/v1"
+wire_api = "responses"
+# 【修改点 2】: 明确在这里填入你的 API Key，防止 App 去读取默认的 OpenAI Key
+api_key = "fe_oa_dc2b5fad05205099af04c8893b3090a1a46937b5bdf7e0f9"

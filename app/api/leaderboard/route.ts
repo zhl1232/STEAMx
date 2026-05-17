@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getMonthStartISO, getWeekStartISO } from '@/lib/date-utils'
 import { logger } from '@/lib/logger'
 
-type LeaderboardType = 'xp' | 'badges' | 'projects'
+type LeaderboardType = 'xp' | 'badges' | 'projects' | 'observations'
 type XpTimeRange = 'weekly' | 'monthly' | 'alltime'
 
 type LeaderboardUser = {
@@ -21,7 +21,7 @@ type LeaderboardUser = {
 const DEFAULT_LIMIT = 20
 
 function parseLeaderboardType(value: string | null): LeaderboardType {
-  if (value === 'badges' || value === 'projects' || value === 'xp') return value
+  if (value === 'badges' || value === 'projects' || value === 'observations' || value === 'xp') return value
   return 'xp'
 }
 
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
         value: Number(row.badge_count || 0),
         avatar: row.avatar_url,
       }))
-    } else {
+    } else if (type === 'projects') {
       const { data, error } = await supabase.rpc('get_project_leaderboard', { limit_count: limit } as never)
       if (error) throw error
       const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number; project_count: number }[]) || []
@@ -117,6 +117,18 @@ export async function GET(request: NextRequest) {
         xp: row.xp || 0,
         level: computeLevel(row.xp || 0),
         value: Number(row.project_count || 0),
+        avatar: row.avatar_url,
+      }))
+    } else {
+      const { data, error } = await supabase.rpc('get_observation_leaderboard', { limit_count: limit } as never)
+      if (error) throw error
+      const rows = (data as { id: string; display_name: string | null; avatar_url: string | null; xp: number; observation_count: number }[]) || []
+      users = rows.map((row) => ({
+        id: row.id,
+        name: row.display_name || '鍖垮悕鐢ㄦ埛',
+        xp: row.xp || 0,
+        level: computeLevel(row.xp || 0),
+        value: Number(row.observation_count || 0),
         avatar: row.avatar_url,
       }))
     }
