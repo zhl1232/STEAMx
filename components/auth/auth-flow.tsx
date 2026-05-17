@@ -569,7 +569,7 @@ export function AuthFlow({
                         <label htmlFor={`${presentation}-otp`} className="text-sm font-medium text-foreground/86">验证码</label>
                         <button
                           type="button"
-                          onClick={handleSendOtp}
+                          onClick={() => handleSendOtp()}
                           disabled={otpCooldown > 0 || loading}
                           className="text-xs font-medium text-primary disabled:text-muted-foreground"
                         >
