@@ -14,7 +14,7 @@ describe('getOptimizedImageSrc', () => {
       'https://example.supabase.co/storage/v1/object/public/project-completions/user/file.png'
 
     expect(getOptimizedImageSrc(src, 'grid')).toBe(
-      'https://example.supabase.co/storage/v1/render/image/public/project-completions/user/file.png?width=320&quality=55',
+      'https://example.supabase.co/storage/v1/render/image/public/project-completions/user/file.png?width=320&quality=60',
     )
   })
 })

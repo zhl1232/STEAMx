@@ -36,7 +36,7 @@ export function DifficultyStars({
     // 确保星级在 1-6 范围内
     const validStars = Math.max(1, Math.min(6, stars))
     const isLegendary = validStars === 6
-    const filledClass = tone === "white" ? "text-white" : "text-yellow-500"
+    const filledClass = tone === "white" ? "text-yellow-400" : "text-yellow-500"
     const emptyClass = tone === "white" ? "text-white/40" : "text-gray-300 dark:text-gray-600"
 
     if (isLegendary) {

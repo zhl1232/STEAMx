@@ -1,12 +1,11 @@
 'use client'
 
-import { Suspense } from 'react'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 
 import { BottomNav } from '@/components/layout/bottom-nav'
-import { HeaderSearch } from '@/components/layout/header-search'
 import { MainNav } from '@/components/layout/main-nav'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { NotificationBell } from '@/components/layout/notification-bell'
@@ -137,11 +136,6 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
               <MainNav />
             </div>
             <div className="flex min-h-9 flex-1 items-center justify-end gap-2">
-              <div className="flex items-center">
-                <Suspense fallback={<div className="h-9 w-[200px]" />}>
-                  <HeaderSearch />
-                </Suspense>
-              </div>
               <nav className="flex shrink-0 items-center gap-2">
                 <ThemeToggle />
                 <ShareButton />
