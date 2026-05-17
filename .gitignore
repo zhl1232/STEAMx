@@ -52,3 +52,6 @@ docs/online_projects_review.md
 # local design references / mockup exports
 docs/ui-gpt-designs/
 docs/ui-design-mockups/
+
+# supabase CLI cache
+supabase/.temp/

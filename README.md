@@ -4,12 +4,7 @@
 
 ## 🎯 项目简介
 
-STEAM 探索 是一个基于项目学习（PBL）的互动平台，帮助用户：
-- 🔍 探索各种有趣的STEAM项目
-- 📝 分享自己的创意和作品
-- 💬 与其他小伙伴交流讨论
-- 🏆 通过完成项目获得成就徽章
-- 🎮 参与挑战和社区活动
+STEAM 探索 是一个面向 6-16 岁青少年的互动学习社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和自然观察，通过项目式学习（PBL）驱动成长。
 
 ## 🚀 技术栈
 
@@ -22,33 +17,34 @@ STEAM 探索 是一个基于项目学习（PBL）的互动平台，帮助用户�
 
 ## ✨ 主要功能
 
-### 用户系统
-- ✅ 用户注册与登录（Supabase Auth）
-- ✅ 个人资料管理（头像、用户名、简介）
-- ✅ 角色权限系统（用户、审核员、管理员）
+- **项目系统** — 浏览、搜索、分类筛选、项目详情（步骤/材料）、点赞/收藏、评论
+- **自然观察** — 鸟类与植物物种库、野外观察记录提交、AI 物种识别、地图标注
+- **益智游乐场** — 10 个互动游戏（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序可视化/电路/生命游戏）
+- **社区** — 讨论区、PBL 双轨挑战系统（限时竞赛 + 长期学习）、多维评价
+- **游戏化** — XP 经验值/等级、112 枚徽章、STEAM 能力雷达图、排行榜
+- **金币经济** — 每日签到获取、打赏创作者、积分商店（头像框/名字颜色/主题）
+- **社交** — 关注、私信、弹幕
+- **用户系统** — 手机号短信登录、个人主页、成长任务、学习打卡
+- **管理后台** — 项目审核、挑战管理、举报处理、审核员系统
 
-### 项目管理
-- ✅ 浏览和搜索项目
-- ✅ 按分类筛选（科学、技术、工程、艺术、数学）
-- ✅ 项目详情页（材料清单、制作步骤）
-- ✅ 点赞和收藏功能
-- ✅ 评论系统
+## 📁 项目结构
 
-### 社区功能
-- ✅ 讨论区（发帖、回复）
-- ✅ 挑战系统
-- ✅ 社区互动
+> 详细的模块索引与文件定位见 [PROJECT_INDEX.md](./PROJECT_INDEX.md)
 
-### 游戏化系统
-- ✅ 经验值（XP）系统
-- ✅ 成就徽章解锁
-- ✅ 完成项目追踪
-
-### 管理功能
-- ✅ 项目审核系统
-- ✅ 标签管理
-- ✅ 评论管理
-- ✅ 管理员控制台
+```
+steam-explore-share/
+├── app/                    # App Router 页面与 API 路由
+├── components/             # UI 基础组件与业务组件
+├── hooks/                  # 自定义 Hooks（游乐场/游戏化/通用）
+├── lib/                    # 核心库（Supabase/Context/API/Config/工具）
+├── supabase/               # 数据库迁移与种子数据
+├── scripts/                # 数据脚本（图片抓取/压缩/DB推送）
+├── deploy/                 # Docker/Nginx 部署配置
+├── docs/                   # 设计文档
+├── __tests__/              # 单元测试
+├── e2e/                    # Playwright E2E 测试
+└── public/                 # 静态资源（图片/图标/头像）
+```
 
 ## 📦 快速开始
 
@@ -61,53 +57,26 @@ STEAM 探索 是一个基于项目学习（PBL）的互动平台，帮助用户�
 ### 安装
 
 ```bash
-# 克隆仓库
-git clone <repository-url>
-cd steam-explore-share
-
-# 安装依赖
 pnpm install
-
-# 配置环境变量
 cp .env.example .env.local
-# 编辑 .env.local 填入你的 Supabase 配置
+# 编辑 .env.local 填入 Supabase 配置
 ```
 
 ### 配置 Supabase
 
 1. 在 [Supabase](https://supabase.com) 创建新项目
-2. 获取项目的 API URL 和 anon key
-3. 在 `.env.local` 中配置：
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your-project-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-如需先把 `.env.local` 导入当前 shell，再执行 CLI，可用：
+2. 在 `.env.local` 中配置 `NEXT_PUBLIC_SUPABASE_URL` 和 `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+3. 运行数据库迁移：
 
 ```bash
-set -a && source .env.local && set +a && pnpm exec supabase db push
-```
-4. 运行数据库迁移：
+# 使用自定义推送工具
+set -a && source .env.local && set +a && pnpm db:push
 
-```bash
-# 按顺序执行 supabase/migrations/ 目录下的迁移文件
-# 或者使用 Supabase CLI:
+# 或使用 Supabase CLI
 supabase db push
 ```
 
-5. （可选）导入种子数据：
-
-```bash
-# 在 Supabase SQL 编辑器中运行
-# seed_data.sql 文件
-```
-
-6. **测试环境数据一致性**：种子数据已包含在 **migrations** 中（见 `supabase/migrations/20260130000001_seed_init.sql` 等）；在远程/自建 Supabase 上应用这些 migration 后即可得到一致初始数据。测试账号与说明见 **supabase/seed.sql** 顶部注释。若使用阿里云 AnalyticDB（不支持 Supabase CLI），执行 migration 或「重置」方式见 [docs/database-psql.md](./docs/database-psql.md)。
-
-数据库迁移与特殊环境说明请参考：
-- [docs/database-psql.md](./docs/database-psql.md) - 阿里云 AnalyticDB 版：使用 psql 直连（不支持 Supabase CLI 时的迁移与重置）
+> 若使用阿里云 AnalyticDB（不支持 Supabase CLI），参考 [docs/database-psql.md](./docs/database-psql.md)
 
 ### 启动开发服务器
 
@@ -115,130 +84,35 @@ supabase db push
 pnpm dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000) 查看应用。
-
-### 构建生产版本
-
-```bash
-pnpm build
-pnpm start
-```
-
-## 📁 项目结构
-
-```
-steam-explore-share/
-├── app/                    # App Router 页面、路由处理与 route layouts
-├── components/             # UI 基础组件与业务组件
-├── context/                # 客户端状态与跨页上下文
-├── hooks/                  # 自定义 hooks
-├── lib/                    # Supabase、mapper、schema、工具函数
-├── supabase/               # 迁移、seed、脚本
-├── docs/                   # 部署与历史文档
-└── e2e/                    # Playwright 核心路径测试
-```
-
-## 🗄️ 数据库架构
-
-主要数据表：
-- `profiles` - 用户资料
-- `projects` - 项目信息
-- `project_steps` - 项目步骤
-- `project_materials` - 项目材料
-- `comments` - 评论
-- `likes` - 点赞记录
-- `completed_projects` - 完成记录
-- `discussions` - 讨论
-- `challenges` - 挑战
-- `badges` - 徽章定义
-- `user_badges` - 用户徽章
-- `tags` - 标签系统
-
-完整结构以 `supabase/migrations/` 与生成类型 `lib/supabase/types.ts` 为准。
+访问 [http://localhost:3000](http://localhost:3000)
 
 ## 🔒 权限系统
 
-### 用户角色
-- **user** (普通用户): 可以浏览、点赞、评论、创建项目
-- **moderator** (审核员): 可以审核项目、管理评论、管理标签
-- **admin** (管理员): 拥有所有权限
-
-### 项目状态
-- **draft** (草稿): 作者私有
-- **pending** (待审核): 提交审核中
-- **approved** (已批准): 公开展示
-- **rejected** (已拒绝): 需要修改
-
-## 🎨 组件库
-
-使用 [shadcn/ui](https://ui.shadcn.com/) 构建的组件系统，包括：
-- Button, Input, Textarea
-- Dialog, Dropdown Menu, Tabs
-- Avatar, Badge, Progress
-- Toast notifications
-- 等等...
-
-## 📝 开发规范
-
-### Git 提交规范
-
-本项目使用 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
-
-```
-feat: 添加新功能
-fix: 修复问题
-docs: 文档更新
-style: 代码格式调整
-refactor: 重构代码
-test: 测试相关
-chore: 其他修改
-```
-
-Husky 会在提交时自动检查提交信息格式。
-
-### 代码风格
-
-- 使用 TypeScript 进行类型检查
-- 使用 ESLint 进行代码检查
-- 组件使用函数式组件 + Hooks
-- 样式使用 Tailwind CSS
-
-## 🚧 开发路线图
-
-查看 [docs/NEXT_STEPS.md](./docs/NEXT_STEPS.md) 了解后续开发计划。
+| 角色 | 权限 |
+|------|------|
+| **user** | 浏览、点赞、评论、创建项目、提交观察 |
+| **moderator** | 审核项目、管理评论、管理标签 |
+| **admin** | 所有权限 + 管理后台 |
 
 ## ☁️ 部署
 
-- **生产发布**：当前以 Docker 部署为准，GitHub Actions 会执行 [`.github/workflows/release.yml`](./.github/workflows/release.yml)，构建镜像后通过 SSH 发布到服务器。
-- **CI 校验**：当前使用 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)，执行 ESLint、TypeScript、Vitest、Next build 和 Playwright smoke。
-- **Cloudflare（应用托管）**：当前未接入 OpenNext Cloudflare / Wrangler 发布链路；生产以 Docker 为准。部分 API（如依赖本机 `ffmpeg`、`/tmp` 的上传处理）按 Node 运行时设计，不宜直接迁到 Workers。
+- **生产发布**：Docker 部署，GitHub Actions 构建镜像后通过 SSH 发布到服务器
+- **CI**：ESLint、TypeScript、Vitest、Next build、Playwright smoke
+
+## 📝 开发规范
+
+- [Conventional Commits](https://www.conventionalcommits.org/) 提交规范（Husky 自动检查）
+- TypeScript 严格模式
+- ESLint 代码检查
 
 ## 📚 相关文档
 
-- [docs/database-psql.md](./docs/database-psql.md) - psql 迁移与重置说明
-
-## 🤝 贡献
-
-欢迎贡献！请遵循以下步骤：
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'feat: add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+- [PROJECT_INDEX.md](./PROJECT_INDEX.md) — 完整功能索引与代码定位
+- [docs/database-psql.md](./docs/database-psql.md) — psql 迁移与重置说明
+- [docs/custom-sms-and-manual-users.md](./docs/custom-sms-and-manual-users.md) — 自建短信登录方案
+- [docs/PBL_CHALLENGE_SYSTEM.md](./docs/PBL_CHALLENGE_SYSTEM.md) — PBL 挑战系统设计
+- [docs/PBL_CHALLENGE_CONTENT_MODEL.md](./docs/PBL_CHALLENGE_CONTENT_MODEL.md) — PBL 内容模型
 
 ## 📄 许可证
 
 [MIT License](LICENSE)
-
-## 🙏 致谢
-
-- [Next.js](https://nextjs.org/)
-- [Supabase](https://supabase.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Lucide Icons](https://lucide.dev/)
-
----
-
-**让我们一起在 STEAM 探索 中做中学！** 🚀✨

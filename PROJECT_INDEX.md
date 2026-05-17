@@ -1,0 +1,312 @@
+# STEAM 探索 — 项目功能索引
+
+> 本文档为 AI 阅读代码时的导航索引。按功能模块组织，标注每个模块的职责与关键文件位置。
+
+---
+
+## 1. 页面路由 (`app/`)
+
+| 路由 | 入口文件 | 功能说明 |
+|------|----------|----------|
+| `/` | `app/page.tsx` | 首页 — 推荐项目轮播、社区动态 Feed、STEAM 分类磁贴入口 |
+| `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
+| `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
+| `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/植物物种浏览、观察统计；子路由 `birds/`、`trees/`、`species/`、`observations/`、`submit/`、`map/` |
+| `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
+| `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
+| `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
+| `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
+| `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
+| `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
+| `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品 |
+| `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
+| `/messages` | `app/messages/page.tsx` | 私信 — 会话列表、聊天详情；子路由 `[userId]/` |
+| `/share` | `app/share/page.tsx` | 分享/创建项目页 |
+| `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
+| `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、挑战管理；子路由 `projects/`、`moderator-applications/` |
+| `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
+| `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款） |
+| `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
+| `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
+| `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（CLI 指引） |
+
+### 全局文件
+- `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
+- `app/globals.css` — 全局样式与 CSS 变量
+- `app/template.tsx` — 页面过渡模板
+- `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
+- `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
+
+---
+
+## 2. API 路由 (`app/api/`)
+
+25 个 API 模块，每个目录下含 `route.ts`：
+
+| 模块 | 路径 | 功能 |
+|------|------|------|
+| admin | `api/admin/` | 项目审核、标签管理、举报处理、审核员申请审批、挑战 CRUD |
+| auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
+| challenges | `api/challenges/` | 挑战列表与评分 |
+| comments | `api/comments/` | 项目评论 CRUD、点赞 |
+| completions | `api/completions/` | 完成记录、评论、点赞、审核 |
+| discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
+| follows | `api/follows/` | 关注/取关、关注状态查询 |
+| geo | `api/geo/` | 反向地理编码 |
+| home | `api/home/` | 首页推荐数据 |
+| leaderboard | `api/leaderboard/` | 排行榜数据 |
+| messages | `api/messages/` | 私信发送、会话列表、消息线程 |
+| moderator | `api/moderator/` | 审核员资格检查、申请 |
+| notifications | `api/notifications/` | 通知列表、标记已读、未读计数 |
+| observations | `api/observations/` | 自然观察 CRUD、审核 |
+| profile | `api/profile/` | 个人资料摘要、成长任务、学习打卡 |
+| projects | `api/projects/` | 项目 CRUD、编辑 |
+| replies | `api/replies/` | 回复 CRUD |
+| reports | `api/reports/` | 举报提交 |
+| settings | `api/settings/` | 用户设置更新 |
+| species | `api/species/` | 物种查询 |
+| tips | `api/tips/` | 打赏 |
+| upload | `api/upload/` | 图片上传（Supabase Storage） |
+| upload-video | `api/upload-video/` | 视频上传 |
+| users | `api/users/` | 用户公开信息查询 |
+| xp | `api/xp/` | 经验值增减 |
+
+---
+
+## 3. 组件 (`components/`)
+
+### 3.1 基础 UI (`components/ui/`) — 39 个组件
+基于 shadcn/ui + Radix UI 的基础组件库：
+`alert` · `avatar` · `avatar-with-frame` · `badge` · `button` · `card` · `checkbox` · `countdown-timer` · `dialog` · `difficulty-stars` · `dropdown-menu` · `filter-chip` · `image-upload` · `input` · `label` · `leaderboard-skeleton` · `loading-skeleton` · `mobile-page-header` · `optimized-image` · `page-status` · `progress` · `radio-group` · `report-dialog` · `role-badge` · `scroll-area` · `search-highlight` · `select` · `separator` · `sheet` · `skeleton` · `slider` · `surface` · `table` · `tabs` · `textarea` · `toast` · `toaster` · `tone-badge`
+
+### 3.2 布局 (`components/layout/`) — 13 个组件
+- `conditional-app-shell.tsx` — 根据路由条件渲染 Header/BottomNav/Sidebar
+- `bottom-nav.tsx` — 移动端底部导航
+- `main-nav.tsx` — 桌面端顶部导航
+- `mobile-global-header.tsx` — 移动端全局头部
+- `header-search.tsx` — 头部搜索栏
+- `user-button.tsx` — 用户头像菜单
+- `notification-bell.tsx` — 通知铃铛
+- `share-button.tsx` — 分享按钮
+- `login-dialog.tsx` — 登录引导弹窗
+- `logo.tsx` — 品牌 Logo
+- `theme-provider.tsx` / `theme-toggle.tsx` — 主题切换
+- `error-boundary.tsx` — 错误边界
+
+### 3.3 首页 (`components/home/`)
+- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、推荐流、社区动态
+- `recommendation-panel.tsx` — 推荐项目面板
+
+### 3.4 业务功能 (`components/features/`)
+
+| 子目录 | 文件数 | 职责 |
+|--------|--------|------|
+| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、评论区 |
+| `challenge/` | 5 | 挑战提交表单、PBL 信息、评分星级、阶段指南、提交作品画廊 |
+| `community/` | 1 | 讨论列表（含搜索、排序、分页） |
+| `gamification/` | 9 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、观察游戏化同步 |
+| `moderator/` | 2 | 审核员申请表单 |
+| `playground/` | 1 | 键盘帮助弹窗 |
+| `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
+| `social/` | 2 | 关注按钮 |
+| `shared/` | 2 | 通用评论卡片、底部回复框 |
+| `profile/` | 15 | 头像上传、编辑资料弹窗、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
+
+### 3.5 管理后台 (`components/admin/`) — 7 个组件
+项目审核卡片、挑战管理、完成审核、审核员申请列表、举报列表、全部项目管理
+
+### 3.6 认证 (`components/auth/`)
+- `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
+
+### 3.7 个人资料 (`components/profile/`) — 8 个组件
+移动端个人主页、资料头部、作品库、点赞列表、时间线、用户列表、项目列表
+
+### 3.8 其他
+- `components/providers/query-provider.tsx` — TanStack Query Provider
+- `components/icons/coin-icon.tsx` — 金币图标
+
+---
+
+## 4. 核心库 (`lib/`)
+
+### 4.1 Supabase (`lib/supabase/`)
+- `client.ts` — 浏览器端 Supabase 客户端
+- `server.ts` — 服务端 Supabase 客户端（含 Cookie 处理）
+- `admin.ts` — Service Role 管理客户端
+- `rpc.ts` — RPC 调用封装
+- `env.ts` — 环境变量读取
+- `types.ts` — 数据库类型定义（自动生成）
+
+### 4.2 上下文 (`lib/context/`)
+- `auth-context.tsx` — 认证状态（用户、角色、登录/登出）
+- `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
+- `community-context.tsx` — 社区操作（讨论、回复、点赞）
+- `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
+- `notification-context.tsx` — 通知（获取、标记已读、未读计数）
+- `login-prompt-context.tsx` — 未登录操作引导弹窗
+
+### 4.3 API 服务层 (`lib/api/`) — 24 个模块
+服务端 API 的核心业务逻辑，被 `app/api/` 路由调用：
+- `auth.ts` / `auth-rate-limit.ts` — 认证与频率限制
+- `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
+- `categories.ts` — 分类与子分类
+- `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
+- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核）
+- `observation-gamification.ts` — 观察游戏化逻辑
+- `project-access.ts` / `project-validation.ts` — 项目权限与校验
+- `completion-access.ts` — 完成记录权限
+- `validation.ts` — 通用输入验证
+- `upstream-errors.ts` / `rate-limit.ts` — 错误处理与限流
+- `types.ts` — API 层类型
+
+### 4.4 配置 (`lib/config/`)
+- `categories.ts` — STEAM 五大分类定义与图标
+- `category-images.ts` — 分类封面图路径
+- `nature-topics.ts` — 自然主题（鸟类、植物等）
+- `project-steam-weights.ts` — 项目 STEAM 能力权重计算
+- `subcategory-steam-weights.ts` — 子分类权重映射
+
+### 4.5 游戏化 (`lib/gamification/`)
+- `badges.ts` — 全部徽章定义（独立/阶梯/系列）
+- `experience-rules.ts` — XP 经验规则与等级表
+- `observation-events.ts` — 观察事件类型
+- `types.ts` — 游戏化类型定义
+
+### 4.6 SEO (`lib/seo/`)
+- `metadata.ts` — 页面元数据构建工具 `buildPageMetadata()`
+- `site.ts` — 站点基础配置（名称、URL、描述）
+
+### 4.7 首页 (`lib/home/`)
+- `recommendations.ts` — 首页推荐算法（热门/随机/分类）
+- `community-feed.ts` — 社区动态 Feed 数据
+- `category-tiles.ts` — 分类磁贴数据
+
+### 4.8 个人资料 (`lib/profile/`)
+- `timeline.ts` — 用户活动时间线
+- `growth-tasks.ts` — 新手成长任务系统
+- `steam-radar.ts` — STEAM 能力雷达图数据
+- `study-checkin.ts` — 学习打卡逻辑
+- `settings.ts` — 设置项读写
+- `avatar-options.ts` — 默认头像选项
+
+### 4.9 其他模块
+| 模块 | 文件 | 职责 |
+|------|------|------|
+| `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射 |
+| `lib/shop/` | `items.ts` | 商店物品定义与价格 |
+| `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts` | 通义千问视觉 AI 物种识别 |
+| `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
+| `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
+| `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
+| `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
+| `lib/playground/` | `catalog.ts`, `storage.ts` | 游戏目录、本地/云端成绩存储 |
+| `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
+| `lib/auth/` | `server.ts` | 服务端认证辅助 |
+| `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
+
+### 4.10 根级工具文件
+- `lib/schemas.ts` — Zod 验证 Schema（项目、评论、讨论等）
+- `lib/logger.ts` — 结构化日志工具
+- `lib/rate-limit.ts` — 内存速率限制器
+- `lib/utils.ts` — `cn()` 样式合并工具
+- `lib/date-utils.ts` — 日期格式化
+- `lib/subcategories.ts` — 子分类定义
+- `lib/reverse-geocode.ts` — 反向地理编码
+- `lib/comment-image.ts` — 评论图片处理
+- `lib/completion-records.ts` — 完成记录查询
+- `lib/home-featured-slides.ts` — 首页轮播配置
+
+---
+
+## 5. Hooks (`hooks/`)
+
+| Hook | 文件 | 功能 |
+|------|------|------|
+| `use-danmaku` | `hooks/use-danmaku.ts` | 弹幕系统 |
+| `use-follow` | `hooks/use-follow.ts` | 关注/取关逻辑 |
+| `use-messages` | `hooks/use-messages.ts` | 私信会话与消息 |
+| `use-moderator-eligibility` | `hooks/use-moderator-eligibility.ts` | 审核员资格检查 |
+| `use-observation-interactions` | `hooks/use-observation-interactions.ts` | 观察记录互动（点赞等） |
+| `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
+| `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
+| `use-profile-observations` | `hooks/profile/` | 个人观察记录 |
+| `use-2048` 等 | `hooks/playground/` | 19 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序/电路/生命游戏） |
+
+---
+
+## 6. 数据库 (`supabase/`)
+
+- `supabase/migrations/` — **135 个**迁移文件（含 schema、RLS、RPC、种子数据）
+- `supabase/seed.sql` — 种子数据入口
+- `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
+
+### 核心数据表
+`profiles` · `projects` · `project_steps` · `project_materials` · `comments` · `likes` · `completed_projects` · `discussions` · `discussion_replies` · `challenges` · `challenge_submissions` · `badges` · `user_badges` · `tags` · `follows` · `messages` · `notifications` · `reports` · `nature_observations` · `nature_observation_events` · `species` · `shop_items` · `coin_logs` · `xp_logs` · `playground_stats`
+
+完整类型定义：`lib/supabase/types.ts`
+
+---
+
+## 7. 脚本 (`scripts/`)
+
+| 脚本 | 功能 |
+|------|------|
+| `db-push.mjs` | 数据库迁移推送工具（push/status/baseline） |
+| `compress-project-images.mjs` | 项目图片 WebP 压缩 |
+| `fetch-bird-media-from-wikimedia.mjs` | 从 Wikimedia 抓取鸟类图片 |
+| `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
+| `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
+
+---
+
+## 8. 测试
+
+- `__tests__/` — **49 个** API 路由单元测试 + 组件测试
+- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）+ 集成测试
+- 各目录内 `*.test.ts(x)` — 就近放置的单元测试
+- `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置
+- `playwright.config.ts` / `playwright.integration.config.ts` — Playwright 配置
+
+---
+
+## 9. 部署与 CI
+
+- `deploy/docker-compose.yml` — Docker 部署编排
+- `deploy/nginx.conf` — Nginx 反向代理配置
+- `deploy/server-init.sh` — 服务器初始化脚本
+- `Dockerfile` — 生产镜像构建
+- `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright
+- `.github/workflows/release.yml` — Release：构建 Docker 镜像 + SSH 部署
+
+---
+
+## 10. 配置文件
+
+| 文件 | 用途 |
+|------|------|
+| `package.json` | 依赖与脚本 |
+| `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理 |
+| `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
+| `next.config.mjs` | Next.js 配置（图片域名、输出模式等） |
+| `tailwind.config.ts` | Tailwind CSS 配置（自定义主题） |
+| `postcss.config.js` | PostCSS 配置 |
+| `eslint.config.mjs` | ESLint 配置 |
+| `commitlint.config.js` | Git 提交信息规范 |
+| `components.json` | shadcn/ui 组件配置 |
+| `renovate.json` | Renovate 自动依赖更新 |
+| `.env.example` | 环境变量模板 |
+| `.impeccable.md` | 设计上下文（用户画像、品牌调性、设计原则） |
+
+---
+
+## 11. 静态资源 (`public/`)
+
+| 目录 | 内容 |
+|------|------|
+| `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
+| `public/avatars/` | 12 个默认头像 SVG |
+| `public/birds/` | 鸟类物种封面图 |
+| `public/trees/` | 树木物种封面图 |
+| `public/projects/` | 项目封面图、步骤图（WebP） |
+| `public/icon*.png` | PWA 图标 |
