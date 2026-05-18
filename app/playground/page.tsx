@@ -939,14 +939,14 @@ function RecommendationPanel({ games }: { games: GameCard[] }) {
 
 function BadgePanel() {
     const badges = [
-        { icon: "trophy", label: "初来乍到", tier: "gold" as const },
-        { icon: "bomb", label: "扫雷达人", tier: "silver" as const },
-        { icon: "grid_nine", label: "五子棋手", tier: "bronze" as const },
-        { icon: "dna", label: "生命观察者", tier: "platinum" as const },
-        { icon: "calculator", label: "天才计算器", tier: "silver" as const },
-        { icon: "layers", label: "汉诺大师", tier: "gold" as const },
-        { icon: "bar_chart_3", label: "排序专家", tier: "silver" as const },
-        { icon: "circuitry", label: "电路学徒", tier: "platinum" as const },
+        { icon: "trophy", label: "初来乍到", tier: "gold" as const, seriesKey: "milestone" },
+        { icon: "bomb", label: "扫雷达人", tier: "silver" as const, seriesKey: "minesweeper" },
+        { icon: "grid_nine", label: "五子棋手", tier: "bronze" as const, seriesKey: "gomoku" },
+        { icon: "dna", label: "生命观察者", tier: "platinum" as const, seriesKey: "life" },
+        { icon: "calculator", label: "天才计算器", tier: "silver" as const, seriesKey: "game24" },
+        { icon: "layers", label: "汉诺大师", tier: "gold" as const, seriesKey: "hanoi" },
+        { icon: "target", label: "约束专家", tier: "silver" as const, seriesKey: "sudoku" },
+        { icon: "circuitry", label: "电路学徒", tier: "platinum" as const, seriesKey: "circuit" },
     ]
 
     return (
@@ -964,7 +964,7 @@ function BadgePanel() {
                 {badges.map((badge) => (
                     <div key={badge.label} className="text-center">
                         <div className="group mx-auto w-fit">
-                            <BadgeIcon icon={badge.icon} tier={badge.tier} size="sm" showGlow />
+                            <BadgeIcon icon={badge.icon} tier={badge.tier} seriesKey={badge.seriesKey} size="sm" showGlow />
                         </div>
                         <p className="mt-1 line-clamp-1 text-[10px] font-bold text-muted-foreground">{badge.label}</p>
                     </div>

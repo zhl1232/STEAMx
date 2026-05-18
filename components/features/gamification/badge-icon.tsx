@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { BadgeTier } from "@/lib/gamification/types";
 import { cn } from "@/lib/utils";
 import { PREMIUM_ICONS_MAP } from "./premium-icons";
+import { getBadgeSeriesImage } from "./badge-series-images";
 
 export type BadgeIconKey =
   | "atom" | "binary" | "bird" | "blueprint" | "bookmark" | "bomb" | "broom"
@@ -539,15 +541,44 @@ const SHAPE_MAP: Record<string, React.FC<{uid: string}>> = {
   platinum: PlatinumShape
 };
 
-export function BadgeIcon({ icon, tier = "bronze", seriesKey, className, size = "md", showGlow = true, locked = false }: BadgeIconProps) {
+export function BadgeIcon({ icon, tier, seriesKey, className, size = "md", showGlow = true, locked = false }: BadgeIconProps) {
+  const normalizedTier = tier ?? "bronze";
   const IconComponent = ICON_MAP[icon] || ICON_MAP["default"];
-  const Shape = locked ? LockedShape : SHAPE_MAP[tier];
-  const colorStyle = locked ? LOCKED_COLORS : TIER_COLORS[tier];
+  const seriesImage = getBadgeSeriesImage(seriesKey, tier, icon);
+  const Shape = locked ? LockedShape : SHAPE_MAP[normalizedTier];
+  const colorStyle = locked ? LOCKED_COLORS : TIER_COLORS[normalizedTier];
   const iconStyle = ICON_STYLE_MAP[icon as BadgeIconKey];
   const seriesVisual = seriesKey ? SERIES_VISUALS[seriesKey] : undefined;
   const motifKey = seriesVisual?.motif ?? ICON_MOTIF_MAP[icon as BadgeIconKey];
   const Motif = motifKey ? MOTIF_COMPONENTS[motifKey] : null;
   const uid = React.useId();
+
+  if (seriesImage) {
+    return (
+      <div
+        className={cn(
+          "relative flex shrink-0 select-none items-center justify-center transition-transform duration-500",
+          SIZE_STYLES[size],
+          !locked && "group hover:scale-105",
+          className
+        )}
+      >
+        <Image
+          src={seriesImage}
+          alt=""
+          aria-hidden="true"
+          width={256}
+          height={256}
+          draggable={false}
+          className={cn(
+            "h-full w-full object-contain transition-all duration-500",
+            locked ? "grayscale opacity-45" : "drop-shadow-[0_8px_14px_rgba(15,23,42,0.28)]",
+            !locked && showGlow && "group-hover:drop-shadow-[0_10px_18px_rgba(15,23,42,0.34)]"
+          )}
+        />
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -582,7 +613,7 @@ export function BadgeIcon({ icon, tier = "bronze", seriesKey, className, size = 
         colorStyle.icon,
         iconStyle,
         !locked && showGlow && colorStyle.glow,
-        !locked && "group-hover:scale-110" // subtle grow of the icon
+        !locked && "group-hover:scale-110"
       )}>
         <IconComponent className={ICON_SIZES[size]} />
       </div>

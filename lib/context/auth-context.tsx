@@ -80,23 +80,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
+    // 注意：onAuthStateChange 的回调内部禁止直接 `await` Supabase 客户端调用。
+    // GoTrue 派发回调时持有内部 `_acquireLock`，若回调中再触发 token 刷新（例如查询 profiles
+    // 时发现 access_token 过期），刷新流程也要争抢同一把锁，会与 await 形成死锁，
+    // 表现就是 `setLoading(false)` 永远不执行、骨架图一直转圈（典型场景：第二天打开页面
+    // access_token 已过期）。
+    // 因此这里同步处理 user/loading，把任何 Supabase 调用 defer 到下一个事件循环。
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
         if (session?.user) {
-          const userId = session.user.id
-          setUser(session.user)
+          const sessionUser = session.user
+          const userId = sessionUser.id
+          setUser(sessionUser)
+
           if (lastFetchedUserIdRef.current !== userId) {
             lastFetchedUserIdRef.current = userId
-            const profileData = await fetchProfile(userId)
-            if (lastFetchedUserIdRef.current === userId) {
-              setProfile(profileData)
-            }
+            setTimeout(() => {
+              // 切换到下一个 tick 后，GoTrue 的锁已释放，可以安全地查询 profile
+              fetchProfile(userId)
+                .then((profileData) => {
+                  if (lastFetchedUserIdRef.current === userId) {
+                    setProfile(profileData)
+                  }
+                })
+                .catch((error) => {
+                  logger.warn('Failed to load profile after auth change', { error })
+                })
+            }, 0)
           }
         } else {
           lastFetchedUserIdRef.current = null
           setUser(null)
           setProfile(null)
         }
+        // 同步置 false：UI 至少能拿到 user，避免长任务挂起 loading。
         setLoading(false)
       }
     )

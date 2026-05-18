@@ -11,7 +11,7 @@ export const metadata = {
   },
 };
 
-export function isBadgesPreviewEnabled() {
+function isBadgesPreviewEnabled() {
   return process.env.NODE_ENV !== "production";
 }
 
@@ -33,19 +33,19 @@ export default function BadgesPreviewPage() {
           <h2 className="text-2xl font-semibold mb-6 border-b pb-2">基础材质测试 (Material & Glow Test)</h2>
           <div className="flex flex-wrap gap-12 justify-center items-end bg-slate-50 dark:bg-slate-900 p-8 rounded-2xl">
             <div className="flex flex-col items-center gap-4">
-              <BadgeIcon icon="trophy" tier="bronze" size="xl" />
+              <BadgeIcon icon="trophy" tier="bronze" seriesKey="milestone" size="xl" />
               <span className="font-mono text-sm">青铜 (Bronze)</span>
             </div>
             <div className="flex flex-col items-center gap-4">
-              <BadgeIcon icon="star" tier="silver" size="xl" />
+              <BadgeIcon icon="trophy" tier="silver" seriesKey="milestone" size="xl" />
               <span className="font-mono text-sm">白银 (Silver)</span>
             </div>
             <div className="flex flex-col items-center gap-4">
-              <BadgeIcon icon="award" tier="gold" size="xl" />
+              <BadgeIcon icon="trophy" tier="gold" seriesKey="milestone" size="xl" />
               <span className="font-mono text-sm">黄金 (Gold)</span>
             </div>
             <div className="flex flex-col items-center gap-4">
-              <BadgeIcon icon="crown" tier="platinum" size="xl" />
+              <BadgeIcon icon="trophy" tier="platinum" seriesKey="milestone" size="xl" />
               <span className="font-mono text-sm">白金 (Platinum)</span>
             </div>
             <div className="flex flex-col items-center gap-4">
@@ -59,10 +59,10 @@ export default function BadgesPreviewPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-6 border-b pb-2">不同尺寸 (Sizes)</h2>
           <div className="flex flex-wrap gap-8 items-end p-8">
-            <BadgeIcon icon="sparkles" tier="gold" size="sm" />
-            <BadgeIcon icon="sparkles" tier="gold" size="md" />
-            <BadgeIcon icon="sparkles" tier="gold" size="lg" />
-            <BadgeIcon icon="sparkles" tier="gold" size="xl" />
+            <BadgeIcon icon="atom" tier="gold" seriesKey="science_expert" size="sm" />
+            <BadgeIcon icon="atom" tier="gold" seriesKey="science_expert" size="md" />
+            <BadgeIcon icon="atom" tier="gold" seriesKey="science_expert" size="lg" />
+            <BadgeIcon icon="atom" tier="gold" seriesKey="science_expert" size="xl" />
           </div>
         </section>
 
@@ -77,7 +77,7 @@ export default function BadgesPreviewPage() {
               >
                 <BadgeIcon 
                   icon={badge.icon} 
-                  tier={badge.tier || "bronze"} 
+                  tier={badge.tier} 
                   seriesKey={badge.seriesKey}
                   size="lg" 
                   locked={false} 

@@ -5,6 +5,7 @@ import "./globals.css";
 import { ErrorBoundary } from "@/components/layout/error-boundary";
 import { ConditionalAppShell } from "@/components/layout/conditional-app-shell";
 import { ObservationGamificationSync } from "@/components/features/gamification/observation-gamification-sync";
+import { BadgeUnlockOverlay } from "@/components/features/gamification/badge-unlock-overlay";
 import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <ErrorBoundary>
                 <ConditionalAppShell>{children}</ConditionalAppShell>
               </ErrorBoundary>
+              <BadgeUnlockOverlay />
               <Toaster />
             </ThemeProvider>
           </AuthProvider>

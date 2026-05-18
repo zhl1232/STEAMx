@@ -175,35 +175,35 @@ function getTabConfig(tab: LeaderboardType): LeaderboardConfig {
     }
 }
 
-function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: string; tier: BadgeTier; label: string }> {
+function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: string; tier: BadgeTier; seriesKey?: string; label: string }> {
     if (tab === "badges") {
         return [
-            { icon: "award", tier: rank === 1 ? "gold" : "silver", label: "成就里程碑" },
-            { icon: "sparkles", tier: "gold", label: "成长之星" },
-            { icon: "shield_star", tier: rank === 3 ? "bronze" : "silver", label: "荣誉守护" },
+            { icon: "award", tier: rank === 1 ? "gold" : "silver", seriesKey: "level", label: "等级晋升" },
+            { icon: "trophy", tier: "gold", seriesKey: "milestone", label: "成就里程碑" },
+            { icon: "heart", tier: rank === 3 ? "bronze" : "silver", seriesKey: "popularity", label: "人气之星" },
         ];
     }
 
     if (tab === "projects") {
         return [
-            { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", label: "工程挑战优胜" },
-            { icon: "blueprint", tier: "silver", label: "实践达人" },
-            { icon: "target", tier: rank === 1 ? "gold" : "bronze", label: "目标达成" },
+            { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", seriesKey: "milestone", label: "完成里程碑" },
+            { icon: "blueprint", tier: "silver", seriesKey: "engineering_expert", label: "工程实践" },
+            { icon: "upload", tier: rank === 1 ? "gold" : "bronze", seriesKey: "intro_publish", label: "发布成长" },
         ];
     }
 
     if (tab === "observations") {
         return [
-            { icon: "binoculars", tier: rank === 1 ? "gold" : "silver", label: "自然观察先锋" },
-            { icon: "feather", tier: "silver", label: "公开记录达人" },
-            { icon: "sparkles", tier: rank === 3 ? "bronze" : "silver", label: "生态探索者" },
+            { icon: "binoculars", tier: rank === 1 ? "gold" : "silver", seriesKey: "bird_observer", label: "自然观察先锋" },
+            { icon: "feather", tier: "silver", seriesKey: "species_collector", label: "物种收集" },
+            { icon: "bird", tier: rank === 3 ? "bronze" : "silver", seriesKey: "bird_observation", label: "鸟类观察" },
         ];
     }
 
     return [
-        { icon: "trophy", tier: rank === 1 ? "gold" : "bronze", label: "经验先锋" },
-        { icon: "flame", tier: rank === 1 ? "gold" : "silver", label: "持续探索" },
-        { icon: "message_circle", tier: rank === 3 ? "bronze" : "silver", label: "社区贡献" },
+        { icon: "award", tier: rank === 1 ? "gold" : "bronze", seriesKey: "level", label: "经验先锋" },
+        { icon: "flame", tier: rank === 1 ? "gold" : "silver", seriesKey: "streak", label: "持续探索" },
+        { icon: "message_circle", tier: rank === 3 ? "bronze" : "silver", seriesKey: "social", label: "社区贡献" },
     ];
 }
 
@@ -212,7 +212,7 @@ function PodiumBadgeStrip({ tab, rank }: { tab: LeaderboardType; rank: number })
         <div className="mt-4 hidden items-center justify-center gap-3 md:flex">
             {getPodiumBadges(tab, rank).map((badge) => (
                 <div key={`${badge.icon}-${badge.tier}`} className="group relative" title={badge.label}>
-                    <BadgeIcon icon={badge.icon} tier={badge.tier} size="md" showGlow />
+                    <BadgeIcon icon={badge.icon} tier={badge.tier} seriesKey={badge.seriesKey} size="md" showGlow />
                 </div>
             ))}
         </div>

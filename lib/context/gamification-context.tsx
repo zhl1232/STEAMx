@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback, use
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
+import { showBadgeUnlockOverlay } from "@/components/features/gamification/badge-unlock-overlay";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
@@ -241,25 +242,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                     return;
                                 }
 
-                                toast({
-                                    description: (
-                                        <AchievementToast
-                                            title="解锁新徽章！"
-                                            description={`恭喜你获得了 "${badge.name}" 徽章`} // Fixed wording
-                                            icon={badge.icon}
-                                            tier={badge.tier}
-                                        />
-                                    ),
-                                    duration: 5000,
-                                });
-                                // Trigger confetti
-                                import('canvas-confetti').then((confetti) => {
-                                    confetti.default({
-                                        particleCount: 100,
-                                        spread: 70,
-                                        origin: { y: 0.6 }
-                                    });
-                                });
+                                showBadgeUnlockOverlay(badge);
                             },
                             onError: (error: unknown) => {
                                 processing.delete(badge.id); // Clear processing flag

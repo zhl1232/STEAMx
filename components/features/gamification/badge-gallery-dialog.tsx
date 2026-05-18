@@ -240,7 +240,19 @@ function getSeriesStatus(seriesList: Badge[], unlockedBadges: Set<string>): Seri
 
 function getBadgeRequirementHint(badge: Badge | null) {
     if (!badge) return null;
-    return badge.description.replace(/^首次/, "完成首次").replace(/^累计/, "还需累计").replace(/^达到/, "达到");
+    if (badge.description.startsWith("首次")) {
+        return `${badge.description.replace(/^首次/, "完成第一次")}，点亮「${badge.name}」。`;
+    }
+    if (badge.description.startsWith("累计")) {
+        return `${badge.description.replace(/^累计/, "继续累计到")}，解锁「${badge.name}」。`;
+    }
+    if (badge.description.startsWith("完成")) {
+        return `${badge.description}，收下「${badge.name}」。`;
+    }
+    if (badge.description.startsWith("达到")) {
+        return `${badge.description}，晋级「${badge.name}」。`;
+    }
+    return `${badge.description}，解锁「${badge.name}」。`;
 }
 
 function getSeriesProgressText(seriesStatus: SeriesStatus, mode: GalleryMode) {
