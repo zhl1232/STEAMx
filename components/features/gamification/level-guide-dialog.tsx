@@ -341,7 +341,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                             Lv.{ms.level}
                           </span>
                           {unlocked && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 font-medium">
+                            <span className="status-success-surface text-[10px] px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))] font-medium">
                               已解锁
                             </span>
                           )}

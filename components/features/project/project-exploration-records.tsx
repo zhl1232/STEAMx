@@ -104,7 +104,7 @@ function ExplorationRecordLikes({ likes }: { likes: number }) {
 
 function ExplorationRecordsEmptyState() {
   return (
-    <div className="rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-background/54 px-4 py-8 text-center">
+    <div className="app-empty-state py-8">
       <p className="text-sm font-semibold text-foreground">还没有探索记录</p>
       <p className="mt-1 text-xs leading-5 text-muted-foreground">完成后上传作品，成为第一个记录的人。</p>
     </div>

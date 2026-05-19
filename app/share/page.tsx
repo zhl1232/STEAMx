@@ -541,9 +541,9 @@ function ShareForm() {
                                         key={cat}
                                         type="button"
                                         onClick={() => handleInputChange("category", cat)}
-                                        className={`${CHIP_CLASS} ${formData.category === cat
-                                            ? "bg-foreground text-background border-foreground"
-                                            : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
+                                        className={`${CHIP_CLASS} filter-chip-base ${formData.category === cat
+                                            ? "filter-chip-active-solid"
+                                            : "filter-chip-idle border-border/70"
                                             }`}
                                     >
                                         {cat}
@@ -561,9 +561,9 @@ function ShareForm() {
                                         key={sub}
                                         type="button"
                                         onClick={() => handleInputChange("subCategory", sub)}
-                                        className={`${CHIP_CLASS} ${formData.subCategory === sub
-                                            ? "bg-foreground text-background border-foreground"
-                                            : "bg-background/80 hover:bg-muted text-muted-foreground border-border/70"
+                                        className={`${CHIP_CLASS} filter-chip-base ${formData.subCategory === sub
+                                            ? "filter-chip-active-solid"
+                                            : "filter-chip-idle border-border/70"
                                             }`}
                                     >
                                         {sub}

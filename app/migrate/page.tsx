@@ -23,7 +23,7 @@ export default function MigratePage() {
         </div>
 
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <div className="surface-subtle rounded-[24px] border border-border/70 p-6 shadow-none">
+          <div className="surface-subtle rounded-[var(--radius-lg)] border border-border/70 p-6 shadow-none">
             <div className="mb-4 flex items-center gap-2">
               <TerminalSquare className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold">推荐方式</h2>
@@ -37,7 +37,7 @@ pnpm db:push`}</code>
             </pre>
           </div>
 
-          <div className="surface-subtle rounded-[24px] border border-border/70 p-6 shadow-none">
+          <div className="surface-subtle rounded-[var(--radius-lg)] border border-border/70 p-6 shadow-none">
             <div className="mb-4 flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold">种子数据</h2>
@@ -51,7 +51,7 @@ pnpm db:push`}</code>
           </div>
         </div>
 
-        <div className="surface-subtle space-y-4 rounded-[24px] border border-border/70 p-6 shadow-none">
+        <div className="surface-subtle space-y-4 rounded-[var(--radius-lg)] border border-border/70 p-6 shadow-none">
           <h2 className="text-xl font-semibold">相关文档</h2>
           <p className="text-sm leading-6 text-muted-foreground">
             迁移说明见仓库内 `docs/database-psql.md` 与 `README.md` 的数据库章节。

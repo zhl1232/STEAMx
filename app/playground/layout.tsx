@@ -488,7 +488,7 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
 
     return (
         <section className="px-4 pt-4 sm:px-6 lg:px-8 lg:pt-5">
-            <div className="mx-auto grid w-full max-w-[1840px] gap-3 rounded-[22px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
+            <div className="app-shell-wide grid w-full gap-3 rounded-[22px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
                 <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-primary/10 px-3 py-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-background/82 text-primary shadow-sm">
                         <Icon className="h-5 w-5" />
@@ -530,7 +530,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     return (
         <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] md:min-h-[calc(100vh-4rem)]">
             <MobilePlaygroundHeader onSettings={() => setSettingsOpen(true)} />
-            <div className="relative mx-auto flex w-full max-w-[1840px]">
+            <div className="relative app-shell-wide flex w-full">
                 <DesktopSidebar onSettings={() => setSettingsOpen(true)} />
                 <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />

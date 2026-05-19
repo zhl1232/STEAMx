@@ -52,7 +52,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
         {project ? (
           <div className={cn(
             "grid gap-5 border border-border/70 bg-background/80 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.24)]",
-            compact ? "rounded-[16px] p-3.5" : "rounded-[24px] p-4 sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]",
+            compact ? "rounded-[16px] p-3.5" : "rounded-[var(--radius-lg)] p-4 sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]",
           )}>
             <div className={cn(
               "relative aspect-[16/10] overflow-hidden bg-muted",
@@ -110,7 +110,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
         ) : (
           <div className={cn(
             "flex flex-col items-start gap-4 border border-dashed border-border/70 bg-background/65 px-5 py-6",
-            compact ? "rounded-[16px]" : "rounded-[24px] sm:px-6",
+            compact ? "rounded-[16px]" : "rounded-[var(--radius-lg)] sm:px-6",
           )}>
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Compass className="h-5 w-5" />

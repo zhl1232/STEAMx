@@ -255,7 +255,7 @@ export function ProfileTimelinePage() {
         <MobilePageHeader title="探索轨迹" fallbackHref="/profile" />
       </div>
 
-      <div className="mx-auto w-full max-w-[1840px] px-4 py-6 min-[390px]:px-5 md:px-8 md:py-8">
+      <div className="app-shell-wide py-6 min-[390px]:px-5 md:px-8 md:py-8">
         <section className="surface-panel overflow-hidden rounded-[22px]">
           <div className="flex items-start gap-4 px-5 py-5 md:px-6">
             <Button asChild variant="ghost" size="icon" className="hidden h-10 w-10 shrink-0 rounded-xl md:inline-flex">

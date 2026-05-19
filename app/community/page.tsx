@@ -38,17 +38,17 @@ type ChallengeGroups = {
 };
 
 const heroMetricToneClassNames = [
-    "text-[#1b4f7a] dark:text-[#9cc9ef] md:text-[#2f6f9f] md:dark:text-[#9cc9ef]",
-    "text-[#1e6d55] dark:text-[#91dab9] md:text-[#2d8464] md:dark:text-[#91dab9]",
-    "text-[#8a4a1e] dark:text-[#f3b37a] md:text-[#b96b2f] md:dark:text-[#f3b37a]",
-    "text-[#4f4096] dark:text-[#bfb6f4] md:text-[#7566b4] md:dark:text-[#bfb6f4]",
+    "text-[hsl(var(--brand-blue))]",
+    "text-[hsl(var(--status-success))]",
+    "text-[hsl(var(--brand-amber))]",
+    "text-[hsl(var(--tone-art))]",
 ] as const;
 
 const communityValues = [
-    { label: "交流想法", description: "分享你的创意和经验", icon: MessageSquare, color: "text-[#1677ff]" },
-    { label: "互相帮助", description: "解答问题，互助成长", icon: Handshake, color: "text-[#16a05a]" },
-    { label: "协作共创", description: "组合合作，完成项目", icon: Sparkles, color: "text-[#ff7a1a]" },
-    { label: "成果展示", description: "展示成果，获得反馈", icon: ImageIcon, color: "text-[#ff8a00]" },
+    { label: "交流想法", description: "分享你的创意和经验", icon: MessageSquare, color: "text-[hsl(var(--brand-blue))]" },
+    { label: "互相帮助", description: "解答问题，互助成长", icon: Handshake, color: "text-[hsl(var(--status-success))]" },
+    { label: "协作共创", description: "组合合作，完成项目", icon: Sparkles, color: "text-[hsl(var(--brand-amber))]" },
+    { label: "成果展示", description: "展示成果，获得反馈", icon: ImageIcon, color: "text-[hsl(var(--tone-engineering))]" },
 ] as const;
 
 function formatMetricValue(value: number) {
@@ -90,7 +90,7 @@ function buildHeroMetrics(challengeGroups: ChallengeGroups, discussionTotal: num
 
 function CommunityHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetrics> }) {
     return (
-        <section className="surface-card relative overflow-hidden rounded-[18px] md:rounded-[16px]">
+        <section className="surface-card relative overflow-hidden rounded-[var(--radius-xl)] md:rounded-[var(--radius-md)]">
             <div className="relative min-h-[300px] md:min-h-[260px] xl:min-h-[282px]">
                 <Image
                     src={communityHeroImage}
@@ -107,25 +107,25 @@ function CommunityHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetric
 
                 <div className="relative z-10 flex min-h-[300px] flex-col px-5 pb-4 pt-7 min-[390px]:px-7 md:min-h-[260px] md:justify-center md:px-8 md:py-7 xl:min-h-[282px] xl:px-10">
                     <div className="max-w-[310px] md:max-w-[650px]">
-                        <h1 className="whitespace-nowrap text-[32px] font-black leading-none tracking-normal text-[#0b1831] dark:text-[#edf6ff] min-[390px]:text-[36px] md:text-[44px] xl:text-[52px]">
+                        <h1 className="community-hero-title whitespace-nowrap">
                             STEAM 创客社区
                         </h1>
-                        <p className="mt-4 max-w-[15rem] text-[17px] font-medium leading-7 text-[#27364c] dark:text-[#c7d5e7] min-[390px]:max-w-[17rem] md:max-w-[34rem] md:text-[18px]">
+                        <p className="community-hero-lead">
                             分享想法，交流经验，一起用创造改变世界
                         </p>
                     </div>
 
-                    <div className="mt-auto grid max-w-[610px] grid-cols-4 gap-1 rounded-[14px] border border-white/60 bg-white/55 px-2 py-2 backdrop-blur-sm min-[390px]:gap-2 min-[390px]:px-3 dark:border-white/10 dark:bg-[#0b1626]/55 md:mt-6 md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0">
+                    <div className="mt-auto grid max-w-[610px] grid-cols-4 gap-1 rounded-[var(--radius-md)] border border-white/60 bg-white/55 px-2 py-2 backdrop-blur-sm min-[390px]:gap-2 min-[390px]:px-3 dark:border-white/10 dark:bg-[hsl(var(--surface-shadow)/0.55)] md:mt-6 md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0">
                         {metrics.map((metric) => (
                             <div
                                 key={metric.label}
                                 className="min-w-0 overflow-hidden px-1 py-1.5 text-center md:px-2 md:py-1"
                             >
-                                <metric.icon className="mx-auto mb-1 h-5 w-5 text-[#1f2937] dark:text-white/85 md:hidden" strokeWidth={2.4} />
+                                <metric.icon className="mx-auto mb-1 h-5 w-5 text-foreground/85 dark:text-white/85 md:hidden" strokeWidth={2.4} />
                                 <div className={cn("text-[20px] font-black leading-none tabular-nums md:text-[28px] md:drop-shadow-[0_2px_8px_rgba(255,255,255,0.72)]", metric.color)}>
                                     {metric.value}
                                 </div>
-                                <div className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-[#2d3b52] dark:text-[#d4e1f1] md:text-[13px] md:text-[#2d3b52] md:drop-shadow-[0_1px_6px_rgba(255,255,255,0.76)] md:dark:text-[#d4e1f1] md:dark:drop-shadow-[0_2px_7px_rgba(0,0,0,0.85)]">
+                                <div className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-[hsl(var(--community-hero-muted))] md:text-[13px] md:drop-shadow-[0_1px_6px_rgba(255,255,255,0.76)] md:dark:drop-shadow-[0_2px_7px_rgba(0,0,0,0.85)]">
                                     {metric.label}
                                 </div>
                             </div>
@@ -136,14 +136,14 @@ function CommunityHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetric
                         {communityValues.map((item) => (
                             <div
                                 key={item.label}
-                                className="flex min-w-0 items-center gap-3 rounded-[10px] border border-white/60 bg-white/40 px-4 py-3 text-left shadow-sm backdrop-blur-md transition hover:bg-white/50 dark:border-white/10 dark:bg-white/10 dark:shadow-[0_12px_32px_-28px_rgba(0,0,0,0.9)] dark:hover:bg-white/[0.13]"
+                                className="flex min-w-0 items-center gap-3 rounded-[var(--radius-sm)] border border-white/60 bg-white/40 px-4 py-3 text-left shadow-sm backdrop-blur-md transition hover:bg-white/50 dark:border-white/10 dark:bg-white/10 dark:shadow-[0_12px_32px_-28px_rgba(0,0,0,0.9)] dark:hover:bg-white/[0.13]"
                             >
-                                <item.icon className="h-6 w-6 shrink-0 text-[#1f2937] dark:text-white/90" strokeWidth={2.2} />
+                                <item.icon className={cn("h-6 w-6 shrink-0", item.color, "dark:text-white/90")} strokeWidth={2.2} />
                                 <div className="min-w-0">
-                                    <div className="truncate text-[13px] font-bold text-[#1f2937] dark:text-white">
+                                    <div className="truncate text-[13px] font-bold text-foreground dark:text-white">
                                         {item.label}
                                     </div>
-                                    <div className="mt-1 truncate text-[11px] text-[#4b5563] dark:text-white/70">
+                                    <div className="mt-1 truncate text-[11px] text-muted-foreground dark:text-white/70">
                                         {item.description}
                                     </div>
                                 </div>
@@ -178,16 +178,16 @@ function NatureFeatureCard({ challenge }: { challenge?: Challenge }) {
             />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,253,246,0.96)_0%,rgba(246,253,246,0.82)_43%,rgba(246,253,246,0.22)_72%,rgba(246,253,246,0.04)_100%)] dark:bg-[linear-gradient(90deg,rgba(6,22,14,0.9)_0%,rgba(6,22,14,0.72)_44%,rgba(6,22,14,0.18)_78%,rgba(6,22,14,0.04)_100%)]" />
             <div className="relative z-10 flex h-full max-w-[310px] flex-col justify-center px-8 py-7">
-                <span className="mb-4 w-fit rounded-[8px] bg-[#dff4e6] px-4 py-2 text-[13px] font-bold text-[#168249] shadow-sm dark:bg-[#163c27] dark:text-[#7ee0a2]">
+                <span className="status-success-surface mb-4 w-fit rounded-[var(--radius-xs)] border px-4 py-2 text-[13px] font-bold shadow-sm">
                     {badge}
                 </span>
-                <h2 className="text-[26px] font-black leading-tight text-[#0b1831] dark:text-[#edf6ff]">
+                <h2 className="text-panel-title font-black leading-tight text-[hsl(var(--community-hero-fg))]">
                     {title}
                 </h2>
-                <p className="mt-3 text-[15px] font-medium leading-7 text-[#2b3b52] dark:text-[#c5d4e6]">
+                <p className="mt-3 text-[15px] font-medium leading-7 text-[hsl(var(--community-hero-muted))]">
                     {description}
                 </p>
-                <span className="mt-7 inline-flex h-11 w-fit items-center gap-2 rounded-[12px] bg-[#1f9a55] px-5 text-[15px] font-bold text-white shadow-[0_16px_32px_-20px_rgba(31,154,85,0.82)] transition group-hover:bg-[#168249]">
+                <span className="mt-7 inline-flex h-11 w-fit items-center gap-2 rounded-[var(--radius-sm)] bg-[hsl(var(--status-success))] px-5 text-[15px] font-bold text-[hsl(var(--status-success-foreground))] shadow-[0_16px_32px_-20px_hsl(var(--status-success)/0.82)] transition group-hover:bg-[hsl(var(--status-success)/0.9)]">
                     参与专题挑战
                     <ArrowRight className="h-4 w-4" />
                 </span>
@@ -214,8 +214,8 @@ function CommunityTabs({
                     type="button"
                     onClick={() => onChange(value)}
                     className={cn(
-                        "relative h-[50px] whitespace-nowrap px-1 text-[18px] font-semibold text-[#536179] transition hover:text-[#126ee8] md:h-[58px]",
-                        activeTab === value && "text-[#126ee8] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:rounded-full after:bg-[#1677ff]"
+                        "community-tab",
+                        activeTab === value && "community-tab-active"
                     )}
                 >
                     {label}
@@ -245,13 +245,13 @@ function CompactChallengeCard({
     const imageSrc = challenge.image || "/projects/generated/project-0010.webp";
 
     return (
-        <article className="group relative grid min-h-[116px] grid-cols-[112px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[14px] border border-[#dde8f4] bg-white/82 p-2 shadow-[0_14px_34px_-30px_rgba(20,72,132,0.55)] transition hover:border-[#bdd7f7] hover:bg-white dark:border-[#243348] dark:bg-[#0d1828]/82 dark:hover:border-[#35516f] min-[420px]:grid-cols-[132px_minmax(0,1fr)] md:grid-cols-[132px_minmax(0,1fr)] md:gap-4">
+        <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/community/challenge/${challenge.id}`}
-                className="absolute inset-0 z-10 rounded-[14px]"
+                className="absolute inset-0 z-10 rounded-[var(--radius-md)]"
                 aria-label={`进入挑战：${challenge.title}`}
             />
-            <div className="relative min-h-[98px] overflow-hidden rounded-[10px] bg-[#eaf2fb]">
+            <div className="relative min-h-[98px] overflow-hidden rounded-[var(--radius-sm)] bg-[hsl(var(--status-info-surface))]">
                 <OptimizedImage
                     src={imageSrc}
                     alt={challenge.title}
@@ -260,7 +260,7 @@ function CompactChallengeCard({
                     className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 {challenge.challengeType === "timed" && !ended ? (
-                    <span className="absolute left-2 top-2 rounded-[7px] bg-[#18365a]/92 px-2 py-1 text-[11px] font-semibold text-white shadow-sm">
+                    <span className="absolute left-2 top-2 rounded-[var(--radius-xs)] bg-[hsl(var(--surface-shadow)/0.92)] px-2 py-1 text-[11px] font-semibold text-white shadow-sm">
                         {challenge.daysLeft > 0 ? `剩余 ${challenge.daysLeft} 天` : "即将截止"}
                     </span>
                 ) : null}
@@ -272,26 +272,26 @@ function CompactChallengeCard({
             </div>
 
             <div className="relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1 pointer-events-none">
-                <h3 className="line-clamp-2 min-h-[48px] whitespace-normal break-words text-[16px] font-black leading-6 text-[#12213a] transition group-hover:text-[#126ee8] dark:text-[#edf6ff] md:text-[17px]">
+                <h3 className="line-clamp-2 min-h-[48px] whitespace-normal break-words text-[16px] font-black leading-6 text-foreground transition group-hover:text-[hsl(var(--nav-active))] md:text-[17px]">
                     {challenge.title}
                 </h3>
-                <p className="mt-1 hidden text-[13px] leading-5 text-[#627087] dark:text-[#adbbcc] xl:line-clamp-1">
+                <p className="mt-1 hidden text-[13px] leading-5 text-muted-foreground xl:line-clamp-1">
                     {challenge.description}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-[#536179] dark:text-[#b5c4d5]">
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-muted-foreground">
                     <span className="inline-flex items-center gap-1">
                         <UsersRound className="h-3.5 w-3.5" />
                         {participantText}
                     </span>
                     <span className="inline-flex min-w-0 items-center gap-1">
-                        <Trophy className="h-3.5 w-3.5 text-[#ff9a1f]" />
+                        <Trophy className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
                         <span className="truncate">{submissionText}</span>
                     </span>
                 </div>
             </div>
 
             {action && !ended ? (
-                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[10px] bg-[#1677ff] px-4 text-[13px] font-bold text-white shadow-[0_14px_28px_-20px_rgba(22,119,255,0.78)] min-[560px]:inline-flex">
+                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] min-[560px]:inline-flex">
                     参与挑战
                 </span>
             ) : null}
@@ -319,12 +319,12 @@ function ChallengeRailSection({
     return (
         <section className="space-y-3">
             <div className="flex items-center justify-between gap-3">
-                <h2 className="text-[18px] font-black text-[#12213a] dark:text-[#edf6ff] md:text-[20px]">{title}</h2>
+                <h2 className="text-panel-title font-black text-foreground md:text-[20px]">{title}</h2>
                 {showMore ? (
                     <button
                         type="button"
                         onClick={onMore}
-                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#1677ff] transition hover:text-[#0f5fcf]"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.85)]"
                     >
                         查看更多
                         <ChevronRight className="h-4 w-4" />
@@ -376,7 +376,7 @@ function ChallengeRail({
             {isLoading ? (
                 <div className="space-y-3">
                     {[1, 2, 3].map((item) => (
-                        <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-[14px] border border-[#dde8f4] bg-white/70 p-2 dark:border-[#243348] dark:bg-[#0d1828]/70">
+                        <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-[var(--radius-md)] border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] p-2">
                             <div className="h-[98px] animate-pulse rounded-[10px] bg-muted" />
                             <div className="space-y-3 py-2">
                                 <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
@@ -394,7 +394,7 @@ function ChallengeRail({
                     <ChallengeRailSection title="长期学习挑战" challenges={evergreen} onMore={onMore} action={action} />
                     <ChallengeRailSection title="已结束挑战" challenges={ended} ended onMore={onMore} />
                     {activeTimed.length === 0 && evergreen.length === 0 && ended.length === 0 ? (
-                        <div className="rounded-[16px] border border-[#dde8f4] bg-white/70 px-5 py-10 text-center text-sm text-muted-foreground dark:border-[#243348] dark:bg-[#0d1828]/70">
+                        <div className="rounded-[var(--radius-md)] border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] px-5 py-10 text-center text-sm text-muted-foreground">
                             暂无挑战
                         </div>
                     ) : null}
@@ -425,7 +425,7 @@ function ChallengeBoard({
 
     return (
         <section className="surface-panel overflow-hidden">
-            <div className="flex min-h-[58px] items-center justify-between gap-4 border-b border-[#dfe8f2] px-4 dark:border-[#243348] md:px-6">
+            <div className="flex min-h-[58px] items-center justify-between gap-4 border-b border-border px-4 md:px-6">
                 {tabs}
             </div>
             <div className="space-y-7 p-4 md:p-6">
@@ -459,7 +459,7 @@ function ChallengeBoard({
                             <ChallengeRailSection title="已结束挑战" challenges={ended} ended onMore={() => {}} showMore={false} />
                         ) : null}
                         {!hasChallenges ? (
-                            <div className="rounded-[16px] border border-[#dde8f4] bg-white/70 px-6 py-14 text-center dark:border-[#243348] dark:bg-[#0d1828]/70">
+                            <div className="surface-card rounded-[var(--radius-md)] px-6 py-14 text-center">
                                 <p className="text-lg font-bold">暂无挑战</p>
                                 <p className="mt-2 text-sm text-muted-foreground">敬请期待新的挑战。</p>
                             </div>
@@ -522,7 +522,7 @@ function CommunityPageContent() {
     return (
         <div className="min-h-screen bg-[linear-gradient(180deg,#f7fbff_0%,#f2f7fd_54%,hsl(var(--background))_100%)] dark:bg-[linear-gradient(180deg,#07101d_0%,#0a1421_56%,hsl(var(--background))_100%)]">
             <MobileGlobalHeader />
-            <main className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-4 min-[390px]:px-5 md:px-8 md:py-6">
+            <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
                     <CommunityHero metrics={metrics} />
                     <NatureFeatureCard challenge={featureChallenge} />
@@ -586,7 +586,7 @@ export default function CommunityPage() {
     return (
         <Suspense
             fallback={
-                <div className="mx-auto w-full max-w-[1840px] px-4 py-10 md:px-8">
+                <div className="app-shell-wide py-10 md:px-8">
                     <section className="surface-panel min-h-[320px] px-6 py-12">
                         <div className="animate-pulse space-y-4 text-center">
                             <div className="mx-auto h-10 w-64 rounded-md bg-muted" />

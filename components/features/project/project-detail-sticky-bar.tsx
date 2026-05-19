@@ -48,7 +48,7 @@ export function ProjectDetailStickyBar({
       )}
       aria-hidden={!visible}
     >
-      <div className="mx-auto flex h-14 max-w-[1840px] items-center justify-between gap-5 px-8">
+      <div className="app-shell-wide flex h-14 items-center justify-between gap-5 px-8">
         <div className="min-w-0">
           <p className="truncate font-sans text-sm font-bold text-foreground">{title}</p>
         </div>

@@ -25,7 +25,7 @@ export function ExplorationRecordGroupCard({
   return (
     <section
       className={cn(
-        "overflow-hidden rounded-[14px] border border-[hsl(var(--surface-border)/0.86)]",
+        "surface-card overflow-hidden rounded-[var(--radius-md)]",
         "bg-[hsl(var(--surface-raised)/0.94)] shadow-sm",
       )}
     >

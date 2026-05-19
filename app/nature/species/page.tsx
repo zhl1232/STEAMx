@@ -59,7 +59,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
   const activeTopicLabel = activeTopicCount?.label ?? "全部";
 
   return (
-    <div className="mx-auto w-full max-w-[1840px] px-4 pb-24 pt-0 min-[390px]:px-5 md:px-8 md:pb-10 md:pt-8">
+    <div className="app-shell-wide pb-24 pt-0 min-[390px]:px-5 md:px-8 md:pb-10 md:pt-8">
       <MobilePageHeader
         title="物种"
         fallbackHref="/nature"

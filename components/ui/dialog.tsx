@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -13,6 +14,31 @@ const DialogTrigger = DialogPrimitive.Trigger
 const DialogPortal = DialogPrimitive.Portal
 
 const DialogClose = DialogPrimitive.Close
+
+const dialogContentVariants = cva(
+  "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+  {
+    variants: {
+      size: {
+        sm: "max-w-lg p-6 sm:rounded-lg",
+        md: "max-w-2xl p-6 sm:rounded-lg",
+        lg: "max-h-[85vh] max-w-3xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
+        xl: "max-h-[90vh] max-w-4xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
+        fullscreenMobile:
+          "h-[100dvh] max-h-[100dvh] w-full max-w-none translate-y-0 top-0 left-0 rounded-none p-0 sm:left-[50%] sm:top-[50%] sm:h-auto sm:max-h-[85vh] sm:max-w-3xl sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-[var(--radius-lg)] sm:p-6",
+      },
+      chrome: {
+        standard: "border-border",
+        review: "border-border/70 bg-background/98 shadow-xl",
+        media: "border-border/60 bg-background p-0 sm:rounded-[var(--radius-lg)]",
+      },
+    },
+    defaultVariants: {
+      size: "sm",
+      chrome: "standard",
+    },
+  }
+)
 
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -29,21 +55,22 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+export interface DialogContentProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+    VariantProps<typeof dialogContentVariants> {
+  /** 为 true 时不渲染遮罩层，背后的内容保持可见 */
+  hideOverlay?: boolean
+}
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    /** 为 true 时不渲染遮罩层，背后的内容保持可见 */
-    hideOverlay?: boolean
-  }
->(({ className, children, hideOverlay, ...props }, ref) => (
+  DialogContentProps
+>(({ className, children, hideOverlay, size, chrome, ...props }, ref) => (
   <DialogPortal>
     {!hideOverlay && <DialogOverlay />}
     <DialogPrimitive.Content
       ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )}
+      className={cn(dialogContentVariants({ size, chrome }), className)}
       {...props}
     >
       {children}
@@ -122,4 +149,5 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  dialogContentVariants,
 }

@@ -35,6 +35,7 @@ export function BottomNav() {
             label: "自然",
             icon: Feather,
             active: pathname === "/nature" || pathname.startsWith("/nature/"),
+            nature: true,
         },
         {
             href: "/community",
@@ -54,31 +55,29 @@ export function BottomNav() {
     return (
         <div
             className={cn(
-                "fixed bottom-2 left-4 right-4 z-50 flex items-center gap-1 rounded-[28px] border bg-white/[0.94] px-2.5 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_22px_58px_-30px_rgba(27,70,126,0.42)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.88] md:hidden",
-                isNatureRoute
-                    ? "border-[#d5e8da] dark:border-[#274d37] dark:bg-[#0d1d14]/[0.92] dark:shadow-none dark:supports-[backdrop-filter]:bg-[#0d1d14]/[0.86]"
-                    : "border-[#e2ebf5] dark:border-[#2a3a50] dark:bg-[#111a28]/[0.92] dark:shadow-none dark:supports-[backdrop-filter]:bg-[#111a28]/[0.84]",
+                "bottom-nav-bar",
+                isNatureRoute && "bottom-nav-bar-nature",
             )}
         >
             {navItems.map((item) => {
-                const isNatureItem = item.href === "/nature";
+                const isNatureItem = Boolean(item.nature);
                 const activeTextClass = isNatureItem
-                    ? "text-[#16844b] dark:text-[#74d79a]"
-                    : "text-[#1478ea] dark:text-[#8bbdff]";
+                    ? "text-[hsl(var(--nature-accent))]"
+                    : "text-[hsl(var(--nav-active))]";
                 const inactiveTextClass = isNatureItem
-                    ? "text-[#334155] hover:bg-[#eef8ef] hover:text-[#16844b] dark:text-[#c5cfdd] dark:hover:bg-[#172a1e] dark:hover:text-[#74d79a]"
-                    : "text-[#334155] hover:bg-[#eef5ff] hover:text-[#1478ea] dark:text-[#c5cfdd] dark:hover:bg-[#172234] dark:hover:text-[#8bbdff]";
+                    ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
+                    : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
                 const activeIconClass = isNatureItem
-                    ? "bg-[#16844b] text-white shadow-[0_12px_22px_-14px_rgba(22,132,75,0.8)] dark:bg-[#2fb76b] dark:text-[#041208]"
-                    : "bg-[#1478ea] text-white shadow-[0_12px_22px_-14px_rgba(20,120,234,0.8)] dark:bg-[#2f8df0]";
+                    ? "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nature-accent)/0.8)]"
+                    : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
                 const content = (
                     <div className={cn(
-                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[16px] px-1 py-1.5 transition-all",
+                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] px-1 py-1.5 transition-all",
                         item.active
                             ? activeTextClass
                             : inactiveTextClass,
                     )}>
-                        <span className={cn("grid h-7 w-7 place-items-center rounded-[10px]", item.active && activeIconClass)}>
+                        <span className={cn("grid h-7 w-7 place-items-center rounded-[var(--radius-sm)]", item.active && activeIconClass)}>
                             <item.icon className={cn("h-[18px] w-[18px]", item.active && "stroke-[2.6px]")} />
                         </span>
                         <span className="text-[11px] font-semibold leading-none">{item.label}</span>

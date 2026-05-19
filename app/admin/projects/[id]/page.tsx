@@ -545,7 +545,7 @@ export default function EditProjectPage() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                         {formData.project_steps.map((step, index) => (
-                            <div key={index} className="relative rounded-[24px] border border-border/70 bg-background/80 p-4">
+                            <div key={index} className="relative rounded-[var(--radius-lg)] border border-border/70 bg-background/80 p-4">
                                 <div className="absolute right-4 top-4">
                                     <Button
                                         size="icon"

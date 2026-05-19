@@ -17,7 +17,7 @@ function UserListItemSkeleton({ index }: { index: number }) {
   const widths = USER_ITEM_LINE_WIDTHS[index % USER_ITEM_LINE_WIDTHS.length];
 
   return (
-    <div className="surface-panel block rounded-[24px] px-4 py-4">
+    <div className="surface-panel block rounded-[var(--radius-lg)] px-4 py-4">
       <div className="flex items-start gap-4">
         <Skeleton className="h-14 w-14 rounded-full" />
 

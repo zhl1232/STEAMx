@@ -460,7 +460,7 @@ export default function AdminPage() {
       </div>
 
       <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-        <div className="mb-7 overflow-hidden rounded-[24px] border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
+        <div className="mb-7 overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 items-center gap-4">
               <Avatar className="h-16 w-16 shrink-0 border-4 border-background shadow-sm sm:h-20 sm:w-20">
@@ -531,7 +531,7 @@ export default function AdminPage() {
         </div>
 
         <Tabs defaultValue="pending" className="space-y-6">
-          <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[24px] bg-transparent p-1">
+          <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[var(--radius-lg)] bg-transparent p-1">
             <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
             <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">探索记录审计 ({pendingCompletions.length})</TabsTrigger>
             <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>

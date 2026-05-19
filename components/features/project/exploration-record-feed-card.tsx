@@ -138,7 +138,7 @@ export function ExplorationRecordFeedCard({
           "transition-shadow duration-500",
           isNested
             ? "bg-transparent p-3.5"
-            : "rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] p-3.5 shadow-sm",
+            : "surface-card rounded-[var(--radius-md)] p-3.5",
           highlighted &&
             (isNested
               ? "bg-[hsl(var(--brand-green)/0.06)] ring-1 ring-inset ring-[hsl(var(--brand-green)/0.35)]"

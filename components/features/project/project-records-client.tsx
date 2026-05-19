@@ -243,8 +243,10 @@ export function ProjectRecordsClient({
             <Button
               type="button"
               size="sm"
+              tone="success"
+              shape="pill"
               onClick={() => void openRecordFlow()}
-              className="h-8 rounded-full bg-[hsl(var(--brand-green))] px-3 text-xs font-bold text-white hover:bg-[hsl(var(--brand-green)/0.92)]"
+              className="h-8 px-3 text-xs font-bold"
             >
               + 记录
             </Button>
@@ -254,14 +256,16 @@ export function ProjectRecordsClient({
 
       <RecordsPageContent>
         <RecordsTabsRow>
-          <FeedTabButton active={tab === "latest"} disabled={isPending} onClick={() => setTab("latest")}>
-            最新
-          </FeedTabButton>
-          <FeedTabButton active={tab === "featured"} disabled={isPending} onClick={() => setTab("featured")}>
-            精选
-          </FeedTabButton>
+          <div className="segmented-control shrink-0">
+            <FeedTabButton active={tab === "latest"} disabled={isPending} onClick={() => setTab("latest")}>
+              最新
+            </FeedTabButton>
+            <FeedTabButton active={tab === "featured"} disabled={isPending} onClick={() => setTab("featured")}>
+              精选
+            </FeedTabButton>
+          </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="ml-auto h-8 w-[108px] rounded-full border-[hsl(var(--surface-border))] bg-background/80 text-xs">
+            <SelectTrigger className="control-field ml-auto h-8 w-[108px] rounded-full text-xs shadow-sm">
               <SelectValue placeholder="全部类型" />
             </SelectTrigger>
             <SelectContent>
@@ -276,8 +280,8 @@ export function ProjectRecordsClient({
         </RecordsTabsRow>
 
         {!completed && mode === "project" ? (
-          <section className="mb-4 flex items-center gap-3 rounded-[14px] border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-green)/0.16)] text-[hsl(var(--brand-green))]">
+          <section className="exploration-cta-banner">
+            <span className="exploration-cta-icon">
               <Sprout className="h-5 w-5" />
             </span>
             <div className="min-w-0 flex-1">
@@ -302,8 +306,9 @@ export function ProjectRecordsClient({
                 <Button
                   type="button"
                   size="sm"
+                  tone="success"
+                  shape="pill"
                   onClick={() => void handleStartExploration()}
-                  className="rounded-full bg-[hsl(var(--brand-green))] text-white"
                 >
                   开始探索
                 </Button>
@@ -312,8 +317,9 @@ export function ProjectRecordsClient({
                   type="button"
                   size="sm"
                   variant="outline"
+                  shape="pill"
                   onClick={() => void openFinalDialog()}
-                  className="rounded-full text-xs"
+                  className="text-xs"
                 >
                   提交作品
                 </Button>
@@ -400,7 +406,7 @@ function RecordsEmptyState({
       : "还没有探索记录"
 
   return (
-    <div className="rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] bg-background/54 px-4 py-12 text-center">
+    <div className="app-empty-state">
       <p className="text-sm font-semibold text-foreground">{title}</p>
       <p className="mt-1 text-xs text-muted-foreground">{description}</p>
     </div>
@@ -425,10 +431,8 @@ function FeedTabButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "rounded-full px-4 py-1.5 text-sm font-semibold transition",
-        active
-          ? "bg-foreground text-background shadow-sm"
-          : "bg-muted/70 text-muted-foreground",
+        "segmented-option px-4 py-1.5 text-sm",
+        active && "segmented-option-active",
         disabled && "opacity-60",
       )}
     >

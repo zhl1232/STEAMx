@@ -43,7 +43,7 @@ export function ProjectCardSkeleton({ variant = "featured" }: { variant?: "featu
   }
 
   return (
-    <div className="surface-card overflow-hidden rounded-[24px]">
+    <div className="surface-card overflow-hidden rounded-[var(--radius-lg)]">
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
         <Skeleton className="h-full w-full rounded-none" />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
@@ -166,7 +166,7 @@ function ExploreMobileSearchHeaderSkeleton() {
   return (
     <header
       aria-hidden="true"
-      className="sticky top-0 z-50 w-full border-b border-[#dfe8f2] bg-white/92 shadow-[0_10px_36px_-28px_rgba(27,70,126,0.25)] backdrop-blur-xl pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-white/82 dark:border-[#243348] dark:bg-[#070b12]/94 dark:shadow-none dark:supports-[backdrop-filter]:bg-[#070b12]/84 md:hidden"
+      className="app-mobile-header"
     >
       <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
         <div className="mr-2 shrink-0">
@@ -223,7 +223,7 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       />
 
       <div className="relative z-10">
-        <div className="mx-auto w-full min-w-0 max-w-[1840px] px-4 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
+        <div className="app-shell-wide min-w-0 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
           <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
             <main className="surface-panel relative min-w-0 overflow-hidden rounded-[22px] md:rounded-[20px]">
               <h1 className="sr-only">探索项目</h1>
@@ -442,7 +442,7 @@ export function ProjectDetailPageSkeleton() {
         aria-hidden
         className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]"
       />
-      <div className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
+      <div className="app-shell-wide pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
         <div className="mb-5 hidden md:block">
           <div className="inline-flex items-center text-sm text-muted-foreground opacity-50">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -648,7 +648,7 @@ export function DiscussionItemSkeleton() {
 
 export function ChallengeCardSkeleton() {
   return (
-    <Card className="overflow-hidden rounded-[24px] border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)]">
+    <Card className="overflow-hidden rounded-[var(--radius-lg)] border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)]">
       <div className="aspect-[16/10] w-full">
         <Skeleton className="h-full w-full" />
       </div>

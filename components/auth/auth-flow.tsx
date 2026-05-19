@@ -472,7 +472,7 @@ export function AuthFlow({
     <div className={cn(
       'relative overflow-hidden border bg-card shadow-[0_24px_70px_-48px_hsl(var(--surface-shadow)/0.44)]',
       presentation === 'page'
-        ? 'mx-auto w-full max-w-md rounded-[24px] lg:max-w-none'
+        ? 'mx-auto w-full max-w-md rounded-[var(--radius-lg)] lg:max-w-none'
         : 'rounded-t-[28px] border-b-0 md:rounded-[28px] md:border-b'
     )}>
       <div className={cn(

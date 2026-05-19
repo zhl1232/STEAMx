@@ -60,7 +60,7 @@ export function ProfileObservationsPanel({
         <Link
           key={observation.id}
           href={`/nature/observations/${observation.id}`}
-          className="surface-panel block overflow-hidden rounded-[24px] p-4 transition-transform hover:-translate-y-0.5"
+          className="surface-panel block overflow-hidden rounded-[var(--radius-lg)] p-4 transition-transform hover:-translate-y-0.5"
         >
           {observation.mediaUrls[0] ? (
             <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-[18px] bg-muted">

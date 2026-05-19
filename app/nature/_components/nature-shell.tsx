@@ -45,7 +45,7 @@ export function NatureShell({
       <div
         className={cn(
           variant === "wide"
-            ? "mx-auto w-full max-w-[1840px] flex-1 px-4 pt-5 min-[390px]:px-5 md:px-8 md:pt-8"
+            ? "app-shell-wide flex-1 px-4 pt-5 min-[390px]:px-5 md:px-8 md:pt-8"
             : "page-shell flex-1 pt-6 md:pt-8",
           contentClassName,
         )}

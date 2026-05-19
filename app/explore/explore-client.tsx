@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useState, useRef, useCallback, useEffect, useMemo, type FormEvent } from 'react'
+import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import {
@@ -39,6 +39,13 @@ import { useAuth } from '@/lib/context/auth-context'
 import { useGamification } from '@/lib/context/gamification-context'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
+import {
+    buildExploreFiltersKey,
+    clearExploreScrollRestore,
+    readExploreScrollRestore,
+    saveExploreScrollRestore,
+    type ExploreScrollRestoreState,
+} from '@/lib/explore-scroll-restore'
 
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG, CATEGORY_META } from '@/lib/config/categories'
@@ -238,6 +245,8 @@ export function ExploreClient({
     const hasMoreRef = useRef(initialHasMore)
     const isLoadingMoreRef = useRef(false)
     const isFilteringRef = useRef(false)
+    const pendingScrollRestoreRef = useRef<ExploreScrollRestoreState | null>(null)
+    const isRestoringScrollRef = useRef(false)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
@@ -253,15 +262,6 @@ export function ExploreClient({
     const [draftDifficulty, setDraftDifficulty] = useState(selectedDifficulty)
     const [draftTags, setDraftTags] = useState<string[]>(selectedTags)
     const [showAllDraftTags, setShowAllDraftTags] = useState(false)
-
-    useEffect(() => {
-        setProjects(initialProjects)
-        setHasMore(initialHasMore)
-        hasMoreRef.current = initialHasMore
-        setPage(initialPage + 1)
-        pageRef.current = initialPage + 1
-        clearLikesDeltaForProjects(initialProjects.map(p => p.id))
-    }, [initialProjects, initialHasMore, initialPage, clearLikesDeltaForProjects])
 
     useEffect(() => {
         pageRef.current = page
@@ -420,6 +420,137 @@ export function ExploreClient({
 
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, selectedSortBy])
+
+    const saveExploreScrollPosition = useCallback(() => {
+        if (typeof window === 'undefined') return
+
+        saveExploreScrollRestore({
+            filtersKey: buildExploreFiltersKey(buildSearchParams()),
+            scrollY: window.scrollY,
+            nextPage: pageRef.current,
+        })
+    }, [buildSearchParams])
+
+    const handleExploreProjectLinkClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
+        const target = event.target
+        if (!(target instanceof Element)) return
+        if (!target.closest('a[href^="/project/"]')) return
+        saveExploreScrollPosition()
+    }, [saveExploreScrollPosition])
+
+    useLayoutEffect(() => {
+        const saved = readExploreScrollRestore()
+        if (!saved) return
+
+        const filtersKey = buildExploreFiltersKey(buildSearchParams())
+        if (saved.filtersKey !== filtersKey) {
+            clearExploreScrollRestore()
+            return
+        }
+
+        pendingScrollRestoreRef.current = saved
+        clearExploreScrollRestore()
+    }, [buildSearchParams])
+
+    useEffect(() => {
+        const saved = pendingScrollRestoreRef.current
+        if (!saved) {
+            setProjects(initialProjects)
+            setHasMore(initialHasMore)
+            hasMoreRef.current = initialHasMore
+            setPage(initialPage + 1)
+            pageRef.current = initialPage + 1
+            clearLikesDeltaForProjects(initialProjects.map(p => p.id))
+            return
+        }
+
+        pendingScrollRestoreRef.current = null
+        let cancelled = false
+        isRestoringScrollRef.current = true
+
+        const restoreScroll = () => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    window.scrollTo({ top: saved.scrollY, left: 0, behavior: 'auto' })
+                    isRestoringScrollRef.current = false
+                })
+            })
+        }
+
+        const syncRestoredProjects = (nextProjects: Project[], nextHasMore: boolean, nextPage: number) => {
+            if (cancelled) return
+            setProjects(nextProjects)
+            clearLikesDeltaForProjects(nextProjects.map((project) => project.id))
+            setHasMore(nextHasMore)
+            hasMoreRef.current = nextHasMore
+            setPage(nextPage)
+            pageRef.current = nextPage
+            restoreScroll()
+        }
+
+        if (saved.nextPage <= initialPage + 1) {
+            syncRestoredProjects(initialProjects, initialHasMore, saved.nextPage)
+            return () => {
+                cancelled = true
+                isRestoringScrollRef.current = false
+            }
+        }
+
+        void (async () => {
+            let mergedProjects = initialProjects
+            let nextHasMore = initialHasMore
+
+            for (let page = initialPage + 1; page < saved.nextPage; page++) {
+                if (cancelled) return
+
+                const params = buildSearchParams()
+                params.set('page', String(page))
+
+                try {
+                    const response = await fetch(`/api/projects?${params.toString()}`)
+                    if (!response.ok) break
+                    const data = await response.json()
+                    mergedProjects = [...mergedProjects, ...data.projects]
+                    nextHasMore = data.hasMore
+                } catch {
+                    break
+                }
+            }
+
+            syncRestoredProjects(mergedProjects, nextHasMore, saved.nextPage)
+        })()
+
+        return () => {
+            cancelled = true
+            isRestoringScrollRef.current = false
+        }
+    }, [
+        initialProjects,
+        initialHasMore,
+        initialPage,
+        clearLikesDeltaForProjects,
+        buildSearchParams,
+    ])
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return
+
+        let timeoutId: number | null = null
+        const onScroll = () => {
+            if (isRestoringScrollRef.current) return
+            if (timeoutId !== null) return
+            timeoutId = window.setTimeout(() => {
+                timeoutId = null
+                saveExploreScrollPosition()
+            }, 150)
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => {
+            window.removeEventListener('scroll', onScroll)
+            if (timeoutId !== null) window.clearTimeout(timeoutId)
+        }
+    }, [saveExploreScrollPosition])
 
     const buildProjectDetailHref = useCallback((projectId: string | number, index: number) => {
         const params = buildSearchParams()
@@ -723,7 +854,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[260px] h-[460px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:top-[300px] md:h-[560px]"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="mx-auto w-full min-w-0 max-w-[1840px] px-4 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className="surface-panel relative min-w-0 overflow-hidden rounded-[22px] md:rounded-[20px]">
                             <h1 className="sr-only">探索项目</h1>
@@ -1019,7 +1150,10 @@ export function ExploreClient({
                                     </div>
                                 )}
 
-                                <div className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                                <div
+                                    className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4"
+                                    onClickCapture={handleExploreProjectLinkClick}
+                                >
                                     {projects.map((project, index) => {
                                         const isPriority = index < 4
                                         const detailHref = buildProjectDetailHref(project.id, index)

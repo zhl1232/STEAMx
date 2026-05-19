@@ -11,6 +11,7 @@ import { StageGuide } from "@/components/features/challenge/stage-guide"
 import { SubmissionGallery } from "@/components/features/challenge/submission-gallery"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { StatusBadge } from "@/components/ui/status-badge"
 import { CountdownTimer } from "@/components/ui/countdown-timer"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
@@ -108,23 +109,11 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
             : "整理好过程和证据后提交。"
   const submissionStatusMeta =
     challenge.mySubmissionStatus === "approved"
-      ? {
-          label: "审核通过",
-          className:
-            "bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-300",
-        }
+      ? { label: "审核通过", status: "success" as const }
       : challenge.mySubmissionStatus === "pending"
-        ? {
-            label: "审核中",
-            className:
-              "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300",
-          }
+        ? { label: "审核中", status: "warning" as const }
         : challenge.mySubmissionStatus === "rejected"
-          ? {
-              label: "待修改",
-              className:
-                "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300",
-            }
+          ? { label: "待修改", status: "danger" as const }
           : null
   const progressCards = [
     {
@@ -292,7 +281,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
               </div>
 
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
-                <div className="max-w-3xl rounded-[24px] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-[28px] sm:px-6 sm:py-6">
+                <div className="max-w-3xl rounded-[var(--radius-lg)] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-[28px] sm:px-6 sm:py-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/76">社区挑战</p>
                   <h1 className="mt-3 text-[1.85rem] font-semibold leading-tight tracking-tight text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
                     {challenge.title}
@@ -373,14 +362,14 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                   {challengeStatusLabel}
                 </Badge>
                 {challenge.joined && !isEnded && (
-                  <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
-                    {isTimed ? '已报名' : '已参与'}
-                  </span>
+                  <StatusBadge status="success" className="rounded-full px-3 py-1">
+                    {isTimed ? "已报名" : "已参与"}
+                  </StatusBadge>
                 )}
                 {submissionStatusMeta && (
-                  <span className={cn("rounded-full px-3 py-1 text-xs font-medium", submissionStatusMeta.className)}>
+                  <StatusBadge status={submissionStatusMeta.status} className="rounded-full px-3 py-1">
                     {submissionStatusMeta.label}
-                  </span>
+                  </StatusBadge>
                 )}
               </div>
 
@@ -403,11 +392,10 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                   </Button>
                   <Button
                     onClick={handleJoin}
-                    variant={challenge.joined ? "secondary" : "outline"}
-                    className={cn(
-                      "h-10 rounded-xl text-sm font-semibold transition-all",
-                      challenge.joined ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-950/20 dark:text-green-300" : "",
-                    )}
+                    tone={challenge.joined ? "success" : undefined}
+                    variant={challenge.joined ? undefined : "outline"}
+                    shape="soft"
+                    className="h-10 text-sm font-semibold"
                   >
                     {challenge.joined ? (isTimed ? '已报名' : '已加入') : (isTimed ? '报名挑战' : '加入挑战')}
                   </Button>
@@ -506,14 +494,14 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                       {challengeStatusLabel}
                     </Badge>
                     {challenge.joined && !isEnded && (
-                      <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
+                      <StatusBadge status="success" className="rounded-full px-3 py-1">
                         {isTimed ? "已报名" : "已参与"}
-                      </span>
+                      </StatusBadge>
                     )}
                     {submissionStatusMeta && (
-                      <span className={cn("rounded-full px-3 py-1 text-xs font-medium", submissionStatusMeta.className)}>
+                      <StatusBadge status={submissionStatusMeta.status} className="rounded-full px-3 py-1">
                         {submissionStatusMeta.label}
-                      </span>
+                      </StatusBadge>
                     )}
                   </div>
 
@@ -525,11 +513,11 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                       : submissionSummary}
                   </p>
 
-                  {challenge.completed && !submissionStatusMeta && (
-                    <div className="mt-2.5 inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-950/30 dark:text-green-300">
+                                    {challenge.completed && !submissionStatusMeta && (
+                    <StatusBadge status="success" className="mt-2.5 inline-flex items-center gap-2 rounded-full px-3 py-1">
                       <CheckCircle className="h-3.5 w-3.5" />
                       已有审核通过的挑战作品
-                    </div>
+                    </StatusBadge>
                   )}
                 </div>
 
@@ -540,11 +528,10 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                     </Button>
                     <Button
                       onClick={handleJoin}
-                      variant={challenge.joined ? "secondary" : "outline"}
-                      className={cn(
-                        "h-10 w-full rounded-xl text-sm font-semibold transition-all",
-                        challenge.joined ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-950/20 dark:text-green-300" : "",
-                      )}
+                      tone={challenge.joined ? "success" : undefined}
+                      variant={challenge.joined ? undefined : "outline"}
+                      shape="soft"
+                      className="h-10 w-full text-sm font-semibold"
                     >
                       {challenge.joined ? (
                         <>

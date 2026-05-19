@@ -434,7 +434,7 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
 function HomeFooter() {
   return (
     <footer className="hidden border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6 md:block">
-      <div className="mx-auto grid max-w-[1840px] grid-cols-[1.5fr_repeat(4,1fr)_1.2fr] gap-10 px-8 text-[13px] text-muted-foreground">
+      <div className="app-shell-wide grid grid-cols-[1.5fr_repeat(4,1fr)_1.2fr] gap-10 px-8 text-[13px] text-muted-foreground">
         <div>
           <Link href="/" className="mb-3 flex items-center gap-2">
             <SteamLogo className="h-8 w-8" />
@@ -493,7 +493,7 @@ export function HomeShowcase({
 }) {
   return (
     <div className="app-canvas min-h-screen">
-      <div className="mx-auto flex max-w-[1840px] flex-col gap-5 px-4 py-5 min-[390px]:gap-6 min-[390px]:px-5 min-[390px]:py-6 md:gap-7 md:px-8 md:py-8">
+      <div className="app-shell-wide flex flex-col gap-5 px-4 py-5 min-[390px]:gap-6 min-[390px]:px-5 min-[390px]:py-6 md:gap-7 md:px-8 md:py-8">
         <HomeHero image={heroImage} />
         <MobileLeaderboardEntry />
 

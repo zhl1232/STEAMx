@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
 import type { ObservationHotspotSummary } from "@/lib/api/nature-observation-data";
+import { cn } from "@/lib/utils";
 
 interface MobileHotspotsCardProps {
   hotspots: ObservationHotspotSummary[];
@@ -34,22 +35,23 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
   const validHotspots = hotspots.filter((hotspot) => hotspot.latitude != null && hotspot.longitude != null);
 
   return (
-    <section className="rounded-lg border border-[#dce9df] bg-white p-4 shadow-[0_16px_42px_-34px_rgba(27,69,49,0.36)] dark:border-[#2a4735] dark:bg-[#0f1f16] dark:shadow-[0_24px_60px_-42px_rgba(0,0,0,0.9)]">
+    <section className="nature-section-card">
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
-          <MapPin className="h-5 w-5 shrink-0 text-[#16844b] dark:text-[#74d79a]" />
-          <h2 className="truncate text-[20px] font-bold leading-7 text-[#18251f] dark:text-[#eef8ef]">热点观察地</h2>
+          <MapPin className="h-5 w-5 shrink-0 nature-icon-accent" />
+          <h2 className="nature-heading truncate text-[20px]">热点观察地</h2>
         </div>
-        <div className="grid h-10 shrink-0 grid-cols-2 rounded-full bg-[#eef7ef] p-1 dark:bg-[#172a1e]">
+        <div className="nature-segment-track h-10 shrink-0">
           <button
             type="button"
             aria-pressed={view === "list"}
             onClick={() => setView("list")}
-            className={`inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors ${
+            className={cn(
+              "inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors",
               view === "list"
-                ? "bg-white text-[#16844b] shadow-[0_8px_18px_-14px_rgba(22,132,75,0.72)] dark:bg-[#2fb76b] dark:text-[#041208]"
-                : "text-[#52645b] dark:text-[#a8b8ae]"
-            }`}
+                ? "bg-[hsl(var(--nature-surface))] text-[hsl(var(--nature-accent))] shadow-[0_8px_18px_-14px_hsl(var(--nature-accent)/0.72)]"
+                : "nature-text-muted",
+            )}
           >
             <List className="h-3.5 w-3.5" />
             列表
@@ -58,11 +60,12 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             type="button"
             aria-pressed={view === "map"}
             onClick={() => setView("map")}
-            className={`inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors ${
+            className={cn(
+              "inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors",
               view === "map"
-                ? "bg-white text-[#16844b] shadow-[0_8px_18px_-14px_rgba(22,132,75,0.72)] dark:bg-[#2fb76b] dark:text-[#041208]"
-                : "text-[#52645b] dark:text-[#a8b8ae]"
-            }`}
+                ? "bg-[hsl(var(--nature-surface))] text-[hsl(var(--nature-accent))] shadow-[0_8px_18px_-14px_hsl(var(--nature-accent)/0.72)]"
+                : "nature-text-muted",
+            )}
           >
             <Map className="h-3.5 w-3.5" />
             地图
@@ -88,11 +91,11 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
               enableTimeDecay
             />
           ) : (
-            <div className="flex min-h-48 items-center rounded-lg border border-dashed border-[#d7eadb] bg-[#eef8ef] px-4 text-sm leading-6 text-[#65736c] dark:border-[#31503c] dark:bg-[#15271c] dark:text-[#9fb1a6]">
+            <div className="flex min-h-48 items-center rounded-lg nature-empty-state px-4 text-sm leading-6 nature-text-muted">
               公开观察记录里还没有可用于地图展示的坐标。
             </div>
           )}
-          <Link href="/nature/map" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[#16844b] dark:text-[#74d79a]">
+          <Link href="/nature/map" className="nature-link inline-flex min-h-11 items-center gap-1">
             查看完整地图
             <ChevronRight className="h-4 w-4" />
           </Link>
@@ -103,7 +106,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             <Link
               key={hotspot.locationName}
               href="/nature/map"
-              className="group block overflow-hidden rounded-lg bg-[#e8f1e9] shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
+              className="group block overflow-hidden rounded-[var(--radius-sm)] nature-media-placeholder shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
             >
               <div className="relative aspect-[16/9] overflow-hidden">
                 <Image
@@ -125,7 +128,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
                     <p className="line-clamp-1 text-[15px] font-bold leading-5 [text-shadow:0_2px_8px_rgba(0,0,0,0.55)]">{hotspot.locationName}</p>
                     <p className="mt-1 text-xs font-semibold text-white/82 [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">公开记录 {hotspot.observationCount} 条</p>
                   </div>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 text-[#16844b] backdrop-blur transition-transform duration-300 motion-safe:group-hover:translate-x-1">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 nature-icon-accent backdrop-blur transition-transform duration-300 motion-safe:group-hover:translate-x-1">
                     <ChevronRight className="h-4 w-4" />
                   </span>
                 </div>
@@ -133,7 +136,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             </Link>
           ))}
           {hotspots.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-[#d7eadb] px-3 py-4 text-sm text-[#65736c] dark:border-[#31503c] dark:text-[#9fb1a6]">
+            <div className="nature-empty-state px-3 py-4 text-sm">
               暂无热点地点。
             </div>
           ) : null}

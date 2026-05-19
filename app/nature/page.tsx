@@ -87,7 +87,13 @@ interface StatViewItem {
 const natureBlurDataUrl =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23dff1e4'/%3E%3Cstop offset='.55' stop-color='%23cfe7ee'/%3E%3Cstop offset='1' stop-color='%23f4ead1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='16' height='12' fill='url(%23g)'/%3E%3C/svg%3E";
 
-const hotspotRankColors = ["#eba93c", "#0f9a5a", "#2f80ed", "#8aa33e", "#d18a22"];
+const hotspotRankColors = [
+  "hsl(var(--brand-amber))",
+  "hsl(var(--nature-accent))",
+  "hsl(var(--brand-blue))",
+  "hsl(var(--tone-tech))",
+  "hsl(var(--tone-engineering))",
+];
 
 function getHotspotRankColor(index: number) {
   return hotspotRankColors[index % hotspotRankColors.length];
@@ -132,9 +138,9 @@ const topicCardBase: TopicCardBase[] = [
 
 function HeroGlassPanel({ children }: { children: ReactNode }) {
   return (
-    <section className="relative isolate overflow-hidden rounded-lg border border-white/70 bg-[#f7f8f1] p-5 [box-shadow:0_26px_82px_-34px_rgba(5,24,15,0.58),inset_0_1px_0_rgba(255,255,255,0.84)] dark:border-white/15 dark:bg-[#102017]/[0.78] dark:[box-shadow:0_28px_86px_-34px_rgba(0,0,0,0.92),inset_0_1px_0_rgba(255,255,255,0.12)]">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[rgba(255,255,255,0.18)] dark:bg-white/[0.03]" />
-      <div className="pointer-events-none absolute inset-px z-0 rounded-[7px] border border-white/38 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),inset_0_-1px_0_rgba(255,255,255,0.16)] dark:border-white/[0.06] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" />
+    <section className="nature-hero-glass">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-white/20 dark:bg-white/[0.03]" />
+      <div className="pointer-events-none absolute inset-px z-0 rounded-[var(--radius-xs)] border border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] dark:border-white/[0.06]" />
       <div className="relative z-10">{children}</div>
     </section>
   );
@@ -205,18 +211,18 @@ function buildObservationPreviews(observations: ObservationEvent[]): Observation
 
 function HeroStatsCard({ stats }: { stats: StatViewItem[] }) {
   return (
-    <section className="relative z-20 mx-4 !-mt-10 rounded-lg border border-[#dce9df] bg-white/[0.96] p-4 shadow-[0_26px_62px_-36px_rgba(27,69,49,0.54)] backdrop-blur md:hidden dark:border-[#2a4735] dark:bg-[#0f1f16]/[0.96] dark:shadow-[0_24px_58px_-38px_rgba(0,0,0,0.92)]">
+    <section className="nature-section-card relative z-20 mx-4 !-mt-10 backdrop-blur md:hidden">
       <div className="grid grid-cols-2 gap-x-6 gap-y-3">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
             <div key={stat.label} className="flex min-w-0 items-center gap-2.5">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#e3f3e7] text-[#16844b] dark:bg-[#183b25] dark:text-[#74d79a]">
+              <span className="nature-stat-icon">
                 <Icon className="h-5 w-5" />
               </span>
               <div className="min-w-0">
-                <div className="text-[24px] font-extrabold leading-7 text-[#17251f] dark:text-[#eef8ef]">{stat.value}</div>
-                <div className="text-xs font-medium leading-5 text-[#65736c] dark:text-[#9fb1a6]">{stat.label}</div>
+                <div className="text-metric text-[hsl(var(--nature-foreground))]">{stat.value}</div>
+                <div className="text-label text-[hsl(var(--nature-muted))]">{stat.label}</div>
               </div>
             </div>
           );
@@ -228,7 +234,7 @@ function HeroStatsCard({ stats }: { stats: StatViewItem[] }) {
 
 function NatureHeroPanel({ heroStats, submitHref }: { heroStats: StatViewItem[]; submitHref: string }) {
   return (
-    <section className="relative isolate overflow-hidden rounded-lg border border-white/60 bg-[#102017] shadow-[0_24px_70px_-42px_rgba(9,42,26,0.7)] dark:border-white/10 dark:shadow-[0_28px_80px_-44px_rgba(0,0,0,0.96)] md:min-h-[360px] lg:min-h-[374px]">
+    <section className="nature-hero-panel md:min-h-[360px] lg:min-h-[374px]">
       <Image
         src={heroImage}
         alt=""
@@ -249,7 +255,7 @@ function NatureHeroPanel({ heroStats, submitHref }: { heroStats: StatViewItem[];
           </p>
           <Link
             href={submitHref}
-            className="mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-[#0f9a5a] px-6 text-[15px] font-extrabold text-white shadow-[0_22px_48px_-20px_rgba(15,154,90,0.95),0_0_0_1px_rgba(255,255,255,0.24)_inset] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0b844b] hover:shadow-[0_26px_58px_-22px_rgba(15,154,90,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#07130d] active:scale-[0.98] dark:bg-[#2fb76b] dark:text-[#041208] dark:hover:bg-[#55d988] md:min-h-[52px] md:px-7 md:text-[16px]"
+            className="mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[var(--radius-sm)] bg-[hsl(var(--nature-accent))] px-6 text-[15px] font-extrabold text-[hsl(var(--nature-accent-foreground))] shadow-[0_22px_48px_-20px_hsl(var(--nature-accent)/0.95)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[hsl(var(--nature-accent)/0.92)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-hero-bg))] active:scale-[0.98] md:min-h-[52px] md:px-7 md:text-[16px]"
           >
             <Camera className="h-5 w-5" />
             发布观察
@@ -289,13 +295,13 @@ function SectionHeader({
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-2">
-        <Icon className="h-5 w-5 shrink-0 text-[#16844b] dark:text-[#74d79a]" />
-        <h2 className="truncate text-[20px] font-bold leading-7 text-[#18251f] dark:text-[#eef8ef] md:text-[22px]">{title}</h2>
+        <Icon className="h-5 w-5 shrink-0 nature-icon-accent" />
+        <h2 className="nature-heading truncate text-[20px] md:text-[22px]">{title}</h2>
       </div>
       {href ? (
         <Link
           href={href}
-          className="inline-flex min-h-11 shrink-0 items-center gap-1.5 text-sm font-semibold text-[#16844b] transition-colors hover:text-[#0b6b38] dark:text-[#74d79a] dark:hover:text-[#9af0b7]"
+          className="nature-link inline-flex min-h-11 shrink-0 items-center gap-1.5"
         >
           {action}
           <ChevronRight className="h-4 w-4" />
@@ -320,20 +326,20 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
       />
       <div className={`absolute inset-0 bg-gradient-to-r opacity-45 ${topic.tint}`} />
       <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(248,251,244,0.82)_0%,rgba(248,251,244,0.62)_22%,rgba(248,251,244,0.22)_42%,rgba(248,251,244,0.04)_56%,rgba(248,251,244,0)_66%)] dark:bg-[linear-gradient(100deg,rgba(15,31,22,0.82)_0%,rgba(15,31,22,0.58)_24%,rgba(15,31,22,0.22)_44%,rgba(15,31,22,0.06)_58%,rgba(15,31,22,0)_68%)]" />
-      <div className="relative z-10 flex h-full min-h-[154px] flex-col justify-between p-4 text-[#213229] dark:text-white dark:[text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:min-h-[196px] md:p-5">
+      <div className="relative z-10 flex h-full min-h-[154px] flex-col justify-between p-4 text-[hsl(var(--nature-foreground))] dark:text-white dark:[text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:min-h-[196px] md:p-5">
         <div>
           <div className="flex items-center gap-2">
             <Icon className="h-5 w-5" />
             <h3 className="text-[21px] font-bold leading-7">{topic.title}</h3>
           </div>
-          <p className="mt-1 text-sm font-semibold text-[#2f4738] dark:text-white/[0.92]">{topic.subtitle}</p>
+          <p className="mt-1 text-sm font-semibold nature-text-muted dark:text-white/[0.92]">{topic.subtitle}</p>
         </div>
         <div className="space-y-2">
-          <div className="text-sm font-bold leading-5 text-[#18251f] dark:text-white/95">
+          <div className="text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))] dark:text-white/95">
             <div>{topic.records}</div>
             <div>{topic.species}</div>
           </div>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#f8fbf4]/95 text-[#16844b] shadow-[0_10px_24px_-16px_rgba(28,77,50,0.45)] ring-1 ring-[#bddbc7] backdrop-blur transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-white group-hover:shadow-[0_16px_28px_-16px_rgba(22,132,75,0.65)] motion-safe:group-hover:translate-x-1 dark:bg-white dark:text-[#16844b] dark:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)] dark:ring-transparent">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--nature-surface))]/95 nature-icon-accent shadow-[0_10px_24px_-16px_hsl(var(--nature-accent)/0.45)] ring-1 ring-[hsl(var(--nature-border))] backdrop-blur transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-white group-hover:shadow-[0_16px_28px_-16px_rgba(22,132,75,0.65)] motion-safe:group-hover:translate-x-1 dark:bg-white dark:text-[#16844b] dark:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)] dark:ring-transparent">
             <ArrowRight className="h-4 w-4 transition-transform duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover:translate-x-0.5" />
           </span>
         </div>
@@ -341,8 +347,7 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
     </>
   );
 
-  const className =
-    "group relative block w-[85vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-lg border border-[#b9d8c4] bg-[#f7fbf5] shadow-[0_14px_36px_-30px_rgba(18,60,42,0.5)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:border-[#8dc8a5] hover:shadow-[0_22px_50px_-34px_rgba(18,60,42,0.64)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:border-white/10 dark:bg-[#0f1f16] dark:shadow-[0_18px_42px_-32px_rgba(0,0,0,0.8)] dark:hover:border-[#43865a] dark:hover:shadow-[0_24px_54px_-34px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-auto md:max-w-none md:snap-align-none";
+  const className = "group nature-topic-card";
 
   if (topic.href) {
     return (
@@ -363,9 +368,9 @@ function ObservationCard({ item, priority = false }: { item: ObservationPreview;
   return (
     <Link
       href={item.href}
-      className="group block w-[85vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-lg border border-[#d8e8dc] bg-white shadow-[0_16px_44px_-34px_rgba(23,58,41,0.55)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:border-[#9fceb0] hover:shadow-[0_24px_60px_-38px_rgba(23,58,41,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.99] motion-safe:hover:-translate-y-1 dark:border-[#233f2e] dark:bg-[#0f1f16] dark:shadow-[0_18px_46px_-34px_rgba(0,0,0,0.8)] dark:hover:border-[#43865a] dark:hover:shadow-[0_24px_62px_-40px_rgba(0,0,0,0.95)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d] md:w-[224px] md:max-w-none md:snap-align-none 2xl:w-auto"
+      className="group nature-observation-card"
     >
-      <div className="relative aspect-[1.18] overflow-hidden bg-[#e8f1e9] dark:bg-[#16251b] md:aspect-[1.5]">
+      <div className="nature-media-placeholder relative aspect-[1.18] overflow-hidden md:aspect-[1.5]">
         {item.image ? (
           <Image
             src={item.image}
@@ -379,7 +384,7 @@ function ObservationCard({ item, priority = false }: { item: ObservationPreview;
           />
         ) : (
           <div className="flex h-full w-full items-end bg-[radial-gradient(circle_at_18%_20%,rgba(22,132,75,0.18),transparent_38%),radial-gradient(circle_at_78%_10%,rgba(56,189,248,0.18),transparent_42%),linear-gradient(150deg,#eef8ef,#dfeee7)] p-3 dark:bg-[radial-gradient(circle_at_18%_20%,rgba(116,215,154,0.14),transparent_38%),radial-gradient(circle_at_78%_10%,rgba(56,189,248,0.12),transparent_42%),linear-gradient(150deg,#122319,#172a1e)]">
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold text-[#16844b] backdrop-blur dark:bg-[#102017]/80 dark:text-[#74d79a]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold nature-icon-accent backdrop-blur dark:bg-[hsl(var(--nature-hero-bg)/0.8)]">
               <Leaf className="h-3.5 w-3.5" />
               暂无照片
             </span>
@@ -388,27 +393,27 @@ function ObservationCard({ item, priority = false }: { item: ObservationPreview;
       </div>
       <div className="space-y-2.5 p-4 md:p-3.5">
         <div>
-          <h3 className="line-clamp-1 text-[15px] font-bold leading-5 text-[#1d2b24] transition-colors group-hover:text-[#0f6f3f] dark:text-[#eef8ef] dark:group-hover:text-[#9af0b7] md:text-[16px] md:leading-6">
+          <h3 className="line-clamp-1 text-[15px] font-bold leading-5 text-[hsl(var(--nature-foreground))] transition-colors group-hover:text-[hsl(var(--nature-accent))] md:text-[16px] md:leading-6">
             {item.title}
           </h3>
-          <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 text-[#65736c] dark:text-[#a8b8ae]">
+          <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 nature-text-muted">
             <span>{item.date}</span>
             <span className="max-w-full truncate md:max-w-[15rem]">{item.location}</span>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#dbeee0] text-[10px] font-bold text-[#16844b] dark:bg-[#183b25] dark:text-[#74d79a]">
+          <span className="nature-stat-icon grid h-5 w-5 shrink-0 place-items-center text-[10px] font-bold">
             {item.author.slice(0, 1)}
           </span>
-          <span className="min-w-0 truncate text-xs text-[#52645b] dark:text-[#b7c6bc]">{item.author}</span>
-          <span className="rounded-full bg-[#e4f4e8] px-1.5 py-0.5 text-[10px] font-bold text-[#16844b] dark:bg-[#183b25] dark:text-[#8ee8ae]">{item.badge}</span>
+          <span className="min-w-0 truncate text-xs nature-text-muted">{item.author}</span>
+          <span className="nature-chip">{item.badge}</span>
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-[#40564b] dark:text-[#c5d6cb]">
-          <span className="inline-flex min-h-7 items-center gap-1 rounded-full bg-[#f0f7f1] px-2.5 transition-colors group-hover:bg-[#e3f1e7] dark:bg-[#172a1e] dark:group-hover:bg-[#203c2a]">
+        <div className="flex items-center gap-2 text-xs font-semibold nature-text-muted">
+          <span className="nature-interaction-pill">
             <Heart className="h-3.5 w-3.5" />
             {item.likes}
           </span>
-          <span className="inline-flex min-h-7 items-center gap-1 rounded-full bg-[#f0f7f1] px-2.5 transition-colors group-hover:bg-[#e3f1e7] dark:bg-[#172a1e] dark:group-hover:bg-[#203c2a]">
+          <span className="nature-interaction-pill">
             <MessageCircle className="h-3.5 w-3.5" />
             {item.comments}
           </span>
@@ -425,8 +430,8 @@ function HotspotMapCard({ hotspots }: { hotspots: ObservationHotspotSummary[] })
   return (
     <HeroGlassPanel>
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-[20px] font-bold leading-7 text-[#17251f] dark:text-[#eef8ef]">热点观察地</h2>
-        <Link href="/nature/map" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[#16844b] transition-colors hover:text-[#0b6b38] dark:text-[#74d79a] dark:hover:text-[#9af0b7]">
+        <h2 className="nature-heading text-[20px]">热点观察地</h2>
+        <Link href="/nature/map" className="nature-link inline-flex min-h-11 items-center gap-1">
           查看更多
           <ChevronRight className="h-4 w-4" />
         </Link>
@@ -449,23 +454,23 @@ function HotspotMapCard({ hotspots }: { hotspots: ObservationHotspotSummary[] })
               enableTimeDecay
             />
           ) : (
-            <div className="flex min-h-[210px] items-center rounded-lg border border-dashed border-[#d7eadb] bg-[#eef8ef] px-4 text-sm leading-6 text-[#65736c] dark:border-[#31503c] dark:bg-[#15271c] dark:text-[#9fb1a6]">
+            <div className="nature-empty-state flex min-h-[210px] items-center px-4 leading-6">
               公开观察记录里还没有可用于地图展示的坐标。
             </div>
           )}
         </div>
         <div className="min-w-0 space-y-3">
           {hotspots.slice(0, 5).map((hotspot, index) => (
-            <Link key={hotspot.locationName} href="/nature/map" title={hotspot.locationName} className="flex min-h-11 min-w-0 items-center gap-4 rounded-lg p-1 transition-colors hover:bg-[#eef7ef] dark:hover:bg-white/[0.06]">
+            <Link key={hotspot.locationName} href="/nature/map" title={hotspot.locationName} className="nature-list-row">
               <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs font-bold text-white shadow-[0_8px_18px_-12px_rgba(18,60,42,0.55)]" style={{ backgroundColor: getHotspotRankColor(index) }}>{index + 1}</span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold leading-5 text-[#24342c] dark:text-[#edf7ef]">{hotspot.locationName}</p>
-                <p className="text-xs leading-5 text-[#77867e] dark:text-[#9fb1a6]">公开记录 {hotspot.observationCount} 条</p>
+                <p className="truncate text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))]">{hotspot.locationName}</p>
+                <p className="text-xs leading-5 nature-text-muted">公开记录 {hotspot.observationCount} 条</p>
               </div>
             </Link>
           ))}
           {hotspots.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-[#d7eadb] px-3 py-4 text-sm text-[#65736c] dark:border-[#31503c] dark:text-[#9fb1a6]">
+            <div className="nature-empty-state px-3 py-4">
               暂无真实热点地点。
             </div>
           ) : null}
@@ -501,28 +506,28 @@ function DataStatusCard({
       className={
         embedded
           ? "p-0"
-          : "rounded-lg border border-[#dce9df] bg-white/[0.94] p-5 shadow-[0_20px_54px_-38px_rgba(27,69,49,0.36)] dark:border-[#2a4735] dark:bg-[#0f1f16]/[0.94] dark:shadow-[0_24px_60px_-42px_rgba(0,0,0,0.9)]"
+          : "nature-data-card"
       }
     >
       <div className="flex items-start justify-between gap-4">
-        <h2 className="text-[20px] font-bold leading-7 text-[#17251f] dark:text-[#eef8ef]">观察概览</h2>
-        <span className="shrink-0 pt-1 text-xs font-medium text-[#65736c] dark:text-[#9fb1a6]">公开记录</span>
+        <h2 className="nature-heading text-[20px]">观察概览</h2>
+        <span className="shrink-0 pt-1 text-label nature-text-muted">公开记录</span>
       </div>
-      <div className="mt-4 divide-y divide-[#dfece3] dark:divide-[#274130]">
+      <div className="nature-divide mt-4">
         {items.map((item) => {
           const Icon = item.icon;
           return (
             <div key={item.title} className="flex min-w-0 items-center gap-2.5 py-3 first:pt-0 last:pb-0 sm:gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[#dff0e3] text-[#16844b] dark:bg-[#183b25] dark:text-[#74d79a]">
+              <span className="nature-stat-icon h-12 w-12">
                 <Icon className="h-6 w-6" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="line-clamp-1 text-sm font-bold leading-5 text-[#24342c] dark:text-[#edf7ef]">{item.title}</p>
-                <p className="mt-1 line-clamp-1 text-xs text-[#65736c] dark:text-[#9fb1a6]">{item.value}</p>
+                <p className="line-clamp-1 text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))]">{item.title}</p>
+                <p className="mt-1 line-clamp-1 text-xs nature-text-muted">{item.value}</p>
               </div>
               <Link
                 href={item.href}
-                className="group/status-action inline-flex min-h-11 min-w-[76px] shrink-0 items-center justify-center gap-0.5 rounded-lg border border-[#91cfaa] bg-white px-3 text-sm font-semibold text-[#16844b] transition-all duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-[#16844b] hover:text-white hover:shadow-[0_12px_24px_-18px_rgba(22,132,75,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16844b]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5faf6] active:scale-[0.98] dark:border-[#3f8054] dark:bg-[#122319] dark:text-[#8ee8ae] dark:hover:bg-[#2fb76b] dark:hover:text-[#041208] dark:hover:shadow-[0_14px_28px_-20px_rgba(0,0,0,0.9)] dark:focus-visible:ring-[#74d79a]/60 dark:focus-visible:ring-offset-[#07130d]"
+                className="nature-action-link group/status-action"
               >
                 查看
                 <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover/status-action:translate-x-0.5" />
@@ -543,20 +548,20 @@ function ContributionCard({ stats, embedded = false }: { stats: NatureObservatio
       className={
         embedded
           ? "relative overflow-hidden p-0"
-          : "relative overflow-hidden rounded-lg border border-[#dce9df] bg-[#f6fbf4] p-5 shadow-[0_16px_42px_-34px_rgba(27,69,49,0.36)] dark:border-[#2a4735] dark:bg-[#102017] dark:shadow-[0_24px_60px_-42px_rgba(0,0,0,0.9)]"
+          : "nature-contribution-card"
       }
     >
       <div className="absolute bottom-0 right-0 h-28 w-32 bg-[radial-gradient(circle_at_45%_80%,rgba(109,125,50,0.2),transparent_34%),radial-gradient(circle_at_72%_38%,rgba(22,132,75,0.18),transparent_28%)] dark:bg-[radial-gradient(circle_at_45%_80%,rgba(74,222,128,0.12),transparent_34%),radial-gradient(circle_at_72%_38%,rgba(45,212,191,0.1),transparent_28%)]" />
-      <h2 className="text-[22px] font-bold leading-7 text-[#16844b] dark:text-[#74d79a]">社区贡献</h2>
+      <h2 className="nature-heading text-[22px] text-[hsl(var(--nature-accent))]">社区贡献</h2>
       <div className="relative z-10 mt-5 grid grid-cols-2 gap-5">
         {contributionStats.map((stat) => {
           const Icon = stat.icon;
           return (
             <div key={stat.label} className="flex items-center gap-3">
-              <Icon className="h-7 w-7 shrink-0 text-[#16844b] dark:text-[#74d79a]" />
+              <Icon className="h-7 w-7 shrink-0 nature-icon-accent" />
               <div>
-                <div className="text-[22px] font-bold leading-7 text-[#18251f] dark:text-[#eef8ef]">{stat.value}</div>
-                <div className="text-sm text-[#52645b] dark:text-[#a8b8ae]">{stat.label}</div>
+                <div className="text-metric text-[hsl(var(--nature-foreground))]">{stat.value}</div>
+                <div className="text-sm nature-text-muted">{stat.label}</div>
               </div>
             </div>
           );
@@ -602,10 +607,10 @@ export default async function NaturePage() {
   });
 
   return (
-    <div className="min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] bg-[#f5faf6] text-[#18251f] dark:bg-[#07130d] dark:text-[#eef8ef]">
+    <div className="theme-nature-page min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
       <MobileGlobalHeader />
 
-      <div className="mx-auto grid max-w-[1840px] gap-5 px-4 pb-24 pt-5 md:px-10 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6 lg:px-12">
+      <div className="app-shell-wide grid gap-5 pb-24 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
         <main className="min-w-0 space-y-5 md:space-y-6">
           <NatureHeroPanel heroStats={heroStats} submitHref={submitHref} />
           <HeroStatsCard stats={heroStats} />
@@ -618,7 +623,7 @@ export default async function NaturePage() {
             </div>
           </section>
 
-          <section className="rounded-lg border border-[#dce9df] bg-white p-4 shadow-[0_18px_56px_-40px_rgba(27,69,49,0.38)] dark:border-[#2a4735] dark:bg-[#0d1d14] dark:shadow-[0_24px_62px_-42px_rgba(0,0,0,0.95)] md:p-5">
+          <section className="surface-card rounded-[var(--radius-sm)] p-4 md:p-5">
             <SectionHeader icon={Leaf} title="最近观察记录" href="/nature/observations" />
             <div className="no-scrollbar -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-4 md:mx-0 md:px-0 md:pb-2 2xl:grid 2xl:grid-cols-5 2xl:overflow-visible 2xl:pb-1">
               {recentCards.map((item, index) => (
@@ -626,7 +631,7 @@ export default async function NaturePage() {
               ))}
             </div>
             {recentCards.length === 0 ? (
-              <div className="mt-5 rounded-lg border border-dashed border-[#d7eadb] bg-[#f6fbf4] px-4 py-8 text-center text-sm text-[#65736c] dark:border-[#31503c] dark:bg-[#102017] dark:text-[#9fb1a6]">
+              <div className="mt-5 nature-empty-state px-4 py-8 text-center">
                 暂无公开观察记录。发布后的真实记录会出现在这里。
               </div>
             ) : null}

@@ -85,7 +85,7 @@ export function ChallengeSubmissionReviewCard({
   }
 
   return (
-    <article className="surface-subtle space-y-4 rounded-[24px] border border-border/70 bg-background/74 p-4 shadow-none sm:p-5">
+    <article className="admin-panel-card space-y-4 p-4 sm:p-5">
       <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
         <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
           {cover ? (
@@ -101,7 +101,7 @@ export function ChallengeSubmissionReviewCard({
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">挑战作品</Badge>
-            <Badge variant="secondary" className="rounded-[10px] bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">待审核</Badge>
+            <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">待审核</Badge>
             <Badge variant="outline">{submission.is_public ? '公开' : '未公开'}</Badge>
           </div>
           <h3 className="line-clamp-2 text-lg font-semibold leading-snug">{submission.title}</h3>
@@ -177,7 +177,7 @@ export function ChallengeSubmissionReviewCard({
           </DialogContent>
         </Dialog>
 
-        <Button className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400" onClick={() => void review('approve')} disabled={loading}>
+        <Button tone="success" shape="pill" onClick={() => void review('approve')} disabled={loading}>
           <CheckCircle2 className="mr-2 h-4 w-4" />
           批准
         </Button>

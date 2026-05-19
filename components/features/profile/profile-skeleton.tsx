@@ -18,7 +18,7 @@ function SectionTitleSkeleton({ action = true, actionWidth = "w-16" }: { action?
 
 function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
   return (
-    <section className={`surface-panel relative overflow-hidden ${compact ? "rounded-[24px]" : "min-h-[270px] rounded-[20px]"}`}>
+    <section className={`surface-panel relative overflow-hidden ${compact ? "rounded-[var(--radius-lg)]" : "min-h-[270px] rounded-[20px]"}`}>
       <div className="absolute inset-0">
         <div
           className={
@@ -345,7 +345,7 @@ function DesktopDashboardProfileSkeleton() {
   return (
     <div className="hidden md:block">
       <div className="min-h-screen bg-background pb-10 text-foreground">
-        <div className="mx-auto w-full max-w-[1840px] px-4 py-4 min-[390px]:px-5 md:px-8 md:py-6">
+        <div className="app-shell-wide py-4 min-[390px]:px-5 md:px-8 md:py-6">
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_350px]">
             <main className="min-w-0 space-y-4">
               <DashboardHeroSkeleton compact={false} />
@@ -516,7 +516,7 @@ function PublicMobileProfileSkeleton() {
       <div className="space-y-4 px-4 py-4">
         <section className="surface-panel rounded-[28px] p-5">
           <SkeletonBlock className="h-5 w-28 rounded-full bg-muted/90" />
-          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-[24px] bg-muted/85" />
+          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-[var(--radius-lg)] bg-muted/85" />
         </section>
       </div>
     </div>
@@ -568,7 +568,7 @@ function PublicDesktopProfileSkeleton() {
 
             <section className="surface-panel p-6">
               <SkeletonBlock className="h-5 w-28 rounded-full" />
-              <SkeletonBlock className="mt-4 h-[320px] w-full rounded-[24px]" />
+              <SkeletonBlock className="mt-4 h-[320px] w-full rounded-[var(--radius-lg)]" />
             </section>
           </div>
 

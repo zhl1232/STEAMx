@@ -60,7 +60,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full max-w-5xl flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+    <div className="app-shell-reading flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="设置" fallbackHref="/profile" />
       </div>
@@ -85,7 +85,7 @@ export default function SettingsPage() {
                         {group.title}
                       </h2>
                     </div>
-                    <div className="overflow-hidden rounded-[24px] border border-border/70 bg-background/75">
+                    <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/75">
                       {group.items.map((item, itemIdx) => (
                         <div key={item.label}>
                           <Link

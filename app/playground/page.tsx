@@ -480,7 +480,7 @@ function HeroPanel() {
 
 function PlaygroundHeroVisual() {
     return (
-        <div className="relative min-h-[250px] overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.1),hsl(var(--surface-raised)/0.94)_46%,hsl(var(--brand-green)/0.12))] dark:bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.14),hsl(var(--surface-raised)/0.82)_45%,hsl(var(--brand-green)/0.16))] sm:min-h-[280px] lg:min-h-[320px]">
+        <div className="relative min-h-[250px] overflow-hidden rounded-[var(--radius-lg)] bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.1),hsl(var(--surface-raised)/0.94)_46%,hsl(var(--brand-green)/0.12))] dark:bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.14),hsl(var(--surface-raised)/0.82)_45%,hsl(var(--brand-green)/0.16))] sm:min-h-[280px] lg:min-h-[320px]">
             <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.18]" />
             <div className="pointer-events-none absolute inset-x-6 bottom-2 h-24 rounded-[32px] bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-blue)/0.22),transparent_68%)] blur-xl dark:bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-green)/0.2),transparent_68%)]" />
             <Image

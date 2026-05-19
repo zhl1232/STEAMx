@@ -161,7 +161,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
         : "bottom-[calc(4rem+env(safe-area-inset-bottom))] pb-3",
     )
     : variant === "inline"
-      ? "rounded-[24px] border border-border/70 bg-background/85 px-4 py-4 shadow-sm shadow-black/5"
+      ? "rounded-[var(--radius-lg)] border border-border/70 bg-background/85 px-4 py-4 shadow-sm shadow-black/5"
       : "shrink-0 border-t bg-background px-4 py-3";
 
   const content = (

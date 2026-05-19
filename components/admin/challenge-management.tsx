@@ -58,7 +58,7 @@ const EMPTY_FORM = {
 
 const STATUS_LABELS: Record<ChallengeStatus, { label: string; color: string }> = {
   draft: { label: '草稿', color: 'bg-gray-100 text-gray-800' },
-  active: { label: '进行中', color: 'bg-green-100 text-green-800' },
+  active: { label: '进行中', color: 'status-success-surface border text-[hsl(var(--status-success))]' },
   ended: { label: '已结束', color: 'bg-red-100 text-red-800' },
   archived: { label: '已归档', color: 'bg-yellow-100 text-yellow-800' },
 }
@@ -72,7 +72,7 @@ const STEAM_DIMS = ['S', 'T', 'E', 'A', 'M'] as const
 const STEAM_LABELS: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
 const FIELD_CLASS = 'rounded-2xl border-border/70 bg-background/95 shadow-none'
 const FILTER_TRIGGER_CLASS = 'h-11 w-[148px] rounded-full border-border/70 bg-background/95 px-4 shadow-none'
-const SECTION_CLASS = 'surface-subtle space-y-4 rounded-[24px] border border-border/70 p-4 shadow-none'
+const SECTION_CLASS = 'admin-section'
 
 export function ChallengeManagement() {
   const [challenges, setChallenges] = useState<AdminChallenge[]>([])
@@ -281,7 +281,7 @@ export function ChallengeManagement() {
             <DialogTrigger asChild>
               <Button className="rounded-full px-5"><Plus className="mr-1 h-4 w-4" />创建挑战</Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-[32px] border border-border/70 bg-background/98 p-0 shadow-xl">
+            <DialogContent size="lg" chrome="review" className="p-0">
               <DialogHeader className="border-b border-border/60 px-6 pb-4 pt-6 sm:px-7">
                 <DialogTitle>{editingId ? '编辑挑战' : '创建挑战'}</DialogTitle>
               </DialogHeader>
@@ -453,15 +453,15 @@ export function ChallengeManagement() {
       </div>
       <div>
         {isLoading ? (
-          <div className="surface-subtle rounded-[24px] border border-border/70 py-10 text-center shadow-none">
+          <div className="admin-panel-card py-10 text-center shadow-none">
             <p className="text-muted-foreground">加载中...</p>
           </div>
         ) : challenges.length === 0 ? (
-          <div className="surface-subtle rounded-[24px] border border-border/70 py-10 text-center shadow-none">
+          <div className="admin-panel-card py-10 text-center shadow-none">
             <p className="text-muted-foreground">暂无挑战</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-[24px] border border-border/70 bg-background/95">
+          <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/95">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>

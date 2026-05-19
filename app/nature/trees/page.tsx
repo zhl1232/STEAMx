@@ -55,7 +55,7 @@ export default async function NatureTreesPage() {
       fallbackHref="/nature"
       variant="wide"
       showDesktopIntro={false}
-      className="max-w-none bg-[#f6f8ef] text-[#1c2418] dark:bg-[#0b1208] dark:text-[#f1f7ec]"
+      className="max-w-none theme-nature-trees"
       mainClassName="space-y-6 md:space-y-7"
     >
       <section className="surface-panel relative overflow-hidden p-0">
@@ -69,8 +69,8 @@ export default async function NatureTreesPage() {
               className="object-cover"
               sizes="(min-width: 1840px) 1356px, (min-width: 1024px) calc(100vw - 30rem), 100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#f6f8ef]/96 via-[#f6f8ef]/70 to-[#f6f8ef]/10 dark:from-[#0b1208]/96 dark:via-[#0b1208]/68 dark:to-[#0b1208]/12" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#f6f8ef]/82 via-[#f6f8ef]/48 to-transparent lg:hidden dark:from-[#0b1208]/84 dark:via-[#0b1208]/50" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--nature-trees-canvas)/0.96)] via-[hsl(var(--nature-trees-canvas)/0.7)] to-[hsl(var(--nature-trees-canvas)/0.1)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--nature-trees-canvas)/0.82)] via-[hsl(var(--nature-trees-canvas)/0.48)] to-transparent lg:hidden" />
             <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-7 lg:p-8">
               <p className="section-kicker">树木分类</p>
               <h1 className="mt-3 max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">

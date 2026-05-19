@@ -161,14 +161,14 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           : "";
 
   return (
-    <div className="mx-auto w-full max-w-[1840px] px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
+    <div className="app-shell-wide px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
       <MobilePageHeader
         title={species.commonName}
         fallbackHref={fallbackHref}
         className="mb-0 md:hidden"
       />
 
-      <section className="md:surface-panel overflow-hidden md:rounded-[24px]">
+      <section className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
         <div className="px-4 pb-5 pt-2 min-[390px]:px-5 sm:p-7">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:items-stretch">
             {/* 移动端：图片区先渲染，撑满宽度 */}

@@ -215,10 +215,10 @@ export function ReportsList() {
                           variant="secondary"
                           className={
                             report.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
+                              ? "status-warning-surface border text-[hsl(var(--status-warning))]"
                               : report.status === "resolved"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-gray-100 text-gray-800"
+                              ? "status-success-surface border text-[hsl(var(--status-success))]"
+                              : "border bg-muted text-muted-foreground"
                           }
                         >
                           {STATUS_LABELS[report.status] || report.status}

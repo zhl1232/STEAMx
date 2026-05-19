@@ -10,6 +10,7 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
+import { fontClassNames } from "@/lib/fonts";
 import { getMetadataBase } from "@/lib/seo/site";
 
 const metadataBase = getMetadataBase();
@@ -66,8 +67,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh" suppressHydrationWarning>
-      <body className="antialiased">
+    <html lang="zh" className={fontClassNames} suppressHydrationWarning>
+      <body className="font-sans antialiased">
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <Script id="bootstrap-runtime-helpers" strategy="beforeInteractive">
           {`

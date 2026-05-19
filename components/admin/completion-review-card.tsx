@@ -162,7 +162,8 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
         <Button
           onClick={handleApprove}
           disabled={isReviewing}
-          className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400"
+          tone="success"
+          shape="pill"
         >
           <CheckCircle2 className="mr-2 h-4 w-4" />
           批准通过
@@ -170,8 +171,8 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
         <Button
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
-          variant="destructive"
-          className="rounded-full"
+          tone="danger"
+          shape="pill"
         >
           <XCircle className="mr-2 h-4 w-4" />
           拒绝
@@ -181,7 +182,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
   }
 
   return (
-    <Card className="surface-subtle overflow-hidden rounded-[24px] border border-border/70 bg-background/74 shadow-none">
+    <Card className="admin-panel-card">
       <CardHeader className="pb-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
@@ -191,7 +192,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                   {projectCategory}
                 </Badge>
               )}
-              <Badge variant="secondary" className="rounded-[10px] bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+              <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">
                 待审核作品
               </Badge>
             </div>

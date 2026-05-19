@@ -79,7 +79,7 @@ export function ObservationSubmitSuccessDialog({
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur">
+                  <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
                     <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
                       <Award className="h-3.5 w-3.5" />
                       探索经验
@@ -89,7 +89,7 @@ export function ObservationSubmitSuccessDialog({
                       本次提交的经验奖励已经记入成长系统。
                     </p>
                   </div>
-                  <div className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur">
+                  <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
                     <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
                       <Stars className="h-3.5 w-3.5" />
                       徽章进度

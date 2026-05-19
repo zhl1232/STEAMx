@@ -58,15 +58,15 @@ type SortMode = "latest" | "oldest" | "level";
 const STATUS_META: Record<string, { label: string; className: string }> = {
     pending: {
         label: "待审核",
-        className: "bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300",
+        className: "status-warning-surface border text-[hsl(var(--status-warning))]",
     },
     approved: {
         label: "已通过",
-        className: "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300",
+        className: "status-success-surface border text-[hsl(var(--status-success))]",
     },
     rejected: {
         label: "已拒绝",
-        className: "bg-red-100 text-red-700 dark:bg-red-400/10 dark:text-red-300",
+        className: "status-danger-surface border text-[hsl(var(--status-danger))]",
     },
 };
 
@@ -286,7 +286,7 @@ export function ModeratorApplicationsList() {
                     ))}
                 </div>
                 {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-44 rounded-[24px]" />
+                    <Skeleton key={i} className="h-44 rounded-[var(--radius-lg)]" />
                 ))}
             </div>
         );
@@ -299,7 +299,7 @@ export function ModeratorApplicationsList() {
     return (
         <div className="space-y-5">
             <div className="grid gap-3 sm:grid-cols-3">
-                <ApplicationStat icon={Clock3} label="待处理" value={counts.pending} tone="bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300" />
+                <ApplicationStat icon={Clock3} label="待处理" value={counts.pending} tone="status-warning-surface border text-[hsl(var(--status-warning))]" />
                 <ApplicationStat icon={CheckCircle2} label="已通过" value={counts.approved} tone="bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300" />
                 <ApplicationStat icon={XCircle} label="已拒绝" value={counts.rejected} tone="bg-red-100 text-red-700 dark:bg-red-400/10 dark:text-red-300" />
             </div>
@@ -350,7 +350,7 @@ export function ModeratorApplicationsList() {
             </div>
 
             {filteredApplications.length === 0 ? (
-                <div className="surface-subtle rounded-[24px] border border-border/70 px-6 py-12 text-center text-muted-foreground shadow-none">
+                <div className="admin-panel-card px-6 py-12 text-center text-muted-foreground shadow-none">
                     当前条件下暂无审核员申请
                 </div>
             ) : (
@@ -364,7 +364,7 @@ export function ModeratorApplicationsList() {
                             <article
                                 key={app.id}
                                 className={cn(
-                                    "surface-subtle rounded-[24px] border p-4 shadow-none sm:p-5",
+                                    "surface-subtle rounded-[var(--radius-lg)] border p-4 shadow-none sm:p-5",
                                     isPending ? "border-[hsl(var(--brand-blue)/0.35)] bg-[hsl(var(--brand-blue)/0.055)]" : "border-border/70 bg-background/72",
                                 )}
                             >
@@ -440,7 +440,8 @@ export function ModeratorApplicationsList() {
                                     <Button
                                         onClick={() => void handleReview(app, "approve")}
                                         disabled={isProcessing || !isPending}
-                                        className="rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:text-green-950 dark:hover:bg-green-400"
+                                        tone="success"
+                                        shape="pill"
                                     >
                                         <CheckCircle2 className="mr-2 h-4 w-4" />
                                         通过

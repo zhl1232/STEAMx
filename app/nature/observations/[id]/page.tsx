@@ -209,7 +209,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                 initialLikesCount={observation.likesCount}
                 initialCommentsCount={observation.commentsCount}
                 className="mt-2 border-0 bg-transparent p-0 shadow-none"
-                commentsClassName="mt-4 rounded-[24px] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
+                commentsClassName="mt-4 rounded-[var(--radius-lg)] border border-border/70 bg-card/88 p-4 pt-4 sm:p-5"
                 mobileFloatingBar
                 submitHref={submitHref}
               />

@@ -215,9 +215,9 @@ export default function ProfileSettingsClient() {
               <Skeleton className="h-4 w-24" />
             </div>
           </div>
-          <Skeleton className="h-28 w-full rounded-[24px]" />
-          <Skeleton className="h-28 w-full rounded-[24px]" />
-          <Skeleton className="h-24 w-full rounded-[24px]" />
+          <Skeleton className="h-28 w-full rounded-[var(--radius-lg)]" />
+          <Skeleton className="h-28 w-full rounded-[var(--radius-lg)]" />
+          <Skeleton className="h-24 w-full rounded-[var(--radius-lg)]" />
         </div>
       ) : loadError ? (
         <div className="surface-subtle p-6 text-center">

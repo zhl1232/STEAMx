@@ -105,7 +105,7 @@ function RequirementItem({ label, met, current, required, unit = "" }: Requireme
 
 function StateBlock({ title, description }: { title: string; description: string }) {
     return (
-        <div className="surface-subtle rounded-[24px] border border-border/70 px-5 py-8 text-center shadow-none">
+        <div className="admin-panel-card border border-border/70 px-5 py-8 text-center shadow-none">
             <ShieldCheck className="mx-auto mb-3 h-10 w-10 text-[hsl(var(--brand-blue))]" />
             <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
@@ -212,8 +212,8 @@ export function ModeratorApplicationForm() {
             <div className="space-y-5">
                 <Skeleton className="h-48 rounded-[28px]" />
                 <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-                    <Skeleton className="h-72 rounded-[24px]" />
-                    <Skeleton className="h-96 rounded-[24px]" />
+                    <Skeleton className="h-72 rounded-[var(--radius-lg)]" />
+                    <Skeleton className="h-96 rounded-[var(--radius-lg)]" />
                 </div>
             </div>
         );
@@ -269,7 +269,7 @@ export function ModeratorApplicationForm() {
                             审核员是社区治理的重要伙伴，负责审核项目、作品与讨论内容，守护平台的友善与知识价值。
                         </p>
                     </div>
-                    <div className="surface-subtle grid min-h-40 place-items-center rounded-[24px] border border-border/70 bg-background/70 p-5 shadow-none">
+                    <div className="surface-subtle grid min-h-40 place-items-center rounded-[var(--radius-lg)] border border-border/70 bg-background/70 p-5 shadow-none">
                         <div className="grid h-24 w-24 place-items-center rounded-[28px] bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
                             <ShieldCheck className="h-12 w-12" />
                         </div>
@@ -279,7 +279,7 @@ export function ModeratorApplicationForm() {
 
             <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
                 <div className="space-y-5">
-                    <section className="surface-subtle rounded-[24px] border border-border/70 p-5 shadow-none sm:p-6">
+                    <section className="admin-panel-card border border-border/70 p-5 shadow-none sm:p-6">
                         <div className="flex flex-wrap items-center justify-between gap-3">
                             <div>
                                 <p className="section-kicker">申请资格</p>
@@ -342,7 +342,7 @@ export function ModeratorApplicationForm() {
                         </div>
                     </section>
 
-                    <section className="surface-subtle rounded-[24px] border border-border/70 p-5 shadow-none sm:p-6">
+                    <section className="admin-panel-card border border-border/70 p-5 shadow-none sm:p-6">
                         <div className="mb-4">
                             <p className="section-kicker">审核员职责</p>
                             <h3 className="mt-2 text-xl font-semibold tracking-tight">共同维护社区秩序</h3>
@@ -368,7 +368,7 @@ export function ModeratorApplicationForm() {
                     </section>
                 </div>
 
-                <section className="surface-subtle rounded-[24px] border border-border/70 p-5 shadow-none sm:p-6">
+                <section className="admin-panel-card border border-border/70 p-5 shadow-none sm:p-6">
                     <div className="mb-5">
                         <p className="section-kicker">申请信息</p>
                         <h3 className="mt-2 text-xl font-semibold tracking-tight">说明你的审核方向</h3>

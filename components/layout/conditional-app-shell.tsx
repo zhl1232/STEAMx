@@ -135,18 +135,18 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         ) : null}
         {/* 桌面端 Header */}
         <header className={cn(
-          "sticky top-0 z-50 w-full border-b border-[#dfe8f2] bg-white/92 shadow-[0_10px_36px_-28px_rgba(27,70,126,0.25)] backdrop-blur-xl transition-colors duration-300 pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-white/82 dark:border-[#243348] dark:bg-[#070b12]/94 dark:shadow-none dark:supports-[backdrop-filter]:bg-[#070b12]/84",
+          "app-desktop-header",
           hideGlobalHeader && "hidden",
           "hidden md:block",
           isProfilePage
             ? "md:border-white/10 md:bg-background/66"
             : ""
         )}>
-          <div className="mx-auto flex h-16 max-w-[1840px] items-center px-8">
+          <div className="app-header-bar">
             <div className="mr-3 flex items-center xl:mr-4">
               <Link className="mr-6 flex items-center space-x-2" href="/">
                 <SteamLogo className="h-8 w-8" />
-                <span className="hidden whitespace-nowrap font-heading text-[20px] font-extrabold text-[#143f7d] dark:text-[#8bbdff] lg:inline-block xl:text-[24px]">STEAM 探索</span>
+                <span className="nav-logo-text hidden whitespace-nowrap text-[20px] lg:inline-block xl:text-[24px]">STEAM 探索</span>
               </Link>
               <MainNav />
             </div>

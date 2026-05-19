@@ -807,7 +807,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
         mode={mode}
       />
       <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]" />
-      <div className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
+      <div className="app-shell-wide pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
         <div className="mb-5 hidden md:block">
           <Link
             href={exploreBackHref}

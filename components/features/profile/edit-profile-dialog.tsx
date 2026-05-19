@@ -533,7 +533,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
 
                   {bindMessage && (
                     <p
-                      className={`text-sm ${bindMessage.type === "error" ? "text-destructive" : "text-green-600"}`}
+                      className={`text-sm ${bindMessage.type === "error" ? "text-destructive" : "text-[hsl(var(--status-success))]"}`}
                     >
                       {bindMessage.text}
                     </p>

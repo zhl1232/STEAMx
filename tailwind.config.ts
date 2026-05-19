@@ -66,19 +66,9 @@ const config: Config = {
     				sm: 'calc(var(--radius) - 4px)'
     			},
     			fontFamily: {
-    				sans: [
-    					'var(--font-sans)',
-    					'"PingFang SC"',
-    					'"Hiragino Sans GB"',
-    					'"Microsoft YaHei"',
-    					'sans-serif'
-    				],
-    				heading: [
-    					'var(--font-heading)',
-    					'"STSong"',
-    					'"Songti SC"',
-    					'serif'
-    				]
+    				sans: ['var(--font-sans)'],
+    				heading: ['var(--font-heading)'],
+    				mono: ['var(--font-mono)']
     			}
     		}
     },

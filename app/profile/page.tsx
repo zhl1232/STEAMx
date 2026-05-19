@@ -426,7 +426,7 @@ function DesktopProfilePage({
 
   return (
     <div className="min-h-screen bg-background pb-10 text-foreground">
-      <div className="mx-auto w-full max-w-[1840px] px-4 py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
+      <div className="app-shell-wide py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 min-w-0 space-y-6 xl:col-span-8">
             <ProfileHero
@@ -660,7 +660,7 @@ function ProfileHero({
   compact: boolean
 }) {
   return (
-    <section className={cn('surface-panel relative overflow-hidden', compact ? 'rounded-[24px]' : 'min-h-[270px] rounded-[20px]')}>
+    <section className={cn('surface-panel relative overflow-hidden', compact ? 'rounded-[var(--radius-lg)]' : 'min-h-[270px] rounded-[20px]')}>
       <div className="absolute inset-0">
         <OptimizedImage
           src={PROFILE_HERO_IMAGE}

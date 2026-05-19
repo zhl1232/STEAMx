@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
@@ -19,15 +19,36 @@ const buttonVariants = cva(
                 ghost: "hover:bg-accent hover:text-accent-foreground",
                 link: "text-primary underline-offset-4 hover:underline",
             },
+            tone: {
+                default: "",
+                brand: "bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] hover:bg-[hsl(var(--brand-blue)/0.92)]",
+                success: "bg-[hsl(var(--status-success))] text-[hsl(var(--status-success-foreground))] hover:bg-[hsl(var(--status-success)/0.92)] shadow-[0_18px_34px_-22px_hsl(var(--status-success)/0.9)]",
+                warning: "bg-[hsl(var(--status-warning))] text-[hsl(var(--status-warning-foreground))] hover:bg-[hsl(var(--status-warning)/0.92)]",
+                danger: "bg-[hsl(var(--status-danger))] text-[hsl(var(--status-danger-foreground))] hover:bg-[hsl(var(--status-danger)/0.92)]",
+                nature: "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] hover:bg-[hsl(var(--nature-accent)/0.92)] shadow-[0_18px_34px_-22px_hsl(var(--nature-accent)/0.9)]",
+            },
+            shape: {
+                default: "rounded-md",
+                soft: "rounded-[var(--radius-sm)]",
+                pill: "rounded-full",
+                square: "rounded-[var(--radius-xs)]",
+            },
             size: {
                 default: "h-10 px-4 py-2",
-                sm: "h-9 rounded-md px-3",
-                lg: "h-11 rounded-md px-8",
+                sm: "h-9 px-3",
+                lg: "h-11 px-8",
                 icon: "h-10 w-10",
             },
         },
+        compoundVariants: [
+            { size: "sm", shape: "default", class: "rounded-md" },
+            { size: "sm", shape: "soft", class: "rounded-[var(--radius-sm)]" },
+            { size: "lg", shape: "default", class: "rounded-md" },
+        ],
         defaultVariants: {
             variant: "default",
+            tone: "default",
+            shape: "default",
             size: "default",
         },
     }
@@ -40,11 +61,21 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, variant, tone, shape, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : "button"
+        const useTone = tone && tone !== "default"
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
+                className={cn(
+                    buttonVariants({
+                        variant: useTone ? "ghost" : variant,
+                        tone: useTone ? tone : "default",
+                        shape,
+                        size,
+                    }),
+                    useTone && "hover:bg-transparent",
+                    className
+                )}
                 ref={ref}
                 {...props}
             />

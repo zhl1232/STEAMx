@@ -31,7 +31,7 @@ export function ObservationCard({ observation, className, fromHref }: Observatio
     <Link
       href={appendNatureFrom(`/nature/observations/${observation.id}`, fromHref)}
       className={cn(
-        "group overflow-hidden rounded-[24px] border border-border/70 bg-card/90 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_20px_46px_-28px_rgba(15,23,42,0.45)]",
+        "group overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-card/90 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_20px_46px_-28px_rgba(15,23,42,0.45)]",
         className,
       )}
     >

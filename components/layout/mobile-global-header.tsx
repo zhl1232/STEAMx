@@ -91,10 +91,7 @@ export function MobileGlobalHeader({
 
   return (
     <header
-      className={cn(
-        'sticky top-0 z-50 w-full border-b border-[#dfe8f2] bg-white/92 shadow-[0_10px_36px_-28px_rgba(27,70,126,0.25)] backdrop-blur-xl pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-white/82 dark:border-[#243348] dark:bg-[#070b12]/94 dark:shadow-none dark:supports-[backdrop-filter]:bg-[#070b12]/84 md:hidden',
-        className,
-      )}
+      className={cn('app-mobile-header', className)}
     >
       <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
         {/* 左侧 */}
@@ -102,7 +99,7 @@ export function MobileGlobalHeader({
           {variant === 'logo' ? (
             <Link href="/" className="flex items-center space-x-2">
               <SteamLogo className="h-7 w-7 shrink-0 min-[390px]:h-8 min-[390px]:w-8" />
-              <span className="font-sans text-[18px] font-bold text-[#143f7d] dark:text-[#8bbdff] min-[390px]:text-[20px]">
+              <span className="nav-logo-text font-sans text-[18px] font-bold min-[390px]:text-[20px]">
                 STEAM 探索
               </span>
             </Link>
@@ -160,7 +157,7 @@ export function MobileGlobalHeader({
           {variant !== 'search' && showSearch ? (
             <Link
               href="/explore"
-              className="grid h-10 w-10 place-items-center rounded-full text-[#26364c] transition hover:bg-[#eef5ff] dark:text-[#d9e4f2] dark:hover:bg-[#172234]"
+              className="nav-header-icon-btn"
               aria-label="搜索项目"
             >
               <Search className="h-6 w-6" strokeWidth={2.1} />

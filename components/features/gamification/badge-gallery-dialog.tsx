@@ -332,7 +332,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                 <DropdownMenuContent className="w-56 p-2" align="center">
                     <DropdownMenuLabel className="flex justify-between items-center">
                         <span>{badge.name}</span>
-                        {isUnlocked && <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">已获得</span>}
+                        {isUnlocked && <span className="status-success-surface text-[10px] font-normal px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))]">已获得</span>}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="px-2 py-1.5 text-xs text-muted-foreground leading-relaxed">
@@ -391,7 +391,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                 <section
                     key={seriesKey}
                     className={cn(
-                        "relative rounded-[24px] border p-3 shadow-sm backdrop-blur-sm dark:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.72)] sm:p-4",
+                        "relative rounded-[var(--radius-lg)] border p-3 shadow-sm backdrop-blur-sm dark:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.72)] sm:p-4",
                         theme?.section ?? "border-border/70 bg-background/95 dark:border-white/10 dark:bg-slate-900/95"
                     )}
                 >

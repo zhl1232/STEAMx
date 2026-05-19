@@ -1,4 +1,8 @@
+import Link from "next/link";
+
 import { FilterChip } from "@/components/ui/filter-chip";
+import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Surface } from "@/components/ui/surface";
 import { ToneBadge } from "@/components/ui/tone-badge";
 
@@ -13,7 +17,9 @@ export default function DesignSystemContent() {
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">STEAM 探索 UI 基线</h1>
             <p className="text-sm text-muted-foreground sm:text-base">
-              这里不再展示无关的科幻 demo，而是直接沉淀平台真实会用到的字体、表面、卡片和信息层级。
+              这里沉淀平台真实会用到的字体、表面、按钮与状态层级。完整规范见{" "}
+              <code className="rounded bg-muted px-1.5 py-0.5 text-xs">docs/design-system.md</code>
+              。
             </p>
           </div>
         </div>
@@ -95,6 +101,23 @@ export default function DesignSystemContent() {
             </div>
           </Surface>
         </div>
+
+        <Surface variant="subtle" className="p-5 sm:p-6">
+          <p className="section-kicker">Button &amp; Status</p>
+          <h2 className="text-panel-title mt-3">语义按钮与状态色</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Button tone="brand" shape="square">品牌主操作</Button>
+            <Button tone="success" shape="soft">成功 / 开始</Button>
+            <Button tone="nature" shape="soft">自然专题</Button>
+            <Button tone="danger" shape="pill">拒绝</Button>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <StatusBadge status="success">已通过</StatusBadge>
+            <StatusBadge status="warning">待审核</StatusBadge>
+            <StatusBadge status="danger">已拒绝</StatusBadge>
+            <StatusBadge status="info">进行中</StatusBadge>
+          </div>
+        </Surface>
       </Surface>
     </section>
   );

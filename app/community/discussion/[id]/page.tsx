@@ -725,7 +725,7 @@ export default function DiscussionDetailPage({ params }: { params: Promise<{ id:
           </h3>
 
           {topLevelReplies.length > 0 ? (
-            <div className="mt-5 overflow-hidden rounded-[24px] border border-border/70 bg-background/75">
+            <div className="mt-5 overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/75">
             {topLevelReplies.map((reply) => {
               const replyCount = getRepliesUnderRoot(discussion.replies, reply.id).length;
               const directReplies = getDirectReplies(reply.id);

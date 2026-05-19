@@ -292,7 +292,8 @@ export function ProjectDetailActions({
           variant="outline"
           size="sm"
           onClick={handleShare}
-          className="h-9 rounded-[8px] border-[hsl(var(--surface-border-strong))] bg-background/72 px-3"
+          shape="soft"
+          className="h-9 border-[hsl(var(--surface-border-strong))] bg-background/72 px-3"
         >
           <Share2 className="mr-1.5 h-4 w-4" />
           分享
@@ -300,8 +301,10 @@ export function ProjectDetailActions({
         <Button
           type="button"
           size="sm"
+          tone="brand"
+          shape="square"
           onClick={handleStart}
-          className="h-9 rounded-[8px] bg-[hsl(var(--brand-blue))] px-3 text-white hover:bg-[hsl(var(--brand-blue)/0.92)]"
+          className="h-9 px-3"
         >
           <Rocket className="mr-1.5 h-4 w-4" />
           {primaryActionLabel}
@@ -328,8 +331,10 @@ export function ProjectDetailActions({
           </Button>
           <Button
             type="button"
+            tone="success"
+            shape="soft"
             onClick={handleStart}
-            className="h-12 min-w-0 flex-1 rounded-[12px] bg-[hsl(var(--brand-green))] px-5 text-base font-bold text-white shadow-[0_18px_34px_-22px_hsl(var(--brand-green)/0.9)] hover:bg-[hsl(var(--brand-green)/0.92)]"
+            className="h-12 min-w-0 flex-1 px-5 text-base font-bold"
           >
             <Rocket className="mr-2 h-5 w-5" />
             {primaryActionLabel}

@@ -53,7 +53,7 @@ export default async function NatureBirdsPage() {
       fallbackHref="/nature"
       variant="wide"
       showDesktopIntro={false}
-      className="max-w-none bg-[#f5faf6] text-[#18251f] dark:bg-[#07130d] dark:text-[#eef8ef]"
+      className="max-w-none theme-nature-page"
       mainClassName="space-y-6 md:space-y-7"
     >
       <section className="surface-panel relative overflow-hidden p-0">

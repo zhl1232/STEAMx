@@ -401,7 +401,7 @@ export function ProfileLibraryPage() {
   }
 
   return isDesktopViewport ? (
-    <div className="mx-auto hidden w-full max-w-[1840px] px-4 py-8 min-[390px]:px-5 md:block md:px-8">
+    <div className="app-shell-wide hidden py-8 md:block">
       <div className="space-y-6">
         <section className="surface-panel relative min-h-[254px] overflow-hidden">
           <div className="absolute inset-0">
