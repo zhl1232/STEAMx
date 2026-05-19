@@ -1,5 +1,6 @@
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
 import type { ProfileGrowthTask } from '@/lib/profile/growth-tasks'
+import { fetchProfileSummary } from '@/lib/profile/profile-summary-client'
 import type { ProfileStudyCheckInSummary } from '@/lib/profile/study-checkin'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
@@ -32,26 +33,21 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
   }
 
   const promise = (async () => {
-    const [summaryRes, timelineRes, growthRes, observationsRes, checkinRes] = await Promise.all([
-      fetch('/api/profile/summary'),
+    const [summary, timelineRes, growthRes, observationsRes, checkinRes] = await Promise.all([
+      fetchProfileSummary(userId),
       fetch('/api/profile/timeline?limit=5'),
       fetch('/api/profile/growth-tasks/sync', { method: 'POST' }),
       fetch('/api/observations/mine?pageSize=6'),
       fetch('/api/profile/study-checkin'),
     ])
 
-    const [summaryPayload, timelinePayload, growthPayload, observationsPayload, checkinPayload] =
-      await Promise.all([
-        parseJsonResponse(summaryRes),
-        parseJsonResponse(timelineRes),
-        parseJsonResponse(growthRes),
-        parseJsonResponse(observationsRes),
-        parseJsonResponse(checkinRes),
-      ])
+    const [timelinePayload, growthPayload, observationsPayload, checkinPayload] = await Promise.all([
+      parseJsonResponse(timelineRes),
+      parseJsonResponse(growthRes),
+      parseJsonResponse(observationsRes),
+      parseJsonResponse(checkinRes),
+    ])
 
-    if (!summaryRes.ok) {
-      throw new Error(summaryPayload?.error || '个人主页摘要加载失败')
-    }
     if (!timelineRes.ok) {
       throw new Error(timelinePayload?.error || '探索轨迹加载失败')
     }
@@ -71,12 +67,12 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
         : null
 
     return {
-      myProjects: (summaryPayload?.myProjects as Project[] | undefined) || [],
-      myProjectsTotalCount: Number(summaryPayload?.myProjectsTotalCount || 0),
-      followerCount: Number(summaryPayload?.followerCount || 0),
-      followingCount: Number(summaryPayload?.followingCount || 0),
-      totalLikesReceived: Number(summaryPayload?.totalLikesReceived || 0),
-      steamRadar: (summaryPayload?.radar as SteamRadarWithGuidance | null) || null,
+      myProjects: summary.myProjects,
+      myProjectsTotalCount: summary.myProjectsTotalCount,
+      followerCount: summary.followerCount,
+      followingCount: summary.followingCount,
+      totalLikesReceived: summary.totalLikesReceived,
+      steamRadar: summary.steamRadar,
       profileTimelineEvents: (timelinePayload?.events as ProfileTimelineEvent[] | undefined) || [],
       growthTasks: (growthPayload?.tasks as ProfileGrowthTask[] | undefined) || [],
       growthTasksGraduatedAt: graduatedAt,

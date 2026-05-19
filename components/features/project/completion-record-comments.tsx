@@ -213,12 +213,15 @@ export function CompletionRecordCommentsPreview({
   completionId,
   total,
   onExpand,
+  previewComments,
 }: {
   completionId: number
   total: number
   onExpand: () => void
+  /** 父级批量接口已拉取时传入，避免每条记录单独请求 */
+  previewComments?: Comment[]
 }) {
-  const { data: comments = [] } = useQuery({
+  const { data: fetchedComments = [] } = useQuery({
     queryKey: ["completion_comments", completionId, "preview"],
     queryFn: async () => {
       const response = await fetch(`/api/completions/${completionId}/comments?limit=50`)
@@ -226,11 +229,11 @@ export function CompletionRecordCommentsPreview({
       const payload = await response.json()
       return (payload?.comments as Comment[]) || []
     },
-    enabled: total > 0,
+    enabled: total > 0 && previewComments === undefined,
     staleTime: 30_000,
   })
 
-  const preview = comments.slice(-2)
+  const preview = (previewComments ?? fetchedComments).slice(-2)
   if (preview.length === 0) return null
 
   return (

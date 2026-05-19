@@ -1990,6 +1990,14 @@ export interface Database {
         Args: { p_project_ids: number[] }
         Returns: { project_id: number; comment_count: number }[]
       }
+      get_completion_comments_count_batch: {
+        Args: { p_completion_ids: number[] }
+        Returns: { completed_project_id: number; comment_count: number }[]
+      }
+      sum_author_project_likes: {
+        Args: { p_author_id: string }
+        Returns: number
+      }
       get_my_tip_for_resource: {
         Args: { p_resource_type: string; p_resource_id: number }
         Returns: number

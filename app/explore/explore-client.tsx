@@ -19,6 +19,7 @@ import { ProjectCard } from '@/components/features/project-card'
 import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
 import { Progress } from '@/components/ui/progress'
 import { useProjects } from '@/lib/context/project-context'
+import { useSyncProjectInteractions } from '@/hooks/use-sync-project-interactions'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
@@ -224,6 +225,8 @@ export function ExploreClient({
     const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
+    const projectIdsForSync = useMemo(() => projects.map((project) => project.id), [projects])
+    useSyncProjectInteractions(projectIdsForSync)
     const [page, setPage] = useState(initialPage + 1)
     const [hasMore, setHasMore] = useState(initialHasMore)
     const [isLoadingMore, setIsLoadingMore] = useState(false)

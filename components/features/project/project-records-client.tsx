@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Sprout } from "lucide-react"
 
@@ -20,13 +21,14 @@ import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
+import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { ExplorationRecordGroupCard } from "@/components/features/project/exploration-record-group"
 import { groupCompletionsByExplorer } from "@/lib/project/group-exploration-records"
 import type { CompletionLikeMeta } from "@/lib/api/explore-data"
 import { explorationRecordDomId } from "@/lib/project/exploration-record-links"
 import { RECORD_TYPE_OPTIONS, matchesRecordTypeFilter } from "@/lib/project/exploration-record-meta"
 import { cn } from "@/lib/utils"
-import type { ProjectCompletion } from "@/lib/mappers/types"
+import type { Comment, ProjectCompletion } from "@/lib/mappers/types"
 
 type FeedTab = "latest" | "featured"
 type DialogMode = "progress" | "final"
@@ -61,6 +63,7 @@ export function ProjectRecordsClient({
   const { promptLogin } = useLoginPrompt()
   const [isPending, startTransition] = useTransition()
   const { isCompleted, isExploring, startExploration } = useProjects()
+  useSyncProjectInteractions([projectId])
   const backHref = `/project/${projectId}`
   const tab: FeedTab = searchParams.get("sort") === "featured" ? "featured" : initialSort
   const [typeFilter, setTypeFilter] = useState<string>("all")
@@ -78,6 +81,32 @@ export function ProjectRecordsClient({
   }, [completions, typeFilter])
 
   const grouped = useMemo(() => groupCompletionsByExplorer(filtered), [filtered])
+
+  const completionIdsWithComments = useMemo(
+    () =>
+      filtered
+        .filter((item) => (item.commentsCount ?? 0) > 0)
+        .map((item) => item.id),
+    [filtered],
+  )
+
+  const { data: commentPreviews = {} } = useQuery({
+    queryKey: ["completion_comments", "preview", completionIdsWithComments.join(",")],
+    queryFn: async () => {
+      if (completionIdsWithComments.length === 0) {
+        return {} as Record<string, Comment[]>
+      }
+      const params = new URLSearchParams({ ids: completionIdsWithComments.join(",") })
+      const response = await fetch(`/api/completions/comments/preview?${params.toString()}`)
+      if (!response.ok) {
+        return {} as Record<string, Comment[]>
+      }
+      const payload = await response.json()
+      return ((payload?.previews as Record<string, Comment[]>) || {}) as Record<string, Comment[]>
+    },
+    enabled: completionIdsWithComments.length > 0,
+    staleTime: 30_000,
+  })
 
   const hasOwnProgress = useMemo(() => {
     if (!user?.id) return false
@@ -306,6 +335,7 @@ export function ProjectRecordsClient({
             groups={grouped}
             highlightedId={highlightedId}
             likesMeta={likesMeta}
+            commentPreviews={commentPreviews}
           />
         )}
       </RecordsPageContent>
@@ -411,10 +441,12 @@ function RecordsFeedList({
   groups,
   highlightedId,
   likesMeta,
+  commentPreviews,
 }: {
   groups: ReturnType<typeof groupCompletionsByExplorer>
   highlightedId: number | null
   likesMeta: Record<number, CompletionLikeMeta>
+  commentPreviews: Record<string, Comment[]>
 }) {
   return (
     <div className="space-y-3">
@@ -425,6 +457,7 @@ function RecordsFeedList({
             completion={group.posts[0]}
             highlighted={highlightedId === group.posts[0].id}
             initialLikeMeta={likesMeta[group.posts[0].id]}
+            commentPreviews={commentPreviews[String(group.posts[0].id)]}
           />
         ) : (
           <ExplorationRecordGroupCard
@@ -432,6 +465,7 @@ function RecordsFeedList({
             group={group}
             highlightedId={highlightedId}
             likesMeta={likesMeta}
+            commentPreviews={commentPreviews}
           />
         ),
       )}

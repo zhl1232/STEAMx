@@ -31,6 +31,7 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/lib/context/project-context', () => ({
     useProjects: () => ({
+        syncProjectInteractions: vi.fn(),
         clearLikesDeltaForProjects,
     }),
 }))

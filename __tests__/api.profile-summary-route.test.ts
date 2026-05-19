@@ -34,7 +34,7 @@ describe('GET /api/profile/summary', () => {
     vi.clearAllMocks()
   })
 
-  it('returns summary data when radar is unavailable and sums likes directly from projects', async () => {
+  it('returns summary data when radar is unavailable and uses RPC for total likes received', async () => {
     const from = vi.fn((table: string) => {
       if (table === 'projects') {
         return {
@@ -62,15 +62,6 @@ describe('GET /api/profile/summary', () => {
                     }),
                   })),
                 })),
-              }
-            }
-
-            if (fields === 'likes_count') {
-              return {
-                eq: vi.fn().mockResolvedValue({
-                  data: [{ likes_count: 2 }, { likes_count: null }, { likes_count: 3 }],
-                  error: null,
-                }),
               }
             }
 
@@ -115,15 +106,13 @@ describe('GET /api/profile/summary', () => {
       if (table === 'completed_projects') {
         return {
           select: vi.fn(() => ({
-            eq: vi.fn(() => ({
-              order: vi.fn().mockResolvedValue({
-                data: [
-                  { project_id: 201, status: 'approved', completed_at: '2026-04-01T00:00:00.000Z' },
-                  { project_id: 202, status: 'rejected', completed_at: '2026-03-30T00:00:00.000Z' },
-                ],
-                error: null,
-              }),
-            })),
+            eq: vi.fn().mockResolvedValue({
+              data: [
+                { project_id: 201, status: 'approved', record_kind: 'final' },
+                { project_id: 202, status: 'rejected', record_kind: 'final' },
+              ],
+              error: null,
+            }),
           })),
         }
       }
@@ -131,7 +120,14 @@ describe('GET /api/profile/summary', () => {
       throw new Error(`Unexpected table: ${table}`)
     })
 
-    createClientMock.mockResolvedValue({ from } as never)
+    const rpc = vi.fn((fn: string) => {
+      if (fn === 'sum_author_project_likes') {
+        return Promise.resolve({ data: 5, error: null })
+      }
+      throw new Error(`Unexpected rpc: ${fn}`)
+    })
+
+    createClientMock.mockResolvedValue({ from, rpc } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
     getSteamRadarWithGuidanceSafeMock.mockResolvedValue(null)
 

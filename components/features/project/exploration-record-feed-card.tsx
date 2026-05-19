@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Heart, MessageCircle } from "lucide-react"
 
@@ -23,7 +23,7 @@ import {
 } from "@/lib/project/exploration-record-meta"
 import { explorationRecordDomId } from "@/lib/project/exploration-record-links"
 import { cn } from "@/lib/utils"
-import type { ProjectCompletion } from "@/lib/mappers/types"
+import type { Comment, ProjectCompletion } from "@/lib/mappers/types"
 
 const STAGE_TONE_CLASS: Record<string, string> = {
   green: "bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]",
@@ -37,11 +37,13 @@ export function ExplorationRecordFeedCard({
   completion,
   highlighted = false,
   initialLikeMeta,
+  commentPreviews,
   variant = "standalone",
 }: {
   completion: ProjectCompletion
   highlighted?: boolean
   initialLikeMeta?: CompletionLikeMeta
+  commentPreviews?: Comment[]
   /** nested：组内帖子，不重复展示作者头 */
   variant?: "standalone" | "nested"
 }) {
@@ -68,6 +70,15 @@ export function ExplorationRecordFeedCard({
   }
   const commentsCount = completion.commentsCount ?? 0
 
+  const hasServerLikeMeta = initialLikeMeta !== undefined
+  const [likeMeta, setLikeMeta] = useState<CompletionLikeMeta>(initialLikeMeta ?? defaultLikeMeta)
+
+  useEffect(() => {
+    if (initialLikeMeta) {
+      setLikeMeta(initialLikeMeta)
+    }
+  }, [initialLikeMeta])
+
   const { data: likeStats } = useQuery({
     queryKey: ["completion_likes", completion.id, user?.id],
     queryFn: async () => {
@@ -75,9 +86,9 @@ export function ExplorationRecordFeedCard({
       if (!response.ok) throw new Error(await response.text())
       return (await response.json()) as CompletionLikeMeta
     },
-    initialData: initialLikeMeta ?? defaultLikeMeta,
-    staleTime: initialLikeMeta ? 60_000 : 0,
-    refetchOnMount: !initialLikeMeta,
+    enabled: !hasServerLikeMeta,
+    staleTime: 0,
+    refetchOnMount: true,
   })
 
   const likeMutation = useMutation({
@@ -87,13 +98,29 @@ export function ExplorationRecordFeedCard({
       })
       if (!response.ok) throw new Error(await response.text())
     },
+    onMutate: (currentlyLiked) => {
+      if (hasServerLikeMeta) {
+        setLikeMeta((prev) => ({
+          count: Math.max(0, prev.count + (currentlyLiked ? -1 : 1)),
+          isLiked: !currentlyLiked,
+        }))
+      }
+    },
+    onError: () => {
+      if (hasServerLikeMeta && initialLikeMeta) {
+        setLikeMeta(initialLikeMeta)
+      }
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["completion_likes", completion.id, user?.id] })
+      if (!hasServerLikeMeta) {
+        queryClient.invalidateQueries({ queryKey: ["completion_likes", completion.id, user?.id] })
+      }
     },
   })
 
-  const likesCount = likeStats?.count ?? completion.likes ?? 0
-  const isLiked = likeStats?.isLiked ?? false
+  const resolvedLikeMeta = hasServerLikeMeta ? likeMeta : (likeStats ?? defaultLikeMeta)
+  const likesCount = resolvedLikeMeta.count ?? completion.likes ?? 0
+  const isLiked = resolvedLikeMeta.isLiked ?? false
 
   const handleLike = () => {
     if (!user) {
@@ -219,6 +246,7 @@ export function ExplorationRecordFeedCard({
           <CompletionRecordCommentsPreview
             completionId={completion.id}
             total={commentsCount}
+            previewComments={commentPreviews}
             onExpand={() => setCommentsOpen(true)}
           />
         ) : null}

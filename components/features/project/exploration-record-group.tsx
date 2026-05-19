@@ -2,6 +2,7 @@
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import type { CompletionLikeMeta } from "@/lib/api/explore-data"
+import type { Comment } from "@/lib/mappers/types"
 import type { ExplorationRecordGroup } from "@/lib/project/group-exploration-records"
 import { cn } from "@/lib/utils"
 
@@ -11,10 +12,12 @@ export function ExplorationRecordGroupCard({
   group,
   highlightedId,
   likesMeta,
+  commentPreviews,
 }: {
   group: ExplorationRecordGroup
   highlightedId: number | null
   likesMeta: Record<number, CompletionLikeMeta>
+  commentPreviews: Record<string, Comment[]>
 }) {
   const postCount = group.posts.length
   const hasFinal = group.posts.some((p) => p.recordKind === "final")
@@ -66,6 +69,7 @@ export function ExplorationRecordGroupCard({
             variant="nested"
             highlighted={highlightedId === completion.id}
             initialLikeMeta={likesMeta[completion.id]}
+            commentPreviews={commentPreviews[String(completion.id)]}
           />
         ))}
       </div>

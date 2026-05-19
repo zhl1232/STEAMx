@@ -1142,19 +1142,20 @@ async function fetchCompletionCommentCounts(
   const map = new Map<number, number>();
   if (completionIds.length === 0) return map;
 
-  const { data, error } = await supabase
-    .from("completion_comments")
-    .select("completed_project_id")
-    .in("completed_project_id", completionIds);
+  const { data, error } = await supabase.rpc(
+    "get_completion_comments_count_batch" as never,
+    {
+      p_completion_ids: completionIds,
+    } as never,
+  );
 
   if (error) {
     logger.error("Error fetching completion comment counts", { error });
     return map;
   }
 
-  for (const row of (data as { completed_project_id: number }[]) || []) {
-    const id = row.completed_project_id;
-    map.set(id, (map.get(id) ?? 0) + 1);
+  for (const row of ((data as unknown) as { completed_project_id: number; comment_count: number }[]) || []) {
+    map.set(row.completed_project_id, Number(row.comment_count) || 0);
   }
 
   return map;
@@ -1211,28 +1212,43 @@ export async function fetchCompletionLikesMeta(
   }
 
   const supabase = await createClient();
-  const { data: likeRows, error } = await supabase
-    .from("completion_likes")
-    .select("completed_project_id, user_id")
-    .in("completed_project_id", completionIds);
-
-  if (error) {
-    logger.error("Error fetching completion likes meta", { error });
-    return map;
-  }
 
   for (const id of completionIds) {
     map.set(id, { count: 0, isLiked: false });
   }
 
-  for (const row of (likeRows as { completed_project_id: number; user_id: string }[]) || []) {
-    const id = row.completed_project_id;
-    const current = map.get(id) ?? { count: 0, isLiked: false };
-    current.count += 1;
-    if (viewerUserId && row.user_id === viewerUserId) {
-      current.isLiked = true;
-    }
-    map.set(id, current);
+  const [{ data: completionRows, error: completionError }, viewerLikesResult] = await Promise.all([
+    supabase.from("completed_projects").select("id, likes_count").in("id", completionIds),
+    viewerUserId
+      ? supabase
+          .from("completion_likes")
+          .select("completed_project_id")
+          .eq("user_id", viewerUserId)
+          .in("completed_project_id", completionIds)
+      : Promise.resolve({ data: [] as { completed_project_id: number }[], error: null }),
+  ]);
+
+  if (completionError) {
+    logger.error("Error fetching completion likes meta", { error: completionError });
+    return map;
+  }
+
+  for (const row of (completionRows as { id: number; likes_count?: number | null }[]) || []) {
+    map.set(row.id, {
+      count: Number(row.likes_count) || 0,
+      isLiked: false,
+    });
+  }
+
+  if (viewerLikesResult.error) {
+    logger.error("Error fetching viewer completion likes", { error: viewerLikesResult.error });
+    return map;
+  }
+
+  for (const row of (viewerLikesResult.data as { completed_project_id: number }[]) || []) {
+    const current = map.get(row.completed_project_id) ?? { count: 0, isLiked: false };
+    current.isLiked = true;
+    map.set(row.completed_project_id, current);
   }
 
   return map;

@@ -49,13 +49,9 @@ export async function GET() {
         .eq('user_id', user.id),
       supabase
         .from('completed_projects')
-        .select('project_id, status, record_kind, completed_at')
-        .eq('user_id', user.id)
-        .order('completed_at', { ascending: false }),
-      supabase
-        .from('projects')
-        .select('likes_count')
-        .eq('author_id', user.id),
+        .select('project_id, status, record_kind')
+        .eq('user_id', user.id),
+      supabase.rpc('sum_author_project_likes' as never, { p_author_id: user.id } as never),
       getSteamRadarWithGuidanceSafe(supabase, user.id, 'GET /api/profile/summary'),
     ])
 
@@ -75,10 +71,7 @@ export async function GET() {
         record_kind?: string | null
       }[] | null) || [],
     ).length
-    const totalLikesReceived = (((likesReceivedResponse.data as { likes_count?: number | null }[] | null) || [])).reduce(
-      (sum, row) => sum + Number(row.likes_count || 0),
-      0,
-    )
+    const totalLikesReceived = Number(likesReceivedResponse.data ?? 0)
 
     return NextResponse.json({
       myProjects,

@@ -10,6 +10,7 @@ import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-li
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart, Rocket } from 'lucide-react'
 import { useState, useEffect, useEffectEvent } from 'react'
+import { useProfileSummary } from '@/hooks/profile/use-profile-summary'
 
 import type { Project } from '@/lib/mappers/types'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
@@ -63,7 +64,13 @@ export function ProfileLibraryPage() {
   const [completedProjectsCount, setCompletedProjectsCount] = useState(0)
   const [totalLikesReceived, setTotalLikesReceived] = useState(0)
   const [steamRadar, setSteamRadar] = useState<SteamRadarWithGuidance | null>(null)
-  const [isProjectsDataLoading, setIsProjectsDataLoading] = useState(true)
+  const {
+    data: profileSummary,
+    isLoading: isProfileSummaryLoading,
+    isError: isProfileSummaryError,
+    error: profileSummaryError,
+  } = useProfileSummary(user?.id)
+  const isProjectsDataLoading = isProfileSummaryLoading
   const [isLoadingMoreMyProjects, setIsLoadingMoreMyProjects] = useState(false)
   const [isLikedProjectsLoading, setIsLikedProjectsLoading] = useState(false)
   const [isCollectedProjectsLoading, setIsCollectedProjectsLoading] = useState(false)
@@ -107,55 +114,33 @@ export function ProfileLibraryPage() {
   }, [])
 
   useEffect(() => {
-    if (!user?.id) return
+    if (!profileSummary) return
 
-    setIsProjectsDataLoading(true)
-    let cancelled = false
+    setMyProjects(profileSummary.myProjects)
+    setMyProjectsTotalCount(profileSummary.myProjectsTotalCount)
+    setFollowerCount(profileSummary.followerCount)
+    setFollowingCount(profileSummary.followingCount)
+    setLikedProjectsCount(profileSummary.likedProjectsCount)
+    setCollectedProjectsCount(profileSummary.collectedProjectsCount)
+    setCompletedProjectsCount(profileSummary.completedProjectsCount)
+    setTotalLikesReceived(profileSummary.totalLikesReceived)
+    setSteamRadar(profileSummary.steamRadar)
+    setLikedProjectsList([])
+    setCollectedProjectsList([])
+    setCompletedProjectsList([])
+    setCompletionStatusMap(new Map())
+    setLikedProjectsLoaded(false)
+    setCollectedProjectsLoaded(false)
+    setCompletedProjectsLoaded(false)
+    setExploringProjectsLoaded(false)
+    setExploringProjectsList([])
+  }, [profileSummary])
 
-    const loadProfileSummary = async () => {
-      try {
-        const response = await fetch('/api/profile/summary')
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '个人主页摘要加载失败')
-        }
-
-        if (cancelled) return
-
-        setMyProjects((payload?.myProjects as Project[]) || [])
-        setMyProjectsTotalCount(Number(payload?.myProjectsTotalCount || 0))
-        setFollowerCount(Number(payload?.followerCount || 0))
-        setFollowingCount(Number(payload?.followingCount || 0))
-        setLikedProjectsCount(Number(payload?.likedProjectsCount || 0))
-        setCollectedProjectsCount(Number(payload?.collectedProjectsCount || 0))
-        setCompletedProjectsCount(Number(payload?.completedProjectsCount || 0))
-        setTotalLikesReceived(Number(payload?.totalLikesReceived || 0))
-        setSteamRadar((payload?.radar as SteamRadarWithGuidance | null) || null)
-        setLikedProjectsList([])
-        setCollectedProjectsList([])
-        setCompletedProjectsList([])
-        setCompletionStatusMap(new Map())
-        setLikedProjectsLoaded(false)
-        setCollectedProjectsLoaded(false)
-        setCompletedProjectsLoaded(false)
-      } catch (err) {
-        if (cancelled) return
-        logger.error('Exception in loadProfileSummary', { error: err })
-        showLoadError(getErrorMessage(err, '无法加载个人资料数据，请稍后重试'))
-      } finally {
-        if (!cancelled) {
-          setIsProjectsDataLoading(false)
-        }
-      }
-    }
-
-    loadProfileSummary()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
+  useEffect(() => {
+    if (!isProfileSummaryError) return
+    logger.error('Exception in loadProfileSummary', { error: profileSummaryError })
+    showLoadError(getErrorMessage(profileSummaryError, '无法加载个人资料数据，请稍后重试'))
+  }, [isProfileSummaryError, profileSummaryError, showLoadError])
 
   useEffect(() => {
     setVisibleDesktopWorksCount(WORKS_PAGE_SIZE)

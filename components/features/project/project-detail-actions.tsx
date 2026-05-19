@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
+import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { formatCount } from "@/lib/project/format-count"
 import { cn } from "@/lib/utils"
 
@@ -57,6 +58,7 @@ export function ProjectDetailActions({
     isExploring,
     startExploration,
   } = useProjects()
+  useSyncProjectInteractions([projectId])
 
   const [showTipDialog, setShowTipDialog] = useState(false)
 

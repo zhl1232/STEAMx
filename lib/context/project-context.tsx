@@ -21,7 +21,6 @@ import { Project, Comment } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
-import { getTrackedCompletedProjectIds } from "@/lib/completion-records";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 
 export interface ProjectCompletionProof {
@@ -70,6 +69,8 @@ type ProjectContextType = {
   isExploring: (projectId: string | number) => boolean;
   deleteComment: (commentId: string | number) => Promise<void>;
   updateProject: (projectId: string | number, project: Project, isMajorEdit?: boolean) => Promise<void>;
+  /** 按项目 ID 批量拉取当前用户的互动状态（探索列表/详情等按需调用） */
+  syncProjectInteractions: (projectIds: (string | number)[]) => Promise<void>;
   isLoading: boolean;
 };
 
@@ -97,6 +98,7 @@ const EMPTY_PROJECT_CONTEXT: ProjectContextType = {
   isExploring: () => false,
   deleteComment: async () => {},
   updateProject: async () => {},
+  syncProjectInteractions: async () => {},
   isLoading: false,
 };
 
@@ -117,7 +119,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   /** 项目点赞数相对服务端初始值的增量（key: projectId），用于详情页等未在 projects 列表中的项目也能实时更新数字 */
   const [projectLikesDelta, setProjectLikesDelta] = useState<Record<string, number>>({});
   const [projectCollectionsDelta, setProjectCollectionsDelta] = useState<Record<string, number>>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const fetchedInteractionIdsRef = useRef<Set<number>>(new Set());
 
   const [supabase] = useState<SupabaseClient<Database>>(() => createClient());
   const { user, profile } = useAuth();
@@ -146,65 +149,90 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
   const userId = user?.id;
 
-  const fetchUserInteractions = useCallback(async () => {
-    if (!userId) return;
+  const mergeInteractionIds = useCallback(
+    (
+      liked: number[],
+      collected: number[],
+      completed: number[],
+      exploring: number[],
+    ) => {
+      setLikedProjects((prev) => {
+        const next = new Set(prev);
+        for (const id of liked) next.add(id);
+        return next;
+      });
+      setCollectedProjects((prev) => {
+        const next = new Set(prev);
+        for (const id of collected) next.add(id);
+        return next;
+      });
+      setCompletedProjects((prev) => {
+        const next = new Set(prev);
+        for (const id of completed) next.add(id);
+        return next;
+      });
+      setExploringProjects((prev) => {
+        const next = new Set(prev);
+        for (const id of exploring) next.add(id);
+        return next;
+      });
+    },
+    [],
+  );
 
-    try {
-      const [likesResponse, completedResponse, collectionsResponse, explorationsResponse] =
-        await Promise.all([
-        supabase.from("likes").select("project_id").eq("user_id", userId),
-        supabase.from("completed_projects").select("project_id, status, record_kind").eq("user_id", userId),
-        supabase.from("collections").select("project_id").eq("user_id", userId),
-        supabase.from("project_explorations").select("project_id, status").eq("user_id", userId),
-      ]);
+  const syncProjectInteractions = useCallback(
+    async (projectIds: (string | number)[]) => {
+      if (!userId) return;
 
-      if (likesResponse.data) {
-        setLikedProjects(
-          new Set((likesResponse.data as { project_id: number }[]).map((l) => l.project_id)),
-        );
+      const normalized = [
+        ...new Set(
+          projectIds
+            .map((projectId) => normalizeProjectId(projectId))
+            .filter((id): id is number => id !== null),
+        ),
+      ];
+      const toFetch = normalized.filter((id) => !fetchedInteractionIdsRef.current.has(id));
+      if (toFetch.length === 0) return;
+
+      setIsLoading(true);
+      try {
+        const params = new URLSearchParams({ ids: toFetch.join(",") });
+        const response = await fetch(`/api/projects/interactions?${params.toString()}`);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload?.error || "Failed to fetch project interactions");
+        }
+
+        const liked = (payload?.liked as number[] | undefined) || [];
+        const collected = (payload?.collected as number[] | undefined) || [];
+        const completed = (payload?.completed as number[] | undefined) || [];
+        const exploring = (payload?.exploring as number[] | undefined) || [];
+
+        mergeInteractionIds(liked, collected, completed, exploring);
+        for (const id of toFetch) {
+          fetchedInteractionIdsRef.current.add(id);
+        }
+      } catch (error) {
+        logger.error(error, { context: "Error syncing project interactions" });
+      } finally {
+        setIsLoading(false);
       }
-      if (completedResponse.data) {
-        const completionRows = completedResponse.data as {
-          project_id: number
-          status?: string | null
-          record_kind?: string | null
-        }[]
-        setCompletedProjects(
-          new Set(getTrackedCompletedProjectIds(completionRows)),
-        );
-      }
-      if (explorationsResponse.data) {
-        const activeIds = (explorationsResponse.data as { project_id: number; status?: string }[])
-          .filter((row) => row.status === "active")
-          .map((row) => row.project_id);
-        setExploringProjects(new Set(activeIds));
-      }
-      if (collectionsResponse.data) {
-        setCollectedProjects(
-          new Set((collectionsResponse.data as { project_id: number }[]).map((c) => c.project_id)),
-        );
-      }
-    } catch (error) {
-      logger.error(error, { context: "Error fetching user interactions" });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userId, supabase]);
+    },
+    [mergeInteractionIds, userId],
+  );
 
   useEffect(() => {
-    if (user?.id) {
-      fetchUserInteractions();
-      return;
+    if (!user?.id) {
+      fetchedInteractionIdsRef.current = new Set();
+      setLikedProjects(new Set());
+      setCompletedProjects(new Set());
+      setExploringProjects(new Set());
+      setCollectedProjects(new Set());
+      setProjectLikesDelta({});
+      setProjectCollectionsDelta({});
+      setIsLoading(false);
     }
-
-    setLikedProjects(new Set());
-    setCompletedProjects(new Set());
-    setExploringProjects(new Set());
-    setCollectedProjects(new Set());
-    setProjectLikesDelta({});
-    setProjectCollectionsDelta({});
-    setIsLoading(false);
-  }, [user?.id, fetchUserInteractions]);
+  }, [user?.id]);
 
   const getUserStats = useCallback(async () => {
     const defaultStats = {
@@ -996,6 +1024,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isExploring,
       deleteComment,
       updateProject,
+      syncProjectInteractions,
       isLoading,
     }),
     [
@@ -1021,6 +1050,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isExploring,
       deleteComment,
       updateProject,
+      syncProjectInteractions,
       isLoading,
     ],
   );

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
+import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { cn } from "@/lib/utils"
 
 interface ProjectHeroActionsProps {
@@ -22,6 +23,7 @@ export function ProjectHeroActions({
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { toggleLike, isLiked, getLikesDelta, toggleCollection, isCollected, getCollectionsDelta } = useProjects()
+  useSyncProjectInteractions([projectId])
 
   const liked = isLiked(projectId)
   const collected = isCollected(projectId)
