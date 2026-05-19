@@ -21,7 +21,7 @@ import { Project, Comment } from "@/lib/mappers/types";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
-import { canResubmitCompletion, getTrackedCompletedProjectIds } from "@/lib/completion-records";
+import { getTrackedCompletedProjectIds } from "@/lib/completion-records";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 
 export interface ProjectCompletionProof {
@@ -55,8 +55,19 @@ type ProjectContextType = {
   isLiked: (projectId: string | number) => boolean;
   isCollected: (projectId: string | number) => boolean;
   completeProject: (projectId: string | number, proof: ProjectCompletionProof) => Promise<void>;
+  submitExplorationPost: (
+    projectId: string | number,
+    proof: ProjectCompletionProof,
+    options: {
+      kind: "progress" | "final";
+      recordType?: string;
+      stageLabel?: string;
+    },
+  ) => Promise<{ id: number; status: string; recordKind: string }>;
+  startExploration: (projectId: string | number, options?: { autoCollect?: boolean }) => Promise<void>;
   uncompleteProject: (projectId: string | number) => Promise<void>;
   isCompleted: (projectId: string | number) => boolean;
+  isExploring: (projectId: string | number) => boolean;
   deleteComment: (commentId: string | number) => Promise<void>;
   updateProject: (projectId: string | number, project: Project, isMajorEdit?: boolean) => Promise<void>;
   isLoading: boolean;
@@ -79,8 +90,11 @@ const EMPTY_PROJECT_CONTEXT: ProjectContextType = {
   isLiked: () => false,
   isCollected: () => false,
   completeProject: async () => {},
+  submitExplorationPost: async () => ({ id: 0, status: "pending", recordKind: "final" }),
+  startExploration: async () => {},
   uncompleteProject: async () => {},
   isCompleted: () => false,
+  isExploring: () => false,
   deleteComment: async () => {},
   updateProject: async () => {},
   isLoading: false,
@@ -98,6 +112,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [likedProjects, setLikedProjects] = useState<Set<number>>(new Set());
   const [completedProjects, setCompletedProjects] = useState<Set<number>>(new Set());
+  const [exploringProjects, setExploringProjects] = useState<Set<number>>(new Set());
   const [collectedProjects, setCollectedProjects] = useState<Set<number>>(new Set());
   /** 项目点赞数相对服务端初始值的增量（key: projectId），用于详情页等未在 projects 列表中的项目也能实时更新数字 */
   const [projectLikesDelta, setProjectLikesDelta] = useState<Record<string, number>>({});
@@ -113,6 +128,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   // Refs for stable callbacks
   const likedProjectsRef = useRef(likedProjects);
   const completedProjectsRef = useRef(completedProjects);
+  const exploringProjectsRef = useRef(exploringProjects);
   const collectedProjectsRef = useRef(collectedProjects);
 
   useEffect(() => {
@@ -121,6 +137,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     completedProjectsRef.current = completedProjects;
   }, [completedProjects]);
+  useEffect(() => {
+    exploringProjectsRef.current = exploringProjects;
+  }, [exploringProjects]);
   useEffect(() => {
     collectedProjectsRef.current = collectedProjects;
   }, [collectedProjects]);
@@ -131,10 +150,12 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     if (!userId) return;
 
     try {
-      const [likesResponse, completedResponse, collectionsResponse] = await Promise.all([
+      const [likesResponse, completedResponse, collectionsResponse, explorationsResponse] =
+        await Promise.all([
         supabase.from("likes").select("project_id").eq("user_id", userId),
-        supabase.from("completed_projects").select("project_id, status").eq("user_id", userId),
+        supabase.from("completed_projects").select("project_id, status, record_kind").eq("user_id", userId),
         supabase.from("collections").select("project_id").eq("user_id", userId),
+        supabase.from("project_explorations").select("project_id, status").eq("user_id", userId),
       ]);
 
       if (likesResponse.data) {
@@ -143,10 +164,20 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         );
       }
       if (completedResponse.data) {
-        const completionRows = completedResponse.data as { project_id: number; status?: string | null }[]
+        const completionRows = completedResponse.data as {
+          project_id: number
+          status?: string | null
+          record_kind?: string | null
+        }[]
         setCompletedProjects(
           new Set(getTrackedCompletedProjectIds(completionRows)),
         );
+      }
+      if (explorationsResponse.data) {
+        const activeIds = (explorationsResponse.data as { project_id: number; status?: string }[])
+          .filter((row) => row.status === "active")
+          .map((row) => row.project_id);
+        setExploringProjects(new Set(activeIds));
       }
       if (collectionsResponse.data) {
         setCollectedProjects(
@@ -168,6 +199,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
     setLikedProjects(new Set());
     setCompletedProjects(new Set());
+    setExploringProjects(new Set());
     setCollectedProjects(new Set());
     setProjectLikesDelta({});
     setProjectCollectionsDelta({});
@@ -711,88 +743,105 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     [supabase, user, toast],
   );
 
-  const completeProject = useCallback(
-    async (projectId: string | number, proof: ProjectCompletionProof) => {
+  const startExploration = useCallback(
+    async (projectId: string | number, options?: { autoCollect?: boolean }) => {
       if (!user) return;
       const pid = normalizeProjectId(projectId);
-      if (pid === null) {
-        throw new Error("无效的项目 ID，无法记录完成状态");
+      if (pid === null) throw new Error("无效的项目 ID");
+
+      const response = await fetch(`/api/projects/${pid}/explorations/start`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ autoCollect: options?.autoCollect !== false }),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.error || "开始探索失败");
       }
 
-      // 验证必须有图片
-      if (!proof.images || proof.images.length === 0) {
+      setExploringProjects((prev) => {
+        const next = new Set(prev);
+        next.add(pid);
+        exploringProjectsRef.current = next;
+        return next;
+      });
+
+      if (options?.autoCollect !== false) {
+        setCollectedProjects((prev) => {
+          const next = new Set(prev);
+          next.add(pid);
+          collectedProjectsRef.current = next;
+          return next;
+        });
+      }
+    },
+    [user],
+  );
+
+  const submitExplorationPost = useCallback(
+    async (
+      projectId: string | number,
+      proof: ProjectCompletionProof,
+      options: {
+        kind: "progress" | "final";
+        recordType?: string;
+        stageLabel?: string;
+      },
+    ) => {
+      if (!user) throw new Error("请先登录");
+      const pid = normalizeProjectId(projectId);
+      if (pid === null) throw new Error("无效的项目 ID");
+
+      if (!proof.images?.length) {
         throw new Error("至少需要上传一张作品照片");
       }
 
-      const { data: existingCompletion, error: existingCompletionError } = await supabase
-        .from("completed_projects")
-        .select("id, status")
-        .eq("user_id", user.id)
-        .eq("project_id", pid)
-        .maybeSingle();
-
-      if (existingCompletionError) {
-        throw existingCompletionError;
-      }
-
-      const currentCompletion = existingCompletion as { id: number; status?: string | null } | null
-      const isResubmittingRejected = canResubmitCompletion(currentCompletion?.status)
-
-      if (currentCompletion && !isResubmittingRejected) {
-        throw new Error("你已经提交过该项目作品");
-      }
-
-      // Optimistic update + sync ref immediately
-      setCompletedProjects((prev) => {
-        const newSet = new Set(prev);
-        newSet.add(pid);
-        completedProjectsRef.current = newSet;
-        return newSet;
+      const response = await fetch(`/api/projects/${pid}/completions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: options.kind,
+          recordType: options.recordType,
+          stageLabel: options.stageLabel,
+          images: proof.images,
+          imageCaptions: proof.imageCaptions,
+          videoUrl: proof.videoUrl || null,
+          notes: proof.notes,
+          isPublic: proof.isPublic ?? true,
+        }),
       });
 
-      try {
-        const insertData: Record<string, unknown> = {
-          proof_images: proof.images,
-          proof_video_url: proof.videoUrl || null,
-          notes: proof.notes || null,
-          is_public: proof.isPublic ?? true,
-          status: "pending",
-          reviewed_by: null,
-          reviewed_at: null,
-          rejection_reason: null,
-        };
-        if (proof.imageCaptions && proof.imageCaptions.length > 0) {
-          insertData.proof_captions = proof.imageCaptions;
-        }
-        let error: unknown = null;
-        if (isResubmittingRejected && currentCompletion) {
-          ({ error } = await supabase
-            .from("completed_projects")
-            .update(insertData as never)
-            .eq("id", currentCompletion.id));
-        } else {
-          ({ error } = await supabase.from("completed_projects").insert({
-            ...insertData,
-            user_id: user.id,
-            project_id: pid,
-          } as never));
-        }
-
-        if (error) throw error;
-
-        // XP and badges are now awarded when the completion is approved by a reviewer
-      } catch (error) {
-        // Revert on error
-        setCompletedProjects((prev) => {
-          const newSet = new Set(prev);
-          newSet.delete(pid);
-          completedProjectsRef.current = newSet;
-          return newSet;
-        });
-        throw error;
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.error || "提交失败");
       }
+
+      setExploringProjects((prev) => {
+        const next = new Set(prev);
+        next.add(pid);
+        exploringProjectsRef.current = next;
+        return next;
+      });
+
+      if (options.kind === "final") {
+        setCompletedProjects((prev) => {
+          const next = new Set(prev);
+          next.add(pid);
+          completedProjectsRef.current = next;
+          return next;
+        });
+      }
+
+      return payload as { id: number; status: string; recordKind: string };
     },
-    [supabase, user],
+    [user],
+  );
+
+  const completeProject = useCallback(
+    async (projectId: string | number, proof: ProjectCompletionProof) => {
+      await submitExplorationPost(projectId, proof, { kind: "final" });
+    },
+    [submitExplorationPost],
   );
 
   const uncompleteProject = useCallback(
@@ -884,6 +933,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     },
     [completedProjects],
   );
+  const isExploring = useCallback(
+    (projectId: string | number) => {
+      const pid = normalizeProjectId(projectId);
+      return pid !== null && exploringProjects.has(pid);
+    },
+    [exploringProjects],
+  );
 
   const deleteComment = useCallback(
     async (commentId: string | number) => {
@@ -933,8 +989,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isLiked,
       isCollected,
       completeProject,
+      submitExplorationPost,
+      startExploration,
       uncompleteProject,
       isCompleted,
+      isExploring,
       deleteComment,
       updateProject,
       isLoading,
@@ -955,8 +1014,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       isLiked,
       isCollected,
       completeProject,
+      submitExplorationPost,
+      startExploration,
       uncompleteProject,
       isCompleted,
+      isExploring,
       deleteComment,
       updateProject,
       isLoading,

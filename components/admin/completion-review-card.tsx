@@ -33,9 +33,10 @@ interface CompletionForReview {
 interface CompletionReviewCardProps {
   completion: CompletionForReview
   onReview: () => void
+  readOnly?: boolean
 }
 
-export function CompletionReviewCard({ completion, onReview }: CompletionReviewCardProps) {
+export function CompletionReviewCard({ completion, onReview, readOnly = false }: CompletionReviewCardProps) {
   const [isReviewing, setIsReviewing] = useState(false)
   const [rejectionReason, setRejectionReason] = useState('')
   const [showRejectInput, setShowRejectInput] = useState(false)
@@ -120,6 +121,7 @@ export function CompletionReviewCard({ completion, onReview }: CompletionReviewC
   }
 
   const renderActions = (inDialog = false) => {
+    if (readOnly) return null
     if (showRejectInput) {
       return (
         <div className="space-y-2 mt-4">

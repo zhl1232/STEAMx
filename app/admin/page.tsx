@@ -204,8 +204,9 @@ export default function AdminPage() {
         proof_images, proof_captions, proof_video_url,
         notes, status
       `)
-      .eq('status', 'pending')
+      .in('status', ['pending', 'approved', 'rejected'])
       .order('completed_at', { ascending: false })
+      .limit(50)
 
     if (error) {
       console.error('Failed to fetch pending completions', error)
@@ -532,7 +533,7 @@ export default function AdminPage() {
         <Tabs defaultValue="pending" className="space-y-6">
           <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[24px] bg-transparent p-1">
             <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
-            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核作品 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">探索记录审计 ({pendingCompletions.length})</TabsTrigger>
             <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
             <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
@@ -592,6 +593,7 @@ export default function AdminPage() {
                     key={completion.id}
                     completion={completion}
                     onReview={loadData}
+                    readOnly
                   />
                 ))}
               </div>

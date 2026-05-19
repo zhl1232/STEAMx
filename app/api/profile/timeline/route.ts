@@ -133,8 +133,9 @@ export async function GET(request: NextRequest) {
 
     let completionsQuery = supabase
       .from('completed_projects')
-      .select('id, project_id, completed_at, status')
+      .select('id, project_id, completed_at, status, record_kind')
       .eq('user_id', user.id)
+      .eq('record_kind', 'final')
       .order('completed_at', { ascending: false })
       .limit(sourceLimit)
     if (before) {

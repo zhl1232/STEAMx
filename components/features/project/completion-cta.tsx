@@ -10,14 +10,15 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 
 interface CompletionCTAProps {
+    actionLabel?: string
     projectId: number | string
     projectTitle: string
     challengeId?: number | null
     mode?: "project" | "observation"
-    variant?: "card" | "inline"
+    variant?: "card" | "inline" | "records"
 }
 
-export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project", variant = "card" }: CompletionCTAProps) {
+export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project", variant = "card", actionLabel: actionLabelProp }: CompletionCTAProps) {
     const router = useRouter()
     const { isCompleted } = useProjects()
     const { user } = useAuth()
@@ -49,7 +50,34 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
         setShowDialog(true)
     }
 
-    const actionLabel = mode === "observation" ? "提交这次观察" : "上传我的作品"
+    const actionLabel = actionLabelProp ?? (mode === "observation" ? "提交这次观察" : "上传我的作品")
+
+
+    if (variant === "records") {
+        return (
+            <>
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleClick}
+                    className="h-9 shrink-0 gap-1.5 rounded-[10px] border-[hsl(var(--brand-green))] bg-background/80 px-3 text-sm font-semibold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.08)]"
+                >
+                    <Camera className="h-4 w-4" />
+                    {actionLabel}
+                </Button>
+                {mode === "project" && (
+                    <CompleteProjectDialog
+                        projectId={projectId}
+                        projectTitle={projectTitle}
+                        challengeId={challengeId}
+                        open={showDialog}
+                        onOpenChange={setShowDialog}
+                        onSuccess={() => router.refresh()}
+                    />
+                )}
+            </>
+        )
+    }
 
     if (variant === "inline") {
         return (

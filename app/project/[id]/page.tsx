@@ -7,7 +7,10 @@ import {
   AlertTriangle,
   ArrowLeft,
   Box,
+  ChevronDown,
+  ChevronRight,
   Edit,
+  Heart,
   ListChecks,
   ShieldCheck,
   UsersRound,
@@ -16,21 +19,24 @@ import {
 import { CoinIcon } from '@/components/icons/coin-icon'
 import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectInteractions } from '@/components/features/project-interactions'
-import { MobileProjectCommunityTabs } from '@/components/features/project/mobile-project-community-tabs'
+import { MobileProjectAuthorRow } from '@/components/features/project/mobile-project-author-row'
+import { MobileProjectIntro } from '@/components/features/project/mobile-project-intro'
+import { MobileProjectMetaChips } from '@/components/features/project/mobile-project-meta-chips'
+import { MobileProjectSteps } from '@/components/features/project/mobile-project-steps'
+import { ProjectExplorationRecordsBlock } from '@/components/features/project/project-exploration-records'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStickyBar } from '@/components/features/project/project-detail-sticky-bar'
 import { ProjectHeroActions } from '@/components/features/project/project-hero-actions'
-import { ProjectShowcase } from '@/components/features/project-showcase'
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
-import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
+import { ToneBadge, categoryToneClasses, type CategoryTone } from '@/components/ui/tone-badge'
+import { CATEGORY_META } from '@/lib/config/categories'
 import {
   getProjectAtIndex,
   getProjectById,
@@ -44,7 +50,7 @@ import {
 } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { cn } from '@/lib/utils'
-import type { ProjectStep } from '@/lib/mappers/types'
+import type { Project, ProjectCompletion, ProjectStep } from '@/lib/mappers/types'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>
@@ -124,12 +130,7 @@ function canAccessProject(project: Awaited<ReturnType<typeof getProjectById>>, v
 }
 
 function getCategoryTone(category?: string): CategoryTone {
-  if (category === '技术') return 'tech'
-  if (category === '工程') return 'engineering'
-  if (category === '艺术') return 'art'
-  if (category === '数学') return 'math'
-  if (category === '其他') return 'playground'
-  return 'science'
+  return CATEGORY_META[category || '']?.tone ?? 'science'
 }
 
 function getDifficultyLabel(stars?: number) {
@@ -152,6 +153,15 @@ function formatCount(value: number) {
     return `${Number.isInteger(rounded) ? rounded : rounded.toFixed(1)}k`
   }
   return String(value)
+}
+
+function countHeroGalleryImages(coverImage: string, steps: ProjectStep[]) {
+  const urls = new Set<string>()
+  if (coverImage) urls.add(coverImage)
+  for (const step of steps) {
+    if (step.image_url) urls.add(step.image_url)
+  }
+  return Math.max(1, urls.size)
 }
 
 interface ProjectAuthorSummary {
@@ -246,7 +256,7 @@ function MaterialsList({ materials, compact = false }: { materials: string[]; co
   }
 
   return (
-    <div className={compact ? "grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]" : "grid gap-3 sm:grid-cols-2 xl:grid-cols-1"}>
+    <div className={compact ? "grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]" : "grid gap-3 sm:grid-cols-2 xl:grid-cols-1"}>
       {materials.map((material, index) => (
         compact ? (
           <MaterialTile key={`${material}-${index}`} material={material} index={index} />
@@ -276,20 +286,22 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
   ]
 
   return (
-    <div className="group flex min-h-[60px] items-center gap-2 rounded-[10px] border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-sm shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:gap-2.5 sm:p-2.5">
+    <div className="group flex min-h-[60px] items-start gap-2 rounded-[10px] border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-sm shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:items-center sm:gap-2.5 sm:p-2.5">
       <div className="shrink-0">
         <div className="grid h-8 w-8 place-items-center rounded-[9px] bg-[hsl(var(--surface-muted))] sm:h-9 sm:w-9 sm:rounded-[10px]">
           <Box className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:h-[18px] sm:w-[18px]" strokeWidth={1.8} />
         </div>
       </div>
-      <div className="flex min-w-0 flex-1 items-center justify-between gap-1.5 sm:gap-2">
+      <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
         <div className="min-w-0 flex-1">
           <p className="line-clamp-2 break-words text-xs font-semibold leading-tight [overflow-wrap:anywhere] sm:text-sm">{meta.name}</p>
           {meta.note ? (
-            <p className="mt-0.5 truncate text-[11px] leading-3.5 text-muted-foreground sm:text-xs sm:leading-4">{meta.note}</p>
+            <p className="mt-0.5 line-clamp-2 text-[11px] leading-3.5 text-muted-foreground [overflow-wrap:anywhere] sm:truncate sm:text-xs sm:leading-4">
+              {meta.note}
+            </p>
           ) : null}
         </div>
-        <span className={`shrink-0 rounded-[7px] px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
+        <span className={`w-fit shrink-0 rounded-[7px] px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
           {meta.amount}
         </span>
       </div>
@@ -338,6 +350,129 @@ function HeroStat({
         <p className="text-lg font-bold leading-none tracking-tight">{value}</p>
         <p className="mt-1 text-xs text-muted-foreground">{label}</p>
       </div>
+    </div>
+  )
+}
+
+function MobileSectionCard({
+  title,
+  action,
+  children,
+  className,
+  id,
+}: {
+  title: string
+  action?: ReactNode
+  children: ReactNode
+  className?: string
+  id?: string
+}) {
+  return (
+    <section id={id} className={cn("scroll-mt-20 rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]", className)}>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="font-sans text-base font-bold tracking-tight text-foreground">{title}</h2>
+        {action}
+      </div>
+      {children}
+    </section>
+  )
+}
+
+function MobileBackLink({
+  href,
+  label = '返回探索',
+}: {
+  href: string
+  label?: string
+}) {
+  return (
+    <Link
+      href={href}
+      aria-label={label}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/94 text-[#243246] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] backdrop-blur-md transition active:scale-95 dark:bg-slate-950/80 dark:text-white"
+    >
+      <ArrowLeft className="h-5 w-5" />
+    </Link>
+  )
+}
+
+function MobileRelatedProjects({
+  project,
+  href,
+}: {
+  project: Project | null
+  href: string
+}) {
+  if (!project) {
+    return (
+      <MobileSectionCard
+        title="你可能还会喜欢"
+        action={<Link href={href} className="text-xs font-semibold text-muted-foreground">查看更多</Link>}
+      >
+        <Link
+          href={href}
+          className="flex items-center justify-between rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-background/58 px-4 py-4 text-sm font-semibold text-[hsl(var(--brand-green))]"
+        >
+          回到探索页发现更多项目
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+      </MobileSectionCard>
+    )
+  }
+
+  return (
+    <MobileSectionCard
+      title="你可能还会喜欢"
+      action={<Link href={href} className="text-xs font-semibold text-muted-foreground">查看更多</Link>}
+    >
+      <Link
+        href={href}
+        className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-[12px] border border-[hsl(var(--surface-border)/0.84)] bg-background/78 p-2.5"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[10px] bg-muted">
+          <OptimizedImage
+            src={project.image}
+            alt={project.title}
+            fill
+            variant="card"
+            className="object-cover"
+          />
+        </div>
+        <div className="min-w-0 py-0.5">
+          <p className="line-clamp-2 font-sans text-sm font-bold leading-5 text-foreground">{project.title}</p>
+          <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
+            {project.description || '继续探索一个相关项目。'}
+          </p>
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-muted-foreground">
+            {project.difficulty_stars ? <DifficultyStars stars={project.difficulty_stars} size="sm" /> : null}
+            {project.category ? <span>{project.category}</span> : null}
+          </div>
+        </div>
+      </Link>
+    </MobileSectionCard>
+  )
+}
+
+function MobileBottomProjectBar({
+  projectId,
+  projectTitle,
+  mode,
+  collections,
+}: {
+  projectId: string | number
+  projectTitle: string
+  mode: 'project' | 'observation'
+  collections: number
+}) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--surface-border)/0.86)] bg-background px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-18px_44px_-34px_rgba(15,23,42,0.46)] md:hidden">
+      <ProjectDetailActions
+        projectId={projectId}
+        projectTitle={projectTitle}
+        mode={mode}
+        variant="bottom"
+        collections={collections}
+      />
     </div>
   )
 }
@@ -616,7 +751,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     relatedProjects,
     authorSummary,
   ] = await Promise.all([
-    getProjectCompletions(project.id, 8),
+    getProjectCompletions(project.id, 8, { onePerUser: true }),
     getProjectCompletionsCount(project.id),
     getProjectComments(project.id, 0, 5, { userId: user?.id }),
     getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0),
@@ -658,7 +793,10 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     .slice(0, 4)
   const difficultyLabel = getDifficultyLabel(project.difficulty_stars)
   const mode = isObservationProject ? 'observation' : 'project'
-  const showcaseCount = Math.max(completionCount, completions.length)
+  const completedCount = completionCount
+  const chip2Label = project.sub_category ?? visibleTags[0] ?? null
+  const introTags = project.sub_category ? visibleTags : visibleTags.slice(1)
+  const heroGalleryCount = countHeroGalleryImages(project.image, steps)
 
   return (
     <div className="relative overflow-x-hidden bg-[hsl(var(--app-canvas))]">
@@ -669,22 +807,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
         mode={mode}
       />
       <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]" />
-      <div className="mx-auto w-full max-w-[1840px] px-4 pb-36 pt-4 md:px-8 md:pb-14 md:pt-6">
-        <MobilePageHeader
-          title="项目详情"
-          fallbackHref={exploreBackHref}
-          className="-mx-4 -mt-4 mb-4 md:hidden"
-          titleClassName="text-center text-lg"
-          rightSlot={
-            <ProjectDetailActions
-              projectId={project.id}
-              projectTitle={project.title}
-              mode={mode}
-              variant="header"
-            />
-          }
-        />
-
+      <div className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
         <div className="mb-5 hidden md:block">
           <Link
             href={exploreBackHref}
@@ -729,84 +852,93 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           </Alert>
         )}
 
-        <section className="-mx-4 -mt-4 overflow-hidden md:hidden">
-          <div className="relative h-[31vh] min-h-[210px] max-h-[280px] overflow-hidden bg-muted">
-            <OptimizedImage
-              src={project.image}
-              alt={project.title}
-              fill
-              variant="cover"
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/36 to-black/4 dark:from-black/95 dark:via-black/55 dark:to-black/8" />
-            <div className="absolute inset-x-0 bottom-0 space-y-3 px-4 pb-4 text-white">
-              <div className="flex flex-wrap items-center gap-2">
-                {project.category ? (
-                  <span className="rounded-[8px] bg-black/36 px-2.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
-                    {project.category}
-                  </span>
-                ) : null}
-                {project.sub_category ? (
-                  <span className="rounded-[8px] bg-black/30 px-2.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
-                    {project.sub_category}
-                  </span>
-                ) : null}
-                <span className="ml-auto inline-flex items-center gap-1 rounded-[8px] bg-black/42 px-2.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
-                  <DifficultyStars stars={project.difficulty_stars ?? 1} size="sm" />
-                  {difficultyLabel}
-                </span>
-              </div>
-              <h1 className="font-sans text-2xl font-bold leading-tight tracking-tight text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.86),0_0_2px_rgba(0,0,0,0.7)]">
-                {project.title}
-              </h1>
-            </div>
-          </div>
-          <div className="space-y-3 bg-[hsl(var(--app-canvas))] px-4 pb-4 pt-3">
-            <ProjectAuthorCard author={authorSummary} compact />
-            <div className="space-y-2">
-              <p className="line-clamp-2 text-[15px] leading-6 text-muted-foreground">
-                {projectSummary}
-              </p>
-              {visibleTags.length > 0 ? (
-                <div className="flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  {visibleTags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="shrink-0 rounded-[8px] bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+        <div className="-mx-4 md:hidden">
+          <div className="bg-[hsl(var(--app-canvas))]">
+            <section className="overflow-hidden rounded-b-[22px] bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
+              <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
+                <OptimizedImage
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  variant="cover"
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/14" />
+                <div className="absolute left-4 right-4 top-[calc(0.75rem+env(safe-area-inset-top))] flex items-center justify-between gap-3">
+                  <MobileBackLink href={exploreBackHref} />
+                  <ProjectDetailActions
+                    projectId={project.id}
+                    projectTitle={project.title}
+                    mode={mode}
+                    variant="cover"
+                    likes={project.likes}
+                    projectOwnerId={project.author_id}
+                    projectCoinsReceived={projectCoinsReceived}
+                  />
                 </div>
-              ) : null}
-            </div>
-            <div className="rounded-[12px] border border-border/60 bg-muted/24 px-1 py-2.5">
-              <div className="grid grid-cols-4 divide-x divide-border/50">
-                <HeroStat
-                  icon={<ListChecks className="h-4 w-4" />}
-                  value={String(steps.length || '-')}
-                  label="步骤"
+                <div className="absolute bottom-3 right-4 rounded-full bg-black/48 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md">
+                  1/{heroGalleryCount}
+                </div>
+              </div>
+
+              <div className="space-y-4 px-4 pb-5 pt-4">
+                <h1 className="font-sans text-[26px] font-black leading-tight tracking-tight text-foreground">
+                  {project.title}
+                </h1>
+
+                <MobileProjectMetaChips
+                  category={project.category}
+                  categoryTone={categoryTone}
+                  topicLabel={chip2Label}
+                  stepsCount={steps.length}
+                  materialsCount={materials.length}
+                  completionCount={completionCount}
+                  difficultyStars={project.difficulty_stars ?? 1}
                 />
-                <HeroStat
-                  icon={<Box className="h-4 w-4" />}
-                  value={String(materials.length || '-')}
-                  label="材料"
-                />
-                <HeroStat
-                  icon={<UsersRound className="h-4 w-4" />}
-                  value={formatCount(showcaseCount)}
-                  label="完成"
-                />
-                <HeroStat
-                  icon={<CoinIcon className="h-4 w-4" />}
-                  value={formatCount(projectCoinsReceived)}
-                  label="投币"
+
+                <MobileProjectAuthorRow
+                  author={
+                    authorSummary
+                      ? {
+                          id: authorSummary.id,
+                          name: authorSummary.name,
+                          avatarUrl: authorSummary.avatarUrl,
+                          level: authorSummary.level,
+                        }
+                      : null
+                  }
+                  projectId={project.id}
+                  completionCount={completionCount}
+                  completions={completions}
                 />
               </div>
+            </section>
+
+            <div className="space-y-3 px-4 pb-28 pt-3">
+              <MobileProjectIntro summary={projectSummary} tags={introTags} />
+
+              <MobileProjectSteps steps={steps} materials={materials} />
+
+              <MobileSectionCard title="探索记录">
+                <ProjectExplorationRecordsBlock projectId={project.id} completions={completions} />
+              </MobileSectionCard>
+
+              <MobileRelatedProjects
+                project={continuationProject}
+                href={continuationHref}
+              />
+
             </div>
           </div>
-        </section>
+
+          <MobileBottomProjectBar
+            projectId={project.id}
+            projectTitle={project.title}
+            mode={mode}
+            collections={collectionsCount}
+          />
+        </div>
 
         <div className="space-y-6">
           <main className="min-w-0 space-y-6">
@@ -885,7 +1017,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                     />
                     <HeroStat
                       icon={<UsersRound className="h-5 w-5" />}
-                      value={formatCount(showcaseCount)}
+                      value={formatCount(completedCount)}
                       label="人完成"
                     />
                     <HeroStat
@@ -898,7 +1030,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               </div>
             </section>
 
-            <section className="flex items-start gap-3 rounded-[10px] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4">
+            <section className="hidden items-start gap-3 rounded-[10px] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
               <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))] sm:h-7 sm:w-7">
                 <ShieldCheck className="h-4 w-4" />
               </span>
@@ -910,7 +1042,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               </div>
             </section>
 
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)]">
+            <div className="hidden gap-6 md:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)]">
               <div className="min-w-0 space-y-6">
                 <div id="project-materials" className="scroll-mt-24 lg:scroll-mt-28">
                   <SectionCard title={`所需材料${materials.length > 0 ? `（${materials.length}）` : ''}`}>
@@ -946,15 +1078,13 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 </div>
 
                 <section
-                  id="project-showcase"
-                  className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6"
+                  id="project-exploration-records"
+                  className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6 scroll-mt-24"
                 >
-                  <ProjectShowcase
-                    completions={completions}
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight text-foreground">探索记录</h2>
+                  <ProjectExplorationRecordsBlock
                     projectId={project.id}
-                    projectTitle={project.title}
-                    title="作品展示"
-                    totalCount={showcaseCount}
+                    completions={completions}
                     emptyActionSlot={
                       <CompletionCTA
                         projectId={project.id}
@@ -966,15 +1096,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                     }
                   />
                 </section>
-
-                {showcaseCount > 0 ? (
-                  <CompletionCTA
-                    projectId={project.id}
-                    projectTitle={project.title}
-                    challengeId={project.challenge_id}
-                    mode={mode}
-                  />
-                ) : null}
 
                 {(continuationProject || fromExplore) ? (
                   <div className="hidden lg:block">
@@ -1023,25 +1144,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               </section>
             </div>
 
-            <MobileProjectCommunityTabs
-              projectId={project.id}
-              projectTitle={project.title}
-              projectOwnerId={project.author_id}
-              challengeId={project.challenge_id}
-              mode={mode}
-              likes={project.likes}
-              completions={completions}
-              showcaseCount={showcaseCount}
-              projectCoinsReceived={projectCoinsReceived}
-              collectionsCount={collectionsCount}
-              comments={initialComments}
-              totalComments={totalComments}
-              hasMoreComments={hasMoreComments}
-              likedCommentIds={initialLikedCommentIds}
-            />
 
             {(continuationProject || fromExplore) ? (
-              <div className="lg:hidden">
+              <div className="hidden md:block lg:hidden">
                 <ProjectContinuationCard
                   kind={continuationProject ? (fromExplore ? 'next' : 'related') : 'back'}
                   href={continuationHref}

@@ -43,6 +43,7 @@ interface MobileProfilePageProps {
   likedProjectsList: Project[];
   collectedProjectsList: Project[];
   completedProjectsList: Project[];
+  exploringProjectsList?: Project[];
   completionStatusMap?: Map<number, { status: string; rejectionReason?: string }>;
   followerCount: number;
   followingCount: number;
@@ -69,6 +70,7 @@ const PROFILE_TABS = [
   { value: "works", label: "作品" },
   { value: "collected", label: "收藏" },
   { value: "likes", label: "点赞" },
+  { value: "exploring", label: "探索中" },
   { value: "completed", label: "已完成" },
   { value: "observations", label: "观察记录" },
 ] as const;
@@ -82,6 +84,7 @@ export function MobileProfilePage({
   likedProjectsList,
   collectedProjectsList,
   completedProjectsList,
+  exploringProjectsList = [],
   completionStatusMap,
   followerCount,
   followingCount,
@@ -116,6 +119,7 @@ export function MobileProfilePage({
       works: myProjectsCount,
       collected: collectedProjectsCount,
       likes: likedProjectsCount,
+      exploring: exploringProjectsList.length,
       completed: completedProjectsCount,
       observations: observationsLoaded ? observationsTotal : null,
     }),
@@ -124,6 +128,7 @@ export function MobileProfilePage({
       collectedProjectsCount,
       likedProjectsCount,
       completedProjectsCount,
+      exploringProjectsList.length,
       observationsLoaded,
       observationsTotal,
     ],
@@ -328,6 +333,19 @@ export function MobileProfilePage({
             emptyState={{
               title: "暂无喜欢",
               desc: "去发现更多有趣的项目",
+              btnText: "去探索",
+              href: "/explore",
+            }}
+          />
+        ) : null}
+
+        {activeTab === "exploring" ? (
+          <ProjectList
+            projects={exploringProjectsList}
+            projectHref={(id) => `/project/${id}/records`}
+            emptyState={{
+              title: "暂无探索中",
+              desc: "在项目详情点击「开始探索」",
               btnText: "去探索",
               href: "/explore",
             }}

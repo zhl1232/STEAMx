@@ -1,23 +1,34 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 import { Bookmark, Heart, Rocket, Share2 } from "lucide-react"
 
+import { CoinIcon } from "@/components/icons/coin-icon"
+import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
+import { formatCount } from "@/lib/project/format-count"
 import { cn } from "@/lib/utils"
 
 interface ProjectDetailActionsProps {
   projectId: number | string
   projectTitle: string
   mode?: "project" | "observation"
-  variant: "mobile" | "header" | "sticky"
+  variant: "mobile" | "header" | "sticky" | "cover" | "bottom"
   className?: string
   likes?: number
   collections?: number
+  projectOwnerId?: string
+  projectCoinsReceived?: number
 }
+
+const coverIconButtonClass =
+  "inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/94 text-[#243246] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] backdrop-blur-md transition active:scale-95 dark:bg-slate-950/80 dark:text-white"
 
 export function ProjectDetailActions({
   projectId,
@@ -27,24 +38,110 @@ export function ProjectDetailActions({
   className,
   likes: initialLikes = 0,
   collections: initialCollections = 0,
+  projectOwnerId,
+  projectCoinsReceived = 0,
 }: ProjectDetailActionsProps) {
+  const router = useRouter()
   const { toast } = useToast()
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
-  const { isCollected, toggleCollection, isLiked, toggleLike, getLikesDelta, getCollectionsDelta } = useProjects()
+  const {
+    isCollected,
+    toggleCollection,
+    isLiked,
+    toggleLike,
+    getLikesDelta,
+    getCollectionsDelta,
+    clearLikesDelta,
+    isCompleted,
+    isExploring,
+    startExploration,
+  } = useProjects()
+
+  const [showTipDialog, setShowTipDialog] = useState(false)
 
   const collected = isCollected(projectId)
   const liked = isLiked(projectId)
   const likes = Math.max(0, initialLikes + getLikesDelta(projectId))
   const collections = Math.max(0, initialCollections + getCollectionsDelta(projectId))
+  const completed = isCompleted(projectId)
   const isObservation = mode === "observation"
-  const startLabel = isObservation ? "开始观察" : "开始制作"
+  const isOwnProject = Boolean(user?.id && projectOwnerId && user.id === projectOwnerId)
+  const recordsHref = isObservation ? "/nature/submit" : `/project/${projectId}/records`
+
+  const hasStartedExploration = isExploring(projectId) || completed
+
+  useEffect(() => {
+    if (variant === "cover" || variant === "bottom") {
+      clearLikesDelta(projectId)
+    }
+  }, [projectId, variant, clearLikesDelta])
+
+  const normalizedTipProjectId = Number(projectId)
+  const tipProjectQueryId =
+    Number.isInteger(normalizedTipProjectId) && normalizedTipProjectId > 0
+      ? normalizedTipProjectId
+      : String(projectId)
+
+  const { data: myTippedProject = 0 } = useQuery({
+    queryKey: ["tip_my", "project", tipProjectQueryId],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        resourceType: "project",
+        resourceId: String(projectId),
+      })
+      const response = await fetch(`/api/tips/my?${params.toString()}`)
+      if (!response.ok) return 0
+      const payload = await response.json()
+      return (payload?.myTipped as number) ?? 0
+    },
+    enabled: Boolean(user) && variant === "cover" && !isOwnProject,
+  })
+  const hasTippedProject = myTippedProject > 0
+
+  const scrollToSteps = () => {
+    const target = document.getElementById("project-steps-mobile") || document.getElementById("project-steps")
+    target?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
+  const primaryActionLabel = useMemo(() => {
+    if (completed) return isObservation ? "查看观察记录" : "查看我的作品"
+    if (hasStartedExploration) return isObservation ? "继续观察" : "继续记录"
+    return isObservation ? "开始观察" : "开始探索"
+  }, [completed, hasStartedExploration, isObservation])
+
+  const runPrimaryAction = async () => {
+    if (completed) {
+      router.push(recordsHref)
+      return
+    }
+    if (hasStartedExploration) {
+      router.push(recordsHref)
+      return
+    }
+    if (!isObservation) {
+      await startExploration(projectId, { autoCollect: true })
+    }
+    scrollToSteps()
+    toast({
+      title: isObservation ? "已开始观察" : "已开始探索",
+      description: isObservation
+        ? "按步骤记录你的观察发现"
+        : "按步骤动手制作，随时在探索记录里上传照片与心得",
+    })
+  }
 
   const handleStart = () => {
-    document.getElementById("project-steps")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
+    if (!user) {
+      promptLogin(() => {
+        void runPrimaryAction()
+      }, {
+        title: isObservation ? "登录以开始观察" : "登录以开始探索",
+        description: "登录后即可记录探索过程并上传作品",
+      })
+      return
+    }
+    void runPrimaryAction()
   }
 
   const handleCollection = () => {
@@ -67,6 +164,17 @@ export function ProjectDetailActions({
       return
     }
     toggleLike(projectId)
+  }
+
+  const handleTip = () => {
+    if (!user) {
+      promptLogin(() => setShowTipDialog(true), {
+        title: "投币支持项目",
+        description: "登录后即可用硬币赞赏本项目",
+      })
+      return
+    }
+    setShowTipDialog(true)
   }
 
   const handleShare = async () => {
@@ -92,9 +200,20 @@ export function ProjectDetailActions({
     }
   }
 
+  const tipDialog =
+    projectOwnerId && !isOwnProject ? (
+      <TipProjectDialog
+        open={showTipDialog}
+        onOpenChange={setShowTipDialog}
+        projectTitle={projectTitle}
+        projectOwnerId={projectOwnerId}
+        projectId={projectId}
+      />
+    ) : null
+
   if (variant === "header") {
     return (
-      <div className="flex items-center gap-1">
+      <div className={cn("flex items-center gap-1", className)}>
         <button
           type="button"
           onClick={handleShare}
@@ -104,6 +223,49 @@ export function ProjectDetailActions({
           <Share2 className="h-5 w-5" />
         </button>
       </div>
+    )
+  }
+
+  if (variant === "cover") {
+    return (
+      <>
+        <div className={cn("flex items-center gap-2", className)}>
+          <button
+            type="button"
+            onClick={handleShare}
+            className={coverIconButtonClass}
+            aria-label="分享项目"
+          >
+            <Share2 className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={handleLike}
+            className={cn(coverIconButtonClass, liked && "text-red-500 dark:text-red-400")}
+            aria-label={likes > 0 ? `点赞 ${formatCount(likes)}` : "点赞项目"}
+          >
+            <Heart className={cn("h-5 w-5", liked && "fill-current")} />
+          </button>
+          {!isOwnProject && projectOwnerId ? (
+            <button
+              type="button"
+              onClick={handleTip}
+              className={cn(
+                coverIconButtonClass,
+                hasTippedProject && "text-[hsl(var(--brand-amber))] dark:text-[hsl(var(--brand-amber))]",
+              )}
+              aria-label={
+                projectCoinsReceived > 0
+                  ? `投币支持，共 ${formatCount(projectCoinsReceived)} 枚`
+                  : "投币支持项目"
+              }
+            >
+              <CoinIcon className="h-5 w-5" />
+            </button>
+          ) : null}
+        </div>
+        {tipDialog}
+      </>
     )
   }
 
@@ -140,14 +302,43 @@ export function ProjectDetailActions({
           className="h-9 rounded-[8px] bg-[hsl(var(--brand-blue))] px-3 text-white hover:bg-[hsl(var(--brand-blue)/0.92)]"
         >
           <Rocket className="mr-1.5 h-4 w-4" />
-          {startLabel}
+          {primaryActionLabel}
         </Button>
       </div>
     )
   }
 
+  if (variant === "bottom") {
+    return (
+      <>
+        <div className={cn("flex w-full items-center gap-3", className)}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCollection}
+            className={cn(
+              "h-12 w-[34%] min-w-[116px] shrink-0 rounded-[12px] border-[hsl(var(--surface-border-strong))] bg-background/86 px-3 text-sm font-semibold text-foreground shadow-sm shadow-[hsl(var(--surface-shadow)/0.08)]",
+              collected && "border-[hsl(var(--brand-amber)/0.38)] text-[hsl(var(--brand-amber))]",
+            )}
+          >
+            <Bookmark className={cn("mr-2 h-5 w-5", collected && "fill-current")} />
+            {collected ? "已收藏" : "收藏"}
+          </Button>
+          <Button
+            type="button"
+            onClick={handleStart}
+            className="h-12 min-w-0 flex-1 rounded-[12px] bg-[hsl(var(--brand-green))] px-5 text-base font-bold text-white shadow-[0_18px_34px_-22px_hsl(var(--brand-green)/0.9)] hover:bg-[hsl(var(--brand-green)/0.92)]"
+          >
+            <Rocket className="mr-2 h-5 w-5" />
+            {primaryActionLabel}
+          </Button>
+        </div>
+      </>
+    )
+  }
+
   return (
-    <div className="flex items-center gap-1.5">
+    <div className={cn("flex items-center gap-1.5", className)}>
         <button
           type="button"
           onClick={handleLike}

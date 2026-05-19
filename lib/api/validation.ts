@@ -224,24 +224,55 @@ export function isOwnedCommentImageUrl(imageUrl: string, userId: string): boolea
   }
 }
 
-export function isOwnedProjectImageUrl(imageUrl: string, userId: string, pathPrefix?: string): boolean {
+type OwnedProjectImageOptions = {
+  /** Storage bucket，默认 project-images；完成作品图为 project-completions */
+  bucket?: string
+  /** bucket 内的子目录，如 observations */
+  pathPrefix?: string
+}
+
+export function isOwnedProjectImageUrl(
+  imageUrl: string,
+  userId: string,
+  pathPrefixOrOptions?: string | OwnedProjectImageOptions,
+): boolean {
+  const options: OwnedProjectImageOptions =
+    typeof pathPrefixOrOptions === 'string'
+      ? { pathPrefix: pathPrefixOrOptions }
+      : pathPrefixOrOptions ?? {}
+
+  const bucket = options.bucket ?? 'project-images'
   let pathname = imageUrl
+
   if (!imageUrl.startsWith('/')) {
     try {
-      pathname = new URL(imageUrl).pathname
+      const parsed = new URL(imageUrl)
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      if (supabaseUrl) {
+        const expected = new URL(supabaseUrl)
+        if (parsed.hostname !== expected.hostname) return false
+      }
+      pathname = parsed.pathname
     } catch {
       return false
     }
   }
 
-  const prefix = '/storage/v1/object/public/project-images/'
-  if (!pathname.startsWith(prefix)) {
+  const objectPrefix = `/storage/v1/object/public/${bucket}/`
+  const renderPrefix = `/storage/v1/render/image/public/${bucket}/`
+
+  let relativePath: string | null = null
+  if (pathname.startsWith(objectPrefix)) {
+    relativePath = pathname.slice(objectPrefix.length)
+  } else if (pathname.startsWith(renderPrefix)) {
+    relativePath = pathname.slice(renderPrefix.length)
+  }
+
+  if (!relativePath) {
     return false
   }
 
-  const relativePath = pathname.slice(prefix.length)
-  const expectedPrefix = pathPrefix ? `${pathPrefix}/${userId}/` : `${userId}/`
-
+  const expectedPrefix = options.pathPrefix ? `${options.pathPrefix}/${userId}/` : `${userId}/`
   return relativePath.startsWith(expectedPrefix)
 }
 

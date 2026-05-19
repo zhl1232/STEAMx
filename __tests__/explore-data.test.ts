@@ -1,7 +1,7 @@
 /** @vitest-environment node */
 
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
-import { getProjectTotalCoinsReceived } from '@/lib/api/explore-data'
+import { dedupeCompletionRowsByUser, getProjectTotalCoinsReceived } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
 
@@ -53,5 +53,33 @@ describe('getProjectTotalCoinsReceived', () => {
     })
 
     await expect(getProjectTotalCoinsReceived(42, 2)).resolves.toBe(2)
+  })
+})
+
+describe('dedupeCompletionRowsByUser', () => {
+  it('keeps only the latest row per user_id in encounter order', () => {
+    const rows = [
+      { id: 1, user_id: 'a' },
+      { id: 2, user_id: 'b' },
+      { id: 3, user_id: 'a' },
+      { id: 4, user_id: 'c' },
+    ]
+
+    expect(dedupeCompletionRowsByUser(rows, 8)).toEqual([
+      { id: 1, user_id: 'a' },
+      { id: 2, user_id: 'b' },
+      { id: 4, user_id: 'c' },
+    ])
+  })
+
+  it('respects the limit after deduplication', () => {
+    const rows = [
+      { id: 1, user_id: 'a' },
+      { id: 2, user_id: 'b' },
+      { id: 3, user_id: 'c' },
+    ]
+
+    expect(dedupeCompletionRowsByUser(rows, 2)).toHaveLength(2)
+    expect(dedupeCompletionRowsByUser(rows, 2).map((row) => row.user_id)).toEqual(['a', 'b'])
   })
 })

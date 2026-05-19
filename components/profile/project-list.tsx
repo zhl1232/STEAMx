@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 interface ProjectListProps {
   projects: Project[];
+  projectHref?: (projectId: Project["id"]) => string;
   completionStatusMap?: Map<number | string, { status: string; rejectionReason?: string }>;
   emptyState: {
     title: string;
@@ -22,7 +23,12 @@ interface ProjectListProps {
   };
 }
 
-export function ProjectList({ projects, completionStatusMap, emptyState }: ProjectListProps) {
+export function ProjectList({
+  projects,
+  projectHref,
+  completionStatusMap,
+  emptyState,
+}: ProjectListProps) {
   if (projects.length === 0) {
     return (
       <EmptyState
@@ -68,7 +74,10 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
                 </span>
               </div>
             ) : null}
-            <MobileProjectItem project={project} />
+            <MobileProjectItem
+              project={project}
+              href={projectHref ? projectHref(project.id) : undefined}
+            />
           </div>
         );
       })}
@@ -76,14 +85,14 @@ export function ProjectList({ projects, completionStatusMap, emptyState }: Proje
   );
 }
 
-function MobileProjectItem({ project }: { project: Project }) {
+function MobileProjectItem({ project, href }: { project: Project; href?: string }) {
   const { isLiked, getLikesDelta } = useOptionalProjects();
   const liked = isLiked(project.id);
   const likesCount = project.likes + getLikesDelta(project.id);
 
   return (
     <Link
-      href={`/project/${project.id}`}
+      href={href || `/project/${project.id}`}
       className="surface-card flex gap-3 p-3 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))]"
     >
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-muted">

@@ -529,6 +529,11 @@ export interface Database {
           reviewed_by: string | null
           reviewed_at: string | null
           rejection_reason: string | null
+          record_kind: string
+          record_type: string | null
+          stage_label: string | null
+          exploration_id: number | null
+          moderation_source: string | null
         }
         Insert: {
           id?: number
@@ -545,6 +550,11 @@ export interface Database {
           reviewed_by?: string | null
           reviewed_at?: string | null
           rejection_reason?: string | null
+          record_kind?: string
+          record_type?: string | null
+          stage_label?: string | null
+          exploration_id?: number | null
+          moderation_source?: string | null
         }
         Update: {
           id?: number
@@ -561,6 +571,11 @@ export interface Database {
           reviewed_by?: string | null
           reviewed_at?: string | null
           rejection_reason?: string | null
+          record_kind?: string
+          record_type?: string | null
+          stage_label?: string | null
+          exploration_id?: number | null
+          moderation_source?: string | null
         }
         Relationships: [
           {
@@ -583,6 +598,92 @@ export interface Database {
           }
         ]
       }
+      project_explorations: {
+        Row: {
+          id: number
+          user_id: string
+          project_id: number
+          status: string
+          started_at: string
+          last_activity_at: string
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          project_id: number
+          status?: string
+          started_at?: string
+          last_activity_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          project_id?: number
+          status?: string
+          started_at?: string
+          last_activity_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_explorations_project_id_fkey"
+            columns: ["project_id"]
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      completion_moderation_logs: {
+        Row: {
+          id: number
+          completion_id: number
+          status: string
+          moderation_pass: boolean | null
+          moderation_reason: string | null
+          raw_response: Json | null
+          error_message: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          completion_id: number
+          status?: string
+          moderation_pass?: boolean | null
+          moderation_reason?: string | null
+          raw_response?: Json | null
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          completion_id?: number
+          status?: string
+          moderation_pass?: boolean | null
+          moderation_reason?: string | null
+          raw_response?: Json | null
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "completion_moderation_logs_completion_id_fkey"
+            columns: ["completion_id"]
+            referencedRelation: "completed_projects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       completion_comments: {
         Row: {
           id: number
@@ -590,6 +691,9 @@ export interface Database {
           author_id: string
           content: string
           created_at: string
+          parent_id: number | null
+          reply_to_user_id: string | null
+          reply_to_username: string | null
         }
         Insert: {
           id?: number
@@ -597,6 +701,9 @@ export interface Database {
           author_id: string
           content: string
           created_at?: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
         }
         Update: {
           id?: number
@@ -604,6 +711,9 @@ export interface Database {
           author_id?: string
           content?: string
           created_at?: string
+          parent_id?: number | null
+          reply_to_user_id?: string | null
+          reply_to_username?: string | null
         }
         Relationships: []
       }
@@ -1718,6 +1828,14 @@ export interface Database {
       }
       reject_completion: {
         Args: { completion_id: number; reason: string }
+        Returns: void
+      }
+      system_approve_completion: {
+        Args: { p_completion_id: number }
+        Returns: void
+      }
+      system_reject_completion: {
+        Args: { p_completion_id: number; p_reason: string }
         Returns: void
       }
       increment_user_xp: {

@@ -34,4 +34,24 @@ describe('isOwnedProjectImageUrl', () => {
       ),
     ).toBe(false)
   })
+
+  it('accepts completion images in project-completions bucket', () => {
+    expect(
+      isOwnedProjectImageUrl(
+        'https://example.supabase.co/storage/v1/object/public/project-completions/user-123/file.jpg',
+        'user-123',
+        { bucket: 'project-completions' },
+      ),
+    ).toBe(true)
+  })
+
+  it('rejects completion images from another user', () => {
+    expect(
+      isOwnedProjectImageUrl(
+        'https://example.supabase.co/storage/v1/object/public/project-completions/user-999/file.jpg',
+        'user-123',
+        { bucket: 'project-completions' },
+      ),
+    ).toBe(false)
+  })
 })

@@ -394,6 +394,10 @@ export interface ProjectCompletion {
     avatarFrameId?: string | null
     nameColorId?: string | null
     completedAt: string
+    /** ISO 8601，用于相对时间展示 */
+    completedAtIso?: string
+    authorLevel?: number
+    commentsCount?: number
     proofImages: string[]
     proofCaptions?: string[]
     proofVideoUrl?: string
@@ -402,6 +406,10 @@ export interface ProjectCompletion {
     likes: number
     status?: 'pending' | 'approved' | 'rejected'
     rejectionReason?: string
+    recordKind?: 'progress' | 'final'
+    recordType?: string
+    stageLabel?: string
+    explorationStartedAt?: string
 }
 
 // ============================================================
@@ -496,7 +504,7 @@ export function mapDbObservationComment(row: DbObservationCommentWithProfile): C
  */
 export function mapDbDiscussion(
     dbDiscussion: DbDiscussion & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null; xp?: number | null } | null
         discussion_replies?: DbCommentWithProfile[]
     }
 ): Discussion {
@@ -665,7 +673,7 @@ export function mapDbProfile(dbProfile: DbProfile): Profile {
  */
 export function mapDbCompletion(
     dbCompletion: DbCompletedProject & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null; xp?: number | null } | null
     }
 ): ProjectCompletion {
     return {
@@ -677,6 +685,10 @@ export function mapDbCompletion(
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,
         nameColorId: dbCompletion.profiles?.equipped_name_color_id ?? undefined,
         completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
+        completedAtIso: dbCompletion.completed_at || undefined,
+        authorLevel: dbCompletion.profiles?.xp != null
+            ? Math.floor(Math.sqrt(Number(dbCompletion.profiles.xp) / 100)) + 1
+            : undefined,
         proofImages: dbCompletion.proof_images || [],
         proofCaptions: dbCompletion.proof_captions ?? undefined,
         proofVideoUrl: dbCompletion.proof_video_url || undefined,
@@ -685,12 +697,17 @@ export function mapDbCompletion(
         likes: dbCompletion.likes_count ?? 0,
         status: (dbCompletion.status as 'pending' | 'approved' | 'rejected') || undefined,
         rejectionReason: dbCompletion.rejection_reason || undefined,
+        recordKind: ((dbCompletion as { record_kind?: string }).record_kind === 'progress'
+            ? 'progress'
+            : 'final') as 'progress' | 'final',
+        recordType: (dbCompletion as { record_type?: string | null }).record_type || undefined,
+        stageLabel: (dbCompletion as { stage_label?: string | null }).stage_label || undefined,
     }
 }
 
 export function mapDbChallengeSubmission(
     dbSubmission: DbChallengeSubmission & {
-        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null } | null
+        profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null; xp?: number | null } | null
         referenceProjects?: ObservationLinkedItem[]
         ratingSummary?: Partial<ChallengeSubmissionRatingSummary>
     }

@@ -39,9 +39,10 @@ export async function GET() {
         .eq('status', 'approved'),
       supabase
         .from('completed_projects')
-        .select('*', { count: 'exact', head: true })
+        .select('project_id', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .eq('status', 'approved')
+        .eq('record_kind', 'final')
         .not('proof_images', 'is', null),
       supabase
         .from('comments')

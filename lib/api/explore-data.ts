@@ -1038,59 +1038,130 @@ export async function getRelatedProjects(
   return rows.map(mapDbProject);
 }
 
+export type ProjectCompletionSort = "latest" | "featured"
+
+export type GetProjectCompletionsOptions = {
+  sortBy?: ProjectCompletionSort
+  /** 每位探索者只保留最新一条（用于详情页预览，避免同人多步骤占满横向区） */
+  onePerUser?: boolean
+}
+
+/** 已按时间倒序时，保留每位 user_id 的首条（即最新记录） */
+export function dedupeCompletionRowsByUser<T extends { user_id: string }>(
+  rows: T[],
+  limit: number,
+): T[] {
+  const seen = new Set<string>()
+  const result: T[] = []
+
+  for (const row of rows) {
+    if (seen.has(row.user_id)) continue
+    seen.add(row.user_id)
+    result.push(row)
+    if (result.length >= limit) break
+  }
+
+  return result
+}
+
 /**
- * 获取项目的完成记录（作品墙）
- *
- * @param projectId - 项目 ID
- * @param limit - 返回数量
- * @returns 完成记录列表
+ * 获取项目的探索记录（社区流 / 详情预览）
  */
 export async function getProjectCompletions(
   projectId: string | number,
   limit: number = 4,
+  options?: GetProjectCompletionsOptions,
 ): Promise<ProjectCompletion[]> {
   const supabase = await createClient();
+  const sortBy = options?.sortBy ?? "latest";
+  const onePerUser = options?.onePerUser ?? false;
+  const queryLimit = onePerUser ? Math.min(100, Math.max(limit * 12, limit)) : limit;
 
-  const { data: completions, error } = await supabase
+  let query = supabase
     .from("completed_projects")
     .select("*")
     .eq("project_id", Number(projectId))
     .eq("is_public", true)
-    .eq("status", "approved")
-    .order("completed_at", { ascending: false })
-    .limit(limit);
+    .eq("status", "approved");
+
+  if (sortBy === "featured") {
+    query = query.order("likes_count", { ascending: false }).order("completed_at", { ascending: false });
+  } else {
+    query = query.order("completed_at", { ascending: false });
+  }
+
+  const { data: completions, error } = await query.limit(queryLimit);
 
   if (error || !completions) {
     logger.error("Error fetching completions", { error });
     return [];
   }
 
-  type CompletionRow = { user_id: string; [key: string]: unknown };
-  const userIds = [...new Set((completions as CompletionRow[]).map((completion) => completion.user_id))];
+  type CompletionRow = { id: number; user_id: string; [key: string]: unknown };
+  const rawRows = completions as CompletionRow[];
+  const rows = onePerUser ? dedupeCompletionRowsByUser(rawRows, limit) : rawRows;
+  const userIds = [...new Set(rows.map((completion) => completion.user_id))];
+  const completionIds = rows.map((row) => row.id);
 
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("id, display_name, avatar_url, equipped_avatar_frame_id")
-    .in("id", userIds);
+  const [{ data: profiles }, commentCountMap] = await Promise.all([
+    userIds.length
+      ? supabase
+          .from("profiles")
+          .select("id, display_name, avatar_url, equipped_avatar_frame_id, xp")
+          .in("id", userIds)
+      : Promise.resolve({ data: [] as unknown[] }),
+    fetchCompletionCommentCounts(supabase, completionIds),
+  ]);
 
   type ProfileRow = {
     id: string;
     display_name: string | null;
     avatar_url: string | null;
     equipped_avatar_frame_id: string | null;
+    xp: number | null;
   };
   const profilesMap = new Map(((profiles as ProfileRow[]) || []).map((profile) => [profile.id, profile]));
 
-  return (completions as CompletionRowForMapper[]).map((item) => {
+  return rows.map((item) => {
     const profile = profilesMap.get(item.user_id);
-    return mapDbCompletion({
-      ...item,
+    const mapped = mapDbCompletion({
+      ...(item as CompletionRowForMapper),
       profiles: profile || null,
     });
+    return {
+      ...mapped,
+      commentsCount: commentCountMap.get(item.id) ?? 0,
+    };
   });
 }
 
-export async function getProjectCompletionsCount(
+async function fetchCompletionCommentCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  completionIds: number[],
+) {
+  const map = new Map<number, number>();
+  if (completionIds.length === 0) return map;
+
+  const { data, error } = await supabase
+    .from("completion_comments")
+    .select("completed_project_id")
+    .in("completed_project_id", completionIds);
+
+  if (error) {
+    logger.error("Error fetching completion comment counts", { error });
+    return map;
+  }
+
+  for (const row of (data as { completed_project_id: number }[]) || []) {
+    const id = row.completed_project_id;
+    map.set(id, (map.get(id) ?? 0) + 1);
+  }
+
+  return map;
+}
+
+/** 获取项目下已公开展示的探索记录总数（过程帖 + 终稿） */
+export async function getProjectExplorationRecordsCount(
   projectId: string | number,
   fallback: number = 0,
 ): Promise<number> {
@@ -1110,6 +1181,145 @@ export async function getProjectCompletionsCount(
     .eq("project_id", numericProjectId)
     .eq("is_public", true)
     .eq("status", "approved");
+
+  if (error) {
+    logger.error("Error fetching exploration records count", { error, projectId: numericProjectId });
+    return fallback;
+  }
+
+  return count ?? fallback;
+}
+
+export type CompletionLikeMeta = {
+  count: number;
+  isLiked: boolean;
+};
+
+/** 批量获取探索记录点赞数与当前用户是否已赞 */
+export async function fetchCompletionLikesMeta(
+  completionIds: number[],
+  viewerUserId?: string | null,
+): Promise<Map<number, CompletionLikeMeta>> {
+  const map = new Map<number, CompletionLikeMeta>();
+  if (completionIds.length === 0) return map;
+
+  if (isPlaywrightSmoke()) {
+    for (const id of completionIds) {
+      map.set(id, { count: 0, isLiked: false });
+    }
+    return map;
+  }
+
+  const supabase = await createClient();
+  const { data: likeRows, error } = await supabase
+    .from("completion_likes")
+    .select("completed_project_id, user_id")
+    .in("completed_project_id", completionIds);
+
+  if (error) {
+    logger.error("Error fetching completion likes meta", { error });
+    return map;
+  }
+
+  for (const id of completionIds) {
+    map.set(id, { count: 0, isLiked: false });
+  }
+
+  for (const row of (likeRows as { completed_project_id: number; user_id: string }[]) || []) {
+    const id = row.completed_project_id;
+    const current = map.get(id) ?? { count: 0, isLiked: false };
+    current.count += 1;
+    if (viewerUserId && row.user_id === viewerUserId) {
+      current.isLiked = true;
+    }
+    map.set(id, current);
+  }
+
+  return map;
+}
+
+/** 按 id 拉取单条公开展示的探索记录（用于深链高亮） */
+export async function getProjectCompletionById(
+  projectId: string | number,
+  completionId: number,
+): Promise<ProjectCompletion | null> {
+  const numericProjectId = Number(projectId);
+  if (!Number.isInteger(numericProjectId) || numericProjectId <= 0) return null;
+  if (!Number.isInteger(completionId) || completionId <= 0) return null;
+
+  if (isPlaywrightSmoke()) {
+    return null;
+  }
+
+  const supabase = await createClient();
+  const { data: completion, error } = await supabase
+    .from("completed_projects")
+    .select("*")
+    .eq("id", completionId)
+    .eq("project_id", numericProjectId)
+    .eq("is_public", true)
+    .eq("status", "approved")
+    .maybeSingle();
+
+  if (error || !completion) {
+    if (error) logger.error("Error fetching completion by id", { error, completionId });
+    return null;
+  }
+
+  type CompletionRow = { id: number; user_id: string; [key: string]: unknown };
+  const row = completion as CompletionRow;
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("id, display_name, avatar_url, equipped_avatar_frame_id, xp")
+    .eq("id", row.user_id)
+    .maybeSingle();
+
+  const commentCountMap = await fetchCompletionCommentCounts(supabase, [row.id]);
+  const mapped = mapDbCompletion({
+    ...(row as CompletionRowForMapper),
+    profiles: profile || null,
+  });
+
+  return {
+    ...mapped,
+    commentsCount: commentCountMap.get(row.id) ?? 0,
+  };
+}
+
+/** 确保高亮记录在列表中（置顶且去重） */
+export function mergeHighlightCompletion(
+  completions: ProjectCompletion[],
+  highlight: ProjectCompletion | null,
+  limit: number,
+): ProjectCompletion[] {
+  if (!highlight) return completions;
+  const without = completions.filter((item) => item.id !== highlight.id);
+  return [highlight, ...without].slice(0, limit);
+}
+
+/** 获取项目的终稿完成人数（用于「X 人完成」统计） */
+export async function getProjectCompletionsCount(
+  projectId: string | number,
+  fallback: number = 0,
+): Promise<number> {
+  const numericProjectId = Number(projectId);
+  if (!Number.isInteger(numericProjectId) || numericProjectId <= 0) {
+    return fallback;
+  }
+
+  if (isPlaywrightSmoke()) {
+    return 0;
+  }
+
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from("completed_projects")
+    .select("id", { count: "exact", head: true })
+    .eq("project_id", numericProjectId)
+    .eq("is_public", true)
+    .eq("status", "approved")
+    .eq("record_kind", "final");
 
   if (error) {
     logger.error("Error fetching project completions count", { error, projectId: numericProjectId });

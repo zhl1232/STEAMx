@@ -40,7 +40,8 @@ describe('GET /api/moderator/eligibility', () => {
     const publishedAuthorEq = vi.fn(() => ({ eq: publishedStatusEq }))
 
     const completionsNot = vi.fn().mockResolvedValue({ count: 5 })
-    const completionsStatusEq = vi.fn(() => ({ not: completionsNot }))
+    const completionsRecordKindEq = vi.fn(() => ({ not: completionsNot }))
+    const completionsStatusEq = vi.fn(() => ({ eq: completionsRecordKindEq }))
     const completionsUserEq = vi.fn(() => ({ eq: completionsStatusEq }))
 
     const commentsAuthorEq = vi.fn().mockResolvedValue({ count: 30 })
@@ -116,5 +117,6 @@ describe('GET /api/moderator/eligibility', () => {
     })
 
     expect(completionsStatusEq).toHaveBeenCalledWith('status', 'approved')
+    expect(completionsRecordKindEq).toHaveBeenCalledWith('record_kind', 'final')
   })
 })

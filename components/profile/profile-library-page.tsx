@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
-import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart } from 'lucide-react'
+import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart, Rocket } from 'lucide-react'
 import { useState, useEffect, useEffectEvent } from 'react'
 
 import type { Project } from '@/lib/mappers/types'
@@ -42,7 +42,9 @@ export function ProfileLibraryPage() {
   const WORKS_PAGE_SIZE = 8
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
-  const [activeTab, setActiveTab] = useState<'my-projects' | 'liked' | 'collected' | 'completed' | 'observations'>('my-projects')
+  const [activeTab, setActiveTab] = useState<
+    'my-projects' | 'liked' | 'collected' | 'completed' | 'exploring' | 'observations'
+  >('my-projects')
   const [mobileProfileTab, setMobileProfileTab] = useState<string>('works')
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
   const [visibleDesktopWorksCount, setVisibleDesktopWorksCount] = useState(WORKS_PAGE_SIZE)
@@ -52,6 +54,7 @@ export function ProfileLibraryPage() {
   const [likedProjectsList, setLikedProjectsList] = useState<Project[]>([])
   const [collectedProjectsList, setCollectedProjectsList] = useState<Project[]>([])
   const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
+  const [exploringProjectsList, setExploringProjectsList] = useState<Project[]>([])
   const [completionStatusMap, setCompletionStatusMap] = useState<Map<number, { status: string; rejectionReason?: string }>>(new Map())
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
@@ -68,6 +71,8 @@ export function ProfileLibraryPage() {
   const [likedProjectsLoaded, setLikedProjectsLoaded] = useState(false)
   const [collectedProjectsLoaded, setCollectedProjectsLoaded] = useState(false)
   const [completedProjectsLoaded, setCompletedProjectsLoaded] = useState(false)
+  const [exploringProjectsLoaded, setExploringProjectsLoaded] = useState(false)
+  const [isExploringProjectsLoading, setIsExploringProjectsLoading] = useState(false)
   const {
     myObservations,
     observationsTotal,
@@ -81,6 +86,7 @@ export function ProfileLibraryPage() {
   const shouldLoadLikedProjects = activeTab === 'liked' || mobileProfileTab === 'likes'
   const shouldLoadCollectedProjects = activeTab === 'collected' || mobileProfileTab === 'collected'
   const shouldLoadCompletedProjects = activeTab === 'completed' || mobileProfileTab === 'completed'
+  const shouldLoadExploringProjects = activeTab === 'exploring' || mobileProfileTab === 'exploring'
   const showLoadError = useEffectEvent((description: string) => {
     toast({
       title: '加载失败',
@@ -334,6 +340,44 @@ export function ProfileLibraryPage() {
     shouldLoadCompletedProjects,
   ])
 
+  useEffect(() => {
+    if (!user || isProjectsDataLoading || !shouldLoadExploringProjects || exploringProjectsLoaded) return
+
+    let cancelled = false
+    setIsExploringProjectsLoading(true)
+
+    const loadExploring = async () => {
+      try {
+        const response = await fetch('/api/profile/projects?type=exploring')
+        const payload = await response.json().catch(() => ({}))
+        if (!response.ok) {
+          throw new Error(payload?.error || '探索中列表加载失败')
+        }
+        if (!cancelled) {
+          setExploringProjectsList((payload?.projects as Project[]) || [])
+          setExploringProjectsLoaded(true)
+        }
+      } catch (error) {
+        if (!cancelled) {
+          showLoadError(getErrorMessage(error, '探索中列表加载失败'))
+        }
+      } finally {
+        if (!cancelled) setIsExploringProjectsLoading(false)
+      }
+    }
+
+    void loadExploring()
+    return () => {
+      cancelled = true
+    }
+  }, [
+    user,
+    isProjectsDataLoading,
+    shouldLoadExploringProjects,
+    exploringProjectsLoaded,
+    showLoadError,
+  ])
+
   if (authLoading) {
     return <ProfileLibrarySkeleton />
   }
@@ -346,6 +390,7 @@ export function ProfileLibraryPage() {
     { key: 'my-projects' as const, label: '作品', count: myProjectsTotalCount },
     { key: 'collected' as const, label: '收藏', count: collectedProjectsCount },
     { key: 'liked' as const, label: '点赞', count: likedProjectsCount },
+    { key: 'exploring' as const, label: '探索中', count: exploringProjectsList.length || null },
     { key: 'completed' as const, label: '已完成', count: completedProjectsCount },
     {
       key: 'observations' as const,
@@ -357,7 +402,8 @@ export function ProfileLibraryPage() {
     (isProjectsDataLoading && activeTab === 'my-projects') ||
     (activeTab === 'collected' && isCollectedProjectsLoading) ||
     (activeTab === 'liked' && isLikedProjectsLoading) ||
-    (activeTab === 'completed' && isCompletedProjectsLoading)
+    (activeTab === 'completed' && isCompletedProjectsLoading) ||
+    (activeTab === 'exploring' && isExploringProjectsLoading)
   const visibleDesktopProjects = myProjects.slice(0, visibleDesktopWorksCount)
   const hasMoreDesktopWorks = myProjectsTotalCount > visibleDesktopWorksCount
 
@@ -508,6 +554,30 @@ export function ProfileLibraryPage() {
                       </div>
                     ))}
 
+                  {activeTab === 'exploring' && exploringProjectsList.length === 0 ? (
+                    <DesktopProfileEmptyState
+                      title="暂无探索中的项目"
+                      description="在项目详情点击「开始探索」后，会出现在这里。"
+                      href="/explore"
+                      actionLabel="去探索"
+                    />
+                  ) : null}
+                  {activeTab === 'exploring' &&
+                    exploringProjectsList.map((project, index) => (
+                      <div
+                        key={project.id}
+                        className="relative"
+                        style={
+                          index >= 4
+                            ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
+                            : undefined
+                        }
+                      >
+                        <ExploringBadge />
+                        <ProjectCard project={project} href={`/project/${project.id}/records`} />
+                      </div>
+                    ))}
+
                   {activeTab === 'completed' && completedProjectsList.length === 0 ? (
                     <DesktopProfileEmptyState
                       title="还没有完成项目"
@@ -590,6 +660,7 @@ export function ProfileLibraryPage() {
       likedProjectsList={likedProjectsList}
       collectedProjectsList={collectedProjectsList}
       completedProjectsList={completedProjectsList}
+      exploringProjectsList={exploringProjectsList}
       completionStatusMap={completionStatusMap}
       followerCount={followerCount}
       followingCount={followingCount}
@@ -611,6 +682,18 @@ export function ProfileLibraryPage() {
       pageTitle="内容库"
       backHref="/profile"
     />
+  )
+}
+
+
+function ExploringBadge() {
+  return (
+    <div className="absolute left-2 top-2 z-10">
+      <span className="inline-flex items-center gap-1 rounded-full border border-[hsl(var(--brand-green)/0.35)] bg-[hsl(var(--brand-green)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))]">
+        <Rocket className="h-3 w-3" />
+        继续记录
+      </span>
+    </div>
   )
 }
 

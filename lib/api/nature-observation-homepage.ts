@@ -550,12 +550,6 @@ async function loadTopicObservationSpeciesForEventsPublic(
   return grouped
 }
 
-async function loadBirdObservationSpeciesForEventsPublic(
-  eventIds: number[],
-): Promise<Map<number, TopicHotspotSpeciesInput[]>> {
-  return loadTopicObservationSpeciesForEventsPublic(eventIds, 'birds')
-}
-
 async function loadTreeObservationSpeciesForEventsPublic(
   eventIds: number[],
 ): Promise<Map<number, TopicHotspotSpeciesInput[]>> {

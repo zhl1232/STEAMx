@@ -7,10 +7,16 @@ import { logger } from '@/lib/logger'
 import { type DbProject, mapProject } from '@/lib/mappers/project'
 import { createClient } from '@/lib/supabase/server'
 
-type ProjectListType = 'my-projects' | 'liked' | 'collected' | 'completed'
+type ProjectListType = 'my-projects' | 'liked' | 'collected' | 'completed' | 'exploring'
 
 function parseProjectListType(value: string | null): ProjectListType {
-  if (value === 'my-projects' || value === 'liked' || value === 'collected' || value === 'completed') {
+  if (
+    value === 'my-projects' ||
+    value === 'liked' ||
+    value === 'collected' ||
+    value === 'completed' ||
+    value === 'exploring'
+  ) {
     return value
   }
 
@@ -82,9 +88,46 @@ export async function GET(request: NextRequest) {
       })
     }
 
+    if (type === 'exploring') {
+      const { data: explorationRows, error: explorationError } = await supabase
+        .from('project_explorations')
+        .select('project_id, started_at, last_activity_at')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .order('last_activity_at', { ascending: false })
+
+      if (explorationError) throw explorationError
+
+      const projectIds = ((explorationRows as { project_id: number }[] | null) || []).map(
+        (row) => row.project_id,
+      )
+
+      if (projectIds.length === 0) {
+        return NextResponse.json({ projects: [] })
+      }
+
+      const { data: projectRows, error: projectError } = await supabase
+        .from('projects')
+        .select('*, profiles:author_id (display_name)')
+        .in('id', projectIds)
+
+      if (projectError) throw projectError
+
+      const projectMap = new Map(
+        (((projectRows as DbProject[] | null) || []).map((project) => [Number(project.id), project] as const)),
+      )
+
+      return NextResponse.json({
+        projects: projectIds
+          .map((projectId) => projectMap.get(projectId))
+          .filter((project): project is DbProject => Boolean(project))
+          .map((project) => mapProject(project)),
+      })
+    }
+
     const { data: completionRows, error: completionRowsError } = await supabase
       .from('completed_projects')
-      .select('project_id, status, rejection_reason, completed_at')
+      .select('project_id, status, rejection_reason, completed_at, record_kind')
       .eq('user_id', user.id)
       .order('completed_at', { ascending: false })
 

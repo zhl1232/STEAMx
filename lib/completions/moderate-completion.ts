@@ -1,0 +1,165 @@
+import type { Json } from '@/lib/supabase/types'
+import { evaluateCompletionContent } from '@/lib/ai/completion-moderation'
+import { approveCompletionWithXp, rejectCompletion } from '@/lib/completions/approve'
+import { callRpc } from '@/lib/supabase/rpc'
+import { logger } from '@/lib/logger'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+
+type CompletionRow = {
+  id: number
+  user_id: string
+  project_id: number
+  record_kind: string | null
+  status: string | null
+  proof_images: string[] | null
+  notes: string | null
+  exploration_id: number | null
+}
+
+export async function runCompletionModeration(completionId: number): Promise<{
+  status: 'approved' | 'rejected' | 'skipped'
+  reason?: string
+}> {
+  if (!supabaseAdmin) {
+    throw new Error('supabaseAdmin not configured')
+  }
+
+  const { data: completion, error: fetchError } = await supabaseAdmin
+    .from('completed_projects')
+    .select('id, user_id, project_id, record_kind, status, proof_images, notes, exploration_id')
+    .eq('id', completionId)
+    .maybeSingle()
+
+  if (fetchError) throw fetchError
+  if (!completion) {
+    return { status: 'skipped', reason: 'not_found' }
+  }
+
+  const row = completion as CompletionRow
+  if (row.status !== 'pending') {
+    return { status: 'skipped', reason: 'not_pending' }
+  }
+
+  await supabaseAdmin
+    .from('completion_moderation_logs')
+    .upsert(
+      {
+        completion_id: completionId,
+        status: 'running',
+        updated_at: new Date().toISOString(),
+      } as never,
+      { onConflict: 'completion_id' },
+    )
+
+  try {
+    const decision = await evaluateCompletionContent({
+      notes: row.notes,
+      imageUrls: row.proof_images || [],
+    })
+
+    const rawResponse = {
+      imageResults: decision.imageResults,
+    } as Json
+
+    if (!decision.pass) {
+      await rejectCompletion(completionId, decision.reason || '内容未通过审核')
+      await supabaseAdmin
+        .from('completion_moderation_logs')
+        .update({
+          status: 'done',
+          moderation_pass: false,
+          moderation_reason: decision.reason,
+          raw_response: rawResponse,
+          updated_at: new Date().toISOString(),
+        } as never)
+        .eq('completion_id', completionId)
+
+      return { status: 'rejected', reason: decision.reason || undefined }
+    }
+
+    const recordKind = row.record_kind ?? 'final'
+    if (recordKind === 'final') {
+      await approveCompletionWithXp(completionId)
+    } else {
+      const { error: approveError } = await callRpc(supabaseAdmin, 'system_approve_completion', {
+        p_completion_id: completionId,
+      })
+      if (approveError) throw approveError
+    }
+
+    if (recordKind === 'final') {
+      await supabaseAdmin
+        .from('project_explorations')
+        .update({
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          last_activity_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        } as never)
+        .eq('user_id', row.user_id)
+        .eq('project_id', row.project_id)
+        .eq('status', 'active')
+    } else if (row.exploration_id) {
+      await supabaseAdmin
+        .from('project_explorations')
+        .update({ last_activity_at: new Date().toISOString(), updated_at: new Date().toISOString() } as never)
+        .eq('id', row.exploration_id)
+    }
+
+    await supabaseAdmin
+      .from('completion_moderation_logs')
+      .update({
+        status: 'done',
+        moderation_pass: true,
+        moderation_reason: null,
+        raw_response: rawResponse,
+        updated_at: new Date().toISOString(),
+      } as never)
+      .eq('completion_id', completionId)
+
+    return { status: 'approved' }
+  } catch (error) {
+    logger.error(error, { context: 'runCompletionModeration', completionId })
+    await supabaseAdmin
+      .from('completion_moderation_logs')
+      .update({
+        status: 'error',
+        error_message: error instanceof Error ? error.message : String(error),
+        updated_at: new Date().toISOString(),
+      } as never)
+      .eq('completion_id', completionId)
+    throw error
+  }
+}
+
+export function scheduleCompletionModeration(completionId: number) {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.VERCEL_URL?.startsWith('http')
+      ? process.env.VERCEL_URL
+      : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000'
+
+  const secret = process.env.CRON_SECRET || process.env.INTERNAL_API_SECRET
+  if (!secret) {
+    void runCompletionModeration(completionId).catch((error) => {
+      logger.error(error, { context: 'inline moderation failed', completionId })
+    })
+    return
+  }
+
+  void fetch(`${baseUrl}/api/internal/moderate-completion`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ completionId }),
+  }).catch((error) => {
+    logger.error(error, { context: 'scheduleCompletionModeration fetch failed', completionId })
+    void runCompletionModeration(completionId).catch((inner) => {
+      logger.error(inner, { context: 'fallback moderation failed', completionId })
+    })
+  })
+}

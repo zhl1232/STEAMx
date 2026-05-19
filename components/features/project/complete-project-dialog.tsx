@@ -43,6 +43,9 @@ interface CompleteProjectDialogProps {
     projectId: number | string;
     projectTitle: string;
     challengeId?: number | null;
+    mode?: "progress" | "final";
+    recordType?: string;
+    stageLabel?: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess: () => void;
@@ -119,13 +122,17 @@ export function CompleteProjectDialog({
     projectId,
     projectTitle,
     challengeId,
+    mode = "final",
+    recordType,
+    stageLabel,
     open,
     onOpenChange,
     onSuccess,
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
     const { toast } = useToast();
-    const { completeProject } = useProjects();
+    const { submitExplorationPost } = useProjects();
+    const isProgress = mode === "progress";
 
     const [step, setStep] = useState<1 | 2>(1);
 
@@ -381,30 +388,41 @@ export function CompleteProjectDialog({
 
         try {
             const nonEmptyCaptions = imageCaptions.some((c) => c.trim().length > 0);
-            await completeProject(projectId, {
-                images: proofImages,
-                videoUrl: videoUrl || undefined,
-                notes: notes || undefined,
-                isPublic,
-                imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
-            });
+            await submitExplorationPost(
+                projectId,
+                {
+                    images: proofImages,
+                    videoUrl: videoUrl || undefined,
+                    notes: notes || undefined,
+                    isPublic,
+                    imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
+                },
+                {
+                    kind: mode,
+                    recordType,
+                    stageLabel,
+                },
+            );
 
-            // Trigger confetti on success
-            try {
-                const confetti = (await import("canvas-confetti")).default;
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { x: 0.5, y: 0.6 },
-                    colors: ["#6366f1", "#ec4899", "#14b8a6", "#f59e0b"],
-                });
-            } catch {
-                // confetti is non-critical
+            if (!isProgress) {
+                try {
+                    const confetti = (await import("canvas-confetti")).default;
+                    confetti({
+                        particleCount: 120,
+                        spread: 80,
+                        origin: { x: 0.5, y: 0.6 },
+                        colors: ["#6366f1", "#ec4899", "#14b8a6", "#f59e0b"],
+                    });
+                } catch {
+                    // confetti is non-critical
+                }
             }
 
             toast({
-                title: "作品已提交审核！",
-                description: "审核通过后将公开展示并获得 XP 奖励",
+                title: isProgress ? "过程记录已提交" : "最终作品已提交",
+                description: isProgress
+                    ? "AI 审核通过后将出现在探索记录流"
+                    : "AI 审核通过后将公开展示并获得 XP 奖励",
             });
 
             onSuccess();
@@ -441,7 +459,7 @@ export function CompleteProjectDialog({
         <Dialog open={open} onOpenChange={(v) => { if (!v) resetForm(); onOpenChange(v); }}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>上传你的作品</DialogTitle>
+                    <DialogTitle>{isProgress ? "记录探索过程" : "提交最终作品"}</DialogTitle>
                     <DialogDescription>
                         分享你的成果，审核通过后可获得 20 XP
                     </DialogDescription>
@@ -751,7 +769,7 @@ export function CompleteProjectDialog({
                                 onCheckedChange={(checked) => setIsPublic(checked === true)}
                             />
                             <Label htmlFor="is-public" className="text-sm font-normal cursor-pointer">
-                                公开展示此完成记录（其他用户可在作品墙看到）
+                                公开展示此探索记录（其他用户可在项目探索记录流中看到）
                             </Label>
                         </div>
                     </div>

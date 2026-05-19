@@ -49,7 +49,7 @@ export async function GET() {
         .eq('user_id', user.id),
       supabase
         .from('completed_projects')
-        .select('project_id, status, completed_at')
+        .select('project_id, status, record_kind, completed_at')
         .eq('user_id', user.id)
         .order('completed_at', { ascending: false }),
       supabase
@@ -69,7 +69,11 @@ export async function GET() {
 
     const myProjects = ((myProjectsResponse.data as DbProject[] | null) || []).map((project) => mapProject(project))
     const completedProjectsCount = getTrackedCompletedProjectIds(
-      (completionRowsResponse.data as { project_id: number; status?: string | null }[] | null) || [],
+      (completionRowsResponse.data as {
+        project_id: number
+        status?: string | null
+        record_kind?: string | null
+      }[] | null) || [],
     ).length
     const totalLikesReceived = (((likesReceivedResponse.data as { likes_count?: number | null }[] | null) || [])).reduce(
       (sum, row) => sum + Number(row.likes_count || 0),

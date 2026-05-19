@@ -56,7 +56,7 @@ export function ProjectDetailStickyBar({
           {[
             ["project-materials", "材料"],
             ["project-steps", "步骤"],
-            ["project-showcase", "作品"],
+            ["project-exploration-records", "探索记录"],
           ].map(([targetId, label]) => (
             <button
               key={targetId}

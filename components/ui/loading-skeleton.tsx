@@ -1,6 +1,10 @@
+import { ArrowLeft } from "lucide-react"
+
+import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
+import { cn } from "@/lib/utils"
 
 export function ProjectCardSkeleton({ variant = "featured" }: { variant?: "featured" | "compact" } = {}) {
   if (variant === "compact") {
@@ -234,6 +238,391 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
             </main>
             <ExploreSidebarSkeleton />
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** 与 `ExplorationRecordCard`（详情页横向卡片）一致 */
+export function ExplorationRecordCardSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "min-w-[178px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm",
+        className,
+      )}
+    >
+      <div className="p-2.5">
+        <div className="mb-2 flex items-center gap-2">
+          <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+          <div className="min-w-0 flex-1 space-y-1.5">
+            <Skeleton className="h-3 w-16 rounded-full" />
+            <Skeleton className="h-2.5 w-12 rounded-full" />
+          </div>
+        </div>
+        <Skeleton className="aspect-[4/3] w-full rounded-[10px]" />
+        <Skeleton className="mt-2 h-3 w-full rounded-full" />
+        <Skeleton className="mt-1.5 h-3 w-[88%] rounded-full" />
+        <Skeleton className="mt-2 h-3.5 w-10 rounded-full" />
+      </div>
+    </div>
+  )
+}
+
+/** 与 `ProjectExplorationRecordsBlock` 横向列表 +「查看全部」链接一致 */
+export function ProjectExplorationRecordsBlockSkeleton({ cardCount = 3 }: { cardCount?: number }) {
+  return (
+    <div>
+      <div className="-mx-4 flex snap-x gap-3 overflow-hidden px-4 pb-1">
+        {Array.from({ length: cardCount }).map((_, index) => (
+          <ExplorationRecordCardSkeleton key={index} />
+        ))}
+      </div>
+      <Skeleton className="mx-auto mt-3 h-4 w-36 rounded-full" />
+    </div>
+  )
+}
+
+/** 与 `ExplorationRecordFeedCard` standalone 一致 */
+export function ExplorationRecordFeedCardSkeleton({ nested = false }: { nested?: boolean }) {
+  return (
+    <article
+      className={cn(
+        nested
+          ? "bg-transparent p-3.5"
+          : "rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] p-3.5 shadow-sm",
+      )}
+    >
+      {nested ? (
+        <div className="mb-2 flex gap-2">
+          <Skeleton className="h-3 w-14 rounded-full" />
+          <Skeleton className="h-3 w-12 rounded-full" />
+          <Skeleton className="h-4 w-10 rounded-full" />
+        </div>
+      ) : (
+        <header className="flex items-start gap-2.5">
+          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+          <div className="min-w-0 flex-1 space-y-2">
+            <Skeleton className="h-4 w-28 rounded-full" />
+            <Skeleton className="h-3 w-36 rounded-full" />
+          </div>
+        </header>
+      )}
+      <Skeleton className={cn("h-4 w-full rounded-full", nested ? "mt-2" : "mt-3")} />
+      <Skeleton className="mt-2 h-4 w-4/5 rounded-full" />
+      <Skeleton className="mt-3 h-44 w-full rounded-[10px]" />
+      <div className="mt-3 flex gap-5 border-t border-[hsl(var(--surface-border)/0.7)] pt-2.5">
+        <Skeleton className="h-4 w-10 rounded-full" />
+        <Skeleton className="h-4 w-10 rounded-full" />
+      </div>
+    </article>
+  )
+}
+
+/** 与 `ExplorationRecordGroupCard` 一致 */
+export function ExplorationRecordGroupCardSkeleton() {
+  return (
+    <section className="overflow-hidden rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] shadow-sm">
+      <header className="flex items-center gap-2.5 border-b border-[hsl(var(--surface-border)/0.7)] px-3.5 py-3">
+        <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+        <div className="min-w-0 flex-1 space-y-2">
+          <Skeleton className="h-4 w-24 rounded-full" />
+          <Skeleton className="h-3 w-32 rounded-full" />
+        </div>
+      </header>
+      <ExplorationRecordFeedCardSkeleton nested />
+    </section>
+  )
+}
+
+function ProjectDetailMobileSectionSkeleton({ titleWidth = "w-24" }: { titleWidth?: string }) {
+  return (
+    <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+      <Skeleton className={cn("mb-3 h-5 rounded-full", titleWidth)} />
+      <Skeleton className="h-4 w-full rounded-full" />
+      <Skeleton className="mt-2 h-4 w-5/6 rounded-full" />
+    </section>
+  )
+}
+
+function ProjectDetailMaterialsSkeleton() {
+  return (
+    <section className="surface-panel overflow-hidden rounded-[18px]">
+      <div className="border-b border-border/60 px-5 py-5 sm:px-6">
+        <Skeleton className="h-7 w-40 rounded-full" />
+      </div>
+      <div className="grid grid-cols-1 gap-2 px-5 py-5 min-[380px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] sm:px-6 xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} className="min-h-[60px] rounded-[10px] sm:min-h-[64px]" />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ProjectDetailStepsSkeleton() {
+  return (
+    <section className="surface-panel overflow-hidden rounded-[18px]">
+      <div className="border-b border-border/60 px-5 py-5 sm:px-6">
+        <Skeleton className="h-7 w-44 rounded-full" />
+      </div>
+      <div className="space-y-3 px-5 py-5 sm:px-6 sm:py-6">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="grid grid-cols-[32px_minmax(0,1fr)] gap-2.5">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <Skeleton className="h-[88px] rounded-[12px] sm:h-20" />
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ProjectAuthorCardSkeleton() {
+  return (
+    <section className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6">
+      <Skeleton className="h-5 w-20 rounded-full" />
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <Skeleton className="h-12 w-12 shrink-0 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-28 rounded-full" />
+            <Skeleton className="h-3 w-16 rounded-full" />
+          </div>
+        </div>
+        <Skeleton className="h-9 w-[86px] rounded-[8px]" />
+      </div>
+      <div className="mt-5 grid grid-cols-3 gap-3 border-y border-border/60 py-3">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="space-y-2 text-center">
+            <Skeleton className="mx-auto h-3 w-14 rounded-full" />
+            <Skeleton className="mx-auto h-4 w-10 rounded-full" />
+          </div>
+        ))}
+      </div>
+      <Skeleton className="mt-4 h-4 w-full rounded-full" />
+      <Skeleton className="mt-2 h-4 w-4/5 rounded-full" />
+    </section>
+  )
+}
+
+function ProjectCommentsSectionSkeleton() {
+  return (
+    <section className="surface-panel hidden overflow-hidden rounded-[18px] px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
+      <div className="border-t pt-8 md:px-2 lg:px-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <Skeleton className="h-7 w-28 rounded-full" />
+          <Skeleton className="h-9 w-40 rounded-[8px]" />
+        </div>
+        <div className="space-y-0">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="border-b border-border/60 py-4 last:border-0">
+              <div className="flex gap-3">
+                <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                  <Skeleton className="h-4 w-full rounded-full" />
+                  <Skeleton className="h-4 w-2/3 rounded-full" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/** 与 `app/project/[id]/page.tsx` 桌面 + 移动布局一致 */
+export function ProjectDetailPageSkeleton() {
+  return (
+    <div className="relative overflow-x-hidden bg-[hsl(var(--app-canvas))]">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]"
+      />
+      <div className="mx-auto w-full max-w-[1840px] px-4 pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
+        <div className="mb-5 hidden md:block">
+          <div className="inline-flex items-center text-sm text-muted-foreground opacity-50">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            返回探索
+          </div>
+        </div>
+
+        <div className="-mx-4 md:hidden">
+          <section className="overflow-hidden rounded-b-[22px] bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
+            <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
+              <Skeleton className="h-full w-full rounded-none" />
+              <div className="absolute left-4 right-4 top-[calc(0.75rem+env(safe-area-inset-top))] flex items-center justify-between gap-3">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                </div>
+              </div>
+              <Skeleton className="absolute bottom-3 right-4 h-6 w-10 rounded-full" />
+            </div>
+            <div className="space-y-4 px-4 pb-5 pt-4">
+              <Skeleton className="h-8 w-[88%] rounded-md" />
+              <div className="grid grid-cols-4 gap-1.5">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Skeleton key={index} className="min-h-8 rounded-[8px]" />
+                ))}
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t border-[hsl(var(--surface-border)/0.72)] pt-4">
+                <div className="flex min-w-0 items-center gap-3">
+                  <Skeleton className="h-11 w-11 shrink-0 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-24 rounded-full" />
+                    <Skeleton className="h-3 w-16 rounded-full" />
+                  </div>
+                </div>
+                <Skeleton className="h-8 w-24 rounded-full" />
+              </div>
+            </div>
+          </section>
+
+          <div className="space-y-3 px-4 pb-28 pt-3">
+            <ProjectDetailMobileSectionSkeleton titleWidth="w-20" />
+            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+              <Skeleton className="mb-3 h-5 w-36 rounded-full" />
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton key={index} className="mb-2 h-[54px] rounded-[10px] last:mb-0" />
+              ))}
+            </section>
+            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+              <Skeleton className="mb-3 h-5 w-24 rounded-full" />
+              <ProjectExplorationRecordsBlockSkeleton />
+            </section>
+            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <Skeleton className="h-5 w-28 rounded-full" />
+                <Skeleton className="h-3 w-14 rounded-full" />
+              </div>
+              <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-[12px] border border-[hsl(var(--surface-border)/0.84)] p-2.5">
+                <Skeleton className="aspect-[4/3] rounded-[10px]" />
+                <div className="space-y-2 py-0.5">
+                  <Skeleton className="h-4 w-full rounded-full" />
+                  <Skeleton className="h-3 w-5/6 rounded-full" />
+                  <Skeleton className="h-3 w-1/2 rounded-full" />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--surface-border)/0.86)] bg-background px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 md:hidden">
+            <div className="flex items-center justify-between gap-3">
+              <Skeleton className="h-10 flex-1 rounded-[10px]" />
+              <Skeleton className="h-10 w-24 rounded-[10px]" />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <main className="min-w-0 space-y-6">
+            <section className="surface-panel hidden overflow-hidden rounded-[18px] md:block">
+              <div className="lg:flex lg:items-stretch">
+                <Skeleton className="min-w-0 rounded-none aspect-[16/9] sm:aspect-[16/8.6] lg:aspect-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none" />
+                <div className="min-w-0 flex-1 p-5 sm:p-6 lg:p-8">
+                  <div className="flex flex-wrap gap-2">
+                    <Skeleton className="h-9 w-52 rounded-[10px]" />
+                    <Skeleton className="h-7 w-14 rounded-[8px]" />
+                    <Skeleton className="h-7 w-14 rounded-[8px]" />
+                    <Skeleton className="ml-auto h-7 w-24 rounded-[8px]" />
+                  </div>
+                  <div className="mt-5 space-y-3">
+                    <Skeleton className="h-4 w-full rounded-full" />
+                    <Skeleton className="h-4 w-5/6 rounded-full" />
+                  </div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    <Skeleton className="h-7 w-20 rounded-[8px]" />
+                    <Skeleton className="h-7 w-24 rounded-[8px]" />
+                    <Skeleton className="h-7 w-20 rounded-[8px]" />
+                  </div>
+                  <div className="mt-6 grid grid-cols-4 border-t border-border/70 pt-5">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <div key={index} className="flex justify-center gap-3 border-r border-border/70 px-4 last:border-r-0">
+                        <div className="space-y-2 text-center">
+                          <Skeleton className="mx-auto h-5 w-10 rounded-full" />
+                          <Skeleton className="mx-auto h-3 w-12 rounded-full" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="hidden items-start gap-3 rounded-[10px] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 sm:px-5 sm:py-4 md:flex">
+              <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <Skeleton className="h-4 w-20 rounded-full" />
+                <Skeleton className="h-3 w-full rounded-full sm:h-4" />
+              </div>
+            </section>
+
+            <div className="hidden gap-6 md:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)]">
+              <div className="min-w-0 space-y-6">
+                <ProjectDetailMaterialsSkeleton />
+                <ProjectDetailStepsSkeleton />
+              </div>
+
+              <aside className="hidden min-w-0 space-y-6 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block">
+                <ProjectAuthorCardSkeleton />
+                <section className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6">
+                  <Skeleton className="mb-4 h-7 w-28 rounded-full" />
+                  <ProjectExplorationRecordsBlockSkeleton />
+                </section>
+                <section className="surface-panel overflow-hidden rounded-[18px] p-4">
+                  <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-3">
+                    <Skeleton className="aspect-[4/3] rounded-[10px]" />
+                    <div className="space-y-2 py-0.5">
+                      <Skeleton className="h-4 w-full rounded-full" />
+                      <Skeleton className="h-3 w-5/6 rounded-full" />
+                      <Skeleton className="h-8 w-20 rounded-[8px]" />
+                    </div>
+                  </div>
+                </section>
+              </aside>
+
+              <ProjectCommentsSectionSkeleton />
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** 与 `ProjectRecordsClient` / `RecordsPageShell` 一致 */
+export function ProjectRecordsPageSkeleton() {
+  return (
+    <div className="relative min-h-[100dvh] bg-[hsl(var(--app-canvas))] pb-12">
+      <MobilePageHeader
+        title={<Skeleton className="h-5 w-48 max-w-[70vw] rounded-full" />}
+        fallbackHref="/explore"
+        className="sticky top-0 z-30 border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
+        rightSlot={<Skeleton className="h-8 w-14 rounded-full" />}
+      />
+      <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-2xl">
+        <div className="mb-3 flex items-center gap-2">
+          <Skeleton className="h-8 w-16 rounded-full" />
+          <Skeleton className="h-8 w-16 rounded-full" />
+          <Skeleton className="ml-auto h-8 w-[108px] rounded-full" />
+        </div>
+        <section className="mb-4 flex items-center gap-3 rounded-[14px] border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
+          <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+          <div className="min-w-0 flex-1 space-y-2">
+            <Skeleton className="h-4 w-36 rounded-full" />
+            <Skeleton className="h-3 w-full rounded-full" />
+          </div>
+          <Skeleton className="h-8 w-20 shrink-0 rounded-full" />
+        </section>
+        <div className="space-y-3">
+          <ExplorationRecordFeedCardSkeleton />
+          <ExplorationRecordGroupCardSkeleton />
+          <ExplorationRecordFeedCardSkeleton />
         </div>
       </div>
     </div>

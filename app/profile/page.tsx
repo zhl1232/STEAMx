@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useEffectEvent, useMemo, useState, type ReactNode } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import {
@@ -64,7 +65,9 @@ import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
+import { profileHomeQueryKey, useProfilePageData } from '@/hooks/profile/use-profile-page-data'
 import { useToast } from '@/hooks/use-toast'
+import { invalidateProfileHomeData } from '@/lib/profile/profile-home-client'
 
 const SteamRadarChart = dynamic(
   () => import('@/components/features/profile/steam-radar-chart').then((mod) => mod.SteamRadarChart),
@@ -178,24 +181,17 @@ function getObservationTitle(observation: ObservationEvent) {
 export default function ProfilePage() {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth()
   const { toast } = useToast()
+  const queryClient = useQueryClient()
   const { unlockedBadges, userBadgeDetails, userStats, refetchStats } = useGamification()
   const { unreadCount } = useNotifications()
+  const {
+    data: profileHomeData,
+    isPending: isProfileHomePending,
+    isError: isProfileHomeError,
+  } = useProfilePageData(user?.id)
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
-  const [myProjects, setMyProjects] = useState<Project[]>([])
-  const [myProjectsTotalCount, setMyProjectsTotalCount] = useState(0)
-  const [followerCount, setFollowerCount] = useState(0)
-  const [followingCount, setFollowingCount] = useState(0)
-  const [totalLikesReceived, setTotalLikesReceived] = useState(0)
-  const [steamRadar, setSteamRadar] = useState<SteamRadarWithGuidance | null>(null)
-  const [myObservations, setMyObservations] = useState<ObservationEvent[]>([])
-  const [observationsTotal, setObservationsTotal] = useState(0)
-  const [studyCheckInSummary, setStudyCheckInSummary] = useState<ProfileStudyCheckInSummary | null>(null)
-  const [studyCheckInState, setStudyCheckInState] = useState<StudyCheckInLoadState>('loading')
-  const [growthTasks, setGrowthTasks] = useState<ProfileGrowthTask[] | null>(null)
-  const [growthTasksGraduatedAt, setGrowthTasksGraduatedAt] = useState<string | null>(null)
   const [growthGraduationSparkle, setGrowthGraduationSparkle] = useState(false)
   const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null)
-  const [profileTimelineEvents, setProfileTimelineEvents] = useState<ProfileTimelineEvent[] | null>(null)
 
   const showLoadError = useEffectEvent((description: string) => {
     toast({
@@ -205,19 +201,29 @@ export default function ProfilePage() {
     })
   })
 
-  const loadGrowthTasks = useCallback(async () => {
-    const response = await fetch('/api/profile/growth-tasks/sync', { method: 'POST' })
-    const payload = await response.json().catch(() => ({}))
+  const myProjects = profileHomeData?.myProjects ?? []
+  const myProjectsTotalCount = profileHomeData?.myProjectsTotalCount ?? 0
+  const followerCount = profileHomeData?.followerCount ?? 0
+  const followingCount = profileHomeData?.followingCount ?? 0
+  const totalLikesReceived = profileHomeData?.totalLikesReceived ?? 0
+  const steamRadar = profileHomeData?.steamRadar ?? null
+  const myObservations = profileHomeData?.myObservations ?? []
+  const observationsTotal = profileHomeData?.observationsTotal ?? 0
+  const studyCheckInSummary = profileHomeData?.studyCheckInSummary ?? null
+  const growthTasks = profileHomeData?.growthTasks ?? null
+  const growthTasksGraduatedAt = profileHomeData?.growthTasksGraduatedAt ?? null
+  const profileTimelineEvents = profileHomeData?.profileTimelineEvents ?? null
 
-    if (!response.ok) {
-      throw new Error(payload?.error || '成长任务加载失败')
-    }
+  const studyCheckInState: StudyCheckInLoadState = isProfileHomePending
+    ? 'loading'
+    : isProfileHomeError
+      ? 'error'
+      : 'ready'
 
-    setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || [])
-    const nextGraduatedAt =
-      typeof payload?.graduatedAt === 'string' && payload.graduatedAt ? payload.graduatedAt : null
-    setGrowthTasksGraduatedAt(nextGraduatedAt)
-  }, [])
+  useEffect(() => {
+    if (!isProfileHomeError) return
+    showLoadError('无法加载个人资料数据，请稍后重试')
+  }, [isProfileHomeError])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -229,105 +235,6 @@ export default function ProfilePage() {
     mediaQuery.addEventListener('change', updateViewport)
     return () => mediaQuery.removeEventListener('change', updateViewport)
   }, [])
-
-  useEffect(() => {
-    if (!user?.id) return
-
-    let cancelled = false
-
-    const loadProfileSummary = async () => {
-      try {
-        const response = await fetch('/api/profile/summary')
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '个人主页摘要加载失败')
-        }
-
-        if (cancelled) return
-
-        setMyProjects((payload?.myProjects as Project[] | undefined) || [])
-        setMyProjectsTotalCount(Number(payload?.myProjectsTotalCount || 0))
-        setFollowerCount(Number(payload?.followerCount || 0))
-        setFollowingCount(Number(payload?.followingCount || 0))
-        setTotalLikesReceived(Number(payload?.totalLikesReceived || 0))
-        setSteamRadar((payload?.radar as SteamRadarWithGuidance | null) || null)
-      } catch (err) {
-        if (cancelled) return
-        logger.error('Exception in loadProfileSummary', { error: err })
-        showLoadError(getErrorMessage(err, '无法加载个人资料数据，请稍后重试'))
-      }
-    }
-
-    loadProfileSummary()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
-
-  useEffect(() => {
-    if (!user?.id) return
-
-    let cancelled = false
-    setProfileTimelineEvents(null)
-
-    const loadTimeline = async () => {
-      try {
-        const response = await fetch('/api/profile/timeline?limit=5')
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '探索轨迹加载失败')
-        }
-
-        if (cancelled) return
-        setProfileTimelineEvents((payload?.events as ProfileTimelineEvent[] | undefined) || [])
-      } catch (err) {
-        if (cancelled) return
-        logger.warn('Failed to load profile timeline', { error: err })
-        setProfileTimelineEvents([])
-      }
-    }
-
-    loadTimeline()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
-
-  useEffect(() => {
-    if (!user?.id) return
-
-    let cancelled = false
-
-    const syncGrowthTasks = async () => {
-      try {
-        const response = await fetch('/api/profile/growth-tasks/sync', { method: 'POST' })
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '成长任务加载失败')
-        }
-
-        if (cancelled) return
-        setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || [])
-        const nextGraduatedAt =
-          typeof payload?.graduatedAt === 'string' && payload.graduatedAt ? payload.graduatedAt : null
-        setGrowthTasksGraduatedAt(nextGraduatedAt)
-      } catch (err) {
-        if (cancelled) return
-        logger.warn('Failed to sync growth tasks', { error: err })
-      }
-    }
-
-    syncGrowthTasks()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
 
   const handleClaimGrowthTask = useCallback(async (taskId: GrowthTaskId) => {
     if (claimingTaskId) return
@@ -347,13 +254,15 @@ export default function ProfilePage() {
       }
 
       if (payload?.graduated) {
-        setGrowthTasksGraduatedAt(new Date().toISOString())
         setGrowthGraduationSparkle(true)
         window.setTimeout(() => setGrowthGraduationSparkle(false), 600)
       }
 
       await refreshProfile()
-      await loadGrowthTasks()
+      if (user?.id) {
+        invalidateProfileHomeData(user.id)
+        await queryClient.invalidateQueries({ queryKey: profileHomeQueryKey(user.id) })
+      }
 
       if (payload?.graduated) {
         void refetchStats()
@@ -384,7 +293,7 @@ export default function ProfilePage() {
     } finally {
       setClaimingTaskId(null)
     }
-  }, [claimingTaskId, loadGrowthTasks, refreshProfile, refetchStats, toast])
+  }, [claimingTaskId, queryClient, refreshProfile, refetchStats, toast, user?.id])
 
   const fallbackGrowthTasks = useMemo(
     () =>
@@ -397,74 +306,7 @@ export default function ProfilePage() {
     [profile?.bio, userStats],
   )
 
-  useEffect(() => {
-    if (!user?.id) return
-
-    let cancelled = false
-
-    const loadObservations = async () => {
-      try {
-        const response = await fetch('/api/observations/mine?pageSize=6')
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '观察记录加载失败')
-        }
-
-        if (cancelled) return
-
-        setMyObservations((payload?.observations as ObservationEvent[] | undefined) || [])
-        setObservationsTotal(Number(payload?.total || 0))
-      } catch (err) {
-        if (cancelled) return
-        logger.warn('Failed to load profile observations', { error: err })
-        setMyObservations([])
-        setObservationsTotal(0)
-      }
-    }
-
-    loadObservations()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
-
-  useEffect(() => {
-    if (!user?.id) return
-
-    let cancelled = false
-    setStudyCheckInState('loading')
-
-    const loadStudyCheckIn = async () => {
-      try {
-        const response = await fetch('/api/profile/study-checkin')
-        const payload = await response.json().catch(() => ({}))
-
-        if (!response.ok) {
-          throw new Error(payload?.error || '探索打卡加载失败')
-        }
-
-        if (cancelled) return
-
-        setStudyCheckInSummary((payload as ProfileStudyCheckInSummary | null) ?? null)
-        setStudyCheckInState('ready')
-      } catch (err) {
-        if (cancelled) return
-        logger.warn('Failed to load study check-in summary', { error: err })
-        setStudyCheckInSummary(null)
-        setStudyCheckInState('error')
-      }
-    }
-
-    loadStudyCheckIn()
-
-    return () => {
-      cancelled = true
-    }
-  }, [user?.id])
-
-  if (authLoading || isDesktopViewport === null) {
+  if (authLoading || isDesktopViewport === null || (user && isProfileHomePending && !profileHomeData)) {
     return <ProfileSkeleton />
   }
 
@@ -490,6 +332,7 @@ export default function ProfilePage() {
   const featuredBadges =
     unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
   const stats: ProfileStat[] = [
+    { key: 'works', label: '作品', value: myProjectsTotalCount, href: '/profile/library', icon: 'projects' },
     { key: 'followers', label: '粉丝', value: followerCount, href: '/profile/followers', icon: 'followers' },
     { key: 'following', label: '关注', value: followingCount, href: '/profile/following', icon: 'following' },
     { key: 'likes', label: '获赞', value: totalLikesReceived, href: '/profile/likes', icon: 'likes' },
@@ -522,7 +365,6 @@ export default function ProfilePage() {
     unlockedBadges,
     userBadgeDetails,
     myProjects,
-    myProjectsTotalCount,
     steamRadar,
     myObservations,
     observationsTotal,
@@ -552,7 +394,6 @@ function DesktopProfilePage({
   unlockedBadges,
   userBadgeDetails,
   myProjects,
-  myProjectsTotalCount,
   steamRadar,
   myObservations,
   observationsTotal,
@@ -573,7 +414,6 @@ function DesktopProfilePage({
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   myProjects: Project[]
-  myProjectsTotalCount: number
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
@@ -627,7 +467,7 @@ function DesktopProfilePage({
               <div className="grid gap-4 lg:grid-cols-2">
                 <section className="surface-panel rounded-[20px] p-6">
                   <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
-                  <ProjectShowcase projects={myProjects} total={myProjectsTotalCount} emptyDensity="compact" />
+                  <ProjectShowcase projects={myProjects} emptyDensity="compact" />
                 </section>
 
                 <section className="surface-panel rounded-[20px] p-6">
@@ -674,7 +514,6 @@ function MobileProfilePage({
   featuredBadges,
   unlockedBadges,
   myProjects,
-  myProjectsTotalCount,
   steamRadar,
   myObservations,
   observationsTotal,
@@ -693,7 +532,6 @@ function MobileProfilePage({
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   myProjects: Project[]
-  myProjectsTotalCount: number
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
@@ -798,7 +636,7 @@ function MobileProfilePage({
 
         <section className="surface-panel p-4">
           <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
-          <ProjectShowcase projects={myProjects} total={myProjectsTotalCount} mobile />
+          <ProjectShowcase projects={myProjects} mobile />
         </section>
 
         <section className="surface-panel p-4">
@@ -1595,12 +1433,10 @@ function GrowthTasksPanel({
 
 function ProjectShowcase({
   projects,
-  total,
   mobile = false,
   emptyDensity = 'default',
 }: {
   projects: Project[]
-  total: number
   mobile?: boolean
   emptyDensity?: 'default' | 'compact'
 }) {
