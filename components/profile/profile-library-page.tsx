@@ -140,7 +140,7 @@ export function ProfileLibraryPage() {
     if (!isProfileSummaryError) return
     logger.error('Exception in loadProfileSummary', { error: profileSummaryError })
     showLoadError(getErrorMessage(profileSummaryError, '无法加载个人资料数据，请稍后重试'))
-  }, [isProfileSummaryError, profileSummaryError, showLoadError])
+  }, [isProfileSummaryError, profileSummaryError])
 
   useEffect(() => {
     setVisibleDesktopWorksCount(WORKS_PAGE_SIZE)
@@ -360,7 +360,6 @@ export function ProfileLibraryPage() {
     isProjectsDataLoading,
     shouldLoadExploringProjects,
     exploringProjectsLoaded,
-    showLoadError,
   ])
 
   if (authLoading) {

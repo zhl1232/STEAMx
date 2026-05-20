@@ -110,14 +110,31 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
 
   if (isAuthPage) {
-    return <main className="flex-1 pb-0">{children}</main>
+    return (
+      <>
+        <a href="#main-content" className="skip-link">
+          跳到主内容
+        </a>
+        <main id="main-content" className="flex-1 pb-0">
+          {children}
+        </main>
+      </>
+    )
   }
 
   if (smokeMode) {
     return (
       <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
+        <a href="#main-content" className="skip-link">
+          跳到主内容
+        </a>
         <div className="flex min-h-screen flex-col bg-background">
-          <main className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-20', 'md:pb-0')}>{pageContent}</main>
+          <main
+            id="main-content"
+            className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-20', 'md:pb-0')}
+          >
+            {pageContent}
+          </main>
         </div>
       </AppProviders>
     )
@@ -125,6 +142,9 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
 
   return (
     <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
+      <a href="#main-content" className="skip-link">
+        跳到主内容
+      </a>
       <div
         className="flex min-h-screen flex-col bg-background"
         style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '4rem' : '0rem' }}
@@ -163,7 +183,12 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
             </div>
           </div>
         </header>
-        <main className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}>{pageContent}</main>
+        <main
+          id="main-content"
+          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}
+        >
+          {pageContent}
+        </main>
         {!hideMobileBottomNav ? <BottomNav /> : null}
       </div>
     </AppProviders>

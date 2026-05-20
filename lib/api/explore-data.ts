@@ -3,6 +3,8 @@
  * 用于服务端组件中获取项目列表
  */
 
+import { cache } from "react";
+
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { callRpc } from "@/lib/supabase/rpc";
@@ -205,10 +207,36 @@ export interface ProjectFilters {
 const EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER = 4;
 const EXPLORE_POPULAR_BLEND_POOL_MAX = 200;
 const EXPLORE_POPULAR_CATEGORY_BLEND_ORDER = ["科学", "技术", "工程", "艺术", "数学"] as const;
+const PROJECT_LIST_BASE_SELECT = [
+  "id",
+  "title",
+  "author_id",
+  "image_url",
+  "category",
+  "sub_category_id",
+  "likes_count",
+  "views_count",
+  "coins_count",
+  "comments_count",
+  "description",
+  "difficulty",
+  "difficulty_stars",
+  "tags",
+  "status",
+  "rejection_reason",
+  "challenge_id",
+].join(",");
+const PROJECT_LIST_PROJECT_STEPS_SELECT = "project_steps (title, description, image_url, sort_order)";
+const PROJECT_LIST_MATERIALS_SELECT = "project_materials (material, sort_order)";
+const PROJECT_LIST_MATERIALS_FILTER_SELECT = "project_materials!inner (material, sort_order)";
+const PROJECT_LIST_SUB_CATEGORIES_SELECT = "sub_categories (name)";
+const PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT = "sub_categories!inner (name)";
+const PROJECT_LIST_PROFILE_SELECT = "profiles:author_id (display_name)";
 
 function shouldBlendPopularExplore(filters: ProjectFilters, pagination: PaginationOptions): boolean {
-  const { page = 0, sortBy = "popular" } = pagination;
-  if (sortBy !== "popular" || page !== 0) return false;
+  const { page = 0, sortBy = "popular", blendPopular = false } = pagination;
+  if (sortBy !== "popular") return false;
+  if (!blendPopular && page !== 0) return false;
   const { category, subCategory, difficulty, materials, tags, searchQuery } = filters;
   if (category && category !== "全部") return false;
   if (subCategory) return false;
@@ -219,12 +247,19 @@ function shouldBlendPopularExplore(filters: ProjectFilters, pagination: Paginati
   return true;
 }
 
+/** @internal Exported for regression tests around category-balanced popular blending. */
+export function diversifyPopularByCategoryForTest<T extends { id: string | number; category?: string | null }>(
+  rows: T[],
+  targetLen: number,
+): T[] {
+  return diversifyPopularByCategory(rows, targetLen);
+}
+
 function diversifyPopularByCategory<T extends { id: string | number; category?: string | null }>(
   rows: T[],
   targetLen: number,
 ): T[] {
   if (rows.length === 0 || targetLen <= 0) return [];
-  if (rows.length <= targetLen) return rows.slice(0, targetLen);
 
   const byCat = new Map<string, T[]>();
   for (const row of rows) {
@@ -269,16 +304,221 @@ function diversifyPopularByCategory<T extends { id: string | number; category?: 
   return out;
 }
 
-function orderProjectsByPopularity<Query extends { order: (column: string, options: { ascending: boolean }) => Query }>(
-  query: Query,
-): Query {
-  return query
-    .order("likes_count", { ascending: false })
-    .order("comments_count", { ascending: false })
-    .order("coins_count", { ascending: false })
-    .order("views_count", { ascending: false })
-    .order("created_at", { ascending: false })
-    .order("id", { ascending: false });
+function getSmokeInteractionRawScore(project: SmokeProject): number {
+  return (
+    (project.likes ?? 0) * 1 +
+    (project.comments_count ?? 0) * 2 +
+    (project.coins_count ?? 0) * 3
+  );
+}
+
+function getSmokePopularScore(project: SmokeProject): number {
+  const raw = getSmokeInteractionRawScore(project);
+  const ageDays = Math.max(
+    0,
+    (Date.now() - new Date(project.createdAt).getTime()) / 86_400_000,
+  );
+  const decayed = raw / Math.pow(ageDays + 14, 1.2);
+  const weekly = getSmokeInteractionRawScore(project);
+  return 0.75 * decayed + 0.25 * weekly;
+}
+
+function buildExploreSelectStatement(filters: Pick<ProjectFilters, "materials" | "subCategory">): string {
+  const materialsJoin = filters.materials && filters.materials.length > 0
+    ? PROJECT_LIST_MATERIALS_FILTER_SELECT
+    : PROJECT_LIST_MATERIALS_SELECT;
+  const subCategoriesJoin = filters.subCategory
+    ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT
+    : PROJECT_LIST_SUB_CATEGORIES_SELECT;
+  return `
+      ${PROJECT_LIST_BASE_SELECT},
+      ${PROJECT_LIST_PROFILE_SELECT},
+      ${materialsJoin},
+      ${PROJECT_LIST_PROJECT_STEPS_SELECT},
+      ${subCategoriesJoin}
+    `;
+}
+
+function buildExploreRankingFilterArgs(
+  filters: ProjectFilters,
+  limit: number,
+  offset: number,
+  categoryOverride?: string | null,
+) {
+  const { category, subCategory, difficulty, materials, tags, searchQuery } = filters;
+  const sanitizedSearch = searchQuery ? sanitizeSearch(searchQuery) : "";
+  const starsRange = resolveDifficultyStarsRange(difficulty);
+  const resolvedCategory = categoryOverride !== undefined
+    ? categoryOverride
+    : category && category !== "全部"
+      ? category
+      : null;
+
+  return {
+    rpcArgs: {
+      p_limit: limit,
+      p_offset: offset,
+      p_category: resolvedCategory,
+      p_sub_category: subCategory || null,
+      p_difficulty_stars_min: starsRange.min,
+      p_difficulty_stars_max: starsRange.max,
+      p_tags: tags?.length ? tags : null,
+      p_search: sanitizedSearch || null,
+      p_materials: materials?.length ? materials : null,
+    },
+    starsRange,
+  };
+}
+
+async function hydrateExploreProjectsByIds(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  projectIds: number[],
+  filters: ProjectFilters,
+  starsRange: ReturnType<typeof resolveDifficultyStarsRange>,
+): Promise<Project[]> {
+  if (projectIds.length === 0) {
+    return [];
+  }
+
+  const selectStatement = buildExploreSelectStatement(filters);
+  const { data: rows, error: hydrateError } = await supabase
+    .from("projects")
+    .select(selectStatement)
+    .eq("status", "approved")
+    .in("id", projectIds);
+
+  if (hydrateError) {
+    logger.error("Error hydrating explore projects", { error: hydrateError });
+    return [];
+  }
+
+  const idOrder = new Map(projectIds.map((id, index) => [id, index]));
+  let projects = ((rows || []) as unknown as ProjectRowForMapper[])
+    .map(mapDbProject)
+    .sort(
+      (left, right) =>
+        (idOrder.get(Number(left.id)) ?? 0) - (idOrder.get(Number(right.id)) ?? 0),
+    );
+
+  if (starsRange.legacy) {
+    projects = projects.filter((project) => project.difficulty === starsRange.legacy);
+  }
+
+  return projects;
+}
+
+async function fetchPopularProjects(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  filters: ProjectFilters,
+  pagination: PaginationOptions,
+): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
+  const { page = 0, pageSize = 12 } = pagination;
+  const from = page * pageSize;
+  const useBlend = shouldBlendPopularExplore(filters, pagination);
+
+  if (useBlend) {
+    const poolLimit = Math.min(
+      pageSize * EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER,
+      EXPLORE_POPULAR_BLEND_POOL_MAX,
+    );
+    const [categoryResults, fallbackResult, countResult] = await Promise.all([
+      Promise.all(
+        EXPLORE_POPULAR_CATEGORY_BLEND_ORDER.map(async (categoryName) => {
+          const { rpcArgs, starsRange } = buildExploreRankingFilterArgs(
+            filters,
+            poolLimit,
+            0,
+            categoryName,
+          );
+          const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
+          if (error) {
+            logger.error("Error fetching category popular rankings", { error, categoryName });
+            return { rankings: [], starsRange };
+          }
+          return { rankings: data || [], starsRange };
+        }),
+      ),
+      (async () => {
+        const { rpcArgs, starsRange } = buildExploreRankingFilterArgs(filters, poolLimit, 0);
+        const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
+        if (error) {
+          logger.error("Error fetching fallback popular rankings", { error });
+          return { rankings: [], starsRange };
+        }
+        return { rankings: data || [], starsRange };
+      })(),
+      (async () => {
+        const { rpcArgs, starsRange } = buildExploreRankingFilterArgs(filters, 1, 0);
+        const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
+        if (error) {
+          logger.error("Error fetching popular rankings count", { error });
+          return { rankings: [], starsRange };
+        }
+        return { rankings: data || [], starsRange };
+      })(),
+    ]);
+
+    const total = Number(countResult.rankings[0]?.total_count ?? 0);
+    const seen = new Set<number>();
+    const orderedIds: number[] = [];
+
+    for (const categoryResult of categoryResults) {
+      for (const row of categoryResult.rankings) {
+        if (seen.has(row.project_id)) continue;
+        seen.add(row.project_id);
+        orderedIds.push(row.project_id);
+      }
+    }
+    for (const row of fallbackResult.rankings) {
+      if (seen.has(row.project_id)) continue;
+      seen.add(row.project_id);
+      orderedIds.push(row.project_id);
+    }
+
+    const starsRange = categoryResults[0]?.starsRange ?? fallbackResult.starsRange;
+    const hydrated = await hydrateExploreProjectsByIds(
+      supabase,
+      orderedIds,
+      filters,
+      starsRange,
+    );
+    const diversified = diversifyPopularByCategory(hydrated, hydrated.length);
+    const projects = diversified.slice(from, from + pageSize);
+
+    return {
+      projects,
+      total,
+      hasMore: from + pageSize < diversified.length,
+    };
+  }
+
+  const { rpcArgs, starsRange } = buildExploreRankingFilterArgs(filters, pageSize, from);
+  const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
+
+  if (error) {
+    logger.error("Error fetching popular project rankings", { error });
+    return { projects: [], total: 0, hasMore: false };
+  }
+
+  const rankings = data || [];
+  if (rankings.length === 0) {
+    return { projects: [], total: 0, hasMore: false };
+  }
+
+  const total = Number(rankings[0]?.total_count ?? 0);
+  const projectIds = rankings.map((row) => row.project_id);
+  const projects = await hydrateExploreProjectsByIds(
+    supabase,
+    projectIds,
+    filters,
+    starsRange,
+  );
+
+  return {
+    projects,
+    total,
+    hasMore: from + projects.length < total,
+  };
 }
 
 /**
@@ -287,7 +527,77 @@ function orderProjectsByPopularity<Query extends { order: (column: string, optio
 export interface PaginationOptions {
   page?: number;
   pageSize?: number;
-  sortBy?: "latest" | "popular";
+  sortBy?: "latest" | "popular" | "weekly";
+  /** 无筛选热门列表强制分类混合（含换一批等后续页） */
+  blendPopular?: boolean;
+}
+
+const EXPLORE_WEEKLY_LOOKBACK_MS = 7 * 24 * 60 * 60 * 1000;
+
+function getWeeklySinceIso(nowMs: number = Date.now()): string {
+  return new Date(nowMs - EXPLORE_WEEKLY_LOOKBACK_MS).toISOString();
+}
+
+function resolveDifficultyStarsRange(difficulty: string | undefined): {
+  min: number | null;
+  max: number | null;
+  legacy: string | null;
+} {
+  if (!difficulty || difficulty === "all") {
+    return { min: null, max: null, legacy: null };
+  }
+  if (["1", "2", "3", "4", "5"].includes(difficulty)) {
+    const stars = Number(difficulty);
+    return { min: stars, max: stars, legacy: null };
+  }
+  if (difficulty === "1-2") return { min: 1, max: 2, legacy: null };
+  if (difficulty === "3-4") return { min: 3, max: 4, legacy: null };
+  if (difficulty === "5-6") return { min: 5, max: 6, legacy: null };
+  if (["easy", "medium", "hard"].includes(difficulty)) {
+    return { min: null, max: null, legacy: difficulty };
+  }
+  return { min: null, max: null, legacy: null };
+}
+
+function getSmokeWeeklyInteractionScore(project: SmokeProject): number {
+  return getSmokeInteractionRawScore(project);
+}
+
+async function fetchWeeklyHotProjects(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  filters: ProjectFilters,
+  pagination: PaginationOptions,
+): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
+  const { page = 0, pageSize = 12 } = pagination;
+  const from = page * pageSize;
+  const { rpcArgs, starsRange } = buildExploreRankingFilterArgs(filters, pageSize, from);
+  const { data, error } = await callRpc(supabase, "get_weekly_hot_project_rankings", {
+    ...rpcArgs,
+    p_since: getWeeklySinceIso(),
+  });
+
+  if (error) {
+    logger.error("Error fetching weekly hot project rankings", { error });
+    return { projects: [], total: 0, hasMore: false };
+  }
+
+  const rankings = data || [];
+  if (rankings.length === 0) {
+    return { projects: [], total: 0, hasMore: false };
+  }
+
+  const total = Number(rankings[0]?.total_count ?? 0);
+  const projectIds = rankings.map((row) => row.project_id);
+  const projects = await hydrateExploreProjectsByIds(
+    supabase,
+    projectIds,
+    filters,
+    starsRange,
+  );
+
+  const hasMore = from + projects.length < total;
+
+  return { projects, total, hasMore };
 }
 
 function getSmokeProjects(
@@ -341,22 +651,39 @@ function getSmokeProjects(
     return true;
   });
 
-  const sortedProjects = [...filteredProjects].sort((left, right) => {
-    if (sortBy === "popular") {
-      const score = (p: SmokeProject) =>
-        p.likes * 1_000_000 +
-        (p.comments_count ?? 0) * 10_000 +
-        (p.coins_count ?? 0) * 10_000 +
-        (p.views_count ?? 0);
-      const d = score(right) - score(left);
-      if (d !== 0) return d > 0 ? 1 : d < 0 ? -1 : 0;
-    }
+  const weeklyScoredProjects = sortBy === "weekly"
+    ? filteredProjects
+        .map((project) => ({
+          project,
+          score: getSmokeWeeklyInteractionScore(project),
+        }))
+        .filter(({ score }) => score > 0)
+    : null;
 
-    return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
-  });
+  const sortedProjects = weeklyScoredProjects
+    ? weeklyScoredProjects
+        .sort((left, right) => {
+          const delta = right.score - left.score;
+          if (delta !== 0) return delta > 0 ? 1 : delta < 0 ? -1 : 0;
+          return Number(right.project.id) - Number(left.project.id);
+        })
+        .map(({ project }) => project)
+    : [...filteredProjects].sort((left, right) => {
+        if (sortBy === "popular") {
+          const delta = getSmokePopularScore(right) - getSmokePopularScore(left);
+          if (delta !== 0) return delta > 0 ? 1 : delta < 0 ? -1 : 0;
+          return Number(right.id) - Number(left.id);
+        }
+
+        return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
+      });
 
   const useBlend = shouldBlendPopularExplore(filters, pagination);
+  const from = page * pageSize;
+  const to = from + pageSize;
   let pageSlice: SmokeProject[];
+  let hasMore = to < sortedProjects.length;
+
   if (useBlend) {
     const poolSize = Math.min(
       pageSize * EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER,
@@ -364,21 +691,19 @@ function getSmokeProjects(
       EXPLORE_POPULAR_BLEND_POOL_MAX,
     );
     const pool = sortedProjects.slice(0, poolSize);
-    pageSlice = diversifyPopularByCategory(pool, pageSize);
+    const diversified = diversifyPopularByCategory(pool, pool.length);
+    pageSlice = diversified.slice(from, to);
+    hasMore = to < diversified.length;
   } else {
-    const from = page * pageSize;
-    const to = from + pageSize;
     pageSlice = sortedProjects.slice(from, to);
   }
 
-  const from = page * pageSize;
-  const to = from + pageSize;
   const projects = pageSlice.map(({ createdAt: _createdAt, ...project }) => project);
 
   return {
     projects,
     total: sortedProjects.length,
-    hasMore: to < sortedProjects.length,
+    hasMore,
   };
 }
 
@@ -501,79 +826,35 @@ export async function getProjects(
 
   const from = page * pageSize;
   const to = from + pageSize - 1;
-  const usePopularCategoryBlend = shouldBlendPopularExplore(filters, pagination);
-  const rangeStart = usePopularCategoryBlend ? 0 : from;
-  const rangeEnd = usePopularCategoryBlend
-    ? Math.min(pageSize * EXPLORE_POPULAR_BLEND_POOL_MULTIPLIER - 1, EXPLORE_POPULAR_BLEND_POOL_MAX - 1)
-    : to;
 
-  const materialsJoin = materials && materials.length > 0 ? "project_materials!inner (*)" : "project_materials (*)";
-  const subCategoriesJoin = subCategory ? "sub_categories!inner (name)" : "sub_categories (name)";
+  if (sortBy === "weekly") {
+    return fetchWeeklyHotProjects(supabase, filters, pagination);
+  }
+
+  if (sortBy === "popular") {
+    return fetchPopularProjects(supabase, filters, pagination);
+  }
+
+  const materialsJoin = materials && materials.length > 0
+    ? PROJECT_LIST_MATERIALS_FILTER_SELECT
+    : PROJECT_LIST_MATERIALS_SELECT;
+  const subCategoriesJoin = subCategory
+    ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT
+    : PROJECT_LIST_SUB_CATEGORIES_SELECT;
   const selectStatement = `
-      *,
-      profiles:author_id (display_name),
+      ${PROJECT_LIST_BASE_SELECT},
+      ${PROJECT_LIST_PROFILE_SELECT},
       ${materialsJoin},
-      project_steps (*),
+      ${PROJECT_LIST_PROJECT_STEPS_SELECT},
       ${subCategoriesJoin}
     `;
-
-  if (usePopularCategoryBlend) {
-    const poolLimit = Math.min(pageSize, EXPLORE_POPULAR_BLEND_POOL_MAX);
-    const categoryQueries = EXPLORE_POPULAR_CATEGORY_BLEND_ORDER.map((categoryName) =>
-      orderProjectsByPopularity(
-        supabase
-          .from("projects")
-          .select(selectStatement)
-          .eq("status", "approved")
-          .eq("category", categoryName),
-      ).limit(poolLimit),
-    );
-    const fallbackQuery = orderProjectsByPopularity(
-      supabase
-        .from("projects")
-        .select(selectStatement)
-        .eq("status", "approved"),
-    ).range(rangeStart, rangeEnd);
-    const countQuery = supabase
-      .from("projects")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "approved");
-
-    const [categoryResults, fallbackResult, countResult] = await Promise.all([
-      Promise.all(categoryQueries),
-      fallbackQuery,
-      countQuery,
-    ]);
-    const results = [...categoryResults, fallbackResult, countResult];
-
-    const firstError = results.find((result) => result.error)?.error;
-    if (firstError) {
-      logger.error("Error fetching category-balanced popular projects", { error: firstError });
-    } else {
-      const categoryRows = categoryResults.flatMap((result) => result.data || []);
-      const fallbackRows = fallbackResult.data || [];
-      const rows = diversifyPopularByCategory(
-        [...categoryRows, ...fallbackRows] as unknown as ProjectRowForMapper[],
-        pageSize,
-      );
-      const projects = rows.map(mapDbProject);
-      const total = countResult.count || 0;
-      const hasMore = total > to + 1;
-
-      return { projects, total, hasMore };
-    }
-  }
 
   let query = supabase
     .from("projects")
     .select(selectStatement, { count: "exact" })
-    .eq("status", "approved");
-
-  if (sortBy === "popular") {
-    query = orderProjectsByPopularity(query);
-  } else {
-    query = query.order("created_at", { ascending: false }).order("id", { ascending: false });
-  }
+    .eq("status", "approved")
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false });
 
   if (sanitizedSearch) {
     query = query.or(`title.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%`);
@@ -609,7 +890,7 @@ export async function getProjects(
     query = query.in("project_materials.material", materials);
   }
 
-  query = query.range(rangeStart, rangeEnd);
+  query = query.range(from, to);
 
   const { data, error, count } = await query;
 
@@ -618,11 +899,7 @@ export async function getProjects(
     return { projects: [], total: 0, hasMore: false };
   }
 
-  let rows = (data || []) as unknown as ProjectRowForMapper[];
-  if (usePopularCategoryBlend && rows.length > 0) {
-    rows = diversifyPopularByCategory(rows, pageSize);
-  }
-
+  const rows = (data || []) as unknown as ProjectRowForMapper[];
   const projects = rows.map(mapDbProject);
   const total = count || 0;
   const hasMore = total > to + 1;
@@ -692,9 +969,9 @@ export async function getRecommendedProjects(
     supabase
       .from("projects")
       .select(`
-        *,
-        profiles:author_id (display_name),
-        sub_categories (name)
+        ${PROJECT_LIST_BASE_SELECT},
+        ${PROJECT_LIST_PROFILE_SELECT},
+        ${PROJECT_LIST_SUB_CATEGORIES_SELECT}
       `)
       .in("id", rankedProjectIds),
     supabase.rpc("get_projects_comments_count_batch", {
@@ -759,7 +1036,7 @@ export async function getRecommendedProjects(
  * @param id - 项目 ID
  * @returns 项目详情或 null
  */
-export async function getProjectById(id: string | number): Promise<Project | null> {
+export const getProjectById = cache(async (id: string | number): Promise<Project | null> => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -780,7 +1057,7 @@ export async function getProjectById(id: string | number): Promise<Project | nul
   }
 
   return mapDbProject(data as unknown as ProjectRowForMapper);
-}
+});
 
 export async function getProjectTotalCoinsReceived(
   projectId: string | number,

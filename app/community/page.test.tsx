@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import CommunityPage from './page'
+import { CommunityPageClient } from './community-page-client'
 
 const mockReloadChallenges = vi.fn()
 
@@ -64,6 +64,18 @@ vi.mock('@/components/layout/logo', () => ({
 }))
 
 describe('CommunityPage', () => {
+  const renderCommunityPage = () => render(
+    <CommunityPageClient
+      initialTab="discussions"
+      initialDiscussionTotal={0}
+      initialDiscussions={[]}
+      initialDiscussionsHasMore={false}
+      initialDiscussionTags={[]}
+      initialDiscussionDataLoaded
+      initialDiscussionTagsLoaded
+    />,
+  )
+
   beforeEach(() => {
     vi.clearAllMocks()
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
@@ -88,7 +100,7 @@ describe('CommunityPage', () => {
       challengesError: '挑战加载失败，请稍后重试',
     }
 
-    render(<CommunityPage />)
+    renderCommunityPage()
 
     fireEvent.click(screen.getByRole('button', { name: '挑战' }))
 
@@ -103,7 +115,7 @@ describe('CommunityPage', () => {
       challengesError: '挑战加载失败，请稍后重试',
     }
 
-    render(<CommunityPage />)
+    renderCommunityPage()
 
     fireEvent.click(screen.getByRole('button', { name: '挑战' }))
     fireEvent.click(screen.getByRole('button', { name: '重试' }))

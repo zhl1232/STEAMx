@@ -220,11 +220,14 @@ async function fetchPersonalizedBatch(
   };
 }
 
-async function fetchPopularBatch(args: { limit: number; offset: number }): Promise<RecommendationBatch> {
+async function fetchPopularBatch(
+  args: { limit: number; offset: number },
+  blendPopular = false,
+): Promise<RecommendationBatch> {
   const pageSize = normalizeLimit(args.limit, SIDEBAR_RECOMMENDATION_LIMIT);
   const offset = normalizeOffset(args.offset);
   const page = Math.floor(offset / pageSize);
-  const result = await getProjects({}, { page, pageSize, sortBy: "popular" });
+  const result = await getProjects({}, { page, pageSize, sortBy: "popular", blendPopular });
 
   return {
     projects: result.projects,
@@ -316,9 +319,11 @@ export async function getHomepageRecommendations(args: {
   excludeIds?: Array<string | number>;
   mode?: HomepageRecommendationMode;
   preferenceContext?: HomepagePreferenceContext;
+  blendPopular?: boolean;
 } = {}): Promise<HomepageRecommendationResult> {
   const preferenceContext = args.preferenceContext ?? (await getHomepageUserPreferences());
   const mode = resolveMode(args.mode, preferenceContext.hasPreferences);
+  const blendPopular = args.blendPopular ?? false;
 
   return collectHomepageRecommendations({
     limit: args.limit,
@@ -326,7 +331,7 @@ export async function getHomepageRecommendations(args: {
     excludeIds: args.excludeIds,
     mode,
     fetchPersonalized: (batchArgs) => fetchPersonalizedBatch(preferenceContext, batchArgs),
-    fetchPopular: fetchPopularBatch,
+    fetchPopular: (batchArgs) => fetchPopularBatch(batchArgs, blendPopular),
   });
 }
 

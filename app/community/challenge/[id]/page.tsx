@@ -405,7 +405,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
               {challenge.tags.includes("鸟类") && (
                 <Link
                   href="/nature/submit?topic=birds"
-                  className="mt-3 flex items-center justify-between rounded-[18px] bg-emerald-50/80 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-40px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
+                  className="community-nature-cta mt-3"
                 >
                   <span>补充观察记录</span>
                   <ArrowUpRight className="h-4 w-4" />
@@ -445,7 +445,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                     <Link
                       key={project.id}
                       href={`/project/${project.id}`}
-                      className="group rounded-[18px] bg-[linear-gradient(135deg,rgba(255,255,255,0.82),rgba(166,193,238,0.12),rgba(251,194,235,0.08))] px-3.5 py-3 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.9),rgba(166,193,238,0.16),rgba(251,194,235,0.1))] hover:shadow-[0_20px_50px_-34px_rgba(59,130,246,0.26)] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.78),rgba(37,99,235,0.1),rgba(244,114,182,0.08))]"
+                      className="group community-related-project-link"
                     >
                       <div className="flex items-center gap-3">
                         <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-background/82 px-2 text-[11px] font-semibold text-muted-foreground">
@@ -551,7 +551,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
                 {challenge.tags.includes("鸟类") && (
                   <Link
                     href="/nature/submit?topic=birds"
-                    className="flex items-center justify-between rounded-[18px] bg-emerald-50/75 px-3.5 py-3 text-sm font-medium text-emerald-800 shadow-[0_18px_48px_-38px_rgba(16,185,129,0.14)] transition-all hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-200"
+                    className="community-nature-cta"
                   >
                     <span>补充观察记录</span>
                     <ArrowUpRight className="h-4 w-4" />

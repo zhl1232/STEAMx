@@ -249,9 +249,10 @@ export default function CircuitPage() {
                             variant="outline"
                             className="rounded-full h-8 w-8 self-end sm:self-auto"
                             onClick={resetLevel}
+                            aria-label="重置关卡"
                             title="重置"
                         >
-                            <RotateCcw className="w-4 h-4" />
+                            <RotateCcw className="w-4 h-4" aria-hidden />
                         </Button>
                     </div>
 
@@ -265,8 +266,9 @@ export default function CircuitPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={levelIndex <= 0}
                                 onClick={prevLevel}
+                                aria-label="上一关"
                             >
-                                <ChevronLeft className="w-3 h-3" />
+                                <ChevronLeft className="w-3 h-3" aria-hidden />
                             </Button>
                             <div className="flex items-center gap-1.5 px-2">
                                 <span className="text-sm font-black text-foreground font-mono">
@@ -280,8 +282,9 @@ export default function CircuitPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={levelIndex >= unlockedLevelCount - 1 || levelIndex >= levelCount - 1}
                                 onClick={nextLevel}
+                                aria-label="下一关"
                             >
-                                <ChevronRight className="w-3 h-3" />
+                                <ChevronRight className="w-3 h-3" aria-hidden />
                             </Button>
                         </div>
 

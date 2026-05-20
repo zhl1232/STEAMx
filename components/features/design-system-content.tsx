@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { FilterChip } from "@/components/ui/filter-chip";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";

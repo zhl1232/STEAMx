@@ -1,128 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { formatRelativeTime } from '@/lib/date-utils'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { sanitizeSearch, validateContentSafe } from '@/lib/api/validation'
+import { validateContentSafe } from '@/lib/api/validation'
+import {
+  getDiscussionList,
+  parseDiscussionSort,
+  parseNonNegativeInt,
+} from '@/lib/api/community-discussions'
 import { logger } from '@/lib/logger'
-type DiscussionListItem = {
-  id: string | number
-  title: string
-  author: string
-  authorId: string
-  authorAvatar?: string
-  authorAvatarFrameId?: string | null
-  authorNameColorId?: string | null
-  content: string
-  date: string
-  likes: number
-  tags: string[]
-  repliesCount: number
-}
-
-type SortOption = 'newest' | 'hottest' | 'most_replies' | 'latest_reply'
-
-function parseSort(value: string | null): SortOption {
-  if (value === 'hottest' || value === 'most_replies' || value === 'latest_reply' || value === 'newest') {
-    return value
-  }
-  return 'newest'
-}
-
-function parseNumber(value: string | null, fallback: number) {
-  const parsed = Number.parseInt(value || '', 10)
-  if (Number.isNaN(parsed)) return fallback
-  return Math.max(0, parsed)
-}
 
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
   const searchParams = request.nextUrl.searchParams
 
-  const page = parseNumber(searchParams.get('page'), 0)
-  const pageSize = Math.min(50, Math.max(1, parseNumber(searchParams.get('pageSize'), 10)))
-  const rawQuery = searchParams.get('q') || ''
-  const searchQuery = rawQuery ? sanitizeSearch(rawQuery) : ''
-  const selectedTag = (searchParams.get('tag') || '').trim().slice(0, 30)
-  const sortBy = parseSort(searchParams.get('sort'))
-
-  const from = page * pageSize
-  const to = from + pageSize - 1
-
   try {
-    let query = supabase
-      .from('discussions')
-      .select(`
-        *,
-        profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-      `, { count: 'exact' })
-
-    if (searchQuery) {
-      query = query.or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`)
-    }
-
-    if (selectedTag) {
-      query = query.contains('tags', [selectedTag])
-    }
-
-    switch (sortBy) {
-      case 'hottest':
-        query = query.order('likes_count', { ascending: false })
-        break
-      case 'most_replies':
-        query = query.order('replies_count', { ascending: false })
-        break
-      case 'latest_reply':
-        query = query.order('last_reply_at', { ascending: false, nullsFirst: false })
-        break
-      case 'newest':
-      default:
-        query = query.order('created_at', { ascending: false })
-        break
-    }
-
-    query = query.range(from, to)
-
-    const { data, count, error } = await query
-    if (error) throw error
-
-    const rows = (data as unknown as {
-      id: number
-      title: string
-      author_id: string
-      content: string
-      created_at: string
-      likes_count: number
-      tags: string[] | null
-      replies_count?: number
-      profiles?: {
-        display_name?: string | null
-        avatar_url?: string | null
-        equipped_avatar_frame_id?: string | null
-        equipped_name_color_id?: string | null
-      } | null
-    }[]) || []
-
-    const discussions: DiscussionListItem[] = rows.map((row) => ({
-      id: row.id,
-      title: row.title,
-      author: row.profiles?.display_name || 'Unknown',
-      authorId: row.author_id,
-      authorAvatar: row.profiles?.avatar_url || undefined,
-      authorAvatarFrameId: row.profiles?.equipped_avatar_frame_id ?? undefined,
-      authorNameColorId: row.profiles?.equipped_name_color_id ?? undefined,
-      content: row.content,
-      date: formatRelativeTime(row.created_at),
-      likes: row.likes_count,
-      tags: row.tags || [],
-      repliesCount: row.replies_count || 0,
-    }))
-
-    return NextResponse.json({
-      discussions,
-      total: count ?? rows.length,
-      hasMore: typeof count === 'number' ? count > to + 1 : rows.length === pageSize,
+    const result = await getDiscussionList({
+      page: parseNonNegativeInt(searchParams.get('page'), 0),
+      pageSize: parseNonNegativeInt(searchParams.get('pageSize'), 10),
+      query: searchParams.get('q') || '',
+      tag: searchParams.get('tag'),
+      sort: parseDiscussionSort(searchParams.get('sort')),
     })
+    return NextResponse.json(result)
   } catch (error) {
     logger.error('Error in GET /api/discussions', { error })
     return NextResponse.json({ error: 'Failed to fetch discussions' }, { status: 500 })

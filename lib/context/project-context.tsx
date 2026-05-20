@@ -121,6 +121,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [projectCollectionsDelta, setProjectCollectionsDelta] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(false);
   const fetchedInteractionIdsRef = useRef<Set<number>>(new Set());
+  const inflightInteractionIdsRef = useRef<Set<number>>(new Set());
+  const interactionUserIdRef = useRef<string | null>(null);
 
   const [supabase] = useState<SupabaseClient<Database>>(() => createClient());
   const { user, profile } = useAuth();
@@ -191,8 +193,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             .filter((id): id is number => id !== null),
         ),
       ];
-      const toFetch = normalized.filter((id) => !fetchedInteractionIdsRef.current.has(id));
+      const toFetch = normalized.filter(
+        (id) =>
+          !fetchedInteractionIdsRef.current.has(id) &&
+          !inflightInteractionIdsRef.current.has(id),
+      );
       if (toFetch.length === 0) return;
+
+      for (const id of toFetch) {
+        inflightInteractionIdsRef.current.add(id);
+      }
 
       setIsLoading(true);
       try {
@@ -215,6 +225,9 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         logger.error(error, { context: "Error syncing project interactions" });
       } finally {
+        for (const id of toFetch) {
+          inflightInteractionIdsRef.current.delete(id);
+        }
         setIsLoading(false);
       }
     },
@@ -222,16 +235,19 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (!user?.id) {
-      fetchedInteractionIdsRef.current = new Set();
-      setLikedProjects(new Set());
-      setCompletedProjects(new Set());
-      setExploringProjects(new Set());
-      setCollectedProjects(new Set());
-      setProjectLikesDelta({});
-      setProjectCollectionsDelta({});
-      setIsLoading(false);
-    }
+    const nextUserId = user?.id ?? null;
+    if (interactionUserIdRef.current === nextUserId) return;
+
+    interactionUserIdRef.current = nextUserId;
+    fetchedInteractionIdsRef.current = new Set();
+    inflightInteractionIdsRef.current = new Set();
+    setLikedProjects(new Set());
+    setCompletedProjects(new Set());
+    setExploringProjects(new Set());
+    setCollectedProjects(new Set());
+    setProjectLikesDelta({});
+    setProjectCollectionsDelta({});
+    setIsLoading(false);
   }, [user?.id]);
 
   const getUserStats = useCallback(async () => {

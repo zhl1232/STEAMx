@@ -6,6 +6,7 @@ import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database, Json } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
+import { parseExploreSortBy } from '@/lib/explore/presets'
 import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
 import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
@@ -40,14 +41,15 @@ export async function GET(request: NextRequest) {
 
   const page = Math.max(0, parseInt(searchParams.get('page') || '0', 10) || 0)
   const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '12', 10) || 12))
-  const sortBy = searchParams.get('sortBy') === 'latest' ? 'latest' : 'popular'
+  const sortBy = parseExploreSortBy(searchParams.get('sortBy'))
 
   try {
-    const { projects, hasMore } = await getProjects(filters, { page, pageSize, sortBy })
+    const { projects, hasMore, total } = await getProjects(filters, { page, pageSize, sortBy })
 
     return NextResponse.json({
       projects,
-      hasMore
+      hasMore,
+      total,
     })
   } catch (error) {
     logger.error('Error in GET /api/projects', { error })

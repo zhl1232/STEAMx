@@ -258,9 +258,10 @@ export default function HanoiPage() {
                             variant="outline"
                             className="rounded-full h-8 w-8 self-end sm:self-auto"
                             onClick={resetGame}
+                            aria-label="重置游戏"
                             title="重置"
                         >
-                            <RotateCcw className="w-4 h-4" />
+                            <RotateCcw className="w-4 h-4" aria-hidden />
                         </Button>
                     </div>
 
@@ -275,8 +276,9 @@ export default function HanoiPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={diskCount <= 3 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount - 1)}
+                                aria-label="减少圆盘数量"
                             >
-                                <Minus className="w-3 h-3" />
+                                <Minus className="w-3 h-3" aria-hidden />
                             </Button>
                             <span className="text-sm font-black text-foreground font-mono w-5 text-center">
                                 {diskCount}
@@ -287,8 +289,9 @@ export default function HanoiPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={diskCount >= 8 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount + 1)}
+                                aria-label="增加圆盘数量"
                             >
-                                <Plus className="w-3 h-3" />
+                                <Plus className="w-3 h-3" aria-hidden />
                             </Button>
                         </div>
 

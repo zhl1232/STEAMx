@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
-import { Discussion } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
 import { FilterChip } from "@/components/ui/filter-chip";
 import { Input } from "@/components/ui/input";
@@ -20,9 +19,9 @@ import { getNameColorClassName } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { useToast } from "@/hooks/use-toast";
+import type { DiscussionListItem } from "@/lib/api/community-discussions";
 
 /** 讨论卡片组件 */
-type DiscussionListItem = Omit<Discussion, "replies"> & { repliesCount: number };
 type SortOption = "newest" | "hottest" | "most_replies" | "latest_reply";
 
 const sortFilters: Array<{ label: string; value: SortOption }> = [
@@ -270,7 +269,21 @@ function DiscussionFilters({
     );
 }
 
-export function DiscussionList({ tabsSlot }: { tabsSlot?: ReactNode } = {}) {
+export function DiscussionList({
+    tabsSlot,
+    initialDiscussions = [],
+    initialHasMore = true,
+    initialAvailableTags = [],
+    initialDataLoaded = false,
+    initialTagsLoaded = false,
+}: {
+    tabsSlot?: ReactNode;
+    initialDiscussions?: DiscussionListItem[];
+    initialHasMore?: boolean;
+    initialAvailableTags?: string[];
+    initialDataLoaded?: boolean;
+    initialTagsLoaded?: boolean;
+} = {}) {
     const { user, profile } = useAuth();
     const { toast } = useToast();
     const [isCreating, setIsCreating] = useState(false);
@@ -278,9 +291,9 @@ export function DiscussionList({ tabsSlot }: { tabsSlot?: ReactNode } = {}) {
     const [newContent, setNewContent] = useState("");
     const [newTags, setNewTags] = useState("");
 
-    const [discussions, setDiscussions] = useState<DiscussionListItem[]>([]);
-    const pageRef = useRef(0);
-    const [hasMore, setHasMore] = useState(true);
+    const [discussions, setDiscussions] = useState<DiscussionListItem[]>(initialDiscussions);
+    const pageRef = useRef(initialDataLoaded ? 1 : 0);
+    const [hasMore, setHasMore] = useState(initialHasMore);
     const [isLoading, setIsLoading] = useState(false);
     const [loadError, setLoadError] = useState<string | null>(null);
     const isLoadingRef = useRef(false);
@@ -290,7 +303,8 @@ export function DiscussionList({ tabsSlot }: { tabsSlot?: ReactNode } = {}) {
     const searchQuery = "";
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [sortBy, setSortBy] = useState<SortOption>("hottest");
-    const [availableTags, setAvailableTags] = useState<string[]>([]);
+    const [availableTags, setAvailableTags] = useState<string[]>(initialAvailableTags);
+    const shouldSkipInitialFetchRef = useRef(initialDataLoaded);
 
     // Sync isLoading state with ref
     useEffect(() => {
@@ -342,6 +356,8 @@ export function DiscussionList({ tabsSlot }: { tabsSlot?: ReactNode } = {}) {
 
     // Fetch all discussions tags for filter
     useEffect(() => {
+        if (initialTagsLoaded) return;
+
         const fetchTags = async () => {
             const response = await fetch("/api/discussions/tags");
             if (!response.ok) return;
@@ -349,10 +365,15 @@ export function DiscussionList({ tabsSlot }: { tabsSlot?: ReactNode } = {}) {
             setAvailableTags((payload?.tags as string[]) || []);
         };
         fetchTags();
-    }, []);
+    }, [initialTagsLoaded]);
 
     // Trigger fetch when search/filter changes
     useEffect(() => {
+        if (shouldSkipInitialFetchRef.current) {
+            shouldSkipInitialFetchRef.current = false;
+            return;
+        }
+
         fetchDiscussions(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedTag, sortBy]);

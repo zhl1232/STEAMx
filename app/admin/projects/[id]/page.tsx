@@ -317,8 +317,8 @@ export default function EditProjectPage() {
             <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
                 <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-4">
-                        <Button variant="outline" size="icon" className="hidden rounded-2xl md:inline-flex" onClick={() => router.back()}>
-                            <ArrowLeft className="h-4 w-4" />
+                        <Button variant="outline" size="icon" className="hidden rounded-2xl md:inline-flex" aria-label="返回" onClick={() => router.back()}>
+                            <ArrowLeft className="h-4 w-4" aria-hidden />
                         </Button>
                         <div>
                             <p className="section-kicker">后台管理</p>
@@ -551,9 +551,10 @@ export default function EditProjectPage() {
                                         size="icon"
                                         variant="ghost"
                                         className="rounded-full text-destructive hover:text-destructive/90"
+                                        aria-label={`删除步骤 ${index + 1}`}
                                         onClick={() => removeStep(index)}
                                     >
-                                        <Trash2 className="h-4 w-4" />
+                                        <Trash2 className="h-4 w-4" aria-hidden />
                                     </Button>
                                 </div>
 
@@ -621,9 +622,10 @@ export default function EditProjectPage() {
                                         size="icon"
                                         variant="ghost"
                                         className="shrink-0 rounded-full text-destructive"
+                                        aria-label={`删除材料 ${index + 1}`}
                                         onClick={() => removeMaterial(index)}
                                     >
-                                        <Trash2 className="h-4 w-4" />
+                                        <Trash2 className="h-4 w-4" aria-hidden />
                                     </Button>
                                 </div>
                             ))}

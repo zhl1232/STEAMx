@@ -148,17 +148,19 @@ export default function Game2048Page() {
                                     onClick={undo}
                                     disabled={!canUndo}
                                     className="w-10 h-10 rounded-lg"
+                                    aria-label="撤销"
                                     title="撤销 (Ctrl+Z)"
                                 >
-                                    <Undo2 className="w-4 h-4" />
+                                    <Undo2 className="w-4 h-4" aria-hidden />
                                 </Button>
                                 <Button
                                     onClick={resetGame}
                                     size="icon"
                                     className="w-10 h-10 rounded-lg"
+                                    aria-label="新游戏"
                                     title="新游戏"
                                 >
-                                    <RefreshCw className="w-4 h-4" />
+                                    <RefreshCw className="w-4 h-4" aria-hidden />
                                 </Button>
                             </div>
                         </div>
@@ -270,8 +272,9 @@ export default function Game2048Page() {
                                     size="icon"
                                     onClick={() => move("up")}
                                     className="w-full h-full rounded-xl"
+                                    aria-label="向上移动"
                                 >
-                                    <ArrowUp className="w-5 h-5" />
+                                    <ArrowUp className="w-5 h-5" aria-hidden />
                                 </Button>
                                 <div />
                                 <Button
@@ -279,8 +282,9 @@ export default function Game2048Page() {
                                     size="icon"
                                     onClick={() => move("left")}
                                     className="w-full h-full rounded-xl"
+                                    aria-label="向左移动"
                                 >
-                                    <ArrowLeft className="w-5 h-5" />
+                                    <ArrowLeft className="w-5 h-5" aria-hidden />
                                 </Button>
                                 <div />
                                 <Button
@@ -288,8 +292,9 @@ export default function Game2048Page() {
                                     size="icon"
                                     onClick={() => move("right")}
                                     className="w-full h-full rounded-xl"
+                                    aria-label="向右移动"
                                 >
-                                    <ArrowRight className="w-5 h-5" />
+                                    <ArrowRight className="w-5 h-5" aria-hidden />
                                 </Button>
                                 <div />
                                 <Button
@@ -297,8 +302,9 @@ export default function Game2048Page() {
                                     size="icon"
                                     onClick={() => move("down")}
                                     className="w-full h-full rounded-xl"
+                                    aria-label="向下移动"
                                 >
-                                    <ArrowDown className="w-5 h-5" />
+                                    <ArrowDown className="w-5 h-5" aria-hidden />
                                 </Button>
                                 <div />
                             </div>

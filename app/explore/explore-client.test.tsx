@@ -33,7 +33,12 @@ vi.mock('@/lib/context/project-context', () => ({
     useProjects: () => ({
         syncProjectInteractions: vi.fn(),
         clearLikesDeltaForProjects,
+        completedProjects: new Set<number>(),
     }),
+}))
+
+vi.mock('@/components/explore/explore-for-you-rail', () => ({
+    ExploreForYouRail: () => <div data-testid="explore-for-you-rail">热门推荐</div>,
 }))
 
 vi.mock('@/lib/context/auth-context', () => ({
@@ -59,7 +64,7 @@ vi.mock('@/components/ui/loading-skeleton', () => ({
 }))
 
 vi.mock('@/components/ui/button', () => ({
-    Button: ({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
+    Button: ({ children, asChild: _asChild, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }) => (
         <button type="button" {...props}>
             {children}
         </button>
@@ -163,7 +168,28 @@ describe('ExploreClient', () => {
         latestIntersectionCallback = null
         intersectionCallbacks = []
         vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)
-        vi.stubGlobal('fetch', vi.fn())
+        vi.stubGlobal(
+            'fetch',
+            vi.fn(async (input: RequestInfo | URL) => {
+                const url = String(input)
+                if (url.includes('/api/explore/recommendations')) {
+                return {
+                    ok: true,
+                    json: async () => ({
+                        projects: [],
+                        hasMore: false,
+                        total: 0,
+                        mode: 'personalized',
+                    }),
+                } as Response
+                }
+
+                return {
+                    ok: false,
+                    text: async () => '',
+                } as Response
+            }),
+        )
     })
 
     it('shows a progress-saving prompt for signed-out users', () => {
@@ -177,6 +203,7 @@ describe('ExploreClient', () => {
 
         expect(screen.getByText('保存你的探索进度')).toBeInTheDocument()
         expect(screen.getByText('登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。')).toBeInTheDocument()
+        expect(screen.getByText(/不知道从哪开始？试试「新手推荐」/)).toBeInTheDocument()
         expect(screen.getByRole('link', { name: '登录保存进度' })).toHaveAttribute('href', '/login')
     })
 
@@ -209,6 +236,24 @@ describe('ExploreClient', () => {
         expect(screen.getByText('3 个')).toBeInTheDocument()
         expect(screen.getByText('2 枚')).toBeInTheDocument()
         expect(screen.getByRole('link', { name: '查看探索记录' })).toHaveAttribute('href', '/profile/library')
+    })
+
+    it('shows the popular recommendation rail for anonymous users with initial recommendations', () => {
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+                initialForYou={{
+                    projects: [makeProject(42, '为你推荐')],
+                    mode: 'popular-fallback',
+                    nextOffset: 8,
+                    hasMore: true,
+                }}
+            />,
+        )
+
+        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
     })
 
     it('keeps completed projects in a syncing state until stats load', () => {
@@ -249,6 +294,7 @@ describe('ExploreClient', () => {
                 json: async () => ({
                     projects: [makeProject(3, '第三页项目')],
                     hasMore: false,
+                    total: 3,
                 }),
             } as Response)
 
@@ -296,6 +342,7 @@ describe('ExploreClient', () => {
                     json: async () => ({
                         projects: [makeProject(9, '筛选项目')],
                         hasMore: false,
+                        total: 1,
                     }),
                 } as Response)
             }
@@ -337,6 +384,7 @@ describe('ExploreClient', () => {
             json: async () => ({
                 projects: [makeProject(2, '科学项目')],
                 hasMore: false,
+                total: 1,
             }),
         } as Response)
 
@@ -376,7 +424,7 @@ describe('ExploreClient', () => {
         await user.click(screen.getByRole('button', { name: '科学' }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
-        await user.click(screen.getByRole('button', { name: /sliders/ }))
+        await user.click(screen.getByTestId('explore-more-filters'))
 
         expect(screen.getByRole('button', { name: '1星' })).toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '编织' })).not.toBeInTheDocument()
@@ -386,5 +434,100 @@ describe('ExploreClient', () => {
 
         expect(screen.getByRole('button', { name: '观察' })).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '折射' })).toBeInTheDocument()
+    })
+
+    it('hides explore rails and shows results chrome after category filtering', async () => {
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                projects: [makeProject(2, '科学项目')],
+                hasMore: false,
+                total: 42,
+            }),
+        } as Response)
+
+        const user = userEvent.setup()
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                initialTotal={1}
+                categories={['全部', '科学']}
+                initialForYou={{
+                    projects: [makeProject(42, '为你推荐')],
+                    mode: 'popular-fallback',
+                    nextOffset: 8,
+                    hasMore: true,
+                }}
+            />,
+        )
+
+        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '最新上架' })).toBeInTheDocument()
+
+        await user.click(screen.getByRole('button', { name: /科学/ }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+        expect(screen.queryByTestId('explore-for-you-rail')).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
+        expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '推荐' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '最新' })).toBeInTheDocument()
+        expect(await screen.findByText('科学项目')).toBeInTheDocument()
+    })
+
+    it('does not expose the removed weekly-hot quick entry', () => {
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.queryByRole('button', { name: '本周热门' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '最新上架' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'false')
+    })
+
+    it('keeps preset tabs available in explore mode when beginner-friendly is active', async () => {
+        currentSearchParams = new URLSearchParams('difficulty=1-2&sortBy=popular')
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                projects: [makeProject(2, '最新项目')],
+                hasMore: false,
+                total: 2,
+            }),
+        } as Response)
+
+        const user = userEvent.setup()
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+                initialForYou={{
+                    projects: [makeProject(42, '为你推荐')],
+                    mode: 'popular-fallback',
+                    nextOffset: 8,
+                    hasMore: true,
+                }}
+            />,
+        )
+
+        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'true')
+
+        await user.click(screen.getByRole('button', { name: '最新上架' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
+        expect(await screen.findByText('最新项目')).toBeInTheDocument()
     })
 })

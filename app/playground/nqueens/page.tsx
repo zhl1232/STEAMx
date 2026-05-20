@@ -177,9 +177,10 @@ export default function NQueensPage() {
                             variant="outline"
                             className="rounded-full h-8 w-8 self-end sm:self-auto"
                             onClick={reset}
+                            aria-label="重置棋盘"
                             title="重置"
                         >
-                            <RotateCcw className="w-4 h-4" />
+                            <RotateCcw className="w-4 h-4" aria-hidden />
                         </Button>
                     </div>
 
@@ -194,8 +195,9 @@ export default function NQueensPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={n <= 4 || isVisualizing}
                                 onClick={() => setN(n - 1)}
+                                aria-label="减少棋盘大小"
                             >
-                                <Minus className="w-3 h-3" />
+                                <Minus className="w-3 h-3" aria-hidden />
                             </Button>
                             <span className="text-sm font-black text-foreground font-mono w-5 text-center">
                                 {n}
@@ -206,8 +208,9 @@ export default function NQueensPage() {
                                 className="h-7 w-7 rounded-lg"
                                 disabled={n >= 12 || isVisualizing}
                                 onClick={() => setN(n + 1)}
+                                aria-label="增加棋盘大小"
                             >
-                                <Plus className="w-3 h-3" />
+                                <Plus className="w-3 h-3" aria-hidden />
                             </Button>
                         </div>
 

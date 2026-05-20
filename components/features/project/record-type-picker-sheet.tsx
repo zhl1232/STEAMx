@@ -2,7 +2,6 @@
 
 import { Eye, Gift, HelpCircle, Lightbulb, Paintbrush, Sun } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { RECORD_TYPE_OPTIONS } from "@/lib/project/exploration-record-meta"
 import { cn } from "@/lib/utils"

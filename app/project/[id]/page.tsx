@@ -7,10 +7,8 @@ import {
   AlertTriangle,
   ArrowLeft,
   Box,
-  ChevronDown,
   ChevronRight,
   Edit,
-  Heart,
   ListChecks,
   ShieldCheck,
   UsersRound,
@@ -35,7 +33,7 @@ import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ToneBadge, categoryToneClasses, type CategoryTone } from '@/components/ui/tone-badge'
+import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
   getProjectAtIndex,
@@ -50,7 +48,7 @@ import {
 } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { cn } from '@/lib/utils'
-import type { Project, ProjectCompletion, ProjectStep } from '@/lib/mappers/types'
+import type { Project, ProjectStep } from '@/lib/mappers/types'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>

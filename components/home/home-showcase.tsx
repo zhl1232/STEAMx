@@ -431,6 +431,41 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
   );
 }
 
+const homeFooterColumns = [
+  {
+    title: "关于我们",
+    links: [
+      { label: "关于我们", href: "/settings/about" },
+      { label: "联系我们", href: "/settings/about" },
+      { label: "加入我们", href: "/settings/about" },
+    ],
+  },
+  {
+    title: "帮助中心",
+    links: [
+      { label: "使用指南", href: "/explore" },
+      { label: "常见问题", href: "/settings/about" },
+      { label: "安全与隐私", href: "/legal/privacy" },
+    ],
+  },
+  {
+    title: "合作伙伴",
+    links: [
+      { label: "学校合作", href: "/settings/about" },
+      { label: "机构合作", href: "/settings/about" },
+      { label: "赞助我们", href: "/settings/about" },
+    ],
+  },
+  {
+    title: "反馈与支持",
+    links: [
+      { label: "提交反馈", href: "/settings/about" },
+      { label: "服务条款", href: "/legal/terms" },
+      { label: "隐私政策", href: "/legal/privacy" },
+    ],
+  },
+] as const;
+
 function HomeFooter() {
   return (
     <footer className="hidden border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6 md:block">
@@ -442,19 +477,18 @@ function HomeFooter() {
           </Link>
           <p>连接全球青少年，探索 STEAM 的无限可能</p>
         </div>
-        {[
-          ["关于我们", "关于我们", "联系我们", "加入我们"],
-          ["帮助中心", "使用指南", "常见问题", "安全与隐私"],
-          ["合作伙伴", "学校合作", "机构合作", "赞助我们"],
-          ["联系我们", "邮箱：contact@steamexplore.cn", "电话：400-123-4567", "工作日 9:00 - 18:00"],
-        ].map(([title, ...links]) => (
-          <div key={title}>
-            <h3 className="mb-3 font-bold text-foreground">{title}</h3>
-            <div className="space-y-2">
-              {links.map((item) => (
-                <p key={item}>{item}</p>
+        {homeFooterColumns.map((column) => (
+          <div key={column.title}>
+            <h3 className="mb-3 font-bold text-foreground">{column.title}</h3>
+            <ul className="space-y-2">
+              {column.links.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="transition-colors hover:text-foreground">
+                    {link.label}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         ))}
         <div className="flex items-center gap-4">

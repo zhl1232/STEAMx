@@ -126,8 +126,9 @@ export default function GomokuPage() {
                             variant="outline"
                             className="rounded-full h-8 w-8"
                             onClick={handleRestart}
+                            aria-label="重新开始"
                         >
-                            <RefreshCw className="w-4 h-4" />
+                            <RefreshCw className="w-4 h-4" aria-hidden />
                         </Button>
                     </div>
                 </div>

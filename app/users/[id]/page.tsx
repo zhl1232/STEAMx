@@ -1,36 +1,22 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { Project } from "@/lib/mappers/types";
 import { Button } from "@/components/ui/button";
-import { ProfileSkeleton } from "@/components/features/profile/profile-skeleton";
-import { ProjectCard } from "@/components/features/project-card";
-import { FollowButton } from "@/components/features/social/follow-button";
-// Note: removed useFollow import as we now query follower count directly
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
-import { useAuth } from '@/lib/context/auth-context';
 import { cn } from "@/lib/utils";
-import { CalendarDays, FolderOpen, MessageCircle, Sparkles, UserRound } from "lucide-react";
+import { CalendarDays, UserRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { RoleBadge } from "@/components/ui/role-badge";
-import { BADGES } from '@/lib/context/gamification-context';
+import { BADGES } from '@/lib/gamification/badges';
 import { SERIES_ORDER } from "@/lib/gamification/badges";
-import { logger } from "@/lib/logger";
 import { PageStatus } from "@/components/ui/page-status";
+import { getPublicUserProfile } from "@/lib/api/public-user-profile";
+import { PublicProfileActions } from "./public-profile-actions";
+import { PublicProfileProjects } from "./public-profile-projects";
 
-interface PublicProfile {
-  id: string;
-  display_name: string | null;
-  avatar_url: string | null;
-  bio: string | null;
-  xp: number;
-  role?: 'user' | 'teacher' | 'moderator' | 'admin';
-  created_at: string;
+interface PublicProfilePageProps {
+  params: Promise<{ id?: string }>;
 }
 
 const TIER_ORDER = { bronze: 0, silver: 1, gold: 2, platinum: 3 } as const;
@@ -110,64 +96,8 @@ function formatJoinDate(date: string) {
   });
 }
 
-export default function PublicProfilePage() {
-  const params = useParams();
-  // params.id can be string | string[] | undefined in Next.js
-  const rawId = params?.id;
-  const userId = typeof rawId === 'string' ? rawId : Array.isArray(rawId) ? rawId[0] : undefined;
-  
-  const { user: currentUser } = useAuth();
-
-  const [profile, setProfile] = useState<PublicProfile | null>(null);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoadError, setHasLoadError] = useState(false);
-  const [followerCount, setFollowerCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0);
-  const [unlockedBadgeIds, setUnlockedBadgeIds] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchProfileData = async () => {
-      if (!userId) {
-        setIsLoading(false);
-        return;
-      }
-      setIsLoading(true);
-      setHasLoadError(false);
-
-      try {
-        const response = await fetch(`/api/users/${userId}`, { signal: controller.signal });
-        if (response.status === 404) {
-          setProfile(null);
-          return;
-        }
-        if (!response.ok) {
-          throw new Error(await response.text());
-        }
-        const payload = await response.json();
-
-        setProfile((payload?.profile as PublicProfile) || null);
-        setProjects((payload?.projects as Project[]) || []);
-        setFollowerCount(payload?.followerCount || 0);
-        setFollowingCount(payload?.followingCount || 0);
-        setUnlockedBadgeIds(new Set((payload?.badgeIds as string[]) || []));
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        setHasLoadError(true);
-        logger.error("Error fetching profile", { error: err });
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchProfileData();
-    return () => controller.abort();
-  }, [userId]);
-
-  if (isLoading) return <ProfileSkeleton variant="public" />;
+export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
+  const { id: userId } = await params;
   if (!userId) {
     return (
       <PageStatus
@@ -184,23 +114,9 @@ export default function PublicProfilePage() {
     );
   }
 
-  if (hasLoadError) {
-    return (
-      <PageStatus
-        kicker="公开主页"
-        title="主页暂时无法加载"
-        description="资料信息没有成功返回，请稍后再试。"
-        icon={<Sparkles className="h-8 w-8" />}
-        actions={
-          <Button asChild variant="outline" className="rounded-2xl px-5">
-            <Link href="/community">返回社区</Link>
-          </Button>
-        }
-      />
-    );
-  }
+  const data = await getPublicUserProfile(userId);
 
-  if (!profile) {
+  if (!data) {
     return (
       <PageStatus
         kicker="公开主页"
@@ -216,20 +132,25 @@ export default function PublicProfilePage() {
     );
   }
 
-  // Redirect to own profile if viewing self
-  if (currentUser?.id === userId) {
-    // Optionally redirect or just render this view (this view is public, so it's fine)
-  }
-
+  const {
+    profile,
+    projects,
+    projectsTotalCount,
+    followerCount,
+    followingCount,
+    badgeIds,
+    hasMoreProjects,
+  } = data;
   const level = Math.floor(Math.sqrt((profile.xp || 0) / 100)) + 1;
   const userName = profile.display_name || "匿名用户";
   const joinedAt = formatJoinDate(profile.created_at);
   const overviewStats = [
-    { label: "项目", value: projects.length },
+    { label: "项目", value: projectsTotalCount },
     { label: "粉丝", value: followerCount },
     { label: "关注", value: followingCount },
   ];
   const groupedBadges = groupBadgesBySeries();
+  const unlockedBadgeIds = new Set(badgeIds);
 
   return (
     <div className="page-shell pt-0 pb-24 md:py-8">
@@ -281,21 +202,7 @@ export default function PublicProfilePage() {
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-2 xl:justify-end">
-                      <FollowButton
-                        targetUserId={profile.id}
-                        showCount={false}
-                        className="h-11 rounded-2xl px-6 text-sm font-semibold"
-                      />
-                      {currentUser && currentUser.id !== userId ? (
-                        <Button variant="outline" className="h-11 rounded-2xl px-6 text-sm font-semibold" asChild>
-                          <Link href={`/messages/${userId}`}>
-                            <MessageCircle className="mr-2 h-4 w-4" />
-                            发私信
-                          </Link>
-                        </Button>
-                      ) : null}
-                    </div>
+                    <PublicProfileActions targetUserId={profile.id} />
                   </div>
 
                   <div className="grid grid-cols-3 gap-3">
@@ -315,7 +222,7 @@ export default function PublicProfilePage() {
         <Tabs defaultValue="projects" className="space-y-6">
           <TabsList className="segmented-control grid h-auto w-full max-w-[420px] grid-cols-2 rounded-full bg-transparent p-1">
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
-              项目 ({projects.length})
+              项目 ({projectsTotalCount})
             </TabsTrigger>
             <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
               徽章 ({unlockedBadgeIds.size})
@@ -323,23 +230,11 @@ export default function PublicProfilePage() {
           </TabsList>
 
           <TabsContent value="projects" className="space-y-6">
-            {projects.length === 0 ? (
-              <div className="surface-panel px-6 py-16 text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-border/70 bg-muted/60">
-                  <FolderOpen className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight">还没有公开项目</h3>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                  这个主页暂时没有展示已发布的项目内容。
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
-              </div>
-            )}
+            <PublicProfileProjects
+              userId={userId}
+              initialProjects={projects}
+              initialHasMore={hasMoreProjects}
+            />
           </TabsContent>
 
           <TabsContent value="badges">

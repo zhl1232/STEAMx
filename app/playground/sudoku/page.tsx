@@ -164,9 +164,10 @@ export default function SudokuPage() {
                             variant="outline"
                             className="rounded-full h-8 w-8 self-end sm:self-auto"
                             onClick={() => newGame()}
+                            aria-label="新游戏"
                             title="新游戏"
                         >
-                            <RotateCcw className="w-4 h-4" />
+                            <RotateCcw className="w-4 h-4" aria-hidden />
                         </Button>
                     </div>
 
@@ -212,9 +213,10 @@ export default function SudokuPage() {
                                 className="h-7 w-7 rounded-lg"
                                 onClick={undo}
                                 disabled={!history.canUndo}
+                                aria-label="撤销"
                                 title="撤销"
                             >
-                                <Undo2 className="w-3.5 h-3.5" />
+                                <Undo2 className="w-3.5 h-3.5" aria-hidden />
                             </Button>
                             <Button
                                 variant="outline"
@@ -222,9 +224,10 @@ export default function SudokuPage() {
                                 className="h-7 w-7 rounded-lg"
                                 onClick={redo}
                                 disabled={!history.canRedo}
+                                aria-label="重做"
                                 title="重做"
                             >
-                                <Redo2 className="w-3.5 h-3.5" />
+                                <Redo2 className="w-3.5 h-3.5" aria-hidden />
                             </Button>
                             <Button
                                 variant="outline"

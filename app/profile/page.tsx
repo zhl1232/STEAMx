@@ -85,9 +85,7 @@ const EMPTY_STATE_IMAGE_SRC = {
   community: '/assets/profile-generated/empty-community.png',
 } as const
 
-/** 卡片内引导操作：浅底 + 描边，避免与头图「我的内容」主按钮抢视觉层级 */
-const profileSoftCtaClassName =
-  'inline-flex items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--brand-blue)/0.24)] bg-sky-50/90 px-3.5 text-sm font-semibold text-[hsl(var(--brand-blue))] shadow-none transition hover:bg-sky-100/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)] dark:border-[hsl(var(--brand-blue)/0.3)] dark:bg-[hsl(var(--brand-blue)/0.12)] dark:text-[hsl(var(--brand-blue))] dark:hover:bg-[hsl(var(--brand-blue)/0.2)]'
+/** 卡片内引导操作：浅底 + 描边，避免与头图「我的内容」主按钮抢视觉层级（见 globals `.profile-soft-cta`） */
 
 type ProfileContext = {
   userName: string
@@ -786,7 +784,7 @@ function ProfileHero({
             'grid grid-cols-3 overflow-hidden',
             compact
               ? 'mt-5 rounded-2xl border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60'
-              : 'mt-8 border-t border-[hsl(var(--surface-border))] bg-sky-50/80 pb-1 pt-1 dark:bg-muted/25',
+              : 'profile-stats-bar mt-8',
           )}
         >
           {stats.map((stat, index) => (
@@ -996,7 +994,7 @@ function SteamRadarEmptyPlaceholder() {
         <p className="text-sm font-semibold leading-snug text-muted-foreground">参与挑战，点亮你的能力雷达</p>
         <p className="mt-1.5 text-xs leading-5 text-muted-foreground/90">完成项目或挑战后，这里会显示你的 STEAM 五维图谱。</p>
       </div>
-      <Link href="/explore" className={cn(profileSoftCtaClassName, 'h-9 w-fit shrink-0')}>
+      <Link href="/explore" className={cn('profile-soft-cta', 'h-9 w-fit shrink-0')}>
         去探索项目
       </Link>
     </div>
@@ -1180,7 +1178,7 @@ function RecommendedChallengePanel() {
               <UsersRound className="h-3.5 w-3.5" />
               1,258 人参与
             </span>
-            <span className={cn(profileSoftCtaClassName, 'h-8 shrink-0 px-3 text-xs font-semibold')}>去参与</span>
+            <span className={cn('profile-soft-cta', 'h-8 shrink-0 px-3 text-xs font-semibold')}>去参与</span>
           </div>
         </div>
       </Link>
@@ -1618,13 +1616,13 @@ function ProfileStarterHub() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Link href="/project" className={cn(profileSoftCtaClassName, 'h-10 px-5 text-sm font-semibold')}>
+            <Link href="/project" className={cn('profile-soft-cta', 'h-10 px-5 text-sm font-semibold')}>
               <Rocket className="h-4 w-4" />
               发布第一个项目
             </Link>
             <Link
               href="/nature/submit"
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--brand-green)/0.28)] bg-emerald-50/90 px-4 text-sm font-semibold text-[hsl(var(--brand-green))] transition hover:bg-emerald-100/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.25)] dark:border-[hsl(var(--brand-green)/0.32)] dark:bg-[hsl(var(--brand-green)/0.1)] dark:hover:bg-[hsl(var(--brand-green)/0.16)]"
+              className="profile-success-cta h-10"
             >
               <Leaf className="h-4 w-4" />
               记录第一只鸟
@@ -1704,7 +1702,7 @@ function EmptyBlock({
           </p>
         </div>
       </div>
-      <Link href={href} className={cn(profileSoftCtaClassName, 'w-fit shrink-0', compact ? 'mt-1 h-8 px-3 text-xs' : 'mt-4 h-9')}>
+      <Link href={href} className={cn('profile-soft-cta', 'w-fit shrink-0', compact ? 'mt-1 h-8 px-3 text-xs' : 'mt-4 h-9')}>
         {action}
       </Link>
     </div>

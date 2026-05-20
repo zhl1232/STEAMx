@@ -8,6 +8,7 @@ import { useNotifications } from '@/lib/context/notification-context';
 import { mapComment, type DbComment } from "@/lib/mappers/project";
 import { Comment, Discussion } from "@/lib/mappers/types";
 import type { Challenge } from "@/lib/mappers/types";
+import type { ChallengeGroups } from "@/lib/api/community-challenges";
 import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
@@ -15,12 +16,6 @@ import { isClean } from "@/lib/content-filter";
 import { useToast } from "@/hooks/use-toast";
 
 
-
-interface ChallengeGroups {
-    activeTimed: Challenge[];
-    evergreen: Challenge[];
-    ended: Challenge[];
-}
 
 type CommunityContextType = {
     discussions: Discussion[];
@@ -36,14 +31,23 @@ type CommunityContextType = {
 };
 
 const CommunityContext = createContext<CommunityContextType | undefined>(undefined);
+const emptyChallengeGroups: ChallengeGroups = { activeTimed: [], evergreen: [], ended: [] };
 
-export function CommunityProvider({ children }: { children: React.ReactNode }) {
+export function CommunityProvider({
+    children,
+    initialChallenges = emptyChallengeGroups,
+    initialChallengesError = null,
+    initialUserId,
+}: {
+    children: React.ReactNode;
+    initialChallenges?: ChallengeGroups;
+    initialChallengesError?: string | null;
+    initialUserId?: string | null;
+}) {
     const [discussions, setDiscussions] = useState<Discussion[]>([]);
-    const [challenges, setChallenges] = useState<ChallengeGroups>({
-        activeTimed: [], evergreen: [], ended: []
-    });
-    const [challengesError, setChallengesError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [challenges, setChallenges] = useState<ChallengeGroups>(initialChallenges);
+    const [challengesError, setChallengesError] = useState<string | null>(initialChallengesError);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [supabase] = useState(() => createClient());
     const { user, profile, loading: authLoading } = useAuth();
@@ -53,7 +57,7 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
     // Refs for stable callbacks
     const challengesRef = useRef<ChallengeGroups>(challenges);
-    const lastFetchedUserIdRef = useRef<string | null | undefined>(undefined);
+    const lastFetchedUserIdRef = useRef<string | null | undefined>(initialUserId);
 
     useEffect(() => { challengesRef.current = challenges; }, [challenges]);
 

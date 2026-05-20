@@ -204,7 +204,9 @@ async function countIdentifiedObservationRecords() {
   const supabase = createPublicClient()
   const { count, error } = await supabase
     .from('observation_event_species')
-    .select('id', { count: 'exact', head: true })
+    .select('id, observation_events!inner(status,is_public)', { count: 'exact', head: true })
+    .eq('observation_events.status', 'approved')
+    .eq('observation_events.is_public', true)
 
   if (error) {
     logger.error('Error counting identified observation records', { error })
@@ -214,7 +216,7 @@ async function countIdentifiedObservationRecords() {
   return count || 0
 }
 
-async function fetchAllPublicObservationDimensionRows(): Promise<ObservationDimensionRow[]> {
+async function fetchAllPublicObservationDimensionRowsUncached(): Promise<ObservationDimensionRow[]> {
   const supabase = createPublicClient()
   const rows: ObservationDimensionRow[] = []
 
@@ -242,7 +244,17 @@ async function fetchAllPublicObservationDimensionRows(): Promise<ObservationDime
   return rows
 }
 
-async function fetchAllActiveSpeciesForStats(): Promise<SpeciesStatsRow[]> {
+const fetchAllPublicObservationDimensionRowsCached = unstable_cache(
+  async () => fetchAllPublicObservationDimensionRowsUncached(),
+  ['nature-public-observation-dimensions-v1'],
+  { revalidate: 300, tags: ['nature-homepage', 'nature-observations'] },
+)
+
+async function fetchAllPublicObservationDimensionRows(): Promise<ObservationDimensionRow[]> {
+  return fetchAllPublicObservationDimensionRowsCached()
+}
+
+async function fetchAllActiveSpeciesForStatsUncached(): Promise<SpeciesStatsRow[]> {
   const supabase = createPublicClient()
   const rows: SpeciesStatsRow[] = []
 
@@ -269,7 +281,17 @@ async function fetchAllActiveSpeciesForStats(): Promise<SpeciesStatsRow[]> {
   return rows
 }
 
-async function fetchAllPublicObservationSpeciesLinks(): Promise<ObservationSpeciesLinkRow[]> {
+const fetchAllActiveSpeciesForStatsCached = unstable_cache(
+  async () => fetchAllActiveSpeciesForStatsUncached(),
+  ['nature-active-species-stats-v1'],
+  { revalidate: 300, tags: ['nature-homepage', 'nature-species'] },
+)
+
+async function fetchAllActiveSpeciesForStats(): Promise<SpeciesStatsRow[]> {
+  return fetchAllActiveSpeciesForStatsCached()
+}
+
+async function fetchAllPublicObservationSpeciesLinksUncached(): Promise<ObservationSpeciesLinkRow[]> {
   const supabase = createPublicClient()
   const rows: ObservationSpeciesLinkRow[] = []
 
@@ -277,7 +299,9 @@ async function fetchAllPublicObservationSpeciesLinks(): Promise<ObservationSpeci
     const to = from + OBSERVATION_ROWS_PAGE_SIZE - 1
     const { data, error } = await supabase
       .from('observation_event_species')
-      .select('observation_event_id,species_id')
+      .select('observation_event_id,species_id, observation_events!inner(status,is_public)')
+      .eq('observation_events.status', 'approved')
+      .eq('observation_events.is_public', true)
       .range(from, to)
 
     if (error) {
@@ -292,6 +316,16 @@ async function fetchAllPublicObservationSpeciesLinks(): Promise<ObservationSpeci
   }
 
   return rows
+}
+
+const fetchAllPublicObservationSpeciesLinksCached = unstable_cache(
+  async () => fetchAllPublicObservationSpeciesLinksUncached(),
+  ['nature-public-observation-species-links-v1'],
+  { revalidate: 300, tags: ['nature-homepage', 'nature-observations'] },
+)
+
+async function fetchAllPublicObservationSpeciesLinks(): Promise<ObservationSpeciesLinkRow[]> {
+  return fetchAllPublicObservationSpeciesLinksCached()
 }
 
 async function loadProfileSummaries(userIds: string[]) {

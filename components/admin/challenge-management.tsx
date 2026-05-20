@@ -381,7 +381,7 @@ export function ChallengeManagement() {
                     <div key={i} className="flex gap-2 rounded-2xl border border-border/60 bg-background/80 p-2">
                       <Input className={FIELD_CLASS} value={c} onChange={e => updateConstraint(i, e.target.value)} placeholder={`条件 ${i + 1}`} />
                       {form.constraints.length > 1 && (
-                        <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setForm(f => ({ ...f, constraints: f.constraints.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="rounded-full" aria-label={`删除条件 ${i + 1}`} onClick={() => setForm(f => ({ ...f, constraints: f.constraints.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
                       )}
                     </div>
                   ))}
@@ -398,7 +398,7 @@ export function ChallengeManagement() {
                       <Input className={FIELD_CLASS} value={r.title} onChange={e => updateResource(i, 'title', e.target.value)} placeholder="标题" />
                       <Input className={FIELD_CLASS} value={r.url} onChange={e => updateResource(i, 'url', e.target.value)} placeholder="URL" />
                       {form.resources.length > 1 && (
-                        <Button variant="ghost" size="icon" className="rounded-full md:self-center" onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="rounded-full md:self-center" aria-label={`删除资源 ${i + 1}`} onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
                       )}
                     </div>
                   ))}
@@ -415,7 +415,7 @@ export function ChallengeManagement() {
                       <div className="flex gap-2 items-center">
                         <span className="text-sm font-medium">阶段 {i + 1}</span>
                         {form.stages.length > 1 && (
-                          <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 rounded-full" onClick={() => setForm(f => ({ ...f, stages: f.stages.filter((_, idx) => idx !== i) }))}><Trash2 className="h-3 w-3" /></Button>
+                          <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 rounded-full" aria-label={`删除阶段 ${i + 1}`} onClick={() => setForm(f => ({ ...f, stages: f.stages.filter((_, idx) => idx !== i) }))}><Trash2 className="h-3 w-3" aria-hidden /></Button>
                         )}
                       </div>
                       <Input className={FIELD_CLASS} value={s.title} onChange={e => updateStage(i, 'title', e.target.value)} placeholder="阶段标题" />

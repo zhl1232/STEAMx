@@ -270,11 +270,12 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
                           variant="ghost"
                           size="icon"
                           className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                          aria-label="插入图片"
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() => fileInputRef.current?.click()}
                           title="插入图片 (Lv.2 特权)"
                         >
-                          <ImagePlus className="h-4.5 w-4.5" />
+                          <ImagePlus className="h-4.5 w-4.5" aria-hidden />
                         </Button>
                       )}
                     </div>

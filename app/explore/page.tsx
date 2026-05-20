@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
+import { getExploreForYouInitialData } from '@/lib/explore/recommendations'
+import { parseExploreSortBy } from '@/lib/explore/presets'
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { ExploreClient } from './explore-client'
 
@@ -41,22 +43,26 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     difficulty: params.difficulty as ProjectFilters['difficulty'],
     tags: params.tags?.split(',').filter(Boolean),
   }
-  const sortBy = firstParam(params.sortBy) === 'latest' ? 'latest' : 'popular'
+  const sortBy = parseExploreSortBy(firstParam(params.sortBy))
 
-  const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore }] = await Promise.all([
-    getExploreFilterOptions(),
-    getProjects(filters, { page: initialPage, pageSize: 12, sortBy }),
-  ])
+  const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore, total }, initialForYou] =
+    await Promise.all([
+      getExploreFilterOptions(),
+      getProjects(filters, { page: initialPage, pageSize: 12, sortBy }),
+      getExploreForYouInitialData(),
+    ])
 
   return (
     <ExploreClient
       initialProjects={projects}
       initialHasMore={hasMore}
+      initialTotal={total}
       initialPage={initialPage}
       categories={categories}
       availableTags={availableTags}
       popularTags={popularTags}
       tagScope={tagScope}
+      initialForYou={initialForYou}
     />
   )
 }

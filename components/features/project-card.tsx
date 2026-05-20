@@ -22,6 +22,7 @@ interface ProjectCardProps {
     priority?: boolean;
     href?: string;
     variant?: "default" | "featured" | "compact";
+    compactLayout?: "adaptive" | "vertical" | "dense";
     className?: string;
 }
 
@@ -29,7 +30,7 @@ function getCategoryTone(category?: string): CategoryTone {
     return CATEGORY_META[category || ""]?.tone ?? "science";
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", className }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", compactLayout = "adaptive", className }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
@@ -39,16 +40,37 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const categoryTone = getCategoryTone(project.category);
 
     if (variant === "compact") {
+        const isVerticalCompact = compactLayout === "vertical";
+        const isDenseCompact = compactLayout === "dense";
+
         return (
             <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", className)}>
-                <div className="surface-card surface-card-interactive group relative grid h-full grid-cols-[128px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[16px] p-2.5 sm:flex sm:flex-col sm:gap-0 sm:rounded-[16px] sm:p-0">
+                <div
+                    className={cn(
+                        "surface-card surface-card-interactive group relative h-full overflow-hidden rounded-[16px]",
+                        isVerticalCompact
+                            ? "flex flex-col gap-0 p-0"
+                            : isDenseCompact
+                                ? "grid min-h-[112px] grid-cols-[88px_minmax(0,1fr)] gap-3 border-transparent bg-[hsl(var(--surface-raised)/0.92)] p-2.5 shadow-[0_2px_10px_hsl(var(--surface-shadow)/0.045)] sm:flex sm:flex-col sm:gap-0 sm:p-0 dark:bg-[hsl(var(--surface-raised)/0.72)] dark:shadow-[0_10px_28px_hsl(var(--surface-shadow)/0.18)]"
+                                : "grid grid-cols-[128px_minmax(0,1fr)] gap-3 p-2.5 sm:flex sm:flex-col sm:gap-0 sm:p-0",
+                    )}
+                >
                     <Link
                         href={detailHref}
                         className="absolute inset-0 z-0"
                         aria-label={`查看项目：${project.title}`}
                     />
 
-                    <div className="pointer-events-none relative aspect-square w-full overflow-hidden rounded-[12px] bg-[hsl(var(--surface-muted))] sm:aspect-[16/8.5] sm:rounded-none">
+                    <div
+                        className={cn(
+                            "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
+                            isVerticalCompact
+                                ? "aspect-[16/10] rounded-none"
+                                : isDenseCompact
+                                    ? "h-full min-h-[92px] rounded-[12px] sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
+                                    : "aspect-square rounded-[12px] sm:aspect-[16/8.5] sm:rounded-none",
+                        )}
+                    >
                         {!imageError ? (
                             <OptimizedImage
                                 src={project.image}
@@ -65,16 +87,31 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        {project.difficulty_stars ? (
+                        {project.difficulty_stars && !isDenseCompact ? (
                             <div className="absolute bottom-1.5 right-1.5 rounded-full bg-black/45 px-2 py-0.5 backdrop-blur-sm">
                                 <DifficultyStars stars={project.difficulty_stars} size="xs" tone="white" />
                             </div>
                         ) : null}
                     </div>
 
-                    <div className="pointer-events-none relative flex min-w-0 flex-col justify-between gap-2 py-0.5 sm:flex-1 sm:p-3.5">
-                        <div className="min-w-0 space-y-1.5">
-                            <h3 className="line-clamp-2 min-w-0 text-[15px] font-bold leading-5 text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:line-clamp-1 sm:leading-6">
+                    <div
+                        className={cn(
+                            "pointer-events-none relative flex min-w-0 flex-col justify-between gap-2",
+                            isVerticalCompact
+                                ? "flex-1 p-3"
+                                : isDenseCompact
+                                    ? "py-0 sm:flex-1 sm:p-3.5"
+                                    : "py-0.5 sm:flex-1 sm:p-3.5",
+                        )}
+                    >
+                        <div className={cn("min-w-0", isDenseCompact ? "space-y-0.5" : "space-y-1.5")}>
+                            <h3
+                                className={cn(
+                                    "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
+                                    isDenseCompact ? "line-clamp-1 text-[14px] leading-5 sm:line-clamp-1 sm:text-[15px] sm:leading-6" : "text-[15px] leading-5",
+                                    isVerticalCompact ? "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
+                                )}
+                            >
                                 <SearchHighlight text={project.title} query={searchQuery} />
                             </h3>
 
@@ -90,7 +127,13 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     </span>
                                 )}
                             </div>
-                            <p className="line-clamp-3 text-[11px] leading-[1.45] text-muted-foreground/80">
+                            <p
+                                className={cn(
+                                    "text-[11px] text-muted-foreground/80",
+                                    isDenseCompact ? "line-clamp-1 leading-[1.45]" : "leading-[1.45]",
+                                    isVerticalCompact ? "line-clamp-2" : !isDenseCompact && "line-clamp-3",
+                                )}
+                            >
                                 <SearchHighlight
                                     text={project.description || "适合边做边学的 STEAM 实践项目。"}
                                     query={searchQuery}
@@ -98,20 +141,44 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground/80 sm:mt-auto">
-                            <span className="flex items-center gap-1" title="点赞数">
-                                <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/70")} />
-                                {likesCount || 0}
-                            </span>
-                            <span className="flex items-center gap-1" title="评论数">
-                                <MessageCircle className="h-3 w-3 text-muted-foreground/70" />
-                                {project.comments_count ?? 0}
-                            </span>
-                            <span className="flex items-center gap-1" title="投币数">
-                                <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
-                                {project.coins_count ?? 0}
-                            </span>
-                        </div>
+                        {isDenseCompact ? (
+                            <div className="flex items-center justify-between gap-2 pt-1 text-[11px] text-muted-foreground/78 sm:mt-auto">
+                                {project.difficulty_stars ? (
+                                    <DifficultyStars stars={project.difficulty_stars} size="xs" className="shrink-0" />
+                                ) : (
+                                    <span aria-hidden className="h-3 shrink-0" />
+                                )}
+                                <div className="ml-auto flex items-center justify-end gap-2.5">
+                                    <span className="flex items-center gap-1" title="点赞数">
+                                        <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/70")} />
+                                        <span>{likesCount || 0}</span>
+                                    </span>
+                                    <span className="flex items-center gap-1" title="评论数">
+                                        <MessageCircle className="h-3 w-3 text-muted-foreground/70" />
+                                        <span>{project.comments_count ?? 0}</span>
+                                    </span>
+                                    <span className="flex items-center gap-1" title="投币数">
+                                        <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
+                                        <span>{project.coins_count ?? 0}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-3 text-[11px] text-muted-foreground/80 sm:mt-auto">
+                                <span className="flex items-center gap-1" title="点赞数">
+                                    <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/70")} />
+                                    {likesCount || 0}
+                                </span>
+                                <span className="flex items-center gap-1" title="评论数">
+                                    <MessageCircle className="h-3 w-3 text-muted-foreground/70" />
+                                    {project.comments_count ?? 0}
+                                </span>
+                                <span className="flex items-center gap-1" title="投币数">
+                                    <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
+                                    {project.coins_count ?? 0}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

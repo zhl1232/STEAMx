@@ -186,6 +186,11 @@ import { Surface } from "@/components/ui/surface"
 | `nature-empty-state` / `nature-action-link` / `nature-list-row` | 自然空状态、操作按钮、列表行 |
 | `app-empty-state` | 通用空状态（探索记录流等） |
 | `exploration-cta-banner` / `exploration-cta-icon` | 探索记录页「开始探索」横幅 |
+| `app-canvas-community` | 社区页背景渐变 |
+| `community-nature-cta` | 挑战页「补充观察记录」链接 |
+| `community-related-project-link` | 挑战详情相关项目卡片 |
+| `profile-soft-cta` / `profile-success-cta` / `profile-stats-bar` | 个人页次要 CTA 与统计条 |
+| `skip-link` | 键盘用户「跳到主内容」 |
 
 ---
 
@@ -219,4 +224,4 @@ import { Surface } from "@/components/ui/surface"
 | `components/ui/surface.tsx` | 表面组件 |
 | `components/ui/status-badge.tsx` | 状态徽章/提示 |
 | `components/features/design-system-content.tsx` | `/design-system` 展示 |
-| `docs/ui-consistency-audit.md` | 审计问题与修复优先级 |
+| `docs/ui-ux-backlog.md` | 待讨论 UX 改进（探索筛选、个人页首屏等） |

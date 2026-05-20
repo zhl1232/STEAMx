@@ -1990,6 +1990,43 @@ export interface Database {
         Args: { p_project_ids: number[] }
         Returns: { project_id: number; comment_count: number }[]
       }
+      get_weekly_hot_project_rankings: {
+        Args: {
+          p_since: string
+          p_limit: number
+          p_offset: number
+          p_category?: string | null
+          p_sub_category?: string | null
+          p_difficulty_stars_min?: number | null
+          p_difficulty_stars_max?: number | null
+          p_tags?: string[] | null
+          p_search?: string | null
+          p_materials?: string[] | null
+        }
+        Returns: {
+          project_id: number
+          weekly_score: number
+          total_count: number
+        }[]
+      }
+      get_popular_project_rankings: {
+        Args: {
+          p_limit: number
+          p_offset: number
+          p_category?: string | null
+          p_sub_category?: string | null
+          p_difficulty_stars_min?: number | null
+          p_difficulty_stars_max?: number | null
+          p_tags?: string[] | null
+          p_search?: string | null
+          p_materials?: string[] | null
+        }
+        Returns: {
+          project_id: number
+          popular_score: number
+          total_count: number
+        }[]
+      }
       get_completion_comments_count_batch: {
         Args: { p_completion_ids: number[] }
         Returns: { completed_project_id: number; comment_count: number }[]

@@ -10,9 +10,7 @@ import {
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
 import {
-  buildSpeciesTopicCounts,
   getNatureTopicLabel,
-  isVisibleSpeciesTopicKey,
   normalizeSpeciesTopicFilter,
   resolveSpeciesNatureTopicKey,
   type SpeciesTopicCount,
@@ -33,6 +31,39 @@ export interface SpeciesListOptions {
   pageSize?: number
 }
 
+const SPECIES_LIST_SELECT = [
+  'id',
+  'slug',
+  'common_name',
+  'scientific_name',
+  'aliases',
+  'taxon_group',
+  'nature_topic',
+  'identification_notes',
+  'habitat_notes',
+  'seasonality_notes',
+  'cover_image_url',
+  'audio_url',
+  'is_active',
+  'created_at',
+  'updated_at',
+].join(',')
+
+const visibleSpeciesTopicKeys = ['birds', 'plants'] as const
+const OBSERVED_SPECIES_EVENT_BATCH_SIZE = 200
+
+function buildSpeciesSearchFilter(sanitizedQuery: string) {
+  return `common_name.ilike.%${sanitizedQuery}%,scientific_name.ilike.%${sanitizedQuery}%,taxon_group.ilike.%${sanitizedQuery}%`
+}
+
+function chunkItems<T>(items: T[], size: number): T[][] {
+  const chunks: T[][] = []
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size))
+  }
+  return chunks
+}
+
 function mapSpeciesWithDerivedFields(row: SpeciesRow): Species {
   const normalizedRow = normalizeSpeciesRow(row)
   const topicKey = resolveSpeciesNatureTopicKey(row)
@@ -45,6 +76,79 @@ function mapSpeciesWithDerivedFields(row: SpeciesRow): Species {
   }
 }
 
+async function fetchObservedSpeciesIdsForUser(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+): Promise<Set<number>> {
+  const { data: eventRows, error: eventError } = await supabase
+    .from('observation_events')
+    .select('id')
+    .eq('user_id', userId)
+
+  if (eventError) {
+    logger.error('Error fetching user observation events for species list', { error: eventError, userId })
+    return new Set<number>()
+  }
+
+  const eventIds = ((eventRows || []) as Array<{ id: number }>).map((row) => row.id)
+  if (eventIds.length === 0) {
+    return new Set<number>()
+  }
+
+  const observedSpeciesIds = new Set<number>()
+  for (const eventIdBatch of chunkItems(eventIds, OBSERVED_SPECIES_EVENT_BATCH_SIZE)) {
+    const { data: linkedRows, error: linkedError } = await supabase
+      .from('observation_event_species')
+      .select('species_id')
+      .in('observation_event_id', eventIdBatch)
+
+    if (linkedError) {
+      logger.error('Error fetching user observed species for species list', { error: linkedError, userId })
+      return observedSpeciesIds
+    }
+
+    for (const row of ((linkedRows || []) as Array<{ species_id: number | null }>)) {
+      if (typeof row.species_id === 'number') {
+        observedSpeciesIds.add(row.species_id)
+      }
+    }
+  }
+
+  return observedSpeciesIds
+}
+
+async function getSpeciesTopicCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  sanitizedQuery: string,
+): Promise<SpeciesTopicCount[]> {
+  const counts = await Promise.all(
+    visibleSpeciesTopicKeys.map(async (topicKey) => {
+      let request = supabase
+        .from('species')
+        .select('id', { count: 'exact', head: true })
+        .eq('is_active', true)
+        .eq('nature_topic', topicKey)
+
+      if (sanitizedQuery) {
+        request = request.or(buildSpeciesSearchFilter(sanitizedQuery))
+      }
+
+      const { count, error } = await request
+      if (error) {
+        logger.error('Error counting species topic', { error, topicKey })
+        return { key: topicKey, label: getNatureTopicLabel(topicKey), count: 0 }
+      }
+
+      return { key: topicKey, label: getNatureTopicLabel(topicKey), count: count || 0 }
+    }),
+  )
+
+  return [
+    { key: 'all', label: '全部', count: counts.reduce((sum, item) => sum + item.count, 0) },
+    ...counts,
+  ]
+}
+
 export async function getSpeciesList(
   options: SpeciesListOptions = {},
 ): Promise<{ species: Species[]; total: number; hasMore: boolean; topicCounts: SpeciesTopicCount[] }> {
@@ -52,96 +156,168 @@ export async function getSpeciesList(
   const { query, page = 0, pageSize = 12 } = options
   const topic = normalizeSpeciesTopicFilter(options.topic)
   const sanitizedQuery = sanitizeSearch(query ?? '')
+  const from = Math.max(0, page) * pageSize
+  const to = from + pageSize - 1
 
-  let request = supabase
+  const topicCountsPromise = getSpeciesTopicCounts(supabase, sanitizedQuery)
+  let totalRequest = supabase
     .from('species')
-    .select('*')
+    .select('id', { count: 'exact', head: true })
     .eq('is_active', true)
-    .order('common_name', { ascending: true })
+
+  if (topic === 'all') {
+    totalRequest = totalRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+  } else {
+    totalRequest = totalRequest.eq('nature_topic', topic)
+  }
 
   if (sanitizedQuery) {
-    request = request.or(
-      `common_name.ilike.%${sanitizedQuery}%,scientific_name.ilike.%${sanitizedQuery}%,taxon_group.ilike.%${sanitizedQuery}%`,
-    )
+    totalRequest = totalRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
   }
 
-  const { data, error } = await request
+  const [
+    { data: { user } },
+    topicCounts,
+    totalResult,
+  ] = await Promise.all([
+    supabase.auth.getUser(),
+    topicCountsPromise,
+    totalRequest,
+  ])
 
-  if (error) {
-    logger.error('Error fetching species list', { error })
-    return { species: [], total: 0, hasMore: false, topicCounts: buildSpeciesTopicCounts([]) }
+  if (totalResult.error) {
+    logger.error('Error counting species list', { error: totalResult.error })
+    return { species: [], total: 0, hasMore: false, topicCounts }
   }
 
-  const rows = (data || []) as SpeciesRow[]
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const total = totalResult.count || 0
+  const observedSpeciesIds = user?.id
+    ? await fetchObservedSpeciesIdsForUser(supabase, user.id)
+    : new Set<number>()
+  const observedSpeciesIdList = Array.from(observedSpeciesIds)
 
-  let observedSpeciesIds = new Set<number>()
-  if (user?.id) {
-    const { data: eventRows, error: eventError } = await supabase
-      .from('observation_events')
-      .select('id')
-      .eq('user_id', user.id)
+  let rows: SpeciesRow[] = []
 
-    if (eventError) {
-      logger.error('Error fetching user observation events for species list', { error: eventError, userId: user.id })
+  if (observedSpeciesIdList.length === 0) {
+    let rowsRequest = supabase
+      .from('species')
+      .select(SPECIES_LIST_SELECT)
+      .eq('is_active', true)
+
+    if (topic === 'all') {
+      rowsRequest = rowsRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
     } else {
-      const eventIds = ((eventRows || []) as Array<{ id: number }>).map((row) => row.id)
+      rowsRequest = rowsRequest.eq('nature_topic', topic)
+    }
 
-      if (eventIds.length > 0) {
-        const { data: linkedRows, error: linkedError } = await supabase
-          .from('observation_event_species')
-          .select('species_id')
-          .in('observation_event_id', eventIds)
+    if (sanitizedQuery) {
+      rowsRequest = rowsRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+    }
 
-        if (linkedError) {
-          logger.error('Error fetching user observed species for species list', { error: linkedError, userId: user.id })
-        } else {
-          observedSpeciesIds = new Set<number>(
-            ((linkedRows || []) as Array<{ species_id: number | null }>)
-              .map((row) => row.species_id)
-              .filter((speciesId): speciesId is number => typeof speciesId === 'number'),
-          )
-        }
+    const { data, error } = await rowsRequest
+      .order('common_name', { ascending: true })
+      .range(from, to)
+
+    if (error) {
+      logger.error('Error fetching species list', { error })
+      return { species: [], total: 0, hasMore: false, topicCounts }
+    }
+
+    rows = ((data || []) as unknown) as SpeciesRow[]
+  } else {
+    let unobservedCountRequest = supabase
+      .from('species')
+      .select('id', { count: 'exact', head: true })
+      .eq('is_active', true)
+      .not('id', 'in', `(${observedSpeciesIdList.join(',')})`)
+
+    if (topic === 'all') {
+      unobservedCountRequest = unobservedCountRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+    } else {
+      unobservedCountRequest = unobservedCountRequest.eq('nature_topic', topic)
+    }
+
+    if (sanitizedQuery) {
+      unobservedCountRequest = unobservedCountRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+    }
+
+    const { count: unobservedCount, error: unobservedCountError } = await unobservedCountRequest
+    if (unobservedCountError) {
+      logger.error('Error counting unobserved species list', { error: unobservedCountError })
+      return { species: [], total: 0, hasMore: false, topicCounts }
+    }
+
+    const unobservedTotal = unobservedCount || 0
+    const unobservedRowsNeeded = Math.max(0, Math.min(pageSize, unobservedTotal - from))
+
+    if (unobservedRowsNeeded > 0) {
+      let unobservedRowsRequest = supabase
+        .from('species')
+        .select(SPECIES_LIST_SELECT)
+        .eq('is_active', true)
+        .not('id', 'in', `(${observedSpeciesIdList.join(',')})`)
+
+      if (topic === 'all') {
+        unobservedRowsRequest = unobservedRowsRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+      } else {
+        unobservedRowsRequest = unobservedRowsRequest.eq('nature_topic', topic)
       }
+
+      if (sanitizedQuery) {
+        unobservedRowsRequest = unobservedRowsRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+      }
+
+      const { data, error } = await unobservedRowsRequest
+        .order('common_name', { ascending: true })
+        .range(from, from + unobservedRowsNeeded - 1)
+
+      if (error) {
+        logger.error('Error fetching unobserved species list', { error })
+        return { species: [], total: 0, hasMore: false, topicCounts }
+      }
+
+      rows.push(...(((data || []) as unknown) as SpeciesRow[]))
+    }
+
+    const observedRowsNeeded = pageSize - rows.length
+    if (observedRowsNeeded > 0) {
+      const observedOffset = Math.max(0, from - unobservedTotal)
+      let observedRowsRequest = supabase
+        .from('species')
+        .select(SPECIES_LIST_SELECT)
+        .eq('is_active', true)
+        .in('id', observedSpeciesIdList)
+
+      if (topic === 'all') {
+        observedRowsRequest = observedRowsRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+      } else {
+        observedRowsRequest = observedRowsRequest.eq('nature_topic', topic)
+      }
+
+      if (sanitizedQuery) {
+        observedRowsRequest = observedRowsRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+      }
+
+      const { data, error } = await observedRowsRequest
+        .order('common_name', { ascending: true })
+        .range(observedOffset, observedOffset + observedRowsNeeded - 1)
+
+      if (error) {
+        logger.error('Error fetching observed species list', { error })
+        return { species: [], total: 0, hasMore: false, topicCounts }
+      }
+
+      rows.push(...(((data || []) as unknown) as SpeciesRow[]))
     }
   }
-
-  const rowsWithTopic = rows.map((row) => {
-    const topicKey = resolveSpeciesNatureTopicKey(row)
-    return {
-      row,
-      topicKey,
-    }
-  })
-  const topicCounts = buildSpeciesTopicCounts(rowsWithTopic)
-  const visibleRows = rowsWithTopic.filter((item) => isVisibleSpeciesTopicKey(item.topicKey))
-  const filteredRows = topic === 'all'
-    ? visibleRows
-    : visibleRows.filter((item) => item.topicKey === topic)
-
-  const sortedRows = [...filteredRows].sort((left, right) => {
-    const leftObserved = observedSpeciesIds.has(left.row.id)
-    const rightObserved = observedSpeciesIds.has(right.row.id)
-    if (leftObserved !== rightObserved) {
-      return leftObserved ? 1 : -1
-    }
-    return left.row.common_name.localeCompare(right.row.common_name, 'zh-CN')
-  })
-
-  const total = sortedRows.length
-  const from = page * pageSize
-  const to = from + pageSize
-  const pagedRows = sortedRows.slice(from, to)
 
   return {
-    species: pagedRows.map(({ row }) => ({
+    species: rows.map((row) => ({
       ...mapSpeciesWithDerivedFields(row),
       observedByCurrentUser: observedSpeciesIds.has(row.id),
     })),
     total,
-    hasMore: total > to,
+    hasMore: total > to + 1,
     topicCounts,
   }
 }

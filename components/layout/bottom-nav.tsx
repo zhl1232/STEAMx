@@ -72,15 +72,15 @@ export function BottomNav() {
                     : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
                 const content = (
                     <div className={cn(
-                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] px-1 py-1.5 transition-all",
+                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] px-1 py-1 transition-all",
                         item.active
                             ? activeTextClass
                             : inactiveTextClass,
                     )}>
-                        <span className={cn("grid h-7 w-7 place-items-center rounded-[var(--radius-sm)]", item.active && activeIconClass)}>
-                            <item.icon className={cn("h-[18px] w-[18px]", item.active && "stroke-[2.6px]")} />
+                        <span className={cn("grid h-6 w-6 place-items-center rounded-[var(--radius-sm)]", item.active && activeIconClass)}>
+                            <item.icon className={cn("h-[17px] w-[17px]", item.active && "stroke-[2.5px]")} />
                         </span>
-                        <span className="text-[11px] font-semibold leading-none">{item.label}</span>
+                        <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
                     </div>
                 )
 

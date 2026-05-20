@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { getCommunityChallengeGroups } from "@/lib/api/community-challenges";
 
 import { CommunityProviderShell } from "./community-provider";
 
@@ -11,9 +12,15 @@ export const metadata: Metadata = buildPageMetadata({
     keywords: ["STEAM社区", "项目讨论", "学习挑战", "创客社区"],
 });
 
-export default function CommunityLayout({ children }: { children: React.ReactNode }) {
+export default async function CommunityLayout({ children }: { children: React.ReactNode }) {
+    const { challenges, error, userId } = await getCommunityChallengeGroups()
+
     return (
-        <CommunityProviderShell>
+        <CommunityProviderShell
+            initialChallenges={challenges}
+            initialChallengesError={error}
+            initialUserId={userId}
+        >
             {children}
         </CommunityProviderShell>
     )

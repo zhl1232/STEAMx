@@ -93,7 +93,7 @@ export function MobileGlobalHeader({
     <header
       className={cn('app-mobile-header', className)}
     >
-      <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
+      <div className="flex h-[3.6rem] items-center px-4 min-[390px]:px-5">
         {/* 左侧 */}
         <div className={cn('shrink-0 flex h-10 items-center', variant === 'search' ? 'mr-2' : 'mr-2')}>
           {variant === 'logo' ? (
@@ -105,7 +105,7 @@ export function MobileGlobalHeader({
             </Link>
           ) : variant === 'search' ? (
             <Link href="/" aria-label="首页" className="flex items-center">
-              <SteamLogo className="h-8 w-8 shrink-0" />
+              <SteamLogo className="h-[30px] w-[30px] shrink-0" />
             </Link>
           ) : (
             <h1 className="text-[22px] font-semibold leading-none text-foreground min-[390px]:text-[24px]">
@@ -131,7 +131,7 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-10 w-full rounded-[14px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.9)] pl-9 pr-9 text-[14px] font-medium text-foreground placeholder:text-muted-foreground/70 focus:border-[hsl(var(--brand-blue))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.18)]"
+                className="h-9 w-full rounded-[14px] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button

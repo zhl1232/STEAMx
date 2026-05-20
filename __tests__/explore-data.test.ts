@@ -1,7 +1,11 @@
 /** @vitest-environment node */
 
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
-import { dedupeCompletionRowsByUser, getProjectTotalCoinsReceived } from '@/lib/api/explore-data'
+import {
+  dedupeCompletionRowsByUser,
+  diversifyPopularByCategoryForTest,
+  getProjectTotalCoinsReceived,
+} from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
 
@@ -22,6 +26,27 @@ vi.mock('@/lib/logger', () => ({
     error: vi.fn(),
   },
 }))
+
+describe('diversifyPopularByCategoryForTest', () => {
+  it('still interleaves categories when targetLen equals the full pool size', () => {
+    const rows = [
+      { id: 1, category: '科学' },
+      { id: 2, category: '科学' },
+      { id: 3, category: '科学' },
+      { id: 4, category: '技术' },
+      { id: 5, category: '工程' },
+      { id: 6, category: '艺术' },
+      { id: 7, category: '数学' },
+      { id: 8, category: '科学' },
+    ]
+
+    const diversified = diversifyPopularByCategoryForTest(rows, rows.length)
+    const firstBatch = diversified.slice(0, 5).map((row) => row.category)
+
+    expect(new Set(firstBatch).size).toBeGreaterThan(1)
+    expect(firstBatch).toEqual(['科学', '技术', '工程', '艺术', '数学'])
+  })
+})
 
 describe('getProjectTotalCoinsReceived', () => {
   const createClientMock = createClient as Mock<typeof createClient>

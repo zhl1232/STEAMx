@@ -4,17 +4,22 @@ import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, us
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import {
+    ArrowLeft,
     BarChart3,
+    Filter,
     Lightbulb,
     Search,
     SlidersHorizontal,
     Sparkles,
-    Star,
     Target,
     Trophy,
     UserCircle,
     X,
 } from 'lucide-react'
+import {
+    ExploreForYouRail,
+    type ExploreForYouRailState,
+} from '@/components/explore/explore-for-you-rail'
 import { ProjectCard } from '@/components/features/project-card'
 import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
 import { Progress } from '@/components/ui/progress'
@@ -24,7 +29,6 @@ import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Surface } from '@/components/ui/surface'
 import {
     Sheet,
@@ -46,6 +50,17 @@ import {
     saveExploreScrollRestore,
     type ExploreScrollRestoreState,
 } from '@/lib/explore-scroll-restore'
+import {
+    EXPLORE_PRESETS,
+    EXPLORE_RESULTS_SORT_OPTIONS,
+    detectActivePreset,
+    getPresetHintLabel,
+    isExploreResultsMode,
+    parseExploreSortBy,
+    serializeExploreFilterParams,
+    type ExplorePresetId,
+    type SortBy,
+} from '@/lib/explore/presets'
 
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG, CATEGORY_META } from '@/lib/config/categories'
@@ -54,6 +69,7 @@ import { categoryToneClasses } from '@/components/ui/tone-badge'
 // 难度选项
 const DIFFICULTY_OPTIONS = [
     { value: "all", label: "全部" },
+    { value: "1-2", label: "1-2星" },
     { value: "1", label: "1星" },
     { value: "2", label: "2星" },
     { value: "3", label: "3星" },
@@ -63,8 +79,6 @@ const DIFFICULTY_OPTIONS = [
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
 const TAGS_COLLAPSED_LIMIT = 24
-const DESKTOP_SUB_CATEGORY_LIMIT = 14
-const DESKTOP_TAG_LIMIT = 16
 const EMPTY_TAGS: string[] = []
 const EMPTY_TAG_SCOPE: ExploreTagScope = {
     all: [],
@@ -72,14 +86,7 @@ const EMPTY_TAG_SCOPE: ExploreTagScope = {
     bySubCategory: {},
 }
 
-type SortBy = 'latest' | 'popular'
-
-const SORT_OPTIONS: Array<{ value: SortBy; label: string }> = [
-    { value: 'latest', label: '最新发布' },
-    { value: 'popular', label: '最受欢迎' },
-]
-
-function ExplorationProgressCard() {
+function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exclude<ExplorePresetId, 'browse'> }) {
     const { user, loading } = useAuth()
     const {
         level,
@@ -89,6 +96,7 @@ function ExplorationProgressCard() {
         unlockedBadges,
         userStats,
     } = useGamification()
+    const suggestedLabel = getPresetHintLabel(suggestedPresetId)
 
     if (!user) {
         return (
@@ -101,6 +109,9 @@ function ExplorationProgressCard() {
                         </h2>
                         <p className="mt-3 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-80">
                             登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。
+                        </p>
+                        <p className="mt-2 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-70">
+                            不知道从哪开始？试试「{suggestedLabel}」。
                         </p>
                         <Link href="/login" className="mt-4 inline-flex rounded-[10px] bg-[hsl(var(--brand-green))] px-4 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)]">
                             登录保存进度
@@ -163,16 +174,19 @@ function ExplorationProgressCard() {
                 >
                     查看探索记录
                 </Link>
+                <p className="text-center text-[11px] leading-5 text-muted-foreground">
+                    试试「{suggestedLabel}」发现下一个项目
+                </p>
             </div>
         </Surface>
     )
 }
 
 function normalizeSortBy(value: string | null | undefined): SortBy {
-    return value === 'latest' ? 'latest' : 'popular'
+    return parseExploreSortBy(value)
 }
 
-/** 仅依据 URL：无 `sortBy` 时用站点默认（最受欢迎），避免客户端改 URL 后排序与地址栏不一致 */
+/** 仅依据 URL：无 `sortBy` 时用探索页默认（最新上架），避免客户端改 URL 后排序与地址栏不一致 */
 function sortFromSearchParam(raw: string | null): SortBy {
     if (raw === null || raw === '') return normalizeSortBy(undefined)
     return normalizeSortBy(raw)
@@ -191,26 +205,32 @@ function normalizeTagList(tags: string[]) {
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
+    initialTotal?: number
     initialPage?: number
     categories?: string[]
     availableTags?: string[]
     /** 服务端按标签在项目中的出现次数排序；为空时侧栏回退为 `availableTags` 前若干项 */
     popularTags?: string[]
     tagScope?: ExploreTagScope
+    /** 公共「热门推荐」横滑区 SSR 数据；无推荐时为 null */
+    initialForYou?: ExploreForYouRailState | null
 }
 
 export function ExploreClient({
     initialProjects,
     initialHasMore,
+    initialTotal = 0,
     initialPage = 0,
     categories: propCategories,
     availableTags,
     popularTags: popularTagsProp,
     tagScope,
+    initialForYou = null,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
     const { toast } = useToast()
     const { clearLikesDeltaForProjects } = useProjects()
+    const [forYouData, setForYouData] = useState<ExploreForYouRailState | null>(initialForYou)
 
     const displayCategories = propCategories || defaultCategories
     const resolvedAvailableTags = availableTags || EMPTY_TAGS
@@ -232,6 +252,7 @@ export function ExploreClient({
     const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
+    const [resultTotal, setResultTotal] = useState(initialTotal)
     const projectIdsForSync = useMemo(() => projects.map((project) => project.id), [projects])
     useSyncProjectInteractions(projectIdsForSync)
     const [page, setPage] = useState(initialPage + 1)
@@ -247,6 +268,9 @@ export function ExploreClient({
     const isFilteringRef = useRef(false)
     const pendingScrollRestoreRef = useRef<ExploreScrollRestoreState | null>(null)
     const isRestoringScrollRef = useRef(false)
+    const activeFiltersKeyRef = useRef('')
+    const filterRequestGenerationRef = useRef(0)
+    const initializedFiltersKeyRef = useRef(false)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
@@ -254,7 +278,6 @@ export function ExploreClient({
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
     const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
-    const [showDesktopFilters, setShowDesktopFilters] = useState(false)
 
     // Sheet 状态
     const [sheetOpen, setSheetOpen] = useState(false)
@@ -293,6 +316,10 @@ export function ExploreClient({
             observer.current?.disconnect()
         }
     }, [])
+
+    useEffect(() => {
+        setForYouData(initialForYou)
+    }, [initialForYou])
 
     const isAbortError = useCallback((error: unknown) => {
         return (error instanceof DOMException && error.name === 'AbortError')
@@ -389,6 +416,15 @@ export function ExploreClient({
 
     const hiddenTagCount = sortedDraftTags.length - visibleDraftTags.length
 
+    const getFilterState = useCallback(() => ({
+        category: selectedCategory,
+        subCategory: selectedSubCategory,
+        difficulty: selectedDifficulty,
+        tags: selectedTags,
+        searchQuery,
+        sortBy: selectedSortBy,
+    }), [selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, searchQuery, selectedSortBy])
+
     useEffect(() => {
         const scopedTagSet = new Set(scopedAvailableTags)
         setDraftTags(prev => prev.filter(tag => scopedTagSet.has(tag)))
@@ -416,7 +452,7 @@ export function ExploreClient({
         if (subCategory) params.set('subCategory', subCategory)
         if (difficulty !== 'all') params.set('difficulty', difficulty)
         if (tags.length > 0) params.set('tags', tags.join(','))
-        if (sortBy !== 'popular') params.set('sortBy', sortBy)
+        if (sortBy !== 'latest') params.set('sortBy', sortBy)
 
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, selectedSortBy])
@@ -439,6 +475,12 @@ export function ExploreClient({
     }, [saveExploreScrollPosition])
 
     useLayoutEffect(() => {
+        if (initializedFiltersKeyRef.current) return
+        initializedFiltersKeyRef.current = true
+        activeFiltersKeyRef.current = serializeExploreFilterParams(buildSearchParams())
+    }, [buildSearchParams])
+
+    useLayoutEffect(() => {
         const saved = readExploreScrollRestore()
         if (!saved) return
 
@@ -450,17 +492,13 @@ export function ExploreClient({
 
         pendingScrollRestoreRef.current = saved
         clearExploreScrollRestore()
-    }, [buildSearchParams])
+        // 仅在从详情页返回时读取一次 session 恢复点
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         const saved = pendingScrollRestoreRef.current
         if (!saved) {
-            setProjects(initialProjects)
-            setHasMore(initialHasMore)
-            hasMoreRef.current = initialHasMore
-            setPage(initialPage + 1)
-            pageRef.current = initialPage + 1
-            clearLikesDeltaForProjects(initialProjects.map(p => p.id))
             return
         }
 
@@ -497,24 +535,42 @@ export function ExploreClient({
         }
 
         void (async () => {
-            let mergedProjects = initialProjects
+            const pagesToRestore = Array.from(
+                { length: Math.max(0, saved.nextPage - (initialPage + 1)) },
+                (_, index) => initialPage + 1 + index,
+            )
+            const baseParams = buildSearchParams()
+            const pageResults = await Promise.allSettled(
+                pagesToRestore.map(async (page) => {
+                    if (cancelled) return { page, projects: [] as Project[], hasMore: true }
+
+                    const params = new URLSearchParams(baseParams)
+                    params.set('page', String(page))
+                    const response = await fetch(`/api/projects?${params.toString()}`)
+                    if (!response.ok) {
+                        throw new Error(await response.text())
+                    }
+
+                    const data = await response.json()
+                    return {
+                        page,
+                        projects: (data.projects as Project[]) || [],
+                        hasMore: Boolean(data.hasMore),
+                    }
+                }),
+            )
+
+            if (cancelled) return
+
+            const mergedProjects = [...initialProjects]
             let nextHasMore = initialHasMore
 
-            for (let page = initialPage + 1; page < saved.nextPage; page++) {
-                if (cancelled) return
-
-                const params = buildSearchParams()
-                params.set('page', String(page))
-
-                try {
-                    const response = await fetch(`/api/projects?${params.toString()}`)
-                    if (!response.ok) break
-                    const data = await response.json()
-                    mergedProjects = [...mergedProjects, ...data.projects]
-                    nextHasMore = data.hasMore
-                } catch {
+            for (const result of pageResults) {
+                if (result.status !== 'fulfilled') {
                     break
                 }
+                mergedProjects.push(...result.value.projects)
+                nextHasMore = result.value.hasMore
             }
 
             syncRestoredProjects(mergedProjects, nextHasMore, saved.nextPage)
@@ -624,10 +680,16 @@ export function ExploreClient({
     }, [isLoadingMore, isFiltering, loadMore])
 
     const executeFilter = useCallback(async (params: URLSearchParams) => {
+        const filterKey = serializeExploreFilterParams(params)
+        if (filterKey === activeFiltersKeyRef.current) {
+            return
+        }
+
         activeFilterRequest.current?.abort()
         activeLoadMoreRequest.current?.abort()
         const controller = new AbortController()
         activeFilterRequest.current = controller
+        const requestGeneration = ++filterRequestGenerationRef.current
 
         setIsFiltering(true)
         isFilteringRef.current = true
@@ -640,17 +702,23 @@ export function ExploreClient({
                 throw new Error(await response.text())
             }
             const data = await response.json()
-            await preloadProjectImages(data.projects, controller.signal)
-            if (controller.signal.aborted) {
+            if (controller.signal.aborted || requestGeneration !== filterRequestGenerationRef.current) {
                 return
             }
+
+            activeFiltersKeyRef.current = filterKey
             setProjects(data.projects)
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
             hasMoreRef.current = data.hasMore
+            if (typeof data.total === 'number') {
+                setResultTotal(data.total)
+            }
             setPage(1)
             pageRef.current = 1
             syncUrl(params)
+
+            void preloadProjectImages(data.projects, controller.signal)
         } catch (error) {
             if (isAbortError(error)) {
                 return
@@ -685,29 +753,6 @@ export function ExploreClient({
         executeFilter(params)
     }
 
-    const handleSortChange = (sortBy: SortBy) => {
-        setSelectedSortBy(sortBy)
-        const params = buildSearchParams({ sortBy })
-        executeFilter(params)
-    }
-
-    const handleSubCategoryClick = (subCategory: string) => {
-        const nextSubCategory = selectedSubCategory === subCategory ? "" : subCategory
-        setSelectedSubCategory(nextSubCategory)
-        setSelectedTags([])
-        setDraftSubCategory(nextSubCategory)
-        setDraftTags([])
-        const params = buildSearchParams({ subCategory: nextSubCategory, tags: [] })
-        executeFilter(params)
-    }
-
-    const handleDifficultyClick = (difficulty: string) => {
-        setSelectedDifficulty(difficulty)
-        setDraftDifficulty(difficulty)
-        const params = buildSearchParams({ difficulty })
-        executeFilter(params)
-    }
-
     const handleTagClick = (tag: string) => {
         const nextTags = selectedTags.includes(tag)
             ? selectedTags.filter((selectedTag) => selectedTag !== tag)
@@ -724,7 +769,37 @@ export function ExploreClient({
         setSelectedSubCategory("")
         setSelectedDifficulty("all")
         setSelectedTags([])
+        setSelectedSortBy("latest")
+        setDraftSubCategory("")
+        setDraftDifficulty("all")
+        setDraftTags([])
+        setResultTotal(0)
         executeFilter(new URLSearchParams())
+    }
+
+    const handleSortChange = (sortBy: SortBy) => {
+        if (sortBy === selectedSortBy) return
+        setSelectedSortBy(sortBy)
+        executeFilter(buildSearchParams({ sortBy }))
+    }
+
+    const handlePresetClick = (presetId: ExplorePresetId) => {
+        const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
+        if (!preset) return
+
+        const params = buildSearchParams({
+            difficulty: preset.difficulty,
+            sortBy: preset.sortBy,
+        })
+        if (serializeExploreFilterParams(params) === activeFiltersKeyRef.current) {
+            return
+        }
+
+        setSelectedDifficulty(preset.difficulty)
+        setSelectedSortBy(preset.sortBy)
+        setDraftDifficulty(preset.difficulty)
+
+        executeFilter(params)
     }
 
     const handleRemoveSubCategory = () => {
@@ -735,6 +810,7 @@ export function ExploreClient({
 
     const handleRemoveDifficulty = () => {
         setSelectedDifficulty("all")
+        setDraftDifficulty("all")
         const params = buildSearchParams({ difficulty: "all" })
         executeFilter(params)
     }
@@ -791,27 +867,26 @@ export function ExploreClient({
         executeFilter(params)
     }
 
-    const hasActiveAdvancedFilters = !!selectedSubCategory || selectedDifficulty !== "all" || selectedTags.length > 0
-    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (selectedDifficulty !== "all" ? 1 : 0) + selectedTags.length
-    const hasAnyActiveFilters = selectedCategory !== "全部" || hasActiveAdvancedFilters || !!searchQuery
+    const activePresetId = detectActivePreset(getFilterState())
+    const activeListTabId = activePresetId === 'latest' || activePresetId === 'beginner-friendly'
+        ? activePresetId
+        : null
+    const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
+    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedTags.length > 0
+    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + selectedTags.length
+    const isResultsMode = isExploreResultsMode(getFilterState())
     const hasDraftFilters = !!draftSubCategory || draftDifficulty !== "all" || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
     const sheetSubCategories = currentSubCategories
-    const desktopSubCategories = showDesktopFilters || currentSubCategories.length <= DESKTOP_SUB_CATEGORY_LIMIT
-        ? currentSubCategories
-        : currentSubCategories.slice(0, DESKTOP_SUB_CATEGORY_LIMIT)
-    const hiddenDesktopSubCategoryCount = currentSubCategories.length - desktopSubCategories.length
-    const desktopTags = showDesktopFilters || sortedDraftTags.length <= DESKTOP_TAG_LIMIT
-        ? sortedDraftTags
-        : sortedDraftTags.slice(0, DESKTOP_TAG_LIMIT)
-    const hiddenDesktopTagCount = sortedDraftTags.length - desktopTags.length
-    const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === selectedSortBy)?.label || SORT_OPTIONS[0].label
+
+    const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
 
     return (
         <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
             <MobileGlobalHeader
                 variant="search"
+                className="border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] backdrop-blur-xl"
                 searchValue={searchQuery}
                 searchPlaceholder="搜索项目、材料、作者..."
                 onSearchChange={setSearchQuery}
@@ -823,11 +898,15 @@ export function ExploreClient({
             />
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[linear-gradient(180deg,hsl(var(--app-canvas)/0.98)_0%,hsl(var(--app-canvas-soft)/0.72)_56%,hsl(var(--app-canvas-soft)/0)_100%)] md:h-[560px]"
+                className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--app-canvas))_0%,hsl(var(--surface-raised)/0.98)_45%,hsl(var(--app-canvas-soft))_100%)] md:hidden"
             />
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-95 dark:hidden md:h-[560px]"
+                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[560px] bg-[linear-gradient(180deg,hsl(var(--app-canvas)/0.98)_0%,hsl(var(--app-canvas-soft)/0.72)_56%,hsl(var(--app-canvas-soft)/0)_100%)] md:block"
+            />
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[560px] opacity-95 dark:md:hidden md:block"
                 style={{
                     backgroundImage: "url('/assets/explore-page-bg-light.webp')",
                     backgroundPosition: 'right top',
@@ -839,7 +918,7 @@ export function ExploreClient({
             />
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[420px] opacity-95 dark:block md:h-[560px]"
+                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[560px] opacity-95 dark:md:block"
                 style={{
                     backgroundImage: "url('/assets/explore-page-bg-dark.webp')",
                     backgroundPosition: 'right top',
@@ -851,68 +930,221 @@ export function ExploreClient({
             />
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-[260px] h-[460px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:top-[300px] md:h-[560px]"
+                className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
-                        <main className="surface-panel relative min-w-0 overflow-hidden rounded-[22px] md:rounded-[20px]">
-                            <h1 className="sr-only">探索项目</h1>
-                            <div className="border-b border-[hsl(var(--surface-border))] bg-transparent p-3.5 md:p-5">
-                                <form id="explore-search" onSubmit={handleSearchSubmit} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2.5 md:grid-cols-[minmax(0,1fr)_176px_auto] md:gap-3">
-                                    <label className="relative col-span-2 hidden md:col-span-1 md:block">
-                                        <span className="sr-only">搜索项目</span>
-                                        <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-                                        <input
-                                            type="search"
-                                            value={searchQuery}
-                                            onChange={(event) => setSearchQuery(event.target.value)}
-                                            placeholder="搜索项目、材料、作者..."
-                                            className="control-field h-12 w-full rounded-[14px] pl-11 pr-4 text-[15px] font-medium placeholder:text-muted-foreground/70 md:h-11 md:rounded-[12px] md:text-sm"
-                                        />
-                                    </label>
+                        <main className={cn(
+                            "relative min-w-0 overflow-hidden md:surface-panel md:rounded-[20px]",
+                            isResultsMode && "md:border-[hsl(var(--surface-border))]",
+                        )}>
+                            <div className={cn(
+                                "bg-transparent pb-3 pt-1 md:p-5",
+                                isResultsMode && "md:border-b md:border-[hsl(var(--surface-border))]",
+                            )}>
+                                {isResultsMode ? (
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={handleClearFilters}
+                                                className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:text-sm"
+                                            >
+                                                <ArrowLeft className="h-4 w-4" aria-hidden />
+                                                返回探索
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={openSheet}
+                                                data-testid="explore-more-filters"
+                                                className={cn(
+                                                    "relative inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold transition md:h-11 md:rounded-[12px] md:px-4 md:text-sm",
+                                                    hasActiveAdvancedFilters
+                                                        ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
+                                                        : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:text-foreground",
+                                                )}
+                                            >
+                                                <SlidersHorizontal className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                                                <span>筛选</span>
+                                                {advancedFilterCount > 0 && (
+                                                    <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue-foreground))] md:static md:ml-0.5 md:h-5 md:min-w-5 md:text-[11px]">
+                                                        {advancedFilterCount}
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </div>
 
-                                    <label className="relative block">
-                                        <span className="sr-only">排序方式</span>
-                                        <Select
-                                            value={selectedSortBy}
-                                            onValueChange={(value) => handleSortChange(normalizeSortBy(value))}
-                                        >
-                                            <SelectTrigger className="h-9 rounded-[12px] border-transparent bg-transparent px-3 text-[13px] font-semibold text-foreground shadow-none hover:bg-[hsl(var(--surface-muted))] md:h-11 md:rounded-[12px] md:border md:bg-[hsl(var(--surface-raised)/0.86)] md:px-4 md:text-sm">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent align="end" className="rounded-[14px]">
-                                                {SORT_OPTIONS.map((option) => (
-                                                    <SelectItem key={option.value} value={option.value}>
+                                        <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
+                                            <form id="explore-search" onSubmit={handleSearchSubmit}>
+                                                <label className="relative block">
+                                                    <span className="sr-only">搜索项目</span>
+                                                    <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                                                    <input
+                                                        type="search"
+                                                        value={searchQuery}
+                                                        onChange={(event) => setSearchQuery(event.target.value)}
+                                                        placeholder="搜索项目、材料、作者..."
+                                                        className="control-field h-11 w-full rounded-[12px] pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
+                                                    />
+                                                </label>
+                                            </form>
+                                        </div>
+
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            {selectedCategory !== "全部" && (
+                                                <FilterChip
+                                                    onClick={() => handleCategoryClick("全部")}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    {selectedCategory}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            )}
+                                            {searchQuery && (
+                                                <FilterChip
+                                                    onClick={() => {
+                                                        setSearchQuery("")
+                                                        executeFilter(buildSearchParams({ query: "" }))
+                                                    }}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    {searchQuery}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            )}
+                                            {selectedSubCategory && (
+                                                <FilterChip
+                                                    onClick={handleRemoveSubCategory}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    {selectedSubCategory}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            )}
+                                            {selectedDifficulty !== "all" && !difficultyBelongsToListTab && (
+                                                <FilterChip
+                                                    onClick={handleRemoveDifficulty}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    {getDifficultyLabel(selectedDifficulty)}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            )}
+                                            {selectedTags.map(tag => (
+                                                <FilterChip
+                                                    key={tag}
+                                                    onClick={() => handleRemoveTag(tag)}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    {tag}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex flex-wrap items-end justify-between gap-3">
+                                            <p className="text-[13px] font-semibold text-foreground md:text-sm">
+                                                {isFiltering
+                                                    ? '正在查找项目…'
+                                                    : `共找到 ${resultTotal} 个项目`}
+                                            </p>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="mr-0.5 text-[12px] font-medium text-muted-foreground">排序</span>
+                                                {EXPLORE_RESULTS_SORT_OPTIONS.map((option) => (
+                                                    <FilterChip
+                                                        key={option.value}
+                                                        onClick={() => handleSortChange(option.value)}
+                                                        disabled={isFiltering}
+                                                        aria-pressed={selectedSortBy === option.value}
+                                                        active={selectedSortBy === option.value}
+                                                        tone="primary"
+                                                        shape="pill"
+                                                        size="md"
+                                                        className="h-8 px-3 text-[12px] font-bold md:text-[13px]"
+                                                    >
                                                         {option.label}
-                                                    </SelectItem>
+                                                    </FilterChip>
                                                 ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                <div className="mb-3.5 flex items-start justify-between gap-4 md:mb-0">
+                                    <div className="min-w-0 flex-1">
+                                        <h1 className="font-sans text-[26px] font-bold leading-[1.12] tracking-normal text-foreground md:sr-only">
+                                            探索
+                                        </h1>
+                                        <p className="mt-1.5 text-[13px] leading-[1.45] text-muted-foreground md:hidden">
+                                            发现优质项目，激发创意灵感
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={openSheet}
+                                        data-testid="explore-more-filters"
+                                        className={cn(
+                                            "relative mt-0.5 inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.38)] transition md:hidden",
+                                            hasActiveAdvancedFilters
+                                                ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
+                                                : "border-[hsl(var(--brand-blue)/0.44)] bg-[hsl(var(--surface-raised)/0.72)] text-[hsl(var(--brand-blue))] hover:border-[hsl(var(--brand-blue)/0.72)] hover:bg-[hsl(var(--brand-blue)/0.06)] dark:bg-white/8",
+                                        )}
+                                    >
+                                        <Filter className="h-3.5 w-3.5" strokeWidth={2.2} />
+                                        <span>筛选</span>
+                                        {advancedFilterCount > 0 && (
+                                            <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue-foreground))]">
+                                                {advancedFilterCount}
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
+
+                                <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
+                                    <form id="explore-search" onSubmit={handleSearchSubmit} className="hidden md:block">
+                                        <label className="relative block">
+                                            <span className="sr-only">搜索项目</span>
+                                            <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                                            <input
+                                                type="search"
+                                                value={searchQuery}
+                                                onChange={(event) => setSearchQuery(event.target.value)}
+                                                placeholder="搜索项目、材料、作者..."
+                                                className="control-field h-11 w-full rounded-[12px] pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
+                                            />
+                                        </label>
+                                    </form>
 
                                     <button
                                         type="button"
                                         onClick={openSheet}
                                         className={cn(
-                                            "relative inline-flex h-9 items-center justify-center gap-1.5 rounded-[12px] border px-3 text-[13px] font-semibold transition md:h-11 md:gap-2 md:rounded-[12px] md:px-4 md:text-sm",
+                                            "relative inline-flex h-11 items-center justify-center gap-2 rounded-[12px] border px-4 text-sm font-semibold transition",
                                             hasActiveAdvancedFilters
-                                                ? "border-[hsl(var(--brand-amber)/0.5)] bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))] md:filter-chip-active"
+                                                ? "border-[hsl(var(--brand-amber)/0.5)] bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))] filter-chip-active"
                                                 : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
                                         )}
                                     >
                                         <SlidersHorizontal className="h-4 w-4" />
-                                        <span>筛选</span>
+                                        <span>更多筛选</span>
                                         {advancedFilterCount > 0 && (
                                             <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">
                                                 {advancedFilterCount}
                                             </span>
                                         )}
                                     </button>
-                                </form>
+                                </div>
 
-                                <div className="no-scrollbar mt-4 overflow-x-auto md:mt-4">
-                                    <div className="flex min-w-max items-center gap-2 pb-3 md:min-w-0 md:flex-wrap md:gap-3 md:border-b-0 md:pb-0">
+                                <div className="space-y-2.5 md:mt-4 md:space-y-2">
+                                    <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
+                                    <div className="no-scrollbar -mx-4 overflow-x-auto px-4 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:px-0">
+                                    <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
                                         {displayCategories.map((category) => {
                                             const meta = CATEGORY_META[category]
                                             const isActive = selectedCategory === category
@@ -927,222 +1159,40 @@ export function ExploreClient({
                                                     aria-pressed={isActive}
                                                     active={isActive}
                                                     solid={isActive && !tone}
+                                                    shape="pill"
                                                     size="md"
                                                     className={cn(
-                                                        "min-w-[68px] rounded-full px-4 text-[14px] font-semibold md:min-w-0 md:rounded-[10px] md:px-5 md:text-sm",
-                                                        isActive && tone ? cn(activeToneBg, "border-transparent shadow-sm") : undefined,
+                                                        "h-8 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-[10px] md:px-5 md:text-sm",
+                                                        !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
+                                                        isActive && tone && cn(
+                                                            activeToneBg,
+                                                            "border-transparent shadow-sm max-md:!border-[hsl(var(--brand-blue))] max-md:!bg-[hsl(var(--brand-blue))] max-md:!text-[hsl(var(--brand-blue-foreground))]",
+                                                        ),
                                                     )}
                                                 >
-                                                    <Icon className="mr-1 h-4 w-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                                                    <Icon
+                                                        className={cn(
+                                                            "mr-0.5 h-3.5 w-3.5 shrink-0",
+                                                            isActive ? "text-inherit" : tone ? categoryToneClasses[tone].text : "text-muted-foreground",
+                                                        )}
+                                                        strokeWidth={2.2}
+                                                        aria-hidden="true"
+                                                    />
                                                     {category}
                                                 </FilterChip>
                                             )
                                         })}
                                     </div>
-                                </div>
-
-                                <div className="mt-3 space-y-3 md:mt-4 md:border-t md:border-[hsl(var(--surface-border))] md:pt-4">
-                                    <div className="flex items-center justify-between gap-3 md:hidden">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-[12px] text-muted-foreground">难度</span>
-                                            <div className="flex items-center gap-0.5">
-                                                {[1, 2, 3, 4, 5].map((n) => {
-                                                    const current = selectedDifficulty === 'all' ? 0 : Number(selectedDifficulty)
-                                                    const active = current >= n
-                                                    return (
-                                                        <button
-                                                            key={n}
-                                                            type="button"
-                                                            aria-label={`筛选 ${n} 星难度`}
-                                                            aria-pressed={selectedDifficulty === String(n)}
-                                                            onClick={() => handleDifficultyClick(selectedDifficulty === String(n) ? 'all' : String(n))}
-                                                            disabled={isFiltering}
-                                                            className="grid h-8 w-8 place-items-center rounded-full transition active:bg-[hsl(var(--surface-muted))] disabled:opacity-60"
-                                                        >
-                                                            <Star
-                                                                className={cn(
-                                                                    "h-5 w-5 transition-colors",
-                                                                    active
-                                                                        ? "fill-[hsl(var(--brand-amber))] text-[hsl(var(--brand-amber))]"
-                                                                        : "fill-transparent text-muted-foreground/30",
-                                                                )}
-                                                                strokeWidth={1.6}
-                                                            />
-                                                        </button>
-                                                    )
-                                                })}
-                                            </div>
-                                        </div>
-                                        {selectedDifficulty !== 'all' ? (
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDifficultyClick('all')}
-                                                className="text-[12px] font-medium text-muted-foreground transition hover:text-foreground"
-                                            >
-                                                全部
-                                            </button>
-                                        ) : null}
-                                    </div>
-
-                                    {selectedCategory !== "全部" && (
-                                        <div className="flex items-center gap-2 md:hidden">
-                                            <FilterChip
-                                                onClick={() => handleCategoryClick("全部")}
-                                                active
-                                                size="md"
-                                                className="h-9 rounded-[12px] px-3.5 text-sm font-bold md:h-9"
-                                            >
-                                                已选：{selectedCategory}
-                                                <X className="h-3.5 w-3.5" />
-                                            </FilterChip>
-                                        </div>
-                                    )}
-
-                                    {currentSubCategories.length > 0 && (
-                                        <div className="hidden flex-wrap items-center gap-2 md:flex">
-                                            <span className="mr-1 text-xs font-semibold text-muted-foreground">方向:</span>
-                                            <FilterChip
-                                                onClick={handleRemoveSubCategory}
-                                                active={!selectedSubCategory}
-                                            >
-                                                全部
-                                            </FilterChip>
-                                            {desktopSubCategories.map((subCategory) => (
-                                                <FilterChip
-                                                    key={subCategory}
-                                                    onClick={() => handleSubCategoryClick(subCategory)}
-                                                    active={selectedSubCategory === subCategory}
-                                                >
-                                                    {subCategory}
-                                                </FilterChip>
-                                            ))}
-                                            {hiddenDesktopSubCategoryCount > 0 && (
-                                                <FilterChip
-                                                    onClick={() => setShowDesktopFilters(true)}
-                                                    active
-                                                >
-                                                    +{hiddenDesktopSubCategoryCount}
-                                                </FilterChip>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    <div className="hidden flex-wrap items-center gap-2 md:flex">
-                                        <span className="mr-1 text-xs font-semibold text-muted-foreground">难度:</span>
-                                        {DIFFICULTY_OPTIONS.map((option) => (
-                                            <FilterChip
-                                                key={option.value}
-                                                onClick={() => handleDifficultyClick(option.value)}
-                                                active={selectedDifficulty === option.value}
-                                            >
-                                                {option.label}
-                                            </FilterChip>
-                                        ))}
-                                    </div>
-
-                                    {(showDesktopFilters || selectedTags.length > 0) && desktopTags.length > 0 && (
-                                        <div className="hidden flex-wrap items-center gap-2 md:flex">
-                                            <span className="mr-1 text-xs font-semibold text-muted-foreground">标签:</span>
-                                            {desktopTags.map((tag) => (
-                                                <FilterChip
-                                                    key={tag}
-                                                    onClick={() => handleTagClick(tag)}
-                                                    active={selectedTags.includes(tag)}
-                                                >
-                                                    {tag}
-                                                </FilterChip>
-                                            ))}
-                                            {hiddenDesktopTagCount > 0 && (
-                                                <FilterChip
-                                                    onClick={() => setShowDesktopFilters(true)}
-                                                    active
-                                                >
-                                                    +{hiddenDesktopTagCount}
-                                                </FilterChip>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    <div className="hidden flex-wrap items-center justify-between gap-3 md:flex">
-                                        <div className="flex flex-wrap items-center gap-2">
-                                            {hasAnyActiveFilters ? (
-                                                <>
-                                                    <span className="text-xs font-semibold text-muted-foreground">已选条件:</span>
-                                                    {selectedCategory !== "全部" && (
-                                                        <FilterChip
-                                                            onClick={() => handleCategoryClick("全部")}
-                                                            active
-                                                            shape="pill"
-                                                        >
-                                                            {selectedCategory}
-                                                            <X className="h-3 w-3" />
-                                                        </FilterChip>
-                                                    )}
-                                                    {searchQuery && (
-                                                        <span className="filter-chip-base filter-chip-active rounded-full px-3 py-1 text-xs">
-                                                            {searchQuery}
-                                                        </span>
-                                                    )}
-                                                    {selectedSubCategory && (
-                                                        <FilterChip
-                                                            onClick={handleRemoveSubCategory}
-                                                            active
-                                                            shape="pill"
-                                                        >
-                                                            {selectedSubCategory}
-                                                            <X className="h-3 w-3" />
-                                                        </FilterChip>
-                                                    )}
-                                                    {selectedDifficulty !== "all" && (
-                                                        <FilterChip
-                                                            onClick={handleRemoveDifficulty}
-                                                            active
-                                                            shape="pill"
-                                                        >
-                                                            {getDifficultyLabel(selectedDifficulty)}
-                                                            <X className="h-3 w-3" />
-                                                        </FilterChip>
-                                                    )}
-                                                    {selectedTags.map(tag => (
-                                                        <FilterChip
-                                                            key={tag}
-                                                            onClick={() => handleRemoveTag(tag)}
-                                                            active
-                                                            shape="pill"
-                                                        >
-                                                            {tag}
-                                                            <X className="h-3 w-3" />
-                                                        </FilterChip>
-                                                    ))}
-                                                </>
-                                            ) : (
-                                                <span className="hidden text-xs text-muted-foreground md:inline">当前按「{selectedSortLabel}」展示所有项目</span>
-                                            )}
-                                        </div>
-
-                                        <div className="hidden items-center gap-3 md:flex">
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowDesktopFilters((value) => !value)}
-                                                className="text-xs font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline"
-                                            >
-                                                {showDesktopFilters ? '收起条件' : '更多条件'}
-                                            </button>
-                                            {hasAnyActiveFilters && (
-                                                <button
-                                                    type="button"
-                                                    onClick={handleClearFilters}
-                                                    className="text-xs font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-                                                >
-                                                    清空全部
-                                                </button>
-                                            )}
-                                        </div>
                                     </div>
                                 </div>
+                                    </>
+                                )}
                             </div>
 
-                            <div className="p-4 md:p-5">
+                            <div className={cn(
+                                "pb-4 pt-1 md:p-5",
+                                isResultsMode && "md:pt-4",
+                            )}>
                                 {isFiltering && (
                                     <div className="mb-4 flex items-center gap-2 rounded-[14px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted))] px-4 py-3 text-sm font-semibold text-muted-foreground">
                                         <Sparkles className="h-4 w-4 animate-pulse text-[hsl(var(--brand-blue))]" />
@@ -1150,77 +1200,133 @@ export function ExploreClient({
                                     </div>
                                 )}
 
-                                <div
-                                    className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4"
-                                    onClickCapture={handleExploreProjectLinkClick}
-                                >
-                                    {projects.map((project, index) => {
-                                        const isPriority = index < 4
-                                        const detailHref = buildProjectDetailHref(project.id, index)
-                                        const card = (
-                                            <ProjectCard
-                                                project={project}
-                                                searchQuery={searchQuery}
-                                                priority={isPriority}
-                                                href={detailHref}
-                                                variant="compact"
-                                            />
-                                        )
-                                        const projectNode = projects.length === index + 1 ? (
-                                            <div ref={lastProjectElementRef}>
-                                                {card}
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                {card}
-                                            </div>
-                                        )
+                                {!isResultsMode && forYouData ? (
+                                    <ExploreForYouRail
+                                        initialData={forYouData}
+                                    />
+                                ) : null}
 
-                                        return (
-                                            <Fragment key={project.id}>
-                                                {projectNode}
-                                            </Fragment>
-                                        )
-                                    })}
+                                <div className={cn(
+                                    !isResultsMode && "-mx-4 mt-1 rounded-t-[24px] bg-[hsl(var(--surface-muted)/0.34)] px-4 pb-5 pt-3.5 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:rounded-none md:bg-transparent md:px-0 md:pb-0 md:pt-0",
+                                    isResultsMode && "mt-0",
+                                )}>
+                                    {!isResultsMode ? (
+                                    <div className="mb-3 flex items-center justify-between gap-3">
+                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1">
+                                            {EXPLORE_PRESETS.map((preset) => {
+                                                const isActive = activeListTabId === preset.id
 
-                                    {isLoadingMore && (
-                                        <>
-                                            {[1, 2, 3, 4].map((i) => (
-                                                <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" />
-                                            ))}
-                                        </>
+                                                return (
+                                                    <FilterChip
+                                                        key={preset.id}
+                                                        onClick={() => handlePresetClick(preset.id)}
+                                                        disabled={isFiltering}
+                                                        aria-pressed={isActive}
+                                                        active={isActive}
+                                                        tone="primary"
+                                                        shape="pill"
+                                                        size="md"
+                                                        className={cn(
+                                                            "h-8 min-w-[78px] px-3.5 text-[12px] font-bold md:h-10 md:min-w-[96px] md:text-sm",
+                                                            isActive
+                                                                ? "border-[hsl(var(--brand-blue)/0.42)] bg-[hsl(var(--brand-blue)/0.1)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)]"
+                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
+                                                        )}
+                                                    >
+                                                        {preset.label}
+                                                    </FilterChip>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                    ) : null}
+
+                                    <div
+                                        className="grid grid-cols-1 gap-2.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4"
+                                        onClickCapture={handleExploreProjectLinkClick}
+                                    >
+                                        {projects.map((project, index) => {
+                                            const isPriority = index < 4
+                                            const detailHref = buildProjectDetailHref(project.id, index)
+                                            const card = (
+                                                <ProjectCard
+                                                    project={project}
+                                                    searchQuery={searchQuery}
+                                                    priority={isPriority}
+                                                    href={detailHref}
+                                                    variant="compact"
+                                                    compactLayout="dense"
+                                                />
+                                            )
+                                            const projectNode = projects.length === index + 1 ? (
+                                                <div ref={lastProjectElementRef}>
+                                                    {card}
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    {card}
+                                                </div>
+                                            )
+
+                                            return (
+                                                <Fragment key={project.id}>
+                                                    {projectNode}
+                                                </Fragment>
+                                            )
+                                        })}
+
+                                        {isLoadingMore && (
+                                            <>
+                                                {[1, 2, 3, 4].map((i) => (
+                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" />
+                                                ))}
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {!isLoadingMore && !isFiltering && projects.length === 0 && (
+                                        <div className="mt-8 flex flex-col items-center justify-center rounded-[18px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
+                                            <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
+                                                <Search className="h-7 w-7" />
+                                            </div>
+                                            <h3 className="text-lg font-semibold">没有找到相关项目</h3>
+                                            <p className="mt-2 max-w-xs text-sm text-muted-foreground">
+                                                换个关键词、类别或减少筛选条件再试试看。
+                                            </p>
+                                            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                                                {!isResultsMode && activeListTabId !== 'beginner-friendly' ? (
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => handlePresetClick('beginner-friendly')}
+                                                        className="rounded-full"
+                                                    >
+                                                        试试新手推荐
+                                                    </Button>
+                                                ) : null}
+                                                <Button
+                                                    variant="outline"
+                                                    onClick={handleClearFilters}
+                                                    className="rounded-full"
+                                                >
+                                                    {isResultsMode ? '返回探索' : '清除所有筛选'}
+                                                </Button>
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-
-                                {!isLoadingMore && !isFiltering && projects.length === 0 && (
-                                    <div className="mt-8 flex flex-col items-center justify-center rounded-[18px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
-                                        <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
-                                            <Search className="h-7 w-7" />
-                                        </div>
-                                        <h3 className="text-lg font-semibold">没有找到相关项目</h3>
-                                        <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-                                            换个关键词、类别或减少筛选条件再试试看。
-                                        </p>
-                                        <Button
-                                            variant="outline"
-                                            onClick={handleClearFilters}
-                                            className="mt-5 rounded-full"
-                                        >
-                                            清除所有筛选
-                                        </Button>
-                                    </div>
-                                )}
                             </div>
                         </main>
 
                         <aside className="hidden min-w-0 xl:block">
                             <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
+                                {!isResultsMode ? (
+                                    <>
                                 <Surface className="p-4">
                                     <div className="mb-3 flex items-center justify-between gap-2">
                                         <h2 className="text-base font-bold text-foreground">热门标签</h2>
                                         <button
                                             type="button"
-                                            onClick={() => setShowDesktopFilters(true)}
+                                            onClick={openSheet}
                                             className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-blue))] underline-offset-2 hover:underline"
                                         >
                                             查看全部
@@ -1284,8 +1390,6 @@ export function ExploreClient({
                                     </div>
                                 </Surface>
 
-                                <ExplorationProgressCard />
-
                                 <Surface className="p-4">
                                     <div className="mb-3 flex items-center justify-between">
                                         <h2 className="text-base font-bold text-foreground">探索小贴士</h2>
@@ -1309,6 +1413,10 @@ export function ExploreClient({
                                         了解更多使用指南 →
                                     </Link>
                                 </Surface>
+                                    </>
+                                ) : null}
+
+                                <ExplorationProgressCard suggestedPresetId={suggestedPresetId} />
                             </div>
                         </aside>
                     </div>
@@ -1322,7 +1430,7 @@ export function ExploreClient({
                         <SheetTitle className="sr-only">项目筛选</SheetTitle>
                         <div className="flex items-center justify-between">
                             <div className="text-xs text-muted-foreground">
-                                {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '筛选'}
+                                {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '更多筛选'}
                             </div>
                             <button
                                 type="button"
