@@ -56,7 +56,7 @@ function ExploreRecommendationCard({
     : null;
 
   return (
-    <article className="group relative h-full overflow-hidden rounded-[16px] border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.96)] shadow-[0_6px_20px_hsl(var(--surface-shadow)/0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong)/0.64)] hover:shadow-[0_10px_24px_hsl(var(--surface-shadow)/0.08)] dark:shadow-[0_10px_28px_hsl(var(--surface-shadow)/0.22)]">
+    <article className="group relative h-full overflow-hidden rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] transition duration-300 hover:border-[hsl(var(--surface-border-strong))]">
       <Link
         href={`/project/${project.id}?from=explore-for-you`}
         className="absolute inset-0 z-10"
@@ -189,7 +189,7 @@ export function ExploreForYouRail({
   }
 
   return (
-    <section className={cn("mb-4", className)} aria-labelledby="explore-for-you-heading">
+    <section className={className} aria-labelledby="explore-for-you-heading">
       <div className="mb-2.5 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <h2

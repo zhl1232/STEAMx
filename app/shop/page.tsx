@@ -20,9 +20,9 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { CoinIcon } from "@/components/icons/coin-icon";
+import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
-import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
@@ -615,11 +615,12 @@ export default function ShopPage() {
 
   return (
     <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
-      <MobilePageHeader
-        title="创客商店"
-        fallbackHref="/profile"
+      <MobileGlobalHeader
+        variant="title"
+        title="商店"
+        showNotification={false}
+        showUserButton={false}
         className="md:hidden"
-        titleClassName="text-center text-lg"
         rightSlot={(
           <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-sm font-black text-slate-950 shadow-sm dark:bg-white/[0.04] dark:text-slate-50">
             <CoinIcon className="h-4 w-4 text-amber-500" />

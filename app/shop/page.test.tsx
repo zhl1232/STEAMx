@@ -107,6 +107,8 @@ describe('ShopPage', () => {
   it('uses the top profile card as the item preview', () => {
     render(<ShopPage />)
 
+    expect(screen.getByRole('heading', { name: '商店', level: 1 })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '返回上一页' })).not.toBeInTheDocument()
     expect(screen.queryByRole('region', { name: '手机实时预览' })).not.toBeInTheDocument()
     const topPreview = screen.getByRole('region', { name: '商店个人预览' })
     expect(within(topPreview).getByText('测试用户')).toBeInTheDocument()

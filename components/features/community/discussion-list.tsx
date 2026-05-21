@@ -471,6 +471,16 @@ export function DiscussionList({
         }
     };
 
+    useEffect(() => {
+        const handleTrigger = () => {
+            if (!isCreating) {
+                toggleCreateDiscussion();
+            }
+        };
+        window.addEventListener('trigger-create-discussion', handleTrigger);
+        return () => window.removeEventListener('trigger-create-discussion', handleTrigger);
+    }, [isCreating, toggleCreateDiscussion]);
+
     return (
         <>
             <section ref={rootRef} className="surface-panel overflow-hidden">
@@ -605,13 +615,6 @@ export function DiscussionList({
                     </div>
                 </div>
             </section>
-            <Button
-                onClick={toggleCreateDiscussion}
-                className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] right-4 z-50 h-12 rounded-full px-5 text-sm font-semibold shadow-lg md:hidden"
-            >
-                <MessageSquare className="mr-2 h-[18px] w-[18px]" />
-                {isCreating ? "收起" : "发起讨论"}
-            </Button>
         </>
     );
 }

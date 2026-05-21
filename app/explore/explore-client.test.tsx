@@ -377,7 +377,7 @@ describe('ExploreClient', () => {
         expect(screen.queryByText('第三页项目')).not.toBeInTheDocument()
     })
 
-    it('scopes tags by category and reveals more tags on demand', async () => {
+    it('scopes tags by category and opens the tag picker for the full list', async () => {
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({
             ok: true,
@@ -424,14 +424,17 @@ describe('ExploreClient', () => {
         await user.click(screen.getByRole('button', { name: '科学' }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
-        await user.click(screen.getByTestId('explore-more-filters'))
+        await user.click(screen.getByRole('button', { name: '筛选' }))
 
         expect(screen.getByRole('button', { name: '1星' })).toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '编织' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '折射' })).not.toBeInTheDocument()
 
-        await user.click(screen.getByRole('button', { name: /展开更多标签/ }))
+        expect(screen.queryByText(/还有 \d+ 个/)).not.toBeInTheDocument()
 
+        await user.click(screen.getByTestId('explore-more-tags'))
+
+        expect(screen.getByTestId('explore-tag-picker')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '观察' })).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '折射' })).toBeInTheDocument()
     })

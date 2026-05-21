@@ -38,6 +38,10 @@ vi.mock('@/lib/context/community-context', () => ({
   useCommunity: () => mockCommunityState,
 }))
 
+vi.mock('@/lib/context/auth-context', () => ({
+  useAuth: () => ({ user: null }),
+}))
+
 vi.mock('@/components/features/community/discussion-list', () => ({
   DiscussionList: ({ tabsSlot }: { tabsSlot?: React.ReactNode }) => (
     <div>

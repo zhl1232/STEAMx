@@ -101,6 +101,16 @@ describe('ConditionalAppShell mobile header policy', () => {
     },
   )
 
+  it.each(['/shop', '/coins', '/settings', '/settings/profile'])(
+    'lets the mobile function route %s own its header',
+    (pathname) => {
+      renderShell(pathname)
+
+      expect(screen.queryByTestId('shell-mobile-global-header')).not.toBeInTheDocument()
+      expect(screen.getByTestId('page-owned-mobile-header')).toBeInTheDocument()
+    },
+  )
+
   it('keeps the shell mobile global header on the home route', () => {
     renderShell('/', <div data-testid="page-content" />)
 

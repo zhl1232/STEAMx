@@ -21,8 +21,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 import { CoinIcon } from "@/components/icons/coin-icon";
+import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { Button } from "@/components/ui/button";
-import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
 import { getShopItemById, SHOP_ITEMS } from "@/lib/shop/items";
@@ -604,11 +604,12 @@ export default function CoinsPage() {
 
   return (
     <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
-      <MobilePageHeader
-        title="我的钱包"
-        fallbackHref="/profile"
+      <MobileGlobalHeader
+        variant="title"
+        title="硬币"
+        showNotification={false}
+        showUserButton={false}
         className="md:hidden"
-        titleClassName="text-center text-lg"
       />
 
       <main className="app-shell-wide pt-5 min-[390px]:px-5 md:px-8 md:pt-8">

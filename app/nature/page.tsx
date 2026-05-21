@@ -608,7 +608,13 @@ export default async function NaturePage() {
 
   return (
     <div className="theme-nature-page min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
-      <MobileGlobalHeader />
+      <MobileGlobalHeader
+        variant="title"
+        title="自然观察"
+        showSearch={true}
+        showNotification={false}
+        showUserButton={false}
+      />
 
       <div className="app-shell-wide grid gap-5 pb-24 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
         <main className="min-w-0 space-y-5 md:space-y-6">

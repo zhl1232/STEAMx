@@ -6,36 +6,98 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
 import { cn } from "@/lib/utils"
 
-export function ProjectCardSkeleton({ variant = "featured" }: { variant?: "featured" | "compact" } = {}) {
+export function ProjectCardSkeleton({
+  variant = "featured",
+  compactLayout = "dense",
+}: {
+  variant?: "featured" | "compact"
+  compactLayout?: "adaptive" | "vertical" | "dense"
+} = {}) {
   if (variant === "compact") {
+    const isVerticalCompact = compactLayout === "vertical"
+    const isDenseCompact = compactLayout === "dense"
+
     return (
       <div className="h-full">
-        <div className="surface-card surface-card-interactive relative grid min-h-[112px] grid-cols-[88px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[16px] p-2.5 sm:flex sm:h-full sm:flex-col sm:gap-0 sm:p-0">
-          <div className="relative h-full min-h-[92px] w-full overflow-hidden rounded-[12px] bg-muted sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none">
+        <div
+          className={cn(
+            "surface-card surface-card-interactive relative h-full overflow-hidden rounded-[16px]",
+            isVerticalCompact
+              ? "flex flex-col gap-0 p-0"
+              : isDenseCompact
+                ? "grid min-h-[112px] grid-cols-[88px_minmax(0,1fr)] gap-3 border-transparent bg-[hsl(var(--surface-raised)/0.92)] p-2.5 shadow-[0_2px_10px_hsl(var(--surface-shadow)/0.045)] sm:flex sm:flex-col sm:gap-0 sm:p-0 dark:bg-[hsl(var(--surface-raised)/0.72)] dark:shadow-[0_10px_28px_hsl(var(--surface-shadow)/0.18)]"
+                : "grid grid-cols-[128px_minmax(0,1fr)] gap-3 p-2.5 sm:flex sm:flex-col sm:gap-0 sm:p-0",
+          )}
+        >
+          <div
+            className={cn(
+              "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
+              isVerticalCompact
+                ? "aspect-[16/10] rounded-none"
+                : isDenseCompact
+                  ? "h-full min-h-[92px] rounded-[12px] sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
+                  : "aspect-square rounded-[12px] sm:aspect-[16/8.5] sm:rounded-none",
+            )}
+          >
             <Skeleton className="h-full w-full rounded-none" />
           </div>
 
-          <div className="flex min-w-0 flex-col justify-between gap-2 py-0.5 sm:flex-1 sm:p-3.5">
-            <div className="min-w-0 space-y-1.5">
-              <Skeleton className="h-5 w-[88%] rounded-md sm:h-6 sm:w-3/4" />
-              <Skeleton className="h-5 w-[65%] rounded-md sm:hidden" />
-              <div className="flex min-w-0 items-center gap-1.5">
-                <Skeleton className="h-5 w-10 shrink-0 rounded-md" />
-                <Skeleton className="h-3 min-w-0 flex-1 max-w-[6.5rem] rounded-full" />
+          <div
+            className={cn(
+              "pointer-events-none relative flex min-w-0 flex-col justify-between gap-2",
+              isVerticalCompact
+                ? "flex-1 p-3"
+                : isDenseCompact
+                  ? "py-0 sm:flex-1 sm:p-3.5"
+                  : "py-0.5 sm:flex-1 sm:p-3.5",
+            )}
+          >
+            <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : "space-y-2")}>
+              <Skeleton
+                className={cn(
+                  "rounded-md",
+                  isDenseCompact
+                    ? "h-[18px] w-[88%] sm:h-5 sm:w-3/4"
+                    : "h-5 w-[88%] sm:h-6 sm:w-3/4",
+                )}
+              />
+              {isVerticalCompact && (
+                <Skeleton className="h-5 w-[65%] rounded-md sm:hidden" />
+              )}
+              <div className="flex min-w-0 items-center gap-1.5 flex-wrap">
+                <Skeleton className="h-4.5 w-10 shrink-0 rounded-md" />
+                <span className="text-[10px] text-muted-foreground/30 select-none" aria-hidden="true">•</span>
+                <Skeleton className="h-3 min-w-0 flex-1 max-w-[5.5rem] rounded-full" />
               </div>
               <Skeleton className="h-3 w-full rounded-full" />
-              <Skeleton className="h-3 w-[92%] rounded-full" />
-              <Skeleton className="h-3 w-[70%] rounded-full" />
+              {!isDenseCompact && (
+                <>
+                  <Skeleton className="h-3 w-[92%] rounded-full" />
+                  <Skeleton className="h-3 w-[70%] rounded-full" />
+                </>
+              )}
             </div>
 
-            <div className="flex items-center justify-between gap-2 sm:mt-auto">
-              <Skeleton className="h-3 w-12 shrink-0 rounded-full" />
-              <div className="ml-auto flex items-center justify-end gap-2.5">
-                <Skeleton className="h-3 w-7 rounded-full" />
-                <Skeleton className="h-3 w-7 rounded-full" />
-                <Skeleton className="h-3.5 w-8 rounded-full" />
+            {isDenseCompact ? (
+              <div className="flex items-center justify-between gap-2 pt-1 sm:mt-auto">
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Skeleton key={i} className="h-2.5 w-2.5 rounded-full" />
+                  ))}
+                </div>
+                <div className="ml-auto flex items-center justify-end gap-2.5">
+                  <Skeleton className="h-3 w-6 rounded-full" />
+                  <Skeleton className="h-3 w-6 rounded-full" />
+                  <Skeleton className="h-3.5 w-7 rounded-full" />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex items-center gap-3 text-[11px] sm:mt-auto">
+                <Skeleton className="h-3 w-6 rounded-full" />
+                <Skeleton className="h-3 w-6 rounded-full" />
+                <Skeleton className="h-3.5 w-7 rounded-full" />
+              </div>
+            )}
           </div>
         </div>
       </div>

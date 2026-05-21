@@ -966,6 +966,12 @@
     box-shadow: 0 12px 24px -18px hsl(var(--brand-blue) / 0.58);
   }
 
+  .dark .filter-chip-active {
+    background-color: hsl(var(--brand-blue) / 0.18);
+    border-color: hsl(var(--brand-blue) / 0.6);
+    box-shadow: 0 8px 20px -12px hsl(var(--brand-blue) / 0.7);
+  }
+
   .filter-chip-active-solid {
     background-color: hsl(var(--brand-blue));
     border-color: hsl(var(--brand-blue));
@@ -979,10 +985,20 @@
     color: hsl(var(--brand-green));
   }
 
+  .dark .filter-chip-green {
+    background-color: hsl(var(--brand-green) / 0.18);
+    border-color: hsl(var(--brand-green) / 0.45);
+  }
+
   .filter-chip-amber {
     background-color: hsl(var(--brand-amber) / 0.14);
     border-color: hsl(var(--brand-amber) / 0.2);
     color: hsl(var(--brand-amber));
+  }
+
+  .dark .filter-chip-amber {
+    background-color: hsl(var(--brand-amber) / 0.18);
+    border-color: hsl(var(--brand-amber) / 0.45);
   }
 
   .playground-game-page {

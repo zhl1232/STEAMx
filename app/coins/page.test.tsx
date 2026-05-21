@@ -61,10 +61,6 @@ vi.mock("@tanstack/react-query", () => ({
   useQuery: (...args: unknown[]) => mockUseQuery(...args),
 }));
 
-vi.mock("@/components/ui/mobile-page-header", () => ({
-  MobilePageHeader: () => null,
-}));
-
 describe("CoinsPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -101,6 +97,13 @@ describe("CoinsPage", () => {
 
     expect(screen.getByText("挑战第1名奖励")).toBeInTheDocument();
     expect(screen.queryByText("challenge_prize")).not.toBeInTheDocument();
+  });
+
+  it("uses a center-style mobile header without a back button", () => {
+    render(<CoinsPage />);
+
+    expect(screen.getByRole("heading", { name: "硬币", level: 1 })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "返回上一页" })).not.toBeInTheDocument();
   });
 
   it("keeps mobile summary cards compact and collapses wallet rules by default", () => {

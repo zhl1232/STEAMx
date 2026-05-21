@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getFeaturedNatureChallenges } from "@/lib/community/featured-nature-challenges";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { useAuth } from "@/lib/context/auth-context";
 import type { Challenge } from "@/lib/mappers/types";
 
 import {
@@ -19,7 +20,7 @@ import {
     Image as ImageIcon,
     MessageCircle,
     MessageSquare,
-
+    PenLine,
     Sparkles,
     Trophy,
     UsersRound,
@@ -490,6 +491,7 @@ function CommunityPageContent({
     initialDiscussionDataLoaded,
     initialDiscussionTagsLoaded,
 }: CommunityPageClientProps) {
+    const { user } = useAuth();
     const { challenges, challengesError, isLoading, reloadChallenges } = useCommunity();
     const [activeTab, setActiveTab] = useState<CommunityTab>(initialTab);
     const [discussionTotal, setDiscussionTotal] = useState<number | null>(initialDiscussionTotal);
@@ -529,7 +531,24 @@ function CommunityPageContent({
 
     return (
         <div className="min-h-screen app-canvas-community">
-            <MobileGlobalHeader />
+            <MobileGlobalHeader
+                variant="title"
+                title="社区"
+                showUserButton={false}
+                showNotification={true}
+                rightSlot={
+                    activeTab === "discussions" && user ? (
+                        <button
+                            onClick={() => window.dispatchEvent(new CustomEvent('trigger-create-discussion'))}
+                            className="flex h-[32px] items-center justify-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-sm transition hover:bg-[hsl(var(--brand-blue)/0.92)] active:scale-[0.98] md:hidden"
+                            aria-label="发布讨论"
+                        >
+                            <PenLine className="h-3.5 w-3.5" />
+                            <span>发布</span>
+                        </button>
+                    ) : null
+                }
+            />
             <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
                     <CommunityHero metrics={metrics} />

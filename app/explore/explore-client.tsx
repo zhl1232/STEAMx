@@ -6,10 +6,10 @@ import { useSearchParams } from 'next/navigation'
 import {
     ArrowLeft,
     BarChart3,
+    ChevronRight,
     Filter,
     Lightbulb,
     Search,
-    SlidersHorizontal,
     Sparkles,
     Target,
     Trophy,
@@ -28,6 +28,7 @@ import { useSyncProjectInteractions } from '@/hooks/use-sync-project-interaction
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
+import { Input } from '@/components/ui/input'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { Surface } from '@/components/ui/surface'
 import {
@@ -78,7 +79,7 @@ const DIFFICULTY_OPTIONS = [
 ]
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
-const TAGS_COLLAPSED_LIMIT = 24
+const SHEET_HOT_TAGS_LIMIT = 20
 const EMPTY_TAGS: string[] = []
 const EMPTY_TAG_SCOPE: ExploreTagScope = {
     all: [],
@@ -281,10 +282,12 @@ export function ExploreClient({
 
     // Sheet 状态
     const [sheetOpen, setSheetOpen] = useState(false)
+    const [draftCategory, setDraftCategory] = useState(selectedCategory)
     const [draftSubCategory, setDraftSubCategory] = useState(selectedSubCategory)
     const [draftDifficulty, setDraftDifficulty] = useState(selectedDifficulty)
     const [draftTags, setDraftTags] = useState<string[]>(selectedTags)
-    const [showAllDraftTags, setShowAllDraftTags] = useState(false)
+    const [sheetView, setSheetView] = useState<'filters' | 'tags'>('filters')
+    const [tagSearchQuery, setTagSearchQuery] = useState('')
 
     useEffect(() => {
         pageRef.current = page
@@ -387,34 +390,57 @@ export function ExploreClient({
             : CATEGORY_CONFIG[selectedCategory] || []
     ), [selectedCategory])
 
+    const sheetSubCategories = useMemo(() => (
+        draftCategory === "全部"
+            ? Object.values(CATEGORY_CONFIG).flat()
+            : CATEGORY_CONFIG[draftCategory] || []
+    ), [draftCategory])
+
     const scopedAvailableTags = useMemo(() => {
         if (draftSubCategory && resolvedTagScope.bySubCategory[draftSubCategory]) {
             return resolvedTagScope.bySubCategory[draftSubCategory]
         }
 
-        if (selectedCategory !== "全部" && resolvedTagScope.byCategory[selectedCategory]) {
-            return resolvedTagScope.byCategory[selectedCategory]
+        if (draftCategory !== "全部" && resolvedTagScope.byCategory[draftCategory]) {
+            return resolvedTagScope.byCategory[draftCategory]
         }
 
         return resolvedTagScope.all.length > 0 ? resolvedTagScope.all : resolvedAvailableTags
-    }, [draftSubCategory, resolvedAvailableTags, resolvedTagScope, selectedCategory])
+    }, [draftSubCategory, resolvedAvailableTags, resolvedTagScope, draftCategory])
 
-    const sortedDraftTags = useMemo(() => (
-        [...scopedAvailableTags].sort((left, right) => {
+    const sheetHotTags = useMemo(() => {
+        const scopedSet = new Set(scopedAvailableTags)
+        const ranked =
+            resolvedPopularTags.length > 0 ? resolvedPopularTags : resolvedAvailableTags
+        const popularInScope = ranked.filter((tag) => scopedSet.has(tag))
+        const selectedInScope = draftTags.filter(
+            (tag) => scopedSet.has(tag) && !popularInScope.includes(tag)
+        )
+
+        const merged: string[] = []
+        const seen = new Set<string>()
+        for (const tag of [...selectedInScope, ...popularInScope, ...scopedAvailableTags]) {
+            if (seen.has(tag)) continue
+            seen.add(tag)
+            merged.push(tag)
+            if (merged.length >= SHEET_HOT_TAGS_LIMIT) break
+        }
+
+        return merged
+    }, [draftTags, resolvedAvailableTags, resolvedPopularTags, scopedAvailableTags])
+
+    const pickerTags = useMemo(() => {
+        const query = tagSearchQuery.trim().toLowerCase()
+        const sorted = [...scopedAvailableTags].sort((left, right) => {
             const leftSelected = draftTags.includes(left)
             const rightSelected = draftTags.includes(right)
             if (leftSelected !== rightSelected) return leftSelected ? -1 : 1
             return left.localeCompare(right, 'zh-Hans-CN', { sensitivity: 'base' })
         })
-    ), [draftTags, scopedAvailableTags])
 
-    const visibleDraftTags = useMemo(() => (
-        showAllDraftTags || sortedDraftTags.length <= TAGS_COLLAPSED_LIMIT
-            ? sortedDraftTags
-            : sortedDraftTags.slice(0, TAGS_COLLAPSED_LIMIT)
-    ), [showAllDraftTags, sortedDraftTags])
-
-    const hiddenTagCount = sortedDraftTags.length - visibleDraftTags.length
+        if (!query) return sorted
+        return sorted.filter((tag) => tag.toLowerCase().includes(query))
+    }, [draftTags, scopedAvailableTags, tagSearchQuery])
 
     const getFilterState = useCallback(() => ({
         category: selectedCategory,
@@ -428,7 +454,6 @@ export function ExploreClient({
     useEffect(() => {
         const scopedTagSet = new Set(scopedAvailableTags)
         setDraftTags(prev => prev.filter(tag => scopedTagSet.has(tag)))
-        setShowAllDraftTags(false)
     }, [scopedAvailableTags])
 
     const buildSearchParams = useCallback((overrides: {
@@ -740,7 +765,6 @@ export function ExploreClient({
         setSelectedTags([])
         setDraftSubCategory("")
         setDraftTags([])
-        setShowAllDraftTags(false)
         const params = buildSearchParams({ category, subCategory: "", tags: [] })
         executeFilter(params)
     }
@@ -824,16 +848,42 @@ export function ExploreClient({
 
     // Sheet 逻辑
     const openSheet = () => {
+        setDraftCategory(selectedCategory)
         setDraftSubCategory(selectedSubCategory)
         setDraftDifficulty(selectedDifficulty)
         setDraftTags([...selectedTags])
-        setShowAllDraftTags(false)
+        setSheetView('filters')
+        setTagSearchQuery('')
         setSheetOpen(true)
+    }
+
+    const openTagPicker = () => {
+        setTagSearchQuery('')
+        setSheetView('tags')
+    }
+
+    const handleDraftCategoryClick = (category: string) => {
+        setDraftCategory(category)
+        
+        // 联动清空不属于该大类的子分类草稿
+        const validSubs = category === "全部"
+            ? Object.values(CATEGORY_CONFIG).flat()
+            : CATEGORY_CONFIG[category] || []
+        if (draftSubCategory && !validSubs.includes(draftSubCategory)) {
+            setDraftSubCategory("")
+        }
+
+        // 联动清空不适用于该大类的标签草稿
+        const scopedSet = new Set(
+            category === "全部"
+                ? resolvedTagScope.all
+                : resolvedTagScope.byCategory[category] || []
+        )
+        setDraftTags(prev => prev.filter(tag => scopedSet.has(tag)))
     }
 
     const handleDraftSubCategoryClick = (sub: string) => {
         setDraftSubCategory(prev => prev === sub ? "" : sub)
-        setShowAllDraftTags(false)
     }
 
     const handleDraftDifficultyClick = (value: string) => {
@@ -847,19 +897,31 @@ export function ExploreClient({
     }
 
     const handleDraftClearAll = () => {
+        setDraftCategory("全部")
         setDraftSubCategory("")
         setDraftDifficulty("all")
         setDraftTags([])
-        setShowAllDraftTags(false)
+    }
+
+    const handleFilterSheetOpenChange = (open: boolean) => {
+        setSheetOpen(open)
+        if (!open) {
+            setSheetView('filters')
+            setTagSearchQuery('')
+        }
     }
 
     const handleConfirmFilters = () => {
+        setSelectedCategory(draftCategory)
         setSelectedSubCategory(draftSubCategory)
         setSelectedDifficulty(draftDifficulty)
         setSelectedTags(draftTags)
+        setSheetView('filters')
+        setTagSearchQuery('')
         setSheetOpen(false)
 
         const params = buildSearchParams({
+            category: draftCategory,
             subCategory: draftSubCategory,
             difficulty: draftDifficulty,
             tags: draftTags,
@@ -875,10 +937,9 @@ export function ExploreClient({
     const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedTags.length > 0
     const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + selectedTags.length
     const isResultsMode = isExploreResultsMode(getFilterState())
-    const hasDraftFilters = !!draftSubCategory || draftDifficulty !== "all" || draftTags.length > 0
+    const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
-    const sheetSubCategories = currentSubCategories
 
     const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
 
@@ -886,6 +947,8 @@ export function ExploreClient({
         <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
             <MobileGlobalHeader
                 variant="search"
+                showNotification={false}
+                showUserButton={false}
                 className="border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] backdrop-blur-xl"
                 searchValue={searchQuery}
                 searchPlaceholder="搜索项目、材料、作者..."
@@ -895,6 +958,25 @@ export function ExploreClient({
                     setSearchQuery(trimmed)
                     executeFilter(buildSearchParams({ query: trimmed }))
                 }}
+                rightSlot={
+                    <button
+                        type="button"
+                        onClick={openSheet}
+                        data-testid="explore-more-filters"
+                        className={cn(
+                            "relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
+                            hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
+                        )}
+                        aria-label="筛选条件"
+                    >
+                        <Filter className="h-4 w-4" strokeWidth={2.2} />
+                        {advancedFilterCount > 0 && (
+                            <span className="absolute -right-1 -top-1 grid h-4 min-w-4 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[9px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">
+                                {advancedFilterCount}
+                            </span>
+                        )}
+                    </button>
+                }
             />
             <div
                 aria-hidden="true"
@@ -945,13 +1027,13 @@ export function ExploreClient({
                             )}>
                                 {isResultsMode ? (
                                     <div className="space-y-3">
-                                        <div className="flex items-center justify-between gap-3">
+                                        <div className="flex items-center justify-between gap-3 overflow-visible pr-0.5">
                                             <button
                                                 type="button"
                                                 onClick={handleClearFilters}
                                                 className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:text-sm"
                                             >
-                                                <ArrowLeft className="h-4 w-4" aria-hidden />
+                                                <ArrowLeft className="h-4 w-4" aria-hidden aria-label="返回探索" />
                                                 返回探索
                                             </button>
                                             <button
@@ -959,16 +1041,16 @@ export function ExploreClient({
                                                 onClick={openSheet}
                                                 data-testid="explore-more-filters"
                                                 className={cn(
-                                                    "relative inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold transition md:h-11 md:rounded-[12px] md:px-4 md:text-sm",
+                                                    "hidden md:inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-[12px] border px-4 text-sm font-semibold transition",
                                                     hasActiveAdvancedFilters
                                                         ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
                                                         : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:text-foreground",
                                                 )}
                                             >
-                                                <SlidersHorizontal className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                                                <Filter className="h-4 w-4" strokeWidth={2.2} />
                                                 <span>筛选</span>
                                                 {advancedFilterCount > 0 && (
-                                                    <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue-foreground))] md:static md:ml-0.5 md:h-5 md:min-w-5 md:text-[11px]">
+                                                    <span className="grid h-5 min-w-5 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">
                                                         {advancedFilterCount}
                                                     </span>
                                                 )}
@@ -1055,7 +1137,6 @@ export function ExploreClient({
                                                     : `共找到 ${resultTotal} 个项目`}
                                             </p>
                                             <div className="flex items-center gap-1.5">
-                                                <span className="mr-0.5 text-[12px] font-medium text-muted-foreground">排序</span>
                                                 {EXPLORE_RESULTS_SORT_OPTIONS.map((option) => (
                                                     <FilterChip
                                                         key={option.value}
@@ -1076,34 +1157,8 @@ export function ExploreClient({
                                     </div>
                                 ) : (
                                     <>
-                                <div className="mb-3.5 flex items-start justify-between gap-4 md:mb-0">
-                                    <div className="min-w-0 flex-1">
-                                        <h1 className="font-sans text-[26px] font-bold leading-[1.12] tracking-normal text-foreground md:sr-only">
-                                            探索
-                                        </h1>
-                                        <p className="mt-1.5 text-[13px] leading-[1.45] text-muted-foreground md:hidden">
-                                            发现优质项目，激发创意灵感
-                                        </p>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={openSheet}
-                                        data-testid="explore-more-filters"
-                                        className={cn(
-                                            "relative mt-0.5 inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.38)] transition md:hidden",
-                                            hasActiveAdvancedFilters
-                                                ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
-                                                : "border-[hsl(var(--brand-blue)/0.44)] bg-[hsl(var(--surface-raised)/0.72)] text-[hsl(var(--brand-blue))] hover:border-[hsl(var(--brand-blue)/0.72)] hover:bg-[hsl(var(--brand-blue)/0.06)] dark:bg-white/8",
-                                        )}
-                                    >
-                                        <Filter className="h-3.5 w-3.5" strokeWidth={2.2} />
-                                        <span>筛选</span>
-                                        {advancedFilterCount > 0 && (
-                                            <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue-foreground))]">
-                                                {advancedFilterCount}
-                                            </span>
-                                        )}
-                                    </button>
+                                <div className="hidden">
+                                    <h1 className="sr-only">探索</h1>
                                 </div>
 
                                 <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
@@ -1131,7 +1186,7 @@ export function ExploreClient({
                                                 : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
                                         )}
                                     >
-                                        <SlidersHorizontal className="h-4 w-4" />
+                                        <Filter className="h-4 w-4" strokeWidth={2.2} />
                                         <span>更多筛选</span>
                                         {advancedFilterCount > 0 && (
                                             <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">
@@ -1191,15 +1246,9 @@ export function ExploreClient({
 
                             <div className={cn(
                                 "pb-4 pt-1 md:p-5",
+                                !isResultsMode && forYouData && "flex flex-col gap-2.5",
                                 isResultsMode && "md:pt-4",
                             )}>
-                                {isFiltering && (
-                                    <div className="mb-4 flex items-center gap-2 rounded-[14px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted))] px-4 py-3 text-sm font-semibold text-muted-foreground">
-                                        <Sparkles className="h-4 w-4 animate-pulse text-[hsl(var(--brand-blue))]" />
-                                        正在更新项目列表...
-                                    </div>
-                                )}
-
                                 {!isResultsMode && forYouData ? (
                                     <ExploreForYouRail
                                         initialData={forYouData}
@@ -1207,9 +1256,16 @@ export function ExploreClient({
                                 ) : null}
 
                                 <div className={cn(
-                                    !isResultsMode && "-mx-4 mt-1 rounded-t-[24px] bg-[hsl(var(--surface-muted)/0.34)] px-4 pb-5 pt-3.5 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:rounded-none md:bg-transparent md:px-0 md:pb-0 md:pt-0",
-                                    isResultsMode && "mt-0",
+                                    "relative",
+                                    !isResultsMode && "pb-5 pt-0.5 md:pb-0 md:pt-0",
                                 )}>
+                                    {isFiltering && (
+                                        <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 flex items-center gap-2 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.8)] backdrop-blur-md px-4 py-2 text-xs font-bold text-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-3 duration-300">
+                                            <Sparkles className="h-3.5 w-3.5 animate-spin text-[hsl(var(--brand-blue))]" strokeWidth={2.4} aria-hidden="true" />
+                                            <span className="tracking-wide text-foreground/90">正在更新项目列表...</span>
+                                        </div>
+                                    )}
+
                                     {!isResultsMode ? (
                                     <div className="mb-3 flex items-center justify-between gap-3">
                                         <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1">
@@ -1229,7 +1285,7 @@ export function ExploreClient({
                                                         className={cn(
                                                             "h-8 min-w-[78px] px-3.5 text-[12px] font-bold md:h-10 md:min-w-[96px] md:text-sm",
                                                             isActive
-                                                                ? "border-[hsl(var(--brand-blue)/0.42)] bg-[hsl(var(--brand-blue)/0.1)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)]"
+                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
                                                                 : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
                                                         )}
                                                     >
@@ -1242,7 +1298,10 @@ export function ExploreClient({
                                     ) : null}
 
                                     <div
-                                        className="grid grid-cols-1 gap-2.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4"
+                                        className={cn(
+                                            "grid grid-cols-1 gap-2.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4 transition-opacity duration-300",
+                                            isFiltering && "opacity-40 pointer-events-none"
+                                        )}
                                         onClickCapture={handleExploreProjectLinkClick}
                                     >
                                         {projects.map((project, index) => {
@@ -1278,7 +1337,7 @@ export function ExploreClient({
                                         {isLoadingMore && (
                                             <>
                                                 {[1, 2, 3, 4].map((i) => (
-                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" />
+                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="dense" />
                                                 ))}
                                             </>
                                         )}
@@ -1423,134 +1482,241 @@ export function ExploreClient({
                 </div>
             </div>
 
-            {/* 筛选 Bottom Sheet */}
-            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-                <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto rounded-t-2xl px-5 pb-8 pt-6 sm:px-6">
-                    <SheetHeader className="mb-5">
-                        <SheetTitle className="sr-only">项目筛选</SheetTitle>
-                        <div className="flex items-center justify-between">
-                            <div className="text-xs text-muted-foreground">
-                                {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '更多筛选'}
-                            </div>
-                            <button
-                                type="button"
-                                onClick={handleDraftClearAll}
-                                className={cn(
-                                    "text-sm text-muted-foreground hover:text-foreground",
-                                    !hasDraftFilters && "invisible"
-                                )}
-                            >
-                                重置
-                            </button>
-                        </div>
-                    </SheetHeader>
+            {/* 筛选 Bottom Sheet（含标签二级视图） */}
+            <Sheet open={sheetOpen} onOpenChange={handleFilterSheetOpenChange}>
+                <SheetContent
+                    side="bottom"
+                    showClose={false}
+                    className={cn(
+                        "flex flex-col gap-0 rounded-t-2xl p-0 sm:max-w-none",
+                        sheetView === 'tags' ? "max-h-[85vh]" : "max-h-[70vh]"
+                    )}
+                >
+                    {sheetView === 'filters' ? (
+                        <>
+                            <SheetHeader className="shrink-0 space-y-0 px-5 pb-4 pt-6 sm:px-6">
+                                <SheetTitle className="sr-only">项目筛选</SheetTitle>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-xs text-muted-foreground">
+                                        {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '更多筛选'}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={handleDraftClearAll}
+                                        className={cn(
+                                            "text-sm text-muted-foreground hover:text-foreground",
+                                            !hasDraftFilters && "invisible"
+                                        )}
+                                    >
+                                        重置
+                                    </button>
+                                </div>
+                            </SheetHeader>
 
-                    <div className="space-y-6">
-                        {sheetSubCategories.length > 0 && (
-                            <div className="space-y-3">
-                                <span className="text-sm font-medium">子分类</span>
-                                <div className="flex flex-wrap gap-2">
-	                                    {sheetSubCategories.map((sub) => (
-	                                        <FilterChip
-	                                            key={sub}
-	                                            onClick={() => handleDraftSubCategoryClick(sub)}
-	                                            active={draftSubCategory === sub}
-	                                            shape="pill"
-	                                            size="md"
-	                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
-	                                        >
-	                                            {sub}
-	                                        </FilterChip>
-	                                    ))}
+                            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 sm:px-6">
+                                <div className="space-y-6 pb-4">
+                                    <div className="space-y-3">
+                                        <span className="text-sm font-medium">分类</span>
+                                        <div className="flex flex-wrap gap-2">
+                                            {displayCategories.map((category) => (
+                                                <FilterChip
+                                                    key={category}
+                                                    onClick={() => handleDraftCategoryClick(category)}
+                                                    active={draftCategory === category}
+                                                    shape="pill"
+                                                    size="md"
+                                                    className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                >
+                                                    {category}
+                                                </FilterChip>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {sheetSubCategories.length > 0 && (
+                                        <div className="space-y-3">
+                                            <span className="text-sm font-medium">子分类</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {sheetSubCategories.map((sub) => (
+                                                    <FilterChip
+                                                        key={sub}
+                                                        onClick={() => handleDraftSubCategoryClick(sub)}
+                                                        active={draftSubCategory === sub}
+                                                        shape="pill"
+                                                        size="md"
+                                                        className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                    >
+                                                        {sub}
+                                                    </FilterChip>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="space-y-3">
+                                        <span className="text-sm font-medium">难度等级</span>
+                                        <div className="flex flex-wrap gap-2">
+                                            {DIFFICULTY_OPTIONS.map((option) => (
+                                                <FilterChip
+                                                    key={option.value}
+                                                    onClick={() => handleDraftDifficultyClick(option.value)}
+                                                    active={draftDifficulty === option.value}
+                                                    shape="pill"
+                                                    size="md"
+                                                    className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                >
+                                                    {option.label}
+                                                </FilterChip>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {scopedAvailableTags.length > 0 && (
+                                        <div className="space-y-3">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <span className="text-sm font-medium">标签</span>
+                                                </div>
+                                                <span className="shrink-0 text-xs text-muted-foreground">
+                                                    已选 {draftTags.length} 个
+                                                </span>
+                                            </div>
+
+                                            {sheetHotTags.length > 0 && (
+                                                <div className="flex flex-wrap gap-2">
+                                                    {sheetHotTags.map((tag) => (
+                                                        <FilterChip
+                                                            key={tag}
+                                                            onClick={() => handleDraftTagClick(tag)}
+                                                            active={draftTags.includes(tag)}
+                                                            shape="pill"
+                                                            size="md"
+                                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                        >
+                                                            {tag}
+                                                        </FilterChip>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {scopedAvailableTags.length > sheetHotTags.length && (
+                                                <button
+                                                    type="button"
+                                                    data-testid="explore-more-tags"
+                                                    onClick={openTagPicker}
+                                                    className="flex w-full items-center justify-between py-1 text-sm font-medium text-[hsl(var(--brand-blue))]"
+                                                >
+                                                    <span>查看更多标签</span>
+                                                    <ChevronRight className="h-4 w-4 shrink-0" aria-hidden />
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        )}
 
-                        <div className="space-y-3">
-                            <span className="text-sm font-medium">难度等级</span>
-                            <div className="flex flex-wrap gap-2">
-	                                {DIFFICULTY_OPTIONS.map((option) => (
-	                                    <FilterChip
-	                                        key={option.value}
-	                                        onClick={() => handleDraftDifficultyClick(option.value)}
-	                                        active={draftDifficulty === option.value}
-	                                        shape="pill"
-	                                        size="md"
-	                                        className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
-	                                    >
-	                                        {option.label}
-	                                    </FilterChip>
-	                                ))}
+                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
+                                <div className="flex gap-3">
+                                    <Button
+                                        variant="outline"
+                                        className="flex-1 rounded-xl"
+                                        onClick={() => handleFilterSheetOpenChange(false)}
+                                    >
+                                        取消
+                                    </Button>
+                                    <Button
+                                        className="flex-1 rounded-xl"
+                                        onClick={handleConfirmFilters}
+                                    >
+                                        查看结果
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-
-                        {scopedAvailableTags.length > 0 && (
-                            <div className="space-y-3">
+                        </>
+                    ) : (
+                        <div data-testid="explore-tag-picker" className="flex min-h-0 flex-1 flex-col">
+                            <SheetHeader className="shrink-0 space-y-3 px-5 pb-3 pt-6 sm:px-6">
+                                <SheetTitle className="sr-only">选择标签</SheetTitle>
+                                <button
+                                    type="button"
+                                    onClick={() => setSheetView('filters')}
+                                    className="inline-flex items-center gap-0.5 text-sm font-medium text-muted-foreground hover:text-foreground"
+                                    aria-label="返回筛选"
+                                >
+                                    <ArrowLeft className="h-4 w-4" aria-hidden />
+                                    返回
+                                </button>
                                 <div className="flex items-center justify-between">
-                                    <div>
-                                        <span className="text-sm font-medium">标签</span>
-                                        <p className="mt-1 text-xs text-muted-foreground">
-                                            当前范围 {scopedAvailableTags.length} 个标签
-                                        </p>
-                                    </div>
+                                    <span className="text-base font-semibold text-foreground">选择标签</span>
                                     <span className="text-xs text-muted-foreground">
                                         已选 {draftTags.length} 个
                                     </span>
                                 </div>
-
-                                <div className="flex flex-wrap gap-2">
-	                                    {visibleDraftTags.map((tag) => (
-	                                        <FilterChip
-	                                            key={tag}
-	                                            onClick={() => handleDraftTagClick(tag)}
-	                                            active={draftTags.includes(tag)}
-	                                            shape="pill"
-	                                            size="md"
-	                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
-	                                        >
-	                                            {tag}
-	                                        </FilterChip>
-	                                    ))}
+                                <div className="relative">
+                                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                    <Input
+                                        value={tagSearchQuery}
+                                        onChange={(event) => setTagSearchQuery(event.target.value)}
+                                        placeholder="搜索标签"
+                                        aria-label="搜索标签"
+                                        className="h-10 rounded-xl pl-9"
+                                    />
                                 </div>
+                            </SheetHeader>
 
-                                {hiddenTagCount > 0 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowAllDraftTags(true)}
-                                        className="text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-foreground hover:underline"
-                                    >
-                                        展开更多标签（还有 {hiddenTagCount} 个）
-                                    </button>
-                                )}
+                            {draftTags.length > 0 && (
+                                <div className="shrink-0 border-b border-[hsl(var(--surface-border))] px-5 pb-3 sm:px-6">
+                                    <p className="mb-2 text-xs font-medium text-muted-foreground">已选标签</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {draftTags.map((tag) => (
+                                            <FilterChip
+                                                key={`selected-${tag}`}
+                                                onClick={() => handleDraftTagClick(tag)}
+                                                active
+                                                shape="pill"
+                                                size="md"
+                                                className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                            >
+                                                {tag}
+                                            </FilterChip>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
 
-                                {showAllDraftTags && scopedAvailableTags.length > TAGS_COLLAPSED_LIMIT && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowAllDraftTags(false)}
-                                        className="text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-foreground hover:underline"
-                                    >
-                                        收起标签
-                                    </button>
+                            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-4 sm:px-6">
+                                {pickerTags.length === 0 ? (
+                                    <p className="py-8 text-center text-sm text-muted-foreground">
+                                        没有匹配的标签
+                                    </p>
+                                ) : (
+                                    <div className="flex flex-wrap gap-2 py-2">
+                                        {pickerTags.map((tag) => (
+                                            <FilterChip
+                                                key={tag}
+                                                onClick={() => handleDraftTagClick(tag)}
+                                                active={draftTags.includes(tag)}
+                                                shape="pill"
+                                                size="md"
+                                                className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                            >
+                                                {tag}
+                                            </FilterChip>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
-                        )}
-                    </div>
 
-                    <div className="mt-6 flex gap-3">
-                        <Button
-                            variant="outline"
-                            className="flex-1 rounded-xl"
-                            onClick={() => setSheetOpen(false)}
-                        >
-                            取消
-                        </Button>
-                        <Button
-                            className="flex-1 rounded-xl"
-                            onClick={handleConfirmFilters}
-                        >
-                            查看结果
-                        </Button>
-                    </div>
+                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
+                                <Button
+                                    className="w-full rounded-xl"
+                                    onClick={() => setSheetView('filters')}
+                                >
+                                    完成
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </SheetContent>
             </Sheet>
         </div>
