@@ -61,25 +61,25 @@ export function BottomNav() {
         >
             {navItems.map((item) => {
                 const isNatureItem = Boolean(item.nature);
-                const activeTextClass = isNatureItem
-                    ? "text-[hsl(var(--nature-accent))]"
-                    : "text-[hsl(var(--nav-active))]";
-                const inactiveTextClass = isNatureItem
-                    ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
-                    : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
-                const activeIconClass = isNatureItem
+                const activePillClass = isNatureItem
                     ? "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nature-accent)/0.8)]"
                     : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
+                const inactivePillClass = isNatureItem
+                    ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
+                    : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
                 const content = (
-                    <div className={cn(
-                        "flex w-full flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] px-1 py-1 transition-all",
-                        item.active
-                            ? activeTextClass
-                            : inactiveTextClass,
-                    )}>
-                        <span className={cn("grid h-6 w-6 place-items-center rounded-[var(--radius-sm)]", item.active && activeIconClass)}>
-                            <item.icon className={cn("h-[17px] w-[17px]", item.active && "stroke-[2.5px]")} />
-                        </span>
+                    <div
+                        className={cn(
+                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 transition-all",
+                            item.active ? activePillClass : inactivePillClass,
+                        )}
+                    >
+                        <item.icon
+                            className={cn(
+                                "h-[17px] w-[17px] shrink-0",
+                                item.active && "stroke-[2.5px]",
+                            )}
+                        />
                         <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
                     </div>
                 )

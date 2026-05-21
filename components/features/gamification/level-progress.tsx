@@ -1,7 +1,6 @@
 "use client";
 
 import { useGamification } from '@/lib/context/gamification-context';
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 interface LevelProgressProps {
@@ -10,7 +9,8 @@ interface LevelProgressProps {
 }
 
 export function LevelProgress({ className, showLabel = true }: LevelProgressProps) {
-    const { level, progress, xp: _xp, levelProgress, levelTotalNeeded } = useGamification();
+    const { level, progress, levelProgress, levelTotalNeeded } = useGamification();
+    const progressValue = Math.max(0, Math.min(100, progress || 0));
 
     return (
         <div className={cn("flex flex-col gap-2 w-full", className)}>
@@ -30,7 +30,18 @@ export function LevelProgress({ className, showLabel = true }: LevelProgressProp
                     </span>
                 </div>
             )}
-            <Progress value={progress} className="h-2.5" />
+            <div
+                className="profile-xp-track h-2.5"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.floor(progressValue)}
+            >
+                <div
+                    className="profile-xp-progress h-full"
+                    style={{ width: `${progressValue}%` }}
+                />
+            </div>
         </div>
     );
 }

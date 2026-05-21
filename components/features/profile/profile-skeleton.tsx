@@ -18,65 +18,79 @@ function SectionTitleSkeleton({ action = true, actionWidth = "w-16" }: { action?
 
 function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
   return (
-    <section className={`surface-panel relative overflow-hidden ${compact ? "rounded-[var(--radius-lg)]" : "min-h-[270px] rounded-[20px]"}`}>
+    <section className={`profile-hero-card surface-panel relative overflow-hidden ${compact ? "rounded-[18px]" : "min-h-[270px] rounded-[20px]"}`}>
       <div className="absolute inset-0">
         <div
           className={
             compact
-              ? "absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.82)_54%,rgba(255,255,255,0.18)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]"
-              : "absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.92)_34%,rgba(238,247,255,0.62)_60%,rgba(16,46,88,0.18)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]"
+              ? "absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--tone-science-soft)/0.32)_100%)] dark:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-muted)/0.22)_100%)]"
+              : "absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.94)_38%,hsl(var(--tone-science-soft)/0.72)_72%,hsl(var(--background)/0.22)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.88)_42%,hsl(var(--brand-blue)/0.14)_100%)]"
           }
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_17%_18%,hsl(var(--brand-blue)/0.12),transparent_26%),radial-gradient(circle_at_62%_86%,hsl(var(--brand-green)/0.10),transparent_34%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,hsl(var(--surface-raised)/0.08)_100%)]" />
         {!compact ? <SkeletonBlock className="absolute bottom-6 right-8 h-40 w-[36%] rounded-[28px] bg-muted/35" /> : null}
       </div>
 
-      <div className={`relative ${compact ? "px-5 pb-4 pt-5" : "px-7 pb-5 pt-7"}`}>
-        <div className={`flex gap-6 ${compact ? "flex-col" : "min-h-[156px] flex-wrap items-start"}`}>
-          <div className={`flex items-center gap-5 ${compact ? "" : "min-w-0 md:min-w-[420px] xl:min-w-[520px]"}`}>
-            <div className="relative shrink-0">
-              <SkeletonBlock className={`${compact ? "h-[88px] w-[88px]" : "h-[112px] w-[112px]"} rounded-full border-[5px] border-background`} />
-              <SkeletonBlock className="absolute -bottom-1.5 left-1/2 h-7 w-20 -translate-x-1/2 rounded-full bg-muted/90" />
-            </div>
+      <div className={`relative ${compact ? "px-4 pb-4 pt-4" : "px-7 pb-5 pt-7"}`}>
+        {compact ? (
+          <div className="flex justify-center">
+            <SkeletonBlock className="h-7 w-24 rounded-full" />
+          </div>
+        ) : null}
 
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <SkeletonBlock className="h-7 w-20 rounded-full" />
-                <SkeletonBlock className="h-7 w-24 rounded-full" />
+        <div className={`mt-4 ${compact ? "grid grid-cols-[78px_minmax(0,1fr)] gap-4" : "flex min-h-[156px] flex-wrap items-start gap-6"}`}>
+          <div className="relative shrink-0 pt-1">
+            <SkeletonBlock className={`${compact ? "h-[76px] w-[76px]" : "h-[112px] w-[112px]"} rounded-full border-[4px] border-background`} />
+            <SkeletonBlock className="absolute -bottom-1.5 left-1/2 h-7 w-16 -translate-x-1/2 rounded-full bg-muted/90" />
+          </div>
+
+          <div className="min-w-0">
+            <div className="flex items-start gap-2">
+              <SkeletonBlock className={compact ? "h-9 w-40 rounded-full" : "h-10 w-48 rounded-full"} />
+              {compact ? <SkeletonBlock className="h-9 w-16 shrink-0 rounded-full" /> : null}
+            </div>
+            <SkeletonBlock className={`mt-2 h-4 rounded-full ${compact ? "w-full" : "max-w-[460px]"}`} />
+            <SkeletonBlock className={`mt-2 h-4 rounded-full ${compact ? "w-5/6" : "max-w-[360px]"}`} />
+
+            {compact ? (
+              <div className="mt-3">
+                <div className="flex items-center justify-between gap-2">
+                  <SkeletonBlock className="h-3 w-28 rounded-full" />
+                  <SkeletonBlock className="h-3 w-8 rounded-full" />
+                </div>
+                <SkeletonBlock className="mt-2 h-2.5 w-full rounded-full" />
+                <SkeletonBlock className="mt-2 h-3 w-32 rounded-full" />
               </div>
-              <SkeletonBlock className={`mt-2 rounded-full ${compact ? "h-8 w-44" : "h-9 w-52"}`} />
-              <SkeletonBlock className="mt-3 h-4 w-full max-w-[460px] rounded-full" />
-              <SkeletonBlock className="mt-2 h-4 w-3/4 max-w-[360px] rounded-full" />
-
-              {!compact ? (
-                <>
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    <SkeletonBlock className="h-8 w-28 rounded-full" />
-                    <SkeletonBlock className="h-8 w-36 rounded-full" />
-                  </div>
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
-                    <SkeletonBlock className="h-11 w-28 rounded-[20px]" />
-                    <SkeletonBlock className="h-4 w-48 rounded-full" />
-                  </div>
-                </>
-              ) : null}
-            </div>
+            ) : (
+              <>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <SkeletonBlock className="h-8 w-28 rounded-full" />
+                  <SkeletonBlock className="h-8 w-36 rounded-full" />
+                </div>
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <SkeletonBlock className="h-11 w-28 rounded-[20px]" />
+                  <SkeletonBlock className="h-4 w-48 rounded-full" />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         <div
-          className={`grid overflow-hidden border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60 ${
-            compact ? "mt-5 grid-cols-4 rounded-2xl" : "mt-6 max-w-[610px] grid-cols-4 rounded-[18px]"
+          className={`grid overflow-hidden ${
+            compact
+              ? "mt-4 grid-cols-4 rounded-[16px] border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.94)] shadow-[0_12px_24px_-22px_hsl(var(--surface-shadow)/0.14)]"
+              : "profile-stats-bar mt-6 max-w-[610px] grid-cols-4 rounded-[18px]"
           }`}
         >
           {Array.from({ length: 4 }).map((_, index) => (
             <div
               key={index}
-              className={`flex items-center justify-center gap-3 ${compact ? "min-h-[72px] flex-col gap-1.5 px-2 py-3" : "min-h-[62px] px-4 py-3"} ${
-                index > 0 ? "border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]" : ""
+              className={`flex items-center justify-center gap-3 ${compact ? "min-h-[68px] flex-col gap-1.5 px-2 py-3" : "min-h-[62px] px-4 py-3"} ${
+                index > 0 ? "border-l border-[hsl(var(--surface-border)/0.56)]" : ""
               }`}
             >
-              <SkeletonBlock className={`${compact ? "h-9 w-9" : "h-10 w-10"} shrink-0`} />
+              <SkeletonBlock className={`${compact ? "h-8 w-8" : "h-10 w-10"} shrink-0`} />
               <div className={compact ? "w-full" : "min-w-0"}>
                 <SkeletonBlock className={`mx-auto h-5 rounded-full ${compact ? "w-10" : "w-12"}`} />
                 <SkeletonBlock className={`mx-auto mt-2 h-3 rounded-full ${compact ? "w-8" : "w-10"}`} />
@@ -91,13 +105,32 @@ function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
 
 function MobileActionGridSkeleton() {
   return (
-    <section className="surface-panel grid grid-cols-4 gap-2 p-3">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <div key={index} className="grid min-h-[86px] place-items-center gap-2 rounded-[16px] px-2 py-3 text-center">
-          <SkeletonBlock className="h-11 w-11" />
-          <SkeletonBlock className="h-3 w-12 rounded-full" />
+    <section className="surface-panel grid grid-cols-5 gap-1.5 p-3 min-[390px]:gap-2">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div key={index} className="grid min-h-[76px] place-items-center gap-1.5 rounded-[16px] px-0.5 py-2.5 text-center min-[390px]:min-h-[84px] min-[390px]:gap-2 min-[390px]:py-3">
+          <SkeletonBlock className="h-9 w-9 rounded-[14px] min-[390px]:h-10 min-[390px]:w-10" />
+          <SkeletonBlock className="h-3 w-10 rounded-full min-[390px]:w-12" />
         </div>
       ))}
+    </section>
+  );
+}
+
+function NextActionCardSkeleton() {
+  return (
+    <section className="surface-panel p-4">
+      <div className="flex items-center justify-between gap-3">
+        <SkeletonBlock className="h-5 w-28 rounded-full" />
+        <SkeletonBlock className="h-8 w-12 rounded-full" />
+      </div>
+      <div className="mt-4 flex items-center gap-3 rounded-[16px] bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)]">
+        <SkeletonBlock className="h-16 w-16 shrink-0 rounded-[14px]" />
+        <div className="min-w-0 flex-1">
+          <SkeletonBlock className="h-4 w-24 rounded-full" />
+          <SkeletonBlock className="mt-2 h-3 w-32 rounded-full" />
+        </div>
+        <SkeletonBlock className="h-10 w-16 rounded-[16px]" />
+      </div>
     </section>
   );
 }
@@ -171,33 +204,29 @@ function StudyCheckInSkeleton() {
 
 function MobileDashboardProfileSkeleton() {
   return (
-    <div className="min-h-screen bg-background pb-24 text-foreground md:hidden">
-      <div className="px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
-        <div className="mb-4 flex min-h-11 items-center justify-between gap-3">
-          <SkeletonBlock className="h-8 w-16 rounded-full" />
-          <div className="flex items-center gap-2">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <SkeletonBlock key={index} className="h-11 w-11 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />
-            ))}
+    <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground md:hidden">
+      <header className="app-mobile-header">
+        <div className="flex h-[3.6rem] items-center px-4 min-[390px]:px-5">
+          <SkeletonBlock className="h-7 w-14 rounded-full" />
+          <div className="ml-auto">
+            <SkeletonBlock className="h-9 w-9 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />
           </div>
         </div>
+      </header>
 
+      <div className="px-4 pb-4 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
         <DashboardHeroSkeleton compact />
       </div>
 
-      <div className="space-y-4 px-4">
+      <div className="space-y-4 px-4 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
+        <NextActionCardSkeleton />
+
         <MobileActionGridSkeleton />
 
-        <div className="grid grid-cols-2 gap-3">
-          {Array.from({ length: 2 }).map((_, index) => (
-            <section key={index} className="surface-panel min-h-[164px] p-4">
-              <SkeletonBlock className="h-4 w-24 rounded-full" />
-              <SkeletonBlock className="mt-5 h-8 w-20 rounded-full" />
-              <SkeletonBlock className="mt-5 h-2 w-full rounded-full" />
-              <SkeletonBlock className="mt-3 h-3 w-24 rounded-full" />
-            </section>
-          ))}
-        </div>
+        <section className="surface-panel p-4">
+          <SectionTitleSkeleton />
+          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-[16px]" />
+        </section>
 
         <section className="surface-panel p-4">
           <SectionTitleSkeleton />
@@ -212,10 +241,8 @@ function MobileDashboardProfileSkeleton() {
         </section>
 
         <section className="surface-panel p-4">
-          <SectionTitleSkeleton action={false} />
-          <div className="mt-4">
-            <GrowthTaskRowsSkeleton />
-          </div>
+          <SectionTitleSkeleton />
+          <LearningTimelineSkeleton />
         </section>
 
         <section className="surface-panel p-4">

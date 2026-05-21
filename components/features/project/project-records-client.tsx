@@ -168,7 +168,7 @@ export function ProjectRecordsClient({
 
   const ensureExploration = async () => {
     if (exploring || completed) return
-    await startExploration(projectId, { autoCollect: true })
+    await startExploration(projectId)
   }
 
   const showExplorationError = () => {
@@ -218,7 +218,7 @@ export function ProjectRecordsClient({
     }
     if (exploring || completed) return
     try {
-      await startExploration(projectId, { autoCollect: true })
+      await startExploration(projectId)
       toast({ title: "已开始探索", description: "点击右上角「+ 记录」写下第一条过程记录" })
     } catch {
       showExplorationError()

@@ -956,7 +956,7 @@ function BadgePanel() {
                     <h2 className="font-sans font-black">游乐场共 {BADGE_COUNT} 枚可解锁徽章</h2>
                     <p className="mt-1 text-xs text-muted-foreground">通关、破纪录、连续挑战都会点亮徽章。</p>
                 </div>
-                <Link href="/badges-preview" className="shrink-0 text-xs font-bold text-primary hover:text-primary/80">
+                <Link href="/profile#profile-badges-anchor" className="shrink-0 text-xs font-bold text-primary hover:text-primary/80">
                     查看全部
                 </Link>
             </div>

@@ -40,6 +40,20 @@ describe('fetchProfileHomeData', () => {
         if (url.includes('/api/profile/study-checkin')) {
           return Promise.resolve(jsonResponse({ streakDays: 0 }))
         }
+        if (url.includes('/api/profile/projects?type=exploring')) {
+          return Promise.resolve(jsonResponse({
+            projects: [
+              { id: 1, title: '项目 1' },
+              { id: 2, title: '项目 2' },
+              { id: 3, title: '项目 3' },
+              { id: 4, title: '项目 4' },
+            ],
+            explorations: [
+              { projectId: 1, lastActivityAt: '2026-05-18T00:00:00.000Z' },
+              { projectId: 2, lastActivityAt: '2026-05-17T00:00:00.000Z' },
+            ],
+          }))
+        }
         return Promise.resolve(jsonResponse({}, false))
       }),
     )
@@ -59,6 +73,11 @@ describe('fetchProfileHomeData', () => {
     ])
 
     expect(first).toEqual(second)
-    expect(fetchMock).toHaveBeenCalledTimes(5)
+    expect(first.exploringProjects.map((project) => project.id)).toEqual([1, 2, 3, 4])
+    expect(first.exploringLastActivityByProjectId).toEqual({
+      1: '2026-05-18T00:00:00.000Z',
+      2: '2026-05-17T00:00:00.000Z',
+    })
+    expect(fetchMock).toHaveBeenCalledTimes(6)
   })
 })

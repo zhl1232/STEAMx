@@ -122,7 +122,7 @@ export function ProjectDetailActions({
       return
     }
     if (!isObservation) {
-      await startExploration(projectId, { autoCollect: true })
+      await startExploration(projectId)
     }
     scrollToSteps()
     toast({

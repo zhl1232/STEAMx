@@ -1,4 +1,8 @@
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import {
+  buildExploringActivityMap,
+  type ExploringActivityMeta,
+} from '@/lib/profile/exploring-projects-card'
 import type { ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import { fetchProfileSummary } from '@/lib/profile/profile-summary-client'
 import type { ProfileStudyCheckInSummary } from '@/lib/profile/study-checkin'
@@ -12,6 +16,8 @@ export type ProfileHomeData = {
   followingCount: number
   totalLikesReceived: number
   steamRadar: SteamRadarWithGuidance | null
+  exploringProjects: Project[]
+  exploringLastActivityByProjectId: Record<number, string>
   profileTimelineEvents: ProfileTimelineEvent[]
   growthTasks: ProfileGrowthTask[]
   growthTasksGraduatedAt: string | null
@@ -33,20 +39,23 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
   }
 
   const promise = (async () => {
-    const [summary, timelineRes, growthRes, observationsRes, checkinRes] = await Promise.all([
+    const [summary, timelineRes, growthRes, observationsRes, checkinRes, exploringRes] = await Promise.all([
       fetchProfileSummary(userId),
       fetch('/api/profile/timeline?limit=5'),
       fetch('/api/profile/growth-tasks/sync', { method: 'POST' }),
       fetch('/api/observations/mine?pageSize=6'),
       fetch('/api/profile/study-checkin'),
+      fetch('/api/profile/projects?type=exploring'),
     ])
 
-    const [timelinePayload, growthPayload, observationsPayload, checkinPayload] = await Promise.all([
-      parseJsonResponse(timelineRes),
-      parseJsonResponse(growthRes),
-      parseJsonResponse(observationsRes),
-      parseJsonResponse(checkinRes),
-    ])
+    const [timelinePayload, growthPayload, observationsPayload, checkinPayload, exploringPayload] =
+      await Promise.all([
+        parseJsonResponse(timelineRes),
+        parseJsonResponse(growthRes),
+        parseJsonResponse(observationsRes),
+        parseJsonResponse(checkinRes),
+        parseJsonResponse(exploringRes),
+      ])
 
     if (!timelineRes.ok) {
       throw new Error(timelinePayload?.error || '探索轨迹加载失败')
@@ -59,6 +68,9 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
     }
     if (!checkinRes.ok) {
       throw new Error(checkinPayload?.error || '探索打卡加载失败')
+    }
+    if (!exploringRes.ok) {
+      throw new Error(exploringPayload?.error || '探索中项目加载失败')
     }
 
     const graduatedAt =
@@ -73,6 +85,10 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
       followingCount: summary.followingCount,
       totalLikesReceived: summary.totalLikesReceived,
       steamRadar: summary.steamRadar,
+      exploringProjects: (exploringPayload?.projects as Project[] | undefined) || [],
+      exploringLastActivityByProjectId: buildExploringActivityMap(
+        exploringPayload?.explorations as ExploringActivityMeta[] | undefined,
+      ),
       profileTimelineEvents: (timelinePayload?.events as ProfileTimelineEvent[] | undefined) || [],
       growthTasks: (growthPayload?.tasks as ProfileGrowthTask[] | undefined) || [],
       growthTasksGraduatedAt: graduatedAt,

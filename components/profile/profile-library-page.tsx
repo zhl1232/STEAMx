@@ -19,6 +19,12 @@ import { logger } from '@/lib/logger'
 import { useProfileObservations } from '@/hooks/profile/use-profile-observations'
 import { useToast } from '@/hooks/use-toast'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
+import {
+  toDesktopProfileLibraryTab,
+  toProfileLibraryTab,
+  type DesktopProfileLibraryTab,
+  type ProfileLibraryTab,
+} from '@/lib/profile/library-tabs'
 
 const ProfileObservationsPanel = dynamic(
   () => import('@/components/features/profile/profile-observations-panel').then((mod) => mod.ProfileObservationsPanel),
@@ -39,14 +45,17 @@ function getErrorMessage(error: unknown, fallback: string) {
   return fallback
 }
 
-export function ProfileLibraryPage() {
+type ProfileLibraryPageProps = {
+  initialTab?: ProfileLibraryTab
+}
+
+export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageProps) {
   const WORKS_PAGE_SIZE = 8
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
-  const [activeTab, setActiveTab] = useState<
-    'my-projects' | 'liked' | 'collected' | 'completed' | 'exploring' | 'observations'
-  >('my-projects')
-  const [mobileProfileTab, setMobileProfileTab] = useState<string>('works')
+  const initialDesktopTab = toDesktopProfileLibraryTab(initialTab)
+  const [activeTab, setActiveTab] = useState<DesktopProfileLibraryTab>(initialDesktopTab)
+  const [mobileProfileTab, setMobileProfileTab] = useState<ProfileLibraryTab>(initialTab)
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
   const [visibleDesktopWorksCount, setVisibleDesktopWorksCount] = useState(WORKS_PAGE_SIZE)
 
@@ -112,6 +121,21 @@ export function ProfileLibraryPage() {
     mediaQuery.addEventListener('change', updateViewport)
     return () => mediaQuery.removeEventListener('change', updateViewport)
   }, [])
+
+  useEffect(() => {
+    setActiveTab(toDesktopProfileLibraryTab(initialTab))
+    setMobileProfileTab(initialTab)
+  }, [initialTab])
+
+  const handleDesktopTabChange = (tab: DesktopProfileLibraryTab) => {
+    setActiveTab(tab)
+    setMobileProfileTab(toProfileLibraryTab(tab))
+  }
+
+  const handleMobileTabChange = (tab: ProfileLibraryTab) => {
+    setMobileProfileTab(tab)
+    setActiveTab(toDesktopProfileLibraryTab(tab))
+  }
 
   useEffect(() => {
     if (!profileSummary) return
@@ -371,17 +395,17 @@ export function ProfileLibraryPage() {
   }
 
   const desktopTabs = [
-    { key: 'my-projects' as const, label: '作品', count: myProjectsTotalCount },
-    { key: 'collected' as const, label: '收藏', count: collectedProjectsCount },
-    { key: 'liked' as const, label: '点赞', count: likedProjectsCount },
-    { key: 'exploring' as const, label: '探索中', count: exploringProjectsList.length || null },
-    { key: 'completed' as const, label: '已完成', count: completedProjectsCount },
+    { key: 'my-projects', label: '作品', count: myProjectsTotalCount },
+    { key: 'collected', label: '收藏', count: collectedProjectsCount },
+    { key: 'liked', label: '点赞', count: likedProjectsCount },
+    { key: 'exploring', label: '探索中', count: exploringProjectsList.length || null },
+    { key: 'completed', label: '已完成', count: completedProjectsCount },
     {
-      key: 'observations' as const,
+      key: 'observations',
       label: '观察记录',
       count: observationsLoaded ? observationsTotal : null,
     },
-  ]
+  ] satisfies Array<{ key: DesktopProfileLibraryTab; label: string; count: number | null }>
   const showDesktopProjectSkeleton =
     (isProjectsDataLoading && activeTab === 'my-projects') ||
     (activeTab === 'collected' && isCollectedProjectsLoading) ||
@@ -455,7 +479,7 @@ export function ProfileLibraryPage() {
                   <button
                     key={tab.key}
                     type="button"
-                    onClick={() => setActiveTab(tab.key)}
+                    onClick={() => handleDesktopTabChange(tab.key)}
                     className={cn("segmented-option shrink-0 gap-2 whitespace-nowrap", activeTab === tab.key && "segmented-option-active")}
                   >
                     <span>{tab.label}</span>
@@ -660,7 +684,8 @@ export function ProfileLibraryPage() {
       uniqueSpeciesCount={uniqueSpeciesCount}
       isObservationsLoading={isObservationsLoading}
       observationsLoaded={observationsLoaded}
-      onTabChange={setMobileProfileTab}
+      onTabChange={handleMobileTabChange}
+      initialTab={initialTab}
       showProfileHeader={false}
       showSteamRadar={false}
       pageTitle="内容库"

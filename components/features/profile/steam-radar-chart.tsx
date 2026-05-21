@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useEffect, useState } from "react"
+import { useMemo, useEffect, useId, useState } from "react"
+import { Info } from "lucide-react"
 import {
   Radar,
   RadarChart,
@@ -9,7 +10,6 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts"
-import { Card } from "@/components/ui/card"
 import type { SteamRadarResult } from "@/lib/mappers/types"
 import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar"
 import { cn } from "@/lib/utils"
@@ -40,16 +40,24 @@ interface RadarDimData {
 }
 
 const DIM_ORDER = ['S', 'T', 'E', 'A', 'M'] as const
-const DIM_LABELS: Record<string, string> = { S: 'S 科学', T: 'T 技术', E: 'E 工程', A: 'A 艺术', M: 'M 数学' }
-const DIM_NAMES: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
-const TIER_LABELS: Record<string, string> = { none: '', foundation: '基础', intermediate: '进阶', advanced: '挑战' }
+type DimKey = (typeof DIM_ORDER)[number]
 
-const DIM_COLORS: Record<string, string> = {
-  S: '#6366f1',
-  T: '#06b6d4',
-  E: '#f59e0b',
-  A: '#ec4899',
-  M: '#10b981',
+const DIM_LABELS: Record<DimKey, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
+const DIM_COLORS: Record<DimKey, string> = {
+  S: '#2F80ED',
+  T: '#7C5CFF',
+  E: '#F97316',
+  A: '#EC4899',
+  M: '#10B981',
+}
+
+function getDimKey(subject?: string): DimKey | null {
+  return DIM_ORDER.find((dim) => DIM_LABELS[dim] === subject) ?? null
+}
+
+function getRadarLevel(value: number) {
+  if (!Number.isFinite(value) || value <= 0) return 0
+  return Math.min(5, Math.max(1, Math.ceil(value / 20)))
 }
 
 type CustomAxisTickProps = {
@@ -57,22 +65,57 @@ type CustomAxisTickProps = {
   x?: number | string
   y?: number | string
   textAnchor?: React.SVGProps<SVGTextElement>["textAnchor"]
+  levels: Record<string, number>
 }
 
-function CustomAxisTick({ payload, x, y, textAnchor }: CustomAxisTickProps) {
-  const value = payload?.value ?? ''
-  const dimKey = Object.entries(DIM_LABELS).find(([, v]) => v === value)?.[0] || ''
-  const color = DIM_COLORS[dimKey] || 'currentColor'
-  const parts = value.split(' ')
+function CustomAxisTick({ payload, x, y, textAnchor, levels }: CustomAxisTickProps) {
+  const subject = payload?.value ?? ''
+  const dimKey = getDimKey(subject)
+  const color = dimKey ? DIM_COLORS[dimKey] : 'currentColor'
+  const level = levels[subject] ?? 0
+  const numericX = Number(x) || 0
+  const numericY = Number(y) || 0
+  const verticalOffset = dimKey === 'S' ? -8 : dimKey === 'A' || dimKey === 'E' ? 10 : 0
+
   return (
-    <text x={x} y={y} textAnchor={textAnchor} dominantBaseline="central" fontSize={11}>
-      <tspan fill={color} fontWeight={700}>{parts[0]}</tspan>
-      <tspan fill={color} fillOpacity={0.6} fontWeight={400}>{' '}{parts[1]}</tspan>
-    </text>
+    <g transform={`translate(${numericX}, ${numericY + verticalOffset})`}>
+      <text textAnchor={textAnchor} dominantBaseline="central">
+        <tspan x={0} dy="-0.35em" fill={color} fontSize={12} fontWeight={800}>
+          {subject}
+        </tspan>
+        <tspan x={0} dy="1.35em" fill={color} fillOpacity={0.82} fontSize={10} fontWeight={700}>
+          Lv.{level}
+        </tspan>
+      </text>
+    </g>
+  )
+}
+
+type CustomRadarDotProps = {
+  cx?: number
+  cy?: number
+  payload?: RadarDimData
+}
+
+function CustomRadarDot({ cx, cy, payload }: CustomRadarDotProps) {
+  if (typeof cx !== 'number' || typeof cy !== 'number') return null
+
+  const dimKey = getDimKey(payload?.subject)
+  const color = dimKey ? DIM_COLORS[dimKey] : '#7C5CFF'
+
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={4.4} fill={color} fillOpacity={0.12} />
+      <circle cx={cx} cy={cy} r={2.4} fill={color} stroke="hsl(var(--background))" strokeWidth={1.25} />
+    </g>
   )
 }
 
 export function SteamRadarChart({ userId, stats, className, initialRadar = null, showHeader = true }: SteamRadarChartProps) {
+  const chartDomId = useId().replace(/[^a-zA-Z0-9_-]/g, '')
+  const glowId = `${chartDomId}-steam-radar-glow`
+  const fillId = `${chartDomId}-steam-radar-fill`
+  const strokeId = `${chartDomId}-steam-radar-stroke`
   const [radarData, setRadarData] = useState<SteamRadarResult | null>(null)
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
@@ -156,6 +199,10 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
   }, [radarData, stats, guidance])
 
   const hasData = data.some(d => d.value > 0)
+  const levelBySubject = useMemo(
+    () => Object.fromEntries(data.map((item) => [item.subject, getRadarLevel(item.value)])),
+    [data],
+  )
 
   const activeGuidance = useMemo(() => {
     if (!radarData) return null
@@ -168,79 +215,89 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
 
   if (loading) {
     return (
-      <Card className={cn("surface-panel p-5 sm:p-6", className)}>
+      <section className={cn("surface-panel p-5", className)}>
         <p className="text-sm text-muted-foreground text-center py-8">加载 STEAM 图谱...</p>
-      </Card>
+      </section>
     )
   }
 
   if (error) {
     return (
-      <Card className={cn("surface-panel p-5 sm:p-6", className)}>
+      <section className={cn("surface-panel p-5", className)}>
         <p className="text-sm text-destructive text-center py-8">{error}</p>
-      </Card>
+      </section>
     )
   }
 
   return (
-    <Card className={cn("surface-panel p-5 sm:p-6 space-y-4", className)}>
+    <section className={cn("surface-panel space-y-4 overflow-hidden p-5", className)}>
       {showHeader ? (
-        <div>
-          <p className="text-base font-semibold tracking-tight text-foreground">STEAM 雷达图</p>
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-1 rounded-full bg-[#2F80ED]" aria-hidden />
+          <p className="text-base font-semibold tracking-tight text-foreground">STEAM 能力星图</p>
+          <Info className="h-3.5 w-3.5 text-muted-foreground/70" aria-hidden />
         </div>
       ) : null}
 
-      <div className="h-56 min-h-[224px] w-full min-w-[200px] sm:h-64 sm:min-h-[256px]">
+      <div className="relative h-52 min-h-[208px] w-full min-w-[200px] sm:h-56 sm:min-h-[224px]" role="img" aria-label="STEAM 五维能力雷达图">
         {hasData ? (
-          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={208} debounce={50}>
-            <RadarChart data={data} outerRadius="78%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={196} debounce={50}>
+            <RadarChart data={data} cx="50%" cy="50%" outerRadius="74%" margin={{ top: 18, right: 24, bottom: 18, left: 24 }}>
               <defs>
-                <radialGradient id="steamRadarFill" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.35} />
-                  <stop offset="60%" stopColor="#6366f1" stopOpacity={0.18} />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.06} />
-                </radialGradient>
+                <filter id={glowId} x="-35%" y="-35%" width="170%" height="170%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#2F80ED" floodOpacity="0.18" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#7C5CFF" floodOpacity="0.22" />
+                </filter>
+                <linearGradient id={fillId} x1="8%" y1="18%" x2="92%" y2="88%">
+                  <stop offset="0%" stopColor="#21C7F3" stopOpacity={0.5} />
+                  <stop offset="36%" stopColor="#2F80ED" stopOpacity={0.34} />
+                  <stop offset="68%" stopColor="#7C5CFF" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#EC4899" stopOpacity={0.18} />
+                </linearGradient>
+                <linearGradient id={strokeId} x1="10%" y1="0%" x2="90%" y2="100%">
+                  <stop offset="0%" stopColor="#2F80ED" />
+                  <stop offset="46%" stopColor="#22C55E" />
+                  <stop offset="76%" stopColor="#7C5CFF" />
+                  <stop offset="100%" stopColor="#F97316" />
+                </linearGradient>
               </defs>
               <PolarGrid
                 gridType="polygon"
                 stroke="hsl(var(--border))"
-                strokeOpacity={0.35}
+                strokeOpacity={0.52}
+                strokeWidth={1}
               />
               <PolarAngleAxis
                 dataKey="subject"
-                tick={<CustomAxisTick />}
+                tick={(props) => <CustomAxisTick {...props} levels={levelBySubject} />}
               />
               <PolarRadiusAxis
                 tick={false}
                 axisLine={false}
-                tickCount={5}
+                tickCount={6}
                 domain={[0, 100]}
-              />
-              <Radar
-                name="基础线"
-                dataKey="foundation"
-                stroke="hsl(var(--muted-foreground))"
-                strokeOpacity={0.18}
-                strokeDasharray="3 3"
-                fill="none"
-              />
-              <Radar
-                name="进阶线"
-                dataKey="intermediate"
-                stroke="hsl(var(--muted-foreground))"
-                strokeOpacity={0.12}
-                strokeDasharray="3 3"
-                fill="none"
               />
               <Radar
                 name="STEAM"
                 dataKey="value"
-                stroke="#7c3aed"
-                strokeWidth={1.5}
-                strokeOpacity={0.8}
-                fill="url(#steamRadarFill)"
-                fillOpacity={1}
+                fill="none"
+                stroke="#7C5CFF"
+                strokeWidth={6}
+                strokeOpacity={0.06}
                 dot={false}
+              />
+              <Radar
+                name="STEAM"
+                dataKey="value"
+                stroke={`url(#${strokeId})`}
+                strokeWidth={2.2}
+                strokeOpacity={0.95}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill={`url(#${fillId})`}
+                fillOpacity={1}
+                dot={(props) => <CustomRadarDot {...(props as CustomRadarDotProps)} />}
+                filter={`url(#${glowId})`}
               />
             </RadarChart>
           </ResponsiveContainer>
@@ -256,46 +313,11 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
         )}
       </div>
 
-      {hasData && radarData && (
-        <div className="grid grid-cols-5 gap-1">
-          {DIM_ORDER.map(dim => {
-            const d = radarData[dim]
-            const color = DIM_COLORS[dim]
-            const display = d?.display ?? 0
-            const tier = d?.tier ?? 'none'
-            return (
-              <div key={dim} className="flex flex-col items-center gap-1.5 py-2.5 rounded-xl bg-muted/30">
-                <div className="w-[70%] h-1 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700 ease-out"
-                    style={{ backgroundColor: color, width: `${Math.min(display, 100)}%` }}
-                  />
-                </div>
-                <span className="text-base font-bold tabular-nums leading-none" style={{ color }}>
-                  {display < 1 ? '—' : Math.round(display)}
-                </span>
-                <span className="text-[10px] font-medium text-muted-foreground leading-none">
-                  {DIM_NAMES[dim]}
-                </span>
-                {tier !== 'none' && (
-                  <span
-                    className="text-[9px] font-medium leading-none px-1.5 py-0.5 rounded-full"
-                    style={{ color, backgroundColor: `${color}14` }}
-                  >
-                    {TIER_LABELS[tier]}
-                  </span>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      )}
-
       {activeGuidance && (
         <p className="surface-subtle px-3 py-3 text-xs leading-5 text-muted-foreground">
           建议：{activeGuidance}
         </p>
       )}
-    </Card>
+    </section>
   )
 }

@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
 import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
+import type { ProfileLibraryTab } from "@/lib/profile/library-tabs";
 import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar";
 
 const ProfileObservationsPanel = dynamic(
@@ -59,11 +60,12 @@ interface MobileProfilePageProps {
   uniqueSpeciesCount?: number;
   isObservationsLoading?: boolean;
   observationsLoaded?: boolean;
-  onTabChange?: (value: string) => void;
+  onTabChange?: (value: ProfileLibraryTab) => void;
   showProfileHeader?: boolean;
   showSteamRadar?: boolean;
   pageTitle?: string;
   backHref?: string;
+  initialTab?: ProfileLibraryTab;
 }
 
 const PROFILE_TABS = [
@@ -105,8 +107,9 @@ export function MobileProfilePage({
   showSteamRadar = true,
   pageTitle,
   backHref = "/profile",
+  initialTab = "works",
 }: MobileProfilePageProps) {
-  const [activeTab, setActiveTab] = useState<(typeof PROFILE_TABS)[number]["value"]>("works");
+  const [activeTab, setActiveTab] = useState<(typeof PROFILE_TABS)[number]["value"]>(initialTab);
   const [visibleWorksCount, setVisibleWorksCount] = useState(6);
 
   const myProjectsCount = myProjectsTotalCount;
@@ -137,6 +140,10 @@ export function MobileProfilePage({
   useEffect(() => {
     setVisibleWorksCount(6);
   }, [user.id]);
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   if (isProjectsDataLoading) {
     if (!showProfileHeader) {

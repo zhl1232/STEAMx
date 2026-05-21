@@ -322,6 +322,11 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                             )}>
                                 {badge.name}
                             </div>
+                            {isUnlocked && unlockedDate ? (
+                                <div className="mt-1 text-[10px] font-medium leading-none text-emerald-600 dark:text-emerald-400">
+                                    {unlockedDate} 获得
+                                </div>
+                            ) : null}
                             {/* Hide description on mobile for cleaner look */}
                             <div className="mt-1 hidden line-clamp-2 text-[10px] leading-tight text-slate-600 dark:text-slate-400 sm:block sm:text-xs">
                                 {badge.description}

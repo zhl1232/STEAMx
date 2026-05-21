@@ -403,7 +403,7 @@ export function buildProfileTimelineEvents(
       occurredAt: badge.unlockedAt,
       label: '获得徽章',
       detail: badge.badgeName?.trim() || BADGE_NAME_BY_ID.get(badge.badgeId) || badge.badgeId,
-      href: '/badges-preview',
+      href: '/profile#profile-badges-anchor',
       iconName: 'achievement',
       status: 'neutral',
     })

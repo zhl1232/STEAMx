@@ -18,9 +18,6 @@ export async function POST(
     const { id } = await params
     const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
 
-    const body = await request.json().catch(() => ({}))
-    const autoCollect = body?.autoCollect !== false
-
     const { data: project, error: projectError } = await supabase
       .from('projects')
       .select('id')
@@ -51,15 +48,6 @@ export async function POST(
       .single()
 
     if (explorationError) throw explorationError
-
-    if (autoCollect) {
-      await supabase
-        .from('collections')
-        .upsert({ user_id: user.id, project_id: projectId } as never, {
-          onConflict: 'user_id,project_id',
-          ignoreDuplicates: true,
-        })
-    }
 
     return NextResponse.json({ exploration })
   } catch (error) {

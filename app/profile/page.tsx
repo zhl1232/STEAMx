@@ -8,27 +8,21 @@ import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import {
   Award,
-  Bell,
   BookOpen,
   CalendarDays,
-  CalendarCheck2,
   ChevronRight,
-  Compass,
   Edit3,
   Eye,
   FolderOpen,
   Heart,
-  Library,
   Leaf,
   MessageCircle,
   Radar,
   Rocket,
   Settings,
-  ShoppingBag,
   Sparkles,
   Trophy,
   UsersRound,
-  WalletCards,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -38,6 +32,9 @@ import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-t
 import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
 import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
+import {
+  MobileProfileSectionTitle,
+} from '@/components/features/profile/mobile-today-tasks-card'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
@@ -45,10 +42,9 @@ import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import { RoleBadge } from '@/components/ui/role-badge'
 import { useAuth } from '@/lib/context/auth-context'
 import { BADGES, useGamification } from '@/lib/context/gamification-context'
-import { useNotifications, type Notification } from '@/lib/context/notification-context'
+import { type Notification } from '@/lib/context/notification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
@@ -67,6 +63,7 @@ import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import { profileHomeQueryKey, useProfilePageData } from '@/hooks/profile/use-profile-page-data'
 import { useToast } from '@/hooks/use-toast'
+import { getExploringCardSubtitle } from '@/lib/profile/exploring-projects-card'
 import { invalidateProfileHomeData } from '@/lib/profile/profile-home-client'
 
 const SteamRadarChart = dynamic(
@@ -75,15 +72,6 @@ const SteamRadarChart = dynamic(
     loading: () => <div className="surface-panel min-h-[320px] rounded-[28px]" />,
   },
 )
-
-const PROFILE_HERO_IMAGE = '/assets/profile-hero-explorer-v4.webp'
-const PROFILE_LEVEL_BADGE_IMAGE = '/assets/profile-generated/level-medal.png'
-const RECOMMENDED_CHALLENGE_IMAGE = '/projects/generated/project-0008.webp'
-const EMPTY_STATE_IMAGE_SRC = {
-  emptyProjects: '/assets/profile-generated/empty-project-lab.png',
-  observation: '/assets/profile-generated/empty-observation.png',
-  community: '/assets/profile-generated/empty-community.png',
-} as const
 
 /** 卡片内引导操作：浅底 + 描边，避免与头图「我的内容」主按钮抢视觉层级（见 globals `.profile-soft-cta`） */
 
@@ -181,7 +169,6 @@ export default function ProfilePage() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const { unlockedBadges, userBadgeDetails, userStats, refetchStats } = useGamification()
-  const { unreadCount } = useNotifications()
   const {
     data: profileHomeData,
     isPending: isProfileHomePending,
@@ -205,6 +192,9 @@ export default function ProfilePage() {
   const followingCount = profileHomeData?.followingCount ?? 0
   const totalLikesReceived = profileHomeData?.totalLikesReceived ?? 0
   const steamRadar = profileHomeData?.steamRadar ?? null
+  const exploringProjects = profileHomeData?.exploringProjects ?? []
+  const exploringLastActivityByProjectId =
+    profileHomeData?.exploringLastActivityByProjectId ?? {}
   const myObservations = profileHomeData?.myObservations ?? []
   const observationsTotal = profileHomeData?.observationsTotal ?? 0
   const studyCheckInSummary = profileHomeData?.studyCheckInSummary ?? null
@@ -364,6 +354,8 @@ export default function ProfilePage() {
     userBadgeDetails,
     myProjects,
     steamRadar,
+    exploringProjects,
+    exploringLastActivityByProjectId,
     myObservations,
     observationsTotal,
     studyCheckInSummary,
@@ -375,7 +367,7 @@ export default function ProfilePage() {
   return isDesktopViewport ? (
     <DesktopProfilePage {...pageData} />
   ) : (
-    <MobileProfilePage {...pageData} unreadCount={unreadCount} />
+    <MobileProfilePage {...pageData} />
   )
 }
 
@@ -423,7 +415,7 @@ function DesktopProfilePage({
   const isExploreVacuum = !steamRadar && myProjects.length === 0 && myObservations.length === 0
 
   return (
-    <div className="min-h-screen bg-background pb-10 text-foreground">
+    <div className="profile-page-surface min-h-screen pb-10 text-foreground">
       <div className="app-shell-wide py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 min-w-0 space-y-6 xl:col-span-8">
@@ -444,13 +436,13 @@ function DesktopProfilePage({
               />
 
               {!isExploreVacuum ? (
-                <section className="surface-panel flex min-h-[260px] flex-col rounded-[20px] p-6 lg:min-h-[300px]">
+                <section className="surface-panel flex min-h-[230px] flex-col rounded-[20px] p-6 lg:min-h-[250px]">
                   <SectionTitle iconName="timeline" title="STEAM 能力雷达" />
                   {steamRadar ? (
                     <SteamRadarChart
                       initialRadar={steamRadar}
                       showHeader={false}
-                      className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[200px] [&>p]:line-clamp-2"
+                      className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[190px] [&>p]:line-clamp-2"
                     />
                   ) : (
                     <SteamRadarEmptyPlaceholder />
@@ -503,42 +495,28 @@ function DesktopProfilePage({
 function MobileProfilePage({
   profileContext,
   stats,
-  growthTasks,
-  growthTasksGraduatedAt,
-  growthGraduationSparkle,
-  completedTaskCount,
-  claimingTaskId,
-  onClaimGrowthTask,
   featuredBadges,
   unlockedBadges,
-  myProjects,
+  userBadgeDetails,
   steamRadar,
-  myObservations,
-  observationsTotal,
+  exploringProjects,
+  exploringLastActivityByProjectId,
   profileTimelineEvents,
-  unreadCount,
   profile,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
-  growthTasks: ProfileGrowthTask[]
-  growthTasksGraduatedAt: string | null
-  growthGraduationSparkle: boolean
-  completedTaskCount: number
-  claimingTaskId: GrowthTaskId | null
-  onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
-  myProjects: Project[]
+  userBadgeDetails: Map<string, { unlockedAt: string }>
   steamRadar: SteamRadarWithGuidance | null
-  myObservations: ObservationEvent[]
-  observationsTotal: number
+  exploringProjects: Project[]
+  exploringLastActivityByProjectId: Record<number, string>
   profileTimelineEvents: ProfileTimelineEvent[] | null
-  unreadCount: number
   profile: ReturnType<typeof useAuth>['profile']
 }) {
   return (
-    <div className="min-h-screen bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
+    <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
       <MobileGlobalHeader
         variant="title"
         title="我的"
@@ -552,84 +530,125 @@ function MobileProfilePage({
           </Button>
         }
       />
-      <div className="px-4 pb-4">
+      <div className="space-y-3 px-4 pt-1 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
         <ProfileHero
           profileContext={profileContext}
           stats={stats}
           profile={profile}
           compact
         />
-      </div>
 
-      <div className="space-y-4 px-4">
+        <MobileExploringProjectsCard
+          projects={exploringProjects}
+          lastActivityByProjectId={exploringLastActivityByProjectId}
+        />
+
         <MobileActionGrid />
 
-        <div className="grid grid-cols-2 gap-3">
-          <section className="surface-panel min-h-[164px] p-4">
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-sm font-semibold text-foreground">经验与等级</p>
-              <LevelGuideDialog>
-                <button
-                  type="button"
-                  className="inline-flex min-h-7 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                >
-                  规则
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </LevelGuideDialog>
+        <section className="profile-mobile-panel p-4">
+          <MobileProfileSectionTitle title="STEAM 能力雷达" />
+          {steamRadar ? (
+            <SteamRadarChart
+              initialRadar={steamRadar}
+              showHeader={false}
+              className="mt-3 min-h-[220px] border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[196px]"
+            />
+          ) : (
+            <div className="mt-4 flex min-h-[220px] flex-col items-center justify-center rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-8 text-center">
+              <p className="text-sm leading-6 text-muted-foreground">完成项目后生成能力图谱。</p>
+              <Link href="/explore" className="profile-mobile-empty-cta mt-4">
+                去发现
+              </Link>
             </div>
-            <div className="mt-5 flex items-end gap-2">
-              <span className="text-3xl font-extrabold text-[hsl(var(--brand-blue))]">
-                Lv.{profileContext.level}
-              </span>
-              <span className="pb-1 text-xs font-semibold text-muted-foreground">{profileContext.levelTitle}</span>
-            </div>
-            <div className="mt-5">
-              <LevelProgress showLabel={false} />
-            </div>
-            <p className="mt-3 text-xs leading-5 text-muted-foreground">
-              {profileContext.xpIntoLevel.toLocaleString()} / {profileContext.xpNeededThisLevel.toLocaleString()}
-            </p>
-          </section>
+          )}
+        </section>
 
-          <section className="surface-panel min-h-[164px] p-4">
-            <p className="text-sm font-semibold text-foreground">STEAM 能力雷达</p>
-            {steamRadar ? (
-              <MiniRadarPreview radar={steamRadar} />
-            ) : (
-              <div className="mt-6 text-xs leading-5 text-muted-foreground">
-                完成项目后生成能力图谱。
-              </div>
-            )}
-          </section>
-        </div>
-
-        <section id="profile-badges-anchor" className="surface-panel p-4">
-          <SectionTitle iconName="achievement" title="最近获得的徽章" actionHref="/badges-preview" actionLabel="全部徽章" />
+        <section id="profile-badges-anchor" className="profile-mobile-panel p-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="h-4 w-1 shrink-0 rounded-full bg-[hsl(var(--brand-blue))]" aria-hidden />
+              <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
+            </div>
+            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+              <button
+                type="button"
+                className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-semibold text-muted-foreground transition hover:text-[hsl(var(--brand-blue))]"
+              >
+                全部徽章
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </BadgeGalleryDialog>
+          </div>
           <BadgeShowcase badges={featuredBadges} unlockedBadges={unlockedBadges} compact />
         </section>
 
-        <GrowthTasksPanel
-          tasks={growthTasks}
-          growthTasksGraduatedAt={growthTasksGraduatedAt}
-          growthGraduationSparkle={growthGraduationSparkle}
-          completedTaskCount={completedTaskCount}
-          claimingTaskId={claimingTaskId}
-          onClaim={onClaimGrowthTask}
-        />
+        <LearningTimeline events={profileTimelineEvents} compact mobile />
 
-        <LearningTimeline events={profileTimelineEvents} compact />
-
-        <section className="surface-panel p-4">
-          <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
-          <ProjectShowcase projects={myProjects} mobile />
-        </section>
-
-        <section className="surface-panel p-4">
-          <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
-          <ObservationList observations={myObservations} total={observationsTotal} mobile />
-        </section>
       </div>
+    </div>
+  )
+}
+
+function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
+  if (compact) {
+    return (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden profile-mobile-hero-backdrop">
+        <OptimizedImage
+          src="/assets/profile-mobile-hero-space-bg.png"
+          alt=""
+          fill
+          priority
+          variant="cover"
+          className="object-cover object-[88%_4%] opacity-100"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.84)_0%,hsl(var(--surface-raised)/0.46)_54%,hsl(var(--surface-raised)/0.02)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)/0.44))]" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className={cn(
+          'absolute rounded-full blur-3xl',
+          compact
+            ? '-right-16 -top-16 h-40 w-40 bg-[hsl(var(--brand-blue)/0.18)]'
+            : '-right-24 -top-24 h-72 w-72 bg-[hsl(var(--brand-blue)/0.2)]',
+        )}
+      />
+      <div
+        className={cn(
+          'absolute rounded-full blur-2xl',
+          compact
+            ? '-bottom-14 left-12 h-36 w-36 bg-[hsl(var(--brand-green)/0.12)]'
+            : '-bottom-24 right-32 h-64 w-64 bg-[hsl(var(--brand-green)/0.12)]',
+        )}
+      />
+      <div
+        className={cn(
+          'absolute bg-[hsl(var(--brand-amber)/0.16)] shadow-[0_18px_42px_-30px_hsl(var(--brand-amber)/0.4)]',
+          compact
+            ? 'right-7 top-8 h-10 w-10 rotate-12 rounded-[16px]'
+            : 'right-16 top-16 h-20 w-20 rotate-12 rounded-[26px]',
+        )}
+      />
+      <div
+        className={cn(
+          'absolute border border-[hsl(var(--brand-blue)/0.18)]',
+          compact
+            ? 'right-20 top-24 h-12 w-12 rotate-45 rounded-[18px]'
+            : 'right-56 top-28 h-24 w-24 rotate-45 rounded-[30px]',
+        )}
+      />
+      <div
+        className={cn(
+          'absolute inset-0',
+          compact
+            ? 'bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.2)_0%,hsl(var(--tone-science-soft)/0.24)_100%)] dark:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.12)_0%,hsl(var(--surface-muted)/0.24)_100%)]'
+            : 'bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.92)_44%,hsl(var(--tone-science-soft)/0.52)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.86)_48%,hsl(var(--brand-blue)/0.16)_100%)]',
+        )}
+      />
     </div>
   )
 }
@@ -639,146 +658,129 @@ function ProfileHero({
   stats,
   profile,
   compact,
+  splitStats = false,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
   profile: ReturnType<typeof useAuth>['profile']
   compact: boolean
+  splitStats?: boolean
 }) {
+  const compactProgressPercent = clampProgress(profileContext.xpIntoLevel, profileContext.xpNeededThisLevel)
+  const compactRemainingXP = Math.max(0, profileContext.nextLevelXP - profileContext.currentXP)
+  const showInlineStats = compact ? !splitStats : true
+
   return (
-    <section className={cn('surface-panel relative overflow-hidden', compact ? 'rounded-[var(--radius-lg)]' : 'min-h-[270px] rounded-[20px]')}>
-      <div className="absolute inset-0">
-        <OptimizedImage
-          src={PROFILE_HERO_IMAGE}
-          alt=""
-          fill
-          priority
-          variant="cover"
-          className={cn(compact ? 'object-cover object-[68%_center]' : 'object-contain object-right-bottom')}
-        />
-        <div
-          className={cn(
-            'absolute inset-0',
-            compact
-              ? 'bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.82)_54%,hsl(var(--background)/0.18)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]'
-              : 'bg-[linear-gradient(90deg,hsl(var(--background)/0.98)_0%,hsl(var(--background)/0.92)_38%,hsl(var(--surface-muted)/0.72)_72%,hsl(var(--background)/0.22)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.86)_42%,hsl(var(--background)/0.34)_100%)]',
-          )}
-        />
-        {!compact ? (
-          <div className="absolute inset-y-0 right-0 w-[48%] bg-[linear-gradient(270deg,hsl(var(--brand-blue)/0.18)_0%,hsl(var(--brand-blue)/0.08)_56%,transparent_100%)] dark:hidden" />
-        ) : null}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-muted)/0.34),transparent_58%)]" />
-      </div>
+    <section
+      className={cn(
+        'relative overflow-hidden',
+        compact
+          ? 'profile-mobile-hero'
+          : 'profile-hero-card surface-panel min-h-[270px] rounded-[20px]',
+      )}
+    >
+      <ProfileHeroBackdrop compact={compact} />
 
-      <div className={cn('relative', compact ? 'px-5 pb-4 pt-5' : 'px-7 pb-0 pt-7')}>
-        <div className={cn('flex gap-6', compact ? 'flex-col' : 'min-h-[156px] flex-wrap items-start')}>
-          <div className={cn('flex items-center gap-5', compact ? '' : 'min-w-0 md:min-w-[420px] xl:min-w-[520px]')}>
-            <div className="relative shrink-0">
-              <AvatarWithFrame
-                src={profileContext.userAvatar}
-                alt={profileContext.userName}
-                fallback={getInitial(profileContext.userName)}
-                avatarFrameId={profile?.equipped_avatar_frame_id}
+      <div className={cn('relative', compact ? 'px-4 pb-4 pt-4' : 'px-7 pb-0 pt-7')}>
+        <div className={cn(compact ? 'grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4' : 'flex min-h-[156px] flex-wrap items-start gap-6')}>
+          <div className="relative shrink-0">
+            <AvatarWithFrame
+              src={profileContext.userAvatar}
+              alt={profileContext.userName}
+              fallback={getInitial(profileContext.userName)}
+              avatarFrameId={profile?.equipped_avatar_frame_id}
+              className={cn(
+                'border-[3px] border-background shadow-[0_12px_28px_-18px_hsl(var(--brand-blue)/0.35)]',
+                compact ? 'h-[78px] w-[78px]' : 'h-[112px] w-[112px]',
+              )}
+              avatarClassName="rounded-full object-cover"
+            />
+            <LevelGuideDialog>
+              <button
+                type="button"
+                className="absolute -bottom-1.5 left-1/2 inline-flex h-6 -translate-x-1/2 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-sm backdrop-blur-md transition hover:-translate-y-0.5 hover:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              >
+                Lv.{profileContext.level}
+              </button>
+            </LevelGuideDialog>
+          </div>
+
+          <div className="min-w-0">
+            {compact ? (
+              <span className="inline-flex h-5 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] px-2.5 text-[10px] font-semibold text-[hsl(var(--brand-blue))] shadow-sm backdrop-blur">
+                {profileContext.levelTitle}
+              </span>
+            ) : null}
+            <div className={cn('flex items-start gap-2', compact && 'mt-1.5')}>
+              <h2
                 className={cn(
-                  'border-[5px] border-background shadow-[0_24px_70px_-34px_rgba(17,65,125,0.6)]',
-                  compact ? 'h-[88px] w-[88px]' : 'h-[112px] w-[112px]',
+                  'min-w-0 flex-1 truncate font-semibold tracking-normal text-foreground',
+                  compact ? 'text-[19px] leading-7' : 'text-[30px]',
+                  getNameColorClassName(profile?.equipped_name_color_id ?? null),
                 )}
-                avatarClassName="rounded-full object-cover"
-              />
-              <LevelGuideDialog>
-                <button
-                  type="button"
-                  className="absolute -bottom-1.5 left-1/2 inline-flex min-h-7 -translate-x-1/2 items-center gap-1 rounded-full border border-[hsl(var(--brand-blue)/0.24)] bg-[hsl(var(--surface-raised)/0.96)] px-3 text-xs font-bold text-[hsl(var(--brand-blue))] shadow-sm backdrop-blur-md transition hover:-translate-y-0.5 hover:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Lv.{profileContext.level}
-                </button>
-              </LevelGuideDialog>
-            </div>
-
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                {profile?.role && profile.role !== 'user' ? <RoleBadge role={profile.role} size="md" /> : null}
-                <span className="rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--brand-blue))]">
-                  {profileContext.levelTitle}
-                </span>
-              </div>
-              <div className={cn('mt-2 flex min-w-0 items-center gap-2', compact ? 'pr-1' : '')}>
-                <h2
-                  className={cn(
-                    'min-w-0 flex-1 truncate font-semibold tracking-normal text-foreground',
-                    compact ? 'text-[26px]' : 'text-[30px]',
-                    getNameColorClassName(profile?.equipped_name_color_id ?? null),
-                  )}
-                >
-                  {profileContext.userName}
-                </h2>
-                {compact ? (
-                  <EditProfileDialog>
-                    <button
-                      type="button"
-                      className="inline-flex h-9 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.88)] px-3 text-xs font-semibold text-muted-foreground shadow-sm backdrop-blur-md transition hover:bg-[hsl(var(--surface-muted)/0.75)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                      aria-label="编辑资料"
-                    >
-                      <Edit3 className="h-4 w-4" />
-                      <span className="ml-1 hidden min-[360px]:inline">编辑</span>
-                    </button>
-                  </EditProfileDialog>
-                ) : null}
-              </div>
-              <p className={cn('mt-2 text-muted-foreground', compact ? 'line-clamp-2 text-sm leading-6' : 'max-w-2xl text-sm leading-7')}>
-                {profile?.bio || '热爱科学与创造，喜欢用动手实践探索世界的奥秘。'}
-              </p>
-              {!compact ? (
-                <>
-                  <div className="mt-4 flex flex-wrap gap-3 text-xs font-medium text-muted-foreground">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] px-3 py-1.5">
-                      <Compass className="h-3.5 w-3.5 text-[hsl(var(--brand-blue))]" />
-                      STEAM 探索者
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] px-3 py-1.5">
-                      <CalendarCheck2 className="h-3.5 w-3.5 text-[hsl(var(--brand-green))]" />
-                      加入时间：{profileContext.joinedAt}
-                    </span>
-                  </div>
-                  <div className="mt-6 flex flex-wrap items-center gap-3">
-                    <Button asChild className="h-11 rounded-[20px] bg-[hsl(var(--brand-blue))] px-5 text-sm font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_18px_40px_-24px_hsl(var(--brand-blue)/0.8)] hover:bg-[hsl(var(--brand-blue)/0.92)]">
-                      <Link href="/profile/library">
-                        <Library className="mr-2 h-4 w-4" />
-                        我的内容
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="h-11 rounded-[20px] border-[hsl(var(--brand-green)/0.28)] bg-[hsl(var(--surface-raised)/0.72)] px-4 text-sm font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]">
-                      <Link href="/coins">
-                        <WalletCards className="mr-2 h-4 w-4" />
-                        我的钱包
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="h-11 rounded-[20px] border-[hsl(var(--brand-amber)/0.32)] bg-[hsl(var(--surface-raised)/0.72)] px-4 text-sm font-bold text-[hsl(var(--brand-amber))] hover:bg-[hsl(var(--brand-amber)/0.12)]">
-                      <Link href="/shop">
-                        <ShoppingBag className="mr-2 h-4 w-4" />
-                        创客商店
-                      </Link>
-                    </Button>
-                  </div>
-                </>
+              >
+                {profileContext.userName}
+              </h2>
+              {compact ? (
+                <EditProfileDialog>
+                  <button
+                    type="button"
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted)/0.72)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    aria-label="编辑资料"
+                  >
+                    <Edit3 className="h-4 w-4" />
+                  </button>
+                </EditProfileDialog>
               ) : null}
             </div>
+            <p className={cn('text-muted-foreground', compact ? 'mt-1.5 line-clamp-2 text-[12px] leading-5' : 'mt-2 max-w-2xl text-sm leading-7')}>
+              {profile?.bio || '热爱科学与创造，喜欢用动手实践探索世界的奥秘。'}
+            </p>
           </div>
         </div>
 
-        <div
-          className={cn(
-            'grid grid-cols-3 overflow-hidden',
-            compact
-              ? 'mt-5 rounded-2xl border border-white/35 bg-white/10 shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.62)] backdrop-blur-md dark:border-[hsl(var(--surface-border-strong))] dark:bg-background/60'
-              : 'profile-stats-bar mt-8',
-          )}
-        >
-          {stats.map((stat, index) => (
-            <ProfileStatTile key={stat.key} stat={stat} compact={compact} bordered={index > 0} />
-          ))}
-        </div>
+        {compact ? (
+          <div className="mt-4">
+            <div className="flex items-center justify-between gap-3 text-xs">
+              <span className="font-medium text-foreground/82">
+                经验 {profileContext.xpIntoLevel.toLocaleString()} / {profileContext.xpNeededThisLevel.toLocaleString()}
+              </span>
+              <span className="font-semibold text-[hsl(var(--brand-blue))]">
+                {compactProgressPercent}%
+              </span>
+            </div>
+            <div
+              className="profile-xp-track mt-2 h-[7px]"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={compactProgressPercent}
+            >
+              <div
+                className="profile-xp-progress h-full"
+                style={{ width: `${compactProgressPercent}%` }}
+              />
+            </div>
+            <p className="mt-2 text-[11px] leading-5 text-muted-foreground">
+              再获得 {compactRemainingXP.toLocaleString()} 经验升级
+            </p>
+          </div>
+        ) : null}
+
+        {showInlineStats ? (
+          <div
+            className={cn(
+              'grid grid-cols-4 overflow-hidden',
+              compact
+                ? 'mt-4 rounded-[14px] border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur'
+                : 'profile-stats-bar mt-8',
+            )}
+          >
+            {stats.map((stat, index) => (
+              <ProfileStatTile key={stat.key} stat={stat} compact={compact} bordered={index > 0} />
+            ))}
+          </div>
+        ) : null}
         {!compact ? <div className="h-5 shrink-0" aria-hidden="true" /> : null}
       </div>
     </section>
@@ -792,20 +794,20 @@ function ProfileStatTile({ stat, compact, bordered }: { stat: ProfileStat; compa
       className={cn(
         'group flex items-center justify-center transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
         compact
-          ? 'min-h-[60px] flex-col justify-center gap-0.5 px-1.5 py-2.5 text-center'
+          ? 'min-h-[58px] flex-col justify-center gap-0.5 px-1 py-2.5 text-center'
           : 'min-h-[60px] gap-3 px-4 py-3.5',
         bordered &&
           (compact
-            ? 'border-l border-white/24 dark:border-[hsl(var(--surface-border-strong))]'
+            ? 'border-l border-[hsl(var(--surface-border)/0.65)]'
             : 'border-l border-[hsl(var(--surface-border))]'),
       )}
     >
       {!compact ? <ProfileImageIcon name={stat.icon} variant="heroStat" className="h-10 w-10" /> : null}
       <span className={compact ? 'block' : 'min-w-0'}>
-        <span className={cn('block font-semibold tabular-nums text-foreground', compact ? 'text-lg leading-6' : 'text-xl')}>
+        <span className={cn('block font-semibold tabular-nums text-foreground', compact ? 'text-[20px] leading-6' : 'text-xl')}>
           {formatCompactNumber(stat.value)}
         </span>
-        <span className={cn('block text-muted-foreground', compact ? 'text-[11px] font-medium' : 'mt-0.5 text-xs font-medium')}>
+        <span className={cn('block text-muted-foreground', compact ? 'mt-1 text-[11px] font-medium leading-none' : 'mt-0.5 text-xs font-medium')}>
           {stat.label}
         </span>
       </span>
@@ -895,54 +897,6 @@ const MINI_RADAR_DIMENSIONS = [
   { key: 'M', label: '数学' },
 ] as const
 
-function MiniRadarPreview({ radar }: { radar: SteamRadarWithGuidance }) {
-  const values = MINI_RADAR_DIMENSIONS.map((dim) => Number(radar[dim.key]?.display || 0))
-  const average = Math.round(values.reduce((sum, value) => sum + value, 0) / values.length)
-  const points = values
-    .map((value, index) => {
-      const angle = (-90 + index * 72) * (Math.PI / 180)
-      const radius = 10 + (Math.min(100, Math.max(0, value)) / 100) * 34
-      const x = 50 + Math.cos(angle) * radius
-      const y = 50 + Math.sin(angle) * radius
-      return `${x.toFixed(1)},${y.toFixed(1)}`
-    })
-    .join(' ')
-
-  const outerPoints = MINI_RADAR_DIMENSIONS
-    .map((_, index) => {
-      const angle = (-90 + index * 72) * (Math.PI / 180)
-      return `${(50 + Math.cos(angle) * 44).toFixed(1)},${(50 + Math.sin(angle) * 44).toFixed(1)}`
-    })
-    .join(' ')
-
-  return (
-    <div className="mt-3 grid grid-cols-[92px_minmax(0,1fr)] items-center gap-2">
-      <svg viewBox="0 0 100 100" className="h-[92px] w-[92px]" aria-hidden="true">
-        <polygon points={outerPoints} fill="none" stroke="hsl(var(--surface-border))" strokeWidth="1.2" />
-        <polygon points={points} fill="hsl(var(--brand-blue) / 0.18)" stroke="hsl(var(--brand-blue))" strokeWidth="2" />
-        {MINI_RADAR_DIMENSIONS.map((_, index) => {
-          const angle = (-90 + index * 72) * (Math.PI / 180)
-          return (
-            <line
-              key={index}
-              x1="50"
-              y1="50"
-              x2={(50 + Math.cos(angle) * 44).toFixed(1)}
-              y2={(50 + Math.sin(angle) * 44).toFixed(1)}
-              stroke="hsl(var(--surface-border))"
-              strokeWidth="0.8"
-            />
-          )
-        })}
-      </svg>
-      <div className="min-w-0">
-        <div className="text-2xl font-extrabold text-[hsl(var(--brand-blue))]">{average}</div>
-        <p className="mt-1 text-xs leading-5 text-muted-foreground">综合能力均值</p>
-      </div>
-    </div>
-  )
-}
-
 function radarWebRingPoints(outerRadius: number) {
   return MINI_RADAR_DIMENSIONS.map((_, index) => {
     const angle = (-90 + index * 72) * (Math.PI / 180)
@@ -991,26 +945,144 @@ function SteamRadarEmptyPlaceholder() {
 
 function MobileActionGrid() {
   const actions = [
-    { label: '我的内容', href: '/profile/library', icon: Library, tone: 'text-[hsl(var(--brand-blue))] bg-[hsl(var(--brand-blue)/0.12)]' },
-    { label: '我的钱包', href: '/coins', icon: WalletCards, tone: 'text-[hsl(var(--brand-green))] bg-[hsl(var(--brand-green)/0.12)]' },
-    { label: '创客商店', href: '/shop', icon: ShoppingBag, tone: 'text-[hsl(var(--brand-amber))] bg-[hsl(var(--brand-amber)/0.14)]' },
+    { label: '我的内容', href: '/profile/library', image: '/assets/profile-actions/content.webp' },
+    { label: '我的钱包', href: '/coins', image: '/assets/profile-actions/wallet.webp' },
+    { label: '创客商店', href: '/shop', image: '/assets/profile-actions/shop.webp' },
+    { label: '邀请好友', href: '/share', image: '/assets/profile-actions/invite.webp' },
+    { label: '消息中心', href: '/messages', image: '/assets/profile-actions/messages.webp' },
   ]
 
   return (
-    <section className="surface-panel grid grid-cols-3 gap-2 p-3 min-[390px]:gap-3">
-      {actions.map((action) => {
-        const Icon = action.icon
-        return (
-          <Link key={action.label} href={action.href} className="grid min-h-[78px] place-items-center gap-1.5 rounded-[16px] px-2 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)] min-[390px]:min-h-[86px] min-[390px]:gap-2 min-[390px]:py-3">
-            <span className={cn('grid h-10 w-10 place-items-center rounded-[18px] min-[390px]:h-11 min-[390px]:w-11 min-[390px]:rounded-[20px]', action.tone)}>
-              <Icon className="h-5 w-5 min-[390px]:h-6 min-[390px]:w-6" />
-            </span>
-            <span className="text-xs font-bold text-foreground">{action.label}</span>
-          </Link>
-        )
-      })}
+    <section className="profile-mobile-panel grid grid-cols-5 gap-1.5 p-3">
+      {actions.map((action) => (
+        <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-[14px] px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+          <span className="relative h-11 w-11 overflow-hidden rounded-[15px] shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
+            <OptimizedImage
+              src={action.image}
+              alt=""
+              fill
+              variant="thumbnail"
+              className="object-cover"
+            />
+          </span>
+          <span className="whitespace-nowrap text-[10px] font-semibold leading-none text-foreground min-[390px]:text-[11px]">{action.label}</span>
+        </Link>
+      ))}
     </section>
   )
+}
+
+function MobileExploringProjectsCard({
+  projects,
+  lastActivityByProjectId = {},
+}: {
+  projects: Project[]
+  lastActivityByProjectId?: Record<number, string>
+}) {
+  return (
+    <section className="profile-mobile-panel p-4">
+      <MobileProfileSectionTitle
+        title="探索中的项目"
+        actionHref="/profile/library?tab=exploring"
+        actionLabel={projects.length > 0 ? '查看全部' : '去探索'}
+      />
+
+      {projects.length > 0 ? (
+        <ExploringProjectsStrip
+          projects={projects}
+          lastActivityByProjectId={lastActivityByProjectId}
+          className="mt-3"
+        />
+      ) : (
+        <div className="mt-3 flex items-center gap-3 rounded-[16px] bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[15px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+            <Rocket className="h-5 w-5" strokeWidth={2.3} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-foreground">暂无探索中的项目</span>
+            <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
+              在项目详情页点击「开始探索」后会显示在这里。
+            </span>
+          </span>
+          <Link href="/explore" className="profile-mobile-empty-cta h-9 shrink-0 px-4">
+            去发现
+          </Link>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function ExploringProjectsStrip({
+  projects,
+  lastActivityByProjectId,
+  className,
+}: {
+  projects: Project[]
+  lastActivityByProjectId: Record<number, string>
+  className?: string
+}) {
+  return (
+    <div className={cn('-mx-1 overflow-x-auto px-1 no-scrollbar', className)}>
+      <div className="flex w-max gap-3 pb-0.5">
+        {projects.map((project) => (
+          <ExploringStripMiniCard
+            key={project.id}
+            project={project}
+            lastActivityAt={lastActivityByProjectId[Number(project.id)]}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ExploringStripMiniCard({
+  project,
+  lastActivityAt,
+}: {
+  project: Project
+  lastActivityAt?: string
+}) {
+  const subtitle = getExploringCardSubtitle(project, lastActivityAt)
+
+  return (
+    <Link
+      href={`/project/${project.id}/records`}
+      className="surface-card flex w-[168px] shrink-0 flex-col overflow-hidden transition hover:border-[hsl(var(--surface-border-strong))] hover:shadow-sm"
+    >
+      <div className="relative aspect-[16/10] shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]">
+        {project.image ? (
+          <OptimizedImage
+            src={project.image}
+            alt={project.title}
+            fill
+            variant="thumbnail"
+            className="object-cover"
+          />
+        ) : (
+          <div className="grid h-full place-items-center text-muted-foreground/80">
+            <FolderOpen className="h-7 w-7" />
+          </div>
+        )}
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col p-2.5">
+        <h4 className="line-clamp-1 text-[13px] font-medium leading-snug text-foreground">
+          {project.title}
+        </h4>
+        <div className="mt-1 flex items-center gap-1.5">
+          <p className="min-w-0 flex-1 truncate text-[11px] text-muted-foreground">{subtitle}</p>
+          <span className="shrink-0 text-[11px] font-semibold text-[hsl(var(--brand-blue))]">
+            继续探索
+          </span>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+function getBadgePreviewName(name: string) {
+  return name.split('·')[0]?.trim() || name
 }
 
 function BadgeShowcase({
@@ -1023,21 +1095,40 @@ function BadgeShowcase({
   compact?: boolean
 }) {
   return (
-    <div className={cn('mt-4 flex', compact ? 'justify-between gap-4' : 'flex-wrap gap-3')}>
+    <div className={cn('mt-4 flex', compact ? 'justify-between gap-1.5' : 'flex-wrap gap-3')}>
       {badges.map((badge) => (
-        <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-[58px]' : 'w-[68px]')}>
-          <BadgeIcon
-            icon={badge.icon}
-            tier={badge.tier}
-            seriesKey={badge.seriesKey}
-            size={compact ? 'md' : 'lg'}
-            className={compact ? 'h-11 w-11' : 'h-12 w-12'}
-            showGlow={false}
-            locked={!unlockedBadges.has(badge.id)}
-          />
-          <span className="mt-2 line-clamp-2 text-xs font-semibold leading-4 text-foreground/84">{badge.name}</span>
+        <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
+          <span className={cn('grid place-items-center overflow-visible', compact ? 'h-10 w-10' : 'h-12 w-12')}>
+            <BadgeIcon
+              icon={badge.icon}
+              tier={badge.tier}
+              seriesKey={badge.seriesKey}
+              size={compact ? 'sm' : 'lg'}
+              className={compact ? 'h-10 w-10' : 'h-12 w-12'}
+              showGlow={false}
+              locked={!unlockedBadges.has(badge.id)}
+            />
+          </span>
+          <span className={cn('mt-2 max-w-full text-xs font-semibold leading-4 text-foreground/84', compact ? 'block truncate' : 'line-clamp-2')}>
+            {compact ? getBadgePreviewName(badge.name) : badge.name}
+          </span>
         </div>
       ))}
+    </div>
+  )
+}
+
+function ProfileMedalIllustration() {
+  return (
+    <div className="absolute inset-0 grid place-items-center">
+      <div className="relative h-[108px] w-[108px]">
+        <div className="absolute inset-x-6 bottom-1 h-12 rounded-b-[22px] bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.3),hsl(var(--brand-green)/0.18))] blur-[1px]" />
+        <div className="absolute left-7 top-7 h-16 w-10 -rotate-12 rounded-[14px] bg-[hsl(var(--brand-blue)/0.18)]" />
+        <div className="absolute right-7 top-7 h-16 w-10 rotate-12 rounded-[14px] bg-[hsl(var(--brand-green)/0.16)]" />
+        <div className="absolute left-1/2 top-3 grid h-20 w-20 -translate-x-1/2 place-items-center rounded-full border border-[hsl(var(--brand-amber)/0.32)] bg-[linear-gradient(145deg,hsl(var(--brand-amber)/0.28),hsl(var(--surface-raised)/0.96)_58%,hsl(var(--brand-blue)/0.12))] shadow-[0_18px_34px_-22px_hsl(var(--brand-amber)/0.45)]">
+          <Sparkles className="h-8 w-8 text-[hsl(var(--brand-amber))]" strokeWidth={2.4} />
+        </div>
+      </div>
     </div>
   )
 }
@@ -1102,13 +1193,7 @@ function ExperienceBadgesPanel({
         </div>
 
         <div className="relative min-h-[108px] overflow-visible">
-          <OptimizedImage
-            src={PROFILE_LEVEL_BADGE_IMAGE}
-            alt=""
-            fill
-            variant="thumbnail"
-            className="object-contain drop-shadow-[0_18px_26px_rgba(15,23,42,0.22)]"
-          />
+          <ProfileMedalIllustration />
         </div>
       </div>
 
@@ -1152,8 +1237,14 @@ function RecommendedChallengePanel() {
     <section className="surface-panel rounded-[20px] p-6">
       <SectionTitle iconName="emptyProjects" title="推荐下一步挑战" actionHref="/community?tab=challenges" actionLabel="查看全部" />
       <Link href="/community?tab=challenges" className="surface-card mt-4 grid grid-cols-[106px_minmax(0,1fr)] gap-3 p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
-        <div className="relative min-h-[108px] overflow-hidden rounded-[10px] bg-[hsl(var(--surface-border))]">
-          <OptimizedImage src={RECOMMENDED_CHALLENGE_IMAGE} alt="纸飞机飞行距离挑战赛" fill variant="thumbnail" className="object-cover" />
+        <div className="relative min-h-[108px] overflow-hidden rounded-[10px] bg-[linear-gradient(145deg,hsl(var(--tone-science-soft)),hsl(var(--brand-amber)/0.14))]">
+          <div className="absolute inset-0 grid place-items-center">
+            <div className="relative h-20 w-20">
+              <div className="absolute left-1 top-9 h-2 w-16 rotate-[-16deg] rounded-full bg-[hsl(var(--brand-blue)/0.18)]" />
+              <Rocket className="absolute left-4 top-3 h-12 w-12 rotate-45 text-[hsl(var(--brand-blue))]" strokeWidth={2.2} />
+              <Sparkles className="absolute right-1 top-1 h-5 w-5 text-[hsl(var(--brand-amber))]" />
+            </div>
+          </div>
         </div>
         <div className="min-w-0 py-1 pr-1">
           <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground">纸飞机飞行距离挑战赛</h3>
@@ -1306,16 +1397,22 @@ function LearningTimeline({
   events,
   className,
   compact = false,
+  mobile = false,
 }: {
   events: ProfileTimelineEvent[] | null
   className?: string
   compact?: boolean
+  mobile?: boolean
 }) {
   const visibleEvents = events ? [...events].reverse() : []
 
   return (
-    <section className={cn('surface-panel rounded-[20px] p-6', className)}>
-      <SectionTitle iconName="timeline" title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
+    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-[20px] p-6', className)}>
+      {mobile ? (
+        <MobileProfileSectionTitle title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
+      ) : (
+        <SectionTitle iconName="timeline" title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
+      )}
       {events === null ? (
         <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
           <ProfileImageIcon name="timeline" className="h-10 w-10" />
@@ -1428,15 +1525,16 @@ function ProjectShowcase({
 }) {
   if (projects.length === 0) {
     return (
-      <EmptyBlock
-        icon={Rocket}
-        iconName="emptyProjects"
-        title="你的创意实验室空空如也"
-        description="把今天完成的小实验、模型或观察整理成作品，点亮你的第一个展示位。"
-        href="/project"
-        action="启动第一个 STEAM 项目"
-        density={emptyDensity}
-      />
+        <EmptyBlock
+          icon={Rocket}
+          iconName="emptyProjects"
+          title="你的创意实验室空空如也"
+          description="把今天完成的小实验、模型或观察整理成作品，点亮你的第一个展示位。"
+          href="/project"
+          action="启动第一个 STEAM 项目"
+          density={emptyDensity}
+          mobile={mobile}
+        />
     )
   }
 
@@ -1528,6 +1626,7 @@ function ObservationList({
         href="/nature/submit"
         action="去记录今天见到的第一只鸟"
         density={emptyDensity}
+        mobile={mobile}
       />
     )
   }
@@ -1583,14 +1682,11 @@ function ProfileStarterHub() {
     <section className="surface-panel overflow-hidden rounded-[20px]">
       <div className="grid gap-0 md:grid-cols-[minmax(0,200px)_1fr]">
         <div className="relative flex min-h-[140px] items-center justify-center bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.12),hsl(var(--brand-green)/0.08))] px-6 py-6 dark:bg-[linear-gradient(160deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
-          <span className="relative block h-[120px] w-full max-w-[180px]">
-            <OptimizedImage
-              src={EMPTY_STATE_IMAGE_SRC.emptyProjects}
-              alt=""
-              fill
-              variant="thumbnail"
-              className="object-contain drop-shadow-sm"
-            />
+          <span className="relative grid h-[120px] w-full max-w-[180px] place-items-center">
+            <span className="absolute h-24 w-24 rounded-full bg-[hsl(var(--brand-blue)/0.12)] blur-xl" />
+            <span className="relative grid h-24 w-24 place-items-center rounded-[28px] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.76)] shadow-[0_18px_38px_-28px_hsl(var(--surface-shadow)/0.35)]">
+              <Rocket className="h-11 w-11 text-[hsl(var(--brand-blue))]" strokeWidth={2.2} />
+            </span>
           </span>
         </div>
         <div className="flex flex-col justify-center gap-4 p-6">
@@ -1640,6 +1736,7 @@ function EmptyBlock({
   href,
   action,
   density = 'default',
+  mobile = false,
 }: {
   icon: LucideIcon
   iconName?: ProfileIconName
@@ -1648,49 +1745,52 @@ function EmptyBlock({
   href: string
   action: string
   density?: 'default' | 'compact'
+  mobile?: boolean
 }) {
-  const imageSrc = iconName && iconName in EMPTY_STATE_IMAGE_SRC
-    ? EMPTY_STATE_IMAGE_SRC[iconName as keyof typeof EMPTY_STATE_IMAGE_SRC]
-    : null
   const compact = density === 'compact'
 
   return (
     <div
       className={cn(
-        'surface-subtle mt-4 flex flex-col justify-between text-left',
-        compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4',
+        'mt-4 flex flex-col justify-between text-left',
+        mobile
+          ? 'min-h-[168px] items-center rounded-[14px] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-5 text-center'
+          : cn('surface-subtle', compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4'),
       )}
     >
-      <div className="flex items-start gap-3">
-        {imageSrc ? (
-          <span className={cn('relative shrink-0 overflow-visible', compact ? 'h-14 w-14' : 'h-20 w-20')}>
-            <OptimizedImage src={imageSrc} alt="" fill variant="thumbnail" className="object-contain" />
-          </span>
-        ) : iconName ? (
-          <ProfileImageIcon name={iconName} className={compact ? 'h-10 w-10' : 'h-12 w-12'} />
+      <div className={cn('flex items-start gap-3', mobile && 'flex-col items-center')}>
+        {iconName ? (
+          <ProfileImageIcon name={iconName} className={mobile ? 'h-14 w-14' : compact ? 'h-10 w-10' : 'h-12 w-12'} />
         ) : (
           <span
             className={cn(
               'grid shrink-0 place-items-center rounded-[20px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
-              compact ? 'h-10 w-10' : 'h-12 w-12',
+              mobile ? 'h-14 w-14' : compact ? 'h-10 w-10' : 'h-12 w-12',
             )}
           >
-            <Icon className={compact ? 'h-5 w-5' : 'h-6 w-6'} />
+            <Icon className={mobile ? 'h-7 w-7' : compact ? 'h-5 w-5' : 'h-6 w-6'} />
           </span>
         )}
-        <div className="min-w-0">
-          {!compact ? (
+        <div className={cn('min-w-0', mobile && 'text-center')}>
+          {!compact && !mobile ? (
             <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
               下一步任务
             </span>
           ) : null}
-          <h3 className={cn('font-semibold text-foreground', compact ? 'mt-0 text-sm' : 'mt-2 text-base')}>{title}</h3>
-          <p className={cn('text-muted-foreground', compact ? 'mt-1 line-clamp-2 text-xs leading-5' : 'mt-1.5 text-sm leading-6')}>
+          <h3 className={cn('font-semibold text-foreground', mobile ? 'mt-2 text-sm' : compact ? 'mt-0 text-sm' : 'mt-2 text-base')}>{title}</h3>
+          <p className={cn('text-muted-foreground', mobile ? 'mt-1.5 text-xs leading-5' : compact ? 'mt-1 line-clamp-2 text-xs leading-5' : 'mt-1.5 text-sm leading-6')}>
             {description}
           </p>
         </div>
       </div>
-      <Link href={href} className={cn('profile-soft-cta', 'w-fit shrink-0', compact ? 'mt-1 h-8 px-3 text-xs' : 'mt-4 h-9')}>
+      <Link
+        href={href}
+        className={cn(
+          mobile ? 'profile-mobile-empty-cta' : 'profile-soft-cta',
+          'w-fit shrink-0',
+          mobile ? 'mt-4' : compact ? 'mt-1 h-8 px-3 text-xs' : 'mt-4 h-9',
+        )}
+      >
         {action}
       </Link>
     </div>

@@ -117,11 +117,20 @@ export async function GET(request: NextRequest) {
         (((projectRows as DbProject[] | null) || []).map((project) => [Number(project.id), project] as const)),
       )
 
+      const explorationRowsTyped = (explorationRows as {
+        project_id: number
+        last_activity_at: string
+      }[] | null) || []
+
       return NextResponse.json({
         projects: projectIds
           .map((projectId) => projectMap.get(projectId))
           .filter((project): project is DbProject => Boolean(project))
           .map((project) => mapProject(project)),
+        explorations: explorationRowsTyped.map((row) => ({
+          projectId: row.project_id,
+          lastActivityAt: row.last_activity_at,
+        })),
       })
     }
 

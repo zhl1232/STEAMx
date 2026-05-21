@@ -63,7 +63,7 @@ type ProjectContextType = {
       stageLabel?: string;
     },
   ) => Promise<{ id: number; status: string; recordKind: string }>;
-  startExploration: (projectId: string | number, options?: { autoCollect?: boolean }) => Promise<void>;
+  startExploration: (projectId: string | number) => Promise<void>;
   uncompleteProject: (projectId: string | number) => Promise<void>;
   isCompleted: (projectId: string | number) => boolean;
   isExploring: (projectId: string | number) => boolean;
@@ -788,15 +788,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   );
 
   const startExploration = useCallback(
-    async (projectId: string | number, options?: { autoCollect?: boolean }) => {
+    async (projectId: string | number) => {
       if (!user) return;
       const pid = normalizeProjectId(projectId);
       if (pid === null) throw new Error("无效的项目 ID");
 
       const response = await fetch(`/api/projects/${pid}/explorations/start`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ autoCollect: options?.autoCollect !== false }),
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
@@ -809,15 +807,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         exploringProjectsRef.current = next;
         return next;
       });
-
-      if (options?.autoCollect !== false) {
-        setCollectedProjects((prev) => {
-          const next = new Set(prev);
-          next.add(pid);
-          collectedProjectsRef.current = next;
-          return next;
-        });
-      }
     },
     [user],
   );
