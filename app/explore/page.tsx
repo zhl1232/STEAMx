@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { getExploreForYouInitialData } from '@/lib/explore/recommendations'
 import { parseExploreSortBy } from '@/lib/explore/presets'
+import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { ExploreClient } from './explore-client'
 
@@ -44,11 +45,21 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     tags: params.tags?.split(',').filter(Boolean),
   }
   const sortBy = parseExploreSortBy(firstParam(params.sortBy))
+  const viewerKey = await getRecommendationViewerKey()
 
   const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore, total }, initialForYou] =
     await Promise.all([
       getExploreFilterOptions(),
-      getProjects(filters, { page: initialPage, pageSize: 12, sortBy }),
+      getProjects(filters, {
+        page: initialPage,
+        pageSize: 12,
+        sortBy,
+        shuffleSeed: sortBy === 'popular' ? viewerKey : undefined,
+        shuffleBatch: 0,
+        // 让 popular 排序的翻页也保持五类交错——是否真的混合由 shouldBlendPopularExplore
+        // 按筛选条件最终决定（选了 category/tags/search 会自动降级回单类语义）。
+        blendPopular: sortBy === 'popular',
+      }),
       getExploreForYouInitialData(),
     ])
 

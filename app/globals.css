@@ -1,53 +1,63 @@
+@import "./styles/animations.css";
+@import "./styles/avatar-frames.css";
+@import "./styles/name-colors.css";
+@import "./styles/nature.css";
+@import "./styles/community.css";
+@import "./styles/profile.css";
+@import "./styles/playground.css";
+@import "./styles/admin.css";
+@import "./styles/observation.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* next/font 注入 --font-noto-sans / --font-noto-serif / --font-jetbrains-mono（SIL OFL 1.1） */
+    /* next/font 注入 --font-noto-sans / --font-noto-serif / --font-jetbrains-mono(SIL OFL 1.1) */
     --font-sans: var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
     --font-heading: var(--font-noto-serif), ui-serif, serif;
     --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
-    /* 浅色模式背景：极淡的冷白 */
+    /* 浅色模式背景:极淡的冷白 */
     --background: 220 30% 98%;
     --foreground: 220 40% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 40% 10%;
+    --card-foreground: var(--foreground);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 40% 10%;
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
 
-    /* 主色：梦幻蓝 (基于 #a6c1ee 调整，加深以保证对比度) */
-    --primary: 218 80% 60%;
-    --primary-foreground: 0 0% 100%;
+    /* shadcn 三件套对齐到 brand 体系:primary=brand-blue,secondary/accent=中性灰 */
+    --primary: var(--brand-blue);
+    --primary-foreground: var(--brand-blue-foreground);
 
-    /* 次要色：樱花粉 (基于 #fbc2eb) */
-    --secondary: 317 60% 94%;
-    --secondary-foreground: 317 80% 30%;
+    /* 次级背景:中性灰(原樱花粉作废) */
+    --secondary: var(--surface-muted);
+    --secondary-foreground: var(--foreground);
 
     /* 柔和背景 */
     --muted: 218 20% 96%;
-    /* 辅助文字：中灰，保证户外/低亮度下可读，仍弱于正文 */
+    /* 辅助文字:中灰,保证户外/低亮度下可读,仍弱于正文 */
     --muted-foreground: 218 12% 45%;
 
-    /* 强调色：柔粉色 */
-    --accent: 317 70% 85%;
-    --accent-foreground: 317 80% 30%;
+    /* hover/focus 高亮背景:中性灰(原柔粉作废) */
+    --accent: var(--surface-muted);
+    --accent-foreground: var(--foreground);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    /* shadcn destructive 与应用 status-danger 同色,做别名 */
+    --destructive: var(--status-danger);
+    --destructive-foreground: var(--status-danger-foreground);
 
     --border: 218 20% 90%;
-    --input: 218 20% 90%;
-    --ring: 218 80% 60%;
+    --input: var(--border);
+    --ring: var(--brand-blue);
 
     --radius: 0.5rem;
 
-    /* 图表配色：蓝粉渐变系 */
-    --chart-1: 218 80% 60%;
-    /* 蓝 */
+    /* 图表配色:chart-1 与品牌主色对齐 */
+    --chart-1: var(--brand-blue);
     --chart-2: 317 70% 65%;
     /* 粉 */
     --chart-3: 260 60% 60%;
@@ -67,22 +77,30 @@
     --surface-border-strong: 212 68% 82%;
     --surface-shadow: 214 72% 31%;
 
+    /* Brand colors — 单一来源,所有 tone-/status-/nav-/community-/nature- 通过 alias 引用 */
     --brand-blue: 212 86% 50%;
     --brand-blue-foreground: 0 0% 100%;
+    --brand-blue-soft: 209 100% 96%;
+    --brand-blue-border: 210 82% 85%;
     --brand-green: 146 59% 42%;
     --brand-green-foreground: 0 0% 100%;
+    --brand-green-soft: 144 62% 96%;
+    --brand-green-border: 144 52% 82%;
     --brand-amber: 36 91% 49%;
     --brand-amber-foreground: 30 45% 12%;
+    --brand-amber-soft: 40 100% 95%;
+    --brand-amber-border: 38 92% 81%;
 
-    --tone-science: 212 86% 50%;
-    --tone-science-soft: 209 100% 96%;
-    --tone-science-border: 210 82% 85%;
-    --tone-tech: 146 59% 42%;
-    --tone-tech-soft: 144 62% 96%;
-    --tone-tech-border: 144 52% 82%;
-    --tone-engineering: 36 91% 49%;
-    --tone-engineering-soft: 40 100% 95%;
-    --tone-engineering-border: 38 92% 81%;
+    /* tone-science/tech/engineering 全部别名到 brand-*;art/math/playground 独立 */
+    --tone-science: var(--brand-blue);
+    --tone-science-soft: var(--brand-blue-soft);
+    --tone-science-border: var(--brand-blue-border);
+    --tone-tech: var(--brand-green);
+    --tone-tech-soft: var(--brand-green-soft);
+    --tone-tech-border: var(--brand-green-border);
+    --tone-engineering: var(--brand-amber);
+    --tone-engineering-soft: var(--brand-amber-soft);
+    --tone-engineering-border: var(--brand-amber-border);
     --tone-art: 257 74% 65%;
     --tone-art-soft: 258 100% 97%;
     --tone-art-border: 255 84% 88%;
@@ -93,106 +111,105 @@
     --tone-playground-soft: 250 100% 97%;
     --tone-playground-border: 250 86% 88%;
 
-    /* Layout */
-    --shell-wide: 1840px;
+    /* Layout — 单位统一为 rem,字号缩放表现一致 */
+    --shell-wide: 115rem;
     --shell-standard: 72rem;
     --shell-reading: 64rem;
 
-    /* Radius scale */
-    --radius-xs: 0.5rem;
+    /* Radius scale — radius-xs 与 shadcn 默认 --radius 同值,做别名 */
+    --radius-xs: var(--radius);
     --radius-sm: 0.625rem;
     --radius-md: 1rem;
     --radius-lg: 1.25rem;
     --radius-xl: 1.375rem;
 
-    /* Navigation */
-    --nav-foreground: 220 26% 18%;
+    /* Navigation — active/hover/logo 与 brand-blue 同色,做别名 */
     --nav-muted: 220 26% 18%;
-    --nav-active: 212 86% 50%;
-    --nav-active-foreground: 0 0% 100%;
-    --nav-hover: 212 86% 50%;
+    --nav-active: var(--brand-blue);
+    --nav-active-foreground: var(--brand-blue-foreground);
+    --nav-hover: var(--brand-blue);
     --nav-border: 214 32% 91%;
     --nav-bar-bg: 0 0% 100%;
     --nav-bar-border: 214 32% 91%;
-    --nav-logo: 214 72% 29%;
+    --nav-logo: var(--brand-blue);
 
-    /* Nature theme (topic overlay on app shell) */
+    /* Nature theme (topic overlay on app shell) — accent 与 brand-green 同色 */
     --nature-canvas: 138 33% 97%;
     --nature-surface: 0 0% 100%;
     --nature-surface-muted: 140 30% 94%;
     --nature-border: 140 28% 86%;
-    --nature-accent: 146 59% 42%;
-    --nature-accent-foreground: 0 0% 100%;
-    --nature-accent-soft: 144 62% 96%;
+    --nature-accent: var(--brand-green);
+    --nature-accent-foreground: var(--brand-green-foreground);
+    --nature-accent-soft: var(--brand-green-soft);
     --nature-foreground: 150 18% 12%;
     --nature-muted: 150 10% 42%;
     --nature-hero-bg: 150 42% 8%;
 
-    /* 树木子专题（橄榄绿调，仍接自然 shell） */
+    /* 树木子专题(橄榄绿调,仍接自然 shell) */
     --nature-trees-canvas: 80 33% 96%;
     --nature-trees-foreground: 100 18% 12%;
 
-    /* Community accent */
-    --community-accent: 212 86% 50%;
+    /* Community accent — 与 brand-blue 同色 */
+    --community-accent: var(--brand-blue);
     --community-hero-fg: 220 48% 10%;
     --community-hero-muted: 218 22% 28%;
 
-    /* Semantic status */
-    --status-success: 146 59% 42%;
-    --status-success-foreground: 0 0% 100%;
-    --status-success-surface: 144 62% 96%;
-    --status-success-border: 144 52% 82%;
-    --status-warning: 36 91% 49%;
-    --status-warning-foreground: 30 45% 12%;
-    --status-warning-surface: 40 100% 95%;
-    --status-warning-border: 38 92% 81%;
+    /* Semantic status — success/warning/info 与 brand-* 同色,danger 独立 */
+    --status-success: var(--brand-green);
+    --status-success-foreground: var(--brand-green-foreground);
+    --status-success-surface: var(--brand-green-soft);
+    --status-success-border: var(--brand-green-border);
+    --status-warning: var(--brand-amber);
+    --status-warning-foreground: var(--brand-amber-foreground);
+    --status-warning-surface: var(--brand-amber-soft);
+    --status-warning-border: var(--brand-amber-border);
     --status-danger: 0 84% 60%;
     --status-danger-foreground: 0 0% 98%;
     --status-danger-surface: 0 86% 97%;
     --status-danger-border: 0 80% 88%;
-    --status-info: 212 86% 50%;
-    --status-info-foreground: 0 0% 100%;
-    --status-info-surface: 209 100% 96%;
-    --status-info-border: 210 82% 85%;
+    --status-info: var(--brand-blue);
+    --status-info-foreground: var(--brand-blue-foreground);
+    --status-info-surface: var(--brand-blue-soft);
+    --status-info-border: var(--brand-blue-border);
   }
 
   .dark {
-    /* 1. 背景：深邃夜空 */
+    /* 1. 背景:深邃夜空 */
     --background: 220 30% 6%;
     --foreground: 218 20% 95%;
 
-    /* 2. 卡片：深蓝灰 */
+    /* 2. 卡片:深蓝灰 */
     --card: 220 25% 10%;
-    --card-foreground: 218 20% 95%;
+    --card-foreground: var(--foreground);
 
-    --popover: 220 25% 10%;
-    --popover-foreground: 218 20% 95%;
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
 
-    /* 3. 主色：天空蓝 (使用原色 #a6c1ee 的高亮感) */
-    --primary: 218 90% 79%;
-    --primary-foreground: 220 40% 10%;
+    /* shadcn 三件套对齐到 brand 体系 */
+    --primary: var(--brand-blue);
+    --primary-foreground: var(--brand-blue-foreground);
 
-    /* 4. 次要色：深紫粉 */
-    --secondary: 317 30% 15%;
-    --secondary-foreground: 317 90% 87%;
-    /* #fbc2eb 原色 */
+    /* 次级背景:中性深灰(原深紫粉作废) */
+    --secondary: var(--surface-muted);
+    --secondary-foreground: var(--foreground);
 
     --muted: 218 20% 15%;
     --muted-foreground: 218 10% 65%;
 
-    /* 强调色 */
-    --accent: 317 40% 20%;
-    --accent-foreground: 317 90% 87%;
+    /* hover/focus 高亮背景:中性深灰 */
+    --accent: var(--surface-muted);
+    --accent-foreground: var(--foreground);
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    /* shadcn destructive 与应用 status-danger 同色,做别名 */
+    --destructive: var(--status-danger);
+    --destructive-foreground: var(--status-danger-foreground);
 
     --border: 218 20% 18%;
-    --input: 218 20% 18%;
-    --ring: 218 90% 79%;
+    --input: var(--border);
+    --ring: var(--brand-blue);
 
-    /* 图表颜色 */
-    --chart-1: 218 90% 79%;
+    /* 图表颜色 — chart-1 与品牌主色对齐 */
+    --chart-1: var(--brand-blue);
     --chart-2: 317 84% 87%;
     --chart-3: 260 80% 75%;
     --chart-4: 190 80% 70%;
@@ -207,22 +224,29 @@
     --surface-border-strong: 213 34% 28%;
     --surface-shadow: 220 42% 3%;
 
+    /* Brand colors */
     --brand-blue: 209 92% 70%;
     --brand-blue-foreground: 216 45% 10%;
+    --brand-blue-soft: 214 44% 15%;
+    --brand-blue-border: 211 48% 29%;
     --brand-green: 151 68% 58%;
     --brand-green-foreground: 150 52% 9%;
+    --brand-green-soft: 150 42% 14%;
+    --brand-green-border: 150 42% 28%;
     --brand-amber: 38 95% 64%;
     --brand-amber-foreground: 34 53% 10%;
+    --brand-amber-soft: 35 42% 14%;
+    --brand-amber-border: 35 45% 30%;
 
-    --tone-science: 209 92% 70%;
-    --tone-science-soft: 214 44% 15%;
-    --tone-science-border: 211 48% 29%;
-    --tone-tech: 151 68% 58%;
-    --tone-tech-soft: 150 42% 14%;
-    --tone-tech-border: 150 42% 28%;
-    --tone-engineering: 38 95% 64%;
-    --tone-engineering-soft: 35 42% 14%;
-    --tone-engineering-border: 35 45% 30%;
+    --tone-science: var(--brand-blue);
+    --tone-science-soft: var(--brand-blue-soft);
+    --tone-science-border: var(--brand-blue-border);
+    --tone-tech: var(--brand-green);
+    --tone-tech-soft: var(--brand-green-soft);
+    --tone-tech-border: var(--brand-green-border);
+    --tone-engineering: var(--brand-amber);
+    --tone-engineering-soft: var(--brand-amber-soft);
+    --tone-engineering-border: var(--brand-amber-border);
     --tone-art: 255 88% 78%;
     --tone-art-soft: 255 34% 17%;
     --tone-art-border: 255 40% 33%;
@@ -233,23 +257,22 @@
     --tone-playground-soft: 250 36% 17%;
     --tone-playground-border: 250 42% 32%;
 
-    --nav-foreground: 218 20% 88%;
     --nav-muted: 218 20% 88%;
-    --nav-active: 209 92% 70%;
-    --nav-active-foreground: 216 45% 10%;
-    --nav-hover: 209 92% 70%;
+    --nav-active: var(--brand-blue);
+    --nav-active-foreground: var(--brand-blue-foreground);
+    --nav-hover: var(--brand-blue);
     --nav-border: 218 20% 22%;
     --nav-bar-bg: 220 30% 6%;
     --nav-bar-border: 218 20% 22%;
-    --nav-logo: 209 92% 70%;
+    --nav-logo: var(--brand-blue);
 
     --nature-canvas: 150 28% 7%;
     --nature-surface: 150 32% 10%;
     --nature-surface-muted: 150 28% 14%;
     --nature-border: 150 22% 24%;
-    --nature-accent: 151 68% 58%;
-    --nature-accent-foreground: 150 52% 9%;
-    --nature-accent-soft: 150 42% 14%;
+    --nature-accent: var(--brand-green);
+    --nature-accent-foreground: var(--brand-green-foreground);
+    --nature-accent-soft: var(--brand-green-soft);
     --nature-foreground: 144 30% 94%;
     --nature-muted: 150 12% 68%;
     --nature-hero-bg: 150 42% 6%;
@@ -257,26 +280,26 @@
     --nature-trees-canvas: 100 28% 7%;
     --nature-trees-foreground: 96 30% 94%;
 
-    --community-accent: 209 92% 70%;
+    --community-accent: var(--brand-blue);
     --community-hero-fg: 210 40% 96%;
     --community-hero-muted: 214 22% 78%;
 
-    --status-success: 151 68% 58%;
-    --status-success-foreground: 150 52% 9%;
-    --status-success-surface: 150 42% 14%;
-    --status-success-border: 150 42% 28%;
-    --status-warning: 38 95% 64%;
-    --status-warning-foreground: 34 53% 10%;
-    --status-warning-surface: 35 42% 14%;
-    --status-warning-border: 35 45% 30%;
+    --status-success: var(--brand-green);
+    --status-success-foreground: var(--brand-green-foreground);
+    --status-success-surface: var(--brand-green-soft);
+    --status-success-border: var(--brand-green-border);
+    --status-warning: var(--brand-amber);
+    --status-warning-foreground: var(--brand-amber-foreground);
+    --status-warning-surface: var(--brand-amber-soft);
+    --status-warning-border: var(--brand-amber-border);
     --status-danger: 0 72% 58%;
     --status-danger-foreground: 0 0% 98%;
     --status-danger-surface: 0 34% 16%;
     --status-danger-border: 0 42% 31%;
-    --status-info: 209 92% 70%;
-    --status-info-foreground: 216 45% 10%;
-    --status-info-surface: 214 44% 15%;
-    --status-info-border: 211 48% 29%;
+    --status-info: var(--brand-blue);
+    --status-info-foreground: var(--brand-blue-foreground);
+    --status-info-surface: var(--brand-blue-soft);
+    --status-info-border: var(--brand-blue-border);
   }
 
   .black-gold {
@@ -325,20 +348,27 @@
 
     --brand-blue: 43 100% 50%;
     --brand-blue-foreground: 0 0% 4%;
+    --brand-blue-soft: 43 22% 12%;
+    --brand-blue-border: 43 36% 24%;
     --brand-green: 43 88% 54%;
     --brand-green-foreground: 0 0% 4%;
+    --brand-green-soft: 48 20% 12%;
+    --brand-green-border: 48 34% 24%;
     --brand-amber: 43 100% 50%;
     --brand-amber-foreground: 0 0% 4%;
+    --brand-amber-soft: 35 24% 12%;
+    --brand-amber-border: 35 38% 24%;
 
+    /* tone — science/tech/engineering 用略不同亮度的金,让学科色有微差;soft/border 跟 brand 同 */
     --tone-science: 43 100% 55%;
-    --tone-science-soft: 43 22% 12%;
-    --tone-science-border: 43 36% 24%;
+    --tone-science-soft: var(--brand-blue-soft);
+    --tone-science-border: var(--brand-blue-border);
     --tone-tech: 48 84% 60%;
-    --tone-tech-soft: 48 20% 12%;
-    --tone-tech-border: 48 34% 24%;
+    --tone-tech-soft: var(--brand-green-soft);
+    --tone-tech-border: var(--brand-green-border);
     --tone-engineering: 35 92% 55%;
-    --tone-engineering-soft: 35 24% 12%;
-    --tone-engineering-border: 35 38% 24%;
+    --tone-engineering-soft: var(--brand-amber-soft);
+    --tone-engineering-border: var(--brand-amber-border);
     --tone-art: 43 76% 66%;
     --tone-art-soft: 43 18% 12%;
     --tone-art-border: 43 30% 25%;
@@ -365,7 +395,7 @@
     @apply bg-background font-sans text-foreground;
     background-image:
       radial-gradient(circle at top, hsl(var(--primary) / 0.08), transparent 30%),
-      radial-gradient(circle at 85% 18%, hsl(var(--secondary) / 0.16), transparent 22%);
+      radial-gradient(circle at 85% 18%, hsl(var(--chart-2) / 0.16), transparent 22%);
     background-attachment: fixed;
   }
 
@@ -501,12 +531,6 @@
     @apply fixed bottom-2 left-4 right-4 z-50 flex h-[calc(64px+env(safe-area-inset-bottom))] items-center gap-0.5 rounded-[24px] border px-2 pb-[calc(0.25rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur-2xl supports-[backdrop-filter]:bg-[hsl(var(--nav-bar-bg)/0.82)] md:hidden;
   }
 
-  .bottom-nav-bar-nature {
-    border-color: hsl(var(--nature-border) / 0.9);
-    background-color: hsl(var(--nature-hero-bg) / 0.92);
-    @apply dark:border-[hsl(var(--nature-border)/0.5)] dark:bg-[hsl(var(--nature-hero-bg)/0.86)] dark:shadow-none;
-  }
-
   .text-display {
     @apply font-heading text-3xl font-bold leading-tight tracking-tight min-[390px]:text-4xl md:text-5xl;
   }
@@ -551,194 +575,6 @@
     color: hsl(var(--status-info));
   }
 
-  .theme-nature-page {
-    background-color: hsl(var(--nature-canvas));
-    color: hsl(var(--nature-foreground));
-  }
-
-  .nature-section-card {
-    @apply surface-card rounded-[var(--radius-sm)] p-4 md:p-5;
-    border-color: hsl(var(--nature-border) / 0.9);
-    background-color: hsl(var(--nature-surface) / 0.96);
-  }
-
-  .nature-icon-accent {
-    color: hsl(var(--nature-accent));
-  }
-
-  .nature-heading {
-    color: hsl(var(--nature-foreground));
-    @apply font-bold leading-7;
-  }
-
-  .nature-text-muted {
-    color: hsl(var(--nature-muted));
-  }
-
-  .nature-link {
-    color: hsl(var(--nature-accent));
-    @apply text-sm font-semibold transition-colors hover:text-[hsl(var(--nature-accent)/0.85)];
-  }
-
-  .nature-stat-icon {
-    background-color: hsl(var(--nature-accent-soft));
-    color: hsl(var(--nature-accent));
-    @apply grid h-10 w-10 shrink-0 place-items-center rounded-[var(--radius-sm)];
-  }
-
-  .nature-hero-panel {
-    border-color: hsl(var(--nature-border) / 0.4);
-    background-color: hsl(var(--nature-hero-bg));
-    @apply relative isolate overflow-hidden rounded-[var(--radius-sm)] border shadow-[0_24px_70px_-42px_hsl(var(--nature-accent)/0.35)];
-  }
-
-  .nature-segment-track {
-    background-color: hsl(var(--nature-accent-soft));
-    @apply grid grid-cols-2 rounded-full p-1;
-  }
-
-  .community-hero-title {
-    color: hsl(var(--community-hero-fg));
-    @apply font-black leading-none tracking-normal text-[32px] min-[390px]:text-[36px] md:text-[44px] xl:text-[52px];
-  }
-
-  .community-hero-lead {
-    color: hsl(var(--community-hero-muted));
-    @apply mt-4 max-w-[15rem] text-[17px] font-medium leading-7 min-[390px]:max-w-[17rem] md:max-w-[34rem] md:text-[18px];
-  }
-
-  .community-tab {
-    color: hsl(var(--muted-foreground));
-    @apply relative h-[50px] whitespace-nowrap px-1 text-[18px] font-semibold transition md:h-[58px];
-  }
-
-  .community-tab:hover {
-    color: hsl(var(--nav-active));
-  }
-
-  .community-tab-active {
-    color: hsl(var(--nav-active));
-  }
-
-  .community-tab-active::after {
-    background-color: hsl(var(--community-accent));
-    @apply absolute inset-x-0 bottom-0 h-[3px] rounded-full content-[''];
-  }
-
-  .community-challenge-card {
-    border-color: hsl(var(--surface-border) / 0.9);
-    background-color: hsl(var(--surface-raised) / 0.82);
-    box-shadow: 0 14px 34px -30px hsl(var(--surface-shadow) / 0.35);
-    @apply relative grid min-h-[116px] grid-cols-[112px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[var(--radius-md)] border p-2 transition hover:border-[hsl(var(--brand-blue)/0.35)] hover:bg-[hsl(var(--surface-raised))] min-[420px]:grid-cols-[132px_minmax(0,1fr)] md:gap-4;
-  }
-
-  .admin-panel-card {
-    background-color: hsl(var(--background) / 0.74);
-    border-color: hsl(var(--surface-border) / 0.82);
-    @apply overflow-hidden rounded-[var(--radius-lg)] border shadow-none;
-  }
-
-  .admin-section {
-    @apply admin-panel-card space-y-4 p-4;
-  }
-
-  .theme-nature-trees {
-    background-color: hsl(var(--nature-trees-canvas));
-    color: hsl(var(--nature-trees-foreground));
-  }
-
-  .nature-topic-card {
-    border-color: hsl(var(--nature-border) / 0.85);
-    background-color: hsl(var(--nature-surface-muted));
-    box-shadow: 0 14px 36px -30px hsl(var(--nature-accent) / 0.22);
-    @apply relative block w-[85vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[var(--radius-sm)] border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-canvas))] active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-auto md:max-w-none md:snap-align-none;
-  }
-
-  .nature-topic-card:hover {
-    border-color: hsl(var(--nature-accent) / 0.45);
-    box-shadow: 0 22px 50px -34px hsl(var(--nature-accent) / 0.28);
-  }
-
-  .nature-observation-card {
-    border-color: hsl(var(--nature-border) / 0.9);
-    background-color: hsl(var(--nature-surface));
-    box-shadow: 0 16px 44px -34px hsl(var(--nature-accent) / 0.25);
-    @apply block w-[85vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[var(--radius-sm)] border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-canvas))] active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-[224px] md:max-w-none md:snap-align-none 2xl:w-auto;
-  }
-
-  .nature-observation-card:hover {
-    border-color: hsl(var(--nature-accent) / 0.4);
-    box-shadow: 0 24px 60px -38px hsl(var(--nature-accent) / 0.32);
-  }
-
-  .nature-media-placeholder {
-    background-color: hsl(var(--nature-accent-soft));
-  }
-
-  .nature-chip {
-    background-color: hsl(var(--nature-accent-soft));
-    color: hsl(var(--nature-accent));
-    @apply rounded-full px-1.5 py-0.5 text-[10px] font-bold;
-  }
-
-  .nature-interaction-pill {
-    background-color: hsl(var(--nature-accent-soft) / 0.65);
-    @apply inline-flex min-h-7 items-center gap-1 rounded-full px-2.5 text-xs font-semibold transition-colors group-hover:bg-[hsl(var(--nature-accent-soft))];
-  }
-
-  .rounded-panel {
-    border-radius: var(--radius-lg);
-  }
-
-  .nature-hero-glass {
-    background-color: hsl(var(--nature-surface-muted));
-    border-color: hsl(var(--nature-border) / 0.55);
-    box-shadow: 0 26px 82px -34px hsl(var(--nature-accent) / 0.22);
-    @apply relative isolate overflow-hidden rounded-[var(--radius-sm)] border p-5;
-  }
-
-  .nature-data-card {
-    border-color: hsl(var(--nature-border) / 0.9);
-    background-color: hsl(var(--nature-surface) / 0.94);
-    box-shadow: 0 20px 54px -38px hsl(var(--nature-accent) / 0.18);
-    @apply rounded-[var(--radius-sm)] border p-5;
-  }
-
-  .nature-contribution-card {
-    border-color: hsl(var(--nature-border) / 0.9);
-    background-color: hsl(var(--nature-accent-soft) / 0.4);
-    box-shadow: 0 16px 42px -34px hsl(var(--nature-accent) / 0.16);
-    @apply relative overflow-hidden rounded-[var(--radius-sm)] border p-5;
-  }
-
-  .nature-empty-state {
-    border-color: hsl(var(--nature-border));
-    background-color: hsl(var(--nature-accent-soft) / 0.45);
-    @apply rounded-[var(--radius-sm)] border border-dashed text-sm nature-text-muted;
-  }
-
-  .nature-action-link {
-    border-color: hsl(var(--nature-accent) / 0.45);
-    background-color: hsl(var(--nature-surface));
-    color: hsl(var(--nature-accent));
-    @apply inline-flex min-h-11 min-w-[76px] shrink-0 items-center justify-center gap-0.5 rounded-[var(--radius-sm)] border px-3 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-canvas))];
-  }
-
-  .nature-action-link:hover {
-    background-color: hsl(var(--nature-accent));
-    color: hsl(var(--nature-accent-foreground));
-    box-shadow: 0 12px 24px -18px hsl(var(--nature-accent) / 0.45);
-  }
-
-  .nature-list-row {
-    @apply flex min-h-11 min-w-0 items-center gap-4 rounded-[var(--radius-sm)] p-1 transition-colors hover:bg-[hsl(var(--nature-accent-soft)/0.55)];
-  }
-
-  .nature-divide {
-    border-color: hsl(var(--nature-border) / 0.85);
-    @apply divide-y;
-  }
-
   .app-empty-state {
     border-color: hsl(var(--surface-border));
     background-color: hsl(var(--surface-muted) / 0.55);
@@ -773,252 +609,6 @@
     background:
       linear-gradient(180deg, hsl(var(--app-canvas)) 0%, hsl(var(--app-canvas-soft)) 54%, hsl(var(--background)) 100%);
     color: hsl(var(--foreground));
-  }
-
-  .community-nature-cta {
-    @apply flex items-center justify-between rounded-[var(--radius-lg)] px-3.5 py-3 text-sm font-medium shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.14)] transition-colors;
-    background-color: hsl(var(--status-success-surface) / 0.88);
-    color: hsl(var(--status-success));
-  }
-
-  .community-nature-cta:hover {
-    background-color: hsl(var(--status-success-surface));
-  }
-
-  .community-related-project-link {
-    @apply rounded-[var(--radius-lg)] px-3.5 py-3 shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.16)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface-raised) / 0.82),
-      hsl(var(--brand-blue) / 0.12),
-      hsl(var(--secondary) / 0.08)
-    );
-  }
-
-  .dark .community-related-project-link {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface-raised) / 0.78),
-      hsl(var(--brand-blue) / 0.1),
-      hsl(var(--secondary) / 0.08)
-    );
-  }
-
-  .community-related-project-link:hover {
-    box-shadow: 0 20px 50px -34px hsl(var(--brand-blue) / 0.26);
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface-raised) / 0.9),
-      hsl(var(--brand-blue) / 0.16),
-      hsl(var(--secondary) / 0.1)
-    );
-  }
-
-  .profile-soft-cta {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold shadow-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)];
-    border-color: hsl(var(--brand-blue) / 0.24);
-    background-color: hsl(var(--surface-raised) / 0.86);
-    color: hsl(var(--brand-blue));
-  }
-
-  .profile-soft-cta:hover {
-    background-color: hsl(var(--tone-science-soft));
-    box-shadow: 0 12px 26px -22px hsl(var(--brand-blue) / 0.5);
-  }
-
-  .dark .profile-soft-cta {
-    border-color: hsl(var(--brand-blue) / 0.3);
-    background-color: hsl(var(--brand-blue) / 0.12);
-    color: hsl(var(--brand-blue));
-  }
-
-  .dark .profile-soft-cta:hover {
-    background-color: hsl(var(--brand-blue) / 0.2);
-  }
-
-  .profile-success-cta {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-full border px-4 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.25)];
-    border-color: hsl(var(--brand-green) / 0.28);
-    background-color: hsl(var(--status-success-surface) / 0.9);
-    color: hsl(var(--brand-green));
-  }
-
-  .profile-success-cta:hover {
-    background-color: hsl(var(--status-success-surface));
-  }
-
-  .dark .profile-success-cta {
-    border-color: hsl(var(--brand-green) / 0.32);
-    background-color: hsl(var(--brand-green) / 0.1);
-    color: hsl(var(--brand-green));
-  }
-
-  .dark .profile-success-cta:hover {
-    background-color: hsl(var(--brand-green) / 0.16);
-  }
-
-  .profile-stats-bar {
-    border-color: hsl(var(--surface-border) / 0.7);
-    background:
-      linear-gradient(180deg, hsl(var(--surface-raised) / 0.88), hsl(var(--tone-science-soft) / 0.46));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.58);
-    @apply border-t pb-1 pt-1 backdrop-blur-md;
-  }
-
-  .dark .profile-stats-bar {
-    background:
-      linear-gradient(180deg, hsl(var(--surface-muted) / 0.48), hsl(var(--surface-raised) / 0.36));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06);
-  }
-
-  .profile-page-surface {
-    background:
-      radial-gradient(circle at 18% 0%, hsl(var(--brand-blue) / 0.1), transparent 18rem),
-      radial-gradient(circle at 92% 12rem, hsl(var(--brand-green) / 0.08), transparent 16rem),
-      linear-gradient(180deg, hsl(var(--app-canvas)), hsl(var(--tone-science-soft) / 0.3) 22rem, hsl(var(--background)) 42rem);
-  }
-
-  .dark .profile-page-surface {
-    background:
-      linear-gradient(180deg, hsl(var(--app-canvas)), hsl(var(--surface-muted) / 0.3) 22rem, hsl(var(--background)) 42rem);
-  }
-
-  .profile-page-surface .surface-panel {
-    background-color: hsl(var(--surface-raised) / 0.9);
-    border-color: hsl(var(--surface-border) / 0.78);
-    box-shadow:
-      0 16px 42px -34px hsl(var(--surface-shadow) / 0.28),
-      inset 0 1px 0 hsl(0 0% 100% / 0.5);
-  }
-
-  .profile-page-surface .surface-subtle {
-    background:
-      linear-gradient(180deg, hsl(var(--surface-muted) / 0.82), hsl(var(--surface-raised) / 0.7));
-    border-color: hsl(var(--surface-border) / 0.74);
-    box-shadow: 0 14px 38px -34px hsl(var(--surface-shadow) / 0.24);
-  }
-
-  .profile-page-surface .profile-hero-card {
-    border-color: hsl(var(--surface-border-strong) / 0.78);
-    box-shadow:
-      0 18px 48px -36px hsl(var(--surface-shadow) / 0.36),
-      inset 0 1px 0 hsl(0 0% 100% / 0.66);
-  }
-
-  .profile-mobile-hero {
-    border-color: hsl(var(--surface-border) / 0.48);
-    background: hsl(var(--surface-raised) / 0.94);
-    box-shadow:
-      0 16px 36px -26px hsl(var(--brand-blue) / 0.36),
-      0 8px 20px -14px hsl(var(--surface-shadow) / 0.18),
-      inset 0 1px 0 hsl(0 0% 100% / 0.62);
-    @apply rounded-[16px] border;
-  }
-
-  .profile-mobile-hero-backdrop {
-    background:
-      linear-gradient(
-        135deg,
-        hsl(var(--brand-blue) / 0.13) 0%,
-        hsl(var(--tone-science-soft) / 0.58) 50%,
-        hsl(var(--surface-raised) / 0.9) 100%
-      );
-  }
-
-  .dark .profile-mobile-hero-backdrop {
-    background:
-      linear-gradient(
-        135deg,
-        hsl(var(--brand-blue) / 0.18) 0%,
-        hsl(var(--tone-art) / 0.12) 42%,
-        hsl(var(--surface-raised) / 0.88) 100%
-      );
-  }
-
-  .profile-mobile-panel {
-    background-color: hsl(var(--surface-raised) / 0.94);
-    border-color: hsl(var(--surface-border) / 0.58);
-    box-shadow:
-      0 12px 28px -22px hsl(var(--surface-shadow) / 0.2),
-      inset 0 1px 0 hsl(0 0% 100% / 0.5);
-    @apply rounded-[16px] border;
-  }
-
-  .profile-task-cta {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--tone-art)) 0%,
-      hsl(var(--tone-art) / 0.88) 100%
-    );
-    color: hsl(0 0% 100%);
-    box-shadow: 0 10px 22px -16px hsl(var(--tone-art) / 0.72);
-  }
-
-  .profile-task-cta:hover {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--tone-art) / 0.94) 0%,
-      hsl(var(--tone-art) / 0.82) 100%
-    );
-  }
-
-  .profile-mobile-empty-cta {
-    @apply inline-flex h-9 items-center justify-center rounded-[22px] border px-4 text-xs font-semibold transition;
-    border-color: hsl(var(--tone-art) / 0.42);
-    color: hsl(var(--tone-art));
-    background-color: hsl(var(--surface-raised));
-  }
-
-  .profile-mobile-empty-cta:hover {
-    background-color: hsl(var(--tone-art-soft));
-  }
-
-  .profile-xp-progress {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--brand-blue) / 0.96) 0%,
-      hsl(var(--brand-blue)) 54%,
-      hsl(247 91% 64%) 100%
-    );
-    background-image:
-      linear-gradient(
-        110deg,
-        hsl(0 0% 100% / 0.24) 0 9%,
-        transparent 9% 22%,
-        hsl(0 0% 100% / 0.16) 22% 28%,
-        transparent 28% 42%
-      ),
-      linear-gradient(
-        135deg,
-        hsl(var(--brand-blue) / 0.96) 0%,
-        hsl(var(--brand-blue)) 54%,
-        hsl(247 91% 64%) 100%
-      );
-    background-size: 28px 100%, 100% 100%;
-    background-position: -5px 0, 0 0;
-    border-radius: inherit;
-    box-shadow:
-      0 4px 10px -7px hsl(var(--brand-blue) / 0.8),
-      inset 0 1px 0 hsl(0 0% 100% / 0.34);
-  }
-
-  .profile-xp-track {
-    overflow: hidden;
-    border-radius: 999px;
-    background:
-      linear-gradient(180deg, hsl(223 31% 91%) 0%, hsl(223 31% 86%) 100%);
-    box-shadow:
-      inset 0 1px 1px hsl(222 30% 72% / 0.36),
-      inset 0 -1px 0 hsl(0 0% 100% / 0.5);
-  }
-
-  .dark .profile-page-surface .profile-hero-card {
-    border-color: hsl(var(--surface-border-strong) / 0.66);
-    box-shadow:
-      0 26px 72px -50px hsl(var(--surface-shadow) / 0.88),
-      inset 0 1px 0 hsl(0 0% 100% / 0.08);
   }
 
   .skip-link {
@@ -1157,177 +747,8 @@
     border-color: hsl(var(--brand-amber) / 0.45);
   }
 
-  .playground-game-page {
-    @apply flex min-h-[calc(100dvh-12rem)] flex-col xl:flex-row;
-  }
-
-  .playground-game-main {
-    @apply flex w-full min-w-0 flex-1 flex-col items-center px-3 py-4 sm:p-6 xl:p-10;
-  }
-
-  .playground-game-center {
-    @apply justify-center;
-  }
-
-  .playground-game-board {
-    background-color: hsl(var(--surface-raised) / 0.9);
-    border-color: hsl(var(--surface-border) / 0.9);
-    box-shadow: 0 24px 68px -48px hsl(var(--surface-shadow) / 0.54);
-    @apply relative w-full max-w-full rounded-[22px] border p-3 backdrop-blur sm:p-6;
-  }
-
-  .playground-info-panel {
-    background-color: hsl(var(--surface-raised) / 0.88);
-    border-color: hsl(var(--surface-border) / 0.86);
-    @apply rounded-[20px] border shadow-none backdrop-blur;
-  }
-
-  .observation-submit-theme {
-    --obs-panel: rgba(255, 255, 255, 0.94);
-    --obs-subtle: rgba(240, 248, 243, 0.84);
-    --obs-control: rgba(255, 255, 255, 0.9);
-    --obs-control-hover: #eef8f1;
-    --obs-border: #d5e7dc;
-    --obs-border-strong: #b7d5c2;
-    --obs-text: #17251f;
-    --obs-muted: #587163;
-    --obs-muted-2: #73887b;
-    --obs-placeholder: #8da397;
-    --obs-accent: #1d9a52;
-    --obs-accent-strong: #168946;
-    --obs-accent-soft: #e3f6ea;
-    --obs-accent-panel: #edf9f0;
-    --obs-accent-text: #116436;
-    --obs-focus: rgba(45, 166, 91, 0.28);
-    --obs-ring: rgba(26, 121, 68, 0.08);
-    --obs-panel-shadow: 0 24px 78px -56px rgba(24, 92, 55, 0.34);
-    --obs-soft-shadow: 0 14px 34px -26px rgba(34, 132, 77, 0.4);
-    --obs-glow-a: rgba(45, 170, 91, 0.16);
-    --obs-glow-b: rgba(182, 207, 152, 0.18);
-    --obs-photo-bg: radial-gradient(circle at top, rgba(45, 170, 91, 0.11), transparent 42%), linear-gradient(180deg, rgba(248, 252, 249, 0.98), rgba(238, 248, 241, 0.96));
-    --obs-map-bg: radial-gradient(circle at 58% 42%, rgba(62, 153, 91, 0.22), transparent 12%), linear-gradient(135deg, rgba(220, 239, 224, 0.96), rgba(247, 251, 248, 0.98));
-  }
-
-  .dark .observation-submit-theme {
-    --obs-panel: oklch(0.22 0.018 210 / 0.96);
-    --obs-subtle: oklch(0.25 0.018 200 / 0.82);
-    --obs-control: oklch(0.26 0.018 200 / 0.94);
-    --obs-control-hover: oklch(0.31 0.022 190);
-    --obs-border: oklch(0.36 0.022 185);
-    --obs-border-strong: oklch(0.45 0.026 178);
-    --obs-text: oklch(0.93 0.015 112);
-    --obs-muted: oklch(0.76 0.026 150);
-    --obs-muted-2: oklch(0.64 0.024 158);
-    --obs-placeholder: oklch(0.56 0.024 158);
-    --obs-accent: oklch(0.64 0.12 150);
-    --obs-accent-strong: oklch(0.7 0.13 150);
-    --obs-accent-soft: oklch(0.3 0.046 150);
-    --obs-accent-panel: oklch(0.34 0.048 150);
-    --obs-accent-text: oklch(0.82 0.075 145);
-    --obs-focus: oklch(0.68 0.12 150 / 0.3);
-    --obs-ring: oklch(0.92 0.015 112 / 0.045);
-    --obs-panel-shadow: 0 24px 80px -56px rgb(0 0 0 / 0.86);
-    --obs-soft-shadow: 0 12px 28px -24px oklch(0.64 0.12 150 / 0.55);
-    --obs-glow-a: oklch(0.58 0.1 150 / 0.13);
-    --obs-glow-b: oklch(0.54 0.045 112 / 0.12);
-    --obs-photo-bg: radial-gradient(circle at top, oklch(0.56 0.1 150 / 0.12), transparent 42%), linear-gradient(180deg, oklch(0.25 0.024 180 / 0.94), oklch(0.2 0.018 210 / 0.98));
-    --obs-map-bg: radial-gradient(circle at 58% 42%, oklch(0.56 0.1 150 / 0.16), transparent 12%), linear-gradient(135deg, oklch(0.28 0.036 155 / 0.94), oklch(0.21 0.018 210 / 0.98));
-  }
-}
-
-/* Custom Animations */
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 5px hsl(var(--primary) / 0.5);
-  }
-
-  50% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.8);
-  }
-
-  100% {
-    box-shadow: 0 0 5px hsl(var(--primary) / 0.5);
-  }
-}
-
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-}
-
-@keyframes nature-fade-up {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes nature-check-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  45% {
-    transform: scale(1.08);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-.animate-twinkle {
-  animation: twinkle 4s ease-in-out infinite;
-}
-
-.animate-text-gradient {
-  animation: text-gradient-flow 4s ease-in-out infinite;
-}
-
-.nature-reveal {
-  animation: nature-fade-up 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.nature-check-pulse {
-  animation: nature-check-pulse 1800ms cubic-bezier(0.22, 1, 0.36, 1) 2;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nature-reveal,
-  .nature-check-pulse {
-    animation: none;
+  .rounded-panel {
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -1351,311 +772,4 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-}
-
-/* =============== 商店头像框样式 =============== */
-
-/* --- 霓虹光环 --- */
-@property --neon-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes neon-rotate {
-  to { --neon-angle: 360deg; }
-}
-
-@keyframes neon-glow-pulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5)) drop-shadow(0 0 4px hsl(var(--secondary) / 0.3));
-  }
-  50% {
-    filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.8)) drop-shadow(0 0 8px hsl(var(--secondary) / 0.6)) drop-shadow(0 0 12px hsl(var(--chart-3) / 0.4));
-  }
-}
-
-.avatar-frame-neon-halo {
-  padding: 3px;
-  border-radius: 9999px;
-  background: conic-gradient(
-    from var(--neon-angle),
-    hsl(var(--primary)),
-    hsl(var(--chart-3)),
-    hsl(var(--secondary)),
-    hsl(var(--chart-5)),
-    hsl(var(--chart-3)),
-    hsl(var(--primary))
-  );
-  animation:
-    neon-rotate 6s linear infinite,
-    neon-glow-pulse 3.5s ease-in-out infinite;
-}
-
-/* --- 像素边框 --- */
-@keyframes pixel-color-cycle {
-  0%   { border-color: hsl(var(--chart-1)); }
-  25%  { border-color: hsl(var(--chart-2)); }
-  50%  { border-color: hsl(var(--chart-3)); }
-  75%  { border-color: hsl(var(--chart-4)); }
-  100% { border-color: hsl(var(--chart-1)); }
-}
-
-.avatar-frame-pixel-border {
-  padding: 4px;
-  border-radius: 50%;
-  position: relative;
-  image-rendering: auto;
-}
-
-.avatar-frame-pixel-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 3px dashed hsl(var(--chart-1));
-  animation:
-    pixel-spin 12s linear infinite,
-    pixel-color-cycle 1.5s steps(4) infinite;
-  pointer-events: none;
-}
-
-@keyframes pixel-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* --- 黄金王冠 --- */
-@property --gold-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes gold-rotate {
-  to { --gold-angle: 360deg; }
-}
-
-@keyframes gold-pulse {
-  0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.4)); box-shadow: inset 0 0 6px rgba(255, 215, 0, 0.3); }
-  50% { filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8)); box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.6); }
-}
-
-.avatar-frame-golden-crown {
-  padding: 3px;
-  border-radius: 9999px;
-  background: conic-gradient(
-    from var(--gold-angle),
-    #b8860b,
-    #ffd700,
-    #fff8dc,
-    #ffd700,
-    #b8860b
-  );
-  animation: 
-    gold-rotate 4s linear infinite,
-    gold-pulse 2s ease-in-out infinite;
-  position: relative;
-}
-
-/* 顶部星芒光点 -> 皇冠图标 */
-.avatar-frame-golden-crown::after {
-  content: '👑';
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  line-height: 1;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
-  animation: gold-pulse 2s ease-in-out infinite reverse;
-  z-index: 10;
-}
-
-/* --- 赛博故障 --- */
-@keyframes cyber-glitch-anim {
-  0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
-  10% { clip-path: inset(40% 0 10% 0); transform: translate(2px, -2px); }
-  20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
-  30% { clip-path: inset(15% 0 50% 0); transform: translate(2px, 2px); }
-  40% { clip-path: inset(0 0 0 0); transform: translate(0); }
-  100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-}
-
-.avatar-frame-cyber-glitch {
-  padding: 3px;
-  border-radius: 9999px;
-  background: linear-gradient(45deg, #00ffff, #ff00ff);
-  position: relative;
-  box-shadow: 0 0 8px rgba(0,255,255,0.8), 0 0 8px rgba(255,0,255,0.8), 0 0 16px rgba(0,255,255,0.3);
-}
-
-.avatar-frame-cyber-glitch::before,
-.avatar-frame-cyber-glitch::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 9999px;
-  background: transparent;
-  border: 3px solid transparent;
-  pointer-events: none;
-  z-index: 10;
-}
-.avatar-frame-cyber-glitch::before {
-  border-color: #0ff;
-  animation: cyber-glitch-anim 2s infinite linear alternate-reverse;
-}
-.avatar-frame-cyber-glitch::after {
-  border-color: #f0f;
-  animation: cyber-glitch-anim 3s infinite linear alternate;
-}
-
-/* --- 深海琉璃 --- */
-@keyframes glass-sheen {
-  0% { left: -100%; top: -100%; }
-  20% { left: 200%; top: 200%; }
-  100% { left: 200%; top: 200%; }
-}
-
-.avatar-frame-crystal-glass {
-  padding: 3px;
-  border-radius: 9999px;
-  /* 透亮蓝白光感 */
-  background: linear-gradient(135deg, rgba(200, 230, 255, 0.5) 0%, rgba(100, 200, 255, 0.2) 100%);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 2px 6px rgba(0, 150, 255, 0.2), inset 0 0 6px rgba(255, 255, 255, 0.5);
-  position: relative;
-  overflow: hidden; 
-}
-
-.avatar-frame-crystal-glass::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 200%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-  transform: rotate(45deg);
-  animation: glass-sheen 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* =============== 名字颜色样式 =============== */
-
-@keyframes text-gradient-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.name-color-neon {
-  background-image: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-gradient-flow 3s linear infinite;
-  filter: drop-shadow(0 0 2px rgba(255, 0, 255, 0.5));
-  font-weight: 700;
-}
-
-.name-color-cherry {
-  background-image: linear-gradient(90deg, #ff9a9e, #fecfef, #ff9a9e);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-gradient-flow 3s linear infinite;
-  font-weight: 700;
-}
-
-.name-color-abyss {
-  /* 低阶精品：纯渐变无发光，深邃但克制 */
-  background-image: linear-gradient(90deg, #0052D4, #4364F7, #6FB1FC, #4364F7, #0052D4);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-gradient-flow 4s linear infinite;
-  font-weight: 700;
-}
-
-@keyframes gold-shimmer {
-  0% {
-    background-position: 0% 50%;
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
-  }
-  50% {
-    background-position: 100% 50%;
-    /* 双层发光：外层金色辉光 + 内侧高亮白光 */
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
-  }
-  100% {
-    background-position: 0% 50%;
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
-  }
-}
-
-.name-color-gold {
-  /* 传说至尊：多段金属高光 + 强烈脉冲发光 */
-  background-image: linear-gradient(
-    -45deg, 
-    #b38728 0%, 
-    #fbf5b7 20%, 
-    #bf953f 40%, 
-    #fcf6ba 60%, 
-    #bf953f 80%, 
-    #b38728 100%
-  );
-  background-size: 300% auto;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gold-shimmer 2.5s ease-in-out infinite;
-  font-weight: 800;
-  letter-spacing: 1px;
-  position: relative;
-}
-
-@keyframes gold-star-twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
-  20% { opacity: 1; transform: scale(1) rotate(15deg); }
-  40% { opacity: 0.6; transform: scale(0.8) rotate(-10deg); }
-  60% { opacity: 1; transform: scale(1.1) rotate(10deg); }
-  80% { opacity: 0.3; transform: scale(0.6) rotate(-5deg); }
-}
-
-.name-color-gold::before,
-.name-color-gold::after {
-  -webkit-text-fill-color: initial;
-  background: none;
-  position: absolute;
-  pointer-events: none;
-  font-size: 0.5em;
-  animation: gold-star-twinkle 2.5s ease-in-out infinite;
-}
-
-.name-color-gold::before {
-  content: '✦';
-  top: -4px;
-  right: -12px;
-  color: #ffd700;
-  text-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
-  animation-delay: 0s;
-}
-
-.name-color-gold::after {
-  content: '✦';
-  bottom: -2px;
-  left: -10px;
-  color: #fcf6ba;
-  text-shadow: 0 0 3px rgba(255, 215, 0, 0.6);
-  font-size: 0.4em;
-  animation-delay: -1.2s;
-}
-
-/* 登录页条款未勾选时的提示抖动 */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-4px); }
-  40%, 80% { transform: translateX(4px); }
 }

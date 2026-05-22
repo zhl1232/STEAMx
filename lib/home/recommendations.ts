@@ -2,6 +2,7 @@ import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
 import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
 import { getHomepageCommunityFeed, type HomeCommunityFeedItem } from "@/lib/home/community-feed";
 import { logger } from "@/lib/logger";
+import { getRecommendationViewerKey } from "@/lib/recommendations/viewer";
 import { type Project } from "@/lib/mappers/types";
 import { callRpc } from "@/lib/supabase/rpc";
 import { createClient } from "@/lib/supabase/server";
@@ -205,12 +206,13 @@ async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> 
 async function fetchPersonalizedBatch(
   context: HomepagePreferenceContext,
   args: { limit: number; offset: number },
+  shuffleSeed: string,
 ): Promise<RecommendationBatch> {
   const result = await getRecommendedProjects(
     context.steam,
     context.ageGroup,
     { limit: args.limit, offset: args.offset },
-    { fallbackToPopular: false },
+    { fallbackToPopular: false, shuffleSeed, shuffleBatch: 0 },
   );
 
   return {
@@ -222,16 +224,26 @@ async function fetchPersonalizedBatch(
 
 async function fetchPopularBatch(
   args: { limit: number; offset: number },
-  blendPopular = false,
+  blendPopular: boolean,
+  shuffleSeed: string,
 ): Promise<RecommendationBatch> {
   const pageSize = normalizeLimit(args.limit, SIDEBAR_RECOMMENDATION_LIMIT);
   const offset = normalizeOffset(args.offset);
   const page = Math.floor(offset / pageSize);
-  const result = await getProjects({}, { page, pageSize, sortBy: "popular", blendPopular });
+  const result = await getProjects({}, {
+    page,
+    pageSize,
+    sortBy: "popular",
+    blendPopular,
+    shuffleSeed,
+    shuffleBatch: 0,
+  });
 
+  // 热门走的是页级分页，按整页推进 cursor；用 result.projects.length 会在 hydrate
+  // 丢条目时让下一轮回到同一页（dedup 仍正确，但白白多一次 RPC）。
   return {
     projects: result.projects,
-    nextOffset: offset + result.projects.length,
+    nextOffset: (page + 1) * pageSize,
     hasMore: result.hasMore,
   };
 }
@@ -320,18 +332,20 @@ export async function getHomepageRecommendations(args: {
   mode?: HomepageRecommendationMode;
   preferenceContext?: HomepagePreferenceContext;
   blendPopular?: boolean;
+  shuffleSeed?: string;
 } = {}): Promise<HomepageRecommendationResult> {
   const preferenceContext = args.preferenceContext ?? (await getHomepageUserPreferences());
   const mode = resolveMode(args.mode, preferenceContext.hasPreferences);
   const blendPopular = args.blendPopular ?? false;
+  const shuffleSeed = args.shuffleSeed ?? (await getRecommendationViewerKey());
 
   return collectHomepageRecommendations({
     limit: args.limit,
     offset: args.offset,
     excludeIds: args.excludeIds,
     mode,
-    fetchPersonalized: (batchArgs) => fetchPersonalizedBatch(preferenceContext, batchArgs),
-    fetchPopular: (batchArgs) => fetchPopularBatch(batchArgs, blendPopular),
+    fetchPersonalized: (batchArgs) => fetchPersonalizedBatch(preferenceContext, batchArgs, shuffleSeed),
+    fetchPopular: (batchArgs) => fetchPopularBatch(batchArgs, blendPopular, shuffleSeed),
   });
 }
 

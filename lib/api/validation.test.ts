@@ -1,10 +1,19 @@
 /** @vitest-environment node */
 
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { isOwnedProjectImageUrl } from '@/lib/api/validation'
 
+const TEST_SUPABASE_URL = 'https://example.supabase.co'
+
 describe('isOwnedProjectImageUrl', () => {
+  beforeEach(() => {
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', TEST_SUPABASE_URL)
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
   it('accepts observation images in the current user path', () => {
     expect(
       isOwnedProjectImageUrl(

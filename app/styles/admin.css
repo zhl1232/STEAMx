@@ -1,0 +1,13 @@
+/* 后台/管理界面样式 */
+
+@layer components {
+  .admin-panel-card {
+    background-color: hsl(var(--background) / 0.74);
+    border-color: hsl(var(--surface-border) / 0.82);
+    @apply overflow-hidden rounded-[var(--radius-lg)] border shadow-none;
+  }
+
+  .admin-section {
+    @apply admin-panel-card space-y-4 p-4;
+  }
+}

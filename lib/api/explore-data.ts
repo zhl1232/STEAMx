@@ -19,6 +19,10 @@ import {
 } from "@/lib/mappers/types";
 import { sanitizeSearch } from "@/lib/api/validation";
 import { logger } from "@/lib/logger";
+import {
+  buildRecommendationShuffleSeed,
+  sortByRecommendationShuffleSeed,
+} from "@/lib/recommendations/seed";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
@@ -233,14 +237,17 @@ const PROJECT_LIST_SUB_CATEGORIES_SELECT = "sub_categories (name)";
 const PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT = "sub_categories!inner (name)";
 const PROJECT_LIST_PROFILE_SELECT = "profiles:author_id (display_name)";
 
-function shouldBlendPopularExplore(filters: ProjectFilters, pagination: PaginationOptions): boolean {
+// difficulty 不在这里拦截：它会被下推到每类的 popular RPC，类别 round-robin 在过滤后做，
+// 这样「新手推荐」preset（difficulty=1-2 + sortBy=popular）也能拿到 5 类交错而不是单一类聚集。
+// category/subCategory/tags/search/materials 仍然 return false——这些是单类/单话题语义，
+// 强行类别均衡会和用户意图冲突。
+export function shouldBlendPopularExplore(filters: ProjectFilters, pagination: PaginationOptions): boolean {
   const { page = 0, sortBy = "popular", blendPopular = false } = pagination;
   if (sortBy !== "popular") return false;
   if (!blendPopular && page !== 0) return false;
-  const { category, subCategory, difficulty, materials, tags, searchQuery } = filters;
+  const { category, subCategory, materials, tags, searchQuery } = filters;
   if (category && category !== "全部") return false;
   if (subCategory) return false;
-  if (difficulty && difficulty !== "all") return false;
   if (materials?.length) return false;
   if (tags?.length) return false;
   if (searchQuery?.trim()) return false;
@@ -253,6 +260,20 @@ export function diversifyPopularByCategoryForTest<T extends { id: string | numbe
   targetLen: number,
 ): T[] {
   return diversifyPopularByCategory(rows, targetLen);
+}
+
+function applyPopularListShuffle<T extends { id: string | number }>(
+  rows: T[],
+  pagination: Pick<PaginationOptions, "shuffleSeed" | "shuffleBatch">,
+): T[] {
+  const { shuffleSeed, shuffleBatch = 0 } = pagination;
+  if (!shuffleSeed || rows.length <= 1) {
+    return rows;
+  }
+
+  const batch = shuffleBatch;
+  const seed = buildRecommendationShuffleSeed(shuffleSeed, batch);
+  return sortByRecommendationShuffleSeed(rows, seed, (row) => row.id);
 }
 
 function diversifyPopularByCategory<T extends { id: string | number; category?: string | null }>(
@@ -412,7 +433,7 @@ async function fetchPopularProjects(
   filters: ProjectFilters,
   pagination: PaginationOptions,
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
-  const { page = 0, pageSize = 12 } = pagination;
+  const { page = 0, pageSize = 12, shuffleSeed, shuffleBatch = 0 } = pagination;
   const from = page * pageSize;
   const useBlend = shouldBlendPopularExplore(filters, pagination);
 
@@ -482,13 +503,20 @@ async function fetchPopularProjects(
       filters,
       starsRange,
     );
-    const diversified = diversifyPopularByCategory(hydrated, hydrated.length);
+    // shuffle 必须在 diversify 之前：先按 seed 打乱决定「每类挑哪些项目」，
+    // 再做类别 round-robin 才能保证前几位类别交错。反过来会被全局 hash 打散，
+    // 导致前 8 位偶发集中在同一类别。
+    const shuffled = applyPopularListShuffle(hydrated, { shuffleSeed, shuffleBatch });
+    const diversified = diversifyPopularByCategory(shuffled, shuffled.length);
     const projects = diversified.slice(from, from + pageSize);
+    const poolSize = diversified.length;
 
     return {
       projects,
       total,
-      hasMore: from + pageSize < diversified.length,
+      // blend 池是一次性抓的（page=0 才走这里），翻页越界后即使 total 更大也没有数据，
+      // 不能用 `from + pageSize < total` 兜底，否则会触发空页死循环。
+      hasMore: from + pageSize < poolSize,
     };
   }
 
@@ -507,12 +535,18 @@ async function fetchPopularProjects(
 
   const total = Number(rankings[0]?.total_count ?? 0);
   const projectIds = rankings.map((row) => row.project_id);
-  const projects = await hydrateExploreProjectsByIds(
+  let projects = await hydrateExploreProjectsByIds(
     supabase,
     projectIds,
     filters,
     starsRange,
   );
+
+  // 在 RPC 分页返回的当页结果里做稳定打乱：保留完整可翻页性，避免把热门排序压缩到固定池里
+  // （此前的方案会让用户最多只能看到 ~48 条热门项目）。
+  if (shuffleSeed) {
+    projects = applyPopularListShuffle(projects, { shuffleSeed, shuffleBatch });
+  }
 
   return {
     projects,
@@ -530,6 +564,10 @@ export interface PaginationOptions {
   sortBy?: "latest" | "popular" | "weekly";
   /** 无筛选热门列表强制分类混合（含换一批等后续页） */
   blendPopular?: boolean;
+  /** 观众标识（用户 id 或 anon:uuid），用于按日/批次打乱热门顺序 */
+  shuffleSeed?: string;
+  /** 显式换一批时递增；分页加载应固定为 0，靠 page 切片 */
+  shuffleBatch?: number;
 }
 
 const EXPLORE_WEEKLY_LOOKBACK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -604,7 +642,7 @@ function getSmokeProjects(
   filters: ProjectFilters = {},
   pagination: PaginationOptions = {},
 ): { projects: Project[]; total: number; hasMore: boolean } {
-  const { page = 0, pageSize = 12, sortBy = "popular" } = pagination;
+  const { page = 0, pageSize = 12, sortBy = "popular", shuffleSeed, shuffleBatch = 0 } = pagination;
 
   const filteredProjects = SMOKE_PROJECTS.filter((project) => {
     if (filters.category && filters.category !== "全部" && project.category !== filters.category) {
@@ -691,9 +729,15 @@ function getSmokeProjects(
       EXPLORE_POPULAR_BLEND_POOL_MAX,
     );
     const pool = sortedProjects.slice(0, poolSize);
-    const diversified = diversifyPopularByCategory(pool, pool.length);
+    const shuffled = applyPopularListShuffle(pool, { shuffleSeed, shuffleBatch });
+    const diversified = diversifyPopularByCategory(shuffled, shuffled.length);
     pageSlice = diversified.slice(from, to);
     hasMore = to < diversified.length;
+  } else if (shuffleSeed) {
+    pageSlice = applyPopularListShuffle(
+      sortedProjects.slice(from, to),
+      { shuffleSeed, shuffleBatch },
+    );
   } else {
     pageSlice = sortedProjects.slice(from, to);
   }
@@ -933,11 +977,15 @@ export async function getRecommendedProjects(
   userSteam: Record<string, number> | null,
   ageGroup: string | null,
   pagination: { limit?: number; offset?: number } = {},
-  options: { fallbackToPopular?: boolean } = {},
+  options: {
+    fallbackToPopular?: boolean;
+    shuffleSeed?: string;
+    shuffleBatch?: number;
+  } = {},
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   const supabase = await createClient();
   const { limit = 6, offset = 0 } = pagination;
-  const { fallbackToPopular = true } = options;
+  const { fallbackToPopular = true, shuffleSeed, shuffleBatch = 0 } = options;
 
   const { data, error } = await callRpc(supabase, "get_recommended_projects", {
     p_user_steam: userSteam,
@@ -955,7 +1003,13 @@ export async function getRecommendedProjects(
 
     const pageSize = pagination.limit ?? 6;
     const fallbackPage = Math.floor(offset / pageSize);
-    return getProjects({}, { page: fallbackPage, pageSize, sortBy: "popular" });
+    return getProjects({}, {
+      page: fallbackPage,
+      pageSize,
+      sortBy: "popular",
+      shuffleSeed,
+      shuffleBatch,
+    });
   }
 
   const rows = data || [];
@@ -1001,7 +1055,7 @@ export async function getRecommendedProjects(
   }
 
   const fallbackByProjectId = new Map(rows.map((row) => [row.id, row]));
-  const projects: Project[] = rankedProjectIds.map((projectId) => {
+  let projects: Project[] = rankedProjectIds.map((projectId) => {
     const hydratedRow = rowByProjectId.get(projectId);
     if (hydratedRow) {
       return mapDbProject(hydratedRow);
@@ -1026,6 +1080,10 @@ export async function getRecommendedProjects(
       status: (fallbackRow?.status as "draft" | "pending" | "approved" | "rejected") || "approved",
     };
   });
+
+  if (shuffleSeed) {
+    projects = applyPopularListShuffle(projects, { shuffleSeed, shuffleBatch });
+  }
 
   return { projects, total: rows.length, hasMore: rows.length >= limit };
 }

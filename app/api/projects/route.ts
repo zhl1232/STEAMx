@@ -7,6 +7,7 @@ import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database, Json } from '@/lib/supabase/types'
 import { getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { parseExploreSortBy } from '@/lib/explore/presets'
+import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
 import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
 import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
@@ -44,7 +45,17 @@ export async function GET(request: NextRequest) {
   const sortBy = parseExploreSortBy(searchParams.get('sortBy'))
 
   try {
-    const { projects, hasMore, total } = await getProjects(filters, { page, pageSize, sortBy })
+    const viewerKey = sortBy === 'popular' ? await getRecommendationViewerKey() : undefined
+    const { projects, hasMore, total } = await getProjects(filters, {
+      page,
+      pageSize,
+      sortBy,
+      shuffleSeed: viewerKey,
+      shuffleBatch: 0,
+      // 翻页/加载更多也走类别均衡——是否真的混合由 shouldBlendPopularExplore
+      // 按筛选最终决定（选了 category/tags/search 会自动降级回单类语义）。
+      blendPopular: sortBy === 'popular',
+    })
 
     return NextResponse.json({
       projects,

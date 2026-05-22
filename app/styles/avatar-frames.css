@@ -1,0 +1,189 @@
+/* 商店头像框样式 */
+
+/* --- 霓虹光环 --- */
+@property --neon-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes neon-rotate {
+  to { --neon-angle: 360deg; }
+}
+
+@keyframes neon-glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5)) drop-shadow(0 0 4px hsl(var(--chart-2) / 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.8)) drop-shadow(0 0 8px hsl(var(--chart-2) / 0.6)) drop-shadow(0 0 12px hsl(var(--chart-3) / 0.4));
+  }
+}
+
+.avatar-frame-neon-halo {
+  padding: 3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from var(--neon-angle),
+    hsl(var(--primary)),
+    hsl(var(--chart-3)),
+    hsl(var(--chart-2)),
+    hsl(var(--chart-5)),
+    hsl(var(--chart-3)),
+    hsl(var(--primary))
+  );
+  animation:
+    neon-rotate 6s linear infinite,
+    neon-glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* --- 像素边框 --- */
+@keyframes pixel-color-cycle {
+  0%   { border-color: hsl(var(--chart-1)); }
+  25%  { border-color: hsl(var(--chart-2)); }
+  50%  { border-color: hsl(var(--chart-3)); }
+  75%  { border-color: hsl(var(--chart-4)); }
+  100% { border-color: hsl(var(--chart-1)); }
+}
+
+.avatar-frame-pixel-border {
+  padding: 4px;
+  border-radius: 50%;
+  position: relative;
+  image-rendering: auto;
+}
+
+.avatar-frame-pixel-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px dashed hsl(var(--chart-1));
+  animation:
+    pixel-spin 12s linear infinite,
+    pixel-color-cycle 1.5s steps(4) infinite;
+  pointer-events: none;
+}
+
+@keyframes pixel-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* --- 黄金王冠 --- */
+@property --gold-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes gold-rotate {
+  to { --gold-angle: 360deg; }
+}
+
+@keyframes gold-pulse {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.4)); box-shadow: inset 0 0 6px rgba(255, 215, 0, 0.3); }
+  50% { filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8)); box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.6); }
+}
+
+.avatar-frame-golden-crown {
+  padding: 3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from var(--gold-angle),
+    #b8860b,
+    #ffd700,
+    #fff8dc,
+    #ffd700,
+    #b8860b
+  );
+  animation:
+    gold-rotate 4s linear infinite,
+    gold-pulse 2s ease-in-out infinite;
+  position: relative;
+}
+
+/* 顶部星芒光点 -> 皇冠图标 */
+.avatar-frame-golden-crown::after {
+  content: '👑';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
+  animation: gold-pulse 2s ease-in-out infinite reverse;
+  z-index: 10;
+}
+
+/* --- 赛博故障 --- */
+@keyframes cyber-glitch-anim {
+  0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+  10% { clip-path: inset(40% 0 10% 0); transform: translate(2px, -2px); }
+  20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
+  30% { clip-path: inset(15% 0 50% 0); transform: translate(2px, 2px); }
+  40% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+
+.avatar-frame-cyber-glitch {
+  padding: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  position: relative;
+  box-shadow: 0 0 8px rgba(0,255,255,0.8), 0 0 8px rgba(255,0,255,0.8), 0 0 16px rgba(0,255,255,0.3);
+}
+
+.avatar-frame-cyber-glitch::before,
+.avatar-frame-cyber-glitch::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 3px solid transparent;
+  pointer-events: none;
+  z-index: 10;
+}
+.avatar-frame-cyber-glitch::before {
+  border-color: #0ff;
+  animation: cyber-glitch-anim 2s infinite linear alternate-reverse;
+}
+.avatar-frame-cyber-glitch::after {
+  border-color: #f0f;
+  animation: cyber-glitch-anim 3s infinite linear alternate;
+}
+
+/* --- 深海琉璃 --- */
+@keyframes glass-sheen {
+  0% { left: -100%; top: -100%; }
+  20% { left: 200%; top: 200%; }
+  100% { left: 200%; top: 200%; }
+}
+
+.avatar-frame-crystal-glass {
+  padding: 3px;
+  border-radius: 9999px;
+  /* 透亮蓝白光感 */
+  background: linear-gradient(135deg, rgba(200, 230, 255, 0.5) 0%, rgba(100, 200, 255, 0.2) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 150, 255, 0.2), inset 0 0 6px rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-frame-crystal-glass::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+  transform: rotate(45deg);
+  animation: glass-sheen 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 10;
+}

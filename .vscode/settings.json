@@ -1,8 +1,8 @@
 {
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "less.lint.unknownAtRules": "ignore",
     "color-highlight.matchHslWithNoFunction": true,
     "deno.enablePaths": ["supabase/functions"],
     "deno.disablePaths": ["node_modules", ".next"],
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
 }

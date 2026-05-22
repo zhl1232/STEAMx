@@ -138,22 +138,38 @@ export function ProjectCardSkeleton({
   )
 }
 
+/** 与 `ExploreForYouRail` 内 `ExploreRecommendationCard` 一致 */
+export function ExploreRecommendationCardSkeleton() {
+  return (
+    <article className="overflow-hidden rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))]">
+      <Skeleton className="aspect-[4/3] w-full rounded-none" />
+      <div className="flex min-h-[136px] flex-col gap-2.5 p-3.5">
+        <div className="min-w-0 space-y-2">
+          <Skeleton className="h-5 w-[88%] rounded-md" />
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <Skeleton className="h-5 w-10 shrink-0 rounded-md" />
+              <Skeleton className="h-3 min-w-0 flex-1 max-w-[4.5rem] rounded-full" />
+            </div>
+            <Skeleton className="h-3.5 w-9 shrink-0 rounded-full" />
+          </div>
+        </div>
+        <Skeleton className="h-3 w-full rounded-full" />
+        <Skeleton className="h-3 w-[92%] rounded-full" />
+      </div>
+    </article>
+  )
+}
+
 /**
- * 与 `ExploreClient` 主面板顶部一致：移动端标题 + 筛选、分类条；桌面搜索 / 更多筛选。
- * 移动端无 `surface-panel` 边框；桌面端外层需包在 `md:surface-panel` 内。
+ * 与 `ExploreClient` 主面板顶部一致：移动端仅分类条；桌面搜索 / 更多筛选。
+ * 移动端搜索在 `MobileGlobalHeader`（见 `ExploreMobileSearchHeaderSkeleton`）。
  */
 export function ExploreToolbarSkeleton() {
-  const categoryWidths = ["w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]"]
+  const categoryWidths = ["w-[64px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]"]
 
   return (
     <div className="bg-transparent pb-3 pt-1 md:border-b md:border-[hsl(var(--surface-border))] md:p-5">
-      <div className="mb-3.5 flex items-start justify-between gap-4 md:mb-0 md:hidden">
-        <div className="min-w-0 flex-1 space-y-2">
-          <Skeleton className="h-8 w-16 rounded-md" />
-          <Skeleton className="h-4 w-44 rounded-full" />
-        </div>
-        <Skeleton className="mt-0.5 h-9 w-[4.75rem] shrink-0 rounded-full" />
-      </div>
       <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:gap-3">
         <Skeleton className="h-11 w-full rounded-[12px]" />
         <Skeleton className="h-11 w-[100px] shrink-0 rounded-[12px]" />
@@ -161,11 +177,11 @@ export function ExploreToolbarSkeleton() {
       <div className="space-y-2.5 md:mt-4 md:space-y-2">
         <Skeleton className="hidden h-4 w-8 rounded-full md:block" />
         <div className="no-scrollbar -mx-4 overflow-x-auto px-4 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:px-0">
-          <div className="flex min-w-max items-center gap-2.5 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
+          <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
             {categoryWidths.map((width, index) => (
               <Skeleton
                 key={index}
-                className={`h-9 shrink-0 rounded-full md:h-10 md:rounded-[10px] ${width}`}
+                className={`h-8 shrink-0 rounded-full md:h-10 md:rounded-[10px] ${width}`}
               />
             ))}
           </div>
@@ -177,14 +193,19 @@ export function ExploreToolbarSkeleton() {
 
 function ExploreRecommendationRailSkeleton() {
   return (
-    <section className="mb-4">
+    <section>
       <div className="mb-2.5 flex items-center justify-between gap-3">
-        <Skeleton className="h-5 w-24 rounded-full" />
+        <Skeleton className="h-5 w-24 rounded-md md:h-[18px]" />
         <Skeleton className="h-4 w-14 rounded-full" />
       </div>
-      <div className="no-scrollbar -mx-4 flex gap-3 overflow-hidden px-4 pb-1 md:mx-0 md:px-0">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Skeleton key={index} className="h-[238px] w-[min(72vw,220px)] shrink-0 rounded-[14px] sm:w-[200px]" />
+      <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-hidden scroll-px-4 px-4 pb-1.5 md:mx-0 md:px-0">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div
+            key={index}
+            className="w-[min(45.5vw,176px)] shrink-0 snap-start sm:w-[184px]"
+          >
+            <ExploreRecommendationCardSkeleton />
+          </div>
         ))}
       </div>
     </section>
@@ -193,9 +214,11 @@ function ExploreRecommendationRailSkeleton() {
 
 function ExploreListTabsSkeleton() {
   return (
-    <div className="mb-3.5 flex gap-2">
-      <Skeleton className="h-9 w-[86px] rounded-full md:h-10 md:w-[96px]" />
-      <Skeleton className="h-9 w-[86px] rounded-full md:h-10 md:w-[96px]" />
+    <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="flex min-w-0 flex-1 items-center gap-1.5">
+        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
+        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
+      </div>
     </div>
   )
 }
@@ -271,7 +294,7 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       <ExploreMobileSearchHeaderSkeleton />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background)/0.98)_42%,hsl(var(--app-canvas-soft)/0.88)_100%)] md:hidden"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--app-canvas))_0%,hsl(var(--surface-raised)/0.98)_45%,hsl(var(--app-canvas-soft))_100%)] md:hidden"
       />
       <div
         aria-hidden="true"
@@ -307,17 +330,19 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       />
 
       <div className="relative z-10">
-        <div className="app-shell-wide min-w-0 pt-3 min-[390px]:px-5 md:px-8 md:pt-5">
+        <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
           <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
             <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-[20px]">
               <ExploreToolbarSkeleton />
-              <div className="pb-4 pt-1 md:p-5">
+              <div className="flex flex-col gap-2.5 pb-4 pt-1 md:p-5">
                 <ExploreRecommendationRailSkeleton />
-                <ExploreListTabsSkeleton />
-                <div className="grid grid-cols-1 gap-3.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4">
-                  {Array.from({ length: count }).map((_, index) => (
-                    <ProjectCardSkeleton key={index} variant="compact" />
-                  ))}
+                <div className="relative pb-5 pt-0.5 md:pb-0 md:pt-0">
+                  <ExploreListTabsSkeleton />
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                    {Array.from({ length: count }).map((_, index) => (
+                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="dense" />
+                    ))}
+                  </div>
                 </div>
               </div>
             </main>

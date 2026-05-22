@@ -63,6 +63,30 @@ import {
     type SortBy,
 } from '@/lib/explore/presets'
 
+function mergeUniqueProjectsById(existing: Project[], incoming: Project[]): Project[] {
+    if (incoming.length === 0) {
+        return existing
+    }
+
+    const seen = new Set(existing.map((project) => String(project.id)))
+    const appended: Project[] = []
+
+    for (const project of incoming) {
+        const id = String(project.id)
+        if (seen.has(id)) {
+            continue
+        }
+        seen.add(id)
+        appended.push(project)
+    }
+
+    if (appended.length === 0) {
+        return existing
+    }
+
+    return [...existing, ...appended]
+}
+
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG, CATEGORY_META } from '@/lib/config/categories'
 import { categoryToneClasses } from '@/components/ui/tone-badge'
@@ -587,14 +611,14 @@ export function ExploreClient({
 
             if (cancelled) return
 
-            const mergedProjects = [...initialProjects]
+            let mergedProjects = [...initialProjects]
             let nextHasMore = initialHasMore
 
             for (const result of pageResults) {
                 if (result.status !== 'fulfilled') {
                     break
                 }
-                mergedProjects.push(...result.value.projects)
+                mergedProjects = mergeUniqueProjectsById(mergedProjects, result.value.projects)
                 nextHasMore = result.value.hasMore
             }
 
@@ -666,7 +690,7 @@ export function ExploreClient({
                 throw new Error(await response.text())
             }
             const data = await response.json()
-            setProjects(prev => [...prev, ...data.projects])
+            setProjects((prev) => mergeUniqueProjectsById(prev, data.projects))
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
             hasMoreRef.current = data.hasMore

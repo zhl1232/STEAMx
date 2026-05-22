@@ -5,7 +5,12 @@ import {
   dedupeCompletionRowsByUser,
   diversifyPopularByCategoryForTest,
   getProjectTotalCoinsReceived,
+  shouldBlendPopularExplore,
 } from '@/lib/api/explore-data'
+import {
+  buildRecommendationShuffleSeed,
+  sortByRecommendationShuffleSeed,
+} from '@/lib/recommendations/seed'
 import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
 
@@ -46,6 +51,39 @@ describe('diversifyPopularByCategoryForTest', () => {
     expect(new Set(firstBatch).size).toBeGreaterThan(1)
     expect(firstBatch).toEqual(['科学', '技术', '工程', '艺术', '数学'])
   })
+
+  it('keeps categories interleaved when shuffle runs before diversify (explore for-you regression)', () => {
+    // 模拟用户报告的「全是数学」场景：popular 池里数学项目占主导，
+    // 且按 hash 全局打乱后 id 顺序仍倾向于某一类聚集。
+    const pool = [
+      { id: 101, category: '数学' },
+      { id: 102, category: '数学' },
+      { id: 103, category: '数学' },
+      { id: 104, category: '数学' },
+      { id: 105, category: '数学' },
+      { id: 106, category: '科学' },
+      { id: 107, category: '技术' },
+      { id: 108, category: '工程' },
+      { id: 109, category: '艺术' },
+      { id: 110, category: '科学' },
+      { id: 111, category: '技术' },
+    ]
+
+    // 多个 viewer/日期 seed 组合都应该保持类别交错。
+    const seeds = [
+      buildRecommendationShuffleSeed('viewer-a', 0, '2026-05-22'),
+      buildRecommendationShuffleSeed('viewer-b', 0, '2026-05-22'),
+      buildRecommendationShuffleSeed('viewer-c', 1, '2026-05-23'),
+    ]
+
+    for (const seed of seeds) {
+      const shuffled = sortByRecommendationShuffleSeed(pool, seed, (row) => row.id)
+      const diversified = diversifyPopularByCategoryForTest(shuffled, shuffled.length)
+      const firstFive = diversified.slice(0, 5).map((row) => row.category)
+
+      expect(new Set(firstFive)).toEqual(new Set(['科学', '技术', '工程', '艺术', '数学']))
+    }
+  })
 })
 
 describe('getProjectTotalCoinsReceived', () => {
@@ -78,6 +116,29 @@ describe('getProjectTotalCoinsReceived', () => {
     })
 
     await expect(getProjectTotalCoinsReceived(42, 2)).resolves.toBe(2)
+  })
+})
+
+describe('shouldBlendPopularExplore', () => {
+  const popularPage0 = { page: 0, sortBy: 'popular' as const }
+
+  it('enables blend for the beginner-friendly preset (difficulty=1-2 + popular)', () => {
+    // 防止有人再把 difficulty 列入「关闭 blend」的条件，让「新手推荐」回到单类聚集。
+    expect(shouldBlendPopularExplore({ difficulty: '1-2' }, popularPage0)).toBe(true)
+  })
+
+  it('still keeps blend on for the default browse view (no filters)', () => {
+    expect(shouldBlendPopularExplore({}, popularPage0)).toBe(true)
+  })
+
+  it('disables blend when a single category is selected (single-category intent)', () => {
+    expect(shouldBlendPopularExplore({ category: '数学' }, popularPage0)).toBe(false)
+  })
+
+  it('disables blend for tag/search/material filters (single-topic intent)', () => {
+    expect(shouldBlendPopularExplore({ tags: ['物理'] }, popularPage0)).toBe(false)
+    expect(shouldBlendPopularExplore({ searchQuery: 'arduino' }, popularPage0)).toBe(false)
+    expect(shouldBlendPopularExplore({ materials: ['纸板'] }, popularPage0)).toBe(false)
   })
 })
 

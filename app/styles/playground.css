@@ -1,0 +1,28 @@
+/* Playground 游戏页样式 */
+
+@layer components {
+  .playground-game-page {
+    @apply flex min-h-[calc(100dvh-12rem)] flex-col xl:flex-row;
+  }
+
+  .playground-game-main {
+    @apply flex w-full min-w-0 flex-1 flex-col items-center px-3 py-4 sm:p-6 xl:p-10;
+  }
+
+  .playground-game-center {
+    @apply justify-center;
+  }
+
+  .playground-game-board {
+    background-color: hsl(var(--surface-raised) / 0.9);
+    border-color: hsl(var(--surface-border) / 0.9);
+    box-shadow: 0 24px 68px -48px hsl(var(--surface-shadow) / 0.54);
+    @apply relative w-full max-w-full rounded-[22px] border p-3 backdrop-blur sm:p-6;
+  }
+
+  .playground-info-panel {
+    background-color: hsl(var(--surface-raised) / 0.88);
+    border-color: hsl(var(--surface-border) / 0.86);
+    @apply rounded-[20px] border shadow-none backdrop-blur;
+  }
+}
