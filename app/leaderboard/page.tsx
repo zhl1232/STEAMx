@@ -14,7 +14,7 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function LeaderboardPage() {
     return (
-        <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
+        <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
             <div className="md:hidden">
                 <MobilePageHeader
                     title="社区排行榜"

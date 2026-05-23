@@ -45,7 +45,7 @@ export function MobilePageHeader({
     <div
       className={cn(
         sticky
-          ? 'sticky top-[calc(var(--mobile-global-header-height,4rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80 md:top-0'
+          ? 'sticky top-[calc(var(--mobile-global-header-height,3rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80 md:top-0'
           : 'relative border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80',
         className,
       )}

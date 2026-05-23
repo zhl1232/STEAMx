@@ -968,7 +968,7 @@ export function ExploreClient({
     const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
 
     return (
-        <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+        <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
             <MobileGlobalHeader
                 variant="search"
                 showNotification={false}

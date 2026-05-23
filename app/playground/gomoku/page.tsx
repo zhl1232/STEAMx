@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useGomoku, type GomokuMode } from "@/hooks/playground/use-gomoku"
+import { useGomoku, type GomokuLevel, type GomokuMode } from "@/hooks/playground/use-gomoku"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,8 @@ function formatRatio(win: number, total: number) {
 
 export default function GomokuPage() {
     const [mode, setMode] = useState<GomokuMode>("pve")
-    const { board, currentPlayer, status, winnerInfo, moveCount, stats, resetGame, makeMove } = useGomoku(mode)
+    const [level, setLevel] = useState<GomokuLevel>("normal")
+    const { board, currentPlayer, status, winnerInfo, moveCount, stats, resetGame, makeMove } = useGomoku(mode, level)
     const { checkBadges } = useGamification()
 
     const handleRestart = () => {
@@ -26,6 +27,12 @@ export default function GomokuPage() {
 
     const handleModeChange = (next: GomokuMode) => {
         setMode(next)
+        resetGame()
+    }
+
+    const handleLevelChange = (next: GomokuLevel) => {
+        if (next === level) return
+        setLevel(next)
         resetGame()
     }
 
@@ -96,7 +103,7 @@ export default function GomokuPage() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                    <div className="flex flex-wrap items-center gap-2 self-end sm:self-auto">
                         <Button
                             size="sm"
                             variant={mode === "pvp" ? "default" : "outline"}
@@ -121,6 +128,32 @@ export default function GomokuPage() {
                             <Bot className="w-3 h-3 sm:w-4 sm:h-4" />
                             AI
                         </Button>
+                        {mode === "pve" && (
+                            <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 p-0.5">
+                                {(
+                                    [
+                                        { value: "easy", label: "入门" },
+                                        { value: "normal", label: "进阶" },
+                                        { value: "hard", label: "大师" },
+                                    ] as const
+                                ).map(({ value, label }) => (
+                                    <button
+                                        key={value}
+                                        type="button"
+                                        onClick={() => handleLevelChange(value)}
+                                        className={cn(
+                                            "rounded-full px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-medium transition-colors",
+                                            level === value
+                                                ? "bg-primary text-primary-foreground shadow-sm"
+                                                : "text-muted-foreground hover:text-foreground"
+                                        )}
+                                        aria-pressed={level === value}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                         <Button
                             size="icon"
                             variant="outline"
@@ -321,8 +354,16 @@ export default function GomokuPage() {
                                 <h3 className="text-xs font-semibold text-muted-foreground/80">这个 Demo 做了哪些简化？</h3>
                                 <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
                                     <li>只向周围有棋子的交点扩展候选落子，避免全盘暴力搜索。</li>
-                                    <li>评估函数用「最长连子长度」粗略代表局面优劣。</li>
-                                    <li>搜索深度限制在 2～3 手，保证浏览器也能流畅运行。</li>
+                                    <li>评估函数按「活四 / 冲四 / 活三 / 眠三」等棋型打分，并能识别跳着的破缺型。</li>
+                                    <li>候选着法按「我方威胁 + 对手威胁削减」综合排序，再配合 α-β 剪枝在 4 层深度内完成搜索。</li>
+                                </ul>
+                            </div>
+                            <div className="space-y-2">
+                                <h3 className="text-xs font-semibold text-muted-foreground/80">AI 三档难度</h3>
+                                <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                                    <li><span className="font-medium text-foreground">入门</span>：只做单步评估，常会漏掉活三、冲四等组合威胁。</li>
+                                    <li><span className="font-medium text-foreground">进阶</span>：3 层 minimax + 强制应对，能拦截常见战术但看不到长距杀。</li>
+                                    <li><span className="font-medium text-foreground">大师</span>：5 层 minimax + VCF（连续冲四求杀），可以看到 10 步外的强制胜负。</li>
                                 </ul>
                             </div>
                         </TabsContent>

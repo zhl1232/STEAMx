@@ -528,7 +528,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
-        <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] md:min-h-[calc(100vh-4rem)]">
+        <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] md:min-h-[calc(100vh-4rem)]">
             <MobilePlaygroundHeader onSettings={() => setSettingsOpen(true)} />
             <div className="relative app-shell-wide flex w-full">
                 <DesktopSidebar onSettings={() => setSettingsOpen(true)} />

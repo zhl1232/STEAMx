@@ -145,7 +145,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
       </a>
       <div
         className="flex min-h-screen flex-col bg-background"
-        style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '4rem' : '0rem' }}
+        style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '3rem' : '0rem' }}
       >
         {/* 移动端统一 Header */}
         {showMobileGlobalHeader ? (

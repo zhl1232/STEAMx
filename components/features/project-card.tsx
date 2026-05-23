@@ -198,7 +198,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         aria-label={`查看重点推荐项目：${project.title}`}
                     />
 
-                    <div className="pointer-events-none relative aspect-[16/10] w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
+                    <div className="pointer-events-none relative aspect-[16/9] w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
                         {!imageError ? (
                             <OptimizedImage
                                 src={project.image}

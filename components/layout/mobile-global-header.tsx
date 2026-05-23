@@ -93,22 +93,22 @@ export function MobileGlobalHeader({
     <header
       className={cn('app-mobile-header', className)}
     >
-      <div className="flex h-[3.6rem] items-center px-4 min-[390px]:px-5">
+      <div className="flex h-12 items-center px-4 min-[390px]:px-5">
         {/* 左侧 */}
         <div className={cn('shrink-0 flex h-10 items-center', variant === 'search' ? 'mr-2' : 'mr-2')}>
           {variant === 'logo' ? (
             <Link href="/" className="flex items-center space-x-2">
-              <SteamLogo className="h-7 w-7 shrink-0 min-[390px]:h-8 min-[390px]:w-8" />
-              <span className="nav-logo-text font-sans text-[18px] font-bold min-[390px]:text-[20px]">
+              <SteamLogo className="h-6 w-6 shrink-0 min-[390px]:h-7 min-[390px]:w-7" />
+              <span className="nav-logo-text font-sans text-[17px] font-bold min-[390px]:text-[18px]">
                 STEAM 探索
               </span>
             </Link>
           ) : variant === 'search' ? (
             <Link href="/" aria-label="首页" className="flex items-center">
-              <SteamLogo className="h-[30px] w-[30px] shrink-0" />
+              <SteamLogo className="h-7 w-7 shrink-0" />
             </Link>
           ) : (
-            <h1 className="text-[22px] font-semibold leading-none text-foreground min-[390px]:text-[24px]">
+            <h1 className="text-[20px] font-semibold leading-none text-foreground min-[390px]:text-[22px]">
               {title}
             </h1>
           )}
@@ -131,7 +131,7 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-9 w-full rounded-[14px] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-8 w-full rounded-[12px] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button

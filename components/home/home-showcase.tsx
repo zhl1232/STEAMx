@@ -165,7 +165,7 @@ function getShowcaseProjects(projects: Project[]) {
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-[18px] md:rounded-[16px]">
-      <div className="relative min-h-[236px] md:min-h-[220px]">
+      <div className="relative min-h-[176px] min-[390px]:min-h-[184px] md:min-h-[220px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -184,12 +184,12 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-center dark:brightness-90 md:block"
         />
-        <div className="absolute inset-x-0 top-0 h-[124px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
+        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[236px] flex-col justify-start px-5 pb-0 pt-5 min-[390px]:px-6 md:min-h-[220px] md:justify-center md:px-12 md:py-6">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 min-[390px]:min-h-[184px] min-[390px]:px-5 md:min-h-[220px] md:justify-center md:px-12 md:py-6">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[760px]">
-            <h1 className="whitespace-nowrap font-sans text-[24px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[26px] md:text-[40px] lg:text-[44px]">
+            <h1 className="whitespace-nowrap font-sans text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:text-[40px] lg:text-[44px]">
               <span className="text-[hsl(var(--brand-blue))]">探索</span>
               <span className="px-1.5 text-foreground md:px-4">·</span>
               <span className="text-[hsl(var(--brand-green))]">创造</span>
@@ -197,7 +197,7 @@ function HomeHero({ image }: { image: string }) {
               <span className="text-[hsl(var(--brand-amber))]">成长</span>
             </h1>
 
-            <p className="mt-2 inline-flex whitespace-nowrap text-[12px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[13px] md:hidden">
+            <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
               在 STEAM 的世界里发现无限可能
             </p>
             <p className="mt-3 hidden max-w-none text-[21px] font-medium leading-7 tracking-normal text-muted-foreground md:block">
@@ -214,14 +214,14 @@ function HomeHero({ image }: { image: string }) {
             </div>
           </div>
 
-          <div className="mt-auto grid w-full max-w-[306px] grid-cols-4 gap-2 pt-3.5 text-[#d7e2ee] min-[390px]:max-w-[328px] min-[390px]:gap-2.5 md:hidden">
+          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
             {homeHeroFeatures.map((item) => (
               <div
                 key={item.label}
-                className="flex min-h-[44px] flex-col items-center justify-center gap-1 px-1 py-1 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
+                className="flex min-h-[28px] items-center justify-center gap-0.5 px-0.5 py-0.5 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] min-[390px]:gap-1"
               >
-                <item.icon className="h-[13px] w-[13px] shrink-0 text-[#d7e2ee] min-[390px]:h-[14px] min-[390px]:w-[14px]" strokeWidth={2.2} />
-                <span className="whitespace-nowrap text-[10px] font-medium leading-none tracking-[-0.02em] text-[#bcc9d8] min-[390px]:text-[11px]">{item.label}</span>
+                <item.icon className="h-[11px] w-[11px] shrink-0 text-white/76 min-[390px]:h-3 min-[390px]:w-3" strokeWidth={2.2} />
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-none tracking-normal text-white/78">{item.label}</span>
               </div>
             ))}
           </div>
@@ -236,16 +236,16 @@ function MobileLeaderboardEntry() {
   return (
     <Link
       href="/leaderboard"
-      className="surface-card-interactive group grid min-h-[76px] grid-cols-[44px_minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] border border-[hsl(var(--brand-amber)/0.34)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.16),hsl(var(--brand-blue)/0.08)_58%,hsl(var(--surface-raised))_100%)] px-4 py-3 shadow-[0_18px_42px_-32px_hsl(var(--brand-amber)/0.75)] md:hidden"
+      className="surface-card-interactive group grid min-h-[60px] grid-cols-[38px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[16px] border border-[hsl(var(--brand-amber)/0.34)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.16),hsl(var(--brand-blue)/0.08)_58%,hsl(var(--surface-raised))_100%)] px-3.5 py-2 shadow-[0_18px_42px_-32px_hsl(var(--brand-amber)/0.75)] md:hidden"
     >
-      <span className="grid h-11 w-11 place-items-center rounded-[14px] bg-[hsl(var(--brand-amber)/0.18)] text-[hsl(var(--brand-amber))]">
+      <span className="grid h-[38px] w-[38px] place-items-center rounded-[13px] bg-[hsl(var(--brand-amber)/0.18)] text-[hsl(var(--brand-amber))]">
         <Trophy className="h-5 w-5" strokeWidth={2.4} />
       </span>
       <span className="min-w-0">
-        <span className="block text-[15px] font-extrabold leading-5 text-foreground">社区排行榜</span>
-        <span className="mt-1 block truncate text-[12px] font-medium leading-4 text-muted-foreground">查看积分、徽章和项目榜单</span>
+        <span className="block text-[14px] font-extrabold leading-5 text-foreground">社区排行榜</span>
+        <span className="mt-0.5 block truncate text-[11px] font-medium leading-4 text-muted-foreground">查看积分、徽章和项目榜单</span>
       </span>
-      <span className="inline-flex h-8 items-center gap-1 rounded-[12px] bg-[hsl(var(--brand-blue))] px-3 text-[12px] font-semibold text-[hsl(var(--brand-blue-foreground))] transition group-hover:brightness-95">
+      <span className="inline-flex h-7 items-center gap-1 rounded-[11px] bg-[hsl(var(--brand-blue))] px-2.5 text-[11px] font-semibold text-[hsl(var(--brand-blue-foreground))] transition group-hover:brightness-95">
         查看
         <ArrowRight className="h-3.5 w-3.5" />
       </span>
@@ -255,7 +255,7 @@ function MobileLeaderboardEntry() {
 
 function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <div className="grid grid-cols-2 gap-3 pb-1 min-[380px]:grid-cols-3 md:grid-cols-3 md:gap-4 min-[1280px]:grid-cols-6">
+    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:grid-cols-3 md:gap-4 md:pb-1 min-[1280px]:grid-cols-6">
       {homeCategoryTiles.map((category) => {
         const meta = CATEGORY_META[category.metaKey];
         const Icon = meta.icon;
@@ -267,16 +267,16 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "surface-card-interactive group flex min-w-0 flex-col items-center justify-center rounded-[18px] border px-3 py-3.5 text-center transition hover:-translate-y-0.5 min-[380px]:min-h-[114px] md:min-h-[116px] md:flex-row md:items-center md:justify-start md:gap-3 md:rounded-[10px] md:px-4 md:py-4 md:text-left min-[1480px]:gap-4 min-[1480px]:px-5",
+              "surface-card-interactive group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-[14px] border px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 min-[390px]:gap-2.5 md:min-h-[116px] md:gap-3 md:rounded-[10px] md:px-4 md:py-4 min-[1480px]:gap-4 min-[1480px]:px-5",
               tone.border,
               tone.bg,
             )}
           >
-            <Icon className={cn("h-6 w-6 shrink-0 transition group-hover:scale-105 min-[390px]:h-7 min-[390px]:w-7 md:h-10 md:w-10 min-[1480px]:h-11 min-[1480px]:w-11", tone.text)} strokeWidth={2.2} />
-            <div className="mt-2 min-w-0 md:mt-0">
-              <h2 className={cn("whitespace-nowrap font-sans text-[12px] font-bold leading-none min-[390px]:text-[13px] md:text-[18px] min-[1480px]:text-[20px]", tone.text)}>{category.labelOverride ?? meta.label}</h2>
+            <Icon className={cn("h-5 w-5 shrink-0 transition group-hover:scale-105 min-[390px]:h-5 min-[390px]:w-5 md:h-10 md:w-10 min-[1480px]:h-11 min-[1480px]:w-11", tone.text)} strokeWidth={2.2} />
+            <div className="min-w-0">
+              <h2 className={cn("whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[18px] min-[1480px]:text-[20px]", tone.text)}>{category.labelOverride ?? meta.label}</h2>
               <p className="mt-2 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{meta.description}</p>
-              <p className="mt-1.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground min-[390px]:text-[11px] md:mt-3 md:text-[12px] min-[1480px]:text-[14px]">{countLabel}</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-3 md:text-[12px] min-[1480px]:text-[14px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -289,22 +289,24 @@ function NatureChannel() {
   return (
     <Link
       href="/nature"
-      className="group relative block min-h-[156px] overflow-hidden rounded-[18px] bg-[hsl(var(--brand-green))] shadow-[0_16px_40px_-26px_hsl(var(--brand-green)/0.65)] md:rounded-[10px] min-[1480px]:h-full"
+      className="group relative block min-h-[90px] overflow-hidden rounded-[12px] bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-[10px] min-[1480px]:h-full"
     >
-      <Image
-        src={natureImage}
-        alt="蓝色鸟停在树枝上"
-        fill
-        sizes="(min-width: 1640px) 480px, (min-width: 1480px) 420px, 100vw"
-        className="object-cover object-[72%_center] transition duration-500 dark:brightness-90 group-hover:scale-105 md:object-[64%_center]"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,57,27,0.92)_0%,rgba(22,57,27,0.8)_42%,rgba(22,57,27,0.2)_78%)]" />
-      <div className="relative z-10 flex h-full min-h-[156px] max-w-[198px] flex-col justify-center px-5 py-4 text-white min-[390px]:max-w-[214px] min-[390px]:px-6 md:min-h-[176px] md:max-w-none md:px-7 md:py-6">
-        <h2 className="font-sans text-[17px] font-extrabold leading-none min-[390px]:text-[19px] md:text-[22px]">自然观察频道</h2>
-        <p className="mt-2 text-[13px] font-medium leading-5 text-white/92 min-[390px]:text-[14px] md:mt-4 md:text-[14px]">观察自然 · 记录生命 · 保护环境</p>
-        <span className="mt-3 inline-flex h-9 w-fit items-center gap-2 rounded-[12px] bg-[hsl(var(--surface-raised))] px-4 text-[14px] font-semibold text-foreground shadow-sm md:mt-6 md:h-9 md:px-5 md:text-[14px]">
+      <div className="absolute right-0 top-1/2 h-[128px] w-[232px] -translate-y-1/2 overflow-hidden min-[390px]:h-[136px] min-[390px]:w-[248px] md:inset-0 md:h-auto md:w-auto md:translate-y-0">
+        <Image
+          src={natureImage}
+          alt="蓝色鸟停在树枝上"
+          fill
+          sizes="(max-width: 768px) 248px, (min-width: 1640px) 480px, (min-width: 1480px) 420px, 100vw"
+          className="object-contain object-right transition duration-500 dark:brightness-90 group-hover:scale-[1.02] md:object-cover md:object-[64%_center] md:group-hover:scale-105"
+        />
+      </div>
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.78)_38%,rgba(18,70,30,0.16)_73%,rgba(18,70,30,0)_100%)]" />
+      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] min-[390px]:px-5 md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
+        <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
+        <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
+        <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] md:mt-6 md:h-9 md:gap-2 md:px-5 md:text-[14px]">
           立即进入
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
         </span>
       </div>
     </Link>
@@ -317,35 +319,25 @@ function HomeProjectCard({ project, index }: { project: Project; index: number }
   );
 }
 
-function HomeFeaturedProjectCard({ project }: { project: Project }) {
-  return (
-    <ProjectCard project={project} href={projectHref(project)} priority variant="featured" className="h-full" />
-  );
-}
-
 function ProjectSection({ projects }: { projects: Project[] }) {
   const visible = getShowcaseProjects(projects);
-  const [featuredProject, ...compactProjects] = visible;
 
   return (
     <Surface className="p-4 md:p-5">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between md:mb-4">
         <div className="flex items-center gap-2">
-          <ThumbsUp className="h-5 w-5 fill-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue))] min-[390px]:h-6 min-[390px]:w-6" />
-          <h2 className="font-sans text-[18px] font-extrabold tracking-normal text-foreground min-[390px]:text-[20px] md:text-[20px]">热门项目</h2>
+          <ThumbsUp className="h-5 w-5 fill-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue))] md:h-6 md:w-6" />
+          <h2 className="font-sans text-[17px] font-extrabold tracking-normal text-foreground md:text-[20px]">热门项目</h2>
         </div>
-        <Link href="/explore" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] min-[390px]:text-[14px] md:text-[13px]">
+        <Link href="/explore" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))]">
           查看全部
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="grid items-stretch gap-3 md:grid-cols-[minmax(0,1.12fr)_minmax(360px,0.88fr)] md:gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        {featuredProject ? <HomeFeaturedProjectCard project={featuredProject} /> : null}
-        <div className="grid auto-rows-fr gap-3 min-[720px]:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
-          {compactProjects.map((project, index) => (
-            <HomeProjectCard key={project.id} project={project} index={index + 1} />
-          ))}
-        </div>
+      <div className="grid auto-rows-fr items-stretch gap-2.5 min-[720px]:grid-cols-2 md:gap-3 min-[1480px]:grid-cols-3">
+        {visible.map((project, index) => (
+          <HomeProjectCard key={project.id} project={project} index={index} />
+        ))}
       </div>
     </Surface>
   );
@@ -521,16 +513,16 @@ export function HomeShowcase({
 }) {
   return (
     <div className="app-canvas min-h-screen">
-      <div className="app-shell-wide flex flex-col gap-5 px-4 py-5 min-[390px]:gap-6 min-[390px]:px-5 min-[390px]:py-6 md:gap-7 md:px-8 md:py-8">
+      <div className="app-shell-wide flex flex-col gap-2.5 px-4 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:px-8 md:py-8">
         <HomeHero image={heroImage} />
         <MobileLeaderboardEntry />
 
-        <div className="grid gap-5 min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
+        <div className="grid gap-2.5 min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1480px]:gap-5 min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
           <CategoryGrid categoryTileCounts={categoryTileCounts} />
           <NatureChannel />
         </div>
 
-        <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_480px]">
+        <div className="grid items-stretch gap-2.5 md:gap-5 xl:grid-cols-[minmax(0,1fr)_480px]">
           <ProjectSection projects={recentHotProjects} />
           <div className="hidden xl:block">
             <RecommendationPanel

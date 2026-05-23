@@ -452,14 +452,10 @@
   }
 
   .app-mobile-header {
-    border-color: hsl(var(--nav-bar-border) / 0.9);
-    background-color: hsl(var(--nav-bar-bg) / 0.92);
-    box-shadow: 0 10px 36px -28px hsl(var(--surface-shadow) / 0.25);
-    @apply sticky top-0 z-50 w-full border-b backdrop-blur-xl pt-[env(safe-area-inset-top)] supports-[backdrop-filter]:bg-[hsl(var(--nav-bar-bg)/0.82)] md:hidden;
+    @apply relative z-30 w-full pt-[env(safe-area-inset-top)] md:hidden;
   }
 
   .dark .app-mobile-header {
-    background-color: hsl(var(--nav-bar-bg) / 0.94);
     box-shadow: none;
   }
 

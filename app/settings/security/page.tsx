@@ -315,7 +315,7 @@ function SecuritySettingsContent() {
 
 export default function SecuritySettingsPage() {
   return (
-    <Suspense fallback={<div className="min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] bg-background md:min-h-[calc(100vh-4rem)]" />}>
+    <Suspense fallback={<div className="min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] bg-background md:min-h-[calc(100vh-4rem)]" />}>
       <SecuritySettingsContent />
     </Suspense>
   );

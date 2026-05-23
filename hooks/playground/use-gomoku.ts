@@ -13,6 +13,8 @@ export type GomokuStatus = "idle" | "playing" | "won" | "draw"
 
 export type GomokuMode = "pvp" | "pve"
 
+export type GomokuLevel = "easy" | "normal" | "hard"
+
 type WinnerInfo =
     | {
           winner: GomokuPlayer
@@ -32,8 +34,11 @@ type GomokuStats = {
 const BOARD_SIZE = 15
 const WIN_COUNT = 5
 const STATS_KEY = "gomoku_records"
-const MAX_CANDIDATES = 20
-const AI_DEPTH = 3
+const AI_DEPTH = 5
+const ROOT_CANDIDATES = 12
+const DEEP_CANDIDATES = 8
+const WIN_SCORE = 5_000_000
+const VCF_DEPTH = 10
 
 const EMPTY_STATS: GomokuStats = {
     totalGames: 0,
@@ -111,103 +116,125 @@ function checkWinner(board: GomokuCell[][]): WinnerInfo {
 }
 
 // ── Pattern-based evaluation ──────────────────────────────────────────
-// Scans consecutive runs along all four directions, classifies by
-// length and open ends, then maps to threat scores.
+// Each cell is encoded as a single char: 'a' = current player, 'b' =
+// opponent or wall, '_' = empty. Lines are wrapped with 'b' boundaries
+// so closed-end patterns near the edge are detected uniformly.
+//
+// Patterns are processed top-down (strongest threat first). The 'a'
+// positions of a matched pattern are masked with '=' so weaker patterns
+// can't double-count the same stones, but the '_' positions are left
+// intact so an adjacent pattern using those empty cells can still match.
 
-const S_FIVE = 100000
-const S_OPEN_FOUR = 50000
-const S_HALF_FOUR = 5000
-const S_OPEN_THREE = 3000
-const S_HALF_THREE = 500
-const S_OPEN_TWO = 200
-const S_HALF_TWO = 50
+const PATTERN_TABLE: ReadonlyArray<readonly [string, number]> = [
+    // 五连
+    ["aaaaa", 10_000_000],
+    // 活四（一手必胜）
+    ["_aaaa_", 1_000_000],
+    // 冲四 — 连续型，一侧被堵
+    ["baaaa_", 100_000],
+    ["_aaaab", 100_000],
+    // 冲四 — 跳着的，填空即五连
+    ["aaa_a", 100_000],
+    ["a_aaa", 100_000],
+    ["aa_aa", 100_000],
+    // 活三 — 下一手能成活四
+    ["__aaa__", 10_000],
+    ["_aa_a_", 10_000],
+    ["_a_aa_", 10_000],
+    // 眠三 / 半活三
+    ["__aaa_b", 1_000],
+    ["b_aaa__", 1_000],
+    ["_a_aab", 1_000],
+    ["baa_a_", 1_000],
+    ["_aa_ab", 1_000],
+    ["ba_aa_", 1_000],
+    ["_aaab", 1_000],
+    ["baaa_", 1_000],
+    // 活二
+    ["__aa__", 500],
+    ["_a_a_", 300],
+    ["_a__a_", 200],
+    // 眠二
+    ["_aa_b", 50],
+    ["b_aa_", 50],
+    ["__aab", 50],
+    ["baa__", 50],
+]
 
-function scorePlayer(board: GomokuCell[][], player: GomokuPlayer): number {
-    let score = 0
+const LINE_DIRS = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [1, -1],
+] as const
 
-    for (let r = 0; r < BOARD_SIZE; r++) {
-        for (let c = 0; c < BOARD_SIZE; c++) {
-            if (board[r][c].value !== player) continue
+function lineString(
+    board: GomokuCell[][],
+    startR: number,
+    startC: number,
+    dr: number,
+    dc: number,
+    player: GomokuPlayer,
+): string {
+    let s = "b"
+    let r = startR
+    let c = startC
+    while (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
+        const v = board[r][c].value
+        s += v === null ? "_" : v === player ? "a" : "b"
+        r += dr
+        c += dc
+    }
+    s += "b"
+    return s
+}
 
-            for (const { dr, dc } of DIRS) {
-                const pr = r - dr
-                const pc = c - dc
-                if (
-                    pr >= 0 &&
-                    pr < BOARD_SIZE &&
-                    pc >= 0 &&
-                    pc < BOARD_SIZE &&
-                    board[pr][pc].value === player
-                ) {
-                    continue
-                }
-
-                let count = 0
-                let nr = r
-                let nc = c
-                while (
-                    nr >= 0 &&
-                    nr < BOARD_SIZE &&
-                    nc >= 0 &&
-                    nc < BOARD_SIZE &&
-                    board[nr][nc].value === player
-                ) {
-                    count++
-                    nr += dr
-                    nc += dc
-                }
-
-                if (count < 2) continue
-
-                let openEnds = 0
-                if (
-                    pr >= 0 &&
-                    pr < BOARD_SIZE &&
-                    pc >= 0 &&
-                    pc < BOARD_SIZE &&
-                    board[pr][pc].value === null
-                )
-                    openEnds++
-                if (
-                    nr >= 0 &&
-                    nr < BOARD_SIZE &&
-                    nc >= 0 &&
-                    nc < BOARD_SIZE &&
-                    board[nr][nc].value === null
-                )
-                    openEnds++
-
-                if (count >= 5) score += S_FIVE
-                else if (count === 4)
-                    score +=
-                        openEnds === 2
-                            ? S_OPEN_FOUR
-                            : openEnds === 1
-                              ? S_HALF_FOUR
-                              : 0
-                else if (count === 3)
-                    score +=
-                        openEnds === 2
-                            ? S_OPEN_THREE
-                            : openEnds === 1
-                              ? S_HALF_THREE
-                              : 0
-                else if (count === 2)
-                    score +=
-                        openEnds === 2
-                            ? S_OPEN_TWO
-                            : openEnds === 1
-                              ? S_HALF_TWO
-                              : 0
-            }
+function scoreLine(line: string): number {
+    if (line.indexOf("a") < 0) return 0
+    let s = line
+    let total = 0
+    for (const [pattern, value] of PATTERN_TABLE) {
+        let idx = s.indexOf(pattern)
+        if (idx < 0) continue
+        let masked = ""
+        for (let i = 0; i < pattern.length; i++) {
+            masked += pattern[i] === "a" ? "=" : pattern[i]
+        }
+        while (idx >= 0) {
+            total += value
+            s = s.slice(0, idx) + masked + s.slice(idx + pattern.length)
+            idx = s.indexOf(pattern, idx + 1)
         }
     }
-    return score
+    return total
+}
+
+function scorePlayer(board: GomokuCell[][], player: GomokuPlayer): number {
+    let total = 0
+    for (let r = 0; r < BOARD_SIZE; r++) {
+        total += scoreLine(lineString(board, r, 0, 0, 1, player))
+    }
+    for (let c = 0; c < BOARD_SIZE; c++) {
+        total += scoreLine(lineString(board, 0, c, 1, 0, player))
+    }
+    for (let c = 0; c < BOARD_SIZE; c++) {
+        total += scoreLine(lineString(board, 0, c, 1, 1, player))
+    }
+    for (let r = 1; r < BOARD_SIZE; r++) {
+        total += scoreLine(lineString(board, r, 0, 1, 1, player))
+    }
+    for (let c = 0; c < BOARD_SIZE; c++) {
+        total += scoreLine(lineString(board, 0, c, 1, -1, player))
+    }
+    for (let r = 1; r < BOARD_SIZE; r++) {
+        total += scoreLine(lineString(board, r, BOARD_SIZE - 1, 1, -1, player))
+    }
+    return total
 }
 
 function evaluateBoard(board: GomokuCell[][], player: GomokuPlayer): number {
     const opponent: GomokuPlayer = player === "black" ? "white" : "black"
-    return scorePlayer(board, player) - scorePlayer(board, opponent) * 1.1
+    return scorePlayer(board, player) - scorePlayer(board, opponent) * 1.05
 }
 
 // ── Board & move utilities ────────────────────────────────────────────
@@ -216,51 +243,264 @@ function cloneBoard(board: GomokuCell[][]): GomokuCell[][] {
     return board.map((row) => row.map((cell) => ({ ...cell })))
 }
 
-function getCandidateMoves(
+function sumLinesThrough(
     board: GomokuCell[][],
-): { row: number; col: number }[] {
-    const scored: { row: number; col: number; p: number }[] = []
+    row: number,
+    col: number,
+    player: GomokuPlayer,
+): number {
+    let total = 0
+    for (const [dr, dc] of LINE_DIRS) {
+        let sr = row
+        let sc = col
+        while (
+            sr - dr >= 0 &&
+            sr - dr < BOARD_SIZE &&
+            sc - dc >= 0 &&
+            sc - dc < BOARD_SIZE
+        ) {
+            sr -= dr
+            sc -= dc
+        }
+        total += scoreLine(lineString(board, sr, sc, dr, dc, player))
+    }
+    return total
+}
 
-    for (let r = 0; r < BOARD_SIZE; r++) {
-        for (let c = 0; c < BOARD_SIZE; c++) {
-            if (board[r][c].value !== null) continue
-            let near = 0
-            for (let dr = -2; dr <= 2; dr++) {
-                for (let dc = -2; dc <= 2; dc++) {
-                    if (dr === 0 && dc === 0) continue
-                    const nr = r + dr
-                    const nc = c + dc
-                    if (
-                        nr >= 0 &&
-                        nr < BOARD_SIZE &&
-                        nc >= 0 &&
-                        nc < BOARD_SIZE &&
-                        board[nr][nc].value !== null
-                    ) {
-                        near += Math.abs(dr) <= 1 && Math.abs(dc) <= 1 ? 3 : 1
-                    }
-                }
-            }
-            if (near > 0) {
-                scored.push({
-                    row: r,
-                    col: c,
-                    p: near * 10 - (Math.abs(r - 7) + Math.abs(c - 7)),
-                })
+// Reward both the threats this move creates and the opponent threats it
+// neutralises — the same heuristic guides search ordering and root choice.
+function moveImpact(
+    board: GomokuCell[][],
+    row: number,
+    col: number,
+    player: GomokuPlayer,
+): number {
+    const opp: GomokuPlayer = player === "black" ? "white" : "black"
+    const myBefore = sumLinesThrough(board, row, col, player)
+    const oppBefore = sumLinesThrough(board, row, col, opp)
+    board[row][col].value = player
+    const myAfter = sumLinesThrough(board, row, col, player)
+    const oppAfter = sumLinesThrough(board, row, col, opp)
+    board[row][col].value = null
+    return myAfter - myBefore + (oppBefore - oppAfter)
+}
+
+function hasNearbyStone(
+    board: GomokuCell[][],
+    row: number,
+    col: number,
+    range: number,
+): boolean {
+    for (let dr = -range; dr <= range; dr++) {
+        for (let dc = -range; dc <= range; dc++) {
+            if (dr === 0 && dc === 0) continue
+            const r = row + dr
+            const c = col + dc
+            if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) continue
+            if (board[r][c].value !== null) return true
+        }
+    }
+    return false
+}
+
+// True if a 5-in-a-row passes through (row, col), which must currently hold a
+// stone of `player`. Localised win check, much cheaper than scanning the full
+// board.
+function isFiveAt(
+    board: GomokuCell[][],
+    row: number,
+    col: number,
+    player: GomokuPlayer,
+): boolean {
+    for (const [dr, dc] of LINE_DIRS) {
+        let count = 1
+        let nr = row + dr
+        let nc = col + dc
+        while (
+            nr >= 0 &&
+            nr < BOARD_SIZE &&
+            nc >= 0 &&
+            nc < BOARD_SIZE &&
+            board[nr][nc].value === player
+        ) {
+            count++
+            nr += dr
+            nc += dc
+        }
+        nr = row - dr
+        nc = col - dc
+        while (
+            nr >= 0 &&
+            nr < BOARD_SIZE &&
+            nc >= 0 &&
+            nc < BOARD_SIZE &&
+            board[nr][nc].value === player
+        ) {
+            count++
+            nr -= dr
+            nc -= dc
+        }
+        if (count >= WIN_COUNT) return true
+    }
+    return false
+}
+
+// True if (row, col) has a friendly stone within 4 cells along any line,
+// without an opponent stone in between. A win spot must satisfy this.
+function hasNearbyOwnStone(
+    board: GomokuCell[][],
+    row: number,
+    col: number,
+    player: GomokuPlayer,
+): boolean {
+    for (const [dr, dc] of LINE_DIRS) {
+        for (const sign of [1, -1] as const) {
+            for (let d = 1; d <= 4; d++) {
+                const r = row + dr * sign * d
+                const c = col + dc * sign * d
+                if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) break
+                const v = board[r][c].value
+                if (v === player) return true
+                if (v !== null) break
             }
         }
     }
+    return false
+}
 
-    scored.sort((a, b) => b.p - a.p)
+// Empty cells where placing `player` would create a 5-in-a-row.
+function findWinSpots(
+    board: GomokuCell[][],
+    player: GomokuPlayer,
+): { row: number; col: number }[] {
+    const spots: { row: number; col: number }[] = []
+    for (let r = 0; r < BOARD_SIZE; r++) {
+        for (let c = 0; c < BOARD_SIZE; c++) {
+            if (board[r][c].value !== null) continue
+            if (!hasNearbyOwnStone(board, r, c, player)) continue
+            board[r][c].value = player
+            const win = isFiveAt(board, r, c, player)
+            board[r][c].value = null
+            if (win) spots.push({ row: r, col: c })
+        }
+    }
+    return spots
+}
 
+function getCandidates(
+    board: GomokuCell[][],
+    player: GomokuPlayer,
+    max: number,
+): { row: number; col: number }[] {
+    const opp: GomokuPlayer = player === "black" ? "white" : "black"
+
+    // Forced response: if we can win immediately, just play it.
+    const myWins = findWinSpots(board, player)
+    if (myWins.length > 0) return [myWins[0]]
+
+    // Forced response: if the opponent has a 5-threat, we must block it. If
+    // they have two such threats we already lost — but try one anyway to keep
+    // the game going.
+    const oppWins = findWinSpots(board, opp)
+    if (oppWins.length > 0) return oppWins
+
+    const scored: { row: number; col: number; s: number }[] = []
+    for (let r = 0; r < BOARD_SIZE; r++) {
+        for (let c = 0; c < BOARD_SIZE; c++) {
+            if (board[r][c].value !== null) continue
+            if (!hasNearbyStone(board, r, c, 2)) continue
+            scored.push({
+                row: r,
+                col: c,
+                s: moveImpact(board, r, c, player),
+            })
+        }
+    }
     if (scored.length === 0) {
         const center = Math.floor(BOARD_SIZE / 2)
         return [{ row: center, col: center }]
     }
+    scored.sort((a, b) => b.s - a.s)
+    return scored.slice(0, max).map(({ row, col }) => ({ row, col }))
+}
 
-    return scored
-        .slice(0, MAX_CANDIDATES)
-        .map(({ row, col }) => ({ row, col }))
+// Moves that build a 4-pattern (rush four / open four) — i.e. that create at
+// least one win spot for `player`. Each entry carries the resulting win spots
+// so the VCF search can drive the forced response.
+function findFourMoves(
+    board: GomokuCell[][],
+    player: GomokuPlayer,
+): {
+    move: { row: number; col: number }
+    wins: { row: number; col: number }[]
+}[] {
+    const result: {
+        move: { row: number; col: number }
+        wins: { row: number; col: number }[]
+    }[] = []
+    for (let r = 0; r < BOARD_SIZE; r++) {
+        for (let c = 0; c < BOARD_SIZE; c++) {
+            if (board[r][c].value !== null) continue
+            if (!hasNearbyStone(board, r, c, 2)) continue
+            board[r][c].value = player
+            if (isFiveAt(board, r, c, player)) {
+                board[r][c].value = null
+                continue
+            }
+            const wins = findWinSpots(board, player)
+            board[r][c].value = null
+            if (wins.length >= 1) {
+                result.push({ move: { row: r, col: c }, wins })
+            }
+        }
+    }
+    // Prefer multi-threat moves (double four = win): they decide the search.
+    result.sort((a, b) => b.wins.length - a.wins.length)
+    return result
+}
+
+// Victory-by-continuous-fours: attacker plays a 4-threat, defender is forced
+// to block at the unique win spot, repeat. Returns the move that starts the
+// forced sequence, or null if none exists within `maxDepth` attacker plies.
+function vcfSearch(
+    board: GomokuCell[][],
+    attacker: GomokuPlayer,
+    maxDepth: number,
+): { row: number; col: number } | null {
+    if (maxDepth <= 0) return null
+    const defender: GomokuPlayer = attacker === "black" ? "white" : "black"
+
+    const immediate = findWinSpots(board, attacker)
+    if (immediate.length > 0) return immediate[0]
+    // If defender already has a 5-threat, attacker must block — no free VCF.
+    if (findWinSpots(board, defender).length > 0) return null
+
+    const fours = findFourMoves(board, attacker)
+    for (const { move, wins } of fours) {
+        board[move.row][move.col].value = attacker
+
+        // Defender might have a winning move enabled by attacker's stone.
+        if (findWinSpots(board, defender).length > 0) {
+            board[move.row][move.col].value = null
+            continue
+        }
+
+        // Double-four or better — defender can block at most one win spot.
+        if (wins.length >= 2) {
+            board[move.row][move.col].value = null
+            return move
+        }
+
+        // Single rush-four — defender forced to block at wins[0].
+        const block = wins[0]
+        board[block.row][block.col].value = defender
+        const cont = vcfSearch(board, attacker, maxDepth - 1)
+        board[block.row][block.col].value = null
+        board[move.row][move.col].value = null
+
+        if (cont) return move
+    }
+    return null
 }
 
 function findWinningMove(
@@ -290,22 +530,25 @@ function minimax(
     const winner = checkWinner(board)
     if (winner) {
         return {
-            score: winner.winner === player ? 100000 + depth : -100000 - depth,
+            score:
+                winner.winner === player
+                    ? WIN_SCORE + depth
+                    : -WIN_SCORE - depth,
         }
     }
-
     if (depth === 0) {
         return { score: evaluateBoard(board, player) }
     }
 
-    const candidates = getCandidateMoves(board)
     const opponent: GomokuPlayer = player === "black" ? "white" : "black"
     const mover = maximizing ? player : opponent
+    const limit = depth >= AI_DEPTH ? ROOT_CANDIDATES : DEEP_CANDIDATES
+    const candidates = getCandidates(board, mover, limit)
 
     const winMove = findWinningMove(board, mover, candidates)
     if (winMove) {
         return {
-            score: maximizing ? 100000 + depth : -100000 - depth,
+            score: maximizing ? WIN_SCORE + depth : -WIN_SCORE - depth,
             move: winMove,
         }
     }
@@ -357,9 +600,92 @@ function minimax(
     }
 }
 
+// ── AI move selection by difficulty level ─────────────────────────────
+
+function chooseAiMove(
+    board: GomokuCell[][],
+    aiPlayer: GomokuPlayer,
+    human: GomokuPlayer,
+    level: GomokuLevel,
+): { row: number; col: number } | undefined {
+    // All levels still respect immediate win / 5-threat block — otherwise
+    // the game would end on the next human move and feel broken.
+    const myWins = findWinSpots(board, aiPlayer)
+    if (myWins.length > 0) return myWins[0]
+    const oppWins = findWinSpots(board, human)
+    if (oppWins.length > 0) return oppWins[0]
+
+    if (level === "easy") {
+        // No search: pick a random move from the top impact candidates so the
+        // AI stays in the action area but routinely misses combinations like
+        // live three / rush four.
+        const scored: { row: number; col: number; s: number }[] = []
+        for (let r = 0; r < BOARD_SIZE; r++) {
+            for (let c = 0; c < BOARD_SIZE; c++) {
+                if (board[r][c].value !== null) continue
+                if (!hasNearbyStone(board, r, c, 2)) continue
+                scored.push({
+                    row: r,
+                    col: c,
+                    s: moveImpact(board, r, c, aiPlayer),
+                })
+            }
+        }
+        if (scored.length === 0) {
+            const center = Math.floor(BOARD_SIZE / 2)
+            return { row: center, col: center }
+        }
+        scored.sort((a, b) => b.s - a.s)
+        const pool = scored.slice(0, Math.min(4, scored.length))
+        return pool[Math.floor(Math.random() * pool.length)]
+    }
+
+    if (level === "normal") {
+        // Depth-3 minimax with forced-response candidates. No VCF — long
+        // combination wins remain invisible to this level.
+        const { move } = minimax(
+            board,
+            3,
+            true,
+            aiPlayer,
+            -Infinity,
+            Infinity,
+        )
+        return move
+    }
+
+    // hard: full strength — VCF (offence + defence) plus deep minimax.
+    const vcf = vcfSearch(board, aiPlayer, VCF_DEPTH)
+    if (vcf) return vcf
+
+    const oppVcf = vcfSearch(board, human, VCF_DEPTH)
+    if (oppVcf) {
+        const candidates = getCandidates(board, aiPlayer, ROOT_CANDIDATES)
+        for (const m of candidates) {
+            board[m.row][m.col].value = aiPlayer
+            const stillVcf = vcfSearch(board, human, VCF_DEPTH)
+            board[m.row][m.col].value = null
+            if (!stillVcf) return m
+        }
+    }
+
+    const { move } = minimax(
+        board,
+        AI_DEPTH,
+        true,
+        aiPlayer,
+        -Infinity,
+        Infinity,
+    )
+    return move
+}
+
 // ── React Hook ────────────────────────────────────────────────────────
 
-export function useGomoku(mode: GomokuMode = "pve") {
+export function useGomoku(
+    mode: GomokuMode = "pve",
+    level: GomokuLevel = "normal",
+) {
     const [board, setBoard] = useState<GomokuCell[][]>(() => createEmptyBoard())
     const [currentPlayer, setCurrentPlayer] =
         useState<GomokuPlayer>("black")
@@ -461,33 +787,7 @@ export function useGomoku(mode: GomokuMode = "pve") {
 
         const handle = window.setTimeout(() => {
             const searchBoard = cloneBoard(board)
-            const candidates = getCandidateMoves(searchBoard)
-
-            let chosen: { row: number; col: number } | undefined
-
-            const winMove = findWinningMove(searchBoard, aiPlayer, candidates)
-            if (winMove) {
-                chosen = winMove
-            } else {
-                const blockMove = findWinningMove(
-                    searchBoard,
-                    "black",
-                    candidates,
-                )
-                if (blockMove) {
-                    chosen = blockMove
-                } else {
-                    const { move } = minimax(
-                        searchBoard,
-                        AI_DEPTH,
-                        true,
-                        aiPlayer,
-                        -Infinity,
-                        Infinity,
-                    )
-                    chosen = move
-                }
-            }
+            const chosen = chooseAiMove(searchBoard, aiPlayer, "black", level)
 
             if (chosen) {
                 const nextBoard = cloneBoard(board)
@@ -524,7 +824,7 @@ export function useGomoku(mode: GomokuMode = "pve") {
             window.clearTimeout(handle)
             aiThinkingRef.current = false
         }
-    }, [aiPlayer, board, isAiTurn, moveCount, status, updateStats])
+    }, [aiPlayer, board, isAiTurn, level, moveCount, status, updateStats])
 
     return {
         board,
@@ -534,6 +834,7 @@ export function useGomoku(mode: GomokuMode = "pve") {
         moveCount,
         stats,
         mode,
+        level,
         makeMove,
         resetGame,
     }

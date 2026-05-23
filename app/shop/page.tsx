@@ -596,7 +596,7 @@ export default function ShopPage() {
 
   if (inventoryError) {
     return (
-      <div className="app-canvas flex min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] items-center justify-center px-4 py-12">
+      <div className="app-canvas flex min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] items-center justify-center px-4 py-12">
         <section className="surface-panel flex w-full max-w-xl flex-col items-center gap-4 px-6 py-10 text-center">
           <AlertCircle className="h-10 w-10 text-destructive" />
           <div className="space-y-1">
@@ -614,7 +614,7 @@ export default function ShopPage() {
   }
 
   return (
-    <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,4rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
+    <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] pb-24 md:min-h-[calc(100vh-4rem)] md:pb-10">
       <MobileGlobalHeader
         variant="title"
         title="商店"

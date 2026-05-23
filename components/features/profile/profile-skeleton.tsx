@@ -206,7 +206,7 @@ function MobileDashboardProfileSkeleton() {
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground md:hidden">
       <header className="app-mobile-header">
-        <div className="flex h-[3.6rem] items-center px-4 min-[390px]:px-5">
+        <div className="flex h-12 items-center px-4 min-[390px]:px-5">
           <SkeletonBlock className="h-7 w-14 rounded-full" />
           <div className="ml-auto">
             <SkeletonBlock className="h-9 w-9 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />

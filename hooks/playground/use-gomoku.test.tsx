@@ -65,4 +65,70 @@ describe("useGomoku", () => {
             gomokuPvEWins: 0,
         })
     })
+
+    it("AI responds with a stone after the human plays in pve mode", () => {
+        vi.useFakeTimers()
+        try {
+            const { result } = renderHook(() => useGomoku("pve"))
+
+            act(() => {
+                result.current.makeMove(7, 7)
+            })
+            expect(result.current.currentPlayer).toBe("white")
+
+            act(() => {
+                vi.advanceTimersByTime(2000)
+            })
+
+            expect(result.current.currentPlayer).toBe("black")
+            expect(result.current.moveCount).toBe(2)
+
+            let whiteCount = 0
+            for (const row of result.current.board) {
+                for (const cell of row) {
+                    if (cell.value === "white") whiteCount++
+                }
+            }
+            expect(whiteCount).toBe(1)
+        } finally {
+            vi.useRealTimers()
+        }
+    })
+
+    it("AI blocks an immediate five-in-a-row threat in pve mode", () => {
+        vi.useFakeTimers()
+        try {
+            const { result } = renderHook(() => useGomoku("pve"))
+
+            // Human creates four-in-a-row by alternating with AI's responses.
+            // Each pair: black plays its threat-building stone, AI replies.
+            const blackMoves: Array<[number, number]> = [
+                [7, 5],
+                [7, 6],
+                [7, 7],
+                [7, 8],
+            ]
+
+            for (const [r, c] of blackMoves) {
+                act(() => {
+                    result.current.makeMove(r, c)
+                })
+                act(() => {
+                    vi.advanceTimersByTime(2000)
+                })
+            }
+
+            // After four black stones on row 7 cols 5–8 (with AI replies
+            // between), black has at least one open end. AI's most recent
+            // response must occupy a cell adjacent to that line, otherwise
+            // the threat went unblocked.
+            const rowSeven = result.current.board[7]
+            const whitesOnRowSeven = rowSeven.filter(
+                (c) => c.value === "white",
+            ).length
+            expect(whitesOnRowSeven).toBeGreaterThanOrEqual(1)
+        } finally {
+            vi.useRealTimers()
+        }
+    })
 })

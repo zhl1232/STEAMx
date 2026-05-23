@@ -290,7 +290,7 @@ function ExploreMobileSearchHeaderSkeleton() {
 /** 与 `ExploreClient` 画布、max-w-[1840px]、双栏与项目网格（含 ≥1400px 四列）对齐 */
 export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
   return (
-    <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,4rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+    <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
       <ExploreMobileSearchHeaderSkeleton />
       <div
         aria-hidden="true"
