@@ -6,7 +6,6 @@ import {
   Heart,
   Leaf,
   Lightbulb,
-  MessageCircle,
   ThumbsUp,
   Trophy,
   UsersRound,
@@ -364,11 +363,6 @@ function communityFeedIconWrap(kind: HomeCommunityFeedKind) {
         wrap: "bg-[hsl(var(--brand-amber)/0.14)] text-[hsl(var(--brand-amber))]",
         icon: <Heart className="h-5 w-5 fill-current" />,
       };
-    case "discussion":
-      return {
-        wrap: "bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
-        icon: <MessageCircle className="h-5 w-5" />,
-      };
     case "project_new":
     default:
       return {
@@ -384,12 +378,12 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
       <Surface className="p-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-foreground">社区动态</h2>
-          <Link href="/community" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
+          <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
         </div>
         {communityFeed.length === 0 ? (
           <p className="py-8 text-center text-[13px] text-muted-foreground">
             暂无最新动态。
-            <Link href="/community" className="font-medium text-[hsl(var(--brand-blue))]"> 去社区看看</Link>
+            <Link href="/create" className="font-medium text-[hsl(var(--brand-blue))]"> 去创造营看看</Link>
           </p>
         ) : (
           <div className="grid gap-3 md:grid-cols-3">

@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useToast } from "@/hooks/use-toast"
-import { getRepliesUnderRoot } from "@/lib/community/reply-utils"
+import { getRepliesUnderRoot } from "@/lib/comments/reply-utils"
 import type { Comment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 

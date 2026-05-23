@@ -44,6 +44,8 @@ const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
   thumbnail: 160,
 }
 
+const GENERATED_PROJECT_IMAGE_CACHE_VERSION = "20260522-tech-images"
+
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS
 
 interface OptimizedImageProps extends Omit<ImageProps, "sizes" | "quality"> {
@@ -88,6 +90,23 @@ function toSupabaseTransformedUrl(src: string, width: number, quality: number): 
   return url.toString()
 }
 
+export function withGeneratedProjectImageCacheVersion(src: string): string {
+  const [withoutHash, hash = ""] = src.split("#", 2)
+  const [pathname, query = ""] = withoutHash.split("?", 2)
+
+  if (!/^\/projects\/generated\/project-\d+\.webp$/.test(pathname)) {
+    return src
+  }
+
+  const params = new URLSearchParams(query)
+  if (!params.has("v")) {
+    params.set("v", GENERATED_PROJECT_IMAGE_CACHE_VERSION)
+  }
+
+  const hashPart = hash ? `#${hash}` : ""
+  return `${pathname}?${params.toString()}${hashPart}`
+}
+
 export function getOptimizedImageSrc(
   src: string,
   variant: OptimizedImageVariant = "cover",
@@ -95,14 +114,15 @@ export function getOptimizedImageSrc(
 ): string {
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
   const width = WIDTH_PRESETS[variant]
+  const versionedSrc = withGeneratedProjectImageCacheVersion(src)
 
   if (variant === "cover") {
-    return src
+    return versionedSrc
   }
 
-  return isSupabasePublicStorageUrl(src) && supportsSupabaseRenderTransform(src)
-    ? toSupabaseTransformedUrl(src, width, quality)
-    : src
+  return isSupabasePublicStorageUrl(versionedSrc) && supportsSupabaseRenderTransform(versionedSrc)
+    ? toSupabaseTransformedUrl(versionedSrc, width, quality)
+    : versionedSrc
 }
 
 /**

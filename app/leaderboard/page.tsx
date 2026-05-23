@@ -18,7 +18,7 @@ export default function LeaderboardPage() {
             <div className="md:hidden">
                 <MobilePageHeader
                     title="社区排行榜"
-                    fallbackHref="/community"
+                    fallbackHref="/create"
                     className="border-border/40 bg-background/80"
                     titleClassName="text-center text-lg"
                 />

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Compass, Feather, Home, MessageSquare, User } from "lucide-react";
+import { Compass, Feather, Home, Sparkles, User } from "lucide-react";
 
 import { LoginDialog } from "@/components/layout/login-dialog";
 import { cn } from "@/lib/utils";
@@ -38,10 +38,14 @@ export function BottomNav() {
             nature: true,
         },
         {
-            href: "/community",
-            label: "社区",
-            icon: MessageSquare,
-            active: pathname === "/community" || pathname.startsWith("/community/"),
+            href: "/create",
+            label: "创造",
+            icon: Sparkles,
+            active:
+                pathname === "/create" ||
+                pathname.startsWith("/create/") ||
+                pathname.startsWith("/pbl/") ||
+                pathname.startsWith("/courses/"),
         },
         {
             href: "/profile",

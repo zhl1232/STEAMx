@@ -14,7 +14,7 @@ export const emptyChallengeGroups: ChallengeGroups = {
   ended: [],
 }
 
-const COMMUNITY_CHALLENGE_SELECT = [
+const PBL_CHALLENGE_SELECT = [
   'id',
   'title',
   'description',
@@ -29,7 +29,7 @@ const COMMUNITY_CHALLENGE_SELECT = [
   'created_at',
 ].join(',')
 
-export async function getCommunityChallengeGroups(): Promise<{
+export async function getPblChallengeGroups(): Promise<{
   challenges: ChallengeGroups
   error: string | null
   userId: string | null
@@ -40,7 +40,7 @@ export async function getCommunityChallengeGroups(): Promise<{
     const [{ data: challengeRows, error: challengeError }, { data: { user } }] = await Promise.all([
       supabase
         .from('challenges')
-        .select(COMMUNITY_CHALLENGE_SELECT)
+        .select(PBL_CHALLENGE_SELECT)
         .in('status', ['active', 'ended'])
         .order('created_at', { ascending: false })
         .limit(50),
@@ -125,7 +125,7 @@ export async function getCommunityChallengeGroups(): Promise<{
       userId: user?.id ?? null,
     }
   } catch (error) {
-    logger.error('Error fetching community challenges', { error })
+    logger.error('Error fetching PBL challenges', { error })
     return {
       challenges: emptyChallengeGroups,
       error: '挑战加载失败，请稍后重试',

@@ -5,7 +5,7 @@ import * as React from 'react'
 import { ChallengeSubmissionForm } from '@/components/features/challenge/challenge-submission-form'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 
-export default function ChallengeSubmissionPage({ params }: { params: Promise<{ id: string }> }) {
+export default function PblChallengeSubmissionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params)
   const challengeId = Number.parseInt(id, 10)
 
@@ -22,7 +22,7 @@ export default function ChallengeSubmissionPage({ params }: { params: Promise<{ 
   return (
     <div className="page-shell pt-6 pb-24 md:py-8">
       <div className="md:hidden">
-        <MobilePageHeader title="挑战作品" fallbackHref={`/community/challenge/${challengeId}`} />
+        <MobilePageHeader title="挑战作品" fallbackHref={`/pbl/${challengeId}`} />
       </div>
 
       <ChallengeSubmissionForm challengeId={challengeId} />

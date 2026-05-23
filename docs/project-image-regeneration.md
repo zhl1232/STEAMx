@@ -77,3 +77,10 @@
 ## 已确认放弃的孤儿（不需要新图）
 
 无——本文档列出的 12 张图覆盖了所有可恢复的孤儿位置和撞图。
+
+## 追加核对（用户反馈）
+
+以下 10 个项目再次核对：
+
+- 已重新覆盖：`project-0200.webp` 折叠支架建模、`project-0152.webp` 光控小夜灯、`project-0151.webp` 简易报警器、`project-0142.webp` Python 图片批量处理
+- 已确认当前图匹配：`project-0165.webp` 牙刷机器人、`project-0161.webp` 超声波测距仪、`project-0155.webp` Arduino LED 跑马灯、`project-0150.webp` 串联与并联电路对比、`project-0148.webp` 简易开关制作、`project-0147.webp` LED 创意灯

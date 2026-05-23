@@ -13,9 +13,13 @@ export function MainNav() {
             active: pathname === "/explore" || pathname === "/project" || pathname?.startsWith("/project/"),
         },
         {
-            href: "/community",
-            label: "社区",
-            active: pathname === "/community" || pathname?.startsWith("/community/"),
+            href: "/create",
+            label: "创造",
+            active:
+                pathname === "/create" ||
+                pathname?.startsWith("/create/") ||
+                pathname?.startsWith("/pbl/") ||
+                pathname?.startsWith("/courses/"),
         },
         {
             href: "/leaderboard",

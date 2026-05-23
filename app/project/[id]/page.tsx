@@ -1115,7 +1115,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                       </p>
                     </div>
                     <Button asChild variant="outline" className="h-9 shrink-0 rounded-[8px]">
-                      <Link href={`/community/challenge/${project.challenge_id}`}>查看挑战</Link>
+                      <Link href={`/pbl/${project.challenge_id}`}>查看挑战</Link>
                     </Button>
                   </section>
                 ) : null}

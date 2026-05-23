@@ -118,7 +118,7 @@ describe('ConditionalAppShell mobile header policy', () => {
     expect(screen.getByTestId('page-content')).toBeInTheDocument()
   })
 
-  it.each(['/community', '/explore', '/nature', '/profile'])(
+  it.each(['/create', '/explore', '/nature', '/profile'])(
     'lets the primary mobile entry route %s own its header',
     (pathname) => {
       renderShell(pathname)

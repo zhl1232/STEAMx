@@ -1373,9 +1373,9 @@ function CommunityFeedPanel({
         </div>
       ) : compactEmpty ? (
         <p className="mt-3 rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-3 py-2.5 text-center text-xs leading-5 text-muted-foreground">
-          {loadFailed ? '最近通知暂时加载失败。' : '还没有通知，去社区互动后会出现在这里。'}
-          <Link href="/community" className="ml-1 font-bold text-[hsl(var(--brand-blue))]">
-            去社区看看
+          {loadFailed ? '最近通知暂时加载失败。' : '还没有通知，去创造营互动后会出现在这里。'}
+          <Link href="/create" className="ml-1 font-bold text-[hsl(var(--brand-blue))]">
+            去创造营看看
           </Link>
         </p>
       ) : (
@@ -1384,8 +1384,8 @@ function CommunityFeedPanel({
           iconName="community"
           title={loadFailed ? '通知加载失败' : '还没有通知'}
           description={loadFailed ? '请稍后再查看，或前往消息中心刷新。' : '收到回复、喜欢、关注或打赏时，会在这里显示最近动态。'}
-          href={loadFailed ? '/messages' : '/community'}
-          action={loadFailed ? '去消息中心' : '去社区互动'}
+          href={loadFailed ? '/messages' : '/create'}
+          action={loadFailed ? '去消息中心' : '去创造营'}
           density="compact"
         />
       )}

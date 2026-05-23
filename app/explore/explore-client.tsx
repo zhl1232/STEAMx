@@ -1465,7 +1465,7 @@ export function ExploreClient({
                                             </p>
                                             <div className="mt-3 flex items-center justify-between gap-2">
                                                 <span className="text-xs font-semibold text-muted-foreground">1,258 人参与</span>
-                                                <Link href="/community" className="rounded-[10px] bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
+                                                <Link href="/create" className="rounded-[10px] bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
                                                     参与挑战
                                                 </Link>
                                             </div>
@@ -1492,7 +1492,7 @@ export function ExploreClient({
                                             动手实践后记录并分享你的成果。
                                         </p>
                                     </div>
-                                    <Link href="/community" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
+                                    <Link href="/create" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
                                         了解更多使用指南 →
                                     </Link>
                                 </Surface>

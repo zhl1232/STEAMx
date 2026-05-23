@@ -16,14 +16,14 @@ import { CountdownTimer } from "@/components/ui/countdown-timer"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useAuth } from '@/lib/context/auth-context'
-import { useCommunity } from '@/lib/context/community-context'
+import { useChallenge } from '@/lib/context/challenge-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { Challenge } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 
-export default function ChallengeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function PblChallengeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params)
-  const { joinChallenge } = useCommunity()
+  const { joinChallenge } = useChallenge()
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const router = useRouter()
@@ -223,7 +223,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
   }
 
   const handleSubmit = () => {
-    router.push(`/community/challenge/${challenge.id}/submit`)
+    router.push(`/pbl/${challenge.id}/submit`)
   }
 
   return (
@@ -231,7 +231,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
       <div className="md:hidden">
         <MobilePageHeader
           title={challenge.title}
-          fallbackHref="/community"
+          fallbackHref="/create"
         />
       </div>
 
@@ -241,7 +241,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
         className="-ml-2 mb-6 hidden rounded-full px-2 text-sm hover:bg-transparent md:inline-flex"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
-        返回社区
+        返回创造
       </Button>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.5fr)_320px] lg:gap-6">
@@ -282,7 +282,7 @@ export default function ChallengeDetailPage({ params }: { params: Promise<{ id: 
 
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
                 <div className="max-w-3xl rounded-[var(--radius-lg)] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-[28px] sm:px-6 sm:py-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/76">社区挑战</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/76">PBL 挑战</p>
                   <h1 className="mt-3 text-[1.85rem] font-semibold leading-tight tracking-tight text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
                     {challenge.title}
                   </h1>

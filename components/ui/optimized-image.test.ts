@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getOptimizedImageSrc } from './optimized-image'
+import { getOptimizedImageSrc, withGeneratedProjectImageCacheVersion } from './optimized-image'
 
 describe('getOptimizedImageSrc', () => {
   it('keeps opentrust storage URLs on the original object endpoint', () => {
@@ -15,6 +15,18 @@ describe('getOptimizedImageSrc', () => {
 
     expect(getOptimizedImageSrc(src, 'grid')).toBe(
       'https://example.supabase.co/storage/v1/render/image/public/project-completions/user/file.png?width=320&quality=60',
+    )
+  })
+
+  it('adds a cache version for local generated project images', () => {
+    expect(getOptimizedImageSrc('/projects/generated/project-0142.webp', 'card')).toBe(
+      '/projects/generated/project-0142.webp?v=20260522-tech-images',
+    )
+  })
+
+  it('preserves explicit generated project image cache versions', () => {
+    expect(withGeneratedProjectImageCacheVersion('/projects/generated/project-0142.webp?v=manual')).toBe(
+      '/projects/generated/project-0142.webp?v=manual',
     )
   })
 })

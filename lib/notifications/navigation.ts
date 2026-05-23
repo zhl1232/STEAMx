@@ -20,13 +20,5 @@ export function getNotificationTargetHref(notification: Pick<
     return `/project/${notification.project_id}#comment-${notification.related_id}`
   }
 
-  if (
-    notification.related_type === 'discussion_reply' &&
-    notification.discussion_id &&
-    notification.related_id
-  ) {
-    return `/community/discussion/${notification.discussion_id}#reply-${notification.related_id}`
-  }
-
   return null
 }

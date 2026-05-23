@@ -7,7 +7,7 @@ import { type ObservationEvent } from "@/lib/mappers/types";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
 import { createPublicClient } from "@/lib/supabase/server";
 
-export type HomeCommunityFeedKind = "discussion" | "observation" | "project_new" | "project_like";
+export type HomeCommunityFeedKind = "observation" | "project_new" | "project_like";
 
 export interface HomeCommunityFeedItem {
   key: string;
@@ -76,12 +76,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
   const supabase = createPublicClient();
   const candidates: Candidate[] = [];
 
-  const [discRes, projRes, likeRes, observations] = await Promise.all([
-    supabase
-      .from("discussions")
-      .select("id, title, created_at, profiles:author_id (display_name, username)")
-      .order("created_at", { ascending: false })
-      .limit(8),
+  const [projRes, likeRes, observations] = await Promise.all([
     supabase
       .from("projects")
       .select("id, title, created_at, profiles:author_id (display_name, username)")
@@ -94,26 +89,6 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
       return [] as ObservationEvent[];
     }),
   ]);
-
-  if (discRes.error) {
-    logger.error("homepage community feed: discussions query failed", { error: discRes.error });
-  } else {
-    for (const row of discRes.data || []) {
-      const profile = unwrapProfile((row as { profiles?: unknown }).profiles);
-      candidates.push({
-        sortAt: row.created_at,
-        item: {
-          key: `discussion-${row.id}`,
-          kind: "discussion",
-          href: `/community/discussion/${row.id}`,
-          actorName: displayNameFromProfile(profile),
-          action: "发起了讨论",
-          title: row.title,
-          timeLabel: formatRelativeTime(row.created_at),
-        },
-      });
-    }
-  }
 
   if (projRes.error) {
     logger.error("homepage community feed: projects query failed", { error: projRes.error });
@@ -201,7 +176,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
 
 const getHomepageCommunityFeedCached = unstable_cache(
   async () => buildHomepageCommunityFeed(),
-  ["homepage-community-feed-v1"],
+  ["homepage-community-feed-v2"],
   { revalidate: 120 },
 );
 

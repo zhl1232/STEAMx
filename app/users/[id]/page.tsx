@@ -107,7 +107,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         icon={<UserRound className="h-8 w-8" />}
         actions={
           <Button asChild variant="outline" className="rounded-2xl px-5">
-            <Link href="/community">返回社区</Link>
+            <Link href="/create">返回创造营</Link>
           </Button>
         }
       />
@@ -125,7 +125,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         icon={<UserRound className="h-8 w-8" />}
         actions={
           <Button asChild variant="outline" className="rounded-2xl px-5">
-            <Link href="/community">返回社区</Link>
+            <Link href="/create">返回创造营</Link>
           </Button>
         }
       />
@@ -157,7 +157,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
       <div className="md:hidden">
         <MobilePageHeader
           title={userName}
-          fallbackHref="/community"
+          fallbackHref="/create"
           className="-mx-4 mb-4"
         />
       </div>

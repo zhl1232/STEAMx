@@ -1,9 +1,9 @@
 "use client";
 
-import { CommunityProvider } from "@/lib/context/community-context";
-import type { ChallengeGroups } from "@/lib/api/community-challenges";
+import { ChallengeProvider } from "@/lib/context/challenge-context";
+import type { ChallengeGroups } from "@/lib/api/pbl-challenges";
 
-export function CommunityProviderShell({
+export function CreateProviderShell({
   children,
   initialChallenges,
   initialChallengesError,
@@ -15,12 +15,12 @@ export function CommunityProviderShell({
   initialUserId?: string | null;
 }) {
   return (
-    <CommunityProvider
+    <ChallengeProvider
       initialChallenges={initialChallenges}
       initialChallengesError={initialChallengesError}
       initialUserId={initialUserId}
     >
       {children}
-    </CommunityProvider>
+    </ChallengeProvider>
   );
 }

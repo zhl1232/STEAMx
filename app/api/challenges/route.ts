@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
-import { getCommunityChallengeGroups } from '@/lib/api/community-challenges'
+import { getPblChallengeGroups } from '@/lib/api/pbl-challenges'
 import { logger } from '@/lib/logger'
 
 export async function GET() {
   try {
-    const { challenges, error } = await getCommunityChallengeGroups()
+    const { challenges, error } = await getPblChallengeGroups()
     if (error) throw new Error(error)
     return NextResponse.json(challenges)
   } catch (error) {

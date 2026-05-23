@@ -32,8 +32,7 @@ const pageOwnedMobileHeaderRoots = [
   '/nature',
   '/legal',
   '/share',
-  '/community/discussion',
-  '/community/challenge',
+  '/pbl',
   '/explore/species',
   '/explore/observations',
   '/leaderboard',
@@ -49,7 +48,7 @@ function isPathOrDescendant(pathname: string, root: string) {
 export function hasPageOwnedMobileHeader(pathname: string) {
   return (
     pathname === '/explore' ||
-    pathname === '/community' ||
+    pathname === '/create' ||
     pageOwnedMobileHeaderRoots.some((root) => isPathOrDescendant(pathname, root))
   )
 }
@@ -87,8 +86,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const hideMobileBottomNav =
     pathname === '/project' ||
     pathname.startsWith('/share') ||
-    pathname.startsWith('/community/discussion/') ||
-    pathname.startsWith('/community/challenge/') ||
+    pathname.startsWith('/pbl/') ||
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
     pathname.startsWith('/project/')
