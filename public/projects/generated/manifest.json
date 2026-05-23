@@ -1148,8 +1148,8 @@
     "title": "导电面团实验",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0149.webp",
-    "imageUrl": "/projects/generated/project-0149.webp"
+    "filename": "project-0405.webp",
+    "imageUrl": "/projects/generated/project-0405.webp"
   },
   {
     "index": 150,
@@ -1180,16 +1180,16 @@
     "title": "电磁铁起重机",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0153.webp",
-    "imageUrl": "/projects/generated/project-0153.webp"
+    "filename": "project-0159.webp",
+    "imageUrl": "/projects/generated/project-0159.webp"
   },
   {
     "index": 154,
     "title": "摩尔斯电码通信器",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0154.webp",
-    "imageUrl": "/projects/generated/project-0154.webp"
+    "filename": "project-0406.webp",
+    "imageUrl": "/projects/generated/project-0406.webp"
   },
   {
     "index": 155,
@@ -1204,8 +1204,8 @@
     "title": "触摸感应灯",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0156.webp",
-    "imageUrl": "/projects/generated/project-0156.webp"
+    "filename": "project-0149.webp",
+    "imageUrl": "/projects/generated/project-0149.webp"
   },
   {
     "index": 157,
@@ -1220,24 +1220,24 @@
     "title": "温度感应风扇",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0158.webp",
-    "imageUrl": "/projects/generated/project-0158.webp"
+    "filename": "project-0154.webp",
+    "imageUrl": "/projects/generated/project-0154.webp"
   },
   {
     "index": 159,
     "title": "Arduino 气象站",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0159.webp",
-    "imageUrl": "/projects/generated/project-0159.webp"
+    "filename": "project-0407.webp",
+    "imageUrl": "/projects/generated/project-0407.webp"
   },
   {
     "index": 160,
     "title": "红外遥控小车",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0160.webp",
-    "imageUrl": "/projects/generated/project-0160.webp"
+    "filename": "project-0162.webp",
+    "imageUrl": "/projects/generated/project-0162.webp"
   },
   {
     "index": 161,
@@ -1252,72 +1252,72 @@
     "title": "蓝牙音箱制作",
     "sourceFile": "20260324300001_seed_tech_electronics.sql",
     "generated": true,
-    "filename": "project-0162.webp",
-    "imageUrl": "/projects/generated/project-0162.webp"
+    "filename": "project-0160.webp",
+    "imageUrl": "/projects/generated/project-0160.webp"
   },
   {
     "index": 163,
     "title": "纸杯振动机器人",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0163.webp",
-    "imageUrl": "/projects/generated/project-0163.webp"
+    "filename": "project-0164.webp",
+    "imageUrl": "/projects/generated/project-0164.webp"
   },
   {
     "index": 164,
     "title": "牙刷机器人",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0164.webp",
-    "imageUrl": "/projects/generated/project-0164.webp"
+    "filename": "project-0165.webp",
+    "imageUrl": "/projects/generated/project-0165.webp"
   },
   {
     "index": 165,
     "title": "气球动力机器人",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0165.webp",
-    "imageUrl": "/projects/generated/project-0165.webp"
+    "filename": "project-0167.webp",
+    "imageUrl": "/projects/generated/project-0167.webp"
   },
   {
     "index": 166,
     "title": "纸板机器人手偶",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0166.webp",
-    "imageUrl": "/projects/generated/project-0166.webp"
+    "filename": "project-0163.webp",
+    "imageUrl": "/projects/generated/project-0163.webp"
   },
   {
     "index": 167,
     "title": "弹射机器人",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0167.webp",
-    "imageUrl": "/projects/generated/project-0167.webp"
+    "filename": "project-0170.webp",
+    "imageUrl": "/projects/generated/project-0170.webp"
   },
   {
     "index": 168,
     "title": "遥控纸板车",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0168.webp",
-    "imageUrl": "/projects/generated/project-0168.webp"
+    "filename": "project-0166.webp",
+    "imageUrl": "/projects/generated/project-0166.webp"
   },
   {
     "index": 169,
     "title": "简易爬坡车",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0169.webp",
-    "imageUrl": "/projects/generated/project-0169.webp"
+    "filename": "project-0168.webp",
+    "imageUrl": "/projects/generated/project-0168.webp"
   },
   {
     "index": 170,
     "title": "橡皮筋动力机器人",
     "sourceFile": "20260324300002_seed_tech_robots.sql",
     "generated": true,
-    "filename": "project-0170.webp",
-    "imageUrl": "/projects/generated/project-0170.webp"
+    "filename": "project-0169.webp",
+    "imageUrl": "/projects/generated/project-0169.webp"
   },
   {
     "index": 171,
