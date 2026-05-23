@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { uploadFileSecure, validateFileType, validateFileSize } from '@/lib/utils/upload'
+import { uploadFileSecure, validateFileType } from '@/lib/utils/upload'
 import { useAuth } from '@/lib/context/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import { logger } from '@/lib/logger'
@@ -14,6 +14,7 @@ interface ImageUploadProps {
   onChange: (url: string | null) => void
   bucket?: string
   pathPrefix?: string
+  /** @deprecated 客户端压缩已自动处理体积，保留仅为向后兼容 */
   maxSizeMB?: number
   aspectRatio?: string
   placeholder?: string
@@ -24,7 +25,7 @@ export function ImageUpload({
   onChange,
   bucket = 'project-images',
   pathPrefix: _pathPrefix = 'projects',
-  maxSizeMB = 5,
+  maxSizeMB: _maxSizeMB,
   aspectRatio = 'aspect-video',
   placeholder = '点击上传图片'
 }: ImageUploadProps) {
@@ -48,16 +49,6 @@ export function ImageUpload({
       toast({
         title: '文件类型不支持',
         description: '请上传 JPG、PNG、GIF 或 WebP 格式的图片',
-        variant: 'destructive'
-      })
-      return
-    }
-
-    // 验证文件大小
-    if (!validateFileSize(file, maxSizeMB)) {
-      toast({
-        title: '文件太大',
-        description: `图片大小不能超过 ${maxSizeMB}MB`,
         variant: 'destructive'
       })
       return
@@ -140,7 +131,7 @@ export function ImageUpload({
                 <ImageIcon className="h-8 w-8" />
                 <span className="text-sm">{placeholder}</span>
                 <span className="text-xs text-muted-foreground">
-                  支持 JPG、PNG、GIF、WebP，最大 {maxSizeMB}MB
+                  支持 JPG、PNG、GIF、WebP
                 </span>
               </>
             )}

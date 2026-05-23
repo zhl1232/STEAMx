@@ -9,7 +9,7 @@ import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { logger } from "@/lib/logger"
-import { uploadFileSecure, validateFileSize, validateFileType } from "@/lib/utils/upload"
+import { uploadFileSecure, validateFileType } from "@/lib/utils/upload"
 
 export interface ObservationMediaAnalysis {
   imageUrl: string
@@ -115,15 +115,6 @@ export function ObservationSubmitPhotoSection({
         toast({
           title: "文件类型不支持",
           description: "请上传 JPG、PNG、GIF 或 WebP 格式的图片",
-          variant: "destructive",
-        })
-        return false
-      }
-
-      if (!validateFileSize(file, 5)) {
-        toast({
-          title: "文件太大",
-          description: "图片大小不能超过 5MB",
           variant: "destructive",
         })
         return false
@@ -275,7 +266,7 @@ export function ObservationSubmitPhotoSection({
                 <div className="space-y-1">
                   <p className="text-lg font-semibold tracking-tight text-[var(--obs-text)]">上传或拍摄照片</p>
                   <p className="text-sm text-[var(--obs-muted-2)]">
-                    支持多选，JPG / PNG / GIF / WebP，单张最大 5MB
+                    支持多选，JPG / PNG / GIF / WebP
                   </p>
                 </div>
               </>

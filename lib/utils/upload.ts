@@ -1,9 +1,21 @@
 import { createClient } from '@/lib/supabase/client'
 import { logger } from '@/lib/logger'
+import {
+  COMPRESSION_PRESETS,
+  ImageCompressionError,
+  compressImageForBucket,
+} from '@/lib/utils/image-compression'
+
+async function maybeCompressForBucket(file: File, bucket: string): Promise<File> {
+  if (!file.type.startsWith('image/')) return file
+  if (!COMPRESSION_PRESETS[bucket]) return file
+  return compressImageForBucket(file, bucket)
+}
 
 /**
  * Upload via the server-side /api/upload endpoint.
  * Performs magic-bytes validation and size checks on the server.
+ * Image files are automatically compressed client-side based on the target bucket.
  */
 export async function uploadFileSecure(
   file: File,
@@ -11,8 +23,10 @@ export async function uploadFileSecure(
   pathPrefix?: string
 ): Promise<string | null> {
   try {
+    const prepared = await maybeCompressForBucket(file, bucket)
+
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append('file', prepared)
     formData.append('bucket', bucket)
     if (pathPrefix) {
       formData.append('pathPrefix', pathPrefix)
@@ -37,7 +51,8 @@ export async function uploadFileSecure(
 
 /**
  * Upload via /api/upload with XMLHttpRequest for progress tracking.
- * Falls back to uploadFileSecure on XHR failure.
+ * Image files are automatically compressed client-side before upload starts.
+ * The onProgress callback only reflects XHR upload progress (not compression).
  */
 export function uploadFileSecureWithProgress(
   file: File,
@@ -46,42 +61,53 @@ export function uploadFileSecureWithProgress(
   pathPrefix?: string
 ): Promise<string | null> {
   return new Promise((resolve) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('bucket', bucket)
-    if (pathPrefix) {
-      formData.append('pathPrefix', pathPrefix)
-    }
+    maybeCompressForBucket(file, bucket)
+      .then((prepared) => {
+        const formData = new FormData()
+        formData.append('file', prepared)
+        formData.append('bucket', bucket)
+        if (pathPrefix) {
+          formData.append('pathPrefix', pathPrefix)
+        }
 
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/api/upload')
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', '/api/upload')
 
-    if (onProgress) {
-      xhr.upload.onprogress = (e) => {
-        if (e.lengthComputable) onProgress(e.loaded, e.total)
-      }
-    }
+        if (onProgress) {
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) onProgress(e.loaded, e.total)
+          }
+        }
 
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          const data = JSON.parse(xhr.responseText)
-          resolve(data.publicUrl ?? null)
-        } catch {
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const data = JSON.parse(xhr.responseText)
+              resolve(data.publicUrl ?? null)
+            } catch {
+              resolve(null)
+            }
+          } else {
+            logger.error('Upload with progress failed', { status: xhr.status })
+            resolve(null)
+          }
+        }
+
+        xhr.onerror = () => {
+          logger.error('Upload XHR error')
           resolve(null)
         }
-      } else {
-        logger.error('Upload with progress failed', { status: xhr.status })
+
+        xhr.send(formData)
+      })
+      .catch((error) => {
+        if (error instanceof ImageCompressionError) {
+          logger.error('Image compression rejected upload', { error: error.message, bucket })
+        } else {
+          logger.error('Pre-upload compression failed', { error, bucket })
+        }
         resolve(null)
-      }
-    }
-
-    xhr.onerror = () => {
-      logger.error('Upload XHR error')
-      resolve(null)
-    }
-
-    xhr.send(formData)
+      })
   })
 }
 

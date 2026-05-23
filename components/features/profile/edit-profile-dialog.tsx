@@ -29,6 +29,7 @@ import { useToast } from "@/hooks/use-toast"
 import { AvatarUpload } from "./avatar-upload"
 import { toE164 } from "@/lib/utils/phone"
 import { logger } from "@/lib/logger"
+import { compressImageForBucket } from "@/lib/utils/image-compression"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -195,8 +196,9 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
       let finalAvatarUrl = avatarUrl
 
       if (selectedFile) {
+        const prepared = await compressImageForBucket(selectedFile, 'avatars')
         const formData = new FormData()
-        formData.append('file', selectedFile)
+        formData.append('file', prepared)
         formData.append('bucket', 'avatars')
 
         const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData })

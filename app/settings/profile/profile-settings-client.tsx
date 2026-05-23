@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from '@/lib/context/auth-context';
 import { useToast } from "@/hooks/use-toast";
 import { logger } from "@/lib/logger";
+import { compressImageForBucket } from "@/lib/utils/image-compression";
 import {
   PROFILE_BIRTH_YEAR_OPTIONS,
   PROFILE_GENDER_OPTIONS,
@@ -120,8 +121,9 @@ export default function ProfileSettingsClient() {
       return form.avatar_url;
     }
 
+    const prepared = await compressImageForBucket(selectedFile, "avatars");
     const uploadFormData = new FormData();
-    uploadFormData.append("file", selectedFile);
+    uploadFormData.append("file", prepared);
     uploadFormData.append("bucket", "avatars");
 
     const response = await fetch("/api/upload", {

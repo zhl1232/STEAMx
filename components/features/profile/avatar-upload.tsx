@@ -56,14 +56,6 @@ export function AvatarUpload({
       })
       return
     }
-    if (file.size > 2 * 1024 * 1024) {
-      toast({
-        title: "图片过大",
-        description: "图片大小不能超过 2MB",
-        variant: "destructive",
-      })
-      return
-    }
     onFileSelect(file)
     if (fileInputRef.current) fileInputRef.current.value = ""
     setPickerOpen(false)

@@ -3,8 +3,12 @@
  * 通过 /api/upload 服务端 API 上传评论附图
  */
 
+import {
+  ImageCompressionError,
+  compressImageForBucket,
+} from "@/lib/utils/image-compression";
+
 const BUCKET = "comment-images";
-const MAX_SIZE = 2 * 1024 * 1024; // 2MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 export class CommentImageError extends Error {
@@ -25,12 +29,19 @@ export async function uploadCommentImage(
   if (!ALLOWED_TYPES.includes(file.type)) {
     throw new CommentImageError("仅支持 JPG、PNG、WebP、GIF 格式");
   }
-  if (file.size > MAX_SIZE) {
-    throw new CommentImageError("图片大小不能超过 2MB");
+
+  let prepared: File;
+  try {
+    prepared = await compressImageForBucket(file, BUCKET);
+  } catch (error) {
+    if (error instanceof ImageCompressionError) {
+      throw new CommentImageError(error.message);
+    }
+    throw new CommentImageError("图片处理失败，请重试");
   }
 
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", prepared);
   formData.append("bucket", BUCKET);
 
   const res = await fetch("/api/upload", { method: "POST", body: formData });

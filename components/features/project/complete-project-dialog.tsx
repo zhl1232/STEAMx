@@ -177,10 +177,6 @@ export function CompleteProjectDialog({
                 toast({ title: "仅支持图片格式", variant: "destructive" });
                 continue;
             }
-            if (file.size > 10 * 1024 * 1024) {
-                toast({ title: "图片不能超过 10MB", variant: "destructive" });
-                continue;
-            }
             validFiles.push(file);
         }
 
@@ -615,7 +611,7 @@ export function CompleteProjectDialog({
                                                 : "继续添加照片"}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
-                                            支持 JPG / PNG / WebP，单张不超过 10MB
+                                            支持 JPG / PNG / WebP
                                         </span>
                                     </button>
                                 )}
