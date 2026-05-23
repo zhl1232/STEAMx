@@ -230,9 +230,9 @@ const PROJECT_LIST_BASE_SELECT = [
   "rejection_reason",
   "challenge_id",
 ].join(",");
-const PROJECT_LIST_PROJECT_STEPS_SELECT = "project_steps (title, description, image_url, sort_order)";
-const PROJECT_LIST_MATERIALS_SELECT = "project_materials (material, sort_order)";
-const PROJECT_LIST_MATERIALS_FILTER_SELECT = "project_materials!inner (material, sort_order)";
+// 列表页只显示卡片，不渲染 steps/materials；它们由详情页 (getProjectById) 单独拉取。
+// 仅在 materials 过滤时保留 !inner 用于筛选关联。
+const PROJECT_LIST_MATERIALS_FILTER_SELECT = "project_materials!inner (material)";
 const PROJECT_LIST_SUB_CATEGORIES_SELECT = "sub_categories (name)";
 const PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT = "sub_categories!inner (name)";
 const PROJECT_LIST_PROFILE_SELECT = "profiles:author_id (display_name)";
@@ -345,18 +345,16 @@ function getSmokePopularScore(project: SmokeProject): number {
 }
 
 function buildExploreSelectStatement(filters: Pick<ProjectFilters, "materials" | "subCategory">): string {
-  const materialsJoin = filters.materials && filters.materials.length > 0
-    ? PROJECT_LIST_MATERIALS_FILTER_SELECT
-    : PROJECT_LIST_MATERIALS_SELECT;
   const subCategoriesJoin = filters.subCategory
     ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT
     : PROJECT_LIST_SUB_CATEGORIES_SELECT;
+  const materialsFilterJoin = filters.materials && filters.materials.length > 0
+    ? `,\n      ${PROJECT_LIST_MATERIALS_FILTER_SELECT}`
+    : "";
   return `
       ${PROJECT_LIST_BASE_SELECT},
       ${PROJECT_LIST_PROFILE_SELECT},
-      ${materialsJoin},
-      ${PROJECT_LIST_PROJECT_STEPS_SELECT},
-      ${subCategoriesJoin}
+      ${subCategoriesJoin}${materialsFilterJoin}
     `;
 }
 
@@ -879,19 +877,7 @@ export async function getProjects(
     return fetchPopularProjects(supabase, filters, pagination);
   }
 
-  const materialsJoin = materials && materials.length > 0
-    ? PROJECT_LIST_MATERIALS_FILTER_SELECT
-    : PROJECT_LIST_MATERIALS_SELECT;
-  const subCategoriesJoin = subCategory
-    ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT
-    : PROJECT_LIST_SUB_CATEGORIES_SELECT;
-  const selectStatement = `
-      ${PROJECT_LIST_BASE_SELECT},
-      ${PROJECT_LIST_PROFILE_SELECT},
-      ${materialsJoin},
-      ${PROJECT_LIST_PROJECT_STEPS_SELECT},
-      ${subCategoriesJoin}
-    `;
+  const selectStatement = buildExploreSelectStatement({ materials, subCategory });
 
   let query = supabase
     .from("projects")
