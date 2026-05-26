@@ -17,6 +17,7 @@ import { isOwnedProjectImageUrl } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
+import { observationSubmitTopicKeys } from '@/lib/observations/submit-topic'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -25,7 +26,7 @@ const relativeOrAbsoluteUrlSchema = z.union([
 
 const MediaAnalysisSchema = z.object({
   imageUrls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
-  topic: z.enum(['birds', 'plants']),
+  topic: z.enum(observationSubmitTopicKeys),
 })
 
 export async function POST(request: NextRequest) {

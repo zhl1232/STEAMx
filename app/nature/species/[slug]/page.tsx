@@ -109,7 +109,13 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const currentPath = `/nature/species/${species.slug}`;
   const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
   const isBirdSpecies = species.topicKey === "birds";
-  const archiveLabel = isBirdSpecies ? "鸟类档案" : species.topicKey === "plants" ? "树种档案" : "物种档案";
+  const archiveLabel = isBirdSpecies
+    ? "鸟类档案"
+    : species.topicKey === "plants"
+      ? "树种档案"
+      : species.topicKey === "insects"
+        ? "昆虫档案"
+        : "物种档案";
   const galleryImageUrls = species.imageUrls?.length
     ? species.imageUrls
     : species.coverImageUrl
@@ -118,7 +124,11 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
   const aliasesPinyin = toSpeciesPinyinLabel(species.aliasesDisplay);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
-  const topicAssetPrefix = isBirdSpecies ? "/assets/species-detail/bird" : "/assets/species-detail/tree";
+  const topicAssetPrefix = isBirdSpecies
+    ? "/assets/species-detail/bird"
+    : species.topicKey === "insects"
+      ? "/assets/species-detail/insect"
+      : "/assets/species-detail/tree";
   const identificationIllustrationUrl = `${topicAssetPrefix}-identification.png`;
   const habitatIllustrationUrl = `${topicAssetPrefix}-habitat.png`;
   const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;

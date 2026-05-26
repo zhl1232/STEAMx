@@ -12,6 +12,7 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { getObservationById } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { observationSubmitTopicFromNatureTopic } from "@/lib/observations/submit-topic";
 import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { HeroImagePreview } from "./hero-image-preview";
 
@@ -80,8 +81,9 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
   const primarySpeciesHref = primarySpecies?.speciesSlug
     ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
     : null;
+  const submitTopic = observationSubmitTopicFromNatureTopic(observation.natureTopic);
   const submitHref = buildNatureSubmitHref({
-    topic: observation.natureTopic === "plants" ? "plants" : "birds",
+    topic: submitTopic,
     speciesId: primarySpecies?.speciesId,
     from: currentPath,
   });
@@ -204,7 +206,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               ) : null}
               <ObservationIdentificationsPanel
                 observationId={observation.id}
-                topic={observation.natureTopic === "plants" ? "plants" : "birds"}
+                topic={submitTopic}
                 ownerId={observation.userId}
                 initialStatus={observation.identificationStatus}
                 initialConfirmedSpecies={primarySpecies}

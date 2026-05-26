@@ -6,7 +6,7 @@ import {
 
 export type SpeciesTopicFilter = NatureTopicKey | 'all'
 
-const visibleSpeciesTopicKeys = ['birds', 'plants'] as const
+export const visibleSpeciesTopicKeys = ['birds', 'insects', 'plants'] as const
 type VisibleSpeciesTopicKey = (typeof visibleSpeciesTopicKeys)[number]
 
 export interface SpeciesTopicSource {

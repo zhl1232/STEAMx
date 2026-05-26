@@ -1081,10 +1081,6 @@ function ExploringStripMiniCard({
   )
 }
 
-function getBadgePreviewName(name: string) {
-  return name.split('·')[0]?.trim() || name
-}
-
 function BadgeShowcase({
   badges,
   unlockedBadges,
@@ -1110,7 +1106,7 @@ function BadgeShowcase({
             />
           </span>
           <span className={cn('mt-2 max-w-full text-xs font-semibold leading-4 text-foreground/84', compact ? 'block truncate' : 'line-clamp-2')}>
-            {compact ? getBadgePreviewName(badge.name) : badge.name}
+            {badge.name}
           </span>
         </div>
       ))}

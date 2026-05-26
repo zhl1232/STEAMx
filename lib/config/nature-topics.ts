@@ -34,9 +34,10 @@ export const natureTopics: NatureTopicConfig[] = [
     id: 'insects',
     slug: 'insects',
     title: '昆虫观察',
-    subtitle: '专题预告',
+    subtitle: '已上线专题',
     description: '围绕常见昆虫建立观察清单，覆盖季节变化与栖息环境。',
-    status: 'upcoming',
+    status: 'available',
+    href: '/nature/species?topic=insects',
   },
   {
     id: 'plants',

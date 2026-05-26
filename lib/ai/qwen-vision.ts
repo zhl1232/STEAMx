@@ -4,6 +4,10 @@ import {
   type ObservationMediaAnalysisResult,
   type SpeciesRow,
 } from '@/lib/ai/observation-media-analysis'
+import {
+  getObservationSubmitTopicCopy,
+  type ObservationSubmitTopic,
+} from '@/lib/observations/submit-topic'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_MODEL = 'qwen3.6-plus'
@@ -58,11 +62,10 @@ function getDashScopeConfig() {
   return { apiKey, baseUrl, model }
 }
 
-export type ObservationNatureTopic = 'birds' | 'plants'
+export type ObservationNatureTopic = ObservationSubmitTopic
 
 function buildPrompt(topic: ObservationNatureTopic) {
-  const subjectLabel = topic === 'plants' ? '树木' : '鸟类'
-  const subjectExample = topic === 'plants' ? '一株树木' : '一只鸟'
+  const { label: subjectLabel, subjectUnit: subjectExample } = getObservationSubmitTopicCopy(topic)
   return [
     `你是自然观察图片审核与${subjectLabel}识别助手。`,
     '请严格输出 JSON，不要输出任何额外说明。',

@@ -21,6 +21,7 @@ import {
   getNatureTopicLabel,
   normalizeSpeciesTopicFilter,
   resolveSpeciesNatureTopicKey,
+  visibleSpeciesTopicKeys,
   type SpeciesTopicCount,
   type SpeciesTopicFilter,
 } from '@/lib/utils/nature-topic-classification'
@@ -57,7 +58,6 @@ const SPECIES_LIST_SELECT = [
   'updated_at',
 ].join(',')
 
-const visibleSpeciesTopicKeys = ['birds', 'plants'] as const
 const OBSERVED_SPECIES_EVENT_BATCH_SIZE = 200
 
 function buildSpeciesSearchFilter(sanitizedQuery: string) {

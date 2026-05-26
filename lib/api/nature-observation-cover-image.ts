@@ -35,6 +35,7 @@ export function normalizeSpeciesRow(row: SpeciesRow): SpeciesRow {
 
 const speciesImageDirectories: Partial<Record<NatureTopicKey, string>> = {
   birds: '/birds/images',
+  insects: '/insects/images',
   plants: '/trees/images',
 }
 

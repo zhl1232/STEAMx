@@ -17,7 +17,7 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/树木入口直接进入 `/nature/species?topic=birds|plants`；旧 `birds/`、`trees/` 子路由仅保留重定向；其他子路由 `species/`、`observations/`、`submit/`、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/昆虫/树木入口进入 `/nature/species?topic=birds|insects|plants`；旧 `birds/`、`trees/` 子路由仅保留重定向；其他子路由 `species/`、`observations/`、`submit/`、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -161,6 +161,7 @@
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
 - `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核）
 - `observation-gamification.ts` — 观察游戏化逻辑
+- `lib/observations/submit-topic.ts` — 观察提交专题（birds/plants/insects）归一化与文案
 - `project-access.ts` / `project-validation.ts` — 项目权限与校验
 - `completion-access.ts` — 完成记录权限
 - `validation.ts` — 通用输入验证
@@ -175,7 +176,7 @@
 - `subcategory-steam-weights.ts` — 子分类权重映射
 
 ### 4.5 游戏化 (`lib/gamification/`)
-- `badges.ts` — 全部徽章定义（独立/阶梯/系列）
+- `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位用 `BADGE_TIER_LABELS` 作 UI 角标（`badge-tier-pill.tsx`）
 - `experience-rules.ts` — XP 经验规则与等级表
 - `observation-events.ts` — 观察事件类型
 - `types.ts` — 游戏化类型定义
@@ -312,6 +313,7 @@
 | 目录 | 内容 |
 |------|------|
 | `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
+| `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、树木、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
 | `public/birds/` | 鸟类物种封面图 |
 | `public/trees/` | 树木物种封面图 |

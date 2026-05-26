@@ -55,6 +55,10 @@ import { dispatchObservationCreated } from "@/lib/gamification/observation-event
 import { useGamification } from "@/lib/context/gamification-context"
 import { useAuth } from "@/lib/context/auth-context"
 import type { ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
+import {
+  getObservationSubmitTopicCopy,
+  type ObservationSubmitTopic,
+} from "@/lib/observations/submit-topic"
 import { convertGpsToAmap, reverseGeocode, searchPlaces, type PlaceSearchResult } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
 
@@ -66,7 +70,7 @@ export interface SpeciesOption {
 
 interface ObservationSubmitFormProps {
   speciesOptions: SpeciesOption[]
-  topic: "birds" | "plants"
+  topic: ObservationSubmitTopic
   initialSpeciesId?: number | null
 }
 
@@ -462,6 +466,7 @@ export function ObservationSubmitForm({
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { userStats } = useGamification()
+  const topicCopy = useMemo(() => getObservationSubmitTopicCopy(topic), [topic])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [evidenceImages, setEvidenceImages] = useState<string[]>([])
@@ -1353,7 +1358,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={1}
                   title="上传照片"
-                  description={topic === "birds" ? "鸟类专题记录会由 AI 尝试鉴定，照片越清晰越容易识别。" : "树木专题记录会由 AI 尝试鉴定，请拍清叶、树皮或花果特征。"}
+                  description={topicCopy.photoStepDescription}
                   icon={Camera}
                   status={`${evidenceImages.length}/5`}
                   statusTone={evidenceImages.length > 0 ? "success" : "neutral"}
@@ -1371,7 +1376,7 @@ export function ObservationSubmitForm({
               />
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("photo"))}>
                 <p className="mb-3 text-sm leading-6 text-[var(--obs-muted)]">
-                  每条记录只对应{topic === "birds" ? "一只鸟" : "一棵树"}；上传多张照片时，请确保都是同一个观察对象。
+                  {topicCopy.photoSubjectHint}
                 </p>
                 <ObservationSubmitPhotoSection
                   evidenceImages={evidenceImages}
@@ -1453,7 +1458,7 @@ export function ObservationSubmitForm({
                 </div>
               ) : analysisReady ? (
                 <div className="mb-4 rounded-lg border border-[var(--obs-border)] bg-[var(--obs-control)] px-4 py-3 text-sm text-[var(--obs-muted)]">
-                  当前图片没有匹配到可靠的{topic === "birds" ? "鸟类" : "树木"}候选。你仍可手动提交鉴定，或发布为待鉴定。
+                  {topicCopy.noCandidateMessage}
                 </div>
               ) : null}
 

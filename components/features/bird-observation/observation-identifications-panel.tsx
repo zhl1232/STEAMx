@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import type { ObservationIdentification, ObservationSpeciesSummary } from "@/lib/mappers/types"
+import type { ObservationSubmitTopic } from "@/lib/observations/submit-topic"
 
 interface SpeciesOption {
   id: number
@@ -26,7 +27,7 @@ interface IdentificationResponse {
 
 interface ObservationIdentificationsPanelProps {
   observationId: number
-  topic: "birds" | "plants"
+  topic: ObservationSubmitTopic
   ownerId: string
   initialStatus: "needs_id" | "community_confirmed"
   initialConfirmedSpecies?: ObservationSpeciesSummary | null

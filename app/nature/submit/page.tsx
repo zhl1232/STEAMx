@@ -4,6 +4,7 @@ import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationSubmitForm } from "@/components/features/bird-observation/observation-submit-form";
 import { getSpeciesList } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { normalizeObservationSubmitTopic } from "@/lib/observations/submit-topic";
 import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 
 interface ObservationSubmitPageProps {
@@ -23,19 +24,15 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default async function ObservationSubmitPage({ searchParams }: ObservationSubmitPageProps) {
   const params = await searchParams;
-  const topic = params.topic === "plants" ? "plants" : "birds";
+  const topic = normalizeObservationSubmitTopic(params.topic);
   const { species } = await getSpeciesList({ page: 0, pageSize: 50, topic });
-  const isBirdTopic = topic === "birds";
   const initialSpeciesId = params.species ? Number.parseInt(params.species, 10) || null : null;
   const speciesOptions = species.map((item) => ({
     id: item.id,
     commonName: item.commonName,
     scientificName: item.scientificName,
   }));
-  const fallbackHref = normalizeNatureFrom(
-    params.from,
-    isBirdTopic ? "/nature/species?topic=birds" : "/nature/species?topic=plants",
-  );
+  const fallbackHref = normalizeNatureFrom(params.from, `/nature/species?topic=${topic}`);
 
   return (
     <NatureShell

@@ -6,6 +6,7 @@ import confetti from "canvas-confetti";
 import type { Badge } from "@/lib/gamification/types";
 import { cn } from "@/lib/utils";
 import { BadgeIcon } from "./badge-icon";
+import { BadgeTierPill } from "@/components/features/gamification/badge-tier-pill";
 
 type BadgeUnlockPayload = Pick<Badge, "id" | "name" | "description" | "icon" | "tier" | "seriesKey">;
 
@@ -115,9 +116,12 @@ export function BadgeUnlockOverlay() {
               <div className="text-[11px] font-black uppercase tracking-[0.28em] text-amber-600 dark:text-amber-300">
                 Badge Unlocked
               </div>
-              <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white">
-                {badge.name}
-              </h2>
+              <div className="mt-2 flex flex-col items-center gap-2">
+                {badge.tier ? <BadgeTierPill tier={badge.tier} className="px-2.5 py-0.5 text-[11px]" /> : null}
+                <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">
+                  {badge.name}
+                </h2>
+              </div>
               <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                 {badge.description}
               </p>

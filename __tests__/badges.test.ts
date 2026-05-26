@@ -184,4 +184,24 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats({ consecutiveDays: 89 }))).toBe(false);
         expect(badge!.condition(createStats({ consecutiveDays: 90 }))).toBe(true);
     });
+
+    test("tiered badge names use achievement titles without legacy dot format", () => {
+        const tiered = BADGES.filter((b) => b.kind === "tiered");
+        expect(tiered.length).toBe(64);
+        for (const badge of tiered) {
+            expect(badge.name).not.toMatch(/·/);
+            expect(badge.name.length).toBeGreaterThan(0);
+        }
+    });
+
+    test("intro_likes_silver is named 慷慨之手", () => {
+        const badge = BADGES.find((b) => b.id === "intro_likes_silver");
+        expect(badge?.name).toBe("慷慨之手");
+    });
+
+    test("milestone series uses 项目完成 tier names", () => {
+        expect(BADGES.find((b) => b.id === "milestone_platinum")?.name).toBe("传奇创造");
+        expect(BADGES.find((b) => b.id === "science_expert_bronze")?.name).toBe("好奇观察员");
+        expect(BADGES.find((b) => b.id === "level_gold")?.name).toBe("高阶玩家");
+    });
 });

@@ -16,6 +16,7 @@ import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
+import { observationSubmitTopicKeys } from '@/lib/observations/submit-topic'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -30,7 +31,7 @@ const ObservationSpeciesInputSchema = z.object({
 })
 
 const CreateObservationSchema = z.object({
-  nature_topic: z.enum(['birds', 'plants']),
+  nature_topic: z.enum(observationSubmitTopicKeys),
   observed_at: z.string().min(1),
   observed_at_source: z.enum(['photo_exif', 'manual']).default('manual'),
   location_name: z.string().min(1).max(200),

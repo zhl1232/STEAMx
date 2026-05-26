@@ -1,0 +1,2922 @@
+{
+  "generatedAt": "2026-05-26T06:43:37.489Z",
+  "perSpecies": 4,
+  "summary": {
+    "total": 267,
+    "downloaded": 10,
+    "exists": 252,
+    "not_found": 5,
+    "error": 0,
+    "totalImages": 1044
+  },
+  "results": [
+    {
+      "slug": "neallogaster-pekinensis",
+      "scientificName": "Neallogaster pekinensis",
+      "images": [
+        "neallogaster-pekinensis-1.jpg",
+        "neallogaster-pekinensis-2.jpg",
+        "neallogaster-pekinensis-3.jpg",
+        "neallogaster-pekinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "anotogaster-kuchenbeiseri",
+      "scientificName": "Anotogaster kuchenbeiseri",
+      "images": [
+        "anotogaster-kuchenbeiseri-1.jpg",
+        "anotogaster-kuchenbeiseri-2.jpg",
+        "anotogaster-kuchenbeiseri-3.jpg",
+        "anotogaster-kuchenbeiseri-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "anax-parthenope-julius",
+      "scientificName": "Anax parthenope julius",
+      "images": [
+        "anax-parthenope-julius-1.jpg",
+        "anax-parthenope-julius-2.jpg",
+        "anax-parthenope-julius-3.jpg",
+        "anax-parthenope-julius-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "anax-nigrofasciatus",
+      "scientificName": "Anax nigrofasciatus",
+      "images": [
+        "anax-nigrofasciatus-1.jpg",
+        "anax-nigrofasciatus-2.jpg",
+        "anax-nigrofasciatus-3.jpg",
+        "anax-nigrofasciatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "planaeschna-shanxiensis",
+      "scientificName": "Planaeschna shanxiensis",
+      "images": [
+        "planaeschna-shanxiensis-1.jpg",
+        "planaeschna-shanxiensis-2.jpg",
+        "planaeschna-shanxiensis-3.jpg",
+        "planaeschna-shanxiensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cephalaeschna-patrorum",
+      "scientificName": "Cephalaeschna patrorum",
+      "images": [
+        "cephalaeschna-patrorum-1.jpg",
+        "cephalaeschna-patrorum-2.jpg",
+        "cephalaeschna-patrorum-3.jpg",
+        "cephalaeschna-patrorum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aeshna-mixta",
+      "scientificName": "Aeshna mixta",
+      "images": [
+        "aeshna-mixta-1.jpg",
+        "aeshna-mixta-2.jpg",
+        "aeshna-mixta-3.jpg",
+        "aeshna-mixta-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aeshna-subarctica",
+      "scientificName": "Aeshna subarctica",
+      "images": [
+        "aeshna-subarctica-1.jpg",
+        "aeshna-subarctica-2.jpg",
+        "aeshna-subarctica-3.jpg",
+        "aeshna-subarctica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aeschnophlebia-longistigma",
+      "scientificName": "Aeschnophlebia longistigma",
+      "images": [
+        "aeschnophlebia-longistigma-1.jpg",
+        "aeschnophlebia-longistigma-2.jpg",
+        "aeschnophlebia-longistigma-3.jpg",
+        "aeschnophlebia-longistigma-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gomphidia-confluens",
+      "scientificName": "Gomphidia confluens",
+      "images": [
+        "gomphidia-confluens-1.jpg",
+        "gomphidia-confluens-2.jpg",
+        "gomphidia-confluens-3.jpg",
+        "gomphidia-confluens-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sinictinogomphus-clavatus",
+      "scientificName": "Sinictinogomphus clavatus",
+      "images": [
+        "sinictinogomphus-clavatus-1.jpg",
+        "sinictinogomphus-clavatus-2.jpg",
+        "sinictinogomphus-clavatus-3.jpg",
+        "sinictinogomphus-clavatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sieboldius-albardae",
+      "scientificName": "Sieboldius albardae",
+      "images": [
+        "sieboldius-albardae-1.jpg",
+        "sieboldius-albardae-2.jpg",
+        "sieboldius-albardae-3.jpg",
+        "sieboldius-albardae-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ophiogomphus-spinicornis",
+      "scientificName": "Ophiogomphus spinicornis",
+      "images": [
+        "ophiogomphus-spinicornis-1.jpg",
+        "ophiogomphus-spinicornis-2.jpg",
+        "ophiogomphus-spinicornis-3.jpg",
+        "ophiogomphus-spinicornis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gastrogomphus-abdominalis",
+      "scientificName": "Gastrogomphus abdominalis",
+      "images": [
+        "gastrogomphus-abdominalis-1.jpg",
+        "gastrogomphus-abdominalis-2.jpg",
+        "gastrogomphus-abdominalis-3.jpg",
+        "gastrogomphus-abdominalis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dubitogomphus-bicornutus",
+      "scientificName": "Dubitogomphus bicornutus",
+      "images": [
+        "dubitogomphus-bicornutus-1.jpg",
+        "dubitogomphus-bicornutus-2.jpg",
+        "dubitogomphus-bicornutus-3.jpg",
+        "dubitogomphus-bicornutus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "burmagomphus-collaris",
+      "scientificName": "Burmagomphus collaris",
+      "images": [
+        "burmagomphus-collaris-1.jpg",
+        "burmagomphus-collaris-2.jpg",
+        "burmagomphus-collaris-3.jpg",
+        "burmagomphus-collaris-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lamelligomphus-ringens",
+      "scientificName": "Lamelligomphus ringens",
+      "images": [
+        "lamelligomphus-ringens-1.jpg",
+        "lamelligomphus-ringens-2.jpg",
+        "lamelligomphus-ringens-3.jpg",
+        "lamelligomphus-ringens-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "anisogomphus-maacki",
+      "scientificName": "Anisogomphus maacki",
+      "images": [
+        "anisogomphus-maacki-1.jpg",
+        "anisogomphus-maacki-2.jpg",
+        "anisogomphus-maacki-3.jpg",
+        "anisogomphus-maacki-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "asiagomphus-hesperius",
+      "scientificName": "Asiagomphus hesperius",
+      "images": [
+        "asiagomphus-hesperius-1.jpg",
+        "asiagomphus-hesperius-2.jpg",
+        "asiagomphus-hesperius-3.jpg",
+        "asiagomphus-hesperius-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "epophthalmia-elegans",
+      "scientificName": "Epophthalmia elegans",
+      "images": [
+        "epophthalmia-elegans-1.jpg",
+        "epophthalmia-elegans-2.jpg",
+        "epophthalmia-elegans-3.jpg",
+        "epophthalmia-elegans-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "macromia-beijingensis",
+      "scientificName": "Macromia beijingensis",
+      "images": [
+        "macromia-beijingensis-1.jpg",
+        "macromia-beijingensis-2.jpg",
+        "macromia-beijingensis-3.jpg",
+        "macromia-beijingensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "macromia-manchurica",
+      "scientificName": "Macromia manchurica",
+      "images": [
+        "macromia-manchurica-1.jpg",
+        "macromia-manchurica-2.jpg",
+        "macromia-manchurica-3.jpg",
+        "macromia-manchurica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "somatochlora-exuberata",
+      "scientificName": "Somatochlora exuberata",
+      "images": [
+        "somatochlora-exuberata-1.jpg",
+        "somatochlora-exuberata-2.jpg",
+        "somatochlora-exuberata-3.jpg",
+        "somatochlora-exuberata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "somatochlora-shanxiensis",
+      "scientificName": "Somatochlora shanxiensis",
+      "images": [
+        "somatochlora-shanxiensis-1.jpg",
+        "somatochlora-shanxiensis-2.jpg",
+        "somatochlora-shanxiensis-3.jpg",
+        "somatochlora-shanxiensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "epitheca-marginata",
+      "scientificName": "Epitheca marginata",
+      "images": [
+        "epitheca-marginata-1.jpg",
+        "epitheca-marginata-2.jpg",
+        "epitheca-marginata-3.jpg",
+        "epitheca-marginata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "libellula-angelina",
+      "scientificName": "Libellula angelina",
+      "images": [
+        "libellula-angelina-1.jpg",
+        "libellula-angelina-2.jpg",
+        "libellula-angelina-3.jpg",
+        "libellula-angelina-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "libellula-quadrimaculata",
+      "scientificName": "Libellula quadrimaculata",
+      "images": [
+        "libellula-quadrimaculata-1.jpg",
+        "libellula-quadrimaculata-2.jpg",
+        "libellula-quadrimaculata-3.jpg",
+        "libellula-quadrimaculata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pantala-flavescens",
+      "scientificName": "Pantala flavescens",
+      "images": [
+        "pantala-flavescens-1.jpg",
+        "pantala-flavescens-2.jpg",
+        "pantala-flavescens-3.jpg",
+        "pantala-flavescens-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "crocothemis-servilia",
+      "scientificName": "Crocothemis servilia",
+      "images": [
+        "crocothemis-servilia-1.jpg",
+        "crocothemis-servilia-2.jpg",
+        "crocothemis-servilia-3.jpg",
+        "crocothemis-servilia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "orthetrum-albistylum",
+      "scientificName": "Orthetrum albistylum",
+      "images": [
+        "orthetrum-albistylum-1.jpg",
+        "orthetrum-albistylum-2.jpg",
+        "orthetrum-albistylum-3.jpg",
+        "orthetrum-albistylum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "orthetrum-lineostigma",
+      "scientificName": "Orthetrum lineostigma",
+      "images": [
+        "orthetrum-lineostigma-1.jpg",
+        "orthetrum-lineostigma-2.jpg",
+        "orthetrum-lineostigma-3.jpg",
+        "orthetrum-lineostigma-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "orthetrum-melania",
+      "scientificName": "Orthetrum melania",
+      "images": [
+        "orthetrum-melania-1.jpg",
+        "orthetrum-melania-2.jpg",
+        "orthetrum-melania-3.jpg",
+        "orthetrum-melania-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "orthetrum-brunneum",
+      "scientificName": "Orthetrum brunneum",
+      "images": [
+        "orthetrum-brunneum-1.jpg",
+        "orthetrum-brunneum-2.jpg",
+        "orthetrum-brunneum-3.jpg",
+        "orthetrum-brunneum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "orthetrum-cancellatum",
+      "scientificName": "Orthetrum cancellatum",
+      "images": [
+        "orthetrum-cancellatum-1.jpg",
+        "orthetrum-cancellatum-2.jpg",
+        "orthetrum-cancellatum-3.jpg",
+        "orthetrum-cancellatum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "deielia-phaon",
+      "scientificName": "Deielia phaon",
+      "images": [
+        "deielia-phaon-1.jpg",
+        "deielia-phaon-2.jpg",
+        "deielia-phaon-3.jpg",
+        "deielia-phaon-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pseudothemis-zonata",
+      "scientificName": "Pseudothemis zonata",
+      "images": [
+        "pseudothemis-zonata-1.jpg",
+        "pseudothemis-zonata-2.jpg",
+        "pseudothemis-zonata-3.jpg",
+        "pseudothemis-zonata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "rhyothemis-fuliginosa",
+      "scientificName": "Rhyothemis fuliginosa",
+      "images": [
+        "rhyothemis-fuliginosa-1.jpg",
+        "rhyothemis-fuliginosa-2.jpg",
+        "rhyothemis-fuliginosa-3.jpg",
+        "rhyothemis-fuliginosa-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "selysiothemis-nigra",
+      "scientificName": "Selysiothemis nigra",
+      "images": [
+        "selysiothemis-nigra-1.jpg",
+        "selysiothemis-nigra-2.jpg",
+        "selysiothemis-nigra-3.jpg",
+        "selysiothemis-nigra-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-eroticum",
+      "scientificName": "Sympetrum eroticum",
+      "images": [
+        "sympetrum-eroticum-1.jpg",
+        "sympetrum-eroticum-2.jpg",
+        "sympetrum-eroticum-3.jpg",
+        "sympetrum-eroticum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-fonscolombei",
+      "scientificName": "Sympetrum fonscolombei",
+      "images": [
+        "sympetrum-fonscolombei-1.jpg",
+        "sympetrum-fonscolombei-2.jpg",
+        "sympetrum-fonscolombei-3.jpg",
+        "sympetrum-fonscolombei-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-striolatum",
+      "scientificName": "Sympetrum striolatum",
+      "images": [
+        "sympetrum-striolatum-1.jpg",
+        "sympetrum-striolatum-2.jpg",
+        "sympetrum-striolatum-3.jpg",
+        "sympetrum-striolatum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-vulgatum",
+      "scientificName": "Sympetrum vulgatum",
+      "images": [
+        "sympetrum-vulgatum-1.jpg",
+        "sympetrum-vulgatum-2.jpg",
+        "sympetrum-vulgatum-3.jpg",
+        "sympetrum-vulgatum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-depressiusculum",
+      "scientificName": "Sympetrum depressiusculum",
+      "images": [
+        "sympetrum-depressiusculum-1.jpg",
+        "sympetrum-depressiusculum-2.jpg",
+        "sympetrum-depressiusculum-3.jpg",
+        "sympetrum-depressiusculum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-speciosum",
+      "scientificName": "Sympetrum speciosum",
+      "images": [
+        "sympetrum-speciosum-1.jpg",
+        "sympetrum-speciosum-2.jpg",
+        "sympetrum-speciosum-3.jpg",
+        "sympetrum-speciosum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-kunckeli",
+      "scientificName": "Sympetrum kunckeli",
+      "images": [
+        "sympetrum-kunckeli-1.jpg",
+        "sympetrum-kunckeli-2.jpg",
+        "sympetrum-kunckeli-3.jpg",
+        "sympetrum-kunckeli-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-croceolum",
+      "scientificName": "Sympetrum croceolum",
+      "images": [
+        "sympetrum-croceolum-1.jpg",
+        "sympetrum-croceolum-2.jpg",
+        "sympetrum-croceolum-3.jpg",
+        "sympetrum-croceolum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-uniforme",
+      "scientificName": "Sympetrum uniforme",
+      "images": [
+        "sympetrum-uniforme-1.jpg",
+        "sympetrum-uniforme-2.jpg",
+        "sympetrum-uniforme-3.jpg",
+        "sympetrum-uniforme-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-pedemontanum",
+      "scientificName": "Sympetrum pedemontanum",
+      "images": [
+        "sympetrum-pedemontanum-1.jpg",
+        "sympetrum-pedemontanum-2.jpg",
+        "sympetrum-pedemontanum-3.jpg",
+        "sympetrum-pedemontanum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympetrum-danae",
+      "scientificName": "Sympetrum danae",
+      "images": [
+        "sympetrum-danae-1.jpg",
+        "sympetrum-danae-2.jpg",
+        "sympetrum-danae-3.jpg",
+        "sympetrum-danae-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "tramea-virginia",
+      "scientificName": "Tramea virginia",
+      "images": [
+        "tramea-virginia-1.jpg",
+        "tramea-virginia-2.jpg",
+        "tramea-virginia-3.jpg",
+        "tramea-virginia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "matrona-basilaris",
+      "scientificName": "Matrona basilaris",
+      "images": [
+        "matrona-basilaris-1.jpg",
+        "matrona-basilaris-2.jpg",
+        "matrona-basilaris-3.jpg",
+        "matrona-basilaris-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "atrocalopteryx-atrata",
+      "scientificName": "Atrocalopteryx atrata",
+      "images": [
+        "atrocalopteryx-atrata-1.jpg",
+        "atrocalopteryx-atrata-2.jpg",
+        "atrocalopteryx-atrata-3.jpg",
+        "atrocalopteryx-atrata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "mnais-sp",
+      "scientificName": "Mnais sp.",
+      "images": [
+        "mnais-sp-1.jpg",
+        "mnais-sp-2.jpg",
+        "mnais-sp-3.jpg",
+        "mnais-sp-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platycnemis-foliacea",
+      "scientificName": "Platycnemis foliacea",
+      "images": [
+        "platycnemis-foliacea-1.jpg",
+        "platycnemis-foliacea-2.jpg",
+        "platycnemis-foliacea-3.jpg",
+        "platycnemis-foliacea-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platycnemis-phyllopoda",
+      "scientificName": "Platycnemis phyllopoda",
+      "images": [
+        "platycnemis-phyllopoda-1.jpg",
+        "platycnemis-phyllopoda-2.jpg",
+        "platycnemis-phyllopoda-3.jpg",
+        "platycnemis-phyllopoda-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "copera-tokyoensis",
+      "scientificName": "Copera tokyoensis",
+      "images": [
+        "copera-tokyoensis-1.jpg",
+        "copera-tokyoensis-2.jpg",
+        "copera-tokyoensis-3.jpg",
+        "copera-tokyoensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ischnura-asiatica",
+      "scientificName": "Ischnura asiatica",
+      "images": [
+        "ischnura-asiatica-1.jpg",
+        "ischnura-asiatica-2.jpg",
+        "ischnura-asiatica-3.jpg",
+        "ischnura-asiatica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ischnura-elegans",
+      "scientificName": "Ischnura elegans",
+      "images": [
+        "ischnura-elegans-1.jpg",
+        "ischnura-elegans-2.jpg",
+        "ischnura-elegans-3.jpg",
+        "ischnura-elegans-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "paracercion-calamorum",
+      "scientificName": "Paracercion calamorum",
+      "images": [
+        "paracercion-calamorum-1.jpg",
+        "paracercion-calamorum-2.jpg",
+        "paracercion-calamorum-3.jpg",
+        "paracercion-calamorum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "paracercion-v-nigrum",
+      "scientificName": "Paracercion v-nigrum",
+      "images": [
+        "paracercion-v-nigrum-1.jpg",
+        "paracercion-v-nigrum-2.jpg",
+        "paracercion-v-nigrum-3.jpg",
+        "paracercion-v-nigrum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "paracercion-hieroglyphicum",
+      "scientificName": "Paracercion hieroglyphicum",
+      "images": [
+        "paracercion-hieroglyphicum-1.jpg",
+        "paracercion-hieroglyphicum-2.jpg",
+        "paracercion-hieroglyphicum-3.jpg",
+        "paracercion-hieroglyphicum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "paracercion-melanotum",
+      "scientificName": "Paracercion melanotum",
+      "images": [
+        "paracercion-melanotum-1.jpg",
+        "paracercion-melanotum-2.jpg",
+        "paracercion-melanotum-3.jpg",
+        "paracercion-melanotum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "paracercion-plagiosum",
+      "scientificName": "Paracercion plagiosum",
+      "images": [
+        "paracercion-plagiosum-1.jpg",
+        "paracercion-plagiosum-2.jpg",
+        "paracercion-plagiosum-3.jpg",
+        "paracercion-plagiosum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "enallagma-cyathigerum",
+      "scientificName": "Enallagma cyathigerum",
+      "images": [
+        "enallagma-cyathigerum-1.jpg",
+        "enallagma-cyathigerum-2.jpg",
+        "enallagma-cyathigerum-3.jpg",
+        "enallagma-cyathigerum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ceriagrion-nipponicum",
+      "scientificName": "Ceriagrion nipponicum",
+      "images": [
+        "ceriagrion-nipponicum-1.jpg",
+        "ceriagrion-nipponicum-2.jpg",
+        "ceriagrion-nipponicum-3.jpg",
+        "ceriagrion-nipponicum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ceriagrion-auranticum-ryukyuanum",
+      "scientificName": "Ceriagrion auranticum ryukyuanum",
+      "images": [
+        "ceriagrion-auranticum-ryukyuanum-1.jpg",
+        "ceriagrion-auranticum-ryukyuanum-2.jpg",
+        "ceriagrion-auranticum-ryukyuanum-3.jpg",
+        "ceriagrion-auranticum-ryukyuanum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lestes-sponsa",
+      "scientificName": "Lestes sponsa",
+      "images": [
+        "lestes-sponsa-1.jpg",
+        "lestes-sponsa-2.jpg",
+        "lestes-sponsa-3.jpg",
+        "lestes-sponsa-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sympecma-paedisca",
+      "scientificName": "Sympecma paedisca",
+      "images": [
+        "sympecma-paedisca-1.jpg",
+        "sympecma-paedisca-2.jpg",
+        "sympecma-paedisca-3.jpg",
+        "sympecma-paedisca-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "acrida-cinerea",
+      "scientificName": "Acrida cinerea",
+      "images": [
+        "acrida-cinerea-1.jpg",
+        "acrida-cinerea-2.jpg",
+        "acrida-cinerea-3.jpg",
+        "acrida-cinerea-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "atractomorpha-sinensis",
+      "scientificName": "Atractomorpha sinensis",
+      "images": [
+        "atractomorpha-sinensis-1.jpg",
+        "atractomorpha-sinensis-2.jpg",
+        "atractomorpha-sinensis-3.jpg",
+        "atractomorpha-sinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "atractomorpha-lata",
+      "scientificName": "Atractomorpha lata",
+      "images": [
+        "atractomorpha-lata-1.jpg",
+        "atractomorpha-lata-2.jpg",
+        "atractomorpha-lata-3.jpg",
+        "atractomorpha-lata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "chondracris-rosea",
+      "scientificName": "Chondracris rosea",
+      "images": [
+        "chondracris-rosea-1.jpg",
+        "chondracris-rosea-2.jpg",
+        "chondracris-rosea-3.jpg",
+        "chondracris-rosea-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "oxya-chinensis",
+      "scientificName": "Oxya chinensis",
+      "images": [
+        "oxya-chinensis-1.jpg",
+        "oxya-chinensis-2.jpg",
+        "oxya-chinensis-3.jpg",
+        "oxya-chinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ognevia-longipennis",
+      "scientificName": "Ognevia longipennis",
+      "images": [
+        "ognevia-longipennis-1.jpg",
+        "ognevia-longipennis-2.jpg",
+        "ognevia-longipennis-3.jpg",
+        "ognevia-longipennis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "xenocatantops-brachycerus",
+      "scientificName": "Xenocatantops brachycerus",
+      "images": [
+        "xenocatantops-brachycerus-1.jpg",
+        "xenocatantops-brachycerus-2.jpg",
+        "xenocatantops-brachycerus-3.jpg",
+        "xenocatantops-brachycerus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gastrimargus-marmoratus",
+      "scientificName": "Gastrimargus marmoratus",
+      "images": [
+        "gastrimargus-marmoratus-1.jpg",
+        "gastrimargus-marmoratus-2.jpg",
+        "gastrimargus-marmoratus-3.jpg",
+        "gastrimargus-marmoratus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "oedaleus-infernalis",
+      "scientificName": "Oedaleus infernalis",
+      "images": [
+        "oedaleus-infernalis-1.jpg",
+        "oedaleus-infernalis-2.jpg",
+        "oedaleus-infernalis-3.jpg",
+        "oedaleus-infernalis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "oedaleus-asiaticus",
+      "scientificName": "Oedaleus asiaticus",
+      "images": [
+        "oedaleus-asiaticus-1.jpg",
+        "oedaleus-asiaticus-2.jpg",
+        "oedaleus-asiaticus-3.jpg",
+        "oedaleus-asiaticus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sphingonotus-mongolicus",
+      "scientificName": "Sphingonotus mongolicus",
+      "images": [
+        "sphingonotus-mongolicus-1.jpg",
+        "sphingonotus-mongolicus-2.jpg",
+        "sphingonotus-mongolicus-3.jpg",
+        "sphingonotus-mongolicus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "trilophidia-annulata",
+      "scientificName": "Trilophidia annulata",
+      "images": [
+        "trilophidia-annulata-1.jpg",
+        "trilophidia-annulata-2.jpg",
+        "trilophidia-annulata-3.jpg",
+        "trilophidia-annulata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "haplotropis-brunneriana",
+      "scientificName": "Haplotropis brunneriana",
+      "images": [
+        "haplotropis-brunneriana-1.jpg",
+        "haplotropis-brunneriana-2.jpg",
+        "haplotropis-brunneriana-3.jpg",
+        "haplotropis-brunneriana-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "tetrix-japonica",
+      "scientificName": "Tetrix japonica",
+      "images": [
+        "tetrix-japonica-1.jpg",
+        "tetrix-japonica-2.jpg",
+        "tetrix-japonica-3.jpg",
+        "tetrix-japonica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "velarifictorus-micado",
+      "scientificName": "Velarifictorus micado",
+      "images": [
+        "velarifictorus-micado-1.jpg",
+        "velarifictorus-micado-2.jpg",
+        "velarifictorus-micado-3.jpg",
+        "velarifictorus-micado-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "velarifictorus-aspersus",
+      "scientificName": "Velarifictorus aspersus",
+      "images": [
+        "velarifictorus-aspersus-1.jpg",
+        "velarifictorus-aspersus-2.jpg",
+        "velarifictorus-aspersus-3.jpg",
+        "velarifictorus-aspersus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "loxoblemmus-doenitzi",
+      "scientificName": "Loxoblemmus doenitzi",
+      "images": [
+        "loxoblemmus-doenitzi-1.jpg",
+        "loxoblemmus-doenitzi-2.jpg",
+        "loxoblemmus-doenitzi-3.jpg",
+        "loxoblemmus-doenitzi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "teleogryllus-emma",
+      "scientificName": "Teleogryllus emma",
+      "images": [
+        "teleogryllus-emma-1.jpg",
+        "teleogryllus-emma-2.jpg",
+        "teleogryllus-emma-3.jpg",
+        "teleogryllus-emma-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "meloimorpha-japonica",
+      "scientificName": "Meloimorpha japonica",
+      "images": [
+        "meloimorpha-japonica-1.jpg",
+        "meloimorpha-japonica-2.jpg",
+        "meloimorpha-japonica-3.jpg",
+        "meloimorpha-japonica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gampsocleis-gratiosa",
+      "scientificName": "Gampsocleis gratiosa",
+      "images": [
+        "gampsocleis-gratiosa-1.jpg",
+        "gampsocleis-gratiosa-2.jpg",
+        "gampsocleis-gratiosa-3.jpg",
+        "gampsocleis-gratiosa-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gampsocleis-sedakovii-obscura",
+      "scientificName": "Gampsocleis sedakovii obscura",
+      "images": [
+        "gampsocleis-sedakovii-obscura-1.jpg",
+        "gampsocleis-sedakovii-obscura-2.jpg",
+        "gampsocleis-sedakovii-obscura-3.jpg",
+        "gampsocleis-sedakovii-obscura-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ducetia-japonica",
+      "scientificName": "Ducetia japonica",
+      "images": [
+        "ducetia-japonica-1.jpg",
+        "ducetia-japonica-2.jpg",
+        "ducetia-japonica-3.jpg",
+        "ducetia-japonica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "elimaea-fallax",
+      "scientificName": "Elimaea fallax",
+      "images": [
+        "elimaea-fallax-1.jpg",
+        "elimaea-fallax-2.jpg",
+        "elimaea-fallax-3.jpg",
+        "elimaea-fallax-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "phaneroptera-falcata",
+      "scientificName": "Phaneroptera falcata",
+      "images": [
+        "phaneroptera-falcata-1.jpg",
+        "phaneroptera-falcata-2.jpg",
+        "phaneroptera-falcata-3.jpg",
+        "phaneroptera-falcata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "kuwayamaea-brachyptera",
+      "scientificName": "Kuwayamaea brachyptera",
+      "images": [
+        "kuwayamaea-brachyptera-1.jpg",
+        "kuwayamaea-brachyptera-2.jpg",
+        "kuwayamaea-brachyptera-3.jpg",
+        "kuwayamaea-brachyptera-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "megaconema-geniculata",
+      "scientificName": "Megaconema geniculata",
+      "images": [
+        "megaconema-geniculata-1.jpg",
+        "megaconema-geniculata-2.jpg",
+        "megaconema-geniculata-3.jpg",
+        "megaconema-geniculata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "ruspolia-dubius",
+      "scientificName": "Ruspolia dubius",
+      "images": [
+        "ruspolia-dubius-1.jpg",
+        "ruspolia-dubius-2.jpg",
+        "ruspolia-dubius-3.jpg",
+        "ruspolia-dubius-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hexacentrus-japonicus",
+      "scientificName": "Hexacentrus japonicus",
+      "images": [
+        "hexacentrus-japonicus-1.jpg",
+        "hexacentrus-japonicus-2.jpg",
+        "hexacentrus-japonicus-3.jpg",
+        "hexacentrus-japonicus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "diestrammena-unicolor",
+      "scientificName": "Diestrammena unicolor",
+      "images": [
+        "diestrammena-unicolor-1.jpg",
+        "diestrammena-unicolor-2.jpg",
+        "diestrammena-unicolor-3.jpg",
+        "diestrammena-unicolor-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "tachycines-asynamorus",
+      "scientificName": "Tachycines asynamorus",
+      "images": [
+        "tachycines-asynamorus-1.jpg",
+        "tachycines-asynamorus-2.jpg",
+        "tachycines-asynamorus-3.jpg",
+        "tachycines-asynamorus-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "polyphaga-plancyi",
+      "scientificName": "Polyphaga plancyi",
+      "images": [
+        "polyphaga-plancyi-1.jpg",
+        "polyphaga-plancyi-2.jpg",
+        "polyphaga-plancyi-3.jpg",
+        "polyphaga-plancyi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eupolyphaga-sinensis",
+      "scientificName": "Eupolyphaga sinensis",
+      "images": [
+        "eupolyphaga-sinensis-1.jpg",
+        "eupolyphaga-sinensis-2.jpg",
+        "eupolyphaga-sinensis-3.jpg",
+        "eupolyphaga-sinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hierodula-patellifera",
+      "scientificName": "Hierodula patellifera",
+      "images": [
+        "hierodula-patellifera-1.jpg",
+        "hierodula-patellifera-2.jpg",
+        "hierodula-patellifera-3.jpg",
+        "hierodula-patellifera-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "tenodera-sinensis",
+      "scientificName": "Tenodera sinensis",
+      "images": [
+        "tenodera-sinensis-1.jpg",
+        "tenodera-sinensis-2.jpg",
+        "tenodera-sinensis-3.jpg",
+        "tenodera-sinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "tenodera-angustipennis",
+      "scientificName": "Tenodera angustipennis",
+      "images": [
+        "tenodera-angustipennis-1.jpg",
+        "tenodera-angustipennis-2.jpg",
+        "tenodera-angustipennis-3.jpg",
+        "tenodera-angustipennis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "mantis-religiosa",
+      "scientificName": "Mantis religiosa",
+      "images": [
+        "mantis-religiosa-1.jpg",
+        "mantis-religiosa-2.jpg",
+        "mantis-religiosa-3.jpg",
+        "mantis-religiosa-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "statilia-maculata",
+      "scientificName": "Statilia maculata",
+      "images": [
+        "statilia-maculata-1.jpg",
+        "statilia-maculata-2.jpg",
+        "statilia-maculata-3.jpg",
+        "statilia-maculata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "labidura-riparia",
+      "scientificName": "Labidura riparia",
+      "images": [
+        "labidura-riparia-1.jpg",
+        "labidura-riparia-2.jpg",
+        "labidura-riparia-3.jpg",
+        "labidura-riparia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "forficula-davidi",
+      "scientificName": "Forficula davidi",
+      "images": [
+        "forficula-davidi-1.jpg",
+        "forficula-davidi-2.jpg",
+        "forficula-davidi-3.jpg",
+        "forficula-davidi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "forficula-vicaria",
+      "scientificName": "Forficula vicaria",
+      "images": [
+        "forficula-vicaria-1.jpg",
+        "forficula-vicaria-2.jpg",
+        "forficula-vicaria-3.jpg",
+        "forficula-vicaria-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "forficula-tomis",
+      "scientificName": "Forficula tomis",
+      "images": [
+        "forficula-tomis-1.jpg",
+        "forficula-tomis-2.jpg",
+        "forficula-tomis-3.jpg",
+        "forficula-tomis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "forficula-macrobasis",
+      "scientificName": "Forficula macrobasis",
+      "images": [
+        "forficula-macrobasis-1.jpg",
+        "forficula-macrobasis-2.jpg",
+        "forficula-macrobasis-3.jpg",
+        "forficula-macrobasis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "allodahlia-scabriuscula",
+      "scientificName": "Allodahlia scabriuscula",
+      "images": [
+        "allodahlia-scabriuscula-1.jpg",
+        "allodahlia-scabriuscula-2.jpg",
+        "allodahlia-scabriuscula-3.jpg",
+        "allodahlia-scabriuscula-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cryptotympana-atrata",
+      "scientificName": "Cryptotympana atrata",
+      "images": [
+        "cryptotympana-atrata-1.jpg",
+        "cryptotympana-atrata-2.jpg",
+        "cryptotympana-atrata-3.jpg",
+        "cryptotympana-atrata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "meimuna-mongolica",
+      "scientificName": "Meimuna mongolica",
+      "images": [
+        "meimuna-mongolica-1.jpg",
+        "meimuna-mongolica-2.jpg",
+        "meimuna-mongolica-3.jpg",
+        "meimuna-mongolica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hyalessa-maculaticollis",
+      "scientificName": "Hyalessa maculaticollis",
+      "images": [
+        "hyalessa-maculaticollis-1.jpg",
+        "hyalessa-maculaticollis-2.jpg",
+        "hyalessa-maculaticollis-3.jpg",
+        "hyalessa-maculaticollis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platypleura-kaempferi",
+      "scientificName": "Platypleura kaempferi",
+      "images": [
+        "platypleura-kaempferi-1.jpg",
+        "platypleura-kaempferi-2.jpg",
+        "platypleura-kaempferi-3.jpg",
+        "platypleura-kaempferi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lycorma-delicatula",
+      "scientificName": "Lycorma delicatula",
+      "images": [
+        "lycorma-delicatula-1.jpg",
+        "lycorma-delicatula-2.jpg",
+        "lycorma-delicatula-3.jpg",
+        "lycorma-delicatula-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "zoraida-hubeiensis",
+      "scientificName": "Zoraida hubeiensis",
+      "images": [
+        "zoraida-hubeiensis-1.jpg",
+        "zoraida-hubeiensis-2.jpg",
+        "zoraida-hubeiensis-3.jpg",
+        "zoraida-hubeiensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "euricania-clara",
+      "scientificName": "Euricania clara",
+      "images": [
+        "euricania-clara-1.jpg",
+        "euricania-clara-2.jpg",
+        "euricania-clara-3.jpg",
+        "euricania-clara-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "machaerotypus-sp",
+      "scientificName": "Machaerotypus sp.",
+      "images": [
+        "machaerotypus-sp-1.jpg",
+        "machaerotypus-sp-2.jpg",
+        "machaerotypus-sp-3.jpg",
+        "machaerotypus-sp-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "erthesina-fullo",
+      "scientificName": "Erthesina fullo",
+      "images": [
+        "erthesina-fullo-1.jpg",
+        "erthesina-fullo-2.jpg",
+        "erthesina-fullo-3.jpg",
+        "erthesina-fullo-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "halyomorpha-picus",
+      "scientificName": "Halyomorpha picus",
+      "images": [
+        "halyomorpha-picus-1.jpg",
+        "halyomorpha-picus-2.jpg",
+        "halyomorpha-picus-3.jpg",
+        "halyomorpha-picus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dolycoris-baccarum",
+      "scientificName": "Dolycoris baccarum",
+      "images": [
+        "dolycoris-baccarum-1.jpg",
+        "dolycoris-baccarum-2.jpg",
+        "dolycoris-baccarum-3.jpg",
+        "dolycoris-baccarum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carpocoris-seidenstueckeri",
+      "scientificName": "Carpocoris seidenstueckeri",
+      "images": [
+        "carpocoris-seidenstueckeri-1.jpg",
+        "carpocoris-seidenstueckeri-2.jpg",
+        "carpocoris-seidenstueckeri-3.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "graphosoma-rubrolineatum",
+      "scientificName": "Graphosoma rubrolineatum",
+      "images": [
+        "graphosoma-rubrolineatum-1.jpg",
+        "graphosoma-rubrolineatum-2.jpg",
+        "graphosoma-rubrolineatum-3.jpg",
+        "graphosoma-rubrolineatum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "palomena-viridissima",
+      "scientificName": "Palomena viridissima",
+      "images": [
+        "palomena-viridissima-1.jpg",
+        "palomena-viridissima-2.jpg",
+        "palomena-viridissima-3.jpg",
+        "palomena-viridissima-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "plautia-fimbriata",
+      "scientificName": "Plautia fimbriata",
+      "images": [
+        "plautia-fimbriata-1.jpg",
+        "plautia-fimbriata-2.jpg",
+        "plautia-fimbriata-3.jpg",
+        "plautia-fimbriata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "zicrona-caerulea",
+      "scientificName": "Zicrona caerulea",
+      "images": [
+        "zicrona-caerulea-1.jpg",
+        "zicrona-caerulea-2.jpg",
+        "zicrona-caerulea-3.jpg",
+        "zicrona-caerulea-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eurydema-dominulus",
+      "scientificName": "Eurydema dominulus",
+      "images": [
+        "eurydema-dominulus-1.jpg",
+        "eurydema-dominulus-2.jpg",
+        "eurydema-dominulus-3.jpg",
+        "eurydema-dominulus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eurydema-gebleri",
+      "scientificName": "Eurydema gebleri",
+      "images": [
+        "eurydema-gebleri-1.jpg",
+        "eurydema-gebleri-2.jpg",
+        "eurydema-gebleri-3.jpg",
+        "eurydema-gebleri-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "poecilocoris-lewisi",
+      "scientificName": "Poecilocoris lewisi",
+      "images": [
+        "poecilocoris-lewisi-1.jpg",
+        "poecilocoris-lewisi-2.jpg",
+        "poecilocoris-lewisi-3.jpg",
+        "poecilocoris-lewisi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cnizocoris-sinensis",
+      "scientificName": "Cnizocoris sinensis",
+      "images": [
+        "cnizocoris-sinensis-1.jpg",
+        "cnizocoris-sinensis-2.jpg",
+        "cnizocoris-sinensis-3.jpg",
+        "cnizocoris-sinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aquarius-paludum",
+      "scientificName": "Aquarius paludum",
+      "images": [
+        "aquarius-paludum-1.jpg",
+        "aquarius-paludum-2.jpg",
+        "aquarius-paludum-3.jpg",
+        "aquarius-paludum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "protohermes-xanthodes",
+      "scientificName": "Protohermes xanthodes",
+      "images": [
+        "protohermes-xanthodes-1.jpg",
+        "protohermes-xanthodes-2.jpg",
+        "protohermes-xanthodes-3.jpg",
+        "protohermes-xanthodes-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "acanthacorydalis-orientalis",
+      "scientificName": "Acanthacorydalis orientalis",
+      "images": [
+        "acanthacorydalis-orientalis-1.jpg",
+        "acanthacorydalis-orientalis-2.jpg",
+        "acanthacorydalis-orientalis-3.jpg",
+        "acanthacorydalis-orientalis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neochauliodes-rotundatus",
+      "scientificName": "Neochauliodes rotundatus",
+      "images": [
+        "neochauliodes-rotundatus-1.jpg",
+        "neochauliodes-rotundatus-2.jpg",
+        "neochauliodes-rotundatus-3.jpg",
+        "neochauliodes-rotundatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eumantispa-harmandi",
+      "scientificName": "Eumantispa harmandi",
+      "images": [
+        "eumantispa-harmandi-1.jpg",
+        "eumantispa-harmandi-2.jpg",
+        "eumantispa-harmandi-3.jpg",
+        "eumantispa-harmandi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "libelloides-sibiricus",
+      "scientificName": "Libelloides sibiricus",
+      "images": [
+        "libelloides-sibiricus-1.jpg",
+        "libelloides-sibiricus-2.jpg",
+        "libelloides-sibiricus-3.jpg",
+        "libelloides-sibiricus-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "nothochrysa-sinica",
+      "scientificName": "Nothochrysa sinica",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "tenomerga-anguliscutis",
+      "scientificName": "Tenomerga anguliscutis",
+      "images": [
+        "tenomerga-anguliscutis-1.jpg",
+        "tenomerga-anguliscutis-2.jpg",
+        "tenomerga-anguliscutis-3.jpg",
+        "tenomerga-anguliscutis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cicindela-gemmata",
+      "scientificName": "Cicindela gemmata",
+      "images": [
+        "cicindela-gemmata-1.jpg",
+        "cicindela-gemmata-2.jpg",
+        "cicindela-gemmata-3.jpg",
+        "cicindela-gemmata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cicindela-sachalinensis",
+      "scientificName": "Cicindela sachalinensis",
+      "images": [
+        "cicindela-sachalinensis-1.jpg",
+        "cicindela-sachalinensis-2.jpg",
+        "cicindela-sachalinensis-3.jpg",
+        "cicindela-sachalinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cicindela-coerulea-nitida",
+      "scientificName": "Cicindela coerulea nitida",
+      "images": [
+        "cicindela-coerulea-nitida-1.jpg",
+        "cicindela-coerulea-nitida-2.jpg",
+        "cicindela-coerulea-nitida-3.jpg",
+        "cicindela-coerulea-nitida-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-smaragdinus",
+      "scientificName": "Carabus smaragdinus",
+      "images": [
+        "carabus-smaragdinus-1.jpg",
+        "carabus-smaragdinus-2.jpg",
+        "carabus-smaragdinus-3.jpg",
+        "carabus-smaragdinus-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "carabus-brandti",
+      "scientificName": "Carabus brandti",
+      "images": [
+        "carabus-brandti-1.jpg",
+        "carabus-brandti-2.jpg",
+        "carabus-brandti-3.jpg",
+        "carabus-brandti-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-manifestus",
+      "scientificName": "Carabus manifestus",
+      "images": [
+        "carabus-manifestus-1.jpg",
+        "carabus-manifestus-2.jpg",
+        "carabus-manifestus-3.jpg",
+        "carabus-manifestus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-crassesculptus",
+      "scientificName": "Carabus crassesculptus",
+      "images": [
+        "carabus-crassesculptus-1.jpg",
+        "carabus-crassesculptus-2.jpg",
+        "carabus-crassesculptus-3.jpg",
+        "carabus-crassesculptus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-vladimirskyi",
+      "scientificName": "Carabus vladimirskyi",
+      "images": [
+        "carabus-vladimirskyi-1.jpg",
+        "carabus-vladimirskyi-2.jpg",
+        "carabus-vladimirskyi-3.jpg",
+        "carabus-vladimirskyi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-granulatus",
+      "scientificName": "Carabus granulatus",
+      "images": [
+        "carabus-granulatus-1.jpg",
+        "carabus-granulatus-2.jpg",
+        "carabus-granulatus-3.jpg",
+        "carabus-granulatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-canaliculatus",
+      "scientificName": "Carabus canaliculatus",
+      "images": [
+        "carabus-canaliculatus-1.jpg",
+        "carabus-canaliculatus-2.jpg",
+        "carabus-canaliculatus-3.jpg",
+        "carabus-canaliculatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-sculptipennis",
+      "scientificName": "Carabus sculptipennis",
+      "images": [
+        "carabus-sculptipennis-1.jpg",
+        "carabus-sculptipennis-2.jpg",
+        "carabus-sculptipennis-3.jpg",
+        "carabus-sculptipennis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "carabus-hummeli",
+      "scientificName": "Carabus hummeli",
+      "images": [
+        "carabus-hummeli-1.jpg",
+        "carabus-hummeli-2.jpg",
+        "carabus-hummeli-3.jpg",
+        "carabus-hummeli-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "platyrhopalus-paussoides",
+      "scientificName": "Platyrhopalus paussoides",
+      "images": [
+        "platyrhopalus-paussoides-1.jpg",
+        "platyrhopalus-paussoides-2.jpg",
+        "platyrhopalus-paussoides-3.jpg",
+        "platyrhopalus-paussoides-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "oxyporus-rufus",
+      "scientificName": "Oxyporus rufus",
+      "images": [
+        "oxyporus-rufus-1.jpg",
+        "oxyporus-rufus-2.jpg",
+        "oxyporus-rufus-3.jpg",
+        "oxyporus-rufus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "oxyporus-japonicus",
+      "scientificName": "Oxyporus japonicus",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "oxyporus-maculiventris",
+      "scientificName": "Oxyporus maculiventris",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "creophilus-maxillosus",
+      "scientificName": "Creophilus maxillosus",
+      "images": [
+        "creophilus-maxillosus-1.jpg",
+        "creophilus-maxillosus-2.jpg",
+        "creophilus-maxillosus-3.jpg",
+        "creophilus-maxillosus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hololepta-amurensis",
+      "scientificName": "Hololepta amurensis",
+      "images": [
+        "hololepta-amurensis-1.jpg",
+        "hololepta-amurensis-2.jpg",
+        "hololepta-amurensis-3.jpg",
+        "hololepta-amurensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "prosopocoilus-astacoides",
+      "scientificName": "Prosopocoilus astacoides",
+      "images": [
+        "prosopocoilus-astacoides-1.jpg",
+        "prosopocoilus-astacoides-2.jpg",
+        "prosopocoilus-astacoides-3.jpg",
+        "prosopocoilus-astacoides-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "prismognathus-davidis",
+      "scientificName": "Prismognathus davidis",
+      "images": [
+        "prismognathus-davidis-1.jpg",
+        "prismognathus-davidis-2.jpg",
+        "prismognathus-davidis-3.jpg",
+        "prismognathus-davidis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dorcus-davidis",
+      "scientificName": "Dorcus davidis",
+      "images": [
+        "dorcus-davidis-1.jpg",
+        "dorcus-davidis-2.jpg",
+        "dorcus-davidis-3.jpg",
+        "dorcus-davidis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dorcus-rubrofemoratus",
+      "scientificName": "Dorcus rubrofemoratus",
+      "images": [
+        "dorcus-rubrofemoratus-1.jpg",
+        "dorcus-rubrofemoratus-2.jpg",
+        "dorcus-rubrofemoratus-3.jpg",
+        "dorcus-rubrofemoratus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "falcicornis-tenuecostatus",
+      "scientificName": "Falcicornis tenuecostatus",
+      "images": [
+        "falcicornis-tenuecostatus-1.jpg",
+        "falcicornis-tenuecostatus-2.jpg",
+        "falcicornis-tenuecostatus-3.jpg",
+        "falcicornis-tenuecostatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dorcus-tenuihirsutus",
+      "scientificName": "Dorcus tenuihirsutus",
+      "images": [
+        "dorcus-tenuihirsutus-1.jpg",
+        "dorcus-tenuihirsutus-2.jpg",
+        "dorcus-tenuihirsutus-3.jpg",
+        "dorcus-tenuihirsutus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "serrognathus-consentaneus",
+      "scientificName": "Serrognathus consentaneus",
+      "images": [
+        "serrognathus-consentaneus-1.jpg",
+        "serrognathus-consentaneus-2.jpg",
+        "serrognathus-consentaneus-3.jpg",
+        "serrognathus-consentaneus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lucanus-dybowski",
+      "scientificName": "Lucanus dybowski",
+      "images": [
+        "lucanus-dybowski-1.jpg",
+        "lucanus-dybowski-2.jpg",
+        "lucanus-dybowski-3.jpg",
+        "lucanus-dybowski-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hoplia-davidis",
+      "scientificName": "Hoplia davidis",
+      "images": [
+        "hoplia-davidis-1.jpg",
+        "hoplia-davidis-2.jpg",
+        "hoplia-davidis-3.jpg",
+        "hoplia-davidis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hoplia-aureola",
+      "scientificName": "Hoplia aureola",
+      "images": [
+        "hoplia-aureola-1.jpg",
+        "hoplia-aureola-2.jpg",
+        "hoplia-aureola-3.jpg",
+        "hoplia-aureola-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "phyllopertha-sp",
+      "scientificName": "Phyllopertha sp.",
+      "images": [
+        "phyllopertha-sp-1.jpg",
+        "phyllopertha-sp-2.jpg",
+        "phyllopertha-sp-3.jpg",
+        "phyllopertha-sp-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "popillia-mutans",
+      "scientificName": "Popillia mutans",
+      "images": [
+        "popillia-mutans-1.jpg",
+        "popillia-mutans-2.jpg",
+        "popillia-mutans-3.jpg",
+        "popillia-mutans-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "protaetia-brevitarsis",
+      "scientificName": "Protaetia brevitarsis",
+      "images": [
+        "protaetia-brevitarsis-1.jpg",
+        "protaetia-brevitarsis-2.jpg",
+        "protaetia-brevitarsis-3.jpg",
+        "protaetia-brevitarsis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "oxycetonia-jucunda",
+      "scientificName": "Oxycetonia jucunda",
+      "images": [
+        "oxycetonia-jucunda-1.jpg",
+        "oxycetonia-jucunda-2.jpg",
+        "oxycetonia-jucunda-3.jpg",
+        "oxycetonia-jucunda-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dicronocephalus-wallichii-bowringi",
+      "scientificName": "Dicronocephalus wallichii bowringi",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "dicronocephalus-adamsi",
+      "scientificName": "Dicronocephalus adamsi",
+      "images": [
+        "dicronocephalus-adamsi-1.jpg",
+        "dicronocephalus-adamsi-2.jpg",
+        "dicronocephalus-adamsi-3.jpg",
+        "dicronocephalus-adamsi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "clinterocera-mandarina",
+      "scientificName": "Clinterocera mandarina",
+      "images": [
+        "clinterocera-mandarina-1.jpg",
+        "clinterocera-mandarina-2.jpg",
+        "clinterocera-mandarina-3.jpg",
+        "clinterocera-mandarina-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "campsiura-mirabilis",
+      "scientificName": "Campsiura mirabilis",
+      "images": [
+        "campsiura-mirabilis-1.jpg",
+        "campsiura-mirabilis-2.jpg",
+        "campsiura-mirabilis-3.jpg",
+        "campsiura-mirabilis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lasiotrichius-succinctus",
+      "scientificName": "Lasiotrichius succinctus",
+      "images": [
+        "lasiotrichius-succinctus-1.jpg",
+        "lasiotrichius-succinctus-2.jpg",
+        "lasiotrichius-succinctus-3.jpg",
+        "lasiotrichius-succinctus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "gnorimus-subopacus",
+      "scientificName": "Gnorimus subopacus",
+      "images": [
+        "gnorimus-subopacus-1.jpg",
+        "gnorimus-subopacus-2.jpg",
+        "gnorimus-subopacus-3.jpg",
+        "gnorimus-subopacus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "osmoderma-barnabita",
+      "scientificName": "Osmoderma barnabita",
+      "images": [
+        "osmoderma-barnabita-1.jpg",
+        "osmoderma-barnabita-2.jpg",
+        "osmoderma-barnabita-3.jpg",
+        "osmoderma-barnabita-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eophileurus-chinensis",
+      "scientificName": "Eophileurus chinensis",
+      "images": [
+        "eophileurus-chinensis-1.jpg",
+        "eophileurus-chinensis-2.jpg",
+        "eophileurus-chinensis-3.jpg",
+        "eophileurus-chinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pyrocoelia-pectoralis",
+      "scientificName": "Pyrocoelia pectoralis",
+      "images": [
+        "pyrocoelia-pectoralis-1.jpg",
+        "pyrocoelia-pectoralis-2.jpg",
+        "pyrocoelia-pectoralis-3.jpg",
+        "pyrocoelia-pectoralis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "helota-fulviventris",
+      "scientificName": "Helota fulviventris",
+      "images": [
+        "helota-fulviventris-1.jpg",
+        "helota-fulviventris-2.jpg",
+        "helota-fulviventris-3.jpg",
+        "helota-fulviventris-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "cucujus-haematodes",
+      "scientificName": "Cucujus haematodes",
+      "images": [
+        "cucujus-haematodes-1.jpg",
+        "cucujus-haematodes-2.jpg",
+        "cucujus-haematodes-3.jpg",
+        "cucujus-haematodes-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "coccinella-septempunctata",
+      "scientificName": "Coccinella septempunctata",
+      "images": [
+        "coccinella-septempunctata-1.jpg",
+        "coccinella-septempunctata-2.jpg",
+        "coccinella-septempunctata-3.jpg",
+        "coccinella-septempunctata-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "harmonia-axyridis",
+      "scientificName": "Harmonia axyridis",
+      "images": [
+        "harmonia-axyridis-1.jpg",
+        "harmonia-axyridis-2.jpg",
+        "harmonia-axyridis-3.jpg",
+        "harmonia-axyridis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aiolocaria-hexaspilota",
+      "scientificName": "Aiolocaria hexaspilota",
+      "images": [
+        "aiolocaria-hexaspilota-1.jpg",
+        "aiolocaria-hexaspilota-2.jpg",
+        "aiolocaria-hexaspilota-3.jpg",
+        "aiolocaria-hexaspilota-4.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "anoplophora-chinensis",
+      "scientificName": "Anoplophora chinensis",
+      "images": [
+        "anoplophora-chinensis-1.jpg",
+        "anoplophora-chinensis-2.jpg",
+        "anoplophora-chinensis-3.jpg",
+        "anoplophora-chinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "anoplophora-glabripennis",
+      "scientificName": "Anoplophora glabripennis",
+      "images": [
+        "anoplophora-glabripennis-1.jpg",
+        "anoplophora-glabripennis-2.jpg",
+        "anoplophora-glabripennis-3.jpg",
+        "anoplophora-glabripennis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aegosoma-sinica",
+      "scientificName": "Aegosoma sinica",
+      "images": [
+        "aegosoma-sinica-1.jpg",
+        "aegosoma-sinica-2.jpg",
+        "aegosoma-sinica-3.jpg",
+        "aegosoma-sinica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aromia-bungii",
+      "scientificName": "Aromia bungii",
+      "images": [
+        "aromia-bungii-1.jpg",
+        "aromia-bungii-2.jpg",
+        "aromia-bungii-3.jpg",
+        "aromia-bungii-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "rosalia-coelestis",
+      "scientificName": "Rosalia coelestis",
+      "images": [
+        "rosalia-coelestis-1.jpg",
+        "rosalia-coelestis-2.jpg",
+        "rosalia-coelestis-3.jpg",
+        "rosalia-coelestis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "chrysochus-chinensis",
+      "scientificName": "Chrysochus chinensis",
+      "images": [
+        "chrysochus-chinensis-1.jpg",
+        "chrysochus-chinensis-2.jpg",
+        "chrysochus-chinensis-3.jpg",
+        "chrysochus-chinensis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eocyphogenia-rugipennis",
+      "scientificName": "Eocyphogenia rugipennis",
+      "images": [
+        "eocyphogenia-rugipennis-1.jpg",
+        "eocyphogenia-rugipennis-2.jpg"
+      ],
+      "status": "downloaded"
+    },
+    {
+      "slug": "synchroa-melanotoides",
+      "scientificName": "Synchroa melanotoides",
+      "images": [
+        "synchroa-melanotoides-1.jpg",
+        "synchroa-melanotoides-2.jpg",
+        "synchroa-melanotoides-3.jpg",
+        "synchroa-melanotoides-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eucryptorrhynchus-brandti",
+      "scientificName": "Eucryptorrhynchus brandti",
+      "images": [
+        "eucryptorrhynchus-brandti-1.jpg",
+        "eucryptorrhynchus-brandti-2.jpg",
+        "eucryptorrhynchus-brandti-3.jpg",
+        "eucryptorrhynchus-brandti-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eucryptorrhynchus-scrobiculatus",
+      "scientificName": "Eucryptorrhynchus scrobiculatus",
+      "images": [
+        "eucryptorrhynchus-scrobiculatus-1.jpg",
+        "eucryptorrhynchus-scrobiculatus-2.jpg",
+        "eucryptorrhynchus-scrobiculatus-3.jpg",
+        "eucryptorrhynchus-scrobiculatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "papilio-xuthus",
+      "scientificName": "Papilio xuthus",
+      "images": [
+        "papilio-xuthus-1.jpg",
+        "papilio-xuthus-2.jpg",
+        "papilio-xuthus-3.jpg",
+        "papilio-xuthus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "papilio-machaon",
+      "scientificName": "Papilio machaon",
+      "images": [
+        "papilio-machaon-1.jpg",
+        "papilio-machaon-2.jpg",
+        "papilio-machaon-3.jpg",
+        "papilio-machaon-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "papilio-maackii",
+      "scientificName": "Papilio maackii",
+      "images": [
+        "papilio-maackii-1.jpg",
+        "papilio-maackii-2.jpg",
+        "papilio-maackii-3.jpg",
+        "papilio-maackii-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sericinus-montelus",
+      "scientificName": "Sericinus montelus",
+      "images": [
+        "sericinus-montelus-1.jpg",
+        "sericinus-montelus-2.jpg",
+        "sericinus-montelus-3.jpg",
+        "sericinus-montelus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "parnassius-bremeri",
+      "scientificName": "Parnassius bremeri",
+      "images": [
+        "parnassius-bremeri-1.jpg",
+        "parnassius-bremeri-2.jpg",
+        "parnassius-bremeri-3.jpg",
+        "parnassius-bremeri-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "parnassius-nomion",
+      "scientificName": "Parnassius nomion",
+      "images": [
+        "parnassius-nomion-1.jpg",
+        "parnassius-nomion-2.jpg",
+        "parnassius-nomion-3.jpg",
+        "parnassius-nomion-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "parnassius-citrinarius",
+      "scientificName": "Parnassius citrinarius",
+      "images": [
+        "parnassius-citrinarius-1.jpg",
+        "parnassius-citrinarius-2.jpg",
+        "parnassius-citrinarius-3.jpg",
+        "parnassius-citrinarius-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aporia-crataegi",
+      "scientificName": "Aporia crataegi",
+      "images": [
+        "aporia-crataegi-1.jpg",
+        "aporia-crataegi-2.jpg",
+        "aporia-crataegi-3.jpg",
+        "aporia-crataegi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aporia-hippia-crataegioides",
+      "scientificName": "Aporia hippia crataegioides",
+      "images": [
+        "aporia-hippia-crataegioides-1.jpg",
+        "aporia-hippia-crataegioides-2.jpg",
+        "aporia-hippia-crataegioides-3.jpg",
+        "aporia-hippia-crataegioides-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pieris-napi-dulcinea",
+      "scientificName": "Pieris napi dulcinea",
+      "images": [
+        "pieris-napi-dulcinea-1.jpg",
+        "pieris-napi-dulcinea-2.jpg",
+        "pieris-napi-dulcinea-3.jpg",
+        "pieris-napi-dulcinea-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pieris-rapae",
+      "scientificName": "Pieris rapae",
+      "images": [
+        "pieris-rapae-1.jpg",
+        "pieris-rapae-2.jpg",
+        "pieris-rapae-3.jpg",
+        "pieris-rapae-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "pontia-daplidice",
+      "scientificName": "Pontia daplidice",
+      "images": [
+        "pontia-daplidice-1.jpg",
+        "pontia-daplidice-2.jpg",
+        "pontia-daplidice-3.jpg",
+        "pontia-daplidice-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "polygonia-c-aureum",
+      "scientificName": "Polygonia c-aureum",
+      "images": [
+        "polygonia-c-aureum-1.jpg",
+        "polygonia-c-aureum-2.jpg",
+        "polygonia-c-aureum-3.jpg",
+        "polygonia-c-aureum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "polygonia-c-album",
+      "scientificName": "Polygonia c-album",
+      "images": [
+        "polygonia-c-album-1.jpg",
+        "polygonia-c-album-2.jpg",
+        "polygonia-c-album-3.jpg",
+        "polygonia-c-album-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dilipa-fenestra",
+      "scientificName": "Dilipa fenestra",
+      "images": [
+        "dilipa-fenestra-1.jpg",
+        "dilipa-fenestra-2.jpg",
+        "dilipa-fenestra-3.jpg",
+        "dilipa-fenestra-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "fabriciana-adippe-vorax",
+      "scientificName": "Fabriciana adippe vorax",
+      "images": [
+        "fabriciana-adippe-vorax-1.jpg",
+        "fabriciana-adippe-vorax-2.jpg",
+        "fabriciana-adippe-vorax-3.jpg",
+        "fabriciana-adippe-vorax-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "speyeria-aglaja-graeseri",
+      "scientificName": "Speyeria aglaja graeseri",
+      "images": [
+        "speyeria-aglaja-graeseri-1.jpg",
+        "speyeria-aglaja-graeseri-2.jpg",
+        "speyeria-aglaja-graeseri-3.jpg",
+        "speyeria-aglaja-graeseri-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "argynnis-zenobia",
+      "scientificName": "Argynnis zenobia",
+      "images": [
+        "argynnis-zenobia-1.jpg",
+        "argynnis-zenobia-2.jpg",
+        "argynnis-zenobia-3.jpg",
+        "argynnis-zenobia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "argynnis-paphia",
+      "scientificName": "Argynnis paphia",
+      "images": [
+        "argynnis-paphia-1.jpg",
+        "argynnis-paphia-2.jpg",
+        "argynnis-paphia-3.jpg",
+        "argynnis-paphia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "argynnis-hyperbius",
+      "scientificName": "Argynnis hyperbius",
+      "images": [
+        "argynnis-hyperbius-1.jpg",
+        "argynnis-hyperbius-2.jpg",
+        "argynnis-hyperbius-3.jpg",
+        "argynnis-hyperbius-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "brenthis-daphne",
+      "scientificName": "Brenthis daphne",
+      "images": [
+        "brenthis-daphne-1.jpg",
+        "brenthis-daphne-2.jpg",
+        "brenthis-daphne-3.jpg",
+        "brenthis-daphne-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "brenthis-ino",
+      "scientificName": "Brenthis ino",
+      "images": [
+        "brenthis-ino-1.jpg",
+        "brenthis-ino-2.jpg",
+        "brenthis-ino-3.jpg",
+        "brenthis-ino-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "melitaea-arcesia",
+      "scientificName": "Melitaea arcesia",
+      "images": [
+        "melitaea-arcesia-1.jpg",
+        "melitaea-arcesia-2.jpg",
+        "melitaea-arcesia-3.jpg",
+        "melitaea-arcesia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "araschnia-levana",
+      "scientificName": "Araschnia levana",
+      "images": [
+        "araschnia-levana-1.jpg",
+        "araschnia-levana-2.jpg",
+        "araschnia-levana-3.jpg",
+        "araschnia-levana-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "limenitis-populi",
+      "scientificName": "Limenitis populi",
+      "images": [
+        "limenitis-populi-1.jpg",
+        "limenitis-populi-2.jpg",
+        "limenitis-populi-3.jpg",
+        "limenitis-populi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "limenitis-moltrechti",
+      "scientificName": "Limenitis moltrechti",
+      "images": [
+        "limenitis-moltrechti-1.jpg",
+        "limenitis-moltrechti-2.jpg",
+        "limenitis-moltrechti-3.jpg",
+        "limenitis-moltrechti-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neptis-sappho",
+      "scientificName": "Neptis sappho",
+      "images": [
+        "neptis-sappho-1.jpg",
+        "neptis-sappho-2.jpg",
+        "neptis-sappho-3.jpg",
+        "neptis-sappho-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neptis-rivularis",
+      "scientificName": "Neptis rivularis",
+      "images": [
+        "neptis-rivularis-1.jpg",
+        "neptis-rivularis-2.jpg",
+        "neptis-rivularis-3.jpg",
+        "neptis-rivularis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neptis-alwina",
+      "scientificName": "Neptis alwina",
+      "images": [
+        "neptis-alwina-1.jpg",
+        "neptis-alwina-2.jpg",
+        "neptis-alwina-3.jpg",
+        "neptis-alwina-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neptis-themis",
+      "scientificName": "Neptis themis",
+      "images": [
+        "neptis-themis-1.jpg",
+        "neptis-themis-2.jpg",
+        "neptis-themis-3.jpg",
+        "neptis-themis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "neptis-thisbe",
+      "scientificName": "Neptis thisbe",
+      "images": [
+        "neptis-thisbe-1.jpg",
+        "neptis-thisbe-2.jpg",
+        "neptis-thisbe-3.jpg",
+        "neptis-thisbe-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "kaniska-canace",
+      "scientificName": "Kaniska canace",
+      "images": [
+        "kaniska-canace-1.jpg",
+        "kaniska-canace-2.jpg",
+        "kaniska-canace-3.jpg",
+        "kaniska-canace-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aglais-urticae",
+      "scientificName": "Aglais urticae",
+      "images": [
+        "aglais-urticae-1.jpg",
+        "aglais-urticae-2.jpg",
+        "aglais-urticae-3.jpg",
+        "aglais-urticae-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "inachis-io",
+      "scientificName": "Inachis io",
+      "images": [
+        "inachis-io-1.jpg",
+        "inachis-io-2.jpg",
+        "inachis-io-3.jpg",
+        "inachis-io-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "vanessa-indica",
+      "scientificName": "Vanessa indica",
+      "images": [
+        "vanessa-indica-1.jpg",
+        "vanessa-indica-2.jpg",
+        "vanessa-indica-3.jpg",
+        "vanessa-indica-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "vanessa-cardui",
+      "scientificName": "Vanessa cardui",
+      "images": [
+        "vanessa-cardui-1.jpg",
+        "vanessa-cardui-2.jpg",
+        "vanessa-cardui-3.jpg",
+        "vanessa-cardui-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "mimathyma-schrenckii",
+      "scientificName": "Mimathyma schrenckii",
+      "images": [
+        "mimathyma-schrenckii-1.jpg",
+        "mimathyma-schrenckii-2.jpg",
+        "mimathyma-schrenckii-3.jpg",
+        "mimathyma-schrenckii-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "sasakia-charonda",
+      "scientificName": "Sasakia charonda",
+      "images": [
+        "sasakia-charonda-1.jpg",
+        "sasakia-charonda-2.jpg",
+        "sasakia-charonda-3.jpg",
+        "sasakia-charonda-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "apatura-ilia",
+      "scientificName": "Apatura ilia",
+      "images": [
+        "apatura-ilia-1.jpg",
+        "apatura-ilia-2.jpg",
+        "apatura-ilia-3.jpg",
+        "apatura-ilia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "libythea-celtis",
+      "scientificName": "Libythea celtis",
+      "images": [
+        "libythea-celtis-1.jpg",
+        "libythea-celtis-2.jpg",
+        "libythea-celtis-3.jpg",
+        "libythea-celtis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "melanargia-halimede",
+      "scientificName": "Melanargia halimede",
+      "images": [
+        "melanargia-halimede-1.jpg",
+        "melanargia-halimede-2.jpg",
+        "melanargia-halimede-3.jpg",
+        "melanargia-halimede-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lasiommata-deidamia",
+      "scientificName": "Lasiommata deidamia",
+      "images": [
+        "lasiommata-deidamia-1.jpg",
+        "lasiommata-deidamia-2.jpg",
+        "lasiommata-deidamia-3.jpg",
+        "lasiommata-deidamia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "minois-dryas",
+      "scientificName": "Minois dryas",
+      "images": [
+        "minois-dryas-1.jpg",
+        "minois-dryas-2.jpg",
+        "minois-dryas-3.jpg",
+        "minois-dryas-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "davidina-armandi",
+      "scientificName": "Davidina armandi",
+      "images": [
+        "davidina-armandi-1.jpg",
+        "davidina-armandi-2.jpg",
+        "davidina-armandi-3.jpg",
+        "davidina-armandi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "everes-argiades",
+      "scientificName": "Everes argiades",
+      "images": [
+        "everes-argiades-1.jpg",
+        "everes-argiades-2.jpg",
+        "everes-argiades-3.jpg",
+        "everes-argiades-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "lycaeides-argyrognomon",
+      "scientificName": "Lycaeides argyrognomon",
+      "images": [
+        "lycaeides-argyrognomon-1.jpg",
+        "lycaeides-argyrognomon-2.jpg",
+        "lycaeides-argyrognomon-3.jpg",
+        "lycaeides-argyrognomon-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "epicopeia-mencia",
+      "scientificName": "Epicopeia mencia",
+      "images": [
+        "epicopeia-mencia-1.jpg",
+        "epicopeia-mencia-2.jpg",
+        "epicopeia-mencia-3.jpg",
+        "epicopeia-mencia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "macroglossum-stellatarum",
+      "scientificName": "Macroglossum stellatarum",
+      "images": [
+        "macroglossum-stellatarum-1.jpg",
+        "macroglossum-stellatarum-2.jpg",
+        "macroglossum-stellatarum-3.jpg",
+        "macroglossum-stellatarum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hemaris-fuciformis",
+      "scientificName": "Hemaris fuciformis",
+      "images": [
+        "hemaris-fuciformis-1.jpg",
+        "hemaris-fuciformis-2.jpg",
+        "hemaris-fuciformis-3.jpg",
+        "hemaris-fuciformis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "hemaris-ottonis",
+      "scientificName": "Hemaris ottonis",
+      "images": [
+        "hemaris-ottonis-1.jpg",
+        "hemaris-ottonis-2.jpg",
+        "hemaris-ottonis-3.jpg",
+        "hemaris-ottonis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "samia-cynthia",
+      "scientificName": "Samia cynthia",
+      "images": [
+        "samia-cynthia-1.jpg",
+        "samia-cynthia-2.jpg",
+        "samia-cynthia-3.jpg",
+        "samia-cynthia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "actias-selene",
+      "scientificName": "Actias selene",
+      "images": [
+        "actias-selene-1.jpg",
+        "actias-selene-2.jpg",
+        "actias-selene-3.jpg",
+        "actias-selene-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "actias-dubernardi",
+      "scientificName": "Actias dubernardi",
+      "images": [
+        "actias-dubernardi-1.jpg",
+        "actias-dubernardi-2.jpg",
+        "actias-dubernardi-3.jpg",
+        "actias-dubernardi-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "saturnia-boisduvali",
+      "scientificName": "Saturnia boisduvali",
+      "images": [
+        "saturnia-boisduvali-1.jpg",
+        "saturnia-boisduvali-2.jpg",
+        "saturnia-boisduvali-3.jpg",
+        "saturnia-boisduvali-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "saturnia-thibeta",
+      "scientificName": "Saturnia thibeta",
+      "images": [
+        "saturnia-thibeta-1.jpg",
+        "saturnia-thibeta-2.jpg",
+        "saturnia-thibeta-3.jpg",
+        "saturnia-thibeta-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "saturnia-pyretorum",
+      "scientificName": "Saturnia pyretorum",
+      "images": [
+        "saturnia-pyretorum-1.jpg",
+        "saturnia-pyretorum-2.jpg",
+        "saturnia-pyretorum-3.jpg",
+        "saturnia-pyretorum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "loepa-wlingana",
+      "scientificName": "Loepa wlingana",
+      "images": [
+        "loepa-wlingana-1.jpg",
+        "loepa-wlingana-2.jpg",
+        "loepa-wlingana-3.jpg",
+        "loepa-wlingana-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "aglia-tau",
+      "scientificName": "Aglia tau",
+      "images": [
+        "aglia-tau-1.jpg",
+        "aglia-tau-2.jpg",
+        "aglia-tau-3.jpg",
+        "aglia-tau-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "brahmaea-certhia",
+      "scientificName": "Brahmaea certhia",
+      "images": [
+        "brahmaea-certhia-1.jpg",
+        "brahmaea-certhia-2.jpg",
+        "brahmaea-certhia-3.jpg",
+        "brahmaea-certhia-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "epipomponia-oncotympana",
+      "scientificName": "Epipomponia oncotympana",
+      "images": [
+        "epipomponia-oncotympana-1.jpg",
+        "epipomponia-oncotympana-2.jpg",
+        "epipomponia-oncotympana-3.jpg",
+        "epipomponia-oncotympana-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "dryinus-lycormae",
+      "scientificName": "Dryinus lycormae",
+      "images": [],
+      "status": "not_found"
+    },
+    {
+      "slug": "tetramorium-caespitum",
+      "scientificName": "Tetramorium caespitum",
+      "images": [
+        "tetramorium-caespitum-1.jpg",
+        "tetramorium-caespitum-2.jpg",
+        "tetramorium-caespitum-3.jpg",
+        "tetramorium-caespitum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "camponotus-japonicus",
+      "scientificName": "Camponotus japonicus",
+      "images": [
+        "camponotus-japonicus-1.jpg",
+        "camponotus-japonicus-2.jpg",
+        "camponotus-japonicus-3.jpg",
+        "camponotus-japonicus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "formica-sinae",
+      "scientificName": "Formica sinae",
+      "images": [
+        "formica-sinae-1.jpg",
+        "formica-sinae-2.jpg",
+        "formica-sinae-3.jpg",
+        "formica-sinae-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "apis-mellifera",
+      "scientificName": "Apis mellifera",
+      "images": [
+        "apis-mellifera-1.jpg",
+        "apis-mellifera-2.jpg",
+        "apis-mellifera-3.jpg",
+        "apis-mellifera-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "apis-cerana-cerana",
+      "scientificName": "Apis cerana cerana",
+      "images": [
+        "apis-cerana-cerana-1.jpg",
+        "apis-cerana-cerana-2.jpg",
+        "apis-cerana-cerana-3.jpg",
+        "apis-cerana-cerana-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eristalis-tenax",
+      "scientificName": "Eristalis tenax",
+      "images": [
+        "eristalis-tenax-1.jpg",
+        "eristalis-tenax-2.jpg",
+        "eristalis-tenax-3.jpg",
+        "eristalis-tenax-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eristalis-arbustorum",
+      "scientificName": "Eristalis arbustorum",
+      "images": [
+        "eristalis-arbustorum-1.jpg",
+        "eristalis-arbustorum-2.jpg",
+        "eristalis-arbustorum-3.jpg",
+        "eristalis-arbustorum-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "eristalis-cerealis",
+      "scientificName": "Eristalis cerealis",
+      "images": [
+        "eristalis-cerealis-1.jpg",
+        "eristalis-cerealis-2.jpg",
+        "eristalis-cerealis-3.jpg",
+        "eristalis-cerealis-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "episyrphus-balteatus",
+      "scientificName": "Episyrphus balteatus",
+      "images": [
+        "episyrphus-balteatus-1.jpg",
+        "episyrphus-balteatus-2.jpg",
+        "episyrphus-balteatus-3.jpg",
+        "episyrphus-balteatus-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "volucella-bivitta",
+      "scientificName": "Volucella bivitta",
+      "images": [
+        "volucella-bivitta-1.jpg",
+        "volucella-bivitta-2.jpg",
+        "volucella-bivitta-3.jpg",
+        "volucella-bivitta-4.jpg"
+      ],
+      "status": "exists"
+    },
+    {
+      "slug": "bittacus-planus",
+      "scientificName": "Bittacus planus",
+      "images": [
+        "bittacus-planus-1.jpg",
+        "bittacus-planus-2.jpg",
+        "bittacus-planus-3.jpg"
+      ],
+      "status": "downloaded"
+    }
+  ]
+}

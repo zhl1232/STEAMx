@@ -4,7 +4,8 @@ const TIER_RANK: Record<BadgeTier, number> = { bronze: 0, silver: 1, gold: 2, pl
 
 export const BADGE_TIERS: BadgeTier[] = ["bronze", "silver", "gold", "platinum"];
 
-const TIER_LABELS: Record<BadgeTier, string> = {
+/** 阶梯徽章档位标签（UI 角标，不拼进成就名） */
+export const BADGE_TIER_LABELS: Record<BadgeTier, string> = {
     bronze: "铜",
     silver: "银",
     gold: "金",
@@ -12,11 +13,13 @@ const TIER_LABELS: Record<BadgeTier, string> = {
 };
 
 type TierThresholds = [number, number, number, number]; // [铜, 银, 金, 白金]
+type TierNames = [string, string, string, string];
 
 interface TieredSeriesConfig {
     seriesKey: string;
     getValue: (stats: UserStats) => number;
     thresholds: TierThresholds;
+    tierNames: TierNames;
     label: string;
     icon: string;
     descriptionTemplate: (tier: BadgeTier, value: number) => string;
@@ -29,7 +32,7 @@ function buildTieredBadges(config: TieredSeriesConfig): Badge[] {
         const value = config.thresholds[i];
         badges.push({
             id: `${config.seriesKey}_${tier}`,
-            name: `${config.label} · ${TIER_LABELS[tier]}`,
+            name: config.tierNames[i],
             description: config.descriptionTemplate(tier, value),
             icon: config.icon,
             tier,
@@ -48,15 +51,16 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "thumbs_up",
         getValue: (s) => s.likesGiven,
         thresholds: [1, 50, 200, 1000],
+        tierNames: ["随手点赞", "慷慨之手", "赞赏引力", "赛博伯乐"],
         descriptionTemplate: (_, v) => `累计点赞 ${v} 次`,
     },
-
     {
         seriesKey: "intro_publish",
         label: "发布",
         icon: "upload",
         getValue: (s) => s.projectsPublished,
         thresholds: [1, 5, 10, 50],
+        tierNames: ["灵感破土", "常态建造", "高产极客", "首席造物主"],
         descriptionTemplate: (_, v) => `累计发布 ${v} 个项目`,
     },
     {
@@ -65,46 +69,52 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "bookmark",
         getValue: (s) => s.collectionsCount,
         thresholds: [1, 50, 200, 1000],
+        tierNames: ["灵感留痕", "灵感收藏家", "宝藏打捞员", "赛博图书馆"],
         descriptionTemplate: (_, v) => `累计收藏 ${v} 个项目`,
     },
     {
         seriesKey: "science_expert",
-        label: "科学专家",
+        label: "科学：观察与实验",
         icon: "atom",
         getValue: (s) => s.scienceCompleted,
         thresholds: [3, 10, 20, 50],
+        tierNames: ["好奇观察员", "实验室常客", "假说验证者", "真理追寻者"],
         descriptionTemplate: (_, v) => `完成科学类项目 ${v} 个`,
     },
     {
         seriesKey: "tech_expert",
-        label: "技术达人",
+        label: "技术：代码与数字",
         icon: "code_2",
         getValue: (s) => s.techCompleted,
         thresholds: [3, 10, 20, 50],
+        tierNames: ["数字原住民", "代码重构员", "算法极客", "数字造物主"],
         descriptionTemplate: (_, v) => `完成技术类项目 ${v} 个`,
     },
     {
         seriesKey: "engineering_expert",
-        label: "工程师",
+        label: "工程：结构与创造",
         icon: "blueprint",
         getValue: (s) => s.engineeringCompleted,
         thresholds: [3, 10, 20, 50],
+        tierNames: ["图纸初探", "蓝图构建师", "重力挑战者", "传奇造物师"],
         descriptionTemplate: (_, v) => `完成工程类项目 ${v} 个`,
     },
     {
         seriesKey: "art_expert",
-        label: "艺术家",
+        label: "艺术：视觉与表达",
         icon: "palette",
         getValue: (s) => s.artCompleted,
         thresholds: [3, 10, 20, 50],
+        tierNames: ["灵感捕捉者", "色彩原力", "视觉主宰", "美学降维者"],
         descriptionTemplate: (_, v) => `完成艺术类项目 ${v} 个`,
     },
     {
         seriesKey: "math_expert",
-        label: "数学家",
+        label: "数学：逻辑与模型",
         icon: "calculator",
         getValue: (s) => s.mathCompleted,
         thresholds: [3, 10, 20, 50],
+        tierNames: ["坐标系漫步", "逻辑矩阵", "高维解密者", "万物皆方程"],
         descriptionTemplate: (_, v) => `完成数学类项目 ${v} 个`,
     },
     {
@@ -113,6 +123,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "message_circle",
         getValue: (s) => s.commentsCount + s.repliesCount,
         thresholds: [1, 30, 150, 500],
+        tierNames: ["初次见面", "常来聊聊", "气氛担当", "评论区统治者"],
         descriptionTemplate: (_, v) => `评论与回复合计 ${v} 条`,
     },
     {
@@ -121,14 +132,16 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "heart",
         getValue: (s) => s.likesReceived,
         thresholds: [10, 100, 500, 2000],
+        tierNames: ["小有名气", "备受关注", "万众瞩目", "社区灯塔"],
         descriptionTemplate: (_, v) => `收到赞 ${v} 个`,
     },
     {
         seriesKey: "milestone",
-        label: "成就里程碑",
+        label: "项目完成",
         icon: "trophy",
         getValue: (s) => s.projectsCompleted,
         thresholds: [5, 20, 50, 100],
+        tierNames: ["起步探索", "宝藏猎人", "传奇英雄", "传奇创造"],
         descriptionTemplate: (_, v) => `完成项目 ${v} 个`,
     },
     {
@@ -137,6 +150,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "award",
         getValue: (s) => s.level,
         thresholds: [5, 20, 50, 100],
+        tierNames: ["新手光环", "进阶探索者", "高阶玩家", "破壁者"],
         descriptionTemplate: (_, v) => `达到等级 ${v}`,
     },
     {
@@ -145,6 +159,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "target",
         getValue: (s) => s.challengesJoined,
         thresholds: [2, 6, 15, 30],
+        tierNames: ["挑战尝鲜", "赛场常客", "挑战达人", "征途传奇"],
         descriptionTemplate: (_, v) => `参加挑战 ${v} 次`,
     },
     {
@@ -153,6 +168,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "flame",
         getValue: (s) => s.consecutiveDays,
         thresholds: [3, 7, 30, 90],
+        tierNames: ["三日之约", "一周习惯", "月度坚守", "四季恒心"],
         descriptionTemplate: (_, v) => `连续登录 ${v} 天`,
     },
     {
@@ -161,6 +177,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "binoculars",
         getValue: (s) => s.observationsSubmitted ?? 0,
         thresholds: [1, 10, 30, 100],
+        tierNames: ["见习观察员", "田野记录者", "自然追迹者", "自然编目者"],
         descriptionTemplate: (_, v) => `提交 ${v} 条观察记录`,
     },
     {
@@ -169,6 +186,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "feather",
         getValue: (s) => s.speciesObserved ?? 0,
         thresholds: [3, 10, 30, 80],
+        tierNames: ["物种初识", "多样发现者", "名录收集者", "万物观察者"],
         descriptionTemplate: (_, v) => `观察到 ${v} 种不同物种`,
     },
 ];

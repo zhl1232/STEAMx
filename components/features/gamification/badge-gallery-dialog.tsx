@@ -9,6 +9,7 @@ import { CheckCircle2, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge, BadgeTier } from "@/lib/gamification/types";
 import { SERIES_ORDER } from "@/lib/gamification/badges";
+import { BadgeTierPill } from "@/components/features/gamification/badge-tier-pill";
 
 // ... existing imports
 import { 
@@ -23,12 +24,6 @@ import {
 import { BadgeIcon } from "./badge-icon";
 
 const TIER_ORDER: Record<BadgeTier, number> = { bronze: 0, silver: 1, gold: 2, platinum: 3 };
-const TIER_LABELS: Record<BadgeTier, string> = {
-    bronze: "铜",
-    silver: "银",
-    gold: "金",
-    platinum: "白金",
-};
 type GalleryMode = "all" | "unlocked" | "locked";
 
 const SERIES_COPY: Partial<Record<string, string>> = {
@@ -42,7 +37,7 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     math_expert: "数字推演、计算和规则思维的完成记录。",
     social: "讨论、回复和交流形成的社区参与度。",
     popularity: "作品或发言被更多人看见和认可。",
-    milestone: "持续完成项目带来的长期里程碑。",
+    milestone: "持续完成终稿项目带来的长期里程碑。",
     level: "等级增长对应的整体成长轨迹。",
     challenge: "参与挑战，进入更明确的目标场景。",
     streak: "连续登录和持续返回形成的习惯强度。",
@@ -265,20 +260,20 @@ function getSeriesProgressText(seriesStatus: SeriesStatus, mode: GalleryMode) {
     if (mode === "locked") {
         return seriesStatus.completed
             ? "阶梯已满级"
-            : seriesStatus.nextBadge?.tier
-                ? `下一档 ${TIER_LABELS[seriesStatus.nextBadge.tier]}`
+            : seriesStatus.nextBadge
+                ? `下一枚：${seriesStatus.nextBadge.name}`
                 : "下一档待解锁";
     }
 
-    if (!seriesStatus.highestUnlockedBadge?.tier) {
+    if (!seriesStatus.highestUnlockedBadge) {
         return "尚未达成";
     }
 
     if (seriesStatus.completed) {
-        return `${TIER_LABELS[seriesStatus.highestUnlockedBadge.tier]}已达成`;
+        return `已满级 · ${seriesStatus.highestUnlockedBadge.name}`;
     }
 
-    return `当前${TIER_LABELS[seriesStatus.highestUnlockedBadge.tier]}级`;
+    return `当前：${seriesStatus.highestUnlockedBadge.name}`;
 }
 
 export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, children }: BadgeGalleryDialogProps) {
@@ -304,7 +299,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                                 : "bg-white/55 border-slate-200/80 opacity-95 dark:bg-slate-950/82 dark:border-white/8 dark:opacity-100",
                         )}
                     >
-                        <div className="flex justify-center p-1 sm:p-2">
+                        <div className="relative flex justify-center p-1 sm:p-2">
                             <BadgeIcon 
                                 icon={badge.icon} 
                                 tier={badge.tier} 
@@ -313,11 +308,16 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                                 locked={!isUnlocked}
                                 className="w-10 h-10 sm:w-12 sm:h-12"
                             />
+                            {badge.tier ? (
+                                <div className="pointer-events-none absolute right-0 top-0 sm:right-0.5 sm:top-0.5">
+                                    <BadgeTierPill tier={badge.tier} className="scale-90 shadow-sm sm:scale-100" />
+                                </div>
+                            ) : null}
                         </div>
                         
                         <div className="w-full flex-1 flex flex-col justify-start min-h-0">
                             <div className={cn(
-                                "font-semibold text-[10px] sm:text-sm line-clamp-1",
+                                "font-semibold text-[10px] sm:text-sm line-clamp-2 leading-tight",
                                 isUnlocked ? "text-foreground" : "text-slate-700 dark:text-slate-300"
                             )}>
                                 {badge.name}
@@ -335,9 +335,12 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56 p-2" align="center">
-                    <DropdownMenuLabel className="flex justify-between items-center">
-                        <span>{badge.name}</span>
-                        {isUnlocked && <span className="status-success-surface text-[10px] font-normal px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))]">已获得</span>}
+                    <DropdownMenuLabel className="flex items-start justify-between gap-2">
+                        <span className="flex min-w-0 flex-col gap-1">
+                            <span className="leading-snug">{badge.name}</span>
+                            {badge.tier ? <BadgeTierPill tier={badge.tier} className="w-fit" /> : null}
+                        </span>
+                        {isUnlocked && <span className="status-success-surface shrink-0 text-[10px] font-normal px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))]">已获得</span>}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="px-2 py-1.5 text-xs text-muted-foreground leading-relaxed">
