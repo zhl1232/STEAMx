@@ -7,12 +7,15 @@ import {
   parseStoredSpeciesCandidates,
   type ObservationMediaAnalysisRow,
 } from '@/lib/ai/observation-media-analysis'
+import { selectAiIdentification } from '@/lib/observations/identifications'
 import { getObservations } from '@/lib/api/nature-observation-data'
 import { isOwnedProjectImageUrl } from '@/lib/api/validation'
 import { buildObservationRewardSummary } from '@/lib/api/observation-gamification'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import { callRpc } from '@/lib/supabase/rpc'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -27,17 +30,23 @@ const ObservationSpeciesInputSchema = z.object({
 })
 
 const CreateObservationSchema = z.object({
+  nature_topic: z.enum(['birds', 'plants']),
   observed_at: z.string().min(1),
+  observed_at_source: z.enum(['photo_exif', 'manual']).default('manual'),
   location_name: z.string().min(1).max(200),
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
-  location_precision: z.enum(['exact', 'approximate', 'hidden']).default('approximate'),
+  location_source: z.enum(['photo_exif', 'place_search', 'map_pin', 'device_location']).default('map_pin'),
+  coordinate_system: z.literal('gcj02').default('gcj02'),
   habitat: z.string().max(100).nullable().optional(),
   weather: z.string().max(100).nullable().optional(),
   notes: z.string().max(2000).nullable().optional(),
   media_urls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
   is_public: z.boolean().default(true),
-  species_entries: z.array(ObservationSpeciesInputSchema).min(1).max(10),
+  initial_species_id: z.number().int().positive().nullable().optional(),
+  species_entries: z.array(ObservationSpeciesInputSchema).max(1).optional(),
+  lifecycle_stage: z.enum(['egg', 'larva', 'pupa', 'juvenile', 'adult', 'unknown']).nullable().optional(),
+  sex: z.enum(['male', 'female', 'unknown']).nullable().optional(),
 })
 
 export async function GET(request: NextRequest) {
@@ -80,6 +89,7 @@ export async function POST(request: NextRequest) {
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
+      .eq('nature_topic', payload.nature_topic)
       .in('image_url', uniqueMediaUrls)
 
     if (analysisError) {
@@ -100,28 +110,44 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const selectedSpeciesId = payload.species_entries[0]?.species_id ?? null
-    const matchedCandidate = selectedSpeciesId
-      ? uniqueMediaUrls
-          .flatMap((imageUrl) => parseStoredSpeciesCandidates(analysisMap.get(imageUrl)?.species_candidates))
-          .find((candidate) => candidate.speciesId === selectedSpeciesId)
+    const selectedSpeciesId = payload.initial_species_id ?? payload.species_entries?.[0]?.species_id ?? null
+    const typedAnalyses = uniqueMediaUrls
+      .map((imageUrl) => analysisMap.get(imageUrl))
+      .filter((row): row is ObservationMediaAnalysisRow => Boolean(row))
+    const aiIdentification = selectAiIdentification(
+      typedAnalyses.map((row) => ({
+        status: row.status,
+        speciesCandidates: parseStoredSpeciesCandidates(row.species_candidates).map((candidate) => ({
+          speciesId: candidate.speciesId,
+          confidence: candidate.confidence,
+        })),
+      })),
+    )
+    const aiSourceRow = aiIdentification
+      ? typedAnalyses.find((row) => parseStoredSpeciesCandidates(row.species_candidates)[0]?.speciesId === aiIdentification.speciesId)
       : null
 
     const { data: observation, error: observationError } = await supabase
       .from('observation_events')
       .insert({
         user_id: user.id,
+        nature_topic: payload.nature_topic,
         observed_at: payload.observed_at,
+        observed_at_source: payload.observed_at_source,
         location_name: payload.location_name,
         latitude: payload.latitude,
         longitude: payload.longitude,
-        location_precision: payload.location_precision,
+        location_precision: 'exact',
+        location_source: payload.location_source,
+        coordinate_system: payload.coordinate_system,
         habitat: payload.habitat ?? null,
         weather: payload.weather ?? null,
         notes: payload.notes ?? null,
         media_urls: payload.media_urls,
         is_public: payload.is_public,
         status: 'approved',
+        lifecycle_stage: payload.lifecycle_stage ?? null,
+        sex: payload.sex ?? null,
       })
       .select('*')
       .single()
@@ -130,29 +156,34 @@ export async function POST(request: NextRequest) {
       throw observationError || new Error('Failed to create observation')
     }
 
-    if (payload.species_entries.length > 0) {
-      const { error: speciesError } = await supabase
-        .from('observation_event_species')
-        .insert(
-          payload.species_entries.map((entry) => ({
-            observation_event_id: observation.id,
-            species_id: entry.species_id,
-            count: entry.count ?? null,
-            behavior_tags: entry.behavior_tags,
-            notes: entry.notes ?? null,
-            confidence: matchedCandidate?.speciesId === entry.species_id ? matchedCandidate.confidence : null,
-          })),
-        )
-
-      if (speciesError) {
-        await supabase
-          .from('observation_events')
-          .delete()
-          .eq('id', observation.id)
-          .eq('user_id', user.id)
-
-        throw speciesError
+    try {
+      if (selectedSpeciesId) {
+        const { error } = await callRpc(supabase, 'upsert_observation_identification', {
+          p_observation_id: observation.id,
+          p_species_id: selectedSpeciesId,
+          p_source: 'human',
+        })
+        if (error) throw error
       }
+
+      if (aiIdentification) {
+        if (!supabaseAdmin) throw new Error('AI identification service is unavailable')
+        const { error } = await callRpc(supabaseAdmin, 'record_observation_ai_identification', {
+          p_observation_id: observation.id,
+          p_species_id: aiIdentification.speciesId,
+          p_confidence: aiIdentification.confidence,
+          p_model_name: aiSourceRow?.model_name || 'ai-vision',
+          p_media_analysis_id: aiSourceRow?.id ?? null,
+        })
+        if (error) throw error
+      }
+    } catch (identificationError) {
+      await supabase
+        .from('observation_events')
+        .delete()
+        .eq('id', observation.id)
+        .eq('user_id', user.id)
+      throw identificationError
     }
 
     const rewardSummary = await buildObservationRewardSummary(user.id, observation.id)

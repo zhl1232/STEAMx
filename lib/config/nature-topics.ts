@@ -28,7 +28,7 @@ export const natureTopics: NatureTopicConfig[] = [
     subtitle: '已上线专题',
     description: '从校园、公园和社区出发，记录常见鸟类的出现时间、地点与行为。',
     status: 'available',
-    href: '/nature/birds',
+    href: '/nature/species?topic=birds',
   },
   {
     id: 'insects',
@@ -45,7 +45,7 @@ export const natureTopics: NatureTopicConfig[] = [
     subtitle: '已上线专题',
     description: '聚焦本地树木识别和物候变化，记录树叶、树皮、花果等长期线索。',
     status: 'available',
-    href: '/nature/trees',
+    href: '/nature/species?topic=plants',
   },
   {
     id: 'fungi',

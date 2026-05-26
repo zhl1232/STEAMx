@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, Trash2 } from "lucide-react"
 import { useQueryClient } from "@tanstack/react-query"
@@ -20,8 +20,13 @@ export function ObservationOwnerActions({ observationId, ownerId }: ObservationO
   const { toast } = useToast()
   const { user, refreshProfile } = useAuth()
   const [isDeleting, setIsDeleting] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
 
-  if (!user || user.id !== ownerId) {
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  if (!hasMounted || !user || user.id !== ownerId) {
     return null
   }
 

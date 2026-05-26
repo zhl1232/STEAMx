@@ -5,6 +5,8 @@ import {
   type ObservationEvent,
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
+import { loadObservationIdentifications } from './nature-observation-identifications'
 
 import type { ObservationEventRow, ObservationEventSpeciesRow, SpeciesRow } from './nature-observation-internal-types'
 
@@ -86,7 +88,7 @@ export async function getObservations(
 
   return {
     observations: rows.map((row) =>
-      mapDbObservationEvent(row as never, speciesByEvent.get(row.id) || []),
+      mapDbObservationEvent(applyHistoricalPublicLocationPrecision(row) as never, speciesByEvent.get(row.id) || []),
     ),
     total: count || 0,
     hasMore: (count || 0) > to + 1,
@@ -115,13 +117,21 @@ export async function getObservationById(id: string | number): Promise<Observati
 
   if (!data) return null
 
+  const { data: authData } = await supabase.auth.getUser()
   if (!data.is_public) {
-    const { data: authData } = await supabase.auth.getUser()
     if (!authData.user || authData.user.id !== data.user_id) {
       return null
     }
   }
 
-  const speciesByEvent = await loadObservationSpeciesForEvents([data.id])
-  return mapDbObservationEvent(data as never, speciesByEvent.get(data.id) || [])
+  const [speciesByEvent, identificationsByEvent] = await Promise.all([
+    loadObservationSpeciesForEvents([data.id]),
+    loadObservationIdentifications([data.id]),
+  ])
+  const visibleData = data.is_public
+    ? applyHistoricalPublicLocationPrecision(data as ObservationEventRow, authData.user?.id)
+    : data
+  const observation = mapDbObservationEvent(visibleData as never, speciesByEvent.get(data.id) || [])
+  observation.identifications = identificationsByEvent.get(data.id) || []
+  return observation
 }

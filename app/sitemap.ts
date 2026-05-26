@@ -32,13 +32,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.8,
         },
         {
-            url: buildAbsoluteUrl('/nature/birds'),
+            url: buildAbsoluteUrl('/nature/species'),
             lastModified: new Date(),
-            changeFrequency: 'weekly',
+            changeFrequency: 'daily',
             priority: 0.8,
         },
         {
-            url: buildAbsoluteUrl('/nature/species'),
+            url: buildAbsoluteUrl('/nature/species?topic=birds'),
+            lastModified: new Date(),
+            changeFrequency: 'daily',
+            priority: 0.8,
+        },
+        {
+            url: buildAbsoluteUrl('/nature/species?topic=plants'),
             lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.8,

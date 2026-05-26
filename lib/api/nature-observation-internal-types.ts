@@ -34,8 +34,27 @@ export type ObservationEventRow = {
   media_urls: string[]
   is_public: boolean
   status: string
+  nature_topic: string | null
+  identification_status: string
+  observed_at_source: string | null
+  location_source: string | null
+  coordinate_system: string | null
+  lifecycle_stage: 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown' | null
+  sex: 'male' | 'female' | 'unknown' | null
   created_at: string
   updated_at: string
+}
+
+export type ObservationIdentificationRow = {
+  id: number
+  observation_event_id: number
+  species_id: number
+  source: 'human' | 'ai'
+  identifier_user_id: string | null
+  confidence: number | null
+  model_name: string | null
+  is_active: boolean
+  created_at: string
 }
 
 export type ObservationEventSpeciesRow = {
@@ -46,6 +65,8 @@ export type ObservationEventSpeciesRow = {
   behavior_tags: string[]
   confidence: number | null
   notes: string | null
+  lifecycle_stage: 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown' | null
+  sex: 'male' | 'female' | 'unknown' | null
   created_at: string
   updated_at: string
 }

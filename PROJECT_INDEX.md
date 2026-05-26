@@ -1,6 +1,11 @@
 # STEAM 探索 — 项目功能索引
 
 > 本文档为 AI 阅读代码时的导航索引。按功能模块组织，标注每个模块的职责与关键文件位置。
+>
+> 开发约定：
+> - AI/自动化工具开始改动前，先阅读本文档对应模块；不确定文件归属时，先补充索引再改代码。
+> - 新增功能、新路由、共享模块、脚本、数据库结构或重要行为变更时，同步更新本文档。
+> - 本项目使用 Next.js 16，根级请求拦截入口必须使用 `proxy.ts` 并导出 `proxy`；不要新建或恢复已废弃的 `middleware.ts`。
 
 ---
 
@@ -12,7 +17,7 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/植物物种浏览、观察统计；子路由 `birds/`、`trees/`、`species/`、`observations/`、`submit/`、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/树木入口直接进入 `/nature/species?topic=birds|plants`；旧 `birds/`、`trees/` 子路由仅保留重定向；其他子路由 `species/`、`observations/`、`submit/`、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -37,6 +42,8 @@
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
+- `proxy.ts` — Next.js 16 Proxy 入口：补种匿名推荐 `rec_viewer` cookie（替代已废弃的 `middleware.ts`）
+- `AGENTS.md` / `.cursor/rules/project-context.mdc` — AI/自动化工具项目约定：先读索引、同步维护索引、禁止恢复 `middleware.ts`
 
 ---
 

@@ -9,11 +9,13 @@ import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { logger } from "@/lib/logger"
+import { readObservationPhotoMetadata, type ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
 import { uploadFileSecure, validateFileType } from "@/lib/utils/upload"
 
 export interface ObservationMediaAnalysis {
+  id?: number
   imageUrl: string
-  status: "pending" | "passed" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error"
+  status: "pending" | "passed" | "passed_no_identification" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error"
   moderationPass: boolean | null
   moderationReason: string | null
   qualityPass: boolean | null
@@ -34,15 +36,21 @@ interface ObservationSubmitPhotoSectionProps {
   analyses?: ObservationMediaAnalysis[]
   isAnalyzing?: boolean
   showHeader?: boolean
+  onPhotoMetadata?: (items: ObservationPhotoMetadata[]) => void
 }
 
-const MAX_IMAGES = 10
+const MAX_IMAGES = 5
 
 function getAnalysisBadge(status?: ObservationMediaAnalysis["status"]) {
   switch (status) {
     case "passed":
       return {
         label: "已识别",
+        className: "border-emerald-300/80 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300",
+      }
+    case "passed_no_identification":
+      return {
+        label: "可用于观察",
         className: "border-emerald-300/80 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300",
       }
     case "failed_unsafe":
@@ -81,6 +89,7 @@ export function ObservationSubmitPhotoSection({
   analyses = [],
   isAnalyzing = false,
   showHeader = true,
+  onPhotoMetadata,
 }: ObservationSubmitPhotoSectionProps) {
   const { user } = useAuth()
   const { toast } = useToast()
@@ -130,6 +139,7 @@ export function ObservationSubmitPhotoSection({
     setUploadingCount(batch.length)
 
     try {
+      const metadata = await Promise.all(batch.map((file) => readObservationPhotoMetadata(file)))
       const uploadedUrls = await Promise.all(
         batch.map(async (file) => {
           const publicUrl = await uploadFileSecure(file, "project-images", "observations")
@@ -141,6 +151,7 @@ export function ObservationSubmitPhotoSection({
       )
 
       onEvidenceChange([...evidenceImages, ...uploadedUrls])
+      onPhotoMetadata?.(metadata)
       toast({
         title: "照片已收进本次观察",
         description: `成功添加 ${uploadedUrls.length} 张图片`,

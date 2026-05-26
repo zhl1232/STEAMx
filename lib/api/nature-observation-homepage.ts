@@ -13,6 +13,7 @@ import {
 } from '@/lib/mappers/types'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
 import { resolveSpeciesNatureTopicKey } from '@/lib/utils/nature-topic-classification'
+import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
 
 import {
   buildTopicCategoryStats,
@@ -61,6 +62,11 @@ const HOMEPAGE_OBSERVATION_SELECT = [
   'media_urls',
   'is_public',
   'status',
+  'nature_topic',
+  'identification_status',
+  'observed_at_source',
+  'location_source',
+  'coordinate_system',
   'likes_count',
   'comments_count',
 ].join(',')
@@ -72,7 +78,9 @@ const OBSERVATION_DIMENSION_SELECT = [
   'location_name',
   'latitude',
   'longitude',
+  'location_precision',
   'media_urls',
+  'nature_topic',
 ].join(',')
 
 const OBSERVATION_ROWS_PAGE_SIZE = 1000
@@ -102,7 +110,7 @@ export interface ObservationHotspotSummary extends ObservationLocationSummary {
 
 type ObservationDimensionRow = Pick<
   ObservationEventRow,
-  'id' | 'user_id' | 'observed_at' | 'location_name' | 'latitude' | 'longitude' | 'media_urls'
+  'id' | 'user_id' | 'observed_at' | 'location_name' | 'latitude' | 'longitude' | 'location_precision' | 'media_urls' | 'nature_topic'
 >
 
 type SpeciesStatsRow = Pick<SpeciesRow, 'id' | 'slug' | 'common_name' | 'scientific_name' | 'taxon_group' | 'nature_topic' | 'is_active'>
@@ -236,7 +244,7 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
     }
 
     const batch = (data || []) as unknown as ObservationDimensionRow[]
-    rows.push(...batch)
+    rows.push(...batch.map((row) => applyHistoricalPublicLocationPrecision(row)))
 
     if (batch.length < OBSERVATION_ROWS_PAGE_SIZE) break
   }
@@ -390,7 +398,7 @@ function buildObservationHotspots(rows: ObservationDimensionRow[], limit: number
     .slice(0, limit)
 }
 
-function buildTopicSummaries(speciesRows: SpeciesStatsRow[], linkedRows: ObservationSpeciesLinkRow[]): NatureTopicSummary[] {
+function buildTopicSummaries(speciesRows: SpeciesStatsRow[], linkedRows: ObservationSpeciesLinkRow[], observationRows: ObservationDimensionRow[]): NatureTopicSummary[] {
   const speciesIdsByTopic = new Map<NatureTopicKey, Set<number>>()
   const observationIdsByTopic = new Map<NatureTopicKey, Set<number>>()
   const topicBySpeciesId = new Map<number, NatureTopicKey>()
@@ -413,6 +421,13 @@ function buildTopicSummaries(speciesRows: SpeciesStatsRow[], linkedRows: Observa
     observationIdsByTopic.get(topicKey)?.add(row.observation_event_id)
   }
 
+  for (const row of observationRows) {
+    const topicKey = row.nature_topic as NatureTopicKey | null
+    if (topicKey && observationIdsByTopic.has(topicKey)) {
+      observationIdsByTopic.get(topicKey)?.add(row.id)
+    }
+  }
+
   return natureTopicKeys.map((key) => ({
     key,
     speciesCount: speciesIdsByTopic.get(key)?.size || 0,
@@ -425,18 +440,6 @@ function getSpeciesIdsForTopic(speciesRows: SpeciesStatsRow[], topicKey: NatureT
 
   for (const row of speciesRows) {
     if (resolveSpeciesNatureTopicKey(row) === topicKey) {
-      speciesIds.add(row.id)
-    }
-  }
-
-  return speciesIds
-}
-
-function getTreeSpeciesIds(speciesRows: SpeciesStatsRow[]): Set<number> {
-  const speciesIds = new Set<number>()
-
-  for (const row of speciesRows) {
-    if (resolveSpeciesNatureTopicKey(row) === 'plants') {
       speciesIds.add(row.id)
     }
   }
@@ -478,15 +481,27 @@ function buildTopicObservationCategoryStatsFromRows({
   topicKey,
 }: {
   speciesRows: SpeciesStatsRow[]
-  observationRows: Pick<ObservationDimensionRow, 'id' | 'location_name'>[]
+  observationRows: Pick<ObservationDimensionRow, 'id' | 'location_name' | 'nature_topic'>[]
   linkedRows: ObservationSpeciesLinkRow[]
   topicKey: NatureTopicKey
 }): TopicObservationCategoryStats {
-  return buildTopicCategoryStats(
+  const base = buildTopicCategoryStats(
     getSpeciesIdsForTopic(speciesRows, topicKey),
     toTopicCategoryObservations(observationRows),
     toTopicCategorySpeciesLinks(linkedRows),
   )
+  const linkedIds = getTopicObservationIds(
+    getSpeciesIdsForTopic(speciesRows, topicKey),
+    toTopicCategorySpeciesLinks(linkedRows),
+  )
+  const matchedRows = observationRows.filter((row) =>
+    row.nature_topic === topicKey || linkedIds.has(row.id),
+  )
+  return {
+    ...base,
+    observationCount: matchedRows.length,
+    locationCount: new Set(matchedRows.map((row) => row.location_name?.trim()).filter(Boolean)).size,
+  }
 }
 
 function collectObservationGalleryImages(observations: ObservationEvent[], limit = 6) {
@@ -584,81 +599,10 @@ async function loadTopicObservationSpeciesForEventsPublic(
   return grouped
 }
 
-async function loadTreeObservationSpeciesForEventsPublic(
-  eventIds: number[],
-): Promise<Map<number, TopicHotspotSpeciesInput[]>> {
-  const supabase = createPublicClient()
-  const uniqueEventIds = Array.from(new Set(eventIds))
-
-  if (uniqueEventIds.length === 0) {
-    return new Map<number, TopicHotspotSpeciesInput[]>()
-  }
-
-  const typedRows: ObservationSpeciesTopicLinkRow[] = []
-  for (const eventIdBatch of chunkItems(uniqueEventIds, HOTSPOT_QUERY_BATCH_SIZE)) {
-    const { data, error } = await supabase
-      .from('observation_event_species')
-      .select('observation_event_id,species_id,count')
-      .in('observation_event_id', eventIdBatch)
-
-    if (error) {
-      logger.error('Error fetching tree observation species links', { error, eventIds: eventIdBatch })
-      return new Map<number, TopicHotspotSpeciesInput[]>()
-    }
-
-    typedRows.push(...((data || []) as unknown as ObservationSpeciesTopicLinkRow[]))
-  }
-
-  const speciesIds = Array.from(new Set(typedRows.map((row) => row.species_id)))
-
-  if (speciesIds.length === 0) {
-    return new Map<number, TopicHotspotSpeciesInput[]>()
-  }
-
-  const speciesRows: SpeciesTopicRow[] = []
-  for (const speciesIdBatch of chunkItems(speciesIds, HOTSPOT_QUERY_BATCH_SIZE)) {
-    const { data, error } = await supabase
-      .from('species')
-      .select('id,slug,common_name,scientific_name,taxon_group,nature_topic,is_active')
-      .in('id', speciesIdBatch)
-      .eq('is_active', true)
-
-    if (error) {
-      logger.error('Error fetching tree observation species', { error, speciesIds: speciesIdBatch })
-      return new Map<number, TopicHotspotSpeciesInput[]>()
-    }
-
-    speciesRows.push(...((data || []) as unknown as SpeciesTopicRow[]))
-  }
-
-  const treeSpeciesById = new Map<number, SpeciesTopicRow>(
-    speciesRows
-      .filter((row) => resolveSpeciesNatureTopicKey(row) === 'plants')
-      .map((row) => [row.id, row]),
-  )
-
-  const grouped = new Map<number, TopicHotspotSpeciesInput[]>()
-  for (const row of typedRows) {
-    const species = treeSpeciesById.get(row.species_id)
-    if (!species) continue
-
-    const current = grouped.get(row.observation_event_id) || []
-    current.push({
-      speciesId: species.id,
-      speciesSlug: species.slug,
-      commonName: species.common_name,
-      scientificName: species.scientific_name,
-      count: row.count,
-    })
-    grouped.set(row.observation_event_id, current)
-  }
-
-  return grouped
-}
-
 export interface BirdHomepageData {
   featuredSpecies: Species[]
   recentObservations: ObservationEvent[]
+  mapObservations: ObservationEvent[]
   stats: NatureObservationStats
   topicSummaries: NatureTopicSummary[]
   hotspots: ObservationHotspotSummary[]
@@ -714,7 +658,46 @@ export async function getTopicObservationFeaturedSpecies(topicKey: NatureTopicKe
     return []
   }
 
-  return ((data || []) as unknown as SpeciesRow[]).map((row) => mapDbSpecies(normalizeSpeciesRow(row) as never))
+  const speciesRows = (data || []) as unknown as SpeciesRow[]
+
+  const linkedRows = await fetchAllPublicObservationSpeciesLinks()
+  const observationCountBySpecies = new Map<number, number>()
+  for (const row of linkedRows) {
+    if (!speciesIds.includes(row.species_id)) continue
+    observationCountBySpecies.set(row.species_id, (observationCountBySpecies.get(row.species_id) ?? 0) + 1)
+  }
+
+  let observedSpeciesIds = new Set<number>()
+  try {
+    const authClient = await createClient()
+    const { data: { user } } = await authClient.auth.getUser()
+    if (user?.id) {
+      const { data: userEventRows } = await authClient
+        .from('observation_events')
+        .select('id')
+        .eq('user_id', user.id)
+      const userEventIds = ((userEventRows || []) as Array<{ id: number }>).map((row) => row.id)
+      if (userEventIds.length > 0) {
+        const { data: userLinkRows } = await authClient
+          .from('observation_event_species')
+          .select('species_id')
+          .in('observation_event_id', userEventIds)
+        for (const row of ((userLinkRows || []) as Array<{ species_id: number | null }>)) {
+          if (typeof row.species_id === 'number') {
+            observedSpeciesIds.add(row.species_id)
+          }
+        }
+      }
+    }
+  } catch (authError) {
+    logger.error('Error resolving observed species for featured list', { error: authError, topicKey })
+  }
+
+  return speciesRows.map((row) => ({
+    ...mapDbSpecies(normalizeSpeciesRow(row) as never),
+    observationCount: observationCountBySpecies.get(row.id) ?? 0,
+    observedByCurrentUser: observedSpeciesIds.has(row.id),
+  }))
 }
 
 export async function getTreeObservationFeaturedSpecies(limit = 8): Promise<Species[]> {
@@ -741,7 +724,7 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
     toTopicCategorySpeciesLinks(linkedRows),
   )
   const candidateEventIds = observationDimensionRows
-    .filter((row) => topicObservationIds.has(row.id))
+    .filter((row) => row.nature_topic === topicKey || topicObservationIds.has(row.id))
     .slice(0, limit)
     .map((row) => row.id)
 
@@ -767,7 +750,8 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
   )
   const profilesById = await loadProfileSummaries(observationRows.map((row) => row.user_id))
 
-  return observationRows.map((row) => {
+  return observationRows.map((rawRow) => {
+    const row = applyHistoricalPublicLocationPrecision(rawRow)
     const profile = profilesById.get(row.user_id)
     return {
       ...mapDbObservationEvent(
@@ -780,22 +764,18 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
 }
 
 export async function getTreeObservationRecentObservations(limit = 6): Promise<ObservationEvent[]> {
+  return getTopicObservationRecentObservations('plants', limit)
+}
+
+export async function getRecentNatureObservationsForMap(limit = 24): Promise<ObservationEvent[]> {
   if (limit <= 0) {
     return []
   }
 
   const supabase = createPublicClient()
-  const [observationDimensionRows, speciesRows, linkedRows] = await Promise.all([
-    fetchAllPublicObservationDimensionRows(),
-    fetchAllActiveSpeciesForStats(),
-    fetchAllPublicObservationSpeciesLinks(),
-  ])
-  const treeObservationIds = getTopicObservationIds(
-    getTreeSpeciesIds(speciesRows),
-    toTopicCategorySpeciesLinks(linkedRows),
-  )
+  const observationDimensionRows = await fetchAllPublicObservationDimensionRows()
   const candidateEventIds = observationDimensionRows
-    .filter((row) => treeObservationIds.has(row.id))
+    .filter((row) => row.latitude != null && row.longitude != null)
     .slice(0, limit)
     .map((row) => row.id)
 
@@ -810,21 +790,73 @@ export async function getTreeObservationRecentObservations(limit = 6): Promise<O
     .order('observed_at', { ascending: false })
 
   if (error) {
-    logger.error('Error fetching tree observations', { error })
+    logger.error('Error fetching recent observations for nature homepage map', { error })
     return []
   }
 
   const observationRows = (data || []) as unknown as ObservationEventRow[]
-  const treeSpeciesByEvent = await loadTreeObservationSpeciesForEventsPublic(observationRows.map((row) => row.id))
-  const profilesById = await loadProfileSummaries(observationRows.map((row) => row.user_id))
 
-  return observationRows.map((row) => {
+  const [linkedRows, profilesById] = await Promise.all([
+    (async () => {
+      const links: ObservationSpeciesTopicLinkRow[] = []
+      for (const idBatch of chunkItems(observationRows.map((row) => row.id), HOTSPOT_QUERY_BATCH_SIZE)) {
+        const { data: linkData, error: linkError } = await supabase
+          .from('observation_event_species')
+          .select('observation_event_id,species_id,count')
+          .in('observation_event_id', idBatch)
+        if (linkError) {
+          logger.error('Error fetching links for homepage map observations', { error: linkError })
+          continue
+        }
+        links.push(...((linkData || []) as unknown as ObservationSpeciesTopicLinkRow[]))
+      }
+      return links
+    })(),
+    loadProfileSummaries(observationRows.map((row) => row.user_id)),
+  ])
+
+  const speciesIds = Array.from(new Set(linkedRows.map((row) => row.species_id)))
+  const speciesById = new Map<number, SpeciesTopicRow>()
+  if (speciesIds.length > 0) {
+    for (const idBatch of chunkItems(speciesIds, HOTSPOT_QUERY_BATCH_SIZE)) {
+      const { data: speciesData, error: speciesError } = await supabase
+        .from('species')
+        .select('id,slug,common_name,scientific_name,taxon_group,nature_topic,is_active')
+        .in('id', idBatch)
+        .eq('is_active', true)
+      if (speciesError) {
+        logger.error('Error fetching species for homepage map observations', { error: speciesError })
+        continue
+      }
+      for (const row of ((speciesData || []) as unknown as SpeciesTopicRow[])) {
+        speciesById.set(row.id, row)
+      }
+    }
+  }
+
+  const speciesByEvent = new Map<number, ObservationSpeciesSummary[]>()
+  for (const link of linkedRows) {
+    const species = speciesById.get(link.species_id)
+    if (!species) continue
+    const current = speciesByEvent.get(link.observation_event_id) || []
+    current.push({
+      speciesId: species.id,
+      speciesSlug: species.slug,
+      commonName: species.common_name,
+      scientificName: species.scientific_name,
+      count: link.count,
+      behaviorTags: [],
+      confidence: null,
+      notes: null,
+    })
+    speciesByEvent.set(link.observation_event_id, current)
+  }
+
+  return observationRows.map((rawRow) => {
+    const row = applyHistoricalPublicLocationPrecision(rawRow)
     const profile = profilesById.get(row.user_id)
     return {
-      ...mapDbObservationEvent(
-        row as never,
-        (treeSpeciesByEvent.get(row.id) || []).map(mapTopicSpeciesToObservationSpecies),
-      ),
+      ...mapDbObservationEvent(row as never, speciesByEvent.get(row.id) || []),
       authorDisplayName: profile?.display_name || profile?.username || null,
     }
   })
@@ -852,17 +884,7 @@ export async function getTopicObservationCategoryStats(
 }
 
 export async function getTreeObservationCategoryStats(): Promise<TreeObservationCategoryStats> {
-  const [speciesRows, observationDimensionRows, linkedRows] = await Promise.all([
-    fetchAllActiveSpeciesForStats(),
-    fetchAllPublicObservationDimensionRows(),
-    fetchAllPublicObservationSpeciesLinks(),
-  ])
-
-  return buildTopicCategoryStats(
-    getTreeSpeciesIds(speciesRows),
-    toTopicCategoryObservations(observationDimensionRows),
-    toTopicCategorySpeciesLinks(linkedRows),
-  )
+  return getTopicObservationCategoryStats('plants')
 }
 
 export async function getNatureObservationHotspots(limit = 30): Promise<ObservationHotspotSummary[]> {
@@ -887,13 +909,15 @@ export async function getTopicObservationHotspots(
     observationDimensionRows.map((row) => row.id),
     topicKey,
   )
-  const observations: TopicHotspotObservationInput[] = observationDimensionRows.map((row) => ({
-    id: row.id,
-    observedAt: row.observed_at,
-    locationName: row.location_name,
-    latitude: row.latitude,
-    longitude: row.longitude,
-  }))
+  const observations: TopicHotspotObservationInput[] = observationDimensionRows
+    .filter((row) => row.nature_topic === topicKey || speciesByEvent.has(row.id))
+    .map((row) => ({
+      id: row.id,
+      observedAt: row.observed_at,
+      locationName: row.location_name,
+      latitude: row.latitude,
+      longitude: row.longitude,
+    }))
 
   return buildTopicHotspotSummaries(observations, speciesByEvent, {
     locationLimit: limit,
@@ -902,26 +926,7 @@ export async function getTopicObservationHotspots(
 }
 
 export async function getTreeObservationHotspots(limit = 6): Promise<ObservationLocationSummary[]> {
-  if (limit <= 0) {
-    return []
-  }
-
-  const observationDimensionRows = await fetchAllPublicObservationDimensionRows()
-  const speciesByEvent = await loadTreeObservationSpeciesForEventsPublic(
-    observationDimensionRows.map((row) => row.id),
-  )
-  const observations: TopicHotspotObservationInput[] = observationDimensionRows.map((row) => ({
-    id: row.id,
-    observedAt: row.observed_at,
-    locationName: row.location_name,
-    latitude: row.latitude,
-    longitude: row.longitude,
-  }))
-
-  return buildTopicHotspotSummaries(observations, speciesByEvent, {
-    locationLimit: limit,
-    speciesLimit: TOPIC_HOTSPOT_SPECIES_LIMIT,
-  })
+  return getTopicObservationHotspots('plants', limit)
 }
 
 async function getHomepageStatsAndSummaries() {
@@ -959,29 +964,31 @@ async function getHomepageStatsAndSummaries() {
       identifiedRecordCount,
       hotspotLocationCount: locationNames.size,
     },
-    topicSummaries: buildTopicSummaries(speciesRows, linkedRows),
+    topicSummaries: buildTopicSummaries(speciesRows, linkedRows, observationDimensionRows),
     hotspots: buildObservationHotspots(observationDimensionRows, 8),
   }
 }
 
 const getBirdObservationHomepageDataCached = unstable_cache(
   async (): Promise<BirdHomepageData> => {
-    const [featuredSpecies, recentObservations, statsAndSummaries] = await Promise.all([
+    const [featuredSpecies, recentObservations, mapObservations, statsAndSummaries] = await Promise.all([
       getBirdObservationFeaturedSpecies(),
       getBirdObservationRecentObservations(12),
+      getRecentNatureObservationsForMap(24),
       getHomepageStatsAndSummaries(),
     ])
 
     return {
       featuredSpecies,
       recentObservations,
+      mapObservations,
       stats: statsAndSummaries.stats,
       topicSummaries: statsAndSummaries.topicSummaries,
       hotspots: statsAndSummaries.hotspots,
       galleryImages: collectObservationGalleryImages(recentObservations),
     }
   },
-  ['nature-homepage-v3-real-data'],
+  ['nature-homepage-v4-map-pair'],
   { revalidate: 300, tags: ['nature-homepage'] },
 )
 
@@ -993,6 +1000,7 @@ export async function getBirdObservationHomepageData(): Promise<BirdHomepageData
     return {
       featuredSpecies: [],
       recentObservations: [],
+      mapObservations: [],
       stats: emptyStats,
       topicSummaries: buildEmptyTopicSummaries(),
       hotspots: [],

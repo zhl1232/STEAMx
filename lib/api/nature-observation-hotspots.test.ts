@@ -88,7 +88,7 @@ describe('buildTopicHotspotSummaries', () => {
     })
   })
 
-  it('skips records without location or identified topic species and applies limits', () => {
+  it('includes unidentified topic records with a location and applies limits', () => {
     const observations: TopicHotspotObservationInput[] = [
       { id: 1, observedAt: '2026-04-24T08:00:00.000Z', locationName: '北海公园' },
       { id: 2, observedAt: '2026-04-25T08:00:00.000Z', locationName: '' },
@@ -111,9 +111,8 @@ describe('buildTopicHotspotSummaries', () => {
     )
 
     expect(result).toHaveLength(1)
-    expect(result[0]?.locationName).toBe('北海公园')
-    expect(result[0]?.species).toHaveLength(1)
-    expect(result[0]?.species?.[0]?.commonName).toBe('白鹭')
+    expect(result[0]?.locationName).toBe('天坛公园')
+    expect(result[0]?.species).toEqual([])
   })
 })
 

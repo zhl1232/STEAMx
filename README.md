@@ -30,6 +30,10 @@ STEAM 探索 是一个面向 6-16 岁青少年的互动学习社区，围绕科�
 ## 📁 项目结构
 
 > 详细的模块索引与文件定位见 [PROJECT_INDEX.md](./PROJECT_INDEX.md)
+>
+> AI/自动化工具开发前必须先读 `PROJECT_INDEX.md` 的相关模块。新增功能、新路由、共享模块、脚本、数据库结构或重要行为变更时，同步更新 `PROJECT_INDEX.md`。
+>
+> 这些约定也写入了 `AGENTS.md` 和 `.cursor/rules/project-context.mdc`。Next.js 16 已废弃 `middleware.ts` 文件约定；本项目使用根目录 `proxy.ts` 并导出 `proxy`，不要新建或恢复 `middleware.ts`。
 
 ```
 steam-explore-share/

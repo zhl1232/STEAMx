@@ -56,7 +56,14 @@ export function ObservationCard({ observation, className, fromHref }: Observatio
       </div>
 
       <div className="space-y-3 p-4">
-        <h2 className="line-clamp-1 text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="line-clamp-1 text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+          <span className={observation.identificationStatus === "community_confirmed"
+            ? "shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-[11px] text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
+            : "shrink-0 rounded-full bg-amber-100 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"}>
+            {observation.identificationStatus === "community_confirmed" ? "已确认" : "待鉴定"}
+          </span>
+        </div>
 
         {observation.species.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">

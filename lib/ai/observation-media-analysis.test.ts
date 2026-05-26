@@ -155,7 +155,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
     expect(result.noteSuggestion).toBeNull()
   })
 
-  it('marks unmatched species as failed_unrecognized', () => {
+  it('passes usable media without forcing an unmatched identification', () => {
     const result = mapVisionPayloadToAnalysisResult(
       {
         moderation_pass: true,
@@ -177,8 +177,8 @@ describe('mapVisionPayloadToAnalysisResult', () => {
       { ok: true },
     )
 
-    expect(result.status).toBe('failed_unrecognized')
+    expect(result.status).toBe('passed_no_identification')
     expect(result.speciesCandidates).toEqual([])
-    expect(result.noteSuggestion).toBeNull()
+    expect(result.noteSuggestion).toContain('我看到')
   })
 })

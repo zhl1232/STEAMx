@@ -58,16 +58,20 @@ function getDashScopeConfig() {
   return { apiKey, baseUrl, model }
 }
 
-function buildPrompt() {
+export type ObservationNatureTopic = 'birds' | 'plants'
+
+function buildPrompt(topic: ObservationNatureTopic) {
+  const subjectLabel = topic === 'plants' ? '树木' : '鸟类'
+  const subjectExample = topic === 'plants' ? '一株树木' : '一只鸟'
   return [
-    '你是自然观察图片审核与鸟类识别助手。',
+    `你是自然观察图片审核与${subjectLabel}识别助手。`,
     '请严格输出 JSON，不要输出任何额外说明。',
     '任务分两部分：',
     '1. 判断图片是否包含违规、不适宜或与自然观察明显无关的内容。',
     '2. 判断图片是否足够清晰、主体是否可识别。',
-    '如果图片通过上述两项，再给出最多 3 个鸟类候选。',
+    `如果图片通过上述两项，再给出最多 3 个${subjectLabel}候选。`,
     '候选名称优先使用中文常见名，若知道学名请附带。',
-    '如果不是鸟，或无法可靠识别，不要猜测，返回空数组。',
+    `如果不是${subjectLabel}，或无法可靠识别，不要猜测，返回空数组。`,
     '输出格式：',
     '{',
     '  "moderation_pass": boolean,',
@@ -92,7 +96,7 @@ function buildPrompt() {
     '- note_suggestion 必须使用第一人称观察记录语气，像用户自己写下的备注，例如“我看到一只……”。',
     '- note_suggestion 不要使用“画面展示了”“图片中”“照片里”“背景为”等第三方解说口吻。',
     '- note_suggestion 只描述可见事实，如主体姿态、可能行为、环境、光线、距离；不要编造地点、时间、数量或未出现的行为。',
-    '- note_suggestion 避免写死物种结论，可用“我看到一只鸟”“疑似鹞属鸟类”等谨慎表达。',
+    `- note_suggestion 避免写死物种结论，可用“我看到${subjectExample}”等谨慎表达。`,
     '- 不要编造不存在的物种名。',
   ].join('\n')
 }
@@ -100,6 +104,7 @@ function buildPrompt() {
 export async function analyzeObservationImageWithQwen(
   imageUrl: string,
   speciesRows: SpeciesRow[],
+  topic: ObservationNatureTopic = 'birds',
 ): Promise<ObservationMediaAnalysisResult> {
   const { apiKey, baseUrl, model } = getDashScopeConfig()
 
@@ -116,7 +121,7 @@ export async function analyzeObservationImageWithQwen(
       messages: [
         {
           role: 'system',
-          content: buildPrompt(),
+          content: buildPrompt(topic),
         },
         {
           role: 'user',

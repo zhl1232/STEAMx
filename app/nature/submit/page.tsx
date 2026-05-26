@@ -23,8 +23,9 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default async function ObservationSubmitPage({ searchParams }: ObservationSubmitPageProps) {
   const params = await searchParams;
-  const { species } = await getSpeciesList({ page: 0, pageSize: 50 });
-  const isBirdTopic = params.topic === "birds";
+  const topic = params.topic === "plants" ? "plants" : "birds";
+  const { species } = await getSpeciesList({ page: 0, pageSize: 50, topic });
+  const isBirdTopic = topic === "birds";
   const initialSpeciesId = params.species ? Number.parseInt(params.species, 10) || null : null;
   const speciesOptions = species.map((item) => ({
     id: item.id,
@@ -33,7 +34,7 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
   }));
   const fallbackHref = normalizeNatureFrom(
     params.from,
-    isBirdTopic ? "/nature/birds" : "/nature",
+    isBirdTopic ? "/nature/species?topic=birds" : "/nature/species?topic=plants",
   );
 
   return (
@@ -47,7 +48,7 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
     >
       <ObservationSubmitForm
         speciesOptions={speciesOptions}
-        isBirdTopic={isBirdTopic}
+        topic={topic}
         initialSpeciesId={initialSpeciesId}
       />
     </NatureShell>

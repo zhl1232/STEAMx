@@ -1,0 +1,11 @@
+---
+description: Project context and Next.js file-convention rules
+alwaysApply: true
+---
+
+# 项目上下文规则
+
+1. 开始修改代码前，先阅读 `PROJECT_INDEX.md` 中与任务相关的模块说明。
+2. 新增功能、新路由、共享模块、脚本、数据库结构或重要行为变更时，同步更新 `PROJECT_INDEX.md`。
+3. 本项目使用 Next.js 16。根级请求拦截入口必须使用 `proxy.ts` 并导出 `proxy`，禁止新建或恢复已废弃的 `middleware.ts`。
+4. 若变更涉及数据库迁移，继续遵守 `.cursor/rules/db-migrations.mdc`。

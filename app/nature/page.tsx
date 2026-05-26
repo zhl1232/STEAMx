@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import {
   ArrowRight,
   Bug,
@@ -9,10 +8,8 @@ import {
   ChevronRight,
   Clock3,
   Feather,
-  Heart,
   Leaf,
   MapPin,
-  MessageCircle,
   NotebookPen,
   Sprout,
   Telescope,
@@ -21,9 +18,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { MobileHotspotsCard } from "@/app/nature/_components/mobile-hotspots-card";
-
-import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
+import { NatureHomeMapPair } from "@/components/features/bird-observation/nature-home-map-pair";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
 import type {
@@ -34,7 +29,7 @@ import type {
 } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
+import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
 const lakeImage = "/assets/observation-list-reeds-sky-bg.png";
@@ -65,19 +60,6 @@ interface TopicCard extends TopicCardBase {
   species: string;
 }
 
-interface ObservationPreview {
-  id: string;
-  title: string;
-  date: string;
-  location: string;
-  author: string;
-  badge: string;
-  likes: number;
-  comments: number;
-  image?: ImageSource | null;
-  href: string;
-}
-
 interface StatViewItem {
   label: string;
   value: string;
@@ -87,24 +69,12 @@ interface StatViewItem {
 const natureBlurDataUrl =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23dff1e4'/%3E%3Cstop offset='.55' stop-color='%23cfe7ee'/%3E%3Cstop offset='1' stop-color='%23f4ead1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='16' height='12' fill='url(%23g)'/%3E%3C/svg%3E";
 
-const hotspotRankColors = [
-  "hsl(var(--brand-amber))",
-  "hsl(var(--nature-accent))",
-  "hsl(var(--brand-blue))",
-  "hsl(var(--tone-tech))",
-  "hsl(var(--tone-engineering))",
-];
-
-function getHotspotRankColor(index: number) {
-  return hotspotRankColors[index % hotspotRankColors.length];
-}
-
 const topicCardBase: TopicCardBase[] = [
   {
     key: "birds",
     title: "鸟类",
     subtitle: "发现天空的精灵",
-    href: "/nature/birds",
+    href: "/nature/species?topic=birds",
     image: "/birds/images/alcedo-atthis.jpg",
     icon: Feather,
     tint: "from-[#e9f6ff]/90 via-[#bfe5f6]/[0.34] to-transparent dark:from-[#123b64]/95 dark:via-[#1e5f91]/[0.72] dark:to-[#071d32]/[0.42]",
@@ -121,7 +91,7 @@ const topicCardBase: TopicCardBase[] = [
     key: "plants",
     title: "树木",
     subtitle: "读懂树叶与年轮",
-    href: "/nature/trees",
+    href: "/nature/species?topic=plants",
     image: "/trees/images/ginkgo-biloba-1.jpg",
     icon: Trees,
     tint: "from-[#eff8d8]/90 via-[#cdeba0]/[0.36] to-transparent dark:from-[#243f12]/[0.94] dark:via-[#51721c]/[0.66] dark:to-[#17230c]/[0.38]",
@@ -135,16 +105,6 @@ const topicCardBase: TopicCardBase[] = [
     tint: "from-[#fff3d8]/90 via-[#edc06e]/[0.32] to-transparent dark:from-[#51380f]/85 dark:via-[#a0712f]/[0.44] dark:to-[#1f1507]/[0.24]",
   },
 ];
-
-function HeroGlassPanel({ children }: { children: ReactNode }) {
-  return (
-    <section className="nature-hero-glass">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-white/20 dark:bg-white/[0.03]" />
-      <div className="pointer-events-none absolute inset-px z-0 rounded-[var(--radius-xs)] border border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] dark:border-white/[0.06]" />
-      <div className="relative z-10">{children}</div>
-    </section>
-  );
-}
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("zh-CN", {
@@ -190,24 +150,6 @@ function buildTopicCards(topicSummaries: NatureTopicSummary[]): TopicCard[] {
 }
 
 
-
-function buildObservationPreviews(observations: ObservationEvent[]): ObservationPreview[] {
-  return observations.slice(0, 5).map((observation) => {
-    const title = observation.species[0]?.commonName ?? `观察记录 #${observation.id}`;
-    return {
-      id: String(observation.id),
-      title,
-      date: formatDate(observation.observedAt),
-      location: observation.locationName,
-      author: observation.authorDisplayName || "匿名观察者",
-      badge: observation.species.length > 0 ? `${observation.species.length} 种` : "未识别",
-      likes: observation.likesCount,
-      comments: observation.commentsCount,
-      image: observation.mediaUrls[0] || null,
-      href: appendNatureFrom(`/nature/observations/${observation.id}`, "/nature"),
-    };
-  });
-}
 
 function HeroStatsCard({ stats }: { stats: StatViewItem[] }) {
   return (
@@ -281,36 +223,6 @@ function NatureHeroPanel({ heroStats, submitHref }: { heroStats: StatViewItem[];
   );
 }
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  href,
-  action = "查看全部",
-}: {
-  icon: LucideIcon;
-  title: string;
-  href?: string;
-  action?: string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex min-w-0 items-center gap-2">
-        <Icon className="h-5 w-5 shrink-0 nature-icon-accent" />
-        <h2 className="nature-heading truncate text-[20px] md:text-[22px]">{title}</h2>
-      </div>
-      {href ? (
-        <Link
-          href={href}
-          className="nature-link inline-flex min-h-11 shrink-0 items-center gap-1.5"
-        >
-          {action}
-          <ChevronRight className="h-4 w-4" />
-        </Link>
-      ) : null}
-    </div>
-  );
-}
-
 function TopicCardView({ topic }: { topic: TopicCard }) {
   const Icon = topic.icon;
   const content = (
@@ -361,122 +273,6 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
     <div className={className} aria-label={`${topic.title}专题即将上线`}>
       {content}
     </div>
-  );
-}
-
-function ObservationCard({ item, priority = false }: { item: ObservationPreview; priority?: boolean }) {
-  return (
-    <Link
-      href={item.href}
-      className="group nature-observation-card"
-    >
-      <div className="nature-media-placeholder relative aspect-[1.18] overflow-hidden md:aspect-[1.5]">
-        {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            priority={priority}
-            placeholder="blur"
-            blurDataURL={natureBlurDataUrl}
-            className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
-            sizes="(max-width: 768px) 42vw, 12vw"
-          />
-        ) : (
-          <div className="flex h-full w-full items-end bg-[radial-gradient(circle_at_18%_20%,rgba(22,132,75,0.18),transparent_38%),radial-gradient(circle_at_78%_10%,rgba(56,189,248,0.18),transparent_42%),linear-gradient(150deg,#eef8ef,#dfeee7)] p-3 dark:bg-[radial-gradient(circle_at_18%_20%,rgba(116,215,154,0.14),transparent_38%),radial-gradient(circle_at_78%_10%,rgba(56,189,248,0.12),transparent_42%),linear-gradient(150deg,#122319,#172a1e)]">
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold nature-icon-accent backdrop-blur dark:bg-[hsl(var(--nature-hero-bg)/0.8)]">
-              <Leaf className="h-3.5 w-3.5" />
-              暂无照片
-            </span>
-          </div>
-        )}
-      </div>
-      <div className="space-y-2.5 p-4 md:p-3.5">
-        <div>
-          <h3 className="line-clamp-1 text-[15px] font-bold leading-5 text-[hsl(var(--nature-foreground))] transition-colors group-hover:text-[hsl(var(--nature-accent))] md:text-[16px] md:leading-6">
-            {item.title}
-          </h3>
-          <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 nature-text-muted">
-            <span>{item.date}</span>
-            <span className="max-w-full truncate md:max-w-[15rem]">{item.location}</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="nature-stat-icon grid h-5 w-5 shrink-0 place-items-center text-[10px] font-bold">
-            {item.author.slice(0, 1)}
-          </span>
-          <span className="min-w-0 truncate text-xs nature-text-muted">{item.author}</span>
-          <span className="nature-chip">{item.badge}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-semibold nature-text-muted">
-          <span className="nature-interaction-pill">
-            <Heart className="h-3.5 w-3.5" />
-            {item.likes}
-          </span>
-          <span className="nature-interaction-pill">
-            <MessageCircle className="h-3.5 w-3.5" />
-            {item.comments}
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-
-function HotspotMapCard({ hotspots }: { hotspots: ObservationHotspotSummary[] }) {
-  const validHotspots = hotspots.filter((hotspot) => hotspot.latitude != null && hotspot.longitude != null);
-
-  return (
-    <HeroGlassPanel>
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="nature-heading text-[20px]">热点观察地</h2>
-        <Link href="/nature/map" className="nature-link inline-flex min-h-11 items-center gap-1">
-          查看更多
-          <ChevronRight className="h-4 w-4" />
-        </Link>
-      </div>
-      <div className="mt-5 space-y-5">
-        <div>
-          {validHotspots.length > 0 ? (
-            <DomesticMiniMap
-              markers={validHotspots.slice(0, 8).map((hotspot, index) => ({
-                latitude: hotspot.latitude as number,
-                longitude: hotspot.longitude as number,
-                label: hotspot.locationName,
-                observedAt: hotspot.latestObservedAt,
-                weight: hotspot.observationCount,
-                color: getHotspotRankColor(index),
-                imageUrl: hotspot.imageUrl,
-                summary: `最近 ${formatDate(hotspot.latestObservedAt)} 有观察记录，共 ${formatCount(hotspot.observationCount)} 条公开记录。`,
-              }))}
-              heightClassName="h-[210px]"
-              enableTimeDecay
-            />
-          ) : (
-            <div className="nature-empty-state flex min-h-[210px] items-center px-4 leading-6">
-              公开观察记录里还没有可用于地图展示的坐标。
-            </div>
-          )}
-        </div>
-        <div className="min-w-0 space-y-3">
-          {hotspots.slice(0, 5).map((hotspot, index) => (
-            <Link key={hotspot.locationName} href="/nature/map" title={hotspot.locationName} className="nature-list-row">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs font-bold text-white shadow-[0_8px_18px_-12px_rgba(18,60,42,0.55)]" style={{ backgroundColor: getHotspotRankColor(index) }}>{index + 1}</span>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))]">{hotspot.locationName}</p>
-                <p className="text-xs leading-5 nature-text-muted">公开记录 {hotspot.observationCount} 条</p>
-              </div>
-            </Link>
-          ))}
-          {hotspots.length === 0 ? (
-            <div className="nature-empty-state px-3 py-4">
-              暂无真实热点地点。
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </HeroGlassPanel>
   );
 }
 
@@ -575,17 +371,14 @@ function DesktopSidebar({
   stats,
   latestObservation,
   topHotspot,
-  hotspots,
 }: {
   stats: NatureObservationStats;
   latestObservation?: ObservationEvent;
   topHotspot?: ObservationHotspotSummary;
-  hotspots: ObservationHotspotSummary[];
 }) {
   return (
     <aside className="hidden min-w-0 lg:block">
       <div className="sticky top-20 space-y-5">
-        <HotspotMapCard hotspots={hotspots} />
         <ContributionCard stats={stats} />
         <DataStatusCard stats={stats} latestObservation={latestObservation} topHotspot={topHotspot} />
       </div>
@@ -596,7 +389,6 @@ function DesktopSidebar({
 
 export default async function NaturePage() {
   const homepage = await getBirdObservationHomepageData();
-  const recentCards = buildObservationPreviews(homepage.recentObservations);
   const heroStats = buildHeroStats(homepage.stats);
   const topicCards = buildTopicCards(homepage.topicSummaries);
   const latestObservation = homepage.recentObservations[0];
@@ -621,6 +413,8 @@ export default async function NaturePage() {
           <NatureHeroPanel heroStats={heroStats} submitHref={submitHref} />
           <HeroStatsCard stats={heroStats} />
 
+          <NatureHomeMapPair observations={homepage.mapObservations} />
+
           <section>
             <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
               {topicCards.map((topic) => (
@@ -628,27 +422,9 @@ export default async function NaturePage() {
               ))}
             </div>
           </section>
-
-          <section className="surface-card rounded-[var(--radius-sm)] p-4 md:p-5">
-            <SectionHeader icon={Leaf} title="最近观察记录" href="/nature/observations" />
-            <div className="no-scrollbar -mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-4 md:mx-0 md:px-0 md:pb-2 2xl:grid 2xl:grid-cols-5 2xl:overflow-visible 2xl:pb-1">
-              {recentCards.map((item, index) => (
-                <ObservationCard key={item.id} item={item} priority={index === 0} />
-              ))}
-            </div>
-            {recentCards.length === 0 ? (
-              <div className="mt-5 nature-empty-state px-4 py-8 text-center">
-                暂无公开观察记录。发布后的真实记录会出现在这里。
-              </div>
-            ) : null}
-          </section>
-
-          <div className="grid grid-cols-1 gap-3 md:hidden">
-            <MobileHotspotsCard hotspots={homepage.hotspots} />
-          </div>
         </main>
 
-        <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} hotspots={homepage.hotspots} />
+        <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
       </div>
     </div>
   );

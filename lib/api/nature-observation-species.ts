@@ -6,9 +6,17 @@ import {
   mapDbSpecies,
   type ObservationEvent,
   type ObservationLocationSummary,
+  type ObservationLifecycleStage,
+  type ObservationSex,
   type Species,
+  type SpeciesLifecycleAggregate,
+  type SpeciesMonthlyAggregate,
+  type SpeciesSexAggregate,
+  type SpeciesStats,
+  type SpeciesYearlyAggregate,
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
 import {
   getNatureTopicLabel,
   normalizeSpeciesTopicFilter,
@@ -375,7 +383,10 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
   const eventIds = Array.from(new Set(typedLinkedRows.map((row) => row.observation_event_id)))
 
   if (eventIds.length === 0) {
-    return baseSpecies
+    return {
+      ...baseSpecies,
+      stats: await computeSpeciesStats(supabase, data.id, [], []),
+    }
   }
 
   const { data: eventRows, error: eventError } = await supabase
@@ -392,7 +403,9 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
     return baseSpecies
   }
 
-  const typedEventRows = (eventRows || []) as ObservationEventRow[]
+  const typedEventRows = ((eventRows || []) as ObservationEventRow[]).map((row) =>
+    applyHistoricalPublicLocationPrecision(row),
+  )
   const visibleEventIds = new Set(typedEventRows.map((row) => row.id))
   const filteredLinkedRows = typedLinkedRows.filter((row) => visibleEventIds.has(row.observation_event_id))
   const speciesSummariesByEvent = new Map<number, ObservationEvent['species']>()
@@ -440,5 +453,186 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
       mapDbObservationEvent(row as never, speciesSummariesByEvent.get(row.id) || []),
     ),
     topLocations,
+    stats: await computeSpeciesStats(supabase, data.id, eventIds, typedLinkedRows),
+  }
+}
+
+interface SpeciesStatsEventRow {
+  id: number
+  user_id: string
+  observed_at: string
+}
+
+interface IdentificationRow {
+  identifier_user_id: string | null
+}
+
+interface ProfileRow {
+  id: string
+  username: string | null
+  display_name: string | null
+  avatar_url: string | null
+}
+
+async function computeSpeciesStats(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  speciesId: number,
+  allLinkedEventIds: number[],
+  linkedRows: ObservationEventSpeciesRow[],
+): Promise<SpeciesStats> {
+  const emptyStats: SpeciesStats = {
+    totalObservationCount: 0,
+    latestObservedAt: null,
+    topObservers: [],
+    topIdentifiers: [],
+    monthlyAggregates: Array.from({ length: 12 }, (_, index) => ({ month: index + 1, count: 0 })),
+    yearlyAggregates: [],
+    lifecycleAggregates: [],
+    sexAggregates: [],
+  }
+
+  let statsEventRows: SpeciesStatsEventRow[] = []
+  if (allLinkedEventIds.length > 0) {
+    const { data, error } = await supabase
+      .from('observation_events')
+      .select('id,user_id,observed_at')
+      .in('id', allLinkedEventIds)
+      .eq('status', 'approved')
+      .eq('is_public', true)
+
+    if (error) {
+      logger.error('Error fetching species stats events', { error, speciesId })
+    } else {
+      statsEventRows = (data || []) as unknown as SpeciesStatsEventRow[]
+    }
+  }
+
+  const totalObservationCount = statsEventRows.length
+  const latestObservedAt = statsEventRows.reduce<string | null>((latest, row) => {
+    if (!latest) return row.observed_at
+    return new Date(row.observed_at) > new Date(latest) ? row.observed_at : latest
+  }, null)
+
+  const observerCounts = new Map<string, number>()
+  for (const row of statsEventRows) {
+    observerCounts.set(row.user_id, (observerCounts.get(row.user_id) ?? 0) + 1)
+  }
+  const topObserverEntries = Array.from(observerCounts.entries())
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 5)
+
+  const { data: identData, error: identError } = await supabase
+    .from('observation_identifications')
+    .select('identifier_user_id')
+    .eq('species_id', speciesId)
+    .eq('source', 'human')
+    .eq('is_active', true)
+
+  if (identError) {
+    logger.error('Error fetching species identifications', { error: identError, speciesId })
+  }
+
+  const identifierCounts = new Map<string, number>()
+  for (const row of ((identData || []) as IdentificationRow[])) {
+    if (!row.identifier_user_id) continue
+    identifierCounts.set(row.identifier_user_id, (identifierCounts.get(row.identifier_user_id) ?? 0) + 1)
+  }
+  const topIdentifierEntries = Array.from(identifierCounts.entries())
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 5)
+
+  const profileIds = Array.from(new Set([
+    ...topObserverEntries.map(([id]) => id),
+    ...topIdentifierEntries.map(([id]) => id),
+  ]))
+  const profileById = new Map<string, ProfileRow>()
+  if (profileIds.length > 0) {
+    const { data: profileData, error: profileError } = await supabase
+      .from('profiles')
+      .select('id,username,display_name,avatar_url')
+      .in('id', profileIds)
+    if (profileError) {
+      logger.error('Error fetching species stats profiles', { error: profileError, speciesId })
+    } else {
+      for (const row of ((profileData || []) as unknown as ProfileRow[])) {
+        profileById.set(row.id, row)
+      }
+    }
+  }
+
+  const monthCounts = new Map<number, number>()
+  const yearCounts = new Map<number, number>()
+  for (const row of statsEventRows) {
+    const date = new Date(row.observed_at)
+    if (Number.isNaN(date.getTime())) continue
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    monthCounts.set(month, (monthCounts.get(month) ?? 0) + 1)
+    yearCounts.set(year, (yearCounts.get(year) ?? 0) + 1)
+  }
+  const monthlyAggregates: SpeciesMonthlyAggregate[] = Array.from({ length: 12 }, (_, index) => ({
+    month: index + 1,
+    count: monthCounts.get(index + 1) ?? 0,
+  }))
+  const yearlyAggregates: SpeciesYearlyAggregate[] = Array.from(yearCounts.entries())
+    .map(([year, count]) => ({ year, count }))
+    .sort((left, right) => left.year - right.year)
+
+  const statsEventIdSet = new Set(statsEventRows.map((row) => row.id))
+  const statsLinkedRows = linkedRows.filter((row) => statsEventIdSet.has(row.observation_event_id))
+
+  const lifecycleCounts = new Map<ObservationLifecycleStage, number>()
+  const sexCounts = new Map<ObservationSex, number>()
+  for (const row of statsLinkedRows) {
+    if (row.lifecycle_stage) {
+      lifecycleCounts.set(row.lifecycle_stage, (lifecycleCounts.get(row.lifecycle_stage) ?? 0) + 1)
+    }
+    if (row.sex) {
+      sexCounts.set(row.sex, (sexCounts.get(row.sex) ?? 0) + 1)
+    }
+  }
+  const lifecycleAggregates: SpeciesLifecycleAggregate[] = Array.from(lifecycleCounts.entries())
+    .map(([stage, count]) => ({ stage, count }))
+    .sort((left, right) => right.count - left.count)
+  const sexAggregates: SpeciesSexAggregate[] = Array.from(sexCounts.entries())
+    .map(([sex, count]) => ({ sex, count }))
+    .sort((left, right) => right.count - left.count)
+
+  const topObservers = topObserverEntries.map(([userId, count]) => {
+    const profile = profileById.get(userId)
+    return {
+      userId,
+      displayName: profile?.display_name || profile?.username || '匿名观察者',
+      avatarUrl: profile?.avatar_url ?? null,
+      observationCount: count,
+    }
+  })
+
+  const topIdentifiers = topIdentifierEntries.map(([userId, count]) => {
+    const profile = profileById.get(userId)
+    return {
+      userId,
+      displayName: profile?.display_name || profile?.username || '匿名鉴定者',
+      avatarUrl: profile?.avatar_url ?? null,
+      identificationCount: count,
+    }
+  })
+
+  if (totalObservationCount === 0
+    && topIdentifiers.length === 0
+    && lifecycleAggregates.length === 0
+    && sexAggregates.length === 0) {
+    return emptyStats
+  }
+
+  return {
+    totalObservationCount,
+    latestObservedAt,
+    topObservers,
+    topIdentifiers,
+    monthlyAggregates,
+    yearlyAggregates,
+    lifecycleAggregates,
+    sexAggregates,
   }
 }

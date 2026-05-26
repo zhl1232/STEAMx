@@ -6,6 +6,7 @@ import type { Database } from '@/lib/supabase/types'
 const ANALYSIS_STATUS_VALUES = [
   'pending',
   'passed',
+  'passed_no_identification',
   'failed_unsafe',
   'failed_low_quality',
   'failed_unrecognized',
@@ -38,6 +39,7 @@ export interface ObservationMediaAnalysisResult {
 }
 
 export interface ObservationMediaAnalysisResponse {
+  id: number
   imageUrl: string
   status: ObservationMediaAnalysisStatus
   moderationPass: boolean | null
@@ -209,7 +211,7 @@ export function mapVisionPayloadToAnalysisResult(
   } else if (!payload.quality_pass) {
     status = 'failed_low_quality'
   } else if (matchedCandidates.length === 0) {
-    status = 'failed_unrecognized'
+    status = 'passed_no_identification'
   } else {
     status = 'passed'
   }
@@ -221,8 +223,8 @@ export function mapVisionPayloadToAnalysisResult(
     moderationReason: clipReason(payload.moderation_reason),
     qualityPass: payload.quality_pass,
     qualityReason: clipReason(payload.quality_reason),
-    noteSuggestion: status === 'passed' ? clipNoteSuggestion(payload.note_suggestion) : null,
-    speciesCandidates: matchedCandidates.slice(0, 3),
+    noteSuggestion: status === 'passed' || status === 'passed_no_identification' ? clipNoteSuggestion(payload.note_suggestion) : null,
+    speciesCandidates: matchedCandidates.sort((left, right) => right.confidence - left.confidence).slice(0, 3),
     rawResponse,
   }
 }
@@ -251,6 +253,7 @@ export function parseStoredSpeciesCandidates(value: unknown): ObservationSpecies
 
 export function mapAnalysisRowToResponse(row: ObservationMediaAnalysisRow): ObservationMediaAnalysisResponse {
   return {
+    id: row.id,
     imageUrl: row.image_url,
     status: normalizeAnalysisStatus(row.status),
     moderationPass: row.moderation_pass,
@@ -263,7 +266,7 @@ export function mapAnalysisRowToResponse(row: ObservationMediaAnalysisRow): Obse
 }
 
 export function isObservationAnalysisPassed(row: ObservationMediaAnalysisRow | null | undefined): boolean {
-  return row?.status === 'passed'
+  return row?.status === 'passed' || row?.status === 'passed_no_identification'
 }
 
 export function getObservationAnalysisErrorMessage(row: ObservationMediaAnalysisRow | null | undefined): string {
@@ -275,7 +278,7 @@ export function getObservationAnalysisErrorMessage(row: ObservationMediaAnalysis
     case 'failed_low_quality':
       return row.quality_reason || '图片不够清晰，请重拍后再试'
     case 'failed_unrecognized':
-      return '暂时无法识别这张照片中的鸟类，请换一张更清晰的照片'
+      return '图片来自旧版识别流程，请重新分析后再提交'
     case 'pending':
       return '图片识别仍在处理中，请稍后再提交'
     case 'error':

@@ -265,6 +265,19 @@ export interface ObservationSpeciesSummary {
     notes?: string | null
 }
 
+export interface ObservationIdentification {
+    id: number
+    speciesId: number
+    commonName: string
+    scientificName?: string | null
+    source: 'human' | 'ai'
+    identifierUserId?: string | null
+    identifierDisplayName?: string | null
+    confidence?: number | null
+    modelName?: string | null
+    createdAt: string
+}
+
 export interface ObservationEvent {
     id: number
     userId: string
@@ -280,9 +293,15 @@ export interface ObservationEvent {
     mediaUrls: string[]
     isPublic: boolean
     status: 'pending' | 'approved' | 'rejected' | string
+    natureTopic?: NatureTopicKey | null
+    identificationStatus: 'needs_id' | 'community_confirmed'
+    observedAtSource?: 'photo_exif' | 'manual' | null
+    locationSource?: 'photo_exif' | 'place_search' | 'map_pin' | 'device_location' | null
+    coordinateSystem?: 'gcj02' | 'legacy_unknown' | null
     likesCount: number
     commentsCount: number
     species: ObservationSpeciesSummary[]
+    identifications?: ObservationIdentification[]
 }
 
 export interface ObservationHotspotSpeciesSummary {
@@ -304,6 +323,54 @@ export interface ObservationLocationSummary {
     species?: ObservationHotspotSpeciesSummary[]
 }
 
+export type ObservationLifecycleStage = 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown'
+export type ObservationSex = 'male' | 'female' | 'unknown'
+
+export interface SpeciesContributorSummary {
+    userId: string
+    displayName: string
+    avatarUrl?: string | null
+    observationCount: number
+}
+
+export interface SpeciesIdentifierSummary {
+    userId: string
+    displayName: string
+    avatarUrl?: string | null
+    identificationCount: number
+}
+
+export interface SpeciesMonthlyAggregate {
+    month: number
+    count: number
+}
+
+export interface SpeciesYearlyAggregate {
+    year: number
+    count: number
+}
+
+export interface SpeciesLifecycleAggregate {
+    stage: ObservationLifecycleStage
+    count: number
+}
+
+export interface SpeciesSexAggregate {
+    sex: ObservationSex
+    count: number
+}
+
+export interface SpeciesStats {
+    totalObservationCount: number
+    latestObservedAt: string | null
+    topObservers: SpeciesContributorSummary[]
+    topIdentifiers: SpeciesIdentifierSummary[]
+    monthlyAggregates: SpeciesMonthlyAggregate[]
+    yearlyAggregates: SpeciesYearlyAggregate[]
+    lifecycleAggregates: SpeciesLifecycleAggregate[]
+    sexAggregates: SpeciesSexAggregate[]
+}
+
 export interface Species {
     id: number
     slug: string
@@ -321,9 +388,11 @@ export interface Species {
     topicKey?: NatureTopicKey | null
     topicLabel?: string
     observedByCurrentUser?: boolean
+    observationCount?: number
     aliasesDisplay?: string
     recentObservations?: ObservationEvent[]
     topLocations?: ObservationLocationSummary[]
+    stats?: SpeciesStats
 }
 
 export interface ChallengeRating {
@@ -643,6 +712,11 @@ export function mapDbObservationEvent(
         mediaUrls: dbObservationEvent.media_urls || [],
         isPublic: dbObservationEvent.is_public,
         status: dbObservationEvent.status,
+        natureTopic: dbObservationEvent.nature_topic as NatureTopicKey | null,
+        identificationStatus: dbObservationEvent.identification_status as ObservationEvent['identificationStatus'],
+        observedAtSource: dbObservationEvent.observed_at_source as ObservationEvent['observedAtSource'],
+        locationSource: dbObservationEvent.location_source as ObservationEvent['locationSource'],
+        coordinateSystem: dbObservationEvent.coordinate_system as ObservationEvent['coordinateSystem'],
         likesCount: (dbObservationEvent as Record<string, unknown>).likes_count as number || 0,
         commentsCount: (dbObservationEvent as Record<string, unknown>).comments_count as number || 0,
         species,

@@ -103,7 +103,7 @@ export function buildTopicHotspotSummaries(
     const locationName = observation.locationName?.trim()
     const observedSpecies = speciesByEvent.get(observation.id) ?? []
 
-    if (!locationName || observedSpecies.length === 0) continue
+    if (!locationName) continue
 
     const existing = grouped.get(locationName)
     const summary: MutableLocationSummary = existing ?? {

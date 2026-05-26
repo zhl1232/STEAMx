@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
 import { ObservationMediaGallery } from "@/components/features/bird-observation/observation-media-gallery";
 import { ObservationOwnerActions } from "@/components/features/bird-observation/observation-owner-actions";
+import { ObservationIdentificationsPanel } from "@/components/features/bird-observation/observation-identifications-panel";
 import { ObservationSocialSection } from "@/components/features/bird-observation/observation-social-section";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
@@ -80,7 +81,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
     ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
     : null;
   const submitHref = buildNatureSubmitHref({
-    topic: "birds",
+    topic: observation.natureTopic === "plants" ? "plants" : "birds",
     speciesId: primarySpecies?.speciesId,
     from: currentPath,
   });
@@ -201,6 +202,14 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               {observation.notes ? (
                 <p className="max-w-3xl text-sm leading-7 text-foreground/85 md:text-base">{observation.notes}</p>
               ) : null}
+              <ObservationIdentificationsPanel
+                observationId={observation.id}
+                topic={observation.natureTopic === "plants" ? "plants" : "birds"}
+                ownerId={observation.userId}
+                initialStatus={observation.identificationStatus}
+                initialConfirmedSpecies={primarySpecies}
+                initialIdentifications={observation.identifications || []}
+              />
             </div>
 
             {observation.isPublic ? (

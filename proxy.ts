@@ -4,7 +4,7 @@ import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (request.cookies.get(REC_VIEWER_COOKIE)?.value) {
     return NextResponse.next();
   }

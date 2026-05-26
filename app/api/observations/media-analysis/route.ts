@@ -25,6 +25,7 @@ const relativeOrAbsoluteUrlSchema = z.union([
 
 const MediaAnalysisSchema = z.object({
   imageUrls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
+  topic: z.enum(['birds', 'plants']),
 })
 
 export async function POST(request: NextRequest) {
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const imageUrls = Array.from(new Set(parsed.data.imageUrls))
+    const topic = parsed.data.topic
     if (imageUrls.some((url) => !isOwnedProjectImageUrl(url, user.id, 'observations'))) {
       return NextResponse.json({ error: '只能识别当前账号上传的观察图片' }, { status: 400 })
     }
@@ -53,6 +55,7 @@ export async function POST(request: NextRequest) {
       .from('species')
       .select('*')
       .eq('is_active', true)
+      .eq('nature_topic', topic)
 
     if (speciesError || !speciesRows) {
       throw speciesError || new Error('Failed to load species')
@@ -62,6 +65,7 @@ export async function POST(request: NextRequest) {
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
+      .eq('nature_topic', topic)
       .in('image_url', imageUrls)
 
     if (existingError) {
@@ -74,6 +78,7 @@ export async function POST(request: NextRequest) {
 
     const finalStatuses = new Set<ObservationMediaAnalysisStatus>([
       'passed',
+      'passed_no_identification',
       'failed_unsafe',
       'failed_low_quality',
       'failed_unrecognized',
@@ -95,9 +100,10 @@ export async function POST(request: NextRequest) {
           toAnalyze.map((imageUrl) => ({
             user_id: user.id,
             image_url: imageUrl,
+            nature_topic: topic,
             status: 'pending',
           })),
-          { onConflict: 'user_id,image_url' },
+          { onConflict: 'user_id,image_url,nature_topic' },
         )
 
       if (pendingError) {
@@ -108,7 +114,7 @@ export async function POST(request: NextRequest) {
     await Promise.all(
       toAnalyze.map(async (imageUrl) => {
         try {
-          const result = await analyzeObservationImageWithQwen(imageUrl, speciesRows)
+          const result = await analyzeObservationImageWithQwen(imageUrl, speciesRows, topic)
 
           const { error } = await supabase
             .from('observation_media_analyses')
@@ -124,6 +130,7 @@ export async function POST(request: NextRequest) {
               raw_response: result.rawResponse as Json,
             })
             .eq('user_id', user.id)
+            .eq('nature_topic', topic)
             .eq('image_url', imageUrl)
 
           if (error) {
@@ -142,6 +149,7 @@ export async function POST(request: NextRequest) {
               raw_response: serializeObservationVisionError(error) as Json,
             })
             .eq('user_id', user.id)
+            .eq('nature_topic', topic)
             .eq('image_url', imageUrl)
         }
       }),
@@ -151,6 +159,7 @@ export async function POST(request: NextRequest) {
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
+      .eq('nature_topic', topic)
       .in('image_url', imageUrls)
 
     if (refreshedError) {

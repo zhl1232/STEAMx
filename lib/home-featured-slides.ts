@@ -17,7 +17,7 @@ export const homeFeaturedSlides: HomeFeaturedSlide[] = [
     title: '北京春季观鸟',
     description: '从校园和公园开始，记下你的第一条观察。',
     primaryLabel: '开始第一次观察',
-    primaryHref: '/nature/birds',
+    primaryHref: '/nature/species?topic=birds',
     secondaryLabel: '查看常见鸟种',
     secondaryHref: '/nature/species',
     theme: 'nature',

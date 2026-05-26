@@ -52,6 +52,8 @@ interface DomesticMiniMapMarker {
   color?: string
   imageUrl?: string | null
   summary?: string
+  id?: string
+  href?: string
 }
 
 interface DomesticMiniMapPopup {
@@ -63,6 +65,7 @@ interface DomesticMiniMapPopup {
   weight?: number
   imageUrl?: string | null
   summary?: string
+  href?: string
 }
 
 interface MarkerHit {
@@ -78,6 +81,12 @@ interface DomesticMiniMapProps {
   activeMarkerIndex?: number
   enableTimeDecay?: boolean
   enableDragInteractions?: boolean
+  defaultCenter?: { lat: number; lon: number }
+  defaultZoom?: number
+  fitMode?: "markers" | "default"
+  hoveredMarkerId?: string | null
+  onMarkerHover?: (id: string | null) => void
+  onMarkerClick?: (marker: DomesticMiniMapMarker) => void
 }
 
 // ---------------------------------------------------------------------------
@@ -180,13 +189,26 @@ export function DomesticMiniMap({
   activeMarkerIndex = -1,
   enableTimeDecay = false,
   enableDragInteractions = true,
+  defaultCenter,
+  defaultZoom,
+  fitMode = "markers",
+  hoveredMarkerId = null,
+  onMarkerHover,
+  onMarkerClick,
 }: DomesticMiniMapProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const stateRef = useRef({ centerLng: 116.4, centerLat: 39.9, zoom: 11, dragging: false, dragStartX: 0, dragStartY: 0, dragStartLng: 0, dragStartLat: 0 })
+  const initialCenter = defaultCenter ?? { lat: 39.9042, lon: 116.4074 }
+  const initialZoom = defaultZoom ?? 11
+  const stateRef = useRef({ centerLng: initialCenter.lon, centerLat: initialCenter.lat, zoom: initialZoom, dragging: false, dragStartX: 0, dragStartY: 0, dragStartLng: 0, dragStartLat: 0 })
   const animRef = useRef<number | null>(null)
   const hoveredMarkerIndexRef = useRef(-1)
+  const popupLockedRef = useRef(false)
   const [popup, setPopup] = useState<DomesticMiniMapPopup | null>(null)
+
+  const externalHoverIndex = hoveredMarkerId
+    ? markers.findIndex((m) => m.id === hoveredMarkerId)
+    : -1
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current
@@ -251,7 +273,7 @@ export function DomesticMiniMap({
     // Draw markers
     const maxWeight = Math.max(...markers.map((m) => m.weight || 1), 1)
     for (const [index, marker] of markers.entries()) {
-      const isActive = index === activeMarkerIndex || index === hoveredMarkerIndexRef.current
+      const isActive = index === activeMarkerIndex || index === hoveredMarkerIndexRef.current || index === externalHoverIndex
       const style = computeMarkerStyle(marker, isActive, enableTimeDecay, maxWeight)
       const mx = lngToPixelX(marker.longitude, zoom) - centerPx + width / 2
       const my = latToPixelY(marker.latitude, zoom) - centerPy + height / 2
@@ -293,7 +315,7 @@ export function DomesticMiniMap({
     if (!allLoaded) {
       animRef.current = requestAnimationFrame(draw)
     }
-  }, [markers, activeMarkerIndex, enableTimeDecay])
+  }, [markers, activeMarkerIndex, enableTimeDecay, externalHoverIndex])
 
   const findMarkerHit = useCallback((clientX: number, clientY: number): MarkerHit | null => {
     const canvas = canvasRef.current
@@ -324,12 +346,17 @@ export function DomesticMiniMap({
     return null
   }, [markers, activeMarkerIndex, enableTimeDecay])
 
-  const showPopupForHit = useCallback((hit: MarkerHit | null) => {
+  const showPopupForHit = useCallback((hit: MarkerHit | null, opts?: { lock?: boolean; force?: boolean }) => {
     if (!hit) {
+      if (popupLockedRef.current && !opts?.force) return
       const shouldRedraw = hoveredMarkerIndexRef.current !== -1
       hoveredMarkerIndexRef.current = -1
+      popupLockedRef.current = false
       setPopup(null)
-      if (shouldRedraw) draw()
+      if (shouldRedraw) {
+        draw()
+        onMarkerHover?.(null)
+      }
       return
     }
 
@@ -343,6 +370,7 @@ export function DomesticMiniMap({
 
     const shouldRedraw = hoveredMarkerIndexRef.current !== hit.index
     hoveredMarkerIndexRef.current = hit.index
+    if (opts?.lock) popupLockedRef.current = true
     setPopup({
       x,
       y: placement === "top" ? hit.y - 12 : hit.y + 16,
@@ -352,21 +380,31 @@ export function DomesticMiniMap({
       weight: hit.marker.weight,
       imageUrl: hit.marker.imageUrl,
       summary: hit.marker.summary,
+      href: hit.marker.href,
     })
-    if (shouldRedraw) draw()
-  }, [draw])
+    if (shouldRedraw) {
+      draw()
+      onMarkerHover?.(hit.marker.id ?? null)
+    }
+  }, [draw, onMarkerHover])
 
   // Initialize & resize
   useEffect(() => {
     const container = containerRef.current
     const canvas = canvasRef.current
-    if (!container || !canvas || markers.length === 0) return
+    if (!container || !canvas) return
 
     const rect = container.getBoundingClientRect()
-    const fit = fitBounds(markers, rect.width, rect.height)
-    stateRef.current.centerLng = fit.centerLng
-    stateRef.current.centerLat = fit.centerLat
-    stateRef.current.zoom = fit.zoom
+    if (fitMode === "default" || markers.length === 0) {
+      stateRef.current.centerLng = initialCenter.lon
+      stateRef.current.centerLat = initialCenter.lat
+      stateRef.current.zoom = initialZoom
+    } else {
+      const fit = fitBounds(markers, rect.width, rect.height)
+      stateRef.current.centerLng = fit.centerLng
+      stateRef.current.centerLat = fit.centerLat
+      stateRef.current.zoom = fit.zoom
+    }
 
     draw()
 
@@ -377,7 +415,7 @@ export function DomesticMiniMap({
       observer.disconnect()
       if (animRef.current != null) cancelAnimationFrame(animRef.current)
     }
-  }, [markers, draw])
+  }, [markers, draw, fitMode, initialCenter.lat, initialCenter.lon, initialZoom])
 
   // Redraw on marker/activeIndex changes
   useEffect(() => {
@@ -415,7 +453,7 @@ export function DomesticMiniMap({
       s.centerLng = pixelXToLng(lngToPixelX(s.dragStartLng, s.zoom) - dx, s.zoom)
       s.centerLat = pixelYToLat(latToPixelY(s.dragStartLat, s.zoom) - dy, s.zoom)
       draw()
-      showPopupForHit(null)
+      showPopupForHit(null, { force: true })
     }
 
     const onPointerUp = () => {
@@ -475,7 +513,7 @@ export function DomesticMiniMap({
       const delta = e.deltaY > 0 ? -1 : 1
       s.zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, s.zoom + delta))
       draw()
-      showPopupForHit(null)
+      showPopupForHit(null, { force: true })
     }
 
     canvas.addEventListener("wheel", onWheel, { passive: false })
@@ -487,7 +525,7 @@ export function DomesticMiniMap({
     const s = stateRef.current
     s.zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, s.zoom + delta))
     draw()
-    showPopupForHit(null)
+    showPopupForHit(null, { force: true })
   }, [draw, showPopupForHit])
 
   // Click to show popup
@@ -496,14 +534,17 @@ export function DomesticMiniMap({
     if (!canvas) return
 
     const onClick = (e: MouseEvent) => {
-      showPopupForHit(findMarkerHit(e.clientX, e.clientY))
+      const hit = findMarkerHit(e.clientX, e.clientY)
+      if (hit && onMarkerClick) {
+        onMarkerClick(hit.marker)
+      }
+      showPopupForHit(hit, hit ? { lock: true } : { force: true })
     }
 
     canvas.addEventListener("click", onClick)
     return () => canvas.removeEventListener("click", onClick)
-  }, [findMarkerHit, showPopupForHit])
+  }, [findMarkerHit, showPopupForHit, onMarkerClick])
 
-  if (markers.length === 0) return null
   const popupDate = formatPopupDate(popup?.observedAt)
 
   return (
@@ -536,9 +577,9 @@ export function DomesticMiniMap({
       {/* Popup */}
       {popup ? (
         <div
-          className={`pointer-events-none absolute z-[8] w-[216px] -translate-x-1/2 rounded-lg border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
+          className={`absolute z-[8] w-[216px] -translate-x-1/2 rounded-lg border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
             popup.placement === "top" ? "-translate-y-full" : ""
-          }`}
+          } ${popup.href ? "" : "pointer-events-none"}`}
           style={{ left: popup.x, top: popup.y }}
         >
           <div className="flex gap-2">
@@ -560,6 +601,14 @@ export function DomesticMiniMap({
           </div>
           {popup.summary ? (
             <p className="mt-2 line-clamp-2 leading-5 text-[#40564b] dark:text-[#bed4c4]">{popup.summary}</p>
+          ) : null}
+          {popup.href ? (
+            <a
+              href={popup.href}
+              className="pointer-events-auto mt-2 inline-flex items-center gap-1 rounded-full bg-[#0f9a5a] px-2.5 py-1 text-[11px] font-semibold text-white shadow-[0_8px_18px_-12px_rgba(15,154,90,0.85)] transition-colors hover:bg-[#0b844b]"
+            >
+              查看详情 →
+            </a>
           ) : null}
         </div>
       ) : null}

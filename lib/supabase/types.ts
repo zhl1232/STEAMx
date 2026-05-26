@@ -911,6 +911,13 @@ export interface Database {
           media_urls: string[]
           is_public: boolean
           status: string
+          nature_topic: string | null
+          identification_status: string
+          observed_at_source: string | null
+          location_source: string | null
+          coordinate_system: string | null
+          lifecycle_stage: string | null
+          sex: string | null
           created_at: string
           updated_at: string
         }
@@ -930,6 +937,13 @@ export interface Database {
           media_urls?: string[]
           is_public?: boolean
           status?: string
+          nature_topic?: string | null
+          identification_status?: string
+          observed_at_source?: string | null
+          location_source?: string | null
+          coordinate_system?: string | null
+          lifecycle_stage?: string | null
+          sex?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -949,6 +963,13 @@ export interface Database {
           media_urls?: string[]
           is_public?: boolean
           status?: string
+          nature_topic?: string | null
+          identification_status?: string
+          observed_at_source?: string | null
+          location_source?: string | null
+          coordinate_system?: string | null
+          lifecycle_stage?: string | null
+          sex?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -963,6 +984,8 @@ export interface Database {
           behavior_tags: string[]
           confidence: number | null
           notes: string | null
+          lifecycle_stage: string | null
+          sex: string | null
           created_at: string
           updated_at: string
         }
@@ -974,6 +997,8 @@ export interface Database {
           behavior_tags?: string[]
           confidence?: number | null
           notes?: string | null
+          lifecycle_stage?: string | null
+          sex?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -985,6 +1010,53 @@ export interface Database {
           behavior_tags?: string[]
           confidence?: number | null
           notes?: string | null
+          lifecycle_stage?: string | null
+          sex?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      observation_identifications: {
+        Row: {
+          id: number
+          observation_event_id: number
+          species_id: number
+          source: string
+          identifier_user_id: string | null
+          confidence: number | null
+          model_name: string | null
+          media_analysis_id: number | null
+          is_active: boolean
+          withdrawn_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          observation_event_id: number
+          species_id: number
+          source: string
+          identifier_user_id?: string | null
+          confidence?: number | null
+          model_name?: string | null
+          media_analysis_id?: number | null
+          is_active?: boolean
+          withdrawn_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          observation_event_id?: number
+          species_id?: number
+          source?: string
+          identifier_user_id?: string | null
+          confidence?: number | null
+          model_name?: string | null
+          media_analysis_id?: number | null
+          is_active?: boolean
+          withdrawn_at?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -995,6 +1067,7 @@ export interface Database {
           id: number
           user_id: string
           image_url: string
+          nature_topic: string
           status: string
           model_name: string | null
           moderation_pass: boolean | null
@@ -1011,6 +1084,7 @@ export interface Database {
           id?: number
           user_id: string
           image_url: string
+          nature_topic?: string
           status?: string
           model_name?: string | null
           moderation_pass?: boolean | null
@@ -1027,6 +1101,7 @@ export interface Database {
           id?: number
           user_id?: string
           image_url?: string
+          nature_topic?: string
           status?: string
           model_name?: string | null
           moderation_pass?: boolean | null
@@ -1750,6 +1825,31 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      upsert_observation_identification: {
+        Args: {
+          p_observation_id: number
+          p_species_id: number
+          p_source?: string
+          p_confidence?: number | null
+          p_model_name?: string | null
+          p_media_analysis_id?: number | null
+        }
+        Returns: Array<{ identification_status: string; confirmed_species_id: number | null }>
+      }
+      withdraw_my_observation_identification: {
+        Args: { p_observation_id: number }
+        Returns: Array<{ identification_status: string; confirmed_species_id: number | null }>
+      }
+      record_observation_ai_identification: {
+        Args: {
+          p_observation_id: number
+          p_species_id: number
+          p_confidence: number
+          p_model_name: string
+          p_media_analysis_id?: number | null
+        }
+        Returns: Array<{ identification_status: string; confirmed_species_id: number | null }>
+      }
       increment_completion_likes: {
         Args: { completion_id: number }
         Returns: void

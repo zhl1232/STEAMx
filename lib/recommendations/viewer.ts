@@ -39,7 +39,7 @@ export const getRecommendationViewerKey = cache(async (): Promise<string> => {
       secure: process.env.NODE_ENV === "production",
     });
   } catch {
-    // Server Component 内 set cookie 可能失败；middleware 会补种
+    // Server Component 内 set cookie 可能失败；proxy 会补种
   }
 
   return `anon:${anonId}`;
