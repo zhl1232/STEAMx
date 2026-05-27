@@ -4,6 +4,7 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
+import { COMPACT_VERTICAL_PROJECT_GRID_CLASS } from "@/components/features/compact-project-grid-styles"
 import { cn } from "@/lib/utils"
 
 export function ProjectCardSkeleton({
@@ -338,9 +339,9 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
                 <ExploreRecommendationRailSkeleton />
                 <div className="relative pb-5 pt-0.5 md:pb-0 md:pt-0">
                   <ExploreListTabsSkeleton />
-                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 min-[1400px]:grid-cols-4">
+                  <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
                     {Array.from({ length: count }).map((_, index) => (
-                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="dense" />
+                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="vertical" />
                     ))}
                   </div>
                 </div>

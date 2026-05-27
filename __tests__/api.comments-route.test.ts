@@ -107,13 +107,17 @@ describe('POST /api/comments', () => {
         createClientMock.mockResolvedValue({ from } as never)
         requireAuthMock.mockResolvedValue({ id: 'user-2' } as never)
 
+        const supabaseOrigin =
+            process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '') ?? 'https://example.supabase.co'
+        const imageUrl = `${supabaseOrigin}/storage/v1/object/public/comment-images/user-2/test.png`
+
         const response = await POST(new Request('http://localhost/api/comments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 project_id: 12,
                 content: '带图评论',
-                image_url: 'https://example.com/storage/v1/object/public/comment-images/user-2/test.png',
+                image_url: imageUrl,
             }),
         }) as never)
 

@@ -6,7 +6,7 @@ import {
   Heart,
   Leaf,
   Lightbulb,
-  ThumbsUp,
+  Flame,
   Trophy,
   UsersRound,
 } from "lucide-react";
@@ -15,6 +15,10 @@ import { RecommendationPanel } from "@/components/home/recommendation-panel";
 import { Surface } from "@/components/ui/surface";
 import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { SteamLogo } from "@/components/layout/logo";
+import {
+  COMPACT_VERTICAL_PROJECT_CARD_CLASS,
+  COMPACT_VERTICAL_PROJECT_GRID_CLASS,
+} from "@/components/features/compact-project-grid-styles";
 import { ProjectCard } from "@/components/features/project-card";
 import { CATEGORY_META } from "@/lib/config/categories";
 import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
@@ -315,7 +319,14 @@ function NatureChannel() {
 
 function HomeProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <ProjectCard project={project} href={projectHref(project)} priority={index < 2} variant="compact" className="h-full" />
+    <ProjectCard
+      project={project}
+      href={projectHref(project)}
+      priority={index < 4}
+      variant="compact"
+      compactLayout="vertical"
+      className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+    />
   );
 }
 
@@ -323,10 +334,16 @@ function ProjectSection({ projects }: { projects: Project[] }) {
   const visible = getShowcaseProjects(projects);
 
   return (
-    <Surface className="p-4 md:p-5">
-      <div className="mb-3 flex items-center justify-between md:mb-4">
+    <Surface
+      className={cn(
+        "overflow-hidden py-1",
+        "max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:rounded-none",
+        "md:p-5",
+      )}
+    >
+      <div className="mb-2 flex items-center justify-between md:mb-4">
         <div className="flex items-center gap-2">
-          <ThumbsUp className="h-5 w-5 fill-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue))] md:h-6 md:w-6" />
+          <Flame className="h-5 w-5 shrink-0 text-[hsl(var(--brand-amber))] md:h-6 md:w-6" aria-hidden />
           <h2 className="font-sans text-[17px] font-extrabold tracking-normal text-foreground md:text-[20px]">热门项目</h2>
         </div>
         <Link href="/explore" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))]">
@@ -334,7 +351,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="grid auto-rows-fr items-stretch gap-2.5 min-[720px]:grid-cols-2 md:gap-3 min-[1480px]:grid-cols-3">
+      <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
         {visible.map((project, index) => (
           <HomeProjectCard key={project.id} project={project} index={index} />
         ))}

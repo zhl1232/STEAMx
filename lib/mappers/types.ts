@@ -268,6 +268,7 @@ export interface ObservationSpeciesSummary {
 export interface ObservationIdentification {
     id: number
     speciesId: number
+    speciesSlug?: string | null
     commonName: string
     scientificName?: string | null
     source: 'human' | 'ai'
@@ -283,6 +284,7 @@ export interface ObservationEvent {
     userId: string
     authorDisplayName?: string | null
     observedAt: string
+    createdAt: string
     locationName: string
     latitude?: number | null
     longitude?: number | null
@@ -702,6 +704,7 @@ export function mapDbObservationEvent(
         id: dbObservationEvent.id,
         userId: dbObservationEvent.user_id,
         observedAt: dbObservationEvent.observed_at,
+        createdAt: dbObservationEvent.created_at,
         locationName: dbObservationEvent.location_name,
         latitude: dbObservationEvent.latitude,
         longitude: dbObservationEvent.longitude,

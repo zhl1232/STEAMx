@@ -6,6 +6,14 @@ import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
@@ -34,11 +42,20 @@ interface ObservationIdentificationsPanelProps {
   initialIdentifications: ObservationIdentification[]
 }
 
+function identificationLabel(
+  identification: ObservationIdentification,
+  ownerId: string,
+): string {
+  if (identification.source === "ai") return "AI 鉴定"
+  if (identification.identifierUserId === ownerId) return "发布者"
+  return identification.identifierDisplayName || "社区用户"
+}
+
 export function ObservationIdentificationsPanel({
   observationId,
   topic,
   ownerId,
-  initialStatus,
+  initialStatus: _initialStatus,
   initialConfirmedSpecies = null,
   initialIdentifications,
 }: ObservationIdentificationsPanelProps) {
@@ -46,9 +63,9 @@ export function ObservationIdentificationsPanel({
   const router = useRouter()
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
-  const [status, setStatus] = useState(initialStatus)
   const [confirmedSpecies, setConfirmedSpecies] = useState(initialConfirmedSpecies)
   const [identifications, setIdentifications] = useState(initialIdentifications)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SpeciesOption[]>([])
   const [selected, setSelected] = useState<SpeciesOption | null>(null)
@@ -86,12 +103,12 @@ export function ObservationIdentificationsPanel({
   )
 
   const applyResponse = (data: IdentificationResponse) => {
-    setStatus(data.identificationStatus)
     setConfirmedSpecies(data.confirmedSpecies)
     setIdentifications(data.identifications)
     setResults([])
     setQuery("")
     setSelected(null)
+    setSheetOpen(false)
     router.refresh()
   }
 
@@ -135,65 +152,129 @@ export function ObservationIdentificationsPanel({
   }
 
   return (
-    <section className="rounded-2xl border border-border/70 bg-muted/25 p-4 sm:p-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold text-foreground">共同鉴定</h2>
-        <span className={status === "community_confirmed"
-          ? "rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
-          : "rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"}>
-          {status === "community_confirmed" ? "已共同确认" : "待鉴定"}
-        </span>
+    <section className="border-t border-border/60 pt-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-foreground">共同鉴定</h2>
+        <Button type="button" tone="nature" shape="pill" size="sm" onClick={() => setSheetOpen(true)}>
+          参与鉴定
+        </Button>
       </div>
+
       {confirmedSpecies ? (
         <p className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-300">
-          <CheckCircle2 className="h-4 w-4" />
-          已确认：{confirmedSpecies.commonName}
+          <CheckCircle2 className="h-4 w-4 shrink-0" />
+          社区已确认：{confirmedSpecies.commonName}
         </p>
       ) : (
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          AI 鉴定会标明来源并计入共识。发布者和 AI 一致仍需另一位用户参与确认。
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          AI 与社区鉴定会共同计入共识；发布者与 AI 一致时，仍需另一位用户参与确认。
         </p>
       )}
-      <div className="mt-4 flex flex-wrap gap-2">
+
+      <ul className="mt-4 space-y-2">
         {identifications.map((identification) => (
-          <span key={identification.id} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs">
-            {identification.source === "ai" ? <Bot className="h-3.5 w-3.5 text-primary" /> : <UserRound className="h-3.5 w-3.5 text-muted-foreground" />}
-            {identification.source === "ai" ? "AI 鉴定" : identification.identifierUserId === ownerId ? "发布者鉴定" : "用户鉴定"}：
-            {identification.commonName}
-            {identification.source === "ai" && identification.confidence != null ? ` ${Math.round(identification.confidence * 100)}%` : ""}
-          </span>
+          <li
+            key={identification.id}
+            className="flex items-start gap-3 rounded-xl bg-muted/25 px-3 py-2.5"
+          >
+            <span className="mt-0.5 text-muted-foreground">
+              {identification.source === "ai" ? <Bot className="h-4 w-4" /> : <UserRound className="h-4 w-4" />}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-foreground">
+                {identificationLabel(identification, ownerId)}
+                <span className="mx-1.5 text-muted-foreground">·</span>
+                {identification.commonName}
+                {identification.source === "ai" && identification.confidence != null
+                  ? ` · ${Math.round(identification.confidence * 100)}%`
+                  : ""}
+              </p>
+              {identification.scientificName ? (
+                <p className="mt-0.5 text-xs italic text-muted-foreground">{identification.scientificName}</p>
+              ) : null}
+            </div>
+          </li>
         ))}
-        {identifications.length === 0 ? <span className="text-sm text-muted-foreground">尚无鉴定结果</span> : null}
-      </div>
-      <div className="mt-4 space-y-2">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={query}
-            onChange={(event) => { setQuery(event.target.value); setSelected(null) }}
-            placeholder="搜索物种，提交我的鉴定"
-            className="pl-9 pr-9"
-          />
-          {isSearching ? <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" /> : null}
-        </div>
-        {results.length > 0 ? (
-          <div className="overflow-hidden rounded-lg border border-border bg-background">
-            {results.map((result) => (
-              <button key={result.id} type="button" onClick={() => { setSelected(result); setQuery(result.commonName); setResults([]) }} className="block w-full border-b border-border px-3 py-2 text-left text-sm last:border-b-0 hover:bg-muted/50">
-                <span className="font-medium">{result.commonName}</span>
-                {result.scientificName ? <span className="ml-2 italic text-muted-foreground">{result.scientificName}</span> : null}
-              </button>
-            ))}
-          </div>
+        {identifications.length === 0 ? (
+          <li className="text-sm text-muted-foreground">尚无鉴定记录，欢迎第一个参与。</li>
         ) : null}
-        <div className="flex gap-2">
-          <Button type="button" disabled={!selected || isSaving} onClick={() => void submitIdentification()}>
-            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            提交鉴定
-          </Button>
-          {myIdentification ? <Button type="button" variant="outline" disabled={isSaving} onClick={() => void withdrawIdentification()}>撤回我的鉴定</Button> : null}
-        </div>
-      </div>
+      </ul>
+
+      {myIdentification ? (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="mt-3 h-auto px-0 text-muted-foreground hover:text-foreground"
+          disabled={isSaving}
+          onClick={() => void withdrawIdentification()}
+        >
+          撤回我的鉴定
+        </Button>
+      ) : null}
+
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col rounded-t-2xl">
+          <SheetHeader className="text-left">
+            <SheetTitle>参与共同鉴定</SheetTitle>
+            <SheetDescription>搜索并选择你认为的物种，提交后会计入社区共识。</SheetDescription>
+          </SheetHeader>
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto py-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value)
+                  setSelected(null)
+                }}
+                placeholder="搜索物种名称"
+                className="pl-9 pr-9"
+              />
+              {isSearching ? (
+                <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
+              ) : null}
+            </div>
+            {results.length > 0 ? (
+              <div className="overflow-hidden rounded-xl border border-border/70 bg-background">
+                {results.map((result) => (
+                  <button
+                    key={result.id}
+                    type="button"
+                    onClick={() => {
+                      setSelected(result)
+                      setQuery(result.commonName)
+                      setResults([])
+                    }}
+                    className="block w-full border-b border-border/60 px-3 py-2.5 text-left text-sm last:border-b-0 hover:bg-muted/40"
+                  >
+                    <span className="font-medium">{result.commonName}</span>
+                    {result.scientificName ? (
+                      <span className="ml-2 italic text-muted-foreground">{result.scientificName}</span>
+                    ) : null}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <SheetFooter className="flex-row gap-2 border-t border-border/60 pt-4">
+            <Button type="button" variant="outline" shape="pill" className="flex-1" onClick={() => setSheetOpen(false)}>
+              取消
+            </Button>
+            <Button
+              type="button"
+              tone="nature"
+              shape="pill"
+              className="flex-1"
+              disabled={!selected || isSaving}
+              onClick={() => void submitIdentification()}
+            >
+              {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              提交鉴定
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </section>
   )
 }

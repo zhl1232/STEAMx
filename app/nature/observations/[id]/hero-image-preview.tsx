@@ -7,11 +7,10 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 
 interface HeroImagePreviewProps {
   heroImage: string;
-  primarySpecies: { commonName?: string | null } | undefined;
-  observationId: string | number;
+  displayTitle: string;
 }
 
-export function HeroImagePreview({ heroImage, primarySpecies, observationId }: HeroImagePreviewProps) {
+export function HeroImagePreview({ heroImage, displayTitle }: HeroImagePreviewProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,7 +19,7 @@ export function HeroImagePreview({ heroImage, primarySpecies, observationId }: H
         <div className="relative aspect-[5/4] overflow-hidden bg-muted/30 sm:aspect-[16/10] md:aspect-[16/9]">
           <Image
             src={heroImage}
-            alt={primarySpecies?.commonName || `观察记录 #${observationId}`}
+            alt={displayTitle}
             fill
             priority
             sizes="(min-width: 1280px) 1120px, 100vw"
@@ -42,7 +41,7 @@ export function HeroImagePreview({ heroImage, primarySpecies, observationId }: H
             <div className="relative h-full w-full">
               <Image
                 src={heroImage}
-                alt={primarySpecies?.commonName || `观察记录 #${observationId}`}
+                alt={displayTitle}
                 fill
                 className="object-contain p-6 sm:p-10"
                 sizes="100vw"

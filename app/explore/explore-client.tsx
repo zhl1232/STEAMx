@@ -20,6 +20,10 @@ import {
     ExploreForYouRail,
     type ExploreForYouRailState,
 } from '@/components/explore/explore-for-you-rail'
+import {
+    COMPACT_VERTICAL_PROJECT_CARD_CLASS,
+    COMPACT_VERTICAL_PROJECT_GRID_CLASS,
+} from '@/components/features/compact-project-grid-styles'
 import { ProjectCard } from '@/components/features/project-card'
 import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
 import { Progress } from '@/components/ui/progress'
@@ -1323,7 +1327,8 @@ export function ExploreClient({
 
                                     <div
                                         className={cn(
-                                            "grid grid-cols-1 gap-2.5 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1400px]:grid-cols-4 transition-opacity duration-300",
+                                            COMPACT_VERTICAL_PROJECT_GRID_CLASS,
+                                            "transition-opacity duration-300",
                                             isFiltering && "opacity-40 pointer-events-none"
                                         )}
                                         onClickCapture={handleExploreProjectLinkClick}
@@ -1338,7 +1343,8 @@ export function ExploreClient({
                                                     priority={isPriority}
                                                     href={detailHref}
                                                     variant="compact"
-                                                    compactLayout="dense"
+                                                    compactLayout="vertical"
+                                                    className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
                                                 />
                                             )
                                             const projectNode = projects.length === index + 1 ? (
@@ -1361,7 +1367,7 @@ export function ExploreClient({
                                         {isLoadingMore && (
                                             <>
                                                 {[1, 2, 3, 4].map((i) => (
-                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="dense" />
+                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="vertical" />
                                                 ))}
                                             </>
                                         )}

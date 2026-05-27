@@ -10,16 +10,15 @@ import {
   Feather,
   Leaf,
   MapPin,
-  NotebookPen,
   Sprout,
   Telescope,
   Trees,
-  UsersRound,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { NatureHomeMapPair } from "@/components/features/bird-observation/nature-home-map-pair";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
+import { Button } from "@/components/ui/button";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
 import type {
   NatureObservationStats,
@@ -33,7 +32,6 @@ import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
 const lakeImage = "/assets/observation-list-reeds-sky-bg.png";
-const speciesImage = "/assets/species-archive-blue-tech-bg.png";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
@@ -56,14 +54,8 @@ interface TopicCardBase {
 }
 
 interface TopicCard extends TopicCardBase {
-  records: string;
-  species: string;
-}
-
-interface StatViewItem {
-  label: string;
-  value: string;
-  icon: LucideIcon;
+  observationCount: number;
+  speciesCount: number;
 }
 
 const natureBlurDataUrl =
@@ -119,16 +111,7 @@ function formatCount(value: number) {
   return value.toLocaleString("zh-CN");
 }
 
-function buildHeroStats(stats: NatureObservationStats): StatViewItem[] {
-  return [
-    { label: "观察记录", value: formatCount(stats.observationCount), icon: NotebookPen },
-    { label: "物种数", value: formatCount(stats.speciesCount), icon: Sprout },
-    { label: "观察者", value: formatCount(stats.observerCount), icon: UsersRound },
-    { label: "本周新增", value: formatCount(stats.weeklyObservationCount), icon: Clock3 },
-  ];
-}
-
-function buildContributionStats(stats: NatureObservationStats): StatViewItem[] {
+function buildContributionStats(stats: NatureObservationStats) {
   return [
     { label: "公开记录", value: formatCount(stats.observationCount), icon: Telescope },
     { label: "活跃物种", value: formatCount(stats.speciesCount), icon: Bug },
@@ -144,40 +127,39 @@ function buildTopicCards(topicSummaries: NatureTopicSummary[]): TopicCard[] {
     const summary = summaryByKey.get(topic.key);
     return {
       ...topic,
-      records: `${formatCount(summary?.observationCount ?? 0)} 条记录`,
-      species: `${formatCount(summary?.speciesCount ?? 0)} 个物种`,
+      observationCount: summary?.observationCount ?? 0,
+      speciesCount: summary?.speciesCount ?? 0,
     };
   });
 }
 
+const mobileHeaderClassName =
+  "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
 
-
-function HeroStatsCard({ stats }: { stats: StatViewItem[] }) {
+function MobileNatureHeader({ submitHref }: { submitHref: string }) {
   return (
-    <section className="nature-section-card relative z-20 mx-4 !-mt-10 backdrop-blur md:hidden">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.label} className="flex min-w-0 items-center gap-2.5">
-              <span className="nature-stat-icon">
-                <Icon className="h-5 w-5" />
-              </span>
-              <div className="min-w-0">
-                <div className="text-metric text-[hsl(var(--nature-foreground))]">{stat.value}</div>
-                <div className="text-label text-[hsl(var(--nature-muted))]">{stat.label}</div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+    <MobileGlobalHeader
+      variant="title"
+      title={<span className="font-sans">自然观察</span>}
+      showSearch={false}
+      showNotification={false}
+      showUserButton={false}
+      className={mobileHeaderClassName}
+      rightSlot={
+        <Button asChild tone="success" shape="soft" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
+          <Link href={submitHref}>
+            <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
+            发布观察
+          </Link>
+        </Button>
+      }
+    />
   );
 }
 
-function NatureHeroPanel({ heroStats, submitHref }: { heroStats: StatViewItem[]; submitHref: string }) {
+function NatureHeroPanel({ submitHref }: { submitHref: string }) {
   return (
-    <section className="nature-hero-panel md:min-h-[360px] lg:min-h-[374px]">
+    <section className="nature-hero-panel min-h-[220px] md:min-h-[360px] lg:min-h-[374px]">
       <Image
         src={heroImage}
         alt=""
@@ -188,37 +170,41 @@ function NatureHeroPanel({ heroStats, submitHref }: { heroStats: StatViewItem[];
         className="object-cover object-[center_36%] dark:brightness-75 md:object-center"
         sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
       />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.28)_38%,rgba(0,0,0,0.04)_74%),linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.18)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.08)_52%,rgba(0,0,0,0.35)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.28)_38%,rgba(0,0,0,0.04)_74%),linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.18)_100%)]" />
 
-      <div className="relative z-10 flex min-h-[330px] flex-col justify-between px-6 pb-8 pt-12 text-white md:min-h-[360px] md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
+      <div className="relative z-10 flex min-h-[220px] flex-col justify-end p-4 text-white min-[390px]:min-h-[232px] md:min-h-[360px] md:justify-between md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
         <div>
-          <h1 className="text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:text-[58px] lg:text-[62px]">自然观察</h1>
-          <p className="mt-4 max-w-3xl text-[18px] font-semibold leading-7 text-white/[0.96] [text-shadow:0_2px_5px_rgba(0,0,0,0.7)] md:text-[22px]">
+          <h1 className="hidden text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:block md:text-[58px] lg:text-[62px]">
+            自然观察
+          </h1>
+          <p className="max-w-md text-[15px] font-semibold leading-6 text-white/[0.96] [text-shadow:0_2px_5px_rgba(0,0,0,0.7)] line-clamp-2 md:mt-4 md:max-w-3xl md:text-[22px] md:leading-7">
             记录身边的生命，和社区一起守护环境
           </p>
-          <Link
-            href={submitHref}
-            className="mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[var(--radius-sm)] bg-[hsl(var(--nature-accent))] px-6 text-[15px] font-extrabold text-[hsl(var(--nature-accent-foreground))] shadow-[0_22px_48px_-20px_hsl(var(--nature-accent)/0.95)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[hsl(var(--nature-accent)/0.92)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-hero-bg))] active:scale-[0.98] md:min-h-[52px] md:px-7 md:text-[16px]"
+          <Button
+            asChild
+            tone="success"
+            shape="soft"
+            size="lg"
+            className="mt-7 hidden gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--nature-hero-bg))] md:inline-flex"
           >
-            <Camera className="h-5 w-5" />
-            发布观察
-          </Link>
+            <Link href={submitHref}>
+              <Camera className="h-5 w-5" />
+              发布观察
+            </Link>
+          </Button>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="hidden max-w-[720px] grid-cols-4 gap-7 md:grid">
-          {heroStats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <div key={stat.label} className="flex min-w-0 items-center gap-2.5 [text-shadow:0_2px_6px_rgba(0,0,0,0.62)]">
-                <Icon className="h-6 w-6 shrink-0 text-white/[0.86]" />
-                <div className="min-w-0">
-                  <div className="text-[26px] font-extrabold leading-7 text-white md:text-[30px] md:leading-8">{stat.value}</div>
-                  <div className="text-xs font-medium leading-5 text-white/[0.64]">{stat.label}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+function TopicCardsSection({ topicCards }: { topicCards: TopicCard[] }) {
+  return (
+    <section aria-label="自然专题分类">
+      <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
+        {topicCards.map((topic) => (
+          <TopicCardView key={topic.title} topic={topic} />
+        ))}
       </div>
     </section>
   );
@@ -234,27 +220,35 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         fill
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
-        className="translate-x-[14%] scale-[1.08] object-cover object-[50%_center] brightness-[1.04] saturate-[1.06] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.34)_14%,rgba(0,0,0,0.84)_32%,#000_48%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.34)_14%,rgba(0,0,0,0.84)_32%,#000_48%)] dark:brightness-[0.82] dark:saturate-[0.92] motion-safe:group-hover:translate-x-[12%] motion-safe:group-hover:scale-[1.13]"
-        sizes="(max-width: 768px) 46vw, 20vw"
+        className="translate-x-[10%] scale-[1.04] object-cover object-center brightness-[1.04] saturate-[1.06] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] dark:brightness-[0.82] dark:saturate-[0.92] motion-safe:group-hover:translate-x-[8%] motion-safe:group-hover:scale-[1.08]"
+        sizes="(max-width: 768px) 68vw, 20vw"
       />
-      <div className={`absolute inset-0 bg-gradient-to-r opacity-45 ${topic.tint}`} />
-      <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(248,251,244,0.82)_0%,rgba(248,251,244,0.62)_22%,rgba(248,251,244,0.22)_42%,rgba(248,251,244,0.04)_56%,rgba(248,251,244,0)_66%)] dark:bg-[linear-gradient(100deg,rgba(15,31,22,0.82)_0%,rgba(15,31,22,0.58)_24%,rgba(15,31,22,0.22)_44%,rgba(15,31,22,0.06)_58%,rgba(15,31,22,0)_68%)]" />
-      <div className="relative z-10 flex h-full min-h-[154px] flex-col justify-between p-4 text-[hsl(var(--nature-foreground))] dark:text-white dark:[text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:min-h-[196px] md:p-5">
+      <div className="absolute inset-0 bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.97)_0%,hsl(var(--surface-raised)/0.82)_26%,hsl(var(--surface-raised)/0.16)_50%,transparent_62%)]" />
+      <div className="relative z-10 flex h-full min-h-[132px] flex-col justify-between p-3.5 md:min-h-[188px] md:p-5">
         <div>
           <div className="flex items-center gap-2">
-            <Icon className="h-5 w-5" />
-            <h3 className="text-[21px] font-bold leading-7">{topic.title}</h3>
+            <Icon className="h-4 w-4 shrink-0 text-[hsl(var(--brand-green))] md:h-5 md:w-5" strokeWidth={2.2} />
+            <h3 className="font-sans text-base font-bold leading-5 text-foreground md:text-lg md:leading-6">{topic.title}</h3>
           </div>
-          <p className="mt-1 text-sm font-semibold nature-text-muted dark:text-white/[0.92]">{topic.subtitle}</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground md:text-sm">{topic.subtitle}</p>
         </div>
-        <div className="space-y-2">
-          <div className="text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))] dark:text-white/95">
-            <div>{topic.records}</div>
-            <div>{topic.species}</div>
+        <div className="flex items-end justify-between gap-2">
+          <div className="min-w-0 flex-1 text-[11px] leading-[1.4] text-muted-foreground md:text-xs">
+            <p>{formatCount(topic.observationCount)} 条观察记录</p>
+            <p>{formatCount(topic.speciesCount)} 个物种</p>
           </div>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--nature-surface))]/95 nature-icon-accent shadow-[0_10px_24px_-16px_hsl(var(--nature-accent)/0.45)] ring-1 ring-[hsl(var(--nature-border))] backdrop-blur transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-white group-hover:shadow-[0_16px_28px_-16px_rgba(22,132,75,0.65)] motion-safe:group-hover:translate-x-1 dark:bg-white dark:text-[#16844b] dark:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)] dark:ring-transparent">
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover:translate-x-0.5" />
-          </span>
+          {topic.href ? (
+            <span
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:border-[hsl(var(--brand-green)/0.5)] group-hover:bg-[hsl(var(--brand-green))] group-hover:text-[hsl(var(--brand-green-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9"
+              aria-hidden
+            >
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          ) : (
+            <span className="shrink-0 rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--brand-green))]">
+              即将上线
+            </span>
+          )}
         </div>
       </div>
     </>
@@ -264,7 +258,7 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
 
   if (topic.href) {
     return (
-      <Link href={topic.href} className={className}>
+      <Link href={topic.href} className={className} aria-label={`进入${topic.title}专题，${formatCount(topic.observationCount)} 条观察记录，${formatCount(topic.speciesCount)} 个物种`}>
         {content}
       </Link>
     );
@@ -390,7 +384,6 @@ function DesktopSidebar({
 
 export default async function NaturePage() {
   const homepage = await getBirdObservationHomepageData();
-  const heroStats = buildHeroStats(homepage.stats);
   const topicCards = buildTopicCards(homepage.topicSummaries);
   const latestObservation = homepage.recentObservations[0];
   const topHotspot = homepage.hotspots[0];
@@ -400,29 +393,14 @@ export default async function NaturePage() {
   });
 
   return (
-    <div className="theme-nature-page min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
-      <MobileGlobalHeader
-        variant="title"
-        title="自然观察"
-        showSearch={true}
-        showNotification={false}
-        showUserButton={false}
-      />
+    <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
+      <MobileNatureHeader submitHref={submitHref} />
 
-      <div className="app-shell-wide grid gap-5 pb-24 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
-        <main className="min-w-0 space-y-5 md:space-y-6">
-          <NatureHeroPanel heroStats={heroStats} submitHref={submitHref} />
-          <HeroStatsCard stats={heroStats} />
-
+      <div className="app-shell-wide grid gap-5 pb-28 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
+        <main className="min-w-0 space-y-4 md:space-y-6">
+          <NatureHeroPanel submitHref={submitHref} />
+          <TopicCardsSection topicCards={topicCards} />
           <NatureHomeMapPair observations={homepage.mapObservations} />
-
-          <section>
-            <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
-              {topicCards.map((topic) => (
-                <TopicCardView key={topic.title} topic={topic} />
-              ))}
-            </div>
-          </section>
         </main>
 
         <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />

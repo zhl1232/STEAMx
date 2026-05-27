@@ -67,16 +67,9 @@ export async function POST(
       return NextResponse.json({ error: '无效的观察记录 ID' }, { status: 400 })
     }
 
-    const { data: observation } = await supabase
-      .from('observation_events')
-      .select('id')
-      .eq('id', observationId)
-      .eq('status', 'approved')
-      .eq('is_public', true)
-      .maybeSingle()
-
+    const observation = await getObservationById(observationId)
     if (!observation) {
-      return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+      return NextResponse.json({ error: '观察记录不存在或无权评论' }, { status: 404 })
     }
 
     const body = await request.json()

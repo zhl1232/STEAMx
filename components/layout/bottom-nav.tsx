@@ -31,13 +31,6 @@ export function BottomNav() {
             active: pathname === "/explore" || pathname === "/project" || pathname.startsWith("/project/"),
         },
         {
-            href: "/nature",
-            label: "自然",
-            icon: Feather,
-            active: pathname === "/nature" || pathname.startsWith("/nature/"),
-            nature: true,
-        },
-        {
             href: "/create",
             label: "创造",
             icon: Sparkles,
@@ -46,6 +39,13 @@ export function BottomNav() {
                 pathname.startsWith("/create/") ||
                 pathname.startsWith("/pbl/") ||
                 pathname.startsWith("/courses/"),
+        },
+        {
+            href: "/nature",
+            label: "自然",
+            icon: Feather,
+            active: pathname === "/nature" || pathname.startsWith("/nature/"),
+            nature: true,
         },
         {
             href: "/profile",

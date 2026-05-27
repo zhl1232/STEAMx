@@ -56,6 +56,7 @@ export async function loadObservationIdentifications(
     const identification: ObservationIdentification = {
       id: row.id,
       speciesId: species.id,
+      speciesSlug: species.slug,
       commonName: species.common_name,
       scientificName: species.scientific_name,
       source: row.source,

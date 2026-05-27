@@ -5,6 +5,10 @@ import Link from "next/link";
 import { Clock3, MapPin, Sprout } from "lucide-react";
 
 import type { ObservationEvent } from "@/lib/mappers/types";
+import {
+  formatObservationDateTime,
+  getObservationDisplayTitle,
+} from "@/lib/observations/display";
 import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { cn } from "@/lib/utils";
 
@@ -16,16 +20,9 @@ interface ObservationCardProps {
 
 export function ObservationCard({ observation, className, fromHref }: ObservationCardProps) {
   const heroImage = observation.mediaUrls[0];
-  const title = observation.species[0]?.commonName ?? `观察记录 #${observation.id}`;
+  const title = getObservationDisplayTitle(observation.species);
   const summary = observation.notes?.trim();
-  const observedAtLabel = new Date(observation.observedAt).toLocaleString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  const observedAtLabel = formatObservationDateTime(observation.observedAt);
 
   return (
     <Link

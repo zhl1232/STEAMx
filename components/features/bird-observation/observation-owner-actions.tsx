@@ -65,9 +65,9 @@ export function ObservationOwnerActions({ observationId, ownerId }: ObservationO
   return (
     <Button
       type="button"
-      variant="outline"
-      size="sm"
-      className="rounded-full"
+      variant="destructive"
+      shape="pill"
+      size="default"
       onClick={handleDelete}
       disabled={isDeleting}
     >

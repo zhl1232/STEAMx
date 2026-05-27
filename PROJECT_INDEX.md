@@ -17,7 +17,7 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — 鸟类/昆虫/树木入口进入 `/nature/species?topic=birds|insects|plants`；旧 `birds/`、`trees/` 子路由仅保留重定向；其他子路由 `species/`、`observations/`、`submit/`、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌），其后为最近观察地图流；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表）、`observations/[id]/`（详情：社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定；`...` 菜单含删除/举报）、`species/`、`submit/`、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -103,6 +103,7 @@
 
 ### 3.3 首页 (`components/home/`)
 - `home-showcase.tsx` — 首页主体：轮播、分类磁贴、推荐流、社区动态
+- `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
 ### 3.4 业务功能 (`components/features/`)
@@ -162,6 +163,10 @@
 - `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核）
 - `observation-gamification.ts` — 观察游戏化逻辑
 - `lib/observations/submit-topic.ts` — 观察提交专题（birds/plants/insects）归一化与文案
+- `lib/observations/display.ts` — 观察详情标题（物种名 / AI 建议 / 未知类别）、日期格式化
+- `lib/observations/consensus-ui.ts` — 社群共识进度（2 票规则）与 UI 文案
+- `lib/observations/activity-stream.ts` — 鉴定与评论合并为动态流
+- `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`tone=nature` / `outline` / `destructive` + `pill`）
 - `project-access.ts` / `project-validation.ts` — 项目权限与校验
 - `completion-access.ts` — 完成记录权限
 - `validation.ts` — 通用输入验证
