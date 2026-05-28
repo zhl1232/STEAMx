@@ -2,7 +2,8 @@
 FROM node:20-alpine AS deps
 RUN corepack enable && corepack prepare pnpm@10.22.0 --activate
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/scratch-host/package.json ./packages/scratch-host/
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Stage 2: Build

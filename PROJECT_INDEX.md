@@ -28,6 +28,11 @@
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 私信 — 会话列表、聊天详情；子路由 `[userId]/` |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
+| `/create` | `app/create/page.tsx` | 创造营 — PBL 挑战 + **训练营** Tab；`/create` 重定向自 `/community` |
+| `/courses` | `app/courses/page.tsx` | Scratch 训练营列表 |
+| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表 |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + iframe Scratch 编辑器） |
+| `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | 手机端作品预览（player 模式） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
 | `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、挑战管理；子路由 `projects/`、`moderator-applications/` |
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
@@ -49,11 +54,12 @@
 
 ## 2. API 路由 (`app/api/`)
 
-25 个 API 模块，每个目录下含 `route.ts`：
+27 个 API 模块，每个目录下含 `route.ts`：
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
-| admin | `api/admin/` | 项目审核、标签管理、举报处理、审核员申请审批、挑战 CRUD |
+| admin | `api/admin/` | 项目审核、标签管理、举报处理、审核员申请审批、挑战 CRUD、**训练营 CRUD**（`admin/courses/`） |
+| courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分 |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
@@ -112,6 +118,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、评论区 |
 | `challenge/` | 5 | 挑战提交表单、PBL 信息、评分星级、阶段指南、提交作品画廊 |
+| `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 9 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
@@ -121,8 +128,8 @@
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
 | `profile/` | 15 | 头像上传、编辑资料弹窗、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
 
-### 3.5 管理后台 (`components/admin/`) — 7 个组件
-项目审核卡片、挑战管理、完成审核、审核员申请列表、举报列表、全部项目管理
+### 3.5 管理后台 (`components/admin/`) — 8 个组件
+项目审核卡片、挑战管理、**训练营管理** `course-management`、完成审核、审核员申请列表、举报列表、全部项目管理
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
@@ -250,18 +257,27 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **135 个**迁移文件（含 schema、RLS、RPC、种子数据）
+- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles` · `projects` · `project_steps` · `project_materials` · `comments` · `likes` · `completed_projects` · `discussions` · `discussion_replies` · `challenges` · `challenge_submissions` · `badges` · `user_badges` · `tags` · `follows` · `messages` · `notifications` · `reports` · `nature_observations` · `nature_observation_events` · `species` · `shop_items` · `coin_logs` · `xp_logs` · `playground_stats`
+`profiles` · `projects` · … · `challenges` · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · Storage bucket **`scratch-projects`**
 
 完整类型定义：`lib/supabase/types.ts`
 
 ---
 
-## 7. 脚本 (`scripts/`)
+## 7. Scratch 编辑器子包 (`packages/scratch-host/`)
+
+- 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离
+- 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（已 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
+- 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
+- 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议；保存走 `POST /api/courses/.../project`
+
+---
+
+## 8. 脚本 (`scripts/`)
 
 | 脚本 | 功能 |
 |------|------|
@@ -273,7 +289,7 @@
 
 ---
 
-## 8. 测试
+## 9. 测试
 
 - `__tests__/` — **49 个** API 路由单元测试 + 组件测试
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）+ 集成测试
@@ -283,7 +299,7 @@
 
 ---
 
-## 9. 部署与 CI
+## 10. 部署与 CI
 
 - `deploy/docker-compose.yml` — Docker 部署编排
 - `deploy/nginx.conf` — Nginx 反向代理配置
@@ -294,7 +310,7 @@
 
 ---
 
-## 10. 配置文件
+## 11. 配置文件
 
 | 文件 | 用途 |
 |------|------|
@@ -313,7 +329,7 @@
 
 ---
 
-## 11. 静态资源 (`public/`)
+## 12. 静态资源 (`public/`)
 
 | 目录 | 内容 |
 |------|------|

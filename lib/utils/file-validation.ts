@@ -29,6 +29,14 @@ export const BUCKET_CONFIG: Record<string, { maxSizeMB: number; label: string }>
   'project-images': { maxSizeMB: 5, label: '项目图片' },
   'project-completions': { maxSizeMB: 10, label: '完成证明' },
   'project-completion-videos': { maxSizeMB: 30, label: '完成作品视频' },
+  'scratch-projects': { maxSizeMB: 10, label: 'Scratch 项目' },
+}
+
+/** .sb3 files are ZIP archives (PK\x03\x04) */
+export function detectSb3FromBytes(buffer: ArrayBuffer): boolean {
+  const bytes = new Uint8Array(buffer)
+  if (bytes.length < 4) return false
+  return bytes[0] === 0x50 && bytes[1] === 0x4b && bytes[2] === 0x03 && bytes[3] === 0x04
 }
 
 export const ALLOWED_BUCKETS = Object.keys(BUCKET_CONFIG)

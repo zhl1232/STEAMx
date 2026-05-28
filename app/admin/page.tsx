@@ -12,6 +12,7 @@ import { ChallengeSubmissionReviewCard } from '@/components/admin/challenge-subm
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
+import { CourseManagement } from '@/components/admin/course-management'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -539,6 +540,7 @@ export default function AdminPage() {
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
             {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
             <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战</TabsTrigger>
+            <TabsTrigger value="courses" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">训练营</TabsTrigger>
             <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">标签管理</TabsTrigger>
             <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
           </TabsList>
@@ -636,6 +638,10 @@ export default function AdminPage() {
 
           <TabsContent value="challenges" className="space-y-4">
             <ChallengeManagement />
+          </TabsContent>
+
+          <TabsContent value="courses" className="space-y-4">
+            <CourseManagement />
           </TabsContent>
 
           <TabsContent value="tags" className="space-y-4">

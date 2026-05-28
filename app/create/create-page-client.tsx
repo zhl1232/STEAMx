@@ -18,6 +18,7 @@ import {
     ChallengeBoard,
     getChallengeSubmissionCount,
 } from "@/components/features/pbl/challenge-board";
+import { CourseBoard } from "@/components/features/courses/course-board";
 import { getFeaturedNatureChallenges } from "@/lib/pbl/featured-nature-challenges";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { Challenge } from "@/lib/mappers/types";
@@ -199,25 +200,20 @@ function CreateTabs({
         <div className="flex min-w-0 items-center gap-6 md:gap-8">
             {([
                 ["pbl", "PBL 挑战"],
-                ["courses", "训练营（即将上线）"],
-            ] as const).map(([value, label]) => {
-                const disabled = value === "courses";
-                return (
+                ["courses", "训练营"],
+            ] as const).map(([value, label]) => (
                     <button
                         key={value}
                         type="button"
-                        disabled={disabled}
-                        onClick={() => !disabled && onChange(value)}
+                        onClick={() => onChange(value)}
                         className={cn(
                             "community-tab",
                             activeTab === value && "community-tab-active",
-                            disabled && "cursor-not-allowed opacity-50",
                         )}
                     >
                         {label}
                     </button>
-                );
-            })}
+                ))}
         </div>
     );
 }
@@ -261,7 +257,9 @@ export function CreatePageClient() {
                                 challengesError={challengesError}
                                 reloadChallenges={reloadChallenges}
                             />
-                        ) : null}
+                        ) : (
+                            <CourseBoard />
+                        )}
                     </div>
                 </section>
             </main>

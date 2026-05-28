@@ -83,13 +83,15 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const isHomePage = pathname === '/'
 
   const isProfilePage = pathname.startsWith('/profile')
+  const isScratchLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
   const hideMobileBottomNav =
     pathname === '/project' ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/pbl/') ||
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
-    pathname.startsWith('/project/')
+    pathname.startsWith('/project/') ||
+    isScratchLessonPage
   const hideGlobalHeader = pathname.startsWith('/share')
   const hideMobileGlobalHeader = hasPageOwnedMobileHeader(pathname)
   const showMobileGlobalHeader = !hideMobileGlobalHeader

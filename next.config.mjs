@@ -4,6 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   devIndicators: false,
   allowedDevOrigins: ["127.0.0.1"],
+  skipTrailingSlashRedirect: true,
   turbopack: {
     // Turbopack-specific options can be added here if needed
   },
@@ -63,6 +64,18 @@ const nextConfig = {
         source: '/community/discussion/:path*',
         destination: '/create',
         permanent: true,
+      },
+    ]
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/internalapi/asset/:md5ext/get/',
+        destination: '/scratch/assets/:md5ext',
+      },
+      {
+        source: '/internalapi/asset/:md5ext/get',
+        destination: '/scratch/assets/:md5ext',
       },
     ]
   },

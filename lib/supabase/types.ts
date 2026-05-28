@@ -1250,6 +1250,133 @@ export interface Database {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          id: number
+          title: string
+          description: string | null
+          image_url: string | null
+          tags: string[] | null
+          difficulty_stars: number
+          status: string
+          sort_order: number
+          steam_weights: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          title: string
+          description?: string | null
+          image_url?: string | null
+          tags?: string[] | null
+          difficulty_stars?: number
+          status?: string
+          sort_order?: number
+          steam_weights?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          title?: string
+          description?: string | null
+          image_url?: string | null
+          tags?: string[] | null
+          difficulty_stars?: number
+          status?: string
+          sort_order?: number
+          steam_weights?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      course_lessons: {
+        Row: {
+          id: number
+          course_id: number
+          title: string
+          lesson_type: string
+          content: Json | null
+          steps: Json | null
+          resources: Json | null
+          starter_project_path: string | null
+          sort_order: number
+          duration_minutes: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          course_id: number
+          title: string
+          lesson_type?: string
+          content?: Json | null
+          steps?: Json | null
+          resources?: Json | null
+          starter_project_path?: string | null
+          sort_order?: number
+          duration_minutes?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          course_id?: number
+          title?: string
+          lesson_type?: string
+          content?: Json | null
+          steps?: Json | null
+          resources?: Json | null
+          starter_project_path?: string | null
+          sort_order?: number
+          duration_minutes?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'course_lessons_course_id_fkey'
+            columns: ['course_id']
+            isOneToOne: false
+            referencedRelation: 'courses'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      user_lesson_progress: {
+        Row: {
+          user_id: string
+          lesson_id: number
+          scratch_project_path: string | null
+          completed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          lesson_id: number
+          scratch_project_path?: string | null
+          completed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          lesson_id?: number
+          scratch_project_path?: string | null
+          completed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_lesson_progress_lesson_id_fkey'
+            columns: ['lesson_id']
+            isOneToOne: false
+            referencedRelation: 'course_lessons'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       project_species: {
         Row: {
           id: number
