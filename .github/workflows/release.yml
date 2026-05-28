@@ -23,6 +23,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: false
+          swap-storage: false
+
       - name: Validate required secrets
         shell: bash
         run: |
@@ -46,8 +57,10 @@ jobs:
             --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
             -t steam-app:latest \
             .
-          docker save steam-app:latest -o steam-app.tar
-          chmod 644 steam-app.tar
+          docker save steam-app:latest | gzip -3 > steam-app.tar.gz
+          chmod 644 steam-app.tar.gz
+          ls -lh steam-app.tar.gz
+          df -h /
 
       - name: Copy image to server
         uses: appleboy/scp-action@v0.1.7
@@ -56,7 +69,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          source: steam-app.tar
+          source: steam-app.tar.gz
           target: /tmp/
 
       - name: Deploy on server
@@ -67,8 +80,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
-            docker load -i /tmp/steam-app.tar
-            rm -f /tmp/steam-app.tar
+            gunzip -c /tmp/steam-app.tar.gz | docker load
+            rm -f /tmp/steam-app.tar.gz
             cd /opt/steam-app
             missing_runtime=""
             for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY DASHSCOPE_API_KEY; do
