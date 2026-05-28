@@ -40,18 +40,13 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewDirection, setPreviewDirection] = useState(0);
   const railRef = useRef<HTMLDivElement>(null);
-  const activeUrl = mediaUrls[activeIndex] ?? mediaUrls[0];
 
-  if (!activeUrl) {
-    return null;
-  }
-
-  function scrollRailTo(index: number) {
+  const scrollRailTo = useCallback((index: number) => {
     railRef.current?.scrollTo({
       left: index * 120,
       behavior: "smooth",
     });
-  }
+  }, []);
 
   const goToIndex = useCallback(
     (nextIndex: number) => {
@@ -64,7 +59,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
       setActiveIndex(nextIndex);
       scrollRailTo(nextIndex);
     },
-    [activeIndex, mediaUrls.length],
+    [activeIndex, mediaUrls.length, scrollRailTo],
   );
 
   const shiftImage = useCallback(
@@ -77,7 +72,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
         return wrapped;
       });
     },
-    [mediaUrls.length],
+    [mediaUrls.length, scrollRailTo],
   );
 
   const previewSwipe = useHorizontalSwipe({
@@ -85,6 +80,12 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
     onSwipeLeft: () => shiftImage(1),
     onSwipeRight: () => shiftImage(-1),
   });
+
+  const activeUrl = mediaUrls[activeIndex] ?? mediaUrls[0];
+
+  if (!activeUrl) {
+    return null;
+  }
 
   return (
     <>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { AudioLines, Binoculars, CalendarDays, Feather, Leaf, MapPin } from "lucide-react";
 
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";

@@ -17,7 +17,7 @@ import {
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { observationSubmitTopicFromNatureTopic } from "@/lib/observations/submit-topic";
 
-import { appendNatureFrom, buildNatureSubmitHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
@@ -79,11 +79,6 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
   const primarySpeciesHref = primarySpecies?.speciesSlug
     ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
     : null;
-  const submitHref = buildNatureSubmitHref({
-    topic: submitTopic,
-    speciesId: primarySpecies?.speciesId,
-    from: currentPath,
-  });
   const hasCoordinates = observation.latitude != null && observation.longitude != null;
   const amapHref = hasCoordinates
     ? `https://uri.amap.com/marker?position=${observation.longitude},${observation.latitude}&name=${encodeURIComponent(observation.locationName)}&src=steam-explore`

@@ -227,6 +227,7 @@ export function ScratchWorkspace({
         playerOnly,
         postToIframe,
         promptLogin,
+        toast,
         user,
     ]);
 

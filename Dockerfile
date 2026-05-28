@@ -12,6 +12,8 @@ RUN corepack enable && corepack prepare pnpm@10.22.0 --activate
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# scratch-host webpack lives in the workspace package's node_modules/.bin (not hoisted to root PATH)
+COPY --from=deps /app/packages/scratch-host/node_modules ./packages/scratch-host/node_modules
 
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY

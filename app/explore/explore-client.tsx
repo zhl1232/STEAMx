@@ -412,12 +412,6 @@ export function ExploreClient({
         })))
     }, [])
 
-    const currentSubCategories = useMemo(() => (
-        selectedCategory === "全部"
-            ? Object.values(CATEGORY_CONFIG).flat()
-            : CATEGORY_CONFIG[selectedCategory] || []
-    ), [selectedCategory])
-
     const sheetSubCategories = useMemo(() => (
         draftCategory === "全部"
             ? Object.values(CATEGORY_CONFIG).flat()
