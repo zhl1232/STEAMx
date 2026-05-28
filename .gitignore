@@ -11,7 +11,8 @@ coverage
 out/
 build
 dist
-public/scratch
+public/scratch/*
+!public/scratch/assets/
 packages/scratch-host/dist
 .open-next
 
