@@ -271,7 +271,8 @@
 ## 7. Scratch 编辑器子包 (`packages/scratch-host/`)
 
 - 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离
-- 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（已 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
+- 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
+- Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；生产环境配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，`/internalapi/asset/*` 会 rewrite 到 OSS
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
 - 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议；保存走 `POST /api/courses/.../project`
 
@@ -286,6 +287,8 @@
 | `fetch-bird-media-from-wikimedia.mjs` | 从 Wikimedia 抓取鸟类图片 |
 | `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
+| `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等） |
+| `fetch-scratch-assets.mjs` | 镜像 Scratch 素材库到本地，再经 migrate 脚本上传 OSS |
 
 ---
 

@@ -42,6 +42,7 @@ const GROUPS = [
   { id: 'trees', localDir: 'public/trees', publicPrefix: 'trees', manifest: 'trees.json', kind: 'species', imageSubdir: 'images' },
   { id: 'projects', localDir: 'public/projects/generated', publicPrefix: 'projects/generated', manifest: 'projects.json', kind: 'flat' },
   { id: 'project-steps', localDir: 'public/projects/steps', publicPrefix: 'projects/steps', manifest: null, kind: 'flat' },
+  { id: 'scratch-assets', localDir: 'public/scratch/assets', publicPrefix: 'scratch/assets', manifest: null, kind: 'flat' },
 ]
 
 function parseArgs(argv) {

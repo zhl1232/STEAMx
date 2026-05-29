@@ -11,8 +11,7 @@ coverage
 out/
 build
 dist
-public/scratch/*
-!public/scratch/assets/
+public/scratch/
 public/birds/images/
 public/birds/audio/
 public/insects/images/

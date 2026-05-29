@@ -14,6 +14,12 @@ function buildAssetsRemotePatterns() {
   }
 }
 
+function buildScratchAssetDestination() {
+  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL?.trim().replace(/\/+$/, '')
+  if (baseUrl) return `${baseUrl}/scratch/assets/:md5ext`
+  return '/scratch/assets/:md5ext'
+}
+
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
@@ -84,14 +90,15 @@ const nextConfig = {
     ]
   },
   async rewrites() {
+    const scratchAssetDestination = buildScratchAssetDestination()
     return [
       {
         source: '/internalapi/asset/:md5ext/get/',
-        destination: '/scratch/assets/:md5ext',
+        destination: scratchAssetDestination,
       },
       {
         source: '/internalapi/asset/:md5ext/get',
-        destination: '/scratch/assets/:md5ext',
+        destination: scratchAssetDestination,
       },
     ]
   },
