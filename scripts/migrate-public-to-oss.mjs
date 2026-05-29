@@ -4,12 +4,13 @@
  * then generate manifest JSON files used at runtime by the app.
  *
  * Usage:
- *   ALIYUN_OSS_ACCESS_KEY_ID=... \
- *   ALIYUN_OSS_ACCESS_KEY_SECRET=... \
- *   ALIYUN_OSS_BUCKET=... \
- *   ALIYUN_OSS_REGION=oss-cn-hangzhou \
- *   NEXT_PUBLIC_ASSETS_BASE_URL=https://assets.example.com \
  *   node scripts/migrate-public-to-oss.mjs
+ *   node scripts/migrate-public-to-oss.mjs --only=scratch-assets
+ *
+ * 环境变量从 .env.local 自动读取（与 pnpm db:push 相同），也可手动 export：
+ *   ALIYUN_OSS_ACCESS_KEY_ID / ALIYUN_OSS_ACCESS_KEY_SECRET / ALIYUN_OSS_BUCKET
+ *   ALIYUN_OSS_REGION=oss-cn-hangzhou
+ *   NEXT_PUBLIC_ASSETS_BASE_URL=https://assets.example.com
  *
  * Optional flags:
  *   --skip-upload          Only regenerate manifests from local files (no OSS calls)
@@ -35,6 +36,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
 const PUBLIC_DIR = path.join(ROOT, 'public')
 const MANIFESTS_DIR = path.join(PUBLIC_DIR, 'manifests')
+
+async function loadEnv() {
+  for (const filename of ['.env.local', '.env']) {
+    const envPath = path.join(ROOT, filename)
+    if (!existsSync(envPath)) continue
+    const content = await fs.readFile(envPath, 'utf8')
+    for (const line of content.split('\n')) {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('#')) continue
+      const eqIdx = trimmed.indexOf('=')
+      if (eqIdx === -1) continue
+      const key = trimmed.slice(0, eqIdx).trim()
+      const val = trimmed.slice(eqIdx + 1).trim()
+      if (!process.env[key]) process.env[key] = val
+    }
+  }
+}
 
 const GROUPS = [
   { id: 'birds', localDir: 'public/birds', publicPrefix: 'birds', manifest: 'birds.json', kind: 'species', imageSubdir: 'images' },
@@ -168,6 +186,7 @@ async function processGroup(group, args, client) {
 }
 
 async function main() {
+  await loadEnv()
   const args = parseArgs(process.argv.slice(2))
   const groups = args.only ? GROUPS.filter((g) => args.only.has(g.id)) : GROUPS
 
