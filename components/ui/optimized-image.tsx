@@ -1,6 +1,7 @@
 "use client"
 
 import Image, { ImageProps } from "next/image"
+import { rewriteAssetUrl } from "@/lib/utils/asset-url"
 import { cn } from "@/lib/utils"
 
 /** 通用模糊占位（约 10x10 灰块），用于远程图片加载时的占位，减少布局跳动 */
@@ -115,14 +116,15 @@ export function getOptimizedImageSrc(
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
   const width = WIDTH_PRESETS[variant]
   const versionedSrc = withGeneratedProjectImageCacheVersion(src)
+  const rewrittenSrc = rewriteAssetUrl(versionedSrc) ?? versionedSrc
 
   if (variant === "cover") {
-    return versionedSrc
+    return rewrittenSrc
   }
 
-  return isSupabasePublicStorageUrl(versionedSrc) && supportsSupabaseRenderTransform(versionedSrc)
-    ? toSupabaseTransformedUrl(versionedSrc, width, quality)
-    : versionedSrc
+  return isSupabasePublicStorageUrl(rewrittenSrc) && supportsSupabaseRenderTransform(rewrittenSrc)
+    ? toSupabaseTransformedUrl(rewrittenSrc, width, quality)
+    : rewrittenSrc
 }
 
 /**

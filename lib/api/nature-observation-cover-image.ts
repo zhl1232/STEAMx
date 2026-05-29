@@ -1,7 +1,8 @@
-import { existsSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 
 import type { NatureTopicKey } from '@/lib/config/nature-topics'
+import { rewriteAssetUrl } from '@/lib/utils/asset-url'
 
 import type { SpeciesRow } from './nature-observation-internal-types'
 
@@ -17,6 +18,11 @@ function resolvePublicAssetUrl(rawUrl: string | null): string | null {
 
   if (!trimmedUrl.startsWith('/')) {
     return null
+  }
+
+  const rewritten = rewriteAssetUrl(trimmedUrl)
+  if (rewritten && /^https?:\/\//i.test(rewritten)) {
+    return rewritten
   }
 
   const relativePath = trimmedUrl.replace(/^\/+/, '')
@@ -39,7 +45,39 @@ const speciesImageDirectories: Partial<Record<NatureTopicKey, string>> = {
   plants: '/trees/images',
 }
 
+const speciesManifestFiles: Partial<Record<NatureTopicKey, string>> = {
+  birds: 'birds.json',
+  insects: 'insects.json',
+  plants: 'trees.json',
+}
+
 const speciesImageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
+
+type SpeciesImageManifest = Record<string, string[]>
+
+const manifestCache = new Map<string, SpeciesImageManifest | null>()
+
+function loadSpeciesImageManifest(manifestFile: string): SpeciesImageManifest | null {
+  if (manifestCache.has(manifestFile)) {
+    return manifestCache.get(manifestFile) ?? null
+  }
+
+  const manifestPath = path.join(process.cwd(), 'public', 'manifests', manifestFile)
+  if (!existsSync(manifestPath)) {
+    manifestCache.set(manifestFile, null)
+    return null
+  }
+
+  try {
+    const content = readFileSync(manifestPath, 'utf8')
+    const parsed = JSON.parse(content) as SpeciesImageManifest
+    manifestCache.set(manifestFile, parsed)
+    return parsed
+  } catch {
+    manifestCache.set(manifestFile, null)
+    return null
+  }
+}
 
 function getAssetDirectoryFromUrl(url: string | null): string | null {
   if (!url?.startsWith('/')) return null
@@ -83,9 +121,26 @@ function listSpeciesImagesInDirectory(slug: string, publicDirectory: string): st
 
 export function getSpeciesImageUrls(row: SpeciesRow): string[] {
   const coverImageUrl = resolvePublicAssetUrl(row.cover_image_url)
+  const topicKey = row.nature_topic as NatureTopicKey
+  const manifestFile = speciesManifestFiles[topicKey]
+  const manifest = manifestFile ? loadSpeciesImageManifest(manifestFile) : null
+
+  if (manifest) {
+    const manifestUrls = manifest[row.slug] ?? []
+    const resolvedManifestUrls = manifestUrls
+      .map((url) => resolvePublicAssetUrl(url))
+      .filter((url): url is string => Boolean(url))
+
+    return Array.from(
+      new Set(
+        [coverImageUrl, ...resolvedManifestUrls].filter((url): url is string => Boolean(url)),
+      ),
+    )
+  }
+
   const assetDirectories = [
-    getAssetDirectoryFromUrl(coverImageUrl),
-    speciesImageDirectories[row.nature_topic as NatureTopicKey],
+    getAssetDirectoryFromUrl(row.cover_image_url),
+    speciesImageDirectories[topicKey],
   ].filter((directory): directory is string => Boolean(directory))
 
   return Array.from(

@@ -1,4 +1,19 @@
 /** @type {import('next').NextConfig} */
+
+function buildAssetsRemotePatterns() {
+  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL
+  if (!baseUrl) return []
+
+  try {
+    const url = new URL(baseUrl)
+    const protocol = url.protocol.replace(':', '')
+    if (protocol !== 'http' && protocol !== 'https') return []
+    return [{ protocol, hostname: url.hostname }]
+  } catch {
+    return []
+  }
+}
+
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
@@ -32,6 +47,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "storage.googleapis.com",
       },
+      ...buildAssetsRemotePatterns(),
     ],
     // 图片格式优化
     formats: ["image/webp"],
