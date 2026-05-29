@@ -336,7 +336,7 @@
 | `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、树木、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
-| `public/birds/` | 鸟类物种封面图 |
+| `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；运行时经 `NEXT_PUBLIC_ASSETS_BASE_URL` 重写） |
 | `public/trees/` | 树木物种封面图 |
 | `public/projects/` | 项目封面图、步骤图（WebP） |
 | `public/icon*.png` | PWA 图标 |

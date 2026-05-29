@@ -23,6 +23,9 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl('/birds/images/alcedo-atthis.jpg')).toBe(
       'https://assets.example.com/birds/images/alcedo-atthis.jpg',
     )
+    expect(rewriteAssetUrl('/birds/audio/alcedo-atthis.ogg')).toBe(
+      'https://assets.example.com/birds/audio/alcedo-atthis.ogg',
+    )
     expect(rewriteAssetUrl('/projects/generated/project-0010.webp')).toBe(
       'https://assets.example.com/projects/generated/project-0010.webp',
     )

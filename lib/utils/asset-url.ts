@@ -1,5 +1,5 @@
 /**
- * 统一把仓库历史保留的本地资源路径（如 /birds/images/xxx.jpg）重写为对象存储 URL。
+ * 统一把仓库历史保留的本地资源路径（如 /birds/images/xxx.jpg、/birds/audio/xxx.ogg）重写为对象存储 URL。
  *
  * 设计原则：
  * - 只重写白名单前缀，避免误伤 /assets、/scratch、用户上传等路径
