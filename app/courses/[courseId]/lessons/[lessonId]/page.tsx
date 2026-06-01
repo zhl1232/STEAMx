@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { LessonPageClient } from "./lesson-page-client";
 import { createClient } from "@/lib/supabase/server";
-import { getCourseDetail } from "@/lib/api/courses";
+import { getCourseDetail, getUserLessonProgress } from "@/lib/api/courses";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
@@ -41,12 +41,20 @@ export default async function LessonPage({ params }: PageProps) {
     const lesson = course.lessons.find((l) => l.id === lessonId);
     if (!lesson) notFound();
 
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    const progress = user
+        ? await getUserLessonProgress(supabase, user.id, lessonId)
+        : null;
+
     return (
         <LessonPageClient
             courseId={courseId}
             courseTitle={course.title}
             lesson={lesson}
             previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
+            initialCompleted={Boolean(progress?.completed_at)}
         />
     );
 }

@@ -1,5 +1,5 @@
 import { isEmbedMode } from './asset-host.js'
-import { syncGuiProjectReady } from './gui-sync.js'
+import { activateTutorialDeck, syncGuiProjectReady } from './gui-sync.js'
 import { patchScratchStorageForEmbed } from './storage-patch.js'
 import { attachVmHooks } from './vm-hooks.js'
 
@@ -306,6 +306,23 @@ export function initHostMessageListener() {
       case 'RUN_PLAYER_ONLY':
         playerOnly = true
         setStatus('预览模式')
+        break
+      case 'OPEN_TUTORIAL_DECK': {
+        // 直达当前课时对应的官方教程图文卡片；GUI 未就绪时回退到打开全部教程
+        const opened = activateTutorialDeck(data.deckId)
+        if (!opened && typeof window !== 'undefined') {
+          document.querySelector('[class*="tutorials-button"]')?.click()
+        }
+        break
+      }
+      case 'OPEN_TUTORIALS':
+        // 触发 Scratch GUI 的教程按钮点击（打开全部教程列表）
+        if (typeof window !== 'undefined') {
+          const tutorialButton = document.querySelector('[class*="tutorials-button"]')
+          if (tutorialButton) {
+            tutorialButton.click()
+          }
+        }
         break
       default:
         break

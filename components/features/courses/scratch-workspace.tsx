@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, Save, Upload } from "lucide-react";
+import { Loader2, Save, Upload, HelpCircle, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -13,6 +13,7 @@ import {
 } from "@/lib/courses/scratch-messages";
 import { canUseScratchEditor } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
+import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
 
 function getScratchHostUrl(playerOnly: boolean): string {
     const origin =
@@ -54,12 +55,16 @@ export function ScratchWorkspace({
     courseId,
     lessonId,
     playerOnly = false,
+    tutorialDeckId,
+    initialCompleted = false,
     onProjectSaved,
     onCompleted,
 }: {
     courseId: number;
     lessonId: number;
     playerOnly?: boolean;
+    tutorialDeckId?: string;
+    initialCompleted?: boolean;
     onProjectSaved?: () => void;
     onCompleted?: () => void;
 }) {
@@ -74,6 +79,7 @@ export function ScratchWorkspace({
     const [projectLoaded, setProjectLoaded] = useState(false);
     const [saving, setSaving] = useState(false);
     const [completing, setCompleting] = useState(false);
+    const [completed, setCompleted] = useState(initialCompleted);
     const [hasSavedProject, setHasSavedProject] = useState(false);
     const [loadingProject, setLoadingProject] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -271,11 +277,31 @@ export function ScratchWorkspace({
                 `/api/courses/${courseId}/lessons/${lessonId}/complete`,
                 { method: "POST" },
             );
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                throw new Error((err as { error?: string }).error || "完成失败");
+            const data = (await res.json().catch(() => ({}))) as {
+                error?: string;
+                missing?: string[];
+                alreadyCompleted?: boolean;
+            };
+            // 422：作品还没用到本课要求的关键积木，友好提示孩子还差什么
+            if (res.status === 422) {
+                const missing = Array.isArray(data.missing) ? data.missing : [];
+                toast({
+                    title: "作品还差一点点 💪",
+                    description: missing.length
+                        ? `再加上「${missing.join("」「")}」就能完成啦！`
+                        : "再按课程步骤完善一下作品吧",
+                });
+                return;
             }
-            toast({ title: "课时已完成", description: "+15 经验值" });
+            if (!res.ok) {
+                throw new Error(data.error || "完成失败");
+            }
+            setCompleted(true);
+            if (data.alreadyCompleted) {
+                toast({ title: "本课已完成 ✓" });
+            } else {
+                toast({ title: "课时已完成 🎉", description: "+15 经验值" });
+            }
             onCompleted?.();
         } catch (e) {
             toast({
@@ -311,6 +337,14 @@ export function ScratchWorkspace({
         reader.readAsArrayBuffer(file);
     };
 
+    const handleTutorialClick = () => {
+        if (tutorialDeckId) {
+            postToIframe({ type: "OPEN_TUTORIAL_DECK", deckId: tutorialDeckId });
+        } else {
+            postToIframe({ type: "OPEN_TUTORIALS" });
+        }
+    };
+
     if (!editorAllowed && !playerOnly) {
         return (
             <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
@@ -338,7 +372,7 @@ export function ScratchWorkspace({
     const busy = saving || completing;
 
     return (
-        <div className="relative flex min-h-0 flex-1 flex-col">
+        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
             {!playerOnly ? (
                 <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-1.5 backdrop-blur-sm">
                     <Button
@@ -379,15 +413,33 @@ export function ScratchWorkspace({
                     <Button
                         type="button"
                         size="sm"
+                        variant="outline"
+                        disabled={!ready || !projectLoaded}
+                        onClick={handleTutorialClick}
+                        title={tutorialDeckId ? "打开本课教程" : "打开教程"}
+                    >
+                        <HelpCircle className="mr-1 h-4 w-4" />
+                        <span className="hidden sm:inline">
+                            {tutorialDeckId ? "本课教程" : "教程"}
+                        </span>
+                        <span className="sm:hidden">教程</span>
+                    </Button>
+                    <Button
+                        type="button"
+                        size="sm"
                         variant="secondary"
-                        disabled={!ready || !projectLoaded || busy}
+                        disabled={!ready || !projectLoaded || busy || completed}
                         onClick={() => void handleComplete()}
                     >
                         {completing ? (
                             <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                        ) : completed ? (
+                            <Check className="mr-1 h-4 w-4" />
                         ) : null}
-                        <span className="hidden sm:inline">完成课时</span>
-                        <span className="sm:hidden">完成</span>
+                        <span className="hidden sm:inline">
+                            {completed ? "已完成" : "完成课时"}
+                        </span>
+                        <span className="sm:hidden">{completed ? "已完成" : "完成"}</span>
                     </Button>
                     {(loadingProject || !ready) && (
                         <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
@@ -399,10 +451,11 @@ export function ScratchWorkspace({
             ) : null}
             <div
                 className={cn(
-                    "relative min-h-0 flex-1",
+                    "relative min-h-0 flex-1 overflow-hidden",
                     playerOnly ? "min-h-[360px]" : "",
                 )}
             >
+                <ScratchLoadingOverlay show={!ready || !projectLoaded} />
                 <iframe
                     ref={iframeRef}
                     title="Scratch 编辑器"

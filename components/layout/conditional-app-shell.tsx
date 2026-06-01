@@ -146,7 +146,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         跳到主内容
       </a>
       <div
-        className="flex min-h-screen flex-col bg-background"
+        className={cn('flex flex-col bg-background', isScratchLessonPage ? 'h-screen overflow-hidden' : 'min-h-screen')}
         style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '3rem' : '0rem' }}
       >
         {/* 移动端统一 Header */}
@@ -185,7 +185,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         </header>
         <main
           id="main-content"
-          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}
+          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0', isScratchLessonPage && 'overflow-hidden')}
         >
           {pageContent}
         </main>

@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 
 import type { CourseLessonRow, CourseLessonStep } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
+import { LessonRichText } from "./lesson-rich-text";
 
 export function LessonSidebar({
     courseId,
@@ -137,12 +138,12 @@ function LessonStepItem({
                 </span>
                 {active && step.description ? (
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                        {step.description}
+                        <LessonRichText text={step.description} />
                     </p>
                 ) : null}
                 {active && step.hint ? (
-                    <p className="mt-1 text-xs italic text-[hsl(var(--brand-amber))]">
-                        提示：{step.hint}
+                    <p className="mt-1.5 text-xs leading-relaxed text-[hsl(var(--brand-amber))]">
+                        提示：<LessonRichText text={step.hint} />
                     </p>
                 ) : null}
             </button>

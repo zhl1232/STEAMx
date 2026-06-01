@@ -14,6 +14,24 @@ export interface CourseLessonResource {
   type?: string
 }
 
+/** 完成课时的一条积木校验规则：作品里只要用到 anyOf 中任一 opcode 即算达成 */
+export interface LessonRequiredBlock {
+  /** 给孩子看的中文积木名，如「重复执行」「当角色被点击」 */
+  label: string
+  /** Scratch 3 标准 opcode 列表，满足其一即可 */
+  anyOf: string[]
+}
+
+export interface LessonContent {
+  /** 一句话课程目标，展示在侧边栏 */
+  summary?: string
+  /** 本课对应的 Scratch 官方教程 deck id（如 'tell-a-story'、'pong-game'），用于「教程」按钮按课直达 */
+  tutorialDeckId?: string
+  /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */
+  requiredBlocks?: LessonRequiredBlock[]
+  [key: string]: unknown
+}
+
 export interface CourseRow {
   id: number
   title: string
@@ -33,7 +51,7 @@ export interface CourseLessonRow {
   course_id: number
   title: string
   lesson_type: LessonType
-  content: Record<string, unknown> | null
+  content: LessonContent | null
   steps: CourseLessonStep[]
   resources: CourseLessonResource[]
   starter_project_path: string | null

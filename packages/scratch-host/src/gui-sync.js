@@ -7,6 +7,7 @@ const MODAL_LOADING_PROJECT = 'loadingProject'
 const SET_PLAYER = 'scratch-gui/mode/SET_PLAYER'
 const SET_FULL_SCREEN = 'scratch-gui/mode/SET_FULL_SCREEN'
 const UPDATE_TARGET_LIST = 'scratch-gui/targets/UPDATE_TARGET_LIST'
+const ACTIVATE_DECK = 'scratch-gui/cards/ACTIVATE_DECK'
 
 let guiDispatch = null
 let guiSynced = false
@@ -53,5 +54,16 @@ export function syncGuiProjectReady() {
     document.documentElement.dataset.scratchReady = '1'
   }
   guiSynced = true
+  return true
+}
+
+/**
+ * 直接打开某个官方教程的图文卡片（deck）。
+ * deckId 必须是 Scratch GUI tutorials 库的 key，如 'tell-a-story'、'pong-game'。
+ * 返回 false 表示 dispatch 尚不可用（GUI 未就绪），调用方可回退到打开全部教程。
+ */
+export function activateTutorialDeck(deckId) {
+  if (!guiDispatch || !deckId) return false
+  guiDispatch({ type: ACTIVATE_DECK, activeDeckId: deckId, step: 0 })
   return true
 }

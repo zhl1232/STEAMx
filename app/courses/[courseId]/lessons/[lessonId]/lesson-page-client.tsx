@@ -14,29 +14,32 @@ import { cn } from "@/lib/utils";
 
 /** 课时页可用高度：桌面顶栏 4rem；移动顶栏用 shell 的 CSS 变量 */
 const LESSON_PAGE_HEIGHT =
-    "max-md:min-h-[calc(100dvh-var(--mobile-global-header-height,3rem)-env(safe-area-inset-top))] md:min-h-[calc(100dvh-4rem)] md:max-h-[calc(100dvh-4rem)]";
+    "max-md:h-[calc(100dvh-var(--mobile-global-header-height,3rem)-env(safe-area-inset-top))] md:h-[calc(100dvh-4rem)]";
 
 export function LessonPageClient({
     courseId,
     courseTitle,
     lesson,
     previewHref,
+    initialCompleted = false,
 }: {
     courseId: number;
     courseTitle: string;
     lesson: CourseLessonRow;
     previewHref: string;
+    initialCompleted?: boolean;
 }) {
     const [activeStep, setActiveStep] = useState(0);
-    const [completed, setCompleted] = useState(false);
+    const [completed, setCompleted] = useState(initialCompleted);
     const showEditor = canUseScratchEditor();
 
     return (
         <div
             className={cn(
-                "flex flex-col overflow-hidden bg-background",
+                "mx-auto flex w-full flex-col overflow-hidden app-canvas",
                 LESSON_PAGE_HEIGHT,
             )}
+            style={{ maxWidth: "var(--shell-wide)" }}
         >
             <MobileGlobalHeader variant="title" title={lesson.title} />
             <div className="flex items-center gap-2 border-b border-border bg-card px-3 py-2 md:hidden">
@@ -82,6 +85,12 @@ export function LessonPageClient({
                     <ScratchWorkspace
                         courseId={courseId}
                         lessonId={lesson.id}
+                        tutorialDeckId={
+                            typeof lesson.content?.tutorialDeckId === "string"
+                                ? lesson.content.tutorialDeckId
+                                : undefined
+                        }
+                        initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}
                     />
                 </div>

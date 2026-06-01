@@ -7,6 +7,8 @@ export type ScratchParentMessage =
   | { type: 'LOAD_PROJECT_BUFFER'; base64: string }
   | { type: 'SAVE_PROJECT' }
   | { type: 'RUN_PLAYER_ONLY' }
+  | { type: 'OPEN_TUTORIALS' }
+  | { type: 'OPEN_TUTORIAL_DECK'; deckId: string }
 
 export type ScratchHostMessage =
   | { type: 'SCRATCH_READY'; source: typeof SCRATCH_MESSAGE_SOURCE }
