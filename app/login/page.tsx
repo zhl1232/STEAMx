@@ -28,15 +28,15 @@ export default function LoginPage() {
       </div>
 
       <div className="mx-auto mt-6 grid w-full max-w-5xl gap-5 lg:mt-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(380px,440px)] lg:items-center">
-        <section className="relative order-2 overflow-hidden rounded-[28px] border border-border bg-card p-5 shadow-[0_24px_70px_-52px_hsl(var(--surface-shadow)/0.42)] sm:p-7 lg:order-1 lg:min-h-[560px]">
+        <section className="relative order-2 overflow-hidden rounded-xl border border-border bg-card p-5 shadow-[0_24px_70px_-52px_hsl(var(--surface-shadow)/0.42)] sm:p-7 lg:order-1 lg:min-h-[560px]">
           <div className="relative z-10 flex h-full flex-col justify-between gap-8">
             <div className="max-w-xl">
               <p className="section-kicker">探索 · 创造 · 成长</p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[20px] border border-border/80 bg-background p-4 shadow-sm">
-                <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary/10 text-primary">
+              <div className="rounded-lg border border-border/80 bg-background p-4 shadow-sm">
+                <span className="grid h-9 w-9 place-items-center rounded-md bg-primary/10 text-primary">
                   <Compass className="h-4 w-4" />
                 </span>
                 <p className="mt-1.5 text-xs leading-5 text-muted-foreground">登录成功后会继续跳回原本要访问的页面。</p>

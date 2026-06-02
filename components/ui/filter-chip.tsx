@@ -28,7 +28,7 @@ const sizeClass: Record<FilterChipSize, string> = {
 }
 
 const shapeClass: Record<FilterChipShape, string> = {
-  soft: "rounded-[10px]",
+  soft: "rounded-sm",
   pill: "rounded-full",
 }
 

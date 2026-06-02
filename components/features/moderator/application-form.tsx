@@ -79,7 +79,7 @@ function RequirementItem({ label, met, current, required, unit = "" }: Requireme
     const showProgress = typeof current === "number" && typeof required === "number";
 
     return (
-        <div className="rounded-2xl border border-border/70 bg-background/72 px-4 py-3">
+        <div className="rounded-md border border-border/70 bg-background/72 px-4 py-3">
             <div className="flex items-center justify-between gap-3">
                 <span className="flex min-w-0 items-center gap-2 text-sm font-medium">
                     {met ? (
@@ -210,7 +210,7 @@ export function ModeratorApplicationForm() {
     if (authLoading || isLoading) {
         return (
             <div className="space-y-5">
-                <Skeleton className="h-48 rounded-[28px]" />
+                <Skeleton className="h-48 rounded-xl" />
                 <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
                     <Skeleton className="h-72 rounded-[var(--radius-lg)]" />
                     <Skeleton className="h-96 rounded-[var(--radius-lg)]" />
@@ -257,7 +257,7 @@ export function ModeratorApplicationForm() {
 
     return (
         <div className="space-y-5">
-            <section className="relative overflow-hidden rounded-[28px] border border-[hsl(var(--brand-blue)/0.22)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.96),hsl(var(--brand-blue)/0.09),hsl(var(--brand-green)/0.08))] p-5 sm:p-6 lg:p-7">
+            <section className="relative overflow-hidden rounded-xl border border-[hsl(var(--brand-blue)/0.22)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.96),hsl(var(--brand-blue)/0.09),hsl(var(--brand-green)/0.08))] p-5 sm:p-6 lg:p-7">
                 <div className="absolute right-4 top-4 hidden h-32 w-32 rounded-full bg-[hsl(var(--brand-blue)/0.12)] blur-3xl sm:block" />
                 <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-center">
                     <div>
@@ -270,7 +270,7 @@ export function ModeratorApplicationForm() {
                         </p>
                     </div>
                     <div className="surface-subtle grid min-h-40 place-items-center rounded-[var(--radius-lg)] border border-border/70 bg-background/70 p-5 shadow-none">
-                        <div className="grid h-24 w-24 place-items-center rounded-[28px] bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
+                        <div className="grid h-24 w-24 place-items-center rounded-xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
                             <ShieldCheck className="h-12 w-12" />
                         </div>
                     </div>
@@ -351,9 +351,9 @@ export function ModeratorApplicationForm() {
                             {DUTIES.map((duty) => {
                                 const Icon = duty.icon;
                                 return (
-                                    <div key={duty.title} className="rounded-2xl border border-border/70 bg-background/72 p-4">
+                                    <div key={duty.title} className="rounded-md border border-border/70 bg-background/72 p-4">
                                         <div className="flex items-start gap-3">
-                                            <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", duty.tone)}>
+                                            <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-md", duty.tone)}>
                                                 <Icon className="h-5 w-5" />
                                             </div>
                                             <div>
@@ -384,7 +384,7 @@ export function ModeratorApplicationForm() {
                                     value={motivation}
                                     onChange={(e) => setMotivation(e.target.value)}
                                     rows={7}
-                                    className="control-field min-h-[168px] resize-none rounded-2xl bg-background/80"
+                                    className="control-field min-h-[168px] resize-none rounded-md bg-background/80"
                                 />
                                 <p className="text-right text-xs text-muted-foreground">
                                     {motivation.trim().length} / 50 字
@@ -403,7 +403,7 @@ export function ModeratorApplicationForm() {
                                                 type="button"
                                                 onClick={() => toggleStrength(option.value)}
                                                 className={cn(
-                                                    "inline-flex min-h-11 items-center gap-2 rounded-2xl border px-4 text-sm font-semibold transition",
+                                                    "inline-flex min-h-11 items-center gap-2 rounded-md border px-4 text-sm font-semibold transition",
                                                     selected
                                                         ? "border-[hsl(var(--brand-blue)/0.45)] bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]"
                                                         : "border-border/70 bg-background/72 text-muted-foreground hover:text-foreground",
@@ -428,7 +428,7 @@ export function ModeratorApplicationForm() {
                                                 type="button"
                                                 onClick={() => setWeeklyTime(option)}
                                                 className={cn(
-                                                    "flex min-h-12 items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-semibold transition",
+                                                    "flex min-h-12 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold transition",
                                                     selected
                                                         ? "border-[hsl(var(--brand-blue)/0.5)] bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]"
                                                         : "border-border/70 bg-background/72 text-muted-foreground hover:text-foreground",
@@ -442,7 +442,7 @@ export function ModeratorApplicationForm() {
                                 </div>
                             </div>
 
-                            <div className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background/72 px-4 py-3">
+                            <div className="flex items-start gap-3 rounded-md border border-border/70 bg-background/72 px-4 py-3">
                                 <Checkbox
                                     id="moderator-terms"
                                     checked={termsAgreed}
@@ -457,7 +457,7 @@ export function ModeratorApplicationForm() {
                             <Button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting || motivation.trim().length < 50 || selectedStrengths.length === 0 || !termsAgreed}
-                                className="h-12 w-full rounded-2xl text-base font-semibold"
+                                className="h-12 w-full rounded-md text-base font-semibold"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -472,7 +472,7 @@ export function ModeratorApplicationForm() {
                                 )}
                             </Button>
 
-                            <div className="rounded-2xl border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] p-4">
+                            <div className="rounded-md border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] p-4">
                                 <div className="flex items-start gap-3">
                                     <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--brand-green))]" />
                                     <div>
@@ -485,7 +485,7 @@ export function ModeratorApplicationForm() {
                             </div>
                         </div>
                     ) : (
-                        <Alert className="rounded-2xl border-amber-200 bg-amber-50/80 text-amber-900 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-100">
+                        <Alert className="rounded-md border-amber-200 bg-amber-50/80 text-amber-900 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-100">
                             <AlertCircle className="h-4 w-4" />
                             <AlertTitle>暂不符合条件</AlertTitle>
                             <AlertDescription>

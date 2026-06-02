@@ -160,7 +160,7 @@ export default function NQueensPage() {
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-amber-500/10 border border-amber-500/40 flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-amber-500/10 border border-amber-500/40 flex items-center justify-center shrink-0">
                                 <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
                             </div>
                             <div>
@@ -185,14 +185,14 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-xl border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                         {/* N selector */}
                         <div className="flex items-center gap-1.5">
                             <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">N</span>
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={n <= 4 || isVisualizing}
                                 onClick={() => setN(n - 1)}
                                 aria-label="减少棋盘大小"
@@ -205,7 +205,7 @@ export default function NQueensPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={n >= 12 || isVisualizing}
                                 onClick={() => setN(n + 1)}
                                 aria-label="增加棋盘大小"
@@ -217,7 +217,7 @@ export default function NQueensPage() {
                         <div className="w-px h-6 bg-border hidden sm:block" />
 
                         {/* Mode toggle */}
-                        <div className="flex items-center bg-muted/40 rounded-lg overflow-hidden border border-border">
+                        <div className="flex items-center bg-muted/40 rounded-xs overflow-hidden border border-border">
                             {(["manual", "visualize"] as NQueensMode[]).map((m) => (
                                 <button
                                     key={m}
@@ -279,7 +279,7 @@ export default function NQueensPage() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="h-7 rounded-lg text-xs gap-1 px-2.5"
+                                        className="h-7 rounded-xs text-xs gap-1 px-2.5"
                                         onClick={startVisualization}
                                     >
                                         <Play className="w-3 h-3" />
@@ -289,7 +289,7 @@ export default function NQueensPage() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="h-7 rounded-lg text-xs gap-1 px-2.5"
+                                        className="h-7 rounded-xs text-xs gap-1 px-2.5"
                                         onClick={isVisualizationPaused ? resumeVisualization : pauseVisualization}
                                     >
                                         {isVisualizationPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
@@ -298,7 +298,7 @@ export default function NQueensPage() {
                                 ) : null}
 
                                 {/* Speed selector */}
-                                <div className="flex items-center bg-muted/40 rounded-lg overflow-hidden border border-border">
+                                <div className="flex items-center bg-muted/40 rounded-xs overflow-hidden border border-border">
                                     {(["slow", "normal", "fast"] as NQueensSpeed[]).map((s) => (
                                         <button
                                             key={s}
@@ -319,10 +319,10 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Chess Board */}
-                    <div className="relative bg-muted/20 rounded-2xl p-3 sm:p-5 border border-border shadow-xl">
+                    <div className="relative bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl">
                         <div className="flex items-center justify-center">
                             <div
-                                className="grid border border-amber-900/30 rounded-lg overflow-hidden shadow-lg"
+                                className="grid border border-amber-900/30 rounded-xs overflow-hidden shadow-lg"
                                 style={{
                                     gridTemplateColumns: `repeat(${n}, ${cellSize}px)`,
                                     gridTemplateRows: `repeat(${n}, ${cellSize}px)`,
@@ -365,13 +365,13 @@ export default function NQueensPage() {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className="absolute inset-0 z-20 flex items-center justify-center bg-amber-500/10 backdrop-blur-md rounded-2xl"
+                                    className="absolute inset-0 z-20 flex items-center justify-center bg-amber-500/10 backdrop-blur-md rounded-md"
                                 >
                                     <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                     >
                                         <div className="flex items-center gap-2 text-amber-500">
                                             <Trophy className="w-8 h-8 animate-bounce" />
@@ -404,7 +404,7 @@ export default function NQueensPage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
-                                    className="absolute inset-x-3 sm:inset-x-5 bottom-3 sm:bottom-5 z-20 bg-background/95 backdrop-blur-lg px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-primary/30 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)]"
+                                    className="absolute inset-x-3 sm:inset-x-5 bottom-3 sm:bottom-5 z-20 bg-background/95 backdrop-blur-lg px-4 py-3 sm:px-6 sm:py-4 rounded-md border border-primary/30 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)]"
                                 >
                                     <div className="flex flex-wrap items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
@@ -415,7 +415,7 @@ export default function NQueensPage() {
                                                 回溯 <span className="font-mono">{backtracks}</span> 次
                                             </span>
                                         </div>
-                                        <Button size="sm" variant="outline" className="h-7 rounded-lg text-xs gap-1" onClick={reset}>
+                                        <Button size="sm" variant="outline" className="h-7 rounded-xs text-xs gap-1" onClick={reset}>
                                             <RotateCcw className="w-3 h-3" />
                                             重置
                                         </Button>
@@ -468,7 +468,7 @@ export default function NQueensPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Crown className="w-4 h-4 text-amber-500" />
                                     <h4 className="text-sm font-bold text-foreground">皇后的攻击范围</h4>
@@ -478,7 +478,7 @@ export default function NQueensPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-amber-500" />
                                     <h4 className="text-sm font-bold text-foreground">回溯算法</h4>
@@ -491,7 +491,7 @@ export default function NQueensPage() {
                                 </ol>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Zap className="w-4 h-4 text-blue-500" />
                                     <h4 className="text-sm font-bold text-foreground">剪枝优化</h4>
@@ -501,7 +501,7 @@ export default function NQueensPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Brain className="w-4 h-4 text-violet-500" />
                                     <h4 className="text-sm font-bold text-foreground">对称性与解的数量</h4>
@@ -520,7 +520,7 @@ export default function NQueensPage() {
                                 </div>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 space-y-2">
+                            <div className="p-4 rounded-md border border-primary/20 bg-primary/5 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Eye className="w-4 h-4 text-primary" />
                                     <h4 className="text-sm font-bold text-foreground">试试可视化模式</h4>
@@ -539,7 +539,7 @@ export default function NQueensPage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.totalGames}
@@ -548,7 +548,7 @@ export default function NQueensPage() {
                                         总局数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Crown className="w-5 h-5 text-amber-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.manualSolves}
@@ -560,7 +560,7 @@ export default function NQueensPage() {
                             </div>
 
                             {/* Best solve times per N */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <Timer className="w-4 h-4 text-green-500" />
                                     最佳用时（按 N）
@@ -593,7 +593,7 @@ export default function NQueensPage() {
                             </div>
 
                             {/* Color legend */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <Eye className="w-4 h-4 text-primary" />
                                     颜色说明
@@ -617,7 +617,7 @@ export default function NQueensPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
                                     <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                     <div>

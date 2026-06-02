@@ -175,7 +175,7 @@ export function ObservationIdentificationsPanel({
         {identifications.map((identification) => (
           <li
             key={identification.id}
-            className="flex items-start gap-3 rounded-xl bg-muted/25 px-3 py-2.5"
+            className="flex items-start gap-3 rounded-sm bg-muted/25 px-3 py-2.5"
           >
             <span className="mt-0.5 text-muted-foreground">
               {identification.source === "ai" ? <Bot className="h-4 w-4" /> : <UserRound className="h-4 w-4" />}
@@ -214,7 +214,7 @@ export function ObservationIdentificationsPanel({
       ) : null}
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col rounded-t-2xl">
+        <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col rounded-t-md">
           <SheetHeader className="text-left">
             <SheetTitle>参与共同鉴定</SheetTitle>
             <SheetDescription>搜索并选择你认为的物种，提交后会计入社区共识。</SheetDescription>
@@ -236,7 +236,7 @@ export function ObservationIdentificationsPanel({
               ) : null}
             </div>
             {results.length > 0 ? (
-              <div className="overflow-hidden rounded-xl border border-border/70 bg-background">
+              <div className="overflow-hidden rounded-sm border border-border/70 bg-background">
                 {results.map((result) => (
                   <button
                     key={result.id}

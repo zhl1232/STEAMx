@@ -83,7 +83,7 @@ export default async function NatureMapPage() {
             />
           </div>
         ) : (
-          <div className="surface-subtle mt-6 rounded-2xl border border-dashed border-border/80 px-5 py-12 text-center text-sm leading-7 text-muted-foreground">
+          <div className="surface-subtle mt-6 rounded-md border border-dashed border-border/80 px-5 py-12 text-center text-sm leading-7 text-muted-foreground">
             当前公开观察记录里还没有可展示的坐标。新的带坐标观察通过审核后会自动出现在这里。
           </div>
         )}
@@ -106,7 +106,7 @@ export default async function NatureMapPage() {
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {hotspots.map((hotspot, index) => (
-            <div key={hotspot.locationName} className="surface-subtle rounded-2xl border border-border/70 bg-background/80 p-4">
+            <div key={hotspot.locationName} className="surface-subtle rounded-md border border-border/70 bg-background/80 p-4">
               <div className="flex items-start gap-3">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-amber-500 text-sm font-semibold text-white">
                   {index + 1}
@@ -140,7 +140,7 @@ export default async function NatureMapPage() {
         </div>
 
         {hotspots.length === 0 ? (
-          <div className="surface-subtle mt-5 rounded-2xl border border-dashed border-border/80 px-5 py-10 text-center text-sm text-muted-foreground">
+          <div className="surface-subtle mt-5 rounded-md border border-dashed border-border/80 px-5 py-10 text-center text-sm text-muted-foreground">
             暂无真实热点地点。
           </div>
         ) : null}

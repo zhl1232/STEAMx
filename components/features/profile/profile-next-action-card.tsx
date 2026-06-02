@@ -45,8 +45,8 @@ export function ProfileNextActionCard({ action, className }: ProfileNextActionCa
         ) : null}
       </div>
 
-      <div className="mt-3 grid grid-cols-[48px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
-        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[15px] bg-[hsl(var(--tone-science-soft))]">
+      <div className="mt-3 grid grid-cols-[48px_minmax(0,1fr)_auto] items-center gap-3 rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
+        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md bg-[hsl(var(--tone-science-soft))]">
           {projectImage ? (
             <OptimizedImage src={projectImage} alt="" fill variant="thumbnail" className="object-cover" />
           ) : (
@@ -61,7 +61,7 @@ export function ProfileNextActionCard({ action, className }: ProfileNextActionCa
         </div>
         <Button
           asChild
-          className="h-9 shrink-0 rounded-[14px] bg-[hsl(var(--brand-blue))] px-3 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.72)] hover:bg-[hsl(var(--brand-blue)/0.92)]"
+          className="h-9 shrink-0 rounded-md bg-[hsl(var(--brand-blue))] px-3 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.72)] hover:bg-[hsl(var(--brand-blue)/0.92)]"
         >
           <Link href={action.href}>
             {action.variant === 'vacuum' ? <Rocket className="mr-1.5 h-4 w-4" /> : null}

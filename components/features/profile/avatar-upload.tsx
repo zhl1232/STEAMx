@@ -185,7 +185,7 @@ export function AvatarUpload({
             <button
               type="button"
               onClick={handleCustomUploadClick}
-              className="flex w-full flex-col items-center justify-center gap-1 rounded-lg border border-input bg-background py-8 transition-colors hover:bg-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="flex w-full flex-col items-center justify-center gap-1 rounded-xs border border-input bg-background py-8 transition-colors hover:bg-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <Plus className="h-10 w-10 text-muted-foreground" />
               <span className="text-sm font-medium text-foreground">自定义上传</span>

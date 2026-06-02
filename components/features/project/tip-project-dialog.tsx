@@ -158,7 +158,7 @@ function TipRow({
   const [pending, setPending] = useState(false)
 
   return (
-    <li className="flex items-center justify-between gap-2 rounded-lg border p-3">
+    <li className="flex items-center justify-between gap-2 rounded-xs border p-3">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <UserIcon className="h-3 w-3 text-primary" />

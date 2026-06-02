@@ -106,7 +106,7 @@ export function ObservationSpeciesCompareSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="flex max-h-[92dvh] flex-col gap-0 rounded-t-2xl p-0">
+      <SheetContent side="bottom" className="flex max-h-[92dvh] flex-col gap-0 rounded-t-md p-0">
         <SheetHeader className="space-y-1 border-b border-border/60 px-5 pb-4 pt-5 text-left">
           <SheetTitle className="text-lg">物种比较</SheetTitle>
           <SheetDescription className="text-sm leading-relaxed">
@@ -125,7 +125,7 @@ export function ObservationSpeciesCompareSheet({
                 index={observationIndex}
                 onIndexChange={setObservationIndex}
                 alt={observationAlt}
-                className="aspect-[4/3] w-full rounded-xl bg-muted/40"
+                className="aspect-[4/3] w-full rounded-sm bg-muted/40"
                 sizes="(max-width: 640px) 100vw, 45vw"
                 emptyLabel="无观察照片"
               />
@@ -141,15 +141,15 @@ export function ObservationSpeciesCompareSheet({
               ) : undefined}
             >
               {isLoading ? (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-xl bg-muted/40">
+                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40">
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               ) : error ? (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-xl bg-muted/40 px-4 text-center text-sm text-muted-foreground">
+                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 px-4 text-center text-sm text-muted-foreground">
                   {error}
                 </div>
               ) : referenceUrl ? (
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted/40">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-muted/40">
                   <Image
                     src={referenceUrl}
                     alt={species?.commonName ?? target?.commonName ?? "参考图"}
@@ -159,7 +159,7 @@ export function ObservationSpeciesCompareSheet({
                   />
                 </div>
               ) : (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-xl bg-muted/40 text-sm text-muted-foreground">
+                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 text-sm text-muted-foreground">
                   暂无参考图
                 </div>
               )}

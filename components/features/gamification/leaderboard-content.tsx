@@ -98,7 +98,7 @@ function getGrowthTaskPreview(tasks: ProfileGrowthTask[]) {
 
 function LeaderboardGrowthGraduatedCard() {
     return (
-        <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/90 to-white p-4 dark:border-blue-400/20 dark:from-blue-500/10 dark:to-white/[0.02]">
+        <div className="rounded-md border border-blue-100 bg-gradient-to-br from-blue-50/90 to-white p-4 dark:border-blue-400/20 dark:from-blue-500/10 dark:to-white/[0.02]">
             <div className="flex items-start gap-2">
                 <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
                 <div className="min-w-0">
@@ -257,7 +257,7 @@ function PodiumCard({
     return (
         <article
             className={cn(
-                "relative flex min-h-[136px] flex-col items-center justify-between overflow-visible rounded-[18px] border px-1.5 pb-2.5 pt-5 text-center shadow-[0_26px_56px_-42px_hsl(var(--surface-shadow)/0.58)] md:min-h-[214px] md:rounded-[22px] md:px-4 md:pb-5 md:pt-9",
+                "relative flex min-h-[136px] flex-col items-center justify-between overflow-visible rounded-lg border px-1.5 pb-2.5 pt-5 text-center shadow-[0_26px_56px_-42px_hsl(var(--surface-shadow)/0.58)] md:min-h-[214px] md:rounded-lg md:px-4 md:pb-5 md:pt-9",
                 style.card,
                 isChampion && "md:-translate-y-4 md:min-h-[232px] md:pb-6 md:pt-10",
                 !user && "border-dashed bg-gradient-to-br from-white via-slate-50 to-blue-50/70 opacity-95 dark:from-white/[0.05] dark:via-white/[0.03] dark:to-blue-400/10",
@@ -267,7 +267,7 @@ function PodiumCard({
                 <RankBadge rank={rank} />
             </div>
             <div className="pointer-events-none absolute -right-4 -top-8 h-24 w-24 rounded-full bg-white/60 blur-2xl dark:bg-white/10 md:-right-8" />
-            <div className="pointer-events-none absolute inset-x-5 bottom-3 h-8 rounded-[999px] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-xl dark:via-white/10" />
+            <div className="pointer-events-none absolute inset-x-5 bottom-3 h-8 rounded-full bg-gradient-to-r from-transparent via-white/70 to-transparent blur-xl dark:via-white/10" />
 
             {user ? (
                 <>
@@ -313,7 +313,7 @@ function PodiumCard({
                     <p className="mt-4 hidden max-w-[13rem] text-sm leading-6 text-muted-foreground md:block">
                         完成记录、挑战或互动后，就能登上这里。
                     </p>
-                    <div className="mt-4 hidden h-12 w-full max-w-[9rem] rounded-t-[18px] border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10 md:block" />
+                    <div className="mt-4 hidden h-12 w-full max-w-[9rem] rounded-t-lg border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10 md:block" />
                 </>
             )}
         </article>
@@ -324,7 +324,7 @@ function PodiumSkeleton() {
     return (
         <div className="grid grid-cols-3 gap-2 md:gap-4 md:items-end">
             {[1, 2, 3].map((item) => (
-                <div key={item} className="h-[126px] animate-pulse rounded-[18px] border border-border/60 bg-muted/50 md:h-[190px] md:rounded-[22px]" />
+                <div key={item} className="h-[126px] animate-pulse rounded-lg border border-border/60 bg-muted/50 md:h-[190px] md:rounded-lg" />
             ))}
         </div>
     );
@@ -426,7 +426,7 @@ function CurrentUserStrip({
     valueLabel: string;
 }) {
     return (
-        <div className="mt-4 overflow-hidden rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 shadow-[0_18px_44px_-34px_rgba(37,99,235,0.55)] dark:border-blue-300/20 dark:from-blue-400/10 dark:to-cyan-400/10">
+        <div className="mt-4 overflow-hidden rounded-md border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 shadow-[0_18px_44px_-34px_rgba(37,99,235,0.55)] dark:border-blue-300/20 dark:from-blue-400/10 dark:to-cyan-400/10">
             <div className="grid grid-cols-[72px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5">
                 <div>
                     <div className="text-xs font-semibold text-blue-600 dark:text-blue-300">我的排名</div>
@@ -475,7 +475,7 @@ function LeaderboardGrowthTaskList({
 }) {
     if (!isSignedIn) {
         return (
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 text-sm dark:border-blue-300/20 dark:bg-blue-400/10">
+            <div className="rounded-md border border-blue-100 bg-blue-50/70 p-4 text-sm dark:border-blue-300/20 dark:bg-blue-400/10">
                 <div className="font-semibold text-slate-900 dark:text-slate-100">登录后查看你的成长任务进度</div>
                 <p className="mt-2 leading-6 text-muted-foreground">成长任务会根据个人中心的真实项目、观察和连续探索记录同步。</p>
                 <Link href="/login" className="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
@@ -502,7 +502,7 @@ function LeaderboardGrowthTaskList({
 
     if (hasError) {
         return (
-            <div className="rounded-2xl border border-orange-200 bg-orange-50/70 p-4 text-sm dark:border-orange-300/20 dark:bg-orange-400/10">
+            <div className="rounded-md border border-orange-200 bg-orange-50/70 p-4 text-sm dark:border-orange-300/20 dark:bg-orange-400/10">
                 <div className="font-semibold text-orange-700 dark:text-orange-300">成长任务加载失败</div>
                 <p className="mt-2 leading-6 text-muted-foreground">没有展示临时数据，稍后可重新同步真实进度。</p>
                 <button
@@ -523,7 +523,7 @@ function LeaderboardGrowthTaskList({
     const previewTasks = getGrowthTaskPreview(tasks ?? []);
 
     if (previewTasks.length === 0) {
-        return <div className="rounded-2xl border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无成长任务数据</div>;
+        return <div className="rounded-md border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无成长任务数据</div>;
     }
 
     return (
@@ -808,14 +808,14 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                 <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as LeaderboardType)} className="w-full">
                     <div className="surface-panel p-2.5 sm:p-4 lg:p-5">
                         <div className="flex flex-col gap-2.5 sm:gap-3 xl:flex-row xl:items-start xl:justify-between">
-                            <TabsList className={cn("grid h-auto w-full grid-cols-4 rounded-[18px] bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[560px] sm:rounded-2xl xl:max-w-[600px]", compact && "mb-0")}>
+                            <TabsList className={cn("grid h-auto w-full grid-cols-4 rounded-lg bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[560px] sm:rounded-md xl:max-w-[600px]", compact && "mb-0")}>
                                 {LEADERBOARD_TABS.map((tab) => {
                                     const tabConfig = getTabConfig(tab);
                                     return (
                                         <TabsTrigger
                                             key={tab}
                                             value={tab}
-                                            className="min-h-10 rounded-xl px-1.5 text-[11px] font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)] sm:min-h-11 sm:px-3 sm:text-sm"
+                                            className="min-h-10 rounded-sm px-1.5 text-[11px] font-semibold text-muted-foreground data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_26px_-18px_rgba(37,99,235,0.9)] sm:min-h-11 sm:px-3 sm:text-sm"
                                         >
                                             <span className="mr-1.5 hidden sm:inline-flex">{tabConfig.icon}</span>
                                             {tabConfig.label}

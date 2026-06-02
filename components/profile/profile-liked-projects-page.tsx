@@ -64,7 +64,7 @@ export function ProfileLikedProjectsPage() {
       <div className="space-y-6">
         <section className="surface-panel overflow-hidden">
           <div className="flex items-center gap-3 px-6 py-5">
-            <Button asChild variant="ghost" size="icon" className="hidden h-10 w-10 rounded-xl md:inline-flex">
+            <Button asChild variant="ghost" size="icon" className="hidden h-10 w-10 rounded-sm md:inline-flex">
               <Link href="/profile" aria-label="返回个人主页">
                 <ChevronLeft className="h-5 w-5" />
               </Link>

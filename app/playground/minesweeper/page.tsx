@@ -94,13 +94,13 @@ export default function MinesweeperPage() {
                 <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
 
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row items-center justify-between min-w-full gap-4 mb-4 sm:mb-8 bg-background/60 p-4 rounded-xl border border-border shadow-inner">
-                        <div className="flex gap-1 sm:gap-2 bg-primary/10 p-1.5 rounded-lg border border-primary/20">
+                    <div className="flex flex-col md:flex-row items-center justify-between min-w-full gap-4 mb-4 sm:mb-8 bg-background/60 p-4 rounded-sm border border-border shadow-inner">
+                        <div className="flex gap-1 sm:gap-2 bg-primary/10 p-1.5 rounded-xs border border-primary/20">
                             {(["beginner", "intermediate", "expert"] as const).map((level) => (
                                 <button
                                     key={level}
                                     onClick={() => changeDifficulty(level)}
-                                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${difficultyName === level
+                                    className={`px-3 py-1.5 text-xs font-bold rounded-xs transition-all ${difficultyName === level
                                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                                         : "text-muted-foreground hover:text-foreground hover:bg-accent"
                                         }`}
@@ -111,7 +111,7 @@ export default function MinesweeperPage() {
                         </div>
 
                         <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-destructive font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-lg border border-border">
+                            <div className="flex items-center gap-2 text-destructive font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-xs border border-border">
                                 <Flag className="w-5 h-5" />
                                 {minesLeft.toString().padStart(3, "0")}
                             </div>
@@ -122,7 +122,7 @@ export default function MinesweeperPage() {
                                 {status === "lost" ? <Bomb size={22} /> : status === "won" ? <Trophy size={22} /> : <RefreshCw size={22} />}
                             </button>
                             <div className="flex flex-col items-center gap-0.5">
-                                <div className="flex items-center gap-2 text-primary font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-lg border border-border">
+                                <div className="flex items-center gap-2 text-primary font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-xs border border-border">
                                     <Timer className="w-5 h-5" />
                                     {time.toString().padStart(3, "0")}
                                 </div>
@@ -140,17 +140,17 @@ export default function MinesweeperPage() {
 
                     {/* 移动端操作切换 & 提示 */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 animate-in fade-in slide-in-from-top-2 duration-500 w-full">
-                        <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-xl border border-border/50">
+                        <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-sm border border-border/50">
                             <button
                                 onClick={() => setIsFlagMode(false)}
-                                className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${!isFlagMode ? "bg-background text-foreground shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
+                                className={`flex items-center gap-2 px-6 py-2 rounded-xs text-sm font-bold transition-all duration-300 ${!isFlagMode ? "bg-background text-foreground shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
                             >
                                 <MousePointerClick className="w-4 h-4" />
                                 <span>挖掘</span>
                             </button>
                             <button
                                 onClick={() => setIsFlagMode(true)}
-                                className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
+                                className={`flex items-center gap-2 px-6 py-2 rounded-xs text-sm font-bold transition-all duration-300 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
                             >
                                 <Flag className="w-4 h-4" />
                                 <span>标记</span>
@@ -168,15 +168,15 @@ export default function MinesweeperPage() {
 
                     {/* Board Wrapper */}
                     <div className="w-full overflow-x-auto no-scrollbar touch-pan-x touch-pan-y pb-2">
-                        <div className="relative w-max p-2 bg-background/40 rounded-2xl border border-border mx-auto shadow-xl">
+                        <div className="relative w-max p-2 bg-background/40 rounded-md border border-border mx-auto shadow-xl">
                             <AnimatePresence>
                                 {status === "lost" && (
                                     <motion.div
                                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                                         animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-xl"
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-sm"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-[22px] border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex items-center gap-4">
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex items-center gap-4">
                                             <Bomb className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" /> 游戏结束
                                         </div>
                                     </motion.div>
@@ -185,9 +185,9 @@ export default function MinesweeperPage() {
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-xl"
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-sm"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-[22px] border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-2">
+                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-2">
                                             <div className="flex items-center gap-3 text-primary font-black text-xl sm:text-3xl">
                                                 <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500 animate-bounce" /> 恭喜通关！
                                             </div>
@@ -293,14 +293,14 @@ export default function MinesweeperPage() {
                 <div className="flex-1 overflow-y-auto p-6 scrollbar-thin flex flex-col">
                     {activeTab === "course" ? (
                         <div className="flex flex-col items-center justify-center flex-1 text-center p-4">
-                            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                            <div className="w-16 h-16 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
                                 <BookOpen className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="text-lg font-bold text-foreground mb-2">扫雷解局学</h3>
                             <p className="text-sm text-muted-foreground mb-6 max-w-[240px]">9 课图解 + 每课练习，从"法则一"到"1-2-1定式"。</p>
                             <Link
                                 href="/playground/minesweeper/course"
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity"
                             >
                                 进入课程
                                 <ChevronRight className="w-4 h-4" />
@@ -321,7 +321,7 @@ export default function MinesweeperPage() {
                                 return (
                                     <div
                                         key={level}
-                                        className={`p-4 rounded-2xl border transition-all ${isCurrent ? "bg-primary/5 border-primary/30" : "bg-muted/20 border-border"}`}
+                                        className={`p-4 rounded-md border transition-all ${isCurrent ? "bg-primary/5 border-primary/30" : "bg-muted/20 border-border"}`}
                                     >
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center gap-2">
@@ -348,7 +348,7 @@ export default function MinesweeperPage() {
                                 )
                             })}
 
-                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
                                     <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                     <div>

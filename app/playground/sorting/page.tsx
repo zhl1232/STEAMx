@@ -75,7 +75,7 @@ export default function SortingPage() {
                 {/* Header */}
                 <div className="w-full max-w-5xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-sky-500/10 border border-sky-500/40 flex items-center justify-center shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-sky-500/10 border border-sky-500/40 flex items-center justify-center shrink-0">
                             <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-sky-500" />
                         </div>
                         <div>
@@ -215,13 +215,13 @@ export default function SortingPage() {
                 </div>
 
                 {/* Bar visualization */}
-                <div className="w-full max-w-5xl rounded-[20px] border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-2 sm:p-4 shadow-inner">
-                    <div className="relative h-[300px] sm:h-[400px] flex items-end gap-px bg-muted/20 rounded-xl overflow-hidden px-1 pb-1">
+                <div className="w-full max-w-5xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-2 sm:p-4 shadow-inner">
+                    <div className="relative h-[300px] sm:h-[400px] flex items-end gap-px bg-muted/20 rounded-sm overflow-hidden px-1 pb-1">
                         {bars.map((bar, i) => (
                             <div
                                 key={i}
                                 className={cn(
-                                    "flex-1 min-w-0 rounded-t-sm transition-all duration-100",
+                                    "flex-1 min-w-0 rounded-t-xs transition-all duration-100",
                                     BAR_COLORS[bar.state],
                                 )}
                                 style={{ height: `${bar.value}%` }}
@@ -241,7 +241,7 @@ export default function SortingPage() {
                             { color: "bg-violet-500", label: "枢轴" },
                         ].map(({ color, label }) => (
                             <div key={label} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-                                <div className={cn("w-2.5 h-2.5 rounded-sm", color)} />
+                                <div className={cn("w-2.5 h-2.5 rounded-xs", color)} />
                                 {label}
                             </div>
                         ))}
@@ -276,31 +276,31 @@ export default function SortingPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <div className="rounded-xl bg-muted/30 p-3 space-y-1">
+                                <div className="rounded-sm bg-muted/30 p-3 space-y-1">
                                     <h3 className="text-xs font-semibold">冒泡排序 · Bubble Sort</h3>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                                         反复比较相邻元素，若顺序错误则交换。每轮将最大值「冒泡」到末尾。时间 O(n²)，稳定排序。
                                     </p>
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 space-y-1">
+                                <div className="rounded-sm bg-muted/30 p-3 space-y-1">
                                     <h3 className="text-xs font-semibold">选择排序 · Selection Sort</h3>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                                         每轮从未排序部分找到最小元素，放到已排序部分末尾。时间 O(n²)，不稳定。
                                     </p>
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 space-y-1">
+                                <div className="rounded-sm bg-muted/30 p-3 space-y-1">
                                     <h3 className="text-xs font-semibold">插入排序 · Insertion Sort</h3>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                                         将每个元素插入到前方已排序部分的正确位置，类似整理扑克牌。时间 O(n²)，对近乎有序的数据很高效，稳定。
                                     </p>
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 space-y-1">
+                                <div className="rounded-sm bg-muted/30 p-3 space-y-1">
                                     <h3 className="text-xs font-semibold">归并排序 · Merge Sort</h3>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                                         分治策略：将数组一分为二，递归排序后合并。时间 O(n log n)，稳定，但需要额外空间。
                                     </p>
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 space-y-1">
+                                <div className="rounded-sm bg-muted/30 p-3 space-y-1">
                                     <h3 className="text-xs font-semibold">快速排序 · Quick Sort</h3>
                                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                                         选择一个枢轴（pivot），将数组分为小于和大于枢轴的两部分，递归排序。平均 O(n log n)，最坏 O(n²)，不稳定但实际运行极快。
@@ -331,7 +331,7 @@ export default function SortingPage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-xl bg-muted/30 p-3 space-y-1.5">
+                            <div className="rounded-sm bg-muted/30 p-3 space-y-1.5">
                                 <h3 className="text-xs font-semibold flex items-center gap-1.5">
                                     <Zap className="w-3.5 h-3.5 text-amber-500" />
                                     试一试
@@ -353,7 +353,7 @@ export default function SortingPage() {
                             </div>
 
                             <div className="grid grid-cols-1 gap-3">
-                                <div className="rounded-xl bg-muted/30 p-3 flex items-center justify-between">
+                                <div className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
                                     <div>
                                         <p className="text-[11px] text-muted-foreground">总运行次数</p>
                                         <p className="text-lg font-bold tabular-nums">{stats.totalRuns}</p>
@@ -365,7 +365,7 @@ export default function SortingPage() {
                                     const count = stats.algorithmsUsed[key] ?? 0
                                     if (count === 0) return null
                                     return (
-                                        <div key={key} className="rounded-xl bg-muted/30 p-3 flex items-center justify-between">
+                                        <div key={key} className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
                                             <div>
                                                 <p className="text-[11px] text-muted-foreground">{label}</p>
                                                 <p className="text-lg font-bold tabular-nums">{count}</p>

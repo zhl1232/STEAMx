@@ -135,7 +135,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
             value={rejectionReason}
             onChange={(e) => setRejectionReason(e.target.value)}
             rows={3}
-            className="rounded-2xl"
+            className="rounded-md"
           />
           <div className="flex gap-2">
             <Button
@@ -193,7 +193,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="mb-2 flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
                   {project.category}
                 </Badge>
                 <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">
@@ -217,7 +217,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
-            <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
+            <div className="relative h-40 overflow-hidden rounded-md border border-border/70 bg-muted sm:h-28">
               {project.image_url ? (
                 <OptimizedImage
                   src={project.image_url}
@@ -248,7 +248,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
             {renderActions()}
             <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="mt-2 w-full gap-2 rounded-2xl sm:mt-3">
+                <Button variant="outline" className="mt-2 w-full gap-2 rounded-md sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整详情与审核
                 </Button>
               </DialogTrigger>
@@ -289,7 +289,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                       </div>
                       <div>
                         <span className="text-muted-foreground text-sm block mb-1">项目描述:</span>
-                        <p className="rounded-2xl border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{project.description}</p>
+                        <p className="rounded-md border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{project.description}</p>
                       </div>
                     </section>
 
@@ -301,7 +301,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                           {project.project_materials
                             .sort((a, b) => a.sort_order - b.sort_order)
                             .map((m) => (
-                              <li key={m.id} className="rounded-2xl border border-border/70 bg-background/80 px-3 py-2">{m.material}</li>
+                              <li key={m.id} className="rounded-md border border-border/70 bg-background/80 px-3 py-2">{m.material}</li>
                             ))}
                         </ul>
                       ) : (
@@ -324,7 +324,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">{step.description}</p>
                                 {step.image_url && (
-                                  <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-muted">
+                                  <div className="relative h-48 w-full overflow-hidden rounded-md bg-muted">
                                     <OptimizedImage
                                       src={step.image_url}
                                       alt={step.title}

@@ -69,7 +69,7 @@ import { invalidateProfileHomeData } from '@/lib/profile/profile-home-client'
 const SteamRadarChart = dynamic(
   () => import('@/components/features/profile/steam-radar-chart').then((mod) => mod.SteamRadarChart),
   {
-    loading: () => <div className="surface-panel min-h-[320px] rounded-[28px]" />,
+    loading: () => <div className="surface-panel min-h-[320px] rounded-xl" />,
   },
 )
 
@@ -436,7 +436,7 @@ function DesktopProfilePage({
               />
 
               {!isExploreVacuum ? (
-                <section className="surface-panel flex min-h-[230px] flex-col rounded-[20px] p-6 lg:min-h-[250px]">
+                <section className="surface-panel flex min-h-[230px] flex-col rounded-lg p-6 lg:min-h-[250px]">
                   <SectionTitle iconName="timeline" title="STEAM 能力雷达" />
                   {steamRadar ? (
                     <SteamRadarChart
@@ -455,12 +455,12 @@ function DesktopProfilePage({
               <ProfileStarterHub />
             ) : (
               <div className="grid gap-4 lg:grid-cols-2">
-                <section className="surface-panel rounded-[20px] p-6">
+                <section className="surface-panel rounded-lg p-6">
                   <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
                   <ProjectShowcase projects={myProjects} emptyDensity="compact" />
                 </section>
 
-                <section className="surface-panel rounded-[20px] p-6">
+                <section className="surface-panel rounded-lg p-6">
                   <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
                   <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" />
                 </section>
@@ -554,7 +554,7 @@ function MobileProfilePage({
               className="mt-3 min-h-[220px] border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[196px]"
             />
           ) : (
-            <div className="mt-4 flex min-h-[220px] flex-col items-center justify-center rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-8 text-center">
+            <div className="mt-4 flex min-h-[220px] flex-col items-center justify-center rounded-md border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-8 text-center">
               <p className="text-sm leading-6 text-muted-foreground">完成项目后生成能力图谱。</p>
               <Link href="/explore" className="profile-mobile-empty-cta mt-4">
                 去发现
@@ -629,16 +629,16 @@ function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
         className={cn(
           'absolute bg-[hsl(var(--brand-amber)/0.16)] shadow-[0_18px_42px_-30px_hsl(var(--brand-amber)/0.4)]',
           compact
-            ? 'right-7 top-8 h-10 w-10 rotate-12 rounded-[16px]'
-            : 'right-16 top-16 h-20 w-20 rotate-12 rounded-[26px]',
+            ? 'right-7 top-8 h-10 w-10 rotate-12 rounded-md'
+            : 'right-16 top-16 h-20 w-20 rotate-12 rounded-xl',
         )}
       />
       <div
         className={cn(
           'absolute border border-[hsl(var(--brand-blue)/0.18)]',
           compact
-            ? 'right-20 top-24 h-12 w-12 rotate-45 rounded-[18px]'
-            : 'right-56 top-28 h-24 w-24 rotate-45 rounded-[30px]',
+            ? 'right-20 top-24 h-12 w-12 rotate-45 rounded-lg'
+            : 'right-56 top-28 h-24 w-24 rotate-45 rounded-xl',
         )}
       />
       <div
@@ -676,7 +676,7 @@ function ProfileHero({
         'relative overflow-hidden',
         compact
           ? 'profile-mobile-hero'
-          : 'profile-hero-card surface-panel min-h-[270px] rounded-[20px]',
+          : 'profile-hero-card surface-panel min-h-[270px] rounded-lg',
       )}
     >
       <ProfileHeroBackdrop compact={compact} />
@@ -772,7 +772,7 @@ function ProfileHero({
             className={cn(
               'grid grid-cols-4 overflow-hidden',
               compact
-                ? 'mt-4 rounded-[14px] border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur'
+                ? 'mt-4 rounded-md border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur'
                 : 'profile-stats-bar mt-8',
             )}
           >
@@ -836,7 +836,7 @@ function ProfileImageIcon({
   return (
     <span
       className={cn(
-        'grid shrink-0 place-items-center rounded-[20px]',
+        'grid shrink-0 place-items-center rounded-lg',
         variant === 'heroStat'
           ? 'bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))] ring-1 ring-[hsl(var(--brand-blue)/0.35)] shadow-sm dark:bg-white/20 dark:text-white dark:ring-white/28'
           : variant === 'timeline'
@@ -871,7 +871,7 @@ function SectionTitle({
         {iconName ? (
           <ProfileImageIcon name={iconName} className="h-10 w-10" />
         ) : Icon ? (
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
             <Icon className="h-4 w-4" />
           </span>
         ) : null}
@@ -909,7 +909,7 @@ function SteamRadarEmptyPlaceholder() {
   const spokeRadius = 40
 
   return (
-    <div className="mt-4 flex min-h-[200px] flex-1 flex-col items-center justify-center gap-4 rounded-[14px] bg-[hsl(var(--surface-muted)/0.45)] px-4 py-7 dark:bg-[hsl(var(--surface-muted)/0.35)]">
+    <div className="mt-4 flex min-h-[200px] flex-1 flex-col items-center justify-center gap-4 rounded-md bg-[hsl(var(--surface-muted)/0.45)] px-4 py-7 dark:bg-[hsl(var(--surface-muted)/0.35)]">
       <div className="relative mx-auto aspect-square w-[min(200px,88%)] max-w-[210px] shrink-0">
         <svg viewBox="0 0 100 100" className="h-full w-full text-muted-foreground/55 dark:text-muted-foreground/45" aria-hidden>
           {ringRadii.map((r) => (
@@ -955,8 +955,8 @@ function MobileActionGrid() {
   return (
     <section className="profile-mobile-panel grid grid-cols-5 gap-1.5 p-3">
       {actions.map((action) => (
-        <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-[14px] px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-          <span className="relative h-11 w-11 overflow-hidden rounded-[15px] shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
+        <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+          <span className="relative h-11 w-11 overflow-hidden rounded-md shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
             <OptimizedImage
               src={action.image}
               alt=""
@@ -994,8 +994,8 @@ function MobileExploringProjectsCard({
           className="mt-3"
         />
       ) : (
-        <div className="mt-3 flex items-center gap-3 rounded-[16px] bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[15px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+        <div className="mt-3 flex items-center gap-3 rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
             <Rocket className="h-5 w-5" strokeWidth={2.3} />
           </span>
           <span className="min-w-0 flex-1">
@@ -1118,9 +1118,9 @@ function ProfileMedalIllustration() {
   return (
     <div className="absolute inset-0 grid place-items-center">
       <div className="relative h-[108px] w-[108px]">
-        <div className="absolute inset-x-6 bottom-1 h-12 rounded-b-[22px] bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.3),hsl(var(--brand-green)/0.18))] blur-[1px]" />
-        <div className="absolute left-7 top-7 h-16 w-10 -rotate-12 rounded-[14px] bg-[hsl(var(--brand-blue)/0.18)]" />
-        <div className="absolute right-7 top-7 h-16 w-10 rotate-12 rounded-[14px] bg-[hsl(var(--brand-green)/0.16)]" />
+        <div className="absolute inset-x-6 bottom-1 h-12 rounded-b-lg bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.3),hsl(var(--brand-green)/0.18))] blur-[1px]" />
+        <div className="absolute left-7 top-7 h-16 w-10 -rotate-12 rounded-md bg-[hsl(var(--brand-blue)/0.18)]" />
+        <div className="absolute right-7 top-7 h-16 w-10 rotate-12 rounded-md bg-[hsl(var(--brand-green)/0.16)]" />
         <div className="absolute left-1/2 top-3 grid h-20 w-20 -translate-x-1/2 place-items-center rounded-full border border-[hsl(var(--brand-amber)/0.32)] bg-[linear-gradient(145deg,hsl(var(--brand-amber)/0.28),hsl(var(--surface-raised)/0.96)_58%,hsl(var(--brand-blue)/0.12))] shadow-[0_18px_34px_-22px_hsl(var(--brand-amber)/0.45)]">
           <Sparkles className="h-8 w-8 text-[hsl(var(--brand-amber))]" strokeWidth={2.4} />
         </div>
@@ -1148,7 +1148,7 @@ function ExperienceBadgesPanel({
   return (
     <section
       id="profile-badges-anchor"
-      className={cn('surface-panel flex flex-col overflow-hidden rounded-[20px] p-6', className)}
+      className={cn('surface-panel flex flex-col overflow-hidden rounded-lg p-6', className)}
     >
       <SectionTitle
         iconName="achievement"
@@ -1230,10 +1230,10 @@ function StudyCheckInPanel({
 
 function RecommendedChallengePanel() {
   return (
-    <section className="surface-panel rounded-[20px] p-6">
+    <section className="surface-panel rounded-lg p-6">
       <SectionTitle iconName="emptyProjects" title="推荐下一步挑战" actionHref="/community?tab=challenges" actionLabel="查看全部" />
       <Link href="/community?tab=challenges" className="surface-card mt-4 grid grid-cols-[106px_minmax(0,1fr)] gap-3 p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
-        <div className="relative min-h-[108px] overflow-hidden rounded-[10px] bg-[linear-gradient(145deg,hsl(var(--tone-science-soft)),hsl(var(--brand-amber)/0.14))]">
+        <div className="relative min-h-[108px] overflow-hidden rounded-sm bg-[linear-gradient(145deg,hsl(var(--tone-science-soft)),hsl(var(--brand-amber)/0.14))]">
           <div className="absolute inset-0 grid place-items-center">
             <div className="relative h-20 w-20">
               <div className="absolute left-1 top-9 h-2 w-16 rotate-[-16deg] rounded-full bg-[hsl(var(--brand-blue)/0.18)]" />
@@ -1315,18 +1315,18 @@ function CommunityFeedPanel({
   }, [projects])
 
   return (
-    <section className={cn('surface-panel rounded-[20px] p-6', className)}>
+    <section className={cn('surface-panel rounded-lg p-6', className)}>
       <SectionTitle iconName="community" title="最近通知" actionHref="/messages" actionLabel="查看全部" />
       {notifications === null ? (
         <div className="mt-4 space-y-3">
           {[1, 2, 3].map((item) => (
-            <div key={item} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-[12px] p-1.5">
+            <div key={item} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-sm p-1.5">
               <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
               <div className="space-y-2">
                 <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
                 <div className="h-2.5 w-20 animate-pulse rounded-full bg-muted" />
               </div>
-              <div className="h-11 w-[52px] animate-pulse rounded-[10px] bg-muted" />
+              <div className="h-11 w-[52px] animate-pulse rounded-sm bg-muted" />
             </div>
           ))}
         </div>
@@ -1338,7 +1338,7 @@ function CommunityFeedPanel({
             const displayName = notification.from_username || '系统通知'
 
             return (
-              <Link key={notification.id} href={href} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-[12px] p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+              <Link key={notification.id} href={href} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
                 <AvatarWithFrame
                   src={notification.from_avatar || undefined}
                   alt={displayName}
@@ -1356,7 +1356,7 @@ function CommunityFeedPanel({
                     })}
                   </span>
                 </span>
-                <span className="relative h-11 w-[52px] overflow-hidden rounded-[10px] bg-[hsl(var(--surface-muted))]">
+                <span className="relative h-11 w-[52px] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
                   {image ? (
                     <OptimizedImage src={image} alt="" fill variant="thumbnail" className="object-cover" />
                   ) : (
@@ -1368,7 +1368,7 @@ function CommunityFeedPanel({
           })}
         </div>
       ) : compactEmpty ? (
-        <p className="mt-3 rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-3 py-2.5 text-center text-xs leading-5 text-muted-foreground">
+        <p className="mt-3 rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-3 py-2.5 text-center text-xs leading-5 text-muted-foreground">
           {loadFailed ? '最近通知暂时加载失败。' : '还没有通知，去创造营互动后会出现在这里。'}
           <Link href="/create" className="ml-1 font-bold text-[hsl(var(--brand-blue))]">
             去创造营看看
@@ -1403,14 +1403,14 @@ function LearningTimeline({
   const visibleEvents = events ? [...events].reverse() : []
 
   return (
-    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-[20px] p-6', className)}>
+    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg p-6', className)}>
       {mobile ? (
         <MobileProfileSectionTitle title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
       ) : (
         <SectionTitle iconName="timeline" title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
       )}
       {events === null ? (
-        <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-[14px] border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
+        <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-md border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
           <ProfileImageIcon name="timeline" className="h-10 w-10" />
           正在同步真实轨迹
         </div>
@@ -1452,7 +1452,7 @@ function LearningTimeline({
             )
 
             return item.href ? (
-              <Link key={item.id} href={item.href} className="relative min-w-0 rounded-[12px] px-1 pb-1 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
+              <Link key={item.id} href={item.href} className="relative min-w-0 rounded-sm px-1 pb-1 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
                 {content}
               </Link>
             ) : (
@@ -1494,7 +1494,7 @@ function GrowthTasksPanel({
   }
 
   return (
-    <section className="surface-panel rounded-[20px] p-6">
+    <section className="surface-panel rounded-lg p-6">
       <SectionTitle iconName="growth" title={`成长任务（${completedTaskCount}/5）`} />
       <div className="mt-5 space-y-3">
         {tasks.map((task) => (
@@ -1639,7 +1639,7 @@ function ObservationList({
             className={cn('surface-card group block transition hover:bg-[hsl(var(--surface-muted)/0.82)]', mobile ? 'w-[172px] overflow-hidden' : 'p-4')}
           >
             <div className={cn('flex gap-3', mobile && 'block')}>
-              <div className={cn('relative shrink-0 overflow-hidden rounded-[12px] bg-[hsl(var(--surface-border))]', mobile ? 'h-[92px] w-full rounded-none' : 'h-16 w-20')}>
+              <div className={cn('relative shrink-0 overflow-hidden rounded-sm bg-[hsl(var(--surface-border))]', mobile ? 'h-[92px] w-full rounded-none' : 'h-16 w-20')}>
                 {observation.mediaUrls[0] ? (
                   <OptimizedImage src={observation.mediaUrls[0]} alt={getObservationTitle(observation)} fill variant="thumbnail" className="object-cover transition duration-500 group-hover:scale-105" />
                 ) : (
@@ -1675,12 +1675,12 @@ function ObservationList({
 
 function ProfileStarterHub() {
   return (
-    <section className="surface-panel overflow-hidden rounded-[20px]">
+    <section className="surface-panel overflow-hidden rounded-lg">
       <div className="grid gap-0 md:grid-cols-[minmax(0,200px)_1fr]">
         <div className="relative flex min-h-[140px] items-center justify-center bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.12),hsl(var(--brand-green)/0.08))] px-6 py-6 dark:bg-[linear-gradient(160deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
           <span className="relative grid h-[120px] w-full max-w-[180px] place-items-center">
             <span className="absolute h-24 w-24 rounded-full bg-[hsl(var(--brand-blue)/0.12)] blur-xl" />
-            <span className="relative grid h-24 w-24 place-items-center rounded-[28px] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.76)] shadow-[0_18px_38px_-28px_hsl(var(--surface-shadow)/0.35)]">
+            <span className="relative grid h-24 w-24 place-items-center rounded-xl border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.76)] shadow-[0_18px_38px_-28px_hsl(var(--surface-shadow)/0.35)]">
               <Rocket className="h-11 w-11 text-[hsl(var(--brand-blue))]" strokeWidth={2.2} />
             </span>
           </span>
@@ -1750,7 +1750,7 @@ function EmptyBlock({
       className={cn(
         'mt-4 flex flex-col justify-between text-left',
         mobile
-          ? 'min-h-[168px] items-center rounded-[14px] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-5 text-center'
+          ? 'min-h-[168px] items-center rounded-md bg-[hsl(var(--surface-muted)/0.35)] px-4 py-5 text-center'
           : cn('surface-subtle', compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4'),
       )}
     >
@@ -1760,7 +1760,7 @@ function EmptyBlock({
         ) : (
           <span
             className={cn(
-              'grid shrink-0 place-items-center rounded-[20px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
+              'grid shrink-0 place-items-center rounded-lg bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
               mobile ? 'h-14 w-14' : compact ? 'h-10 w-10' : 'h-12 w-12',
             )}
           >

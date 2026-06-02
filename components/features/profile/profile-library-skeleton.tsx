@@ -6,7 +6,7 @@ function MobileProfileLibrarySkeleton() {
     <div className="flex min-h-screen flex-col bg-background pb-24 md:hidden">
       <div className="sticky top-[calc(var(--mobile-global-header-height,3rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
         <div className="relative min-h-12 px-4 py-1">
-          <Skeleton className="absolute left-4 top-1/2 h-9 w-9 -translate-y-1/2 rounded-xl" />
+          <Skeleton className="absolute left-4 top-1/2 h-9 w-9 -translate-y-1/2 rounded-sm" />
           <div className="flex min-h-10 items-center pl-10">
             <Skeleton className="h-6 w-24 rounded-full" />
           </div>
@@ -42,7 +42,7 @@ function DesktopProfileLibrarySkeleton() {
         <div className="space-y-6">
           <section className="surface-panel min-h-[254px] overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-5 xl:px-8">
-              <Skeleton className="h-10 w-10 rounded-xl" />
+              <Skeleton className="h-10 w-10 rounded-sm" />
               <Skeleton className="h-7 w-28 rounded-full" />
             </div>
           </section>

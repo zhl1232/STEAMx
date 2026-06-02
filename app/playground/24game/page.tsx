@@ -38,7 +38,7 @@ function PlayingCard({ card }: { card: Card24 }) {
       className={cn(
         "relative flex flex-col items-center justify-center",
         "w-[72px] h-[100px] sm:w-[100px] sm:h-[140px] md:w-[120px] md:h-[170px]",
-        "rounded-2xl border border-border/60 bg-white dark:bg-gray-50/95",
+        "rounded-md border border-border/60 bg-white dark:bg-gray-50/95",
         "shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200",
         "select-none"
       )}
@@ -156,9 +156,9 @@ export default function Game24Page() {
   if (!isMounted) {
     return (
       <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-6">
-        <div className="w-full max-w-2xl rounded-[22px] border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur">
+        <div className="w-full max-w-2xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur">
           <div className="mb-5 flex items-center gap-3">
-            <div className="h-10 w-10 animate-pulse rounded-2xl bg-primary/15" />
+            <div className="h-10 w-10 animate-pulse rounded-md bg-primary/15" />
             <div className="space-y-2">
               <div className="h-5 w-44 animate-pulse rounded-full bg-muted" />
               <div className="h-3 w-64 animate-pulse rounded-full bg-muted/70" />
@@ -166,7 +166,7 @@ export default function Game24Page() {
           </div>
           <div className="flex justify-center gap-2 sm:gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-[100px] w-[72px] animate-pulse rounded-2xl bg-muted sm:h-[140px] sm:w-[100px] md:h-[170px] md:w-[120px]" />
+              <div key={index} className="h-[100px] w-[72px] animate-pulse rounded-md bg-muted sm:h-[140px] sm:w-[100px] md:h-[170px] md:w-[120px]" />
             ))}
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Game24Page() {
         {/* Header */}
         <div className="w-full max-w-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
               <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
             </div>
             <div>
@@ -229,7 +229,7 @@ export default function Game24Page() {
 
           {/* Status banners */}
           {status === "solved" && (
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 flex items-center gap-3">
+            <div className="rounded-sm bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 flex items-center gap-3">
               <Trophy className="w-5 h-5 text-emerald-500 shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">太棒了！</p>
@@ -240,7 +240,7 @@ export default function Game24Page() {
             </div>
           )}
           {status === "timeout" && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-center gap-3">
+            <div className="rounded-sm bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-center gap-3">
               <Timer className="w-5 h-5 text-red-500 shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-red-600 dark:text-red-400">时间到！</p>
@@ -251,7 +251,7 @@ export default function Game24Page() {
             </div>
           )}
           {status === "skipped" && (
-            <div className="rounded-xl bg-blue-500/10 border border-blue-500/30 px-4 py-3 flex items-center gap-3">
+            <div className="rounded-sm bg-blue-500/10 border border-blue-500/30 px-4 py-3 flex items-center gap-3">
               <Eye className="w-5 h-5 text-blue-500 shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">已跳过，查看解法</p>
@@ -276,7 +276,7 @@ export default function Game24Page() {
                   onKeyDown={handleKeyDown}
                   placeholder="用 +, -, *, / 和括号组出 24"
                   className={cn(
-                    "flex-1 h-11 sm:h-12 rounded-xl border bg-background px-4 text-sm sm:text-base",
+                    "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
                     "placeholder:text-muted-foreground/60",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/40",
                     "transition-colors",
@@ -287,7 +287,7 @@ export default function Game24Page() {
                 />
                 <Button
                   size="lg"
-                  className="rounded-xl h-11 sm:h-12 px-4 sm:px-6 gap-2"
+                  className="rounded-sm h-11 sm:h-12 px-4 sm:px-6 gap-2"
                   onClick={handleSubmit}
                   disabled={!expression.trim()}
                 >
@@ -299,13 +299,13 @@ export default function Game24Page() {
                 支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
                 <span className="font-mono">1 / 11 / 12 / 13</span>。
               </p>
-              <div className="grid grid-cols-6 gap-1.5 rounded-2xl border border-border/70 bg-muted/35 p-2 sm:hidden">
+              <div className="grid grid-cols-6 gap-1.5 rounded-md border border-border/70 bg-muted/35 p-2 sm:hidden">
                 {cards.map((card, index) => (
                   <button
                     key={`${card.suit}-${card.value}-${index}-quick`}
                     type="button"
                     onClick={() => appendToken(card.label)}
-                    className="min-h-10 rounded-xl bg-background text-sm font-black shadow-sm active:scale-95"
+                    className="min-h-10 rounded-sm bg-background text-sm font-black shadow-sm active:scale-95"
                     aria-label={`输入 ${card.label}`}
                   >
                     {card.label}
@@ -316,7 +316,7 @@ export default function Game24Page() {
                     key={token}
                     type="button"
                     onClick={() => appendToken(token)}
-                    className="min-h-10 rounded-xl bg-background text-sm font-black text-primary shadow-sm active:scale-95"
+                    className="min-h-10 rounded-sm bg-background text-sm font-black text-primary shadow-sm active:scale-95"
                     aria-label={`输入 ${token}`}
                   >
                     {token}
@@ -325,7 +325,7 @@ export default function Game24Page() {
                 <button
                   type="button"
                   onClick={deleteToken}
-                  className="col-span-3 min-h-10 rounded-xl bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
                 >
                   删除
                 </button>
@@ -335,7 +335,7 @@ export default function Game24Page() {
                     setExpression("")
                     if (error) setError("")
                   }}
-                  className="col-span-3 min-h-10 rounded-xl bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
                 >
                   清空
                 </button>
@@ -378,7 +378,7 @@ export default function Game24Page() {
                 {solutions.map((sol, i) => (
                   <div
                     key={i}
-                    className="text-xs font-mono bg-muted/40 rounded-lg px-3 py-1.5 text-muted-foreground"
+                    className="text-xs font-mono bg-muted/40 rounded-xs px-3 py-1.5 text-muted-foreground"
                   >
                     {sol} = 24
                   </div>
@@ -459,29 +459,29 @@ export default function Game24Page() {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">总轮数</span>
                   <span className="text-lg font-semibold tabular-nums">{stats.totalRounds}</span>
                 </div>
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">解出</span>
                   <span className="text-lg font-semibold tabular-nums text-emerald-500">{stats.solvedCount}</span>
                 </div>
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">跳过</span>
                   <span className="text-lg font-semibold tabular-nums text-blue-500">{stats.skippedCount}</span>
                 </div>
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">最长连胜</span>
                   <span className="text-lg font-semibold tabular-nums text-amber-500">{stats.bestStreak}</span>
                 </div>
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">最快用时</span>
                   <span className="text-lg font-semibold tabular-nums">
                     {stats.bestTime !== null ? `${stats.bestTime}s` : "—"}
                   </span>
                 </div>
-                <div className="flex flex-col rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="flex flex-col rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">平均用时</span>
                   <span className="text-lg font-semibold tabular-nums">
                     {stats.averageTime !== null ? `${stats.averageTime}s` : "—"}
@@ -490,7 +490,7 @@ export default function Game24Page() {
               </div>
 
               {stats.totalRounds > 0 && (
-                <div className="rounded-xl bg-muted/40 px-3 py-2.5">
+                <div className="rounded-sm bg-muted/40 px-3 py-2.5">
                   <span className="text-[11px] text-muted-foreground">解出率</span>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="flex-1 h-2 rounded-full bg-muted/60 overflow-hidden">

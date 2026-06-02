@@ -24,7 +24,7 @@ interface RecordTypePickerSheetProps {
 export function RecordTypePickerSheet({ open, onOpenChange, onSelect }: RecordTypePickerSheetProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-[18px]">
+      <SheetContent side="bottom" className="rounded-t-lg">
         <SheetHeader>
           <SheetTitle>选择记录类型</SheetTitle>
         </SheetHeader>
@@ -54,7 +54,7 @@ function RecordTypeGrid({
               onOpenChange(false)
               onSelect(option.id)
             }}
-            className="flex flex-col items-center gap-2 rounded-[12px] border border-[hsl(var(--surface-border)/0.8)] bg-background/80 px-2 py-3 text-center transition active:scale-[0.98]"
+            className="flex flex-col items-center gap-2 rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-background/80 px-2 py-3 text-center transition active:scale-[0.98]"
           >
             <span className={cn("grid h-10 w-10 place-items-center rounded-full bg-muted/60 text-foreground")}>
               <Icon className="h-5 w-5" />

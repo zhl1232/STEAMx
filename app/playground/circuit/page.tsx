@@ -232,7 +232,7 @@ export default function CircuitPage() {
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-teal-500/10 border border-teal-400/40 flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-teal-500/10 border border-teal-400/40 flex items-center justify-center shrink-0">
                                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-teal-500" />
                             </div>
                             <div>
@@ -257,13 +257,13 @@ export default function CircuitPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-xl border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                         {/* Level navigation */}
                         <div className="flex items-center gap-1.5">
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={levelIndex <= 0}
                                 onClick={prevLevel}
                                 aria-label="上一关"
@@ -279,7 +279,7 @@ export default function CircuitPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={levelIndex >= unlockedLevelCount - 1 || levelIndex >= levelCount - 1}
                                 onClick={nextLevel}
                                 aria-label="下一关"
@@ -377,7 +377,7 @@ export default function CircuitPage() {
                     </div>
 
                     {/* Circuit grid */}
-                    <div className="relative bg-muted/20 rounded-2xl p-3 sm:p-5 border border-border shadow-xl overflow-auto">
+                    <div className="relative bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl overflow-auto">
                         <div
                             className="mx-auto relative"
                             style={{ width: gridWidth, height: gridHeight }}
@@ -481,13 +481,13 @@ export default function CircuitPage() {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className="absolute inset-0 z-10 flex items-center justify-center bg-teal-500/10 backdrop-blur-md rounded-2xl"
+                                    className="absolute inset-0 z-10 flex items-center justify-center bg-teal-500/10 backdrop-blur-md rounded-md"
                                 >
                                     <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-teal-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-teal-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                     >
                                         <div className="flex items-center gap-2 text-teal-500">
                                             <Trophy className="w-8 h-8 animate-bounce" />
@@ -584,7 +584,7 @@ export default function CircuitPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-amber-500" />
                                     <h4 className="text-sm font-bold text-foreground">欧姆定律 V = I × R</h4>
@@ -595,7 +595,7 @@ export default function CircuitPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Zap className="w-4 h-4 text-blue-500" />
                                     <h4 className="text-sm font-bold text-foreground">串联与并联</h4>
@@ -606,7 +606,7 @@ export default function CircuitPage() {
                                 </ul>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Brain className="w-4 h-4 text-violet-500" />
                                     <h4 className="text-sm font-bold text-foreground">逻辑门</h4>
@@ -621,7 +621,7 @@ export default function CircuitPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 space-y-2">
+                            <div className="p-4 rounded-md border border-primary/20 bg-primary/5 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Zap className="w-4 h-4 text-primary" />
                                     <h4 className="text-sm font-bold text-foreground">游戏提示</h4>
@@ -643,7 +643,7 @@ export default function CircuitPage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.totalGames}
@@ -652,7 +652,7 @@ export default function CircuitPage() {
                                         总局数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Sparkles className="w-5 h-5 text-teal-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.solvedCount}
@@ -661,7 +661,7 @@ export default function CircuitPage() {
                                         完成次数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Star className="w-5 h-5 text-amber-500 mb-1 fill-amber-500" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {totalStars}
@@ -670,7 +670,7 @@ export default function CircuitPage() {
                                         星级总数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Sparkles className="w-5 h-5 text-sky-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {perfectLevels}
@@ -682,7 +682,7 @@ export default function CircuitPage() {
                             </div>
 
                             {/* Level completion status */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <Zap className="w-4 h-4 text-teal-500" />
                                     关卡进度 ({stats.solvedLevels.length}/{LEVELS.length})
@@ -758,7 +758,7 @@ export default function CircuitPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
                                     <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                     <div>

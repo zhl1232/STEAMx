@@ -22,7 +22,7 @@ export function ProjectCardSkeleton({
       <div className="h-full">
         <div
           className={cn(
-            "surface-card surface-card-interactive relative h-full overflow-hidden rounded-[16px]",
+            "surface-card surface-card-interactive relative h-full overflow-hidden rounded-md",
             isVerticalCompact
               ? "flex flex-col gap-0 p-0"
               : isDenseCompact
@@ -36,8 +36,8 @@ export function ProjectCardSkeleton({
               isVerticalCompact
                 ? "aspect-[16/10] rounded-none"
                 : isDenseCompact
-                  ? "h-full min-h-[92px] rounded-[12px] sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
-                  : "aspect-square rounded-[12px] sm:aspect-[16/8.5] sm:rounded-none",
+                  ? "h-full min-h-[92px] rounded-sm sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
+                  : "aspect-square rounded-sm sm:aspect-[16/8.5] sm:rounded-none",
             )}
           >
             <Skeleton className="h-full w-full rounded-none" />
@@ -56,17 +56,17 @@ export function ProjectCardSkeleton({
             <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : "space-y-2")}>
               <Skeleton
                 className={cn(
-                  "rounded-md",
+                  "rounded-xs",
                   isDenseCompact
                     ? "h-[18px] w-[88%] sm:h-5 sm:w-3/4"
                     : "h-5 w-[88%] sm:h-6 sm:w-3/4",
                 )}
               />
               {isVerticalCompact && (
-                <Skeleton className="h-5 w-[65%] rounded-md sm:hidden" />
+                <Skeleton className="h-5 w-[65%] rounded-xs sm:hidden" />
               )}
               <div className="flex min-w-0 items-center gap-1.5 flex-wrap">
-                <Skeleton className="h-4.5 w-10 shrink-0 rounded-md" />
+                <Skeleton className="h-4.5 w-10 shrink-0 rounded-xs" />
                 <span className="text-[10px] text-muted-foreground/30 select-none" aria-hidden="true">•</span>
                 <Skeleton className="h-3 min-w-0 flex-1 max-w-[5.5rem] rounded-full" />
               </div>
@@ -142,14 +142,14 @@ export function ProjectCardSkeleton({
 /** 与 `ExploreForYouRail` 内 `ExploreRecommendationCard` 一致 */
 export function ExploreRecommendationCardSkeleton() {
   return (
-    <article className="overflow-hidden rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))]">
+    <article className="overflow-hidden rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))]">
       <Skeleton className="aspect-[4/3] w-full rounded-none" />
       <div className="flex min-h-[136px] flex-col gap-2.5 p-3.5">
         <div className="min-w-0 space-y-2">
-          <Skeleton className="h-5 w-[88%] rounded-md" />
+          <Skeleton className="h-5 w-[88%] rounded-xs" />
           <div className="flex items-center justify-between gap-2">
             <div className="flex min-w-0 items-center gap-1.5">
-              <Skeleton className="h-5 w-10 shrink-0 rounded-md" />
+              <Skeleton className="h-5 w-10 shrink-0 rounded-xs" />
               <Skeleton className="h-3 min-w-0 flex-1 max-w-[4.5rem] rounded-full" />
             </div>
             <Skeleton className="h-3.5 w-9 shrink-0 rounded-full" />
@@ -172,8 +172,8 @@ export function ExploreToolbarSkeleton() {
   return (
     <div className="bg-transparent pb-3 pt-1 md:border-b md:border-[hsl(var(--surface-border))] md:p-5">
       <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:gap-3">
-        <Skeleton className="h-11 w-full rounded-[12px]" />
-        <Skeleton className="h-11 w-[100px] shrink-0 rounded-[12px]" />
+        <Skeleton className="h-11 w-full rounded-sm" />
+        <Skeleton className="h-11 w-[100px] shrink-0 rounded-sm" />
       </div>
       <div className="space-y-2.5 md:mt-4 md:space-y-2">
         <Skeleton className="hidden h-4 w-8 rounded-full md:block" />
@@ -182,7 +182,7 @@ export function ExploreToolbarSkeleton() {
             {categoryWidths.map((width, index) => (
               <Skeleton
                 key={index}
-                className={`h-8 shrink-0 rounded-full md:h-10 md:rounded-[10px] ${width}`}
+                className={`h-8 shrink-0 rounded-full md:h-10 md:rounded-sm ${width}`}
               />
             ))}
           </div>
@@ -196,7 +196,7 @@ function ExploreRecommendationRailSkeleton() {
   return (
     <section>
       <div className="mb-2.5 flex items-center justify-between gap-3">
-        <Skeleton className="h-5 w-24 rounded-md md:h-[18px]" />
+        <Skeleton className="h-5 w-24 rounded-xs md:h-[18px]" />
         <Skeleton className="h-4 w-14 rounded-full" />
       </div>
       <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-hidden scroll-px-4 px-4 pb-1.5 md:mx-0 md:px-0">
@@ -230,32 +230,32 @@ function ExploreSidebarSkeleton() {
       <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
         <Surface className="p-4">
           <div className="mb-3 flex items-center justify-between">
-            <Skeleton className="h-5 w-24 rounded-md" />
-            <Skeleton className="h-4 w-14 rounded-md" />
+            <Skeleton className="h-5 w-24 rounded-xs" />
+            <Skeleton className="h-4 w-14 rounded-xs" />
           </div>
           <div className="flex flex-wrap gap-2">
             {Array.from({ length: 10 }).map((_, i) => (
-              <Skeleton key={i} className="h-8 w-[4.5rem] rounded-[9px]" />
+              <Skeleton key={i} className="h-8 w-[4.5rem] rounded-xs" />
             ))}
           </div>
         </Surface>
         <Surface className="p-4">
           <div className="mb-3 flex items-center justify-between">
-            <Skeleton className="h-5 w-28 rounded-md" />
-            <Skeleton className="h-4 w-20 rounded-md" />
+            <Skeleton className="h-5 w-28 rounded-xs" />
+            <Skeleton className="h-4 w-20 rounded-xs" />
           </div>
           <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-            <Skeleton className="min-h-[92px] rounded-[10px]" />
+            <Skeleton className="min-h-[92px] rounded-sm" />
             <div className="flex min-w-0 flex-col gap-2 pt-0.5">
-              <Skeleton className="h-4 w-full rounded-md" />
+              <Skeleton className="h-4 w-full rounded-xs" />
               <Skeleton className="h-3 w-full rounded-full" />
               <Skeleton className="h-3 w-4/5 rounded-full" />
-              <Skeleton className="mt-2 h-8 w-24 rounded-[10px]" />
+              <Skeleton className="mt-2 h-8 w-24 rounded-sm" />
             </div>
           </div>
         </Surface>
         <Surface className="p-4">
-          <Skeleton className="h-14 w-full rounded-xl" />
+          <Skeleton className="h-14 w-full rounded-sm" />
         </Surface>
       </div>
     </aside>
@@ -274,10 +274,10 @@ function ExploreMobileSearchHeaderSkeleton() {
     >
       <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
         <div className="mr-2 shrink-0">
-          <Skeleton className="h-[30px] w-[30px] rounded-xl" />
+          <Skeleton className="h-[30px] w-[30px] rounded-sm" />
         </div>
         <div className="min-w-0 flex-1">
-          <Skeleton className="h-10 w-full rounded-[15px]" />
+          <Skeleton className="h-10 w-full rounded-md" />
         </div>
         <nav className="ml-2 flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2">
           <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
@@ -333,7 +333,7 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       <div className="relative z-10">
         <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
           <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
-            <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-[20px]">
+            <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg">
               <ExploreToolbarSkeleton />
               <div className="flex flex-col gap-2.5 pb-4 pt-1 md:p-5">
                 <ExploreRecommendationRailSkeleton />
@@ -360,7 +360,7 @@ export function ExplorationRecordCardSkeleton({ className }: { className?: strin
   return (
     <div
       className={cn(
-        "min-w-[178px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm",
+        "min-w-[178px] shrink-0 snap-start overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm",
         className,
       )}
     >
@@ -372,7 +372,7 @@ export function ExplorationRecordCardSkeleton({ className }: { className?: strin
             <Skeleton className="h-2.5 w-12 rounded-full" />
           </div>
         </div>
-        <Skeleton className="aspect-[4/3] w-full rounded-[10px]" />
+        <Skeleton className="aspect-[4/3] w-full rounded-sm" />
         <Skeleton className="mt-2 h-3 w-full rounded-full" />
         <Skeleton className="mt-1.5 h-3 w-[88%] rounded-full" />
         <Skeleton className="mt-2 h-3.5 w-10 rounded-full" />
@@ -402,7 +402,7 @@ export function ExplorationRecordFeedCardSkeleton({ nested = false }: { nested?:
       className={cn(
         nested
           ? "bg-transparent p-3.5"
-          : "rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] p-3.5 shadow-sm",
+          : "rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] p-3.5 shadow-sm",
       )}
     >
       {nested ? (
@@ -422,7 +422,7 @@ export function ExplorationRecordFeedCardSkeleton({ nested = false }: { nested?:
       )}
       <Skeleton className={cn("h-4 w-full rounded-full", nested ? "mt-2" : "mt-3")} />
       <Skeleton className="mt-2 h-4 w-4/5 rounded-full" />
-      <Skeleton className="mt-3 h-44 w-full rounded-[10px]" />
+      <Skeleton className="mt-3 h-44 w-full rounded-sm" />
       <div className="mt-3 flex gap-5 border-t border-[hsl(var(--surface-border)/0.7)] pt-2.5">
         <Skeleton className="h-4 w-10 rounded-full" />
         <Skeleton className="h-4 w-10 rounded-full" />
@@ -434,7 +434,7 @@ export function ExplorationRecordFeedCardSkeleton({ nested = false }: { nested?:
 /** 与 `ExplorationRecordGroupCard` 一致 */
 export function ExplorationRecordGroupCardSkeleton() {
   return (
-    <section className="overflow-hidden rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] shadow-sm">
+    <section className="overflow-hidden rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] shadow-sm">
       <header className="flex items-center gap-2.5 border-b border-[hsl(var(--surface-border)/0.7)] px-3.5 py-3">
         <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
         <div className="min-w-0 flex-1 space-y-2">
@@ -449,7 +449,7 @@ export function ExplorationRecordGroupCardSkeleton() {
 
 function ProjectDetailMobileSectionSkeleton({ titleWidth = "w-24" }: { titleWidth?: string }) {
   return (
-    <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+    <section className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
       <Skeleton className={cn("mb-3 h-5 rounded-full", titleWidth)} />
       <Skeleton className="h-4 w-full rounded-full" />
       <Skeleton className="mt-2 h-4 w-5/6 rounded-full" />
@@ -459,13 +459,13 @@ function ProjectDetailMobileSectionSkeleton({ titleWidth = "w-24" }: { titleWidt
 
 function ProjectDetailMaterialsSkeleton() {
   return (
-    <section className="surface-panel overflow-hidden rounded-[18px]">
+    <section className="surface-panel overflow-hidden rounded-lg">
       <div className="border-b border-border/60 px-5 py-5 sm:px-6">
         <Skeleton className="h-7 w-40 rounded-full" />
       </div>
       <div className="grid grid-cols-1 gap-2 px-5 py-5 min-[380px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] sm:px-6 xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
         {Array.from({ length: 4 }).map((_, index) => (
-          <Skeleton key={index} className="min-h-[60px] rounded-[10px] sm:min-h-[64px]" />
+          <Skeleton key={index} className="min-h-[60px] rounded-sm sm:min-h-[64px]" />
         ))}
       </div>
     </section>
@@ -474,7 +474,7 @@ function ProjectDetailMaterialsSkeleton() {
 
 function ProjectDetailStepsSkeleton() {
   return (
-    <section className="surface-panel overflow-hidden rounded-[18px]">
+    <section className="surface-panel overflow-hidden rounded-lg">
       <div className="border-b border-border/60 px-5 py-5 sm:px-6">
         <Skeleton className="h-7 w-44 rounded-full" />
       </div>
@@ -482,7 +482,7 @@ function ProjectDetailStepsSkeleton() {
         {Array.from({ length: 3 }).map((_, index) => (
           <div key={index} className="grid grid-cols-[32px_minmax(0,1fr)] gap-2.5">
             <Skeleton className="h-8 w-8 rounded-full" />
-            <Skeleton className="h-[88px] rounded-[12px] sm:h-20" />
+            <Skeleton className="h-[88px] rounded-sm sm:h-20" />
           </div>
         ))}
       </div>
@@ -492,7 +492,7 @@ function ProjectDetailStepsSkeleton() {
 
 function ProjectAuthorCardSkeleton() {
   return (
-    <section className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6">
+    <section className="surface-panel overflow-hidden rounded-lg px-5 py-5 sm:px-6">
       <Skeleton className="h-5 w-20 rounded-full" />
       <div className="mt-4 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
@@ -502,7 +502,7 @@ function ProjectAuthorCardSkeleton() {
             <Skeleton className="h-3 w-16 rounded-full" />
           </div>
         </div>
-        <Skeleton className="h-9 w-[86px] rounded-[8px]" />
+        <Skeleton className="h-9 w-[86px] rounded-xs" />
       </div>
       <div className="mt-5 grid grid-cols-3 gap-3 border-y border-border/60 py-3">
         {Array.from({ length: 3 }).map((_, index) => (
@@ -520,11 +520,11 @@ function ProjectAuthorCardSkeleton() {
 
 function ProjectCommentsSectionSkeleton() {
   return (
-    <section className="surface-panel hidden overflow-hidden rounded-[18px] px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
+    <section className="surface-panel hidden overflow-hidden rounded-lg px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
       <div className="border-t pt-8 md:px-2 lg:px-4">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <Skeleton className="h-7 w-28 rounded-full" />
-          <Skeleton className="h-9 w-40 rounded-[8px]" />
+          <Skeleton className="h-9 w-40 rounded-xs" />
         </div>
         <div className="space-y-0">
           {Array.from({ length: 3 }).map((_, index) => (
@@ -562,7 +562,7 @@ export function ProjectDetailPageSkeleton() {
         </div>
 
         <div className="-mx-4 md:hidden">
-          <section className="overflow-hidden rounded-b-[22px] bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
+          <section className="overflow-hidden rounded-b-lg bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
             <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
               <Skeleton className="h-full w-full rounded-none" />
               <div className="absolute left-4 right-4 top-[calc(0.75rem+env(safe-area-inset-top))] flex items-center justify-between gap-3">
@@ -575,10 +575,10 @@ export function ProjectDetailPageSkeleton() {
               <Skeleton className="absolute bottom-3 right-4 h-6 w-10 rounded-full" />
             </div>
             <div className="space-y-4 px-4 pb-5 pt-4">
-              <Skeleton className="h-8 w-[88%] rounded-md" />
+              <Skeleton className="h-8 w-[88%] rounded-xs" />
               <div className="grid grid-cols-4 gap-1.5">
                 {Array.from({ length: 4 }).map((_, index) => (
-                  <Skeleton key={index} className="min-h-8 rounded-[8px]" />
+                  <Skeleton key={index} className="min-h-8 rounded-xs" />
                 ))}
               </div>
               <div className="flex items-center justify-between gap-3 border-t border-[hsl(var(--surface-border)/0.72)] pt-4">
@@ -596,23 +596,23 @@ export function ProjectDetailPageSkeleton() {
 
           <div className="space-y-3 px-4 pb-28 pt-3">
             <ProjectDetailMobileSectionSkeleton titleWidth="w-20" />
-            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+            <section className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
               <Skeleton className="mb-3 h-5 w-36 rounded-full" />
               {Array.from({ length: 3 }).map((_, index) => (
-                <Skeleton key={index} className="mb-2 h-[54px] rounded-[10px] last:mb-0" />
+                <Skeleton key={index} className="mb-2 h-[54px] rounded-sm last:mb-0" />
               ))}
             </section>
-            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+            <section className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
               <Skeleton className="mb-3 h-5 w-24 rounded-full" />
               <ProjectExplorationRecordsBlockSkeleton />
             </section>
-            <section className="rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+            <section className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <Skeleton className="h-5 w-28 rounded-full" />
                 <Skeleton className="h-3 w-14 rounded-full" />
               </div>
-              <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-[12px] border border-[hsl(var(--surface-border)/0.84)] p-2.5">
-                <Skeleton className="aspect-[4/3] rounded-[10px]" />
+              <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border)/0.84)] p-2.5">
+                <Skeleton className="aspect-[4/3] rounded-sm" />
                 <div className="space-y-2 py-0.5">
                   <Skeleton className="h-4 w-full rounded-full" />
                   <Skeleton className="h-3 w-5/6 rounded-full" />
@@ -624,32 +624,32 @@ export function ProjectDetailPageSkeleton() {
 
           <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--surface-border)/0.86)] bg-background px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 md:hidden">
             <div className="flex items-center justify-between gap-3">
-              <Skeleton className="h-10 flex-1 rounded-[10px]" />
-              <Skeleton className="h-10 w-24 rounded-[10px]" />
+              <Skeleton className="h-10 flex-1 rounded-sm" />
+              <Skeleton className="h-10 w-24 rounded-sm" />
             </div>
           </div>
         </div>
 
         <div className="space-y-6">
           <main className="min-w-0 space-y-6">
-            <section className="surface-panel hidden overflow-hidden rounded-[18px] md:block">
+            <section className="surface-panel hidden overflow-hidden rounded-lg md:block">
               <div className="lg:flex lg:items-stretch">
                 <Skeleton className="min-w-0 rounded-none aspect-[16/9] sm:aspect-[16/8.6] lg:aspect-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none" />
                 <div className="min-w-0 flex-1 p-5 sm:p-6 lg:p-8">
                   <div className="flex flex-wrap gap-2">
-                    <Skeleton className="h-9 w-52 rounded-[10px]" />
-                    <Skeleton className="h-7 w-14 rounded-[8px]" />
-                    <Skeleton className="h-7 w-14 rounded-[8px]" />
-                    <Skeleton className="ml-auto h-7 w-24 rounded-[8px]" />
+                    <Skeleton className="h-9 w-52 rounded-sm" />
+                    <Skeleton className="h-7 w-14 rounded-xs" />
+                    <Skeleton className="h-7 w-14 rounded-xs" />
+                    <Skeleton className="ml-auto h-7 w-24 rounded-xs" />
                   </div>
                   <div className="mt-5 space-y-3">
                     <Skeleton className="h-4 w-full rounded-full" />
                     <Skeleton className="h-4 w-5/6 rounded-full" />
                   </div>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    <Skeleton className="h-7 w-20 rounded-[8px]" />
-                    <Skeleton className="h-7 w-24 rounded-[8px]" />
-                    <Skeleton className="h-7 w-20 rounded-[8px]" />
+                    <Skeleton className="h-7 w-20 rounded-xs" />
+                    <Skeleton className="h-7 w-24 rounded-xs" />
+                    <Skeleton className="h-7 w-20 rounded-xs" />
                   </div>
                   <div className="mt-6 grid grid-cols-4 border-t border-border/70 pt-5">
                     {Array.from({ length: 4 }).map((_, index) => (
@@ -665,7 +665,7 @@ export function ProjectDetailPageSkeleton() {
               </div>
             </section>
 
-            <section className="hidden items-start gap-3 rounded-[10px] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 sm:px-5 sm:py-4 md:flex">
+            <section className="hidden items-start gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 sm:px-5 sm:py-4 md:flex">
               <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
               <div className="min-w-0 flex-1 space-y-2">
                 <Skeleton className="h-4 w-20 rounded-full" />
@@ -681,17 +681,17 @@ export function ProjectDetailPageSkeleton() {
 
               <aside className="hidden min-w-0 space-y-6 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block">
                 <ProjectAuthorCardSkeleton />
-                <section className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6">
+                <section className="surface-panel overflow-hidden rounded-lg px-5 py-5 sm:px-6">
                   <Skeleton className="mb-4 h-7 w-28 rounded-full" />
                   <ProjectExplorationRecordsBlockSkeleton />
                 </section>
-                <section className="surface-panel overflow-hidden rounded-[18px] p-4">
+                <section className="surface-panel overflow-hidden rounded-lg p-4">
                   <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-3">
-                    <Skeleton className="aspect-[4/3] rounded-[10px]" />
+                    <Skeleton className="aspect-[4/3] rounded-sm" />
                     <div className="space-y-2 py-0.5">
                       <Skeleton className="h-4 w-full rounded-full" />
                       <Skeleton className="h-3 w-5/6 rounded-full" />
-                      <Skeleton className="h-8 w-20 rounded-[8px]" />
+                      <Skeleton className="h-8 w-20 rounded-xs" />
                     </div>
                   </div>
                 </section>
@@ -722,7 +722,7 @@ export function ProjectRecordsPageSkeleton() {
           <Skeleton className="h-8 w-16 rounded-full" />
           <Skeleton className="ml-auto h-8 w-[108px] rounded-full" />
         </div>
-        <section className="mb-4 flex items-center gap-3 rounded-[14px] border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
+        <section className="mb-4 flex items-center gap-3 rounded-md border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
           <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
           <div className="min-w-0 flex-1 space-y-2">
             <Skeleton className="h-4 w-36 rounded-full" />
@@ -743,7 +743,7 @@ export function ProjectRecordsPageSkeleton() {
 export function DiscussionItemSkeleton() {
   return (
     <div className="surface-card grid grid-cols-[112px_minmax(0,1fr)] gap-3 p-3 md:grid-cols-[220px_minmax(0,1fr)] md:gap-5 md:p-4">
-      <Skeleton className="h-28 rounded-[14px] md:h-32" />
+      <Skeleton className="h-28 rounded-md md:h-32" />
       <div className="flex min-w-0 flex-col justify-center space-y-3">
         <Skeleton className="h-5 w-4/5 rounded-full" />
         <Skeleton className="h-4 w-full rounded-full" />

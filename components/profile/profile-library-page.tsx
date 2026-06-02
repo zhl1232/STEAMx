@@ -440,7 +440,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
           </div>
           <div className="relative grid min-h-[254px] gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)] lg:items-end xl:px-8">
             <div className="flex items-start gap-3">
-              <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl bg-background/62">
+              <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-sm bg-background/62">
                 <Link href="/profile" aria-label="返回个人主页">
                   <ChevronLeft className="h-5 w-5" />
                 </Link>
@@ -461,7 +461,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
                 { label: '已完成', value: completedProjectsCount, icon: CheckCircle2 },
                 { label: '观察记录', value: observationsLoaded ? observationsTotal : uniqueSpeciesCount, icon: Feather },
               ].map((item) => (
-                <div key={item.label} className="rounded-2xl border border-border/70 bg-background/78 px-4 py-3 backdrop-blur">
+                <div key={item.label} className="rounded-md border border-border/70 bg-background/78 px-4 py-3 backdrop-blur">
                   <item.icon className="h-4 w-4 text-primary" />
                   <p className="mt-2 text-xl font-semibold tabular-nums">{item.value}</p>
                   <p className="mt-1 text-xs text-muted-foreground">{item.label}</p>

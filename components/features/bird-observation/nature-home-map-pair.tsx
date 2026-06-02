@@ -171,7 +171,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                           isActive ? "bg-primary/[0.08]" : "hover:bg-muted/40"
                         }`}
                       >
-                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-muted/50">
+                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xs bg-muted/50">
                           {observation.mediaUrls[0] ? (
                             <Image
                               src={observation.mediaUrls[0]}

@@ -41,7 +41,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
   return (
     <section
       id="project-steps-mobile"
-      className="scroll-mt-20 rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]"
+      className="scroll-mt-20 rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]"
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">
@@ -63,7 +63,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
           {hasMaterials ? (
             <li
               id="project-step-mobile-1"
-              className="rounded-[10px] border border-[hsl(var(--surface-border)/0.78)] bg-background/76"
+              className="rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-background/76"
             >
               <details ref={nextRef()} className="group/details">
                 <summary className={SUMMARY_GRID_NO_THUMB}>
@@ -88,7 +88,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
                       return (
                         <span
                           key={`${material}-${index}`}
-                          className="inline-flex max-w-full items-center gap-1.5 rounded-[8px] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.55)] px-2.5 py-1.5"
+                          className="inline-flex max-w-full items-center gap-1.5 rounded-xs border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.55)] px-2.5 py-1.5"
                         >
                           <span className="truncate text-xs font-medium text-foreground">{meta.name}</span>
                           {meta.amount ? (
@@ -113,7 +113,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
               <li
                 key={`${stepTitle}-${index}`}
                 id={`project-step-mobile-${displayIndex}`}
-                className="rounded-[10px] border border-[hsl(var(--surface-border)/0.78)] bg-background/76"
+                className="rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-background/76"
               >
                 <details ref={nextRef()} className="group/details">
                   <summary className={imageUrl ? SUMMARY_GRID_WITH_THUMB : SUMMARY_GRID_NO_THUMB}>
@@ -129,7 +129,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
                       ) : null}
                     </div>
                     {imageUrl ? (
-                      <div className="relative h-10 w-[72px] shrink-0 overflow-hidden rounded-[8px] bg-muted group-open/details:hidden">
+                      <div className="relative h-10 w-[72px] shrink-0 overflow-hidden rounded-xs bg-muted group-open/details:hidden">
                         <OptimizedImage
                           src={imageUrl}
                           alt={stepTitle}
@@ -144,7 +144,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
                   {(step.description || imageUrl) && (
                     <div className="space-y-2 border-t border-[hsl(var(--surface-border)/0.62)] px-3 pb-3 pt-2">
                       {imageUrl ? (
-                        <div className="relative aspect-[16/10] overflow-hidden rounded-[10px] bg-muted">
+                        <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-muted">
                           <OptimizedImage
                             src={imageUrl}
                             alt={stepTitle}
@@ -165,7 +165,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
           })}
         </ol>
       ) : (
-        <div className="rounded-[12px] border border-dashed border-border bg-background/50 px-5 py-8 text-center text-sm text-muted-foreground">
+        <div className="rounded-sm border border-dashed border-border bg-background/50 px-5 py-8 text-center text-sm text-muted-foreground">
           暂无步骤说明
         </div>
       )}

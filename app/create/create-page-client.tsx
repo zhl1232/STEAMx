@@ -160,7 +160,7 @@ function NatureFeatureCard({ challenge }: { challenge?: Challenge }) {
     return (
         <Link
             href={href}
-            className="surface-card group relative hidden min-h-[282px] overflow-hidden rounded-[16px] md:block"
+            className="surface-card group relative hidden min-h-[282px] overflow-hidden rounded-md md:block"
         >
             <Image
                 src={natureFeatureImage}

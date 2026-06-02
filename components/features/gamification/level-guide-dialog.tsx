@@ -182,7 +182,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             value="overview"
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
-            <div className="rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-sm">
+            <div className="rounded-md border border-border bg-card p-4 text-card-foreground shadow-sm">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">当前等级</p>
@@ -193,7 +193,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                     </span>
                   </div>
                 </div>
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary">
                   <Crown className="h-6 w-6" />
                 </div>
               </div>
@@ -213,7 +213,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-background/70 p-4">
+              <div className="rounded-md border border-border bg-background/70 p-4">
                 <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-amber-500" />
                   <h3 className="text-sm font-bold">下一权益</h3>
@@ -230,7 +230,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                 )}
               </div>
 
-              <div className="rounded-2xl border border-border bg-background/70 p-4">
+              <div className="rounded-md border border-border bg-background/70 p-4">
                 <div className="flex items-center gap-2">
                   <Target className="h-4 w-4 text-emerald-500" />
                   <h3 className="text-sm font-bold">稳定获取</h3>
@@ -246,7 +246,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             value="earn"
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-sm">
               <div className="p-0">
                 <div className="grid grid-cols-[1fr_auto] gap-4 p-4 font-medium text-sm text-muted-foreground border-b bg-muted/30">
                   <div>获取方式</div>
@@ -277,7 +277,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
               </div>
             </div>
 
-            <div className="mt-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
+            <div className="mt-4 rounded-xs bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
               <div className="flex items-start gap-3">
                 <Info className="h-4 w-4 mt-0.5 shrink-0" />
                 <p>
@@ -295,7 +295,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
             {/* 顶部进度面板 */}
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm mb-4 p-4">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-sm mb-4 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <Crown className="h-5 w-5 text-amber-500" />
@@ -323,7 +323,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             </div>
 
             {/* 权益列表 */}
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-sm">
               <div className="divide-y">
                 {levelBenefits.map((ms) => {
                   const unlocked = level >= ms.level;
@@ -374,7 +374,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
               </div>
             </div>
 
-            <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">
+            <div className="mt-4 rounded-xs bg-yellow-50 p-4 text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">
               <div className="flex items-start gap-3">
                 <Zap className="h-4 w-4 mt-0.5 shrink-0" />
                 <p>

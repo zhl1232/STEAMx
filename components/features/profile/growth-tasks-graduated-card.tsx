@@ -30,7 +30,7 @@ export function GrowthTasksGraduatedCard({
   const totalXpReward = useMemo(() => tasks.reduce((acc, t) => acc + t.rewardXp, 0), [tasks])
 
   return (
-    <section className="surface-panel relative overflow-hidden rounded-[20px] p-6">
+    <section className="surface-panel relative overflow-hidden rounded-lg p-6">
       <AnimatePresence>
         {showSparkle ? (
           <motion.div
@@ -47,7 +47,7 @@ export function GrowthTasksGraduatedCard({
       </AnimatePresence>
 
       <div className="flex min-w-0 items-center gap-2.5">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]">
           <BookOpen className={cn('h-4 w-4')} strokeWidth={2.4} />
         </span>
         <h2 className="truncate text-base font-semibold text-foreground">成长任务 · 已全部完成</h2>
@@ -71,12 +71,12 @@ export function GrowthTasksGraduatedCard({
           type="button"
           variant="outline"
           size="sm"
-          className="h-9 rounded-lg border-[hsl(var(--brand-blue)/0.35)] text-xs font-bold text-[hsl(var(--brand-blue))]"
+          className="h-9 rounded-xs border-[hsl(var(--brand-blue)/0.35)] text-xs font-bold text-[hsl(var(--brand-blue))]"
           onClick={() => scrollToProfileBadges()}
         >
           查看徽章
         </Button>
-        <Button asChild size="sm" className="h-9 rounded-lg px-3 text-xs font-bold">
+        <Button asChild size="sm" className="h-9 rounded-xs px-3 text-xs font-bold">
           <Link href="/community?tab=challenges">去挑战</Link>
         </Button>
       </div>

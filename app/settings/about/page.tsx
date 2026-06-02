@@ -66,7 +66,7 @@ export default function AboutSettingsPage() {
             {!supportEmail ? (
               <div className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
                     <MessageSquareHeart className="h-5 w-5" />
                   </div>
                   <div>
@@ -87,7 +87,7 @@ export default function AboutSettingsPage() {
                 className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 transition-transform hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>

@@ -190,7 +190,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
               className={cn(
                 "w-full min-w-0 overflow-hidden transition-all duration-200 ease-out",
                 isExpanded
-                  ? "rounded-xl bg-[#F0F2F5] dark:bg-muted/90 focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20"
+                  ? "rounded-sm bg-[#F0F2F5] dark:bg-muted/90 focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20"
                   : "rounded-full bg-muted/40 dark:bg-muted/50 border border-border/60",
               )}
             >
@@ -250,7 +250,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
                           alt="待发送图片"
                           width={72}
                           height={72}
-                          className="rounded-md border border-border/60 object-cover h-[72px] w-[72px]"
+                          className="rounded-xs border border-border/60 object-cover h-[72px] w-[72px]"
                         />
                         <button
                           type="button"

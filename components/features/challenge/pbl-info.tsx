@@ -109,7 +109,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
                   <article
                     key={card.key}
                     className={cn(
-                      'rounded-[22px] border p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.18)] sm:p-5',
+                      'rounded-lg border p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.18)] sm:p-5',
                       card.tone,
                       card.variant === 'hero' ? 'md:col-span-2 md:p-6' : '',
                     )}
@@ -117,7 +117,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
                     <div className="flex items-start gap-3.5">
                       <div
                         className={cn(
-                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-[18px] shadow-sm',
+                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg shadow-sm',
                           card.iconTone,
                         )}
                       >
@@ -145,9 +145,9 @@ export function PblInfo({ challenge }: PblInfoProps) {
           )}
 
           {challenge.constraints && challenge.constraints.length > 0 && (
-            <article className="rounded-[22px] border border-rose-200/80 bg-[linear-gradient(135deg,rgba(255,241,242,0.96),rgba(255,228,230,0.82),rgba(255,228,230,0.72))] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.18)] dark:border-rose-900/70 dark:bg-[linear-gradient(135deg,rgba(76,5,25,0.26),rgba(136,19,55,0.16),rgba(76,5,25,0.14))] sm:p-5">
+            <article className="rounded-lg border border-rose-200/80 bg-[linear-gradient(135deg,rgba(255,241,242,0.96),rgba(255,228,230,0.82),rgba(255,228,230,0.72))] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.18)] dark:border-rose-900/70 dark:bg-[linear-gradient(135deg,rgba(76,5,25,0.26),rgba(136,19,55,0.16),rgba(76,5,25,0.14))] sm:p-5">
               <div className="flex items-start gap-3.5">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[18px] bg-white/80 text-rose-700 shadow-sm dark:bg-slate-950/30 dark:text-rose-300">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/80 text-rose-700 shadow-sm dark:bg-slate-950/30 dark:text-rose-300">
                   <Lock className="h-5 w-5" />
                 </div>
 
@@ -159,7 +159,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
                     {challenge.constraints.map((constraint, index) => (
                       <div
                         key={`${constraint}-${index}`}
-                        className="rounded-[16px] bg-white/58 px-3.5 py-2.5 text-sm leading-6 text-foreground/80 dark:bg-slate-950/22"
+                        className="rounded-md bg-white/58 px-3.5 py-2.5 text-sm leading-6 text-foreground/80 dark:bg-slate-950/22"
                       >
                         <div className="flex items-start gap-2.5">
                           <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-400" />
@@ -184,7 +184,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
             </span>
           </div>
 
-          <div className="grid gap-1.5 rounded-[20px] bg-background/36 p-1.5 dark:bg-slate-950/18">
+          <div className="grid gap-1.5 rounded-lg bg-background/36 p-1.5 dark:bg-slate-950/18">
             {resources.map((resource, index) => {
               const isInternalResource =
                 resource.url.startsWith('/') || internalResourceTypes.has(resource.type)
@@ -222,7 +222,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
                   <Link
                     key={`${resource.url}-${index}`}
                     href={resource.url}
-                    className="group rounded-[16px] bg-background/78 px-3.5 py-3 transition-all hover:bg-background dark:bg-slate-950/34 dark:hover:bg-slate-950/46"
+                    className="group rounded-md bg-background/78 px-3.5 py-3 transition-all hover:bg-background dark:bg-slate-950/34 dark:hover:bg-slate-950/46"
                   >
                     {content}
                   </Link>
@@ -235,7 +235,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-[16px] bg-background/78 px-3.5 py-3 transition-all hover:bg-background dark:bg-slate-950/34 dark:hover:bg-slate-950/46"
+                  className="group rounded-md bg-background/78 px-3.5 py-3 transition-all hover:bg-background dark:bg-slate-950/34 dark:hover:bg-slate-950/46"
                 >
                   {content}
                 </a>

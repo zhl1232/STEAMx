@@ -87,7 +87,7 @@ export function ChallengeSubmissionReviewCard({
   return (
     <article className="admin-panel-card space-y-4 p-4 sm:p-5">
       <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
-        <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
+        <div className="relative h-40 overflow-hidden rounded-md border border-border/70 bg-muted sm:h-28">
           {cover ? (
             <OptimizedImage src={cover} alt={submission.title} fill variant="cover" className="object-cover" />
           ) : (
@@ -100,7 +100,7 @@ export function ChallengeSubmissionReviewCard({
 
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">挑战作品</Badge>
+            <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">挑战作品</Badge>
             <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">待审核</Badge>
             <Badge variant="outline">{submission.is_public ? '公开' : '未公开'}</Badge>
           </div>
@@ -140,7 +140,7 @@ export function ChallengeSubmissionReviewCard({
               <div className="grid gap-3 md:grid-cols-2">
                 {submission.proof_images.map((image, index) => (
                   <div key={`${image}-${index}`} className="space-y-2">
-                    <div className="relative aspect-video overflow-hidden rounded-2xl bg-muted">
+                    <div className="relative aspect-video overflow-hidden rounded-md bg-muted">
                       <OptimizedImage src={image} alt={`${submission.title}-${index + 1}`} fill variant="cover" className="object-cover" />
                     </div>
                     {submission.proof_captions?.[index] ? (
@@ -151,7 +151,7 @@ export function ChallengeSubmissionReviewCard({
               </div>
 
               {submission.proof_video_url ? (
-                <video controls className="w-full rounded-2xl border border-border/70 bg-black">
+                <video controls className="w-full rounded-md border border-border/70 bg-black">
                   <source src={submission.proof_video_url} />
                 </video>
               ) : null}

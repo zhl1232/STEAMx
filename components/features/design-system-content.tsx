@@ -35,7 +35,7 @@ export default function DesignSystemContent() {
                 ["正文段落", "text-sm leading-7 text-muted-foreground"],
                 ["辅助标签", "section-kicker"],
               ].map(([label, className]) => (
-                <div key={label} className="rounded-2xl border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.8)] p-4">
+                <div key={label} className="rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.8)] p-4">
                   <p className="text-xs text-muted-foreground">{label}</p>
                   <p className={`mt-3 ${className}`}>STEAM 探索</p>
                 </div>

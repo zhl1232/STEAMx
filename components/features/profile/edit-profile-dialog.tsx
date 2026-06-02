@@ -433,7 +433,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
               ) : (
                 <div className="space-y-3">
                   {bindStep === "idle" && (
-                    <div className="flex items-center justify-between rounded-lg py-2">
+                    <div className="flex items-center justify-between rounded-xs py-2">
                       <span className="text-sm text-muted-foreground">
                         手机号绑定：{phone ? phone : "暂未绑定"}
                       </span>
@@ -455,9 +455,9 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                   )}
 
                   {bindStep === "input" && (
-                    <div className="space-y-3 rounded-lg border border-input bg-muted/30 p-3">
+                    <div className="space-y-3 rounded-xs border border-input bg-muted/30 p-3">
                       <div className="flex">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-background text-muted-foreground text-sm whitespace-nowrap">
+                        <span className="inline-flex items-center px-3 rounded-l-xs border border-r-0 border-input bg-background text-muted-foreground text-sm whitespace-nowrap">
                           +86
                         </span>
                         <Input
@@ -502,7 +502,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
                   )}
 
                   {bindStep === "verify" && (
-                    <div className="space-y-3 rounded-lg border border-input bg-muted/30 p-3">
+                    <div className="space-y-3 rounded-xs border border-input bg-muted/30 p-3">
                       <Input
                         type="text"
                         placeholder="输入6位验证码"

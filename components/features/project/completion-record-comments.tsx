@@ -98,8 +98,8 @@ export function CompletionRecordComments({
       <div className="min-h-0 max-h-[50vh] flex-1 space-y-3 overflow-y-auto pr-1">
         {isLoading ? (
           <div className="space-y-2">
-            <Skeleton className="h-14 rounded-[10px]" />
-            <Skeleton className="h-14 rounded-[10px]" />
+            <Skeleton className="h-14 rounded-sm" />
+            <Skeleton className="h-14 rounded-sm" />
           </div>
         ) : comments.length === 0 ? (
           <p className="text-sm text-muted-foreground">还没有评论，来抢沙发吧。</p>
@@ -189,7 +189,7 @@ function CompletionCommentItem({
   const displayName = comment.author || "探索者"
 
   return (
-    <div className="rounded-[10px] bg-muted/40 px-3 py-2">
+    <div className="rounded-sm bg-muted/40 px-3 py-2">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold text-foreground">{displayName}</p>
         <button
@@ -237,7 +237,7 @@ export function CompletionRecordCommentsPreview({
   if (preview.length === 0) return null
 
   return (
-    <div className="mt-3 space-y-2 rounded-[10px] bg-muted/35 px-3 py-2.5">
+    <div className="mt-3 space-y-2 rounded-sm bg-muted/35 px-3 py-2.5">
       {preview.map((comment) => (
         <p key={String(comment.id)} className="text-xs leading-5 text-muted-foreground">
           <span className="font-semibold text-foreground">{comment.author}</span>

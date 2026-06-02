@@ -209,7 +209,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               <p className="text-base font-semibold leading-snug text-foreground">{observation.locationName}</p>
             </div>
             {hasCoordinates ? (
-              <div className="relative mt-4 overflow-hidden rounded-xl border border-border/60">
+              <div className="relative mt-4 overflow-hidden rounded-sm border border-border/60">
                 <DomesticMiniMap
                   markers={[
                     {

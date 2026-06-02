@@ -95,7 +95,7 @@ export function SpeciesHotspotPanel({
             <div
               key={location.locationName}
               className={cn(
-                "rounded-2xl border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
+                "rounded-md border border-border/70 bg-background/80 p-4 transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
                 isActive && "border-primary/60 ring-1 ring-primary/20",
               )}
             >

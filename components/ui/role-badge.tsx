@@ -93,7 +93,7 @@ export function RoleBadge({ role, className, size = 'md' }: RoleBadgeProps) {
         <span
           className={cn(
             'absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-1.5',
-            'px-2.5 py-1 rounded-md text-xs font-medium whitespace-nowrap',
+            'px-2.5 py-1 rounded-xs text-xs font-medium whitespace-nowrap',
             'bg-popover text-popover-foreground',
             'border shadow-lg',
             'animate-in fade-in-0 zoom-in-95 duration-150',

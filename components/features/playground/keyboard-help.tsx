@@ -61,7 +61,7 @@ export function KeyboardHelp({ shortcuts, className }: KeyboardHelpProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.96 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-12 right-0 z-50 min-w-[180px] rounded-lg border bg-popover p-3 shadow-lg"
+            className="absolute bottom-12 right-0 z-50 min-w-[180px] rounded-xs border bg-popover p-3 shadow-lg"
           >
             <div className="mb-2 flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">快捷键</span>

@@ -31,7 +31,7 @@ export default function MigratePage() {
             <p className="mb-4 text-sm leading-6 text-muted-foreground">
               使用 `pnpm db:push` 或 `supabase db push` 按顺序应用 `supabase/migrations/` 中的迁移。
             </p>
-            <pre className="overflow-x-auto rounded-2xl border border-border/70 bg-muted/50 p-4 text-sm">
+            <pre className="overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
               <code>{`set -a && source .env.local && set +a
 pnpm db:push`}</code>
             </pre>
@@ -45,7 +45,7 @@ pnpm db:push`}</code>
             <p className="mb-4 text-sm leading-6 text-muted-foreground">
               示例项目、讨论和私信已包含在迁移与 `supabase/seed.sql` 中，重复执行前请确认当前环境允许重放。
             </p>
-            <pre className="overflow-x-auto rounded-2xl border border-border/70 bg-muted/50 p-4 text-sm">
+            <pre className="overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
               <code>{`psql -h <IP> -p 5432 -U postgres -d postgres -f supabase/seed.sql`}</code>
             </pre>
           </div>

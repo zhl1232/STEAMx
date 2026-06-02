@@ -168,7 +168,7 @@ function getShowcaseProjects(projects: Project[]) {
 
 function HomeHero({ image }: { image: string }) {
   return (
-    <section className="surface-card relative overflow-hidden rounded-[18px] md:rounded-[16px]">
+    <section className="surface-card relative overflow-hidden rounded-lg md:rounded-md">
       <div className="relative min-h-[176px] min-[390px]:min-h-[184px] md:min-h-[220px]">
         <Image
           src={image}
@@ -240,16 +240,16 @@ function MobileLeaderboardEntry() {
   return (
     <Link
       href="/leaderboard"
-      className="surface-card-interactive group grid min-h-[60px] grid-cols-[38px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[16px] border border-[hsl(var(--brand-amber)/0.34)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.16),hsl(var(--brand-blue)/0.08)_58%,hsl(var(--surface-raised))_100%)] px-3.5 py-2 shadow-[0_18px_42px_-32px_hsl(var(--brand-amber)/0.75)] md:hidden"
+      className="surface-card-interactive group grid min-h-[60px] grid-cols-[38px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-md border border-[hsl(var(--brand-amber)/0.34)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.16),hsl(var(--brand-blue)/0.08)_58%,hsl(var(--surface-raised))_100%)] px-3.5 py-2 shadow-[0_18px_42px_-32px_hsl(var(--brand-amber)/0.75)] md:hidden"
     >
-      <span className="grid h-[38px] w-[38px] place-items-center rounded-[13px] bg-[hsl(var(--brand-amber)/0.18)] text-[hsl(var(--brand-amber))]">
+      <span className="grid h-[38px] w-[38px] place-items-center rounded-sm bg-[hsl(var(--brand-amber)/0.18)] text-[hsl(var(--brand-amber))]">
         <Trophy className="h-5 w-5" strokeWidth={2.4} />
       </span>
       <span className="min-w-0">
         <span className="block text-[14px] font-extrabold leading-5 text-foreground">社区排行榜</span>
         <span className="mt-0.5 block truncate text-[11px] font-medium leading-4 text-muted-foreground">查看积分、徽章和项目榜单</span>
       </span>
-      <span className="inline-flex h-7 items-center gap-1 rounded-[11px] bg-[hsl(var(--brand-blue))] px-2.5 text-[11px] font-semibold text-[hsl(var(--brand-blue-foreground))] transition group-hover:brightness-95">
+      <span className="inline-flex h-7 items-center gap-1 rounded-sm bg-[hsl(var(--brand-blue))] px-2.5 text-[11px] font-semibold text-[hsl(var(--brand-blue-foreground))] transition group-hover:brightness-95">
         查看
         <ArrowRight className="h-3.5 w-3.5" />
       </span>
@@ -271,7 +271,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "surface-card-interactive group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-[14px] border px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 min-[390px]:gap-2.5 md:min-h-[116px] md:gap-3 md:rounded-[10px] md:px-4 md:py-4 min-[1480px]:gap-4 min-[1480px]:px-5",
+              "surface-card-interactive group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-md border px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 min-[390px]:gap-2.5 md:min-h-[116px] md:gap-3 md:rounded-sm md:px-4 md:py-4 min-[1480px]:gap-4 min-[1480px]:px-5",
               tone.border,
               tone.bg,
             )}
@@ -293,7 +293,7 @@ function NatureChannel() {
   return (
     <Link
       href="/nature"
-      className="group relative block min-h-[90px] overflow-hidden rounded-[12px] bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-[10px] min-[1480px]:h-full"
+      className="group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm min-[1480px]:h-full"
     >
       <div className="absolute right-0 top-1/2 h-[128px] w-[232px] -translate-y-1/2 overflow-hidden min-[390px]:h-[136px] min-[390px]:w-[248px] md:inset-0 md:h-auto md:w-auto md:translate-y-0">
         <Image
@@ -399,7 +399,7 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
             {communityFeed.map((item) => {
               const { wrap, icon } = communityFeedIconWrap(item.kind);
               return (
-                <Link key={item.key} href={item.href} className="grid grid-cols-[40px_minmax(0,1fr)] gap-3 rounded-[10px] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
+                <Link key={item.key} href={item.href} className="grid grid-cols-[40px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-muted))]">
                   <span className={cn("grid h-10 w-10 place-items-center rounded-full", wrap)}>{icon}</span>
                   <div className="min-w-0">
                     <p className="truncate text-[13px] text-muted-foreground">
@@ -420,8 +420,8 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
           <h2 className="text-[18px] font-bold text-foreground">活动推荐</h2>
           <Link href="/community?tab=challenges" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
         </div>
-        <Link href="/community?tab=challenges" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-[10px] border border-[hsl(var(--surface-border))] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
-          <div className="relative h-[58px] overflow-hidden rounded-[8px] bg-[hsl(var(--surface-muted))]">
+        <Link href="/community?tab=challenges" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border))] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
+          <div className="relative h-[58px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
             <Image src={heroImage} alt="STEAM 创新大赛" fill sizes="120px" className="object-cover object-[62%_center]" />
           </div>
           <div className="min-w-0">
@@ -495,7 +495,7 @@ function HomeFooter() {
           </div>
         ))}
         <div className="flex items-center gap-4">
-          <div className="grid h-[86px] w-[86px] grid-cols-5 grid-rows-5 gap-1 rounded-[8px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] p-2">
+          <div className="grid h-[86px] w-[86px] grid-cols-5 grid-rows-5 gap-1 rounded-xs border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] p-2">
             {Array.from({ length: 25 }).map((_, index) => (
               <span key={index} className={cn("rounded-[1px]", index % 3 === 0 || index % 7 === 0 ? "bg-foreground" : "bg-[hsl(var(--surface-border))]")} />
             ))}

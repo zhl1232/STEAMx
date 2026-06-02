@@ -150,8 +150,8 @@ interface AdminMetricCardProps {
 
 function AdminMetricCard({ icon: Icon, label, value, helper, tone }: AdminMetricCardProps) {
   return (
-    <div className="surface-subtle flex min-w-0 items-center gap-3 rounded-[18px] border border-border/70 bg-background/78 p-4 shadow-none">
-      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${tone}`}>
+    <div className="surface-subtle flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/78 p-4 shadow-none">
+      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-md ${tone}`}>
         <Icon className="h-5 w-5" />
       </div>
       <div className="min-w-0">
@@ -474,7 +474,7 @@ export default function AdminPage() {
                 <p className="section-kicker">后台管理</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <h1 className="truncate text-3xl font-semibold tracking-tight">{adminName}</h1>
-                  <span className="inline-flex items-center gap-1 rounded-[10px] bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+                  <span className="inline-flex items-center gap-1 rounded-sm bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
                     <ShieldCheck className="h-3.5 w-3.5" />
                     {roleLabel}
                   </span>
@@ -552,10 +552,10 @@ export default function AdminPage() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="搜索标题、提交者、分类或 ID"
-                className="control-field h-12 w-full rounded-2xl bg-[hsl(var(--surface-raised)/0.9)] pl-11 pr-4 text-sm"
+                className="control-field h-12 w-full rounded-md bg-[hsl(var(--surface-raised)/0.9)] pl-11 pr-4 text-sm"
               />
             </label>
-            <div className="flex items-center gap-2 rounded-2xl border border-border/70 bg-background/70 px-4 py-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-md border border-border/70 bg-background/70 px-4 py-3 text-sm text-muted-foreground">
               <CheckCircle2 className="h-4 w-4 text-[hsl(var(--brand-green))]" />
               最新提交优先
             </div>

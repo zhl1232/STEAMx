@@ -131,7 +131,7 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-8 w-full rounded-[12px] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-8 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button

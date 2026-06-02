@@ -47,7 +47,7 @@ function Tile({ tile }: { tile: TileData }) {
     return (
         <div
             className={cn(
-                "absolute inset-0 rounded-xl flex items-center justify-center font-extrabold select-none transition-all duration-100",
+                "absolute inset-0 rounded-sm flex items-center justify-center font-extrabold select-none transition-all duration-100",
                 getTileStyle(tile.value),
                 getTileFontSize(tile.value),
                 tile.isNew && "animate-[pop-in_200ms_ease-out]",
@@ -123,13 +123,13 @@ export default function Game2048Page() {
                     <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
 
                         {/* Header: Score & Controls */}
-                        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-xl border border-border shadow-inner">
+                        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                             <div className="flex items-center gap-3 sm:gap-4">
-                                <div className="flex flex-col items-center bg-primary/10 px-4 py-2 rounded-lg border border-primary/20">
+                                <div className="flex flex-col items-center bg-primary/10 px-4 py-2 rounded-xs border border-primary/20">
                                     <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">得分</span>
                                     <span className="text-xl sm:text-2xl font-black text-foreground font-mono">{score}</span>
                                 </div>
-                                <div className="flex flex-col items-center bg-muted/40 px-4 py-2 rounded-lg border border-border">
+                                <div className="flex flex-col items-center bg-muted/40 px-4 py-2 rounded-xs border border-border">
                                     <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">最佳</span>
                                     <span className="text-xl sm:text-2xl font-black text-muted-foreground font-mono">{stats.bestScore}</span>
                                 </div>
@@ -147,7 +147,7 @@ export default function Game2048Page() {
                                     size="icon"
                                     onClick={undo}
                                     disabled={!canUndo}
-                                    className="w-10 h-10 rounded-lg"
+                                    className="w-10 h-10 rounded-xs"
                                     aria-label="撤销"
                                     title="撤销 (Ctrl+Z)"
                                 >
@@ -156,7 +156,7 @@ export default function Game2048Page() {
                                 <Button
                                     onClick={resetGame}
                                     size="icon"
-                                    className="w-10 h-10 rounded-lg"
+                                    className="w-10 h-10 rounded-xs"
                                     aria-label="新游戏"
                                     title="新游戏"
                                 >
@@ -167,14 +167,14 @@ export default function Game2048Page() {
 
                         {/* Game Grid */}
                         <div
-                            className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto aspect-square touch-none select-none bg-muted/20 rounded-2xl p-2 sm:p-3 border border-border shadow-xl"
+                            className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto aspect-square touch-none select-none bg-muted/20 rounded-md p-2 sm:p-3 border border-border shadow-xl"
                             onTouchStart={onTouchStart}
                             onTouchEnd={onTouchEnd}
                         >
                             <div className="grid grid-cols-4 grid-rows-4 gap-2 sm:gap-3 w-full h-full">
                                 {/* Background cells */}
                                 {Array.from({ length: 16 }).map((_, i) => (
-                                    <div key={`bg-${i}`} className="bg-muted/30 rounded-xl" />
+                                    <div key={`bg-${i}`} className="bg-muted/30 rounded-sm" />
                                 ))}
                             </div>
 
@@ -203,13 +203,13 @@ export default function Game2048Page() {
                                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                                         animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
                                         exit={{ opacity: 0 }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 rounded-2xl"
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 rounded-md"
                                     >
                                         <motion.div
                                             initial={{ scale: 0.8, opacity: 0 }}
                                             animate={{ scale: 1, opacity: 1 }}
                                             transition={{ delay: 0.1 }}
-                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-destructive/30 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-destructive/30 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                         >
                                             <span className="text-xl sm:text-2xl font-black text-destructive">游戏结束</span>
                                             <div className="text-sm text-muted-foreground">
@@ -231,13 +231,13 @@ export default function Game2048Page() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-amber-500/20 backdrop-blur-md rounded-2xl"
+                                        className="absolute inset-0 z-10 flex items-center justify-center bg-amber-500/20 backdrop-blur-md rounded-md"
                                     >
                                         <motion.div
                                             initial={{ scale: 0.8, opacity: 0 }}
                                             animate={{ scale: 1, opacity: 1 }}
                                             transition={{ delay: 0.1 }}
-                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                         >
                                             <div className="flex items-center gap-2 text-amber-500">
                                                 <Trophy className="w-8 h-8 animate-bounce" />
@@ -271,7 +271,7 @@ export default function Game2048Page() {
                                     variant="outline"
                                     size="icon"
                                     onClick={() => move("up")}
-                                    className="w-full h-full rounded-xl"
+                                    className="w-full h-full rounded-sm"
                                     aria-label="向上移动"
                                 >
                                     <ArrowUp className="w-5 h-5" aria-hidden />
@@ -281,7 +281,7 @@ export default function Game2048Page() {
                                     variant="outline"
                                     size="icon"
                                     onClick={() => move("left")}
-                                    className="w-full h-full rounded-xl"
+                                    className="w-full h-full rounded-sm"
                                     aria-label="向左移动"
                                 >
                                     <ArrowLeft className="w-5 h-5" aria-hidden />
@@ -291,7 +291,7 @@ export default function Game2048Page() {
                                     variant="outline"
                                     size="icon"
                                     onClick={() => move("right")}
-                                    className="w-full h-full rounded-xl"
+                                    className="w-full h-full rounded-sm"
                                     aria-label="向右移动"
                                 >
                                     <ArrowRight className="w-5 h-5" aria-hidden />
@@ -301,7 +301,7 @@ export default function Game2048Page() {
                                     variant="outline"
                                     size="icon"
                                     onClick={() => move("down")}
-                                    className="w-full h-full rounded-xl"
+                                    className="w-full h-full rounded-sm"
                                     aria-label="向下移动"
                                 >
                                     <ArrowDown className="w-5 h-5" aria-hidden />
@@ -348,7 +348,7 @@ export default function Game2048Page() {
                                     </p>
                                 </div>
 
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                     <div className="flex items-center gap-2">
                                         <Sparkles className="w-4 h-4 text-amber-500" />
                                         <h4 className="text-sm font-bold text-foreground">2 的幂次方</h4>
@@ -358,7 +358,7 @@ export default function Game2048Page() {
                                     </p>
                                 </div>
 
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                     <div className="flex items-center gap-2">
                                         <Target className="w-4 h-4 text-blue-500" />
                                         <h4 className="text-sm font-bold text-foreground">贪心算法 vs 全局最优</h4>
@@ -368,7 +368,7 @@ export default function Game2048Page() {
                                     </p>
                                 </div>
 
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                     <div className="flex items-center gap-2">
                                         <Lightbulb className="w-4 h-4 text-green-500" />
                                         <h4 className="text-sm font-bold text-foreground">状态空间搜索</h4>
@@ -378,7 +378,7 @@ export default function Game2048Page() {
                                     </p>
                                 </div>
 
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                     <div className="flex items-center gap-2">
                                         <Brain className="w-4 h-4 text-violet-500" />
                                         <h4 className="text-sm font-bold text-foreground">最优策略</h4>
@@ -397,22 +397,22 @@ export default function Game2048Page() {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                         <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
                                         <span className="text-2xl font-black text-foreground font-mono">{stats.bestScore}</span>
                                         <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">最高分</span>
                                     </div>
-                                    <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                         <Sparkles className="w-5 h-5 text-amber-500 mb-1" />
                                         <span className="text-2xl font-black text-foreground font-mono">{stats.maxTile}</span>
                                         <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">最大方块</span>
                                     </div>
-                                    <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                         <Target className="w-5 h-5 text-blue-500 mb-1" />
                                         <span className="text-2xl font-black text-foreground font-mono">{stats.totalGames}</span>
                                         <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">总局数</span>
                                     </div>
-                                    <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                    <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                         <Star className="w-5 h-5 text-green-500 mb-1" />
                                         <span className="text-2xl font-black text-foreground font-mono">{stats.wins}</span>
                                         <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">胜利次数</span>
@@ -420,7 +420,7 @@ export default function Game2048Page() {
                                 </div>
 
                                 {stats.wins > 0 && stats.totalGames > 0 && (
-                                    <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
+                                    <div className="p-4 rounded-md border border-primary/20 bg-primary/5">
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-bold text-foreground">胜率</span>
                                             <span className="text-lg font-black text-primary font-mono">
@@ -430,7 +430,7 @@ export default function Game2048Page() {
                                     </div>
                                 )}
 
-                                <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                                <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                     <div className="flex items-start gap-3">
                                         <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                         <div>

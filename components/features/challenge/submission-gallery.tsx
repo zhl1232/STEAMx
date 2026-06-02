@@ -102,7 +102,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
           return (
             <article
               key={submission.id}
-              className="group overflow-hidden rounded-[20px] border border-border/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.84),rgba(166,193,238,0.12),rgba(251,194,235,0.08))] shadow-[0_18px_48px_-36px_rgba(15,23,42,0.22)] transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_24px_54px_-34px_rgba(59,130,246,0.3)] sm:rounded-[22px] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.82),rgba(37,99,235,0.1),rgba(244,114,182,0.08))]"
+              className="group overflow-hidden rounded-lg border border-border/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.84),rgba(166,193,238,0.12),rgba(251,194,235,0.08))] shadow-[0_18px_48px_-36px_rgba(15,23,42,0.22)] transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_24px_54px_-34px_rgba(59,130,246,0.3)] sm:rounded-lg dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.82),rgba(37,99,235,0.1),rgba(244,114,182,0.08))]"
             >
               <button
                 type="button"
@@ -137,7 +137,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
                   </div>
 
                   <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
-                    <div className="max-w-[88%] rounded-[18px] bg-black/42 px-3 py-2.5 text-white backdrop-blur-md sm:max-w-[85%] sm:px-3.5 sm:py-3">
+                    <div className="max-w-[88%] rounded-lg bg-black/42 px-3 py-2.5 text-white backdrop-blur-md sm:max-w-[85%] sm:px-3.5 sm:py-3">
                       <div className="line-clamp-1 text-sm font-semibold tracking-tight text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)] sm:text-base">
                         {submission.title}
                       </div>
@@ -225,7 +225,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
       </div>
 
       <Dialog open={!!selectedSubmission} onOpenChange={(open) => !open && setSelectedSubmission(null)}>
-        <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 overflow-y-auto gap-0 border-0 bg-background p-0 [&>button:last-child]:hidden sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-full sm:max-w-5xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-[28px] sm:border sm:border-border/70 sm:shadow-[0_28px_70px_-38px_rgba(15,23,42,0.45)]">
+        <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 overflow-y-auto gap-0 border-0 bg-background p-0 [&>button:last-child]:hidden sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-full sm:max-w-5xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-border/70 sm:shadow-[0_28px_70px_-38px_rgba(15,23,42,0.45)]">
           <DialogTitle className="sr-only">{selectedSubmission?.title}</DialogTitle>
           <DialogDescription className="sr-only">查看挑战作品详情</DialogDescription>
           {selectedSubmission ? (
@@ -288,7 +288,7 @@ function SubmissionDetail({
 
         {submission.proofCaptions?.[currentImageIndex] ? (
           <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-            <div className="rounded-[18px] bg-black/40 p-3.5 text-sm text-white backdrop-blur-md sm:rounded-[20px] sm:p-4">
+            <div className="rounded-lg bg-black/40 p-3.5 text-sm text-white backdrop-blur-md sm:rounded-lg sm:p-4">
               {submission.proofCaptions[currentImageIndex]}
             </div>
           </div>
@@ -296,7 +296,7 @@ function SubmissionDetail({
       </div>
 
       <div className="flex flex-col gap-3.5 p-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))] sm:p-5">
-        <div className="rounded-[20px] bg-background/78 p-3.5 shadow-[0_18px_48px_-42px_rgba(15,23,42,0.14)] sm:p-4">
+        <div className="rounded-lg bg-background/78 p-3.5 shadow-[0_18px_48px_-42px_rgba(15,23,42,0.14)] sm:p-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <AvatarWithFrame
@@ -331,14 +331,14 @@ function SubmissionDetail({
         </div>
 
         {submission.notes ? (
-          <div className="rounded-[18px] bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
+          <div className="rounded-lg bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
             <h4 className="text-sm font-semibold">作品说明</h4>
             <p className="mt-2 text-sm leading-7 text-foreground/80 dark:text-slate-300/80">{submission.notes}</p>
           </div>
         ) : null}
 
         {submission.referenceProjects.length > 0 ? (
-          <div className="rounded-[18px] bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
+          <div className="rounded-lg bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
             <h4 className="text-sm font-semibold">相关项目</h4>
             <div className="mt-3 flex flex-wrap gap-2">
               {submission.referenceProjects.map((project) => (
@@ -356,14 +356,14 @@ function SubmissionDetail({
         ) : null}
 
         {submission.proofImages.length > 1 ? (
-          <div className="rounded-[18px] bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
+          <div className="rounded-lg bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
             <h4 className="text-sm font-semibold">更多图片</h4>
             <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-2.5">
               {submission.proofImages.map((image, index) => (
                 <button
                   key={`${submission.id}-${image}-${index}`}
                   type="button"
-                  className={`relative aspect-square overflow-hidden rounded-[16px] border transition-all ${
+                  className={`relative aspect-square overflow-hidden rounded-md border transition-all ${
                     index === currentImageIndex
                       ? 'border-primary ring-2 ring-primary/15'
                       : 'border-border/70 hover:border-primary/30'
@@ -378,9 +378,9 @@ function SubmissionDetail({
         ) : null}
 
         {submission.proofVideoUrl ? (
-          <div className="rounded-[18px] bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
+          <div className="rounded-lg bg-background/76 p-3.5 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)] sm:p-4">
             <h4 className="text-sm font-semibold">作品视频</h4>
-            <video controls className="mt-3 w-full rounded-[18px] bg-black sm:rounded-[20px]">
+            <video controls className="mt-3 w-full rounded-lg bg-black sm:rounded-lg">
               <source src={submission.proofVideoUrl} />
             </video>
           </div>

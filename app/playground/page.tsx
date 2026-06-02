@@ -449,7 +449,7 @@ export default function PlaygroundPage() {
 
 function HeroPanel() {
     return (
-        <section className="relative overflow-hidden rounded-[28px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-5 py-6 shadow-[0_26px_76px_-52px_hsl(var(--surface-shadow)/0.62)] backdrop-blur sm:px-7 lg:min-h-[236px] lg:px-9 lg:py-8">
+        <section className="relative overflow-hidden rounded-xl border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-5 py-6 shadow-[0_26px_76px_-52px_hsl(var(--surface-shadow)/0.62)] backdrop-blur sm:px-7 lg:min-h-[236px] lg:px-9 lg:py-8">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_26%,hsl(var(--brand-blue)/0.18),transparent_34%),radial-gradient(circle_at_92%_72%,hsl(var(--brand-green)/0.16),transparent_28%)]" />
             <div className="pointer-events-none absolute inset-0 opacity-[0.22] [background-image:linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.12]" />
             <div className="relative grid gap-7 lg:grid-cols-[minmax(0,0.95fr)_minmax(380px,1fr)] lg:items-center">
@@ -482,7 +482,7 @@ function PlaygroundHeroVisual() {
     return (
         <div className="relative min-h-[250px] overflow-hidden rounded-[var(--radius-lg)] bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.1),hsl(var(--surface-raised)/0.94)_46%,hsl(var(--brand-green)/0.12))] dark:bg-[linear-gradient(135deg,hsl(var(--brand-blue)/0.14),hsl(var(--surface-raised)/0.82)_45%,hsl(var(--brand-green)/0.16))] sm:min-h-[280px] lg:min-h-[320px]">
             <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.18]" />
-            <div className="pointer-events-none absolute inset-x-6 bottom-2 h-24 rounded-[32px] bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-blue)/0.22),transparent_68%)] blur-xl dark:bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-green)/0.2),transparent_68%)]" />
+            <div className="pointer-events-none absolute inset-x-6 bottom-2 h-24 rounded-xl bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-blue)/0.22),transparent_68%)] blur-xl dark:bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-green)/0.2),transparent_68%)]" />
             <Image
                 src="/assets/playground-art/playground-hero-foreground.png"
                 alt=""
@@ -510,7 +510,7 @@ function StatCard({
 }) {
     return (
         <div className="surface-card flex min-h-[86px] items-center gap-4 px-4 py-3.5">
-            <div className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-2xl", iconClassName)}>
+            <div className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-md", iconClassName)}>
                 <Icon className="h-6 w-6" />
             </div>
             <div className="min-w-0">
@@ -608,9 +608,9 @@ function SteamRadarPanel({ stats, steamMax }: { stats: AggStats; steamMax: numbe
                         const pct = count > 0 ? Math.round((count / steamMax) * 100) : 0
                         const Icon = dim.icon
                         return (
-                            <div key={dim.key} className="flex items-center justify-between gap-3 rounded-2xl border border-[hsl(var(--surface-border)/0.76)] bg-background/70 px-3 py-2.5">
+                            <div key={dim.key} className="flex items-center justify-between gap-3 rounded-md border border-[hsl(var(--surface-border)/0.76)] bg-background/70 px-3 py-2.5">
                                 <div className="flex min-w-0 items-center gap-2.5">
-                                    <span className={cn("grid h-8 w-8 place-items-center rounded-xl", dim.bg, dim.color)}>
+                                    <span className={cn("grid h-8 w-8 place-items-center rounded-sm", dim.bg, dim.color)}>
                                         <Icon className="h-4 w-4" />
                                     </span>
                                     <div className="min-w-0">
@@ -636,7 +636,7 @@ function GameTile({ game, index, played }: { game: GameCard; index: number; play
         <Link
             href={game.href}
             className={cn(
-                "group relative flex min-h-[156px] gap-3 overflow-hidden rounded-[18px] border border-[hsl(var(--surface-border)/0.88)] bg-gradient-to-br p-3.5 shadow-[0_18px_46px_-38px_hsl(var(--surface-shadow)/0.48)] transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-[0_24px_56px_-36px_hsl(var(--surface-shadow)/0.42)]",
+                "group relative flex min-h-[156px] gap-3 overflow-hidden rounded-lg border border-[hsl(var(--surface-border)/0.88)] bg-gradient-to-br p-3.5 shadow-[0_18px_46px_-38px_hsl(var(--surface-shadow)/0.48)] transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-[0_24px_56px_-36px_hsl(var(--surface-shadow)/0.42)]",
                 game.panelTone,
             )}
         >
@@ -670,7 +670,7 @@ function GameArtwork({ game }: { game: GameCard }) {
     const imageArtwork = IMAGE_ARTWORKS[game.visual]
 
     return (
-        <div className="relative h-[92px] w-[92px] shrink-0 overflow-hidden rounded-2xl bg-transparent shadow-[0_18px_34px_-28px_rgba(15,23,42,0.42)] ring-1 ring-border/60 dark:ring-transparent">
+        <div className="relative h-[92px] w-[92px] shrink-0 overflow-hidden rounded-md bg-transparent shadow-[0_18px_34px_-28px_rgba(15,23,42,0.42)] ring-1 ring-border/60 dark:ring-transparent">
             {imageArtwork ? (
                 <>
                     <Image
@@ -796,7 +796,7 @@ function Game2048Artwork() {
                 ["4", "bg-amber-400"],
                 ["8", "bg-emerald-400"],
             ].map(([value, color]) => (
-                <span key={value} className={cn("grid place-items-center rounded-xl text-2xl font-black text-white", color)}>
+                <span key={value} className={cn("grid place-items-center rounded-sm text-2xl font-black text-white", color)}>
                     {value}
                 </span>
             ))}
@@ -918,8 +918,8 @@ function RecommendationPanel({ games }: { games: GameCard[] }) {
                 {games.map((game) => {
                     const Icon = game.icon
                     return (
-                        <Link key={game.href} href={game.href} className="group flex items-center gap-3 rounded-2xl border border-[hsl(var(--surface-border)/0.72)] bg-background/64 p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:bg-white/[0.03] dark:hover:border-[hsl(var(--surface-border-strong))]/25 dark:hover:bg-blue-400/10">
-                            <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl", game.iconBg, game.color)}>
+                        <Link key={game.href} href={game.href} className="group flex items-center gap-3 rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-background/64 p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:bg-white/[0.03] dark:hover:border-[hsl(var(--surface-border-strong))]/25 dark:hover:bg-blue-400/10">
+                            <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-sm", game.iconBg, game.color)}>
                                 <Icon className="h-5 w-5" />
                             </span>
                             <span className="min-w-0 flex-1">

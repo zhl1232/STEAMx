@@ -221,7 +221,7 @@ function SummaryCard({
 }) {
   return (
     <div className="flex min-w-0 flex-col items-start gap-2 border-r border-border/70 px-3 py-3.5 last:border-r-0 min-[390px]:px-4 sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-4">
-      <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl sm:h-11 sm:w-11 sm:rounded-full", tone)}>{icon}</div>
+      <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-md sm:h-11 sm:w-11 sm:rounded-full", tone)}>{icon}</div>
       <div className="min-w-0">
         <div className="text-[11px] font-medium leading-4 text-muted-foreground min-[390px]:text-xs sm:text-sm">{label}</div>
         <div className="mt-1 text-[1.95rem] font-black leading-none tabular-nums text-slate-950 dark:text-slate-50 sm:truncate sm:text-2xl">{value}</div>
@@ -280,8 +280,8 @@ function CoinLogTimeline({
   if (logs.length === 0) {
     return (
       <div className="px-4 py-14">
-        <div className="mx-auto flex max-w-md items-center gap-4 rounded-2xl border border-dashed border-blue-200 bg-blue-50/60 px-5 py-5 text-left dark:border-blue-300/20 dark:bg-blue-400/10">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-blue-500 shadow-sm dark:bg-white/10 dark:text-blue-300">
+        <div className="mx-auto flex max-w-md items-center gap-4 rounded-md border border-dashed border-blue-200 bg-blue-50/60 px-5 py-5 text-left dark:border-blue-300/20 dark:bg-blue-400/10">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-white text-blue-500 shadow-sm dark:bg-white/10 dark:text-blue-300">
             <Gift className="h-7 w-7" />
           </div>
           <div>
@@ -300,7 +300,7 @@ function CoinLogTimeline({
           <h4 className="sticky top-0 z-10 mb-3 w-fit rounded-full bg-background/92 px-2.5 py-1 text-xs font-semibold text-muted-foreground backdrop-blur dark:bg-background/88">
             {group.label}
           </h4>
-          <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-background/70 dark:bg-white/[0.03]">
+          <div className="relative overflow-hidden rounded-md border border-border/70 bg-background/70 dark:bg-white/[0.03]">
             <div className="absolute bottom-5 left-9 top-5 w-px bg-border/70" />
             {group.items.map((log) => {
               const isPositive = log.amount >= 0;
@@ -366,7 +366,7 @@ function CoinRulesSection({
         const Icon = item.icon;
         return (
           <div key={item.title} className="flex items-start gap-3">
-            <div className={cn("mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl sm:h-9 sm:w-9 sm:rounded-full", iconClassName)}>
+            <div className={cn("mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md sm:h-9 sm:w-9 sm:rounded-full", iconClassName)}>
               <Icon className="h-4 w-4" />
             </div>
             <div>
@@ -626,8 +626,8 @@ export default function CoinsPage() {
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0 space-y-5 lg:space-y-6">
-            <section className="relative overflow-hidden rounded-[30px] border border-blue-200/70 bg-[hsl(var(--surface-raised)/0.92)] px-5 py-6 shadow-[0_28px_64px_-42px_rgba(37,99,235,0.34)] dark:border-blue-300/20 md:px-8 md:py-7">
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[30px]">
+            <section className="relative overflow-hidden rounded-xl border border-blue-200/70 bg-[hsl(var(--surface-raised)/0.92)] px-5 py-6 shadow-[0_28px_64px_-42px_rgba(37,99,235,0.34)] dark:border-blue-300/20 md:px-8 md:py-7">
+              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
                 <div
                   className="absolute inset-y-0 left-0 -right-20 bg-cover bg-[right_center] bg-no-repeat opacity-100 dark:opacity-55 min-[390px]:-right-16 sm:-right-10 md:right-0"
                   style={{ backgroundImage: "url('/assets/reward-shop-blue-coins-bg.png')" }}

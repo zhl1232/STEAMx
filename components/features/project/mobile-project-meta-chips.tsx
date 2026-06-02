@@ -30,7 +30,7 @@ function MobileMetaChip({
   return (
     <div
       className={cn(
-        'flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[8px] px-1.5 py-1.5',
+        'flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs px-1.5 py-1.5',
         className,
       )}
     >
@@ -46,7 +46,7 @@ function MobileDifficultyChip({ stars }: { stars: number }) {
 
   if (validStars === 6) {
     return (
-      <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[8px] bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
+      <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
         <span className="text-[10px] leading-none" aria-hidden>
           💫
         </span>
@@ -60,7 +60,7 @@ function MobileDifficultyChip({ stars }: { stars: number }) {
   const filledCount = Math.min(5, validStars)
 
   return (
-    <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[8px] bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
+    <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
       <span className="text-[10px] leading-none text-amber-500" aria-hidden>
         {'★'.repeat(filledCount)}
       </span>

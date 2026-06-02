@@ -28,7 +28,7 @@ interface TextInfoCardProps {
 
 function TextInfoCard({ icon, title, text, illustrationSrc, children }: TextInfoCardProps) {
   return (
-    <section className="surface-subtle relative isolate overflow-hidden rounded-[22px] bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] transition-colors hover:bg-background sm:min-h-[178px] sm:p-6">
+    <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] transition-colors hover:bg-background sm:min-h-[178px] sm:p-6">
       <div
         className="pointer-events-none absolute inset-y-0 right-0 z-0 w-[60%] opacity-[0.52] dark:opacity-30 lg:w-[55%]"
         style={{
@@ -178,12 +178,12 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           <SpeciesImageGallery imageUrls={galleryImageUrls} speciesName={species.commonName} />
         </div>
       ) : (
-        <div className="relative aspect-[4/3] min-h-[220px] min-w-0 overflow-hidden rounded-[18px] border border-border/70 bg-muted/40 shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
+        <div className="relative aspect-[4/3] min-h-[220px] min-w-0 overflow-hidden rounded-lg border border-border/70 bg-muted/40 shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
           <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.35),_transparent_45%),linear-gradient(160deg,_rgba(240,253,250,0.95),_rgba(240,249,255,0.92)_52%,_rgba(250,245,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_transparent_38%),linear-gradient(160deg,_rgba(6,20,18,0.96),_rgba(11,27,34,0.94)_52%,_rgba(26,18,38,0.92))]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-background/70 text-emerald-700 shadow-sm dark:bg-background/10 dark:text-emerald-300">
+            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-background/70 text-emerald-700 shadow-sm dark:bg-background/10 dark:text-emerald-300">
               <Feather className="h-7 w-7" />
             </div>
-            <div className="rounded-2xl border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
+            <div className="rounded-md border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
               <div className="text-sm font-semibold">{species.commonName}</div>
               {commonNamePinyin ? (
                 <div className="mt-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
@@ -213,8 +213,8 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
 
   const detailsBlock = (
     <div className="space-y-7">
-      <section className="surface-subtle relative isolate overflow-hidden rounded-[22px] bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
-        <p className="inline-flex rounded-lg bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+      <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+        <p className="inline-flex rounded-xs bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
           {archiveLabel}
         </p>
         <h1 className="mt-3 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight md:mt-4 md:text-5xl">
@@ -245,7 +245,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
         ) : null}
 
         {taxonomyRankItems.length > 0 ? (
-          <div className="mt-5 rounded-[18px] border border-border/80 bg-white/85 p-4 shadow-[0_18px_44px_-36px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-md dark:bg-background/90">
+          <div className="mt-5 rounded-lg border border-border/80 bg-white/85 p-4 shadow-[0_18px_44px_-36px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-md dark:bg-background/90">
             <dl className="grid grid-cols-3 gap-3 text-center">
               {taxonomyRankItems.map((item) => (
                 <div key={item.rank} className="min-w-0 border-r border-border/70 px-2 last:border-r-0">
@@ -313,19 +313,19 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
       ) : null}
 
       {!hasRecentObservations ? (
-        <section className="surface-subtle relative overflow-hidden rounded-[22px] p-5 sm:p-6">
+        <section className="surface-subtle relative overflow-hidden rounded-lg p-5 sm:p-6">
           <div className="relative z-10">
             <div className="flex items-center gap-2">
               <Binoculars className="h-5 w-5 text-muted-foreground/70" />
               <h2 className="text-lg font-semibold text-muted-foreground">最近观察记录</h2>
             </div>
-            <div className="mt-4 flex min-h-[100px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-background/40">
+            <div className="mt-4 flex min-h-[100px] items-center justify-center rounded-md border border-dashed border-border/60 bg-background/40">
               <p className="text-sm text-muted-foreground/80">暂无相关的公开观察数据</p>
             </div>
           </div>
         </section>
       ) : (
-        <section className="surface-subtle relative overflow-hidden rounded-[22px] p-6">
+        <section className="surface-subtle relative overflow-hidden rounded-lg p-6">
           <div className="relative z-10">
             <div className="flex items-center gap-2">
               <Binoculars className="h-5 w-5 text-primary" />
@@ -333,7 +333,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
             </div>
             <div className="mt-4 grid gap-3">
               {recentObservations.slice(0, 3).map((observation) => (
-                <div key={observation.id} className="rounded-2xl border border-border/70 bg-background/70 p-4">
+                <div key={observation.id} className="rounded-md border border-border/70 bg-background/70 p-4">
                   <p className="text-sm font-medium text-foreground">{observation.locationName}</p>
                   <p className="mt-1 text-xs text-muted-foreground">{observation.observedAt}</p>
                   {observation.notes ? (

@@ -20,8 +20,8 @@ const dialogContentVariants = cva(
   {
     variants: {
       size: {
-        sm: "max-w-lg p-6 sm:rounded-lg",
-        md: "max-w-2xl p-6 sm:rounded-lg",
+        sm: "max-w-lg p-6 sm:rounded-xs",
+        md: "max-w-2xl p-6 sm:rounded-xs",
         lg: "max-h-[85vh] max-w-3xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
         xl: "max-h-[90vh] max-w-4xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
         fullscreenMobile:
@@ -74,7 +74,7 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
         <X className="h-4 w-4" />
         <span className="sr-only">关闭</span>
       </DialogPrimitive.Close>

@@ -92,7 +92,7 @@ export function ImageUpload({
 
   return (
     <div className="space-y-2">
-      <div className={`relative ${aspectRatio} w-full overflow-hidden rounded-lg border-2 border-dashed bg-muted/50 transition-colors hover:bg-muted`}>
+      <div className={`relative ${aspectRatio} w-full overflow-hidden rounded-xs border-2 border-dashed bg-muted/50 transition-colors hover:bg-muted`}>
         {previewUrl ? (
           <>
             <OptimizedImage

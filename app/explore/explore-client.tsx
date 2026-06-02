@@ -142,11 +142,11 @@ function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exc
                         <p className="mt-2 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-70">
                             不知道从哪开始？试试「{suggestedLabel}」。
                         </p>
-                        <Link href="/login" className="mt-4 inline-flex rounded-[10px] bg-[hsl(var(--brand-green))] px-4 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)]">
+                        <Link href="/login" className="mt-4 inline-flex rounded-sm bg-[hsl(var(--brand-green))] px-4 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)]">
                             登录保存进度
                         </Link>
                     </div>
-                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[hsl(var(--surface-raised)/0.74)] text-[hsl(var(--brand-green))] shadow-inner">
+                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-[hsl(var(--surface-raised)/0.74)] text-[hsl(var(--brand-green))] shadow-inner">
                         <UserCircle className="h-8 w-8" />
                     </div>
                 </div>
@@ -165,12 +165,12 @@ function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exc
                     <BarChart3 className="h-[18px] w-[18px] shrink-0" />
                     你的探索进度
                 </h2>
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-[16px] bg-[hsl(var(--surface-raised)/0.82)] text-[hsl(var(--brand-green))] shadow-inner">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-[hsl(var(--surface-raised)/0.82)] text-[hsl(var(--brand-green))] shadow-inner">
                     <UserCircle className="h-7 w-7" />
                 </div>
             </div>
             <div className="mt-4 space-y-3">
-                <div className="rounded-[14px] border border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--surface-raised)/0.76)] p-3.5 shadow-[0_18px_36px_-32px_hsl(var(--tone-tech)/0.6)]">
+                <div className="rounded-md border border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--surface-raised)/0.76)] p-3.5 shadow-[0_18px_36px_-32px_hsl(var(--tone-tech)/0.6)]">
                     <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                             <p className="text-[11px] font-semibold text-muted-foreground">当前等级</p>
@@ -187,11 +187,11 @@ function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exc
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                    <div className="rounded-[12px] bg-[hsl(var(--surface-raised)/0.66)] p-3">
+                    <div className="rounded-sm bg-[hsl(var(--surface-raised)/0.66)] p-3">
                         <p className="text-[11px] font-medium text-muted-foreground">完成项目</p>
                         <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{loading ? '同步中' : completedProjectsLabel}</p>
                     </div>
-                    <div className="rounded-[12px] bg-[hsl(var(--surface-raised)/0.66)] p-3">
+                    <div className="rounded-sm bg-[hsl(var(--surface-raised)/0.66)] p-3">
                         <p className="text-[11px] font-medium text-muted-foreground">已获徽章</p>
                         <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{unlockedBadges.size} 枚</p>
                     </div>
@@ -199,7 +199,7 @@ function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exc
 
                 <Link
                     href="/profile/library"
-                    className="inline-flex w-full items-center justify-center rounded-[12px] bg-[hsl(var(--brand-green))] px-4 py-2.5 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)] transition hover:bg-[hsl(var(--brand-green)/0.92)]"
+                    className="inline-flex w-full items-center justify-center rounded-sm bg-[hsl(var(--brand-green))] px-4 py-2.5 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)] transition hover:bg-[hsl(var(--brand-green)/0.92)]"
                 >
                     查看探索记录
                 </Link>
@@ -1040,7 +1040,7 @@ export function ExploreClient({
                 <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className={cn(
-                            "relative min-w-0 overflow-hidden md:surface-panel md:rounded-[20px]",
+                            "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
                             isResultsMode && "md:border-[hsl(var(--surface-border))]",
                         )}>
                             <div className={cn(
@@ -1063,7 +1063,7 @@ export function ExploreClient({
                                                 onClick={openSheet}
                                                 data-testid="explore-more-filters"
                                                 className={cn(
-                                                    "hidden md:inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-[12px] border px-4 text-sm font-semibold transition",
+                                                    "hidden md:inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-sm border px-4 text-sm font-semibold transition",
                                                     hasActiveAdvancedFilters
                                                         ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
                                                         : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:text-foreground",
@@ -1089,7 +1089,7 @@ export function ExploreClient({
                                                         value={searchQuery}
                                                         onChange={(event) => setSearchQuery(event.target.value)}
                                                         placeholder="搜索项目、材料、作者..."
-                                                        className="control-field h-11 w-full rounded-[12px] pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
+                                                        className="control-field h-11 w-full rounded-sm pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
                                                     />
                                                 </label>
                                             </form>
@@ -1193,7 +1193,7 @@ export function ExploreClient({
                                                 value={searchQuery}
                                                 onChange={(event) => setSearchQuery(event.target.value)}
                                                 placeholder="搜索项目、材料、作者..."
-                                                className="control-field h-11 w-full rounded-[12px] pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
+                                                className="control-field h-11 w-full rounded-sm pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
                                             />
                                         </label>
                                     </form>
@@ -1202,7 +1202,7 @@ export function ExploreClient({
                                         type="button"
                                         onClick={openSheet}
                                         className={cn(
-                                            "relative inline-flex h-11 items-center justify-center gap-2 rounded-[12px] border px-4 text-sm font-semibold transition",
+                                            "relative inline-flex h-11 items-center justify-center gap-2 rounded-sm border px-4 text-sm font-semibold transition",
                                             hasActiveAdvancedFilters
                                                 ? "border-[hsl(var(--brand-amber)/0.5)] bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))] filter-chip-active"
                                                 : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
@@ -1239,7 +1239,7 @@ export function ExploreClient({
                                                     shape="pill"
                                                     size="md"
                                                     className={cn(
-                                                        "h-8 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-[10px] md:px-5 md:text-sm",
+                                                        "h-8 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
                                                         !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
                                                         isActive && tone && cn(
                                                             activeToneBg,
@@ -1368,8 +1368,8 @@ export function ExploreClient({
                                     </div>
 
                                     {!isLoadingMore && !isFiltering && projects.length === 0 && (
-                                        <div className="mt-8 flex flex-col items-center justify-center rounded-[18px] border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
-                                            <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
+                                        <div className="mt-8 flex flex-col items-center justify-center rounded-lg border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
+                                            <div className="mb-4 grid h-14 w-14 place-items-center rounded-md bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
                                                 <Search className="h-7 w-7" />
                                             </div>
                                             <h3 className="text-lg font-semibold">没有找到相关项目</h3>
@@ -1428,7 +1428,7 @@ export function ExploreClient({
                                                     onClick={() => handleTagClick(tag)}
                                                     disabled={isFiltering}
                                                     className={cn(
-                                                        "rounded-[9px] px-3 py-1.5 text-left text-xs font-semibold transition disabled:opacity-60",
+                                                        "rounded-xs px-3 py-1.5 text-left text-xs font-semibold transition disabled:opacity-60",
                                                         selectedTags.includes(tag)
                                                             ? "filter-chip-active"
                                                             : "bg-[hsl(var(--surface-muted))] text-muted-foreground hover:bg-[hsl(var(--surface-border))] hover:text-foreground",
@@ -1450,7 +1450,7 @@ export function ExploreClient({
                                         <span className="text-xs text-muted-foreground">挑战进行中</span>
                                     </div>
                                     <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-                                        <div className="relative overflow-hidden rounded-[10px] bg-gradient-to-br from-[#0b68c9] to-[#9fd4ff]">
+                                        <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-[#0b68c9] to-[#9fd4ff]">
                                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.72),transparent_20%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.34),transparent_24%)]" />
                                             <div className="relative flex h-full min-h-[92px] items-center justify-center">
                                                 <div className="h-0 w-0 rotate-[-16deg] border-b-[18px] border-l-[52px] border-t-[18px] border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.32)]" />
@@ -1465,7 +1465,7 @@ export function ExploreClient({
                                             </p>
                                             <div className="mt-3 flex items-center justify-between gap-2">
                                                 <span className="text-xs font-semibold text-muted-foreground">1,258 人参与</span>
-                                                <Link href="/create" className="rounded-[10px] bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
+                                                <Link href="/create" className="rounded-sm bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
                                                     参与挑战
                                                 </Link>
                                             </div>
@@ -1512,7 +1512,7 @@ export function ExploreClient({
                     side="bottom"
                     showClose={false}
                     className={cn(
-                        "flex flex-col gap-0 rounded-t-2xl p-0 sm:max-w-none",
+                        "flex flex-col gap-0 rounded-t-md p-0 sm:max-w-none",
                         sheetView === 'tags' ? "max-h-[85vh]" : "max-h-[70vh]"
                     )}
                 >
@@ -1643,13 +1643,13 @@ export function ExploreClient({
                                 <div className="flex gap-3">
                                     <Button
                                         variant="outline"
-                                        className="flex-1 rounded-xl"
+                                        className="flex-1 rounded-sm"
                                         onClick={() => handleFilterSheetOpenChange(false)}
                                     >
                                         取消
                                     </Button>
                                     <Button
-                                        className="flex-1 rounded-xl"
+                                        className="flex-1 rounded-sm"
                                         onClick={handleConfirmFilters}
                                     >
                                         查看结果
@@ -1683,7 +1683,7 @@ export function ExploreClient({
                                         onChange={(event) => setTagSearchQuery(event.target.value)}
                                         placeholder="搜索标签"
                                         aria-label="搜索标签"
-                                        className="h-10 rounded-xl pl-9"
+                                        className="h-10 rounded-sm pl-9"
                                     />
                                 </div>
                             </SheetHeader>
@@ -1733,7 +1733,7 @@ export function ExploreClient({
 
                             <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
                                 <Button
-                                    className="w-full rounded-xl"
+                                    className="w-full rounded-sm"
                                     onClick={() => setSheetView('filters')}
                                 >
                                     完成

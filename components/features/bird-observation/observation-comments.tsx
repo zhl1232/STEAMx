@@ -106,11 +106,11 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
     <div className="space-y-4">
       {isLoading ? (
         <div className="space-y-3">
-          <Skeleton className="h-16 rounded-2xl" />
-          <Skeleton className="h-16 rounded-2xl" />
+          <Skeleton className="h-16 rounded-md" />
+          <Skeleton className="h-16 rounded-md" />
         </div>
       ) : comments.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border/80 bg-background/60 px-4 py-8 text-center">
+        <div className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-border/80 bg-background/60 px-4 py-8 text-center">
           <MessageCircleMore className="h-5 w-5 text-muted-foreground/80" aria-hidden />
           <p className="text-sm text-muted-foreground">暂无评论，来说点什么吧。</p>
         </div>
@@ -172,7 +172,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
           onChange={(e) => setContent(e.target.value)}
           placeholder={replyTo ? `回复 ${replyTo.name}...` : "写一条评论..."}
           rows={2}
-          className="resize-none rounded-2xl"
+          className="resize-none rounded-md"
         />
         <div className="flex justify-end">
           <Button size="sm" className="rounded-full" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
@@ -202,7 +202,7 @@ function CommentItem({
   const created = comment.created_at ? new Date(comment.created_at).toLocaleString("zh-CN") : comment.date
 
   return (
-    <div className="rounded-2xl border border-border/70 bg-background/80 p-3">
+    <div className="rounded-md border border-border/70 bg-background/80 p-3">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className={cn("font-medium", comment.role === "admin" && "text-primary")}>{displayName}</span>
         <span>·</span>

@@ -45,7 +45,7 @@ function BlockChip({ catKey, label }: { catKey: string; label: string }) {
     };
     return (
         <span
-            className="mx-[1px] inline-flex items-center whitespace-nowrap rounded-[5px] border border-black/10 px-[0.4em] py-[0.05em] text-[0.92em] font-semibold leading-snug shadow-sm"
+            className="mx-[1px] inline-flex items-center whitespace-nowrap rounded-xs border border-black/10 px-[0.4em] py-[0.05em] text-[0.92em] font-semibold leading-snug shadow-sm"
             style={{ backgroundColor: cat.bg, color: cat.fg }}
         >
             {label}

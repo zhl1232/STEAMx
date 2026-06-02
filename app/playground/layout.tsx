@@ -263,11 +263,11 @@ function SettingsDialog({
                         className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4"
                     >
                         <div
-                            className="pointer-events-auto w-full max-w-sm rounded-[22px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.98)] p-5 shadow-[0_28px_80px_-42px_hsl(var(--surface-shadow)/0.7)]"
+                            className="pointer-events-auto w-full max-w-sm rounded-lg border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.98)] p-5 shadow-[0_28px_80px_-42px_hsl(var(--surface-shadow)/0.7)]"
                             onClick={(event) => event.stopPropagation()}
                         >
                             <div className="mb-4 flex items-center gap-2">
-                                <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary/10 text-primary">
+                                <span className="grid h-9 w-9 place-items-center rounded-md bg-primary/10 text-primary">
                                     <Settings className="h-4 w-4" />
                                 </span>
                                 <div>
@@ -278,7 +278,7 @@ function SettingsDialog({
 
                             <div className="mb-4 space-y-1.5">
                                 {error ? (
-                                    <div className="rounded-xl border border-destructive/20 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
+                                    <div className="rounded-sm border border-destructive/20 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
                                         {error}
                                     </div>
                                 ) : null}
@@ -286,7 +286,7 @@ function SettingsDialog({
                                     const hasData = getPlaygroundItem(key) !== null
                                     const isPending = pendingAction === key || pendingAction === "all"
                                     return (
-                                        <div key={key} className="flex items-center justify-between rounded-xl px-2.5 py-2 hover:bg-muted/50">
+                                        <div key={key} className="flex items-center justify-between rounded-sm px-2.5 py-2 hover:bg-muted/50">
                                             <span className="text-xs font-semibold">{label}</span>
                                             <button
                                                 onClick={() => clearOne(key)}
@@ -305,19 +305,19 @@ function SettingsDialog({
                                     <button
                                         onClick={() => setConfirmAll(true)}
                                         disabled={pendingAction !== null}
-                                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 text-xs font-bold text-destructive transition-colors hover:bg-destructive/5 disabled:opacity-60"
+                                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-destructive/20 text-xs font-bold text-destructive transition-colors hover:bg-destructive/5 disabled:opacity-60"
                                     >
                                         <Trash2 className="h-3.5 w-3.5" />
                                         重置所有游戏数据
                                     </button>
                                 ) : (
-                                    <div className="flex items-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/5 p-2">
+                                    <div className="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/5 p-2">
                                         <AlertTriangle className="h-4 w-4 shrink-0 text-destructive" />
                                         <p className="flex-1 text-[10px] leading-4 text-destructive">确定清除全部游戏数据？此操作不可撤销。</p>
                                         <button
                                             onClick={clearAll}
                                             disabled={pendingAction !== null}
-                                            className="rounded-lg bg-destructive px-2.5 py-1.5 text-[10px] font-bold text-white disabled:opacity-60"
+                                            className="rounded-xs bg-destructive px-2.5 py-1.5 text-[10px] font-bold text-white disabled:opacity-60"
                                         >
                                             {pendingAction === "all" ? "处理中..." : "确定"}
                                         </button>
@@ -359,7 +359,7 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
                 <button
                     type="button"
                     onClick={onSettings}
-                    className="grid h-10 w-10 place-items-center rounded-2xl border border-[hsl(var(--surface-border)/0.85)] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="grid h-10 w-10 place-items-center rounded-md border border-[hsl(var(--surface-border)/0.85)] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     aria-label="打开游乐场设置"
                 >
                     <Settings className="h-5 w-5" />
@@ -373,7 +373,7 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-2xl px-4 text-sm font-bold transition-colors",
+                                "inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-md px-4 text-sm font-bold transition-colors",
                                 active
                                     ? "bg-foreground text-background shadow-sm"
                                     : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -397,7 +397,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
             <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-hidden border-r border-[hsl(var(--surface-border)/0.82)] bg-[hsl(var(--surface-raised)/0.76)] p-4 shadow-[18px_0_54px_-46px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-xl">
                 <div className="mb-5">
                     <div className="flex items-center gap-2">
-                        <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary">
+                        <span className="grid h-10 w-10 place-items-center rounded-md bg-primary/10 text-primary">
                             <Grid3X3 className="h-5 w-5" />
                         </span>
                         <div>
@@ -412,7 +412,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                         href="/playground"
                         aria-current={pathname === "/playground" ? "page" : undefined}
                         className={cn(
-                            "flex min-h-12 items-center gap-3 rounded-2xl px-3 text-sm font-bold transition-colors",
+                            "flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-bold transition-colors",
                             pathname === "/playground"
                                 ? "bg-foreground text-background shadow-sm"
                                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -429,13 +429,13 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                                 href={game.href}
                                 aria-current={active ? "page" : undefined}
                                 className={cn(
-                                    "group flex min-h-[54px] items-center gap-3 rounded-2xl px-3 transition-colors",
+                                    "group flex min-h-[54px] items-center gap-3 rounded-md px-3 transition-colors",
                                     active
                                         ? "bg-primary/10 text-foreground ring-1 ring-inset ring-primary/20"
                                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                                 )}
                             >
-                                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-background/80 ring-1 ring-inset ring-border/70 dark:bg-white/[0.05]">
+                                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-background/80 ring-1 ring-inset ring-border/70 dark:bg-white/[0.05]">
                                     <game.icon className={cn("h-[18px] w-[18px]", active ? game.color : "text-muted-foreground group-hover:text-primary")} />
                                 </span>
                                 <span className="min-w-0 flex-1">
@@ -465,12 +465,12 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                     <button
                         onClick={onSettings}
                         type="button"
-                        className="flex min-h-10 w-full items-center justify-center gap-2 rounded-2xl border border-[hsl(var(--surface-border)/0.84)] text-xs font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+                        className="flex min-h-10 w-full items-center justify-center gap-2 rounded-md border border-[hsl(var(--surface-border)/0.84)] text-xs font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
                     >
                         <Settings className="h-3.5 w-3.5" />
                         设置
                     </button>
-                    <div className="rounded-2xl border border-border/70 bg-background/70 px-3 py-3 text-center">
+                    <div className="rounded-md border border-border/70 bg-background/70 px-3 py-3 text-center">
                         <p className="text-xs font-bold leading-5 text-muted-foreground">
                             用游戏理解算法
                             <br />
@@ -488,9 +488,9 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
 
     return (
         <section className="px-4 pt-4 sm:px-6 lg:px-8 lg:pt-5">
-            <div className="app-shell-wide grid w-full gap-3 rounded-[22px] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
-                <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-primary/10 px-3 py-3">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-background/82 text-primary shadow-sm">
+            <div className="app-shell-wide grid w-full gap-3 rounded-lg border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
+                <div className="flex min-w-0 items-center gap-3 rounded-md bg-primary/10 px-3 py-3">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-background/82 text-primary shadow-sm">
                         <Icon className="h-5 w-5" />
                     </span>
                     <div className="min-w-0">
@@ -498,8 +498,8 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
                         <p className="mt-0.5 truncate text-sm font-bold text-foreground">{game.mission}</p>
                     </div>
                 </div>
-                <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-emerald-50/70 px-3 py-3 dark:bg-emerald-400/10">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-white text-emerald-600 shadow-sm dark:bg-white/[0.08] dark:text-emerald-300">
+                <div className="flex min-w-0 items-center gap-3 rounded-md bg-emerald-50/70 px-3 py-3 dark:bg-emerald-400/10">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-emerald-600 shadow-sm dark:bg-white/[0.08] dark:text-emerald-300">
                         <Touchpad className="h-5 w-5" />
                     </span>
                     <div className="min-w-0">
@@ -507,8 +507,8 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
                         <p className="mt-0.5 truncate text-sm font-bold text-foreground">{game.controls}</p>
                     </div>
                 </div>
-                <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-orange-50/75 px-3 py-3 dark:bg-orange-400/10">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-white text-orange-600 shadow-sm dark:bg-white/[0.08] dark:text-orange-300">
+                <div className="flex min-w-0 items-center gap-3 rounded-md bg-orange-50/75 px-3 py-3 dark:bg-orange-400/10">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-orange-600 shadow-sm dark:bg-white/[0.08] dark:text-orange-300">
                         <Medal className="h-5 w-5" />
                     </span>
                     <div className="min-w-0">

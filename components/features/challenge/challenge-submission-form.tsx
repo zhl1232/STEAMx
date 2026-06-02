@@ -372,31 +372,31 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
               {challenge.title}
             </p>
           </div>
-          <div className="rounded-2xl border border-border/70 bg-background/74 px-4 py-3 text-sm text-muted-foreground">
+          <div className="rounded-md border border-border/70 bg-background/74 px-4 py-3 text-sm text-muted-foreground">
             <span className="font-semibold text-foreground">{doneChecks}/5</span> 项信息已确认
           </div>
         </div>
 
         {submission?.status === 'rejected' && submission.rejectionReason ? (
-          <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+          <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
             审核意见：{submission.rejectionReason}
           </div>
         ) : null}
 
         {submission?.status === 'pending' ? (
-          <div className="mt-4 rounded-2xl border border-amber-300/60 bg-amber-50/70 p-4 text-sm text-amber-800">
+          <div className="mt-4 rounded-md border border-amber-300/60 bg-amber-50/70 p-4 text-sm text-amber-800">
             当前作品正在审核中。继续修改后会重新进入审核。
           </div>
         ) : null}
 
         {submission?.status === 'approved' ? (
-          <div className="mt-4 rounded-2xl border border-emerald-300/60 bg-emerald-50/70 p-4 text-sm text-emerald-800">
+          <div className="mt-4 rounded-md border border-emerald-300/60 bg-emerald-50/70 p-4 text-sm text-emerald-800">
             当前作品已审核通过。继续修改后会重新进入审核。
           </div>
         ) : null}
 
         {isReadOnly ? (
-          <div className="mt-4 rounded-2xl border border-border/70 bg-muted/40 p-4 text-sm text-muted-foreground">
+          <div className="mt-4 rounded-md border border-border/70 bg-muted/40 p-4 text-sm text-muted-foreground">
             挑战已结束，作品现在仅可查看，不能继续修改。
           </div>
         ) : null}
@@ -444,8 +444,8 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
 
           <div className="grid gap-4 md:grid-cols-2">
             {proofImages.map((image, index) => (
-              <div key={`${image}-${index}`} className="space-y-2 rounded-2xl border border-border/70 p-3">
-                <div className="relative aspect-video overflow-hidden rounded-xl bg-muted">
+              <div key={`${image}-${index}`} className="space-y-2 rounded-md border border-border/70 p-3">
+                <div className="relative aspect-video overflow-hidden rounded-sm bg-muted">
                   <OptimizedImage src={image} alt={`作品图 ${index + 1}`} fill variant="cover" className="object-cover" />
                   {!isReadOnly ? (
                     <button
@@ -473,8 +473,8 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
             ))}
 
             {uploading.map((item) => (
-              <div key={item.id} className="space-y-2 rounded-2xl border border-border/70 p-3">
-                <div className="relative aspect-video overflow-hidden rounded-xl bg-muted">
+              <div key={item.id} className="space-y-2 rounded-md border border-border/70 p-3">
+                <div className="relative aspect-video overflow-hidden rounded-sm bg-muted">
                   <OptimizedImage src={item.preview} alt="上传中" fill variant="cover" className="object-cover opacity-75" />
                 </div>
                 <Progress value={item.progress} />
@@ -515,7 +515,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
           </div>
           {videoUploadStatus === 'uploading' ? <Progress value={videoUploadProgress} /> : null}
           {videoUrl ? (
-            <video controls className="w-full rounded-2xl border border-border/70 bg-black">
+            <video controls className="w-full rounded-md border border-border/70 bg-black">
               <source src={videoUrl} />
             </video>
           ) : null}
@@ -542,7 +542,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
                 return (
                   <label
                     key={project.id}
-                    className="flex items-start gap-3 rounded-2xl border border-border/70 p-4 text-sm"
+                    className="flex items-start gap-3 rounded-md border border-border/70 p-4 text-sm"
                   >
                     <Checkbox
                       checked={checked}
@@ -562,7 +562,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
           )}
         </div>
 
-        <label className="flex items-start gap-3 rounded-2xl border border-border/70 p-4 text-sm">
+        <label className="flex items-start gap-3 rounded-md border border-border/70 p-4 text-sm">
           <Checkbox
             checked={isPublic}
             onCheckedChange={(next) => setIsPublic(Boolean(next))}
@@ -591,7 +591,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
               <h2 className="mt-3 text-lg font-semibold tracking-tight">作品墙展示信息</h2>
               <div className="mt-4 space-y-2">
                 {submissionChecks.map((item) => (
-                  <div key={item.label} className="flex items-center justify-between rounded-2xl bg-background/72 px-3 py-2.5 text-sm">
+                  <div key={item.label} className="flex items-center justify-between rounded-md bg-background/72 px-3 py-2.5 text-sm">
                     <span className="text-muted-foreground">{item.label}</span>
                     <span className={item.done ? 'font-medium text-primary' : 'text-muted-foreground'}>
                       {item.done ? '完成' : '待补充'}

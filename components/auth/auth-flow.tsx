@@ -473,7 +473,7 @@ export function AuthFlow({
       'relative overflow-hidden border bg-card shadow-[0_24px_70px_-48px_hsl(var(--surface-shadow)/0.44)]',
       presentation === 'page'
         ? 'mx-auto w-full max-w-md rounded-[var(--radius-lg)] lg:max-w-none'
-        : 'rounded-t-[28px] border-b-0 md:rounded-[28px] md:border-b'
+        : 'rounded-t-xl border-b-0 md:rounded-xl md:border-b'
     )}>
       <div className={cn(
         'relative',
@@ -505,7 +505,7 @@ export function AuthFlow({
           </div>
 
           {error && (
-            <div className="rounded-[18px] border border-destructive/25 bg-background p-4 text-destructive shadow-sm">
+            <div className="rounded-lg border border-destructive/25 bg-background p-4 text-destructive shadow-sm">
               <div className="flex items-start gap-3">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                 <p className="text-sm leading-6">{error}</p>
@@ -514,7 +514,7 @@ export function AuthFlow({
           )}
 
           {message && (
-            <div className="rounded-[18px] border border-emerald-500/25 bg-background p-4 text-emerald-700 shadow-sm dark:text-emerald-300">
+            <div className="rounded-lg border border-emerald-500/25 bg-background p-4 text-emerald-700 shadow-sm dark:text-emerald-300">
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <p className="text-sm leading-6">{message}</p>
@@ -538,13 +538,13 @@ export function AuthFlow({
                         placeholder="请输入手机号"
                         value={phone}
                         onChange={(event) => setPhone(event.target.value)}
-                        className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
+                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-[15px]"
                         required
                       />
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-[20px] border border-border/80 bg-background p-4 shadow-sm">
+                  <div className="rounded-lg border border-border/80 bg-background p-4 shadow-sm">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold text-foreground">输入短信验证码</p>
@@ -584,7 +584,7 @@ export function AuthFlow({
                         placeholder="请输入 6 位验证码"
                         value={otp}
                         onChange={(event) => setOtp(event.target.value.replace(/\D/g, ''))}
-                        className="h-12 rounded-2xl border-border/80 bg-background text-[15px]"
+                        className="h-12 rounded-md border-border/80 bg-background text-[15px]"
                         maxLength={6}
                         required
                       />
@@ -595,12 +595,12 @@ export function AuthFlow({
             ) : (
               <>
                 {!isResetMode && !isPhoneMethod && (
-                  <div className="grid grid-cols-2 gap-1 rounded-[18px] border border-border/80 bg-muted p-1">
+                  <div className="grid grid-cols-2 gap-1 rounded-lg border border-border/80 bg-muted p-1">
                     <button
                       type="button"
                       onClick={() => switchEmailMode('sign_in')}
                       className={cn(
-                        'rounded-[14px] px-3 py-2.5 text-sm font-medium transition-colors',
+                        'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                         emailMode === 'sign_in'
                           ? 'bg-background text-foreground shadow-sm'
                           : 'text-muted-foreground hover:text-foreground'
@@ -612,7 +612,7 @@ export function AuthFlow({
                       type="button"
                       onClick={() => switchEmailMode('sign_up')}
                       className={cn(
-                        'rounded-[14px] px-3 py-2.5 text-sm font-medium transition-colors',
+                        'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                         emailMode === 'sign_up'
                           ? 'bg-background text-foreground shadow-sm'
                           : 'text-muted-foreground hover:text-foreground'
@@ -641,7 +641,7 @@ export function AuthFlow({
                       placeholder={passwordIdentifierPlaceholder}
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
-                      className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
+                      className="h-12 rounded-md border-border/80 bg-background pl-10 text-[15px]"
                       required
                     />
                   </div>
@@ -675,7 +675,7 @@ export function AuthFlow({
                         onChange={(event) => setPassword(event.target.value)}
                         autoComplete={emailMode === 'sign_in' ? 'current-password' : 'new-password'}
                         minLength={6}
-                        className="h-12 rounded-2xl border-border/80 bg-background pl-10 text-[15px]"
+                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-[15px]"
                         required
                       />
                     </div>
@@ -683,7 +683,7 @@ export function AuthFlow({
                 )}
 
                 {emailMode === 'sign_up' && isSignUpPhoneIdentifier && !isResetMode && (
-                  <div className="flex items-start gap-2 rounded-[18px] border border-primary/20 bg-background px-4 py-3 text-xs leading-5 text-muted-foreground shadow-sm">
+                  <div className="flex items-start gap-2 rounded-lg border border-primary/20 bg-background px-4 py-3 text-xs leading-5 text-muted-foreground shadow-sm">
                     <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     手机号注册免密码，验证码完成。
                   </div>
@@ -707,7 +707,7 @@ export function AuthFlow({
 
             {showConsent && (
               <div className={cn(
-                'rounded-[18px] border px-4 py-3',
+                'rounded-lg border px-4 py-3',
                 consentError
                   ? 'border-destructive/30 bg-background'
                   : 'border-border/80 bg-background'
@@ -739,7 +739,7 @@ export function AuthFlow({
               </div>
             )}
 
-            <Button type="submit" className="h-12 w-full rounded-2xl text-base font-semibold" disabled={loading}>
+            <Button type="submit" className="h-12 w-full rounded-md text-base font-semibold" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

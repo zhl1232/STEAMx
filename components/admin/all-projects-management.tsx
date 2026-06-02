@@ -147,7 +147,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
             const authorName = project.profiles?.display_name || project.profiles?.username || "未知用户"
 
             return (
-              <Card key={project.id} className="overflow-hidden rounded-[28px] border border-border/70 bg-background/70 shadow-none">
+              <Card key={project.id} className="overflow-hidden rounded-xl border border-border/70 bg-background/70 shadow-none">
                 <CardContent className="p-0">
                   <div className="flex flex-col gap-4 p-4 sm:p-5">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
@@ -241,15 +241,15 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                         ) : detail ? (
                           <div className="space-y-5">
                             <div className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-3">
-                              <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3">
+                              <div className="rounded-md border border-border/60 bg-background/80 px-4 py-3">
                                 <div className="text-xs text-muted-foreground">作者</div>
                                 <div className="mt-1 font-medium">{authorName}</div>
                               </div>
-                              <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3">
+                              <div className="rounded-md border border-border/60 bg-background/80 px-4 py-3">
                                 <div className="text-xs text-muted-foreground">提交时间</div>
                                 <div className="mt-1 font-medium">{formatDate(detail.created_at)}</div>
                               </div>
-                              <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3">
+                              <div className="rounded-md border border-border/60 bg-background/80 px-4 py-3">
                                 <div className="text-xs text-muted-foreground">分类 / 难度</div>
                                 <div className="mt-1 font-medium">
                                   {detail.category || "未分类"}
@@ -261,7 +261,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
 
                             <section className="space-y-2">
                               <h4 className="text-sm font-semibold">完整描述</h4>
-                              <div className="rounded-[20px] border border-border/60 bg-background/80 p-4 text-sm leading-7 text-muted-foreground">
+                              <div className="rounded-lg border border-border/60 bg-background/80 p-4 text-sm leading-7 text-muted-foreground">
                                 {detail.description?.trim() || "暂无项目描述"}
                               </div>
                             </section>
@@ -306,7 +306,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                                     .map((step, index) => (
                                       <div
                                         key={step.id}
-                                        className="rounded-[22px] border border-border/60 bg-background/80 p-4"
+                                        className="rounded-lg border border-border/60 bg-background/80 p-4"
                                       >
                                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
                                           <div className="min-w-0 flex-1 space-y-2">
@@ -322,7 +322,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                                           </div>
 
                                           {step.image_url && (
-                                            <div className="relative h-32 w-full overflow-hidden rounded-[20px] border border-border/60 bg-muted lg:h-28 lg:w-40 lg:shrink-0">
+                                            <div className="relative h-32 w-full overflow-hidden rounded-lg border border-border/60 bg-muted lg:h-28 lg:w-40 lg:shrink-0">
                                               <OptimizedImage
                                                 src={step.image_url}
                                                 alt={step.title}

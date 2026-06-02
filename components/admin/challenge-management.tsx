@@ -70,7 +70,7 @@ const TYPE_LABELS: Record<ChallengeType, string> = {
 
 const STEAM_DIMS = ['S', 'T', 'E', 'A', 'M'] as const
 const STEAM_LABELS: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
-const FIELD_CLASS = 'rounded-2xl border-border/70 bg-background/95 shadow-none'
+const FIELD_CLASS = 'rounded-md border-border/70 bg-background/95 shadow-none'
 const FILTER_TRIGGER_CLASS = 'h-11 w-[148px] rounded-full border-border/70 bg-background/95 px-4 shadow-none'
 const SECTION_CLASS = 'admin-section'
 
@@ -257,7 +257,7 @@ export function ChallengeManagement() {
   }
 
   return (
-    <section className="surface-subtle space-y-6 rounded-[28px] border border-border/70 p-5 shadow-none sm:p-6">
+    <section className="surface-subtle space-y-6 rounded-xl border border-border/70 p-5 shadow-none sm:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
           <p className="section-kicker">挑战运营</p>
@@ -378,7 +378,7 @@ export function ChallengeManagement() {
                     <p className="text-xs text-muted-foreground">用简短语句说明材料、时间或提交形式限制。</p>
                   </div>
                   {form.constraints.map((c, i) => (
-                    <div key={i} className="flex gap-2 rounded-2xl border border-border/60 bg-background/80 p-2">
+                    <div key={i} className="flex gap-2 rounded-md border border-border/60 bg-background/80 p-2">
                       <Input className={FIELD_CLASS} value={c} onChange={e => updateConstraint(i, e.target.value)} placeholder={`条件 ${i + 1}`} />
                       {form.constraints.length > 1 && (
                         <Button variant="ghost" size="icon" className="rounded-full" aria-label={`删除条件 ${i + 1}`} onClick={() => setForm(f => ({ ...f, constraints: f.constraints.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
@@ -394,7 +394,7 @@ export function ChallengeManagement() {
                     <p className="text-xs text-muted-foreground">补充资料链接，帮助用户更快进入挑战情境。</p>
                   </div>
                   {form.resources.map((r, i) => (
-                    <div key={i} className="grid gap-2 rounded-2xl border border-border/60 bg-background/80 p-3 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)_auto]">
+                    <div key={i} className="grid gap-2 rounded-md border border-border/60 bg-background/80 p-3 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)_auto]">
                       <Input className={FIELD_CLASS} value={r.title} onChange={e => updateResource(i, 'title', e.target.value)} placeholder="标题" />
                       <Input className={FIELD_CLASS} value={r.url} onChange={e => updateResource(i, 'url', e.target.value)} placeholder="URL" />
                       {form.resources.length > 1 && (
@@ -411,7 +411,7 @@ export function ChallengeManagement() {
                     <p className="text-xs text-muted-foreground">为长期挑战或复杂任务拆分清晰的推进步骤。</p>
                   </div>
                   {form.stages.map((s, i) => (
-                    <div key={i} className="space-y-3 rounded-[22px] border border-border/60 bg-background/80 p-3">
+                    <div key={i} className="space-y-3 rounded-lg border border-border/60 bg-background/80 p-3">
                       <div className="flex gap-2 items-center">
                         <span className="text-sm font-medium">阶段 {i + 1}</span>
                         {form.stages.length > 1 && (
@@ -432,7 +432,7 @@ export function ChallengeManagement() {
                     <p className="text-xs text-muted-foreground">用权重描述挑战更偏向的学科维度，便于后续筛选和展示。</p>
                   </div>
                   {STEAM_DIMS.map(dim => (
-                    <div key={dim} className="flex items-center gap-3 rounded-2xl border border-border/60 bg-background/80 px-3 py-2">
+                    <div key={dim} className="flex items-center gap-3 rounded-md border border-border/60 bg-background/80 px-3 py-2">
                       <span className="w-20 text-sm">{STEAM_LABELS[dim]} ({dim})</span>
                       <Slider
                         min={0} max={100} step={5}
@@ -445,7 +445,7 @@ export function ChallengeManagement() {
                   ))}
                 </div>
 
-                <Button onClick={handleSubmit} className="w-full rounded-2xl py-6 text-base">{editingId ? '保存修改' : '创建挑战'}</Button>
+                <Button onClick={handleSubmit} className="w-full rounded-md py-6 text-base">{editingId ? '保存修改' : '创建挑战'}</Button>
               </div>
             </DialogContent>
           </Dialog>

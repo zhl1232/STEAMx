@@ -83,7 +83,7 @@ function formatDate(value: string | null) {
 
 function Metric({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-2xl border border-border/60 bg-background/72 p-3">
+    <div className="rounded-md border border-border/60 bg-background/72 p-3">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="mt-1 text-lg font-semibold tabular-nums text-foreground">{value}</p>
       {hint ? <p className="mt-0.5 text-[11px] text-muted-foreground">{hint}</p> : null}
@@ -105,7 +105,7 @@ function UserRankCard({
   avatarUrl?: string | null
 }) {
   return (
-    <div className="rounded-2xl border border-border/60 bg-background/72 p-4">
+    <div className="rounded-md border border-border/60 bg-background/72 p-4">
       <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
         {icon}
         <span>{title}</span>
@@ -130,7 +130,7 @@ function UserRankCard({
 
 function EmptyState({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full min-h-[180px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border/60 bg-background/40 px-4 py-6 text-center">
+    <div className="flex h-full min-h-[180px] flex-col items-center justify-center gap-2 rounded-md border border-dashed border-border/60 bg-background/40 px-4 py-6 text-center">
       <p className="text-sm text-muted-foreground">{children}</p>
       <p className="text-xs text-muted-foreground">数据由社区一起补充。</p>
     </div>
@@ -176,7 +176,7 @@ export function SpeciesStatsPanel({
   const hasSex = sexChartData.length > 0
 
   return (
-    <section className="surface-subtle relative isolate overflow-hidden rounded-[22px] bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+    <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
       <div className="flex items-center gap-2">
         <BarChart3 className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold sm:text-xl">观测统计</h2>
@@ -213,7 +213,7 @@ export function SpeciesStatsPanel({
       {topObservers.length > 1 || topIdentifiers.length > 1 ? (
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {topObservers.length > 1 ? (
-            <div className="rounded-2xl border border-border/50 bg-background/60 p-3">
+            <div className="rounded-md border border-border/50 bg-background/60 p-3">
               <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
                 <Users className="h-3.5 w-3.5" />
                 贡献者排行
@@ -234,7 +234,7 @@ export function SpeciesStatsPanel({
             </div>
           ) : null}
           {topIdentifiers.length > 1 ? (
-            <div className="rounded-2xl border border-border/50 bg-background/60 p-3">
+            <div className="rounded-md border border-border/50 bg-background/60 p-3">
               <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 鉴定者排行

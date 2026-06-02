@@ -37,7 +37,7 @@ export function ObservationSubmitSuccessDialog({
 }: ObservationSubmitSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto border-0 bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.28),transparent_30%),linear-gradient(180deg,rgba(7,10,14,0.98),rgba(14,16,20,1))] p-0 text-white shadow-none sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-[min(32rem,calc(100vw-2rem))] sm:max-w-none sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-[32px] sm:border sm:border-white/10 sm:shadow-[0_28px_90px_-44px_rgba(15,23,42,0.75)]">
+      <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto border-0 bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.28),transparent_30%),linear-gradient(180deg,rgba(7,10,14,0.98),rgba(14,16,20,1))] p-0 text-white shadow-none sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-[min(32rem,calc(100vw-2rem))] sm:max-w-none sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10 sm:shadow-[0_28px_90px_-44px_rgba(15,23,42,0.75)]">
         <DialogHeader className="sr-only">
           <DialogTitle>观察记录已收录</DialogTitle>
           <DialogDescription>本次观察已收录，并展示成长反馈。</DialogDescription>
@@ -63,7 +63,7 @@ export function ObservationSubmitSuccessDialog({
             </div>
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
               <div className="space-y-5">
-                <div className="inline-flex rotate-[-9deg] items-center gap-2 rounded-2xl border border-emerald-200/30 bg-emerald-400/18 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100 shadow-[0_14px_32px_-24px_rgba(16,185,129,0.9)] backdrop-blur">
+                <div className="inline-flex rotate-[-9deg] items-center gap-2 rounded-md border border-emerald-200/30 bg-emerald-400/18 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100 shadow-[0_14px_32px_-24px_rgba(16,185,129,0.9)] backdrop-blur">
                   <CheckCircle2 className="h-4 w-4" />
                   已收录
                 </div>

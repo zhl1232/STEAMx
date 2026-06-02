@@ -347,7 +347,7 @@ export function CourseManagement() {
             </Table>
 
             {selectedCourseId ? (
-                <div className="admin-section rounded-xl border p-4">
+                <div className="admin-section rounded-sm border p-4">
                     <div className="mb-3 flex items-center justify-between">
                         <h3 className="font-bold">课程 #{selectedCourseId} 课时</h3>
                         <Dialog open={lessonDialog} onOpenChange={setLessonDialog}>

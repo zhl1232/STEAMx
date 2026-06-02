@@ -63,7 +63,7 @@ export function ProfileObservationsPanel({
           className="surface-panel block overflow-hidden rounded-[var(--radius-lg)] p-4 transition-transform hover:-translate-y-0.5"
         >
           {observation.mediaUrls[0] ? (
-            <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-[18px] bg-muted">
+            <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-lg bg-muted">
               <Image
                 src={observation.mediaUrls[0]}
                 alt="观察照片"

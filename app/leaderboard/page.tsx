@@ -25,7 +25,7 @@ export default function LeaderboardPage() {
             </div>
 
             <main className="app-shell-wide pt-4 min-[390px]:px-5 md:px-8 md:pt-8">
-                <section className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-5 shadow-[0_28px_78px_-50px_hsl(var(--surface-shadow)/0.58)] backdrop-blur sm:rounded-[30px] sm:px-7 sm:py-8 md:px-9 lg:px-10 xl:px-12">
+                <section className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-5 shadow-[0_28px_78px_-50px_hsl(var(--surface-shadow)/0.58)] backdrop-blur sm:rounded-xl sm:px-7 sm:py-8 md:px-9 lg:px-10 xl:px-12">
                     <div
                         className="absolute inset-0 bg-cover bg-[position:58%_center] bg-no-repeat opacity-95 dark:opacity-35 md:bg-center"
                         style={{ backgroundImage: "url('/assets/leaderboard-community-honor-bg.webp')" }}

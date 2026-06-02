@@ -201,7 +201,7 @@ export function ExplorationRecordFeedCard({
                 <div
                   key={`${src}-${index}`}
                   className={cn(
-                    "relative shrink-0 overflow-hidden rounded-[10px] bg-muted",
+                    "relative shrink-0 overflow-hidden rounded-sm bg-muted",
                     images.length === 1 ? "h-44 w-full" : "h-28 w-28",
                   )}
                 >
@@ -212,7 +212,7 @@ export function ExplorationRecordFeedCard({
             {stageLabel && stageTone ? (
               <span
                 className={cn(
-                  "absolute bottom-2 left-2 rounded-[6px] px-2 py-0.5 text-[10px] font-semibold",
+                  "absolute bottom-2 left-2 rounded-xs px-2 py-0.5 text-[10px] font-semibold",
                   STAGE_TONE_CLASS[stageTone] ?? STAGE_TONE_CLASS.green,
                 )}
               >
@@ -223,7 +223,7 @@ export function ExplorationRecordFeedCard({
         ) : stageLabel && stageTone ? (
           <span
             className={cn(
-              "mt-3 inline-flex rounded-[6px] px-2 py-0.5 text-[10px] font-semibold",
+              "mt-3 inline-flex rounded-xs px-2 py-0.5 text-[10px] font-semibold",
               STAGE_TONE_CLASS[stageTone] ?? STAGE_TONE_CLASS.green,
             )}
           >
@@ -253,7 +253,7 @@ export function ExplorationRecordFeedCard({
       </article>
 
       <Sheet open={commentsOpen} onOpenChange={setCommentsOpen}>
-        <SheetContent side="bottom" className="max-h-[85vh] rounded-t-[18px]">
+        <SheetContent side="bottom" className="max-h-[85vh] rounded-t-lg">
           <SheetHeader>
             <SheetTitle>评论 ({commentsCount})</SheetTitle>
           </SheetHeader>

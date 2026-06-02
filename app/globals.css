@@ -121,7 +121,7 @@
     --radius-sm: 0.625rem;
     --radius-md: 1rem;
     --radius-lg: 1.25rem;
-    --radius-xl: 1.375rem;
+    --radius-xl: 1.75rem;
 
     /* Navigation — active/hover/logo 与 brand-blue 同色,做别名 */
     --nav-muted: 220 26% 18%;
@@ -473,7 +473,7 @@
     border-color: hsl(var(--border));
     background-color: hsl(var(--muted) / 0.45);
     box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.72);
-    @apply relative flex h-10 w-full max-w-md items-center overflow-hidden rounded-[12px] border transition-[border-color,background-color,box-shadow];
+    @apply relative flex h-10 w-full max-w-md items-center overflow-hidden rounded-sm border transition-[border-color,background-color,box-shadow];
   }
 
   .nav-search-shell:focus-within {
@@ -524,7 +524,7 @@
     border-color: hsl(var(--nav-bar-border) / 0.28);
     background-color: hsl(var(--nav-bar-bg) / 0.86);
     box-shadow: 0 18px 46px -30px hsl(var(--surface-shadow) / 0.38);
-    @apply fixed bottom-2 left-4 right-4 z-50 flex h-[calc(64px+env(safe-area-inset-bottom))] items-center gap-0.5 rounded-[24px] border px-2 pb-[calc(0.25rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur-2xl supports-[backdrop-filter]:bg-[hsl(var(--nav-bar-bg)/0.82)] md:hidden;
+    @apply fixed bottom-2 left-4 right-4 z-50 flex h-[calc(64px+env(safe-area-inset-bottom))] items-center gap-0.5 rounded-lg border px-2 pb-[calc(0.25rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur-2xl supports-[backdrop-filter]:bg-[hsl(var(--nav-bar-bg)/0.82)] md:hidden;
   }
 
   .text-display {
@@ -612,7 +612,7 @@
   }
 
   .skip-link:focus {
-    @apply fixed left-4 top-4 z-[100] m-0 block h-auto w-auto overflow-visible rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground shadow-lg ring-2 ring-ring;
+    @apply fixed left-4 top-4 z-[100] m-0 block h-auto w-auto overflow-visible rounded-xs border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground shadow-lg ring-2 ring-ring;
     clip: auto;
     white-space: nowrap;
   }
@@ -621,21 +621,21 @@
     background-color: hsl(var(--surface-raised) / 0.9);
     border-color: hsl(var(--surface-border) / 0.9);
     box-shadow: 0 24px 70px -46px hsl(var(--surface-shadow) / 0.42);
-    @apply rounded-[20px] border backdrop-blur-sm;
+    @apply rounded-lg border backdrop-blur-sm;
   }
 
   .surface-subtle {
     background-color: hsl(var(--surface-muted) / 0.82);
     border-color: hsl(var(--surface-border) / 0.82);
     box-shadow: 0 16px 44px -34px hsl(var(--surface-shadow) / 0.28);
-    @apply rounded-[16px] border;
+    @apply rounded-md border;
   }
 
   .surface-card {
     background-color: hsl(var(--surface-raised) / 0.96);
     border-color: hsl(var(--surface-border) / 0.94);
     box-shadow: 0 18px 48px -36px hsl(var(--surface-shadow) / 0.36);
-    @apply rounded-[18px] border;
+    @apply rounded-lg border;
   }
 
   .surface-card-interactive {

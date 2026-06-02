@@ -93,7 +93,7 @@ export default function SettingsPage() {
                             className="flex w-full items-center justify-between p-4 transition-colors hover:bg-muted/60 active:bg-muted"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
                                 <item.icon className="h-4 w-4" />
                               </div>
                               <div className="text-sm font-medium">{item.label}</div>
@@ -117,7 +117,7 @@ export default function SettingsPage() {
                 </div>
                 <Button
                   variant="destructive"
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-md border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
                   onClick={handleLogout}
                   disabled={isLoggingOut}
                 >

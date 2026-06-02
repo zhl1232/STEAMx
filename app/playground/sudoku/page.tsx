@@ -147,7 +147,7 @@ export default function SudokuPage() {
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                                 <Grid3X3 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                             </div>
                             <div>
@@ -172,16 +172,16 @@ export default function SudokuPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-xl border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                         {/* Difficulty selector */}
-                        <div className="flex items-center gap-1 bg-primary/10 p-1 rounded-lg border border-primary/20">
+                        <div className="flex items-center gap-1 bg-primary/10 p-1 rounded-xs border border-primary/20">
                             {(["easy", "medium", "hard"] as SudokuDifficulty[]).map((d) => (
                                 <button
                                     key={d}
                                     onClick={() => newGame(d)}
                                     disabled={isPlaying}
                                     className={cn(
-                                        "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                                        "px-3 py-1.5 text-xs font-bold rounded-xs transition-all",
                                         difficulty === d
                                             ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                                             : "text-muted-foreground hover:text-foreground hover:bg-accent",
@@ -210,7 +210,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 onClick={undo}
                                 disabled={!history.canUndo}
                                 aria-label="撤销"
@@ -221,7 +221,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 onClick={redo}
                                 disabled={!history.canRedo}
                                 aria-label="重做"
@@ -232,7 +232,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-7 rounded-lg text-xs gap-1 px-2"
+                                className="h-7 rounded-xs text-xs gap-1 px-2"
                                 onClick={checkErrors}
                                 disabled={status === "won"}
                                 title="检查错误"
@@ -243,7 +243,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-7 rounded-lg text-xs gap-1 px-2"
+                                className="h-7 rounded-xs text-xs gap-1 px-2"
                                 onClick={solve}
                                 disabled={status === "won"}
                                 title="显示答案"
@@ -256,7 +256,7 @@ export default function SudokuPage() {
 
                     {/* Board */}
                     <div className="w-full flex justify-center pb-2">
-                        <div className="relative bg-background/40 rounded-2xl p-1.5 sm:p-2.5 border border-border shadow-xl">
+                        <div className="relative bg-background/40 rounded-md p-1.5 sm:p-2.5 border border-border shadow-xl">
                             <div
                                 className="grid"
                                 style={{ gridTemplateColumns: "repeat(9, 1fr)" }}
@@ -358,13 +358,13 @@ export default function SudokuPage() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="absolute inset-0 z-20 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-2xl"
+                                        className="absolute inset-0 z-20 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-md"
                                     >
                                         <motion.div
                                             initial={{ scale: 0.8, opacity: 0 }}
                                             animate={{ scale: 1, opacity: 1 }}
                                             transition={{ delay: 0.1 }}
-                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                            className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                         >
                                             <div className="flex items-center gap-2 text-primary">
                                                 <Trophy className="w-8 h-8 animate-bounce text-yellow-500" />
@@ -414,7 +414,7 @@ export default function SudokuPage() {
                                     onClick={() => setNumber(num)}
                                     disabled={isFull || status === "won"}
                                     className={cn(
-                                        "relative w-10 h-12 sm:w-12 sm:h-14 rounded-xl text-lg sm:text-xl font-bold transition-all border",
+                                        "relative w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg sm:text-xl font-bold transition-all border",
                                         isFull
                                             ? "bg-muted/30 text-muted-foreground/30 border-border/30 cursor-not-allowed"
                                             : "bg-background/80 text-foreground border-border hover:bg-primary/10 hover:border-primary/40 active:scale-95",
@@ -440,7 +440,7 @@ export default function SudokuPage() {
                         <button
                             onClick={clearCell}
                             disabled={status === "won"}
-                            className="w-10 h-12 sm:w-12 sm:h-14 rounded-xl text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
+                            className="w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
                             title="清除"
                         >
                             <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -450,7 +450,7 @@ export default function SudokuPage() {
                             onClick={toggleNoteMode}
                             disabled={status === "won"}
                             className={cn(
-                                "w-10 h-12 sm:w-12 sm:h-14 rounded-xl text-lg font-bold transition-all border flex items-center justify-center",
+                                "w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border flex items-center justify-center",
                                 isNoteMode
                                     ? "bg-primary/20 text-primary border-primary/50 ring-2 ring-primary/30"
                                     : "bg-background/80 text-muted-foreground border-border hover:bg-primary/10 hover:border-primary/40",
@@ -500,7 +500,7 @@ export default function SudokuPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Brain className="w-4 h-4 text-violet-500" />
                                     <h4 className="text-sm font-bold text-foreground">
@@ -526,7 +526,7 @@ export default function SudokuPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-amber-500" />
                                     <h4 className="text-sm font-bold text-foreground">
@@ -545,7 +545,7 @@ export default function SudokuPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Pencil className="w-4 h-4 text-blue-500" />
                                     <h4 className="text-sm font-bold text-foreground">
@@ -559,7 +559,7 @@ export default function SudokuPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Grid3X3 className="w-4 h-4 text-green-500" />
                                     <h4 className="text-sm font-bold text-foreground">
@@ -573,7 +573,7 @@ export default function SudokuPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 space-y-2">
+                            <div className="p-4 rounded-md border border-primary/20 bg-primary/5 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Eye className="w-4 h-4 text-primary" />
                                     <h4 className="text-sm font-bold text-foreground">
@@ -597,7 +597,7 @@ export default function SudokuPage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.totalGames}
@@ -606,7 +606,7 @@ export default function SudokuPage() {
                                         总局数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Sparkles className="w-5 h-5 text-amber-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.wins}
@@ -618,7 +618,7 @@ export default function SudokuPage() {
                             </div>
 
                             {/* Best times per difficulty */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <Timer className="w-4 h-4 text-green-500" />
                                     最佳用时（按难度）
@@ -651,7 +651,7 @@ export default function SudokuPage() {
                             </div>
 
                             {/* Wins per difficulty */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <CheckCircle2 className="w-4 h-4 text-blue-500" />
                                     胜利次数（按难度）
@@ -683,7 +683,7 @@ export default function SudokuPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
                                     <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                     <div>

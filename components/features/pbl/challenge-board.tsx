@@ -53,7 +53,7 @@ export function CompactChallengeCard({
                     </span>
                 ) : null}
                 {ended ? (
-                    <span className="absolute left-2 top-2 rounded-[7px] bg-black/58 px-2 py-1 text-[11px] font-semibold text-white">
+                    <span className="absolute left-2 top-2 rounded-xs bg-black/58 px-2 py-1 text-[11px] font-semibold text-white">
                         已结束
                     </span>
                 ) : null}
@@ -149,10 +149,10 @@ export function ChallengeBoard({
         <section className="surface-panel overflow-hidden">
             <div className="space-y-7 p-4 md:p-6">
                 {challengesError && !isLoading ? (
-                    <div className="rounded-[16px] border border-destructive/20 bg-destructive/5 px-6 py-12 text-center">
+                    <div className="rounded-md border border-destructive/20 bg-destructive/5 px-6 py-12 text-center">
                         <p className="text-lg font-bold">挑战加载失败</p>
                         <p className="mt-2 text-sm leading-6 text-muted-foreground">{challengesError}</p>
-                        <Button className="mt-4 rounded-[10px]" onClick={() => void reloadChallenges()}>
+                        <Button className="mt-4 rounded-sm" onClick={() => void reloadChallenges()}>
                             重试
                         </Button>
                     </div>
@@ -214,10 +214,10 @@ export function ChallengeRail({
     return (
         <aside className={cn("surface-panel space-y-7 overflow-hidden p-4 md:p-5", className)}>
             {challengesError && !isLoading ? (
-                <div className="rounded-[16px] border border-destructive/20 bg-destructive/5 px-4 py-8 text-center">
+                <div className="rounded-md border border-destructive/20 bg-destructive/5 px-4 py-8 text-center">
                     <p className="text-base font-bold">挑战加载失败</p>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">{challengesError}</p>
-                    <Button className="mt-4 rounded-[10px]" onClick={() => void reloadChallenges()}>
+                    <Button className="mt-4 rounded-sm" onClick={() => void reloadChallenges()}>
                         重试
                     </Button>
                 </div>
@@ -227,7 +227,7 @@ export function ChallengeRail({
                 <div className="space-y-3">
                     {[1, 2, 3].map((item) => (
                         <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-[var(--radius-md)] border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] p-2">
-                            <div className="h-[98px] animate-pulse rounded-[10px] bg-muted" />
+                            <div className="h-[98px] animate-pulse rounded-sm bg-muted" />
                             <div className="space-y-3 py-2">
                                 <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
                                 <div className="h-3 w-full animate-pulse rounded-full bg-muted" />

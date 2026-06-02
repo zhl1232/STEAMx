@@ -95,7 +95,7 @@ export function SpeciesListLoadMore({
             <Link
               key={item.id}
               href={appendNatureFrom(`/nature/species/${item.slug}`, fromHref)}
-              className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-[20px] border border-border/70 bg-card/88 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
+              className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-lg border border-border/70 bg-card/88 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
               style={{ animationDelay: `${staggerMs}ms` }}
             >
               <div className="relative aspect-[16/10] overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.2),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.85))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.18),transparent_40%),linear-gradient(160deg,rgba(9,14,22,0.96),rgba(14,24,32,0.9))] sm:aspect-[4/3] 2xl:aspect-[16/11]">
@@ -145,7 +145,7 @@ export function SpeciesListLoadMore({
                 </div>
 
                 {family || genus ? (
-                  <div className="flex min-w-0 items-stretch overflow-hidden rounded-xl border border-border/70 bg-background/70">
+                  <div className="flex min-w-0 items-stretch overflow-hidden rounded-sm border border-border/70 bg-background/70">
                     {family ? (
                       <div className="min-w-0 flex-1 px-3 py-2">
                         <p className="text-[11px] text-muted-foreground">科</p>

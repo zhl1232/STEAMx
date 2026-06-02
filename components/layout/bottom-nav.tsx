@@ -74,7 +74,7 @@ export function BottomNav() {
                 const content = (
                     <div
                         className={cn(
-                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 transition-all",
+                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-all",
                             item.active ? activePillClass : inactivePillClass,
                         )}
                     >
@@ -97,7 +97,7 @@ export function BottomNav() {
                                 setPendingHref(item.href);
                                 setLoginOpen(true);
                             }}
-                            className="flex flex-1 items-stretch rounded-2xl"
+                            className="flex flex-1 items-stretch rounded-md"
                         >
                             {content}
                         </button>
@@ -108,7 +108,7 @@ export function BottomNav() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className="flex flex-1 items-stretch rounded-2xl"
+                        className="flex flex-1 items-stretch rounded-md"
                     >
                         {content}
                     </Link>

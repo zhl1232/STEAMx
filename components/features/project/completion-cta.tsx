@@ -60,7 +60,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                     type="button"
                     variant="outline"
                     onClick={handleClick}
-                    className="h-9 shrink-0 gap-1.5 rounded-[10px] border-[hsl(var(--brand-green))] bg-background/80 px-3 text-sm font-semibold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.08)]"
+                    className="h-9 shrink-0 gap-1.5 rounded-sm border-[hsl(var(--brand-green))] bg-background/80 px-3 text-sm font-semibold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.08)]"
                 >
                     <Camera className="h-4 w-4" />
                     {actionLabel}
@@ -82,7 +82,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
     if (variant === "inline") {
         return (
             <>
-                <Button onClick={handleClick} className="h-9 gap-2 rounded-[8px] px-4">
+                <Button onClick={handleClick} className="h-9 gap-2 rounded-xs px-4">
                     <Camera className="h-4 w-4" />
                     {actionLabel}
                 </Button>
@@ -102,7 +102,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
 
     return (
         <>
-            <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
+            <div className="rounded-sm border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
                 <p className="text-lg font-semibold">
                     {mode === "observation" ? "准备把这次观察记录下来了吗？" : "你也完成了这个项目吗？"}
                 </p>

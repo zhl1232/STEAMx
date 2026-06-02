@@ -44,7 +44,7 @@ export function ObservationInteractions({
         aria-label={`点赞，${likesCount} 次`}
         className={cn(
           bar
-            ? "flex-col gap-0.5 rounded-xl text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+            ? "flex-col gap-0.5 rounded-sm text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             : "min-w-[92px] rounded-full border border-border/70 bg-muted/45 text-foreground/80 transition-colors hover:bg-muted/75 hover:text-foreground",
           buttonSizeClass,
           liked && "text-red-500 hover:text-red-600",
@@ -81,7 +81,7 @@ export function ObservationInteractions({
         aria-label={`评论，${commentsCount} 条`}
         className={cn(
           bar
-            ? "flex-col gap-0.5 rounded-xl text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+            ? "flex-col gap-0.5 rounded-sm text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             : "min-w-[92px] rounded-full border border-border/70 bg-muted/45 text-foreground/80 transition-colors hover:bg-muted/75 hover:text-foreground",
           buttonSizeClass,
           !bar && commentsOpen && "text-primary",

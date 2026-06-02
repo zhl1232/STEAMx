@@ -34,7 +34,7 @@ function ExplorationRecordCard({
       href={href}
       onKeyDown={handleKeyDown}
       className={cn(
-        "block overflow-hidden rounded-[12px] border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm shadow-[hsl(var(--surface-shadow)/0.06)]",
+        "block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm shadow-[hsl(var(--surface-shadow)/0.06)]",
         "cursor-pointer transition-shadow hover:shadow-md hover:border-[hsl(var(--brand-green)/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.45)]",
         className,
       )}
@@ -60,7 +60,7 @@ function ExplorationRecordCard({
               <p className="text-[10px] leading-3 text-muted-foreground">{completion.completedAt}</p>
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[10px] bg-muted">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-muted">
             {completion.proofImages[0] ? (
               <OptimizedImage
                 src={completion.proofImages[0]}

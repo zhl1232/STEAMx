@@ -23,11 +23,11 @@ export function StageGuide({ stages }: StageGuideProps) {
 
       <div className="mt-4 space-y-2.5">
         {stages.map((stage, i) => (
-          <div key={i} className="rounded-[18px] bg-background/68 px-3.5 py-3 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)]">
+          <div key={i} className="rounded-lg bg-background/68 px-3.5 py-3 shadow-[0_18px_48px_-44px_rgba(15,23,42,0.12)]">
             <div className="flex gap-3.5">
               <div
                 className={cn(
-                  'flex h-9 w-9 shrink-0 items-center justify-center rounded-[16px] text-[13px] font-semibold',
+                  'flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-[13px] font-semibold',
                   i === 0
                     ? 'bg-primary/10 text-primary'
                     : 'bg-background/82 text-foreground',

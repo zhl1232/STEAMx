@@ -91,7 +91,7 @@ function MessagePageSkeleton() {
       <div className="surface-panel overflow-hidden">
         <div className="border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5">
           <div className="h-3 w-16 animate-pulse rounded-full bg-muted" />
-          <div className="mt-3 h-9 w-40 animate-pulse rounded-2xl bg-muted" />
+          <div className="mt-3 h-9 w-40 animate-pulse rounded-md bg-muted" />
           <div className="mt-4 h-10 w-full animate-pulse rounded-full bg-muted" />
         </div>
         <div className="space-y-3 px-4 py-5 sm:px-6">
@@ -289,7 +289,7 @@ function MessagesContent() {
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
-                          className="flex min-w-0 flex-1 items-center gap-3 rounded-2xl text-left transition-colors hover:bg-muted/60 active:bg-muted/80"
+                          className="flex min-w-0 flex-1 items-center gap-3 rounded-md text-left transition-colors hover:bg-muted/60 active:bg-muted/80"
                           onClick={() => handleNotificationClick(notification)}
                         >
                           {notification.from_username ? (

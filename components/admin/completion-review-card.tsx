@@ -130,7 +130,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
             value={rejectionReason}
             onChange={(e) => setRejectionReason(e.target.value)}
             rows={3}
-            className="rounded-2xl"
+            className="rounded-md"
           />
           <div className="flex gap-2">
             <Button
@@ -188,7 +188,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
           <div className="min-w-0">
             <div className="mb-2 flex flex-wrap items-center gap-2">
               {projectCategory && (
-                <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
                   {projectCategory}
                 </Badge>
               )}
@@ -208,14 +208,14 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
               </span>
             </CardDescription>
           </div>
-          <div className="shrink-0 rounded-2xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300">
+          <div className="shrink-0 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300">
             {completion.proof_images?.length || 0} 张凭证
           </div>
         </div>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-[160px_minmax(0,1fr)]">
-          <div className="relative h-40 overflow-hidden rounded-2xl border border-border/70 bg-muted sm:h-28">
+          <div className="relative h-40 overflow-hidden rounded-md border border-border/70 bg-muted sm:h-28">
             {firstImage ? (
               <OptimizedImage
                 src={firstImage}
@@ -253,7 +253,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
             }
             }}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="mt-2 w-full gap-2 rounded-2xl sm:mt-3">
+                <Button variant="outline" className="mt-2 w-full gap-2 rounded-md sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整作品与审核
                 </Button>
               </DialogTrigger>
@@ -291,7 +291,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                       <div className="grid grid-cols-2 gap-3">
                         {completion.proof_images?.map((img, idx) => (
                           <div key={idx} className="space-y-1">
-                            <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/70 bg-muted">
+                            <div className="relative aspect-video overflow-hidden rounded-md border border-border/70 bg-muted">
                               <OptimizedImage
                                 src={img}
                               alt={`作品图片 ${idx + 1}`}
@@ -312,7 +312,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                   {completion.proof_video_url && (
                     <section className="space-y-3">
                       <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">作品视频</h3>
-                      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/70 bg-muted">
+                      <div className="relative aspect-video overflow-hidden rounded-md border border-border/70 bg-muted">
                         <video
                           src={completion.proof_video_url}
                           controls
@@ -329,7 +329,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                   {completion.notes && (
                     <section className="space-y-3">
                       <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">完成笔记</h3>
-                      <p className="rounded-2xl border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{completion.notes}</p>
+                      <p className="rounded-md border border-border/70 bg-background/80 p-3 text-sm leading-relaxed">{completion.notes}</p>
                     </section>
                   )}
                 </div>

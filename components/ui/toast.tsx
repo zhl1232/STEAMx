@@ -25,7 +25,7 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex min-h-[3.25rem] w-full items-center justify-between gap-3 overflow-hidden rounded-[14px] border px-4 py-3 pr-12 shadow-[0_18px_42px_-28px_hsl(var(--surface-shadow)/0.55)] backdrop-blur-xl transition-all md:min-h-0 md:rounded-md md:p-6 md:pr-8 md:shadow-lg md:backdrop-blur-none data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=open]:slide-in-from-bottom-full max-md:data-[state=closed]:slide-out-to-bottom-full md:data-[state=closed]:slide-out-to-right-full",
+  "group pointer-events-auto relative flex min-h-[3.25rem] w-full items-center justify-between gap-3 overflow-hidden rounded-md border px-4 py-3 pr-12 shadow-[0_18px_42px_-28px_hsl(var(--surface-shadow)/0.55)] backdrop-blur-xl transition-all md:min-h-0 md:rounded-xs md:p-6 md:pr-8 md:shadow-lg md:backdrop-blur-none data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=open]:slide-in-from-bottom-full max-md:data-[state=closed]:slide-out-to-bottom-full md:data-[state=closed]:slide-out-to-right-full",
   {
     variants: {
       variant: {
@@ -63,7 +63,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      "inline-flex min-h-10 shrink-0 items-center justify-center rounded-[10px] border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 md:h-8 md:min-h-0 md:rounded-md group-[.destructive]:border-[hsl(var(--status-danger-border))] group-[.destructive]:text-[hsl(var(--status-danger))] group-[.destructive]:hover:border-[hsl(var(--status-danger)/0.45)] group-[.destructive]:hover:bg-[hsl(var(--status-danger)/0.12)] group-[.destructive]:focus:ring-destructive",
+      "inline-flex min-h-10 shrink-0 items-center justify-center rounded-sm border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 md:h-8 md:min-h-0 md:rounded-xs group-[.destructive]:border-[hsl(var(--status-danger-border))] group-[.destructive]:text-[hsl(var(--status-danger))] group-[.destructive]:hover:border-[hsl(var(--status-danger)/0.45)] group-[.destructive]:hover:bg-[hsl(var(--status-danger)/0.12)] group-[.destructive]:focus:ring-destructive",
       className
     )}
     {...props}
@@ -78,7 +78,7 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-[10px] text-foreground/55 opacity-80 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring md:right-2 md:top-2 md:h-auto md:w-auto md:translate-y-0 md:p-1 md:opacity-0 md:group-hover:opacity-100 group-[.destructive]:text-[hsl(var(--status-danger))] group-[.destructive]:hover:text-[hsl(var(--status-danger))] group-[.destructive]:focus:ring-[hsl(var(--status-danger))]",
+      "absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-sm text-foreground/55 opacity-80 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring md:right-2 md:top-2 md:h-auto md:w-auto md:translate-y-0 md:p-1 md:opacity-0 md:group-hover:opacity-100 group-[.destructive]:text-[hsl(var(--status-danger))] group-[.destructive]:hover:text-[hsl(var(--status-danger))] group-[.destructive]:focus:ring-[hsl(var(--status-danger))]",
       className
     )}
     toast-close=""

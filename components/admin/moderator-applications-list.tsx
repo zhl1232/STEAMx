@@ -94,8 +94,8 @@ function ApplicationStat({
     tone: string;
 }) {
     return (
-        <div className="surface-subtle flex items-center gap-3 rounded-[18px] border border-border/70 bg-background/72 p-4 shadow-none">
-            <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", tone)}>
+        <div className="surface-subtle flex items-center gap-3 rounded-lg border border-border/70 bg-background/72 p-4 shadow-none">
+            <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-md", tone)}>
                 <Icon className="h-5 w-5" />
             </div>
             <div>
@@ -109,7 +109,7 @@ function ApplicationStat({
 function statusBadge(status: string) {
     const meta = STATUS_META[status] || { label: status, className: "bg-muted text-muted-foreground" };
     return (
-        <Badge variant="secondary" className={cn("rounded-[10px] px-2.5 py-1", meta.className)}>
+        <Badge variant="secondary" className={cn("rounded-sm px-2.5 py-1", meta.className)}>
             {meta.label}
         </Badge>
     );
@@ -282,7 +282,7 @@ export function ModeratorApplicationsList() {
             <div className="space-y-4">
                 <div className="grid gap-3 sm:grid-cols-3">
                     {[1, 2, 3].map((i) => (
-                        <Skeleton key={i} className="h-24 rounded-[18px]" />
+                        <Skeleton key={i} className="h-24 rounded-lg" />
                     ))}
                 </div>
                 {[1, 2, 3].map((i) => (
@@ -311,11 +311,11 @@ export function ModeratorApplicationsList() {
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder="搜索申请人、理由、擅长领域或 ID"
-                        className="control-field h-12 w-full rounded-2xl bg-[hsl(var(--surface-raised)/0.9)] pl-11 pr-4 text-sm"
+                        className="control-field h-12 w-full rounded-md bg-[hsl(var(--surface-raised)/0.9)] pl-11 pr-4 text-sm"
                     />
                 </label>
                 <Select value={sortMode} onValueChange={(value) => setSortMode(value as SortMode)}>
-                    <SelectTrigger className="h-12 rounded-2xl bg-[hsl(var(--surface-raised)/0.9)]">
+                    <SelectTrigger className="h-12 rounded-md bg-[hsl(var(--surface-raised)/0.9)]">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -377,7 +377,7 @@ export function ModeratorApplicationsList() {
                                         <div className="min-w-0">
                                             <div className="flex flex-wrap items-center gap-2">
                                                 <h3 className="truncate text-xl font-semibold tracking-tight">{displayName}</h3>
-                                                <Badge variant="outline" className="rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                                                <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
                                                     Lv.{app.level_at_application}
                                                 </Badge>
                                                 {statusBadge(app.status)}
@@ -389,22 +389,22 @@ export function ModeratorApplicationsList() {
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-3 gap-2 text-center md:min-w-[260px]">
-                                        <div className="rounded-2xl border border-border/70 bg-background/72 px-3 py-2">
+                                        <div className="rounded-md border border-border/70 bg-background/72 px-3 py-2">
                                             <p className="text-lg font-black tabular-nums text-foreground">{app.projects_published}</p>
                                             <p className="text-xs text-muted-foreground">发布</p>
                                         </div>
-                                        <div className="rounded-2xl border border-border/70 bg-background/72 px-3 py-2">
+                                        <div className="rounded-md border border-border/70 bg-background/72 px-3 py-2">
                                             <p className="text-lg font-black tabular-nums text-foreground">{app.projects_completed}</p>
                                             <p className="text-xs text-muted-foreground">完成</p>
                                         </div>
-                                        <div className="rounded-2xl border border-border/70 bg-background/72 px-3 py-2">
+                                        <div className="rounded-md border border-border/70 bg-background/72 px-3 py-2">
                                             <p className="text-lg font-black tabular-nums text-foreground">{app.badges_count}</p>
                                             <p className="text-xs text-muted-foreground">徽章</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="mt-4 rounded-2xl border border-border/70 bg-background/72 p-4">
+                                <div className="mt-4 rounded-md border border-border/70 bg-background/72 p-4">
                                     <p className="text-sm leading-7 text-muted-foreground">
                                         <span className="font-semibold text-foreground">申请理由：</span>
                                         {parsed.reason}
@@ -431,7 +431,7 @@ export function ModeratorApplicationsList() {
                                 </div>
 
                                 {app.rejection_reason ? (
-                                    <div className="mt-3 rounded-2xl border border-red-200 bg-red-50/70 p-3 text-sm text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300">
+                                    <div className="mt-3 rounded-md border border-red-200 bg-red-50/70 p-3 text-sm text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300">
                                         拒绝原因：{app.rejection_reason}
                                     </div>
                                 ) : null}
@@ -477,7 +477,7 @@ export function ModeratorApplicationsList() {
                     setShowRejectDialog(true);
                 }}
             >
-                <DialogContent className="rounded-[28px]">
+                <DialogContent className="rounded-xl">
                     <DialogHeader>
                         <DialogTitle>拒绝申请</DialogTitle>
                         <DialogDescription>
@@ -491,7 +491,7 @@ export function ModeratorApplicationsList() {
                             value={rejectReason}
                             onChange={(e) => setRejectReason(e.target.value)}
                             rows={4}
-                            className="control-field resize-none rounded-2xl bg-background/80"
+                            className="control-field resize-none rounded-md bg-background/80"
                         />
                     </div>
                     <DialogFooter>

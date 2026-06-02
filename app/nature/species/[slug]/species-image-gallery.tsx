@@ -36,7 +36,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
 
   return (
     <div className="min-w-0">
-      <div className="relative aspect-[4/3] min-h-[220px] overflow-hidden bg-muted/40 sm:rounded-[18px] sm:border sm:border-border/70 sm:shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
+      <div className="relative aspect-[4/3] min-h-[220px] overflow-hidden bg-muted/40 sm:rounded-lg sm:border sm:border-border/70 sm:shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
         <Image
           key={activeImageUrl}
           src={activeImageUrl}
@@ -61,7 +61,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
             <button
               type="button"
               onClick={() => scrollThumbnails("previous")}
-              className="hidden h-16 w-10 shrink-0 place-items-center rounded-xl border border-border/70 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-primary/40 hover:text-primary sm:grid sm:h-[72px]"
+              className="hidden h-16 w-10 shrink-0 place-items-center rounded-sm border border-border/70 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-primary/40 hover:text-primary sm:grid sm:h-[72px]"
               aria-label="向左浏览图片"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -81,7 +81,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
                 }}
                 type="button"
                 onClick={() => selectImage(index)}
-                className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border bg-muted/40 shadow-sm transition sm:h-[72px] sm:w-[72px] sm:rounded-xl ${
+                className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 shadow-sm transition sm:h-[72px] sm:w-[72px] sm:rounded-sm ${
                   index === activeIndex
                     ? "border-primary ring-2 ring-primary/18"
                     : "border-border/70 hover:border-primary/50"
@@ -105,7 +105,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
             <button
               type="button"
               onClick={() => scrollThumbnails("next")}
-              className="grid h-16 w-10 shrink-0 place-items-center rounded-xl border border-border/70 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-primary/40 hover:text-primary sm:h-[72px]"
+              className="grid h-16 w-10 shrink-0 place-items-center rounded-sm border border-border/70 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-primary/40 hover:text-primary sm:h-[72px]"
               aria-label="向右浏览图片"
             >
               <ChevronRight className="h-5 w-5" />

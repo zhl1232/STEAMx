@@ -76,7 +76,7 @@ export function ObservationDetailMoreMenu({
       <DropdownMenu>
         <DropdownMenuTrigger
           type="button"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="更多操作"
         >
           <MoreHorizontal className="h-5 w-5" />

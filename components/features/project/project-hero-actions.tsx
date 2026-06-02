@@ -60,7 +60,7 @@ export function ProjectHeroActions({
         size="sm"
         onClick={handleLike}
         className={cn(
-          "h-9 rounded-[8px] border-[hsl(var(--surface-border-strong))] bg-background/68 px-3 text-muted-foreground hover:bg-[hsl(var(--surface-muted))] hover:text-foreground",
+          "h-9 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/68 px-3 text-muted-foreground hover:bg-[hsl(var(--surface-muted))] hover:text-foreground",
           liked && "border-red-500 bg-red-500 text-white hover:bg-red-600 hover:text-white",
         )}
       >
@@ -73,7 +73,7 @@ export function ProjectHeroActions({
         size="sm"
         onClick={handleCollection}
         className={cn(
-          "h-9 rounded-[8px] border-[hsl(var(--surface-border-strong))] bg-background/68 px-3 text-muted-foreground hover:bg-[hsl(var(--surface-muted))] hover:text-foreground",
+          "h-9 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/68 px-3 text-muted-foreground hover:bg-[hsl(var(--surface-muted))] hover:text-foreground",
           collected && "border-amber-500 bg-amber-500 text-white hover:bg-amber-600 hover:text-white",
         )}
       >

@@ -91,7 +91,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
               enableTimeDecay
             />
           ) : (
-            <div className="flex min-h-48 items-center rounded-lg nature-empty-state px-4 text-sm leading-6 nature-text-muted">
+            <div className="flex min-h-48 items-center rounded-xs nature-empty-state px-4 text-sm leading-6 nature-text-muted">
               公开观察记录里还没有可用于地图展示的坐标。
             </div>
           )}

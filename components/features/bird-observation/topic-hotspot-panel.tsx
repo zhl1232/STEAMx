@@ -58,7 +58,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
             enableTimeDecay
           />
         ) : (
-          <div className="surface-subtle rounded-2xl px-4 py-3 text-sm text-muted-foreground">
+          <div className="surface-subtle rounded-md px-4 py-3 text-sm text-muted-foreground">
             当前热点暂无可用坐标，先查看右侧的地点列表。
           </div>
         )}
@@ -68,7 +68,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
             <div
               key={location.locationName}
               className={cn(
-                "surface-subtle rounded-2xl border border-border/70 bg-background/80 p-4 text-left transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
+                "surface-subtle rounded-md border border-border/70 bg-background/80 p-4 text-left transition-transform hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40",
                 validLocations[activeIndex]?.locationName === location.locationName && "border-primary/60 ring-1 ring-primary/20",
               )}
             >
@@ -78,7 +78,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
                   const nextIndex = validLocations.findIndex((item) => item.locationName === location.locationName)
                   if (nextIndex >= 0) setActiveIndex(nextIndex)
                 }}
-                className="block w-full rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="block w-full rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{location.locationName}</span>

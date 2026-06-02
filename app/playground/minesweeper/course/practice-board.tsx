@@ -167,7 +167,7 @@ export function PracticeBoard({
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-muted/30 overflow-hidden shadow-inner">
+    <div className="rounded-md border border-border bg-muted/30 overflow-hidden shadow-inner">
       {/* Header */}
       <div className="px-4 py-2.5 border-b border-border flex items-center justify-between">
         <span className="text-xs font-bold text-primary uppercase tracking-wider">本课练习</span>
@@ -186,7 +186,7 @@ export function PracticeBoard({
         <p className="text-sm text-foreground/90 leading-relaxed">{hint}</p>
 
         {/* Goal indicator */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground bg-background/50 px-3 py-2 rounded-lg border border-border/50">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground bg-background/50 px-3 py-2 rounded-xs border border-border/50">
           {goal === "open" ? (
             <>
               <MousePointerClick className="w-3.5 h-3.5 text-primary shrink-0" />
@@ -202,11 +202,11 @@ export function PracticeBoard({
 
         {/* Mobile mode toggle */}
         {goal === "flag" && (
-          <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-xl border border-border/50 w-fit">
+          <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-sm border border-border/50 w-fit">
             <button
               type="button"
               onClick={() => setIsFlagMode(false)}
-              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${!isFlagMode
+              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xs text-xs font-bold transition-all duration-200 ${!isFlagMode
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
                 }`}
@@ -217,7 +217,7 @@ export function PracticeBoard({
             <button
               type="button"
               onClick={() => setIsFlagMode(true)}
-              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${isFlagMode
+              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xs text-xs font-bold transition-all duration-200 ${isFlagMode
                   ? "bg-destructive/10 text-destructive shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
                 }`}
@@ -229,7 +229,7 @@ export function PracticeBoard({
         )}
 
         {/* Board */}
-        <div className="inline-block p-2 bg-background/60 rounded-xl border border-border">
+        <div className="inline-block p-2 bg-background/60 rounded-sm border border-border">
           {cells.map((row) => (
             <div key={row[0].r} className="flex">
               {row.map((cell) => {

@@ -210,13 +210,13 @@ export function ObservationSubmitPhotoSection({
       ) : null}
 
       {isAnalyzing && evidenceImages.length > 0 ? (
-        <div className="rounded-2xl border border-sky-200/80 bg-sky-50/80 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/20 dark:text-sky-200">
+        <div className="rounded-md border border-sky-200/80 bg-sky-50/80 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/20 dark:text-sky-200">
           正在分析图片质量，并尝试匹配鸟类候选。
         </div>
       ) : null}
 
       <div className="grid gap-3 md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]">
-        <div className="overflow-hidden rounded-lg border border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] [box-shadow:var(--obs-panel-shadow)]">
+        <div className="overflow-hidden rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] [box-shadow:var(--obs-panel-shadow)]">
           {heroImage ? (
             <div className="relative aspect-[16/11] min-h-[180px] sm:min-h-[210px] md:aspect-[16/10]">
             <OptimizedImage
@@ -289,7 +289,7 @@ export function ObservationSubmitPhotoSection({
         {evidenceImages.length > 0 ? (
           <button
             type="button"
-            className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-5 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)] md:min-h-0"
+            className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-5 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)] md:min-h-0"
             onClick={() => fileInputRef.current?.click()}
             disabled={!canAddMore || isUploading}
           >
@@ -311,7 +311,7 @@ export function ObservationSubmitPhotoSection({
           {galleryImages.map((url, index) => {
             const badge = getAnalysisBadge(analysisByImage.get(url)?.status)
             return (
-              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-lg border border-[var(--obs-border-strong)] bg-[var(--obs-control)]">
+              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)]">
                 <div className="relative aspect-square">
                   <OptimizedImage
                     src={url}

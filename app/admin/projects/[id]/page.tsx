@@ -317,7 +317,7 @@ export default function EditProjectPage() {
             <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
                 <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-4">
-                        <Button variant="outline" size="icon" className="hidden rounded-2xl md:inline-flex" aria-label="返回" onClick={() => router.back()}>
+                        <Button variant="outline" size="icon" className="hidden rounded-md md:inline-flex" aria-label="返回" onClick={() => router.back()}>
                             <ArrowLeft className="h-4 w-4" aria-hidden />
                         </Button>
                         <div>
@@ -362,7 +362,7 @@ export default function EditProjectPage() {
                                 value={formData.title}
                                 onChange={e => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="输入项目标题"
-                                className="rounded-2xl"
+                                className="rounded-md"
                             />
                         </div>
 
@@ -373,7 +373,7 @@ export default function EditProjectPage() {
                                 onChange={e => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="简要描述项目内容..."
                                 rows={3}
-                                className="rounded-2xl"
+                                className="rounded-md"
                             />
                         </div>
 
@@ -384,7 +384,7 @@ export default function EditProjectPage() {
                                     value={formData.category}
                                     onValueChange={val => setFormData({ ...formData, category: val, sub_category_id: null, sub_category_name: undefined })}
                                 >
-                                    <SelectTrigger className="h-11 rounded-2xl">
+                                    <SelectTrigger className="h-11 rounded-md">
                                         <SelectValue placeholder="选择分类" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -410,7 +410,7 @@ export default function EditProjectPage() {
                                     }}
                                     disabled={!filteredSubCategories.length}
                                 >
-                                    <SelectTrigger className="h-11 rounded-2xl">
+                                    <SelectTrigger className="h-11 rounded-md">
                                         <SelectValue placeholder="选择子分类" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -450,7 +450,7 @@ export default function EditProjectPage() {
 
                         <div className="grid gap-2">
                             <Label>状态</Label>
-                            <div className="rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-sm">
+                            <div className="rounded-md border border-border/70 bg-background/80 px-4 py-3 text-sm">
                                 当前状态：{formData.status}
                             </div>
                             <p className="text-xs text-muted-foreground">
@@ -567,7 +567,7 @@ export default function EditProjectPage() {
                                             value={step.title}
                                             onChange={e => updateStep(index, 'title', e.target.value)}
                                             placeholder="例如：准备材料"
-                                            className="rounded-2xl"
+                                            className="rounded-md"
                                         />
                                     </div>
 
@@ -577,7 +577,7 @@ export default function EditProjectPage() {
                                             value={step.description}
                                             onChange={e => updateStep(index, 'description', e.target.value)}
                                             placeholder="详细描述该步骤的操作方法..."
-                                            className="rounded-2xl"
+                                            className="rounded-md"
                                         />
                                     </div>
 
@@ -616,7 +616,7 @@ export default function EditProjectPage() {
                                         value={mat.material}
                                         onChange={e => updateMaterial(index, e.target.value)}
                                         placeholder={`材料 ${index + 1}`}
-                                        className="rounded-2xl"
+                                        className="rounded-md"
                                     />
                                     <Button
                                         size="icon"

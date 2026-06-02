@@ -71,7 +71,7 @@ export function PublicProfileProjects({
           <Button
             type="button"
             variant="outline"
-            className="rounded-2xl px-5"
+            className="rounded-md px-5"
             onClick={() => void loadMore()}
             disabled={isLoading}
           >

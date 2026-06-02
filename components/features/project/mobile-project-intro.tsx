@@ -18,7 +18,7 @@ export function MobileProjectIntro({
   const needsExpand = summary.length > COLLAPSED_MAX_CHARS
 
   return (
-    <section className="scroll-mt-20 rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
+    <section className="scroll-mt-20 rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]">
       <h2 className="mb-3 font-sans text-base font-bold tracking-tight text-foreground">项目简介</h2>
       {tags.length > 0 ? (
         <div className="mb-3 flex flex-wrap gap-1.5">

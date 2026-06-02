@@ -274,7 +274,7 @@ export default function GameOfLifePage() {
                 {/* Header */}
                 <div className="w-full max-w-5xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center shrink-0">
                             <Dna className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />
                         </div>
                         <div>
@@ -357,7 +357,7 @@ export default function GameOfLifePage() {
                         {presetOpen && (
                             <>
                                 <div className="fixed inset-0 z-40" onClick={() => setPresetOpen(false)} />
-                                <div className="absolute top-full left-0 mt-1 z-50 bg-card/95 backdrop-blur-xl border border-border rounded-xl shadow-lg py-1 min-w-[180px]">
+                                <div className="absolute top-full left-0 mt-1 z-50 bg-card/95 backdrop-blur-xl border border-border rounded-sm shadow-lg py-1 min-w-[180px]">
                                     {Object.entries(PRESET_LABELS).map(([key, label]) => (
                                         <button
                                             key={key}
@@ -394,11 +394,11 @@ export default function GameOfLifePage() {
                 {/* Canvas Grid */}
                 <div
                     ref={containerRef}
-                    className="w-full max-w-5xl rounded-[20px] border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-1 sm:p-2 shadow-inner"
+                    className="w-full max-w-5xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-1 sm:p-2 shadow-inner"
                 >
                     <canvas
                         ref={canvasRef}
-                        className="w-full rounded-xl cursor-pointer select-none touch-none"
+                        className="w-full rounded-sm cursor-pointer select-none touch-none"
                         onMouseDown={handleCanvasMouseDown}
                         onMouseMove={handleCanvasMouseMove}
                         onMouseUp={endPaint}
@@ -471,7 +471,7 @@ export default function GameOfLifePage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-xl bg-muted/30 p-3 space-y-1.5">
+                            <div className="rounded-sm bg-muted/30 p-3 space-y-1.5">
                                 <h3 className="text-xs font-semibold flex items-center gap-1.5">
                                     <Zap className="w-3.5 h-3.5 text-amber-500" />
                                     试一试
@@ -494,21 +494,21 @@ export default function GameOfLifePage() {
                             </div>
 
                             <div className="grid grid-cols-1 gap-3">
-                                <div className="rounded-xl bg-muted/30 p-3 flex items-center justify-between">
+                                <div className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
                                     <div>
                                         <p className="text-[11px] text-muted-foreground">总运行次数</p>
                                         <p className="text-lg font-bold tabular-nums">{stats.totalSessions}</p>
                                     </div>
                                     <Play className="w-5 h-5 text-muted-foreground/40" />
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 flex items-center justify-between">
+                                <div className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
                                     <div>
                                         <p className="text-[11px] text-muted-foreground">最高代数</p>
                                         <p className="text-lg font-bold tabular-nums">{stats.maxGeneration}</p>
                                     </div>
                                     <Clock className="w-5 h-5 text-muted-foreground/40" />
                                 </div>
-                                <div className="rounded-xl bg-muted/30 p-3 flex items-center justify-between">
+                                <div className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
                                     <div>
                                         <p className="text-[11px] text-muted-foreground">最大同时存活数</p>
                                         <p className="text-lg font-bold tabular-nums">{stats.maxPopulation}</p>
@@ -519,7 +519,7 @@ export default function GameOfLifePage() {
 
                             <button
                                 onClick={resetStats}
-                                className="w-full text-xs text-destructive hover:text-destructive/80 transition-colors py-2 rounded-lg border border-border hover:bg-muted/40"
+                                className="w-full text-xs text-destructive hover:text-destructive/80 transition-colors py-2 rounded-xs border border-border hover:bg-muted/40"
                             >
                                 重置统计数据
                             </button>

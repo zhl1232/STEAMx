@@ -106,12 +106,12 @@ export default function ConversationPage() {
             <div className="space-y-3 px-4 py-5">
               {[1, 2].map((item) => (
                 <div key={item} className="flex justify-start">
-                  <div className="h-10 w-48 animate-pulse rounded-2xl bg-muted" />
+                  <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
                 </div>
               ))}
             </div>
             <div className="border-t border-border/60 px-4 py-4">
-              <div className="h-11 animate-pulse rounded-2xl bg-muted" />
+              <div className="h-11 animate-pulse rounded-md bg-muted" />
             </div>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function ConversationPage() {
                 <div className="space-y-3">
                   {[1, 2].map((item) => (
                     <div key={item} className="flex justify-start">
-                      <div className="h-10 w-48 animate-pulse rounded-2xl bg-muted" />
+                      <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
                     </div>
                   ))}
                 </div>
@@ -234,12 +234,12 @@ export default function ConversationPage() {
                   isInvalidPeerId ||
                   Boolean(error)
                 }
-                className="h-11 flex-1 rounded-2xl"
+                className="h-11 flex-1 rounded-md"
               />
               <Button
                 onClick={handleSend}
                 disabled={!input.trim() || isPending || isMissingPeer || isInvalidPeerId || Boolean(error)}
-                className="h-11 rounded-2xl px-5"
+                className="h-11 rounded-md px-5"
               >
                 发送
               </Button>
@@ -270,7 +270,7 @@ function MessageBubble({ message, isMe }: { message: Message; isMe: boolean }) {
   return (
     <div className={`group flex items-end gap-1.5 ${isMe ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[80%] rounded-[22px] px-3.5 py-2.5 ${
+        className={`max-w-[80%] rounded-lg px-3.5 py-2.5 ${
           isMe ? "bg-primary text-primary-foreground" : "bg-[hsl(var(--surface-muted))] text-foreground"
         }`}
       >

@@ -4,7 +4,7 @@ export function ProjectListSkeleton() {
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={index} className="surface-panel overflow-hidden rounded-[var(--radius-lg)] p-3">
           <div className="flex gap-3">
-            <div className="h-24 w-24 shrink-0 animate-pulse rounded-[18px] bg-muted" />
+            <div className="h-24 w-24 shrink-0 animate-pulse rounded-lg bg-muted" />
             <div className="flex flex-1 flex-col justify-between py-1">
               <div>
                 <div className="h-4 w-16 animate-pulse rounded-full bg-muted" />

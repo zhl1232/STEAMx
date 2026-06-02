@@ -97,7 +97,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
           </div>
 
           <form className="w-full" action="/nature/species" method="get">
-            <div className="rounded-[18px] border border-border/70 bg-background/84 p-2 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.38)] backdrop-blur-sm">
+            <div className="rounded-lg border border-border/70 bg-background/84 p-2 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.38)] backdrop-blur-sm">
               <div className="flex min-w-0 gap-2">
                 {topic !== "all" ? <input type="hidden" name="topic" value={topic} /> : null}
                 <input
@@ -105,12 +105,12 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
                   name="q"
                   defaultValue={query || ""}
                   placeholder="搜索物种名称、学名或科属"
-                  className="h-11 min-w-0 flex-1 rounded-[12px] border border-border/70 bg-background/90 px-4 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="h-11 min-w-0 flex-1 rounded-sm border border-border/70 bg-background/90 px-4 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   autoComplete="off"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-11 shrink-0 items-center justify-center rounded-[12px] bg-foreground px-5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+                  className="inline-flex h-11 shrink-0 items-center justify-center rounded-sm bg-foreground px-5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
                 >
                   搜索
                 </button>
@@ -166,7 +166,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
 
       {species.length === 0 ? (
         <div className="surface-panel mt-6 flex flex-col items-center gap-4 px-6 py-14 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border/70 bg-background/80 text-muted-foreground">
+          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-border/70 bg-background/80 text-muted-foreground">
             <Search className="h-6 w-6" aria-hidden />
           </div>
           <div className="max-w-md space-y-2">

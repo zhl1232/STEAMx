@@ -342,7 +342,7 @@ export function ObservationDetailActivity({
             </button>
           </div>
           {rulesOpen ? (
-            <p className="mt-3 rounded-xl bg-muted/35 px-3 py-2.5 text-xs leading-5 text-muted-foreground">
+            <p className="mt-3 rounded-sm bg-muted/35 px-3 py-2.5 text-xs leading-5 text-muted-foreground">
               {CONSENSUS_RULES_SUMMARY}
             </p>
           ) : null}
@@ -503,7 +503,7 @@ export function ObservationDetailActivity({
           }
         }}
       >
-        <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col gap-0 rounded-t-2xl p-0">
+        <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col gap-0 rounded-t-md p-0">
           <SheetHeader className="space-y-1.5 border-b border-border/60 px-5 pb-4 pt-5 text-left">
             <SheetTitle className="text-lg">{myIdentification ? "修改鉴定" : "建议鉴定"}</SheetTitle>
             <SheetDescription className="text-sm leading-relaxed">
@@ -515,7 +515,7 @@ export function ObservationDetailActivity({
 
           <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-5 py-4">
             {selected ? (
-              <div className="flex items-start gap-3 rounded-xl border border-[hsl(var(--nature-accent)/0.35)] bg-[hsl(var(--nature-accent-soft)/0.5)] px-3.5 py-3">
+              <div className="flex items-start gap-3 rounded-sm border border-[hsl(var(--nature-accent)/0.35)] bg-[hsl(var(--nature-accent-soft)/0.5)] px-3.5 py-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))]">
                   <Check className="h-4 w-4" />
                 </div>
@@ -540,7 +540,7 @@ export function ObservationDetailActivity({
                   setSelected(null)
                 }}
                 placeholder="搜索物种名称或学名"
-                className="h-11 rounded-xl border-border/70 bg-muted/25 pl-10 pr-10 text-sm focus-visible:bg-background"
+                className="h-11 rounded-sm border-border/70 bg-muted/25 pl-10 pr-10 text-sm focus-visible:bg-background"
                 autoFocus
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex w-10 items-center justify-center">
@@ -553,7 +553,7 @@ export function ObservationDetailActivity({
             ) : null}
 
             {results.length > 0 ? (
-              <ul className="overflow-hidden rounded-xl border border-border/70 bg-background shadow-sm" role="listbox">
+              <ul className="overflow-hidden rounded-sm border border-border/70 bg-background shadow-sm" role="listbox">
                 {results.map((result) => {
                   const isActive = selected?.id === result.id
                   return (
@@ -591,7 +591,7 @@ export function ObservationDetailActivity({
             ) : null}
 
             {!isSearching && query.trim().length >= 2 && results.length === 0 ? (
-              <p className="rounded-xl bg-muted/30 px-3 py-2.5 text-center text-sm text-muted-foreground">
+              <p className="rounded-sm bg-muted/30 px-3 py-2.5 text-center text-sm text-muted-foreground">
                 未找到匹配物种，请换个关键词
               </p>
             ) : null}

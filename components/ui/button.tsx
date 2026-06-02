@@ -28,7 +28,7 @@ const buttonVariants = cva(
                 nature: "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] hover:bg-[hsl(var(--nature-accent)/0.92)] shadow-[0_18px_34px_-22px_hsl(var(--nature-accent)/0.9)]",
             },
             shape: {
-                default: "rounded-md",
+                default: "rounded-xs",
                 soft: "rounded-[var(--radius-sm)]",
                 pill: "rounded-full",
                 square: "rounded-[var(--radius-xs)]",
@@ -41,9 +41,9 @@ const buttonVariants = cva(
             },
         },
         compoundVariants: [
-            { size: "sm", shape: "default", class: "rounded-md" },
+            { size: "sm", shape: "default", class: "rounded-xs" },
             { size: "sm", shape: "soft", class: "rounded-[var(--radius-sm)]" },
-            { size: "lg", shape: "default", class: "rounded-md" },
+            { size: "lg", shape: "default", class: "rounded-xs" },
         ],
         defaultVariants: {
             variant: "default",

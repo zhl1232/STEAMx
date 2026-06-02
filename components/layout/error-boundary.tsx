@@ -83,7 +83,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           </div>
 
           {this.state.errorCount > 2 && (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 max-w-md">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xs p-4 max-w-md">
               <p className="text-sm text-yellow-800 dark:text-yellow-200">
                 💡 提示：如果问题持续出现，请尝试清除浏览器缓存或联系技术支持。
               </p>
@@ -95,7 +95,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground mb-2">
                 查看技术细节（开发模式）
               </summary>
-              <pre className="overflow-auto rounded-lg bg-muted p-4 text-left text-xs border">
+              <pre className="overflow-auto rounded-xs bg-muted p-4 text-left text-xs border">
                 <code>{this.state.error?.stack || this.state.error?.toString() || '未知错误'}</code>
               </pre>
             </details>

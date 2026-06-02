@@ -159,7 +159,7 @@ export function ReportsList() {
               <CardDescription>审核用户提交的内容举报</CardDescription>
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px] rounded-2xl">
+              <SelectTrigger className="w-[140px] rounded-md">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -326,7 +326,7 @@ export function ReportsList() {
                 <div className="space-y-2 pt-2">
                   {reviewReport.content_type === "observation" ? (
                     <Select value={reviewAction} onValueChange={(value) => setReviewAction(value as "none" | "hide_observation")}>
-                      <SelectTrigger className="rounded-2xl">
+                      <SelectTrigger className="rounded-md">
                         <SelectValue placeholder="处理动作" />
                       </SelectTrigger>
                       <SelectContent>
@@ -340,7 +340,7 @@ export function ReportsList() {
                     value={reviewNote}
                     onChange={(e) => setReviewNote(e.target.value.slice(0, 1000))}
                     rows={2}
-                    className="resize-none rounded-2xl"
+                    className="resize-none rounded-md"
                   />
                 </div>
               )}

@@ -79,7 +79,7 @@ export function BadgeUnlockOverlay() {
           aria-live="polite"
         >
           <motion.div
-            className="relative flex min-h-[300px] w-full max-w-[360px] flex-col items-center justify-center overflow-hidden rounded-[28px] border border-white/45 bg-white/72 px-7 py-8 text-center shadow-[0_28px_90px_-36px_rgba(15,23,42,0.75)] backdrop-blur-2xl dark:border-white/12 dark:bg-slate-950/72"
+            className="relative flex min-h-[300px] w-full max-w-[360px] flex-col items-center justify-center overflow-hidden rounded-xl border border-white/45 bg-white/72 px-7 py-8 text-center shadow-[0_28px_90px_-36px_rgba(15,23,42,0.75)] backdrop-blur-2xl dark:border-white/12 dark:bg-slate-950/72"
             initial={{ scale: 0.78, y: 24, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.92, y: -14, opacity: 0 }}

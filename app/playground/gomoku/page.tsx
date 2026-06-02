@@ -93,7 +93,7 @@ export default function GomokuPage() {
                 {/* Header: title + controls */}
                 <div className="w-full max-w-4xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                             <Target className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                         </div>
                         <div>
@@ -200,7 +200,7 @@ export default function GomokuPage() {
                 <div className="w-full max-w-4xl flex flex-col md:flex-row gap-4 sm:gap-6 items-start">
                     {/* Board: CSS Grid 自适应宽度 */}
                     <div className="w-full md:flex-1 min-w-0">
-                        <div className="w-full aspect-square max-w-[480px] mx-auto md:max-w-none rounded-2xl border border-amber-900/20 dark:border-amber-200/10 p-1 sm:p-2 shadow-inner bg-gradient-to-br from-amber-100 to-amber-200/80 dark:from-amber-950/40 dark:to-amber-900/30">
+                        <div className="w-full aspect-square max-w-[480px] mx-auto md:max-w-none rounded-md border border-amber-900/20 dark:border-amber-200/10 p-1 sm:p-2 shadow-inner bg-gradient-to-br from-amber-100 to-amber-200/80 dark:from-amber-950/40 dark:to-amber-900/30">
                             <div className="grid grid-cols-[repeat(15,1fr)] grid-rows-[repeat(15,1fr)] w-full h-full">
                                 {board.flat().map((cell) => {
                                     const isWinnerCell =
@@ -211,7 +211,7 @@ export default function GomokuPage() {
                                             key={`${cell.row}-${cell.col}`}
                                             onClick={() => handleCellClick(cell.row, cell.col)}
                                             className={cn(
-                                                "border border-amber-800/15 dark:border-amber-300/10 flex items-center justify-center rounded-[1px] sm:rounded-sm transition-colors duration-100 aspect-square",
+                                                "border border-amber-800/15 dark:border-amber-300/10 flex items-center justify-center rounded-[1px] sm:rounded-xs transition-colors duration-100 aspect-square",
                                                 "bg-amber-200/40 dark:bg-amber-900/20 hover:bg-amber-300/50 dark:hover:bg-amber-800/30 active:bg-amber-300/70",
                                                 isWinnerCell && "ring-1 sm:ring-2 ring-primary ring-offset-0 sm:ring-offset-1 ring-offset-amber-100 dark:ring-offset-amber-950"
                                             )}
@@ -299,23 +299,23 @@ export default function GomokuPage() {
                                 <span className="text-xs font-semibold">本地战绩（仅当前浏览器）</span>
                             </div>
                             <div className="grid grid-cols-2 gap-2 mt-1 text-[11px]">
-                                <div className="flex flex-col rounded-lg bg-muted/40 px-2 py-1.5">
+                                <div className="flex flex-col rounded-xs bg-muted/40 px-2 py-1.5">
                                     <span className="text-muted-foreground">总对局</span>
                                     <span className="text-sm font-semibold">{stats.totalGames}</span>
                                 </div>
-                                <div className="flex flex-col rounded-lg bg-muted/40 px-2 py-1.5">
+                                <div className="flex flex-col rounded-xs bg-muted/40 px-2 py-1.5">
                                     <span className="text-muted-foreground">胜率</span>
                                     <span className="text-sm font-semibold">
                                         {formatRatio(stats.wins, stats.totalGames)}
                                     </span>
                                 </div>
-                                <div className="flex flex-col rounded-lg bg-muted/40 px-2 py-1.5">
+                                <div className="flex flex-col rounded-xs bg-muted/40 px-2 py-1.5">
                                     <span className="text-muted-foreground">最佳步数</span>
                                     <span className="text-sm font-semibold">
                                         {stats.bestMoves ? `${stats.bestMoves} 手` : "—"}
                                     </span>
                                 </div>
-                                <div className="flex flex-col rounded-lg bg-muted/40 px-2 py-1.5">
+                                <div className="flex flex-col rounded-xs bg-muted/40 px-2 py-1.5">
                                     <span className="text-muted-foreground">当前步数</span>
                                     <span className="text-sm font-semibold">{moveCount}</span>
                                 </div>

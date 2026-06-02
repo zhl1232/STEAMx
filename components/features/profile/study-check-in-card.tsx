@@ -65,10 +65,10 @@ export function StudyCheckInCard({ title, summary, state, className }: StudyChec
   const statusTone = getStatusTone(state, summary)
 
   return (
-    <section className={cn('surface-panel flex flex-col rounded-[20px] p-6', className)}>
+    <section className={cn('surface-panel flex flex-col rounded-lg p-6', className)}>
       {title || <h2 className="text-base font-semibold text-foreground">探索打卡</h2>}
 
-      <div className="mt-4 rounded-[20px] bg-[linear-gradient(135deg,#f4fbf7,#eef7ff)] p-4 dark:bg-[linear-gradient(135deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
+      <div className="mt-4 rounded-lg bg-[linear-gradient(135deg,#f4fbf7,#eef7ff)] p-4 dark:bg-[linear-gradient(135deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -91,7 +91,7 @@ export function StudyCheckInCard({ title, summary, state, className }: StudyChec
               ) : null}
             </div>
           </div>
-          <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[18px] bg-white shadow-[0_16px_34px_-26px_rgba(27,96,54,0.62)] dark:bg-background/60">
+          <div className="grid h-16 w-16 shrink-0 place-items-center rounded-lg bg-white shadow-[0_16px_34px_-26px_rgba(27,96,54,0.62)] dark:bg-background/60">
             <CalendarDays className="h-9 w-9 text-[hsl(var(--brand-amber))]" />
           </div>
         </div>
@@ -127,7 +127,7 @@ export function StudyCheckInCard({ title, summary, state, className }: StudyChec
       </div>
 
       <div className="mt-auto pt-4">
-        <div className={cn('rounded-[12px] border px-3 py-2.5', hintTone)}>
+        <div className={cn('rounded-sm border px-3 py-2.5', hintTone)}>
           <p className="text-xs font-bold">今日探索状态</p>
           <p className="mt-1 text-xs leading-5 text-muted-foreground">{hint}</p>
         </div>

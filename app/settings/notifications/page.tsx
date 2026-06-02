@@ -136,7 +136,7 @@ export default function NotificationsSettingsPage() {
                 )}
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>

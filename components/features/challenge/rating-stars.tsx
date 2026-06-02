@@ -81,7 +81,7 @@ export function RatingStars({ submissionId, initialRating, disabled, onRated }: 
       {DIMENSIONS.map(dim => {
         const current = hovering[dim.key] || ratings[dim.key]
         return (
-          <div key={dim.key} className="rounded-[16px] bg-background/72 p-2.5 sm:p-3">
+          <div key={dim.key} className="rounded-md bg-background/72 p-2.5 sm:p-3">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[13px] font-semibold">{dim.label}</div>

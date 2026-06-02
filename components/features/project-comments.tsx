@@ -594,7 +594,7 @@ export function ProjectComments({
       <div className="mb-8">
         {comments.length > 0 ? (
           <>
-            <div ref={commentsListRef} className="rounded-lg">
+            <div ref={commentsListRef} className="rounded-xs">
               <div className="space-y-0">
                 {topLevelComments.map((comment: Comment) => {
                   const replyCount = getDescendantCount(Number(comment.id));
@@ -625,7 +625,7 @@ export function ProjectComments({
                         highlighted={highlightedCommentIds.has(String(comment.id))}
                       />
                       {previewReplies.length > 0 && (
-                        <div className="ml-11 mt-2 rounded-2xl border border-border/50 bg-muted/[0.22] px-2 sm:ml-14 sm:px-3">
+                        <div className="ml-11 mt-2 rounded-md border border-border/50 bg-muted/[0.22] px-2 sm:ml-14 sm:px-3">
                           {previewReplies.map((reply) => (
                             <div
                               key={reply.id}
@@ -690,7 +690,7 @@ export function ProjectComments({
             )}
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
+          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground bg-muted/20 rounded-sm border border-dashed">
             <MessageCircle className="h-10 w-10 mb-2 opacity-20" />
             <p className="text-sm">还没有评论，快来抢沙发吧！</p>
           </div>
@@ -853,7 +853,7 @@ export function ProjectComments({
             alt="图片预览"
             width={800}
             height={800}
-            className="max-w-full max-h-[85vh] object-contain rounded-lg"
+            className="max-w-full max-h-[85vh] object-contain rounded-xs"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

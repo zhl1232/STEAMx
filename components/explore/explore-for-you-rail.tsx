@@ -56,7 +56,7 @@ function ExploreRecommendationCard({
     : null;
 
   return (
-    <article className="group relative h-full overflow-hidden rounded-[16px] border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] transition duration-300 hover:border-[hsl(var(--surface-border-strong))]">
+    <article className="group relative h-full overflow-hidden rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] transition duration-300 hover:border-[hsl(var(--surface-border-strong))]">
       <Link
         href={`/project/${project.id}?from=explore-for-you`}
         className="absolute inset-0 z-10"
@@ -89,7 +89,7 @@ function ExploreRecommendationCard({
           <div className="mt-2 flex min-w-0 items-center justify-between gap-2">
             <div className="flex min-w-0 items-center gap-1.5">
               {project.category ? (
-                <ToneBadge tone={getCategoryTone(project.category)} className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px]">
+                <ToneBadge tone={getCategoryTone(project.category)} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px]">
                   {project.category}
                 </ToneBadge>
               ) : null}

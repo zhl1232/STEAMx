@@ -85,7 +85,7 @@ export function CountdownTimer({ endDate, compact = false, className = '' }: Cou
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-primary text-primary-foreground rounded-lg px-3 py-2 text-xl font-bold min-w-[3rem] text-center shadow-md">
+      <div className="bg-primary text-primary-foreground rounded-xs px-3 py-2 text-xl font-bold min-w-[3rem] text-center shadow-md">
         {String(value).padStart(2, '0')}
       </div>
       <div className="text-xs text-muted-foreground mt-1 font-medium">{label}</div>

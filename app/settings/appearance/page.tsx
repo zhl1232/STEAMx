@@ -45,7 +45,7 @@ export default function AppearanceSettingsPage() {
               )}
             >
               <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
                   <opt.icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -79,7 +79,7 @@ export default function AppearanceSettingsPage() {
           )}
         >
           <div className="flex items-start gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/12 text-amber-500">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-amber-500/12 text-amber-500">
               <Crown className="h-5 w-5" />
             </div>
             <div>

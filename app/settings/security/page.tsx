@@ -179,7 +179,7 @@ function SecuritySettingsContent() {
         <section className="surface-subtle p-4 sm:p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
                 <KeyRound className="h-5 w-5" />
               </div>
               <div>
@@ -216,7 +216,7 @@ function SecuritySettingsContent() {
               />
               <Button
                 type="button"
-                className="h-11 rounded-2xl px-5 text-sm font-semibold"
+                className="h-11 rounded-md px-5 text-sm font-semibold"
                 onClick={handleChangePassword}
                 disabled={passwordLoading}
               >
@@ -230,7 +230,7 @@ function SecuritySettingsContent() {
         <section className="surface-subtle p-4 sm:p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
                 <Smartphone className="h-5 w-5" />
               </div>
               <div>
@@ -260,20 +260,20 @@ function SecuritySettingsContent() {
           {!authPhone && phoneExpand ? (
             <div className="mt-5 space-y-3 border-t border-border/70 pt-5">
               <div className="flex gap-2">
-                <span className="inline-flex items-center rounded-2xl border border-border/80 bg-background/80 px-3 text-sm text-muted-foreground">
+                <span className="inline-flex items-center rounded-md border border-border/80 bg-background/80 px-3 text-sm text-muted-foreground">
                   +86
                 </span>
                 <Input
                   placeholder="手机号"
                   value={phoneInput}
                   onChange={(event) => setPhoneInput(event.target.value)}
-                  className="h-11 rounded-2xl"
+                  className="h-11 rounded-md"
                   disabled={phoneStep === "verify"}
                 />
                 {phoneStep === "idle" ? (
                   <Button
                     type="button"
-                    className="h-11 rounded-2xl px-4 text-sm font-semibold"
+                    className="h-11 rounded-md px-4 text-sm font-semibold"
                     onClick={handleSendPhoneOtp}
                     disabled={phoneLoading}
                   >
@@ -289,11 +289,11 @@ function SecuritySettingsContent() {
                       placeholder="验证码"
                       value={otpInput}
                       onChange={(event) => setOtpInput(event.target.value)}
-                      className="h-11 rounded-2xl"
+                      className="h-11 rounded-md"
                     />
                     <Button
                       type="button"
-                      className="h-11 rounded-2xl px-5 text-sm font-semibold"
+                      className="h-11 rounded-md px-5 text-sm font-semibold"
                       onClick={handleVerifyPhoneOtp}
                       disabled={phoneLoading}
                     >

@@ -31,7 +31,7 @@ export default function BadgesPreviewPage() {
         {/* 分级展示：金、银、铜、白金，以及尺寸展示 */}
         <section>
           <h2 className="text-2xl font-semibold mb-6 border-b pb-2">基础材质测试 (Material & Glow Test)</h2>
-          <div className="flex flex-wrap gap-12 justify-center items-end bg-slate-50 dark:bg-slate-900 p-8 rounded-2xl">
+          <div className="flex flex-wrap gap-12 justify-center items-end bg-slate-50 dark:bg-slate-900 p-8 rounded-md">
             <div className="flex flex-col items-center gap-4">
               <BadgeIcon icon="trophy" tier="bronze" seriesKey="milestone" size="xl" />
               <span className="font-mono text-sm">青铜 (Bronze)</span>
@@ -73,7 +73,7 @@ export default function BadgesPreviewPage() {
             {BADGES.map((badge) => (
               <div 
                 key={badge.id} 
-                className="flex flex-col items-center text-center gap-3 p-4 border rounded-xl bg-slate-50 dark:bg-slate-900 shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col items-center text-center gap-3 p-4 border rounded-sm bg-slate-50 dark:bg-slate-900 shadow-sm hover:shadow-md transition-shadow"
               >
                 <BadgeIcon 
                   icon={badge.icon} 

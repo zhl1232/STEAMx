@@ -17,12 +17,12 @@
     background-color: hsl(var(--surface-raised) / 0.9);
     border-color: hsl(var(--surface-border) / 0.9);
     box-shadow: 0 24px 68px -48px hsl(var(--surface-shadow) / 0.54);
-    @apply relative w-full max-w-full rounded-[22px] border p-3 backdrop-blur sm:p-6;
+    @apply relative w-full max-w-full rounded-lg border p-3 backdrop-blur sm:p-6;
   }
 
   .playground-info-panel {
     background-color: hsl(var(--surface-raised) / 0.88);
     border-color: hsl(var(--surface-border) / 0.86);
-    @apply rounded-[20px] border shadow-none backdrop-blur;
+    @apply rounded-lg border shadow-none backdrop-blur;
   }
 }

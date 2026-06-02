@@ -550,7 +550,7 @@ export function DomesticMiniMap({
   return (
     <div
       ref={containerRef}
-      className={`${heightClassName} nature-mini-map relative z-0 w-full overflow-hidden rounded-lg border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]`}
+      className={`${heightClassName} nature-mini-map relative z-0 w-full overflow-hidden rounded-xs border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]`}
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" style={{ touchAction: "none" }} />
 
@@ -577,14 +577,14 @@ export function DomesticMiniMap({
       {/* Popup */}
       {popup ? (
         <div
-          className={`absolute z-[8] w-[216px] -translate-x-1/2 rounded-lg border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
+          className={`absolute z-[8] w-[216px] -translate-x-1/2 rounded-xs border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
             popup.placement === "top" ? "-translate-y-full" : ""
           } ${popup.href ? "" : "pointer-events-none"}`}
           style={{ left: popup.x, top: popup.y }}
         >
           <div className="flex gap-2">
             <div
-              className="relative h-14 w-16 shrink-0 overflow-hidden rounded-md bg-[radial-gradient(circle_at_28%_22%,rgba(22,132,75,0.32),transparent_34%),linear-gradient(135deg,#dcefe2,#f7ead2)] bg-cover bg-center dark:bg-[radial-gradient(circle_at_28%_22%,rgba(116,215,154,0.22),transparent_34%),linear-gradient(135deg,#1b3a27,#1b2a20)]"
+              className="relative h-14 w-16 shrink-0 overflow-hidden rounded-xs bg-[radial-gradient(circle_at_28%_22%,rgba(22,132,75,0.32),transparent_34%),linear-gradient(135deg,#dcefe2,#f7ead2)] bg-cover bg-center dark:bg-[radial-gradient(circle_at_28%_22%,rgba(116,215,154,0.22),transparent_34%),linear-gradient(135deg,#1b3a27,#1b2a20)]"
               style={popup.imageUrl ? { backgroundImage: `url(${popup.imageUrl})` } : undefined}
             >
               {!popup.imageUrl ? (

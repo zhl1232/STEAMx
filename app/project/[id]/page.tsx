@@ -261,9 +261,9 @@ function MaterialsList({ materials, compact = false }: { materials: string[]; co
         ) : (
           <div
             key={`${material}-${index}`}
-            className="flex items-center gap-3 rounded-[12px] border border-[hsl(var(--surface-border))] bg-background/72 px-4 py-3"
+            className="flex items-center gap-3 rounded-sm border border-[hsl(var(--surface-border))] bg-background/72 px-4 py-3"
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[hsl(var(--brand-blue)/0.1)] text-sm font-semibold text-[hsl(var(--brand-blue))]">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-sm font-semibold text-[hsl(var(--brand-blue))]">
               {index + 1}
             </span>
             <span className="text-sm leading-6">{material}</span>
@@ -284,9 +284,9 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
   ]
 
   return (
-    <div className="group flex min-h-[60px] items-start gap-2 rounded-[10px] border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-sm shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:items-center sm:gap-2.5 sm:p-2.5">
+    <div className="group flex min-h-[60px] items-start gap-2 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-sm shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:items-center sm:gap-2.5 sm:p-2.5">
       <div className="shrink-0">
-        <div className="grid h-8 w-8 place-items-center rounded-[9px] bg-[hsl(var(--surface-muted))] sm:h-9 sm:w-9 sm:rounded-[10px]">
+        <div className="grid h-8 w-8 place-items-center rounded-xs bg-[hsl(var(--surface-muted))] sm:h-9 sm:w-9 sm:rounded-sm">
           <Box className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:h-[18px] sm:w-[18px]" strokeWidth={1.8} />
         </div>
       </div>
@@ -299,7 +299,7 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
             </p>
           ) : null}
         </div>
-        <span className={`w-fit shrink-0 rounded-[7px] px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
+        <span className={`w-fit shrink-0 rounded-xs px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
           {meta.amount}
         </span>
       </div>
@@ -319,7 +319,7 @@ function SectionCard({
   children: ReactNode
 }) {
   return (
-    <section className="surface-panel overflow-hidden rounded-[18px]">
+    <section className="surface-panel overflow-hidden rounded-lg">
       <div className="border-b border-border/60 px-5 py-5 sm:px-6">
         {eyebrow ? <p className="section-kicker">{eyebrow}</p> : null}
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -366,7 +366,7 @@ function MobileSectionCard({
   id?: string
 }) {
   return (
-    <section id={id} className={cn("scroll-mt-20 rounded-[14px] border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]", className)}>
+    <section id={id} className={cn("scroll-mt-20 rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4 shadow-[0_18px_44px_-34px_hsl(var(--surface-shadow)/0.38)]", className)}>
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">{title}</h2>
         {action}
@@ -409,7 +409,7 @@ function MobileRelatedProjects({
       >
         <Link
           href={href}
-          className="flex items-center justify-between rounded-[12px] border border-dashed border-[hsl(var(--surface-border))] bg-background/58 px-4 py-4 text-sm font-semibold text-[hsl(var(--brand-green))]"
+          className="flex items-center justify-between rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-background/58 px-4 py-4 text-sm font-semibold text-[hsl(var(--brand-green))]"
         >
           回到探索页发现更多项目
           <ChevronRight className="h-4 w-4" />
@@ -425,9 +425,9 @@ function MobileRelatedProjects({
     >
       <Link
         href={href}
-        className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-[12px] border border-[hsl(var(--surface-border)/0.84)] bg-background/78 p-2.5"
+        className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border)/0.84)] bg-background/78 p-2.5"
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[10px] bg-muted">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-muted">
           <OptimizedImage
             src={project.image}
             alt={project.title}
@@ -482,7 +482,7 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
 
   if (compact) {
     return (
-      <section className="surface-panel flex items-center justify-between gap-3 rounded-[14px] px-4 py-3">
+      <section className="surface-panel flex items-center justify-between gap-3 rounded-md px-4 py-3">
         <Link href={`/users/${author.id}`} className="flex min-w-0 items-center gap-3">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-blue)/0.1)]">
             {author.avatarUrl ? (
@@ -513,14 +513,14 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
           targetUserId={author.id}
           variant="outline"
           showIcon={false}
-          className="h-8 min-w-[72px] shrink-0 rounded-[8px] border-[hsl(var(--surface-border-strong))] bg-background/72 px-3 text-xs text-foreground hover:bg-[hsl(var(--surface-muted))]"
+          className="h-8 min-w-[72px] shrink-0 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-3 text-xs text-foreground hover:bg-[hsl(var(--surface-muted))]"
         />
       </section>
     )
   }
 
   return (
-    <section className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6">
+    <section className="surface-panel overflow-hidden rounded-lg px-5 py-5 sm:px-6">
       <h2 className="font-sans text-base font-bold tracking-tight">项目作者</h2>
 
       <div className="mt-4 flex items-center justify-between gap-3">
@@ -554,7 +554,7 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
           targetUserId={author.id}
           variant="outline"
           showIcon={false}
-          className="h-9 min-w-[86px] shrink-0 rounded-[8px] border-[hsl(var(--surface-border-strong))] bg-background/72 px-4 text-foreground hover:bg-[hsl(var(--surface-muted))]"
+          className="h-9 min-w-[86px] shrink-0 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-4 text-foreground hover:bg-[hsl(var(--surface-muted))]"
         />
       </div>
 
@@ -605,12 +605,12 @@ function StepItem({
       </div>
       <article
         className={cn(
-          "group min-w-0 rounded-[12px] border border-[hsl(var(--surface-border))] bg-background/78 p-3 shadow-sm shadow-[hsl(var(--surface-shadow)/0.04)]",
+          "group min-w-0 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-3 shadow-sm shadow-[hsl(var(--surface-shadow)/0.04)]",
           hasImage ? "grid grid-cols-[88px_minmax(0,1fr)] items-start gap-3 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-center" : "px-4 py-3",
         )}
       >
         {hasImage ? (
-          <div className="relative h-16 overflow-hidden rounded-[10px] bg-muted sm:h-20">
+          <div className="relative h-16 overflow-hidden rounded-sm bg-muted sm:h-20">
             <OptimizedImage
               src={step.image_url!}
               alt={stepTitle}
@@ -829,7 +829,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   : '您的项目正在审核中，仅您可见。'}
               </span>
               {project.status === 'rejected' && project.rejection_reason && (
-                <div className="rounded-md bg-red-100 p-3 text-sm dark:bg-red-900/30">
+                <div className="rounded-xs bg-red-100 p-3 text-sm dark:bg-red-900/30">
                   <span className="font-medium">拒绝原因：</span>
                   {project.rejection_reason}
                 </div>
@@ -852,7 +852,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
         <div className="-mx-4 md:hidden">
           <div className="bg-[hsl(var(--app-canvas))]">
-            <section className="overflow-hidden rounded-b-[22px] bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
+            <section className="overflow-hidden rounded-b-lg bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
               <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
                 <OptimizedImage
                   src={project.image}
@@ -940,7 +940,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
         <div className="space-y-6">
           <main className="min-w-0 space-y-6">
-            <section className="surface-panel hidden overflow-hidden rounded-[18px] md:block">
+            <section className="surface-panel hidden overflow-hidden rounded-lg md:block">
               <div className="lg:flex lg:items-stretch">
                 <div className="relative min-w-0 overflow-hidden bg-muted aspect-[16/9] sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none">
                   <OptimizedImage
@@ -960,16 +960,16 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                         {project.title}
                       </h1>
                       {project.category ? (
-                        <ToneBadge tone={categoryTone} className="mt-1 rounded-[8px] px-3 py-1 text-xs">
+                        <ToneBadge tone={categoryTone} className="mt-1 rounded-xs px-3 py-1 text-xs">
                           {project.category}
                         </ToneBadge>
                       ) : null}
                       {project.sub_category ? (
-                        <span className="mt-1 inline-flex rounded-[8px] bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+                        <span className="mt-1 inline-flex rounded-xs bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
                           {project.sub_category}
                         </span>
                       ) : null}
-                      <span className="ml-auto mt-1 inline-flex items-center gap-1.5 rounded-[8px] bg-[hsl(var(--tone-tech-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--tone-tech))]">
+                      <span className="ml-auto mt-1 inline-flex items-center gap-1.5 rounded-xs bg-[hsl(var(--tone-tech-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--tone-tech))]">
                         <DifficultyStars stars={project.difficulty_stars ?? 1} size="sm" />
                         {difficultyLabel}
                       </span>
@@ -993,7 +993,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                         {visibleTags.map((tag) => (
                           <span
                             key={tag}
-                            className="inline-flex rounded-[8px] bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
+                            className="inline-flex rounded-xs bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
                           >
                             {tag}
                           </span>
@@ -1028,7 +1028,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               </div>
             </section>
 
-            <section className="hidden items-start gap-3 rounded-[10px] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
+            <section className="hidden items-start gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
               <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))] sm:h-7 sm:w-7">
                 <ShieldCheck className="h-4 w-4" />
               </span>
@@ -1062,7 +1062,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                         ))}
                       </ol>
                     ) : (
-                      <div className="rounded-[14px] border border-dashed border-border bg-background/50 px-5 py-10 text-center text-sm text-muted-foreground">
+                      <div className="rounded-md border border-dashed border-border bg-background/50 px-5 py-10 text-center text-sm text-muted-foreground">
                         暂无步骤说明
                       </div>
                     )}
@@ -1077,7 +1077,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
                 <section
                   id="project-exploration-records"
-                  className="surface-panel overflow-hidden rounded-[18px] px-5 py-5 sm:px-6 scroll-mt-24"
+                  className="surface-panel overflow-hidden rounded-lg px-5 py-5 sm:px-6 scroll-mt-24"
                 >
                   <h2 className="mb-4 text-xl font-semibold tracking-tight text-foreground">探索记录</h2>
                   <ProjectExplorationRecordsBlock
@@ -1107,21 +1107,21 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 ) : null}
 
                 {project.challenge_id ? (
-                  <section className="surface-panel flex flex-col gap-4 rounded-[18px] px-5 py-4 sm:flex-row sm:items-center sm:justify-between lg:flex-col lg:items-stretch">
+                  <section className="surface-panel flex flex-col gap-4 rounded-lg px-5 py-4 sm:flex-row sm:items-center sm:justify-between lg:flex-col lg:items-stretch">
                     <div className="min-w-0">
                       <p className="font-sans text-base font-bold text-foreground">相关挑战</p>
                       <p className="mt-1 text-sm leading-6 text-muted-foreground">
                         这个项目可作为挑战作品的参考实践。
                       </p>
                     </div>
-                    <Button asChild variant="outline" className="h-9 shrink-0 rounded-[8px]">
+                    <Button asChild variant="outline" className="h-9 shrink-0 rounded-xs">
                       <Link href={`/pbl/${project.challenge_id}`}>查看挑战</Link>
                     </Button>
                   </section>
                 ) : null}
               </aside>
 
-              <section id="project-comments-desktop" className="surface-panel hidden scroll-mt-24 overflow-hidden rounded-[18px] px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
+              <section id="project-comments-desktop" className="surface-panel hidden scroll-mt-24 overflow-hidden rounded-lg px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
                 <ProjectComments
                   projectId={project.id}
                   initialComments={initialComments}

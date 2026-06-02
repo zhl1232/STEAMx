@@ -47,7 +47,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
             <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", className)}>
                 <div
                     className={cn(
-                        "surface-card surface-card-interactive group relative h-full overflow-hidden rounded-[16px]",
+                        "surface-card surface-card-interactive group relative h-full overflow-hidden rounded-md",
                         isVerticalCompact
                             ? "flex flex-col gap-0 p-0"
                             : isDenseCompact
@@ -67,8 +67,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             isVerticalCompact
                                 ? "aspect-[16/10] rounded-none"
                                 : isDenseCompact
-                                    ? "h-full min-h-[92px] rounded-[12px] sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
-                                    : "aspect-square rounded-[12px] sm:aspect-[16/8.5] sm:rounded-none",
+                                    ? "h-full min-h-[92px] rounded-sm sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
+                                    : "aspect-square rounded-sm sm:aspect-[16/8.5] sm:rounded-none",
                         )}
                     >
                         {!imageError ? (
@@ -117,7 +117,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                             <div className="flex min-w-0 items-center gap-1.5 flex-wrap">
                                 {project.category && (
-                                    <ToneBadge tone={categoryTone} className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium">
+                                    <ToneBadge tone={categoryTone} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
                                         {project.category}
                                     </ToneBadge>
                                 )}
@@ -272,12 +272,12 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                         <div className="flex flex-wrap items-center gap-2">
                             {previewTag ? (
-                                <span className="inline-flex max-w-[160px] truncate rounded-[8px] bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--brand-blue))]">
+                                <span className="inline-flex max-w-[160px] truncate rounded-xs bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--brand-blue))]">
                                     {previewTag}
                                 </span>
                             ) : null}
                             {project.tags?.length && !previewTag ? (
-                                <span className="inline-flex max-w-[160px] truncate rounded-[8px] bg-[hsl(var(--surface-muted))] px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+                                <span className="inline-flex max-w-[160px] truncate rounded-xs bg-[hsl(var(--surface-muted))] px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
                                     {project.tags[0]}
                                 </span>
                             ) : null}

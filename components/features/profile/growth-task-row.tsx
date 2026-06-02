@@ -22,14 +22,14 @@ export function GrowthTaskRow({ task, claimPending = false, onClaim }: GrowthTas
 
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
-          <Link href={task.href} className="min-w-0 flex-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
             <span className="block text-sm font-semibold text-foreground">{task.label}</span>
           </Link>
           <span className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-green))]">{task.reward}</span>
         </div>
 
         <div className="mt-2 flex items-center gap-3">
-          <Link href={task.href} className="min-w-0 flex-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
             <span className="block h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]">
               <span className="block h-full rounded-full bg-[hsl(var(--brand-blue))]" style={{ width: `${task.progress}%` }} />
             </span>
@@ -39,7 +39,7 @@ export function GrowthTaskRow({ task, claimPending = false, onClaim }: GrowthTas
             <Button
               type="button"
               size="sm"
-              className="h-8 rounded-lg px-3 text-xs font-bold"
+              className="h-8 rounded-xs px-3 text-xs font-bold"
               disabled={claimPending}
               onClick={() => onClaim?.(task.id)}
             >

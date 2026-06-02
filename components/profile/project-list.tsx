@@ -95,7 +95,7 @@ function MobileProjectItem({ project, href }: { project: Project; href?: string 
       href={href || `/project/${project.id}`}
       className="surface-card flex gap-3 p-3 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))]"
     >
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-muted">
+      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-muted">
         <OptimizedImage
           src={
             project.image || "/projects/tech_programming.webp"
@@ -151,7 +151,7 @@ function EmptyState({
 }) {
   return (
     <div className="surface-subtle px-5 py-10 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border/70 bg-background/70 text-muted-foreground">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-md border border-border/70 bg-background/70 text-muted-foreground">
         {icon || <Settings className="h-8 w-8" />}
       </div>
       <h3 className="mt-4 text-base font-semibold text-foreground">{title}</h3>

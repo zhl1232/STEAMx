@@ -293,7 +293,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                 <DropdownMenuTrigger asChild>
                     <div
                         className={cn(
-                            "relative flex h-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-xl border p-2 text-center transition-all duration-200 group hover:shadow-md sm:gap-2 sm:p-3",
+                            "relative flex h-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-sm border p-2 text-center transition-all duration-200 group hover:shadow-md sm:gap-2 sm:p-3",
                             isUnlocked
                                 ? "bg-gradient-to-br from-white/80 via-white/60 to-white/35 border-white/70 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.35)] hover:border-primary/30 dark:from-slate-800/96 dark:via-slate-900/94 dark:to-slate-950/92 dark:border-white/12 dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78)] dark:hover:border-primary/25"
                                 : "bg-white/55 border-slate-200/80 opacity-95 dark:bg-slate-950/82 dark:border-white/8 dark:opacity-100",
@@ -445,7 +445,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{children || <Button variant="outline">查看所有徽章</Button>}</DialogTrigger>
-            <DialogContent className="flex h-[80vh] w-[95vw] max-w-4xl flex-col gap-0 overflow-hidden rounded-xl p-0 sm:rounded-lg [&>button]:hidden">
+            <DialogContent className="flex h-[80vh] w-[95vw] max-w-4xl flex-col gap-0 overflow-hidden rounded-sm p-0 sm:rounded-xs [&>button]:hidden">
                 <DialogHeader className="shrink-0 p-4 pb-2">
                     <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
                         <Trophy className="h-5 w-5 text-yellow-500" />

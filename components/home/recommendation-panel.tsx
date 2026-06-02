@@ -128,9 +128,9 @@ export function RecommendationPanel(props: {
               <Link
                 key={project.id}
                 href={`/project/${project.id}`}
-                className="grid min-h-[56px] grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3 rounded-[10px] p-1.5 transition hover:bg-[hsl(var(--surface-muted))]"
+                className="grid min-h-[56px] grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted))]"
               >
-                <div className="relative h-[50px] overflow-hidden rounded-[8px] bg-[hsl(var(--surface-muted))]">
+                <div className="relative h-[50px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
                   <OptimizedImage src={project.image} alt={project.title} fill variant="thumbnail" className="object-cover" />
                 </div>
                 <div className="min-w-0">
@@ -151,7 +151,7 @@ export function RecommendationPanel(props: {
           })}
         </div>
       ) : (
-        <div className="rounded-[10px] border border-dashed border-[hsl(var(--surface-border))] px-4 py-6 text-center text-[13px] text-muted-foreground">
+        <div className="rounded-sm border border-dashed border-[hsl(var(--surface-border))] px-4 py-6 text-center text-[13px] text-muted-foreground">
           暂无推荐内容
         </div>
       )}

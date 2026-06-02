@@ -87,7 +87,7 @@ export function ProfileUserListPage({
       <div className="space-y-6">
         <section className="hidden overflow-hidden md:block">
           <div className="surface-panel flex items-center gap-3 px-6 py-5">
-            <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl">
+            <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-sm">
               <Link href="/profile" aria-label="返回个人主页">
                 <ChevronLeft className="h-5 w-5" />
               </Link>

@@ -281,7 +281,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
               </div>
 
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
-                <div className="max-w-3xl rounded-[var(--radius-lg)] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-[28px] sm:px-6 sm:py-6">
+                <div className="max-w-3xl rounded-[var(--radius-lg)] bg-black/28 px-4 py-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-md sm:rounded-xl sm:px-6 sm:py-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/76">PBL 挑战</p>
                   <h1 className="mt-3 text-[1.85rem] font-semibold leading-tight tracking-tight text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
                     {challenge.title}
@@ -313,7 +313,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
                 <div
                   key={card.label}
                   className={cn(
-                    "min-w-0 rounded-[16px] bg-white/82 px-3 py-2.5 text-left shadow-[0_18px_48px_-42px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:rounded-[18px] sm:px-3.5 dark:bg-slate-950/58",
+                    "min-w-0 rounded-md bg-white/82 px-3 py-2.5 text-left shadow-[0_18px_48px_-42px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:rounded-lg sm:px-3.5 dark:bg-slate-950/58",
                     index === 1 ? "bg-white/90 dark:bg-slate-950/68" : "",
                   )}
                 >
@@ -387,7 +387,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
               {!isEnded && (
                 <div className="mt-4 grid grid-cols-2 gap-2">
-                  <Button className="h-10 rounded-xl text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                  <Button className="h-10 rounded-sm text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
                     {hasSubmission ? '更新作品' : '提交作品'}
                   </Button>
                   <Button
@@ -488,7 +488,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
               </div>
 
               <div className="space-y-3 p-4">
-                <div className="rounded-[20px] bg-background/76 px-3.5 py-3.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.12)]">
+                <div className="rounded-lg bg-background/76 px-3.5 py-3.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.12)]">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge variant="secondary" className="rounded-full border-0 bg-background/78">
                       {challengeStatusLabel}
@@ -523,7 +523,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
                 {!isEnded && (
                   <div className="space-y-2.5">
-                    <Button className="h-10 w-full rounded-xl text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                    <Button className="h-10 w-full rounded-sm text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
                       {hasSubmission ? "更新作品" : "提交作品"}
                     </Button>
                     <Button
@@ -573,9 +573,9 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
               <div className="grid gap-2 p-4">
                 {rewardItems.map((item) => (
-                  <div key={item.title} className={cn("rounded-[18px] px-3 py-2.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.1)]", item.className)}>
+                  <div key={item.title} className={cn("rounded-lg px-3 py-2.5 shadow-[0_18px_48px_-40px_rgba(15,23,42,0.1)]", item.className)}>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-[14px] bg-background/82 text-base shadow-sm">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-background/82 text-base shadow-sm">
                         {item.icon}
                       </div>
                       <div>

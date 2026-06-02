@@ -32,7 +32,7 @@ export function MobileTodayTasksCard({
     return (
       <section className={cn('profile-mobile-panel p-4', className)}>
         <MobileProfileSectionTitle title="今日任务" trailing={`${completedTaskCount}/${GROWTH_TASK_TOTAL}`} />
-        <p className="mt-3 rounded-[14px] bg-[hsl(var(--surface-muted)/0.5)] px-3 py-4 text-center text-xs leading-5 text-muted-foreground">
+        <p className="mt-3 rounded-md bg-[hsl(var(--surface-muted)/0.5)] px-3 py-4 text-center text-xs leading-5 text-muted-foreground">
           成长任务已全部完成，去社区挑战解锁更多成就吧。
         </p>
       </section>
@@ -45,7 +45,7 @@ export function MobileTodayTasksCard({
     <section className={cn('profile-mobile-panel p-4', className)}>
       <MobileProfileSectionTitle title="今日任务" trailing={`${completedTaskCount}/${GROWTH_TASK_TOTAL}`} />
 
-      <div className="mt-3 flex items-center gap-3 rounded-[14px] bg-[hsl(var(--surface-muted)/0.42)] px-3 py-3 ring-1 ring-[hsl(var(--surface-border)/0.55)]">
+      <div className="mt-3 flex items-center gap-3 rounded-md bg-[hsl(var(--surface-muted)/0.42)] px-3 py-3 ring-1 ring-[hsl(var(--surface-border)/0.55)]">
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-[hsl(var(--tone-art)/0.45)] bg-[hsl(var(--tone-art-soft))] text-[hsl(var(--tone-art))]">
           <Award className="h-5 w-5" strokeWidth={2.2} />
         </span>
@@ -58,12 +58,12 @@ export function MobileTodayTasksCard({
             type="button"
             disabled={claimingTaskId === featuredTask.id}
             onClick={() => onClaim(featuredTask.id)}
-            className="profile-task-cta h-9 shrink-0 rounded-[22px] px-4 text-xs font-bold"
+            className="profile-task-cta h-9 shrink-0 rounded-lg px-4 text-xs font-bold"
           >
             {claimingTaskId === featuredTask.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : actionLabel}
           </Button>
         ) : (
-          <Button asChild className="profile-task-cta h-9 shrink-0 rounded-[22px] px-4 text-xs font-bold">
+          <Button asChild className="profile-task-cta h-9 shrink-0 rounded-lg px-4 text-xs font-bold">
             <Link href={featuredTask.href}>{actionLabel}</Link>
           </Button>
         )}

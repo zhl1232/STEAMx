@@ -144,7 +144,7 @@ function CommentCardComponent({
           alt="评论附图"
           width={200}
           height={200}
-          className="rounded-lg border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
+          className="rounded-xs border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
         />
       </button>
     ) : (
@@ -159,7 +159,7 @@ function CommentCardComponent({
           alt="评论附图"
           width={200}
           height={200}
-          className="rounded-lg border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
+          className="rounded-xs border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
         />
       </a>
     ));
@@ -167,7 +167,7 @@ function CommentCardComponent({
   return (
     <div
       className={cn(
-        "group flex gap-3 rounded-[20px] px-2 py-1 transition-colors [transition-duration:2800ms] sm:px-3",
+        "group flex gap-3 rounded-lg px-2 py-1 transition-colors [transition-duration:2800ms] sm:px-3",
         highlighted && "bg-sky-50/90 ring-1 ring-sky-200/80 dark:bg-sky-500/10 dark:ring-sky-400/30",
         compact ? "py-3" : "py-4 sm:py-5 sm:gap-4",
         !noBorder && "border-b border-border/60 last:border-0",
@@ -215,7 +215,7 @@ function CommentCardComponent({
               ref={editRef}
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/40"
+              className="w-full rounded-xs border bg-background px-3 py-2 text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/40"
               rows={3}
               maxLength={2000}
               disabled={isSaving}
@@ -328,7 +328,7 @@ function CommentCardComponent({
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-36 rounded-xl">
+                    <DropdownMenuContent align="end" className="w-36 rounded-sm">
                       {canDelete && (
                         <DropdownMenuItem
                           className="gap-2 text-destructive focus:text-destructive"

@@ -17,7 +17,7 @@ function buildLessons() {
         <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">
           <p>欢迎来到《扫雷解局学》。我们要学习的，是如何像福尔摩斯一样，利用每一格提供的线索，通过纯粹的逻辑推理找出所有地雷。</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border space-y-4">
+          <div className="bg-muted/30 p-5 rounded-md border border-border space-y-4">
             <h3 className="font-bold text-foreground text-base">数字的核心密码</h3>
             <p>扫雷里最重要的线索就是<strong>数字</strong>。每一个数字，都代表它<strong>周围一圈（最多8个）的方块里，到底藏着几颗雷。</strong></p>
 
@@ -48,7 +48,7 @@ function buildLessons() {
             </div>
           </div>
 
-          <div className="bg-primary/5 p-5 rounded-2xl border border-primary/20">
+          <div className="bg-primary/5 p-5 rounded-md border border-primary/20">
             <h3 className="font-bold text-primary text-base mb-2">操作小结</h3>
             <ul className="space-y-2 text-sm list-disc pl-4 marker:text-primary/50">
               <li><strong>左键：</strong> 挖开未知方块，如果是雷就爆炸，如果安全就会显示数字。</li>
@@ -66,7 +66,7 @@ function buildLessons() {
         <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">
           <p>根据上面学的规则，我们很容易总结出新手扫雷的两条万能法则。用这两条法则，你就能通过很大一部分初级地图了。</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border space-y-4">
+          <div className="bg-muted/30 p-5 rounded-md border border-border space-y-4">
             <h3 className="font-bold text-foreground text-base">法则 一：当 剩余空位 = 数字</h3>
             <p className="mb-2">如果你发现某个数字周围<strong>还没挖开的格子数量</strong>，恰好等于<strong>这个数字本身</strong>，那不用怀疑，这些剩下的格子全都是雷，赶紧插上红旗！</p>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
@@ -89,7 +89,7 @@ function buildLessons() {
             <p className="text-xs text-center text-muted-foreground">图中的“3”，周围只剩下 3 个未知格。根据法则一，如果周围还没挖开的格子数恰好等于数字本身，那毫无疑问，它们全都是雷。</p>
           </div>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border space-y-4">
+          <div className="bg-muted/30 p-5 rounded-md border border-border space-y-4">
             <h3 className="font-bold text-foreground text-base">法则 二：当 已标红旗 = 数字</h3>
             <p className="mb-2">如果某个数字周围，你已经插上了足够多正确的红旗（红旗数=数字），说明它周围的雷已经找齐了。那它周围剩下的未知格子绝对非常安全，闭着眼睛挖（或者双击）！</p>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
@@ -170,7 +170,7 @@ function buildLessons() {
               <li><span className="text-red-500 font-bold">红圈(3)</span>：由于中间是3，说明左图红色的 <strong>5个位置里，必定藏着 3 颗雷</strong>。</li>
               <li><span className="text-green-600 font-bold">绿圈(1)</span>：由于右边是1，说明右图绿色的 <strong>2个位置里，必定藏着 1 颗雷</strong>。</li>
             </ul>
-            <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 flex gap-3 text-primary mt-4">
+            <div className="bg-primary/5 p-4 rounded-sm border border-primary/20 flex gap-3 text-primary mt-4">
               <Lightbulb className="shrink-0 animate-pulse mt-0.5" />
               <div className="space-y-2">
                 <p><strong>神奇的魔法出现了（当大圈包含小圈）：</strong></p>
@@ -190,7 +190,7 @@ function buildLessons() {
         <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">
           <p>排除法是扫雷最基础的高级操作。如果 <strong>小圈被大圈完全包含，并且两个圈的【雷数相等】</strong>，那么大圈多长出来的那些方块，一定安全！</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border">
+          <div className="bg-muted/30 p-5 rounded-md border border-border">
             <h3 className="font-bold text-foreground text-base mb-4 text-center">基础边 11 排除</h3>
             <div className="flex flex-col sm:flex-row items-center gap-6 justify-center">
               <BoardIllustration
@@ -241,7 +241,7 @@ function buildLessons() {
           <p>排除法不只是两个纯“1”凑一起才能用，只要你算清剩余的雷数，并且保证其中一个圈被另一个圈全包进去，就能发威。</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-xl border border-border">
+            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-sm border border-border">
               <p className="font-bold">带雷的 11 (其实数字是2和3)</p>
               <div className="flex gap-2 items-center">
                 <BoardIllustration
@@ -278,7 +278,7 @@ function buildLessons() {
               </p>
             </div>
 
-            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-xl border border-border">
+            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-sm border border-border">
               <p className="font-bold">平边 1-1-1 (两头安全)</p>
               <div className="flex gap-2 items-center">
                 <BoardIllustration
@@ -326,7 +326,7 @@ function buildLessons() {
           <p>确认法和排除法是好兄弟。当你看到 <strong>大圈包含小圈</strong> 时：<br />
             算一下大圈比小圈 <strong>多了几个未知格</strong>，再算一下 <strong>多了几颗雷</strong>。如果它们刚好相等，那么多出来的格子必定全是雷！</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border">
+          <div className="bg-muted/30 p-5 rounded-md border border-border">
             <h3 className="font-bold text-foreground text-base mb-4 text-center">基础边 12 确认</h3>
             <div className="flex flex-col sm:flex-row items-center gap-6 justify-center">
               <BoardIllustration
@@ -376,7 +376,7 @@ function buildLessons() {
           <p>只要满足条件，你可以推导出很多奇妙的确认变种。</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-xl border border-border">
+            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-sm border border-border">
               <p className="font-bold">带雷的 12</p>
               <div className="flex gap-2 items-center">
                 <BoardIllustration
@@ -413,7 +413,7 @@ function buildLessons() {
               </p>
             </div>
 
-            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-xl border border-border">
+            <div className="bg-muted/30 p-4 flex flex-col items-center gap-3 rounded-sm border border-border">
               <p className="font-bold">平边 1-3</p>
               <div className="flex gap-2 items-center">
                 <BoardIllustration
@@ -461,7 +461,7 @@ function buildLessons() {
         <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">
           <p>这是扫雷里极其常用的经典定式！当你在边界上看到一排未知格，旁边紧挨着依次排列着 <strong>1、2、1</strong> 三个数字时，就可以直接套用结论。</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border">
+          <div className="bg-muted/30 p-5 rounded-md border border-border">
             <h3 className="font-bold text-foreground text-base mb-4 text-center">经典的 1-2-1</h3>
             <div className="flex flex-col sm:flex-row items-center gap-6 justify-center">
               <BoardIllustration
@@ -499,7 +499,7 @@ function buildLessons() {
             </div>
           </div>
 
-          <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 flex gap-3 text-primary">
+          <div className="bg-primary/5 p-4 rounded-sm border border-primary/20 flex gap-3 text-primary">
             <Lightbulb className="shrink-0 mt-0.5" />
             <div className="space-y-2 text-xs">
               <p><strong>拆分推导（为什么这样？）</strong></p>
@@ -522,7 +522,7 @@ function buildLessons() {
         <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">
           <p>定式“12”，这个词里1和2讲的是它们实际需要的雷数，并不局限只占领那么一点格子。“1”的部分其实可以很长很宽，同样能触发这个神作。</p>
 
-          <div className="bg-muted/30 p-5 rounded-2xl border border-border">
+          <div className="bg-muted/30 p-5 rounded-md border border-border">
             <h3 className="font-bold text-foreground text-base mb-4 text-center">拉长的 1</h3>
             <div className="flex flex-col sm:flex-row items-center gap-6 justify-center">
               <BoardIllustration
@@ -629,7 +629,7 @@ export default function CoursePage() {
             <button
               key={i}
               onClick={() => setCurrentLesson(i)}
-              className={`shrink-0 w-9 h-9 rounded-xl text-sm font-bold transition-all snap-start ${i === currentLesson
+              className={`shrink-0 w-9 h-9 rounded-sm text-sm font-bold transition-all snap-start ${i === currentLesson
                 ? "bg-primary text-primary-foreground shadow-md scale-105"
                 : "bg-background border border-border hover:bg-muted text-muted-foreground"
                 }`}
@@ -668,7 +668,7 @@ export default function CoursePage() {
                 ) : (
                   <div
                     role="status"
-                    className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 text-sm text-amber-900 shadow-inner dark:text-amber-100"
+                    className="rounded-md border border-amber-500/30 bg-amber-500/10 p-5 text-sm text-amber-900 shadow-inner dark:text-amber-100"
                   >
                     <p className="font-bold">本课练习暂不可用</p>
                     <p className="mt-2 text-amber-800/90 dark:text-amber-100/80">
@@ -687,17 +687,17 @@ export default function CoursePage() {
         <button
           onClick={goPrev}
           disabled={currentLesson === 0}
-          className="flex items-center gap-2 px-5 py-3 text-sm font-bold rounded-xl transition-all disabled:opacity-30 enabled:hover:bg-accent text-foreground border border-transparent enabled:hover:border-border"
+          className="flex items-center gap-2 px-5 py-3 text-sm font-bold rounded-sm transition-all disabled:opacity-30 enabled:hover:bg-accent text-foreground border border-transparent enabled:hover:border-border"
         >
           <ChevronLeft className="w-4 h-4" /> 上一课
         </button>
-        <span className="text-xs font-mono font-bold text-muted-foreground bg-muted/50 border border-border px-3 py-1.5 rounded-lg hidden sm:block">
+        <span className="text-xs font-mono font-bold text-muted-foreground bg-muted/50 border border-border px-3 py-1.5 rounded-xs hidden sm:block">
           第 {currentLesson + 1} 课 / 共 {lessonCount} 课
         </span>
         <button
           onClick={goNext}
           disabled={currentLesson === lessonCount - 1}
-          className="flex items-center gap-2 px-5 py-3 text-sm font-bold bg-primary text-primary-foreground rounded-xl transition-all disabled:opacity-30 enabled:hover:opacity-90 shadow-md shadow-primary/20"
+          className="flex items-center gap-2 px-5 py-3 text-sm font-bold bg-primary text-primary-foreground rounded-sm transition-all disabled:opacity-30 enabled:hover:opacity-90 shadow-md shadow-primary/20"
         >
           下一课 <ChevronRight className="w-4 h-4" />
         </button>

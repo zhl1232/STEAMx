@@ -52,7 +52,7 @@ const ToneBadge = React.forwardRef<HTMLSpanElement, ToneBadgeProps>(
     <span
       ref={ref}
       className={cn(
-        "inline-flex items-center rounded-[8px] px-2.5 py-1 text-[11px] font-semibold",
+        "inline-flex items-center rounded-xs px-2.5 py-1 text-[11px] font-semibold",
         categoryToneClasses[tone].bg,
         categoryToneClasses[tone].text,
         className

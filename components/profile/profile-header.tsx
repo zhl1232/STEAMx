@@ -157,7 +157,7 @@ export function ProfileHeader({
               </div>
             </div>
 
-              <div className="mt-5 w-full overflow-hidden rounded-2xl border border-border/70 bg-background/70 backdrop-blur-sm">
+              <div className="mt-5 w-full overflow-hidden rounded-md border border-border/70 bg-background/70 backdrop-blur-sm">
               <div className="grid grid-cols-4 divide-x divide-border/40">
                 {stats.map((stat) => (
                   stat.href ? (

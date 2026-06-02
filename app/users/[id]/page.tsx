@@ -106,7 +106,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         description="这个用户主页链接不完整，无法继续访问。"
         icon={<UserRound className="h-8 w-8" />}
         actions={
-          <Button asChild variant="outline" className="rounded-2xl px-5">
+          <Button asChild variant="outline" className="rounded-md px-5">
             <Link href="/create">返回创造营</Link>
           </Button>
         }
@@ -124,7 +124,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         description="这个主页可能不存在，或者当前不可见。"
         icon={<UserRound className="h-8 w-8" />}
         actions={
-          <Button asChild variant="outline" className="rounded-2xl px-5">
+          <Button asChild variant="outline" className="rounded-md px-5">
             <Link href="/create">返回创造营</Link>
           </Button>
         }
@@ -247,7 +247,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                 return (
                   <section
                     key={key}
-                    className={cn("rounded-[28px] border p-4 shadow-[0_24px_60px_-42px_rgba(15,23,42,0.28)] sm:p-5", getSeriesPanelClass(key))}
+                    className={cn("rounded-xl border p-4 shadow-[0_24px_60px_-42px_rgba(15,23,42,0.28)] sm:p-5", getSeriesPanelClass(key))}
                   >
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div>

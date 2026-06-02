@@ -479,13 +479,13 @@ export function CompleteProjectDialog({
                     /* ═══ Step 1: 上传媒体 ═══ */
                     <div className="space-y-6 py-4">
                         {/* 项目名称 */}
-                        <div className="p-3 rounded-lg bg-muted/50">
+                        <div className="p-3 rounded-xs bg-muted/50">
                             <p className="font-medium text-center text-sm">{projectTitle}</p>
                         </div>
 
                         {/* PBL 联动提示 */}
                         {challengeId && (
-                            <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
+                            <div className="flex items-start gap-2 p-3 rounded-xs bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
                                 <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
                                 <p className="text-sm text-blue-700 dark:text-blue-300">
                                     此项目关联了挑战。填写反思与试错记录可额外获得{" "}
@@ -510,7 +510,7 @@ export function CompleteProjectDialog({
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                                 className={cn(
-                                    "relative rounded-lg border-2 border-dashed transition-colors p-4",
+                                    "relative rounded-xs border-2 border-dashed transition-colors p-4",
                                     isDragging
                                         ? "border-primary bg-primary/5"
                                         : "border-muted-foreground/25 hover:border-muted-foreground/50"
@@ -526,9 +526,9 @@ export function CompleteProjectDialog({
                                                         alt={`作品 ${index + 1}`}
                                                         fill
                                                         variant="grid"
-                                                        className="object-cover rounded-lg"
+                                                        className="object-cover rounded-xs"
                                                     />
-                                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg" />
+                                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-xs" />
                                                     <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                                                         {index > 0 && (
                                                             <button
@@ -570,7 +570,7 @@ export function CompleteProjectDialog({
                                 {uploading.length > 0 && (
                                     <div className="grid grid-cols-3 gap-3 mb-4">
                                         {uploading.map((item) => (
-                                            <div key={item.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted">
+                                            <div key={item.id} className="relative aspect-square rounded-xs overflow-hidden bg-muted">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 <img
                                                     src={item.preview}
@@ -632,7 +632,7 @@ export function CompleteProjectDialog({
                             <Label className="text-base">作品视频（可选）</Label>
 
                             {videoUploadStatus === "done" && videoPreviewUrl ? (
-                                <div className="relative rounded-lg overflow-hidden bg-black aspect-video">
+                                <div className="relative rounded-xs overflow-hidden bg-black aspect-video">
                                     <video
                                         src={videoPreviewUrl}
                                         className="w-full h-full object-contain"
@@ -649,7 +649,7 @@ export function CompleteProjectDialog({
                                     </button>
                                 </div>
                             ) : isVideoUploading ? (
-                                <div className="rounded-lg border-2 border-dashed border-muted-foreground/25 p-6 space-y-3">
+                                <div className="rounded-xs border-2 border-dashed border-muted-foreground/25 p-6 space-y-3">
                                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
                                         <Loader2 className="h-5 w-5 animate-spin" />
                                         <span className="text-sm">
@@ -673,7 +673,7 @@ export function CompleteProjectDialog({
                                         type="button"
                                         onClick={() => videoInputRef.current?.click()}
                                         className={cn(
-                                            "w-full flex flex-col items-center gap-2 py-5 rounded-lg border-2 border-dashed transition-colors",
+                                            "w-full flex flex-col items-center gap-2 py-5 rounded-xs border-2 border-dashed transition-colors",
                                             "border-muted-foreground/25 hover:border-muted-foreground/50 text-muted-foreground hover:text-foreground",
                                             videoUploadStatus === "error" && "border-red-300"
                                         )}
@@ -703,16 +703,16 @@ export function CompleteProjectDialog({
                     /* ═══ Step 2: 补充信息 + 预览 ═══ */
                     <div className="space-y-6 py-4">
                         {/* 媒体预览摘要 */}
-                        <div className="rounded-lg bg-muted/50 p-4 space-y-3">
+                        <div className="rounded-xs bg-muted/50 p-4 space-y-3">
                             <p className="text-sm font-medium">已上传的媒体</p>
                             <div className="flex gap-2 flex-wrap">
                                 {proofImages.map((url, i) => (
-                                    <div key={url} className="relative h-14 w-14 rounded-md overflow-hidden shrink-0">
+                                    <div key={url} className="relative h-14 w-14 rounded-xs overflow-hidden shrink-0">
                                         <OptimizedImage src={url} alt={`预览 ${i + 1}`} fill variant="grid" className="object-cover" />
                                     </div>
                                 ))}
                                 {videoPreviewUrl && (
-                                    <div className="relative h-14 w-14 rounded-md overflow-hidden shrink-0 bg-black flex items-center justify-center">
+                                    <div className="relative h-14 w-14 rounded-xs overflow-hidden shrink-0 bg-black flex items-center justify-center">
                                         <Video className="h-5 w-5 text-white/80" />
                                     </div>
                                 )}

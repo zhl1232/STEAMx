@@ -61,12 +61,12 @@ interface FormData {
 
 const DRAFT_KEY = "project_draft";
 const SECTION_CARD_CLASS =
-    "surface-subtle overflow-hidden rounded-[22px] border-border/60 shadow-none";
+    "surface-subtle overflow-hidden rounded-lg border-border/60 shadow-none";
 const SECTION_HEADER_CLASS = "px-3.5 pb-3 pt-4 sm:px-6 sm:pb-3 sm:pt-6";
 const SECTION_CONTENT_CLASS = "space-y-4 px-3.5 pb-4 sm:px-6 sm:pb-6";
 const SUBSECTION_CARD_CLASS =
-    "rounded-[18px] bg-background/72 shadow-none ring-1 ring-inset ring-border/40 sm:rounded-[20px]";
-const FIELD_CLASS = "rounded-xl border-border/60 bg-background/95 shadow-none";
+    "rounded-lg bg-background/72 shadow-none ring-1 ring-inset ring-border/40 sm:rounded-lg";
+const FIELD_CLASS = "rounded-sm border-border/60 bg-background/95 shadow-none";
 const CHIP_CLASS =
     "min-h-10 rounded-full border px-3.5 py-2 text-[13px] font-medium leading-none transition-all sm:px-4 sm:text-sm";
 
@@ -477,7 +477,7 @@ function ShareForm() {
                 <MobilePageHeader title={editId ? "编辑项目" : "分享项目"} fallbackHref="/profile" />
             </div>
 
-            <section className="surface-panel overflow-visible rounded-none border-0 bg-transparent px-0 py-4 shadow-none sm:overflow-hidden sm:rounded-[28px] sm:border sm:bg-card/88 sm:px-7 sm:py-7 sm:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] lg:px-8">
+            <section className="surface-panel overflow-visible rounded-none border-0 bg-transparent px-0 py-4 shadow-none sm:overflow-hidden sm:rounded-xl sm:border sm:bg-card/88 sm:px-7 sm:py-7 sm:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] lg:px-8">
                 <div className="mb-6 px-1 sm:mb-8 sm:px-0">
                     <p className="section-kicker">{editId ? "项目修改" : "项目发布"}</p>
                     <h1 className="mb-2 mt-3 text-[1.9rem] font-semibold tracking-tight sm:text-3xl">{editId ? "编辑项目" : "分享你的创意"}</h1>
@@ -491,7 +491,7 @@ function ShareForm() {
 
                     {/* 挑战关联横幅 */}
                     {challengeInfo && (
-                        <Card className="surface-subtle rounded-[22px] border-primary/35 bg-primary/5 shadow-none">
+                        <Card className="surface-subtle rounded-lg border-primary/35 bg-primary/5 shadow-none">
                             <CardContent className="px-3.5 py-4 sm:px-6">
                                 <div className="flex items-start gap-3">
                                     <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
@@ -731,7 +731,7 @@ function ShareForm() {
                                     <p className="text-sm text-muted-foreground">记录你的每次尝试和结果，展示探究过程</p>
                                 )}
                                 {formData.iterations.map((it, i) => (
-                                    <div key={i} className="space-y-3 rounded-[16px] bg-background/72 p-3 ring-1 ring-inset ring-border/40 sm:rounded-2xl sm:p-4">
+                                    <div key={i} className="space-y-3 rounded-md bg-background/72 p-3 ring-1 ring-inset ring-border/40 sm:rounded-md sm:p-4">
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-medium">尝试 #{i + 1}</span>
                                             <Button type="button" variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0"
@@ -788,7 +788,7 @@ function ShareForm() {
                                 <h2 className="mt-3 text-lg font-semibold tracking-tight">提交前确认</h2>
                                 <div className="mt-4 space-y-2">
                                     {completionChecks.map((item) => (
-                                        <div key={item.label} className="flex items-center justify-between rounded-2xl bg-background/72 px-3 py-2.5 text-sm">
+                                        <div key={item.label} className="flex items-center justify-between rounded-md bg-background/72 px-3 py-2.5 text-sm">
                                             <span className="text-muted-foreground">{item.label}</span>
                                             <span className={cn(
                                                 "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium",
@@ -808,7 +808,7 @@ function ShareForm() {
                                     <p className="mt-1 text-xs text-muted-foreground">{requiredDoneCount}/5 项信息已完善</p>
                                 </div>
                                 <div className="p-4">
-                                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted/50">
+                                    <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-muted/50">
                                         {formData.coverImage ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={formData.coverImage} alt="" className="h-full w-full object-cover" />

@@ -81,7 +81,7 @@ function Peg({
             onClick={onClick}
             disabled={isAutoSolving}
             className={cn(
-                "flex-1 flex flex-col items-center relative cursor-pointer transition-all duration-200 rounded-2xl p-2 sm:p-3 min-w-0",
+                "flex-1 flex flex-col items-center relative cursor-pointer transition-all duration-200 rounded-md p-2 sm:p-3 min-w-0",
                 "hover:bg-primary/5",
                 isSelected && "bg-primary/10 ring-2 ring-primary/40",
                 isAutoSolving && "cursor-default hover:bg-transparent",
@@ -110,7 +110,7 @@ function Peg({
                         <div
                             key={`${pegKey}-${disk}`}
                             className={cn(
-                                "absolute left-1/2 -translate-x-1/2 h-[20px] rounded-lg shadow-md border border-white/20 transition-all duration-300",
+                                "absolute left-1/2 -translate-x-1/2 h-[20px] rounded-xs shadow-md border border-white/20 transition-all duration-300",
                                 DISK_COLORS[disk - 1] ?? "bg-gray-500",
                             )}
                             style={{
@@ -241,7 +241,7 @@ export default function HanoiPage() {
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                             </div>
                             <div>
@@ -266,14 +266,14 @@ export default function HanoiPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-xl border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                         {/* Disk count */}
                         <div className="flex items-center gap-1.5">
                             <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">圆盘</span>
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={diskCount <= 3 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount - 1)}
                                 aria-label="减少圆盘数量"
@@ -286,7 +286,7 @@ export default function HanoiPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-lg"
+                                className="h-7 w-7 rounded-xs"
                                 disabled={diskCount >= 8 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount + 1)}
                                 aria-label="增加圆盘数量"
@@ -326,7 +326,7 @@ export default function HanoiPage() {
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="h-7 rounded-lg text-xs gap-1 px-2.5"
+                                    className="h-7 rounded-xs text-xs gap-1 px-2.5"
                                     onClick={autoSolve}
                                     disabled={status === "won"}
                                 >
@@ -337,7 +337,7 @@ export default function HanoiPage() {
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="h-7 rounded-lg text-xs gap-1 px-2.5"
+                                    className="h-7 rounded-xs text-xs gap-1 px-2.5"
                                     onClick={autoSolvePaused ? resumeAutoSolve : pauseAutoSolve}
                                 >
                                     {autoSolvePaused ? (
@@ -350,7 +350,7 @@ export default function HanoiPage() {
                             )}
 
                             {/* Speed selector */}
-                            <div className="flex items-center bg-muted/40 rounded-lg overflow-hidden border border-border">
+                            <div className="flex items-center bg-muted/40 rounded-xs overflow-hidden border border-border">
                                 {(["slow", "normal", "fast"] as HanoiSpeed[]).map((s) => (
                                     <button
                                         key={s}
@@ -370,7 +370,7 @@ export default function HanoiPage() {
                     </div>
 
                     {/* Pegs area */}
-                    <div className="relative bg-muted/20 rounded-2xl p-3 sm:p-5 border border-border shadow-xl">
+                    <div className="relative bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl">
                         <div className="flex gap-2 sm:gap-4">
                             {(["A", "B", "C"] as HanoiPeg[]).map((peg) => (
                                 <Peg
@@ -392,13 +392,13 @@ export default function HanoiPage() {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className="absolute inset-0 z-10 flex items-center justify-center bg-amber-500/10 backdrop-blur-md rounded-2xl"
+                                    className="absolute inset-0 z-10 flex items-center justify-center bg-amber-500/10 backdrop-blur-md rounded-md"
                                 >
                                     <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-[22px] border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
+                                        className="bg-background/95 px-6 py-5 sm:px-10 sm:py-8 rounded-lg border border-amber-400/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-3"
                                     >
                                         <div className="flex items-center gap-2 text-amber-500">
                                             <Trophy className="w-8 h-8 animate-bounce" />
@@ -471,7 +471,7 @@ export default function HanoiPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-amber-500" />
                                     <h4 className="text-sm font-bold text-foreground">递归解法</h4>
@@ -486,7 +486,7 @@ export default function HanoiPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Zap className="w-4 h-4 text-blue-500" />
                                     <h4 className="text-sm font-bold text-foreground">时间复杂度</h4>
@@ -497,7 +497,7 @@ export default function HanoiPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-2">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Brain className="w-4 h-4 text-violet-500" />
                                     <h4 className="text-sm font-bold text-foreground">与二进制的联系</h4>
@@ -508,7 +508,7 @@ export default function HanoiPage() {
                                 </p>
                             </div>
 
-                            <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 space-y-2">
+                            <div className="p-4 rounded-md border border-primary/20 bg-primary/5 space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Play className="w-4 h-4 text-primary" />
                                     <h4 className="text-sm font-bold text-foreground">试试自动演示</h4>
@@ -527,7 +527,7 @@ export default function HanoiPage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.totalGames}
@@ -536,7 +536,7 @@ export default function HanoiPage() {
                                         总局数
                                     </span>
                                 </div>
-                                <div className="p-4 rounded-2xl border border-border bg-muted/10 flex flex-col items-center gap-1">
+                                <div className="p-4 rounded-md border border-border bg-muted/10 flex flex-col items-center gap-1">
                                     <Sparkles className="w-5 h-5 text-amber-500 mb-1" />
                                     <span className="text-2xl font-black text-foreground font-mono">
                                         {stats.wins}
@@ -548,7 +548,7 @@ export default function HanoiPage() {
                             </div>
 
                             {/* Best moves per disk count */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <ChevronRight className="w-4 h-4 text-blue-500" />
                                     最佳步数（按盘数）
@@ -598,7 +598,7 @@ export default function HanoiPage() {
                             </div>
 
                             {/* Best times per disk count */}
-                            <div className="p-4 rounded-2xl border border-border bg-muted/10 space-y-3">
+                            <div className="p-4 rounded-md border border-border bg-muted/10 space-y-3">
                                 <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                                     <Timer className="w-4 h-4 text-green-500" />
                                     最佳用时（按盘数）
@@ -630,7 +630,7 @@ export default function HanoiPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 p-4 rounded-2xl border border-border bg-muted/10">
+                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
                                     <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
                                     <div>
