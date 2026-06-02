@@ -339,7 +339,8 @@
 | `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、树木、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
-| `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；运行时经 `NEXT_PUBLIC_ASSETS_BASE_URL` 重写） |
-| `public/trees/` | 树木物种封面图 |
-| `public/projects/` | 项目封面图、步骤图（WebP） |
+| `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；生产环境经 `NEXT_PUBLIC_ASSETS_BASE_URL` 重写；本地开发默认使用 public 资源，`NEXT_PUBLIC_FORCE_REMOTE_ASSETS=true` 时强制远程） |
+| `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
+| `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
+| `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/generated/*.webp` 已迁 OSS 且本地 gitignore，生产环境直连 OSS 以避开 Next 服务端图片优化的 CDN Referer 限制 |
 | `public/icon*.png` | PWA 图标 |

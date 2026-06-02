@@ -47,6 +47,16 @@ const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
 
 const GENERATED_PROJECT_IMAGE_CACHE_VERSION = "20260522-tech-images"
 
+function shouldRewriteStaticAssets() {
+  if (process.env.NEXT_PUBLIC_FORCE_REMOTE_ASSETS === "true") return true
+  return process.env.NODE_ENV === "production"
+}
+
+function isConfiguredStaticAssetUrl(src: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL?.trim().replace(/\/+$/, "")
+  return Boolean(baseUrl && src.startsWith(`${baseUrl}/`))
+}
+
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS
 
 interface OptimizedImageProps extends Omit<ImageProps, "sizes" | "quality"> {
@@ -116,7 +126,9 @@ export function getOptimizedImageSrc(
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
   const width = WIDTH_PRESETS[variant]
   const versionedSrc = withGeneratedProjectImageCacheVersion(src)
-  const rewrittenSrc = rewriteAssetUrl(versionedSrc) ?? versionedSrc
+  const rewrittenSrc = shouldRewriteStaticAssets()
+    ? rewriteAssetUrl(versionedSrc) ?? versionedSrc
+    : versionedSrc
 
   if (variant === "cover") {
     return rewrittenSrc
@@ -154,6 +166,7 @@ export function OptimizedImage({
     isSupabasePublicStorageUrl(rawSrc) &&
     supportsSupabaseRenderTransform(rawSrc)
   const src = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
+  const useDirectStaticAsset = typeof src === "string" && isConfiguredStaticAssetUrl(src)
 
   return (
     <Image
@@ -163,7 +176,7 @@ export function OptimizedImage({
       quality={quality}
       loading={loadingProp}
       priority={priority}
-      unoptimized={useDirectSupabaseTransform}
+      unoptimized={useDirectSupabaseTransform || useDirectStaticAsset}
       placeholder={useBlur ? "blur" : placeholder}
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
       className={cn(className)}
