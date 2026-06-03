@@ -1,6 +1,6 @@
 /** @vitest-environment node */
 
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 import { NextRequest } from 'next/server'
 
 import { POST, PATCH } from '@/app/api/challenges/[id]/submission/route'
@@ -30,6 +30,7 @@ vi.mock('@/lib/api/rate-limit', () => ({
 }))
 
 describe('challenge submission route', () => {
+  const testSupabaseUrl = 'https://example.supabase.co'
   const ownedProofImageUrl = 'https://example.supabase.co/storage/v1/object/public/project-completions/challenge-submissions/user-1/image.png'
   const createClientMock = createClient as Mock<typeof createClient>
   const requireAuthMock = requireAuth as Mock<typeof requireAuth>
@@ -38,8 +39,13 @@ describe('challenge submission route', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', testSupabaseUrl)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
     requireRateLimitMock.mockResolvedValue(undefined)
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
   })
 
   it('returns 409 when creating a duplicate challenge submission', async () => {
