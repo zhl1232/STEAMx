@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
-import { isOwnedProjectImageUrl, validateNumber } from '@/lib/api/validation'
+import {
+  isOwnedCompletionVideoUrl,
+  isOwnedProjectImageUrl,
+  validateContentSafeIfPresent,
+  validateNumber,
+} from '@/lib/api/validation'
 import { canResubmitCompletion } from '@/lib/completion-records'
 import { scheduleCompletionModeration } from '@/lib/completions/moderate-completion'
 import { createClient } from '@/lib/supabase/server'
@@ -44,12 +49,23 @@ export async function POST(
     const payload = parsed.data
     const recordKind = payload.kind
 
+    validateContentSafeIfPresent(payload.recordType, '记录类型')
+    validateContentSafeIfPresent(payload.stageLabel, '阶段名称')
+    validateContentSafeIfPresent(payload.notes, '作品说明')
+    for (const caption of payload.imageCaptions ?? []) {
+      validateContentSafeIfPresent(caption, '图片说明')
+    }
+
     if (
       payload.images.some(
         (url) => !isOwnedProjectImageUrl(url, user.id, { bucket: 'project-completions' }),
       )
     ) {
       return NextResponse.json({ error: '作品图片必须使用当前账号上传的文件' }, { status: 400 })
+    }
+
+    if (payload.videoUrl && !isOwnedCompletionVideoUrl(payload.videoUrl, user.id)) {
+      return NextResponse.json({ error: '作品视频必须使用当前账号上传的文件' }, { status: 400 })
     }
 
     const { data: exploration, error: explorationError } = await supabase

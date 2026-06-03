@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUpload, ALLOWED_BUCKETS } from '@/lib/utils/file-validation'
+import { moderateUploadedImage } from '@/lib/ai/upload-content-moderation'
 import { logger } from '@/lib/logger'
 
 const IMAGE_ONLY_BUCKETS = ALLOWED_BUCKETS.filter(b => b !== 'project-completion-videos')
@@ -25,14 +26,6 @@ function normalizePathPrefix(value: FormDataEntryValue | null): string | null {
     .join('/')
 
   return normalized || null
-}
-
-/**
- * Placeholder for future content moderation integration.
- * Currently always returns pass.
- */
-async function moderateImage(_publicUrl: string): Promise<{ pass: boolean; reason?: string }> {
-  return { pass: true }
 }
 
 export async function POST(request: NextRequest) {
@@ -91,12 +84,21 @@ export async function POST(request: NextRequest) {
       .from(bucket)
       .getPublicUrl(data.path)
 
-    const moderation = await moderateImage(publicUrl)
-    if (!moderation.pass) {
+    try {
+      const moderation = await moderateUploadedImage(publicUrl, '上传图片')
+      if (!moderation.pass) {
+        await supabaseAdmin.storage.from(bucket).remove([data.path])
+        return NextResponse.json(
+          { error: moderation.reason || '图片内容审核未通过' },
+          { status: 400 }
+        )
+      }
+    } catch (moderationError) {
       await supabaseAdmin.storage.from(bucket).remove([data.path])
+      logger.error('Upload image moderation failed', { error: moderationError, bucket, path: data.path })
       return NextResponse.json(
-        { error: moderation.reason || '图片内容审核未通过' },
-        { status: 400 }
+        { error: '图片审核暂时不可用，请稍后重试' },
+        { status: 503 }
       )
     }
 

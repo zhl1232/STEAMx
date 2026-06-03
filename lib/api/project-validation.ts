@@ -1,5 +1,10 @@
 import type { CreateProjectInput } from '@/lib/schemas'
-import { validateContentSafe } from '@/lib/api/validation'
+import {
+  isOwnedProjectImageUrl,
+  isTrustedLocalAssetUrl,
+  validateContentSafe,
+  ValidationError,
+} from '@/lib/api/validation'
 
 export function validateProjectContent(payload: CreateProjectInput) {
   const textEntries: Array<{ fieldName: string; value: string | null | undefined }> = [
@@ -27,5 +32,34 @@ export function validateProjectContent(payload: CreateProjectInput) {
     if (typeof entry.value === 'string' && entry.value.trim().length > 0) {
       validateContentSafe(entry.value, entry.fieldName)
     }
+  }
+}
+
+function isOwnedProjectUpload(url: string, userId: string): boolean {
+  return (
+    isOwnedProjectImageUrl(url, userId) ||
+    isOwnedProjectImageUrl(url, userId, 'covers') ||
+    isOwnedProjectImageUrl(url, userId, 'steps') ||
+    isOwnedProjectImageUrl(url, userId, 'projects')
+  )
+}
+
+function validateProjectImageUrl(
+  imageUrl: string | null | undefined,
+  userId: string,
+  fieldName: string,
+) {
+  if (!imageUrl) return
+  if (isTrustedLocalAssetUrl(imageUrl)) return
+  if (isOwnedProjectUpload(imageUrl, userId)) return
+
+  throw new ValidationError(`${fieldName}必须使用当前账号上传的文件或系统默认图片`)
+}
+
+export function validateProjectMediaOwnership(payload: CreateProjectInput, userId: string) {
+  validateProjectImageUrl(payload.image_url, userId, '项目封面图片')
+
+  for (const step of payload.steps ?? []) {
+    validateProjectImageUrl(step.image_url, userId, '步骤图片')
   }
 }

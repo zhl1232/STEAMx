@@ -9,7 +9,7 @@ import {
 } from '@/lib/ai/observation-media-analysis'
 import { selectAiIdentification } from '@/lib/observations/identifications'
 import { getObservations } from '@/lib/api/nature-observation-data'
-import { isOwnedProjectImageUrl } from '@/lib/api/validation'
+import { isOwnedProjectImageUrl, validateContentSafeIfPresent } from '@/lib/api/validation'
 import { buildObservationRewardSummary } from '@/lib/api/observation-gamification'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { logger } from '@/lib/logger'
@@ -81,6 +81,17 @@ export async function POST(request: NextRequest) {
 
     const payload = parsed.data
     const uniqueMediaUrls = Array.from(new Set(payload.media_urls))
+
+    validateContentSafeIfPresent(payload.location_name, '观察地点')
+    validateContentSafeIfPresent(payload.habitat, '生境')
+    validateContentSafeIfPresent(payload.weather, '天气')
+    validateContentSafeIfPresent(payload.notes, '观察备注')
+    for (const entry of payload.species_entries ?? []) {
+      validateContentSafeIfPresent(entry.notes, '物种备注')
+      for (const tag of entry.behavior_tags) {
+        validateContentSafeIfPresent(tag, '行为标签')
+      }
+    }
 
     if (uniqueMediaUrls.some((url) => !isOwnedProjectImageUrl(url, user.id, 'observations'))) {
       return NextResponse.json({ error: '观察图片必须使用当前账号上传的文件' }, { status: 400 })

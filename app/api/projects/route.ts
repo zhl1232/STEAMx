@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
-import { validateProjectContent } from '@/lib/api/project-validation'
+import { validateProjectContent, validateProjectMediaOwnership } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
 import type { Database, Json } from '@/lib/supabase/types'
@@ -96,6 +96,7 @@ export async function POST(request: Request) {
     }
 
     validateProjectContent(parseResult.data)
+    validateProjectMediaOwnership(parseResult.data, user.id)
 
     const {
       title,

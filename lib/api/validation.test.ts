@@ -2,7 +2,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { isOwnedProjectImageUrl } from '@/lib/api/validation'
+import { isOwnedCompletionVideoUrl, isOwnedProjectImageUrl } from '@/lib/api/validation'
 
 const TEST_SUPABASE_URL = 'https://example.supabase.co'
 
@@ -60,6 +60,24 @@ describe('isOwnedProjectImageUrl', () => {
         'https://example.supabase.co/storage/v1/object/public/project-completions/user-999/file.jpg',
         'user-123',
         { bucket: 'project-completions' },
+      ),
+    ).toBe(false)
+  })
+
+  it('accepts completion videos in the current user path', () => {
+    expect(
+      isOwnedCompletionVideoUrl(
+        'https://example.supabase.co/storage/v1/object/public/project-completion-videos/user-123/file.mp4',
+        'user-123',
+      ),
+    ).toBe(true)
+  })
+
+  it('rejects completion videos from another user', () => {
+    expect(
+      isOwnedCompletionVideoUrl(
+        'https://example.supabase.co/storage/v1/object/public/project-completion-videos/user-999/file.mp4',
+        'user-123',
       ),
     ).toBe(false)
   })

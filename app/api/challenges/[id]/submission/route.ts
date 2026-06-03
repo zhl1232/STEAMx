@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import {
+  validateChallengeSubmissionContent,
+  validateChallengeSubmissionMediaOwnership,
+} from '@/lib/api/challenge-submission-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getChallengeSubmissionByUser } from '@/lib/api/challenge-submissions'
 import { ChallengeSubmissionSchema } from '@/lib/schemas'
@@ -125,6 +129,8 @@ export async function POST(
         { status: 400 },
       )
     }
+    validateChallengeSubmissionContent(parsed.data)
+    validateChallengeSubmissionMediaOwnership(parsed.data, user.id)
 
     const existing = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
     if (existing) {
@@ -216,6 +222,8 @@ export async function PATCH(
         { status: 400 },
       )
     }
+    validateChallengeSubmissionContent(parsed.data)
+    validateChallengeSubmissionMediaOwnership(parsed.data, user.id)
 
     const current = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
     if (!current) {

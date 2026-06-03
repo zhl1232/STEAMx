@@ -276,6 +276,47 @@ export function isOwnedProjectImageUrl(
   return relativePath.startsWith(expectedPrefix)
 }
 
+export function isOwnedCompletionVideoUrl(videoUrl: string, userId: string): boolean {
+  return isOwnedProjectImageUrl(videoUrl, userId, { bucket: 'project-completion-videos' })
+}
+
+const TRUSTED_LOCAL_ASSET_PREFIXES = [
+  '/avatars/',
+  '/projects/',
+  '/birds/',
+  '/trees/',
+  '/insects/',
+  '/assets/',
+]
+
+export function isTrustedLocalAssetUrl(value: string | null | undefined): value is string {
+  if (typeof value !== 'string') return false
+  if (!value.startsWith('/')) return false
+  if (value.startsWith('//')) return false
+  return TRUSTED_LOCAL_ASSET_PREFIXES.some((prefix) => value.startsWith(prefix))
+}
+
+export function validateOwnedOrTrustedProjectImageUrl(
+  imageUrl: string | null | undefined,
+  userId: string,
+  fieldName: string,
+  pathPrefixOrOptions?: string | OwnedProjectImageOptions,
+): void {
+  if (!imageUrl) return
+  if (isTrustedLocalAssetUrl(imageUrl)) return
+  if (isOwnedProjectImageUrl(imageUrl, userId, pathPrefixOrOptions)) return
+  throw new ValidationError(`${fieldName}必须使用当前账号上传的文件`)
+}
+
+export function validateContentSafeIfPresent(
+  value: string | null | undefined,
+  fieldName: string,
+): void {
+  if (typeof value === 'string' && value.trim().length > 0) {
+    validateContentSafe(value, fieldName)
+  }
+}
+
 /**
  * 清理和限制搜索字符串
  * @param search 搜索字符串

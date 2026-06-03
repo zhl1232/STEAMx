@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
-import { validateProjectContent } from '@/lib/api/project-validation'
+import { validateProjectContent, validateProjectMediaOwnership } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateNumber } from '@/lib/api/validation'
 import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
@@ -39,6 +39,7 @@ export async function PATCH(
     }
 
     validateProjectContent(parsed.data)
+    validateProjectMediaOwnership(parsed.data, user.id)
 
     const {
       title,

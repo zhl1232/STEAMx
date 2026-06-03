@@ -80,7 +80,7 @@
 | settings | `api/settings/` | 用户设置更新 |
 | species | `api/species/` | 物种查询 |
 | tips | `api/tips/` | 打赏 |
-| upload | `api/upload/` | 图片上传（Supabase Storage） |
+| upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象 |
 | upload-video | `api/upload-video/` | 视频上传 |
 | users | `api/users/` | 用户公开信息查询 |
 | xp | `api/xp/` | 经验值增减 |
@@ -174,9 +174,10 @@
 - `lib/observations/consensus-ui.ts` — 社群共识进度（2 票规则）与 UI 文案
 - `lib/observations/activity-stream.ts` — 鉴定与评论合并为动态流
 - `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`tone=nature` / `outline` / `destructive` + `pill`）
-- `project-access.ts` / `project-validation.ts` — 项目权限与校验
+- `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验
+- `challenge-submission-validation.ts` — 挑战投稿标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
-- `validation.ts` — 通用输入验证
+- `validation.ts` — 通用输入验证、敏感词校验、上传 URL 归属/本地可信资源校验
 - `upstream-errors.ts` / `rate-limit.ts` — 错误处理与限流
 - `types.ts` — API 层类型
 
@@ -215,7 +216,7 @@
 |------|------|------|
 | `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射 |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格 |
-| `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts` | 通义千问视觉 AI 物种识别 |
+| `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts` | 通义千问视觉 AI：自然观察图像安全/质量/物种识别（按提交专题匹配鸟类/树木/昆虫物种库），以及通用上传图片安全审核 |
 | `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |

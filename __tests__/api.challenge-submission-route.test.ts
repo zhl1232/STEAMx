@@ -30,6 +30,7 @@ vi.mock('@/lib/api/rate-limit', () => ({
 }))
 
 describe('challenge submission route', () => {
+  const ownedProofImageUrl = 'https://example.supabase.co/storage/v1/object/public/project-completions/challenge-submissions/user-1/image.png'
   const createClientMock = createClient as Mock<typeof createClient>
   const requireAuthMock = requireAuth as Mock<typeof requireAuth>
   const requireRateLimitMock = requireRateLimit as Mock<typeof requireRateLimit>
@@ -66,7 +67,7 @@ describe('challenge submission route', () => {
       author: '测试用户',
       createdAt: '',
       updatedAt: '',
-      proofImages: ['/image.png'],
+      proofImages: [ownedProofImageUrl],
       isPublic: true,
       ratingSummary: {
         avgCreativeExpression: 0,
@@ -84,7 +85,7 @@ describe('challenge submission route', () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         title: '挑战作品',
-        proof_images: ['/image.png'],
+        proof_images: [ownedProofImageUrl],
         is_public: true,
         reference_project_ids: [],
       }),
@@ -118,7 +119,7 @@ describe('challenge submission route', () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         title: '挑战作品',
-        proof_images: ['/image.png'],
+        proof_images: [ownedProofImageUrl],
         is_public: true,
         reference_project_ids: [],
       }),
