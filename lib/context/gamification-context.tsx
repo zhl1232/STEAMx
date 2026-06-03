@@ -1,26 +1,15 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { showBadgeUnlockOverlay } from "@/components/features/gamification/badge-unlock-overlay";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 
 import { BADGES } from "@/lib/gamification/badges";
 
-interface CheckInResult {
-    streak: number;
-    total_days: number;
-    checked_in_today: boolean;
-    is_new_day: boolean;
-    xp_granted: number;
-    coins_granted: number;
-    error?: string;
-}
 import { UserStats, Badge } from "@/lib/gamification/types";
 import { useGamificationData } from "@/hooks/gamification/use-gamification-data";
 
@@ -73,8 +62,7 @@ function isMissingBadgeDefinitionError(error: unknown): boolean {
 
 export function GamificationProvider({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
-    const queryClient = useQueryClient();
-    const { user, profile, refreshProfile } = useAuth();
+    const { user, profile } = useAuth();
     const [supabase] = useState(() => createClient());
 
     // Use our new hook to manage data fetching
@@ -275,97 +263,6 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             checkBadges(userStats);
         }
     }, [userStats, badgesLoaded, checkBadges]);
-
-    // 5. Daily Check-in Side Effect
-    const hasCheckedIn = useRef(false);
-
-    useEffect(() => {
-        if (!user || hasCheckedIn.current) return;
-
-        const performCheckIn = async () => {
-            hasCheckedIn.current = true; // Mark as checked in immediately
-
-            try {
-                // Call RPC to record check-in (DB returns jsonb: streak, total_days, checked_in_today, is_new_day)
-                const { data, error } = await supabase.rpc('daily_check_in') as { data: CheckInResult | null; error: { code: string; message: string } | null };
-
-                if (error) {
-                    // 23505 是 PostgreSQL 的 unique_violation 错误码
-                    // 23503 是外键缺失（profile 不存在）
-                    if (error.code === '23503' && user) {
-                        try {
-                            const displayName = user.user_metadata?.full_name || user.user_metadata?.name || (user.phone ? user.phone.replace(/^\+86/, '') : null)
-                            const avatarUrl = getDefaultAvatarPath(user.id)
-                            await supabase
-                                .from('profiles')
-                                .upsert(
-                                    { id: user.id, display_name: displayName, avatar_url: avatarUrl },
-                                    { onConflict: 'id', ignoreDuplicates: true }
-                                )
-
-                            const { data: retryData, error: retryError } = await supabase.rpc('daily_check_in') as { data: CheckInResult | null; error: { code: string; message: string } | null };
-                            if (!retryError && retryData?.is_new_day) {
-                                refetchStats();
-                                await refreshProfile();
-                                queryClient.invalidateQueries({ queryKey: ['coin_logs'] });
-
-                                const streak = retryData.streak ?? 1;
-                                const xpGranted = retryData.xp_granted ?? 0;
-                                const coinsGranted = retryData.coins_granted ?? 0;
-                                toast({
-                                    description: (
-                                        <AchievementToast
-                                            title="每日登录奖励"
-                                            description={`+${xpGranted} XP · +${coinsGranted} 硬币${streak > 1 ? ` · 连续 ${streak} 天 🔥` : ''}`}
-                                            icon="📅"
-                                        />
-                                    ),
-                                    duration: 4000,
-                                });
-                            } else if (retryError && retryError.code !== '23505') {
-                                logger.error('Check-in error:', { error: retryError });
-                            }
-                        } catch (retryErr) {
-                            logger.error(retryErr, { context: 'Check-in failed after profile recovery' });
-                        }
-                        return;
-                    }
-                    if (error.code !== '23505') {
-                        logger.error('Check-in error:', { error });
-                    }
-                    return;
-                }
-
-                // 今天已打卡（is_new_day = false），无需刷新，直接返回
-                if (!data?.is_new_day) return;
-
-                // 新一天打卡：XP 与硬币已由服务端在同一事务内发放，刷新本地状态
-                refetchStats();
-                await refreshProfile();
-                queryClient.invalidateQueries({ queryKey: ['coin_logs'] });
-
-                // 显示打卡成功 Toast
-                const streak = data.streak ?? 1;
-                const xpGranted = data.xp_granted ?? 0;
-                const coinsGranted = data.coins_granted ?? 0;
-                toast({
-                    description: (
-                        <AchievementToast
-                            title="每日登录奖励"
-                            description={`+${xpGranted} XP · +${coinsGranted} 硬币${streak > 1 ? ` · 连续 ${streak} 天 🔥` : ''}`}
-                            icon="📅"
-                        />
-                    ),
-                    duration: 4000,
-                });
-            } catch (err) {
-                logger.error(err, { context: 'Check-in failed' });
-            }
-        };
-
-        performCheckIn();
-        // We only want to run this once per session/mount effectively, or when user changes
-    }, [user, supabase, refetchStats, refreshProfile, queryClient, toast]);
 
     const contextValue = useMemo(() => ({
         xp,
