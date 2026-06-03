@@ -131,6 +131,16 @@ const fallbackProjects: Project[] = [
     likes: 1100,
     comments_count: 108,
   },
+  {
+    id: "home-math-curve",
+    title: "数学曲线绘图机",
+    author: "数感实验室",
+    author_id: "home",
+    image: "/projects/generated/project-0268.webp",
+    category: "数学",
+    likes: 920,
+    comments_count: 84,
+  },
 ];
 
 const homeHeroFeatures = [
@@ -295,16 +305,17 @@ function NatureChannel() {
       href="/nature"
       className="group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm min-[1480px]:h-full"
     >
-      <div className="absolute right-0 top-1/2 h-[128px] w-[232px] -translate-y-1/2 overflow-hidden min-[390px]:h-[136px] min-[390px]:w-[248px] md:inset-0 md:h-auto md:w-auto md:translate-y-0">
+      <div className="absolute inset-y-0 right-0 hidden w-[70%] bg-[radial-gradient(circle_at_82%_50%,rgba(63,163,95,0.38),transparent_50%)] md:block" />
+      <div className="absolute right-0 top-1/2 h-[128px] w-[232px] -translate-y-1/2 overflow-hidden min-[390px]:h-[136px] min-[390px]:w-[248px] md:inset-0 md:h-auto md:w-auto md:translate-y-0 md:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,transparent_62%,rgba(0,0,0,0.28)_74%,black_88%,black_100%)] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_62%,rgba(0,0,0,0.28)_74%,black_88%,black_100%)] min-[1480px]:[-webkit-mask-image:none] min-[1480px]:[mask-image:none]">
         <Image
           src={natureImage}
           alt="蓝色鸟停在树枝上"
           fill
           sizes="(max-width: 768px) 248px, (min-width: 1640px) 480px, (min-width: 1480px) 420px, 100vw"
-          className="object-contain object-right transition duration-500 dark:brightness-90 group-hover:scale-[1.02] md:object-cover md:object-[64%_center] md:group-hover:scale-105"
+          className="object-contain object-right transition duration-500 dark:brightness-90 group-hover:scale-[1.02] min-[1480px]:object-cover min-[1480px]:object-[64%_center] min-[1480px]:group-hover:scale-105"
         />
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.78)_38%,rgba(18,70,30,0.16)_73%,rgba(18,70,30,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.8)_38%,rgba(18,70,30,0.28)_68%,rgba(18,70,30,0.02)_100%)] md:bg-[linear-gradient(90deg,rgba(18,70,30,0.96)_0%,rgba(18,70,30,0.92)_52%,rgba(18,70,30,0.48)_74%,rgba(18,70,30,0.04)_100%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.78)_38%,rgba(18,70,30,0.16)_73%,rgba(18,70,30,0)_100%)]" />
       <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] min-[390px]:px-5 md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
         <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
         <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>

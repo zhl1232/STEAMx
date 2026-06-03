@@ -13,7 +13,7 @@
 
 | 路由 | 入口文件 | 功能说明 |
 |------|----------|----------|
-| `/` | `app/page.tsx` | 首页 — 推荐项目轮播、社区动态 Feed、STEAM 分类磁贴入口 |
+| `/` | `app/page.tsx` | 首页 — 推荐项目轮播、6 个热门项目、社区动态 Feed、STEAM 分类磁贴入口 |
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
@@ -108,7 +108,7 @@
 - `error-boundary.tsx` — 错误边界
 
 ### 3.3 首页 (`components/home/`)
-- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、推荐流、社区动态
+- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、6 个热门项目、推荐流、社区动态；自然观察频道图在桌面小屏保持整图显示
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
@@ -199,7 +199,7 @@
 - `site.ts` — 站点基础配置（名称、URL、描述）
 
 ### 4.7 首页 (`lib/home/`)
-- `recommendations.ts` — 首页推荐算法（热门/随机/分类）
+- `recommendations.ts` — 首页推荐算法（6 个热门项目：按 STEAM 分类各取 1 个后用全站热门补齐；推荐流支持个性化/热门兜底）
 - `community-feed.ts` — 社区动态 Feed 数据
 - `category-tiles.ts` — 分类磁贴数据
 

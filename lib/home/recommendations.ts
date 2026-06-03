@@ -37,7 +37,7 @@ type RecommendationBatch = {
 type RecommendationBatchFetcher = (args: { limit: number; offset: number }) => Promise<RecommendationBatch>;
 
 const HOMEPAGE_HOT_CATEGORIES = ["科学", "技术", "工程", "艺术", "数学"] as const;
-const RECENT_HOT_LIMIT = HOMEPAGE_HOT_CATEGORIES.length;
+const RECENT_HOT_LIMIT = HOMEPAGE_HOT_CATEGORIES.length + 1;
 const SIDEBAR_RECOMMENDATION_LIMIT = 8;
 const MAX_SCAN_ROUNDS = 6;
 
