@@ -6,6 +6,8 @@ import { useEffect, useMemo, useRef } from "react";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
+import { useGamification } from "@/lib/context/gamification-context";
+import type { UserStats } from "@/lib/gamification/types";
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { createClient } from "@/lib/supabase/client";
@@ -24,8 +26,49 @@ interface RpcError {
     message: string;
 }
 
+function buildLoginBadgeStats(result: CheckInResult, currentStats?: UserStats): UserStats | null {
+    if (typeof result.streak !== "number") return null;
+
+    const fallbackStats: UserStats = {
+        projectsPublished: 0,
+        projectsLiked: 0,
+        projectsCompleted: 0,
+        commentsCount: 0,
+        scienceCompleted: 0,
+        techCompleted: 0,
+        engineeringCompleted: 0,
+        artCompleted: 0,
+        mathCompleted: 0,
+        likesGiven: 0,
+        likesReceived: 0,
+        collectionsCount: 0,
+        challengesJoined: 0,
+        level: 1,
+        loginDays: 0,
+        consecutiveDays: 0,
+        discussionsCreated: 0,
+        repliesCount: 0,
+        minesweeperWins: 0,
+        minesweeperExpertWins: 0,
+        minesweeperBestTime: 999,
+        observationsSubmitted: 0,
+        speciesObserved: 0,
+        observationStreak: 0,
+        growthTasksGraduated: false,
+    };
+
+    const baseStats = currentStats ?? fallbackStats;
+
+    return {
+        ...baseStats,
+        consecutiveDays: Math.max(baseStats.consecutiveDays, result.streak),
+        loginDays: Math.max(baseStats.loginDays, result.total_days ?? baseStats.loginDays),
+    };
+}
+
 export function DailyCheckInSync() {
     const { user, refreshProfile } = useAuth();
+    const { checkBadges, userStats } = useGamification();
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const supabase = useMemo(() => createClient(), []);
@@ -55,6 +98,13 @@ export function DailyCheckInSync() {
             await refreshProfile();
             void queryClient.invalidateQueries({ queryKey: ["coin_logs"] });
             void queryClient.invalidateQueries({ queryKey: ["gamification", "stats", user.id] });
+        };
+
+        const checkLoginStreakBadges = (result: CheckInResult) => {
+            const stats = buildLoginBadgeStats(result, userStats);
+            if (!stats) return;
+
+            checkBadges(stats);
         };
 
         const performCheckIn = async () => {
@@ -89,6 +139,7 @@ export function DailyCheckInSync() {
 
                             if (!retryError && retryData?.is_new_day) {
                                 await refreshRewardState();
+                                checkLoginStreakBadges(retryData);
                                 showCheckInToast(retryData);
                             } else if (retryError && retryError.code !== "23505") {
                                 logger.error("Check-in error:", { error: retryError });
@@ -108,6 +159,7 @@ export function DailyCheckInSync() {
                 if (!data?.is_new_day) return;
 
                 await refreshRewardState();
+                checkLoginStreakBadges(data);
                 showCheckInToast(data);
             } catch (err) {
                 logger.error(err, { context: "Check-in failed" });
@@ -115,7 +167,7 @@ export function DailyCheckInSync() {
         };
 
         void performCheckIn();
-    }, [queryClient, refreshProfile, supabase, toast, user]);
+    }, [checkBadges, queryClient, refreshProfile, supabase, toast, user, userStats]);
 
     return null;
 }

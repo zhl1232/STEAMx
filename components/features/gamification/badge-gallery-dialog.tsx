@@ -9,7 +9,6 @@ import { CheckCircle2, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge, BadgeTier } from "@/lib/gamification/types";
 import { SERIES_ORDER } from "@/lib/gamification/badges";
-import { BadgeTierPill } from "@/components/features/gamification/badge-tier-pill";
 
 // ... existing imports
 import { 
@@ -185,38 +184,6 @@ function groupBadgesBySeries(badges: Badge[]): Map<string, Badge[]> {
     return map;
 }
 
-/** 阶梯系列只展示一枚：该系列已解锁的最高档，若都未解锁则展示铜档 */
-function pickBadgePerTieredSeries(
-    seriesList: Badge[],
-    unlockedBadges: Set<string>,
-    mode: GalleryMode
-): Badge[] {
-    if (seriesList.length !== 4 || !seriesList.every((b) => b.tier)) return seriesList;
-    const unlocked = seriesList.filter((b) => unlockedBadges.has(b.id));
-    if (mode === "unlocked") {
-        if (unlocked.length === 0) return [];
-        const highestUnlocked = unlocked.reduce((a, b) =>
-            TIER_ORDER[a.tier!] > TIER_ORDER[b.tier!] ? a : b
-        );
-        return [highestUnlocked];
-    }
-
-    if (mode === "locked") {
-        if (unlocked.length === 0) return [seriesList[0]];
-        const highestUnlocked = unlocked.reduce((a, b) =>
-            TIER_ORDER[a.tier!] > TIER_ORDER[b.tier!] ? a : b
-        );
-        const nextTier = seriesList.find((badge) => TIER_ORDER[badge.tier!] > TIER_ORDER[highestUnlocked.tier!]);
-        return nextTier ? [nextTier] : [];
-    }
-
-    if (unlocked.length === 0) return [seriesList[0]];
-    const highestUnlocked = unlocked.reduce((a, b) =>
-        TIER_ORDER[a.tier!] > TIER_ORDER[b.tier!] ? a : b
-    );
-    return [highestUnlocked];
-}
-
 function getSeriesStatus(seriesList: Badge[], unlockedBadges: Set<string>): SeriesStatus {
     const unlocked = seriesList.filter((badge) => unlockedBadges.has(badge.id));
     const unlockedCount = unlocked.length;
@@ -308,11 +275,6 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                                 locked={!isUnlocked}
                                 className="w-10 h-10 sm:w-12 sm:h-12"
                             />
-                            {badge.tier ? (
-                                <div className="pointer-events-none absolute right-0 top-0 sm:right-0.5 sm:top-0.5">
-                                    <BadgeTierPill tier={badge.tier} className="scale-90 shadow-sm sm:scale-100" />
-                                </div>
-                            ) : null}
                         </div>
                         
                         <div className="w-full flex-1 flex flex-col justify-start min-h-0">
@@ -338,7 +300,6 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                     <DropdownMenuLabel className="flex items-start justify-between gap-2">
                         <span className="flex min-w-0 flex-col gap-1">
                             <span className="leading-snug">{badge.name}</span>
-                            {badge.tier ? <BadgeTierPill tier={badge.tier} className="w-fit" /> : null}
                         </span>
                         {isUnlocked && <span className="status-success-surface shrink-0 text-[10px] font-normal px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))]">已获得</span>}
                     </DropdownMenuLabel>
@@ -386,8 +347,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
             const fullSeries = grouped.get(seriesKey) ?? [];
             if (fullSeries.length === 0) return null;
 
-            const displayList = pickBadgePerTieredSeries(fullSeries, unlockedBadges, mode);
-            const showList = displayList.filter((badge) => visibleIds.has(badge.id));
+            const showList = fullSeries.filter((badge) => visibleIds.has(badge.id));
             if (showList.length === 0) return null;
 
             const seriesStatus = getSeriesStatus(fullSeries, unlockedBadges);
@@ -403,11 +363,6 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         theme?.section ?? "border-border/70 bg-background/95 dark:border-white/10 dark:bg-slate-900/95"
                     )}
                 >
-                    {completed ? (
-                        <div className="pointer-events-none absolute right-3 top-3 rounded-full border border-emerald-200/80 bg-emerald-50/95 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-emerald-700 shadow-sm dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
-                            COLLECTED
-                        </div>
-                    ) : null}
                     <div className="mb-3 flex items-start justify-between gap-3 sm:mb-4">
                         <div className="min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
@@ -428,7 +383,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 sm:gap-4">
+                    <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:gap-3">
                         {showList.map((badge) => (
                             <BadgeCard key={badge.id} badge={badge} isUnlocked={unlockedBadges.has(badge.id)} seriesStatus={seriesStatus} />
                         ))}

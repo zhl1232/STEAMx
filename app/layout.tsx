@@ -4,7 +4,6 @@ import Script from "next/script";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/layout/error-boundary";
 import { ConditionalAppShell } from "@/components/layout/conditional-app-shell";
-import { DailyCheckInSync } from "@/components/features/gamification/daily-check-in-sync";
 import { ObservationGamificationSync } from "@/components/features/gamification/observation-gamification-sync";
 import { BadgeUnlockOverlay } from "@/components/features/gamification/badge-unlock-overlay";
 import QueryProvider from "@/components/providers/query-provider";
@@ -91,7 +90,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               themes={["light", "dark", "system", "black-gold"]}
               disableTransitionOnChange
             >
-              <DailyCheckInSync />
               <ErrorBoundary>
                 <ConditionalAppShell>{children}</ConditionalAppShell>
               </ErrorBoundary>

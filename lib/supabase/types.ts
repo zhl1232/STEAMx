@@ -2178,7 +2178,15 @@ export interface Database {
             observationsSubmitted: number
             speciesObserved: number
             observationStreak: number
+            growthTasksGraduated: boolean
         }
+      }
+      get_user_login_stats: {
+        Args: { target_user_id: string }
+        Returns: {
+          login_days: number
+          consecutive_days: number
+        }[]
       }
       get_user_study_checkin_summary: {
         Args: { target_user_id: string; window_days?: number }

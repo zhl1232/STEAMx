@@ -12,6 +12,8 @@ const {
     mockToast,
     mockUpsert,
     mockLoggerError,
+    mockCheckBadges,
+    mockGamificationState,
 } = vi.hoisted(() => ({
     mockAuthState: {
         user: null as User | null,
@@ -21,12 +23,49 @@ const {
     mockToast: vi.fn(),
     mockUpsert: vi.fn(),
     mockLoggerError: vi.fn(),
+    mockCheckBadges: vi.fn(),
+    mockGamificationState: {
+        userStats: {
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 2,
+            consecutiveDays: 2,
+            discussionsCreated: 0,
+            repliesCount: 0,
+            minesweeperWins: 0,
+            minesweeperExpertWins: 0,
+            minesweeperBestTime: 999,
+            observationsSubmitted: 0,
+            speciesObserved: 0,
+            observationStreak: 0,
+            growthTasksGraduated: false,
+        } as Record<string, unknown> | undefined,
+    },
 }));
 
 vi.mock("@/lib/context/auth-context", () => ({
     useAuth: () => ({
         user: mockAuthState.user,
         refreshProfile: mockRefreshProfile,
+    }),
+}));
+
+vi.mock("@/lib/context/gamification-context", () => ({
+    useGamification: () => ({
+        checkBadges: mockCheckBadges,
+        userStats: mockGamificationState.userStats,
     }),
 }));
 
@@ -87,6 +126,34 @@ describe("DailyCheckInSync", () => {
         mockToast.mockReset();
         mockUpsert.mockReset();
         mockLoggerError.mockReset();
+        mockCheckBadges.mockReset();
+        mockGamificationState.userStats = {
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 2,
+            consecutiveDays: 2,
+            discussionsCreated: 0,
+            repliesCount: 0,
+            minesweeperWins: 0,
+            minesweeperExpertWins: 0,
+            minesweeperBestTime: 999,
+            observationsSubmitted: 0,
+            speciesObserved: 0,
+            observationStreak: 0,
+            growthTasksGraduated: false,
+        };
     });
 
     it("does nothing without an authenticated user", async () => {
@@ -155,6 +222,12 @@ describe("DailyCheckInSync", () => {
 
         expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ["coin_logs"] });
         expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ["gamification", "stats", "user-1"] });
+        expect(mockCheckBadges).toHaveBeenCalledWith(
+            expect.objectContaining({
+                loginDays: 2,
+                consecutiveDays: 3,
+            }),
+        );
         expect(mockToast).toHaveBeenCalledWith(
             expect.objectContaining({
                 duration: 4000,
@@ -176,7 +249,35 @@ describe("DailyCheckInSync", () => {
         });
 
         expect(mockRefreshProfile).not.toHaveBeenCalled();
+        expect(mockCheckBadges).not.toHaveBeenCalled();
         expect(mockToast).not.toHaveBeenCalled();
+    });
+
+    it("checks login streak badges from the RPC result even before stats are loaded", async () => {
+        mockGamificationState.userStats = undefined;
+        mockAuthState.user = makeUser();
+        mockRpc.mockResolvedValue({
+            data: {
+                is_new_day: true,
+                streak: 7,
+                total_days: 7,
+                xp_granted: 17,
+                coins_granted: 2,
+            },
+            error: null,
+        });
+        mockRefreshProfile.mockResolvedValue(undefined);
+
+        renderSync();
+
+        await waitFor(() => {
+            expect(mockCheckBadges).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    consecutiveDays: 7,
+                    loginDays: 7,
+                }),
+            );
+        });
     });
 
     it("recovers a missing profile and retries the daily check-in", async () => {
@@ -213,6 +314,12 @@ describe("DailyCheckInSync", () => {
             { onConflict: "id", ignoreDuplicates: true },
         );
         expect(mockRefreshProfile).toHaveBeenCalled();
+        expect(mockCheckBadges).toHaveBeenCalledWith(
+            expect.objectContaining({
+                consecutiveDays: 2,
+                loginDays: 2,
+            }),
+        );
         expect(mockToast).toHaveBeenCalled();
     });
 });

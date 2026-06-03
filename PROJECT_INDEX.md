@@ -189,8 +189,8 @@
 - `subcategory-steam-weights.ts` — 子分类权重映射
 
 ### 4.5 游戏化 (`lib/gamification/`)
-- `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位用 `BADGE_TIER_LABELS` 作 UI 角标（`badge-tier-pill.tsx`）
-- `experience-rules.ts` — XP 经验规则与等级表
+- `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位可用 `BADGE_TIER_LABELS` 作说明文本；资料页精选徽章每个阶梯系列只取最高已解锁档，徽章图鉴展示全量档位
+- `experience-rules.ts` — XP 经验规则与等级表；每日登录同步在 `GamificationProvider` 内触发连续打卡徽章检查
 - `observation-events.ts` — 观察事件类型
 - `types.ts` — 游戏化类型定义
 
@@ -258,7 +258,7 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`
+- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 

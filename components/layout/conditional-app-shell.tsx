@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 
 
 import { BottomNav } from '@/components/layout/bottom-nav'
+import { DailyCheckInSync } from '@/components/features/gamification/daily-check-in-sync'
 import { MainNav } from '@/components/layout/main-nav'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { NotificationBell } from '@/components/layout/notification-bell'
@@ -69,7 +70,12 @@ function AppProviders({
   }
 
   if (includeGamification) {
-    content = <GamificationProvider>{content}</GamificationProvider>
+    content = (
+      <GamificationProvider>
+        <DailyCheckInSync />
+        {content}
+      </GamificationProvider>
+    )
   }
 
   return <LoginPromptProvider>{content}</LoginPromptProvider>

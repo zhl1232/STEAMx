@@ -51,6 +51,10 @@ vi.mock('@/components/layout/bottom-nav', () => ({
   BottomNav: () => <nav data-testid="bottom-nav" />,
 }))
 
+vi.mock('@/components/features/gamification/daily-check-in-sync', () => ({
+  DailyCheckInSync: () => null,
+}))
+
 vi.mock('@/components/layout/main-nav', () => ({
   MainNav: () => <nav data-testid="desktop-main-nav" />,
 }))
