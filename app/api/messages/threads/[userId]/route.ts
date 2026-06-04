@@ -35,7 +35,7 @@ export async function GET(
 
     let query = supabase
       .from('messages')
-      .select('id, sender_id, receiver_id, content, created_at')
+      .select('id, sender_id, receiver_id, content, read_at, created_at')
       .or(`and(sender_id.eq.${user.id},receiver_id.eq.${userId}),and(sender_id.eq.${userId},receiver_id.eq.${user.id})`)
       .order('created_at', { ascending: false })
 
@@ -49,7 +49,14 @@ export async function GET(
     const { data, error } = await query
     if (error) throw error
 
-    type MsgRow = { id: number; sender_id: string; receiver_id: string; content: string; created_at: string }
+    type MsgRow = {
+      id: number
+      sender_id: string
+      receiver_id: string
+      content: string
+      read_at: string | null
+      created_at: string
+    }
     const merged = (data || []) as MsgRow[]
     merged.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
     const messages = merged

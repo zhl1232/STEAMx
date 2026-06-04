@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from '@/lib/context/auth-context';
+import { useOptionalNotifications } from "@/lib/context/notification-context";
 import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@/lib/mappers/types";
 import { MessageSchema } from "@/lib/schemas";
@@ -11,6 +12,12 @@ export type ConversationItem = {
   avatarUrl: string | null;
   lastContent: string;
   lastAt: string;
+  unreadCount: number;
+};
+
+type ConversationsPayload = {
+  conversations: ConversationItem[];
+  dmUnreadCount: number;
 };
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -23,22 +30,26 @@ function isUuid(value: string | undefined): value is string {
 export function useConversations() {
   const { user, loading: authLoading } = useAuth();
 
-  const { data: conversations = [], isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["conversations", user?.id],
-    queryFn: async (): Promise<ConversationItem[]> => {
-      if (!user) return [];
+    queryFn: async (): Promise<ConversationsPayload> => {
+      if (!user) return { conversations: [], dmUnreadCount: 0 };
 
       const response = await fetch("/api/messages/conversations");
-      if (response.status === 401) return [];
+      if (response.status === 401) return { conversations: [], dmUnreadCount: 0 };
       if (!response.ok) throw new Error(await getApiErrorMessage(response, "加载私信失败"));
       const payload = await response.json();
-      return (payload?.conversations as ConversationItem[]) || [];
+      return {
+        conversations: (payload?.conversations as ConversationItem[]) || [],
+        dmUnreadCount: Number(payload?.dmUnreadCount ?? 0),
+      };
     },
     enabled: !!user && !authLoading,
   });
 
   return {
-    conversations,
+    conversations: data?.conversations ?? [],
+    dmUnreadCount: data?.dmUnreadCount ?? 0,
     isLoading,
     error: error instanceof Error ? error.message : null,
   };
@@ -50,6 +61,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
   const PAGE_SIZE = 40;
   const hasValidOtherUserId = isUuid(otherUserId);
 
+  const queryEnabled = !!user && hasValidOtherUserId && otherUserId !== user.id && !authLoading;
   const {
     data,
     isPending,
@@ -97,7 +109,7 @@ export function useConversationMessages(otherUserId: string | undefined) {
     },
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.nextCursor : undefined),
-    enabled: !!user && hasValidOtherUserId && otherUserId !== user.id && !authLoading,
+    enabled: queryEnabled,
   });
 
   const pages = data?.pages ?? [];
@@ -107,12 +119,41 @@ export function useConversationMessages(otherUserId: string | undefined) {
   return {
     messages,
     peer,
-    isLoading: isPending,
+    isLoading: queryEnabled && isPending,
     hasMore: Boolean(hasNextPage),
     isLoadingMore: isFetchingNextPage,
     loadMore: fetchNextPage,
     error: error instanceof Error ? error.message : null,
   };
+}
+
+export function useMarkConversationRead() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const { refreshUnreadCount } = useOptionalNotifications();
+
+  const mutation = useMutation({
+    mutationFn: async (peerId: string) => {
+      if (!user) return null;
+      if (!isUuid(peerId) || peerId === user.id) return null;
+
+      const response = await fetch(`/api/messages/threads/${peerId}/read`, {
+        method: "POST",
+      });
+      if (response.status === 401) return null;
+      if (!response.ok) {
+        throw new Error(await getApiErrorMessage(response, "标记私信已读失败"));
+      }
+      return response.json();
+    },
+    onSuccess: (_data, peerId) => {
+      queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["messages", user?.id, peerId, "infinite"] });
+      void refreshUnreadCount();
+    },
+  });
+
+  return { markConversationRead: mutation.mutateAsync, isPending: mutation.isPending };
 }
 
 /** 发送私信 */

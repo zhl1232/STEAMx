@@ -9,6 +9,7 @@ export interface PublicProfile {
   bio: string | null
   xp: number
   role?: 'user' | 'teacher' | 'moderator' | 'admin'
+  message_privacy: string
   created_at: string
 }
 
@@ -65,7 +66,7 @@ export async function getPublicUserProfile(
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, display_name, avatar_url, bio, xp, role, created_at')
+      .select('id, display_name, avatar_url, bio, xp, role, message_privacy, created_at')
       .eq('id', userId)
       .maybeSingle(),
     supabase

@@ -202,7 +202,10 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                       </p>
                     </div>
 
-                    <PublicProfileActions targetUserId={profile.id} />
+                    <PublicProfileActions
+                      targetUserId={profile.id}
+                      messagePrivacy={profile.message_privacy}
+                    />
                   </div>
 
                   <div className="grid grid-cols-3 gap-3">

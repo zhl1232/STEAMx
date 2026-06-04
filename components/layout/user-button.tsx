@@ -7,6 +7,7 @@ import {
   Edit3,
   Library,
   LogOut,
+  MessageCircle,
   User as UserIcon,
   Loader2,
   LayoutDashboard,
@@ -104,6 +105,12 @@ export function UserButton() {
           <Link href="/profile" className="cursor-pointer">
             <UserIcon className="mr-2 h-4 w-4" />
             <span>个人中心</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/messages" className="cursor-pointer">
+            <MessageCircle className="mr-2 h-4 w-4" />
+            <span>消息中心</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

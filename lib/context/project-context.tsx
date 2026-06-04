@@ -671,35 +671,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (action === "liked") {
-          try {
-          const { data: projectRow, error: projectError } = await supabase
-              .from("projects")
-              .select("id, title, author_id, profiles:author_id (display_name, avatar_url)")
-              .eq("id", pid)
-              .single();
-
-            const row = projectRow as { author_id?: string; title?: string } | null;
-            if (!projectError && row && row.author_id && row.author_id !== user.id) {
-              const authorId = row.author_id;
-
-              const likerName = profile?.display_name || user.email?.split("@")[0] || "某人";
-
-              await createNotification({
-                user_id: authorId,
-                type: "like",
-                content: `${likerName} 赞了你的项目「${row.title}」`,
-                related_type: "project",
-                related_id: pid,
-                project_id: pid,
-                from_user_id: user.id,
-                from_username: likerName,
-                from_avatar: profile?.avatar_url || getDefaultAvatarPath(user.id),
-              });
-            }
-          } catch (err) {
-            logger.error(err, { context: "Error creating like notification" });
-          }
-
           await addXp(1, "点赞项目", "like_project", pid);
         }
       } catch (error) {
@@ -722,7 +693,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         });
       }
     },
-    [supabase, user, profile, addXp, createNotification, toast],
+    [supabase, user, addXp, toast],
   );
 
   const toggleCollection = useCallback(

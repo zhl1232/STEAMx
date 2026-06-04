@@ -103,6 +103,7 @@ export const MessageSchema = z.object({
   sender_id: z.string().uuid(),
   receiver_id: z.string().uuid(),
   content: z.string().min(1).max(2000),
+  read_at: z.string().nullable().optional(),
   created_at: z.string(),
 });
 

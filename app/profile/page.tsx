@@ -44,7 +44,7 @@ import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { useAuth } from '@/lib/context/auth-context'
 import { BADGES, useGamification } from '@/lib/context/gamification-context'
-import { type Notification } from '@/lib/context/notification-context'
+import { type Notification, useOptionalNotifications } from '@/lib/context/notification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
@@ -968,6 +968,7 @@ function SteamRadarEmptyPlaceholder() {
 }
 
 function MobileActionGrid() {
+  const { unreadCount } = useOptionalNotifications()
   const actions = [
     { label: '我的内容', href: '/profile/library', image: '/assets/profile-actions/content.webp' },
     { label: '我的钱包', href: '/coins', image: '/assets/profile-actions/wallet.webp' },
@@ -980,14 +981,21 @@ function MobileActionGrid() {
     <section className="profile-mobile-panel grid grid-cols-5 gap-1.5 p-3">
       {actions.map((action) => (
         <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-          <span className="relative h-11 w-11 overflow-hidden rounded-md shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
-            <OptimizedImage
-              src={action.image}
-              alt=""
-              fill
-              variant="thumbnail"
-              className="object-cover"
-            />
+          <span className="relative block h-11 w-11 rounded-md shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
+            <span className="absolute inset-0 overflow-hidden rounded-md">
+              <OptimizedImage
+                src={action.image}
+                alt=""
+                fill
+                variant="thumbnail"
+                className="object-cover"
+              />
+            </span>
+            {action.href === '/messages' && unreadCount > 0 ? (
+              <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-destructive-foreground ring-2 ring-background">
+                {unreadCount > 99 ? '99+' : unreadCount}
+              </span>
+            ) : null}
           </span>
           <span className="whitespace-nowrap text-[10px] font-semibold leading-none text-foreground min-[390px]:text-[11px]">{action.label}</span>
         </Link>

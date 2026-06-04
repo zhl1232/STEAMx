@@ -2,6 +2,45 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { callRpc } from '@/lib/supabase/rpc'
+import { logger } from '@/lib/logger'
+import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+
+async function sendProjectLikeNotification(params: {
+  supabase: Awaited<ReturnType<typeof createClient>>
+  actor: { id: string; email?: string | null }
+  project: { id: number; author_id: string; title?: string | null }
+}) {
+  const { supabase, actor, project } = params
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('display_name, avatar_url')
+    .eq('id', actor.id)
+    .maybeSingle()
+
+  if (profileError) throw profileError
+
+  const typedProfile = profile as { display_name?: string | null; avatar_url?: string | null } | null
+  const actorName = typedProfile?.display_name || actor.email?.split('@')[0] || '用户'
+  const actorAvatar = typedProfile?.avatar_url || getDefaultAvatarPath(actor.id)
+  const projectTitle = project.title || '项目'
+
+  const { error } = await supabase
+    .from('notifications')
+    .insert({
+      user_id: project.author_id,
+      type: 'like',
+      content: `${actorName} 赞了你的项目「${projectTitle}」`,
+      related_type: 'project',
+      related_id: project.id,
+      project_id: project.id,
+      from_user_id: actor.id,
+      from_username: actorName,
+      from_avatar: actorAvatar,
+    } as never)
+
+  if (error) throw error
+}
 
 /**
  * POST /api/projects/[id]/like
@@ -24,7 +63,7 @@ export async function POST(
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id')
+      .select('author_id, title')
       .eq('id', projectId)
       .maybeSingle()
 
@@ -32,11 +71,13 @@ export async function POST(
       throw projectError
     }
 
-    if (!projectRow) {
+    const project = projectRow as { author_id: string; title?: string | null } | null
+
+    if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
-    if ((projectRow as { author_id: string }).author_id === user.id) {
+    if (project.author_id === user.id) {
       return NextResponse.json({ error: '不能给自己的项目点赞' }, { status: 403 })
     }
     
@@ -88,6 +129,20 @@ export async function POST(
       if (insertedRows && insertedRows.length > 0) {
         const { error: rpcError } = await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
         if (rpcError) throw rpcError
+
+        try {
+          await sendProjectLikeNotification({
+            supabase,
+            actor: user,
+            project: {
+              id: projectId,
+              author_id: project.author_id,
+              title: project.title,
+            },
+          })
+        } catch (notificationError) {
+          logger.error(notificationError, { context: 'Project like notification failed', projectId })
+        }
       }
       
       return NextResponse.json({ liked: true, action: 'liked' })

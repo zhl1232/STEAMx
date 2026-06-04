@@ -111,7 +111,8 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname.startsWith('/users')
   const skipHeavyProvidersForAnonymousNature =
     isNatureRoute && !user && !needsGamificationOnAnonymousNature
-  const includeHeavyUserProviders = !isHomePage && !skipHeavyProvidersForAnonymousNature
+  const includeGamificationProvider = !isHomePage && !skipHeavyProvidersForAnonymousNature
+  const includeNotificationProvider = !skipHeavyProvidersForAnonymousNature
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
 
@@ -130,7 +131,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
 
   if (smokeMode) {
     return (
-      <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
+      <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
         <a href="#main-content" className="skip-link">
           跳到主内容
         </a>
@@ -147,7 +148,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <AppProviders includeGamification={includeHeavyUserProviders} includeNotifications={includeHeavyUserProviders}>
+    <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
       <a href="#main-content" className="skip-link">
         跳到主内容
       </a>

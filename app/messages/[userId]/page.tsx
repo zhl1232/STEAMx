@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { useAuth } from '@/lib/context/auth-context';
-import { useConversationMessages, useSendMessage } from "@/hooks/use-messages";
+import { useConversationMessages, useMarkConversationRead, useSendMessage } from "@/hooks/use-messages";
 import type { Message } from "@/lib/mappers/types";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -29,10 +29,12 @@ export default function ConversationPage() {
   const { messages, peer, isLoading, hasMore, isLoadingMore, loadMore, error } =
     useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
+  const { markConversationRead } = useMarkConversationRead();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const isLoadingOlderRef = useRef(false);
   const prevScrollHeightRef = useRef(0);
+  const markedReadKeyRef = useRef<string | null>(null);
   const isMissingPeer = !isLoading && !error && !isInvalidPeerId && !!otherUserId && !peer;
 
   useEffect(() => {
@@ -57,6 +59,22 @@ export default function ConversationPage() {
 
     el.scrollTop = el.scrollHeight;
   }, [messages.length]);
+
+  useEffect(() => {
+    if (!user?.id || !peer || !otherUserId || isInvalidPeerId || otherUserId === user.id) return;
+    const unreadIncoming = messages.filter(
+      (message) => message.sender_id === otherUserId && message.receiver_id === user.id && !message.read_at,
+    );
+    if (unreadIncoming.length === 0) return;
+
+    const readKey = `${otherUserId}:${unreadIncoming.map((message) => message.id).join(",")}`;
+    if (markedReadKeyRef.current === readKey) return;
+    markedReadKeyRef.current = readKey;
+
+    void markConversationRead(otherUserId).catch(() => {
+      markedReadKeyRef.current = null;
+    });
+  }, [isInvalidPeerId, markConversationRead, messages, otherUserId, peer, user?.id]);
 
   const handleLoadMore = useCallback(async () => {
     const el = scrollRef.current;

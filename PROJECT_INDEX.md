@@ -26,7 +26,7 @@
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
-| `/messages` | `app/messages/page.tsx` | 私信 — 会话列表、聊天详情；子路由 `[userId]/` |
+| `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
 | `/create` | `app/create/page.tsx` | 创造营 — PBL 挑战 + **训练营** Tab；`/create` 重定向自 `/community` |
 | `/courses` | `app/courses/page.tsx` | Scratch 训练营列表 |
@@ -69,12 +69,12 @@
 | geo | `api/geo/` | 反向地理编码 |
 | home | `api/home/` | 首页推荐数据 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
-| messages | `api/messages/` | 私信发送、会话列表、消息线程 |
+| messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
-| notifications | `api/notifications/` | 通知列表、标记已读、未读计数 |
+| notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
 | observations | `api/observations/` | 自然观察 CRUD、审核 |
 | profile | `api/profile/` | 个人资料摘要、成长任务、学习打卡 |
-| projects | `api/projects/` | 项目 CRUD、编辑 |
+| projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
 | reports | `api/reports/` | 举报提交 |
 | settings | `api/settings/` | 用户设置更新 |
@@ -158,7 +158,7 @@
 - `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
-- `notification-context.tsx` — 通知（获取、标记已读、未读计数）
+- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数）
 - `login-prompt-context.tsx` — 未登录操作引导弹窗
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
@@ -246,7 +246,7 @@
 |------|------|------|
 | `use-danmaku` | `hooks/use-danmaku.ts` | 弹幕系统 |
 | `use-follow` | `hooks/use-follow.ts` | 关注/取关逻辑 |
-| `use-messages` | `hooks/use-messages.ts` | 私信会话与消息 |
+| `use-messages` | `hooks/use-messages.ts` | 私信会话、消息分页、未读数与会话已读 |
 | `use-moderator-eligibility` | `hooks/use-moderator-eligibility.ts` | 审核员资格检查 |
 | `use-observation-interactions` | `hooks/use-observation-interactions.ts` | 观察记录互动（点赞等） |
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
@@ -258,7 +258,7 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`
+- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
@@ -295,7 +295,7 @@
 
 ## 9. 测试
 
-- `__tests__/` — **49 个** API 路由单元测试 + 组件测试
+- `__tests__/` — **50+ 个** API 路由单元测试 + 组件测试
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）+ 集成测试
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置

@@ -28,7 +28,7 @@ function jsonResponse(body: unknown, init?: ResponseInit) {
 }
 
 function TestComponent() {
-    const { unreadCount, isLoading, markAsRead, notifications, hasMore } = useNotifications()
+    const { unreadCount, notificationUnreadCount, dmUnreadCount, isLoading, markAsRead, notifications, hasMore } = useNotifications()
 
     if (isLoading) {
         return <div>loading</div>
@@ -37,6 +37,8 @@ function TestComponent() {
     return (
         <div>
             <div data-testid="unread-count">{unreadCount}</div>
+            <div data-testid="notification-unread-count">{notificationUnreadCount}</div>
+            <div data-testid="dm-unread-count">{dmUnreadCount}</div>
             <div data-testid="has-more">{String(hasMore)}</div>
             <div data-testid="notification-list">{notifications.map((notification) => notification.content).join('|')}</div>
             <button type="button" onClick={() => void markAsRead(1)}>
@@ -86,6 +88,10 @@ describe('NotificationProvider', () => {
                 return Promise.resolve(jsonResponse({ count: 1 }))
             }
 
+            if (pathname === '/api/messages/unread-count') {
+                return Promise.resolve(jsonResponse({ count: 2 }))
+            }
+
             if (pathname === '/api/notifications/mark-read') {
                 return Promise.resolve(jsonResponse({ ok: true, changed: false }))
             }
@@ -102,14 +108,18 @@ describe('NotificationProvider', () => {
         )
 
         await waitFor(() => {
-            expect(screen.getByTestId('unread-count')).toHaveTextContent('1')
+            expect(screen.getByTestId('unread-count')).toHaveTextContent('3')
+            expect(screen.getByTestId('notification-unread-count')).toHaveTextContent('1')
+            expect(screen.getByTestId('dm-unread-count')).toHaveTextContent('2')
         })
 
         await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: 'mark-read' }))
         })
 
-        expect(screen.getByTestId('unread-count')).toHaveTextContent('1')
+        expect(screen.getByTestId('unread-count')).toHaveTextContent('3')
+        expect(screen.getByTestId('notification-unread-count')).toHaveTextContent('1')
+        expect(screen.getByTestId('dm-unread-count')).toHaveTextContent('2')
     })
 
     it('keeps older notifications while prepending refreshed first-page items', () => {

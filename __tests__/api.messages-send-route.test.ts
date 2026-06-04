@@ -55,6 +55,7 @@ describe('POST /api/messages/send', () => {
                 sender_id: '11111111-1111-1111-1111-111111111111',
                 receiver_id: '22222222-2222-2222-2222-222222222222',
                 content: '你好',
+                read_at: null,
                 created_at: '2026-03-20T00:00:00.000Z',
             },
             error: null,
@@ -108,6 +109,7 @@ describe('POST /api/messages/send', () => {
                 sender_id: '11111111-1111-1111-1111-111111111111',
                 receiver_id: '22222222-2222-2222-2222-222222222222',
                 content: '你好',
+                read_at: null,
                 created_at: '2026-03-20T00:00:00.000Z',
             },
         })

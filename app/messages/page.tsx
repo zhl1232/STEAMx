@@ -72,7 +72,7 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
   return [];
 }
 
-function getUnreadByTab(notifications: Notification[]) {
+function getUnreadByTab(notifications: Notification[], dmUnreadCount: number) {
   const unread = notifications.filter((n) => !n.is_read);
 
   return {
@@ -81,7 +81,7 @@ function getUnreadByTab(notifications: Notification[]) {
     ).length,
     likes: unread.filter((n) => n.type === "like" || n.type === "tip").length,
     follows: unread.filter((n) => n.type === "follow").length,
-    dm: 0,
+    dm: dmUnreadCount,
   };
 }
 
@@ -122,7 +122,8 @@ function MessagesContent() {
 
   const {
     notifications,
-    unreadCount,
+    notificationUnreadCount,
+    dmUnreadCount,
     markAsRead,
     markAllAsRead,
     loadMore,
@@ -132,12 +133,14 @@ function MessagesContent() {
   } = useNotifications();
   const {
     conversations,
+    dmUnreadCount: conversationsDmUnreadCount,
     isLoading: conversationsLoading,
     error: conversationsError,
   } = useConversations();
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
-  const unreadByTab = getUnreadByTab(notifications);
+  const unreadByTab = getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount));
+  const hasNotificationUnread = notificationUnreadCount > 0;
   const loadMoreRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -209,7 +212,7 @@ function MessagesContent() {
                 把回复、喜欢、关注和私信收拢在同一处，减少在不同页面之间来回切换。
               </p>
             </div>
-            {unreadCount > 0 ? (
+            {hasNotificationUnread ? (
               <Button variant="outline" size="sm" className="gap-2 rounded-full" onClick={() => markAllAsRead()}>
                 <CheckCheck className="h-4 w-4" />
                 全部标为已读
@@ -243,7 +246,7 @@ function MessagesContent() {
               <p className="text-sm font-semibold text-foreground">{activeTab.label}</p>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeTab.description}</p>
             </div>
-            {unreadCount > 0 ? (
+            {hasNotificationUnread ? (
               <Button variant="ghost" size="sm" className="h-8 rounded-full px-3 text-xs" onClick={() => markAllAsRead()}>
                 全部已读
               </Button>
@@ -386,8 +389,22 @@ function MessagesContent() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-foreground">{conversation.displayName || "用户"}</p>
-                      <p className="mt-1 truncate text-sm text-muted-foreground">{conversation.lastContent}</p>
+                      <div className="flex min-w-0 items-center gap-2">
+                        <p className="truncate font-medium text-foreground">{conversation.displayName || "用户"}</p>
+                        {conversation.unreadCount > 0 ? (
+                          <span className="inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-bold leading-none text-destructive-foreground">
+                            {conversation.unreadCount > 99 ? "99+" : conversation.unreadCount}
+                          </span>
+                        ) : null}
+                      </div>
+                      <p
+                        className={cn(
+                          "mt-1 truncate text-sm",
+                          conversation.unreadCount > 0 ? "font-medium text-foreground" : "text-muted-foreground",
+                        )}
+                      >
+                        {conversation.lastContent}
+                      </p>
                     </div>
                     <span className="shrink-0 text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(conversation.lastAt), {

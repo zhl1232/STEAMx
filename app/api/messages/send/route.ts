@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         receiver_id: receiverId,
         content,
       } as never)
-      .select('id, sender_id, receiver_id, content, created_at')
+      .select('id, sender_id, receiver_id, content, read_at, created_at')
       .single()
 
     if (error) throw error

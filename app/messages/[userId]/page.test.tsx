@@ -43,6 +43,10 @@ vi.mock('@/hooks/use-messages', () => ({
         sendMessage: mockSendMessage,
         isPending: false,
     }),
+    useMarkConversationRead: () => ({
+        markConversationRead: vi.fn(),
+        isPending: false,
+    }),
 }))
 
 vi.mock('@/components/ui/report-dialog', () => ({

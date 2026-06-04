@@ -33,6 +33,7 @@ describe('GET /api/messages/conversations', () => {
           sender_id: '11111111-1111-1111-1111-111111111111',
           receiver_id: '22222222-2222-2222-2222-222222222222',
           content: '最近消息',
+          read_at: null,
           created_at: '2026-03-20T10:00:00.000Z',
         },
         {
@@ -40,6 +41,7 @@ describe('GET /api/messages/conversations', () => {
           sender_id: '33333333-3333-3333-3333-333333333333',
           receiver_id: '11111111-1111-1111-1111-111111111111',
           content: '缺 profile 的会话',
+          read_at: null,
           created_at: '2026-03-20T09:00:00.000Z',
         },
       ],
@@ -94,8 +96,10 @@ describe('GET /api/messages/conversations', () => {
           avatarUrl: null,
           lastContent: '最近消息',
           lastAt: '2026-03-20T10:00:00.000Z',
+          unreadCount: 0,
         },
       ],
+      dmUnreadCount: 0,
     })
   })
 })

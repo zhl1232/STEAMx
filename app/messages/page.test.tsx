@@ -6,6 +6,15 @@ const mockReplace = vi.fn()
 const mockPush = vi.fn()
 let mockTab: string | null = 'invalid-tab'
 let mockConversationsError: string | null = null
+let mockConversations: Array<{
+    peerId: string
+    displayName: string | null
+    avatarUrl: string | null
+    lastContent: string
+    lastAt: string
+    unreadCount: number
+}> = []
+let mockDmUnreadCount = 0
 
 vi.mock('next/navigation', () => ({
     useRouter: () => ({
@@ -36,7 +45,9 @@ vi.mock('@/lib/context/auth-context', () => ({
 vi.mock('@/lib/context/notification-context', () => ({
     useNotifications: () => ({
         notifications: [],
-        unreadCount: 0,
+        unreadCount: mockDmUnreadCount,
+        notificationUnreadCount: 0,
+        dmUnreadCount: mockDmUnreadCount,
         markAsRead: vi.fn(),
         markAllAsRead: vi.fn(),
         loadMore: vi.fn(),
@@ -48,7 +59,8 @@ vi.mock('@/lib/context/notification-context', () => ({
 
 vi.mock('@/hooks/use-messages', () => ({
     useConversations: () => ({
-        conversations: [],
+        conversations: mockConversations,
+        dmUnreadCount: mockDmUnreadCount,
         isLoading: false,
         error: mockConversationsError,
     }),
@@ -63,6 +75,8 @@ describe('MessagesPage', () => {
         vi.clearAllMocks()
         mockTab = 'invalid-tab'
         mockConversationsError = null
+        mockConversations = []
+        mockDmUnreadCount = 0
     })
 
     it('falls back to the replies tab when the tab query parameter is invalid', async () => {
@@ -83,5 +97,26 @@ describe('MessagesPage', () => {
         expect(await screen.findByText('私信加载失败')).toBeInTheDocument()
         expect(screen.getByText('服务暂时不可用')).toBeInTheDocument()
         expect(screen.queryByText('暂无私信')).not.toBeInTheDocument()
+    })
+
+    it('shows unread badges on the dm tab and conversation list', async () => {
+        mockTab = 'dm'
+        mockDmUnreadCount = 2
+        mockConversations = [
+            {
+                peerId: '22222222-2222-2222-2222-222222222222',
+                displayName: 'Alice',
+                avatarUrl: null,
+                lastContent: '新的私信',
+                lastAt: '2026-06-04T06:00:00.000Z',
+                unreadCount: 2,
+            },
+        ]
+
+        render(<MessagesPage />)
+
+        expect(await screen.findByText('Alice')).toBeInTheDocument()
+        expect(screen.getByText('新的私信')).toHaveClass('font-medium')
+        expect(screen.getByText('2')).toBeInTheDocument()
     })
 })
