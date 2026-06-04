@@ -29,6 +29,9 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl('/projects/generated/project-0010.webp')).toBe(
       'https://assets.example.com/projects/generated/project-0010.webp',
     )
+    expect(rewriteAssetUrl('/projects/tech_3dprint.webp')).toBe(
+      'https://assets.example.com/projects/tech_3dprint.webp',
+    )
   })
 
   it('preserves query strings during rewrite', () => {

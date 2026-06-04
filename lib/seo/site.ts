@@ -1,5 +1,5 @@
 const LOCAL_SITE_URL = "http://localhost:3000";
-const PRODUCTION_FALLBACK_SITE_URL = "http://steamx.cc";
+const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
 
 function isLocalHostname(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";

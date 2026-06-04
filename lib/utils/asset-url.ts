@@ -11,8 +11,7 @@ const REMOTE_ASSET_PREFIXES = [
   '/birds/',
   '/insects/',
   '/trees/',
-  '/projects/generated/',
-  '/projects/steps/',
+  '/projects/',
 ] as const
 
 function getAssetsBaseUrl(): string | null {

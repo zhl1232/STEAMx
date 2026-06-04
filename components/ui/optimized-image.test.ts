@@ -60,6 +60,15 @@ describe('getOptimizedImageSrc', () => {
     )
   })
 
+  it('rewrites legacy root project cover images when remote assets are forced', () => {
+    process.env[ASSETS_BASE_ENV_KEY] = 'https://assets.example.com'
+    process.env[FORCE_REMOTE_ENV_KEY] = 'true'
+
+    expect(getOptimizedImageSrc('/projects/tech_3dprint.webp', 'card')).toBe(
+      'https://assets.example.com/projects/tech_3dprint.webp',
+    )
+  })
+
   it('preserves explicit generated project image cache versions', () => {
     expect(withGeneratedProjectImageCacheVersion('/projects/generated/project-0142.webp?v=manual')).toBe(
       '/projects/generated/project-0142.webp?v=manual',

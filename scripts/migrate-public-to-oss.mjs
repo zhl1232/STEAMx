@@ -6,6 +6,7 @@
  * Usage:
  *   node scripts/migrate-public-to-oss.mjs
  *   node scripts/migrate-public-to-oss.mjs --only=scratch-assets
+ *   node scripts/migrate-public-to-oss.mjs --only=project-covers
  *
  * 环境变量从 .env.local 自动读取（与 pnpm db:push 相同），也可手动 export：
  *   ALIYUN_OSS_ACCESS_KEY_ID / ALIYUN_OSS_ACCESS_KEY_SECRET / ALIYUN_OSS_BUCKET
@@ -58,6 +59,7 @@ const GROUPS = [
   { id: 'birds', localDir: 'public/birds', publicPrefix: 'birds', manifest: 'birds.json', kind: 'species', imageSubdir: 'images' },
   { id: 'insects', localDir: 'public/insects', publicPrefix: 'insects', manifest: 'insects.json', kind: 'species', imageSubdir: 'images' },
   { id: 'trees', localDir: 'public/trees', publicPrefix: 'trees', manifest: 'trees.json', kind: 'species', imageSubdir: 'images' },
+  { id: 'project-covers', localDir: 'public/projects', publicPrefix: 'projects', manifest: null, kind: 'flat', recursive: false },
   { id: 'projects', localDir: 'public/projects/generated', publicPrefix: 'projects/generated', manifest: 'projects.json', kind: 'flat' },
   { id: 'project-steps', localDir: 'public/projects/steps', publicPrefix: 'projects/steps', manifest: null, kind: 'flat' },
   { id: 'scratch-assets', localDir: 'public/scratch/assets', publicPrefix: 'scratch/assets', manifest: null, kind: 'flat' },
@@ -159,6 +161,7 @@ async function processGroup(group, args, client) {
       localDir: localPath,
       publicPathPrefix: group.publicPrefix,
       concurrency: args.concurrency,
+      recursive: group.recursive ?? true,
     })
   } else if (args.dryRun) {
     const files = []
@@ -166,8 +169,11 @@ async function processGroup(group, args, client) {
       const items = await fs.readdir(dir, { withFileTypes: true })
       for (const it of items) {
         const p = path.join(dir, it.name)
-        if (it.isDirectory()) await count(p)
-        else if (it.isFile()) files.push(p)
+        if (it.isDirectory()) {
+          if (group.recursive !== false) await count(p)
+        } else if (it.isFile()) {
+          files.push(p)
+        }
       }
     }
     await count(localPath)

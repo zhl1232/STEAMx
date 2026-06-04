@@ -288,7 +288,7 @@
 | `fetch-bird-media-from-wikimedia.mjs` | 从 Wikimedia 抓取鸟类图片 |
 | `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
-| `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等） |
+| `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等；`--only=project-covers` 只同步 `public/projects` 根层旧项目封面） |
 | `fetch-scratch-assets.mjs` | 镜像 Scratch 素材库到本地，再经 migrate 脚本上传 OSS |
 
 ---
@@ -343,5 +343,5 @@
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；生产环境经 `NEXT_PUBLIC_ASSETS_BASE_URL` 重写；本地开发默认使用 public 资源，`NEXT_PUBLIC_FORCE_REMOTE_ASSETS=true` 时强制远程） |
 | `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
-| `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/generated/*.webp` 已迁 OSS 且本地 gitignore，生产环境直连 OSS 以避开 Next 服务端图片优化的 CDN Referer 限制 |
+| `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/*.webp` 根层旧封面、`public/projects/generated/*.webp` 与 `public/projects/steps/` 已迁 OSS，生产环境直连 OSS 以避开 Next 服务端图片优化的 CDN Referer 限制 |
 | `public/icon*.png` | PWA 图标 |
