@@ -1,36 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-
-const LIKED_PROJECT_LINE_WIDTHS = [
-  { title: "w-3/4", body1: "w-full", body2: "w-2/3" },
-  { title: "w-2/3", body1: "w-11/12", body2: "w-3/5" },
-  { title: "w-[78%]", body1: "w-full", body2: "w-1/2" },
-  { title: "w-[70%]", body1: "w-10/12", body2: "w-2/3" },
-] as const;
-
-function LikedProjectCardSkeleton({ index }: { index: number }) {
-  const widths = LIKED_PROJECT_LINE_WIDTHS[index % LIKED_PROJECT_LINE_WIDTHS.length];
-
-  return (
-    <div className="surface-panel overflow-hidden rounded-xl">
-      <Skeleton className="aspect-[16/9] w-full rounded-none" />
-      <div className="space-y-4 p-5">
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-5 w-14 rounded-full" />
-          <Skeleton className="h-5 w-20 rounded-full" />
-        </div>
-        <div className="space-y-2">
-          <Skeleton className={`h-6 rounded-full ${widths.title}`} />
-          <Skeleton className={`h-4 rounded-full ${widths.body1}`} />
-          <Skeleton className={`h-4 rounded-full ${widths.body2}`} />
-        </div>
-        <div className="flex items-center justify-between gap-3 pt-1">
-          <Skeleton className="h-4 w-20 rounded-full" />
-          <Skeleton className="h-4 w-16 rounded-full" />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { ProjectCardSkeleton } from "@/components/ui/loading-skeleton";
 
 function MobileLikedProjectsSkeleton() {
   return (
@@ -52,9 +21,9 @@ function MobileLikedProjectsSkeleton() {
           </div>
         </section>
 
-        <div className="grid grid-cols-1 gap-6">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <LikedProjectCardSkeleton key={index} index={index} />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ProjectCardSkeleton key={index} />
           ))}
         </div>
       </div>
@@ -79,7 +48,7 @@ function DesktopLikedProjectsSkeleton() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {Array.from({ length: 4 }).map((_, index) => (
-              <LikedProjectCardSkeleton key={index} index={index} />
+              <ProjectCardSkeleton key={index} />
             ))}
           </div>
         </div>

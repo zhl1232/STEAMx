@@ -1361,7 +1361,7 @@ export function ExploreClient({
                                         {isLoadingMore && (
                                             <>
                                                 {[1, 2, 3, 4].map((i) => (
-                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="vertical" />
+                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="vertical" className={COMPACT_VERTICAL_PROJECT_CARD_CLASS} />
                                                 ))}
                                             </>
                                         )}

@@ -4,22 +4,24 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
-import { COMPACT_VERTICAL_PROJECT_GRID_CLASS } from "@/components/features/compact-project-grid-styles"
+import { COMPACT_VERTICAL_PROJECT_GRID_CLASS, COMPACT_VERTICAL_PROJECT_CARD_CLASS } from "@/components/features/compact-project-grid-styles"
 import { cn } from "@/lib/utils"
 
 export function ProjectCardSkeleton({
   variant = "featured",
   compactLayout = "dense",
+  className,
 }: {
   variant?: "featured" | "compact"
   compactLayout?: "adaptive" | "vertical" | "dense"
+  className?: string
 } = {}) {
   if (variant === "compact") {
     const isVerticalCompact = compactLayout === "vertical"
     const isDenseCompact = compactLayout === "dense"
 
     return (
-      <div className="h-full">
+      <div className={cn("h-full", className)}>
         <div
           className={cn(
             "surface-card surface-card-interactive relative h-full overflow-hidden rounded-md",
@@ -106,7 +108,7 @@ export function ProjectCardSkeleton({
   }
 
   return (
-    <div className="surface-card overflow-hidden rounded-[var(--radius-lg)]">
+    <div className={cn("surface-card overflow-hidden rounded-[var(--radius-lg)]", className)}>
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
         <Skeleton className="h-full w-full rounded-none" />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
@@ -341,7 +343,7 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
                   <ExploreListTabsSkeleton />
                   <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
                     {Array.from({ length: count }).map((_, index) => (
-                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="vertical" />
+                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="vertical" className={COMPACT_VERTICAL_PROJECT_CARD_CLASS} />
                     ))}
                   </div>
                 </div>
