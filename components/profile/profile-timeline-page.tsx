@@ -3,9 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import {
-  Award,
   BookOpen,
-  CalendarCheck2,
   ChevronLeft,
   ChevronRight,
   FolderOpen,
@@ -98,6 +96,29 @@ function getTimelineSummary(events: ProfileTimelineEvent[]) {
 function TimelineIcon({ event }: { event: ProfileTimelineEvent }) {
   const meta = TIMELINE_ICON_META[event.iconName]
   const Icon = meta.icon
+  const [imgError, setImgError] = useState(false)
+
+  const is3DIcon = ['timeline', 'projects', 'observation', 'achievement', 'growth'].includes(event.iconName)
+
+  if (is3DIcon && !imgError) {
+    return (
+      <span
+        className={cn(
+          'relative grid h-10 w-10 shrink-0 place-items-center rounded-xl overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95',
+          'bg-gradient-to-br from-white/15 to-white/0 dark:from-white/5 dark:to-white/0 backdrop-blur-[2px]',
+          'border border-white/20 dark:border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.08)]'
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/assets/timeline/${event.iconName}.png`}
+          alt={event.iconName}
+          className="h-full w-full object-contain p-0.5"
+          onError={() => setImgError(true)}
+        />
+      </span>
+    )
+  }
 
   return (
     <span className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-md ring-1 ring-inset ring-white/50', meta.tone)}>
@@ -125,9 +146,8 @@ function TimelineEventRow({ event }: { event: ProfileTimelineEvent }) {
           ) : null}
         </div>
         <p className="mt-1 line-clamp-1 text-sm leading-5 text-muted-foreground">{event.detail}</p>
-        <div className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground md:hidden">
-          <CalendarCheck2 className="h-3.5 w-3.5" />
-          {event.fullDateLabel}
+        <div className="mt-1 text-xs text-muted-foreground md:hidden">
+          {getEventTimeLabel(event)}
         </div>
       </div>
       <div className="hidden items-center justify-end gap-2 text-right md:flex">
@@ -148,10 +168,8 @@ function TimelineEventRow({ event }: { event: ProfileTimelineEvent }) {
 
 function TimelineOverview({
   events,
-  latestEvent,
 }: {
   events: ProfileTimelineEvent[]
-  latestEvent?: ProfileTimelineEvent
 }) {
   const summary = getTimelineSummary(events)
   const items = [
@@ -183,19 +201,7 @@ function TimelineOverview({
         </div>
       </section>
 
-      {latestEvent ? (
-        <section className="surface-panel rounded-lg p-5">
-          <p className="section-kicker">最新记录</p>
-          <div className="mt-4 flex items-start gap-3">
-            <TimelineIcon event={latestEvent} />
-            <div className="min-w-0">
-              <h2 className="truncate text-base font-semibold text-foreground">{latestEvent.label}</h2>
-              <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">{latestEvent.detail}</p>
-              <p className="mt-3 text-xs font-semibold text-muted-foreground">{latestEvent.fullDateLabel}</p>
-            </div>
-          </div>
-        </section>
-      ) : null}
+
     </aside>
   )
 }
@@ -246,7 +252,6 @@ export function ProfileTimelinePage() {
     void loadTimeline()
   }, [loadTimeline])
 
-  const latestEvent = events[0]
   const timelineGroups = groupTimelineEvents(events)
 
   return (
@@ -255,33 +260,13 @@ export function ProfileTimelinePage() {
         <MobilePageHeader title="探索轨迹" fallbackHref="/profile" />
       </div>
 
-      <div className="app-shell-wide py-6 min-[390px]:px-5 md:px-8 md:py-8">
-        <section className="surface-panel overflow-hidden rounded-lg">
-          <div className="flex items-start gap-4 px-5 py-5 md:px-6">
-            <Button asChild variant="ghost" size="icon" className="hidden h-10 w-10 shrink-0 rounded-sm md:inline-flex">
-              <Link href="/profile" aria-label="返回个人主页">
-                <ChevronLeft className="h-5 w-5" />
-              </Link>
-            </Button>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="grid h-10 w-10 place-items-center rounded-md bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
-                  <Award className="h-5 w-5" />
-                </span>
-                <h1 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">探索轨迹</h1>
-              </div>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                按真实发生时间记录注册、作品、项目完成、挑战、自然观察、徽章和经验奖励。
-              </p>
-            </div>
-            {latestEvent ? (
-              <div className="hidden rounded-md border border-[hsl(var(--surface-border))] px-4 py-3 text-right md:block">
-                <div className="text-xs font-semibold text-muted-foreground">最新记录</div>
-                <div className="mt-1 text-sm font-bold text-foreground">{latestEvent.dateLabel}</div>
-              </div>
-            ) : null}
-          </div>
-        </section>
+      <div className="app-shell-wide py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
+        <div className="hidden mb-5 md:block">
+          <Link href="/profile" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition">
+            <ChevronLeft className="h-4 w-4" />
+            返回个人空间
+          </Link>
+        </div>
 
         <section className="mt-5">
           {isLoading ? (
@@ -308,22 +293,13 @@ export function ProfileTimelinePage() {
           ) : (
             <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_400px]">
               <section className="surface-panel overflow-hidden rounded-lg">
-                <div className="flex items-center justify-between gap-3 border-b border-[hsl(var(--surface-border))] px-5 py-4">
-                  <div className="min-w-0">
-                    <h2 className="text-base font-semibold text-foreground">真实记录</h2>
-                    <p className="mt-1 text-xs text-muted-foreground">按发生时间倒序排列</p>
-                  </div>
-                  <span className="rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1 text-xs font-bold text-[hsl(var(--brand-blue))]">
-                    {events.length} 条
-                  </span>
-                </div>
+
 
                 <div className="divide-y divide-[hsl(var(--surface-border))]">
                   {timelineGroups.map((group) => (
                     <div key={group.dateKey} className="grid gap-3 px-4 py-4 md:grid-cols-[112px_minmax(0,1fr)] md:px-5">
-                      <div className="md:pt-2">
-                        <div className="text-lg font-extrabold tabular-nums text-foreground">{group.dateLabel}</div>
-                        <div className="mt-0.5 text-xs font-semibold text-muted-foreground">{group.dateKey}</div>
+                      <div className="pt-0.5 md:pt-2">
+                        <span className="text-lg font-extrabold tabular-nums text-foreground">{group.dateLabel}</span>
                       </div>
                       <div className="space-y-2.5">
                         {group.events.map((event) => (
@@ -356,7 +332,7 @@ export function ProfileTimelinePage() {
                 ) : null}
               </section>
 
-              <TimelineOverview events={events} latestEvent={latestEvent} />
+              <TimelineOverview events={events} />
             </div>
           )}
         </section>

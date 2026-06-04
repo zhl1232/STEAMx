@@ -825,6 +825,7 @@ function ProfileImageIcon({
   variant?: 'module' | 'heroStat' | 'timeline'
 }) {
   const { icon: Icon, tone } = PROFILE_ICON_META[name]
+  const [imgError, setImgError] = useState(false)
   const toneClassName = {
     blue: 'bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
     green: 'bg-[hsl(var(--brand-green)/0.1)] text-[hsl(var(--brand-green))]',
@@ -832,6 +833,29 @@ function ProfileImageIcon({
     rose: 'bg-rose-500/10 text-rose-500',
     violet: 'bg-violet-500/10 text-violet-500',
   }[tone]
+
+  const is3DIcon = variant === 'timeline' && ['timeline', 'projects', 'observation', 'achievement', 'growth'].includes(name)
+
+  if (is3DIcon && !imgError) {
+    return (
+      <span
+        className={cn(
+          'relative grid shrink-0 place-items-center rounded-xl overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95',
+          'bg-gradient-to-br from-white/15 to-white/0 dark:from-white/5 dark:to-white/0 backdrop-blur-[2px]',
+          'border border-white/20 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]',
+          className
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/assets/timeline/${name}.png`}
+          alt={name}
+          className="h-full w-full object-contain p-0.5"
+          onError={() => setImgError(true)}
+        />
+      </span>
+    )
+  }
 
   return (
     <span
@@ -1717,9 +1741,7 @@ function ProfileStarterHub() {
           </Link>
         </div>
       </div>
-      <p className="border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-6 py-3 text-xs leading-5 text-muted-foreground dark:bg-muted/20">
-        完成项目或挑战后，会解锁 STEAM 能力图谱与下方探索轨迹。
-      </p>
+
     </section>
   )
 }
