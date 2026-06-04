@@ -50,10 +50,15 @@ function ExploreRecommendationCard({
   project: Project;
   priority: boolean;
 }) {
+  const imageSrc = typeof project.image === "string" ? project.image.trim() : "";
   const [imageError, setImageError] = useState(false);
   const difficultyStars = project.difficulty_stars
     ? Math.max(1, Math.min(6, project.difficulty_stars))
     : null;
+
+  useEffect(() => {
+    setImageError(false);
+  }, [imageSrc]);
 
   return (
     <article className="group relative h-full overflow-hidden rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] transition duration-300 hover:border-[hsl(var(--surface-border-strong))]">
@@ -64,9 +69,9 @@ function ExploreRecommendationCard({
       />
 
       <div className="relative aspect-[4/3] overflow-hidden bg-[hsl(var(--surface-muted))]">
-        {!imageError ? (
+        {imageSrc && !imageError ? (
           <OptimizedImage
-            src={project.image}
+            src={imageSrc}
             alt={project.title}
             fill
             variant="card"

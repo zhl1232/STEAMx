@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Heart, ImageOff, MessageCircle } from "lucide-react";
@@ -34,10 +34,15 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
+    const imageSrc = typeof project.image === "string" ? project.image.trim() : "";
     const [imageError, setImageError] = useState(false);
     const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
     const detailHref = href || `/project/${project.id}`;
     const categoryTone = getCategoryTone(project.category);
+
+    useEffect(() => {
+        setImageError(false);
+    }, [imageSrc]);
 
     if (variant === "compact") {
         const isVerticalCompact = compactLayout === "vertical";
@@ -71,9 +76,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     : "aspect-square rounded-sm sm:aspect-[16/8.5] sm:rounded-none",
                         )}
                     >
-                        {!imageError ? (
+                        {imageSrc && !imageError ? (
                             <OptimizedImage
-                                src={project.image}
+                                src={imageSrc}
                                 alt={project.title}
                                 fill
                                 variant="card"
@@ -199,9 +204,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     />
 
                     <div className="pointer-events-none relative aspect-[16/9] w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
-                        {!imageError ? (
+                        {imageSrc && !imageError ? (
                             <OptimizedImage
-                                src={project.image}
+                                src={imageSrc}
                                 alt={project.title}
                                 fill
                                 variant="featured"
@@ -314,9 +319,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                 />
 
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted pointer-events-none">
-                    {!imageError ? (
+                    {imageSrc && !imageError ? (
                         <OptimizedImage
-                            src={project.image}
+                            src={imageSrc}
                             alt={project.title}
                             fill
                             variant="card"
