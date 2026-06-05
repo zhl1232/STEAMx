@@ -416,7 +416,7 @@ function DesktopProfilePage({
 
   return (
     <div className="profile-page-surface min-h-screen pb-10 text-foreground">
-      <div className="app-shell-wide py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
+      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 min-w-0 space-y-6 xl:col-span-8">
             <ProfileHero

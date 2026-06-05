@@ -43,7 +43,7 @@
 
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
-- `app/globals.css` — 全局样式与 CSS 变量
+- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
@@ -92,6 +92,7 @@
 ### 3.1 基础 UI (`components/ui/`) — 39 个组件
 基于 shadcn/ui + Radix UI 的基础组件库：
 `alert` · `avatar` · `avatar-with-frame` · `badge` · `button` · `card` · `checkbox` · `countdown-timer` · `dialog` · `difficulty-stars` · `dropdown-menu` · `filter-chip` · `image-upload` · `input` · `label` · `leaderboard-skeleton` · `loading-skeleton` · `mobile-page-header` · `optimized-image` · `page-status` · `progress` · `radio-group` · `report-dialog` · `role-badge` · `scroll-area` · `search-highlight` · `select` · `separator` · `sheet` · `skeleton` · `slider` · `surface` · `table` · `tabs` · `textarea` · `toast` · `toaster` · `tone-badge`
+- `components/ui/loading-skeleton.tsx` — 项目/挑战骨架屏；`ChallengeCardSkeleton` 支持可选 `className` 供页面局部统一圆角和外观。
 
 ### 3.2 布局 (`components/layout/`) — 13 个组件
 - `conditional-app-shell.tsx` — 根据路由条件渲染 Header/BottomNav/Sidebar

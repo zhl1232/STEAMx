@@ -60,13 +60,13 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="app-shell-reading flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+    <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="设置" fallbackHref="/profile" />
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="page-shell py-4 md:py-8">
+        <div className="app-shell-reading py-4 md:py-8">
           <div className="hidden md:block">
             <p className="section-kicker">账号中心</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight">设置</h1>

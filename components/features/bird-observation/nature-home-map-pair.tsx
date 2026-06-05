@@ -56,8 +56,8 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
   }, [hoveredId])
 
   return (
-    <section className="nature-section-card overflow-hidden p-0">
-      <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--nature-border)/0.6)] px-4 py-2 md:px-5 md:py-2.5">
+    <section className="nature-section-card nature-home-map-panel overflow-hidden p-0">
+      <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--nature-border)/0.42)] px-4 py-2 md:border-[hsl(var(--nature-border)/0.6)] md:px-5 md:py-2.5">
         <p className="section-kicker tracking-normal">最近观察</p>
         <Link href="/nature/observations" className="nature-link inline-flex shrink-0 items-center gap-0.5 text-xs md:text-sm">
           查看全部
@@ -69,6 +69,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
           <DomesticMiniMap
             markers={markers}
             heightClassName="h-[180px] min-[390px]:h-[200px] md:h-[300px] lg:h-[560px]"
+            className="rounded-none border-0 shadow-none md:rounded-xs md:border md:border-[#cfe3d5] md:shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] md:dark:border-[#274d37] md:dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
             defaultCenter={BEIJING_CENTER}
             defaultZoom={10}
             fitMode="default"
@@ -77,7 +78,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
             onMarkerHover={setHoveredId}
           />
         </div>
-        <div className="relative overflow-hidden border-t border-[hsl(var(--nature-border)/0.6)] md:max-h-[320px] md:overflow-y-auto lg:max-h-[560px] lg:border-l lg:border-t-0">
+        <div className="relative overflow-hidden border-t border-[hsl(var(--nature-border)/0.42)] bg-[hsl(var(--nature-accent-soft)/0.24)] md:max-h-[320px] md:overflow-y-auto md:border-[hsl(var(--nature-border)/0.6)] md:bg-transparent lg:max-h-[560px] lg:border-l lg:border-t-0">
           {observations.length === 0 ? (
             <div className="flex h-full min-h-[160px] flex-col items-center justify-center gap-3 px-6 py-8 text-center md:min-h-[200px] md:py-10">
               <Leaf className="h-7 w-7 text-muted-foreground md:h-8 md:w-8" />
@@ -91,7 +92,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
             </div>
           ) : (
             <>
-              <ul className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-3 py-3 md:hidden">
+              <ul className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-3 py-3 md:hidden">
                 {mobileObservations.map((observation) => {
                   const id = String(observation.id)
                   const isActive = id === hoveredId
@@ -110,11 +111,13 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group nature-observation-card block w-[72vw] max-w-[280px] p-3 ${
-                          isActive ? "border-[hsl(var(--nature-accent)/0.55)]" : ""
+                        className={`group block w-[72vw] max-w-[280px] rounded-[var(--radius-xs)] p-2.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-surface))] active:bg-[hsl(var(--nature-accent-soft)/0.72)] ${
+                          isActive
+                            ? "bg-[hsl(var(--nature-accent-soft)/0.82)]"
+                            : "bg-[hsl(var(--nature-surface)/0.72)] hover:bg-[hsl(var(--nature-surface)/0.96)]"
                         }`}
                       >
-                        <div className="relative aspect-square w-full overflow-hidden rounded-[var(--radius-sm)] bg-muted/50">
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-xs)] bg-muted/50">
                           {observation.mediaUrls[0] ? (
                             <Image
                               src={observation.mediaUrls[0]}

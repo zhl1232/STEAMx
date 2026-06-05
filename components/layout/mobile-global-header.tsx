@@ -93,7 +93,7 @@ export function MobileGlobalHeader({
     <header
       className={cn('app-mobile-header', className)}
     >
-      <div className="flex h-12 items-center px-4 min-[390px]:px-5">
+      <div className="flex h-12 items-center px-4">
         {/* 左侧 */}
         <div className={cn('shrink-0 flex h-10 items-center', variant === 'search' ? 'mr-2' : 'mr-2')}>
           {variant === 'logo' ? (

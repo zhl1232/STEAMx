@@ -612,7 +612,7 @@ export default function CoinsPage() {
         className="md:hidden"
       />
 
-      <main className="app-shell-wide pt-5 min-[390px]:px-5 md:px-8 md:pt-8">
+      <main className="app-shell-wide pt-5 md:px-8 md:pt-8">
         <div className="mb-5 hidden items-center gap-4 md:flex">
           <Button variant="ghost" size="icon" asChild className="-ml-2 shrink-0 rounded-full hover:bg-muted">
             <Link href="/profile" aria-label="返回个人中心">

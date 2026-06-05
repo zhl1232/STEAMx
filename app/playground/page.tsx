@@ -387,7 +387,7 @@ export default function PlaygroundPage() {
     const toRecommend = (recommendedGames.length > 0 ? recommendedGames : GAMES).slice(0, 3)
 
     return (
-        <div className="mx-auto w-full px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
+        <div className="mx-auto w-full py-5 lg:px-8 lg:py-8">
             <div className="grid gap-5 xl:gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
                 <section className="min-w-0 space-y-5">
                     <HeroPanel />

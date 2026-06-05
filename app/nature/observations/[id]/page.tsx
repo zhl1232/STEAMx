@@ -104,7 +104,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
       />
 
       <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
-        <div className="-mx-4 min-[390px]:-mx-5 md:mx-0">
+        <div className="-mx-4 md:mx-0">
           {hasMedia ? (
             <ObservationMediaCarousel mediaUrls={observation.mediaUrls} alt={headline.title} />
           ) : (
@@ -129,7 +129,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
           />
         </div>
 
-        <article className="space-y-6 px-4 py-5 min-[390px]:px-5 sm:space-y-7 sm:px-7 sm:py-6">
+        <article className="space-y-6 px-4 py-5 sm:space-y-7 sm:px-7 sm:py-6">
           <header className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               {!isConfirmed ? (

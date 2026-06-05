@@ -36,10 +36,10 @@ export function CompactChallengeCard({
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/pbl/${challenge.id}`}
-                className="absolute inset-0 z-10 rounded-[var(--radius-md)]"
+                className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
                 aria-label={`进入挑战：${challenge.title}`}
             />
-            <div className="relative min-h-[98px] overflow-hidden rounded-[var(--radius-sm)] bg-[hsl(var(--status-info-surface))]">
+            <div className="relative min-h-[102px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
                 <OptimizedImage
                     src={imageSrc}
                     alt={challenge.title}
@@ -59,8 +59,8 @@ export function CompactChallengeCard({
                 ) : null}
             </div>
 
-            <div className="relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1 pointer-events-none">
-                <h3 className="line-clamp-2 min-h-[48px] whitespace-normal break-words text-[16px] font-black leading-6 text-foreground transition group-hover:text-[hsl(var(--nav-active))] md:text-[17px]">
+            <div className="pointer-events-none relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1">
+                <h3 className="line-clamp-2 whitespace-normal break-words text-[15px] font-black leading-[1.45] text-foreground transition group-hover:text-[hsl(var(--nav-active))] min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
                     {challenge.title}
                 </h3>
                 <p className="mt-1 hidden text-[13px] leading-5 text-muted-foreground xl:line-clamp-1">
@@ -146,8 +146,8 @@ export function ChallengeBoard({
     const hasChallenges = activeTimed.length > 0 || evergreen.length > 0 || ended.length > 0;
 
     return (
-        <section className="surface-panel overflow-hidden">
-            <div className="space-y-7 p-4 md:p-6">
+        <section className="overflow-hidden">
+            <div className="space-y-7 py-4 md:p-6">
                 {challengesError && !isLoading ? (
                     <div className="rounded-md border border-destructive/20 bg-destructive/5 px-6 py-12 text-center">
                         <p className="text-lg font-bold">挑战加载失败</p>
@@ -161,7 +161,7 @@ export function ChallengeBoard({
                 {isLoading ? (
                     <div className="grid gap-4 md:grid-cols-2">
                         {[1, 2, 3, 4].map((item) => (
-                            <ChallengeCardSkeleton key={item} />
+                            <ChallengeCardSkeleton key={item} className="!rounded-[var(--radius-sm)]" />
                         ))}
                     </div>
                 ) : null}
@@ -178,7 +178,7 @@ export function ChallengeBoard({
                             <ChallengeRailSection title="已结束挑战" challenges={ended} ended onMore={() => {}} showMore={false} />
                         ) : null}
                         {!hasChallenges ? (
-                            <div className="surface-card rounded-[var(--radius-md)] px-6 py-14 text-center">
+                            <div className="surface-card rounded-[var(--radius-sm)] px-6 py-14 text-center">
                                 <p className="text-lg font-bold">暂无挑战</p>
                                 <p className="mt-2 text-sm text-muted-foreground">敬请期待新的挑战。</p>
                             </div>

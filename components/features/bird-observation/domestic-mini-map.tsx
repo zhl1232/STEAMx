@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 
+import { cn } from "@/lib/utils"
+
 // ---------------------------------------------------------------------------
 // 高德瓦片 URL – 与之前 Leaflet 版完全一致，不需要 API Key
 // ---------------------------------------------------------------------------
@@ -78,6 +80,7 @@ interface MarkerHit {
 interface DomesticMiniMapProps {
   markers: DomesticMiniMapMarker[]
   heightClassName?: string
+  className?: string
   activeMarkerIndex?: number
   enableTimeDecay?: boolean
   enableDragInteractions?: boolean
@@ -186,6 +189,7 @@ function fitBounds(markers: DomesticMiniMapMarker[], width: number, height: numb
 export function DomesticMiniMap({
   markers,
   heightClassName = "h-56",
+  className,
   activeMarkerIndex = -1,
   enableTimeDecay = false,
   enableDragInteractions = true,
@@ -550,7 +554,11 @@ export function DomesticMiniMap({
   return (
     <div
       ref={containerRef}
-      className={`${heightClassName} nature-mini-map relative z-0 w-full overflow-hidden rounded-xs border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]`}
+      className={cn(
+        heightClassName,
+        "nature-mini-map relative z-0 w-full overflow-hidden rounded-xs border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+        className,
+      )}
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" style={{ touchAction: "none" }} />
 

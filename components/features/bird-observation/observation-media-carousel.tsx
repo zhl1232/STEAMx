@@ -106,7 +106,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
       {mediaUrls.length > 1 ? (
         <div
           ref={railRef}
-          className="mt-3 flex gap-2 overflow-x-auto scroll-smooth px-4 pb-1 [scrollbar-width:none] min-[390px]:px-5 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          className="mt-3 flex gap-2 overflow-x-auto scroll-smooth px-4 pb-1 [scrollbar-width:none] sm:px-0 [&::-webkit-scrollbar]:hidden"
           aria-label="观察照片缩略图"
         >
           {mediaUrls.map((url, index) => (

@@ -1037,7 +1037,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-2.5 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
@@ -1220,7 +1220,7 @@ export function ExploreClient({
 
                                 <div className="space-y-2.5 md:mt-4 md:space-y-2">
                                     <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
-                                    <div className="no-scrollbar -mx-4 overflow-x-auto px-4 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:px-0">
+                                    <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
                                     <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
                                         {displayCategories.map((category) => {
                                             const meta = CATEGORY_META[category]

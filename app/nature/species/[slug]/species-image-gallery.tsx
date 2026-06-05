@@ -56,7 +56,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
       </div>
 
       {imageUrls.length > 1 ? (
-        <div className="mt-3 flex items-center gap-2 px-4 min-[390px]:px-5 sm:px-0">
+        <div className="mt-3 flex items-center gap-2 px-4 sm:px-0">
           {hasManyImages ? (
             <button
               type="button"

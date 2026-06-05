@@ -472,9 +472,13 @@ function ShareForm() {
     }
 
     return (
-        <div className="page-shell px-3 pt-4 pb-24 sm:px-4 sm:pt-6 md:px-6 md:py-8">
+        <div className="page-shell pt-4 pb-24 sm:pt-6 md:py-8">
             <div className="md:hidden">
-                <MobilePageHeader title={editId ? "编辑项目" : "分享项目"} fallbackHref="/profile" />
+                <MobilePageHeader
+                    title={editId ? "编辑项目" : "分享项目"}
+                    fallbackHref="/profile"
+                    className="-mx-4"
+                />
             </div>
 
             <section className="surface-panel overflow-visible rounded-none border-0 bg-transparent px-0 py-4 shadow-none sm:overflow-hidden sm:rounded-xl sm:border sm:bg-card/88 sm:px-7 sm:py-7 sm:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] lg:px-8">
@@ -830,7 +834,7 @@ function ShareForm() {
                     </aside>
 
                 {/* 操作按钮 */}
-                <div className="sticky bottom-0 z-20 -mx-3 flex flex-col gap-3 border-t border-border/60 bg-background/92 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0 lg:col-span-2">
+                <div className="sticky bottom-0 z-20 -mx-4 flex flex-col gap-3 border-t border-border/60 bg-background/92 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0 lg:col-span-2">
                     <Button
                         type="button"
                         variant="outline"

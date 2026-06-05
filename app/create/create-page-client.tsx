@@ -26,6 +26,8 @@ import { cn } from "@/lib/utils";
 
 const createHeroImage = "/assets/community-hero-kids-robot.png";
 const natureFeatureImage = "/assets/home-nature-channel-bird.png";
+const mobileHeaderClassName =
+    "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
 
 type CreateTab = "pbl" | "courses";
 
@@ -81,69 +83,61 @@ function buildHeroMetrics(challengeGroups: ChallengeGroups) {
     ] as const;
 }
 
-function CreateHero({ metrics }: { metrics: ReturnType<typeof buildHeroMetrics> }) {
+function CreateHero() {
     return (
-        <section className="surface-card relative overflow-hidden rounded-[var(--radius-xl)] md:rounded-[var(--radius-md)]">
-            <div className="relative min-h-[300px] md:min-h-[260px] xl:min-h-[282px]">
-                <Image
-                    src={createHeroImage}
-                    alt="孩子们围坐在桌前调试机器人小车"
-                    fill
-                    priority
-                    loading="eager"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 64vw, 1180px"
-                    className="object-cover object-[68%_center] dark:brightness-90 md:object-[72%_center]"
-                />
-                <div className="absolute inset-x-0 top-0 h-[58%] bg-[linear-gradient(180deg,rgba(247,251,255,0.86)_0%,rgba(247,251,255,0.58)_46%,rgba(247,251,255,0.08)_100%)] dark:bg-[linear-gradient(180deg,rgba(7,16,29,0.76)_0%,rgba(7,16,29,0.48)_46%,rgba(7,16,29,0.06)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(247,251,255,0.82)_0%,rgba(247,251,255,0.6)_28%,rgba(247,251,255,0.28)_48%,rgba(247,251,255,0.06)_68%,rgba(247,251,255,0)_82%)] md:dark:bg-[linear-gradient(90deg,rgba(7,16,29,0.78)_0%,rgba(7,16,29,0.52)_28%,rgba(7,16,29,0.24)_50%,rgba(7,16,29,0.06)_72%,rgba(7,16,29,0)_84%)]" />
-                <div className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-t from-black/20 to-transparent md:hidden" />
-                <div className="absolute inset-x-0 bottom-0 hidden h-[32%] bg-gradient-to-t from-black/30 via-black/10 to-transparent md:block" />
+        <section className="relative isolate min-h-[232px] overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.68)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_70px_-44px_hsl(var(--brand-blue)/0.28)] md:min-h-[360px] lg:min-h-[374px]">
+            <Image
+                src={createHeroImage}
+                alt="孩子们围坐在桌前调试机器人小车"
+                fill
+                priority
+                loading="eager"
+                sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
+                className="object-cover object-[66%_center] dark:brightness-75 md:object-[72%_center]"
+            />
+            <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(4,16,31,0.02)_0%,rgba(4,16,31,0.08)_44%,rgba(4,16,31,0.48)_100%)] md:bg-[linear-gradient(90deg,rgba(247,251,255,0.92)_0%,rgba(247,251,255,0.74)_34%,rgba(247,251,255,0.18)_66%,rgba(247,251,255,0.02)_86%),linear-gradient(180deg,rgba(4,16,31,0.02)_0%,rgba(4,16,31,0.16)_100%)] md:dark:bg-[linear-gradient(90deg,rgba(7,16,29,0.86)_0%,rgba(7,16,29,0.62)_34%,rgba(7,16,29,0.18)_68%,rgba(7,16,29,0.02)_88%),linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.24)_100%)]" />
 
-                <div className="relative z-10 flex min-h-[300px] flex-col px-5 pb-4 pt-7 min-[390px]:px-7 md:min-h-[260px] md:justify-center md:px-8 md:py-7 xl:min-h-[282px] xl:px-10">
-                    <div className="max-w-[310px] md:max-w-[650px]">
-                        <h1 className="community-hero-title whitespace-nowrap">
-                            STEAM 创造营
-                        </h1>
-                        <p className="community-hero-lead">
-                            动手做、解决真问题，把好奇变成作品
-                        </p>
-                    </div>
-
-                    <div className="mt-auto grid max-w-[610px] grid-cols-4 gap-1 rounded-[var(--radius-md)] border border-white/60 bg-white/55 px-2 py-2 backdrop-blur-sm min-[390px]:gap-2 min-[390px]:px-3 dark:border-white/10 dark:bg-[hsl(var(--surface-shadow)/0.55)] md:mt-6 md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0">
-                        {metrics.map((metric) => (
-                            <div
-                                key={metric.label}
-                                className="min-w-0 overflow-hidden px-1 py-1.5 text-center md:px-2 md:py-1"
-                            >
-                                <metric.icon className="mx-auto mb-1 h-5 w-5 text-foreground/85 dark:text-white/85 md:hidden" strokeWidth={2.4} />
-                                <div className={cn("text-[20px] font-black leading-none tabular-nums md:text-[28px] md:drop-shadow-[0_2px_8px_rgba(255,255,255,0.72)]", metric.color)}>
-                                    {metric.value}
-                                </div>
-                                <div className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-[hsl(var(--community-hero-muted))] md:text-[13px] md:drop-shadow-[0_1px_6px_rgba(255,255,255,0.76)] md:dark:drop-shadow-[0_2px_7px_rgba(0,0,0,0.85)]">
-                                    {metric.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="mt-4 hidden max-w-[780px] grid-cols-4 gap-3 md:grid">
-                        {createValues.map((item) => (
-                            <div
-                                key={item.label}
-                                className="flex min-w-0 items-center gap-3 rounded-[var(--radius-sm)] border border-white/60 bg-white/40 px-4 py-3 text-left shadow-sm backdrop-blur-md transition hover:bg-white/50 dark:border-white/10 dark:bg-white/10 dark:shadow-[0_12px_32px_-28px_rgba(0,0,0,0.9)] dark:hover:bg-white/[0.13]"
-                            >
-                                <item.icon className={cn("h-6 w-6 shrink-0", item.color, "dark:text-white/90")} strokeWidth={2.2} />
-                                <div className="min-w-0">
-                                    <div className="truncate text-[13px] font-bold text-foreground dark:text-white">
-                                        {item.label}
-                                    </div>
-                                    <div className="mt-1 truncate text-[11px] text-muted-foreground dark:text-white/70">
-                                        {item.description}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+            <div className="relative z-10 flex min-h-[232px] flex-col justify-end p-4 text-white min-[390px]:min-h-[244px] md:min-h-[360px] md:justify-between md:px-8 md:py-9 md:text-foreground lg:min-h-[374px] lg:px-10">
+                <div className="max-w-[18rem] md:max-w-[32rem]">
+                    <p className="max-w-[13.5rem] text-[16px] font-extrabold leading-[1.28] tracking-normal [text-shadow:0_2px_7px_rgba(0,0,0,0.72)] min-[390px]:text-[17px] md:max-w-[28rem] md:text-[28px] md:font-black md:leading-[1.12] md:text-[hsl(var(--community-hero-fg))] md:[text-shadow:0_2px_10px_rgba(255,255,255,0.7)] md:dark:text-slate-50 md:dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.82)]">
+                        动手实践，探索创造的乐趣
+                    </p>
+                    <p className="mt-3 hidden max-w-md text-sm font-semibold leading-6 text-[hsl(var(--community-hero-muted))] md:block md:text-base md:leading-7">
+                        挑一个真实挑战开始，或者进入训练营把 Scratch 作品一步步做出来。
+                    </p>
                 </div>
+            </div>
+        </section>
+    );
+}
+
+function CreatePathCardsSection() {
+    return (
+        <section aria-label="创造路径">
+            <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
+                {createValues.map((item) => (
+                    <div
+                        key={item.label}
+                        className="group relative block w-[68vw] max-w-[260px] shrink-0 snap-start overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.88)] bg-[hsl(var(--surface-raised))] p-3.5 shadow-[0_14px_36px_-30px_hsl(var(--surface-shadow)/0.24)] transition-all duration-300 active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-auto md:max-w-none md:p-5"
+                    >
+                        <div className="relative z-10 flex min-h-[112px] flex-col justify-between md:min-h-[148px]">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <item.icon className={cn("h-4 w-4 shrink-0 md:h-5 md:w-5", item.color)} strokeWidth={2.2} />
+                                    <h3 className="font-sans text-base font-bold leading-5 text-foreground md:text-lg md:leading-6">
+                                        {item.label}
+                                    </h3>
+                                </div>
+                                <p className="mt-2 text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
+                                    {item.description}
+                                </p>
+                            </div>
+                            <span className="mt-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 group-hover:border-[hsl(var(--brand-blue)/0.45)] group-hover:bg-[hsl(var(--brand-blue))] group-hover:text-[hsl(var(--brand-blue-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9">
+                                <ArrowRight className="h-4 w-4" />
+                            </span>
+                        </div>
+                    </div>
+                ))}
             </div>
         </section>
     );
@@ -160,7 +154,7 @@ function NatureFeatureCard({ challenge }: { challenge?: Challenge }) {
     return (
         <Link
             href={href}
-            className="surface-card group relative hidden min-h-[282px] overflow-hidden rounded-md md:block"
+            className="surface-card group relative block min-h-[260px] overflow-hidden rounded-[var(--radius-sm)]"
         >
             <Image
                 src={natureFeatureImage}
@@ -186,6 +180,47 @@ function NatureFeatureCard({ challenge }: { challenge?: Challenge }) {
                 </span>
             </div>
         </Link>
+    );
+}
+
+function CreateStatsCard({ metrics }: { metrics: ReturnType<typeof buildHeroMetrics> }) {
+    return (
+        <section className="surface-panel p-5">
+            <div className="flex items-start justify-between gap-4">
+                <h2 className="text-[20px] font-bold leading-7 text-foreground">本期进度</h2>
+                <span className="shrink-0 pt-1 text-xs font-semibold text-muted-foreground">公开数据</span>
+            </div>
+            <div className="mt-4 divide-y divide-border/70">
+                {metrics.map((metric) => (
+                    <div key={metric.label} className="flex min-w-0 items-center gap-3 py-3 first:pt-0 last:pb-0">
+                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-[hsl(var(--surface-muted)/0.72)]">
+                            <metric.icon className={cn("h-5 w-5", metric.color)} strokeWidth={2.2} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xl font-black leading-6 tabular-nums text-foreground">{metric.value}</p>
+                            <p className="mt-1 text-xs font-semibold text-muted-foreground">{metric.label}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+function DesktopCreateSidebar({
+    challenge,
+    metrics,
+}: {
+    challenge?: Challenge;
+    metrics: ReturnType<typeof buildHeroMetrics>;
+}) {
+    return (
+        <aside className="hidden min-w-0 lg:block">
+            <div className="sticky top-20 space-y-5">
+                <NatureFeatureCard challenge={challenge} />
+                <CreateStatsCard metrics={metrics} />
+            </div>
+        </aside>
     );
 }
 
@@ -236,32 +271,35 @@ export function CreatePageClient() {
                 title="创造"
                 showUserButton={false}
                 showNotification={true}
+                className={mobileHeaderClassName}
             />
-            <main className="app-shell-wide pb-28 pt-4 md:py-6">
-                <div className="grid gap-5 lg:grid-cols-[minmax(0,2.08fr)_minmax(360px,0.92fr)] xl:grid-cols-[minmax(0,2.12fr)_minmax(420px,0.9fr)]">
-                    <CreateHero metrics={metrics} />
-                    <NatureFeatureCard challenge={featureChallenge} />
+            <main className="app-shell-wide grid gap-5 pb-28 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px]">
+                <div className="min-w-0 space-y-4 md:space-y-6">
+                    <CreateHero />
+                    <CreatePathCardsSection />
+
+                    <section>
+                        <div className="overflow-hidden rounded-none bg-transparent shadow-none md:rounded-[var(--radius-sm)] md:border md:border-[hsl(var(--surface-border)/0.9)] md:bg-[hsl(var(--surface-raised)/0.9)] md:shadow-[0_24px_70px_-46px_hsl(var(--surface-shadow)/0.42)] md:backdrop-blur-sm">
+                            <div className="flex min-h-[48px] items-center justify-between gap-4 px-0 md:min-h-[58px] md:border-b md:border-[hsl(var(--surface-border)/0.72)] md:px-6">
+                                <CreateTabs activeTab={activeTab} onChange={setActiveTab} />
+                            </div>
+                            {activeTab === "pbl" ? (
+                                <ChallengeBoard
+                                    activeTimed={displayChallengeGroups.activeTimed}
+                                    evergreen={displayChallengeGroups.evergreen}
+                                    ended={displayChallengeGroups.ended}
+                                    isLoading={isLoading}
+                                    challengesError={challengesError}
+                                    reloadChallenges={reloadChallenges}
+                                />
+                            ) : (
+                                <CourseBoard />
+                            )}
+                        </div>
+                    </section>
                 </div>
 
-                <section className="mt-5">
-                    <div className="surface-panel overflow-hidden">
-                        <div className="flex min-h-[58px] items-center justify-between gap-4 border-b border-border px-4 md:px-6">
-                            <CreateTabs activeTab={activeTab} onChange={setActiveTab} />
-                        </div>
-                        {activeTab === "pbl" ? (
-                            <ChallengeBoard
-                                activeTimed={displayChallengeGroups.activeTimed}
-                                evergreen={displayChallengeGroups.evergreen}
-                                ended={displayChallengeGroups.ended}
-                                isLoading={isLoading}
-                                challengesError={challengesError}
-                                reloadChallenges={reloadChallenges}
-                            />
-                        ) : (
-                            <CourseBoard />
-                        )}
-                    </div>
-                </section>
+                <DesktopCreateSidebar challenge={featureChallenge} metrics={metrics} />
             </main>
         </div>
     );

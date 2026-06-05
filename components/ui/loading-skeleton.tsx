@@ -179,7 +179,7 @@ export function ExploreToolbarSkeleton() {
       </div>
       <div className="space-y-2.5 md:mt-4 md:space-y-2">
         <Skeleton className="hidden h-4 w-8 rounded-full md:block" />
-        <div className="no-scrollbar -mx-4 overflow-x-auto px-4 min-[390px]:-mx-5 min-[390px]:px-5 md:mx-0 md:px-0">
+        <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
           <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
             {categoryWidths.map((width, index) => (
               <Skeleton
@@ -274,7 +274,7 @@ function ExploreMobileSearchHeaderSkeleton() {
       aria-hidden="true"
       className="app-mobile-header"
     >
-      <div className="flex h-[3.75rem] items-center px-4 min-[390px]:px-5">
+      <div className="flex h-[3.75rem] items-center px-4">
         <div className="mr-2 shrink-0">
           <Skeleton className="h-[30px] w-[30px] rounded-sm" />
         </div>
@@ -333,7 +333,7 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       />
 
       <div className="relative z-10">
-        <div className="app-shell-wide min-w-0 pt-2.5 min-[390px]:px-5 md:px-8 md:pt-5">
+        <div className="app-shell-wide min-w-0 pt-2.5 md:px-8 md:pt-5">
           <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
             <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg">
               <ExploreToolbarSkeleton />
@@ -759,9 +759,9 @@ export function DiscussionItemSkeleton() {
   )
 }
 
-export function ChallengeCardSkeleton() {
+export function ChallengeCardSkeleton({ className }: { className?: string } = {}) {
   return (
-    <Card className="overflow-hidden rounded-[var(--radius-lg)] border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)]">
+    <Card className={cn("overflow-hidden rounded-[var(--radius-lg)] border-border/70 bg-card/88 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.25)]", className)}>
       <div className="aspect-[16/10] w-full">
         <Skeleton className="h-full w-full" />
       </div>

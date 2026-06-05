@@ -201,7 +201,7 @@ function HomeHero({ image }: { image: string }) {
         <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 min-[390px]:min-h-[184px] min-[390px]:px-5 md:min-h-[220px] md:justify-center md:px-12 md:py-6">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 min-[390px]:min-h-[184px] md:min-h-[220px] md:justify-center md:px-12 md:py-6">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[760px]">
             <h1 className="whitespace-nowrap font-sans text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:text-[40px] lg:text-[44px]">
               <span className="text-[hsl(var(--brand-blue))]">探索</span>
@@ -316,7 +316,7 @@ function NatureChannel() {
         />
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.8)_38%,rgba(18,70,30,0.28)_68%,rgba(18,70,30,0.02)_100%)] md:bg-[linear-gradient(90deg,rgba(18,70,30,0.96)_0%,rgba(18,70,30,0.92)_52%,rgba(18,70,30,0.48)_74%,rgba(18,70,30,0.04)_100%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.78)_38%,rgba(18,70,30,0.16)_73%,rgba(18,70,30,0)_100%)]" />
-      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] min-[390px]:px-5 md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
+      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
         <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
         <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
         <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] md:mt-6 md:h-9 md:gap-2 md:px-5 md:text-[14px]">
@@ -541,7 +541,7 @@ export function HomeShowcase({
 }) {
   return (
     <div className="app-canvas min-h-screen">
-      <div className="app-shell-wide flex flex-col gap-2.5 px-4 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:px-8 md:py-8">
+      <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:py-8">
         <HomeHero image={heroImage} />
         <MobileLeaderboardEntry />
 

@@ -38,7 +38,7 @@ function MobileProfileLibrarySkeleton() {
 function DesktopProfileLibrarySkeleton() {
   return (
     <div className="hidden md:block">
-      <div className="app-shell-wide py-8 min-[390px]:px-5 md:px-8">
+      <div className="app-shell-wide py-8 md:px-8">
         <div className="space-y-6">
           <section className="surface-panel min-h-[254px] overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-5 xl:px-8">

@@ -487,7 +487,7 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
     const Icon = game.icon
 
     return (
-        <section className="px-4 pt-4 sm:px-6 lg:px-8 lg:pt-5">
+        <section className="pt-4 lg:px-8 lg:pt-5">
             <div className="app-shell-wide grid w-full gap-3 rounded-lg border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
                 <div className="flex min-w-0 items-center gap-3 rounded-md bg-primary/10 px-3 py-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-background/82 text-primary shadow-sm">

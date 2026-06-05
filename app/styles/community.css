@@ -13,7 +13,7 @@
 
   .community-tab {
     color: hsl(var(--muted-foreground));
-    @apply relative h-[50px] whitespace-nowrap px-1 text-[18px] font-semibold transition md:h-[58px];
+    @apply relative h-[48px] whitespace-nowrap px-1 text-[17px] font-semibold transition md:h-[58px] md:text-[18px];
   }
 
   .community-tab:hover {
@@ -30,10 +30,18 @@
   }
 
   .community-challenge-card {
-    border-color: hsl(var(--surface-border) / 0.9);
-    background-color: hsl(var(--surface-raised) / 0.82);
-    box-shadow: 0 14px 34px -30px hsl(var(--surface-shadow) / 0.35);
-    @apply relative grid min-h-[116px] grid-cols-[112px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[var(--radius-md)] border p-2 transition hover:border-[hsl(var(--brand-blue)/0.35)] hover:bg-[hsl(var(--surface-raised))] min-[420px]:grid-cols-[132px_minmax(0,1fr)] md:gap-4;
+    border-color: hsl(var(--surface-border) / 0.56);
+    background-color: hsl(var(--surface-raised) / 0.94);
+    box-shadow: 0 12px 30px -26px hsl(var(--surface-shadow) / 0.28);
+    @apply relative grid min-h-[118px] grid-cols-[104px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[var(--radius-sm)] border p-2 transition hover:border-[hsl(var(--brand-blue)/0.35)] hover:bg-[hsl(var(--surface-raised))] min-[390px]:grid-cols-[112px_minmax(0,1fr)] min-[420px]:grid-cols-[124px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4;
+  }
+
+  @media (min-width: 768px) {
+    .community-challenge-card {
+      border-color: hsl(var(--surface-border) / 0.9);
+      background-color: hsl(var(--surface-raised) / 0.82);
+      box-shadow: 0 14px 34px -30px hsl(var(--surface-shadow) / 0.35);
+    }
   }
 
   .community-nature-cta {

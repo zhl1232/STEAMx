@@ -38,9 +38,9 @@ export function CourseBoard() {
 
     if (loading) {
         return (
-            <div className="grid gap-3 p-4 md:grid-cols-2 md:p-6">
+            <div className="grid gap-3 py-4 md:grid-cols-2 md:p-6">
                 {Array.from({ length: 4 }).map((_, i) => (
-                    <ChallengeCardSkeleton key={i} />
+                    <ChallengeCardSkeleton key={i} className="!rounded-[var(--radius-sm)]" />
                 ))}
             </div>
         );
@@ -67,7 +67,7 @@ export function CourseBoard() {
     }
 
     return (
-        <div className="grid gap-3 p-4 md:grid-cols-2 md:p-6">
+        <div className="grid gap-3 py-4 md:grid-cols-2 md:p-6">
             {courses.map((course) => (
                 <CourseCard key={course.id} course={course} />
             ))}
@@ -82,10 +82,10 @@ function CourseCard({ course }: { course: CourseListItem }) {
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/courses/${course.id}`}
-                className="absolute inset-0 z-10 rounded-[var(--radius-md)]"
+                className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
                 aria-label={`进入训练营：${course.title}`}
             />
-            <div className="relative min-h-[98px] overflow-hidden rounded-[var(--radius-sm)] bg-[hsl(var(--status-info-surface))]">
+            <div className="relative min-h-[102px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
                 <OptimizedImage
                     src={imageSrc}
                     alt={course.title}
@@ -97,11 +97,11 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     训练营
                 </span>
             </div>
-            <div className="relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1 pointer-events-none">
-                <h3 className="line-clamp-2 min-h-[48px] text-[16px] font-black leading-6 text-foreground md:text-[17px]">
+            <div className="pointer-events-none relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1">
+                <h3 className="line-clamp-2 text-[15px] font-black leading-[1.45] text-foreground min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
                     {course.title}
                 </h3>
-                <p className="mt-1 line-clamp-2 text-[13px] leading-5 text-muted-foreground">
+                <p className="mt-1 line-clamp-2 text-[12px] leading-[1.65] text-muted-foreground min-[390px]:text-[13px] md:leading-5">
                     {course.description}
                 </p>
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-muted-foreground">

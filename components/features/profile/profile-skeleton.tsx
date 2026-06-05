@@ -206,7 +206,7 @@ function MobileDashboardProfileSkeleton() {
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground md:hidden">
       <header className="app-mobile-header">
-        <div className="flex h-12 items-center px-4 min-[390px]:px-5">
+        <div className="flex h-12 items-center px-4">
           <SkeletonBlock className="h-7 w-14 rounded-full" />
           <div className="ml-auto">
             <SkeletonBlock className="h-9 w-9 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />
@@ -372,7 +372,7 @@ function DesktopDashboardProfileSkeleton() {
   return (
     <div className="hidden md:block">
       <div className="min-h-screen bg-background pb-10 text-foreground">
-        <div className="app-shell-wide py-4 min-[390px]:px-5 md:px-8 md:py-6">
+        <div className="app-shell-wide py-4 md:px-8 md:py-6">
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_350px]">
             <main className="min-w-0 space-y-4">
               <DashboardHeroSkeleton compact={false} />

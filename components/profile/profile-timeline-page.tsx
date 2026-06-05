@@ -260,7 +260,7 @@ export function ProfileTimelinePage() {
         <MobilePageHeader title="探索轨迹" fallbackHref="/profile" />
       </div>
 
-      <div className="app-shell-wide py-4 min-[390px]:px-5 min-[390px]:py-5 md:px-8 md:py-6">
+      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6">
         <div className="hidden mb-5 md:block">
           <Link href="/profile" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition">
             <ChevronLeft className="h-4 w-4" />
