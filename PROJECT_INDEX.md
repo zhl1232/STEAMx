@@ -54,7 +54,7 @@
 
 ## 2. API 路由 (`app/api/`)
 
-27 个 API 模块，每个目录下含 `route.ts`：
+28 个 API 模块，每个目录下含 `route.ts`：
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
@@ -68,6 +68,7 @@
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
 | geo | `api/geo/` | 反向地理编码 |
 | home | `api/home/` | 首页推荐数据 |
+| internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏） |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
@@ -217,7 +218,8 @@
 |------|------|------|
 | `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射 |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格 |
-| `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts` | 通义千问视觉 AI：自然观察图像安全/质量/物种识别（按提交专题匹配鸟类/树木/昆虫物种库），以及通用上传图片安全审核 |
+| `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `auto-reply.ts` | 通义千问/DashScope AI：自然观察图像安全/质量/物种识别、通用上传图片安全审核、自动互动短回复生成 |
+| `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟短回复、点赞与项目收藏 |
 | `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
@@ -259,12 +261,12 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`
+- `supabase/migrations/` — **137+ 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`；自动互动账号与队列：`20260605100000_auto_interactions.sql`
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles` · `projects` · … · `challenges` · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · Storage bucket **`scratch-projects`**
+`profiles` · `projects` · … · `challenges` · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · **`auto_interaction_jobs`** · Storage bucket **`scratch-projects`**
 
 完整类型定义：`lib/supabase/types.ts`
 

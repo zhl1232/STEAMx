@@ -37,6 +37,7 @@ export interface Database {
           notify_followed_creator_updates: boolean
           message_privacy: string
           age_confirmed_at: string | null
+          is_auto_interaction_account: boolean
         }
         Insert: {
           id: string
@@ -59,6 +60,7 @@ export interface Database {
           notify_followed_creator_updates?: boolean
           message_privacy?: string
           age_confirmed_at?: string | null
+          is_auto_interaction_account?: boolean
         }
         Update: {
           id?: string
@@ -81,8 +83,70 @@ export interface Database {
           role?: string
           message_privacy?: string
           age_confirmed_at?: string | null
+          is_auto_interaction_account?: boolean
         }
         Relationships: []
+      }
+      auto_interaction_jobs: {
+        Row: {
+          id: number
+          target_type: string
+          target_id: number
+          source_author_id: string
+          actor_user_id: string
+          action_type: string
+          status: string
+          scheduled_for: string
+          generated_content: string | null
+          attempt_count: number
+          error_message: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          target_type: string
+          target_id: number
+          source_author_id: string
+          actor_user_id: string
+          action_type: string
+          status?: string
+          scheduled_for: string
+          generated_content?: string | null
+          attempt_count?: number
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          target_type?: string
+          target_id?: number
+          source_author_id?: string
+          actor_user_id?: string
+          action_type?: string
+          status?: string
+          scheduled_for?: string
+          generated_content?: string | null
+          attempt_count?: number
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_interaction_jobs_source_author_id_fkey"
+            columns: ["source_author_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_interaction_jobs_actor_user_id_fkey"
+            columns: ["actor_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       playground_stats: {
         Row: {

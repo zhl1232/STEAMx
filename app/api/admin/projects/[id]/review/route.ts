@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateNumber, validateOptionalString } from '@/lib/api/validation'
+import { enqueueAutoInteractionsForTarget } from '@/lib/auto-interactions'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 
@@ -163,7 +164,13 @@ export async function POST(
           })
         } catch (notificationError) {
           logger.error(notificationError, { context: 'Project approval follower notification failed', projectId })
-      }
+        }
+
+        try {
+          await enqueueAutoInteractionsForTarget('project', projectId)
+        } catch (autoInteractionError) {
+          logger.error(autoInteractionError, { context: 'Project auto interaction enqueue failed', projectId })
+        }
       }
       
       return NextResponse.json({ 

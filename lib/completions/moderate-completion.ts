@@ -1,5 +1,6 @@
 import type { Json } from '@/lib/supabase/types'
 import { evaluateCompletionContent } from '@/lib/ai/completion-moderation'
+import { enqueueAutoInteractionsForTarget } from '@/lib/auto-interactions'
 import { approveCompletionWithXp, rejectCompletion } from '@/lib/completions/approve'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
@@ -104,6 +105,12 @@ export async function runCompletionModeration(completionId: number): Promise<{
         .from('project_explorations')
         .update({ last_activity_at: new Date().toISOString(), updated_at: new Date().toISOString() } as never)
         .eq('id', row.exploration_id)
+    }
+
+    try {
+      await enqueueAutoInteractionsForTarget('completion', completionId)
+    } catch (autoInteractionError) {
+      logger.error(autoInteractionError, { context: 'Completion auto interaction enqueue failed', completionId })
     }
 
     await supabaseAdmin
