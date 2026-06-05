@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { useToast } from "@/hooks/use-toast";
@@ -25,6 +25,9 @@ interface RpcError {
     code: string;
     message: string;
 }
+
+const CHECK_IN_RETRY_BASE_DELAY_MS = 1_500;
+const CHECK_IN_MAX_RETRY_ATTEMPTS = 3;
 
 function buildLoginBadgeStats(result: CheckInResult, currentStats?: UserStats): UserStats | null {
     if (typeof result.streak !== "number") return null;
@@ -73,9 +76,54 @@ export function DailyCheckInSync() {
     const queryClient = useQueryClient();
     const supabase = useMemo(() => createClient(), []);
     const checkedUserIdsRef = useRef(new Set<string>());
+    const inFlightUserIdsRef = useRef(new Set<string>());
+    const retryAttemptsRef = useRef(new Map<string, number>());
+    const retryTimersRef = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+    const [retryTick, setRetryTick] = useState(0);
 
     useEffect(() => {
-        if (!user || checkedUserIdsRef.current.has(user.id)) return;
+        const retryTimers = retryTimersRef.current;
+        return () => {
+            retryTimers.forEach((timer) => clearTimeout(timer));
+            retryTimers.clear();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!user || checkedUserIdsRef.current.has(user.id) || inFlightUserIdsRef.current.has(user.id)) return;
+
+        const userId = user.id;
+
+        const clearRetryTimer = () => {
+            const timer = retryTimersRef.current.get(userId);
+            if (timer) {
+                clearTimeout(timer);
+                retryTimersRef.current.delete(userId);
+            }
+        };
+
+        const markCheckInHandled = () => {
+            checkedUserIdsRef.current.add(userId);
+            retryAttemptsRef.current.delete(userId);
+            clearRetryTimer();
+        };
+
+        const scheduleRetry = () => {
+            if (checkedUserIdsRef.current.has(userId) || retryTimersRef.current.has(userId)) return;
+
+            const currentAttempts = retryAttemptsRef.current.get(userId) ?? 0;
+            if (currentAttempts >= CHECK_IN_MAX_RETRY_ATTEMPTS) return;
+
+            const nextAttempts = currentAttempts + 1;
+            retryAttemptsRef.current.set(userId, nextAttempts);
+
+            const timer = setTimeout(() => {
+                retryTimersRef.current.delete(userId);
+                setRetryTick((tick) => tick + 1);
+            }, CHECK_IN_RETRY_BASE_DELAY_MS * nextAttempts);
+
+            retryTimersRef.current.set(userId, timer);
+        };
 
         const showCheckInToast = (result: CheckInResult) => {
             const streak = result.streak ?? 1;
@@ -108,7 +156,7 @@ export function DailyCheckInSync() {
         };
 
         const performCheckIn = async () => {
-            checkedUserIdsRef.current.add(user.id);
+            inFlightUserIdsRef.current.add(userId);
 
             try {
                 const { data, error } = await supabase.rpc("daily_check_in") as {
@@ -137,24 +185,37 @@ export function DailyCheckInSync() {
                                 error: RpcError | null;
                             };
 
-                            if (!retryError && retryData?.is_new_day) {
-                                await refreshRewardState();
-                                checkLoginStreakBadges(retryData);
-                                showCheckInToast(retryData);
-                            } else if (retryError && retryError.code !== "23505") {
+                            if (!retryError) {
+                                markCheckInHandled();
+
+                                if (retryData?.is_new_day) {
+                                    await refreshRewardState();
+                                    checkLoginStreakBadges(retryData);
+                                    showCheckInToast(retryData);
+                                }
+                            } else if (retryError.code === "23505") {
+                                markCheckInHandled();
+                            } else {
                                 logger.error("Check-in error:", { error: retryError });
+                                scheduleRetry();
                             }
                         } catch (retryErr) {
                             logger.error(retryErr, { context: "Check-in failed after profile recovery" });
+                            scheduleRetry();
                         }
                         return;
                     }
 
-                    if (error.code !== "23505") {
+                    if (error.code === "23505") {
+                        markCheckInHandled();
+                    } else {
                         logger.error("Check-in error:", { error });
+                        scheduleRetry();
                     }
                     return;
                 }
+
+                markCheckInHandled();
 
                 if (!data?.is_new_day) return;
 
@@ -163,11 +224,14 @@ export function DailyCheckInSync() {
                 showCheckInToast(data);
             } catch (err) {
                 logger.error(err, { context: "Check-in failed" });
+                scheduleRetry();
+            } finally {
+                inFlightUserIdsRef.current.delete(userId);
             }
         };
 
         void performCheckIn();
-    }, [checkBadges, queryClient, refreshProfile, supabase, toast, user, userStats]);
+    }, [checkBadges, queryClient, refreshProfile, retryTick, supabase, toast, user, userStats]);
 
     return null;
 }

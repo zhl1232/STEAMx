@@ -111,7 +111,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname.startsWith('/users')
   const skipHeavyProvidersForAnonymousNature =
     isNatureRoute && !user && !needsGamificationOnAnonymousNature
-  const includeGamificationProvider = !isHomePage && !skipHeavyProvidersForAnonymousNature
+  const includeGamificationProvider = Boolean(user) || (!isHomePage && !skipHeavyProvidersForAnonymousNature)
   const includeNotificationProvider = !skipHeavyProvidersForAnonymousNature
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Compass, Feather, Home, Sparkles, User } from "lucide-react";
+import { Compass, Leaf, Home, Sparkles, CircleUser } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { LoginDialog } from "@/components/layout/login-dialog";
 import { cn } from "@/lib/utils";
@@ -43,14 +44,14 @@ export function BottomNav() {
         {
             href: "/nature",
             label: "自然",
-            icon: Feather,
+            icon: Leaf,
             active: pathname === "/nature" || pathname.startsWith("/nature/"),
             nature: true,
         },
         {
             href: "/profile",
             label: "我的",
-            icon: User,
+            icon: CircleUser,
             active: pathname === "/profile" || pathname.startsWith("/profile/"),
             protected: true,
         },
@@ -72,20 +73,22 @@ export function BottomNav() {
                     ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
                     : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
                 const content = (
-                    <div
+                    <motion.div
+                        whileTap={{ scale: 0.85 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         className={cn(
-                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-all",
+                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
                             item.active ? activePillClass : inactivePillClass,
                         )}
                     >
                         <item.icon
                             className={cn(
-                                "h-[17px] w-[17px] shrink-0",
-                                item.active && "stroke-[2.5px]",
+                                "h-[19px] w-[19px] shrink-0 transition-all duration-300",
+                                item.active ? "stroke-[2.5px]" : "stroke-[2px]",
                             )}
                         />
                         <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
-                    </div>
+                    </motion.div>
                 )
 
                 if (item.protected && !user) {

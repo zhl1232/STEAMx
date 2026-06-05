@@ -52,7 +52,7 @@ vi.mock('@/components/layout/bottom-nav', () => ({
 }))
 
 vi.mock('@/components/features/gamification/daily-check-in-sync', () => ({
-  DailyCheckInSync: () => null,
+  DailyCheckInSync: () => <div data-testid="daily-check-in-sync" />,
 }))
 
 vi.mock('@/components/layout/main-nav', () => ({
@@ -120,6 +120,20 @@ describe('ConditionalAppShell mobile header policy', () => {
 
     expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()
     expect(screen.getByTestId('page-content')).toBeInTheDocument()
+  })
+
+  it('does not mount daily check-in sync for anonymous users on the home route', () => {
+    renderShell('/', <div data-testid="page-content" />)
+
+    expect(screen.queryByTestId('daily-check-in-sync')).not.toBeInTheDocument()
+  })
+
+  it('mounts daily check-in sync for authenticated users on the home route', () => {
+    mockUseAuth.mockReturnValue({ user: { id: 'user-1' } })
+
+    renderShell('/', <div data-testid="page-content" />)
+
+    expect(screen.getByTestId('daily-check-in-sync')).toBeInTheDocument()
   })
 
   it.each(['/create', '/explore', '/nature', '/profile'])(

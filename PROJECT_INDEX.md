@@ -121,7 +121,7 @@
 | `challenge/` | 5 | 挑战提交表单、PBL 信息、评分星级、阶段指南、提交作品画廊 |
 | `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
-| `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步、观察游戏化同步 |
+| `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
 | `playground/` | 1 | 键盘帮助弹窗 |
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
@@ -191,7 +191,7 @@
 
 ### 4.5 游戏化 (`lib/gamification/`)
 - `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位可用 `BADGE_TIER_LABELS` 作说明文本；资料页精选徽章每个阶梯系列只取最高已解锁档，徽章图鉴展示全量档位
-- `experience-rules.ts` — XP 经验规则与等级表；每日登录同步在 `GamificationProvider` 内触发连续打卡徽章检查
+- `experience-rules.ts` — XP 经验规则与等级表；每日登录同步由 `DailyCheckInSync` 调用 `daily_check_in`，成功后触发连续打卡徽章检查
 - `observation-events.ts` — 观察事件类型
 - `types.ts` — 游戏化类型定义
 

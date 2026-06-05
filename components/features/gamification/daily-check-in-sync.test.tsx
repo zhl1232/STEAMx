@@ -1,7 +1,7 @@
-import { render, waitFor } from "@testing-library/react";
+import { act, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { User } from "@supabase/supabase-js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DailyCheckInSync } from "./daily-check-in-sync";
 
@@ -119,7 +119,12 @@ function renderSync(queryClient = new QueryClient({ defaultOptions: { queries: {
 }
 
 describe("DailyCheckInSync", () => {
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     beforeEach(() => {
+        vi.useRealTimers();
         mockAuthState.user = null;
         mockRefreshProfile.mockReset();
         mockRpc.mockReset();
@@ -199,6 +204,33 @@ describe("DailyCheckInSync", () => {
         await Promise.resolve();
 
         expect(mockRpc).toHaveBeenCalledTimes(1);
+    });
+
+    it("retries a transient daily_check_in failure without remounting", async () => {
+        vi.useFakeTimers();
+        mockAuthState.user = makeUser();
+        mockRpc
+            .mockResolvedValueOnce({
+                data: null,
+                error: { code: "PGRST000", message: "temporary startup failure" },
+            })
+            .mockResolvedValueOnce({ data: { is_new_day: false }, error: null });
+
+        renderSync();
+
+        await act(async () => {
+            await Promise.resolve();
+        });
+        expect(mockRpc).toHaveBeenCalledTimes(1);
+
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(1_500);
+        });
+        await act(async () => {
+            await Promise.resolve();
+        });
+
+        expect(mockRpc).toHaveBeenCalledTimes(2);
     });
 
     it("refreshes reward state and shows a toast for a new check-in day", async () => {
