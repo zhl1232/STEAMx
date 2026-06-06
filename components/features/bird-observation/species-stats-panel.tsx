@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   BarChart3,
   CalendarDays,
@@ -16,7 +16,6 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -47,6 +46,7 @@ interface SpeciesStatsPanelProps {
 }
 
 const MONTH_LABELS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+const CHART_HEIGHT = 240
 
 const LIFECYCLE_LABELS: Record<ObservationLifecycleStage, string> = {
   egg: "卵",
@@ -78,7 +78,12 @@ function formatDate(value: string | null) {
   if (!value) return "—"
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return "—"
-  return date.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })
+  return date.toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Shanghai",
+  })
 }
 
 function Metric({ label, value, hint }: { label: string; value: string; hint?: string }) {
@@ -148,8 +153,35 @@ export function SpeciesStatsPanel({
   sexAggregates,
 }: SpeciesStatsPanelProps) {
   const [tab, setTab] = useState<StatsTab>("seasonality")
+  const chartFrameRef = useRef<HTMLDivElement | null>(null)
+  const [chartWidth, setChartWidth] = useState(0)
   const topObserver = topObservers[0]
   const topIdentifier = topIdentifiers[0]
+
+  useEffect(() => {
+    const element = chartFrameRef.current
+    if (!element) return
+
+    const updateWidth = (nextWidth: number) => {
+      const normalizedWidth = Math.max(0, Math.floor(nextWidth))
+      setChartWidth((currentWidth) => (currentWidth === normalizedWidth ? currentWidth : normalizedWidth))
+    }
+
+    updateWidth(element.getBoundingClientRect().width)
+
+    if (typeof ResizeObserver === "undefined") {
+      const handleResize = () => updateWidth(element.getBoundingClientRect().width)
+      window.addEventListener("resize", handleResize)
+      return () => window.removeEventListener("resize", handleResize)
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      updateWidth(entries[0]?.contentRect.width ?? 0)
+    })
+    observer.observe(element)
+
+    return () => observer.disconnect()
+  }, [])
 
   const totalIdentifications = topIdentifiers.reduce((sum, row) => sum + row.identificationCount, 0)
 
@@ -174,9 +206,10 @@ export function SpeciesStatsPanel({
   const hasYearly = yearlyChartData.length > 0
   const hasLifecycle = lifecycleChartData.length > 0
   const hasSex = sexChartData.length > 0
+  const canRenderChart = chartWidth > 0
 
   return (
-    <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+    <section className="surface-subtle relative isolate min-w-0 overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
       <div className="flex items-center gap-2">
         <BarChart3 className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold sm:text-xl">观测统计</h2>
@@ -280,11 +313,11 @@ export function SpeciesStatsPanel({
           })}
         </div>
 
-        <div className="mt-4 h-[240px]">
+        <div ref={chartFrameRef} className="mt-4 h-[240px] min-w-0">
           {tab === "seasonality" ? (
             hasMonthly ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={monthlyChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
+              canRenderChart ? (
+                <LineChart width={chartWidth} height={CHART_HEIGHT} data={monthlyChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 4" stroke="hsl(var(--border) / 0.4)" />
                   <XAxis dataKey="label" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} width={28} />
@@ -296,7 +329,7 @@ export function SpeciesStatsPanel({
                   />
                   <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3, strokeWidth: 1.5, fill: "hsl(var(--background))" }} activeDot={{ r: 5 }} />
                 </LineChart>
-              </ResponsiveContainer>
+              ) : null
             ) : (
               <EmptyState>暂无按月聚合的观察数据。</EmptyState>
             )
@@ -304,8 +337,8 @@ export function SpeciesStatsPanel({
 
           {tab === "history" ? (
             hasYearly ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={yearlyChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
+              canRenderChart ? (
+                <BarChart width={chartWidth} height={CHART_HEIGHT} data={yearlyChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 4" stroke="hsl(var(--border) / 0.4)" />
                   <XAxis dataKey="label" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} width={28} />
@@ -316,7 +349,7 @@ export function SpeciesStatsPanel({
                   />
                   <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="hsl(var(--primary))" />
                 </BarChart>
-              </ResponsiveContainer>
+              ) : null
             ) : (
               <EmptyState>暂无历史聚合的观察数据。</EmptyState>
             )
@@ -324,8 +357,8 @@ export function SpeciesStatsPanel({
 
           {tab === "lifecycle" ? (
             hasLifecycle ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={lifecycleChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
+              canRenderChart ? (
+                <BarChart width={chartWidth} height={CHART_HEIGHT} data={lifecycleChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 4" stroke="hsl(var(--border) / 0.4)" />
                   <XAxis dataKey="label" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} width={28} />
@@ -336,7 +369,7 @@ export function SpeciesStatsPanel({
                   />
                   <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="hsl(var(--brand-amber))" />
                 </BarChart>
-              </ResponsiveContainer>
+              ) : null
             ) : (
               <EmptyState>暂未标注生命阶段。发布观察时可以一起标注。</EmptyState>
             )
@@ -344,8 +377,8 @@ export function SpeciesStatsPanel({
 
           {tab === "sex" ? (
             hasSex ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={sexChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
+              canRenderChart ? (
+                <BarChart width={chartWidth} height={CHART_HEIGHT} data={sexChartData} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 4" stroke="hsl(var(--border) / 0.4)" />
                   <XAxis dataKey="label" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} width={28} />
@@ -356,7 +389,7 @@ export function SpeciesStatsPanel({
                   />
                   <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="hsl(var(--brand-blue))" />
                 </BarChart>
-              </ResponsiveContainer>
+              ) : null
             ) : (
               <EmptyState>暂未标注性别。发布观察时可以一起标注。</EmptyState>
             )

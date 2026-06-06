@@ -33,6 +33,9 @@ export async function GET(
     if (!observation) {
       return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
     }
+    if (observation.status !== 'approved') {
+      return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
+    }
 
     const { data, error } = await supabase
       .from('observation_comments')
@@ -70,6 +73,9 @@ export async function POST(
     const observation = await getObservationById(observationId)
     if (!observation) {
       return NextResponse.json({ error: '观察记录不存在或无权评论' }, { status: 404 })
+    }
+    if (observation.status !== 'approved') {
+      return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
     }
 
     const body = await request.json()

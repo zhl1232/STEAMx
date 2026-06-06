@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import type { Species } from "@/lib/mappers/types";
+import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
 import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
 import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
@@ -90,6 +91,7 @@ export function SpeciesListLoadMore({
           const familyPinyin = toSpeciesPinyinLabel(family);
           const genusPinyin = toSpeciesPinyinLabel(genus);
           const staggerMs = Math.min(index, 10) * 40;
+          const coverImageSrc = getAssetDisplayUrl(item.coverImageUrl) ?? item.coverImageUrl;
 
           return (
             <Link
@@ -99,14 +101,15 @@ export function SpeciesListLoadMore({
               style={{ animationDelay: `${staggerMs}ms` }}
             >
               <div className="relative aspect-[16/10] overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.2),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.85))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.18),transparent_40%),linear-gradient(160deg,rgba(9,14,22,0.96),rgba(14,24,32,0.9))] sm:aspect-[4/3] 2xl:aspect-[16/11]">
-                {item.coverImageUrl ? (
+                {coverImageSrc ? (
                   <Image
-                    src={item.coverImageUrl}
+                    src={coverImageSrc}
                     alt={item.commonName}
                     fill
                     sizes="(min-width: 1536px) 25vw, (min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     quality={60}
+                    unoptimized={shouldBypassAssetImageOptimization(item.coverImageUrl)}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-emerald-700/80 dark:text-emerald-300/80">

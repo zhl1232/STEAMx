@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 
-import { rollbackObservationGamification } from "@/lib/api/observation-gamification"
+import { enqueueAutoInteractionsForTarget } from "@/lib/auto-interactions"
+import { buildObservationRewardSummary, rollbackObservationGamification } from "@/lib/api/observation-gamification"
 import { handleApiError, requireRole } from "@/lib/api/auth"
+import { logger } from "@/lib/logger"
 import { createClient } from "@/lib/supabase/server"
 
 const ObservationAdminPatchSchema = z.object({
@@ -55,12 +57,35 @@ export async function PATCH(
       throw updateError
     }
 
+    let rewardSummary = null
+    let rewardError = false
     let rollback = null
+    if (existing.status !== "approved" && nextStatus === "approved") {
+      try {
+        rewardSummary = await buildObservationRewardSummary(existing.user_id, observationId)
+      } catch (error) {
+        rewardError = true
+        logger.error(error, {
+          context: "Observation reward failed after approval",
+          observationId,
+        })
+      }
+
+      try {
+        await enqueueAutoInteractionsForTarget("observation", observationId)
+      } catch (autoInteractionError) {
+        logger.error(autoInteractionError, {
+          context: "Observation auto interaction enqueue failed after approval",
+          observationId,
+        })
+      }
+    }
+
     if (existing.status === "approved" && nextStatus !== "approved") {
       rollback = await rollbackObservationGamification(existing.user_id, observationId)
     }
 
-    return NextResponse.json({ ok: true, rollback })
+    return NextResponse.json({ ok: true, rewardSummary, rewardError, rollback })
   } catch (error) {
     return handleApiError(error)
   }

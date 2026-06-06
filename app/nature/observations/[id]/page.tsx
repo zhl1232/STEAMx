@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: ObservationDetailPageProps): 
     path: `/nature/observations/${observation.id}`,
     image: observation.mediaUrls[0] || undefined,
     keywords: [headline.title, observation.locationName, "自然观察记录"],
-    noIndex: !observation.isPublic,
+    noIndex: !observation.isPublic || observation.status !== "approved",
   });
 }
 
@@ -85,6 +85,17 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
     : null;
   const isConfirmed = observation.identificationStatus === "community_confirmed";
   const hasMedia = observation.mediaUrls.length > 0;
+  const isApproved = observation.status === "approved";
+  const reviewStatusLabel = observation.status === "pending"
+    ? "审核中"
+    : observation.status === "rejected"
+      ? "未通过"
+      : "已通过";
+  const reviewStatusClassName = observation.status === "pending"
+    ? "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200"
+    : observation.status === "rejected"
+      ? "bg-red-100 text-red-800 dark:bg-red-950/50 dark:text-red-200"
+      : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200";
 
   return (
     <div className="app-shell-wide px-0 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-0 md:px-8 md:pb-[calc(6rem+env(safe-area-inset-bottom))] md:pt-8">
@@ -147,6 +158,9 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               <span className="inline-flex rounded-full bg-muted/80 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
                 {getObservationTopicLabel(submitTopic)}
               </span>
+              <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium ${reviewStatusClassName}`}>
+                {reviewStatusLabel}
+              </span>
             </div>
 
             <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
@@ -186,19 +200,27 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
             </section>
           ) : null}
 
-          <ObservationDetailActivity
-            observationId={observation.id}
-            ownerId={observation.userId}
-            topic={submitTopic}
-            isPublic={observation.isPublic}
-            initialStatus={observation.identificationStatus}
-            initialConfirmedSpecies={primarySpecies}
-            initialIdentifications={observation.identifications || []}
-            currentPath={currentPath}
-            headlineTitle={headline.title}
-            headlineScientificName={headline.scientificName}
-            observationMediaUrls={observation.mediaUrls}
-          />
+          {!isApproved ? (
+            <section className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-100">
+              {observation.status === "pending"
+                ? "这条观察正在等待审核。通过后会进入公开观察流，并同步发放观察经验与徽章进度。"
+                : "这条观察未通过审核，目前只有你可以查看。"}
+            </section>
+          ) : (
+            <ObservationDetailActivity
+              observationId={observation.id}
+              ownerId={observation.userId}
+              topic={submitTopic}
+              isPublic={observation.isPublic}
+              initialStatus={observation.identificationStatus}
+              initialConfirmedSpecies={primarySpecies}
+              initialIdentifications={observation.identifications || []}
+              currentPath={currentPath}
+              headlineTitle={headline.title}
+              headlineScientificName={headline.scientificName}
+              observationMediaUrls={observation.mediaUrls}
+            />
+          )}
 
           <section id="observation-location" className="border-t border-border/60 pt-6">
             <div className="space-y-1">

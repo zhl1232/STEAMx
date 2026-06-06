@@ -4,6 +4,8 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
+import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
+
 interface SpeciesImageGalleryProps {
   imageUrls: string[];
   speciesName: string;
@@ -14,6 +16,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
   const railRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const activeImageUrl = imageUrls[activeIndex] ?? imageUrls[0];
+  const activeImageSrc = getAssetDisplayUrl(activeImageUrl) ?? activeImageUrl;
   const hasManyImages = imageUrls.length > 5;
 
   function selectImage(index: number) {
@@ -39,13 +42,14 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
       <div className="relative aspect-[4/3] min-h-[220px] overflow-hidden bg-muted/40 sm:rounded-lg sm:border sm:border-border/70 sm:shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
         <Image
           key={activeImageUrl}
-          src={activeImageUrl}
+          src={activeImageSrc}
           alt={speciesName}
           fill
           className="object-cover"
           sizes="(max-width: 1024px) 100vw, 660px"
           quality={72}
           priority
+          unoptimized={shouldBypassAssetImageOptimization(activeImageUrl)}
         />
         {/* 移动端图片计数器 */}
         {imageUrls.length > 1 ? (
@@ -73,32 +77,37 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
             className="flex min-w-0 flex-1 gap-3 overflow-x-auto scroll-smooth pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             aria-label={`${speciesName} 图集`}
           >
-            {imageUrls.map((imageUrl, index) => (
-              <button
-                key={`${imageUrl}-${index}`}
-                ref={(node) => {
-                  thumbnailRefs.current[index] = node;
-                }}
-                type="button"
-                onClick={() => selectImage(index)}
-                className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 shadow-sm transition sm:h-[72px] sm:w-[72px] sm:rounded-sm ${
-                  index === activeIndex
-                    ? "border-primary ring-2 ring-primary/18"
-                    : "border-border/70 hover:border-primary/50"
-                }`}
-                aria-label={`查看${speciesName}图片 ${index + 1}`}
-                aria-pressed={index === activeIndex}
-              >
-                <Image
-                  src={imageUrl}
-                  alt={`${speciesName} 图片 ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="72px"
-                  quality={48}
-                />
-              </button>
-            ))}
+            {imageUrls.map((imageUrl, index) => {
+              const imageSrc = getAssetDisplayUrl(imageUrl) ?? imageUrl;
+
+              return (
+                <button
+                  key={`${imageUrl}-${index}`}
+                  ref={(node) => {
+                    thumbnailRefs.current[index] = node;
+                  }}
+                  type="button"
+                  onClick={() => selectImage(index)}
+                  className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 shadow-sm transition sm:h-[72px] sm:w-[72px] sm:rounded-sm ${
+                    index === activeIndex
+                      ? "border-primary ring-2 ring-primary/18"
+                      : "border-border/70 hover:border-primary/50"
+                  }`}
+                  aria-label={`查看${speciesName}图片 ${index + 1}`}
+                  aria-pressed={index === activeIndex}
+                >
+                  <Image
+                    src={imageSrc}
+                    alt={`${speciesName} 图片 ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="72px"
+                    quality={48}
+                    unoptimized={shouldBypassAssetImageOptimization(imageUrl)}
+                  />
+                </button>
+              );
+            })}
           </div>
 
           {hasManyImages ? (

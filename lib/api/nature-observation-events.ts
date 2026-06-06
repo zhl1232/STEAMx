@@ -103,11 +103,12 @@ export async function getObservationById(id: string | number): Promise<Observati
     return null
   }
 
+  const { data: authData } = await supabase.auth.getUser()
+
   const { data, error } = await supabase
     .from('observation_events')
     .select('*')
     .eq('id', observationId)
-    .eq('status', 'approved')
     .maybeSingle()
 
   if (error) {
@@ -117,11 +118,11 @@ export async function getObservationById(id: string | number): Promise<Observati
 
   if (!data) return null
 
-  const { data: authData } = await supabase.auth.getUser()
-  if (!data.is_public) {
-    if (!authData.user || authData.user.id !== data.user_id) {
-      return null
-    }
+  const isOwner = authData.user?.id === data.user_id
+  if (data.status !== 'approved') {
+    if (!isOwner) return null
+  } else if (!data.is_public && !isOwner) {
+    return null
   }
 
   const [speciesByEvent, identificationsByEvent] = await Promise.all([

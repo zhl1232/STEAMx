@@ -9,6 +9,7 @@ import { SpeciesStatsPanel } from "@/components/features/bird-observation/specie
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { getAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 import { SpeciesImageGallery } from "./species-image-gallery";
@@ -133,6 +134,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const habitatIllustrationUrl = `${topicAssetPrefix}-habitat.png`;
   const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;
   const audioIllustrationUrl = "/assets/species-detail/bird-audio.png";
+  const audioSrc = getAssetDisplayUrl(species.audioUrl) ?? species.audioUrl;
   const taxonSummaryItems = [
     species.aliasesDisplay ? { label: "别名", value: species.aliasesDisplay, pinyin: aliasesPinyin } : null,
     species.taxonGroup ? { label: "分类", value: species.taxonGroup, pinyin: null } : null,
@@ -293,10 +295,10 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
             text={species.audioUrl ? "音频按需加载，点击后开始缓冲播放。" : "暂未收录该物种音频，后续会持续补充。"}
             illustrationSrc={audioIllustrationUrl}
           >
-            {species.audioUrl ? (
+            {audioSrc ? (
               <div className="clear-both mt-4">
-                <audio className="w-full" controls preload="none" src={species.audioUrl}>
-                  你的浏览器不支持音频播放，可直接打开链接：{species.audioUrl}
+                <audio className="w-full" controls preload="none" src={audioSrc}>
+                  你的浏览器不支持音频播放，可直接打开链接：{audioSrc}
                 </audio>
               </div>
             ) : null}

@@ -10,8 +10,6 @@ import {
 import { selectAiIdentification } from '@/lib/observations/identifications'
 import { getObservations } from '@/lib/api/nature-observation-data'
 import { isOwnedProjectImageUrl, validateContentSafeIfPresent } from '@/lib/api/validation'
-import { buildObservationRewardSummary } from '@/lib/api/observation-gamification'
-import { enqueueAutoInteractionsForTarget } from '@/lib/auto-interactions'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
@@ -158,7 +156,7 @@ export async function POST(request: NextRequest) {
         notes: payload.notes ?? null,
         media_urls: payload.media_urls,
         is_public: payload.is_public,
-        status: 'approved',
+        status: 'pending',
         lifecycle_stage: payload.lifecycle_stage ?? null,
         sex: payload.sex ?? null,
       })
@@ -199,18 +197,7 @@ export async function POST(request: NextRequest) {
       throw identificationError
     }
 
-    const rewardSummary = await buildObservationRewardSummary(user.id, observation.id)
-
-    try {
-      await enqueueAutoInteractionsForTarget('observation', Number(observation.id))
-    } catch (autoInteractionError) {
-      logger.error(autoInteractionError, {
-        context: 'Observation auto interaction enqueue failed',
-        observationId: observation.id,
-      })
-    }
-
-    return NextResponse.json({ observation, rewardSummary }, { status: 201 })
+    return NextResponse.json({ observation, reviewStatus: 'pending' }, { status: 201 })
   } catch (error) {
     return handleApiError(error)
   }

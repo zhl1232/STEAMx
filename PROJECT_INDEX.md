@@ -17,7 +17,7 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌），其后为最近观察地图流；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表）、`observations/[id]/`（详情：社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定；`...` 菜单含删除/举报）、`species/`、`submit/`、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌），其后为最近观察地图流；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`、`submit/`、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -34,7 +34,7 @@
 | `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + iframe Scratch 编辑器） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | 手机端作品预览（player 模式） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
-| `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、挑战管理；子路由 `projects/`、`moderator-applications/` |
+| `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/训练营管理；子路由 `projects/`、`moderator-applications/` |
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
 | `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款） |
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
@@ -54,11 +54,12 @@
 
 ## 2. API 路由 (`app/api/`)
 
-28 个 API 模块，每个目录下含 `route.ts`：
+29 个 API 模块，每个目录下含 `route.ts`：
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
-| admin | `api/admin/` | 项目审核、标签管理、举报处理、审核员申请审批、挑战 CRUD、**训练营 CRUD**（`admin/courses/`） |
+| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD、**训练营 CRUD**（`admin/courses/`） |
+| assets | `api/assets/` | 本地开发用受限静态资源代理；仅代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/projects` 资源，绕过 CDN Referer 防盗链导致的 localhost 403 |
 | courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分 |
@@ -73,7 +74,7 @@
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
-| observations | `api/observations/` | 自然观察 CRUD、审核 |
+| observations | `api/observations/` | 自然观察 CRUD；提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录 |
 | profile | `api/profile/` | 个人资料摘要、成长任务、学习打卡 |
 | projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
@@ -130,8 +131,8 @@
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
 | `profile/` | 15 | 头像上传、编辑资料弹窗、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
 
-### 3.5 管理后台 (`components/admin/`) — 8 个组件
-项目审核卡片、挑战管理、**训练营管理** `course-management`、完成审核、审核员申请列表、举报列表、全部项目管理
+### 3.5 管理后台 (`components/admin/`) — 9 个组件
+项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理、**训练营管理** `course-management`、完成审核、审核员申请列表、举报列表、全部项目管理
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）

@@ -9,6 +9,7 @@ import { AllProjectsManagement, type AdminProjectSummary } from '@/components/ad
 import { ProjectReviewCard } from '@/components/admin/project-review-card'
 import { CompletionReviewCard } from '@/components/admin/completion-review-card'
 import { ChallengeSubmissionReviewCard } from '@/components/admin/challenge-submission-review-card'
+import { ObservationReviewCard, type ObservationForReview } from '@/components/admin/observation-review-card'
 import { ModeratorApplicationsList } from '@/components/admin/moderator-applications-list'
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
@@ -23,6 +24,7 @@ import {
   CheckCircle2,
   FileClock,
   Flag,
+  Leaf,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -103,6 +105,23 @@ interface CompletionProjectRow {
   category: string | null
 }
 
+interface PendingObservationRow {
+  id: number
+  user_id: string
+  observed_at: string
+  created_at: string
+  location_name: string
+  habitat: string | null
+  weather: string | null
+  notes: string | null
+  media_urls: string[]
+  is_public: boolean
+  status: string
+  nature_topic: string | null
+  lifecycle_stage: string | null
+  sex: string | null
+}
+
 interface ChallengeSubmissionForReview {
   id: number
   challenge_id: number
@@ -167,6 +186,7 @@ export default function AdminPage() {
   const { canReview, isAdmin, loading, profile } = useAuth()
   const [pendingProjects, setPendingProjects] = useState<Project[]>([])
   const [pendingCompletions, setPendingCompletions] = useState<CompletionForReview[]>([])
+  const [pendingObservations, setPendingObservations] = useState<ObservationForReview[]>([])
   const [pendingChallengeSubmissions, setPendingChallengeSubmissions] = useState<ChallengeSubmissionForReview[]>([])
   const [allProjects, setAllProjects] = useState<AdminProjectSummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -205,7 +225,7 @@ export default function AdminPage() {
         proof_images, proof_captions, proof_video_url,
         notes, status
       `)
-      .in('status', ['pending', 'approved', 'rejected'])
+      .eq('status', 'pending')
       .order('completed_at', { ascending: false })
       .limit(50)
 
@@ -262,6 +282,93 @@ export default function AdminPage() {
         ...row,
         profiles: profilesById.get(row.user_id) ?? null,
         projects: projectsById.get(row.project_id) ?? null,
+      })),
+    )
+  }, [supabase])
+
+  const fetchPendingObservations = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('observation_events')
+      .select(`
+        id, user_id, observed_at, created_at, location_name,
+        habitat, weather, notes, media_urls, is_public, status,
+        nature_topic, lifecycle_stage, sex
+      `)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false })
+      .limit(50)
+
+    if (error) {
+      console.error('Failed to fetch pending observations', error)
+      return
+    }
+
+    const observationRows = (data || []) as PendingObservationRow[]
+    if (observationRows.length === 0) {
+      setPendingObservations([])
+      return
+    }
+
+    const userIds = [...new Set(observationRows.map((row) => row.user_id))]
+    const observationIds = observationRows.map((row) => row.id)
+
+    const [{ data: profilesData, error: profilesError }, { data: speciesLinks, error: speciesLinksError }] =
+      await Promise.all([
+        supabase.from('profiles').select('id, display_name, avatar_url').in('id', userIds),
+        supabase.from('observation_event_species').select('observation_event_id, species_id').in('observation_event_id', observationIds),
+      ])
+
+    if (profilesError) {
+      console.error('Failed to fetch observation profiles', profilesError)
+    }
+
+    if (speciesLinksError) {
+      console.error('Failed to fetch observation species links', speciesLinksError)
+    }
+
+    const speciesIds = [...new Set(((speciesLinks || []) as { species_id: number }[]).map((row) => row.species_id))]
+    const { data: speciesData, error: speciesError } = speciesIds.length
+      ? await supabase.from('species').select('id, common_name, scientific_name').in('id', speciesIds)
+      : { data: [] as { id: number; common_name: string | null; scientific_name: string | null }[], error: null }
+
+    if (speciesError) {
+      console.error('Failed to fetch observation species', speciesError)
+    }
+
+    const profilesById = new Map(
+      ((profilesData || []) as CompletionProfileRow[]).map((profile) => [
+        profile.id,
+        {
+          display_name: profile.display_name ?? '未知用户',
+          avatar_url: profile.avatar_url,
+        },
+      ]),
+    )
+    const speciesById = new Map(
+      ((speciesData || []) as { id: number; common_name: string | null; scientific_name: string | null }[]).map((species) => [
+        species.id,
+        {
+          id: species.id,
+          common_name: species.common_name ?? '未知物种',
+          scientific_name: species.scientific_name,
+        },
+      ]),
+    )
+    const speciesByObservationId = new Map<number, ObservationForReview['species']>()
+
+    for (const row of ((speciesLinks || []) as { observation_event_id: number; species_id: number }[])) {
+      const species = speciesById.get(row.species_id)
+      if (!species) continue
+      const current = speciesByObservationId.get(row.observation_event_id) || []
+      current.push(species)
+      speciesByObservationId.set(row.observation_event_id, current)
+    }
+
+    setPendingObservations(
+      observationRows.map((row) => ({
+        ...row,
+        profiles: profilesById.get(row.user_id) ?? null,
+        species: speciesByObservationId.get(row.id) ?? [],
       })),
     )
   }, [supabase])
@@ -375,11 +482,12 @@ export default function AdminPage() {
     await Promise.all([
       fetchPendingProjects(),
       fetchPendingCompletions(),
+      fetchPendingObservations(),
       fetchPendingChallengeSubmissions(),
       fetchAllProjects(),
     ])
     setIsLoading(false)
-  }, [fetchPendingProjects, fetchPendingCompletions, fetchPendingChallengeSubmissions, fetchAllProjects])
+  }, [fetchPendingProjects, fetchPendingCompletions, fetchPendingObservations, fetchPendingChallengeSubmissions, fetchAllProjects])
 
   useEffect(() => {
     if (!loading && canReview) {
@@ -423,6 +531,16 @@ export default function AdminPage() {
       completion.profiles?.display_name,
       completion.notes,
       completion.id,
+    ),
+  )
+  const visiblePendingObservations = pendingObservations.filter((observation) =>
+    filterText(
+      observation.location_name,
+      observation.nature_topic,
+      observation.profiles?.display_name,
+      observation.notes,
+      observation.species.map((species) => species.common_name).join(' '),
+      observation.id,
     ),
   )
   const visiblePendingChallengeSubmissions = pendingChallengeSubmissions.filter((submission) =>
@@ -499,7 +617,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
             <AdminMetricCard
               icon={FileClock}
               label="待审核项目"
@@ -509,10 +627,17 @@ export default function AdminPage() {
             />
             <AdminMetricCard
               icon={Archive}
-              label="待审核作品"
+              label="探索记录"
               value={pendingCompletions.length}
               helper="完成证明队列"
               tone="bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300"
+            />
+            <AdminMetricCard
+              icon={Leaf}
+              label="自然观察"
+              value={pendingObservations.length}
+              helper="观察记录队列"
+              tone="bg-teal-100 text-teal-700 dark:bg-teal-400/10 dark:text-teal-300"
             />
             <AdminMetricCard
               icon={Sparkles}
@@ -534,7 +659,8 @@ export default function AdminPage() {
         <Tabs defaultValue="pending" className="space-y-6">
           <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[var(--radius-lg)] bg-transparent p-1">
             <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
-            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">探索记录审计 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">探索记录审核 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="pending-observations" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">自然观察审核 ({pendingObservations.length})</TabsTrigger>
             <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
             <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
@@ -595,7 +721,26 @@ export default function AdminPage() {
                     key={completion.id}
                     completion={completion}
                     onReview={loadData}
-                    readOnly
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="pending-observations" className="space-y-4">
+            {visiblePendingObservations.length === 0 ? (
+              <Card className="surface-subtle shadow-none">
+                <CardContent className="py-8 text-center">
+                  <p className="text-muted-foreground">{query ? '当前筛选下暂无待审核自然观察' : '暂无待审核自然观察'}</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {visiblePendingObservations.map((observation) => (
+                  <ObservationReviewCard
+                    key={observation.id}
+                    observation={observation}
+                    onReview={loadData}
                   />
                 ))}
               </div>

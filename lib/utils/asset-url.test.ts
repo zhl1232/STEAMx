@@ -1,22 +1,23 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { rewriteAssetUrl } from './asset-url'
+import {
+  getAssetDisplayUrl,
+  isConfiguredAssetUrl,
+  rewriteAssetUrl,
+  shouldBypassAssetImageOptimization,
+} from './asset-url'
 
 const ENV_KEY = 'NEXT_PUBLIC_ASSETS_BASE_URL'
+const NODE_ENV_KEY = 'NODE_ENV'
 
 describe('rewriteAssetUrl', () => {
-  const originalValue = process.env[ENV_KEY]
-
   beforeEach(() => {
-    process.env[ENV_KEY] = 'https://assets.example.com'
+    vi.stubEnv(ENV_KEY, 'https://assets.example.com')
+    vi.stubEnv(NODE_ENV_KEY, 'test')
   })
 
   afterEach(() => {
-    if (originalValue === undefined) {
-      delete process.env[ENV_KEY]
-    } else {
-      process.env[ENV_KEY] = originalValue
-    }
+    vi.unstubAllEnvs()
   })
 
   it('rewrites whitelisted prefixes to the configured base URL', () => {
@@ -41,7 +42,7 @@ describe('rewriteAssetUrl', () => {
   })
 
   it('strips trailing slashes from the base URL', () => {
-    process.env[ENV_KEY] = 'https://assets.example.com/'
+    vi.stubEnv(ENV_KEY, 'https://assets.example.com/')
     expect(rewriteAssetUrl('/birds/images/x.jpg')).toBe(
       'https://assets.example.com/birds/images/x.jpg',
     )
@@ -60,7 +61,7 @@ describe('rewriteAssetUrl', () => {
   })
 
   it('returns input unchanged when base URL is not configured', () => {
-    delete process.env[ENV_KEY]
+    vi.stubEnv(ENV_KEY, undefined)
     expect(rewriteAssetUrl('/birds/images/x.jpg')).toBe('/birds/images/x.jpg')
   })
 
@@ -69,5 +70,31 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl(undefined)).toBeUndefined()
     expect(rewriteAssetUrl('')).toBe('')
     expect(rewriteAssetUrl('   ')).toBe('   ')
+  })
+
+  it('recognizes configured static asset URLs only for whitelisted paths', () => {
+    expect(isConfiguredAssetUrl('https://assets.example.com/birds/images/x.jpg')).toBe(true)
+    expect(shouldBypassAssetImageOptimization('https://assets.example.com/birds/images/x.jpg')).toBe(true)
+    expect(isConfiguredAssetUrl('https://assets.example.com/assets/hero.png')).toBe(false)
+    expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(false)
+  })
+
+  it('uses the local asset proxy for configured assets outside production', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'development')
+
+    expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
+      '/api/assets/birds/images/x.jpg',
+    )
+    expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg?v=1')).toBe(
+      '/api/assets/birds/images/x.jpg?v=1',
+    )
+  })
+
+  it('keeps configured asset URLs direct in production', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'production')
+
+    expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
+      'https://assets.example.com/birds/images/x.jpg',
+    )
   })
 })

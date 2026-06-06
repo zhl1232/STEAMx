@@ -14,7 +14,7 @@ const REMOTE_ASSET_PREFIXES = [
   '/projects/',
 ] as const
 
-function getAssetsBaseUrl(): string | null {
+export function getAssetsBaseUrl(): string | null {
   const raw = process.env.NEXT_PUBLIC_ASSETS_BASE_URL
   if (!raw) return null
 
@@ -24,6 +24,55 @@ function getAssetsBaseUrl(): string | null {
 
 function shouldRewrite(pathname: string): boolean {
   return REMOTE_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+}
+
+function getConfiguredAssetPath(input: string): string | null {
+  const baseUrl = getAssetsBaseUrl()
+  if (!baseUrl) return null
+
+  try {
+    const sourceUrl = new URL(input)
+    const configuredUrl = new URL(`${baseUrl}/`)
+
+    if (sourceUrl.origin !== configuredUrl.origin) return null
+
+    const configuredPath = configuredUrl.pathname.replace(/\/+$/, '')
+    const assetPath = configuredPath
+      ? sourceUrl.pathname.startsWith(`${configuredPath}/`)
+        ? sourceUrl.pathname.slice(configuredPath.length)
+        : null
+      : sourceUrl.pathname
+
+    if (!assetPath || !shouldRewrite(assetPath)) return null
+
+    return assetPath
+  } catch {
+    return null
+  }
+}
+
+export function isConfiguredAssetUrl(input: string | null | undefined): boolean {
+  if (!input) return false
+
+  return getConfiguredAssetPath(input) !== null
+}
+
+export function shouldBypassAssetImageOptimization(input: string | null | undefined): boolean {
+  return isConfiguredAssetUrl(input)
+}
+
+export function getAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
+  if (input == null) return input
+  if (typeof input !== 'string') return input
+
+  const trimmed = input.trim()
+  if (!trimmed || process.env.NODE_ENV === 'production') return input
+
+  const assetPath = getConfiguredAssetPath(trimmed)
+  if (!assetPath) return input
+
+  const sourceUrl = new URL(trimmed)
+  return `/api/assets${assetPath}${sourceUrl.search}`
 }
 
 /**

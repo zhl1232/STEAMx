@@ -183,11 +183,12 @@ function HomeHero({ image }: { image: string }) {
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
-          fill
+          width={1672}
+          height={941}
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="object-cover object-[74%_center] dark:brightness-90 md:hidden"
+          className="absolute inset-0 h-full w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
         />
         <Image
           src={heroWideImage}

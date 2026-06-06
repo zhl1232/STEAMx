@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Award, CheckCircle2, Sparkles, Stars } from "lucide-react"
+import { CheckCircle2, Clock3, Sparkles } from "lucide-react"
 
 import {
   Dialog,
@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Progress } from "@/components/ui/progress"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 
@@ -20,9 +19,7 @@ interface ObservationSubmitSuccessDialogProps {
   observationId: number | null
   imageUrl?: string | null
   speciesName?: string | null
-  xpAwarded: number
-  progressLabel: string
-  progressValue: number
+  expectedXp: number
 }
 
 export function ObservationSubmitSuccessDialog({
@@ -31,16 +28,14 @@ export function ObservationSubmitSuccessDialog({
   observationId,
   imageUrl,
   speciesName,
-  xpAwarded,
-  progressLabel,
-  progressValue,
+  expectedXp,
 }: ObservationSubmitSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto border-0 bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.28),transparent_30%),linear-gradient(180deg,rgba(7,10,14,0.98),rgba(14,16,20,1))] p-0 text-white shadow-none sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-[min(32rem,calc(100vw-2rem))] sm:max-w-none sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10 sm:shadow-[0_28px_90px_-44px_rgba(15,23,42,0.75)]">
         <DialogHeader className="sr-only">
-          <DialogTitle>观察记录已收录</DialogTitle>
-          <DialogDescription>本次观察已收录，并展示成长反馈。</DialogDescription>
+          <DialogTitle>观察记录已提交</DialogTitle>
+          <DialogDescription>本次观察已进入审核队列。</DialogDescription>
         </DialogHeader>
 
         <div className="relative">
@@ -58,14 +53,14 @@ export function ObservationSubmitSuccessDialog({
             <div className="absolute inset-x-0 top-0 p-6">
               <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-3 py-1.5 text-xs font-medium tracking-[0.16em] text-white/88 backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5" />
-                OBSERVATION COMPLETE
+                OBSERVATION SUBMITTED
               </div>
             </div>
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
               <div className="space-y-5">
                 <div className="inline-flex rotate-[-9deg] items-center gap-2 rounded-md border border-emerald-200/30 bg-emerald-400/18 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100 shadow-[0_14px_32px_-24px_rgba(16,185,129,0.9)] backdrop-blur">
                   <CheckCircle2 className="h-4 w-4" />
-                  已收录
+                  已提交
                 </div>
 
                 <div>
@@ -74,30 +69,29 @@ export function ObservationSubmitSuccessDialog({
                     {speciesName || "新的自然观察"}
                   </h2>
                   <p className="mt-2 max-w-sm text-sm leading-6 text-white/76">
-                    这条记录已经进入你的观察档案，可以继续积累同一地点或同一物种的连续样本。
+                    这条记录已经进入你的观察档案，审核通过后会进入公开观察流。
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
                     <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
-                      <Award className="h-3.5 w-3.5" />
-                      探索经验
+                      <Clock3 className="h-3.5 w-3.5" />
+                      审核状态
                     </div>
-                    <div className="mt-3 text-3xl font-semibold text-emerald-200">+{xpAwarded} XP</div>
+                    <div className="mt-3 text-2xl font-semibold text-emerald-200">待审核</div>
                     <p className="mt-2 text-xs leading-5 text-white/62">
-                      本次提交的经验奖励已经记入成长系统。
+                      管理员通过后，其他人才能在自然观察流里看到。
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
                     <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
-                      <Stars className="h-3.5 w-3.5" />
-                      徽章进度
+                      <Sparkles className="h-3.5 w-3.5" />
+                      奖励发放
                     </div>
-                    <div className="mt-3 text-sm font-medium text-white">{progressLabel}</div>
-                    <Progress value={progressValue} className="mt-3 h-2 bg-white/10 [&>div]:bg-emerald-300" />
+                    <div className="mt-3 text-2xl font-semibold text-white">+{expectedXp} XP</div>
                     <p className="mt-2 text-xs leading-5 text-white/62">
-                      再多记录几次，你的观察家系列会继续升级。
+                      经验和观察徽章会在审核通过时自动同步。
                     </p>
                   </div>
                 </div>

@@ -26,6 +26,17 @@ function locationObservationKey(locationName: string, observedAt: string) {
   return `${locationName.trim()}::${observedAt}`
 }
 
+function formatObservedAt(value: string) {
+  return new Date(value).toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Shanghai",
+  })
+}
+
 export function SpeciesHotspotPanel({
   locations,
   recentObservations = [],
@@ -121,7 +132,7 @@ export function SpeciesHotspotPanel({
                   })()}
                 </div>
                 <div className="mt-2 text-xs text-muted-foreground">
-                  记录 {location.observationCount} 次 · 最近一次 {new Date(location.latestObservedAt).toLocaleString("zh-CN")}
+                  记录 {location.observationCount} 次 · 最近一次 {formatObservedAt(location.latestObservedAt)}
                 </div>
               </button>
 

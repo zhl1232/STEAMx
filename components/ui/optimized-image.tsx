@@ -1,7 +1,12 @@
 "use client"
 
 import Image, { ImageProps } from "next/image"
-import { rewriteAssetUrl } from "@/lib/utils/asset-url"
+import {
+  getAssetDisplayUrl,
+  isConfiguredAssetUrl,
+  rewriteAssetUrl,
+  shouldBypassAssetImageOptimization,
+} from "@/lib/utils/asset-url"
 import { cn } from "@/lib/utils"
 
 /** 通用模糊占位（约 10x10 灰块），用于远程图片加载时的占位，减少布局跳动 */
@@ -50,11 +55,6 @@ const GENERATED_PROJECT_IMAGE_CACHE_VERSION = "20260522-tech-images"
 function shouldRewriteStaticAssets() {
   if (process.env.NEXT_PUBLIC_FORCE_REMOTE_ASSETS === "true") return true
   return process.env.NODE_ENV === "production"
-}
-
-function isConfiguredStaticAssetUrl(src: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL?.trim().replace(/\/+$/, "")
-  return Boolean(baseUrl && src.startsWith(`${baseUrl}/`))
 }
 
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS
@@ -165,8 +165,13 @@ export function OptimizedImage({
     variant !== "cover" &&
     isSupabasePublicStorageUrl(rawSrc) &&
     supportsSupabaseRenderTransform(rawSrc)
-  const src = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
-  const useDirectStaticAsset = typeof src === "string" && isConfiguredStaticAssetUrl(src)
+  const optimizedSrc = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
+  const src = typeof optimizedSrc === "string"
+    ? getAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
+    : optimizedSrc
+  const useDirectStaticAsset =
+    (typeof optimizedSrc === "string" && shouldBypassAssetImageOptimization(optimizedSrc)) ||
+    (rawSrc !== null && isConfiguredAssetUrl(rawSrc))
 
   return (
     <Image

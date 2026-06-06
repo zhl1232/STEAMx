@@ -83,17 +83,11 @@ interface ObservationMediaAnalysisResponse {
   error?: string
 }
 
-interface SubmitRewardSummary {
-  xpAwarded: number
-  observationsSubmitted: number
-  nextBadgeThreshold: number
-}
-
 interface SubmitResponse {
   observation: {
     id: number
   }
-  rewardSummary?: SubmitRewardSummary
+  reviewStatus?: "pending" | "approved" | "rejected"
 }
 
 const DEFAULT_XP_REWARD = 10
@@ -500,17 +494,11 @@ export function ObservationSubmitForm({
     observationId: number | null
     imageUrl: string | null
     speciesName: string | null
-    rewardSummary: SubmitRewardSummary
   }>({
     open: false,
     observationId: null,
     imageUrl: null,
     speciesName: null,
-    rewardSummary: {
-      xpAwarded: DEFAULT_XP_REWARD,
-      observationsSubmitted: 1,
-      nextBadgeThreshold: 10,
-    },
   })
 
   const draftRestoreTriedRef = useRef(false)
@@ -605,26 +593,9 @@ export function ObservationSubmitForm({
 
   const observedAtReady = !!observedAt && !Number.isNaN(new Date(observedAt).getTime())
   const canSubmit = analysisReady && !!locationName.trim() && !!latitude.trim() && !!longitude.trim() && observedAtReady
-  const progressLabel = useMemo(() => {
-    const count = successState.rewardSummary.observationsSubmitted
-    const threshold = successState.rewardSummary.nextBadgeThreshold
-    return `观察家进度 ${count} / ${threshold}`
-  }, [successState.rewardSummary])
-
-  const progressValue = useMemo(() => {
-    return getProgressValue(
-      successState.rewardSummary.observationsSubmitted,
-      successState.rewardSummary.nextBadgeThreshold,
-    )
-  }, [successState.rewardSummary])
-
-  const observationProgressCount = successState.open
-    ? successState.rewardSummary.observationsSubmitted
-    : userStats?.observationsSubmitted
+  const observationProgressCount = userStats?.observationsSubmitted
   const displayedObservationCount = observationProgressCount ?? 0
-  const nextObserverThreshold = successState.open
-    ? successState.rewardSummary.nextBadgeThreshold
-    : getNextObserverThreshold(displayedObservationCount)
+  const nextObserverThreshold = getNextObserverThreshold(displayedObservationCount)
   const observerProgressValue = getProgressValue(displayedObservationCount, nextObserverThreshold)
   const observerProgressKnown = typeof observationProgressCount === "number"
   const aiNoteSuggestion = useMemo(() => buildAiNoteSuggestion(mediaAnalyses), [mediaAnalyses])
@@ -1049,12 +1020,6 @@ export function ObservationSubmitForm({
         throw new Error(payload?.error || "提交失败")
       }
 
-      const rewardSummary = payload.rewardSummary ?? {
-        xpAwarded: DEFAULT_XP_REWARD,
-        observationsSubmitted: 1,
-        nextBadgeThreshold: 10,
-      }
-
       dispatchObservationCreated()
       router.refresh()
       if (typeof window !== "undefined") {
@@ -1066,7 +1031,6 @@ export function ObservationSubmitForm({
         observationId: payload.observation.id,
         imageUrl: evidenceImages[0] ?? null,
         speciesName: selectedSpecies?.commonName ?? null,
-        rewardSummary,
       })
       resetForm()
     } catch (error) {
@@ -1951,7 +1915,7 @@ export function ObservationSubmitForm({
                     <p className="text-sm font-semibold text-[var(--obs-text)]">
                       {observerProgressKnown ? `${displayedObservationCount} / ${nextObserverThreshold} 条` : "同步中"}
                     </p>
-                    <p className="mt-1 text-xs text-[var(--obs-muted-2)]">本次发布 +{DEFAULT_XP_REWARD} 探索经验</p>
+                    <p className="mt-1 text-xs text-[var(--obs-muted-2)]">审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
                   </div>
                   <span className="grid h-12 w-12 place-items-center rounded-xs bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
                     <Sparkles className="h-6 w-6" />
@@ -2141,9 +2105,7 @@ export function ObservationSubmitForm({
         observationId={successState.observationId}
         imageUrl={successState.imageUrl}
         speciesName={successState.speciesName}
-        xpAwarded={successState.rewardSummary.xpAwarded}
-        progressLabel={progressLabel}
-        progressValue={progressValue}
+        expectedXp={DEFAULT_XP_REWARD}
       />
     </>
   )

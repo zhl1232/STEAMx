@@ -23,6 +23,7 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
   const { id } = await params
   const observation = await getObservationById(id)
   if (!observation) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+  if (observation.status !== 'approved') return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
 
   return NextResponse.json({
     identificationStatus: observation.identificationStatus,
@@ -38,6 +39,10 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     const { id } = await params
     const observationId = parseObservationId(id)
     if (!observationId) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+
+    const observation = await getObservationById(observationId)
+    if (!observation) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+    if (observation.status !== 'approved') return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
 
     const parsed = IdentificationSchema.safeParse(await request.json())
     if (!parsed.success) return NextResponse.json({ error: '请选择有效物种' }, { status: 400 })
@@ -62,6 +67,10 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     const { id } = await params
     const observationId = parseObservationId(id)
     if (!observationId) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+
+    const observation = await getObservationById(observationId)
+    if (!observation) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
+    if (observation.status !== 'approved') return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
 
     const { error } = await callRpc(supabase, 'withdraw_my_observation_identification', {
       p_observation_id: observationId,
