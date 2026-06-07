@@ -16,6 +16,7 @@ import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
 import { observationSubmitTopicKeys } from '@/lib/observations/submit-topic'
+import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -45,8 +46,8 @@ const CreateObservationSchema = z.object({
   is_public: z.boolean().default(true),
   initial_species_id: z.number().int().positive().nullable().optional(),
   species_entries: z.array(ObservationSpeciesInputSchema).max(1).optional(),
-  lifecycle_stage: z.enum(['egg', 'larva', 'pupa', 'juvenile', 'adult', 'unknown']).nullable().optional(),
-  sex: z.enum(['male', 'female', 'unknown']).nullable().optional(),
+  lifecycle_stage: z.enum(observationLifecycleStageValues).nullable().optional(),
+  sex: z.enum(observationSexValues).nullable().optional(),
 })
 
 export async function GET(request: NextRequest) {
@@ -173,6 +174,8 @@ export async function POST(request: NextRequest) {
           p_observation_id: observation.id,
           p_species_id: selectedSpeciesId,
           p_source: 'human',
+          p_lifecycle_stage: payload.lifecycle_stage ?? null,
+          p_sex: payload.sex ?? null,
         })
         if (error) throw error
       }

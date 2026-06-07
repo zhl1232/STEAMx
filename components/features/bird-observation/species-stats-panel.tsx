@@ -1,13 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import {
   BarChart3,
   CalendarDays,
   History,
   Layers,
   ShieldCheck,
-  Trophy,
   Users,
 } from "lucide-react"
 import {
@@ -22,8 +22,6 @@ import {
 } from "recharts"
 
 import type {
-  ObservationLifecycleStage,
-  ObservationSex,
   SpeciesContributorSummary,
   SpeciesIdentifierSummary,
   SpeciesLifecycleAggregate,
@@ -31,6 +29,11 @@ import type {
   SpeciesSexAggregate,
   SpeciesYearlyAggregate,
 } from "@/lib/mappers/types"
+import {
+  formatObservationLifecycleStage,
+  formatObservationSex,
+} from "@/lib/observations/traits"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type StatsTab = "seasonality" | "history" | "lifecycle" | "sex"
 
@@ -48,21 +51,6 @@ interface SpeciesStatsPanelProps {
 const MONTH_LABELS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
 const CHART_HEIGHT = 240
 
-const LIFECYCLE_LABELS: Record<ObservationLifecycleStage, string> = {
-  egg: "卵",
-  larva: "幼虫",
-  pupa: "蛹",
-  juvenile: "幼体",
-  adult: "成体",
-  unknown: "未注明",
-}
-
-const SEX_LABELS: Record<ObservationSex, string> = {
-  male: "雄",
-  female: "雌",
-  unknown: "未注明",
-}
-
 const TABS: ReadonlyArray<{ key: StatsTab; label: string; icon: typeof CalendarDays }> = [
   { key: "seasonality", label: "季节性", icon: CalendarDays },
   { key: "history", label: "历史记录", icon: History },
@@ -74,61 +62,59 @@ function formatCount(value: number) {
   return value.toLocaleString("zh-CN")
 }
 
-function formatDate(value: string | null) {
-  if (!value) return "—"
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return "—"
-  return date.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Shanghai",
-  })
-}
-
-function Metric({ label, value, hint }: { label: string; value: string; hint?: string }) {
-  return (
-    <div className="rounded-md border border-border/60 bg-background/72 p-3">
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="mt-1 text-lg font-semibold tabular-nums text-foreground">{value}</p>
-      {hint ? <p className="mt-0.5 text-[11px] text-muted-foreground">{hint}</p> : null}
-    </div>
-  )
-}
-
-function UserRankCard({
-  icon,
+function ContributorRanking<T extends { userId: string; displayName: string; avatarUrl?: string | null }>({
   title,
-  displayName,
+  icon,
+  people,
+  getCount,
   countLabel,
-  avatarUrl,
+  emptyLabel,
 }: {
-  icon: React.ReactNode
   title: string
-  displayName?: string
+  icon: React.ReactNode
+  people: T[]
+  getCount: (person: T) => number
   countLabel: string
-  avatarUrl?: string | null
+  emptyLabel: string
 }) {
   return (
-    <div className="rounded-md border border-border/60 bg-background/72 p-4">
-      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+    <div className="rounded-md border border-border/50 bg-background/70 p-3">
+      <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
         {icon}
         <span>{title}</span>
-      </div>
-      <div className="mt-2 flex items-center gap-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-primary/10 text-sm font-semibold text-primary">
-          {avatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt={displayName ?? title} className="h-full w-full object-cover" />
-          ) : (
-            (displayName?.slice(0, 1) ?? "·")
-          )}
-        </span>
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-foreground">{displayName ?? "暂无数据"}</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">{countLabel}</p>
-        </div>
-      </div>
+      </p>
+      {people.length > 0 ? (
+        <ol className="mt-2 space-y-1.5 text-xs">
+          {people.slice(0, 5).map((person, index) => (
+            <li key={person.userId}>
+              <Link
+                href={`/users/${person.userId}`}
+                className="flex items-center justify-between gap-2 rounded-sm px-1.5 py-1.5 transition-colors hover:bg-muted/55"
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
+                    {index + 1}
+                  </span>
+                  <Avatar className="h-7 w-7 shrink-0 border border-border/60">
+                    <AvatarImage src={person.avatarUrl ?? undefined} alt={person.displayName} />
+                    <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
+                      {person.displayName.slice(0, 1)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="truncate text-foreground/85">{person.displayName}</span>
+                </span>
+                <span className="shrink-0 text-muted-foreground tabular-nums">
+                  {formatCount(getCount(person))} {countLabel}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className="mt-3 rounded-sm border border-dashed border-border/60 bg-background/45 px-3 py-4 text-center text-xs text-muted-foreground">
+          {emptyLabel}
+        </p>
+      )}
     </div>
   )
 }
@@ -143,8 +129,6 @@ function EmptyState({ children }: { children: React.ReactNode }) {
 }
 
 export function SpeciesStatsPanel({
-  totalObservationCount,
-  latestObservedAt,
   topObservers,
   topIdentifiers,
   monthlyAggregates,
@@ -155,8 +139,6 @@ export function SpeciesStatsPanel({
   const [tab, setTab] = useState<StatsTab>("seasonality")
   const chartFrameRef = useRef<HTMLDivElement | null>(null)
   const [chartWidth, setChartWidth] = useState(0)
-  const topObserver = topObservers[0]
-  const topIdentifier = topIdentifiers[0]
 
   useEffect(() => {
     const element = chartFrameRef.current
@@ -183,8 +165,6 @@ export function SpeciesStatsPanel({
     return () => observer.disconnect()
   }, [])
 
-  const totalIdentifications = topIdentifiers.reduce((sum, row) => sum + row.identificationCount, 0)
-
   const monthlyChartData = monthlyAggregates.map((row) => ({
     label: MONTH_LABELS[row.month - 1],
     count: row.count,
@@ -194,11 +174,11 @@ export function SpeciesStatsPanel({
     count: row.count,
   }))
   const lifecycleChartData = lifecycleAggregates.map((row) => ({
-    label: LIFECYCLE_LABELS[row.stage],
+    label: formatObservationLifecycleStage(row.stage) ?? row.stage,
     count: row.count,
   }))
   const sexChartData = sexAggregates.map((row) => ({
-    label: SEX_LABELS[row.sex],
+    label: formatObservationSex(row.sex) ?? row.sex,
     count: row.count,
   }))
 
@@ -215,80 +195,24 @@ export function SpeciesStatsPanel({
         <h2 className="text-lg font-semibold sm:text-xl">观测统计</h2>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Metric label="总观察数" value={formatCount(totalObservationCount)} />
-        <Metric label="最新记录" value={formatDate(latestObservedAt)} />
-        <Metric label="贡献者" value={formatCount(topObservers.length)} hint={topObservers.length > 0 ? "Top 5" : undefined} />
-        <Metric
-          label="鉴定记录"
-          value={formatCount(totalIdentifications)}
-          hint={topIdentifiers.length > 0 ? `${topIdentifiers.length} 位鉴定者` : undefined}
-        />
-      </div>
-
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <UserRankCard
-          icon={<Trophy className="h-3.5 w-3.5" />}
-          title="最多观察记录"
-          displayName={topObserver?.displayName}
-          countLabel={topObserver ? `${formatCount(topObserver.observationCount)} 次观察` : "尚无观察"}
-          avatarUrl={topObserver?.avatarUrl ?? null}
+        <ContributorRanking
+          icon={<Users className="h-3.5 w-3.5" />}
+          title="观察过该物种的用户排行"
+          people={topObservers}
+          getCount={(person) => person.observationCount}
+          countLabel="次观察"
+          emptyLabel="暂无用户观察过该物种"
         />
-        <UserRankCard
+        <ContributorRanking
           icon={<ShieldCheck className="h-3.5 w-3.5" />}
-          title="最多鉴定记录"
-          displayName={topIdentifier?.displayName}
-          countLabel={topIdentifier ? `${formatCount(topIdentifier.identificationCount)} 次鉴定` : "尚无鉴定"}
-          avatarUrl={topIdentifier?.avatarUrl ?? null}
+          title="鉴定过该物种的用户排行"
+          people={topIdentifiers}
+          getCount={(person) => person.identificationCount}
+          countLabel="次鉴定"
+          emptyLabel="暂无用户鉴定过该物种"
         />
       </div>
-
-      {topObservers.length > 1 || topIdentifiers.length > 1 ? (
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {topObservers.length > 1 ? (
-            <div className="rounded-md border border-border/50 bg-background/60 p-3">
-              <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
-                <Users className="h-3.5 w-3.5" />
-                贡献者排行
-              </p>
-              <ol className="mt-2 space-y-1.5 text-xs">
-                {topObservers.slice(0, 5).map((person, index) => (
-                  <li key={person.userId} className="flex items-center justify-between gap-2">
-                    <span className="flex min-w-0 items-center gap-1.5">
-                      <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
-                        {index + 1}
-                      </span>
-                      <span className="truncate text-foreground/85">{person.displayName}</span>
-                    </span>
-                    <span className="shrink-0 text-muted-foreground tabular-nums">{formatCount(person.observationCount)}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          ) : null}
-          {topIdentifiers.length > 1 ? (
-            <div className="rounded-md border border-border/50 bg-background/60 p-3">
-              <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                鉴定者排行
-              </p>
-              <ol className="mt-2 space-y-1.5 text-xs">
-                {topIdentifiers.slice(0, 5).map((person, index) => (
-                  <li key={person.userId} className="flex items-center justify-between gap-2">
-                    <span className="flex min-w-0 items-center gap-1.5">
-                      <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
-                        {index + 1}
-                      </span>
-                      <span className="truncate text-foreground/85">{person.displayName}</span>
-                    </span>
-                    <span className="shrink-0 text-muted-foreground tabular-nums">{formatCount(person.identificationCount)}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
 
       <div className="mt-5">
         <div className="no-scrollbar flex gap-1.5 overflow-x-auto">

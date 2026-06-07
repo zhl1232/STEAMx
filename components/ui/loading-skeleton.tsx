@@ -742,6 +742,242 @@ export function ProjectRecordsPageSkeleton() {
   )
 }
 
+function NatureSpeciesStatsPanelSkeleton() {
+  return (
+    <section className="surface-subtle relative isolate min-w-0 overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded-sm" />
+        <Skeleton className="h-6 w-24 rounded-full" />
+      </div>
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div key={index} className="rounded-md border border-border/50 bg-background/70 p-3">
+            <Skeleton className="h-4 w-32 rounded-full" />
+            <div className="mt-3 space-y-2">
+              {Array.from({ length: 4 }).map((__, rowIndex) => (
+                <div key={rowIndex} className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <Skeleton className="h-5 w-5 shrink-0 rounded-full" />
+                    <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+                    <Skeleton className="h-3 w-20 rounded-full" />
+                  </div>
+                  <Skeleton className="h-3 w-12 shrink-0 rounded-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5">
+        <div className="no-scrollbar flex gap-1.5 overflow-hidden">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} className="h-9 w-24 shrink-0 rounded-full" />
+          ))}
+        </div>
+        <Skeleton className="mt-4 h-[240px] w-full rounded-md" />
+      </div>
+    </section>
+  )
+}
+
+function NatureSpeciesIdentitySkeleton() {
+  return (
+    <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+      <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] md:items-start">
+        <div className="min-w-0">
+          <Skeleton className="h-6 w-20 rounded-xs" />
+          <Skeleton className="mt-5 h-3 w-36 rounded-full md:h-4" />
+          <Skeleton className="mt-2 h-10 w-44 rounded-xs md:h-14 md:w-64" />
+          <Skeleton className="mt-3 h-5 w-40 rounded-full md:w-48" />
+          <Skeleton className="mt-4 h-9 w-44 rounded-sm" />
+        </div>
+
+        <div className="border-t border-border/60 pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-1">
+          <Skeleton className="h-3 w-10 rounded-full" />
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="min-w-0 rounded-sm bg-muted/40 px-2.5 py-2.5 text-center">
+                <Skeleton className="mx-auto h-3 w-5 rounded-full" />
+                <Skeleton className="mx-auto mt-2 h-4 w-14 rounded-full" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function NatureSpeciesInfoCardsSkeleton() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <section key={index} className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:min-h-[178px] sm:p-6">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-5 w-5 rounded-sm" />
+            <Skeleton className="h-6 w-24 rounded-full" />
+          </div>
+          <div className="mt-4 space-y-2">
+            <Skeleton className="h-4 w-full rounded-full" />
+            <Skeleton className="h-4 w-11/12 rounded-full" />
+            <Skeleton className="h-4 w-2/3 rounded-full" />
+          </div>
+        </section>
+      ))}
+    </div>
+  )
+}
+
+function NatureSpeciesHotspotSkeleton() {
+  return (
+    <section className="surface-subtle relative overflow-hidden rounded-lg p-5 sm:p-6">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded-sm" />
+        <Skeleton className="h-6 w-28 rounded-full" />
+      </div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <Skeleton className="h-56 w-full rounded-md" />
+        <div className="space-y-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="rounded-md border border-border/60 bg-background/50 p-3">
+              <Skeleton className="h-4 w-28 rounded-full" />
+              <Skeleton className="mt-2 h-3 w-full rounded-full" />
+              <Skeleton className="mt-2 h-3 w-2/3 rounded-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function NatureSpeciesDetailPageSkeleton() {
+  return (
+    <div className="app-shell-wide px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
+      <MobilePageHeader
+        title={<Skeleton className="h-5 w-24 rounded-full" />}
+        fallbackHref="/nature/species"
+        className="mb-0 md:hidden"
+      />
+
+      <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
+        <div className="px-4 pb-5 pt-2 sm:p-7">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:gap-7">
+            <div className="min-w-0 lg:row-start-1 lg:col-start-1">
+              <div className="-mx-4 sm:mx-0">
+                <Skeleton className="aspect-[4/3] min-h-[220px] w-full rounded-none sm:rounded-lg lg:aspect-[1.34]" />
+              </div>
+            </div>
+            <div className="order-last lg:order-none lg:row-start-1 lg:col-start-2">
+              <NatureSpeciesStatsPanelSkeleton />
+            </div>
+            <div className="lg:col-span-2 lg:row-start-2">
+              <div className="space-y-7">
+                <NatureSpeciesIdentitySkeleton />
+                <NatureSpeciesInfoCardsSkeleton />
+                <NatureSpeciesHotspotSkeleton />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function NatureObservationActivitySkeleton() {
+  return (
+    <div className="space-y-8 border-t border-border/60 pt-6">
+      <section>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <Skeleton className="h-5 w-24 rounded-full" />
+            <Skeleton className="mt-2 h-4 w-48 rounded-full" />
+          </div>
+          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+        </div>
+        <div className="mt-4">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <Skeleton className="h-3 w-16 rounded-full" />
+            <Skeleton className="h-3 w-28 rounded-full" />
+          </div>
+          <Skeleton className="h-2 w-full rounded-full" />
+        </div>
+      </section>
+
+      <section>
+        <Skeleton className="h-5 w-16 rounded-full" />
+        <div className="mt-5 space-y-5">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="grid grid-cols-[34px_minmax(0,1fr)] gap-3">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <div className="min-w-0">
+                <Skeleton className="h-4 w-32 rounded-full" />
+                <Skeleton className="mt-2 h-3 w-full rounded-full" />
+                <Skeleton className="mt-2 h-3 w-2/3 rounded-full" />
+                <div className="mt-3 flex gap-2">
+                  <Skeleton className="h-8 w-20 rounded-full" />
+                  <Skeleton className="h-8 w-20 rounded-full" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export function NatureObservationDetailPageSkeleton() {
+  return (
+    <div className="app-shell-wide px-0 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-0 md:px-8 md:pb-[calc(6rem+env(safe-area-inset-bottom))] md:pt-8">
+      <MobilePageHeader
+        title="观察记录"
+        fallbackHref="/nature/observations"
+        className="mb-0 md:hidden"
+        contentClassName="px-2"
+        rightSlot={<Skeleton className="h-8 w-8 rounded-full" />}
+      />
+
+      <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
+        <div className="-mx-4 md:mx-0">
+          <Skeleton className="aspect-[4/3] min-h-[200px] w-full rounded-none sm:aspect-[16/10]" />
+        </div>
+
+        <div className="hidden gap-4 border-b border-border/60 px-5 py-3 md:grid md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:px-7">
+          <Skeleton className="h-4 w-16 rounded-full" />
+          <Skeleton className="mx-auto h-5 w-24 rounded-full" />
+          <Skeleton className="h-8 w-8 rounded-full" />
+        </div>
+
+        <article className="space-y-6 px-4 py-5 sm:space-y-7 sm:px-7 sm:py-6">
+          <header className="space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Skeleton key={index} className="h-6 w-16 rounded-full" />
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <Skeleton className="h-9 w-40 rounded-xs sm:h-10 sm:w-56" />
+              <Skeleton className="h-5 w-36 rounded-full" />
+              <Skeleton className="h-4 w-4 rounded-sm" />
+            </div>
+            <Skeleton className="h-4 w-full max-w-md rounded-full" />
+          </header>
+
+          <NatureObservationActivitySkeleton />
+
+          <section className="border-t border-border/60 pt-6">
+            <Skeleton className="h-4 w-20 rounded-full" />
+            <Skeleton className="mt-2 h-5 w-40 rounded-full" />
+            <Skeleton className="mt-4 h-48 w-full rounded-sm sm:h-56" />
+          </section>
+        </article>
+      </div>
+    </div>
+  )
+}
+
 export function DiscussionItemSkeleton() {
   return (
     <div className="surface-card grid grid-cols-[112px_minmax(0,1fr)] gap-3 p-3 md:grid-cols-[220px_minmax(0,1fr)] md:gap-5 md:p-4">

@@ -49,11 +49,21 @@ describe('calculateIdentificationConsensus', () => {
     ], 'owner').status).toBe('community_confirmed')
   })
 
-  it('keeps a record unresolved when active votes conflict', () => {
+  it('keeps confirmed consensus when later active votes conflict', () => {
     expect(calculateIdentificationConsensus([
       { speciesId: 10, source: 'ai', identifierUserId: null },
       { speciesId: 10, source: 'human', identifierUserId: 'community-user' },
       { speciesId: 20, source: 'human', identifierUserId: 'owner' },
-    ], 'owner')).toEqual({ status: 'needs_id', confirmedSpeciesId: null })
+    ], 'owner')).toEqual({ status: 'community_confirmed', confirmedSpeciesId: 10 })
+  })
+
+  it('moves consensus when another species has the stronger confirmed vote group', () => {
+    expect(calculateIdentificationConsensus([
+      { speciesId: 10, source: 'human', identifierUserId: 'owner' },
+      { speciesId: 10, source: 'human', identifierUserId: 'community-user-a' },
+      { speciesId: 20, source: 'human', identifierUserId: 'community-user-b' },
+      { speciesId: 20, source: 'human', identifierUserId: 'community-user-c' },
+      { speciesId: 20, source: 'human', identifierUserId: 'community-user-d' },
+    ], 'owner')).toEqual({ status: 'community_confirmed', confirmedSpeciesId: 20 })
   })
 })

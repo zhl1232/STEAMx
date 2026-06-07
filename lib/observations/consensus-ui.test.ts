@@ -21,6 +21,15 @@ const ownerVote: ObservationIdentification = {
   createdAt: '2026-05-14T01:00:00.000Z',
 }
 
+const conflictVote: ObservationIdentification = {
+  id: 3,
+  speciesId: 20,
+  commonName: '棕背伯劳',
+  source: 'human',
+  identifierUserId: 'community-user',
+  createdAt: '2026-05-14T02:00:00.000Z',
+}
+
 describe('computeConsensusUiState', () => {
   it('shows partial progress for owner plus AI only', () => {
     const state = computeConsensusUiState([aiVote, ownerVote], 'owner', null, 'needs_id')
@@ -38,5 +47,17 @@ describe('computeConsensusUiState', () => {
     )
     expect(state.progress).toBe(1)
     expect(state.summary).toContain('已达成')
+  })
+
+  it('keeps confirmed UI while showing later conflicting identifications', () => {
+    const state = computeConsensusUiState(
+      [aiVote, ownerVote, conflictVote],
+      'owner',
+      { speciesId: 10, commonName: '红尾伯劳', behaviorTags: [] },
+      'community_confirmed',
+    )
+    expect(state.status).toBe('community_confirmed')
+    expect(state.hasConflict).toBe(true)
+    expect(state.summary).toContain('不同鉴定意见')
   })
 })

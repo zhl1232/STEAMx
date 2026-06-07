@@ -59,6 +59,12 @@ import {
   getObservationSubmitTopicCopy,
   type ObservationSubmitTopic,
 } from "@/lib/observations/submit-topic"
+import {
+  observationLifecycleStageOptions,
+  observationSexOptions,
+  type ObservationLifecycleStage,
+  type ObservationSex,
+} from "@/lib/observations/traits"
 import { convertGpsToAmap, reverseGeocode, searchPlaces, type PlaceSearchResult } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
 
@@ -478,8 +484,8 @@ export function ObservationSubmitForm({
   const [speciesId, setSpeciesId] = useState(() => (initialSpeciesId ? String(initialSpeciesId) : ""))
   const [speciesQuery, setSpeciesQuery] = useState("")
   const [speciesResults, setSpeciesResults] = useState<SpeciesOption[]>([])
-  const [lifecycleStage, setLifecycleStage] = useState<"" | "egg" | "larva" | "pupa" | "juvenile" | "adult" | "unknown">("")
-  const [sex, setSex] = useState<"" | "male" | "female" | "unknown">("")
+  const [lifecycleStage, setLifecycleStage] = useState<"" | ObservationLifecycleStage>("")
+  const [sex, setSex] = useState<"" | ObservationSex>("")
   const [isSearchingSpecies, setIsSearchingSpecies] = useState(false)
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
@@ -1505,12 +1511,11 @@ export function ObservationSubmitForm({
                         className={cn(controlClass, "appearance-none bg-no-repeat px-3 text-sm")}
                       >
                         <option value="">未注明</option>
-                        <option value="adult">成体</option>
-                        <option value="juvenile">幼体</option>
-                        <option value="larva">幼虫</option>
-                        <option value="pupa">蛹</option>
-                        <option value="egg">卵</option>
-                        <option value="unknown">无法判断</option>
+                        {observationLifecycleStageOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                       </select>
                     </label>
                     <label className="flex flex-col gap-1.5 text-sm">
@@ -1521,9 +1526,11 @@ export function ObservationSubmitForm({
                         className={cn(controlClass, "appearance-none bg-no-repeat px-3 text-sm")}
                       >
                         <option value="">未注明</option>
-                        <option value="male">雄</option>
-                        <option value="female">雌</option>
-                        <option value="unknown">无法判断</option>
+                        {observationSexOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                       </select>
                     </label>
                   </div>

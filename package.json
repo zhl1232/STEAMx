@@ -2,13 +2,6 @@
   "name": "steam-explore-share",
   "version": "0.1.0",
   "private": true,
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "supabase",
-      "husky",
-      "esbuild"
-    ]
-  },
   "scripts": {
     "dev": "next dev --turbo",
     "dev:turbo": "next dev --turbo",

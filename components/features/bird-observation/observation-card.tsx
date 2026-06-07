@@ -22,7 +22,7 @@ export function ObservationCard({ observation, className, fromHref }: Observatio
   const heroImage = observation.mediaUrls[0];
   const title = getObservationDisplayTitle(observation.species);
   const summary = observation.notes?.trim();
-  const observedAtLabel = formatObservationDateTime(observation.observedAt);
+  const createdAtLabel = formatObservationDateTime(observation.createdAt);
 
   return (
     <Link
@@ -84,7 +84,7 @@ export function ObservationCard({ observation, className, fromHref }: Observatio
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <Clock3 className="h-3.5 w-3.5" />
-            {observedAtLabel}
+            发布于 {createdAtLabel}
           </span>
           <span className="inline-flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5" />

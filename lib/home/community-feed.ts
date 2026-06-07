@@ -158,7 +158,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
   for (const event of observations) {
     const name = event.authorDisplayName?.trim() || "自然观察者";
     candidates.push({
-      sortAt: event.observedAt,
+      sortAt: event.createdAt,
       item: {
         key: `observation-${event.id}`,
         kind: "observation",
@@ -166,7 +166,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
         actorName: name,
         action: "分享了观察记录",
         title: observationFeedTitle(event),
-        timeLabel: formatRelativeTime(event.observedAt),
+        timeLabel: formatRelativeTime(event.createdAt),
       },
     });
   }
@@ -176,7 +176,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
 
 const getHomepageCommunityFeedCached = unstable_cache(
   async () => buildHomepageCommunityFeed(),
-  ["homepage-community-feed-v2"],
+  ["homepage-community-feed-v3-observation-created-at"],
   { revalidate: 120 },
 );
 

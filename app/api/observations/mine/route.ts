@@ -21,7 +21,8 @@ export async function GET(request: NextRequest) {
       .from('observation_events')
       .select('*', { count: 'exact' })
       .eq('user_id', user.id)
-      .order('observed_at', { ascending: false })
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
       .range(from, to)
 
     if (error) {

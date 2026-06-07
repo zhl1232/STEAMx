@@ -1,6 +1,7 @@
 packages:
   - "."
   - "packages/*"
-onlyBuiltDependencies:
-  - supabase
-  - husky
+allowBuilds:
+  supabase: true
+  husky: true
+  esbuild: true

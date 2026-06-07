@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import type { ObservationEvent } from "@/lib/mappers/types";
+import { formatObservationDateKey } from "@/lib/observations/display";
 
 interface ProfileObservationsPanelProps {
   observations: ObservationEvent[];
@@ -89,7 +90,7 @@ export function ProfileObservationsPanel({
           ) : null}
 
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span>{new Date(observation.observedAt).toLocaleDateString("zh-CN")}</span>
+            <span>发布于 {formatObservationDateKey(observation.createdAt)}</span>
             <span>·</span>
             <span className="truncate">{observation.locationName}</span>
           </div>

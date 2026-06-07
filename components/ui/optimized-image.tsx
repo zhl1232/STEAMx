@@ -52,11 +52,6 @@ const WIDTH_PRESETS: Record<keyof typeof SIZE_PRESETS, number> = {
 
 const GENERATED_PROJECT_IMAGE_CACHE_VERSION = "20260522-tech-images"
 
-function shouldRewriteStaticAssets() {
-  if (process.env.NEXT_PUBLIC_FORCE_REMOTE_ASSETS === "true") return true
-  return process.env.NODE_ENV === "production"
-}
-
 export type OptimizedImageVariant = keyof typeof SIZE_PRESETS
 
 interface OptimizedImageProps extends Omit<ImageProps, "sizes" | "quality"> {
@@ -126,9 +121,7 @@ export function getOptimizedImageSrc(
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
   const width = WIDTH_PRESETS[variant]
   const versionedSrc = withGeneratedProjectImageCacheVersion(src)
-  const rewrittenSrc = shouldRewriteStaticAssets()
-    ? rewriteAssetUrl(versionedSrc) ?? versionedSrc
-    : versionedSrc
+  const rewrittenSrc = rewriteAssetUrl(versionedSrc) ?? versionedSrc
 
   if (variant === "cover") {
     return rewrittenSrc

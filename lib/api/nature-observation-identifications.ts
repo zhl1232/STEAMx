@@ -59,6 +59,8 @@ export async function loadObservationIdentifications(
       speciesSlug: species.slug,
       commonName: species.common_name,
       scientificName: species.scientific_name,
+      lifecycleStage: row.lifecycle_stage,
+      sex: row.sex,
       source: row.source,
       identifierUserId: row.identifier_user_id,
       identifierDisplayName: row.identifier_user_id ? displayNameById.get(row.identifier_user_id) ?? null : null,

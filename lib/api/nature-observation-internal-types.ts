@@ -2,6 +2,8 @@
  * Supabase 查询行形状（与 nature 观察域读模型配套），供多文件共享，避免循环依赖。
  */
 
+import type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
+
 export type SpeciesRow = {
   id: number
   slug: string
@@ -39,8 +41,8 @@ export type ObservationEventRow = {
   observed_at_source: string | null
   location_source: string | null
   coordinate_system: string | null
-  lifecycle_stage: 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown' | null
-  sex: 'male' | 'female' | 'unknown' | null
+  lifecycle_stage: ObservationLifecycleStage | null
+  sex: ObservationSex | null
   created_at: string
   updated_at: string
 }
@@ -53,6 +55,8 @@ export type ObservationIdentificationRow = {
   identifier_user_id: string | null
   confidence: number | null
   model_name: string | null
+  lifecycle_stage: ObservationLifecycleStage | null
+  sex: ObservationSex | null
   is_active: boolean
   created_at: string
 }
@@ -65,8 +69,8 @@ export type ObservationEventSpeciesRow = {
   behavior_tags: string[]
   confidence: number | null
   notes: string | null
-  lifecycle_stage: 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown' | null
-  sex: 'male' | 'female' | 'unknown' | null
+  lifecycle_stage: ObservationLifecycleStage | null
+  sex: ObservationSex | null
   created_at: string
   updated_at: string
 }

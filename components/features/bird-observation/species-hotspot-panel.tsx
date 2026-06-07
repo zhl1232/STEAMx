@@ -64,9 +64,6 @@ export function SpeciesHotspotPanel({
       <div className="relative z-10 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold">最近观察线索</h2>
-          <p className="mt-2 max-w-4xl text-sm leading-6 text-muted-foreground">
-            这些位置来自最近的真实观察记录，点选位置卡时，地图会高亮对应点位。地图上较大较亮的点表示近期记录，较小较淡的点表示较早的记录。
-          </p>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
               最近记录 {recentObservationCount} 条

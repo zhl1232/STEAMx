@@ -67,6 +67,7 @@ const HOMEPAGE_OBSERVATION_SELECT = [
   'observed_at_source',
   'location_source',
   'coordinate_system',
+  'created_at',
   'likes_count',
   'comments_count',
 ].join(',')
@@ -81,6 +82,7 @@ const OBSERVATION_DIMENSION_SELECT = [
   'location_precision',
   'media_urls',
   'nature_topic',
+  'created_at',
 ].join(',')
 
 const OBSERVATION_ROWS_PAGE_SIZE = 1000
@@ -108,9 +110,22 @@ export interface ObservationHotspotSummary extends ObservationLocationSummary {
   imageUrl?: string | null
 }
 
+interface FeaturedSpeciesBase extends Species {
+  observedByCurrentUser: false
+}
+
 type ObservationDimensionRow = Pick<
   ObservationEventRow,
-  'id' | 'user_id' | 'observed_at' | 'location_name' | 'latitude' | 'longitude' | 'location_precision' | 'media_urls' | 'nature_topic'
+  | 'id'
+  | 'user_id'
+  | 'observed_at'
+  | 'location_name'
+  | 'latitude'
+  | 'longitude'
+  | 'location_precision'
+  | 'media_urls'
+  | 'nature_topic'
+  | 'created_at'
 >
 
 type SpeciesStatsRow = Pick<SpeciesRow, 'id' | 'slug' | 'common_name' | 'scientific_name' | 'taxon_group' | 'nature_topic' | 'is_active'>
@@ -235,7 +250,8 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
       .select(OBSERVATION_DIMENSION_SELECT)
       .eq('status', 'approved')
       .eq('is_public', true)
-      .order('observed_at', { ascending: false })
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
       .range(from, to)
 
     if (error) {
@@ -254,7 +270,7 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
 
 const fetchAllPublicObservationDimensionRowsCached = unstable_cache(
   async () => fetchAllPublicObservationDimensionRowsUncached(),
-  ['nature-public-observation-dimensions-v1'],
+  ['nature-public-observation-dimensions-v2-created-at'],
   { revalidate: 300, tags: ['nature-homepage', 'nature-observations'] },
 )
 
@@ -633,7 +649,50 @@ export async function getBirdObservationFeaturedSpecies(limit = 8): Promise<Spec
   return getTopicObservationFeaturedSpecies('birds', limit)
 }
 
-export async function getTopicObservationFeaturedSpecies(topicKey: NatureTopicKey, limit = 8): Promise<Species[]> {
+async function getObservedSpeciesIdsForCurrentUser(): Promise<Set<number>> {
+  try {
+    const authClient = await createClient()
+    const {
+      data: { user },
+    } = await authClient.auth.getUser()
+
+    if (!user?.id) {
+      return new Set<number>()
+    }
+
+    const { data: userEventRows } = await authClient
+      .from('observation_events')
+      .select('id')
+      .eq('user_id', user.id)
+    const userEventIds = ((userEventRows || []) as Array<{ id: number }>).map((row) => row.id)
+
+    if (userEventIds.length === 0) {
+      return new Set<number>()
+    }
+
+    const { data: userLinkRows } = await authClient
+      .from('observation_event_species')
+      .select('species_id')
+      .in('observation_event_id', userEventIds)
+
+    const observedSpeciesIds = new Set<number>()
+    for (const row of ((userLinkRows || []) as Array<{ species_id: number | null }>)) {
+      if (typeof row.species_id === 'number') {
+        observedSpeciesIds.add(row.species_id)
+      }
+    }
+
+    return observedSpeciesIds
+  } catch (error) {
+    logger.error('Error resolving observed species for current user', { error })
+    return new Set<number>()
+  }
+}
+
+async function getTopicObservationFeaturedSpeciesBase(
+  topicKey: NatureTopicKey,
+  limit = 8,
+): Promise<FeaturedSpeciesBase[]> {
   if (limit <= 0) {
     return []
   }
@@ -667,36 +726,22 @@ export async function getTopicObservationFeaturedSpecies(topicKey: NatureTopicKe
     observationCountBySpecies.set(row.species_id, (observationCountBySpecies.get(row.species_id) ?? 0) + 1)
   }
 
-  let observedSpeciesIds = new Set<number>()
-  try {
-    const authClient = await createClient()
-    const { data: { user } } = await authClient.auth.getUser()
-    if (user?.id) {
-      const { data: userEventRows } = await authClient
-        .from('observation_events')
-        .select('id')
-        .eq('user_id', user.id)
-      const userEventIds = ((userEventRows || []) as Array<{ id: number }>).map((row) => row.id)
-      if (userEventIds.length > 0) {
-        const { data: userLinkRows } = await authClient
-          .from('observation_event_species')
-          .select('species_id')
-          .in('observation_event_id', userEventIds)
-        for (const row of ((userLinkRows || []) as Array<{ species_id: number | null }>)) {
-          if (typeof row.species_id === 'number') {
-            observedSpeciesIds.add(row.species_id)
-          }
-        }
-      }
-    }
-  } catch (authError) {
-    logger.error('Error resolving observed species for featured list', { error: authError, topicKey })
-  }
-
   return speciesRows.map((row) => ({
     ...mapDbSpecies(normalizeSpeciesRow(row) as never),
     observationCount: observationCountBySpecies.get(row.id) ?? 0,
-    observedByCurrentUser: observedSpeciesIds.has(row.id),
+    observedByCurrentUser: false,
+  }))
+}
+
+export async function getTopicObservationFeaturedSpecies(topicKey: NatureTopicKey, limit = 8): Promise<Species[]> {
+  const [species, observedSpeciesIds] = await Promise.all([
+    getTopicObservationFeaturedSpeciesBase(topicKey, limit),
+    getObservedSpeciesIdsForCurrentUser(),
+  ])
+
+  return species.map((item) => ({
+    ...item,
+    observedByCurrentUser: observedSpeciesIds.has(item.id),
   }))
 }
 
@@ -736,7 +781,8 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
     .from('observation_events')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
-    .order('observed_at', { ascending: false })
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
 
   if (error) {
     logger.error('Error fetching topic homepage observations', { error, topicKey })
@@ -787,7 +833,8 @@ export async function getRecentNatureObservationsForMap(limit = 24): Promise<Obs
     .from('observation_events')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
-    .order('observed_at', { ascending: false })
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
 
   if (error) {
     logger.error('Error fetching recent observations for nature homepage map', { error })
@@ -972,7 +1019,7 @@ async function getHomepageStatsAndSummaries() {
 const getBirdObservationHomepageDataCached = unstable_cache(
   async (): Promise<BirdHomepageData> => {
     const [featuredSpecies, recentObservations, mapObservations, statsAndSummaries] = await Promise.all([
-      getBirdObservationFeaturedSpecies(),
+      getTopicObservationFeaturedSpeciesBase('birds'),
       getBirdObservationRecentObservations(12),
       getRecentNatureObservationsForMap(24),
       getHomepageStatsAndSummaries(),
@@ -988,13 +1035,24 @@ const getBirdObservationHomepageDataCached = unstable_cache(
       galleryImages: collectObservationGalleryImages(recentObservations),
     }
   },
-  ['nature-homepage-v4-map-pair'],
+  ['nature-homepage-v5-created-at-order'],
   { revalidate: 300, tags: ['nature-homepage'] },
 )
 
 export async function getBirdObservationHomepageData(): Promise<BirdHomepageData> {
   try {
-    return await getBirdObservationHomepageDataCached()
+    const [homepageData, observedSpeciesIds] = await Promise.all([
+      getBirdObservationHomepageDataCached(),
+      getObservedSpeciesIdsForCurrentUser(),
+    ])
+
+    return {
+      ...homepageData,
+      featuredSpecies: homepageData.featuredSpecies.map((item) => ({
+        ...item,
+        observedByCurrentUser: observedSpeciesIds.has(item.id),
+      })),
+    }
   } catch (error) {
     logger.error('Error fetching nature homepage data', { error })
     return {

@@ -1,13 +1,12 @@
 "use client"
 
 import type { ReactNode } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { SwipeablePhotoViewer } from "@/components/features/bird-observation/swipeable-photo-viewer"
 import { ExternalLink, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import {
   Sheet,
   SheetContent,
@@ -40,8 +39,13 @@ interface ObservationSpeciesCompareSheetProps {
   speciesPageHref: string | null
 }
 
-function pickReferenceImage(species: CompareSpeciesPayload): string | null {
-  return species.imageUrls?.[0] ?? species.coverImageUrl ?? null
+function getReferenceImages(species: CompareSpeciesPayload): string[] {
+  return Array.from(
+    new Set([
+      ...(species.imageUrls || []),
+      ...(species.coverImageUrl ? [species.coverImageUrl] : []),
+    ].filter((url): url is string => Boolean(url?.trim()))),
+  )
 }
 
 function traitLines(species: CompareSpeciesPayload): string[] {
@@ -65,14 +69,14 @@ export function ObservationSpeciesCompareSheet({
 }: ObservationSpeciesCompareSheetProps) {
   const [observationIndex, setObservationIndex] = useState(0)
   const [species, setSpecies] = useState<CompareSpeciesPayload | null>(null)
+  const [referenceIndex, setReferenceIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const observationCount = observationMediaUrls.length
 
   useEffect(() => {
     if (!open) {
       setObservationIndex(0)
+      setReferenceIndex(0)
       return
     }
     if (!target?.slug) return
@@ -81,6 +85,7 @@ export function ObservationSpeciesCompareSheet({
     setIsLoading(true)
     setError(null)
     setSpecies(null)
+    setReferenceIndex(0)
 
     void (async () => {
       try {
@@ -101,7 +106,7 @@ export function ObservationSpeciesCompareSheet({
     return () => controller.abort()
   }, [open, target?.slug])
 
-  const referenceUrl = species ? pickReferenceImage(species) : null
+  const referenceImages = species ? getReferenceImages(species) : []
   const traits = species ? traitLines(species) : []
 
   return (
@@ -120,18 +125,13 @@ export function ObservationSpeciesCompareSheet({
               label="本次观察"
               sublabel={observationMediaUrls.length > 1 ? `${observationIndex + 1}/${observationMediaUrls.length}` : undefined}
             >
-              <SwipeablePhotoViewer
-                urls={observationMediaUrls}
-                index={observationIndex}
-                onIndexChange={setObservationIndex}
+              <CompareImageViewer
+                imageUrls={observationMediaUrls}
+                activeIndex={observationIndex}
+                onActiveIndexChange={setObservationIndex}
                 alt={observationAlt}
-                className="aspect-[4/3] w-full rounded-sm bg-muted/40"
-                sizes="(max-width: 640px) 100vw, 45vw"
                 emptyLabel="无观察照片"
               />
-              {observationCount > 1 ? (
-                <p className="mt-2 text-center text-[11px] text-muted-foreground">左右滑动切换照片</p>
-              ) : null}
             </ComparePanel>
 
             <ComparePanel
@@ -148,16 +148,13 @@ export function ObservationSpeciesCompareSheet({
                 <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 px-4 text-center text-sm text-muted-foreground">
                   {error}
                 </div>
-              ) : referenceUrl ? (
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-muted/40">
-                  <Image
-                    src={referenceUrl}
-                    alt={species?.commonName ?? target?.commonName ?? "参考图"}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 640px) 100vw, 45vw"
-                  />
-                </div>
+              ) : referenceImages.length > 0 ? (
+                <CompareImageViewer
+                  imageUrls={referenceImages}
+                  activeIndex={referenceIndex}
+                  onActiveIndexChange={setReferenceIndex}
+                  alt={species?.commonName ?? target?.commonName ?? "参考图"}
+                />
               ) : (
                 <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 text-sm text-muted-foreground">
                   暂无参考图
@@ -191,6 +188,79 @@ export function ObservationSpeciesCompareSheet({
         </SheetFooter>
       </SheetContent>
     </Sheet>
+  )
+}
+
+function CompareImageViewer({
+  imageUrls,
+  activeIndex,
+  onActiveIndexChange,
+  alt,
+  emptyLabel = "暂无图片",
+}: {
+  imageUrls: string[]
+  activeIndex: number
+  onActiveIndexChange: (index: number) => void
+  alt: string
+  emptyLabel?: string
+}) {
+  const activeUrl = imageUrls[activeIndex] ?? imageUrls[0]
+
+  if (!activeUrl) {
+    return (
+      <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-border/60 bg-muted/40 text-sm text-muted-foreground">
+        {emptyLabel}
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border/60 bg-muted/40">
+        <OptimizedImage
+          key={activeUrl}
+          src={activeUrl}
+          alt={alt}
+          fill
+          variant="cover"
+          className="object-contain"
+          sizes="(max-width: 640px) 100vw, 45vw"
+        />
+        {imageUrls.length > 1 ? (
+          <div className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
+            {activeIndex + 1}/{imageUrls.length}
+          </div>
+        ) : null}
+      </div>
+
+      {imageUrls.length > 1 ? (
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {imageUrls.map((url, index) => (
+            <button
+              key={`${url}-${index}`}
+              type="button"
+              onClick={() => onActiveIndexChange(index)}
+              className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 transition ${
+                index === activeIndex
+                  ? "border-[hsl(var(--nature-accent))] ring-2 ring-[hsl(var(--nature-accent)/0.18)]"
+                  : "border-border/70 opacity-80 hover:border-[hsl(var(--nature-accent)/0.55)] hover:opacity-100"
+              }`}
+              aria-label={`查看比较图片 ${index + 1}`}
+              aria-pressed={index === activeIndex}
+            >
+              <OptimizedImage
+                src={url}
+                alt=""
+                fill
+                variant="thumbnail"
+                className="object-cover"
+                sizes="48px"
+              />
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
   )
 }
 

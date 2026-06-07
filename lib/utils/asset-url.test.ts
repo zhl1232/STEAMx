@@ -9,6 +9,7 @@ import {
 
 const ENV_KEY = 'NEXT_PUBLIC_ASSETS_BASE_URL'
 const NODE_ENV_KEY = 'NODE_ENV'
+const DISPLAY_MODE_ENV_KEY = 'NEXT_PUBLIC_ASSETS_DISPLAY_MODE'
 
 describe('rewriteAssetUrl', () => {
   beforeEach(() => {
@@ -79,7 +80,7 @@ describe('rewriteAssetUrl', () => {
     expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(false)
   })
 
-  it('uses the local asset proxy for configured assets outside production', () => {
+  it('uses the local asset proxy for configured assets outside production by default', () => {
     vi.stubEnv(NODE_ENV_KEY, 'development')
 
     expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
@@ -90,8 +91,18 @@ describe('rewriteAssetUrl', () => {
     )
   })
 
+  it('can keep configured asset URLs direct outside production for raw CDN debugging', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'development')
+    vi.stubEnv(DISPLAY_MODE_ENV_KEY, 'direct')
+
+    expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
+      'https://assets.example.com/birds/images/x.jpg',
+    )
+  })
+
   it('keeps configured asset URLs direct in production', () => {
     vi.stubEnv(NODE_ENV_KEY, 'production')
+    vi.stubEnv(DISPLAY_MODE_ENV_KEY, 'direct')
 
     expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
       'https://assets.example.com/birds/images/x.jpg',

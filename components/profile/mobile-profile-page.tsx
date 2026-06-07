@@ -21,8 +21,20 @@ const ProfileObservationsPanel = dynamic(
   () => import("@/components/features/profile/profile-observations-panel").then((mod) => mod.ProfileObservationsPanel),
   {
     loading: () => (
-      <div className="surface-panel px-5 py-12 text-center text-sm text-muted-foreground">
-        加载观察记录中...
+      <div className="surface-panel px-5 py-5">
+        <Skeleton className="h-5 w-28 rounded-full" />
+        <div className="mt-4 space-y-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="flex gap-3 rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+              <Skeleton className="h-14 w-14 shrink-0 rounded-lg" />
+              <div className="min-w-0 flex-1">
+                <Skeleton className="h-4 w-28 rounded-full" />
+                <Skeleton className="mt-2 h-3 w-full rounded-full" />
+                <Skeleton className="mt-2 h-3 w-2/3 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },
@@ -31,7 +43,14 @@ const ProfileObservationsPanel = dynamic(
 const SteamRadarChart = dynamic(
   () => import("@/components/features/profile/steam-radar-chart").then((mod) => mod.SteamRadarChart),
   {
-    loading: () => <div className="surface-panel min-h-[320px] rounded-xl" />,
+    loading: () => (
+      <div className="surface-panel min-h-[320px] rounded-xl p-5">
+        <Skeleton className="h-5 w-28 rounded-full" />
+        <div className="mt-6 flex justify-center">
+          <Skeleton className="h-[214px] w-[214px] rounded-full" />
+        </div>
+      </div>
+    ),
   },
 );
 

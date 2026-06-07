@@ -4,7 +4,9 @@
  * 设计原则：
  * - 只重写白名单前缀，避免误伤 /assets、/scratch、用户上传等路径
  * - 已是 http(s) 完整 URL 的直接放行
- * - 未配置 base URL（如开发环境）时返回原值，让本地 public/ 目录兜底
+ * - 配置 base URL 后各环境先统一解析为同一资源域名
+ * - 生产环境直接输出资源域名；开发环境默认经 /api/assets 代理，以生产 Referer 模拟 CDN 防盗链
+ * - 开发态如需直连资源域名排查，可显式设置 NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct
  */
 
 const REMOTE_ASSET_PREFIXES = [
@@ -61,12 +63,16 @@ export function shouldBypassAssetImageOptimization(input: string | null | undefi
   return isConfiguredAssetUrl(input)
 }
 
+function shouldProxyConfiguredAssets() {
+  return process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE !== 'direct'
+}
+
 export function getAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
   if (input == null) return input
   if (typeof input !== 'string') return input
 
   const trimmed = input.trim()
-  if (!trimmed || process.env.NODE_ENV === 'production') return input
+  if (!trimmed || !shouldProxyConfiguredAssets()) return input
 
   const assetPath = getConfiguredAssetPath(trimmed)
   if (!assetPath) return input

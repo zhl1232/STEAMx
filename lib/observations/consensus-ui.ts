@@ -23,7 +23,7 @@ export interface ConsensusUiState {
 }
 
 export const CONSENSUS_RULES_SUMMARY =
-  '当所有有效鉴定指向同一物种时：至少 2 位用户各投一票，或 AI 鉴定 + 1 位非发布者用户认同，即可达成社群共识。发布者单独认同 AI 尚不足以确认。'
+  '同一物种获得至少 2 位用户鉴定，或 AI 鉴定 + 1 位非发布者用户认同，即可达成社群共识。进度条显示确认条件完成度，虚线是 2/3 参考线。确认后仍可继续认同或提出不同鉴定。'
 
 function toVotes(identifications: ObservationIdentification[]): IdentificationVote[] {
   return identifications.map((item) => ({
@@ -99,8 +99,8 @@ export function computeConsensusUiState(
       confirmSlotsFilled: 2,
       confirmSlotsRequired: 2,
       confirmProgressHint: '已满足确认条件',
-      summary: '已达成社群共识',
-      hasConflict: false,
+      summary: hasConflict ? '已达成社群共识，仍有不同鉴定意见' : '已达成社群共识',
+      hasConflict,
     }
   }
 

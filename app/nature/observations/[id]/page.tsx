@@ -164,19 +164,28 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
             </div>
 
             <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
-              {headline.scientificName ? (
-                <p className="pb-0.5 text-base italic text-muted-foreground">{headline.scientificName}</p>
-              ) : null}
               {primarySpeciesHref ? (
                 <Link
                   href={primarySpeciesHref}
-                  aria-label="查看物种百科"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+                  aria-label={`查看${headline.title}物种百科`}
+                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
                 >
-                  <ArrowUpRight className="h-4 w-4" />
+                  <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
+                  {headline.scientificName ? (
+                    <span className="pb-0.5 text-base italic text-muted-foreground transition-colors group-hover:text-foreground/75">
+                      {headline.scientificName}
+                    </span>
+                  ) : null}
+                  <ArrowUpRight className="h-4 w-4 self-center text-muted-foreground transition-colors group-hover:text-foreground" />
                 </Link>
-              ) : null}
+              ) : (
+                <>
+                  <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
+                  {headline.scientificName ? (
+                    <p className="pb-0.5 text-base italic text-muted-foreground">{headline.scientificName}</p>
+                  ) : null}
+                </>
+              )}
             </div>
 
             <p className="flex flex-wrap items-center gap-x-1.5 text-sm text-muted-foreground">

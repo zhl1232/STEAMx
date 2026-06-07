@@ -6,7 +6,10 @@
 
 import type { Database } from '@/lib/supabase/types'
 import type { NatureTopicKey } from '@/lib/config/nature-topics'
+import type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
 import { formatRelativeTime } from '@/lib/date-utils'
+
+export type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
 
 // ============================================================
 // 数据库表类型提取
@@ -271,6 +274,8 @@ export interface ObservationIdentification {
     speciesSlug?: string | null
     commonName: string
     scientificName?: string | null
+    lifecycleStage?: ObservationLifecycleStage | null
+    sex?: ObservationSex | null
     source: 'human' | 'ai'
     identifierUserId?: string | null
     identifierDisplayName?: string | null
@@ -324,9 +329,6 @@ export interface ObservationLocationSummary {
     longitude?: number | null
     species?: ObservationHotspotSpeciesSummary[]
 }
-
-export type ObservationLifecycleStage = 'egg' | 'larva' | 'pupa' | 'juvenile' | 'adult' | 'unknown'
-export type ObservationSex = 'male' | 'female' | 'unknown'
 
 export interface SpeciesContributorSummary {
     userId: string

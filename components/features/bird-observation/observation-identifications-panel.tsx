@@ -18,6 +18,14 @@ import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import type { ObservationIdentification, ObservationSpeciesSummary } from "@/lib/mappers/types"
+import {
+  formatObservationLifecycleStage,
+  formatObservationSex,
+  observationLifecycleStageOptions,
+  observationSexOptions,
+  type ObservationLifecycleStage,
+  type ObservationSex,
+} from "@/lib/observations/traits"
 import type { ObservationSubmitTopic } from "@/lib/observations/submit-topic"
 
 interface SpeciesOption {
@@ -51,6 +59,17 @@ function identificationLabel(
   return identification.identifierDisplayName || "社区用户"
 }
 
+function formatIdentificationTraits(identification: ObservationIdentification): string | null {
+  const lifecycleStageLabel = formatObservationLifecycleStage(identification.lifecycleStage)
+  const sexLabel = formatObservationSex(identification.sex)
+  const parts = [
+    lifecycleStageLabel ? `生命阶段：${lifecycleStageLabel}` : null,
+    sexLabel ? `性别：${sexLabel}` : null,
+  ].filter((part): part is string => Boolean(part))
+
+  return parts.length > 0 ? parts.join(" · ") : null
+}
+
 export function ObservationIdentificationsPanel({
   observationId,
   topic,
@@ -69,6 +88,8 @@ export function ObservationIdentificationsPanel({
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SpeciesOption[]>([])
   const [selected, setSelected] = useState<SpeciesOption | null>(null)
+  const [lifecycleStage, setLifecycleStage] = useState<"" | ObservationLifecycleStage>("")
+  const [sex, setSex] = useState<"" | ObservationSex>("")
   const [isSearching, setIsSearching] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
@@ -102,12 +123,34 @@ export function ObservationIdentificationsPanel({
     [identifications, user?.id],
   )
 
+  const openIdentificationSheet = () => {
+    if (myIdentification) {
+      setQuery(myIdentification.commonName)
+      setSelected({
+        id: myIdentification.speciesId,
+        commonName: myIdentification.commonName,
+        scientificName: myIdentification.scientificName ?? null,
+      })
+      setLifecycleStage(myIdentification.lifecycleStage ?? "")
+      setSex(myIdentification.sex ?? "")
+    } else {
+      setQuery("")
+      setSelected(null)
+      setLifecycleStage("")
+      setSex("")
+      setResults([])
+    }
+    setSheetOpen(true)
+  }
+
   const applyResponse = (data: IdentificationResponse) => {
     setConfirmedSpecies(data.confirmedSpecies)
     setIdentifications(data.identifications)
     setResults([])
     setQuery("")
     setSelected(null)
+    setLifecycleStage("")
+    setSex("")
     setSheetOpen(false)
     router.refresh()
   }
@@ -123,7 +166,11 @@ export function ObservationIdentificationsPanel({
       const response = await fetch(`/api/observations/${observationId}/identifications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ species_id: selected.id }),
+        body: JSON.stringify({
+          species_id: selected.id,
+          lifecycle_stage: lifecycleStage || null,
+          sex: sex || null,
+        }),
       })
       const data = await response.json() as IdentificationResponse
       if (!response.ok) throw new Error(data.error || "鉴定提交失败")
@@ -155,7 +202,7 @@ export function ObservationIdentificationsPanel({
     <section className="border-t border-border/60 pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-foreground">共同鉴定</h2>
-        <Button type="button" tone="nature" shape="pill" size="sm" onClick={() => setSheetOpen(true)}>
+        <Button type="button" tone="nature" shape="pill" size="sm" onClick={openIdentificationSheet}>
           参与鉴定
         </Button>
       </div>
@@ -172,29 +219,36 @@ export function ObservationIdentificationsPanel({
       )}
 
       <ul className="mt-4 space-y-2">
-        {identifications.map((identification) => (
-          <li
-            key={identification.id}
-            className="flex items-start gap-3 rounded-sm bg-muted/25 px-3 py-2.5"
-          >
-            <span className="mt-0.5 text-muted-foreground">
-              {identification.source === "ai" ? <Bot className="h-4 w-4" /> : <UserRound className="h-4 w-4" />}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-foreground">
-                {identificationLabel(identification, ownerId)}
-                <span className="mx-1.5 text-muted-foreground">·</span>
-                {identification.commonName}
-                {identification.source === "ai" && identification.confidence != null
-                  ? ` · ${Math.round(identification.confidence * 100)}%`
-                  : ""}
-              </p>
-              {identification.scientificName ? (
-                <p className="mt-0.5 text-xs italic text-muted-foreground">{identification.scientificName}</p>
-              ) : null}
-            </div>
-          </li>
-        ))}
+        {identifications.map((identification) => {
+          const traitSummary = formatIdentificationTraits(identification)
+
+          return (
+            <li
+              key={identification.id}
+              className="flex items-start gap-3 rounded-sm bg-muted/25 px-3 py-2.5"
+            >
+              <span className="mt-0.5 text-muted-foreground">
+                {identification.source === "ai" ? <Bot className="h-4 w-4" /> : <UserRound className="h-4 w-4" />}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-foreground">
+                  {identificationLabel(identification, ownerId)}
+                  <span className="mx-1.5 text-muted-foreground">·</span>
+                  {identification.commonName}
+                  {identification.source === "ai" && identification.confidence != null
+                    ? ` · ${Math.round(identification.confidence * 100)}%`
+                    : ""}
+                </p>
+                {identification.scientificName ? (
+                  <p className="mt-0.5 text-xs italic text-muted-foreground">{identification.scientificName}</p>
+                ) : null}
+                {traitSummary ? (
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{traitSummary}</p>
+                ) : null}
+              </div>
+            </li>
+          )
+        })}
         {identifications.length === 0 ? (
           <li className="text-sm text-muted-foreground">尚无鉴定记录，欢迎第一个参与。</li>
         ) : null}
@@ -213,7 +267,19 @@ export function ObservationIdentificationsPanel({
         </Button>
       ) : null}
 
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <Sheet
+        open={sheetOpen}
+        onOpenChange={(open) => {
+          setSheetOpen(open)
+          if (!open) {
+            setQuery("")
+            setSelected(null)
+            setLifecycleStage("")
+            setSex("")
+            setResults([])
+          }
+        }}
+      >
         <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col rounded-t-md">
           <SheetHeader className="text-left">
             <SheetTitle>参与共同鉴定</SheetTitle>
@@ -254,6 +320,40 @@ export function ObservationIdentificationsPanel({
                     ) : null}
                   </button>
                 ))}
+              </div>
+            ) : null}
+            {selected ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="flex flex-col gap-1.5 text-sm">
+                  <span className="text-xs font-medium text-muted-foreground">生命阶段（可选）</span>
+                  <select
+                    value={lifecycleStage}
+                    onChange={(event) => setLifecycleStage(event.target.value as "" | ObservationLifecycleStage)}
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <option value="">未注明</option>
+                    {observationLifecycleStageOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-1.5 text-sm">
+                  <span className="text-xs font-medium text-muted-foreground">性别（可选）</span>
+                  <select
+                    value={sex}
+                    onChange={(event) => setSex(event.target.value as "" | ObservationSex)}
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <option value="">未注明</option>
+                    {observationSexOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
             ) : null}
           </div>

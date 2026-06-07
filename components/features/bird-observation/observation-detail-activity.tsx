@@ -33,6 +33,14 @@ import {
   CONSENSUS_RULES_SUMMARY,
 } from "@/lib/observations/consensus-ui"
 import type { Comment, ObservationIdentification, ObservationSpeciesSummary } from "@/lib/mappers/types"
+import {
+  formatObservationLifecycleStage,
+  formatObservationSex,
+  observationLifecycleStageOptions,
+  observationSexOptions,
+  type ObservationLifecycleStage,
+  type ObservationSex,
+} from "@/lib/observations/traits"
 import type { ObservationSubmitTopic } from "@/lib/observations/submit-topic"
 import {
   ObservationSpeciesCompareSheet,
@@ -93,6 +101,17 @@ function initials(name: string | null | undefined): string {
   return trimmed.slice(0, 1).toUpperCase()
 }
 
+function formatIdentificationTraits(identification: ObservationIdentification): string | null {
+  const lifecycleStageLabel = formatObservationLifecycleStage(identification.lifecycleStage)
+  const sexLabel = formatObservationSex(identification.sex)
+  const parts = [
+    lifecycleStageLabel ? `生命阶段：${lifecycleStageLabel}` : null,
+    sexLabel ? `性别：${sexLabel}` : null,
+  ].filter((part): part is string => Boolean(part))
+
+  return parts.length > 0 ? parts.join(" · ") : null
+}
+
 export function ObservationDetailActivity({
   observationId,
   ownerId,
@@ -122,6 +141,8 @@ export function ObservationDetailActivity({
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SpeciesOption[]>([])
   const [selected, setSelected] = useState<SpeciesOption | null>(null)
+  const [lifecycleStage, setLifecycleStage] = useState<"" | ObservationLifecycleStage>("")
+  const [sex, setSex] = useState<"" | ObservationSex>("")
   const [isSearching, setIsSearching] = useState(false)
   const [isSavingId, setIsSavingId] = useState(false)
   const [agreeingSpeciesId, setAgreeingSpeciesId] = useState<number | null>(null)
@@ -147,6 +168,11 @@ export function ObservationDetailActivity({
     () => identifications.find((item) => item.source === "human" && item.identifierUserId === user?.id),
     [identifications, user?.id],
   )
+  const identificationActionLabel = myIdentification
+    ? "修改鉴定"
+    : status === "community_confirmed"
+      ? "补充鉴定"
+      : "建议鉴定"
 
   const applyIdentificationResponse = useCallback((data: IdentificationResponse) => {
     setStatus(data.identificationStatus)
@@ -154,6 +180,8 @@ export function ObservationDetailActivity({
     setIdentifications(data.identifications)
     setQuery("")
     setSelected(null)
+    setLifecycleStage("")
+    setSex("")
     setResults([])
     setIdSheetOpen(false)
     router.refresh()
@@ -200,7 +228,10 @@ export function ObservationDetailActivity({
     }
   }, [query, topic])
 
-  const submitIdentification = async (speciesId: number) => {
+  const submitIdentification = async (
+    speciesId: number,
+    traits: { lifecycleStage?: ObservationLifecycleStage | ""; sex?: ObservationSex | "" } = {},
+  ) => {
     if (!user) {
       promptLogin(undefined, {
         title: "登录后参与鉴定",
@@ -213,7 +244,11 @@ export function ObservationDetailActivity({
       const response = await fetch(`/api/observations/${observationId}/identifications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ species_id: speciesId }),
+        body: JSON.stringify({
+          species_id: speciesId,
+          lifecycle_stage: traits.lifecycleStage || null,
+          sex: traits.sex || null,
+        }),
       })
       const data = await response.json() as IdentificationResponse
       if (!response.ok) throw new Error(data.error || "鉴定提交失败")
@@ -246,10 +281,14 @@ export function ObservationDetailActivity({
         scientificName: myIdentification.scientificName ?? null,
         slug: myIdentification.speciesSlug ?? null,
       })
+      setLifecycleStage(myIdentification.lifecycleStage ?? "")
+      setSex(myIdentification.sex ?? "")
     } else {
       setQuery("")
       setSelected(null)
       setResults([])
+      setLifecycleStage("")
+      setSex("")
     }
     setIdSheetOpen(true)
   }
@@ -388,9 +427,6 @@ export function ObservationDetailActivity({
                     aria-hidden
                   />
                 </div>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
-                  进度条表示「确认条件」完成度（需 2 位用户，或 AI + 1 位非发布者）。虚线为 2/3 参考线。
-                </p>
               </div>
             </div>
           ) : (
@@ -477,7 +513,7 @@ export function ObservationDetailActivity({
               )}
               onClick={openIdentificationSheet}
             >
-              {myIdentification ? "修改鉴定" : "建议鉴定"}
+              {identificationActionLabel}
             </Button>
           </div>
         </div>
@@ -500,15 +536,19 @@ export function ObservationDetailActivity({
             setQuery("")
             setSelected(null)
             setResults([])
+            setLifecycleStage("")
+            setSex("")
           }
         }}
       >
         <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col gap-0 rounded-t-md p-0">
           <SheetHeader className="space-y-1.5 border-b border-border/60 px-5 pb-4 pt-5 text-left">
-            <SheetTitle className="text-lg">{myIdentification ? "修改鉴定" : "建议鉴定"}</SheetTitle>
+            <SheetTitle className="text-lg">{identificationActionLabel}</SheetTitle>
             <SheetDescription className="text-sm leading-relaxed">
               {myIdentification
                 ? "搜索并选择其他物种以更新；若不再参与，可撤回当前鉴定。"
+                : status === "community_confirmed"
+                  ? "可以继续认同当前共识，也可以选择其他物种提交不同鉴定。"
                 : "搜索中文名或学名，从物种库中选择后提交。"}
             </SheetDescription>
           </SheetHeader>
@@ -526,6 +566,41 @@ export function ObservationDetailActivity({
                     <p className="mt-0.5 text-xs italic text-muted-foreground">{selected.scientificName}</p>
                   ) : null}
                 </div>
+              </div>
+            ) : null}
+
+            {selected ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="flex flex-col gap-1.5 text-sm">
+                  <span className="text-xs font-medium text-muted-foreground">生命阶段（可选）</span>
+                  <select
+                    value={lifecycleStage}
+                    onChange={(event) => setLifecycleStage(event.target.value as "" | ObservationLifecycleStage)}
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
+                  >
+                    <option value="">未注明</option>
+                    {observationLifecycleStageOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-1.5 text-sm">
+                  <span className="text-xs font-medium text-muted-foreground">性别（可选）</span>
+                  <select
+                    value={sex}
+                    onChange={(event) => setSex(event.target.value as "" | ObservationSex)}
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
+                  >
+                    <option value="">未注明</option>
+                    {observationSexOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
             ) : null}
 
@@ -624,7 +699,7 @@ export function ObservationDetailActivity({
                 shape="pill"
                 className="h-11 flex-1"
                 disabled={!selected || isSavingId}
-                onClick={() => selected && void submitIdentification(selected.id)}
+                onClick={() => selected && void submitIdentification(selected.id, { lifecycleStage, sex })}
               >
                 {isSavingId ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 {myIdentification ? "更新鉴定" : "提交鉴定"}
@@ -681,6 +756,7 @@ function ActivityTimelineItem({
   const canCompare = Boolean(identification.speciesSlug)
   const alreadyAgreed = mySpeciesId === identification.speciesId
   const isAgreeing = agreeingSpeciesId === identification.speciesId
+  const traitSummary = formatIdentificationTraits(identification)
 
   return (
     <li className="relative flex gap-3 pb-6 pl-1">
@@ -711,6 +787,9 @@ function ActivityTimelineItem({
             <span className="ml-1 text-muted-foreground">· {Math.round(identification.confidence * 100)}%</span>
           ) : null}
         </p>
+        {traitSummary ? (
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">{traitSummary}</p>
+        ) : null}
         <div className="mt-2.5 flex flex-wrap gap-2">
           <Button
             type="button"

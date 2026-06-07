@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
 import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart, Rocket } from 'lucide-react'
 import { useState, useEffect, useEffectEvent } from 'react'
 import { useProfileSummary } from '@/hooks/profile/use-profile-summary'
@@ -30,8 +31,20 @@ const ProfileObservationsPanel = dynamic(
   () => import('@/components/features/profile/profile-observations-panel').then((mod) => mod.ProfileObservationsPanel),
   {
     loading: () => (
-      <div className="surface-panel col-span-full px-5 py-12 text-center text-sm text-muted-foreground">
-        加载观察记录中...
+      <div className="surface-panel col-span-full px-5 py-5">
+        <Skeleton className="h-5 w-28 rounded-full" />
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="flex gap-3 rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+              <Skeleton className="h-14 w-14 shrink-0 rounded-lg" />
+              <div className="min-w-0 flex-1">
+                <Skeleton className="h-4 w-28 rounded-full" />
+                <Skeleton className="mt-2 h-3 w-full rounded-full" />
+                <Skeleton className="mt-2 h-3 w-2/3 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },

@@ -28,6 +28,7 @@ import type {
 } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { getAssetDisplayUrl, rewriteAssetUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
 import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
@@ -133,6 +134,19 @@ function buildTopicCards(topicSummaries: NatureTopicSummary[]): TopicCard[] {
   });
 }
 
+function getTopicCardImageProps(image: ImageSource) {
+  if (typeof image !== "string") {
+    return { src: image, unoptimized: false };
+  }
+
+  const resolvedImage = rewriteAssetUrl(image) ?? image;
+
+  return {
+    src: getAssetDisplayUrl(resolvedImage) ?? resolvedImage,
+    unoptimized: shouldBypassAssetImageOptimization(resolvedImage),
+  };
+}
+
 const mobileHeaderClassName =
   "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
 
@@ -212,12 +226,14 @@ function TopicCardsSection({ topicCards }: { topicCards: TopicCard[] }) {
 
 function TopicCardView({ topic }: { topic: TopicCard }) {
   const Icon = topic.icon;
+  const topicImage = getTopicCardImageProps(topic.image);
   const content = (
     <>
       <Image
-        src={topic.image}
+        src={topicImage.src}
         alt=""
         fill
+        unoptimized={topicImage.unoptimized}
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
         className="translate-x-[10%] scale-[1.04] object-cover object-center brightness-[1.04] saturate-[1.06] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] dark:brightness-[0.82] dark:saturate-[0.92] motion-safe:group-hover:translate-x-[8%] motion-safe:group-hover:scale-[1.08]"
@@ -283,7 +299,7 @@ function DataStatusCard({
   embedded?: boolean;
 }) {
   const latestLabel = latestObservation
-    ? `${formatDate(latestObservation.observedAt)} · ${latestObservation.locationName}`
+    ? `发布 ${formatDate(latestObservation.createdAt)} · ${latestObservation.locationName}`
     : "暂无公开记录";
   const topHotspotLabel = topHotspot ? `${topHotspot.locationName} · ${topHotspot.observationCount} 条` : "暂无热点地点";
   const items = [

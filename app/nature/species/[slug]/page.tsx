@@ -105,8 +105,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   }
 
   const recentObservations = species.recentObservations ?? [];
-  const recentObservationCount = recentObservations.length;
-  const hasRecentObservations = recentObservationCount > 0;
   const currentPath = `/nature/species/${species.slug}`;
   const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
   const isBirdSpecies = species.topicKey === "birds";
@@ -137,7 +135,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const audioSrc = getAssetDisplayUrl(species.audioUrl) ?? species.audioUrl;
   const taxonSummaryItems = [
     species.aliasesDisplay ? { label: "别名", value: species.aliasesDisplay, pinyin: aliasesPinyin } : null,
-    species.taxonGroup ? { label: "分类", value: species.taxonGroup, pinyin: null } : null,
   ].filter((item): item is { label: string; value: string; pinyin: string | null } => Boolean(item));
   const taxonomyRankItems = [
     family ? { rank: "科", name: family } : null,
@@ -186,10 +183,10 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
               <Feather className="h-7 w-7" />
             </div>
             <div className="rounded-md border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
-              <div className="text-sm font-semibold">{species.commonName}</div>
               {commonNamePinyin ? (
-                <div className="mt-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
+                <div className="mb-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
               ) : null}
+              <div className="text-sm font-semibold">{species.commonName}</div>
               {species.scientificName ? (
                 <div className="mt-1 text-[11px] italic leading-5 text-muted-foreground">{species.scientificName}</div>
               ) : null}
@@ -216,48 +213,58 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const detailsBlock = (
     <div className="space-y-7">
       <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
-        <p className="inline-flex rounded-xs bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          {archiveLabel}
-        </p>
-        <h1 className="mt-3 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight md:mt-4 md:text-5xl">
-          {species.commonName}
-          {species.topicKey === "plants" ? <Leaf className="h-6 w-6 text-primary/60" aria-hidden /> : null}
-        </h1>
-        {commonNamePinyin ? (
-          <p className="mt-1.5 text-sm font-medium tracking-[0.08em] text-primary/78 md:mt-2 md:text-base">
-            {commonNamePinyin}
-          </p>
-        ) : null}
-        {species.scientificName ? (
-          <p className="mt-2 text-base italic text-muted-foreground md:mt-4 md:text-lg">{species.scientificName}</p>
-        ) : null}
+        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] md:items-start">
+          <div className="min-w-0">
+            <p className="inline-flex rounded-xs bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              {archiveLabel}
+            </p>
+            {commonNamePinyin ? (
+              <p className="mt-5 text-xs font-semibold tracking-[0.18em] text-primary/78 md:text-sm">
+                {commonNamePinyin}
+              </p>
+            ) : null}
+            <h1 className="mt-1.5 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight md:text-5xl">
+              {species.commonName}
+              {species.topicKey === "plants" ? <Leaf className="h-6 w-6 text-primary/60" aria-hidden /> : null}
+            </h1>
+            {species.scientificName ? (
+              <p className="mt-2 text-base italic leading-7 text-muted-foreground md:mt-3 md:text-lg">
+                {species.scientificName}
+              </p>
+            ) : null}
 
-        {taxonSummaryItems.length > 0 ? (
-          <dl className="mt-4 space-y-2 text-sm leading-6 md:mt-6 md:space-y-2.5">
-            {taxonSummaryItems.map((item) => (
-              <div key={item.label} className="flex min-w-0 gap-2 text-muted-foreground">
-                <dt className="shrink-0 text-foreground/75">{item.label}：</dt>
-                <dd className="min-w-0">
-                  <span>{item.value}</span>
-                  {item.pinyin ? <span className="ml-2 text-xs text-primary/70">{item.pinyin}</span> : null}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        ) : null}
-
-        {taxonomyRankItems.length > 0 ? (
-          <div className="mt-5 rounded-lg border border-border/80 bg-white/85 p-4 shadow-[0_18px_44px_-36px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-md dark:bg-background/90">
-            <dl className="grid grid-cols-3 gap-3 text-center">
-              {taxonomyRankItems.map((item) => (
-                <div key={item.rank} className="min-w-0 border-r border-border/70 px-2 last:border-r-0">
-                  <dt className="text-xs font-medium text-muted-foreground">{item.rank}</dt>
-                  <dd className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</dd>
-                </div>
-              ))}
-            </dl>
+            {taxonSummaryItems.length > 0 ? (
+              <dl className="mt-4 flex flex-wrap gap-2 text-sm leading-6 md:mt-5">
+                {taxonSummaryItems.map((item) => (
+                  <div
+                    key={item.label}
+                    className="inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-2 rounded-sm bg-muted/45 px-3 py-1.5 text-muted-foreground"
+                  >
+                    <dt className="shrink-0 text-xs font-medium text-foreground/70">{item.label}</dt>
+                    <dd className="min-w-0">
+                      <span>{item.value}</span>
+                      {item.pinyin ? <span className="ml-2 text-xs text-primary/70">{item.pinyin}</span> : null}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
           </div>
-        ) : null}
+
+          {taxonomyRankItems.length > 0 ? (
+            <div className="border-t border-border/60 pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-1">
+              <p className="text-xs font-medium text-muted-foreground">分类</p>
+              <dl className="mt-3 grid grid-cols-3 gap-2">
+                {taxonomyRankItems.map((item) => (
+                  <div key={item.rank} className="min-w-0 rounded-sm bg-muted/40 px-2.5 py-2.5 text-center">
+                    <dt className="text-[11px] font-medium text-muted-foreground">{item.rank}</dt>
+                    <dd className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ) : null}
+        </div>
       </section>
 
       <div className={`grid gap-4 ${detailInfoGridColumnsClass}`}>
@@ -312,9 +319,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           recentObservations={recentObservations}
           currentPath={currentPath}
         />
-      ) : null}
-
-      {!hasRecentObservations ? (
+      ) : (
         <section className="surface-subtle relative overflow-hidden rounded-lg p-5 sm:p-6">
           <div className="relative z-10">
             <div className="flex items-center gap-2">
@@ -323,26 +328,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
             </div>
             <div className="mt-4 flex min-h-[100px] items-center justify-center rounded-md border border-dashed border-border/60 bg-background/40">
               <p className="text-sm text-muted-foreground/80">暂无相关的公开观察数据</p>
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section className="surface-subtle relative overflow-hidden rounded-lg p-6">
-          <div className="relative z-10">
-            <div className="flex items-center gap-2">
-              <Binoculars className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">最近观察记录</h2>
-            </div>
-            <div className="mt-4 grid gap-3">
-              {recentObservations.slice(0, 3).map((observation) => (
-                <div key={observation.id} className="rounded-md border border-border/70 bg-background/70 p-4">
-                  <p className="text-sm font-medium text-foreground">{observation.locationName}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{observation.observedAt}</p>
-                  {observation.notes ? (
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{observation.notes}</p>
-                  ) : null}
-                </div>
-              ))}
             </div>
           </div>
         </section>

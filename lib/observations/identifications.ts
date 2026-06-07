@@ -12,6 +12,14 @@ export interface IdentificationConsensus {
   confirmedSpeciesId: number | null
 }
 
+interface SpeciesVoteGroup {
+  speciesId: number
+  totalVotes: number
+  humanVoteCount: number
+  hasAiVote: boolean
+  hasNonOwnerHumanVote: boolean
+}
+
 export interface AiCandidateVote {
   speciesId: number
   confidence: number
@@ -47,27 +55,44 @@ export function calculateIdentificationConsensus(
   votes: IdentificationVote[],
   observationOwnerId: string,
 ): IdentificationConsensus {
-  const activeSpeciesIds = new Set(votes.map((vote) => vote.speciesId))
-  if (activeSpeciesIds.size !== 1) {
+  if (votes.length === 0) {
     return { status: 'needs_id', confirmedSpeciesId: null }
   }
 
-  const speciesId = votes[0]?.speciesId
-  if (speciesId == null) {
-    return { status: 'needs_id', confirmedSpeciesId: null }
+  const groups = new Map<number, IdentificationVote[]>()
+  for (const vote of votes) {
+    const current = groups.get(vote.speciesId) ?? []
+    current.push(vote)
+    groups.set(vote.speciesId, current)
   }
 
-  const humanUsers = new Set(
-    votes
-      .filter((vote) => vote.source === 'human' && vote.identifierUserId)
-      .map((vote) => vote.identifierUserId as string),
-  )
-  const hasAiVote = votes.some((vote) => vote.source === 'ai')
-  const hasNonOwnerHumanVote = Array.from(humanUsers).some((userId) => userId !== observationOwnerId)
+  const candidates: SpeciesVoteGroup[] = Array.from(groups.entries())
+    .map(([speciesId, groupVotes]) => {
+      const humanUsers = new Set(
+        groupVotes
+          .filter((vote) => vote.source === 'human' && vote.identifierUserId)
+          .map((vote) => vote.identifierUserId as string),
+      )
+      const hasAiVote = groupVotes.some((vote) => vote.source === 'ai')
+      const hasNonOwnerHumanVote = Array.from(humanUsers).some((userId) => userId !== observationOwnerId)
+      return {
+        speciesId,
+        totalVotes: groupVotes.length,
+        humanVoteCount: humanUsers.size,
+        hasAiVote,
+        hasNonOwnerHumanVote,
+      }
+    })
+    .filter((group) => group.humanVoteCount >= 2 || (group.hasAiVote && group.hasNonOwnerHumanVote))
+    .sort((left, right) => (
+      right.totalVotes - left.totalVotes
+      || right.humanVoteCount - left.humanVoteCount
+      || Number(right.hasAiVote) - Number(left.hasAiVote)
+      || left.speciesId - right.speciesId
+    ))
 
-  if (humanUsers.size >= 2 || (hasAiVote && hasNonOwnerHumanVote)) {
-    return { status: 'community_confirmed', confirmedSpeciesId: speciesId }
-  }
+  const confirmed = candidates[0]
+  if (confirmed) return { status: 'community_confirmed', confirmedSpeciesId: confirmed.speciesId }
 
   return { status: 'needs_id', confirmedSpeciesId: null }
 }

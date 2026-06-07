@@ -143,7 +143,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                             {observation.locationName}
                           </p>
                           <p className="mt-0.5 truncate text-xs nature-text-muted">
-                            {formatDate(observation.observedAt)} · {observation.authorDisplayName || "匿名观察者"}
+                            发布 {formatDate(observation.createdAt)} · {observation.authorDisplayName || "匿名观察者"}
                           </p>
                         </div>
                       </Link>
@@ -200,7 +200,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                             {observation.locationName}
                           </p>
                           <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                            {formatDate(observation.observedAt)} · {observation.authorDisplayName || "匿名观察者"}
+                            发布 {formatDate(observation.createdAt)} · {observation.authorDisplayName || "匿名观察者"}
                           </p>
                         </div>
                       </Link>

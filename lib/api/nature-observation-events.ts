@@ -75,7 +75,8 @@ export async function getObservations(
     .select('*', { count: 'exact' })
     .eq('status', 'approved')
     .eq('is_public', true)
-    .order('observed_at', { ascending: false })
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
     .range(from, to)
 
   if (error) {

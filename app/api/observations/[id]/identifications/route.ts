@@ -3,11 +3,14 @@ import { z } from 'zod'
 
 import { getObservationById } from '@/lib/api/nature-observation-data'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
 
 const IdentificationSchema = z.object({
   species_id: z.number().int().positive(),
+  lifecycle_stage: z.enum(observationLifecycleStageValues).nullable().optional(),
+  sex: z.enum(observationSexValues).nullable().optional(),
 })
 
 interface RouteContext {
@@ -51,6 +54,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       p_observation_id: observationId,
       p_species_id: parsed.data.species_id,
       p_source: 'human',
+      p_lifecycle_stage: parsed.data.lifecycle_stage ?? null,
+      p_sex: parsed.data.sex ?? null,
     })
     if (error) throw error
 

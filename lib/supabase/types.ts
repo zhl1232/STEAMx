@@ -1094,6 +1094,8 @@ export interface Database {
           confidence: number | null
           model_name: string | null
           media_analysis_id: number | null
+          lifecycle_stage: string | null
+          sex: string | null
           is_active: boolean
           withdrawn_at: string | null
           created_at: string
@@ -1108,6 +1110,8 @@ export interface Database {
           confidence?: number | null
           model_name?: string | null
           media_analysis_id?: number | null
+          lifecycle_stage?: string | null
+          sex?: string | null
           is_active?: boolean
           withdrawn_at?: string | null
           created_at?: string
@@ -1122,6 +1126,8 @@ export interface Database {
           confidence?: number | null
           model_name?: string | null
           media_analysis_id?: number | null
+          lifecycle_stage?: string | null
+          sex?: string | null
           is_active?: boolean
           withdrawn_at?: string | null
           created_at?: string
@@ -2035,6 +2041,8 @@ export interface Database {
           p_confidence?: number | null
           p_model_name?: string | null
           p_media_analysis_id?: number | null
+          p_lifecycle_stage?: string | null
+          p_sex?: string | null
         }
         Returns: Array<{ identification_status: string; confirmed_species_id: number | null }>
       }

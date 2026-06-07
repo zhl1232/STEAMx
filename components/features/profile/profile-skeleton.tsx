@@ -1,7 +1,10 @@
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+
 type ProfileSkeletonVariant = "dashboard" | "public";
 
 function SkeletonBlock({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-lg bg-muted/75 ${className}`} />;
+  return <Skeleton className={cn("rounded-lg", className)} />;
 }
 
 function SectionTitleSkeleton({ action = true, actionWidth = "w-16" }: { action?: boolean; actionWidth?: string }) {
