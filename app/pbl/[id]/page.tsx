@@ -404,7 +404,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
               {challenge.tags.includes("鸟类") && (
                 <Link
-                  href="/nature/submit?topic=birds"
+                  href="/nature/submit"
                   className="community-nature-cta mt-3"
                 >
                   <span>补充观察记录</span>
@@ -550,7 +550,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
                 {challenge.tags.includes("鸟类") && (
                   <Link
-                    href="/nature/submit?topic=birds"
+                    href="/nature/submit"
                     className="community-nature-cta"
                   >
                     <span>补充观察记录</span>

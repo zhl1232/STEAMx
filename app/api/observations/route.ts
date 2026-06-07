@@ -15,7 +15,6 @@ import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
-import { observationSubmitTopicKeys } from '@/lib/observations/submit-topic'
 import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
 
 const relativeOrAbsoluteUrlSchema = z.union([
@@ -31,7 +30,6 @@ const ObservationSpeciesInputSchema = z.object({
 })
 
 const CreateObservationSchema = z.object({
-  nature_topic: z.enum(observationSubmitTopicKeys),
   observed_at: z.string().min(1),
   observed_at_source: z.enum(['photo_exif', 'manual']).default('manual'),
   location_name: z.string().min(1).max(200),
@@ -101,7 +99,6 @@ export async function POST(request: NextRequest) {
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
-      .eq('nature_topic', payload.nature_topic)
       .in('image_url', uniqueMediaUrls)
 
     if (analysisError) {
@@ -139,11 +136,26 @@ export async function POST(request: NextRequest) {
       ? typedAnalyses.find((row) => parseStoredSpeciesCandidates(row.species_candidates)[0]?.speciesId === aiIdentification.speciesId)
       : null
 
+    const topicLookupSpeciesId = selectedSpeciesId ?? aiIdentification?.speciesId ?? null
+    let inferredNatureTopic: string | null = null
+    if (topicLookupSpeciesId) {
+      const { data: speciesRow } = await supabase
+        .from('species')
+        .select('nature_topic')
+        .eq('id', topicLookupSpeciesId)
+        .single()
+      inferredNatureTopic = speciesRow?.nature_topic ?? null
+    }
+    if (!inferredNatureTopic) {
+      const analysisTopic = typedAnalyses.find((row) => row.nature_topic)?.nature_topic ?? null
+      inferredNatureTopic = analysisTopic
+    }
+
     const { data: observation, error: observationError } = await supabase
       .from('observation_events')
       .insert({
         user_id: user.id,
-        nature_topic: payload.nature_topic,
+        nature_topic: inferredNatureTopic,
         observed_at: payload.observed_at,
         observed_at_source: payload.observed_at_source,
         location_name: payload.location_name,

@@ -17,7 +17,6 @@ import {
   Globe2,
   HelpCircle,
   Info,
-  ListChecks,
   Loader2,
   MapPin,
   Navigation,
@@ -56,10 +55,6 @@ import { useGamification } from "@/lib/context/gamification-context"
 import { useAuth } from "@/lib/context/auth-context"
 import type { ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
 import {
-  getObservationSubmitTopicCopy,
-  type ObservationSubmitTopic,
-} from "@/lib/observations/submit-topic"
-import {
   observationLifecycleStageOptions,
   observationSexOptions,
   type ObservationLifecycleStage,
@@ -76,7 +71,6 @@ export interface SpeciesOption {
 
 interface ObservationSubmitFormProps {
   speciesOptions: SpeciesOption[]
-  topic: ObservationSubmitTopic
   initialSpeciesId?: number | null
 }
 
@@ -122,7 +116,7 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
 
 type LocationPrecision = (typeof LOCATION_PRECISION_VALUES)[number]
 type StepStatusTone = "neutral" | "success" | "warning" | "loading"
-type MobilePanelKey = "photo" | "species" | "location" | "notes"
+type MobilePanelKey = "photo" | "species" | "location"
 type SpeciesCandidate = ObservationMediaAnalysis["speciesCandidates"][number]
 
 interface SubmitBlocker {
@@ -149,13 +143,13 @@ interface ObservationDraft {
 }
 
 const panelClass =
-  "scroll-mt-28 scroll-mb-64 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-panel)] p-4 [box-shadow:var(--obs-panel-shadow)] ring-1 ring-[var(--obs-ring)] sm:p-5 md:scroll-mt-24 md:scroll-mb-24"
+  "scroll-mt-28 scroll-mb-64 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] p-4 [box-shadow:var(--obs-panel-shadow)] ring-1 ring-[var(--obs-ring)] sm:p-5 md:scroll-mt-24 md:scroll-mb-24"
 const subtlePanelClass =
-  "rounded-xs border border-[var(--obs-border)] bg-[var(--obs-subtle)] p-4"
+  "rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-subtle)] p-4"
 const controlClass =
-  "h-11 rounded-xs border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
+  "h-11 rounded-sm border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
 const textareaClass =
-  "rounded-xs border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-4 py-3 text-sm leading-6 text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
+  "rounded-sm border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-4 py-3 text-sm leading-6 text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
 const stepStatusClassNames: Record<StepStatusTone, string> = {
   neutral: "border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-muted)]",
   success: "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-[#3f6b50] dark:bg-[#20352a] dark:text-[#c8efd2]",
@@ -266,6 +260,37 @@ function MobileAccordionHeader({
           <ChevronDown className={cn("mt-1 h-4 w-4 text-[var(--obs-muted-2)] transition-transform", open && "rotate-180")} />
         </span>
       </button>
+    </div>
+  )
+}
+
+interface MobileStepFooterProps {
+  actionLabel: string
+  onNext: () => void
+  disabled?: boolean
+  helper?: React.ReactNode
+}
+
+function MobileStepFooter({
+  actionLabel,
+  onNext,
+  disabled = false,
+  helper,
+}: MobileStepFooterProps) {
+  return (
+    <div className="mt-5 border-t border-[var(--obs-border)] pt-4 md:hidden">
+      {helper ? (
+        <p className="mb-3 text-xs leading-5 text-[var(--obs-muted)]">{helper}</p>
+      ) : null}
+      <Button
+        type="button"
+        className="h-11 w-full rounded-full bg-[var(--obs-accent)] text-sm font-semibold text-white hover:bg-[var(--obs-accent-strong)] disabled:border disabled:border-[var(--obs-border-strong)] disabled:bg-[var(--obs-control)] disabled:text-[var(--obs-muted-2)]"
+        onClick={onNext}
+        disabled={disabled}
+      >
+        {actionLabel}
+        <ChevronRight className="ml-1 h-4 w-4" />
+      </Button>
     </div>
   )
 }
@@ -458,7 +483,6 @@ function normalizeObservationDraft(value: unknown): ObservationDraft | null {
 
 export function ObservationSubmitForm({
   speciesOptions,
-  topic,
   initialSpeciesId = null,
 }: ObservationSubmitFormProps) {
   const router = useRouter()
@@ -466,7 +490,6 @@ export function ObservationSubmitForm({
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { userStats } = useGamification()
-  const topicCopy = useMemo(() => getObservationSubmitTopicCopy(topic), [topic])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [evidenceImages, setEvidenceImages] = useState<string[]>([])
@@ -481,6 +504,7 @@ export function ObservationSubmitForm({
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false)
   const [notes, setNotes] = useState("")
   const [isPublic, setIsPublic] = useState(true)
+  const [locationDisclosureConfirmed, setLocationDisclosureConfirmed] = useState(false)
   const [speciesId, setSpeciesId] = useState(() => (initialSpeciesId ? String(initialSpeciesId) : ""))
   const [speciesQuery, setSpeciesQuery] = useState("")
   const [speciesResults, setSpeciesResults] = useState<SpeciesOption[]>([])
@@ -515,18 +539,16 @@ export function ObservationSubmitForm({
   const photoSectionRef = useRef<HTMLElement | null>(null)
   const speciesSectionRef = useRef<HTMLElement | null>(null)
   const locationSectionRef = useRef<HTMLElement | null>(null)
-  const notesSectionRef = useRef<HTMLElement | null>(null)
+  const aiAutofillAppliedRef = useRef(false)
   const mobileSectionRefs = {
     photo: photoSectionRef,
     species: speciesSectionRef,
     location: locationSectionRef,
-    notes: notesSectionRef,
   }
   const mobilePanels: Record<MobilePanelKey, boolean> = {
     photo: activeMobilePanel === "photo",
     species: activeMobilePanel === "species",
     location: activeMobilePanel === "location",
-    notes: activeMobilePanel === "notes",
   }
 
   const allSpecies = useMemo(() => {
@@ -594,11 +616,15 @@ export function ObservationSubmitForm({
     : speciesStepLocked
       ? "待上传"
       : analysisPendingCount > 0 || isAnalyzingImages
-        ? "识别中"
+        ? "AI 分析中"
         : "可选"
 
   const observedAtReady = !!observedAt && !Number.isNaN(new Date(observedAt).getTime())
-  const canSubmit = analysisReady && !!locationName.trim() && !!latitude.trim() && !!longitude.trim() && observedAtReady
+  const locationReady = !!locationName.trim() && !!latitude.trim() && !!longitude.trim()
+  const needsLocationDisclosureConfirmation = isPublic && locationPrecision === "exact"
+  const locationDisclosureReady = !needsLocationDisclosureConfirmation || locationDisclosureConfirmed
+  const locationAndTimeReady = locationReady && observedAtReady
+  const canSubmit = analysisReady && locationAndTimeReady && locationDisclosureReady
   const observationProgressCount = userStats?.observationsSubmitted
   const displayedObservationCount = observationProgressCount ?? 0
   const nextObserverThreshold = getNextObserverThreshold(displayedObservationCount)
@@ -629,6 +655,7 @@ export function ObservationSubmitForm({
         setLatitude(lat.toFixed(6))
         setLongitude(lng.toFixed(6))
         setLocationSource("device_location")
+        setLocationDisclosureConfirmed(false)
         placeSearchRequestRef.current += 1
         setPlaceResults([])
 
@@ -727,7 +754,7 @@ export function ObservationSubmitForm({
         const response = await fetch("/api/observations/media-analysis", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageUrls: imageUrlsToAnalyze, topic }),
+          body: JSON.stringify({ imageUrls: imageUrlsToAnalyze }),
           signal: controller.signal,
         })
 
@@ -774,7 +801,7 @@ export function ObservationSubmitForm({
       imageUrlsToAnalyze.forEach((url) => pendingAnalysisImageUrls.delete(url))
       window.clearTimeout(timeout)
     }
-  }, [analysisMap, evidenceImages, toast, topic, user])
+  }, [analysisMap, evidenceImages, toast, user])
 
   useEffect(() => {
     if (selectedSpecies && speciesQuery.trim() === "") {
@@ -799,7 +826,7 @@ export function ObservationSubmitForm({
     const timeout = window.setTimeout(async () => {
       setIsSearchingSpecies(true)
       try {
-        const res = await fetch(`/api/species?q=${encodeURIComponent(query)}&pageSize=8&topic=${topic}`, {
+        const res = await fetch(`/api/species?q=${encodeURIComponent(query)}&pageSize=8`, {
           signal: controller.signal,
         })
         if (!res.ok) {
@@ -826,7 +853,32 @@ export function ObservationSubmitForm({
       controller.abort()
       window.clearTimeout(timeout)
     }
-  }, [allSpecies, speciesQuery, topic])
+  }, [allSpecies, speciesQuery])
+
+  useEffect(() => {
+    if (evidenceImages.length === 0) {
+      aiAutofillAppliedRef.current = false
+    }
+  }, [evidenceImages.length])
+
+  useEffect(() => {
+    if (aiAutofillAppliedRef.current) return
+    if (evidenceImages.length === 0) return
+    if (!analysisReady) return
+    if (suggestedCandidates.length === 0 && !aiNoteSuggestion) return
+
+    aiAutofillAppliedRef.current = true
+
+    if (!speciesId && suggestedCandidates[0]) {
+      const top = suggestedCandidates[0]
+      setSpeciesId(String(top.speciesId))
+      setSpeciesQuery((current) => current.trim() ? current : top.commonName)
+    }
+
+    if (!notes.trim() && aiNoteSuggestion) {
+      setNotes(aiNoteSuggestion.slice(0, NOTE_MAX_LENGTH))
+    }
+  }, [analysisReady, evidenceImages.length, suggestedCandidates, aiNoteSuggestion, speciesId, notes])
 
   const scrollToMobilePanel = (panel: MobilePanelKey, behavior: ScrollBehavior = "smooth") => {
     if (typeof window === "undefined" || !window.matchMedia("(max-width: 767px)").matches) return
@@ -913,6 +965,15 @@ export function ObservationSubmitForm({
       return { panel: "location", label: "观察时间", title: "请先确认观察时间" }
     }
 
+    if (!locationDisclosureReady) {
+      return {
+        panel: "location",
+        label: "位置确认",
+        title: "请先确认准确位置公开范围",
+        description: "公开记录会展示地点名称和地图坐标，请确认后再发布。",
+      }
+    }
+
     return null
   }
 
@@ -943,6 +1004,7 @@ export function ObservationSubmitForm({
     photoMetadataRef.current = []
     setNotes("")
     setIsPublic(true)
+    setLocationDisclosureConfirmed(false)
     setSpeciesId(initialSpecies ? String(initialSpecies.id) : "")
     setSpeciesQuery(initialSpecies?.commonName ?? "")
   }
@@ -995,6 +1057,16 @@ export function ObservationSubmitForm({
       return
     }
 
+    if (!locationDisclosureReady) {
+      toast({
+        title: "请确认准确位置公开范围",
+        description: "公开记录会展示地点名称和地图坐标。",
+        variant: "destructive",
+      })
+      openMobilePanel("location")
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -1002,7 +1074,6 @@ export function ObservationSubmitForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nature_topic: topic,
           observed_at: new Date(observedAt).toISOString(),
           observed_at_source: observedAtSource,
           location_name: locationName.trim(),
@@ -1096,11 +1167,13 @@ export function ObservationSubmitForm({
     setLatitude(coords.latitude)
     setLongitude(coords.longitude)
     setLocationSource("map_pin")
+    setLocationDisclosureConfirmed(false)
   }, [])
 
   const handleLocationNameSuggestion = useCallback((name: string) => {
     placeSearchRequestRef.current += 1
     setLocationName(name)
+    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
   }, [])
 
@@ -1130,6 +1203,7 @@ export function ObservationSubmitForm({
       setLatitude(converted.latitude.toFixed(6))
       setLongitude(converted.longitude.toFixed(6))
       setLocationSource("photo_exif")
+      setLocationDisclosureConfirmed(false)
       const name = await reverseGeocode(converted.latitude, converted.longitude)
       if (name) {
         placeSearchRequestRef.current += 1
@@ -1145,6 +1219,7 @@ export function ObservationSubmitForm({
     setLocationName(value)
     setLatitude("")
     setLongitude("")
+    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
     if (value.trim().length < 2) {
       setIsSearchingPlaces(false)
@@ -1165,6 +1240,7 @@ export function ObservationSubmitForm({
     setLatitude(place.latitude.toFixed(6))
     setLongitude(place.longitude.toFixed(6))
     setLocationSource("place_search")
+    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
   }, [])
 
@@ -1174,7 +1250,7 @@ export function ObservationSubmitForm({
 
     const current = notes.trimEnd()
     if (current.includes(suggestion)) {
-      toast({ title: "AI 备注已在文本中" })
+      toast({ title: "AI 描述已在文本中" })
       return
     }
 
@@ -1183,7 +1259,7 @@ export function ObservationSubmitForm({
     setNotes(next)
 
     if (combined.length > NOTE_MAX_LENGTH) {
-      toast({ title: "已填入可容纳的备注内容" })
+      toast({ title: "已填入可容纳的描述内容" })
     }
   }, [aiNoteSuggestion, notes, toast])
 
@@ -1220,21 +1296,22 @@ export function ObservationSubmitForm({
   const previewSpeciesName = selectedSpecies?.commonName || speciesQuery.trim() || "待共同鉴定"
   const previewScientificName = selectedSpecies?.scientificName || "AI 和社区用户可参与鉴定"
   const noteLength = notes.trim().length
-  const aiNoteActionLabel = notes.trim() ? "追加到备注" : "填入备注"
+  const aiNoteActionLabel = notes.trim() ? "追加到描述" : "填入描述"
   const qualityChecks = [
     { label: "已提供初步鉴定（可选）", done: !!speciesId },
     { label: "已上传至少 1 张照片", done: evidenceImages.length > 0 },
     { label: "已填写时间和地点", done: !!locationName.trim() && observedAtReady },
+    { label: "已确认位置公开范围", done: locationDisclosureReady },
     { label: "描述字数 ≥ 10 字", done: noteLength >= 10 },
   ]
   const requiredChecks = [
     evidenceImages.length > 0,
     analysisReady,
-    !!locationName.trim() && !!latitude.trim() && !!longitude.trim() && observedAtReady,
+    locationAndTimeReady,
+    locationDisclosureReady,
   ]
   const requiredReadyCount = requiredChecks.filter(Boolean).length
   const requiredReadyValue = getProgressValue(requiredReadyCount, requiredChecks.length)
-  const locationReady = !!locationName.trim() && !!latitude.trim() && !!longitude.trim()
   const trimmedLocationName = locationName.trim()
   const hasMapPoint = !!latitude.trim() && !!longitude.trim()
   const locationSummary = locationReady
@@ -1298,7 +1375,7 @@ export function ObservationSubmitForm({
       <form onSubmit={handleSubmit} className="observation-submit-theme relative pb-36 md:pb-10">
         <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:inset-x-[-2rem]" />
 
-        <div className="sticky top-[calc(3rem+env(safe-area-inset-top))] z-30 mb-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-subtle)] px-3 py-2 shadow-[0_14px_28px_-24px_rgba(0,0,0,0.85)] backdrop-blur-md md:hidden">
+        <div className="sticky top-[calc(var(--mobile-global-header-height,0rem)+env(safe-area-inset-top))] z-30 mb-4 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] px-3 py-2.5 shadow-[0_12px_30px_-26px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
           <div className="flex items-center justify-between gap-3 text-[13px]">
             <span className="font-semibold text-[var(--obs-text)]">发布准备 {requiredReadyCount}/{requiredChecks.length}</span>
             {submitBlocker ? (
@@ -1328,7 +1405,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={1}
                   title="上传照片"
-                  description={topicCopy.photoStepDescription}
+                  description="AI 会自动尝试鉴定主体，照片越清晰越容易识别。"
                   icon={Camera}
                   status={`${evidenceImages.length}/5`}
                   statusTone={evidenceImages.length > 0 ? "success" : "neutral"}
@@ -1346,7 +1423,7 @@ export function ObservationSubmitForm({
               />
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("photo"))}>
                 <p className="mb-3 text-sm leading-6 text-[var(--obs-muted)]">
-                  {topicCopy.photoSubjectHint}
+                  每条记录只对应一个观察对象；上传多张照片时，请确保都是同一个观察对象。
                 </p>
                 <ObservationSubmitPhotoSection
                   evidenceImages={evidenceImages}
@@ -1355,6 +1432,19 @@ export function ObservationSubmitForm({
                   isAnalyzing={isAnalyzingImages}
                   showHeader={false}
                   onPhotoMetadata={handlePhotoMetadata}
+                  analyzingMessage="正在分析图片质量，并尝试匹配候选物种。"
+                />
+                <MobileStepFooter
+                  actionLabel={analysisReady ? "继续鉴定物种" : evidenceImages.length > 0 ? "等待图片识别" : "先上传照片"}
+                  disabled={!analysisReady}
+                  onNext={() => openMobilePanel("species")}
+                  helper={
+                    analysisReady
+                      ? "照片已可用于观察记录，下一步可以确认物种，也可以发布后请社区共同鉴定。"
+                      : evidenceImages.length > 0
+                        ? getAnalysisBlockerDescription()
+                        : "上传照片后会自动尝试读取拍摄时间和位置信息。"
+                  }
                 />
               </div>
             </section>
@@ -1363,8 +1453,8 @@ export function ObservationSubmitForm({
               <div className="hidden md:block">
                 <StepHeader
                   index={2}
-                  title="鉴定物种（可选）"
-                  description="AI 鉴定会单独标注并计入共同鉴定；你也可以提供自己的鉴定，或先发布为待鉴定。"
+                  title="鉴定物种与描述"
+                  description="AI 分析会自动填入候选物种和描述建议；你也可以提供自己的鉴定，或先发布为待鉴定。"
                   icon={Bird}
                   status={speciesStepStatus}
                   statusTone={speciesStatusTone}
@@ -1372,7 +1462,7 @@ export function ObservationSubmitForm({
               </div>
               <MobileAccordionHeader
                 index={2}
-                title="鉴定物种"
+                title="鉴定与描述"
                 icon={Bird}
                 status={speciesStepStatus}
                 statusTone={speciesStatusTone}
@@ -1382,9 +1472,17 @@ export function ObservationSubmitForm({
               />
 
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("species"))}>
-              {analysisPendingCount > 0 ? (
-                <div className="mb-4 rounded-xs border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]">
-                  还有 {analysisPendingCount} 张图片正在识别，完成后才可提交。
+              {(isAnalyzingImages || analysisPendingCount > 0) ? (
+                <div className="mb-4 flex items-start gap-3 rounded-xs border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]">
+                  <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin" />
+                  <div className="min-w-0">
+                    <div className="font-semibold">AI 分析中…</div>
+                    <div className="mt-0.5 text-xs leading-5 text-sky-700/80 dark:text-[#c7dceb]/80">
+                      {analysisPendingCount > 0
+                        ? `还有 ${analysisPendingCount} 张图片正在识别，完成后会自动填入候选物种和描述。`
+                        : "完成后会自动填入候选物种和描述。"}
+                    </div>
+                  </div>
                 </div>
               ) : null}
 
@@ -1415,7 +1513,7 @@ export function ObservationSubmitForm({
                       <Button
                         type="button"
                         variant="outline"
-                        className="h-10 w-full rounded-xs border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+                        className="h-10 w-full rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
                         onClick={() => setSpeciesSheetOpen(true)}
                       >
                         查看更多候选
@@ -1428,7 +1526,7 @@ export function ObservationSubmitForm({
                 </div>
               ) : analysisReady ? (
                 <div className="mb-4 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-4 py-3 text-sm text-[var(--obs-muted)]">
-                  {topicCopy.noCandidateMessage}
+                  当前图片没有匹配到可靠的物种候选。你仍可手动提交鉴定，或发布为待鉴定。
                 </div>
               ) : null}
 
@@ -1535,6 +1633,127 @@ export function ObservationSubmitForm({
                     </label>
                   </div>
                 ) : null}
+
+                <div className="mt-5 border-t border-[var(--obs-border)] pt-5">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <FieldLabel htmlFor="observationNotes">观察描述</FieldLabel>
+                    <button
+                      type="button"
+                      onClick={() => setTipsSheetOpen(true)}
+                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 text-xs font-medium text-[var(--obs-muted)] md:hidden"
+                    >
+                      <HelpCircle className="h-3.5 w-3.5" />
+                      小贴士
+                    </button>
+                  </div>
+                  <Textarea
+                    id="observationNotes"
+                    value={notes}
+                    onChange={(event) => setNotes(event.target.value)}
+                    placeholder="清晨在湿地附近看到一只主体，停在水边低头觅食，时而展开翅膀。"
+                    rows={5}
+                    maxLength={NOTE_MAX_LENGTH}
+                    className={textareaClass}
+                  />
+                  {aiNoteSuggestion ? (
+                    <div className="mt-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-accent-soft)] p-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
+                            <Sparkles className="h-4 w-4 text-[var(--obs-accent)]" />
+                            AI 描述建议
+                          </div>
+                          <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-[var(--obs-muted)]">
+                            {aiNoteSuggestion}
+                          </p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="h-9 shrink-0 rounded-full border-[var(--obs-accent)] bg-[var(--obs-control)] px-3 text-[var(--obs-accent-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-accent-text)]"
+                          onClick={handleApplyAiNoteSuggestion}
+                        >
+                          {aiNoteActionLabel}
+                        </Button>
+                      </div>
+                    </div>
+                  ) : null}
+                  <div className="mt-2 flex justify-end text-xs text-[var(--obs-muted-2)]">
+                    {noteLength}/{NOTE_MAX_LENGTH}
+                  </div>
+
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={isPublic}
+                    onClick={() => setIsPublic((current) => !current)}
+                    className="mt-4 flex w-full items-center gap-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 py-3 text-left md:hidden"
+                  >
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
+                      {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-semibold text-[var(--obs-text)]">
+                        {isPublic ? "公开记录（含准确位置）" : "仅自己可见"}
+                      </span>
+                      <span className="mt-0.5 block truncate text-xs text-[var(--obs-muted)]">
+                        {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
+                      </span>
+                    </span>
+                    <span
+                      className={cn(
+                        "relative h-7 w-12 shrink-0 rounded-full border transition",
+                        isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent)]" : "border-[var(--obs-border-strong)] bg-[var(--obs-subtle)]",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
+                          isPublic ? "translate-x-6" : "translate-x-1",
+                        )}
+                      />
+                    </span>
+                  </button>
+
+                  <div className="mt-4 hidden gap-3 md:grid md:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsPublic(true)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
+                        isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
+                      )}
+                    >
+                      <Globe2 className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
+                      <span>
+                        <span className="block text-sm font-semibold text-[var(--obs-text)]">公开</span>
+                        <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">所有人可见</span>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsPublic(false)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
+                        !isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
+                      )}
+                    >
+                      <ShieldCheck className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
+                      <span>
+                        <span className="block text-sm font-semibold text-[var(--obs-text)]">仅自己</span>
+                        <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">保存在个人记录</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <MobileStepFooter
+                  actionLabel={speciesStepLocked ? "先上传照片" : "继续填写地点"}
+                  disabled={speciesStepLocked}
+                  onNext={() => openMobilePanel("location")}
+                  helper={selectedSpecies ? "已保存你的物种鉴定。" : "不确定物种也可以继续发布，审核通过后社区可参与共同鉴定。"}
+                />
               </div>
               </div>
             </section>
@@ -1633,6 +1852,44 @@ export function ObservationSubmitForm({
                     发布为公开记录时，地点名称和地图准确坐标将对其他用户可见。
                   </div>
 
+                  {needsLocationDisclosureConfirmation ? (
+                    <button
+                      type="button"
+                      role="checkbox"
+                      aria-checked={locationDisclosureConfirmed}
+                      onClick={() => setLocationDisclosureConfirmed((current) => !current)}
+                      className={cn(
+                        "flex w-full items-start gap-3 rounded-[var(--radius-sm)] border px-3 py-3 text-left transition",
+                        locationDisclosureConfirmed
+                          ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]"
+                          : "border-[var(--obs-border-strong)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)]",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border",
+                          locationDisclosureConfirmed
+                            ? "border-[var(--obs-accent)] bg-[var(--obs-accent)] text-white"
+                            : "border-[var(--obs-border-strong)] bg-[var(--obs-panel)] text-[var(--obs-muted-2)]",
+                        )}
+                      >
+                        {locationDisclosureConfirmed ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-2.5 w-2.5 fill-current" />}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold text-[var(--obs-text)]">
+                          我了解公开记录会展示准确位置
+                        </span>
+                        <span className="mt-1 block text-xs leading-5 text-[var(--obs-muted)]">
+                          如果不想公开准确位置，可以在“鉴定与描述”里改为仅自己可见。
+                        </span>
+                      </span>
+                    </button>
+                  ) : (
+                    <div className="rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 py-3 text-xs leading-5 text-[var(--obs-muted)]">
+                      当前记录仅自己可见，不会进入公开观察流。
+                    </div>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => setLocationSheetOpen(true)}
@@ -1653,7 +1910,7 @@ export function ObservationSubmitForm({
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-11 w-full rounded-xs border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)] md:hidden"
+                    className="h-11 w-full rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)] md:hidden"
                     onClick={() => void tryLocate(true)}
                     disabled={isLocating}
                   >
@@ -1682,7 +1939,7 @@ export function ObservationSubmitForm({
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-11 w-full rounded-xs border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
+                    className="h-11 w-full rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
                     onClick={() => void tryLocate(true)}
                     disabled={isLocating}
                   >
@@ -1700,143 +1957,18 @@ export function ObservationSubmitForm({
                   </Button>
                 </div>
               </div>
-              </div>
-            </section>
-
-            <section ref={notesSectionRef} className={panelClass}>
-              <div className="hidden md:block">
-                <StepHeader
-                  index={4}
-                  title="观察备注"
-                  description="写下行为、环境和你注意到的细节，能让记录更有科学价值。"
-                  icon={ListChecks}
-                  status={noteLength >= 10 ? "描述充足" : "可补充"}
-                  statusTone={noteLength >= 10 ? "success" : "neutral"}
-                />
-              </div>
-              <MobileAccordionHeader
-                index={4}
-                title="备注与发布"
-                icon={ListChecks}
-                status={noteLength >= 10 ? "描述充足" : "可补充"}
-                statusTone={noteLength >= 10 ? "success" : "neutral"}
-                summary={visibilityLabel}
-                open={mobilePanels.notes}
-                onToggle={() => toggleMobilePanel("notes")}
+              <MobileStepFooter
+                actionLabel={locationAndTimeReady ? "信息已齐全，可发布" : "先完善地点和时间"}
+                disabled
+                onNext={() => undefined}
+                helper={
+                  locationAndTimeReady
+                    ? needsLocationDisclosureConfirmation && !locationDisclosureConfirmed
+                      ? "请确认准确位置公开范围后，使用下方按钮发布。"
+                      : "地点和观察时间已保存，使用下方按钮即可发布。"
+                    : "请确认观察日期、时间、地点名称和地图位置。"
+                }
               />
-
-              <div className={cn("relative z-10 mt-4 md:mt-0", mobilePanelContentClass("notes"))}>
-              <div className="mb-2 flex items-center justify-between gap-3 md:hidden">
-                <FieldLabel htmlFor="observationNotes">观察备注</FieldLabel>
-                <button
-                  type="button"
-                  onClick={() => setTipsSheetOpen(true)}
-                  className="inline-flex h-9 scroll-mt-24 scroll-mb-40 items-center gap-1.5 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-2.5 text-xs font-medium text-[var(--obs-muted)]"
-                >
-                  <HelpCircle className="h-3.5 w-3.5" />
-                  小贴士
-                </button>
-              </div>
-              <Textarea
-                id="observationNotes"
-                value={notes}
-                onChange={(event) => setNotes(event.target.value)}
-                placeholder="清晨在绿堤水域发现一只白鹭，站在浅水中觅食，时而低头捕食小鱼，时而展翅飞起。"
-                rows={5}
-                maxLength={NOTE_MAX_LENGTH}
-                className={textareaClass}
-              />
-              {aiNoteSuggestion ? (
-                <div className="mt-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-accent-soft)] p-3">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                        <Sparkles className="h-4 w-4 text-[var(--obs-accent)]" />
-                        AI 备注建议
-                      </div>
-                      <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-[var(--obs-muted)]">
-                        {aiNoteSuggestion}
-                      </p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="h-9 shrink-0 rounded-xs border-[var(--obs-accent)] bg-[var(--obs-control)] px-3 text-[var(--obs-accent-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-accent-text)]"
-                      onClick={handleApplyAiNoteSuggestion}
-                    >
-                      {aiNoteActionLabel}
-                    </Button>
-                  </div>
-                </div>
-              ) : null}
-              <div className="mt-2 flex justify-end text-xs text-[var(--obs-muted-2)]">
-                {noteLength}/{NOTE_MAX_LENGTH}
-              </div>
-
-              <button
-                type="button"
-                role="switch"
-                aria-checked={isPublic}
-                onClick={() => setIsPublic((current) => !current)}
-                className="mt-4 flex w-full items-center gap-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 py-3 text-left md:hidden"
-              >
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
-                  {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-[var(--obs-text)]">
-                    {isPublic ? "公开记录（含准确位置）" : "仅自己可见"}
-                  </span>
-                  <span className="mt-0.5 block truncate text-xs text-[var(--obs-muted)]">
-                    {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
-                  </span>
-                </span>
-                <span
-                  className={cn(
-                    "relative h-7 w-12 shrink-0 rounded-full border transition",
-                    isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent)]" : "border-[var(--obs-border-strong)] bg-[var(--obs-subtle)]",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
-                      isPublic ? "translate-x-6" : "translate-x-1",
-                    )}
-                  />
-                </span>
-              </button>
-
-              <div className="mt-4 hidden gap-3 md:grid md:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => setIsPublic(true)}
-                  className={cn(
-                    "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                    isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
-                  )}
-                >
-                  <Globe2 className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
-                  <span>
-                    <span className="block text-sm font-semibold text-[var(--obs-text)]">公开</span>
-                    <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">所有人可见</span>
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsPublic(false)}
-                  className={cn(
-                    "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                    !isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
-                  )}
-                >
-                  <ShieldCheck className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
-                  <span>
-                    <span className="block text-sm font-semibold text-[var(--obs-text)]">仅自己</span>
-                    <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">保存在个人记录</span>
-                  </span>
-                </button>
-              </div>
               </div>
             </section>
 
@@ -1844,7 +1976,7 @@ export function ObservationSubmitForm({
               <Button
                 type="submit"
                 disabled={isSubmitting || isAnalyzingImages || !canSubmit}
-                className="h-12 flex-1 rounded-xs bg-[var(--obs-accent)] text-base font-semibold text-white hover:bg-[var(--obs-accent-strong)]"
+                className="h-12 flex-1 rounded-full bg-[var(--obs-accent)] text-base font-semibold text-white hover:bg-[var(--obs-accent-strong)]"
               >
                 {isSubmitting ? (
                   <>
@@ -1861,7 +1993,7 @@ export function ObservationSubmitForm({
               <Button
                 type="button"
                 variant="outline"
-                className="h-12 rounded-xs border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-8 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+                className="h-12 rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-8 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
                 onClick={handleSaveDraft}
               >
                 <Save className="mr-2 h-4 w-4" />
@@ -1967,7 +2099,7 @@ export function ObservationSubmitForm({
                 <li>尽量在自然光下拍摄，保持画面清晰。</li>
                 <li>拍摄时包含多个角度，如整体、特征部位。</li>
                 <li>记录生境环境，如水域、树林、草地等。</li>
-                <li>不干扰、不捕捉野生动物，保护自然。</li>
+                <li>保持安全距离，不打扰、不采摘、不捕捉，保护自然。</li>
               </ul>
             </section>
 
@@ -1985,12 +2117,12 @@ export function ObservationSubmitForm({
           </aside>
         </div>
 
-        <div className="pointer-events-none fixed inset-x-0 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 px-4 pb-3 pt-6 md:hidden">
-          <div className="pointer-events-auto mx-auto flex w-fit max-w-[calc(100vw-2rem)] gap-2 rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-panel)] p-2 [box-shadow:var(--obs-panel-shadow)] backdrop-blur-md">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--obs-border)] bg-[var(--obs-panel)] px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-16px_42px_-34px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
+          <div className="mx-auto flex w-full max-w-md gap-2">
             <Button
               type="button"
               variant="outline"
-              className="h-12 w-12 shrink-0 rounded-xs border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-0 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+              className="h-12 w-12 shrink-0 rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-0 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
               onClick={handleSaveDraft}
               aria-label="保存草稿"
             >
@@ -2001,7 +2133,7 @@ export function ObservationSubmitForm({
               data-disabled={!mobileSubmitReady}
               onClick={handleMobileSubmitClick}
               className={cn(
-                "h-12 w-52 shrink-0 rounded-xs text-base font-semibold transition-colors sm:w-56",
+                "h-12 min-w-0 flex-1 rounded-full text-sm font-semibold transition-colors min-[390px]:text-base",
                 mobileSubmitReady
                   ? "bg-[var(--obs-accent)] text-[#f7fff8] [box-shadow:var(--obs-soft-shadow)] hover:bg-[var(--obs-accent-strong)]"
                   : "border border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-100 hover:text-gray-500 dark:border-[#37424a] dark:bg-[#252e35] dark:text-[#aeb8b5] dark:hover:bg-[#252e35] dark:hover:text-[#aeb8b5]",
@@ -2015,7 +2147,7 @@ export function ObservationSubmitForm({
               ) : (
                 <>
                   <Send className="mr-2 h-4 w-4" />
-                  发布观察记录
+                  {mobileSubmitReady ? "发布观察记录" : `还差${submitMissingLabel}`}
                 </>
               )}
             </Button>
@@ -2071,7 +2203,7 @@ export function ObservationSubmitForm({
             <Button
               type="button"
               variant="outline"
-              className="h-11 flex-1 rounded-xs border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
+              className="h-11 flex-1 rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
               onClick={() => void tryLocate(true)}
               disabled={isLocating}
             >
@@ -2080,7 +2212,7 @@ export function ObservationSubmitForm({
             </Button>
             <Button
               type="button"
-              className="h-11 flex-1 rounded-xs bg-[var(--obs-accent)] text-white hover:bg-[var(--obs-accent-strong)]"
+              className="h-11 flex-1 rounded-full bg-[var(--obs-accent)] text-white hover:bg-[var(--obs-accent-strong)]"
               onClick={() => setLocationSheetOpen(false)}
             >
               完成
@@ -2101,7 +2233,7 @@ export function ObservationSubmitForm({
             <li>尽量在自然光下拍摄，保持画面清晰。</li>
             <li>拍摄时包含多个角度，如整体、特征部位。</li>
             <li>记录生境环境，如水域、树林、草地等。</li>
-            <li>不干扰、不捕捉野生动物，保护自然。</li>
+            <li>保持安全距离，不打扰、不采摘、不捕捉，保护自然。</li>
           </ul>
         </SheetContent>
       </Sheet>

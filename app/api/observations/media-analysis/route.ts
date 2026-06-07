@@ -17,7 +17,6 @@ import { isOwnedProjectImageUrl } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
-import { observationSubmitTopicKeys } from '@/lib/observations/submit-topic'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -26,7 +25,6 @@ const relativeOrAbsoluteUrlSchema = z.union([
 
 const MediaAnalysisSchema = z.object({
   imageUrls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
-  topic: z.enum(observationSubmitTopicKeys),
 })
 
 export async function POST(request: NextRequest) {
@@ -47,7 +45,6 @@ export async function POST(request: NextRequest) {
     }
 
     const imageUrls = Array.from(new Set(parsed.data.imageUrls))
-    const topic = parsed.data.topic
     if (imageUrls.some((url) => !isOwnedProjectImageUrl(url, user.id, 'observations'))) {
       return NextResponse.json({ error: '只能识别当前账号上传的观察图片' }, { status: 400 })
     }
@@ -56,17 +53,19 @@ export async function POST(request: NextRequest) {
       .from('species')
       .select('*')
       .eq('is_active', true)
-      .eq('nature_topic', topic)
 
     if (speciesError || !speciesRows) {
       throw speciesError || new Error('Failed to load species')
     }
 
+    const speciesTopicById = new Map<number, string | null>(
+      speciesRows.map((row) => [row.id, row.nature_topic ?? null]),
+    )
+
     const { data: existingRows, error: existingError } = await supabase
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
-      .eq('nature_topic', topic)
       .in('image_url', imageUrls)
 
     if (existingError) {
@@ -101,10 +100,10 @@ export async function POST(request: NextRequest) {
           toAnalyze.map((imageUrl) => ({
             user_id: user.id,
             image_url: imageUrl,
-            nature_topic: topic,
+            nature_topic: null,
             status: 'pending',
           })),
-          { onConflict: 'user_id,image_url,nature_topic' },
+          { onConflict: 'user_id,image_url' },
         )
 
       if (pendingError) {
@@ -115,7 +114,10 @@ export async function POST(request: NextRequest) {
     await Promise.all(
       toAnalyze.map(async (imageUrl) => {
         try {
-          const result = await analyzeObservationImageWithQwen(imageUrl, speciesRows, topic)
+          const result = await analyzeObservationImageWithQwen(imageUrl, speciesRows)
+
+          const inferredTopic =
+            speciesTopicById.get(result.speciesCandidates[0]?.speciesId ?? -1) ?? null
 
           const { error } = await supabase
             .from('observation_media_analyses')
@@ -127,11 +129,11 @@ export async function POST(request: NextRequest) {
               quality_pass: result.qualityPass,
               quality_reason: result.qualityReason,
               note_suggestion: result.noteSuggestion,
+              nature_topic: inferredTopic,
               species_candidates: result.speciesCandidates as unknown as Json,
               raw_response: result.rawResponse as Json,
             })
             .eq('user_id', user.id)
-            .eq('nature_topic', topic)
             .eq('image_url', imageUrl)
 
           if (error) {
@@ -150,7 +152,6 @@ export async function POST(request: NextRequest) {
               raw_response: serializeObservationVisionError(error) as Json,
             })
             .eq('user_id', user.id)
-            .eq('nature_topic', topic)
             .eq('image_url', imageUrl)
         }
       }),
@@ -160,7 +161,6 @@ export async function POST(request: NextRequest) {
       .from('observation_media_analyses')
       .select('*')
       .eq('user_id', user.id)
-      .eq('nature_topic', topic)
       .in('image_url', imageUrls)
 
     if (refreshedError) {

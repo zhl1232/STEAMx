@@ -1,19 +1,6 @@
 /* 自然主题样式(nature 频道及其子专题) */
 
 @layer components {
-  .bottom-nav-bar.bottom-nav-bar-nature {
-    border-color: hsl(var(--nature-border) / 0.62);
-    border-bottom-color: transparent;
-    background-color: hsl(var(--nature-surface) / 0.97);
-    box-shadow: 0 -16px 42px -30px hsl(var(--surface-shadow) / 0.3);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(70px + env(safe-area-inset-bottom));
-    border-radius: 24px 24px 0 0;
-    @apply dark:border-[hsl(var(--nature-border)/0.5)] dark:border-b-transparent dark:bg-[hsl(var(--nature-surface)/0.94)] dark:shadow-none;
-  }
-
   .theme-nature-page {
     background-color: hsl(var(--nature-canvas));
     color: hsl(var(--nature-foreground));

@@ -32,14 +32,20 @@ export function ObservationSubmitSuccessDialog({
 }: ObservationSubmitSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto border-0 bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.28),transparent_30%),linear-gradient(180deg,rgba(7,10,14,0.98),rgba(14,16,20,1))] p-0 text-white shadow-none sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-[min(32rem,calc(100vw-2rem))] sm:max-w-none sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10 sm:shadow-[0_28px_90px_-44px_rgba(15,23,42,0.75)]">
-        <DialogHeader className="sr-only">
-          <DialogTitle>观察记录已提交</DialogTitle>
-          <DialogDescription>本次观察已进入审核队列。</DialogDescription>
+      <DialogContent className="max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-2rem)] max-w-md gap-0 overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.86)] bg-background p-0 text-foreground shadow-[0_28px_80px_-48px_hsl(var(--surface-shadow)/0.55)] sm:max-w-lg">
+        <DialogHeader className="border-b border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.48)] px-5 pb-4 pt-5 text-left">
+          <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(var(--nature-accent)/0.28)] bg-[hsl(var(--nature-accent-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--nature-accent))]">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            已提交
+          </div>
+          <DialogTitle className="text-xl font-semibold tracking-tight">观察记录已提交</DialogTitle>
+          <DialogDescription className="mt-2 text-sm leading-6 text-muted-foreground">
+            本次观察已进入审核队列，审核通过后会出现在公开观察流。
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="relative">
-          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4]">
+        <div className="max-h-[calc(100dvh-14rem)] overflow-y-auto px-5 py-5">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.56)]">
             {imageUrl ? (
               <OptimizedImage
                 src={imageUrl}
@@ -48,76 +54,61 @@ export function ObservationSubmitSuccessDialog({
                 variant="cover"
                 className="object-cover"
               />
-            ) : null}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/18 to-black/5" />
-            <div className="absolute inset-x-0 top-0 p-6">
-              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-3 py-1.5 text-xs font-medium tracking-[0.16em] text-white/88 backdrop-blur">
+            ) : (
+              <div className="grid h-full place-items-center text-[hsl(var(--nature-accent))]">
+                <Sparkles className="h-10 w-10" />
+              </div>
+            )}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
+              <p className="text-xs text-white/80">本次记录</p>
+              <h2 className="mt-1 line-clamp-1 text-lg font-semibold">
+                {speciesName || "新的自然观察"}
+              </h2>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.44)] p-4">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <Clock3 className="h-3.5 w-3.5" />
+                审核状态
+              </div>
+              <div className="mt-3 text-2xl font-semibold text-foreground">待审核</div>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                管理员通过后，其他人才能在自然观察流里看到。
+              </p>
+            </div>
+            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--nature-accent)/0.24)] bg-[hsl(var(--nature-accent-soft)/0.72)] p-4">
+              <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--nature-accent))]">
                 <Sparkles className="h-3.5 w-3.5" />
-                OBSERVATION SUBMITTED
+                奖励发放
               </div>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-              <div className="space-y-5">
-                <div className="inline-flex rotate-[-9deg] items-center gap-2 rounded-md border border-emerald-200/30 bg-emerald-400/18 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100 shadow-[0_14px_32px_-24px_rgba(16,185,129,0.9)] backdrop-blur">
-                  <CheckCircle2 className="h-4 w-4" />
-                  已提交
-                </div>
-
-                <div>
-                  <p className="text-sm text-white/72">本次记录</p>
-                  <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-                    {speciesName || "新的自然观察"}
-                  </h2>
-                  <p className="mt-2 max-w-sm text-sm leading-6 text-white/76">
-                    这条记录已经进入你的观察档案，审核通过后会进入公开观察流。
-                  </p>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
-                    <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
-                      <Clock3 className="h-3.5 w-3.5" />
-                      审核状态
-                    </div>
-                    <div className="mt-3 text-2xl font-semibold text-emerald-200">待审核</div>
-                    <p className="mt-2 text-xs leading-5 text-white/62">
-                      管理员通过后，其他人才能在自然观察流里看到。
-                    </p>
-                  </div>
-                  <div className="rounded-[var(--radius-lg)] border border-white/10 bg-white/8 p-4 backdrop-blur">
-                    <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/58">
-                      <Sparkles className="h-3.5 w-3.5" />
-                      奖励发放
-                    </div>
-                    <div className="mt-3 text-2xl font-semibold text-white">+{expectedXp} XP</div>
-                    <p className="mt-2 text-xs leading-5 text-white/62">
-                      经验和观察徽章会在审核通过时自动同步。
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <div className="mt-3 text-2xl font-semibold text-[hsl(var(--nature-accent))]">+{expectedXp} XP</div>
+              <p className="mt-2 text-xs leading-5 text-[hsl(var(--nature-muted))]">
+                经验和观察徽章会在审核通过时自动同步。
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className="grid gap-3 border-t border-white/10 bg-black/26 p-4 sm:grid-cols-2 sm:p-5">
-            <Link
-              href={
-                observationId
-                  ? appendNatureFrom(`/nature/observations/${observationId}`, "/nature/submit")
-                  : "/nature/observations"
-              }
-              className="inline-flex h-12 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 transition-colors hover:bg-white/90"
-            >
-              查看这条记录
-            </Link>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/6 px-5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              继续记录下一条
-            </button>
-          </div>
+        <div className="grid gap-3 border-t border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.34)] p-4 sm:grid-cols-2">
+          <Link
+            href={
+              observationId
+                ? appendNatureFrom(`/nature/observations/${observationId}`, "/nature/submit")
+                : "/nature/observations"
+            }
+            className="inline-flex h-12 items-center justify-center rounded-full bg-[hsl(var(--nature-accent))] px-5 text-sm font-semibold text-[hsl(var(--nature-accent-foreground))] transition-colors hover:bg-[hsl(var(--nature-accent)/0.9)]"
+          >
+            查看这条记录
+          </Link>
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(var(--surface-border))] bg-background px-5 text-sm font-semibold text-foreground transition-colors hover:bg-[hsl(var(--surface-muted))]"
+          >
+            继续记录下一条
+          </button>
         </div>
       </DialogContent>
     </Dialog>

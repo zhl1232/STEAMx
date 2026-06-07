@@ -15,6 +15,7 @@ interface NatureShellProps {
   className?: string;
   contentClassName?: string;
   mainClassName?: string;
+  mobileHeaderSticky?: boolean;
 }
 
 export function NatureShell({
@@ -29,6 +30,7 @@ export function NatureShell({
   className,
   contentClassName,
   mainClassName,
+  mobileHeaderSticky = true,
 }: NatureShellProps) {
   return (
     <div
@@ -39,7 +41,7 @@ export function NatureShell({
       )}
     >
       <div className="md:hidden">
-        <MobilePageHeader title={title} fallbackHref={fallbackHref} />
+        <MobilePageHeader title={title} fallbackHref={fallbackHref} sticky={mobileHeaderSticky} />
       </div>
 
       <div

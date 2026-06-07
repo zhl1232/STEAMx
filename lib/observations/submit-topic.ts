@@ -29,6 +29,9 @@ export interface ObservationSubmitTopicCopy {
   photoStepDescription: string
   photoSubjectHint: string
   noCandidateMessage: string
+  notesPlaceholder: string
+  protectionTip: string
+  analyzingMessage: string
 }
 
 const TOPIC_COPY: Record<ObservationSubmitTopic, ObservationSubmitTopicCopy> = {
@@ -38,6 +41,9 @@ const TOPIC_COPY: Record<ObservationSubmitTopic, ObservationSubmitTopicCopy> = {
     photoStepDescription: '鸟类专题记录会由 AI 尝试鉴定，照片越清晰越容易识别。',
     photoSubjectHint: '每条记录只对应一只鸟；上传多张照片时，请确保都是同一个观察对象。',
     noCandidateMessage: '当前图片没有匹配到可靠的鸟类候选。你仍可手动提交鉴定，或发布为待鉴定。',
+    notesPlaceholder: '清晨在绿堤水域发现一只白鹭，站在浅水中觅食，时而低头捕食小鱼，时而展翅飞起。',
+    protectionTip: '保持安全距离，不投喂、不追赶野生鸟类。',
+    analyzingMessage: '正在分析图片质量，并尝试匹配鸟类候选。',
   },
   plants: {
     label: '树木',
@@ -45,6 +51,9 @@ const TOPIC_COPY: Record<ObservationSubmitTopic, ObservationSubmitTopicCopy> = {
     photoStepDescription: '树木专题记录会由 AI 尝试鉴定，请拍清叶、树皮或花果特征。',
     photoSubjectHint: '每条记录只对应一棵树；上传多张照片时，请确保都是同一个观察对象。',
     noCandidateMessage: '当前图片没有匹配到可靠的树木候选。你仍可手动提交鉴定，或发布为待鉴定。',
+    notesPlaceholder: '校园西侧林缘看到一棵正在开花的紫荆，枝条贴满淡紫色花朵，地上落瓣点点。',
+    protectionTip: '不采摘花果、不剥皮、不踩踏，保护植物群落。',
+    analyzingMessage: '正在分析图片质量，并尝试匹配树木候选。',
   },
   insects: {
     label: '昆虫',
@@ -52,6 +61,9 @@ const TOPIC_COPY: Record<ObservationSubmitTopic, ObservationSubmitTopicCopy> = {
     photoStepDescription: '昆虫专题记录会由 AI 尝试鉴定，请尽量拍清翅纹、体色和体型特征。',
     photoSubjectHint: '每条记录只对应一只昆虫；上传多张照片时，请确保都是同一个观察对象。',
     noCandidateMessage: '当前图片没有匹配到可靠的昆虫候选。你仍可手动提交鉴定，或发布为待鉴定。',
+    notesPlaceholder: '傍晚在草坪边缘看到一只豆娘停在禾本叶尖，翅膀缓缓开合，体色偏蓝。',
+    protectionTip: '观察后请放归原处，不捕捉、不伤害昆虫。',
+    analyzingMessage: '正在分析图片质量，并尝试匹配昆虫候选。',
   },
 }
 

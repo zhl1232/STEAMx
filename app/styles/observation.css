@@ -2,54 +2,35 @@
 
 @layer components {
   .observation-submit-theme {
-    --obs-panel: rgba(255, 255, 255, 0.94);
-    --obs-subtle: rgba(240, 248, 243, 0.84);
-    --obs-control: rgba(255, 255, 255, 0.9);
-    --obs-control-hover: #eef8f1;
-    --obs-border: #d5e7dc;
-    --obs-border-strong: #b7d5c2;
-    --obs-text: #17251f;
-    --obs-muted: #587163;
-    --obs-muted-2: #73887b;
-    --obs-placeholder: #8da397;
-    --obs-accent: #1d9a52;
-    --obs-accent-strong: #168946;
-    --obs-accent-soft: #e3f6ea;
-    --obs-accent-panel: #edf9f0;
-    --obs-accent-text: #116436;
-    --obs-focus: rgba(45, 166, 91, 0.28);
-    --obs-ring: rgba(26, 121, 68, 0.08);
-    --obs-panel-shadow: 0 24px 78px -56px rgba(24, 92, 55, 0.34);
-    --obs-soft-shadow: 0 14px 34px -26px rgba(34, 132, 77, 0.4);
-    --obs-glow-a: rgba(45, 170, 91, 0.16);
-    --obs-glow-b: rgba(182, 207, 152, 0.18);
-    --obs-photo-bg: radial-gradient(circle at top, rgba(45, 170, 91, 0.11), transparent 42%), linear-gradient(180deg, rgba(248, 252, 249, 0.98), rgba(238, 248, 241, 0.96));
-    --obs-map-bg: radial-gradient(circle at 58% 42%, rgba(62, 153, 91, 0.22), transparent 12%), linear-gradient(135deg, rgba(220, 239, 224, 0.96), rgba(247, 251, 248, 0.98));
+    --obs-panel: hsl(var(--surface-raised) / 0.96);
+    --obs-subtle: hsl(var(--surface-muted) / 0.72);
+    --obs-control: hsl(var(--background) / 0.92);
+    --obs-control-hover: hsl(var(--surface-muted) / 0.88);
+    --obs-border: hsl(var(--surface-border) / 0.78);
+    --obs-border-strong: hsl(var(--nature-border) / 0.78);
+    --obs-text: hsl(var(--foreground));
+    --obs-muted: hsl(var(--muted-foreground));
+    --obs-muted-2: hsl(var(--muted-foreground) / 0.78);
+    --obs-placeholder: hsl(var(--muted-foreground) / 0.62);
+    --obs-accent: hsl(var(--nature-accent));
+    --obs-accent-strong: hsl(var(--nature-accent) / 0.88);
+    --obs-accent-soft: hsl(var(--nature-accent-soft) / 0.9);
+    --obs-accent-panel: hsl(var(--nature-accent-soft));
+    --obs-accent-text: hsl(var(--nature-accent));
+    --obs-focus: hsl(var(--nature-accent) / 0.22);
+    --obs-ring: hsl(var(--nature-accent) / 0.06);
+    --obs-panel-shadow: 0 18px 48px -38px hsl(var(--surface-shadow) / 0.24);
+    --obs-soft-shadow: 0 12px 28px -22px hsl(var(--nature-accent) / 0.28);
+    --obs-glow-a: hsl(var(--nature-accent) / 0.08);
+    --obs-glow-b: hsl(var(--brand-amber) / 0.08);
+    --obs-photo-bg: linear-gradient(180deg, hsl(var(--surface-raised) / 0.98), hsl(var(--nature-accent-soft) / 0.56));
+    --obs-map-bg: linear-gradient(135deg, hsl(var(--nature-accent-soft) / 0.78), hsl(var(--surface-raised) / 0.96));
   }
 
   .dark .observation-submit-theme {
-    --obs-panel: oklch(0.22 0.018 210 / 0.96);
-    --obs-subtle: oklch(0.25 0.018 200 / 0.82);
-    --obs-control: oklch(0.26 0.018 200 / 0.94);
-    --obs-control-hover: oklch(0.31 0.022 190);
-    --obs-border: oklch(0.36 0.022 185);
-    --obs-border-strong: oklch(0.45 0.026 178);
-    --obs-text: oklch(0.93 0.015 112);
-    --obs-muted: oklch(0.76 0.026 150);
-    --obs-muted-2: oklch(0.64 0.024 158);
-    --obs-placeholder: oklch(0.56 0.024 158);
-    --obs-accent: oklch(0.64 0.12 150);
-    --obs-accent-strong: oklch(0.7 0.13 150);
-    --obs-accent-soft: oklch(0.3 0.046 150);
-    --obs-accent-panel: oklch(0.34 0.048 150);
-    --obs-accent-text: oklch(0.82 0.075 145);
-    --obs-focus: oklch(0.68 0.12 150 / 0.3);
-    --obs-ring: oklch(0.92 0.015 112 / 0.045);
-    --obs-panel-shadow: 0 24px 80px -56px rgb(0 0 0 / 0.86);
-    --obs-soft-shadow: 0 12px 28px -24px oklch(0.64 0.12 150 / 0.55);
-    --obs-glow-a: oklch(0.58 0.1 150 / 0.13);
-    --obs-glow-b: oklch(0.54 0.045 112 / 0.12);
-    --obs-photo-bg: radial-gradient(circle at top, oklch(0.56 0.1 150 / 0.12), transparent 42%), linear-gradient(180deg, oklch(0.25 0.024 180 / 0.94), oklch(0.2 0.018 210 / 0.98));
-    --obs-map-bg: radial-gradient(circle at 58% 42%, oklch(0.56 0.1 150 / 0.16), transparent 12%), linear-gradient(135deg, oklch(0.28 0.036 155 / 0.94), oklch(0.21 0.018 210 / 0.98));
+    --obs-panel-shadow: 0 18px 52px -36px hsl(var(--surface-shadow) / 0.72);
+    --obs-soft-shadow: 0 12px 28px -22px hsl(var(--nature-accent) / 0.42);
+    --obs-glow-a: hsl(var(--nature-accent) / 0.07);
+    --obs-glow-b: hsl(var(--brand-amber) / 0.06);
   }
 }

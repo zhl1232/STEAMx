@@ -1140,7 +1140,7 @@ export interface Database {
           id: number
           user_id: string
           image_url: string
-          nature_topic: string
+          nature_topic: string | null
           status: string
           model_name: string | null
           moderation_pass: boolean | null
@@ -1157,7 +1157,7 @@ export interface Database {
           id?: number
           user_id: string
           image_url: string
-          nature_topic?: string
+          nature_topic?: string | null
           status?: string
           model_name?: string | null
           moderation_pass?: boolean | null
@@ -1174,7 +1174,7 @@ export interface Database {
           id?: number
           user_id?: string
           image_url?: string
-          nature_topic?: string
+          nature_topic?: string | null
           status?: string
           model_name?: string | null
           moderation_pass?: boolean | null

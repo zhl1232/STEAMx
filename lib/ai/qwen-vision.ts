@@ -4,10 +4,6 @@ import {
   type ObservationMediaAnalysisResult,
   type SpeciesRow,
 } from '@/lib/ai/observation-media-analysis'
-import {
-  getObservationSubmitTopicCopy,
-  type ObservationSubmitTopic,
-} from '@/lib/observations/submit-topic'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_MODEL = 'qwen3.6-plus'
@@ -62,19 +58,16 @@ function getDashScopeConfig() {
   return { apiKey, baseUrl, model }
 }
 
-export type ObservationNatureTopic = ObservationSubmitTopic
-
-function buildPrompt(topic: ObservationNatureTopic) {
-  const { label: subjectLabel, subjectUnit: subjectExample } = getObservationSubmitTopicCopy(topic)
+function buildPrompt() {
   return [
-    `你是自然观察图片审核与${subjectLabel}识别助手。`,
+    '你是自然观察图片审核与物种识别助手，覆盖鸟类、昆虫、植物等自然生物。',
     '请严格输出 JSON，不要输出任何额外说明。',
     '任务分两部分：',
     '1. 判断图片是否包含违规、不适宜或与自然观察明显无关的内容。',
     '2. 判断图片是否足够清晰、主体是否可识别。',
-    `如果图片通过上述两项，再给出最多 3 个${subjectLabel}候选。`,
+    '如果图片通过上述两项，再给出最多 3 个最贴近主体的物种候选（可跨鸟类/昆虫/植物）。',
     '候选名称优先使用中文常见名，若知道学名请附带。',
-    `如果不是${subjectLabel}，或无法可靠识别，不要猜测，返回空数组。`,
+    '如果无法可靠识别，不要猜测，返回空数组。',
     '输出格式：',
     '{',
     '  "moderation_pass": boolean,',
@@ -96,10 +89,10 @@ function buildPrompt(topic: ObservationNatureTopic) {
     '- 低质、模糊、主体过远、逆光严重、遮挡严重时，quality_pass 必须为 false。',
     '- 如果包含未成年人隐私风险、血腥、色情、违法等不适宜内容，moderation_pass 必须为 false。',
     '- note_suggestion 只在审核和质量都通过时填写，生成 40 到 90 字中文观察备注。',
-    '- note_suggestion 必须使用第一人称观察记录语气，像用户自己写下的备注，例如“我看到一只……”。',
+    '- note_suggestion 必须使用第一人称观察记录语气，像用户自己写下的备注，例如“我看到……”。',
     '- note_suggestion 不要使用“画面展示了”“图片中”“照片里”“背景为”等第三方解说口吻。',
     '- note_suggestion 只描述可见事实，如主体姿态、可能行为、环境、光线、距离；不要编造地点、时间、数量或未出现的行为。',
-    `- note_suggestion 避免写死物种结论，可用“我看到${subjectExample}”等谨慎表达。`,
+    '- note_suggestion 避免写死物种结论，可用“我看到一个观察对象”等谨慎表达。',
     '- 不要编造不存在的物种名。',
   ].join('\n')
 }
@@ -107,7 +100,6 @@ function buildPrompt(topic: ObservationNatureTopic) {
 export async function analyzeObservationImageWithQwen(
   imageUrl: string,
   speciesRows: SpeciesRow[],
-  topic: ObservationNatureTopic = 'birds',
 ): Promise<ObservationMediaAnalysisResult> {
   const { apiKey, baseUrl, model } = getDashScopeConfig()
 
@@ -124,7 +116,7 @@ export async function analyzeObservationImageWithQwen(
       messages: [
         {
           role: 'system',
-          content: buildPrompt(topic),
+          content: buildPrompt(),
         },
         {
           role: 'user',

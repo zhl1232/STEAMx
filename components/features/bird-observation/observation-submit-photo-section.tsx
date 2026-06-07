@@ -37,6 +37,7 @@ interface ObservationSubmitPhotoSectionProps {
   isAnalyzing?: boolean
   showHeader?: boolean
   onPhotoMetadata?: (items: ObservationPhotoMetadata[]) => void
+  analyzingMessage?: string
 }
 
 const MAX_IMAGES = 5
@@ -90,6 +91,7 @@ export function ObservationSubmitPhotoSection({
   isAnalyzing = false,
   showHeader = true,
   onPhotoMetadata,
+  analyzingMessage = "正在分析图片质量，并尝试匹配候选。",
 }: ObservationSubmitPhotoSectionProps) {
   const { user } = useAuth()
   const { toast } = useToast()
@@ -211,7 +213,7 @@ export function ObservationSubmitPhotoSection({
 
       {isAnalyzing && evidenceImages.length > 0 ? (
         <div className="rounded-md border border-sky-200/80 bg-sky-50/80 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/20 dark:text-sky-200">
-          正在分析图片质量，并尝试匹配鸟类候选。
+          {analyzingMessage}
         </div>
       ) : null}
 
@@ -251,7 +253,7 @@ export function ObservationSubmitPhotoSection({
               <div className="max-w-[18rem]">
                 <p className="text-sm font-medium">照片已进入识别流程</p>
                 <p className="mt-1 text-xs leading-5 text-white/76">
-                  确认物种、地点和备注后即可发布。
+                  确认物种、地点和描述后即可发布。
                 </p>
               </div>
             </div>

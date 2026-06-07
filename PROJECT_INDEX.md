@@ -17,7 +17,7 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`、`submit/`、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |

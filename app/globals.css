@@ -527,6 +527,40 @@
     @apply fixed bottom-2 left-4 right-4 z-50 flex h-[calc(64px+env(safe-area-inset-bottom))] items-center gap-0.5 rounded-lg border px-2 pb-[calc(0.25rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur-2xl supports-[backdrop-filter]:bg-[hsl(var(--nav-bar-bg)/0.82)] md:hidden;
   }
 
+  .bottom-nav-scrim {
+    pointer-events: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    height: calc(56px + env(safe-area-inset-bottom));
+    background:
+      linear-gradient(
+        180deg,
+        hsl(var(--background) / 0) 0%,
+        hsl(var(--background) / 0.42) 38%,
+        hsl(var(--background) / 0.74) 100%
+      );
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 42%, black 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, black 42%, black 100%);
+    @apply md:hidden;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .bottom-nav-scrim {
+      background:
+        linear-gradient(
+          180deg,
+          hsl(var(--background) / 0) 0%,
+          hsl(var(--background) / 0.5) 44%,
+          hsl(var(--background) / 0.82) 100%
+        );
+    }
+  }
+
   .text-display {
     @apply font-heading text-3xl font-bold leading-tight tracking-tight min-[390px]:text-4xl md:text-5xl;
   }

@@ -16,7 +16,6 @@ export function BottomNav() {
     const { user } = useAuth();
     const [loginOpen, setLoginOpen] = useState(false);
     const [pendingHref, setPendingHref] = useState<string | null>(null);
-    const isNatureRoute = pathname === "/nature" || pathname.startsWith("/nature/");
 
     const navItems = [
         {
@@ -58,82 +57,80 @@ export function BottomNav() {
     ];
 
     return (
-        <div
-            className={cn(
-                "bottom-nav-bar",
-                isNatureRoute && "bottom-nav-bar-nature",
-            )}
-        >
-            {navItems.map((item) => {
-                const isNatureItem = Boolean(item.nature);
-                const activePillClass = isNatureItem
-                    ? "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nature-accent)/0.8)]"
-                    : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
-                const inactivePillClass = isNatureItem
-                    ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
-                    : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
-                const content = (
-                    <motion.div
-                        whileTap={{ scale: 0.85 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        className={cn(
-                            "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
-                            item.active ? activePillClass : inactivePillClass,
-                        )}
-                    >
-                        <item.icon
+        <>
+            <div className="bottom-nav-scrim" aria-hidden="true" />
+            <div className="bottom-nav-bar">
+                {navItems.map((item) => {
+                    const isNatureItem = Boolean(item.nature);
+                    const activePillClass = isNatureItem
+                        ? "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nature-accent)/0.8)]"
+                        : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
+                    const inactivePillClass = isNatureItem
+                        ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
+                        : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
+                    const content = (
+                        <motion.div
+                            whileTap={{ scale: 0.85 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
                             className={cn(
-                                "h-[19px] w-[19px] shrink-0 transition-all duration-300",
-                                item.active ? "stroke-[2.5px]" : "stroke-[2px]",
+                                "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
+                                item.active ? activePillClass : inactivePillClass,
                             )}
-                        />
-                        <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
-                    </motion.div>
-                )
+                        >
+                            <item.icon
+                                className={cn(
+                                    "h-[19px] w-[19px] shrink-0 transition-all duration-300",
+                                    item.active ? "stroke-[2.5px]" : "stroke-[2px]",
+                                )}
+                            />
+                            <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
+                        </motion.div>
+                    )
 
-                if (item.protected && !user) {
+                    if (item.protected && !user) {
+                        return (
+                            <button
+                                key={item.href}
+                                type="button"
+                                onClick={() => {
+                                    setPendingHref(item.href);
+                                    setLoginOpen(true);
+                                }}
+                                className="flex flex-1 items-stretch rounded-md"
+                            >
+                                {content}
+                            </button>
+                        )
+                    }
+
                     return (
-                        <button
+                        <Link
                             key={item.href}
-                            type="button"
-                            onClick={() => {
-                                setPendingHref(item.href);
-                                setLoginOpen(true);
-                            }}
+                            href={item.href}
                             className="flex flex-1 items-stretch rounded-md"
                         >
                             {content}
-                        </button>
+                        </Link>
                     )
-                }
-
-                return (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        className="flex flex-1 items-stretch rounded-md"
-                    >
-                        {content}
-                    </Link>
-                )
-            })}
-            <LoginDialog
-                open={loginOpen}
-                onOpenChange={(open) => {
-                    setLoginOpen(open);
-                    if (!open) {
+                })}
+                <LoginDialog
+                    open={loginOpen}
+                    onOpenChange={(open) => {
+                        setLoginOpen(open);
+                        if (!open) {
+                            setPendingHref(null);
+                        }
+                    }}
+                    onSuccess={() => {
+                        const nextHref = pendingHref;
                         setPendingHref(null);
-                    }
-                }}
-                onSuccess={() => {
-                    const nextHref = pendingHref;
-                    setPendingHref(null);
-                    if (nextHref) {
-                        router.push(nextHref);
-                    }
-                }}
-                title="登录后继续"
-            />
-        </div>
+                        if (nextHref) {
+                            router.push(nextHref);
+                        }
+                    }}
+                    title="登录后继续"
+                />
+            </div>
+        </>
     );
 }

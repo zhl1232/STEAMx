@@ -404,7 +404,6 @@ export default async function NaturePage() {
   const latestObservation = homepage.recentObservations[0];
   const topHotspot = homepage.hotspots[0];
   const submitHref = buildNatureSubmitHref({
-    topic: "birds",
     from: "/nature",
   });
 
