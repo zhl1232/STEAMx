@@ -85,7 +85,7 @@ export function ObservationInteractions({
             : "min-w-[92px] rounded-full border border-border/70 bg-muted/45 text-foreground/80 transition-colors hover:bg-muted/75 hover:text-foreground",
           buttonSizeClass,
           !bar && commentsOpen && "text-primary",
-          bar && commentsOpen && "bg-muted/60 text-[hsl(var(--nature-accent))]",
+          bar && commentsOpen && "bg-muted/60 text-[hsl(var(--primary))]",
         )}
       >
         <MessageCircle className="h-4 w-4" />

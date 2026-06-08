@@ -1,4 +1,5 @@
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import {
   buildExploringActivityMap,
   type ExploringActivityMeta,
@@ -23,6 +24,7 @@ export type ProfileHomeData = {
   growthTasksGraduatedAt: string | null
   myObservations: ObservationEvent[]
   observationsTotal: number
+  naturalObservationProgress: NaturalObservationProgressSummary | null
   studyCheckInSummary: ProfileStudyCheckInSummary | null
 }
 
@@ -94,6 +96,7 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
       growthTasksGraduatedAt: graduatedAt,
       myObservations: (observationsPayload?.observations as ObservationEvent[] | undefined) || [],
       observationsTotal: Number(observationsPayload?.total || 0),
+      naturalObservationProgress: summary.naturalObservationProgress,
       studyCheckInSummary: (checkinPayload as ProfileStudyCheckInSummary | null) ?? null,
     }
   })().finally(() => {

@@ -49,7 +49,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             className={cn(
               "inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors",
               view === "list"
-                ? "bg-[hsl(var(--nature-surface))] text-[hsl(var(--nature-accent))] shadow-[0_8px_18px_-14px_hsl(var(--nature-accent)/0.72)]"
+                ? "bg-[hsl(var(--surface-raised))] text-[hsl(var(--primary))] shadow-[0_8px_18px_-14px_hsl(var(--primary)/0.72)]"
                 : "nature-text-muted",
             )}
           >
@@ -63,7 +63,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             className={cn(
               "inline-flex min-w-14 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold transition-colors",
               view === "map"
-                ? "bg-[hsl(var(--nature-surface))] text-[hsl(var(--nature-accent))] shadow-[0_8px_18px_-14px_hsl(var(--nature-accent)/0.72)]"
+                ? "bg-[hsl(var(--surface-raised))] text-[hsl(var(--primary))] shadow-[0_8px_18px_-14px_hsl(var(--primary)/0.72)]"
                 : "nature-text-muted",
             )}
           >

@@ -6,7 +6,7 @@ export function natureActionButtonClass(
 ) {
   switch (role) {
     case 'primary':
-      return buttonVariants({ tone: 'nature', shape: 'pill', size: 'default' })
+      return buttonVariants({ tone: 'brand', shape: 'pill', size: 'default' })
     case 'secondary':
       return buttonVariants({ variant: 'outline', shape: 'pill', size: 'default' })
     case 'destructive':

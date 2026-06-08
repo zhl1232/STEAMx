@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import type { Species } from "@/lib/mappers/types";
+import type { SpeciesObservationStatusFilter } from "@/lib/observations/progress";
 import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
 import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
 import { appendNatureFrom } from "@/lib/utils/nature-navigation";
@@ -17,6 +18,7 @@ interface SpeciesListLoadMoreProps {
   pageSize: number;
   query?: string;
   topic?: SpeciesTopicFilter;
+  status?: SpeciesObservationStatusFilter;
   initialHasMore: boolean;
   total: number;
   fromHref?: string;
@@ -28,6 +30,7 @@ export function SpeciesListLoadMore({
   pageSize,
   query,
   topic = "all",
+  status = "all",
   initialHasMore,
   total,
   fromHref,
@@ -49,6 +52,7 @@ export function SpeciesListLoadMore({
       p.set("pageSize", String(pageSize));
       if (query) p.set("q", query);
       if (topic !== "all") p.set("topic", topic);
+      if (status !== "all") p.set("status", status);
       const res = await fetch(`/api/species?${p.toString()}`);
       if (!res.ok) throw new Error("fetch failed");
       const data = (await res.json()) as { species: Species[]; hasMore: boolean };
@@ -61,7 +65,7 @@ export function SpeciesListLoadMore({
       fetchingRef.current = false;
       setLoading(false);
     }
-  }, [hasMore, page, pageSize, query, topic]);
+  }, [hasMore, page, pageSize, query, topic, status]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -97,10 +101,10 @@ export function SpeciesListLoadMore({
             <Link
               key={item.id}
               href={appendNatureFrom(`/nature/species/${item.slug}`, fromHref)}
-              className="group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 overflow-hidden rounded-lg border border-border/70 bg-card/88 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.4)] transition-all motion-reduce:animate-none motion-reduce:opacity-100 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.45)]"
+              className="nature-species-card group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 hover:-translate-y-0.5"
               style={{ animationDelay: `${staggerMs}ms` }}
             >
-              <div className="relative aspect-[16/10] overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.2),transparent_40%),linear-gradient(160deg,rgba(248,250,252,0.95),rgba(238,242,255,0.85))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.18),transparent_40%),linear-gradient(160deg,rgba(9,14,22,0.96),rgba(14,24,32,0.9))] sm:aspect-[4/3] 2xl:aspect-[16/11]">
+              <div className="nature-species-card-media">
                 {coverImageSrc ? (
                   <Image
                     src={coverImageSrc}
@@ -112,64 +116,67 @@ export function SpeciesListLoadMore({
                     unoptimized={shouldBypassAssetImageOptimization(item.coverImageUrl)}
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-emerald-700/80 dark:text-emerald-300/80">
+                  <div className="flex h-full w-full items-center justify-center text-[hsl(var(--primary)/0.78)]">
                     <Feather className="h-10 w-10" />
                   </div>
                 )}
               </div>
 
-              <div className="space-y-3 p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-lg font-semibold tracking-tight sm:text-xl">{item.commonName}</h2>
-                      <span className="inline-flex rounded-full border border-sky-200/80 bg-sky-50/80 px-2 py-0.5 text-[10px] font-medium text-sky-800 dark:border-sky-900/70 dark:bg-sky-950/30 dark:text-sky-200">
-                        {item.topicLabel ?? "未分类"}
-                      </span>
-                      {item.observedByCurrentUser ? (
-                        <span className="inline-flex rounded-full border border-emerald-300/80 bg-emerald-50/80 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300">
-                          已观察
-                        </span>
-                      ) : null}
-                    </div>
+              <div className="space-y-2.5 p-3.5">
+                <div className="min-w-0">
+                  <div className="mb-1.5 flex items-center justify-between gap-3">
                     {commonNamePinyin ? (
-                      <p className="mt-1 text-xs tracking-[0.08em] text-primary/80">{commonNamePinyin}</p>
-                    ) : null}
-                    {item.scientificName ? (
-                      <p className="mt-2 font-heading text-sm italic leading-snug text-muted-foreground">
-                        {item.scientificName}
-                      </p>
-                    ) : null}
+                      <p className="text-[11px] leading-none tracking-[0.08em] text-[hsl(var(--primary)/0.82)]">{commonNamePinyin}</p>
+                    ) : (
+                      <div />
+                    )}
+                    <div className="flex shrink-0 items-center gap-0.5 text-muted-foreground/60 transition-colors duration-300 group-hover:text-[hsl(var(--primary)/0.85)]">
+                      {!item.observedByCurrentUser ? (
+                        <span className="text-[11px] font-semibold">查看线索</span>
+                      ) : null}
+                      <ChevronRight
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                        aria-hidden
+                      />
+                    </div>
                   </div>
-                  <ChevronRight
-                    className="mt-1 h-5 w-5 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary/70"
-                    aria-hidden
-                  />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-lg font-semibold tracking-tight sm:text-xl">{item.commonName}</h2>
+                    {item.observedByCurrentUser ? (
+                      <span className="nature-species-badge nature-species-badge-observed">
+                        已观察
+                      </span>
+                    ) : (
+                      <span className="nature-species-badge nature-species-badge-unobserved">
+                        待观察
+                      </span>
+                    )}
+                    <span className="nature-species-badge nature-species-badge-topic">
+                      {item.topicLabel ?? "未分类"}
+                    </span>
+                  </div>
                 </div>
 
                 {family || genus ? (
-                  <div className="flex min-w-0 items-stretch overflow-hidden rounded-sm border border-border/70 bg-background/70">
+                  <div className="nature-species-taxonomy">
                     {family ? (
-                      <div className="min-w-0 flex-1 px-3 py-2">
-                        <p className="text-[11px] text-muted-foreground">科</p>
-                        <p className="mt-0.5 truncate text-sm font-medium" title={family}>
+                      <div className="nature-species-taxonomy-cell min-w-0 flex-1">
+                        {familyPinyin ? (
+                          <p className="truncate text-[10px] leading-none text-[hsl(var(--primary)/0.76)]">{familyPinyin}</p>
+                        ) : null}
+                        <p className="mt-0.5 truncate text-sm text-muted-foreground" title={family}>
                           {family}
                         </p>
-                        {familyPinyin ? (
-                          <p className="mt-0.5 truncate text-[11px] text-primary/75">{familyPinyin}</p>
-                        ) : null}
                       </div>
                     ) : null}
-                    {family && genus ? <div className="w-px shrink-0 bg-border/60" aria-hidden /> : null}
                     {genus ? (
-                      <div className="min-w-0 flex-1 px-3 py-2">
-                        <p className="text-[11px] text-muted-foreground">属</p>
-                        <p className="mt-0.5 truncate text-sm font-medium" title={genus}>
+                      <div className="nature-species-taxonomy-cell min-w-0 flex-1">
+                        {genusPinyin ? (
+                          <p className="truncate text-[10px] leading-none text-[hsl(var(--primary)/0.76)]">{genusPinyin}</p>
+                        ) : null}
+                        <p className="mt-0.5 truncate text-sm text-muted-foreground" title={genus}>
                           {genus}
                         </p>
-                        {genusPinyin ? (
-                          <p className="mt-0.5 truncate text-[11px] text-primary/75">{genusPinyin}</p>
-                        ) : null}
                       </div>
                     ) : null}
                   </div>
@@ -198,7 +205,7 @@ export function SpeciesListLoadMore({
                 type="button"
                 onClick={() => void loadMore()}
                 disabled={loading}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border/80 bg-background/80 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted/70 disabled:pointer-events-none disabled:opacity-50"
+                className="nature-species-load-more"
               >
                 {loading ? (
                   <>

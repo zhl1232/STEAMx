@@ -1,4 +1,5 @@
 import type { Project } from '@/lib/mappers/types'
+import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 
 export type ProfileSummaryData = {
@@ -10,6 +11,7 @@ export type ProfileSummaryData = {
   collectedProjectsCount: number
   completedProjectsCount: number
   totalLikesReceived: number
+  naturalObservationProgress: NaturalObservationProgressSummary | null
   steamRadar: SteamRadarWithGuidance | null
 }
 
@@ -45,6 +47,8 @@ export async function fetchProfileSummary(_userId: string): Promise<ProfileSumma
       collectedProjectsCount: Number(payload?.collectedProjectsCount || 0),
       completedProjectsCount: Number(payload?.completedProjectsCount || 0),
       totalLikesReceived: Number(payload?.totalLikesReceived || 0),
+      naturalObservationProgress:
+        (payload?.naturalObservationProgress as NaturalObservationProgressSummary | null | undefined) || null,
       steamRadar: (payload?.radar as SteamRadarWithGuidance | null) || null,
     }
   })().finally(() => {

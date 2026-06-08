@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { getNaturalObservationProgressSummary } from '@/lib/api/nature-observation-progress'
 import { getTrackedCompletedProjectIds } from '@/lib/completion-records'
 import { logger } from '@/lib/logger'
 import { type DbProject, mapProject } from '@/lib/mappers/project'
@@ -23,6 +24,7 @@ export async function GET() {
       collectionsResponse,
       completionRowsResponse,
       likesReceivedResponse,
+      naturalObservationProgress,
       radar,
     ] = await Promise.all([
       supabase
@@ -52,6 +54,7 @@ export async function GET() {
         .select('project_id, status, record_kind')
         .eq('user_id', user.id),
       supabase.rpc('sum_author_project_likes' as never, { p_author_id: user.id } as never),
+      getNaturalObservationProgressSummary(supabase, user.id),
       getSteamRadarWithGuidanceSafe(supabase, user.id, 'GET /api/profile/summary'),
     ])
 
@@ -82,6 +85,7 @@ export async function GET() {
       collectedProjectsCount: collectionsResponse.count || 0,
       completedProjectsCount,
       totalLikesReceived,
+      naturalObservationProgress,
       radar,
     })
   } catch (error) {

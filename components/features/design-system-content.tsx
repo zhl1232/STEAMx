@@ -106,7 +106,7 @@ export default function DesignSystemContent() {
           <div className="mt-5 flex flex-wrap gap-3">
             <Button tone="brand" shape="square">品牌主操作</Button>
             <Button tone="success" shape="soft">成功 / 开始</Button>
-            <Button tone="nature" shape="soft">自然专题</Button>
+            <Button tone="brand" shape="soft">自然专题</Button>
             <Button tone="danger" shape="pill">拒绝</Button>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">

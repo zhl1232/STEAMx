@@ -4,15 +4,18 @@ import { useEffect, useState } from "react"
 
 import { logger } from "@/lib/logger"
 import type { ObservationEvent } from "@/lib/mappers/types"
+import type { NaturalObservationProgressSummary } from "@/lib/observations/progress"
 
 /**
  * 个人页「我的观察」：当桌面或移动端任一入口需要展示时 `shouldLoadObservations` 为 true，
- * 懒加载 /api/observations/mine 与 life-list；切换用户时重置。
+ * 懒加载 /api/observations/mine 与自然观察进度；切换用户时重置。
  */
 export function useProfileObservations(shouldLoadObservations: boolean, userId: string | undefined) {
   const [myObservations, setMyObservations] = useState<ObservationEvent[]>([])
   const [observationsTotal, setObservationsTotal] = useState(0)
   const [uniqueSpeciesCount, setUniqueSpeciesCount] = useState(0)
+  const [naturalObservationProgress, setNaturalObservationProgress] =
+    useState<NaturalObservationProgressSummary | null>(null)
   const [isObservationsLoading, setIsObservationsLoading] = useState(false)
   const [observationsLoaded, setObservationsLoaded] = useState(false)
 
@@ -20,6 +23,7 @@ export function useProfileObservations(shouldLoadObservations: boolean, userId: 
     setMyObservations([])
     setObservationsTotal(0)
     setUniqueSpeciesCount(0)
+    setNaturalObservationProgress(null)
     setObservationsLoaded(false)
   }, [userId])
 
@@ -38,6 +42,12 @@ export function useProfileObservations(shouldLoadObservations: boolean, userId: 
         setMyObservations(mineData.observations || [])
         setObservationsTotal(mineData.total || 0)
         setUniqueSpeciesCount(lifeData.uniqueSpeciesCount || 0)
+        setNaturalObservationProgress({
+          totalObservations: lifeData.totalObservations || 0,
+          uniqueSpeciesCount: lifeData.uniqueSpeciesCount || 0,
+          topicProgress: lifeData.topicProgress || [],
+          unobservedSpeciesPreview: lifeData.unobservedSpeciesPreview || [],
+        })
       })
       .catch((err) => {
         logger.error("Failed to load user observations", { error: err })
@@ -58,6 +68,7 @@ export function useProfileObservations(shouldLoadObservations: boolean, userId: 
     myObservations,
     observationsTotal,
     uniqueSpeciesCount,
+    naturalObservationProgress,
     isObservationsLoading,
     observationsLoaded,
   }

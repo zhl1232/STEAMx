@@ -160,7 +160,7 @@ function MobileNatureHeader({ submitHref }: { submitHref: string }) {
       showUserButton={false}
       className={mobileHeaderClassName}
       rightSlot={
-        <Button asChild tone="success" shape="soft" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
+        <Button asChild tone="brand" shape="soft" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
           <Link href={submitHref}>
             <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
             发布观察
@@ -196,10 +196,10 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
           </p>
           <Button
             asChild
-            tone="success"
+            tone="brand"
             shape="soft"
             size="lg"
-            className="mt-7 hidden gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--nature-hero-bg))] md:inline-flex"
+            className="mt-7 hidden gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--background))] md:inline-flex"
           >
             <Link href={submitHref}>
               <Camera className="h-5 w-5" />
@@ -243,7 +243,7 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
       <div className="relative z-10 flex h-full min-h-[132px] flex-col justify-between p-3.5 md:min-h-[188px] md:p-5">
         <div>
           <div className="flex items-center gap-2">
-            <Icon className="h-4 w-4 shrink-0 text-[hsl(var(--brand-green))] md:h-5 md:w-5" strokeWidth={2.2} />
+            <Icon className="h-4 w-4 shrink-0 text-[hsl(var(--primary))] md:h-5 md:w-5" strokeWidth={2.2} />
             <h3 className="font-sans text-base font-bold leading-5 text-foreground md:text-lg md:leading-6">{topic.title}</h3>
           </div>
           <p className="mt-1 text-xs leading-5 text-muted-foreground md:text-sm">{topic.subtitle}</p>
@@ -255,13 +255,13 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
           </div>
           {topic.href ? (
             <span
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:border-[hsl(var(--brand-green)/0.5)] group-hover:bg-[hsl(var(--brand-green))] group-hover:text-[hsl(var(--brand-green-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:border-[hsl(var(--primary)/0.5)] group-hover:bg-[hsl(var(--primary))] group-hover:text-[hsl(var(--primary-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9"
               aria-hidden
             >
               <ArrowRight className="h-4 w-4" />
             </span>
           ) : (
-            <span className="shrink-0 rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--brand-green))]">
+            <span className="shrink-0 rounded-full bg-[hsl(var(--status-info-surface))] px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--primary))]">
               即将上线
             </span>
           )}
@@ -329,7 +329,7 @@ function DataStatusCard({
                 <Icon className="h-6 w-6" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="line-clamp-1 text-sm font-bold leading-5 text-[hsl(var(--nature-foreground))]">{item.title}</p>
+                <p className="line-clamp-1 text-sm font-bold leading-5 text-[hsl(var(--foreground))]">{item.title}</p>
                 <p className="mt-1 line-clamp-1 text-xs nature-text-muted">{item.value}</p>
               </div>
               <Link
@@ -359,7 +359,7 @@ function ContributionCard({ stats, embedded = false }: { stats: NatureObservatio
       }
     >
       <div className="absolute bottom-0 right-0 h-28 w-32 bg-[radial-gradient(circle_at_45%_80%,rgba(109,125,50,0.2),transparent_34%),radial-gradient(circle_at_72%_38%,rgba(22,132,75,0.18),transparent_28%)] dark:bg-[radial-gradient(circle_at_45%_80%,rgba(74,222,128,0.12),transparent_34%),radial-gradient(circle_at_72%_38%,rgba(45,212,191,0.1),transparent_28%)]" />
-      <h2 className="nature-heading text-[22px] text-[hsl(var(--nature-accent))]">社区贡献</h2>
+      <h2 className="nature-heading text-[22px] text-[hsl(var(--primary))]">社区贡献</h2>
       <div className="relative z-10 mt-5 grid grid-cols-2 gap-5">
         {contributionStats.map((stat) => {
           const Icon = stat.icon;
@@ -367,7 +367,7 @@ function ContributionCard({ stats, embedded = false }: { stats: NatureObservatio
             <div key={stat.label} className="flex items-center gap-3">
               <Icon className="h-7 w-7 shrink-0 nature-icon-accent" />
               <div>
-                <div className="text-metric text-[hsl(var(--nature-foreground))]">{stat.value}</div>
+                <div className="text-metric text-[hsl(var(--foreground))]">{stat.value}</div>
                 <div className="text-sm nature-text-muted">{stat.label}</div>
               </div>
             </div>

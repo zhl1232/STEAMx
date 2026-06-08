@@ -133,22 +133,6 @@
     --nav-bar-border: 214 32% 91%;
     --nav-logo: var(--brand-blue);
 
-    /* Nature theme (topic overlay on app shell) — accent 与 brand-green 同色 */
-    --nature-canvas: 138 33% 97%;
-    --nature-surface: 0 0% 100%;
-    --nature-surface-muted: 140 30% 94%;
-    --nature-border: 140 28% 86%;
-    --nature-accent: var(--brand-green);
-    --nature-accent-foreground: var(--brand-green-foreground);
-    --nature-accent-soft: var(--brand-green-soft);
-    --nature-foreground: 150 18% 12%;
-    --nature-muted: 150 10% 42%;
-    --nature-hero-bg: 150 42% 8%;
-
-    /* 树木子专题(橄榄绿调,仍接自然 shell) */
-    --nature-trees-canvas: 80 33% 96%;
-    --nature-trees-foreground: 100 18% 12%;
-
     /* Community accent — 与 brand-blue 同色 */
     --community-accent: var(--brand-blue);
     --community-hero-fg: 220 48% 10%;
@@ -265,20 +249,6 @@
     --nav-bar-bg: 220 30% 6%;
     --nav-bar-border: 218 20% 22%;
     --nav-logo: var(--brand-blue);
-
-    --nature-canvas: 150 28% 7%;
-    --nature-surface: 150 32% 10%;
-    --nature-surface-muted: 150 28% 14%;
-    --nature-border: 150 22% 24%;
-    --nature-accent: var(--brand-green);
-    --nature-accent-foreground: var(--brand-green-foreground);
-    --nature-accent-soft: var(--brand-green-soft);
-    --nature-foreground: 144 30% 94%;
-    --nature-muted: 150 12% 68%;
-    --nature-hero-bg: 150 42% 6%;
-
-    --nature-trees-canvas: 100 28% 7%;
-    --nature-trees-foreground: 96 30% 94%;
 
     --community-accent: var(--brand-blue);
     --community-hero-fg: 210 40% 96%;

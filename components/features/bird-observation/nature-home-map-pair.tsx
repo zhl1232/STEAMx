@@ -57,7 +57,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
 
   return (
     <section className="nature-section-card nature-home-map-panel overflow-hidden p-0">
-      <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--nature-border)/0.42)] px-4 py-2 md:border-[hsl(var(--nature-border)/0.6)] md:px-5 md:py-2.5">
+      <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.42)] px-4 py-2 md:border-[hsl(var(--surface-border)/0.6)] md:px-5 md:py-2.5">
         <p className="section-kicker tracking-normal">最近观察</p>
         <Link href="/nature/observations" className="nature-link inline-flex shrink-0 items-center gap-0.5 text-xs md:text-sm">
           查看全部
@@ -78,7 +78,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
             onMarkerHover={setHoveredId}
           />
         </div>
-        <div className="relative overflow-hidden border-t border-[hsl(var(--nature-border)/0.42)] bg-[hsl(var(--nature-accent-soft)/0.24)] md:max-h-[320px] md:overflow-y-auto md:border-[hsl(var(--nature-border)/0.6)] md:bg-transparent lg:max-h-[560px] lg:border-l lg:border-t-0">
+        <div className="relative overflow-hidden border-t border-[hsl(var(--surface-border)/0.42)] bg-[hsl(var(--status-info-surface)/0.24)] md:max-h-[320px] md:overflow-y-auto md:border-[hsl(var(--surface-border)/0.6)] md:bg-transparent lg:max-h-[560px] lg:border-l lg:border-t-0">
           {observations.length === 0 ? (
             <div className="flex h-full min-h-[160px] flex-col items-center justify-center gap-3 px-6 py-8 text-center md:min-h-[200px] md:py-10">
               <Leaf className="h-7 w-7 text-muted-foreground md:h-8 md:w-8" />
@@ -111,10 +111,10 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group block w-[72vw] max-w-[280px] rounded-[var(--radius-xs)] p-2.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--nature-surface))] active:bg-[hsl(var(--nature-accent-soft)/0.72)] ${
+                        className={`group block w-[72vw] max-w-[280px] rounded-[var(--radius-xs)] p-2.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-raised))] active:bg-[hsl(var(--status-info-surface)/0.72)] ${
                           isActive
-                            ? "bg-[hsl(var(--nature-accent-soft)/0.82)]"
-                            : "bg-[hsl(var(--nature-surface)/0.72)] hover:bg-[hsl(var(--nature-surface)/0.96)]"
+                            ? "bg-[hsl(var(--status-info-surface)/0.82)]"
+                            : "bg-[hsl(var(--surface-raised)/0.72)] hover:bg-[hsl(var(--surface-raised)/0.96)]"
                         }`}
                       >
                         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-xs)] bg-muted/50">
@@ -136,7 +136,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                           {isPending ? (
                             <span className="nature-chip">待鉴定</span>
                           ) : (
-                            <p className="truncate text-sm font-bold text-[hsl(var(--nature-foreground))]">{speciesName}</p>
+                            <p className="truncate text-sm font-bold text-[hsl(var(--foreground))]">{speciesName}</p>
                           )}
                           <p className="mt-1 flex items-center gap-1 truncate text-xs nature-text-muted">
                             <MapPin className="h-3 w-3 shrink-0" />

@@ -6,11 +6,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import { formatObservationDateKey } from "@/lib/observations/display";
+import type { NaturalObservationProgressSummary } from "@/lib/observations/progress";
 
 interface ProfileObservationsPanelProps {
   observations: ObservationEvent[];
   observationsTotal: number;
   uniqueSpeciesCount: number;
+  naturalObservationProgress?: NaturalObservationProgressSummary | null;
   isLoading: boolean;
   isLoaded: boolean;
 }
@@ -19,6 +21,7 @@ export function ProfileObservationsPanel({
   observations,
   observationsTotal,
   uniqueSpeciesCount,
+  naturalObservationProgress,
   isLoading,
   isLoaded,
 }: ProfileObservationsPanelProps) {
@@ -37,23 +40,84 @@ export function ProfileObservationsPanel({
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
           去自然观察频道提交第一条记录，把你的发现整理进个人主页。
         </p>
-        <Button asChild className="mt-6">
-          <Link href="/nature/submit">提交第一条观察</Link>
-        </Button>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <Button asChild>
+            <Link href="/nature/submit">提交第一条观察</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/nature/species">查看物种探索清单</Link>
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="col-span-full grid grid-cols-2 gap-4">
-        <div className="surface-subtle p-5">
-          <div className="text-3xl font-semibold text-foreground">{observationsTotal}</div>
-          <div className="mt-1 text-sm text-muted-foreground">观察记录总数</div>
+      <div className="surface-panel col-span-full overflow-hidden p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h3 className="text-base font-semibold text-foreground">自然观察进度</h3>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              已通过审核的观察记录会点亮对应物种，未观察目标会同步到物种探索清单。
+            </p>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/nature/species?status=unobserved">查看待观察物种</Link>
+          </Button>
         </div>
-        <div className="surface-subtle p-5">
-          <div className="text-3xl font-semibold text-foreground">{uniqueSpeciesCount}</div>
-          <div className="mt-1 text-sm text-muted-foreground">已观察物种数</div>
+        <div className="mt-5 grid gap-3 md:grid-cols-4">
+          <div className="rounded-md border border-border/70 bg-background/72 p-4">
+            <div className="text-2xl font-semibold tabular-nums text-foreground">{observationsTotal}</div>
+            <div className="mt-1 text-xs text-muted-foreground">观察记录总数</div>
+          </div>
+          <div className="rounded-md border border-border/70 bg-background/72 p-4">
+            <div className="text-2xl font-semibold tabular-nums text-foreground">{uniqueSpeciesCount}</div>
+            <div className="mt-1 text-xs text-muted-foreground">已观察物种</div>
+          </div>
+          {(naturalObservationProgress?.topicProgress || []).slice(1, 3).map((item) => (
+            <Link
+              key={item.topic}
+              href={`/nature/species?topic=${item.topic}&status=unobserved`}
+              className="rounded-md border border-border/70 bg-background/72 p-4 transition-colors hover:border-primary/35 hover:bg-muted/50"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-semibold text-foreground">{item.label}</span>
+                <span className="text-xs font-medium text-primary">{item.progressPercent}%</span>
+              </div>
+              <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary" style={{ width: `${item.progressPercent}%` }} />
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                还有 {item.unobservedCount.toLocaleString()} 个待观察
+              </p>
+            </Link>
+          ))}
+        </div>
+        {naturalObservationProgress?.unobservedSpeciesPreview?.length ? (
+          <div className="mt-5 border-t border-border/60 pt-4">
+            <p className="text-sm font-semibold text-foreground">下一批可以观察</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {naturalObservationProgress.unobservedSpeciesPreview.slice(0, 6).map((species) => (
+                <Link
+                  key={species.id}
+                  href={`/nature/species/${species.slug}`}
+                  className="rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/35 hover:bg-muted/60"
+                >
+                  {species.commonName}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <div className="col-span-full">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h3 className="text-base font-semibold text-foreground">最近观察记录</h3>
+          <Link href="/nature/observations" className="text-sm font-medium text-primary hover:underline">
+            查看全部
+          </Link>
         </div>
       </div>
 

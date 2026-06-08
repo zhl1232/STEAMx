@@ -25,7 +25,6 @@ const buttonVariants = cva(
                 success: "bg-[hsl(var(--status-success))] text-[hsl(var(--status-success-foreground))] hover:bg-[hsl(var(--status-success)/0.92)] shadow-[0_18px_34px_-22px_hsl(var(--status-success)/0.9)]",
                 warning: "bg-[hsl(var(--status-warning))] text-[hsl(var(--status-warning-foreground))] hover:bg-[hsl(var(--status-warning)/0.92)]",
                 danger: "bg-[hsl(var(--status-danger))] text-[hsl(var(--status-danger-foreground))] hover:bg-[hsl(var(--status-danger)/0.92)]",
-                nature: "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] hover:bg-[hsl(var(--nature-accent)/0.92)] shadow-[0_18px_34px_-22px_hsl(var(--nature-accent)/0.9)]",
             },
             shape: {
                 default: "rounded-xs",

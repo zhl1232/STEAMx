@@ -34,7 +34,7 @@ export function ObservationSubmitSuccessDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-2rem)] max-w-md gap-0 overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.86)] bg-background p-0 text-foreground shadow-[0_28px_80px_-48px_hsl(var(--surface-shadow)/0.55)] sm:max-w-lg">
         <DialogHeader className="border-b border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.48)] px-5 pb-4 pt-5 text-left">
-          <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(var(--nature-accent)/0.28)] bg-[hsl(var(--nature-accent-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--nature-accent))]">
+          <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(var(--primary)/0.28)] bg-[hsl(var(--status-info-surface))] px-3 py-1 text-xs font-semibold text-[hsl(var(--primary))]">
             <CheckCircle2 className="h-3.5 w-3.5" />
             已提交
           </div>
@@ -55,7 +55,7 @@ export function ObservationSubmitSuccessDialog({
                 className="object-cover"
               />
             ) : (
-              <div className="grid h-full place-items-center text-[hsl(var(--nature-accent))]">
+              <div className="grid h-full place-items-center text-[hsl(var(--primary))]">
                 <Sparkles className="h-10 w-10" />
               </div>
             )}
@@ -78,13 +78,13 @@ export function ObservationSubmitSuccessDialog({
                 管理员通过后，其他人才能在自然观察流里看到。
               </p>
             </div>
-            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--nature-accent)/0.24)] bg-[hsl(var(--nature-accent-soft)/0.72)] p-4">
-              <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--nature-accent))]">
+            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--primary)/0.24)] bg-[hsl(var(--status-info-surface)/0.72)] p-4">
+              <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--primary))]">
                 <Sparkles className="h-3.5 w-3.5" />
                 奖励发放
               </div>
-              <div className="mt-3 text-2xl font-semibold text-[hsl(var(--nature-accent))]">+{expectedXp} XP</div>
-              <p className="mt-2 text-xs leading-5 text-[hsl(var(--nature-muted))]">
+              <div className="mt-3 text-2xl font-semibold text-[hsl(var(--primary))]">+{expectedXp} XP</div>
+              <p className="mt-2 text-xs leading-5 text-[hsl(var(--muted-foreground))]">
                 经验和观察徽章会在审核通过时自动同步。
               </p>
             </div>
@@ -98,7 +98,7 @@ export function ObservationSubmitSuccessDialog({
                 ? appendNatureFrom(`/nature/observations/${observationId}`, "/nature/submit")
                 : "/nature/observations"
             }
-            className="inline-flex h-12 items-center justify-center rounded-full bg-[hsl(var(--nature-accent))] px-5 text-sm font-semibold text-[hsl(var(--nature-accent-foreground))] transition-colors hover:bg-[hsl(var(--nature-accent)/0.9)]"
+            className="inline-flex h-12 items-center justify-center rounded-full bg-[hsl(var(--primary))] px-5 text-sm font-semibold text-[hsl(var(--primary-foreground))] transition-colors hover:bg-[hsl(var(--primary)/0.9)]"
           >
             查看这条记录
           </Link>

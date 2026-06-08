@@ -18,6 +18,11 @@ import {
 import { createClient } from '@/lib/supabase/server'
 import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
 import {
+  calculateProgressPercent,
+  normalizeSpeciesObservationStatusFilter,
+  type SpeciesObservationStatusFilter,
+} from '@/lib/observations/progress'
+import {
   getNatureTopicLabel,
   normalizeSpeciesTopicFilter,
   resolveSpeciesNatureTopicKey,
@@ -36,6 +41,7 @@ import { getSpeciesImageUrls, normalizeSpeciesRow } from './nature-observation-c
 export interface SpeciesListOptions {
   query?: string
   topic?: SpeciesTopicFilter | string | null
+  status?: SpeciesObservationStatusFilter | string | null
   page?: number
   pageSize?: number
 }
@@ -92,6 +98,7 @@ async function fetchObservedSpeciesIdsForUser(
     .from('observation_events')
     .select('id')
     .eq('user_id', userId)
+    .eq('status', 'approved')
 
   if (eventError) {
     logger.error('Error fetching user observation events for species list', { error: eventError, userId })
@@ -159,10 +166,20 @@ async function getSpeciesTopicCounts(
 
 export async function getSpeciesList(
   options: SpeciesListOptions = {},
-): Promise<{ species: Species[]; total: number; hasMore: boolean; topicCounts: SpeciesTopicCount[] }> {
+): Promise<{
+  species: Species[]
+  total: number
+  hasMore: boolean
+  topicCounts: SpeciesTopicCount[]
+  observedCount: number
+  unobservedCount: number
+  progressPercent: number
+  isProgressAvailable: boolean
+}> {
   const supabase = await createClient()
   const { query, page = 0, pageSize = 12 } = options
   const topic = normalizeSpeciesTopicFilter(options.topic)
+  const status = normalizeSpeciesObservationStatusFilter(options.status)
   const sanitizedQuery = sanitizeSearch(query ?? '')
   const from = Math.max(0, page) * pageSize
   const to = from + pageSize - 1
@@ -195,18 +212,147 @@ export async function getSpeciesList(
 
   if (totalResult.error) {
     logger.error('Error counting species list', { error: totalResult.error })
-    return { species: [], total: 0, hasMore: false, topicCounts }
+    return {
+      species: [],
+      total: 0,
+      hasMore: false,
+      topicCounts,
+      observedCount: 0,
+      unobservedCount: 0,
+      progressPercent: 0,
+      isProgressAvailable: false,
+    }
   }
 
   const total = totalResult.count || 0
   const observedSpeciesIds = user?.id
     ? await fetchObservedSpeciesIdsForUser(supabase, user.id)
     : new Set<number>()
+  const isProgressAvailable = Boolean(user?.id)
+  const effectiveStatus = isProgressAvailable ? status : 'all'
   const observedSpeciesIdList = Array.from(observedSpeciesIds)
+
+  const countSpeciesByObservationStatus = async (observed: boolean) => {
+    if (!isProgressAvailable) return observed ? 0 : total
+    if (observedSpeciesIdList.length === 0) return observed ? 0 : total
+
+    let request = supabase
+      .from('species')
+      .select('id', { count: 'exact', head: true })
+      .eq('is_active', true)
+
+    if (observed) {
+      request = request.in('id', observedSpeciesIdList)
+    } else {
+      request = request.not('id', 'in', `(${observedSpeciesIdList.join(',')})`)
+    }
+
+    if (topic === 'all') {
+      request = request.in('nature_topic', [...visibleSpeciesTopicKeys])
+    } else {
+      request = request.eq('nature_topic', topic)
+    }
+
+    if (sanitizedQuery) {
+      request = request.or(buildSpeciesSearchFilter(sanitizedQuery))
+    }
+
+    const { count, error } = await request
+    if (error) {
+      logger.error('Error counting species observation progress', { error, observed, topic })
+      return 0
+    }
+
+    return count || 0
+  }
+
+  const [observedCount, unobservedCount] = await Promise.all([
+    countSpeciesByObservationStatus(true),
+    countSpeciesByObservationStatus(false),
+  ])
 
   let rows: SpeciesRow[] = []
 
-  if (observedSpeciesIdList.length === 0) {
+  if (effectiveStatus === 'observed') {
+    if (isProgressAvailable && observedSpeciesIdList.length > 0) {
+      let rowsRequest = supabase
+        .from('species')
+        .select(SPECIES_LIST_SELECT)
+        .eq('is_active', true)
+        .in('id', observedSpeciesIdList)
+
+      if (topic === 'all') {
+        rowsRequest = rowsRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+      } else {
+        rowsRequest = rowsRequest.eq('nature_topic', topic)
+      }
+
+      if (sanitizedQuery) {
+        rowsRequest = rowsRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+      }
+
+      const { data, error } = await rowsRequest
+        .order('common_name', { ascending: true })
+        .range(from, to)
+
+      if (error) {
+        logger.error('Error fetching observed-only species list', { error })
+        return {
+          species: [],
+          total: 0,
+          hasMore: false,
+          topicCounts,
+          observedCount,
+          unobservedCount,
+          progressPercent: calculateProgressPercent(observedCount, total),
+          isProgressAvailable,
+        }
+      }
+
+      rows = ((data || []) as unknown) as SpeciesRow[]
+    }
+  } else if (effectiveStatus === 'unobserved') {
+    if (isProgressAvailable) {
+      let rowsRequest = supabase
+        .from('species')
+        .select(SPECIES_LIST_SELECT)
+        .eq('is_active', true)
+
+      if (observedSpeciesIdList.length > 0) {
+        rowsRequest = rowsRequest.not('id', 'in', `(${observedSpeciesIdList.join(',')})`)
+      }
+
+      if (topic === 'all') {
+        rowsRequest = rowsRequest.in('nature_topic', [...visibleSpeciesTopicKeys])
+      } else {
+        rowsRequest = rowsRequest.eq('nature_topic', topic)
+      }
+
+      if (sanitizedQuery) {
+        rowsRequest = rowsRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
+      }
+
+      const { data, error } = await rowsRequest
+        .order('common_name', { ascending: true })
+        .range(from, to)
+
+      if (error) {
+        logger.error('Error fetching unobserved-only species list', { error })
+        return {
+          species: [],
+          total: 0,
+          hasMore: false,
+          topicCounts,
+          observedCount,
+          unobservedCount,
+          progressPercent: calculateProgressPercent(observedCount, total),
+          isProgressAvailable,
+        }
+      }
+
+      rows = ((data || []) as unknown) as SpeciesRow[]
+    }
+  } else if (observedSpeciesIdList.length === 0) {
     let rowsRequest = supabase
       .from('species')
       .select(SPECIES_LIST_SELECT)
@@ -228,7 +374,16 @@ export async function getSpeciesList(
 
     if (error) {
       logger.error('Error fetching species list', { error })
-      return { species: [], total: 0, hasMore: false, topicCounts }
+      return {
+        species: [],
+        total: 0,
+        hasMore: false,
+        topicCounts,
+        observedCount,
+        unobservedCount,
+        progressPercent: calculateProgressPercent(observedCount, total),
+        isProgressAvailable,
+      }
     }
 
     rows = ((data || []) as unknown) as SpeciesRow[]
@@ -249,13 +404,22 @@ export async function getSpeciesList(
       unobservedCountRequest = unobservedCountRequest.or(buildSpeciesSearchFilter(sanitizedQuery))
     }
 
-    const { count: unobservedCount, error: unobservedCountError } = await unobservedCountRequest
+    const { count: mixedUnobservedCount, error: unobservedCountError } = await unobservedCountRequest
     if (unobservedCountError) {
       logger.error('Error counting unobserved species list', { error: unobservedCountError })
-      return { species: [], total: 0, hasMore: false, topicCounts }
+      return {
+        species: [],
+        total: 0,
+        hasMore: false,
+        topicCounts,
+        observedCount,
+        unobservedCount,
+        progressPercent: calculateProgressPercent(observedCount, total),
+        isProgressAvailable,
+      }
     }
 
-    const unobservedTotal = unobservedCount || 0
+    const unobservedTotal = mixedUnobservedCount || 0
     const unobservedRowsNeeded = Math.max(0, Math.min(pageSize, unobservedTotal - from))
 
     if (unobservedRowsNeeded > 0) {
@@ -281,7 +445,16 @@ export async function getSpeciesList(
 
       if (error) {
         logger.error('Error fetching unobserved species list', { error })
-        return { species: [], total: 0, hasMore: false, topicCounts }
+        return {
+          species: [],
+          total: 0,
+          hasMore: false,
+          topicCounts,
+          observedCount,
+          unobservedCount,
+          progressPercent: calculateProgressPercent(observedCount, total),
+          isProgressAvailable,
+        }
       }
 
       rows.push(...(((data || []) as unknown) as SpeciesRow[]))
@@ -312,7 +485,16 @@ export async function getSpeciesList(
 
       if (error) {
         logger.error('Error fetching observed species list', { error })
-        return { species: [], total: 0, hasMore: false, topicCounts }
+        return {
+          species: [],
+          total: 0,
+          hasMore: false,
+          topicCounts,
+          observedCount,
+          unobservedCount,
+          progressPercent: calculateProgressPercent(observedCount, total),
+          isProgressAvailable,
+        }
       }
 
       rows.push(...(((data || []) as unknown) as SpeciesRow[]))
@@ -324,9 +506,21 @@ export async function getSpeciesList(
       ...mapSpeciesWithDerivedFields(row),
       observedByCurrentUser: observedSpeciesIds.has(row.id),
     })),
-    total,
-    hasMore: total > to + 1,
+    total: effectiveStatus === 'observed'
+      ? observedCount
+      : effectiveStatus === 'unobserved'
+        ? unobservedCount
+        : total,
+    hasMore: (effectiveStatus === 'observed'
+      ? observedCount
+      : effectiveStatus === 'unobserved'
+        ? unobservedCount
+        : total) > to + 1,
     topicCounts,
+    observedCount,
+    unobservedCount,
+    progressPercent: calculateProgressPercent(observedCount, total),
+    isProgressAvailable,
   }
 }
 

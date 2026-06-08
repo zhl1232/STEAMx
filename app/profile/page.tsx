@@ -48,6 +48,7 @@ import { type Notification, useOptionalNotifications } from '@/lib/context/notif
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import { getNotificationTargetHref } from '@/lib/notifications/navigation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
@@ -197,6 +198,7 @@ export default function ProfilePage() {
     profileHomeData?.exploringLastActivityByProjectId ?? {}
   const myObservations = profileHomeData?.myObservations ?? []
   const observationsTotal = profileHomeData?.observationsTotal ?? 0
+  const naturalObservationProgress = profileHomeData?.naturalObservationProgress ?? null
   const studyCheckInSummary = profileHomeData?.studyCheckInSummary ?? null
   const growthTasks = profileHomeData?.growthTasks ?? null
   const growthTasksGraduatedAt = profileHomeData?.growthTasksGraduatedAt ?? null
@@ -358,6 +360,7 @@ export default function ProfilePage() {
     exploringLastActivityByProjectId,
     myObservations,
     observationsTotal,
+    naturalObservationProgress,
     studyCheckInSummary,
     studyCheckInState,
     profileTimelineEvents,
@@ -387,6 +390,7 @@ function DesktopProfilePage({
   steamRadar,
   myObservations,
   observationsTotal,
+  naturalObservationProgress,
   studyCheckInSummary,
   studyCheckInState,
   profileTimelineEvents,
@@ -407,6 +411,7 @@ function DesktopProfilePage({
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
+  naturalObservationProgress: NaturalObservationProgressSummary | null
   studyCheckInSummary: ProfileStudyCheckInSummary | null
   studyCheckInState: StudyCheckInLoadState
   profileTimelineEvents: ProfileTimelineEvent[] | null
@@ -464,6 +469,11 @@ function DesktopProfilePage({
                   <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
                   <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" />
                 </section>
+
+                <NaturalObservationProgressCard
+                  progress={naturalObservationProgress}
+                  className="lg:col-span-2"
+                />
               </div>
             )}
 
@@ -503,6 +513,7 @@ function MobileProfilePage({
   exploringLastActivityByProjectId,
   profileTimelineEvents,
   profile,
+  naturalObservationProgress,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
@@ -514,6 +525,7 @@ function MobileProfilePage({
   exploringLastActivityByProjectId: Record<number, string>
   profileTimelineEvents: ProfileTimelineEvent[] | null
   profile: ReturnType<typeof useAuth>['profile']
+  naturalObservationProgress: NaturalObservationProgressSummary | null
 }) {
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
@@ -542,6 +554,8 @@ function MobileProfilePage({
           projects={exploringProjects}
           lastActivityByProjectId={exploringLastActivityByProjectId}
         />
+
+        <NaturalObservationProgressCard progress={naturalObservationProgress} mobile />
 
         <MobileActionGrid />
 
@@ -1702,6 +1716,62 @@ function ObservationList({
         <p className="mt-3 text-xs text-muted-foreground">还有 {total - visibleObservations.length} 条观察记录。</p>
       ) : null}
     </div>
+  )
+}
+
+function NaturalObservationProgressCard({
+  progress,
+  className,
+  mobile = false,
+}: {
+  progress: NaturalObservationProgressSummary | null
+  className?: string
+  mobile?: boolean
+}) {
+  const allProgress = progress?.topicProgress.find((item) => item.topic === 'all') ?? null
+  const observedCount = allProgress?.observedCount ?? progress?.uniqueSpeciesCount ?? 0
+  const totalSpecies = allProgress?.total ?? 0
+  const progressPercent = allProgress?.progressPercent ?? 0
+
+  if (!progress) {
+    return null
+  }
+
+  return (
+    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg p-6', className)}>
+      {mobile ? (
+        <MobileProfileSectionTitle title="自然观察进度" actionHref="/nature/species" actionLabel="查看清单" />
+      ) : (
+        <SectionTitle iconName="observation" title="自然观察进度" actionHref="/nature/species" actionLabel="查看物种清单" />
+      )}
+
+      <div className="mt-2">
+        <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline gap-2">
+            <span className="text-sm font-medium text-muted-foreground">已观察</span>
+            <span className="text-2xl font-bold tabular-nums text-foreground">
+              {observedCount.toLocaleString()}
+              {totalSpecies > 0 ? <span className="text-sm font-medium text-muted-foreground"> / {totalSpecies.toLocaleString()}</span> : null}
+            </span>
+          </div>
+          <span className="rounded-full bg-[hsl(var(--brand-green)/0.12)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-green))]">
+            {progressPercent}%
+          </span>
+        </div>
+        <div
+          className="mb-1 mt-3 h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progressPercent}
+        >
+          <div
+            className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--brand-green)),hsl(var(--brand-blue)))]"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      </div>
+    </section>
   )
 }
 

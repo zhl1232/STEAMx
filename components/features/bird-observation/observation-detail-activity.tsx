@@ -416,7 +416,7 @@ export function ObservationDetailActivity({
                     className={cn(
                       "h-full rounded-full transition-all duration-500",
                       consensus.progress >= 1
-                        ? "bg-[hsl(var(--nature-accent))]"
+                        ? "bg-[hsl(var(--primary))]"
                         : "bg-amber-500/80",
                     )}
                     style={{ width: `${Math.round(consensus.progress * 100)}%` }}
@@ -478,7 +478,7 @@ export function ObservationDetailActivity({
                 onChange={(event) => setCommentDraft(event.target.value)}
                 rows={1}
                 placeholder="写下你的分析或评论…"
-                className="max-h-24 min-h-10 w-full resize-none rounded-full border-0 bg-muted/70 py-2.5 pl-4 pr-11 text-sm leading-6 shadow-inner placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)] focus-visible:ring-offset-0"
+                className="max-h-24 min-h-10 w-full resize-none rounded-full border-0 bg-muted/70 py-2.5 pl-4 pr-11 text-sm leading-6 shadow-inner placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)] focus-visible:ring-offset-0"
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault()
@@ -494,7 +494,7 @@ export function ObservationDetailActivity({
                   "absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full transition-colors",
                   "disabled:cursor-not-allowed disabled:text-muted-foreground/35",
                   commentDraft.trim() && !isCommentSubmitting
-                    ? "text-[hsl(var(--nature-accent))] hover:bg-[hsl(var(--nature-accent-soft)/0.65)]"
+                    ? "text-[hsl(var(--primary))] hover:bg-[hsl(var(--status-info-surface)/0.65)]"
                     : "text-muted-foreground/45",
                 )}
               >
@@ -555,12 +555,12 @@ export function ObservationDetailActivity({
 
           <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-5 py-4">
             {selected ? (
-              <div className="flex items-start gap-3 rounded-sm border border-[hsl(var(--nature-accent)/0.35)] bg-[hsl(var(--nature-accent-soft)/0.5)] px-3.5 py-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))]">
+              <div className="flex items-start gap-3 rounded-sm border border-[hsl(var(--primary)/0.35)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]">
                   <Check className="h-4 w-4" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium text-[hsl(var(--nature-accent))]">已选择</p>
+                  <p className="text-xs font-medium text-[hsl(var(--primary))]">已选择</p>
                   <p className="mt-0.5 text-sm font-semibold text-foreground">{selected.commonName}</p>
                   {selected.scientificName ? (
                     <p className="mt-0.5 text-xs italic text-muted-foreground">{selected.scientificName}</p>
@@ -576,7 +576,7 @@ export function ObservationDetailActivity({
                   <select
                     value={lifecycleStage}
                     onChange={(event) => setLifecycleStage(event.target.value as "" | ObservationLifecycleStage)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                   >
                     <option value="">未注明</option>
                     {observationLifecycleStageOptions.map((option) => (
@@ -591,7 +591,7 @@ export function ObservationDetailActivity({
                   <select
                     value={sex}
                     onChange={(event) => setSex(event.target.value as "" | ObservationSex)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                   >
                     <option value="">未注明</option>
                     {observationSexOptions.map((option) => (
@@ -643,7 +643,7 @@ export function ObservationDetailActivity({
                         className={cn(
                           "flex w-full items-center gap-3 border-b border-border/50 px-3.5 py-3 text-left text-sm transition-colors last:border-b-0",
                           isActive
-                            ? "bg-[hsl(var(--nature-accent-soft)/0.6)]"
+                            ? "bg-[hsl(var(--status-info-surface)/0.6)]"
                             : "hover:bg-muted/50",
                         )}
                       >
@@ -656,7 +656,7 @@ export function ObservationDetailActivity({
                           ) : null}
                         </span>
                         {isActive ? (
-                          <Check className="h-4 w-4 shrink-0 text-[hsl(var(--nature-accent))]" />
+                          <Check className="h-4 w-4 shrink-0 text-[hsl(var(--primary))]" />
                         ) : null}
                       </button>
                     </li>
@@ -695,7 +695,7 @@ export function ObservationDetailActivity({
               </Button>
               <Button
                 type="button"
-                tone="nature"
+                tone="brand"
                 shape="pill"
                 className="h-11 flex-1"
                 disabled={!selected || isSavingId}

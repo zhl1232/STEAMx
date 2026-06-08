@@ -168,7 +168,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                 <Link
                   href={primarySpeciesHref}
                   aria-label={`查看${headline.title}物种百科`}
-                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--nature-accent)/0.35)]"
+                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                 >
                   <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
                   {headline.scientificName ? (

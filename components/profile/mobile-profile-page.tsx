@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
 import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
+import type { NaturalObservationProgressSummary } from "@/lib/observations/progress";
 import type { ProfileLibraryTab } from "@/lib/profile/library-tabs";
 import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar";
 
@@ -77,6 +78,7 @@ interface MobileProfilePageProps {
   myObservations?: ObservationEvent[];
   observationsTotal?: number;
   uniqueSpeciesCount?: number;
+  naturalObservationProgress?: NaturalObservationProgressSummary | null;
   isObservationsLoading?: boolean;
   observationsLoaded?: boolean;
   onTabChange?: (value: ProfileLibraryTab) => void;
@@ -119,6 +121,7 @@ export function MobileProfilePage({
   myObservations = [],
   observationsTotal = 0,
   uniqueSpeciesCount = 0,
+  naturalObservationProgress = null,
   isObservationsLoading = false,
   observationsLoaded = false,
   onTabChange,
@@ -396,6 +399,7 @@ export function MobileProfilePage({
             observations={myObservations}
             observationsTotal={observationsTotal}
             uniqueSpeciesCount={uniqueSpeciesCount}
+            naturalObservationProgress={naturalObservationProgress}
             isLoading={isObservationsLoading}
             isLoaded={observationsLoaded}
           />

@@ -178,7 +178,7 @@ export function ObservationSpeciesCompareSheet({
             关闭
           </Button>
           {speciesPageHref ? (
-            <Button asChild tone="nature" shape="pill" className="flex-1">
+            <Button asChild tone="brand" shape="pill" className="flex-1">
               <Link href={speciesPageHref}>
                 查看完整档案
                 <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
@@ -242,8 +242,8 @@ function CompareImageViewer({
               onClick={() => onActiveIndexChange(index)}
               className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 transition ${
                 index === activeIndex
-                  ? "border-[hsl(var(--nature-accent))] ring-2 ring-[hsl(var(--nature-accent)/0.18)]"
-                  : "border-border/70 opacity-80 hover:border-[hsl(var(--nature-accent)/0.55)] hover:opacity-100"
+                  ? "border-[hsl(var(--primary))] ring-2 ring-[hsl(var(--primary)/0.18)]"
+                  : "border-border/70 opacity-80 hover:border-[hsl(var(--primary)/0.55)] hover:opacity-100"
               }`}
               aria-label={`查看比较图片 ${index + 1}`}
               aria-pressed={index === activeIndex}

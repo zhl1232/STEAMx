@@ -45,7 +45,6 @@ export function BottomNav() {
             label: "自然",
             icon: Leaf,
             active: pathname === "/nature" || pathname.startsWith("/nature/"),
-            nature: true,
         },
         {
             href: "/profile",
@@ -61,13 +60,8 @@ export function BottomNav() {
             <div className="bottom-nav-scrim" aria-hidden="true" />
             <div className="bottom-nav-bar">
                 {navItems.map((item) => {
-                    const isNatureItem = Boolean(item.nature);
-                    const activePillClass = isNatureItem
-                        ? "bg-[hsl(var(--nature-accent))] text-[hsl(var(--nature-accent-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nature-accent)/0.8)]"
-                        : "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
-                    const inactivePillClass = isNatureItem
-                        ? "text-muted-foreground hover:bg-[hsl(var(--nature-accent-soft))] hover:text-[hsl(var(--nature-accent))]"
-                        : "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
+                    const activePillClass = "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
+                    const inactivePillClass = "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
                     const content = (
                         <motion.div
                             whileTap={{ scale: 0.85 }}

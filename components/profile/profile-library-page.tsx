@@ -106,6 +106,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
     myObservations,
     observationsTotal,
     uniqueSpeciesCount,
+    naturalObservationProgress,
     isObservationsLoading,
     observationsLoaded,
   } = useProfileObservations(
@@ -647,6 +648,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
                       observations={myObservations}
                       observationsTotal={observationsTotal}
                       uniqueSpeciesCount={uniqueSpeciesCount}
+                      naturalObservationProgress={naturalObservationProgress}
                       isLoading={isObservationsLoading}
                       isLoaded={observationsLoaded}
                     />
@@ -695,6 +697,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
       myObservations={myObservations}
       observationsTotal={observationsTotal}
       uniqueSpeciesCount={uniqueSpeciesCount}
+      naturalObservationProgress={naturalObservationProgress}
       isObservationsLoading={isObservationsLoading}
       observationsLoaded={observationsLoaded}
       onTabChange={handleMobileTabChange}

@@ -117,7 +117,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
               className={cn(
                 "relative h-16 w-16 shrink-0 overflow-hidden rounded-xs border-2 transition-all duration-200 sm:h-[72px] sm:w-[72px]",
                 index === activeIndex
-                  ? "scale-[1.02] border-[hsl(var(--nature-accent))] shadow-sm"
+                  ? "scale-[1.02] border-[hsl(var(--primary))] shadow-sm"
                   : "border-border/70 opacity-80 hover:opacity-100",
               )}
             >

@@ -202,7 +202,7 @@ export function ObservationIdentificationsPanel({
     <section className="border-t border-border/60 pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-foreground">共同鉴定</h2>
-        <Button type="button" tone="nature" shape="pill" size="sm" onClick={openIdentificationSheet}>
+        <Button type="button" tone="brand" shape="pill" size="sm" onClick={openIdentificationSheet}>
           参与鉴定
         </Button>
       </div>
@@ -363,7 +363,7 @@ export function ObservationIdentificationsPanel({
             </Button>
             <Button
               type="button"
-              tone="nature"
+              tone="brand"
               shape="pill"
               className="flex-1"
               disabled={!selected || isSaving}

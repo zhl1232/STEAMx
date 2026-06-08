@@ -26,6 +26,10 @@ describe('GET /api/species', () => {
       total: 0,
       hasMore: false,
       topicCounts: [],
+      observedCount: 0,
+      unobservedCount: 0,
+      progressPercent: 0,
+      isProgressAvailable: false,
     })
   })
 
@@ -37,6 +41,7 @@ describe('GET /api/species', () => {
     expect(getSpeciesListMock).toHaveBeenCalledWith({
       query: '雀',
       topic: 'birds',
+      status: 'all',
       page: 2,
       pageSize: 18,
     })
@@ -49,6 +54,19 @@ describe('GET /api/species', () => {
     expect(getSpeciesListMock).toHaveBeenCalledWith({
       query: undefined,
       topic: 'all',
+      status: 'all',
+      page: 0,
+      pageSize: 12,
+    })
+  })
+
+  it('passes observation status filters to the species reader', async () => {
+    await GET(new NextRequest('http://localhost/api/species?topic=insects&status=unobserved') as never)
+
+    expect(getSpeciesListMock).toHaveBeenCalledWith({
+      query: undefined,
+      topic: 'insects',
+      status: 'unobserved',
       page: 0,
       pageSize: 12,
     })

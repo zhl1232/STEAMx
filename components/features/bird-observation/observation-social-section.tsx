@@ -62,7 +62,7 @@ export function ObservationSocialSection({
             className="flex-1 justify-start"
           />
           {submitHref ? (
-            <Button asChild tone="nature" shape="pill" size="default" className="shrink-0 px-4">
+            <Button asChild tone="brand" shape="pill" size="default" className="shrink-0 px-4">
               <Link href={submitHref}>再记一条</Link>
             </Button>
           ) : null}

@@ -17,9 +17,9 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
-| `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
+| `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、自然观察进度、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
@@ -43,7 +43,7 @@
 
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
-- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大
+- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
@@ -80,7 +80,7 @@
 | replies | `api/replies/` | 回复 CRUD |
 | reports | `api/reports/` | 举报提交 |
 | settings | `api/settings/` | 用户设置更新 |
-| species | `api/species/` | 物种查询 |
+| species | `api/species/` | 物种查询；支持 `topic`、关键词和 `status=all/unobserved/observed`，返回当前筛选范围的自然观察进度统计 |
 | tips | `api/tips/` | 打赏 |
 | upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象 |
 | upload-video | `api/upload-video/` | 视频上传 |
@@ -170,7 +170,8 @@
 - `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
 - `categories.ts` — 分类与子分类
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
-- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核）
+- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录计算已观察/待观察进度）
+- `nature-observation-progress.ts` — 用户自然观察进度摘要：按专题汇总已观察/待观察物种，并提供个人页待观察预览
 - `observation-gamification.ts` — 观察游戏化逻辑
 - `lib/observations/submit-topic.ts` — 观察提交专题（birds/plants/insects）归一化与文案
 - `lib/observations/traits.ts` — 观察生命阶段/性别枚举、选项与展示文案
@@ -256,7 +257,7 @@
 | `use-observation-interactions` | `hooks/use-observation-interactions.ts` | 观察记录互动（点赞等） |
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
-| `use-profile-observations` | `hooks/profile/` | 个人观察记录 |
+| `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
 | `use-2048` 等 | `hooks/playground/` | 19 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序/电路/生命游戏） |
 
 ---
