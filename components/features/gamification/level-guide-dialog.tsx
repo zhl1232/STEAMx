@@ -153,7 +153,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
     <Dialog>
       <DialogTrigger asChild>
         {children || (
-          <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full">
+          <Button variant="ghost" size="icon" shape="square" className="h-6 w-6">
             <Info className="h-4 w-4" />
             <span className="sr-only">查看成长体系</span>
           </Button>

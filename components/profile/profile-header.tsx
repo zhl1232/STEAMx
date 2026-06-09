@@ -80,7 +80,7 @@ export function ProfileHeader({
             </Link>
 
             <div className="flex items-center gap-1.5">
-              <Button asChild variant="ghost" size="icon" className="relative h-9 w-9 rounded-full border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
+              <Button asChild variant="ghost" size="icon" shape="square" className="relative h-9 w-9 border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
                 <Link href="/messages">
                   <Bell className="h-4.5 w-4.5" />
                   {unreadCount > 0 ? (
@@ -91,7 +91,7 @@ export function ProfileHeader({
                   <span className="sr-only">消息通知</span>
                 </Link>
               </Button>
-              <Button asChild variant="ghost" size="icon" className="h-9 w-9 rounded-full border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
+              <Button asChild variant="ghost" size="icon" shape="square" className="h-9 w-9 border border-border/70 bg-background/70 backdrop-blur-md transition-colors hover:bg-muted/70">
                 <Link href="/settings">
                   <Settings className="h-4.5 w-4.5" />
                   <span className="sr-only">设置</span>
@@ -134,20 +134,20 @@ export function ProfileHeader({
 
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                 <EditProfileDialog>
-                  <Button variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
+                  <Button variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
                     编辑资料
                   </Button>
                 </EditProfileDialog>
 
                 {canReview ? (
-                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
                     <Link href="/admin">
                       <LayoutDashboard className="mr-1.5 h-3.5 w-3.5" />
                       管理后台
                     </Link>
                   </Button>
                 ) : canApplyModerator ? (
-                  <Button asChild variant="outline" size="sm" className="h-8 rounded-full border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
                     <Link href="/moderator/apply">
                       <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
                       申请审核员

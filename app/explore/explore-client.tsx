@@ -1381,7 +1381,6 @@ export function ExploreClient({
                                                     <Button
                                                         variant="outline"
                                                         onClick={() => handlePresetClick('beginner-friendly')}
-                                                        className="rounded-full"
                                                     >
                                                         试试新手推荐
                                                     </Button>
@@ -1389,7 +1388,6 @@ export function ExploreClient({
                                                 <Button
                                                     variant="outline"
                                                     onClick={handleClearFilters}
-                                                    className="rounded-full"
                                                 >
                                                     {isResultsMode ? '返回探索' : '清除所有筛选'}
                                                 </Button>
@@ -1643,13 +1641,13 @@ export function ExploreClient({
                                 <div className="flex gap-3">
                                     <Button
                                         variant="outline"
-                                        className="flex-1 rounded-sm"
+                                        className="flex-1"
                                         onClick={() => handleFilterSheetOpenChange(false)}
                                     >
                                         取消
                                     </Button>
                                     <Button
-                                        className="flex-1 rounded-sm"
+                                        className="flex-1"
                                         onClick={handleConfirmFilters}
                                     >
                                         查看结果
@@ -1733,7 +1731,7 @@ export function ExploreClient({
 
                             <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
                                 <Button
-                                    className="w-full rounded-sm"
+                                    className="w-full"
                                     onClick={() => setSheetView('filters')}
                                 >
                                     完成

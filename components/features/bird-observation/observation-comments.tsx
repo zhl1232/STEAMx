@@ -175,7 +175,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
           className="resize-none rounded-md"
         />
         <div className="flex justify-end">
-          <Button size="sm" className="rounded-full" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
+          <Button size="sm" onClick={handleSubmit} disabled={isSubmitting || !content.trim()}>
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

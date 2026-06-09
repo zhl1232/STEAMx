@@ -513,7 +513,7 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
           targetUserId={author.id}
           variant="outline"
           showIcon={false}
-          className="h-8 min-w-[72px] shrink-0 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-3 text-xs text-foreground hover:bg-[hsl(var(--surface-muted))]"
+          className="h-8 min-w-[72px] shrink-0 border-[hsl(var(--surface-border-strong))] bg-background/72 px-3 text-xs text-foreground hover:bg-[hsl(var(--surface-muted))]"
         />
       </section>
     )
@@ -554,7 +554,7 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
           targetUserId={author.id}
           variant="outline"
           showIcon={false}
-          className="h-9 min-w-[86px] shrink-0 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-4 text-foreground hover:bg-[hsl(var(--surface-muted))]"
+          className="h-9 min-w-[86px] shrink-0 border-[hsl(var(--surface-border-strong))] bg-background/72 px-4 text-foreground hover:bg-[hsl(var(--surface-muted))]"
         />
       </div>
 
@@ -1119,7 +1119,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                         这个项目可作为挑战作品的参考实践。
                       </p>
                     </div>
-                    <Button asChild variant="outline" className="h-9 shrink-0 rounded-xs">
+                    <Button asChild variant="outline" className="h-9 shrink-0">
                       <Link href={`/pbl/${project.challenge_id}`}>查看挑战</Link>
                     </Button>
                   </section>

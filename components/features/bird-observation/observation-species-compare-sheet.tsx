@@ -174,11 +174,11 @@ export function ObservationSpeciesCompareSheet({
         </div>
 
         <SheetFooter className="flex-row gap-2 border-t border-border/60 bg-muted/15 px-5 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
-          <Button type="button" variant="outline" shape="pill" className="flex-1" onClick={() => onOpenChange(false)}>
+          <Button type="button" variant="outline" className="flex-1" onClick={() => onOpenChange(false)}>
             关闭
           </Button>
           {speciesPageHref ? (
-            <Button asChild tone="brand" shape="pill" className="flex-1">
+            <Button asChild tone="brand" className="flex-1">
               <Link href={speciesPageHref}>
                 查看完整档案
                 <ExternalLink className="ml-1.5 h-3.5 w-3.5" />

@@ -450,7 +450,7 @@ export function ModeratorApplicationsList() {
                                         variant="destructive"
                                         onClick={() => handleRejectClick(app)}
                                         disabled={isProcessing || !isPending}
-                                        className="rounded-full"
+                                        shape="pill"
                                     >
                                         <XCircle className="mr-2 h-4 w-4" />
                                         拒绝
@@ -497,14 +497,13 @@ export function ModeratorApplicationsList() {
                     <DialogFooter>
                         <Button
                             variant="outline"
-                            className="rounded-full"
                             onClick={closeRejectDialog}
                         >
                             取消
                         </Button>
                         <Button
                             variant="destructive"
-                            className="rounded-full"
+                            shape="pill"
                             onClick={() => selectedApp && handleReview(selectedApp, "reject")}
                             disabled={isProcessing || !rejectReason.trim()}
                         >

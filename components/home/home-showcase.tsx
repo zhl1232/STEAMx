@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { RecommendationPanel } from "@/components/home/recommendation-panel";
+import { buttonVariants } from "@/components/ui/button";
 import { Surface } from "@/components/ui/surface";
 import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { SteamLogo } from "@/components/layout/logo";
@@ -260,7 +261,12 @@ function MobileLeaderboardEntry() {
         <span className="block text-[14px] font-extrabold leading-5 text-foreground">社区排行榜</span>
         <span className="mt-0.5 block truncate text-[11px] font-medium leading-4 text-muted-foreground">查看积分、徽章和项目榜单</span>
       </span>
-      <span className="inline-flex h-7 items-center gap-1 rounded-sm bg-[hsl(var(--brand-blue))] px-2.5 text-[11px] font-semibold text-[hsl(var(--brand-blue-foreground))] transition group-hover:brightness-95">
+      <span
+        className={cn(
+          buttonVariants({ variant: "ghost", tone: "brand", size: "sm" }),
+          "h-7 gap-1 px-2.5 text-[11px] font-semibold transition group-hover:bg-[hsl(var(--brand-blue)/0.92)]"
+        )}
+      >
         查看
         <ArrowRight className="h-3.5 w-3.5" />
       </span>
@@ -430,9 +436,9 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
       <Surface className="p-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-foreground">活动推荐</h2>
-          <Link href="/community?tab=challenges" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
+          <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
         </div>
-        <Link href="/community?tab=challenges" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border))] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
+        <Link href="/create" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border))] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
           <div className="relative h-[58px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
             <Image src={heroImage} alt="STEAM 创新大赛" fill sizes="120px" className="object-cover object-[62%_center]" />
           </div>

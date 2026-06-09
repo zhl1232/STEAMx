@@ -454,7 +454,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
           </div>
           <div className="relative grid min-h-[254px] gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)] lg:items-end xl:px-8">
             <div className="flex items-start gap-3">
-              <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-sm bg-background/62">
+              <Button asChild variant="ghost" size="icon" shape="square" className="h-10 w-10 bg-background/62">
                 <Link href="/profile" aria-label="返回个人主页">
                   <ChevronLeft className="h-5 w-5" />
                 </Link>

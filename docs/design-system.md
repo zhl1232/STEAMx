@@ -106,17 +106,19 @@ import { Surface } from "@/components/ui/surface"
 | Prop | 值 | 说明 |
 |------|-----|------|
 | `variant` | `default` `outline` `ghost` `destructive` … | 与 shadcn 一致 |
-| `tone` | `brand` `success` `warning` `danger` `nature` | 语义色（覆盖默认背景） |
+| `tone` | `brand` `success` `warning` `danger` | 语义色（覆盖默认背景） |
 | `shape` | `default` `soft` `pill` `square` | 圆角档位 |
 
 ```tsx
-<Button tone="brand" shape="square">开始探索</Button>
-<Button tone="success" shape="soft" className="h-12 flex-1">开始项目</Button>
+<Button tone="brand">普通品牌操作</Button>
+<Button tone="success" className="h-12 flex-1">开始项目</Button>
+<Button variant="outline" shape="soft">普通操作</Button>
 <Button tone="success" shape="pill">批准通过</Button>
 <Button tone="danger" shape="pill">拒绝</Button>
 ```
 
-主 CTA、审核操作、底栏固定按钮应使用 `tone` + `shape`，不要写 `bg-green-600`、`rounded-[12px]`。
+按钮默认圆角为 `--radius-sm`（10px），移动端顶部按钮、工具栏/表单内普通按钮都使用默认或 `shape="soft"`。大号主 CTA、审核操作、底栏固定按钮可使用 `shape="pill"`；紧凑图标按钮可用 `shape="square"`。不要写 `bg-green-600`、`rounded-[12px]`。
+链接型按钮优先使用 `<Button asChild>`；如果整张卡片已经是 `Link`，内部右侧的按钮视觉必须复用 `buttonVariants({ tone, shape })`，不要手写 `rounded-*`、`bg-*` 形成局部圆角漂移。
 
 ---
 
@@ -189,7 +191,8 @@ import { Surface } from "@/components/ui/surface"
 | `app-canvas-community` | 社区页背景渐变 |
 | `community-nature-cta` | 挑战页「补充观察记录」链接 |
 | `community-related-project-link` | 挑战详情相关项目卡片 |
-| `profile-soft-cta` / `profile-success-cta` / `profile-stats-bar` | 个人页次要 CTA 与统计条 |
+| `profile-action-cta` | 个人页移动端卡片内次级行动按钮（今日任务、空状态、成长任务必须统一使用；不要做成实心主按钮） |
+| `profile-soft-cta` / `profile-success-cta` / `profile-stats-bar` | 个人页桌面次要 CTA 与统计条 |
 | `skip-link` | 键盘用户「跳到主内容」 |
 
 ---

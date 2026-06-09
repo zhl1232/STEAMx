@@ -117,7 +117,7 @@ export default function SettingsPage() {
                 </div>
                 <Button
                   variant="destructive"
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-md border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
+                  className="flex h-12 w-full items-center justify-center gap-2 border border-red-200 bg-red-500/10 text-base font-semibold text-red-600 hover:bg-red-500/18 hover:text-red-700 dark:border-red-900/50"
                   onClick={handleLogout}
                   disabled={isLoggingOut}
                 >

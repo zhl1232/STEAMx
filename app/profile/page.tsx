@@ -30,6 +30,7 @@ import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gal
 import { BadgeIcon } from '@/components/features/gamification/badge-icon'
 import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-tasks-graduated-card'
 import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
+import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
 import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
 import {
@@ -59,6 +60,8 @@ import {
 } from '@/lib/profile/study-checkin'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
+import type { ProfileNextAction } from '@/lib/profile/next-action'
+import { isExploreVacuum as isProfileExploreVacuum, resolveProfileNextAction } from '@/lib/profile/next-action'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
@@ -329,6 +332,15 @@ export default function ProfilePage() {
   ]
   const resolvedGrowthTasks = growthTasks ?? fallbackGrowthTasks
   const completedTaskCount = getCompletedGrowthTaskCount(resolvedGrowthTasks)
+  const nextAction = resolveProfileNextAction({
+    exploringProjects,
+    steamRadar,
+    myProjects,
+    myObservations,
+    profileTimelineEvents,
+    growthTasks: resolvedGrowthTasks,
+    naturalObservationProgress,
+  })
 
   const profileContext = {
     userName,
@@ -346,6 +358,7 @@ export default function ProfilePage() {
     profileContext,
     stats,
     growthTasks: resolvedGrowthTasks,
+    nextAction,
     growthTasksGraduatedAt,
     growthGraduationSparkle,
     completedTaskCount,
@@ -378,6 +391,7 @@ function DesktopProfilePage({
   profileContext,
   stats,
   growthTasks,
+  nextAction,
   growthTasksGraduatedAt,
   growthGraduationSparkle,
   completedTaskCount,
@@ -399,6 +413,7 @@ function DesktopProfilePage({
   profileContext: ProfileContext
   stats: ProfileStat[]
   growthTasks: ProfileGrowthTask[]
+  nextAction: ProfileNextAction
   growthTasksGraduatedAt: string | null
   growthGraduationSparkle: boolean
   completedTaskCount: number
@@ -417,7 +432,7 @@ function DesktopProfilePage({
   profileTimelineEvents: ProfileTimelineEvent[] | null
   profile: ReturnType<typeof useAuth>['profile']
 }) {
-  const isExploreVacuum = !steamRadar && myProjects.length === 0 && myObservations.length === 0
+  const isExploreVacuum = isProfileExploreVacuum({ steamRadar, myProjects, myObservations })
 
   return (
     <div className="profile-page-surface min-h-screen pb-10 text-foreground">
@@ -481,6 +496,11 @@ function DesktopProfilePage({
           </div>
 
           <aside className="col-span-12 min-w-0 space-y-6 xl:col-span-4">
+            <ProfileNextActionCard
+              action={nextAction}
+              claimPending={claimingTaskId === nextAction.growthTaskId}
+              onClaim={onClaimGrowthTask}
+            />
             <GrowthTasksPanel
               tasks={growthTasks}
               growthTasksGraduatedAt={growthTasksGraduatedAt}
@@ -490,7 +510,6 @@ function DesktopProfilePage({
               onClaim={onClaimGrowthTask}
             />
             <StudyCheckInPanel studyCheckInSummary={studyCheckInSummary} studyCheckInState={studyCheckInState} />
-            <RecommendedChallengePanel />
             <CommunityFeedPanel
               projects={myProjects}
               compactEmpty={isExploreVacuum}
@@ -505,6 +524,9 @@ function DesktopProfilePage({
 function MobileProfilePage({
   profileContext,
   stats,
+  nextAction,
+  claimingTaskId,
+  onClaimGrowthTask,
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
@@ -517,6 +539,9 @@ function MobileProfilePage({
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
+  nextAction: ProfileNextAction
+  claimingTaskId: GrowthTaskId | null
+  onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
@@ -550,6 +575,13 @@ function MobileProfilePage({
           compact
         />
 
+        <ProfileNextActionCard
+          action={nextAction}
+          claimPending={claimingTaskId === nextAction.growthTaskId}
+          onClaim={onClaimGrowthTask}
+          className="profile-mobile-panel p-4"
+        />
+
         <MobileExploringProjectsCard
           projects={exploringProjects}
           lastActivityByProjectId={exploringLastActivityByProjectId}
@@ -570,7 +602,7 @@ function MobileProfilePage({
           ) : (
             <div className="mt-4 flex min-h-[220px] flex-col items-center justify-center rounded-md border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-8 text-center">
               <p className="text-sm leading-6 text-muted-foreground">完成项目后生成能力图谱。</p>
-              <Link href="/explore" className="profile-mobile-empty-cta mt-4">
+              <Link href="/explore" className="profile-action-cta mt-4">
                 去发现
               </Link>
             </div>
@@ -1050,7 +1082,7 @@ function MobileExploringProjectsCard({
               在项目详情页点击「开始探索」后会显示在这里。
             </span>
           </span>
-          <Link href="/explore" className="profile-mobile-empty-cta h-9 shrink-0 px-4">
+          <Link href="/explore" className="profile-action-cta">
             去发现
           </Link>
         </div>
@@ -1271,39 +1303,6 @@ function StudyCheckInPanel({
       state={studyCheckInState}
       className={className}
     />
-  )
-}
-
-function RecommendedChallengePanel() {
-  return (
-    <section className="surface-panel rounded-lg p-6">
-      <SectionTitle iconName="emptyProjects" title="推荐下一步挑战" actionHref="/community?tab=challenges" actionLabel="查看全部" />
-      <Link href="/community?tab=challenges" className="surface-card mt-4 grid grid-cols-[106px_minmax(0,1fr)] gap-3 p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
-        <div className="relative min-h-[108px] overflow-hidden rounded-sm bg-[linear-gradient(145deg,hsl(var(--tone-science-soft)),hsl(var(--brand-amber)/0.14))]">
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="relative h-20 w-20">
-              <div className="absolute left-1 top-9 h-2 w-16 rotate-[-16deg] rounded-full bg-[hsl(var(--brand-blue)/0.18)]" />
-              <Rocket className="absolute left-4 top-3 h-12 w-12 rotate-45 text-[hsl(var(--brand-blue))]" strokeWidth={2.2} />
-              <Sparkles className="absolute right-1 top-1 h-5 w-5 text-[hsl(var(--brand-amber))]" />
-            </div>
-          </div>
-        </div>
-        <div className="min-w-0 py-1 pr-1">
-          <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground">纸飞机飞行距离挑战赛</h3>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            <span className="rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">限时挑战</span>
-            <span className="rounded-full bg-[hsl(var(--brand-amber)/0.14)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-amber))]">剩余 5 天</span>
-          </div>
-          <div className="mt-4 flex items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
-              <UsersRound className="h-3.5 w-3.5" />
-              1,258 人参与
-            </span>
-            <span className={cn('profile-soft-cta', 'h-8 shrink-0 px-3 text-xs font-semibold')}>去参与</span>
-          </div>
-        </div>
-      </Link>
-    </section>
   )
 }
 
@@ -1811,7 +1810,7 @@ function ProfileStarterHub() {
             </Link>
           </div>
           <Link
-            href="/community?tab=challenges"
+            href="/create"
             className="inline-flex w-fit items-center gap-0.5 text-sm font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.85)]"
           >
             去参加社区挑战

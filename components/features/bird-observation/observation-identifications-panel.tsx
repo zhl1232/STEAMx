@@ -202,7 +202,7 @@ export function ObservationIdentificationsPanel({
     <section className="border-t border-border/60 pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-foreground">共同鉴定</h2>
-        <Button type="button" tone="brand" shape="pill" size="sm" onClick={openIdentificationSheet}>
+        <Button type="button" tone="brand" size="sm" onClick={openIdentificationSheet}>
           参与鉴定
         </Button>
       </div>
@@ -358,13 +358,12 @@ export function ObservationIdentificationsPanel({
             ) : null}
           </div>
           <SheetFooter className="flex-row gap-2 border-t border-border/60 pt-4">
-            <Button type="button" variant="outline" shape="pill" className="flex-1" onClick={() => setSheetOpen(false)}>
+            <Button type="button" variant="outline" className="flex-1" onClick={() => setSheetOpen(false)}>
               取消
             </Button>
             <Button
               type="button"
               tone="brand"
-              shape="pill"
               className="flex-1"
               disabled={!selected || isSaving}
               onClick={() => void submitIdentification()}

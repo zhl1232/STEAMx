@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import { ObservationCard } from "@/components/features/bird-observation/observation-card";
+import { Button } from "@/components/ui/button";
 import type { ObservationEvent } from "@/lib/mappers/types";
 
 interface ObservationsListLoadMoreProps {
@@ -93,11 +94,12 @@ export function ObservationsListLoadMore({
           </p>
           {hasMore ? (
             <div className="flex flex-col items-center gap-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => void loadMore()}
                 disabled={loading}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border/80 bg-background/80 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted/70 disabled:pointer-events-none disabled:opacity-50"
+                className="gap-2 border-border/80 bg-background/80 px-5 font-medium hover:bg-muted/70"
               >
                 {loading ? (
                   <>
@@ -107,7 +109,7 @@ export function ObservationsListLoadMore({
                 ) : (
                   "加载更多"
                 )}
-              </button>
+              </Button>
               <div ref={sentinelRef} className="h-px w-full max-w-[220px]" aria-hidden />
             </div>
           ) : (

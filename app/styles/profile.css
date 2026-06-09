@@ -2,7 +2,7 @@
 
 @layer components {
   .profile-soft-cta {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold shadow-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)];
+    @apply inline-flex items-center justify-center gap-1.5 rounded-[var(--radius-sm)] border px-3.5 text-sm font-semibold shadow-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)];
     border-color: hsl(var(--brand-blue) / 0.24);
     background-color: hsl(var(--surface-raised) / 0.86);
     color: hsl(var(--brand-blue));
@@ -24,7 +24,7 @@
   }
 
   .profile-success-cta {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-full border px-4 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.25)];
+    @apply inline-flex items-center justify-center gap-1.5 rounded-[var(--radius-sm)] border px-4 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.25)];
     border-color: hsl(var(--brand-green) / 0.28);
     background-color: hsl(var(--status-success-surface) / 0.9);
     color: hsl(var(--brand-green));
@@ -131,33 +131,22 @@
     @apply rounded-md border;
   }
 
-  .profile-task-cta {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--tone-art)) 0%,
-      hsl(var(--tone-art) / 0.88) 100%
-    );
-    color: hsl(0 0% 100%);
-    box-shadow: 0 10px 22px -16px hsl(var(--tone-art) / 0.72);
-  }
-
-  .profile-task-cta:hover {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--tone-art) / 0.94) 0%,
-      hsl(var(--tone-art) / 0.82) 100%
-    );
-  }
-
+  .profile-action-cta,
+  .profile-task-cta,
   .profile-mobile-empty-cta {
-    @apply inline-flex h-9 items-center justify-center rounded-lg border px-4 text-xs font-semibold transition;
-    border-color: hsl(var(--tone-art) / 0.42);
-    color: hsl(var(--tone-art));
-    background-color: hsl(var(--surface-raised));
+    @apply inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-[var(--radius-sm)] border px-4 text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.24)] disabled:pointer-events-none disabled:opacity-60;
+    border-color: hsl(var(--brand-blue) / 0.28);
+    background-color: hsl(var(--surface-raised) / 0.9);
+    color: hsl(var(--brand-blue));
+    box-shadow: none;
   }
 
+  .profile-action-cta:hover,
+  .profile-task-cta:hover,
   .profile-mobile-empty-cta:hover {
-    background-color: hsl(var(--tone-art-soft));
+    border-color: hsl(var(--brand-blue) / 0.42);
+    background-color: hsl(var(--tone-science-soft));
+    box-shadow: 0 10px 22px -18px hsl(var(--brand-blue) / 0.38);
   }
 
   .profile-xp-progress {

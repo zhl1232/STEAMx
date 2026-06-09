@@ -27,7 +27,7 @@ const buttonVariants = cva(
                 danger: "bg-[hsl(var(--status-danger))] text-[hsl(var(--status-danger-foreground))] hover:bg-[hsl(var(--status-danger)/0.92)]",
             },
             shape: {
-                default: "rounded-xs",
+                default: "rounded-[var(--radius-sm)]",
                 soft: "rounded-[var(--radius-sm)]",
                 pill: "rounded-full",
                 square: "rounded-[var(--radius-xs)]",
@@ -40,9 +40,9 @@ const buttonVariants = cva(
             },
         },
         compoundVariants: [
-            { size: "sm", shape: "default", class: "rounded-xs" },
+            { size: "sm", shape: "default", class: "rounded-[var(--radius-sm)]" },
             { size: "sm", shape: "soft", class: "rounded-[var(--radius-sm)]" },
-            { size: "lg", shape: "default", class: "rounded-xs" },
+            { size: "lg", shape: "default", class: "rounded-[var(--radius-sm)]" },
         ],
         defaultVariants: {
             variant: "default",
@@ -67,12 +67,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Comp
                 className={cn(
                     buttonVariants({
-                        variant: useTone ? "ghost" : variant,
+                        variant: useTone ? "default" : variant,
                         tone: useTone ? tone : "default",
                         shape,
                         size,
                     }),
-                    useTone && "hover:bg-transparent",
                     className
                 )}
                 ref={ref}

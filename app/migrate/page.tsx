@@ -57,10 +57,10 @@ pnpm db:push`}</code>
             迁移说明见仓库内 `docs/database-psql.md` 与 `README.md` 的数据库章节。
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button asChild variant="outline" className="rounded-full">
+            <Button asChild variant="outline">
               <Link href="/explore">查看探索页</Link>
             </Button>
-            <Button asChild variant="outline" className="rounded-full">
+            <Button asChild variant="outline">
               <Link href="/create">查看创造营</Link>
             </Button>
           </div>

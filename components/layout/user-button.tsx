@@ -79,7 +79,7 @@ export function UserButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
+        <Button variant="ghost" shape="square" size="icon" className="relative h-9 w-9">
           <AvatarWithFrame
             src={avatarUrl}
             alt={displayName}

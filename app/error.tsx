@@ -27,10 +27,10 @@ export default function Error({
       icon={<AlertTriangle className="h-9 w-9 text-destructive" />}
       actions={
         <>
-          <Button asChild variant="outline" className="rounded-full px-5">
+          <Button asChild variant="outline" className="px-5">
             <Link href="/">返回首页</Link>
           </Button>
-          <Button onClick={() => reset()} className="gap-2 rounded-full px-5">
+          <Button onClick={() => reset()} className="gap-2 px-5">
             <RotateCcw className="h-4 w-4" />
             重试
           </Button>

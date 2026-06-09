@@ -247,11 +247,11 @@ export function ChallengeManagement() {
 
   const renderStatusActions = (ch: AdminChallenge) => {
     if (ch.challenge_type === 'timed') {
-      if (ch.status === 'draft') return <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />发布</Button>
-      if (ch.status === 'active') return <Button size="sm" variant="destructive" className="rounded-full" onClick={() => { if (confirm('确认结束并结算此挑战？')) handleStatusChange(ch.id, 'ended') }}><StopCircle className="mr-1 h-3 w-3" />结束并结算</Button>
+      if (ch.status === 'draft') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />发布</Button>
+      if (ch.status === 'active') return <Button size="sm" variant="destructive" shape="pill" onClick={() => { if (confirm('确认结束并结算此挑战？')) handleStatusChange(ch.id, 'ended') }}><StopCircle className="mr-1 h-3 w-3" />结束并结算</Button>
     } else {
-      if (ch.status === 'draft') return <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />上线</Button>
-      if (ch.status === 'active') return <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleStatusChange(ch.id, 'archived')}><Archive className="mr-1 h-3 w-3" />归档</Button>
+      if (ch.status === 'draft') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />上线</Button>
+      if (ch.status === 'active') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'archived')}><Archive className="mr-1 h-3 w-3" />归档</Button>
     }
     return null
   }
@@ -279,7 +279,7 @@ export function ChallengeManagement() {
           </Select>
           <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) resetForm() }}>
             <DialogTrigger asChild>
-              <Button className="rounded-full px-5"><Plus className="mr-1 h-4 w-4" />创建挑战</Button>
+              <Button className="px-5"><Plus className="mr-1 h-4 w-4" />创建挑战</Button>
             </DialogTrigger>
             <DialogContent size="lg" chrome="review" className="p-0">
               <DialogHeader className="border-b border-border/60 px-6 pb-4 pt-6 sm:px-7">
@@ -381,11 +381,11 @@ export function ChallengeManagement() {
                     <div key={i} className="flex gap-2 rounded-md border border-border/60 bg-background/80 p-2">
                       <Input className={FIELD_CLASS} value={c} onChange={e => updateConstraint(i, e.target.value)} placeholder={`条件 ${i + 1}`} />
                       {form.constraints.length > 1 && (
-                        <Button variant="ghost" size="icon" className="rounded-full" aria-label={`删除条件 ${i + 1}`} onClick={() => setForm(f => ({ ...f, constraints: f.constraints.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
+                        <Button variant="ghost" size="icon" aria-label={`删除条件 ${i + 1}`} onClick={() => setForm(f => ({ ...f, constraints: f.constraints.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
                       )}
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" className="rounded-full" onClick={() => setForm(f => ({ ...f, constraints: [...f.constraints, ''] }))}>+ 添加条件</Button>
+                  <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, constraints: [...f.constraints, ''] }))}>+ 添加条件</Button>
                 </div>
 
                 <div className={SECTION_CLASS}>
@@ -398,11 +398,11 @@ export function ChallengeManagement() {
                       <Input className={FIELD_CLASS} value={r.title} onChange={e => updateResource(i, 'title', e.target.value)} placeholder="标题" />
                       <Input className={FIELD_CLASS} value={r.url} onChange={e => updateResource(i, 'url', e.target.value)} placeholder="URL" />
                       {form.resources.length > 1 && (
-                        <Button variant="ghost" size="icon" className="rounded-full md:self-center" aria-label={`删除资源 ${i + 1}`} onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
+                        <Button variant="ghost" size="icon" className="md:self-center" aria-label={`删除资源 ${i + 1}`} onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
                       )}
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" className="rounded-full" onClick={() => setForm(f => ({ ...f, resources: [...f.resources, { title: '', url: '', type: 'link' }] }))}>+ 添加资源</Button>
+                  <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, resources: [...f.resources, { title: '', url: '', type: 'link' }] }))}>+ 添加资源</Button>
                 </div>
 
                 <div className={SECTION_CLASS}>
@@ -415,7 +415,7 @@ export function ChallengeManagement() {
                       <div className="flex gap-2 items-center">
                         <span className="text-sm font-medium">阶段 {i + 1}</span>
                         {form.stages.length > 1 && (
-                          <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 rounded-full" aria-label={`删除阶段 ${i + 1}`} onClick={() => setForm(f => ({ ...f, stages: f.stages.filter((_, idx) => idx !== i) }))}><Trash2 className="h-3 w-3" aria-hidden /></Button>
+                          <Button variant="ghost" size="icon" className="ml-auto h-8 w-8" aria-label={`删除阶段 ${i + 1}`} onClick={() => setForm(f => ({ ...f, stages: f.stages.filter((_, idx) => idx !== i) }))}><Trash2 className="h-3 w-3" aria-hidden /></Button>
                         )}
                       </div>
                       <Input className={FIELD_CLASS} value={s.title} onChange={e => updateStage(i, 'title', e.target.value)} placeholder="阶段标题" />
@@ -423,7 +423,7 @@ export function ChallengeManagement() {
                       <Input className={FIELD_CLASS} value={s.hint || ''} onChange={e => updateStage(i, 'hint', e.target.value)} placeholder="提示（可选）" />
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" className="rounded-full" onClick={() => setForm(f => ({ ...f, stages: [...f.stages, { title: '', description: '', hint: '' }] }))}>+ 添加阶段</Button>
+                  <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, stages: [...f.stages, { title: '', description: '', hint: '' }] }))}>+ 添加阶段</Button>
                 </div>
 
                 <div className={SECTION_CLASS}>
@@ -445,7 +445,7 @@ export function ChallengeManagement() {
                   ))}
                 </div>
 
-                <Button onClick={handleSubmit} className="w-full rounded-md py-6 text-base">{editingId ? '保存修改' : '创建挑战'}</Button>
+                <Button onClick={handleSubmit} className="w-full py-6 text-base">{editingId ? '保存修改' : '创建挑战'}</Button>
               </div>
             </DialogContent>
           </Dialog>
@@ -503,9 +503,9 @@ export function ChallengeManagement() {
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           {renderStatusActions(ch)}
-                          <Button size="sm" variant="ghost" className="rounded-full" onClick={() => openEdit(ch)}>编辑</Button>
+                          <Button size="sm" variant="ghost" onClick={() => openEdit(ch)}>编辑</Button>
                           {ch.status === 'draft' && (
-                            <Button size="sm" variant="ghost" className="rounded-full text-red-600 hover:text-red-700" onClick={() => handleDelete(ch.id)}><Trash2 className="h-3 w-3" /></Button>
+                            <Button size="sm" variant="ghost" className="text-red-600 hover:text-red-700" onClick={() => handleDelete(ch.id)}><Trash2 className="h-3 w-3" /></Button>
                           )}
                         </div>
                       </TableCell>

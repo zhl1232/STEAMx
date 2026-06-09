@@ -160,7 +160,7 @@ function MobileNatureHeader({ submitHref }: { submitHref: string }) {
       showUserButton={false}
       className={mobileHeaderClassName}
       rightSlot={
-        <Button asChild tone="brand" shape="soft" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
+        <Button asChild tone="brand" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
           <Link href={submitHref}>
             <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
             发布观察
@@ -197,7 +197,7 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
           <Button
             asChild
             tone="brand"
-            shape="soft"
+            shape="pill"
             size="lg"
             className="mt-7 hidden gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--background))] md:inline-flex"
           >

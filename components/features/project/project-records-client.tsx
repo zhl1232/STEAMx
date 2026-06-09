@@ -244,7 +244,6 @@ export function ProjectRecordsClient({
               type="button"
               size="sm"
               tone="success"
-              shape="pill"
               onClick={() => void openRecordFlow()}
               className="h-8 px-3 text-xs font-bold"
             >
@@ -307,7 +306,6 @@ export function ProjectRecordsClient({
                   type="button"
                   size="sm"
                   tone="success"
-                  shape="pill"
                   onClick={() => void handleStartExploration()}
                 >
                   开始探索
@@ -317,7 +315,6 @@ export function ProjectRecordsClient({
                   type="button"
                   size="sm"
                   variant="outline"
-                  shape="pill"
                   onClick={() => void openFinalDialog()}
                   className="text-xs"
                 >

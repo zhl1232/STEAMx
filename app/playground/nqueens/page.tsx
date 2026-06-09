@@ -415,7 +415,7 @@ export default function NQueensPage() {
                                                 回溯 <span className="font-mono">{backtracks}</span> 次
                                             </span>
                                         </div>
-                                        <Button size="sm" variant="outline" className="h-7 rounded-xs text-xs gap-1" onClick={reset}>
+                                        <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={reset}>
                                             <RotateCcw className="w-3 h-3" />
                                             重置
                                         </Button>

@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -10,7 +9,6 @@ import {
   CalendarCheck,
   Gift,
   HelpCircle,
-  History,
   Loader2,
   ShoppingBag,
   Sparkles,
@@ -414,7 +412,7 @@ function WalletSidePanel({
             {coins.toLocaleString()} / {nextReward.price.toLocaleString()}
           </p>
         ) : null}
-        <Button asChild variant="outline" className="relative mt-6 w-full rounded-full border-blue-200 bg-white/50 font-bold text-blue-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
+        <Button asChild variant="outline" className="relative mt-6 w-full border-blue-200 bg-white/50 font-bold text-blue-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
           <Link href="/shop">
             去商店看看
             <ArrowUpRight className="ml-2 h-4 w-4" />
@@ -515,7 +513,7 @@ export default function CoinsPage() {
 
       <main className="app-shell-wide pt-5 md:px-8 md:pt-8">
         <div className="mb-5 hidden items-center gap-4 md:flex">
-          <Button variant="ghost" size="icon" asChild className="-ml-2 shrink-0 rounded-full hover:bg-muted">
+          <Button variant="ghost" size="icon" shape="square" asChild className="-ml-2 shrink-0 hover:bg-muted">
             <Link href="/profile" aria-label="返回个人中心">
               <ArrowLeft className="h-5 w-5" />
             </Link>
@@ -530,7 +528,7 @@ export default function CoinsPage() {
             <section className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-gradient-to-br from-white via-blue-50/40 to-blue-100/60 px-5 py-7 shadow-[0_32px_64px_-24px_rgba(37,99,235,0.15)] dark:border-blue-800/40 dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-900 md:px-8 md:py-8">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className="absolute right-3 top-3 z-20 rounded-full text-blue-900/40 hover:bg-black/5 hover:text-blue-900/60 dark:text-blue-100/30 dark:hover:bg-white/10 dark:hover:text-blue-100/50">
+                  <Button variant="ghost" size="icon" shape="square" className="absolute right-3 top-3 z-20 text-blue-900/40 hover:bg-black/5 hover:text-blue-900/60 dark:text-blue-100/30 dark:hover:bg-white/10 dark:hover:text-blue-100/50">
                     <HelpCircle className="h-[1.125rem] w-[1.125rem]" />
                     <span className="sr-only">硬币规则</span>
                   </Button>
@@ -580,7 +578,7 @@ export default function CoinsPage() {
                   </div>
                   <p className="mt-5 max-w-xl text-sm font-medium leading-6 text-slate-600 dark:text-slate-300">硬币可用于兑换商店道具、头像框和个性化权益。</p>
 
-                  <Button asChild size="lg" className="mt-6 w-fit rounded-full border border-blue-100 bg-white/90 px-8 font-bold text-blue-700 shadow-[0_8px_16px_-6px_rgba(37,99,235,0.2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.3)] dark:border-none dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
+                  <Button asChild size="lg" shape="pill" className="mt-6 w-fit border border-blue-100 bg-white/90 px-8 font-bold text-blue-700 shadow-[0_8px_16px_-6px_rgba(37,99,235,0.2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.3)] dark:border-none dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
                     <Link href="/shop">
                       <ShoppingBag className="mr-2 h-4 w-4" />
                       去兑换装扮

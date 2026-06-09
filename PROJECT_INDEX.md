@@ -19,7 +19,7 @@
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
 | `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
-| `/profile` | `app/profile/page.tsx` | 个人主页 — 作品展示、STEAM 雷达图、自然观察进度、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
+| `/profile` | `app/profile/page.tsx` | 个人主页 — 今日行动、作品展示、STEAM 雷达图、自然观察进度、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
@@ -94,6 +94,7 @@
 ### 3.1 基础 UI (`components/ui/`) — 39 个组件
 基于 shadcn/ui + Radix UI 的基础组件库：
 `alert` · `avatar` · `avatar-with-frame` · `badge` · `button` · `card` · `checkbox` · `countdown-timer` · `dialog` · `difficulty-stars` · `dropdown-menu` · `filter-chip` · `image-upload` · `input` · `label` · `leaderboard-skeleton` · `loading-skeleton` · `mobile-page-header` · `optimized-image` · `page-status` · `progress` · `radio-group` · `report-dialog` · `role-badge` · `scroll-area` · `search-highlight` · `select` · `separator` · `sheet` · `skeleton` · `slider` · `surface` · `table` · `tabs` · `textarea` · `toast` · `toaster` · `tone-badge`
+- `components/ui/button.tsx` — 全局按钮：默认圆角 `--radius-sm`（10px），移动端顶部按钮和普通操作走默认圆角；大号主 CTA / 审核动作 / 底栏固定按钮可使用 `shape="pill"`，紧凑图标按钮可用 `shape="square"`。
 - `components/ui/loading-skeleton.tsx` — 项目/挑战/自然详情骨架屏；`ChallengeCardSkeleton` 支持可选 `className` 供页面局部统一圆角和外观。
 
 ### 3.2 布局 (`components/layout/`) — 13 个组件
@@ -129,7 +130,7 @@
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
-| `profile/` | 15 | 头像上传、编辑资料弹窗、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
+| `profile/` | 16 | 头像上传、编辑资料弹窗、今日行动卡、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
 
 ### 3.5 管理后台 (`components/admin/`) — 9 个组件
 项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理、**训练营管理** `course-management`、完成审核、审核员申请列表、举报列表、全部项目管理
@@ -178,7 +179,7 @@
 - `lib/observations/display.ts` — 观察详情标题（物种名 / AI 建议 / 未知类别）、日期格式化
 - `lib/observations/consensus-ui.ts` — 社群共识进度（2 票规则；确认后仍可继续认同/不同鉴定）与 UI 文案
 - `lib/observations/activity-stream.ts` — 鉴定与评论合并为动态流
-- `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`tone=nature` / `outline` / `destructive` + `pill`）
+- `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`brand` / `outline` / `destructive`，默认 10px 圆角）
 - `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验
 - `challenge-submission-validation.ts` — 挑战投稿标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
@@ -210,6 +211,7 @@
 
 ### 4.8 个人资料 (`lib/profile/`)
 - `timeline.ts` — 用户活动时间线
+- `next-action.ts` — 个人主页「今日行动」决策：按可领取成长任务、探索中项目、未完成成长任务、STEAM 雷达补短板、自然待观察物种、时间线回顾等顺序给出下一步
 - `growth-tasks.ts` — 新手成长任务系统
 - `steam-radar.ts` — STEAM 能力雷达图数据
 - `study-checkin.ts` — 学习打卡逻辑
@@ -330,7 +332,7 @@
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式等） |
 | `tailwind.config.ts` | Tailwind CSS 配置（自定义主题） |
 | `postcss.config.js` | PostCSS 配置 |
-| `eslint.config.mjs` | ESLint 配置 |
+| `eslint.config.mjs` | ESLint 配置；忽略 `packages/scratch-host/dist/**` 构建产物，只 lint 源码 |
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |
 | `renovate.json` | Renovate 自动依赖更新 |

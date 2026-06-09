@@ -247,7 +247,6 @@ export function ReportsList() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="rounded-full"
                     disabled={page <= 1}
                     onClick={() => setPage((p) => p - 1)}
                   >
@@ -259,7 +258,6 @@ export function ReportsList() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="rounded-full"
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
                   >
@@ -352,7 +350,6 @@ export function ReportsList() {
               <>
                 <Button
                   variant="outline"
-                  className="rounded-full"
                   onClick={() => handleReview("dismissed")}
                   disabled={reviewing}
                 >
@@ -360,7 +357,7 @@ export function ReportsList() {
                 </Button>
                 <Button
                   variant="destructive"
-                  className="rounded-full"
+                  shape="pill"
                   onClick={() => handleReview("resolved")}
                   disabled={reviewing}
                 >
@@ -377,7 +374,6 @@ export function ReportsList() {
             ) : (
               <Button
                 variant="outline"
-                className="rounded-full"
                 onClick={() => setReviewReport(null)}
               >
                 关闭

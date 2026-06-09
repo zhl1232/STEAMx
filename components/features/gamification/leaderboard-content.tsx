@@ -107,7 +107,7 @@ function LeaderboardGrowthGraduatedCard() {
                         新手引导全部完成，来挑战下一阶段，把作品带到更大的舞台吧。
                     </p>
                     <Link
-                        href="/community?tab=challenges"
+                        href="/create"
                         className="mt-3 inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-700 dark:text-blue-300"
                     >
                         前往挑战中心

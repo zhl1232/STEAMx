@@ -104,9 +104,9 @@ export default function DesignSystemContent() {
           <p className="section-kicker">Button &amp; Status</p>
           <h2 className="text-panel-title mt-3">语义按钮与状态色</h2>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Button tone="brand" shape="square">品牌主操作</Button>
-            <Button tone="success" shape="soft">成功 / 开始</Button>
-            <Button tone="brand" shape="soft">自然专题</Button>
+            <Button tone="brand">品牌操作</Button>
+            <Button tone="success">成功 / 开始</Button>
+            <Button tone="brand" shape="soft">普通操作</Button>
             <Button tone="danger" shape="pill">拒绝</Button>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">

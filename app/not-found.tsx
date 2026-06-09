@@ -12,7 +12,7 @@ export default function NotFound() {
       description="你访问的地址可能已经被移动、删除，或者原本就不存在。先回到首页，再从主要导航继续进入会更稳妥。"
       icon={<Compass className="h-9 w-9 text-primary" />}
       actions={
-        <Button asChild className="rounded-full px-5">
+        <Button asChild className="px-5">
           <Link href="/">返回首页</Link>
         </Button>
       }

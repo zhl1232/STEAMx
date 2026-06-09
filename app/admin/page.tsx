@@ -604,13 +604,13 @@ export default function AdminPage() {
             </div>
 
             <div className="flex flex-wrap gap-2 lg:justify-end">
-              <Button asChild variant="outline" className="rounded-full">
+              <Button asChild variant="outline">
                 <Link href="/settings/security">
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   安全中心
                 </Link>
               </Button>
-              <Button variant="outline" className="rounded-full" onClick={() => void loadData()}>
+              <Button variant="outline" onClick={() => void loadData()}>
                 <RefreshCw className="mr-2 h-4 w-4" />
                 刷新队列
               </Button>

@@ -1,15 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronRight, Compass, FolderOpen, Radar, Rocket } from 'lucide-react'
+import { Award, ChevronRight, Compass, FolderOpen, Leaf, Radar, Rocket, Target } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import type { ProfileNextAction } from '@/lib/profile/next-action'
+import type { GrowthTaskId } from '@/lib/profile/growth-tasks'
 import { cn } from '@/lib/utils'
 
 const VARIANT_ICONS = {
+  reward: Award,
   exploring: FolderOpen,
+  growth: Target,
+  radar: Radar,
+  nature: Leaf,
   vacuum: Rocket,
   timeline: Radar,
   explore: Compass,
@@ -17,13 +21,21 @@ const VARIANT_ICONS = {
 
 type ProfileNextActionCardProps = {
   action: ProfileNextAction
+  claimPending?: boolean
+  onClaim?: (taskId: GrowthTaskId) => void
   className?: string
 }
 
-export function ProfileNextActionCard({ action, className }: ProfileNextActionCardProps) {
+export function ProfileNextActionCard({
+  action,
+  claimPending = false,
+  onClaim,
+  className,
+}: ProfileNextActionCardProps) {
   const Icon = VARIANT_ICONS[action.variant]
   const projectImage = action.project?.image
   const summary = action.subtitle
+  const canClaim = action.variant === 'reward' && action.growthTaskId && onClaim
 
   return (
     <section className={cn('surface-panel overflow-hidden p-4', className)}>
@@ -31,7 +43,7 @@ export function ProfileNextActionCard({ action, className }: ProfileNextActionCa
         <div className="flex items-center gap-2">
           <h2 className="text-base font-semibold text-foreground">今日任务</h2>
           <span className="rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
-            1/1
+            {action.badgeLabel}
           </span>
         </div>
         {action.secondaryHref && action.secondaryLabel ? (
@@ -59,16 +71,23 @@ export function ProfileNextActionCard({ action, className }: ProfileNextActionCa
           <h3 className="line-clamp-1 text-sm font-semibold leading-snug text-foreground">{action.title}</h3>
           <p className="mt-0.5 line-clamp-1 text-xs leading-5 text-muted-foreground">{summary}</p>
         </div>
-        <Button
-          asChild
-          className="h-9 shrink-0 rounded-md bg-[hsl(var(--brand-blue))] px-3 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.72)] hover:bg-[hsl(var(--brand-blue)/0.92)]"
-        >
-          <Link href={action.href}>
-            {action.variant === 'vacuum' ? <Rocket className="mr-1.5 h-4 w-4" /> : null}
-            {action.variant === 'exploring' ? <FolderOpen className="mr-1.5 h-4 w-4" /> : null}
+        {canClaim ? (
+          <button
+            type="button"
+            disabled={claimPending}
+            className="profile-action-cta"
+            onClick={() => onClaim(action.growthTaskId!)}
+          >
+            <Award className="h-4 w-4" />
+            {claimPending ? '领取中' : action.actionLabel}
+          </button>
+        ) : (
+          <Link href={action.href} className="profile-action-cta">
+            {action.variant === 'vacuum' ? <Rocket className="h-4 w-4" /> : null}
+            {action.variant === 'exploring' ? <FolderOpen className="h-4 w-4" /> : null}
             {action.actionLabel}
           </Link>
-        </Button>
+        )}
       </div>
     </section>
   )

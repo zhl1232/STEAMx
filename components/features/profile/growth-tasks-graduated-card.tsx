@@ -71,13 +71,13 @@ export function GrowthTasksGraduatedCard({
           type="button"
           variant="outline"
           size="sm"
-          className="h-9 rounded-xs border-[hsl(var(--brand-blue)/0.35)] text-xs font-bold text-[hsl(var(--brand-blue))]"
+          className="h-9 border-[hsl(var(--brand-blue)/0.35)] text-xs font-bold text-[hsl(var(--brand-blue))]"
           onClick={() => scrollToProfileBadges()}
         >
           查看徽章
         </Button>
-        <Button asChild size="sm" className="h-9 rounded-xs px-3 text-xs font-bold">
-          <Link href="/community?tab=challenges">去挑战</Link>
+        <Button asChild size="sm" className="h-9 px-3 text-xs font-bold">
+          <Link href="/create">去挑战</Link>
         </Button>
       </div>
 

@@ -137,7 +137,8 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
               onClick={handleReject}
               disabled={isReviewing}
               variant="destructive"
-              className="flex-1 rounded-full"
+              shape="pill"
+              className="flex-1"
             >
               确认拒绝
             </Button>
@@ -148,7 +149,8 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
               }}
               disabled={isReviewing}
               variant="outline"
-              className="flex-1 rounded-full"
+              shape="pill"
+              className="flex-1"
             >
               取消
             </Button>
@@ -253,7 +255,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
             }
             }}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="mt-2 w-full gap-2 rounded-md sm:mt-3">
+                <Button variant="outline" className="mt-2 w-full gap-2 sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整作品与审核
                 </Button>
               </DialogTrigger>

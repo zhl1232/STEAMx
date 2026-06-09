@@ -183,13 +183,13 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
 
                           <div className="flex flex-wrap gap-2">
                             <Link href={`/project/${project.id}`} target="_blank">
-                              <Button variant="outline" size="sm" className="rounded-full">
+                              <Button variant="outline" size="sm">
                                 <Eye className="mr-2 h-4 w-4" />
                                 查看
                               </Button>
                             </Link>
                             <Link href={`/admin/projects/${project.id}`}>
-                              <Button variant="outline" size="sm" className="rounded-full">
+                              <Button variant="outline" size="sm">
                                 <Edit className="mr-2 h-4 w-4" />
                                 编辑
                               </Button>
@@ -197,7 +197,6 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                             <Button
                               variant="default"
                               size="sm"
-                              className="rounded-full"
                               onClick={() => void toggleExpand(project.id)}
                               aria-expanded={isExpanded}
                             >
@@ -232,7 +231,6 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                             <Button
                               variant="outline"
                               size="sm"
-                              className="rounded-full"
                               onClick={() => void loadProjectDetail(project.id)}
                             >
                               重试加载

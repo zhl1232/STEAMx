@@ -192,7 +192,6 @@ function SecuritySettingsContent() {
             <Button
               type="button"
               variant={passwordExpand ? "secondary" : "outline"}
-              className="rounded-full"
               onClick={() => setPasswordExpand((prev) => !prev)}
             >
               {passwordExpand ? "收起" : "展开"}
@@ -216,7 +215,7 @@ function SecuritySettingsContent() {
               />
               <Button
                 type="button"
-                className="h-11 rounded-md px-5 text-sm font-semibold"
+                className="h-11 px-5 text-sm font-semibold"
                 onClick={handleChangePassword}
                 disabled={passwordLoading}
               >
@@ -248,7 +247,6 @@ function SecuritySettingsContent() {
               <Button
                 type="button"
                 variant={phoneExpand ? "secondary" : "outline"}
-                className="rounded-full"
                 onClick={() => setPhoneExpand((prev) => !prev)}
               >
                 {phoneExpand ? "收起" : "开始绑定"}
@@ -273,7 +271,7 @@ function SecuritySettingsContent() {
                 {phoneStep === "idle" ? (
                   <Button
                     type="button"
-                    className="h-11 rounded-md px-4 text-sm font-semibold"
+                    className="h-11 px-4 text-sm font-semibold"
                     onClick={handleSendPhoneOtp}
                     disabled={phoneLoading}
                   >
@@ -293,7 +291,7 @@ function SecuritySettingsContent() {
                     />
                     <Button
                       type="button"
-                      className="h-11 rounded-md px-5 text-sm font-semibold"
+                      className="h-11 px-5 text-sm font-semibold"
                       onClick={handleVerifyPhoneOtp}
                       disabled={phoneLoading}
                     >

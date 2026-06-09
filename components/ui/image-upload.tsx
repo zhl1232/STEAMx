@@ -107,7 +107,7 @@ export function ImageUpload({
                 type="button"
                 variant="destructive"
                 size="icon"
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8"
                 onClick={handleRemove}
               >
                 <X className="h-4 w-4" />

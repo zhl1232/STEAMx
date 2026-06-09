@@ -82,7 +82,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
     if (variant === "inline") {
         return (
             <>
-                <Button onClick={handleClick} className="h-9 gap-2 rounded-xs px-4">
+                <Button onClick={handleClick} className="h-9 gap-2 px-4">
                     <Camera className="h-4 w-4" />
                     {actionLabel}
                 </Button>

@@ -224,7 +224,7 @@ export default function ProfileSettingsClient() {
       ) : loadError ? (
         <div className="surface-subtle p-6 text-center">
           <p className="text-sm leading-7 text-muted-foreground">{loadError}</p>
-          <Button className="mt-4 rounded-md" variant="outline" onClick={() => void loadProfile()}>
+          <Button className="mt-4" variant="outline" shape="soft" onClick={() => void loadProfile()}>
             <RefreshCcw className="mr-2 h-4 w-4" />
             重试
           </Button>
@@ -370,7 +370,7 @@ export default function ProfileSettingsClient() {
             </div>
           </section>
 
-          <Button type="submit" className="h-12 rounded-md px-5 text-base font-semibold" disabled={isSaving}>
+          <Button type="submit" shape="soft" className="h-12 px-5 text-base font-semibold" disabled={isSaving}>
             {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             保存更改
           </Button>

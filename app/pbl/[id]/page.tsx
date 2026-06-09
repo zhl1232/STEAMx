@@ -387,7 +387,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
               {!isEnded && (
                 <div className="mt-4 grid grid-cols-2 gap-2">
-                  <Button className="h-10 rounded-sm text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                  <Button className="h-10 text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
                     {hasSubmission ? '更新作品' : '提交作品'}
                   </Button>
                   <Button
@@ -523,7 +523,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
                 {!isEnded && (
                   <div className="space-y-2.5">
-                    <Button className="h-10 w-full rounded-sm text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
+                    <Button className="h-10 w-full text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
                       {hasSubmission ? "更新作品" : "提交作品"}
                     </Button>
                     <Button

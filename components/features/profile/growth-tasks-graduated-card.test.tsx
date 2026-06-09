@@ -84,6 +84,6 @@ describe('GrowthTasksGraduatedCard', () => {
     render(
       <GrowthTasksGraduatedCard tasks={SAMPLE_TASKS} showSparkle={false} claimingTaskId={null} onClaim={vi.fn()} />,
     )
-    expect(screen.getByRole('link', { name: '去挑战' })).toHaveAttribute('href', '/community?tab=challenges')
+    expect(screen.getByRole('link', { name: '去挑战' })).toHaveAttribute('href', '/create')
   })
 })

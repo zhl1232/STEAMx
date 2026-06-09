@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { useFollow } from "@/hooks/use-follow";
 import { Loader2, UserPlus, UserCheck } from "lucide-react";
 import { useAuth } from '@/lib/context/auth-context';
@@ -12,6 +12,7 @@ interface FollowButtonProps {
     className?: string;
     showCount?: boolean;
     variant?: "default" | "outline";
+    shape?: ButtonProps["shape"];
     showIcon?: boolean;
     /** 在「新增粉丝」等场景下显示为「回关」而非「关注」 */
     followBack?: boolean;
@@ -22,6 +23,7 @@ export function FollowButton({
     className,
     showCount = false,
     variant = "default",
+    shape,
     showIcon = true,
     followBack = false,
 }: FollowButtonProps) {
@@ -58,6 +60,7 @@ export function FollowButton({
         <Button
             variant={isFollowing ? "outline" : variant}
             size="sm"
+            shape={shape}
             onClick={handleClick}
             disabled={isLoading || isPending}
             className={cn("group gap-2 transition-all min-w-[80px]", className, isFollowing && "text-muted-foreground hover:text-destructive hover:border-destructive hover:bg-destructive/10")}

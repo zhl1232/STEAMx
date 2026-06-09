@@ -738,7 +738,7 @@ function ShareForm() {
                                     <div key={i} className="space-y-3 rounded-md bg-background/72 p-3 ring-1 ring-inset ring-border/40 sm:rounded-md sm:p-4">
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-medium">尝试 #{i + 1}</span>
-                                            <Button type="button" variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0"
+                                            <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0"
                                                 onClick={() => setFormData(prev => ({ ...prev, iterations: prev.iterations.filter((_, idx) => idx !== i) }))}
                                             >
                                                 <Trash2 className="h-3 w-3" />
@@ -851,10 +851,10 @@ function ShareForm() {
                     </Button>
 
                     <div className="flex flex-col gap-3 sm:flex-row">
-                        <Button variant="outline" type="button" className="w-full rounded-full sm:w-auto" onClick={() => router.back()}>
+                        <Button variant="outline" type="button" className="w-full sm:w-auto" onClick={() => router.back()}>
                             取消
                         </Button>
-                        <Button type="submit" disabled={isLoading} className="w-full gap-2 rounded-full sm:w-auto">
+                        <Button type="submit" disabled={isLoading} className="w-full gap-2 sm:w-auto">
                             <Upload className="h-4 w-4" />
                             {isLoading ? "提交中..." : "提交审核"}
                         </Button>

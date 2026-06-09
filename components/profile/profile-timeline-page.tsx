@@ -280,7 +280,7 @@ export function ProfileTimelinePage() {
             <div className="surface-panel rounded-lg px-6 py-12 text-center">
               <h2 className="text-lg font-semibold text-foreground">探索轨迹加载失败</h2>
               <p className="mt-2 text-sm text-muted-foreground">{errorMessage}</p>
-              <Button className="mt-5 rounded-full" onClick={() => loadTimeline()}>
+              <Button className="mt-5" onClick={() => loadTimeline()}>
                 重新加载
               </Button>
             </div>

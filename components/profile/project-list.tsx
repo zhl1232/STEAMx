@@ -156,7 +156,7 @@ function EmptyState({
       </div>
       <h3 className="mt-4 text-base font-semibold text-foreground">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">{desc}</p>
-      <Button asChild variant="outline" className="mt-6 rounded-full px-8">
+      <Button asChild variant="outline" className="mt-6 px-8">
         <Link href={href}>
           {btnText}
         </Link>

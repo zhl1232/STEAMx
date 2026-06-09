@@ -349,18 +349,18 @@ export default function Game24Page() {
           {/* Action buttons */}
           <div className="flex items-center gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="rounded-full gap-1.5" onClick={skipRound}>
+              <Button variant="outline" size="sm" className="gap-1.5" onClick={skipRound}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
             )}
             {(status === "solved" || status === "skipped" || status === "timeout") && (
-              <Button size="sm" className="rounded-full gap-1.5" onClick={dealNewRound}>
+              <Button size="sm" className="gap-1.5" onClick={dealNewRound}>
                 <Zap className="w-3.5 h-3.5" />
                 下一轮
               </Button>
             )}
-            <Button variant="outline" size="sm" className="rounded-full gap-1.5" onClick={newGame}>
+            <Button variant="outline" size="sm" className="gap-1.5" onClick={newGame}>
               <RefreshCw className="w-3.5 h-3.5" />
               新游戏
             </Button>

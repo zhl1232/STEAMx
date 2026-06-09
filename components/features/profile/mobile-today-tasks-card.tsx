@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { Award, ChevronRight, Loader2 } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import { GROWTH_TASK_TOTAL, type GrowthTaskId, type ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import { cn } from '@/lib/utils'
 
@@ -54,18 +53,16 @@ export function MobileTodayTasksCard({
           <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{featuredTask.progressLabel}</p>
         </div>
         {featuredTask.status === 'claimable' ? (
-          <Button
+          <button
             type="button"
             disabled={claimingTaskId === featuredTask.id}
             onClick={() => onClaim(featuredTask.id)}
-            className="profile-task-cta h-9 shrink-0 rounded-lg px-4 text-xs font-bold"
+            className="profile-action-cta"
           >
             {claimingTaskId === featuredTask.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : actionLabel}
-          </Button>
+          </button>
         ) : (
-          <Button asChild className="profile-task-cta h-9 shrink-0 rounded-lg px-4 text-xs font-bold">
-            <Link href={featuredTask.href}>{actionLabel}</Link>
-          </Button>
+          <Link href={featuredTask.href} className="profile-action-cta">{actionLabel}</Link>
         )}
       </div>
     </section>

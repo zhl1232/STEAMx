@@ -364,7 +364,7 @@ export function buildProfileTimelineEvents(
         occurredAt: submission.createdAt,
         label: getChallengeLabel(status),
         detail: submission.challengeTitle?.trim() || submission.title?.trim() || '挑战作品',
-        href: '/community?tab=challenges',
+        href: '/create',
         iconName: 'achievement',
         status,
         statusLabel: getStatusLabel(status),

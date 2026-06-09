@@ -142,7 +142,8 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
               onClick={handleReject}
               disabled={isReviewing}
               variant="destructive"
-              className="flex-1 rounded-full"
+              shape="pill"
+              className="flex-1"
             >
               确认拒绝
             </Button>
@@ -153,7 +154,8 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
               }}
               disabled={isReviewing}
               variant="outline"
-              className="flex-1 rounded-full"
+              shape="pill"
+              className="flex-1"
             >
               取消
             </Button>
@@ -177,7 +179,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
           onClick={() => setShowRejectInput(true)}
           disabled={isReviewing}
           variant="destructive"
-          className="rounded-full"
+          shape="pill"
         >
           <XCircle className="mr-2 h-4 w-4" />
           拒绝发布
@@ -248,7 +250,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
             {renderActions()}
             <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="mt-2 w-full gap-2 rounded-md sm:mt-3">
+                <Button variant="outline" className="mt-2 w-full gap-2 sm:mt-3">
                   <Eye className="w-4 h-4" /> 查看完整详情与审核
                 </Button>
               </DialogTrigger>

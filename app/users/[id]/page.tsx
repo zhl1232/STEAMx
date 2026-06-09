@@ -106,7 +106,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         description="这个用户主页链接不完整，无法继续访问。"
         icon={<UserRound className="h-8 w-8" />}
         actions={
-          <Button asChild variant="outline" className="rounded-md px-5">
+          <Button asChild variant="outline" className="px-5">
             <Link href="/create">返回创造营</Link>
           </Button>
         }
@@ -124,7 +124,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         description="这个主页可能不存在，或者当前不可见。"
         icon={<UserRound className="h-8 w-8" />}
         actions={
-          <Button asChild variant="outline" className="rounded-md px-5">
+          <Button asChild variant="outline" className="px-5">
             <Link href="/create">返回创造营</Link>
           </Button>
         }

@@ -4,6 +4,7 @@ import { ArrowRight, CalendarDays, Map, MapPin } from "lucide-react";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
+import { Button } from "@/components/ui/button";
 import { getNatureObservationHotspots } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -57,13 +58,12 @@ export default async function NatureMapPage() {
               只展示带坐标的公开记录；隐藏坐标或未填写坐标的记录不会出现在地图上。
             </p>
           </div>
-          <Link
-            href="/nature/submit"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
-          >
-            发布观察
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <Button asChild tone="brand" className="h-11 gap-2 px-5 text-sm font-medium transition-transform hover:-translate-y-0.5">
+            <Link href="/nature/submit">
+              发布观察
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
 
         {validHotspots.length > 0 ? (

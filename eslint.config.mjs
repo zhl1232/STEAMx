@@ -20,6 +20,7 @@ export default [
       "test-results/**",
       "coverage/**",
       ".agents/**",
+      "packages/scratch-host/dist/**",
     ],
   },
   {

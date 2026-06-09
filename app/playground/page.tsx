@@ -909,7 +909,7 @@ function RecommendationPanel({ games }: { games: GameCard[] }) {
                     <Star className="h-5 w-5 text-orange-500" />
                     <h2 className="font-sans font-black">推荐探索</h2>
                 </div>
-                <button type="button" className="inline-flex min-h-8 items-center gap-1 rounded-full px-2 text-xs font-bold text-blue-600 hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-400/10">
+                <button type="button" className="inline-flex min-h-8 items-center gap-1 rounded-[var(--radius-sm)] px-2 text-xs font-bold text-blue-600 hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-400/10">
                     换一换
                     <RotateCw className="h-3.5 w-3.5" />
                 </button>

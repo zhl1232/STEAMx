@@ -213,7 +213,7 @@ function MessagesContent() {
               </p>
             </div>
             {hasNotificationUnread ? (
-              <Button variant="outline" size="sm" className="gap-2 rounded-full" onClick={() => markAllAsRead()}>
+              <Button variant="outline" size="sm" className="gap-2" onClick={() => markAllAsRead()}>
                 <CheckCheck className="h-4 w-4" />
                 全部标为已读
               </Button>
@@ -247,7 +247,7 @@ function MessagesContent() {
               <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeTab.description}</p>
             </div>
             {hasNotificationUnread ? (
-              <Button variant="ghost" size="sm" className="h-8 rounded-full px-3 text-xs" onClick={() => markAllAsRead()}>
+              <Button variant="ghost" size="sm" className="h-8 px-3 text-xs" onClick={() => markAllAsRead()}>
                 全部已读
               </Button>
             ) : null}

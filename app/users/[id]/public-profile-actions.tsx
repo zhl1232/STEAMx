@@ -43,11 +43,11 @@ export function PublicProfileActions({
       <FollowButton
         targetUserId={targetUserId}
         showCount={false}
-        className="h-11 rounded-md px-6 text-sm font-semibold"
+        className="h-11 px-6 text-sm font-semibold"
       />
       {user && user.id !== targetUserId ? (
         canMessage ? (
-          <Button variant="outline" className="h-11 rounded-md px-6 text-sm font-semibold" asChild>
+          <Button variant="outline" className="h-11 px-6 text-sm font-semibold" asChild>
             <Link href={`/messages/${targetUserId}`}>
               <MessageCircle className="mr-2 h-4 w-4" />
               发私信

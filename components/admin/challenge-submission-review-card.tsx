@@ -127,7 +127,7 @@ export function ChallengeSubmissionReviewCard({
       <div className="grid gap-2 border-t border-border/70 pt-4 md:grid-cols-[auto_auto_minmax(0,1fr)] md:items-center">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline">
               <Eye className="mr-2 h-4 w-4" />
               查看详情
             </Button>
@@ -187,9 +187,8 @@ export function ChallengeSubmissionReviewCard({
             value={rejectReason}
             onChange={(event) => setRejectReason(event.target.value)}
             placeholder="填写驳回原因"
-            className="rounded-full"
           />
-          <Button variant="destructive" className="rounded-full" onClick={() => void review('reject')} disabled={loading}>
+          <Button variant="destructive" shape="pill" onClick={() => void review('reject')} disabled={loading}>
             <XCircle className="mr-2 h-4 w-4" />
             拒绝
           </Button>

@@ -687,7 +687,6 @@ export function ObservationDetailActivity({
               <Button
                 type="button"
                 variant="outline"
-                shape="pill"
                 className="h-11 flex-1"
                 onClick={() => setIdSheetOpen(false)}
               >
@@ -696,7 +695,6 @@ export function ObservationDetailActivity({
               <Button
                 type="button"
                 tone="brand"
-                shape="pill"
                 className="h-11 flex-1"
                 disabled={!selected || isSavingId}
                 onClick={() => selected && void submitIdentification(selected.id, { lifecycleStage, sex })}
@@ -795,7 +793,6 @@ function ActivityTimelineItem({
             type="button"
             variant="outline"
             size="sm"
-            shape="pill"
             className={cn(
               "h-8 gap-1 border px-3 text-xs shadow-sm transition-colors",
               alreadyAgreed
@@ -813,7 +810,6 @@ function ActivityTimelineItem({
               type="button"
               variant="outline"
               size="sm"
-              shape="pill"
               className="h-8 gap-1 border border-border/80 bg-muted/50 px-3 text-xs shadow-sm hover:bg-muted"
               onClick={() => onCompare(identification)}
             >

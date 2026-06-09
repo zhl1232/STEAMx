@@ -62,6 +62,14 @@ export function ProfileObservationsPanel({
               已通过审核的观察记录会点亮对应物种，未观察目标会同步到物种探索清单。
             </p>
           </div>
+          <div className="flex flex-wrap gap-2 text-xs font-medium text-muted-foreground">
+            <span className="rounded-full border border-border/70 bg-background/72 px-3 py-1">
+              {observationsTotal.toLocaleString()} 条观察
+            </span>
+            <span className="rounded-full border border-border/70 bg-background/72 px-3 py-1">
+              {uniqueSpeciesCount.toLocaleString()} 个物种
+            </span>
+          </div>
           <Button asChild variant="outline" size="sm">
             <Link href="/nature/species?status=unobserved">查看待观察物种</Link>
           </Button>

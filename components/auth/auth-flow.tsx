@@ -494,14 +494,15 @@ export function AuthFlow({
               )}
             </div>
 
-            <button
+            <Button
               type="button"
               onClick={presentation === 'page' ? onBack : onClose}
-              className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-border bg-background px-3 text-sm font-medium text-foreground/82 transition-colors hover:bg-muted"
+              variant="outline"
+              className="h-10 shrink-0 gap-2 border-border px-3 text-foreground/82 hover:bg-muted"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">{presentation === 'page' ? '返回' : '关闭'}</span>
-            </button>
+            </Button>
           </div>
 
           {error && (
@@ -557,7 +558,7 @@ export function AuthFlow({
                           setOtp('')
                           setMessage(null)
                         }}
-                        className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
+                        className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
                       >
                         <Pencil className="h-3.5 w-3.5" />
                         修改
@@ -739,7 +740,7 @@ export function AuthFlow({
               </div>
             )}
 
-            <Button type="submit" className="h-12 w-full rounded-md text-base font-semibold" disabled={loading}>
+            <Button type="submit" shape="soft" className="h-12 w-full text-base font-semibold" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, CircleDashed, ListFilter, Search } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { natureTopicLabels } from "@/lib/config/nature-topics";
 import { getSpeciesList } from "@/lib/api/nature-observation-data";
@@ -183,12 +184,14 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
                     autoComplete="off"
                   />
                 </div>
-                <button
+                <Button
                   type="submit"
-                  className="inline-flex shrink-0 items-center justify-center self-stretch rounded-md bg-[hsl(var(--brand-blue))] px-5 text-sm font-semibold tracking-wide text-white shadow-sm transition hover:bg-[hsl(var(--brand-blue)/0.9)] active:scale-95"
+                  tone="brand"
+                  shape="soft"
+                  className="shrink-0 self-stretch px-5 text-sm font-semibold tracking-wide active:scale-95"
                 >
                   搜索
-                </button>
+                </Button>
               </div>
               {query ? (
                 <Link
@@ -315,12 +318,9 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
             </p>
           </div>
           {query ? (
-            <Link
-              href={buildSpeciesHref({ topic, status: effectiveStatus })}
-              className="inline-flex items-center rounded-full border border-[hsl(var(--surface-border)/0.84)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-2 text-sm font-semibold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.58)]"
-            >
-              查看全部物种
-            </Link>
+            <Button asChild variant="outline" className="border-[hsl(var(--surface-border)/0.84)] bg-[hsl(var(--surface-raised)/0.9)] text-[hsl(var(--primary))] hover:bg-[hsl(var(--status-info-surface)/0.58)]">
+              <Link href={buildSpeciesHref({ topic, status: effectiveStatus })}>查看全部物种</Link>
+            </Button>
           ) : null}
         </div>
       ) : null}

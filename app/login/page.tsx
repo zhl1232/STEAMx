@@ -20,7 +20,7 @@ export default function LoginPage() {
         </Link>
         <Link
           href="/explore"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm transition-colors hover:bg-muted hover:text-foreground"
+          className="inline-flex items-center gap-2 rounded-[var(--radius-sm)] border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm transition-colors hover:bg-muted hover:text-foreground"
         >
           先去探索
           <ArrowRight className="h-4 w-4" />

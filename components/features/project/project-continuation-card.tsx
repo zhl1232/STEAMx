@@ -96,7 +96,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
 
               <div className="flex flex-wrap items-center gap-3">
                 <Link href={href}>
-                  <Button className={cn("gap-2", compact ? "h-9 rounded-xs" : "rounded-full")}>
+                  <Button shape={compact ? "default" : "pill"} className={cn("gap-2", compact && "h-9")}>
                     {copy.buttonLabel}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -116,7 +116,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
               <Compass className="h-5 w-5" />
             </div>
             <Link href={href}>
-              <Button className={cn("gap-2", compact ? "h-9 rounded-xs" : "rounded-full")}>
+              <Button shape={compact ? "default" : "pill"} className={cn("gap-2", compact && "h-9")}>
                 {copy.buttonLabel}
                 <ArrowRight className="h-4 w-4" />
               </Button>

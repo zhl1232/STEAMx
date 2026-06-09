@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import type { Species } from "@/lib/mappers/types";
 import type { SpeciesObservationStatusFilter } from "@/lib/observations/progress";
 import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
@@ -201,11 +202,12 @@ export function SpeciesListLoadMore({
 
           {hasMore ? (
             <div className="flex flex-col items-center gap-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => void loadMore()}
                 disabled={loading}
-                className="nature-species-load-more"
+                className="gap-2 border-[hsl(var(--surface-border)/0.3)] bg-[hsl(var(--surface-raised)/0.86)] px-5 font-semibold hover:bg-[hsl(var(--status-info-surface)/0.58)]"
               >
                 {loading ? (
                   <>
@@ -215,7 +217,7 @@ export function SpeciesListLoadMore({
                 ) : (
                   "加载更多"
                 )}
-              </button>
+              </Button>
               <div ref={sentinelRef} className="h-px w-full max-w-[200px] shrink-0" aria-hidden />
             </div>
           ) : (

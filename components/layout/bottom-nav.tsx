@@ -67,7 +67,7 @@ export function BottomNav() {
                             whileTap={{ scale: 0.85 }}
                             transition={{ type: "spring", stiffness: 400, damping: 17 }}
                             className={cn(
-                                "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
+                                "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] px-2 py-1.5 transition-colors",
                                 item.active ? activePillClass : inactivePillClass,
                             )}
                         >

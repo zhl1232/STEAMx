@@ -631,7 +631,7 @@ export default function ShopPage() {
 
       <main className="app-shell-wide pt-5 md:px-8 md:pt-8">
         <div className="mb-5 hidden items-center gap-4 md:flex">
-          <Button variant="ghost" size="icon" asChild className="-ml-2 shrink-0 rounded-full hover:bg-muted">
+          <Button variant="ghost" size="icon" shape="square" asChild className="-ml-2 shrink-0 hover:bg-muted">
             <Link href="/profile" aria-label="返回个人中心">
               <ArrowLeft className="h-5 w-5" />
             </Link>

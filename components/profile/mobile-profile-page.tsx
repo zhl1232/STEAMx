@@ -301,6 +301,16 @@ export function MobileProfilePage({
                   )}
                 >
                   <span>{tab.label}</span>
+                  {typeof tabCounts[tab.value] === "number" ? (
+                    <span className={cn(
+                      "ml-1.5 min-w-5 rounded-full px-1.5 text-[10px] font-semibold leading-5",
+                      activeTab === tab.value
+                        ? "bg-background/20 text-current"
+                        : "bg-background/80 text-muted-foreground",
+                    )}>
+                      {tabCounts[tab.value]?.toLocaleString()}
+                    </span>
+                  ) : null}
                 </button>
               ))}
             </div>

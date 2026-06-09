@@ -176,7 +176,7 @@ export function ObservationReviewCard({ observation, onReview }: ObservationRevi
       <div className="grid gap-2 border-t border-border/70 pt-4 sm:grid-cols-[auto_1fr_1fr] sm:items-center">
         <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline">
               <Eye className="mr-2 h-4 w-4" />
               查看详情
             </Button>
@@ -232,7 +232,7 @@ export function ObservationReviewCard({ observation, onReview }: ObservationRevi
           <CheckCircle2 className="mr-2 h-4 w-4" />
           通过观察
         </Button>
-        <Button variant="destructive" className="rounded-full" onClick={() => void review('rejected')} disabled={isReviewing}>
+        <Button variant="destructive" shape="pill" onClick={() => void review('rejected')} disabled={isReviewing}>
           <XCircle className="mr-2 h-4 w-4" />
           拒绝
         </Button>
