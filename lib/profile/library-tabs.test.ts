@@ -12,10 +12,10 @@ describe('profile library tabs', () => {
     expect(parseProfileLibraryTab(['completed', 'works'])).toBe('completed')
   })
 
-  it('falls back to works for missing or invalid values', () => {
-    expect(parseProfileLibraryTab(undefined)).toBe('works')
-    expect(parseProfileLibraryTab(null)).toBe('works')
-    expect(parseProfileLibraryTab('unknown')).toBe('works')
+  it('falls back to exploring for missing or invalid values', () => {
+    expect(parseProfileLibraryTab(undefined)).toBe('exploring')
+    expect(parseProfileLibraryTab(null)).toBe('exploring')
+    expect(parseProfileLibraryTab('unknown')).toBe('exploring')
   })
 
   it('maps between mobile/url and desktop tab names', () => {

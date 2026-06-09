@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 
 import { GET } from '@/app/api/profile/summary/route'
 import { requireAuth } from '@/lib/api/auth'
+import { getNaturalObservationProgressSummary } from '@/lib/api/nature-observation-progress'
 import { getSteamRadarWithGuidanceSafe } from '@/lib/profile/steam-radar'
 import { createClient } from '@/lib/supabase/server'
 
@@ -19,6 +20,10 @@ vi.mock('@/lib/api/auth', async (importOriginal) => {
   }
 })
 
+vi.mock('@/lib/api/nature-observation-progress', () => ({
+  getNaturalObservationProgressSummary: vi.fn(),
+}))
+
 vi.mock('@/lib/profile/steam-radar', () => ({
   getSteamRadarWithGuidanceSafe: vi.fn(),
 }))
@@ -26,6 +31,9 @@ vi.mock('@/lib/profile/steam-radar', () => ({
 describe('GET /api/profile/summary', () => {
   const createClientMock = createClient as Mock<typeof createClient>
   const requireAuthMock = requireAuth as Mock<typeof requireAuth>
+  const getNaturalObservationProgressSummaryMock = getNaturalObservationProgressSummary as Mock<
+    typeof getNaturalObservationProgressSummary
+  >
   const getSteamRadarWithGuidanceSafeMock = getSteamRadarWithGuidanceSafe as Mock<
     typeof getSteamRadarWithGuidanceSafe
   >
@@ -129,6 +137,7 @@ describe('GET /api/profile/summary', () => {
 
     createClientMock.mockResolvedValue({ from, rpc } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+    getNaturalObservationProgressSummaryMock.mockResolvedValue(null as never)
     getSteamRadarWithGuidanceSafeMock.mockResolvedValue(null)
 
     const response = await GET()
@@ -157,6 +166,7 @@ describe('GET /api/profile/summary', () => {
       collectedProjectsCount: 3,
       completedProjectsCount: 1,
       totalLikesReceived: 5,
+      naturalObservationProgress: null,
       radar: null,
     })
   })

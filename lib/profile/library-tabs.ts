@@ -26,7 +26,7 @@ function firstParam(value: string | string[] | null | undefined) {
 
 export function parseProfileLibraryTab(value: string | string[] | null | undefined): ProfileLibraryTab {
   const tab = firstParam(value)
-  return tab && PROFILE_LIBRARY_TAB_SET.has(tab) ? (tab as ProfileLibraryTab) : 'works'
+  return tab && PROFILE_LIBRARY_TAB_SET.has(tab) ? (tab as ProfileLibraryTab) : 'exploring'
 }
 
 export function toDesktopProfileLibraryTab(tab: ProfileLibraryTab): DesktopProfileLibraryTab {

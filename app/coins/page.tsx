@@ -8,8 +8,8 @@ import {
   ArrowLeft,
   ArrowUpRight,
   CalendarCheck,
-  ChevronDown,
   Gift,
+  HelpCircle,
   History,
   Loader2,
   ShoppingBag,
@@ -23,6 +23,13 @@ import { useQuery } from "@tanstack/react-query";
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
 import { getShopItemById, SHOP_ITEMS } from "@/lib/shop/items";
@@ -204,32 +211,6 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
-function SummaryCard({
-  icon,
-  label,
-  value,
-  description,
-  showDescription,
-  tone,
-}: {
-  icon: ReactNode;
-  label: string;
-  value: string;
-  description?: string;
-  showDescription: boolean;
-  tone: string;
-}) {
-  return (
-    <div className="flex min-w-0 flex-col items-start gap-2 border-r border-border/70 px-3 py-3.5 last:border-r-0 min-[390px]:px-4 sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-4">
-      <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-md sm:h-11 sm:w-11 sm:rounded-full", tone)}>{icon}</div>
-      <div className="min-w-0">
-        <div className="text-[11px] font-medium leading-4 text-muted-foreground min-[390px]:text-xs sm:text-sm">{label}</div>
-        <div className="mt-1 text-[1.95rem] font-black leading-none tabular-nums text-slate-950 dark:text-slate-50 sm:truncate sm:text-2xl">{value}</div>
-        {showDescription && description ? <div className="mt-1 text-xs text-muted-foreground">{description}</div> : null}
-      </div>
-    </div>
-  );
-}
 
 function CoinLogTimeline({
   logs,
@@ -297,23 +278,25 @@ function CoinLogTimeline({
     <div className="space-y-6 p-4 sm:p-5">
       {groupedLogs.map((group) => (
         <section key={group.label}>
-          <h4 className="sticky top-0 z-10 mb-3 w-fit rounded-full bg-background/92 px-2.5 py-1 text-xs font-semibold text-muted-foreground backdrop-blur dark:bg-background/88">
+          <h4 className="sticky top-0 z-10 mb-3 w-fit rounded-full bg-background/92 px-3 py-1.5 text-xs font-bold text-slate-600 backdrop-blur dark:bg-background/88 dark:text-slate-300">
             {group.label}
           </h4>
-          <div className="relative overflow-hidden rounded-md border border-border/70 bg-background/70 dark:bg-white/[0.03]">
-            <div className="absolute bottom-5 left-9 top-5 w-px bg-border/70" />
+          <div className="relative space-y-1.5">
+            <div className="absolute bottom-6 left-[1.375rem] top-6 w-px bg-gradient-to-b from-transparent via-border to-transparent sm:left-[1.625rem]" />
             {group.items.map((log) => {
               const isPositive = log.amount >= 0;
               const actionIcon = getActionIcon(log.action_type);
               const iconStyle = getActionIconStyle(log.action_type);
 
               return (
-                <div key={log.id} className="relative grid grid-cols-[40px_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/60 px-4 py-4 last:border-b-0 sm:grid-cols-[48px_minmax(0,1fr)_auto] sm:gap-4">
-                  <div className={cn("z-10 flex h-10 w-10 items-center justify-center rounded-full", iconStyle)}>
-                    {actionIcon}
+                <div key={log.id} className="group relative flex items-center gap-3 rounded-2xl p-2 transition-all hover:bg-muted/50 dark:hover:bg-white/[0.02] sm:gap-4 sm:p-3">
+                  <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-background shadow-sm ring-1 ring-border/50 sm:h-10 sm:w-10">
+                     <div className={cn("flex h-7 w-7 items-center justify-center rounded-full sm:h-8 sm:w-8", iconStyle)}>
+                        {actionIcon}
+                     </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-slate-950 dark:text-slate-50">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-bold text-slate-950 transition-colors group-hover:text-blue-600 dark:text-slate-50 dark:group-hover:text-blue-400">
                       {getActionLabel(
                         log.action_type,
                         log.resource_id,
@@ -321,20 +304,23 @@ function CoinLogTimeline({
                         log.amount,
                       )}
                     </p>
-                    <p className="mt-1 truncate text-xs text-muted-foreground">{getActionDescription(log)}</p>
+                    <p className="mt-0.5 truncate text-xs text-muted-foreground">{getActionDescription(log)}</p>
                   </div>
                   <div className="text-right">
                     <div
                       className={cn(
-                        "text-lg font-black tabular-nums",
-                        isPositive ? "text-emerald-600 dark:text-emerald-300" : "text-orange-600 dark:text-orange-300",
+                        "text-base font-black tabular-nums tracking-tight sm:text-lg",
+                        isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-slate-700 dark:text-slate-300",
                       )}
                     >
                       {isPositive ? "+" : ""}
                       {log.amount}
                     </div>
-                    <div className="mt-0.5 text-xs text-muted-foreground">{formatEntryTime(log)}</div>
-                    <div className="mt-0.5 text-xs text-muted-foreground">{getStatusLabel(log)}</div>
+                    <div className="mt-1 flex items-center justify-end gap-1.5 text-[11px] text-muted-foreground sm:text-xs">
+                      <span>{getStatusLabel(log)}</span>
+                      <span className="h-1 w-1 rounded-full bg-border/80" />
+                      <span>{formatEntryTime(log)}</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -346,27 +332,14 @@ function CoinLogTimeline({
   );
 }
 
-function CoinRulesSection({
-  className,
-  compact = false,
-  isDesktopViewport = false,
-}: {
-  className?: string;
-  compact?: boolean;
-  isDesktopViewport?: boolean;
-}) {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const showDesktopLayout = !compact && isDesktopViewport;
-  const shouldRenderContent = compact || isDesktopViewport || isMobileOpen;
-  const rulesContentId = "coins-rules-content";
-
+function CoinRulesContent() {
   const renderRuleItems = (items: readonly CoinRuleItem[], iconClassName: string) => (
-    <div className={cn("space-y-3.5 sm:space-y-4", compact ? "mt-3" : "mt-4")}>
+    <div className="mt-4 space-y-4">
       {items.map((item) => {
         const Icon = item.icon;
         return (
           <div key={item.title} className="flex items-start gap-3">
-            <div className={cn("mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md sm:h-9 sm:w-9 sm:rounded-full", iconClassName)}>
+            <div className={cn("mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full", iconClassName)}>
               <Icon className="h-4 w-4" />
             </div>
             <div>
@@ -380,83 +353,29 @@ function CoinRulesSection({
   );
 
   return (
-    <section className={cn("surface-panel p-5", compact ? "sm:p-5" : "sm:p-6", className)}>
-      {!compact ? (
-        <>
-          <button
-            type="button"
-            aria-expanded={isMobileOpen}
-            aria-controls={rulesContentId}
-            onClick={() => setIsMobileOpen((open) => !open)}
-            className="flex w-full items-start justify-between gap-4 text-left md:hidden"
-          >
-            <span className="min-w-0">
-              <span className="block text-lg font-bold text-slate-950 dark:text-slate-50">硬币规则</span>
-              <span className="mt-1 block text-sm leading-6 text-muted-foreground">获得、使用和流水说明</span>
-            </span>
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/70 text-muted-foreground dark:bg-white/[0.03]">
-              <ChevronDown className={cn("h-4 w-4 transition-transform", isMobileOpen && "rotate-180")} />
-            </span>
-          </button>
-
-          <div className="hidden items-start justify-between gap-3 md:flex">
-            <div className="max-w-3xl">
-              <h2 className="text-lg font-bold">硬币规则</h2>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                这里集中说明硬币的获得、使用和流水统计；页面其他区域只展示余额、进度和记录。
-              </p>
-            </div>
-            <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground dark:bg-white/[0.03]">
-              规则说明
-            </span>
-          </div>
-        </>
-      ) : (
-        <div className="flex flex-wrap items-start justify-between gap-3">
+    <div className="space-y-8 pb-2">
+      <div>
+        <h3 className="font-bold text-slate-950 dark:text-slate-50">怎么获得</h3>
+        {renderRuleItems(COIN_EARNING_RULES, "bg-blue-100 text-blue-600 dark:bg-blue-400/10 dark:text-blue-300")}
+      </div>
+      <div>
+        <h3 className="font-bold text-slate-950 dark:text-slate-50">怎么使用</h3>
+        {renderRuleItems(COIN_SPENDING_RULES, "bg-amber-100 text-amber-600 dark:bg-amber-400/10 dark:text-amber-300")}
+      </div>
+      <div>
+        <h3 className="font-bold text-slate-950 dark:text-slate-50">流水怎么算</h3>
+        <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
           <div>
-            <h2 className="text-lg font-bold">硬币规则</h2>
+            <p className="font-semibold text-slate-950 dark:text-slate-50">当前硬币</p>
+            <p className="mt-1">显示现在可用的余额，不是累计获得总数。</p>
+          </div>
+          <div>
+            <p className="font-semibold text-slate-950 dark:text-slate-50">本月变动笔数</p>
+            <p className="mt-1">本月每一笔收入或支出都会计 1 次，包括签到、收到投币、挑战奖励、兑换和投币支持。</p>
           </div>
         </div>
-      )}
-
-      {shouldRenderContent ? (
-        <div
-          id={compact ? undefined : rulesContentId}
-          className={cn(
-            "border-t border-border/70",
-            compact
-              ? "mt-5 space-y-6 pt-5"
-              : showDesktopLayout
-                ? "mt-5 grid gap-6 pt-5 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-border/70"
-                : "mt-4 space-y-5 pt-4",
-          )}
-        >
-          <div className={cn(showDesktopLayout && "lg:pr-6")}>
-            <h3 className="font-bold text-slate-950 dark:text-slate-50">怎么获得</h3>
-            {renderRuleItems(COIN_EARNING_RULES, "bg-blue-100 text-blue-600 dark:bg-blue-400/10 dark:text-blue-300")}
-          </div>
-
-          <div className={cn(showDesktopLayout && "lg:px-6")}>
-            <h3 className="font-bold text-slate-950 dark:text-slate-50">怎么使用</h3>
-            {renderRuleItems(COIN_SPENDING_RULES, "bg-amber-100 text-amber-600 dark:bg-amber-400/10 dark:text-amber-300")}
-          </div>
-
-          <div className={cn(showDesktopLayout && "lg:pl-6")}>
-            <h3 className="font-bold text-slate-950 dark:text-slate-50">流水怎么算</h3>
-            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
-              <div>
-                <p className="font-semibold text-slate-950 dark:text-slate-50">当前硬币</p>
-                <p className="mt-1">显示现在可用的余额，不是累计获得总数。</p>
-              </div>
-              <div>
-                <p className="font-semibold text-slate-950 dark:text-slate-50">本月变动笔数</p>
-                <p className="mt-1">本月每一笔收入或支出都会计 1 次，包括签到、收到投币、挑战奖励、兑换和投币支持。</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </section>
+      </div>
+    </div>
   );
 }
 
@@ -472,29 +391,30 @@ function WalletSidePanel({
 
   return (
     <aside className="space-y-5">
-      <CoinRulesSection compact />
-
-      <section className="surface-panel overflow-hidden p-5">
-        <div className="flex items-center gap-2">
+      <section className="surface-panel relative overflow-hidden p-6">
+        <div className="absolute right-0 top-0 h-32 w-32 -translate-y-1/2 translate-x-1/2 rounded-full bg-blue-400/10 blur-3xl" />
+        <div className="relative flex items-center gap-2">
           <WalletCards className="h-5 w-5 text-blue-500" />
           <h3 className="font-bold">可兑换目标</h3>
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">
+        <p className="relative mt-4 text-sm text-muted-foreground">
           {nextReward ? `距离兑换「${nextReward.name}」还差` : "当前可兑换所有基础装扮"}
         </p>
-        <div className="mt-2 flex items-end gap-1">
-          <span className="text-3xl font-black tabular-nums text-blue-600 dark:text-blue-300">{need.toLocaleString()}</span>
+        <div className="relative mt-2 flex items-end gap-1">
+          <span className="text-4xl font-black tabular-nums tracking-tight text-blue-600 dark:text-blue-400">{need.toLocaleString()}</span>
           <span className="pb-1 text-sm font-semibold text-muted-foreground">硬币</span>
         </div>
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
-          <div className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-400" style={{ width: `${progress}%` }} />
+        <div className="relative mt-5 h-2.5 w-full overflow-hidden rounded-full bg-slate-100 ring-1 ring-inset ring-black/5 dark:bg-white/5 dark:ring-white/5">
+          <div className="relative h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" style={{ width: `${progress}%` }}>
+            <div className="absolute inset-0 bg-white/20" style={{ backgroundImage: 'linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent)', backgroundSize: '1rem 1rem' }} />
+          </div>
         </div>
         {nextReward ? (
-          <p className="mt-3 text-xs tabular-nums text-muted-foreground">
+          <p className="relative mt-3 text-xs tabular-nums text-muted-foreground">
             {coins.toLocaleString()} / {nextReward.price.toLocaleString()}
           </p>
         ) : null}
-        <Button asChild variant="outline" className="mt-5 w-full rounded-full border-blue-200 bg-blue-50/70 font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
+        <Button asChild variant="outline" className="relative mt-6 w-full rounded-full border-blue-200 bg-white/50 font-bold text-blue-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
           <Link href="/shop">
             去商店看看
             <ArrowUpRight className="ml-2 h-4 w-4" />
@@ -509,8 +429,6 @@ function WalletSidePanel({
 export default function CoinsPage() {
   const { user, loading: authLoading } = useAuth();
   const { coins = 0 } = useGamification();
-  const showSummaryDescription = useMediaQuery("(min-width: 640px)");
-  const isDesktopRulesViewport = useMediaQuery("(min-width: 768px)");
   const showDesktopSidePanel = useMediaQuery("(min-width: 1280px)");
   const supabase = useMemo(() => createClient(), []);
   const userId = user?.id ?? "";
@@ -539,24 +457,7 @@ export default function CoinsPage() {
     refetchOnWindowFocus: true,
   });
 
-  const summary = useMemo(() => {
-    const now = new Date();
-    const month = now.getMonth();
-    const year = now.getFullYear();
 
-    const thisMonthLogs = logs.filter((log) => {
-      const date = new Date(log.created_at);
-      return date.getFullYear() === year && date.getMonth() === month;
-    });
-
-    return {
-      monthlyIncome: thisMonthLogs.reduce((total, log) => total + Math.max(log.amount, 0), 0),
-      monthlySpend: Math.abs(thisMonthLogs.reduce((total, log) => total + Math.min(log.amount, 0), 0)),
-      monthlyChangeCount: thisMonthLogs.length,
-      redeemed: Math.abs(logs.filter((log) => log.amount < 0).reduce((total, log) => total + log.amount, 0)),
-      streakDays: logs.filter((log) => log.action_type === "daily_login").length,
-    };
-  }, [logs]);
 
   const nextReward = useMemo(
     () => SHOP_ITEMS.filter((item) => item.price > coins).sort((a, b) => a.price - b.price)[0],
@@ -625,84 +526,73 @@ export default function CoinsPage() {
         </div>
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_380px]">
-          <section className="min-w-0 space-y-5 lg:space-y-6">
-            <section className="relative overflow-hidden rounded-xl border border-blue-200/70 bg-[hsl(var(--surface-raised)/0.92)] px-5 py-6 shadow-[0_28px_64px_-42px_rgba(37,99,235,0.34)] dark:border-blue-300/20 md:px-8 md:py-7">
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
+          <section className="min-w-0 space-y-6 lg:space-y-7">
+            <section className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-gradient-to-br from-white via-blue-50/40 to-blue-100/60 px-5 py-7 shadow-[0_32px_64px_-24px_rgba(37,99,235,0.15)] dark:border-blue-800/40 dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-900 md:px-8 md:py-8">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="absolute right-3 top-3 z-20 rounded-full text-blue-900/40 hover:bg-black/5 hover:text-blue-900/60 dark:text-blue-100/30 dark:hover:bg-white/10 dark:hover:text-blue-100/50">
+                    <HelpCircle className="h-[1.125rem] w-[1.125rem]" />
+                    <span className="sr-only">硬币规则</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
+                  <DialogHeader className="mb-4">
+                    <DialogTitle className="text-xl">硬币规则</DialogTitle>
+                  </DialogHeader>
+                  <CoinRulesContent />
+                </DialogContent>
+              </Dialog>
+
+              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl dark:bg-blue-600/10" />
+                <div className="absolute right-10 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-600/10" />
                 <div
-                  className="absolute inset-y-0 left-0 -right-20 bg-cover bg-[right_center] bg-no-repeat opacity-100 dark:opacity-55 min-[390px]:-right-16 sm:-right-10 md:right-0"
+                  className="absolute inset-y-0 left-0 -right-20 bg-cover bg-[right_center] bg-no-repeat opacity-100 dark:opacity-60 sm:-right-10 md:right-0"
                   style={{ backgroundImage: "url('/assets/reward-shop-blue-coins-bg.png')" }}
                 />
                 <div
                   className="absolute inset-0 dark:hidden"
                   style={{
                     background:
-                      "linear-gradient(90deg, hsl(var(--surface-raised)) 0%, hsl(var(--surface-raised) / 0.98) 28%, hsl(var(--surface-raised) / 0.72) 46%, hsl(var(--surface-raised) / 0.16) 62%, transparent 74%)",
+                      "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.96) 35%, rgba(255,255,255,0.4) 65%, transparent 100%)",
                   }}
                 />
                 <div
                   className="absolute inset-0 hidden dark:block"
                   style={{
                     background:
-                      "linear-gradient(90deg, hsl(var(--background)) 0%, hsl(var(--background) / 0.96) 30%, hsl(var(--background) / 0.72) 48%, hsl(var(--background) / 0.18) 64%, transparent 76%)",
+                      "linear-gradient(90deg, hsl(var(--background)) 0%, hsl(var(--background) / 0.96) 35%, hsl(var(--background) / 0.6) 65%, transparent 100%)",
                   }}
                 />
               </div>
 
-              <div className="relative flex min-h-[176px] flex-col justify-center md:min-h-[164px]">
+              <div className="relative flex min-h-[180px] flex-col justify-center">
                 <div className="max-w-xl">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/72 px-3 py-1 text-sm font-bold text-slate-900 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.07] dark:text-slate-50">
-                    <CoinIcon className="h-4 w-4 text-amber-500" />
-                    当前硬币
+                  <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/80 px-3.5 py-1.5 text-xs font-bold text-blue-900 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-black/20 dark:text-blue-100">
+                    <CoinIcon className="h-4 w-4 text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
+                    当前硬币余额
                   </div>
-                  <div className="mt-4 flex flex-wrap items-end gap-x-3 gap-y-2">
-                    <span className="text-6xl font-black leading-[0.9] tracking-tight text-slate-950 tabular-nums dark:text-slate-50 sm:text-7xl">
+                  <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                    <span className="bg-gradient-to-br from-blue-700 via-indigo-600 to-violet-600 bg-clip-text text-7xl font-black leading-[0.85] tracking-tighter text-transparent tabular-nums drop-shadow-sm dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 sm:text-8xl">
                       {coins.toLocaleString()}
                     </span>
-                    <span className="pb-2 text-xl font-bold text-slate-700 dark:text-slate-200">硬币</span>
+                    <span className="text-2xl font-bold text-indigo-600/80 dark:text-indigo-400/80">枚</span>
                   </div>
-                  <p className="mt-4 max-w-xl text-sm leading-6 text-slate-700 dark:text-slate-200">硬币可用于兑换商店道具、头像框和个性化权益。</p>
+                  <p className="mt-5 max-w-xl text-sm font-medium leading-6 text-slate-600 dark:text-slate-300">硬币可用于兑换商店道具、头像框和个性化权益。</p>
 
-                  <Button asChild size="lg" className="mt-5 w-fit rounded-full bg-white px-6 font-bold text-blue-700 shadow-lg shadow-blue-950/10 hover:bg-blue-50 dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
+                  <Button asChild size="lg" className="mt-6 w-fit rounded-full border border-blue-100 bg-white/90 px-8 font-bold text-blue-700 shadow-[0_8px_16px_-6px_rgba(37,99,235,0.2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.3)] dark:border-none dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
                     <Link href="/shop">
                       <ShoppingBag className="mr-2 h-4 w-4" />
-                      去商店兑换
+                      去兑换装扮
                     </Link>
                   </Button>
                 </div>
               </div>
             </section>
 
-            <section className="surface-panel grid grid-cols-3 overflow-hidden">
-              <SummaryCard
-                icon={<ArrowUpRight className="h-5 w-5" />}
-                label="本月获得"
-                value={summary.monthlyIncome.toLocaleString()}
-                description="本月到账的硬币收入"
-                showDescription={showSummaryDescription}
-                tone="bg-blue-100 text-blue-600 dark:bg-blue-400/10 dark:text-blue-300"
-              />
-              <SummaryCard
-                icon={<ShoppingBag className="h-5 w-5" />}
-                label="本月支出"
-                value={summary.monthlySpend.toLocaleString()}
-                description="兑换和投币支出"
-                showDescription={showSummaryDescription}
-                tone="bg-emerald-100 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300"
-              />
-              <SummaryCard
-                icon={<History className="h-5 w-5" />}
-                label="本月变动笔数"
-                value={summary.monthlyChangeCount.toLocaleString()}
-                description={`收入、支出记录共 ${summary.monthlyChangeCount.toLocaleString()} 笔`}
-                showDescription={showSummaryDescription}
-                tone="bg-orange-100 text-orange-600 dark:bg-orange-400/10 dark:text-orange-300"
-              />
-            </section>
-
-            <CoinRulesSection className="xl:hidden" isDesktopViewport={isDesktopRulesViewport} />
 
             <section className="surface-panel overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/70 px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/40 px-5 py-4 dark:border-white/[0.04]">
                 <div>
                   <h2 className="text-lg font-bold">交易记录</h2>
                 </div>

@@ -62,7 +62,7 @@ type ProfileLibraryPageProps = {
   initialTab?: ProfileLibraryTab
 }
 
-export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageProps) {
+export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryPageProps) {
   const WORKS_PAGE_SIZE = 8
   const { user, profile, loading: authLoading } = useAuth()
   const { toast } = useToast()
@@ -409,16 +409,16 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
   }
 
   const desktopTabs = [
-    { key: 'my-projects', label: '作品', count: myProjectsTotalCount },
-    { key: 'collected', label: '收藏', count: collectedProjectsCount },
-    { key: 'liked', label: '点赞', count: likedProjectsCount },
     { key: 'exploring', label: '探索中', count: exploringProjectsList.length || null },
-    { key: 'completed', label: '已完成', count: completedProjectsCount },
     {
       key: 'observations',
       label: '观察记录',
       count: observationsLoaded ? observationsTotal : null,
     },
+    { key: 'collected', label: '收藏', count: collectedProjectsCount },
+    { key: 'liked', label: '点赞', count: likedProjectsCount },
+    { key: 'completed', label: '已完成', count: completedProjectsCount },
+    { key: 'my-projects', label: '我的创作', count: myProjectsTotalCount },
   ] satisfies Array<{ key: DesktopProfileLibraryTab; label: string; count: number | null }>
   const showDesktopProjectSkeleton =
     (isProjectsDataLoading && activeTab === 'my-projects') ||
@@ -470,7 +470,7 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
 
             <div className="grid w-full grid-cols-2 gap-2 lg:justify-self-end">
               {[
-                { label: '作品', value: myProjectsTotalCount, icon: FolderOpen },
+                { label: '我的创作', value: myProjectsTotalCount, icon: FolderOpen },
                 { label: '收藏', value: collectedProjectsCount, icon: Heart },
                 { label: '已完成', value: completedProjectsCount, icon: CheckCircle2 },
                 { label: '观察记录', value: observationsLoaded ? observationsTotal : uniqueSpeciesCount, icon: Feather },
@@ -497,7 +497,6 @@ export function ProfileLibraryPage({ initialTab = 'works' }: ProfileLibraryPageP
                     className={cn("segmented-option shrink-0 gap-2 whitespace-nowrap", activeTab === tab.key && "segmented-option-active")}
                   >
                     <span>{tab.label}</span>
-                    {tab.count !== null ? <span className="text-xs opacity-75">{tab.count}</span> : null}
                   </button>
                 ))}
               </div>

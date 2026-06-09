@@ -90,12 +90,12 @@ interface MobileProfilePageProps {
 }
 
 const PROFILE_TABS = [
-  { value: "works", label: "作品" },
+  { value: "exploring", label: "探索中" },
+  { value: "observations", label: "观察记录" },
   { value: "collected", label: "收藏" },
   { value: "likes", label: "点赞" },
-  { value: "exploring", label: "探索中" },
   { value: "completed", label: "已完成" },
-  { value: "observations", label: "观察记录" },
+  { value: "works", label: "我的创作" },
 ] as const;
 
 export function MobileProfilePage({
@@ -129,13 +129,13 @@ export function MobileProfilePage({
   showSteamRadar = true,
   pageTitle,
   backHref = "/profile",
-  initialTab = "works",
+  initialTab = "exploring",
 }: MobileProfilePageProps) {
   const [activeTab, setActiveTab] = useState<(typeof PROFILE_TABS)[number]["value"]>(initialTab);
   const [visibleWorksCount, setVisibleWorksCount] = useState(6);
 
   const myProjectsCount = myProjectsTotalCount;
-  const displayName = profile?.display_name || profile?.username || user.email?.split("@")[0] || "我的内容";
+
   const visibleMyProjects = myProjects.slice(0, visibleWorksCount);
   const hasMoreWorks = myProjectsTotalCount > visibleWorksCount;
 
@@ -266,13 +266,10 @@ export function MobileProfilePage({
               <div className="absolute inset-0 bg-gradient-to-r from-background/92 via-background/74 to-background/18" />
               <div className="relative">
                 <p className="section-kicker">内容库</p>
-                <h1 className="mt-3 text-2xl font-semibold tracking-tight">{displayName}</h1>
-                <p className="mt-2 max-w-[18rem] text-sm leading-6 text-muted-foreground">
-                  管理作品、收藏、完成记录和自然观察。
-                </p>
-                <div className="mt-4 grid grid-cols-4 gap-2">
+
+                <div className="mt-10 grid grid-cols-4 gap-2">
                   {[
-                    ["作品", myProjectsCount],
+                    ["我的创作", myProjectsCount],
                     ["收藏", collectedProjectsCount],
                     ["完成", completedProjectsCount],
                     ["观察", observationsLoaded ? observationsTotal : uniqueSpeciesCount],
@@ -303,12 +300,7 @@ export function MobileProfilePage({
                     activeTab === tab.value && "segmented-option-active",
                   )}
                 >
-                  <span>
-                    {tab.label}
-                    {tabCounts[tab.value] !== null ? (
-                      <span className="ml-1.5 text-[11px] opacity-75">{tabCounts[tab.value]}</span>
-                    ) : null}
-                  </span>
+                  <span>{tab.label}</span>
                 </button>
               ))}
             </div>

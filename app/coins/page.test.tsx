@@ -106,42 +106,7 @@ describe("CoinsPage", () => {
     expect(screen.queryByRole("button", { name: "返回上一页" })).not.toBeInTheDocument();
   });
 
-  it("keeps mobile summary cards compact and collapses wallet rules by default", () => {
-    render(<CoinsPage />);
 
-    expect(screen.getAllByText("本月变动笔数")).not.toHaveLength(0);
-    expect(screen.queryByText("本月交易")).not.toBeInTheDocument();
-    expect(screen.queryByText("本月到账的硬币收入")).not.toBeInTheDocument();
-    expect(screen.queryByText("兑换和投币支出")).not.toBeInTheDocument();
-    expect(screen.queryByText("收入、支出记录共 0 笔")).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /硬币规则/ })).toHaveAttribute("aria-expanded", "false");
-    expect(screen.queryByText("每天签到 1 次，可获得 2 硬币。")).not.toBeInTheDocument();
-    expect(screen.queryByText("规则速览")).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "查看当前硬币说明" })).not.toBeInTheDocument();
-    expect(screen.queryByText("小贴士")).not.toBeInTheDocument();
-  });
-
-  it("expands wallet rules on mobile when the header is tapped", () => {
-    render(<CoinsPage />);
-
-    const rulesButton = screen.getByRole("button", { name: /硬币规则/ });
-    fireEvent.click(rulesButton);
-
-    expect(rulesButton).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByText("每天签到 1 次，可获得 2 硬币。")).toBeInTheDocument();
-    expect(screen.getByText("显示现在可用的余额，不是累计获得总数。")).toBeInTheDocument();
-  });
-
-  it("keeps wallet rules expanded and shows full summary copy on desktop", () => {
-    setViewport(1024);
-    render(<CoinsPage />);
-
-    expect(screen.getByText("本月到账的硬币收入")).toBeInTheDocument();
-    expect(screen.getByText("兑换和投币支出")).toBeInTheDocument();
-    expect(screen.getByText("收入、支出记录共 0 笔")).toBeInTheDocument();
-    expect(screen.getByText("每天签到 1 次，可获得 2 硬币。")).toBeInTheDocument();
-    expect(screen.getByText("这里集中说明硬币的获得、使用和流水统计；页面其他区域只展示余额、进度和记录。")).toBeInTheDocument();
-  });
 
   it("adds a historical balance entry when current coins exceed logged transactions", () => {
     render(<CoinsPage />);

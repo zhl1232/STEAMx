@@ -851,6 +851,23 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
         )}
 
         <div className="-mx-4 md:hidden">
+          <div className="fixed left-4 right-4 top-[calc(0.75rem+env(safe-area-inset-top))] z-50 flex items-center justify-between gap-3 pointer-events-none">
+            <div className="pointer-events-auto">
+              <MobileBackLink href={exploreBackHref} />
+            </div>
+            <div className="pointer-events-auto">
+              <ProjectDetailActions
+                projectId={project.id}
+                projectTitle={project.title}
+                mode={mode}
+                variant="cover"
+                likes={project.likes}
+                projectOwnerId={project.author_id}
+                projectCoinsReceived={projectCoinsReceived}
+              />
+            </div>
+          </div>
+
           <div className="bg-[hsl(var(--app-canvas))]">
             <section className="overflow-hidden rounded-b-lg bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
               <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
@@ -863,18 +880,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/14" />
-                <div className="absolute left-4 right-4 top-[calc(0.75rem+env(safe-area-inset-top))] flex items-center justify-between gap-3">
-                  <MobileBackLink href={exploreBackHref} />
-                  <ProjectDetailActions
-                    projectId={project.id}
-                    projectTitle={project.title}
-                    mode={mode}
-                    variant="cover"
-                    likes={project.likes}
-                    projectOwnerId={project.author_id}
-                    projectCoinsReceived={projectCoinsReceived}
-                  />
-                </div>
                 <div className="absolute bottom-3 right-4 rounded-full bg-black/48 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md">
                   1/{heroGalleryCount}
                 </div>

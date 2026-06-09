@@ -66,30 +66,22 @@ export function ProfileObservationsPanel({
             <Link href="/nature/species?status=unobserved">查看待观察物种</Link>
           </Button>
         </div>
-        <div className="mt-5 grid gap-3 md:grid-cols-4">
-          <div className="rounded-md border border-border/70 bg-background/72 p-4">
-            <div className="text-2xl font-semibold tabular-nums text-foreground">{observationsTotal}</div>
-            <div className="mt-1 text-xs text-muted-foreground">观察记录总数</div>
-          </div>
-          <div className="rounded-md border border-border/70 bg-background/72 p-4">
-            <div className="text-2xl font-semibold tabular-nums text-foreground">{uniqueSpeciesCount}</div>
-            <div className="mt-1 text-xs text-muted-foreground">已观察物种</div>
-          </div>
-          {(naturalObservationProgress?.topicProgress || []).slice(1, 3).map((item) => (
+        <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {(naturalObservationProgress?.topicProgress || []).slice(1).map((item) => (
             <Link
               key={item.topic}
               href={`/nature/species?topic=${item.topic}&status=unobserved`}
-              className="rounded-md border border-border/70 bg-background/72 p-4 transition-colors hover:border-primary/35 hover:bg-muted/50"
+              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/72 p-4 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-semibold text-foreground">{item.label}</span>
-                <span className="text-xs font-medium text-primary">{item.progressPercent}%</span>
+                <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
+                <span className="text-xs font-bold text-primary">{item.progressPercent}%</span>
               </div>
-              <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
-                <div className="h-full rounded-full bg-primary" style={{ width: `${item.progressPercent}%` }} />
+              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted/80">
+                <div className="h-full rounded-full bg-primary transition-all duration-500 ease-out" style={{ width: `${item.progressPercent}%` }} />
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">
-                还有 {item.unobservedCount.toLocaleString()} 个待观察
+              <p className="mt-3 text-[11px] font-medium text-muted-foreground">
+                还有 <span className="text-foreground">{item.unobservedCount.toLocaleString()}</span> 待观察
               </p>
             </Link>
           ))}
@@ -112,8 +104,8 @@ export function ProfileObservationsPanel({
         ) : null}
       </div>
 
-      <div className="col-span-full">
-        <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="col-span-full mt-6">
+        <div className="mb-3 flex items-center justify-between gap-3 px-1">
           <h3 className="text-base font-semibold text-foreground">最近观察记录</h3>
           <Link href="/nature/observations" className="text-sm font-medium text-primary hover:underline">
             查看全部
