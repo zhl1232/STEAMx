@@ -1012,7 +1012,7 @@ function MobileActionGrid() {
       {actions.map((action) => (
         <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
           <span className="relative block">
-            <ProfileModuleIcon src={action.src} label={action.label} />
+            <ProfileModuleIcon src={action.src} label={action.label} size="lg" />
             {action.href === '/messages' && unreadCount > 0 ? (
               <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-destructive-foreground ring-2 ring-background">
                 {unreadCount > 99 ? '99+' : unreadCount}
@@ -1049,7 +1049,7 @@ function MobileExploringProjectsCard({
         />
       ) : (
         <div className="mt-3 flex items-center gap-3">
-          <ProfileSpotIcon name="exploring-map" className="h-11 w-11" />
+          <ProfileSpotIcon name="exploring-map" />
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-foreground">暂无探索中的项目</span>
             <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">

@@ -47,7 +47,7 @@ export function MobileTodayTasksCard({
       <MobileProfileSectionTitle title="今日任务" trailing={`${completedTaskCount}/${GROWTH_TASK_TOTAL}`} />
 
       <div className="mt-3 flex items-center gap-3">
-        <ProfileSpotIcon name="growth-quest" className="h-11 w-11" />
+        <ProfileSpotIcon name="growth-quest" />
         <div className="min-w-0 flex-1">
           <p className="line-clamp-1 text-sm font-semibold text-foreground">{featuredTask.label}</p>
           <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{featuredTask.progressLabel}</p>

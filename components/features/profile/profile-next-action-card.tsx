@@ -83,14 +83,14 @@ export function ProfileNextActionCard({
       >
         <div
           className={cn(
-            'relative h-11 w-11 shrink-0 overflow-hidden',
+            'relative h-12 w-12 shrink-0 overflow-hidden',
             projectImage || !(isMobile && spotIcon) ? 'rounded-md bg-[hsl(var(--tone-science-soft))]' : '',
           )}
         >
           {projectImage ? (
             <OptimizedImage src={projectImage} alt="" fill variant="thumbnail" className="object-cover" />
           ) : isMobile && spotIcon ? (
-            <ProfileSpotIcon name={spotIcon} className="h-11 w-11" />
+            <ProfileSpotIcon name={spotIcon} />
           ) : (
             <div className="grid h-full place-items-center text-[hsl(var(--brand-blue))]">
               <Icon className="h-5 w-5" strokeWidth={2.3} />

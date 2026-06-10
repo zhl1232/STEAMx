@@ -111,7 +111,7 @@ function MobileActionGridSkeleton() {
     <section className="surface-panel grid grid-cols-5 gap-1.5 p-3 min-[390px]:gap-2">
       {Array.from({ length: 5 }).map((_, index) => (
         <div key={index} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center min-[390px]:min-h-[84px] min-[390px]:gap-2 min-[390px]:py-3">
-          <SkeletonBlock className="h-9 w-9 rounded-md min-[390px]:h-10 min-[390px]:w-10" />
+          <SkeletonBlock className="h-12 w-12 rounded-md min-[390px]:h-[52px] min-[390px]:w-[52px]" />
           <SkeletonBlock className="h-3 w-10 rounded-full min-[390px]:w-12" />
         </div>
       ))}

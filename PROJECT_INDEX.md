@@ -65,7 +65,7 @@
 | courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库） |
-| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文；DELETE 清空话题）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
+| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节）；DELETE 清空话题）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
@@ -243,7 +243,7 @@
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
-| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、用户画像、场景上下文（global 按页面 `surface` 区分标题/摘要并在对话时注入首页推荐候选项目、course 支持当前课时步骤、observation 仅本人返回可发图）、笔记本长期记忆、开场白（global 按页面差异化，首页保留个性化逻辑）；回复允许轻量 Markdown（列表/加粗） |
+| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、用户画像、场景上下文（global 按页面 `surface` 区分标题/摘要并在对话时注入首页推荐候选项目、course 支持当前课时步骤、observation 仅本人返回可发图、species 按 `/nature/species/[slug]` 注入物种档案摘要）、笔记本长期记忆、开场白（global 按页面差异化，首页保留个性化逻辑）；回复允许轻量 Markdown（列表/加粗） |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 ### 4.10 根级工具文件
@@ -278,7 +278,7 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **184 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **185 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
@@ -305,6 +305,7 @@
 |------|------|
 | `db-push.mjs` | 数据库迁移推送工具（push/status/baseline） |
 | `compress-project-images.mjs` | 项目图片 WebP 压缩 |
+| `profile-icons-remove-bg.mjs` | 去除 `public/assets/profile-icons/` WebP 烘焙底色并写入透明通道 |
 | `fetch-bird-media-from-wikimedia.mjs` | 从 Wikimedia 抓取鸟类图片 |
 | `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |

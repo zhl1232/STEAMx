@@ -16,8 +16,15 @@ export type ProfileSpotIconName =
 
 export const PROFILE_SPOT_ICON_SIZES = {
   sm: 'h-10 w-10',
-  md: 'h-11 w-11',
+  md: 'h-12 w-12',
+  lg: 'h-12 w-12 min-[390px]:h-[52px] min-[390px]:w-[52px]',
 } as const
+
+const PROFILE_SPOT_ICON_PIXELS: Record<keyof typeof PROFILE_SPOT_ICON_SIZES, number> = {
+  sm: 40,
+  md: 48,
+  lg: 52,
+}
 
 const PROFILE_SPOT_ICON_SRC: Record<ProfileSpotIconName, string> = {
   'growth-quest': '/assets/profile-icons/growth-quest.webp',
@@ -61,13 +68,16 @@ export function ProfileSpotIcon({
   className?: string
   size?: keyof typeof PROFILE_SPOT_ICON_SIZES
 }) {
+  const pixelSize = PROFILE_SPOT_ICON_PIXELS[size]
+
   return (
     <span className={cn(profileIconFrameClass(size), className)}>
       <Image
         src={PROFILE_SPOT_ICON_SRC[name]}
         alt=""
-        width={44}
-        height={44}
+        width={pixelSize}
+        height={pixelSize}
+        unoptimized
         className="h-full w-full object-contain"
         aria-hidden
       />
@@ -86,13 +96,16 @@ export function ProfileModuleIcon({
   size?: keyof typeof PROFILE_SPOT_ICON_SIZES
   label?: string
 }) {
+  const pixelSize = PROFILE_SPOT_ICON_PIXELS[size]
+
   return (
     <span className={cn(profileIconFrameClass(size), className)} aria-hidden={label ? undefined : true}>
       <Image
         src={src}
         alt=""
-        width={44}
-        height={44}
+        width={pixelSize}
+        height={pixelSize}
+        unoptimized
         className="h-full w-full object-contain"
         aria-hidden={!!label}
       />
