@@ -64,7 +64,8 @@
 | assets | `api/assets/` | 本地开发用受限静态资源代理；仅代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/projects` 资源。本地默认经代理带生产 Referer 拉取 OSS，以模拟线上 CDN 防盗链；生产环境直连 `NEXT_PUBLIC_ASSETS_BASE_URL`；非生产设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 可绕过代理直连排查 |
 | courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
-| challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；AI 学习导师对话 `[id]/coach`（GET 读历史 + POST 发消息，对话入库 `challenge_tutor_messages`，注入挑战+学生各阶段产出作为 agent 记忆/上下文，图文，接 Qwen，前端为"小思"卡通悬浮导师，阶段逐步解锁） |
+| challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库） |
+| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文；DELETE 清空话题）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
@@ -124,11 +125,12 @@
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计头像排行、评论区 |
-| `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+悬浮 AI 导师）、提交作品画廊 |
+| `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+「请导师看看这步」走全局小迪）、提交作品画廊 |
 | `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
+| `tutor/` | 4 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider、`global-tutor-fab` 悬浮球+流式对话（聊天框可直传图片、场景照片一键发图、Scratch 课时页紧凑位）、`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）、`tutor-message-content` 回复轻量 Markdown 渲染 + `[project:ID|标题]` 项目 chip |
 | `playground/` | 1 | 键盘帮助弹窗 |
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
@@ -239,7 +241,9 @@
 | `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
-| `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 日配额常量（免费 5 次、会员 100 次） |
+| `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
+| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、用户画像、场景上下文（global 按页面 `surface` 区分标题/摘要并在对话时注入首页推荐候选项目、course 支持当前课时步骤、observation 仅本人返回可发图）、笔记本长期记忆、开场白（global 按页面差异化，首页保留个性化逻辑）；回复允许轻量 Markdown（列表/加粗） |
+| `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 ### 4.10 根级工具文件
 - `lib/schemas.ts` — Zod 验证 Schema（项目、评论、讨论等）
@@ -273,12 +277,12 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **181 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`；自动互动账号与队列：`20260605100000_auto_interactions.sql`；观察流发布时间排序索引：`20260606222929_observation_created_at_order_indexes.sql`；会员字段：`20260609120000_profile_membership_fields.sql`；PBL 测试种子（已下架）：`20260609183000_seed_school_shade_pbl_project.sql` + `20260610120000_remove_seed_pbl_challenges.sql`；PBL 阶段产出表：`20260609200000_challenge_stage_progress.sql`；PBL AI 导师对话表：`20260609220000_challenge_tutor_messages.sql`；PBL 阶段完成清单 seed：`20260609230000_seed_pbl_stage_checklists.sql`；未读数 Realtime publication：`20260610104500_realtime_unread_publication.sql`；学习资料卡表：`20260610134800_learning_resources.sql`；挑战 resources 三分类归一化：`20260610135500_normalize_challenge_resources.sql`；鸡蛋快递保护舱 PBL 种子（挑战 + 4 张资料卡 + 示例项目）：`20260610140000_seed_egg_protection_pbl.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **184 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles`（含 `membership_tier` / `membership_period` / `membership_started_at` / `membership_expires_at`） · `projects` · … · `challenges` · `challenge_submissions` · **`challenge_stage_progress`**（PBL 每用户每阶段产出：notes/images/data/video + AI 反馈缓存） · **`challenge_tutor_messages`**（AI 导师"小思"一对一对话记录，每条一行，按挑战/用户） · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · **`learning_resources`**（可跨挑战复用的学习资料卡：Markdown 正文 + 分类 + 草稿/发布；公开读 published，moderator/admin 可写） · **`auto_interaction_jobs`** · Storage bucket **`scratch-projects`**
+`profiles`（含 `membership_tier` / …） · … · **`tutor_messages`**（小迪统一对话，按 context_type/context_id 分组） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · …
 
 完整类型定义：`lib/supabase/types.ts`
 

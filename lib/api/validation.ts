@@ -224,7 +224,7 @@ export function isOwnedCommentImageUrl(imageUrl: string, userId: string): boolea
   }
 }
 
-type OwnedProjectImageOptions = {
+export type OwnedProjectImageOptions = {
   /** Storage bucket，默认 project-images；完成作品图为 project-completions */
   bucket?: string
   /** bucket 内的子目录，如 observations */
@@ -305,6 +305,24 @@ export function validateOwnedOrTrustedProjectImageUrl(
   if (!imageUrl) return
   if (isTrustedLocalAssetUrl(imageUrl)) return
   if (isOwnedProjectImageUrl(imageUrl, userId, pathPrefixOrOptions)) return
+  throw new ValidationError(`${fieldName}必须使用当前账号上传的文件`)
+}
+
+/**
+ * 多来源版本：图片属于任一给定 bucket/pathPrefix 来源（且归当前用户）即通过。
+ * 用于 AI 导师等可接收多种产出图片（PBL 阶段图、观察照片、聊天直传）的场景。
+ */
+export function validateOwnedOrTrustedImageUrlFromSources(
+  imageUrl: string | null | undefined,
+  userId: string,
+  fieldName: string,
+  sources: OwnedProjectImageOptions[],
+): void {
+  if (!imageUrl) return
+  if (isTrustedLocalAssetUrl(imageUrl)) return
+  for (const source of sources) {
+    if (isOwnedProjectImageUrl(imageUrl, userId, source)) return
+  }
   throw new ValidationError(`${fieldName}必须使用当前账号上传的文件`)
 }
 

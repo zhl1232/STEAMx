@@ -33,6 +33,7 @@ vi.mock('@/lib/context/gamification-context', () => ({
 
 vi.mock('@/lib/context/login-prompt-context', () => ({
   LoginPromptProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
+  useLoginPrompt: () => ({ promptLogin: vi.fn() }),
 }))
 
 vi.mock('@/lib/context/notification-context', () => ({

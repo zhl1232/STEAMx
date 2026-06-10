@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation'
 
 import { BottomNav } from '@/components/layout/bottom-nav'
 import { DailyCheckInSync } from '@/components/features/gamification/daily-check-in-sync'
+import { GlobalTutorMount } from '@/components/features/tutor/global-tutor-mount'
+import { TutorProvider } from '@/components/features/tutor/tutor-context'
 import { MainNav } from '@/components/layout/main-nav'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { NotificationBell } from '@/components/layout/notification-bell'
@@ -133,6 +135,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   if (smokeMode) {
     return (
       <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
+        <TutorProvider>
         <a href="#main-content" className="skip-link">
           跳到主内容
         </a>
@@ -143,13 +146,16 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
           >
             {pageContent}
           </main>
+          <GlobalTutorMount />
         </div>
+        </TutorProvider>
       </AppProviders>
     )
   }
 
   return (
     <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
+      <TutorProvider>
       <a href="#main-content" className="skip-link">
         跳到主内容
       </a>
@@ -198,7 +204,9 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
           {pageContent}
         </main>
         {!hideMobileBottomNav ? <BottomNav /> : null}
+        <GlobalTutorMount />
       </div>
+      </TutorProvider>
     </AppProviders>
   )
 }

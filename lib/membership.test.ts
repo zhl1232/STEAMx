@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  AI_CREDIT_COST_TEXT,
+  AI_CREDIT_COST_VISION,
   FREE_AI_DAILY_QUOTA,
-  MEMBER_AI_DAILY_QUOTA,
+  MEMBER_AI_MONTHLY_CREDITS,
+  getAiChatCreditCost,
   getMembershipSummary,
   isMembershipActive,
 } from './membership'
@@ -41,7 +44,7 @@ describe('membership helpers', () => {
       tier: 'pro',
       period: 'yearly',
       isActive: true,
-      quota: MEMBER_AI_DAILY_QUOTA,
+      quota: MEMBER_AI_MONTHLY_CREDITS,
     })
   })
 
@@ -82,7 +85,12 @@ describe('membership helpers', () => {
       period: 'founder',
       isActive: true,
       label: '创始会员',
-      quota: MEMBER_AI_DAILY_QUOTA,
+      quota: MEMBER_AI_MONTHLY_CREDITS,
     })
+  })
+
+  it('computes chat credit cost by image presence', () => {
+    expect(getAiChatCreditCost(false)).toBe(AI_CREDIT_COST_TEXT)
+    expect(getAiChatCreditCost(true)).toBe(AI_CREDIT_COST_VISION)
   })
 })

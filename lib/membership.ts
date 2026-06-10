@@ -21,8 +21,19 @@ export type MembershipSummary = {
   expiresAt: string | null
 }
 
+/** 非会员每日免费 AI 对话次数 */
 export const FREE_AI_DAILY_QUOTA = 5
+/** @deprecated 使用 FREE_AI_DAILY_QUOTA；保留兼容旧引用 */
 export const MEMBER_AI_DAILY_QUOTA = 100
+
+/** 会员每月发放 AI 代币 */
+export const MEMBER_AI_MONTHLY_CREDITS = 1500
+/** 纯文本对话消耗代币 */
+export const AI_CREDIT_COST_TEXT = 1
+/** 带图片对话消耗代币 */
+export const AI_CREDIT_COST_VISION = 2
+/** AI 导师 API 分钟级限流（每用户） */
+export const AI_TUTOR_RATE_LIMIT_PER_MINUTE = 5
 
 export const membershipPeriodLabels: Record<MembershipPeriod, string> = {
   none: '普通用户',
@@ -70,8 +81,12 @@ export function getMembershipSummary(
     period: effectivePeriod,
     isActive,
     label: membershipPeriodLabels[effectivePeriod],
-    quota: isActive ? MEMBER_AI_DAILY_QUOTA : FREE_AI_DAILY_QUOTA,
+    quota: isActive ? MEMBER_AI_MONTHLY_CREDITS : FREE_AI_DAILY_QUOTA,
     startedAt: profile?.membership_started_at ?? null,
     expiresAt: isActive ? profile?.membership_expires_at ?? null : null,
   }
+}
+
+export function getAiChatCreditCost(hasImages: boolean) {
+  return hasImages ? AI_CREDIT_COST_VISION : AI_CREDIT_COST_TEXT
 }

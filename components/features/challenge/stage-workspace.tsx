@@ -1,14 +1,12 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode, type RefObject } from "react"
-import { createPortal } from "react-dom"
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
 import {
   CheckCircle2,
   ChevronDown,
   Lightbulb,
   Loader2,
   Lock,
-  Send,
   Sparkles,
   Upload,
   X,
@@ -20,6 +18,7 @@ import { Label } from "@/components/ui/label"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { Progress } from "@/components/ui/progress"
 import { Textarea } from "@/components/ui/textarea"
+import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
@@ -33,7 +32,6 @@ import type {
 import { cn } from "@/lib/utils"
 
 const MAX_STAGE_IMAGES = 6
-const TUTOR_AVATAR = "/ai-tutor-mascot.png"
 
 const KIND_LABEL: Record<ChallengeStageKind, string> = {
   observe: "观察调研",
@@ -71,13 +69,6 @@ interface StageDraft {
   status: StageProgressStatus
 }
 
-interface ChatMessage {
-  role: "user" | "assistant"
-  content: string
-  images?: string[]
-  error?: boolean
-}
-
 interface StageWorkspaceProps {
   challengeId: number
   stages: ChallengeStage[]
@@ -94,6 +85,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
+  // 只解构稳定的回调，避免把整个 context 对象放进 effect 依赖造成循环。
+  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride, queueSend: queueTutorSend } = useTutorContext()
 
   const [drafts, setDrafts] = useState<Record<number, StageDraft>>({})
   const [savedProgress, setSavedProgress] = useState<Record<number, StageProgress>>({})
@@ -105,12 +98,6 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)
   const autosaveInflightRef = useRef<Map<number, Promise<void>>>(new Map())
-
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
-  const [chatInput, setChatInput] = useState("")
-  const [chatBusy, setChatBusy] = useState(false)
-  const [chatOpen, setChatOpen] = useState(false)
-  const chatScrollRef = useRef<HTMLDivElement>(null)
 
   const buildDraft = useCallback(
     (index: number, progress?: StageProgress): StageDraft => ({
@@ -164,36 +151,6 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     }
   }, [challengeId, stages, user, buildDraft])
 
-  // Load persisted tutor conversation from the database (source of truth).
-  useEffect(() => {
-    if (!user) {
-      setChatMessages([])
-      return
-    }
-    let cancelled = false
-    const loadChat = async () => {
-      try {
-        const res = await fetch(`/api/challenges/${challengeId}/coach`)
-        if (!res.ok || cancelled) return
-        const payload = await res.json()
-        if (cancelled) return
-        const loaded = (payload.messages ?? []) as Array<{ role: "user" | "assistant"; content: string; images?: string[] }>
-        setChatMessages(loaded.map((m) => ({ role: m.role, content: m.content, images: m.images })))
-      } catch {
-        // keep local state on failure
-      }
-    }
-    void loadChat()
-    return () => {
-      cancelled = true
-    }
-  }, [challengeId, user])
-
-  useEffect(() => {
-    const node = chatScrollRef.current
-    if (node) node.scrollTop = node.scrollHeight
-  }, [chatMessages, chatBusy, chatOpen])
-
   const completedCount = useMemo(
     () => stages.filter((_, index) => (savedProgress[index]?.status ?? "not_started") === "completed").length,
     [stages, savedProgress],
@@ -209,6 +166,32 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     (index: number) => (savedProgress[index]?.status ?? "not_started") === "completed" || index <= currentStep,
     [savedProgress, currentStep],
   )
+
+  // 最新草稿放 ref，让 getReviewPayload 始终读到最新值，又不必把 drafts 加进依赖（每次按键都会变）。
+  const draftsRef = useRef(drafts)
+  useEffect(() => {
+    draftsRef.current = drafts
+  }, [drafts])
+
+  useEffect(() => {
+    const stage = stages[currentStep]
+    setTutorOverride({
+      stageIndex: currentStep,
+      stageTitle: stage?.title,
+      subtitle: stage?.title ? `陪你完成「${stage.title}」这步` : undefined,
+      quickPrompts: KIND_QUICK_PROMPTS[stage?.kind ?? "generic"],
+      getReviewPayload: () => {
+        const draft = draftsRef.current[currentStep]
+        if (!draft || (!draft.notes.trim() && draft.images.length === 0)) return null
+        const stageTitle = stage?.title ?? `阶段 ${currentStep + 1}`
+        return {
+          text: `请看看我在「${stageTitle}」这一步的产出，给我一点改进方向：\n${draft.notes.trim() || "（先上传了图片）"}`,
+          images: draft.images,
+        }
+      },
+    })
+    return () => clearTutorOverride()
+  }, [setTutorOverride, clearTutorOverride, currentStep, stages])
 
   const ensureCanEdit = useCallback(() => {
     if (!user) {
@@ -425,41 +408,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     }
   }, [challengeId, stages, ensureCanEdit, buildStagePayload, setDraftField, toast])
 
-  const sendToTutor = useCallback(async (text: string, images?: string[]) => {
-    if (!ensureCanEdit()) return
-    const trimmed = text.trim()
-    if (!trimmed && (!images || images.length === 0)) return
-
-    const userMessage: ChatMessage = { role: "user", content: trimmed, images: images && images.length ? images : undefined }
-    setChatMessages((current) => [...current, userMessage])
-    setChatInput("")
-    setChatBusy(true)
-    if (!chatOpen) setChatOpen(true)
-
-    try {
-      const res = await fetch(`/api/challenges/${challengeId}/coach`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          stageIndex: currentStep,
-          content: trimmed,
-          images: images ?? [],
-        }),
-      })
-      const payload = await res.json().catch(() => ({}))
-      if (!res.ok) throw new Error(payload?.error || "AI 导师暂时不可用")
-      setChatMessages((current) => [...current, { role: "assistant", content: payload.reply as string }])
-    } catch (error) {
-      setChatMessages((current) => [
-        ...current,
-        { role: "assistant", content: error instanceof Error ? error.message : "导师暂时不可用，请稍后再试。", error: true },
-      ])
-    } finally {
-      setChatBusy(false)
-    }
-  }, [challengeId, chatOpen, currentStep, ensureCanEdit])
-
   const reviewCurrentStep = useCallback(() => {
+    if (!ensureCanEdit()) return
     const draft = drafts[currentStep] ?? buildDraft(currentStep)
     if (!draft.notes.trim() && draft.images.length === 0) {
       toast({ title: "先填写这一步的产出，再请导师看看", variant: "destructive" })
@@ -467,15 +417,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     }
     const stageTitle = stages[currentStep]?.title ?? `阶段 ${currentStep + 1}`
     const text = `请看看我在「${stageTitle}」这一步的产出，给我一点改进方向：\n${draft.notes.trim() || "（先上传了图片）"}`
-    void sendToTutor(text, draft.images)
-  }, [drafts, currentStep, buildDraft, stages, toast, sendToTutor])
-
-  const handleChatKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault()
-      void sendToTutor(chatInput)
-    }
-  }
+    queueTutorSend(text, draft.images)
+  }, [drafts, currentStep, buildDraft, stages, toast, queueTutorSend, ensureCanEdit])
 
   if (!stages || stages.length === 0) return null
 
@@ -741,254 +684,12 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
         )}
       </div>
 
-      <TutorFab
-        open={chatOpen}
-        onToggle={() => setChatOpen((v) => !v)}
-        messages={chatMessages}
-        input={chatInput}
-        onInputChange={setChatInput}
-        onSend={() => void sendToTutor(chatInput)}
-        onQuickSend={(text) => void sendToTutor(text)}
-        onKeyDown={handleChatKeyDown}
-        onReview={reviewCurrentStep}
-        busy={chatBusy}
-        loggedIn={Boolean(user)}
-        currentStageTitle={stages[currentStep]?.title ?? ""}
-        quickPrompts={KIND_QUICK_PROMPTS[stages[currentStep]?.kind ?? "generic"]}
-        scrollRef={chatScrollRef}
-        onLogin={() =>
-          promptLogin(() => undefined, {
-            title: "登录后找 AI 导师",
-            description: "登录后即可和 AI 导师一对一聊这道挑战。",
-          })
-        }
-      />
-
       {!isActive && (
         <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Lock className="h-3.5 w-3.5" />
           挑战未开放，阶段产出仅可查看。
         </p>
       )}
-    </div>
-  )
-}
-
-interface TutorFabProps {
-  open: boolean
-  onToggle: () => void
-  messages: ChatMessage[]
-  input: string
-  onInputChange: (value: string) => void
-  onSend: () => void
-  onQuickSend: (text: string) => void
-  onKeyDown: (event: KeyboardEvent<HTMLTextAreaElement>) => void
-  onReview: () => void
-  busy: boolean
-  loggedIn: boolean
-  currentStageTitle: string
-  quickPrompts: string[]
-  scrollRef: RefObject<HTMLDivElement | null>
-  onLogin: () => void
-}
-
-function TutorFab({
-  open,
-  onToggle,
-  messages,
-  input,
-  onInputChange,
-  onSend,
-  onQuickSend,
-  onKeyDown,
-  onReview,
-  busy,
-  loggedIn,
-  currentStageTitle,
-  quickPrompts,
-  scrollRef,
-  onLogin,
-}: TutorFabProps) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-  if (!mounted) return null
-
-  return createPortal(
-    <>
-      {open && (
-        <section className="fixed right-4 z-50 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] bottom-[calc(12rem+env(safe-area-inset-bottom))] md:bottom-24 md:right-6">
-          <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
-            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-2 ring-[hsl(var(--brand-blue)/0.35)]">
-              <OptimizedImage src={TUTOR_AVATAR} alt="AI 导师小思" fill variant="thumbnail" className="object-cover" />
-            </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 text-sm font-semibold tracking-tight">
-                小思 · AI 学习导师
-                <Sparkles className="h-3.5 w-3.5 text-[hsl(var(--brand-blue))]" />
-              </div>
-              <p className="truncate text-[11px] text-muted-foreground">
-                {currentStageTitle ? `陪你完成「${currentStageTitle}」这步` : "陪你一步步完成挑战"}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={onToggle}
-              aria-label="收起导师"
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))]"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-
-          <div ref={scrollRef} className="max-h-[min(52vh,420px)] flex-1 space-y-3 overflow-y-auto px-3.5 py-4">
-            {messages.length === 0 && (
-              <>
-                <TutorBubble>
-                  你好呀！我是小思 👋 这道挑战我会一路陪着你。我记得你每一步写了什么，可以帮你出主意、也会提醒你下一步。先从下面挑一个问我吧～
-                </TutorBubble>
-                {loggedIn && currentStageTitle && (
-                  <div className="pl-9">
-                    <button
-                      type="button"
-                      onClick={() => onQuickSend(`带我开始「${currentStageTitle}」这一步：先用一两句话说清这步的重点，再给我第一个可以马上做的小动作。`)}
-                      disabled={busy}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-xs font-semibold text-[hsl(var(--brand-blue-foreground))] shadow-sm transition-transform hover:scale-[1.03] disabled:opacity-50"
-                    >
-                      <Sparkles className="h-3.5 w-3.5" />
-                      带我开始这一步
-                    </button>
-                  </div>
-                )}
-                {loggedIn && quickPrompts.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pl-9">
-                    {quickPrompts.map((prompt) => (
-                      <button
-                        key={prompt}
-                        type="button"
-                        onClick={() => onQuickSend(prompt)}
-                        disabled={busy}
-                        className="rounded-full border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.6)] disabled:opacity-50"
-                      >
-                        {prompt}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-            {messages.map((message, i) =>
-              message.role === "assistant" ? (
-                <TutorBubble key={i} error={message.error}>
-                  {message.content}
-                </TutorBubble>
-              ) : (
-                <div key={i} className="flex justify-end">
-                  <div className="max-w-[80%] space-y-1.5">
-                    {message.content && (
-                      <div className="whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tr-sm bg-[hsl(var(--brand-blue))] px-3 py-2 text-[13px] leading-6 text-[hsl(var(--brand-blue-foreground))]">
-                        {message.content}
-                      </div>
-                    )}
-                    {message.images && message.images.length > 0 && (
-                      <div className="flex flex-wrap justify-end gap-1.5">
-                        {message.images.map((image, idx) => (
-                          <span key={idx} className="relative h-12 w-12 overflow-hidden rounded-[var(--radius-xs)] bg-muted">
-                            <OptimizedImage src={image} alt="产出图" fill variant="thumbnail" className="object-cover" />
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ),
-            )}
-            {busy && (
-              <TutorBubble>
-                <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  小思正在思考…
-                </span>
-              </TutorBubble>
-            )}
-          </div>
-
-          {loggedIn ? (
-            <div className="space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
-              <div className="flex items-end gap-2">
-                <Textarea
-                  value={input}
-                  onChange={(e) => onInputChange(e.target.value)}
-                  onKeyDown={onKeyDown}
-                  placeholder="问问小思这一步怎么想…（Enter 发送）"
-                  className="min-h-[40px] flex-1 resize-none text-sm"
-                  disabled={busy}
-                />
-                <Button type="button" size="icon" onClick={onSend} disabled={busy || !input.trim()} aria-label="发送">
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-              <button
-                type="button"
-                onClick={onReview}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] hover:underline"
-              >
-                <Sparkles className="h-3.5 w-3.5" />
-                让导师看看我现在这步的产出
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
-              <p className="text-xs text-muted-foreground">登录后就能和小思一对一聊这道挑战。</p>
-              <Button type="button" size="sm" onClick={onLogin}>
-                登录后提问
-              </Button>
-            </div>
-          )}
-        </section>
-      )}
-
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-label={open ? "收起 AI 导师" : "打开 AI 导师"}
-        className={cn(
-          "fixed right-4 z-50 hidden h-14 w-14 items-center justify-center rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-2 ring-[hsl(var(--brand-blue)/0.4)] transition-transform hover:scale-105 active:scale-95 bottom-[calc(8.5rem+env(safe-area-inset-bottom))] md:bottom-6 md:right-6 md:inline-flex",
-        )}
-      >
-        {open ? (
-          <ChevronDown className="h-6 w-6 text-[hsl(var(--brand-blue))]" />
-        ) : (
-          <>
-            <span className="relative h-full w-full overflow-hidden rounded-full">
-              <OptimizedImage src={TUTOR_AVATAR} alt="AI 导师小思" fill variant="thumbnail" className="object-cover" />
-            </span>
-            <span className="absolute -right-0.5 -top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[hsl(var(--brand-blue))] ring-2 ring-[hsl(var(--surface-raised))]">
-              <Sparkles className="h-2.5 w-2.5 text-[hsl(var(--brand-blue-foreground))]" />
-            </span>
-          </>
-        )}
-      </button>
-    </>,
-    document.body,
-  )
-}
-
-function TutorBubble({ children, error }: { children: ReactNode; error?: boolean }) {
-  return (
-    <div className="flex items-start gap-2">
-      <span className="relative mt-0.5 h-7 w-7 shrink-0 overflow-hidden rounded-full ring-1 ring-[hsl(var(--brand-blue)/0.3)]">
-        <OptimizedImage src={TUTOR_AVATAR} alt="小思" fill variant="thumbnail" className="object-cover" />
-      </span>
-      <div
-        className={cn(
-          "max-w-[80%] whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tl-sm px-3 py-2 text-[13px] leading-6",
-          error
-            ? "bg-[hsl(var(--status-danger-surface)/0.7)] text-[hsl(var(--status-danger))]"
-            : "bg-[hsl(var(--surface-raised))] text-foreground/88",
-        )}
-      >
-        {children}
-      </div>
     </div>
   )
 }

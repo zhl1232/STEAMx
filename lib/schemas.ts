@@ -112,6 +112,25 @@ export const ChallengeTutorSendSchema = z.object({
   message: '消息不能为空',
 });
 
+export const TutorContextTypeSchema = z.enum(['global', 'challenge', 'project', 'observation', 'course']);
+
+export const TutorGlobalSurfaceSchema = z.enum([
+  'home', 'explore', 'nature', 'create', 'courses', 'community', 'playground', 'profile', 'users',
+]);
+
+export const TutorSendSchema = z.object({
+  contextType: TutorContextTypeSchema.default('global'),
+  contextId: z.string().max(64).optional(),
+  content: z.string().max(4000).default(''),
+  images: z.array(relativeOrAbsoluteUrlSchema).max(6).default([]),
+  stageIndex: z.number().int().min(0).max(50).optional(),
+  lessonId: z.number().int().positive().optional(),
+  surface: TutorGlobalSurfaceSchema.optional(),
+  meta: z.record(z.string(), z.unknown()).optional(),
+}).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
+  message: '消息不能为空',
+});
+
 export const ChallengeSubmissionRatingSchema = z.object({
   submissionId: z.number().int().positive(),
   creativeExpression: z.number().int().min(1).max(5),
@@ -155,6 +174,7 @@ export type ChallengeSubmissionInput = z.infer<typeof ChallengeSubmissionSchema>
 export type ChallengeStageProgressInput = z.infer<typeof ChallengeStageProgressSchema>;
 export type ChallengeStageCoachInput = z.infer<typeof ChallengeStageCoachSchema>;
 export type ChallengeTutorSendInput = z.infer<typeof ChallengeTutorSendSchema>;
+export type TutorSendInput = z.infer<typeof TutorSendSchema>;
 export type ChallengeSubmissionRatingInput = z.infer<typeof ChallengeSubmissionRatingSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;

@@ -16,6 +16,7 @@ import { ChallengeManagement } from '@/components/admin/challenge-management'
 import { CourseManagement } from '@/components/admin/course-management'
 import { ResourceManagement } from '@/components/admin/resource-management'
 import { UserMembershipManagement } from '@/components/admin/user-membership-management'
+import { AiUsageDashboard } from '@/components/admin/ai-usage-dashboard'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -810,6 +811,7 @@ export default function AdminPage() {
 
           <TabsContent value="users" className="space-y-4">
             <UserMembershipManagement />
+            <AiUsageDashboard />
           </TabsContent>
         </Tabs>
       </section>

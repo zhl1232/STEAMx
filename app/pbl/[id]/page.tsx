@@ -191,7 +191,15 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
         <div className="space-y-4 sm:space-y-5">
           <section className="surface-panel overflow-hidden">
             <div className="relative min-h-[210px] overflow-hidden sm:min-h-[400px]">
-              <OptimizedImage src={challenge.image} alt={challenge.title} fill variant="cover" className="object-cover" />
+              <OptimizedImage
+                src={challenge.image}
+                alt={challenge.title}
+                fill
+                variant="cover"
+                loading="eager"
+                fetchPriority="high"
+                className="object-cover"
+              />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,15,30,0)_0%,rgba(8,15,30,0.02)_44%,rgba(8,15,30,0.22)_76%,rgba(8,15,30,0.44)_100%)] sm:bg-[linear-gradient(180deg,rgba(8,15,30,0)_0%,rgba(8,15,30,0.05)_38%,rgba(8,15,30,0.62)_74%,rgba(8,15,30,0.92)_100%)]" />
 
               <div className="absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 p-4 sm:p-6 lg:p-7">

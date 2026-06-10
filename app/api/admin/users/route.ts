@@ -45,7 +45,23 @@ export async function GET(req: Request) {
     const { data, error } = await request
     if (error) throw error
 
-    return NextResponse.json({ users: data || [] })
+    const users = (data ?? []) as unknown as Array<Record<string, unknown> & { id: string }>
+    let walletMap = new Map<string, number>()
+    if (supabaseAdmin && users.length > 0) {
+      const ids = users.map((u) => u.id)
+      const { data: wallets } = await supabaseAdmin
+        .from('ai_credit_wallets')
+        .select('user_id, balance')
+        .in('user_id', ids)
+      walletMap = new Map((wallets ?? []).map((w) => [w.user_id, w.balance]))
+    }
+
+    return NextResponse.json({
+      users: users.map((user) => ({
+        ...user,
+        ai_credit_balance: walletMap.get(user.id) ?? 0,
+      })),
+    })
   } catch (error) {
     return handleApiError(error)
   }

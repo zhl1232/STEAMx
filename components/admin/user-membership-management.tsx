@@ -38,11 +38,17 @@ type AdminUser = {
   role: string
   xp: number
   coins: number
+  ai_credit_balance?: number
   created_at: string
   membership_tier: string
   membership_period: string
   membership_started_at: string | null
   membership_expires_at: string | null
+}
+
+type CreditDraft = {
+  amount: string
+  note: string
 }
 
 type MembershipDraft = {
@@ -109,6 +115,8 @@ export function UserMembershipManagement() {
   const [drafts, setDrafts] = useState<Record<string, MembershipDraft>>({})
   const [loading, setLoading] = useState(true)
   const [savingUserId, setSavingUserId] = useState<string | null>(null)
+  const [creditDrafts, setCreditDrafts] = useState<Record<string, CreditDraft>>({})
+  const [adjustingUserId, setAdjustingUserId] = useState<string | null>(null)
 
   const loadUsers = useCallback(async () => {
     setLoading(true)
@@ -149,6 +157,54 @@ export function UserMembershipManagement() {
 
   const updateDraft = (userId: string, draft: MembershipDraft) => {
     setDrafts((current) => ({ ...current, [userId]: draft }))
+  }
+
+  const updateCreditDraft = (userId: string, patch: Partial<CreditDraft>) => {
+    setCreditDrafts((current) => {
+      const prev = current[userId] ?? { amount: '', note: '' }
+      return {
+        ...current,
+        [userId]: {
+          amount: patch.amount ?? prev.amount,
+          note: patch.note ?? prev.note,
+        },
+      }
+    })
+  }
+
+  const adjustCredits = async (user: AdminUser) => {
+    const draft = creditDrafts[user.id] ?? { amount: '', note: '' }
+    const amount = Number.parseInt(draft.amount, 10)
+    if (!Number.isFinite(amount) || amount === 0) {
+      toast({ title: '请输入非零整数调整量', variant: 'destructive' })
+      return
+    }
+
+    setAdjustingUserId(user.id)
+    try {
+      const response = await fetch(`/api/admin/users/${user.id}/credits`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, note: draft.note || null }),
+      })
+      if (!response.ok) throw new Error(await getApiErrorMessage(response, '调整失败'))
+      const payload = await response.json() as { balance?: number }
+      setUsers((current) =>
+        current.map((item) =>
+          item.id === user.id ? { ...item, ai_credit_balance: payload.balance ?? item.ai_credit_balance } : item,
+        ),
+      )
+      updateCreditDraft(user.id, { amount: '', note: '' })
+      toast({ title: 'AI 代币已调整' })
+    } catch (error) {
+      toast({
+        title: '调整失败',
+        description: error instanceof Error ? error.message : '请稍后重试',
+        variant: 'destructive',
+      })
+    } finally {
+      setAdjustingUserId(null)
+    }
   }
 
   const saveMembership = async (user: AdminUser) => {
@@ -242,20 +298,22 @@ export function UserMembershipManagement() {
                 <TableHead className="min-w-[160px]">到期时间</TableHead>
                 <TableHead className="min-w-[170px]">设置周期</TableHead>
                 <TableHead className="min-w-[160px]">新的到期日</TableHead>
+                <TableHead className="min-w-[90px]">AI 代币</TableHead>
+                <TableHead className="min-w-[200px]">调整代币</TableHead>
                 <TableHead className="w-[108px] text-right">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
+                  <TableCell colSpan={9} className="h-32 text-center text-muted-foreground">
                     <Loader2 className="mx-auto mb-3 h-5 w-5 animate-spin" />
                     正在加载用户...
                   </TableCell>
                 </TableRow>
               ) : users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
+                  <TableCell colSpan={9} className="h-32 text-center text-muted-foreground">
                     当前筛选下暂无用户
                   </TableCell>
                 </TableRow>
@@ -264,6 +322,8 @@ export function UserMembershipManagement() {
                   const summary = getMembershipSummary(user)
                   const draft = drafts[user.id] || buildDraft(user)
                   const isSaving = savingUserId === user.id
+                  const creditDraft = creditDrafts[user.id] ?? { amount: '', note: '' }
+                  const isAdjusting = adjustingUserId === user.id
 
                   return (
                     <TableRow key={user.id}>
@@ -321,6 +381,33 @@ export function UserMembershipManagement() {
                           onChange={(event) => updateDraft(user.id, { ...draft, expiresAt: event.target.value })}
                           disabled={!periodNeedsExpiry(draft.period)}
                         />
+                      </TableCell>
+                      <TableCell className="tabular-nums text-sm">{user.ai_credit_balance ?? 0}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-1.5">
+                          <Input
+                            type="number"
+                            placeholder="±数量"
+                            value={creditDraft.amount}
+                            onChange={(event) => updateCreditDraft(user.id, { amount: event.target.value })}
+                            className="h-8"
+                          />
+                          <Input
+                            placeholder="原因（可选）"
+                            value={creditDraft.note}
+                            onChange={(event) => updateCreditDraft(user.id, { note: event.target.value })}
+                            className="h-8"
+                          />
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => void adjustCredits(user)}
+                            disabled={isAdjusting}
+                          >
+                            {isAdjusting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : '调整'}
+                          </Button>
+                        </div>
                       </TableCell>
                       <TableCell className="text-right">
                         <Button

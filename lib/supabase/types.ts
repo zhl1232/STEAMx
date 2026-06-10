@@ -1201,35 +1201,107 @@ export interface Database {
         }
         Relationships: []
       }
-      challenge_tutor_messages: {
+      tutor_messages: {
         Row: {
           id: number
-          challenge_id: number
           user_id: string
+          context_type: string
+          context_id: string
           role: string
           content: string
           images: string[] | null
-          stage_index: number | null
+          meta: Json
           created_at: string
         }
         Insert: {
           id?: number
-          challenge_id: number
           user_id: string
+          context_type: string
+          context_id?: string
           role: string
           content: string
           images?: string[] | null
-          stage_index?: number | null
+          meta?: Json
           created_at?: string
         }
         Update: {
           id?: number
-          challenge_id?: number
           user_id?: string
+          context_type?: string
+          context_id?: string
           role?: string
           content?: string
           images?: string[] | null
-          stage_index?: number | null
+          meta?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
+      tutor_notebooks: {
+        Row: {
+          user_id: string
+          content: string
+          last_message_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          content?: string
+          last_message_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          content?: string
+          last_message_id?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_credit_wallets: {
+        Row: {
+          user_id: string
+          balance: number
+          grant_period: string | null
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          balance?: number
+          grant_period?: string | null
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          balance?: number
+          grant_period?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_credit_logs: {
+        Row: {
+          id: number
+          user_id: string
+          amount: number
+          reason: string
+          meta: Json
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          amount: number
+          reason: string
+          meta?: Json
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          amount?: number
+          reason?: string
+          meta?: Json
           created_at?: string
         }
         Relationships: []
@@ -2490,6 +2562,22 @@ export interface Database {
       consume_rate_limit: {
         Args: { p_key: string; p_limit: number; p_window_seconds: number }
         Returns: { ok?: boolean; error?: string; limit?: number; remaining?: number; reset_at?: number }
+      }
+      get_ai_credit_status: {
+        Args: { p_is_member: boolean; p_monthly_grant: number; p_free_daily: number }
+        Returns: Json
+      }
+      consume_ai_credit: {
+        Args: { p_cost: number; p_is_member: boolean; p_monthly_grant: number; p_free_daily: number }
+        Returns: Json
+      }
+      refund_ai_credit: {
+        Args: { p_cost: number; p_source: string }
+        Returns: Json
+      }
+      admin_adjust_ai_credit: {
+        Args: { p_target_user_id: string; p_amount: number; p_note?: string | null }
+        Returns: Json
       }
       equip_avatar_frame: {
         Args: { p_item_id: string | null }
