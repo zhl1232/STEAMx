@@ -3,6 +3,54 @@ import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 
+const ADMIN_USER_SELECT = [
+  'id',
+  'username',
+  'display_name',
+  'avatar_url',
+  'role',
+  'xp',
+  'coins',
+  'created_at',
+  'membership_tier',
+  'membership_period',
+  'membership_started_at',
+  'membership_expires_at',
+].join(',')
+
+function escapeIlikeTerm(value: string) {
+  return value.replace(/[%,()"'\\]/g, '').slice(0, 64)
+}
+
+export async function GET(req: Request) {
+  const supabase = await createClient()
+
+  try {
+    await requireRole(supabase, ['admin'])
+
+    const { searchParams } = new URL(req.url)
+    const query = searchParams.get('q')?.trim()
+
+    let request = supabase
+      .from('profiles')
+      .select(ADMIN_USER_SELECT)
+      .order('created_at', { ascending: false })
+      .limit(100)
+
+    const safeQuery = query ? escapeIlikeTerm(query) : ''
+    if (safeQuery) {
+      request = request.or(`display_name.ilike.%${safeQuery}%,username.ilike.%${safeQuery}%`)
+    }
+
+    const { data, error } = await request
+    if (error) throw error
+
+    return NextResponse.json({ users: data || [] })
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
+
 /**
  * 管理员手动创建用户（邮箱 + 密码），不依赖短信或邮箱验证。
  * POST body: { email, password, displayName? }

@@ -20,6 +20,19 @@ vi.mock('@/lib/logger', () => ({
     },
 }))
 
+vi.mock('@/lib/supabase/client', () => {
+    const channel = {
+        on: vi.fn(() => channel),
+        subscribe: vi.fn(() => channel),
+    }
+    return {
+        createClient: () => ({
+            channel: () => channel,
+            removeChannel: vi.fn(),
+        }),
+    }
+})
+
 function jsonResponse(body: unknown, init?: ResponseInit) {
     return new Response(JSON.stringify(body), {
         status: init?.status ?? 200,

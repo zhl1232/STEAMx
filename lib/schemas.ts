@@ -89,6 +89,29 @@ export const ChallengeSubmissionSchema = z.object({
   reference_project_ids: z.array(z.number().int().positive()).max(10).default([]),
 });
 
+export const ChallengeStageProgressSchema = z.object({
+  status: z.enum(['not_started', 'in_progress', 'completed']).default('in_progress'),
+  notes: z.string().max(5000).nullable().optional(),
+  images: z.array(relativeOrAbsoluteUrlSchema).max(9).default([]),
+  data: z.record(z.string(), z.unknown()).nullable().optional(),
+  video_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
+});
+
+export const ChallengeStageCoachSchema = z.object({
+  mode: z.enum(['qa', 'review']),
+  question: z.string().max(1000).optional(),
+  notes: z.string().max(5000).optional(),
+  images: z.array(relativeOrAbsoluteUrlSchema).max(9).default([]),
+});
+
+export const ChallengeTutorSendSchema = z.object({
+  stageIndex: z.number().int().min(0).max(50),
+  content: z.string().max(4000).default(''),
+  images: z.array(relativeOrAbsoluteUrlSchema).max(6).default([]),
+}).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
+  message: '消息不能为空',
+});
+
 export const ChallengeSubmissionRatingSchema = z.object({
   submissionId: z.number().int().positive(),
   creativeExpression: z.number().int().min(1).max(5),
@@ -129,6 +152,9 @@ export type Profile = z.infer<typeof ProfileSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 export type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
 export type ChallengeSubmissionInput = z.infer<typeof ChallengeSubmissionSchema>;
+export type ChallengeStageProgressInput = z.infer<typeof ChallengeStageProgressSchema>;
+export type ChallengeStageCoachInput = z.infer<typeof ChallengeStageCoachSchema>;
+export type ChallengeTutorSendInput = z.infer<typeof ChallengeTutorSendSchema>;
 export type ChallengeSubmissionRatingInput = z.infer<typeof ChallengeSubmissionRatingSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;

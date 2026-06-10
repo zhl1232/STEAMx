@@ -45,10 +45,34 @@ const heroMetricToneClassNames = [
 ] as const;
 
 const createValues = [
-    { label: "动手实验", description: "科学原理，亲手验证", icon: Wrench, color: "text-[hsl(var(--brand-blue))]" },
-    { label: "解决问题", description: "真实场景，独立思考", icon: Lightbulb, color: "text-[hsl(var(--status-success))]" },
-    { label: "创意作品", description: "想法变现，独一无二", icon: Sparkles, color: "text-[hsl(var(--brand-amber))]" },
-    { label: "成果展示", description: "晒出成果，互相鼓励", icon: ImageIcon, color: "text-[hsl(var(--tone-engineering))]" },
+    {
+        label: "动手实验",
+        description: "科学原理，亲手验证",
+        icon: Wrench,
+        color: "text-[hsl(var(--brand-blue))]",
+        chip: "bg-[hsl(var(--brand-blue)/0.12)] ring-[hsl(var(--brand-blue)/0.22)]",
+    },
+    {
+        label: "解决问题",
+        description: "真实场景，独立思考",
+        icon: Lightbulb,
+        color: "text-[hsl(var(--status-success))]",
+        chip: "bg-[hsl(var(--status-success)/0.12)] ring-[hsl(var(--status-success)/0.22)]",
+    },
+    {
+        label: "创意作品",
+        description: "想法变现，独一无二",
+        icon: Sparkles,
+        color: "text-[hsl(var(--brand-amber))]",
+        chip: "bg-[hsl(var(--brand-amber)/0.14)] ring-[hsl(var(--brand-amber)/0.24)]",
+    },
+    {
+        label: "成果展示",
+        description: "晒出成果，互相鼓励",
+        icon: ImageIcon,
+        color: "text-[hsl(var(--tone-art))]",
+        chip: "bg-[hsl(var(--tone-art)/0.14)] ring-[hsl(var(--tone-art)/0.24)]",
+    },
 ] as const;
 
 function formatMetricValue(value: number) {
@@ -118,23 +142,23 @@ function CreatePathCardsSection() {
                 {createValues.map((item) => (
                     <div
                         key={item.label}
-                        className="group relative block w-[68vw] max-w-[260px] shrink-0 snap-start overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.88)] bg-[hsl(var(--surface-raised))] p-3.5 shadow-[0_14px_36px_-30px_hsl(var(--surface-shadow)/0.24)] transition-all duration-300 active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-auto md:max-w-none md:p-5"
+                        className="relative flex w-[58vw] max-w-[240px] shrink-0 snap-start items-start gap-3 overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.88)] bg-[hsl(var(--surface-raised))] p-3.5 shadow-[0_14px_36px_-30px_hsl(var(--surface-shadow)/0.24)] md:w-auto md:max-w-none md:flex-col md:gap-3 md:p-5"
                     >
-                        <div className="relative z-10 flex min-h-[112px] flex-col justify-between md:min-h-[148px]">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <item.icon className={cn("h-4 w-4 shrink-0 md:h-5 md:w-5", item.color)} strokeWidth={2.2} />
-                                    <h3 className="font-sans text-base font-bold leading-5 text-foreground md:text-lg md:leading-6">
-                                        {item.label}
-                                    </h3>
-                                </div>
-                                <p className="mt-2 text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
-                                    {item.description}
-                                </p>
-                            </div>
-                            <span className="mt-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 group-hover:border-[hsl(var(--brand-blue)/0.45)] group-hover:bg-[hsl(var(--brand-blue))] group-hover:text-[hsl(var(--brand-blue-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9">
-                                <ArrowRight className="h-4 w-4" />
-                            </span>
+                        <span
+                            className={cn(
+                                "grid h-10 w-10 shrink-0 place-items-center rounded-[var(--radius-sm)] ring-1 ring-inset md:h-11 md:w-11",
+                                item.chip,
+                            )}
+                        >
+                            <item.icon className={cn("h-5 w-5", item.color)} strokeWidth={2.2} />
+                        </span>
+                        <div className="min-w-0">
+                            <h3 className="font-sans text-base font-bold leading-5 text-foreground md:mt-1 md:text-lg md:leading-6">
+                                {item.label}
+                            </h3>
+                            <p className="mt-1.5 text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
+                                {item.description}
+                            </p>
                         </div>
                     </div>
                 ))}

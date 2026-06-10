@@ -56,7 +56,7 @@ BEGIN
        OR v_little_egret IS NULL
        OR v_night_heron IS NULL
        OR v_mallard IS NULL THEN
-        RAISE EXCEPTION '鸟类基础 seed 尚未准备完成，请先执行 challenge/project/species 的种子迁移';
+        RETURN;
     END IF;
 
     INSERT INTO public.project_species (project_id, species_id, sort_order, relation_role) VALUES

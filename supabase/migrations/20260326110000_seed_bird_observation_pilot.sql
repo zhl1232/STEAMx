@@ -10,6 +10,9 @@ DECLARE
     v_challenge_id BIGINT;
     v_project_id BIGINT;
 BEGIN
+    -- 已由 20260610120000_remove_seed_pbl_challenges.sql 下架，不再写入。
+    RETURN;
+
     SELECT id INTO v_author_id FROM public.profiles WHERE role = 'admin' LIMIT 1;
     IF v_author_id IS NULL THEN
         SELECT id INTO v_author_id FROM public.profiles LIMIT 1;

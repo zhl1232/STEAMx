@@ -20,12 +20,12 @@ export default function PblChallengeSubmissionPage({ params }: { params: Promise
   }
 
   return (
-    <div className="page-shell pt-6 pb-24 md:py-8">
-      <div className="md:hidden">
-        <MobilePageHeader title="挑战作品" fallbackHref={`/pbl/${challengeId}`} />
-      </div>
+    <>
+      <MobilePageHeader title="挑战作品" fallbackHref={`/pbl/${challengeId}`} />
 
-      <ChallengeSubmissionForm challengeId={challengeId} />
-    </div>
+      <div className="page-shell pt-3 pb-24 md:py-8">
+        <ChallengeSubmissionForm challengeId={challengeId} />
+      </div>
+    </>
   )
 }

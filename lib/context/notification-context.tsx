@@ -12,6 +12,7 @@ import React, {
 import { usePathname } from "next/navigation";
 import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
+import { createClient } from "@/lib/supabase/client";
 
 export type Notification = {
   id: number;
@@ -249,18 +250,56 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     fetchUnreadCountRef.current();
   }, [user?.id, shouldLoadNotificationList]);
 
+  const shouldLoadNotificationListRef = useRef(shouldLoadNotificationList);
+  shouldLoadNotificationListRef.current = shouldLoadNotificationList;
+
+  // Realtime 订阅：通知/私信表有自己的新行或变更时刷新未读数，替代轮询。
   useEffect(() => {
     if (!user?.id) return;
 
-    const interval = window.setInterval(() => {
-      if (shouldLoadNotificationList) {
-        void fetchNotificationsRef.current({ reset: false, merge: true });
-      }
-      void fetchUnreadCountRef.current();
-    }, 60000);
+    const supabase = createClient();
+    let refreshTimer: number | null = null;
 
-    return () => window.clearInterval(interval);
-  }, [user?.id, shouldLoadNotificationList]);
+    // 短防抖合并连续事件（如批量标记已读）。
+    const scheduleRefresh = () => {
+      if (refreshTimer !== null) return;
+      refreshTimer = window.setTimeout(() => {
+        refreshTimer = null;
+        void fetchUnreadCountRef.current();
+        if (shouldLoadNotificationListRef.current) {
+          void fetchNotificationsRef.current({ reset: false, merge: true });
+        }
+      }, 500);
+    };
+
+    const channel = supabase
+      .channel(`unread-counts:${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
+        scheduleRefresh,
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "messages", filter: `receiver_id=eq.${user.id}` },
+        scheduleRefresh,
+      )
+      .subscribe();
+
+    // 兜底：WebSocket 断线期间可能漏事件，回到前台时刷一次。
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        void fetchUnreadCountRef.current();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      if (refreshTimer !== null) window.clearTimeout(refreshTimer);
+      document.removeEventListener("visibilitychange", onVisible);
+      void supabase.removeChannel(channel);
+    };
+  }, [user?.id]);
 
   const markAsRead = useCallback(
     async (id: number) => {

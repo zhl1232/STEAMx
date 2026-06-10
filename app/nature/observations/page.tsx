@@ -28,7 +28,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
   return (
     <div className="page-shell pt-6 pb-24 md:pb-10">
       <div className="md:hidden">
-        <MobilePageHeader title="观察记录" fallbackHref="/nature" className="-mx-4 mb-4" />
+        <MobilePageHeader title="观察记录" fallbackHref="/nature" />
       </div>
 
       <section className="surface-panel overflow-hidden">

@@ -115,6 +115,7 @@
     --shell-wide: 115rem;
     --shell-standard: 72rem;
     --shell-reading: 64rem;
+    --mobile-page-header-height: calc(3rem + env(safe-area-inset-top));
 
     /* Radius scale — radius-xs 与 shadcn 默认 --radius 同值,做别名 */
     --radius-xs: var(--radius);
@@ -423,6 +424,10 @@
 
   .app-mobile-header {
     @apply relative z-30 w-full pt-[env(safe-area-inset-top)] md:hidden;
+  }
+
+  .mobile-page-header-spacer {
+    height: var(--mobile-page-header-height);
   }
 
   .dark .app-mobile-header {

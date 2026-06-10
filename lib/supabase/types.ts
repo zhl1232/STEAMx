@@ -38,6 +38,10 @@ export interface Database {
           message_privacy: string
           age_confirmed_at: string | null
           is_auto_interaction_account: boolean
+          membership_tier: string
+          membership_period: string
+          membership_started_at: string | null
+          membership_expires_at: string | null
         }
         Insert: {
           id: string
@@ -61,6 +65,10 @@ export interface Database {
           message_privacy?: string
           age_confirmed_at?: string | null
           is_auto_interaction_account?: boolean
+          membership_tier?: string
+          membership_period?: string
+          membership_started_at?: string | null
+          membership_expires_at?: string | null
         }
         Update: {
           id?: string
@@ -84,6 +92,10 @@ export interface Database {
           message_privacy?: string
           age_confirmed_at?: string | null
           is_auto_interaction_account?: boolean
+          membership_tier?: string
+          membership_period?: string
+          membership_started_at?: string | null
+          membership_expires_at?: string | null
         }
         Relationships: []
       }
@@ -1189,6 +1201,84 @@ export interface Database {
         }
         Relationships: []
       }
+      challenge_tutor_messages: {
+        Row: {
+          id: number
+          challenge_id: number
+          user_id: string
+          role: string
+          content: string
+          images: string[] | null
+          stage_index: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          challenge_id: number
+          user_id: string
+          role: string
+          content: string
+          images?: string[] | null
+          stage_index?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          challenge_id?: number
+          user_id?: string
+          role?: string
+          content?: string
+          images?: string[] | null
+          stage_index?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      challenge_stage_progress: {
+        Row: {
+          id: number
+          challenge_id: number
+          user_id: string
+          stage_index: number
+          status: string
+          notes: string | null
+          images: string[]
+          data: Json | null
+          video_url: string | null
+          ai_feedback: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          challenge_id: number
+          user_id: string
+          stage_index: number
+          status?: string
+          notes?: string | null
+          images?: string[]
+          data?: Json | null
+          video_url?: string | null
+          ai_feedback?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          challenge_id?: number
+          user_id?: string
+          stage_index?: number
+          status?: string
+          notes?: string | null
+          images?: string[]
+          data?: Json | null
+          video_url?: string | null
+          ai_feedback?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       observation_likes: {
         Row: {
           user_id: string
@@ -1320,6 +1410,42 @@ export interface Database {
           difficulty_stars?: number
           start_date?: string | null
           completions_count?: number
+        }
+        Relationships: []
+      }
+      learning_resources: {
+        Row: {
+          id: number
+          title: string
+          summary: string | null
+          content_md: string
+          category: string
+          cover_image_url: string | null
+          status: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          title: string
+          summary?: string | null
+          content_md: string
+          category: string
+          cover_image_url?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          title?: string
+          summary?: string | null
+          content_md?: string
+          category?: string
+          cover_image_url?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

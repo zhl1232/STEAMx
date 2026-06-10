@@ -13,7 +13,8 @@ import { Slider } from '@/components/ui/slider'
 import { useToast } from '@/hooks/use-toast'
 import { getApiErrorMessage } from '@/lib/utils/http'
 import { Plus, Trash2, Play, StopCircle, Archive } from 'lucide-react'
-import type { ChallengeType, ChallengeStatus } from '@/lib/mappers/types'
+import { CHALLENGE_RESOURCE_TYPES, type ChallengeType, type ChallengeStatus, type ChallengeResourceType } from '@/lib/mappers/types'
+import { learningResourcePath } from '@/lib/learning-resources'
 
 interface AdminChallenge {
   id: number
@@ -32,7 +33,7 @@ interface AdminChallenge {
   driving_question: string | null
   expected_outcome: string | null
   constraints: string[] | null
-  resources: { title: string; url: string; type: string }[] | null
+  resources: { title: string; url: string; type: string; description?: string }[] | null
   stages: { title: string; description: string; hint?: string }[] | null
   steam_weights: { S: number; T: number; E: number; A: number; M: number } | null
   created_at: string
@@ -51,7 +52,7 @@ const EMPTY_FORM = {
   driving_question: '',
   expected_outcome: '',
   constraints: [''],
-  resources: [{ title: '', url: '', type: 'link' }],
+  resources: [{ title: '', url: '', type: 'reference' as string, description: '' }],
   stages: [{ title: '', description: '', hint: '' }] as { title: string; description: string; hint: string }[],
   steam_weights: { S: 0, T: 0, E: 0, A: 0, M: 0 },
 }
@@ -68,6 +69,17 @@ const TYPE_LABELS: Record<ChallengeType, string> = {
   evergreen: '长期挑战',
 }
 
+const RESOURCE_TYPE_LABELS: Record<ChallengeResourceType, string> = {
+  project: '参考项目',
+  skill: '前置技能',
+  reference: '资料卡',
+}
+
+const normalizeResourceType = (type: string): ChallengeResourceType =>
+  (CHALLENGE_RESOURCE_TYPES as readonly string[]).includes(type)
+    ? (type as ChallengeResourceType)
+    : 'reference'
+
 const STEAM_DIMS = ['S', 'T', 'E', 'A', 'M'] as const
 const STEAM_LABELS: Record<string, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
 const FIELD_CLASS = 'rounded-md border-border/70 bg-background/95 shadow-none'
@@ -81,7 +93,27 @@ export function ChallengeManagement() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [form, setForm] = useState(EMPTY_FORM)
   const [typeFilter, setTypeFilter] = useState<string>('all')
+  const [publishedResourceCards, setPublishedResourceCards] = useState<{ id: number; title: string }[]>([])
   const { toast } = useToast()
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetch('/api/admin/resources?status=published')
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (!cancelled && data?.resources) {
+          setPublishedResourceCards(
+            (data.resources as { id: number; title: string }[]).map(({ id, title }) => ({ id, title }))
+          )
+        }
+      })
+      .catch(() => {
+        // 资料卡库选择器是可选增强，加载失败时仍可手动填 URL
+      })
+
+    return () => { cancelled = true }
+  }, [])
 
   const fetchChallenges = useCallback(async () => {
     setIsLoading(true)
@@ -129,7 +161,9 @@ export function ChallengeManagement() {
       driving_question: ch.driving_question || '',
       expected_outcome: ch.expected_outcome || '',
       constraints: ch.constraints?.length ? ch.constraints : [''],
-      resources: ch.resources?.length ? ch.resources : [{ title: '', url: '', type: 'link' }],
+      resources: ch.resources?.length
+        ? ch.resources.map(r => ({ ...r, type: normalizeResourceType(r.type), description: r.description || '' }))
+        : [{ title: '', url: '', type: 'reference', description: '' }],
       stages: ch.stages?.length ? ch.stages.map(s => ({ ...s, hint: s.hint || '' })) : [{ title: '', description: '', hint: '' }],
       steam_weights: ch.steam_weights || { S: 0, T: 0, E: 0, A: 0, M: 0 },
     })
@@ -148,7 +182,14 @@ export function ChallengeManagement() {
       driving_question: form.driving_question || null,
       expected_outcome: form.expected_outcome || null,
       constraints: form.constraints.filter(Boolean),
-      resources: form.resources.filter(r => r.title && r.url),
+      resources: form.resources
+        .filter(r => r.title && r.url)
+        .map(r => ({
+          title: r.title,
+          url: r.url,
+          type: normalizeResourceType(r.type),
+          ...(r.description ? { description: r.description } : {}),
+        })),
       stages: form.stages.filter(s => s.title),
       steam_weights: form.steam_weights,
     }
@@ -390,19 +431,51 @@ export function ChallengeManagement() {
 
                 <div className={SECTION_CLASS}>
                   <div className="space-y-1">
-                    <h3 className="text-sm font-medium">参考资源</h3>
-                    <p className="text-xs text-muted-foreground">补充资料链接，帮助用户更快进入挑战情境。</p>
+                    <h3 className="text-sm font-medium">推荐脚手架（相关资料）</h3>
+                    <p className="text-xs text-muted-foreground">参考项目给灵感、前置技能补能力、资料卡随查随用；每个挑战建议 3-6 条强相关，不要写成路线图。</p>
                   </div>
                   {form.resources.map((r, i) => (
-                    <div key={i} className="grid gap-2 rounded-md border border-border/60 bg-background/80 p-3 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)_auto]">
-                      <Input className={FIELD_CLASS} value={r.title} onChange={e => updateResource(i, 'title', e.target.value)} placeholder="标题" />
-                      <Input className={FIELD_CLASS} value={r.url} onChange={e => updateResource(i, 'url', e.target.value)} placeholder="URL" />
-                      {form.resources.length > 1 && (
-                        <Button variant="ghost" size="icon" className="md:self-center" aria-label={`删除资源 ${i + 1}`} onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
+                    <div key={i} className="space-y-2 rounded-md border border-border/60 bg-background/80 p-3">
+                      <div className="grid gap-2 md:grid-cols-[minmax(0,140px)_minmax(0,1fr)_auto]">
+                        <Select value={normalizeResourceType(r.type)} onValueChange={v => updateResource(i, 'type', v)}>
+                          <SelectTrigger className={FIELD_CLASS}><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            {CHALLENGE_RESOURCE_TYPES.map(type => (
+                              <SelectItem key={type} value={type}>{RESOURCE_TYPE_LABELS[type]}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Input className={FIELD_CLASS} value={r.title} onChange={e => updateResource(i, 'title', e.target.value)} placeholder="标题" />
+                        {form.resources.length > 1 && (
+                          <Button variant="ghost" size="icon" className="md:self-center" aria-label={`删除资源 ${i + 1}`} onClick={() => setForm(f => ({ ...f, resources: f.resources.filter((_, idx) => idx !== i) }))}><Trash2 className="h-4 w-4" aria-hidden /></Button>
+                        )}
+                      </div>
+                      {normalizeResourceType(r.type) === 'reference' && publishedResourceCards.length > 0 && (
+                        <Select
+                          value=""
+                          onValueChange={cardId => {
+                            const card = publishedResourceCards.find(c => String(c.id) === cardId)
+                            if (!card) return
+                            const next = [...form.resources]
+                            next[i] = { ...next[i], title: card.title, url: learningResourcePath(card.id) }
+                            setForm(f => ({ ...f, resources: next }))
+                          }}
+                        >
+                          <SelectTrigger className={FIELD_CLASS}>
+                            <SelectValue placeholder="从资料卡库选择（自动填标题和链接）" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {publishedResourceCards.map(card => (
+                              <SelectItem key={card.id} value={String(card.id)}>{card.title}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       )}
+                      <Input className={FIELD_CLASS} value={r.url} onChange={e => updateResource(i, 'url', e.target.value)} placeholder="URL（站内路径或外链）" />
+                      <Input className={FIELD_CLASS} value={r.description || ''} onChange={e => updateResource(i, 'description', e.target.value)} placeholder="一句话说明：补什么能力 / 什么时候回来查（可选）" />
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, resources: [...f.resources, { title: '', url: '', type: 'link' }] }))}>+ 添加资源</Button>
+                  <Button variant="outline" size="sm" onClick={() => setForm(f => ({ ...f, resources: [...f.resources, { title: '', url: '', type: 'reference', description: '' }] }))}>+ 添加资源</Button>
                 </div>
 
                 <div className={SECTION_CLASS}>

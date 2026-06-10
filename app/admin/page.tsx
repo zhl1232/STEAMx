@@ -14,6 +14,8 @@ import { ModeratorApplicationsList } from '@/components/admin/moderator-applicat
 import { ReportsList } from '@/components/admin/reports-list'
 import { ChallengeManagement } from '@/components/admin/challenge-management'
 import { CourseManagement } from '@/components/admin/course-management'
+import { ResourceManagement } from '@/components/admin/resource-management'
+import { UserMembershipManagement } from '@/components/admin/user-membership-management'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -667,6 +669,7 @@ export default function AdminPage() {
             {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
             <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战</TabsTrigger>
             <TabsTrigger value="courses" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">训练营</TabsTrigger>
+            <TabsTrigger value="resources" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">资料卡</TabsTrigger>
             <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">标签管理</TabsTrigger>
             <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
           </TabsList>
@@ -789,6 +792,10 @@ export default function AdminPage() {
             <CourseManagement />
           </TabsContent>
 
+          <TabsContent value="resources" className="space-y-4">
+            <ResourceManagement />
+          </TabsContent>
+
           <TabsContent value="tags" className="space-y-4">
             <Card className="surface-subtle shadow-none">
               <CardHeader>
@@ -802,15 +809,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="users" className="space-y-4">
-            <Card className="surface-subtle shadow-none">
-              <CardHeader>
-                <CardTitle>用户管理</CardTitle>
-                <CardDescription>管理用户角色和权限</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">用户管理功能开发中...</p>
-              </CardContent>
-            </Card>
+            <UserMembershipManagement />
           </TabsContent>
         </Tabs>
       </section>

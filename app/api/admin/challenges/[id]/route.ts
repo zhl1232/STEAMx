@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateDateTimeString, validateNumber, validateOptionalString } from '@/lib/api/validation'
+import { validateChallengeResources } from '@/lib/api/challenge-resources'
 
 function validateTimedChallengeWindow(startDate: unknown, endDate: unknown) {
   const start = validateDateTimeString(startDate, 'start_date')
@@ -57,7 +58,7 @@ export async function PATCH(
     if (body.driving_question !== undefined) updateData.driving_question = body.driving_question
     if (body.expected_outcome !== undefined) updateData.expected_outcome = body.expected_outcome
     if (body.constraints !== undefined) updateData.constraints = body.constraints
-    if (body.resources !== undefined) updateData.resources = body.resources
+    if (body.resources !== undefined) updateData.resources = validateChallengeResources(body.resources)
     if (body.stages !== undefined) updateData.stages = body.stages
     if (body.steam_weights !== undefined) updateData.steam_weights = body.steam_weights
     if ((existingChallenge as { challenge_type: string }).challenge_type === 'timed') {

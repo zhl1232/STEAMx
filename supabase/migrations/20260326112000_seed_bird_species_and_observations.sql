@@ -50,7 +50,7 @@ BEGIN
      LIMIT 1;
 
     IF v_challenge_id IS NULL OR v_waterbird_project_id IS NULL OR v_community_project_id IS NULL OR v_behavior_project_id IS NULL THEN
-        RAISE EXCEPTION '鸟类试点基础数据不存在，请先执行 challenge/project seed migration';
+        RETURN;
     END IF;
 
     INSERT INTO public.species (

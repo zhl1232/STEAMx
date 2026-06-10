@@ -237,7 +237,7 @@ export function ProjectRecordsClient({
       <MobilePageHeader
         title={headerTitle}
         fallbackHref={backHref}
-        className="sticky top-0 z-30 border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
+        className="border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
         rightSlot={
           !completed && mode === "project" && exploring ? (
             <Button

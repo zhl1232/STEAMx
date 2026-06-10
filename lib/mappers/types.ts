@@ -177,12 +177,90 @@ export interface SteamWeights {
     S: number; T: number; E: number; A: number; M: number
 }
 
+/**
+ * 挑战脚手架资源三分类：
+ * - project：参考项目（站内项目教程，给灵感不要求照做）
+ * - skill：前置技能（借用项目/训练营课时，补一个具体薄弱点）
+ * - reference：资料卡（链 /resources/[id]，过程中随查随用）
+ */
+export const CHALLENGE_RESOURCE_TYPES = ['project', 'skill', 'reference'] as const
+
+export type ChallengeResourceType = (typeof CHALLENGE_RESOURCE_TYPES)[number]
+
 export interface ChallengeResource {
-    title: string; url: string; type: string
+    title: string
+    url: string
+    type: ChallengeResourceType
+    /** 一句话说明该资源补什么能力 / 什么时候回来查 */
+    description?: string
 }
 
+/** 旧 type 值归一化映射；不在映射内的（template/entry/internal 等 CTA 类）不属于学习资料，直接剔除 */
+const LEGACY_RESOURCE_TYPE_MAP: Record<string, ChallengeResourceType> = {
+    project: 'project',
+    skill: 'skill',
+    reference: 'reference',
+    guide: 'reference',
+    article: 'reference',
+    video: 'reference',
+    pdf: 'reference',
+    link: 'reference',
+}
+
+/**
+ * 归一化挑战 resources jsonb：兼容历史数据的混杂 type 值，
+ * 收敛为 project / skill / reference 三分类，并剔除 CTA 型条目。
+ */
+export function normalizeChallengeResources(raw: unknown): ChallengeResource[] | undefined {
+    if (!Array.isArray(raw)) return undefined
+
+    const normalized: ChallengeResource[] = []
+
+    for (const item of raw) {
+        if (!item || typeof item !== 'object') continue
+        const { title, url, type, description } = item as Record<string, unknown>
+        if (typeof title !== 'string' || !title || typeof url !== 'string' || !url) continue
+
+        const mappedType = LEGACY_RESOURCE_TYPE_MAP[typeof type === 'string' ? type : '']
+        if (!mappedType) continue
+
+        normalized.push({
+            title,
+            url,
+            type: mappedType,
+            ...(typeof description === 'string' && description ? { description } : {}),
+        })
+    }
+
+    return normalized.length > 0 ? normalized : undefined
+}
+
+export type ChallengeStageKind = 'observe' | 'design' | 'build_test' | 'iterate' | 'generic'
+
 export interface ChallengeStage {
-    title: string; description: string; hint?: string
+    title: string; description: string; hint?: string; kind?: ChallengeStageKind
+    /** 完成清单（成功标准）：只定义"做到什么算这步做好了"，不规定做法 */
+    checklist?: string[]
+}
+
+export type StageProgressStatus = 'not_started' | 'in_progress' | 'completed'
+
+export interface StageProgress {
+    stageIndex: number
+    status: StageProgressStatus
+    notes?: string
+    images: string[]
+    data?: Record<string, unknown>
+    videoUrl?: string
+    aiFeedback?: StageAiFeedback | null
+    updatedAt?: string
+}
+
+export interface StageAiFeedback {
+    strengths: string[]
+    gaps: string[]
+    nextActions: string[]
+    generatedAt?: string
 }
 
 /**
@@ -652,7 +730,7 @@ export function mapDbChallenge(
         drivingQuestion: (dbChallenge.driving_question as string) || undefined,
         expectedOutcome: (dbChallenge.expected_outcome as string) || undefined,
         constraints: (dbChallenge.constraints as string[]) || undefined,
-        resources: (dbChallenge.resources as unknown as ChallengeResource[]) || undefined,
+        resources: normalizeChallengeResources(dbChallenge.resources),
         stages: (dbChallenge.stages as unknown as ChallengeStage[]) || undefined,
         steamWeights: (dbChallenge.steam_weights as unknown as SteamWeights) || undefined,
         submissionsCount: (dbChallenge.submissions_count as number) ?? undefined,
@@ -661,6 +739,38 @@ export function mapDbChallenge(
         mySubmissionId: (dbChallenge.my_submission_id as number) ?? undefined,
         mySubmissionStatus: (dbChallenge.my_submission_status as 'pending' | 'approved' | 'rejected') ?? undefined,
         canEditSubmission: (dbChallenge.can_edit_submission as boolean) ?? undefined,
+    }
+}
+
+export function mapDbStageProgress(row: {
+    stage_index: number
+    status: string
+    notes: string | null
+    images: string[] | null
+    data: unknown
+    video_url: string | null
+    ai_feedback: unknown
+    updated_at: string | null
+}): StageProgress {
+    const feedback = row.ai_feedback as Record<string, unknown> | null
+    const aiFeedback: StageAiFeedback | null = feedback && typeof feedback === 'object'
+        ? {
+            strengths: Array.isArray(feedback.strengths) ? (feedback.strengths as string[]) : [],
+            gaps: Array.isArray(feedback.gaps) ? (feedback.gaps as string[]) : [],
+            nextActions: Array.isArray(feedback.nextActions) ? (feedback.nextActions as string[]) : [],
+            generatedAt: typeof feedback.generatedAt === 'string' ? feedback.generatedAt : undefined,
+        }
+        : null
+
+    return {
+        stageIndex: row.stage_index,
+        status: ((row.status as StageProgressStatus) || 'not_started'),
+        notes: row.notes || undefined,
+        images: row.images || [],
+        data: (row.data as Record<string, unknown>) || undefined,
+        videoUrl: row.video_url || undefined,
+        aiFeedback,
+        updatedAt: row.updated_at || undefined,
     }
 }
 

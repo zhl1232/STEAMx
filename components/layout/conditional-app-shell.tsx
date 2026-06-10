@@ -34,6 +34,7 @@ const pageOwnedMobileHeaderRoots = [
   '/legal',
   '/share',
   '/pbl',
+  '/resources',
   '/explore/species',
   '/explore/observations',
   '/leaderboard',

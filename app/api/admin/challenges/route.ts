@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateRequiredString, validateOptionalString, validateEnum, validateNumber, validateDateTimeString } from '@/lib/api/validation'
+import { validateChallengeResources } from '@/lib/api/challenge-resources'
 
 function validateTimedChallengeWindow(startDate: unknown, endDate: unknown) {
   const start = validateDateTimeString(startDate, 'start_date')
@@ -72,7 +73,7 @@ export async function POST(request: NextRequest) {
       driving_question: body.driving_question || null,
       expected_outcome: body.expected_outcome || null,
       constraints: body.constraints || [],
-      resources: body.resources || [],
+      resources: validateChallengeResources(body.resources),
       stages: body.stages || [],
       steam_weights: body.steam_weights || { S: 0, T: 0, E: 0, A: 0, M: 0 },
     }

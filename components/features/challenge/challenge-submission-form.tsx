@@ -16,10 +16,43 @@ import { uploadFileSecureWithProgress } from '@/lib/utils/upload'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { logger } from '@/lib/logger'
-import type { Challenge, ChallengeSubmission } from '@/lib/mappers/types'
+import type { Challenge, ChallengeStage, ChallengeSubmission, StageProgress } from '@/lib/mappers/types'
 
 const MAX_IMAGES = 9
 const MAX_VIDEO_SIZE_MB = 30
+
+async function buildStagePrefill(
+  challengeId: number,
+  stages: ChallengeStage[],
+): Promise<{ notes: string; images: string[] }> {
+  try {
+    const res = await fetch(`/api/challenges/${challengeId}/stages`)
+    if (!res.ok) return { notes: '', images: [] }
+    const progress = ((await res.json()).progress ?? []) as StageProgress[]
+    if (progress.length === 0) return { notes: '', images: [] }
+
+    const sorted = [...progress].sort((a, b) => a.stageIndex - b.stageIndex)
+    const sections: string[] = []
+    const images: string[] = []
+
+    for (const item of sorted) {
+      const stageTitle = stages[item.stageIndex]?.title || `阶段 ${item.stageIndex + 1}`
+      const parts: string[] = []
+      if (item.notes?.trim()) parts.push(item.notes.trim())
+      if (typeof item.data?.summary === 'string' && item.data.summary.trim()) {
+        parts.push(item.data.summary.trim())
+      }
+      if (parts.length > 0) sections.push(`【${stageTitle}】${parts.join('\n')}`)
+      for (const image of item.images) {
+        if (!images.includes(image) && images.length < MAX_IMAGES) images.push(image)
+      }
+    }
+
+    return { notes: sections.join('\n\n'), images }
+  } catch {
+    return { notes: '', images: [] }
+  }
+}
 
 interface UploadingImage {
   id: string
@@ -146,11 +179,13 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
             setVideoUrl(currentSubmission.proofVideoUrl || '')
             setReferenceProjectIds(currentSubmission.referenceProjects.map((project) => project.id))
           } else {
+            const prefill = await buildStagePrefill(challengeId, challengePayload.challenge?.stages || [])
+            if (cancelled) return
             setTitle('')
-            setNotes('')
+            setNotes(prefill.notes)
             setIsPublic(true)
-            setProofImages([])
-            setProofCaptions([])
+            setProofImages(prefill.images)
+            setProofCaptions(prefill.images.map(() => ''))
             setVideoUrl('')
             setReferenceProjectIds([])
           }

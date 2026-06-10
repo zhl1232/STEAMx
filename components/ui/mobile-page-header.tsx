@@ -11,6 +11,7 @@ interface MobilePageHeaderProps {
   title: ReactNode
   fallbackHref: string
   backLabel?: string
+  /** 为 true 时顶栏 fixed 吸顶并渲染占位 spacer；为 false 时随文档流（不吸顶） */
   sticky?: boolean
   className?: string
   contentClassName?: string
@@ -18,6 +19,9 @@ interface MobilePageHeaderProps {
   titleClassName?: string
   rightSlot?: ReactNode
 }
+
+const headerSurfaceClass =
+  'border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80'
 
 export function MobilePageHeader({
   title,
@@ -41,51 +45,58 @@ export function MobilePageHeader({
     router.push(fallbackHref)
   }
 
-  return (
+  const bar = (
     <div
       className={cn(
-        sticky
-          ? 'sticky top-[calc(var(--mobile-global-header-height,3rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80 md:top-0'
-          : 'relative border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80',
-        className,
+        'flex h-12 items-center gap-2 pl-2.5 pr-4',
+        contentClassName,
       )}
     >
-      <div
+      <button
+        type="button"
+        onClick={handleBack}
+        aria-label={backLabel}
         className={cn(
-          'min-h-12 pl-2.5 pr-4 py-1',
-          contentClassName,
+          'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          backButtonClassName,
         )}
       >
-        <div
-          className={cn(
-            'grid min-h-10 items-center gap-2',
-            rightSlot ? 'grid-cols-[auto_minmax(0,1fr)_auto]' : 'grid-cols-[auto_minmax(0,1fr)]',
-          )}
-        >
-          <button
-            type="button"
-            onClick={handleBack}
-            aria-label={backLabel}
-            className={cn(
-              'inline-flex h-9 w-9 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-              backButtonClassName,
-            )}
-          >
-            <ChevronLeft className="h-5 w-5" />
-            <span className="sr-only">{backLabel}</span>
-          </button>
+        <ChevronLeft className="h-5 w-5" />
+        <span className="sr-only">{backLabel}</span>
+      </button>
 
-          <div className={cn('min-w-0 truncate text-left text-base font-semibold tracking-tight', titleClassName)}>
-            {title}
-          </div>
-
-          {rightSlot ? (
-            <div className="flex h-9 items-center justify-end">
-              {rightSlot}
-            </div>
-          ) : null}
-        </div>
+      <div className={cn('min-w-0 flex-1 truncate text-left text-base font-semibold leading-none tracking-tight', titleClassName)}>
+        {title}
       </div>
+
+      {rightSlot ? (
+        <div className="flex h-9 shrink-0 items-center justify-end">
+          {rightSlot}
+        </div>
+      ) : null}
     </div>
+  )
+
+  if (!sticky) {
+    return (
+      <div className={cn('relative w-full pt-[env(safe-area-inset-top)] md:hidden', headerSurfaceClass, className)}>
+        {bar}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div
+        className={cn(
+          'fixed inset-x-0 top-0 z-30 w-full pt-[env(safe-area-inset-top)] md:hidden',
+          headerSurfaceClass,
+          className,
+        )}
+      >
+        {bar}
+      </div>
+      <div className="mobile-page-header-spacer shrink-0 md:hidden" aria-hidden="true" />
+    </>
   )
 }

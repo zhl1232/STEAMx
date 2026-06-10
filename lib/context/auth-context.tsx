@@ -24,6 +24,10 @@ interface Profile {
   equipped_theme_id: string | null
   birth_date: string | null
   created_at: string
+  membership_tier: string
+  membership_period: string
+  membership_started_at: string | null
+  membership_expires_at: string | null
 }
 
 interface AuthContextType {
@@ -58,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data } = await supabase
       .from('profiles')
-      .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, equipped_theme_id, birth_date, created_at')
+      .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, equipped_theme_id, birth_date, created_at, membership_tier, membership_period, membership_started_at, membership_expires_at')
       .eq('id', userId)
       .single()
 

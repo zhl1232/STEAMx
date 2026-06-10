@@ -29,10 +29,12 @@
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
 | `/create` | `app/create/page.tsx` | 创造营 — PBL 挑战 + **训练营** Tab；`/create` 重定向自 `/community` |
+| `/pbl/[id]` | `app/pbl/[id]/page.tsx` | PBL 挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | Scratch 训练营列表 |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表 |
 | `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + iframe Scratch 编辑器） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | 手机端作品预览（player 模式） |
+| `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
 | `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/训练营管理；子路由 `projects/`、`moderator-applications/` |
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
@@ -58,11 +60,11 @@
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
-| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD、**训练营 CRUD**（`admin/courses/`） |
+| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**训练营 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通 |
 | assets | `api/assets/` | 本地开发用受限静态资源代理；仅代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/projects` 资源。本地默认经代理带生产 Referer 拉取 OSS，以模拟线上 CDN 防盗链；生产环境直连 `NEXT_PUBLIC_ASSETS_BASE_URL`；非生产设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 可绕过代理直连排查 |
 | courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
-| challenges | `api/challenges/` | 挑战列表与评分 |
+| challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；AI 学习导师对话 `[id]/coach`（GET 读历史 + POST 发消息，对话入库 `challenge_tutor_messages`，注入挑战+学生各阶段产出作为 agent 记忆/上下文，图文，接 Qwen，前端为"小思"卡通悬浮导师，阶段逐步解锁） |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
@@ -78,6 +80,7 @@
 | profile | `api/profile/` | 个人资料摘要、成长任务、学习打卡 |
 | projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
+| resources | `api/resources/` | 学习资料卡公开读取（仅 published） |
 | reports | `api/reports/` | 举报提交 |
 | settings | `api/settings/` | 用户设置更新 |
 | species | `api/species/` | 物种查询；支持 `topic`、关键词和 `status=all/unobserved/observed`，返回当前筛选范围的自然观察进度统计 |
@@ -103,7 +106,7 @@
 - `main-nav.tsx` — 桌面端顶部导航
 - `mobile-global-header.tsx` — 移动端全局头部
 - `header-search.tsx` — 头部搜索栏
-- `user-button.tsx` — 用户头像菜单
+- `user-button.tsx` — 用户头像菜单；有效会员/创始会员显示会员身份与到期状态
 - `notification-bell.tsx` — 通知铃铛
 - `share-button.tsx` — 分享按钮
 - `login-dialog.tsx` — 登录引导弹窗
@@ -121,7 +124,7 @@
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计头像排行、评论区 |
-| `challenge/` | 5 | 挑战提交表单、PBL 信息、评分星级、阶段指南、提交作品画廊 |
+| `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+悬浮 AI 导师）、提交作品画廊 |
 | `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
@@ -132,8 +135,8 @@
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
 | `profile/` | 16 | 头像上传、编辑资料弹窗、今日行动卡、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
 
-### 3.5 管理后台 (`components/admin/`) — 9 个组件
-项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理、**训练营管理** `course-management`、完成审核、审核员申请列表、举报列表、全部项目管理
+### 3.5 管理后台 (`components/admin/`) — 11 个组件
+项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**训练营管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
@@ -162,7 +165,7 @@
 - `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
-- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数）
+- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数经 Supabase Realtime 订阅 `notifications`/`messages` 表变更刷新，无定时轮询，页面回到前台兜底刷一次）
 - `login-prompt-context.tsx` — 未登录操作引导弹窗
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
@@ -221,7 +224,10 @@
 ### 4.9 其他模块
 | 模块 | 文件 | 职责 |
 |------|------|------|
-| `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射 |
+| `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射；`ChallengeResource` 三分类（`project`/`skill`/`reference`）+ 可选 `description`，`normalizeChallengeResources` 对历史旧 type 归一化并剔除 CTA 条目 |
+| `lib/learning-resources.ts` | `learning-resources.ts` | 资料卡共享常量/类型/映射（分类 `principle`/`material`/`method`/`skill`/`case`，状态 `draft`/`published`） |
+| `lib/api/learning-resources.ts` | `learning-resources.ts` | 服务端读取已发布资料卡（React.cache 去重，供详情页与公开 API 共用） |
+| `lib/api/challenge-resources.ts` | `challenge-resources.ts` | 挑战 resources 字段服务端校验（title/url 必填、type 三分类枚举） |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格 |
 | `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `auto-reply.ts` | 通义千问/DashScope AI：自然观察图像安全/质量/物种识别、通用上传图片安全审核、自动互动短回复生成 |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟短回复、点赞与项目收藏 |
@@ -233,6 +239,7 @@
 | `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
+| `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 日配额常量（免费 5 次、会员 100 次） |
 
 ### 4.10 根级工具文件
 - `lib/schemas.ts` — Zod 验证 Schema（项目、评论、讨论等）
@@ -266,12 +273,12 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **168 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`；自动互动账号与队列：`20260605100000_auto_interactions.sql`；观察流发布时间排序索引：`20260606222929_observation_created_at_order_indexes.sql`
+- `supabase/migrations/` — **181 个**迁移文件（含 schema、RLS、RPC、种子数据）；训练营：`20260528100000_courses_training_camp.sql`、`20260528110000_seed_scratch_course.sql`；登录连续天数 RPC：`20260603120000_restore_user_login_stats_rpc.sql`；私信已读状态：`20260604120000_messages_read_state.sql`；自动互动账号与队列：`20260605100000_auto_interactions.sql`；观察流发布时间排序索引：`20260606222929_observation_created_at_order_indexes.sql`；会员字段：`20260609120000_profile_membership_fields.sql`；PBL 测试种子（已下架）：`20260609183000_seed_school_shade_pbl_project.sql` + `20260610120000_remove_seed_pbl_challenges.sql`；PBL 阶段产出表：`20260609200000_challenge_stage_progress.sql`；PBL AI 导师对话表：`20260609220000_challenge_tutor_messages.sql`；PBL 阶段完成清单 seed：`20260609230000_seed_pbl_stage_checklists.sql`；未读数 Realtime publication：`20260610104500_realtime_unread_publication.sql`；学习资料卡表：`20260610134800_learning_resources.sql`；挑战 resources 三分类归一化：`20260610135500_normalize_challenge_resources.sql`；鸡蛋快递保护舱 PBL 种子（挑战 + 4 张资料卡 + 示例项目）：`20260610140000_seed_egg_protection_pbl.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles` · `projects` · … · `challenges` · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · **`auto_interaction_jobs`** · Storage bucket **`scratch-projects`**
+`profiles`（含 `membership_tier` / `membership_period` / `membership_started_at` / `membership_expires_at`） · `projects` · … · `challenges` · `challenge_submissions` · **`challenge_stage_progress`**（PBL 每用户每阶段产出：notes/images/data/video + AI 反馈缓存） · **`challenge_tutor_messages`**（AI 导师"小思"一对一对话记录，每条一行，按挑战/用户） · … · **`courses`** · **`course_lessons`** · **`user_lesson_progress`** · **`learning_resources`**（可跨挑战复用的学习资料卡：Markdown 正文 + 分类 + 草稿/发布；公开读 published，moderator/admin 可写） · **`auto_interaction_jobs`** · Storage bucket **`scratch-projects`**
 
 完整类型定义：`lib/supabase/types.ts`
 

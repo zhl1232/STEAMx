@@ -26,8 +26,18 @@ import {
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { LoginDialog } from '@/components/layout/login-dialog'
+import { getMembershipSummary } from '@/lib/membership'
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
+
+function formatMembershipExpiry(value: string | null) {
+  if (!value) return '长期有效'
+  return new Date(value).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  })
+}
 
 export function UserButton() {
   const { user, profile, loading, signOut, canReview } = useAuth()
@@ -75,6 +85,7 @@ export function UserButton() {
     fallback: '用户',
   })
   const avatarUrl = profile?.avatar_url || getDefaultAvatarPath(user.id)
+  const membership = getMembershipSummary(profile)
 
   return (
     <DropdownMenu>
@@ -96,6 +107,11 @@ export function UserButton() {
             {publicEmail ? (
               <p className="text-xs leading-none text-muted-foreground">
                 {publicEmail}
+              </p>
+            ) : null}
+            {membership.isActive ? (
+              <p className="text-xs leading-none text-[hsl(var(--brand-blue))]">
+                {membership.label} · {formatMembershipExpiry(membership.expiresAt)}
               </p>
             ) : null}
           </div>

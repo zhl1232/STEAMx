@@ -404,3 +404,4 @@ context/project-context.tsx      # addProject 写入 PBL 字段
 ## 相关文档
 
 - [PBL_CHALLENGE_CONTENT_MODEL.md](/home/arron/work/docs/PBL_CHALLENGE_CONTENT_MODEL.md) - 讨论“真正的 PBL 挑战”在内容层应该怎样组织，避免退化成教程或空泛目标
+- [PBL_STAGE_FLOW_REDESIGN.md](/home/arron/work/docs/PBL_STAGE_FLOW_REDESIGN.md) - 阶段引导+阶段提交结合的工作台重构与 AI 指导设计（已落地：`challenge_stage_progress` 表、阶段产出 API、`stage-workspace` 组件、Qwen 阶段教练）
