@@ -63,6 +63,18 @@ describe('buildTutorGreeting', () => {
     expect(nature.quickPrompts).toHaveLength(3)
   })
 
+  it('returns species-specific greeting on species detail pages', () => {
+    const scene: TutorSceneContext = {
+      contextType: 'species',
+      contextId: 'turdus-merula',
+      title: '乌鸫',
+      summary: '识别要点：…',
+    }
+    const greeting = buildTutorGreeting(baseProfile, scene)
+    expect(greeting.message).toContain('乌鸫')
+    expect(greeting.quickPrompts).toContain('怎么认出它？')
+  })
+
   it('keeps personalized greeting on the home surface', () => {
     const scene: TutorSceneContext = {
       contextType: 'global',

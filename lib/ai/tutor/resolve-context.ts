@@ -36,6 +36,11 @@ export function resolveTutorContextFromPath(pathname: string): ResolvedTutorCont
     return { contextType: 'observation', contextId: observationMatch[1] }
   }
 
+  const speciesMatch = pathname.match(/^\/nature\/species\/([^/]+)$/)
+  if (speciesMatch) {
+    return { contextType: 'species', contextId: decodeURIComponent(speciesMatch[1]) }
+  }
+
   const lessonMatch = pathname.match(/^\/courses\/(\d+)\/lessons\/(\d+)/)
   if (lessonMatch) {
     return {

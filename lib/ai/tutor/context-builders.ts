@@ -32,6 +32,8 @@ export async function buildTutorSceneContext(
       return buildProjectContext(supabase, contextId)
     case 'observation':
       return buildObservationContext(supabase, userId, contextId)
+    case 'species':
+      return buildSpeciesContext(supabase, contextId)
     case 'course':
       return buildCourseContext(supabase, userId, contextId, options?.lessonId)
     default:
@@ -255,6 +257,60 @@ async function buildProjectContext(
     contextType: 'project',
     contextId,
     title: project.title,
+    summary,
+  }
+}
+
+const SPECIES_TOPIC_LABELS: Record<string, string> = {
+  birds: '鸟类',
+  insects: '昆虫',
+  plants: '树木',
+  fungi: '真菌',
+}
+
+async function buildSpeciesContext(
+  supabase: SupabaseClient<Database>,
+  contextId: string,
+): Promise<TutorSceneContext> {
+  const slug = contextId.trim()
+  if (!slug) {
+    return { contextType: 'species', contextId, title: '物种档案', summary: '' }
+  }
+
+  const { data: species, error } = await supabase
+    .from('species')
+    .select(
+      'common_name, scientific_name, aliases, taxon_group, identification_notes, habitat_notes, seasonality_notes, nature_topic',
+    )
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .maybeSingle()
+
+  if (error || !species) {
+    return { contextType: 'species', contextId: slug, title: '物种档案', summary: '该物种不存在或已下架。' }
+  }
+
+  const aliases = Array.isArray(species.aliases)
+    ? species.aliases.map((item) => compact(String(item), 40)).filter(Boolean).join('、')
+    : ''
+
+  const summary = [
+    `物种：${compact(species.common_name, 80)}`,
+    species.scientific_name ? `学名：${compact(species.scientific_name, 80)}` : '',
+    species.nature_topic ? `专题：${SPECIES_TOPIC_LABELS[species.nature_topic] ?? species.nature_topic}` : '',
+    species.taxon_group ? `分类：${compact(species.taxon_group, 80)}` : '',
+    aliases ? `别名：${aliases}` : '',
+    species.identification_notes ? `识别要点：${compact(species.identification_notes, 400)}` : '',
+    species.habitat_notes ? `常见环境：${compact(species.habitat_notes, 300)}` : '',
+    species.seasonality_notes ? `季节与活动：${compact(species.seasonality_notes, 200)}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  return {
+    contextType: 'species',
+    contextId: slug,
+    title: species.common_name,
     summary,
   }
 }

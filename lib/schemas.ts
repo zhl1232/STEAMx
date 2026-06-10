@@ -112,7 +112,7 @@ export const ChallengeTutorSendSchema = z.object({
   message: '消息不能为空',
 });
 
-export const TutorContextTypeSchema = z.enum(['global', 'challenge', 'project', 'observation', 'course']);
+export const TutorContextTypeSchema = z.enum(['global', 'challenge', 'project', 'observation', 'course', 'species']);
 
 export const TutorGlobalSurfaceSchema = z.enum([
   'home', 'explore', 'nature', 'create', 'courses', 'community', 'playground', 'profile', 'users',

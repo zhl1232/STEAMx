@@ -76,6 +76,13 @@ export function buildTutorGreeting(
     }
   }
 
+  if (scene.contextType === 'species') {
+    return {
+      message: `你好 ${name}！我是小迪 🌿 你现在在看「${scene.title}」的物种档案。我可以帮你认特征、找观察点、写观察笔记。`,
+      quickPrompts: ['怎么认出它？', '什么时候最容易看到？', '观察笔记怎么写？'],
+    }
+  }
+
   if (scene.contextType === 'course') {
     return {
       message: `你好 ${name}！我是小迪 💻 「${scene.title}」里有不懂的 Scratch 步骤都可以问我。`,

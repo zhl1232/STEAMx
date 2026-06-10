@@ -1,4 +1,4 @@
-export const TUTOR_CONTEXT_TYPES = ['global', 'challenge', 'project', 'observation', 'course'] as const
+export const TUTOR_CONTEXT_TYPES = ['global', 'challenge', 'project', 'observation', 'course', 'species'] as const
 export type TutorContextType = (typeof TUTOR_CONTEXT_TYPES)[number]
 
 /** global 场景下的页面标识：让小迪在不同页面有不同的开场白与上下文 */

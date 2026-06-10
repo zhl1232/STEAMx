@@ -12,6 +12,7 @@ export function buildTutorSystemPrompt(input: {
     challenge: 'PBL 挑战',
     project: '探索项目',
     observation: '自然观察',
+    species: '物种档案',
     course: 'Scratch 训练营',
   }
 
