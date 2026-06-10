@@ -262,7 +262,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
 
               {!isProgressAvailable ? (
                 <p className="nature-species-login-note">
-                  登录后会按你审核通过的自然观察记录点亮物种，并启用“待观察 / 已观察”筛选。
+                  登录后，审核通过的观察记录在社群确认物种或 AI 高置信度鉴定后会点亮对应物种，并启用“待观察 / 已观察”筛选。
                 </p>
               ) : null}
             </div>

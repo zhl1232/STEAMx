@@ -3,21 +3,17 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import {
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  FolderOpen,
-  Leaf,
   Loader2,
   Radar,
-  Trophy,
-  type LucideIcon,
 } from 'lucide-react'
 
+import { ProfileTimelineIcon } from '@/components/features/profile/profile-timeline-icons'
 import { Button } from '@/components/ui/button'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { logger } from '@/lib/logger'
-import type { ProfileTimelineEvent, ProfileTimelineIconName, ProfileTimelineStatus } from '@/lib/profile/timeline'
+import type { ProfileTimelineEvent, ProfileTimelineStatus } from '@/lib/profile/timeline'
 import { cn } from '@/lib/utils'
 
 type TimelinePayload = {
@@ -31,14 +27,6 @@ type TimelineGroup = {
   dateKey: string
   dateLabel: string
   events: ProfileTimelineEvent[]
-}
-
-const TIMELINE_ICON_META: Record<ProfileTimelineIconName, { icon: LucideIcon; tone: string }> = {
-  timeline: { icon: Radar, tone: 'bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]' },
-  projects: { icon: FolderOpen, tone: 'bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]' },
-  observation: { icon: Leaf, tone: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-300' },
-  achievement: { icon: Trophy, tone: 'bg-[hsl(var(--brand-amber)/0.16)] text-[hsl(var(--brand-amber))]' },
-  growth: { icon: BookOpen, tone: 'bg-violet-500/10 text-violet-600 dark:text-violet-300' },
 }
 
 const STATUS_TONE: Record<ProfileTimelineStatus, string> = {
@@ -94,37 +82,7 @@ function getTimelineSummary(events: ProfileTimelineEvent[]) {
 }
 
 function TimelineIcon({ event }: { event: ProfileTimelineEvent }) {
-  const meta = TIMELINE_ICON_META[event.iconName]
-  const Icon = meta.icon
-  const [imgError, setImgError] = useState(false)
-
-  const is3DIcon = ['timeline', 'projects', 'observation', 'achievement', 'growth'].includes(event.iconName)
-
-  if (is3DIcon && !imgError) {
-    return (
-      <span
-        className={cn(
-          'relative grid h-10 w-10 shrink-0 place-items-center rounded-xl overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95',
-          'bg-gradient-to-br from-white/15 to-white/0 dark:from-white/5 dark:to-white/0 backdrop-blur-[2px]',
-          'border border-white/20 dark:border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.08)]'
-        )}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/assets/timeline/${event.iconName}.png`}
-          alt={event.iconName}
-          className="h-full w-full object-contain p-0.5"
-          onError={() => setImgError(true)}
-        />
-      </span>
-    )
-  }
-
-  return (
-    <span className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-md ring-1 ring-inset ring-white/50', meta.tone)}>
-      <Icon className="h-[18px] w-[18px]" strokeWidth={2.5} />
-    </span>
-  )
+  return <ProfileTimelineIcon name={event.iconName} size="md" />
 }
 
 function TimelineEventRow({ event }: { event: ProfileTimelineEvent }) {

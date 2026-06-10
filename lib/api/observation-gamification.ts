@@ -1,3 +1,4 @@
+import { fetchObservedSpeciesIdsForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
 import { BADGES } from "@/lib/gamification/badges"
 import type { UserStats } from "@/lib/gamification/types"
 import { supabaseAdmin } from "@/lib/supabase/admin"
@@ -30,16 +31,11 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
   let speciesObserved = 0
 
   if (eventIds.length > 0) {
-    const { data: speciesRows, error: speciesError } = await supabaseAdmin
-      .from("observation_event_species")
-      .select("species_id")
-      .in("observation_event_id", eventIds)
-
-    if (speciesError) {
-      throw speciesError
-    }
-
-    speciesObserved = new Set((speciesRows ?? []).map((row) => row.species_id)).size
+    const observedSpeciesIds = await fetchObservedSpeciesIdsForApprovedEvents(supabaseAdmin, eventIds, {
+      userId,
+      logLabel: 'observation gamification stats',
+    })
+    speciesObserved = observedSpeciesIds.size
   }
 
   const observationDates = Array.from(

@@ -31,6 +31,11 @@ import { BadgeIcon } from '@/components/features/gamification/badge-icon'
 import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-tasks-graduated-card'
 import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
 import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
+import { ProfileSpotIcon, ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
+import {
+  ProfileTimelineIcon,
+  isProfileTimelineIconName,
+} from '@/components/features/profile/profile-timeline-icons'
 import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
 import {
@@ -579,7 +584,7 @@ function MobileProfilePage({
           action={nextAction}
           claimPending={claimingTaskId === nextAction.growthTaskId}
           onClaim={onClaimGrowthTask}
-          className="profile-mobile-panel p-4"
+          variant="mobile"
         />
 
         <MobileExploringProjectsCard
@@ -611,14 +616,11 @@ function MobileProfilePage({
 
         <section id="profile-badges-anchor" className="profile-mobile-panel p-4">
           <div className="flex items-center justify-between gap-3">
-            <div className="flex min-w-0 items-center gap-2">
-              <span className="h-4 w-1 shrink-0 rounded-full bg-[hsl(var(--brand-blue))]" aria-hidden />
-              <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
-            </div>
+            <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
             <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
               <button
                 type="button"
-                className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-semibold text-muted-foreground transition hover:text-[hsl(var(--brand-blue))]"
+                className="inline-flex min-h-11 shrink-0 items-center gap-0.5 text-xs font-semibold text-muted-foreground transition hover:text-[hsl(var(--brand-blue))]"
               >
                 全部徽章
                 <ChevronRight className="h-3.5 w-3.5" />
@@ -865,13 +867,14 @@ function ProfileImageIcon({
   name,
   className,
   variant = 'module',
+  size = 'md',
 }: {
   name: ProfileIconName
   className?: string
   variant?: 'module' | 'heroStat' | 'timeline'
+  size?: 'sm' | 'md'
 }) {
   const { icon: Icon, tone } = PROFILE_ICON_META[name]
-  const [imgError, setImgError] = useState(false)
   const toneClassName = {
     blue: 'bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
     green: 'bg-[hsl(var(--brand-green)/0.1)] text-[hsl(var(--brand-green))]',
@@ -880,27 +883,8 @@ function ProfileImageIcon({
     violet: 'bg-violet-500/10 text-violet-500',
   }[tone]
 
-  const is3DIcon = variant === 'timeline' && ['timeline', 'projects', 'observation', 'achievement', 'growth'].includes(name)
-
-  if (is3DIcon && !imgError) {
-    return (
-      <span
-        className={cn(
-          'relative grid shrink-0 place-items-center rounded-xl overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95',
-          'bg-gradient-to-br from-white/15 to-white/0 dark:from-white/5 dark:to-white/0 backdrop-blur-[2px]',
-          'border border-white/20 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]',
-          className
-        )}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/assets/timeline/${name}.png`}
-          alt={name}
-          className="h-full w-full object-contain p-0.5"
-          onError={() => setImgError(true)}
-        />
-      </span>
-    )
+  if (variant === 'timeline' && isProfileTimelineIconName(name)) {
+    return <ProfileTimelineIcon name={name} size={size} className={className} />
   }
 
   return (
@@ -1016,27 +1000,19 @@ function SteamRadarEmptyPlaceholder() {
 function MobileActionGrid() {
   const { unreadCount } = useOptionalNotifications()
   const actions = [
-    { label: '我的内容', href: '/profile/library', image: '/assets/profile-actions/content.webp' },
-    { label: '我的钱包', href: '/coins', image: '/assets/profile-actions/wallet.webp' },
-    { label: '创客商店', href: '/shop', image: '/assets/profile-actions/shop.webp' },
-    { label: '邀请好友', href: '/share', image: '/assets/profile-actions/invite.webp' },
-    { label: '消息中心', href: '/messages', image: '/assets/profile-actions/messages.webp' },
+    { label: '我的内容', href: '/profile/library', src: PROFILE_ACTION_GRID_ICONS.content },
+    { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
+    { label: '创客商店', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
+    { label: '邀请好友', href: '/share', src: PROFILE_ACTION_GRID_ICONS.invite },
+    { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
   ]
 
   return (
     <section className="profile-mobile-panel grid grid-cols-5 gap-1.5 p-3">
       {actions.map((action) => (
         <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-          <span className="relative block h-11 w-11 rounded-md shadow-[0_10px_22px_-18px_hsl(var(--surface-shadow)/0.34)]">
-            <span className="absolute inset-0 overflow-hidden rounded-md">
-              <OptimizedImage
-                src={action.image}
-                alt=""
-                fill
-                variant="thumbnail"
-                className="object-cover"
-              />
-            </span>
+          <span className="relative block">
+            <ProfileModuleIcon src={action.src} label={action.label} />
             {action.href === '/messages' && unreadCount > 0 ? (
               <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-destructive-foreground ring-2 ring-background">
                 {unreadCount > 99 ? '99+' : unreadCount}
@@ -1072,10 +1048,8 @@ function MobileExploringProjectsCard({
           className="mt-3"
         />
       ) : (
-        <div className="mt-3 flex items-center gap-3 rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)] dark:bg-[hsl(var(--surface-muted)/0.28)]">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
-            <Rocket className="h-5 w-5" strokeWidth={2.3} />
-          </span>
+        <div className="mt-3 flex items-center gap-3">
+          <ProfileSpotIcon name="exploring-map" className="h-11 w-11" />
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-foreground">暂无探索中的项目</span>
             <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
@@ -1172,13 +1146,13 @@ function BadgeShowcase({
     <div className={cn('mt-4 flex', compact ? 'justify-between gap-1.5' : 'flex-wrap gap-3')}>
       {badges.map((badge) => (
         <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
-          <span className={cn('grid place-items-center overflow-visible', compact ? 'h-10 w-10' : 'h-12 w-12')}>
+          <span className="grid h-11 w-11 place-items-center overflow-visible">
             <BadgeIcon
               icon={badge.icon}
               tier={badge.tier}
               seriesKey={badge.seriesKey}
-              size={compact ? 'sm' : 'lg'}
-              className={compact ? 'h-10 w-10' : 'h-12 w-12'}
+              size={compact ? 'md' : 'lg'}
+              className={compact ? 'h-11 w-11' : 'h-12 w-12'}
               showGlow={false}
               locked={!unlockedBadges.has(badge.id)}
             />
@@ -1456,7 +1430,7 @@ function LearningTimeline({
       )}
       {events === null ? (
         <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-md border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
-          <ProfileImageIcon name="timeline" className="h-10 w-10" />
+          <ProfileImageIcon name="timeline" variant="timeline" size="sm" className="h-10 w-10" />
           正在同步真实轨迹
         </div>
       ) : visibleEvents.length === 0 ? (
@@ -1488,7 +1462,7 @@ function LearningTimeline({
                 <ProfileImageIcon
                   name={item.iconName}
                   variant="timeline"
-                  className={cn('relative z-10 mx-auto h-11 w-11', item.status === 'rejected' && 'opacity-70 grayscale')}
+                  className={cn('relative z-10 mx-auto', item.status === 'rejected' && 'opacity-70 grayscale')}
                 />
                 <span className="mt-2 block text-xs font-semibold text-muted-foreground">{item.dateLabel}</span>
                 <span className="mt-1 block truncate text-xs font-bold text-foreground">{item.label}</span>
@@ -1760,6 +1734,7 @@ function NaturalObservationProgressCard({
         <div
           className="mb-1 mt-3 h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]"
           role="progressbar"
+          aria-label={`自然观察进度，已观察 ${observedCount.toLocaleString()} / ${totalSpecies.toLocaleString()} 种，${progressPercent}%`}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={progressPercent}

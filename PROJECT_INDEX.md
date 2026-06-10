@@ -135,7 +135,7 @@
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
-| `profile/` | 16 | 头像上传、编辑资料弹窗、今日行动卡、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏 |
+| `profile/` | 16 | 头像上传、编辑资料弹窗、今日行动卡、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
 ### 3.5 管理后台 (`components/admin/`) — 11 个组件
 项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**训练营管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
@@ -176,8 +176,9 @@
 - `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
 - `categories.ts` — 分类与子分类
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
-- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录计算已观察/待观察进度）
+- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度）
 - `nature-observation-progress.ts` — 用户自然观察进度摘要：按专题汇总已观察/待观察物种，并提供个人页待观察预览
+- `nature-observation-observed-species.ts` — 已观察物种统计：审核通过记录上优先取社群共识物种，否则取 AI 置信度 ≥ 0.8 的鉴定结果
 - `observation-gamification.ts` — 观察游戏化逻辑
 - `lib/observations/submit-topic.ts` — 观察提交专题（birds/plants/insects）归一化与文案
 - `lib/observations/traits.ts` — 观察生命阶段/性别枚举、选项与展示文案
@@ -357,7 +358,8 @@
 | 目录 | 内容 |
 |------|------|
 | `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
-| `public/assets/timeline/` | 个人探索轨迹 3D 图标资源 |
+| `public/assets/profile-icons/` | 个人主页模块 icon WebP（256px、成长任务、探索地图、时间线、快捷入口 action-*） |
+| `public/assets/timeline/` | 个人探索轨迹历史 PNG（已由 `profile-icons` 替代） |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、树木、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer） |

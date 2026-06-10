@@ -1,3 +1,4 @@
+import { fetchObservedSpeciesEventLinksForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
 import { logger } from '@/lib/logger'
 import { mapDbSpecies } from '@/lib/mappers/types'
 import {
@@ -40,25 +41,11 @@ export async function getApprovedObservedSpeciesData(supabase: SupabaseServerCli
     }
   }
 
-  const { data: linkedRows, error: linkedError } = await supabase
-    .from('observation_event_species')
-    .select('species_id, observation_event_id')
-    .in('observation_event_id', eventIds)
-
-  if (linkedError) {
-    logger.error('Error fetching observation_event_species for natural observation progress', { error: linkedError })
-    throw linkedError
-  }
-
+  const speciesEventIds = await fetchObservedSpeciesEventLinksForApprovedEvents(supabase, eventIds, {
+    userId,
+    logLabel: 'natural observation progress',
+  })
   const speciesFirstSeen = new Map<number, string>()
-  const speciesEventIds = new Map<number, number[]>()
-
-  for (const row of (linkedRows || []) as Array<{ species_id: number; observation_event_id: number }>) {
-    if (!speciesEventIds.has(row.species_id)) {
-      speciesEventIds.set(row.species_id, [])
-    }
-    speciesEventIds.get(row.species_id)!.push(row.observation_event_id)
-  }
 
   const speciesIds = Array.from(speciesEventIds.keys())
 

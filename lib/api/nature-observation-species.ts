@@ -1,3 +1,4 @@
+import { fetchObservedSpeciesIdsForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
 import { sanitizeSearch } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import {
@@ -64,18 +65,8 @@ const SPECIES_LIST_SELECT = [
   'updated_at',
 ].join(',')
 
-const OBSERVED_SPECIES_EVENT_BATCH_SIZE = 200
-
 function buildSpeciesSearchFilter(sanitizedQuery: string) {
   return `common_name.ilike.%${sanitizedQuery}%,scientific_name.ilike.%${sanitizedQuery}%,taxon_group.ilike.%${sanitizedQuery}%`
-}
-
-function chunkItems<T>(items: T[], size: number): T[][] {
-  const chunks: T[][] = []
-  for (let index = 0; index < items.length; index += size) {
-    chunks.push(items.slice(index, index + size))
-  }
-  return chunks
 }
 
 function mapSpeciesWithDerivedFields(row: SpeciesRow): Species {
@@ -110,26 +101,14 @@ async function fetchObservedSpeciesIdsForUser(
     return new Set<number>()
   }
 
-  const observedSpeciesIds = new Set<number>()
-  for (const eventIdBatch of chunkItems(eventIds, OBSERVED_SPECIES_EVENT_BATCH_SIZE)) {
-    const { data: linkedRows, error: linkedError } = await supabase
-      .from('observation_event_species')
-      .select('species_id')
-      .in('observation_event_id', eventIdBatch)
-
-    if (linkedError) {
-      logger.error('Error fetching user observed species for species list', { error: linkedError, userId })
-      return observedSpeciesIds
-    }
-
-    for (const row of ((linkedRows || []) as Array<{ species_id: number | null }>)) {
-      if (typeof row.species_id === 'number') {
-        observedSpeciesIds.add(row.species_id)
-      }
-    }
+  try {
+    return await fetchObservedSpeciesIdsForApprovedEvents(supabase, eventIds, {
+      userId,
+      logLabel: 'species list observed filter',
+    })
+  } catch {
+    return new Set<number>()
   }
-
-  return observedSpeciesIds
 }
 
 async function getSpeciesTopicCounts(

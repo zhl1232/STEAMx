@@ -122,6 +122,10 @@
       );
   }
 
+  .profile-spot-icon {
+    filter: drop-shadow(0 4px 8px rgb(15 23 42 / 0.08));
+  }
+
   .profile-mobile-panel {
     background-color: hsl(var(--surface-raised) / 0.94);
     border-color: hsl(var(--surface-border) / 0.58);
@@ -129,6 +133,12 @@
       0 12px 28px -22px hsl(var(--surface-shadow) / 0.2),
       inset 0 1px 0 hsl(0 0% 100% / 0.5);
     @apply rounded-md border;
+  }
+
+  .profile-mobile-panel .profile-action-cta,
+  .profile-mobile-panel .profile-task-cta,
+  .profile-mobile-panel .profile-mobile-empty-cta {
+    @apply min-h-11 h-11;
   }
 
   .profile-action-cta,
