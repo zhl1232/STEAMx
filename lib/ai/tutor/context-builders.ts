@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { TutorGlobalSurface, TutorSceneContext } from '@/lib/ai/tutor/types'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
+import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -45,7 +46,7 @@ export async function buildTutorSceneContext(
     case 'course':
       return buildCourseContext(supabase, userId, contextId, options?.lessonId)
     default:
-      return buildGlobalContext(options?.includeRecommendations ?? false, options?.surface)
+      return buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
   }
 }
 
@@ -90,6 +91,8 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
 }
 
 async function buildGlobalContext(
+  supabase: SupabaseClient<Database>,
+  userId: string,
   includeRecommendations: boolean,
   surface?: TutorGlobalSurface,
 ): Promise<TutorSceneContext> {
@@ -100,6 +103,15 @@ async function buildGlobalContext(
     title: scene.title,
     summary: scene.summary,
     surface,
+  }
+
+  if (surface === 'profile') {
+    try {
+      const planSummary = await getWeeklyPlanTutorSummary(supabase, userId)
+      base.summary = [base.summary, '', '【本周探索计划】', planSummary].join('\n')
+    } catch {
+      // 本周计划查询失败不影响开场白或对话
+    }
   }
 
   // 开场白（GET）不查推荐，只有真正对话（POST）才注入候选项目，控制查询成本。

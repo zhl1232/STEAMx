@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import {
+  ArrowLeft,
   ChevronDown,
+  History,
   ImagePlus,
   Loader2,
   MessageSquarePlus,
@@ -12,6 +14,8 @@ import {
   Sparkles,
   X,
 } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
@@ -44,6 +48,23 @@ export type TutorChatMessage = {
   images?: string[]
   error?: boolean
   streaming?: boolean
+}
+
+type TutorPanelView = 'chat' | 'history' | 'historyDetail'
+
+type TutorHistoryItem = {
+  id: string
+  title: string
+  preview: string
+  createdAt: string
+  archivedAt: string | null
+}
+
+type TutorHistoryDetail = {
+  id: string
+  title: string
+  archivedAt: string | null
+  messages: TutorChatMessage[]
 }
 
 type TutorPanelProps = {
@@ -95,6 +116,11 @@ export function GlobalTutorFab({
   const [pendingImages, setPendingImages] = useState<string[]>([])
   const [suggestedImages, setSuggestedImages] = useState<string[]>([])
   const [uploadingImage, setUploadingImage] = useState(false)
+  const [view, setView] = useState<TutorPanelView>('chat')
+  const [historyItems, setHistoryItems] = useState<TutorHistoryItem[] | null>(null)
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [historyDetail, setHistoryDetail] = useState<TutorHistoryDetail | null>(null)
+  const [historyDetailLoading, setHistoryDetailLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   // 发送中标记（ref 版），loadSession 用它避免覆盖乐观插入的消息。
@@ -157,6 +183,9 @@ export function GlobalTutorFab({
     setSceneTitle('')
     setPendingImages([])
     setSuggestedImages([])
+    setView('chat')
+    setHistoryItems(null)
+    setHistoryDetail(null)
   }, [contextKey])
 
   useEffect(() => {
@@ -175,9 +204,15 @@ export function GlobalTutorFab({
   }, [open, user, busy, tutorCtx?.pendingSend])
 
   useEffect(() => {
-    if (!scrollRef.current) return
+    if (!scrollRef.current || view !== 'chat') return
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-  }, [messages, busy, open])
+  }, [messages, busy, open, view])
+
+  // 历史视图从顶部开始阅读
+  useEffect(() => {
+    if (!scrollRef.current || view === 'chat') return
+    scrollRef.current.scrollTop = 0
+  }, [view, historyDetail])
 
   const sendMessage = useCallback(
     async (text: string, images?: string[]) => {
@@ -382,9 +417,78 @@ export function GlobalTutorFab({
     } catch {
       // ignore
     }
+    setView('chat')
+    setHistoryItems(null)
+    setHistoryDetail(null)
     setMessages([])
     setGreeting(null)
     void loadSession()
+  }
+
+  const openHistory = async () => {
+    if (!user) {
+      promptLogin(() => undefined, {
+        title: '登录后找小迪',
+        description: '登录后即可查看和小迪的历史对话。',
+      })
+      return
+    }
+    const requestKey = contextKeyRef.current
+    setView('history')
+    setHistoryDetail(null)
+    setHistoryLoading(true)
+    try {
+      const params = new URLSearchParams({
+        contextType: context.contextType,
+        contextId: context.contextId,
+      })
+      const res = await fetch(`/api/tutor/conversations?${params}`)
+      if (!res.ok) throw new Error()
+      const payload = await res.json()
+      if (contextKeyRef.current !== requestKey) return
+      setHistoryItems(Array.isArray(payload.conversations) ? payload.conversations : [])
+    } catch {
+      if (contextKeyRef.current !== requestKey) return
+      setHistoryItems([])
+      toast({ title: '历史对话加载失败，请稍后再试', variant: 'destructive' })
+    } finally {
+      setHistoryLoading(false)
+    }
+  }
+
+  const openHistoryDetail = async (item: TutorHistoryItem) => {
+    const requestKey = contextKeyRef.current
+    setView('historyDetail')
+    setHistoryDetail({ id: item.id, title: item.title, archivedAt: item.archivedAt, messages: [] })
+    setHistoryDetailLoading(true)
+    try {
+      const res = await fetch(`/api/tutor/conversations/${item.id}`)
+      if (!res.ok) throw new Error()
+      const payload = await res.json()
+      if (contextKeyRef.current !== requestKey) return
+      setHistoryDetail({
+        id: item.id,
+        title: payload.conversation?.title ?? item.title,
+        archivedAt: payload.conversation?.archivedAt ?? item.archivedAt,
+        messages: Array.isArray(payload.messages) ? payload.messages : [],
+      })
+    } catch {
+      if (contextKeyRef.current !== requestKey) return
+      setView('history')
+      setHistoryDetail(null)
+      toast({ title: '这条历史对话打开失败，请稍后再试', variant: 'destructive' })
+    } finally {
+      setHistoryDetailLoading(false)
+    }
+  }
+
+  const exitHistory = () => {
+    if (view === 'historyDetail') {
+      setView('history')
+      setHistoryDetail(null)
+    } else {
+      setView('chat')
+    }
   }
 
   const panelSubtitle = subtitle || (sceneTitle ? `正在陪你：${sceneTitle}` : '你的 STEAM 学习伙伴')
@@ -438,6 +542,10 @@ export function GlobalTutorFab({
                   <MessageSquarePlus className="mr-2 h-4 w-4" />
                   开启新对话
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => void openHistory()}>
+                  <History className="mr-2 h-4 w-4" />
+                  历史对话
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <button
@@ -450,13 +558,93 @@ export function GlobalTutorFab({
             </button>
           </div>
 
+          {view !== 'chat' && (
+            <div className="flex items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.12)] bg-[hsl(var(--surface-raised)/0.8)] px-3.5 py-2">
+              <button
+                type="button"
+                onClick={exitHistory}
+                aria-label={view === 'historyDetail' ? '返回历史列表' : '返回当前对话'}
+                className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))]"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+              </button>
+              <span className="truncate text-xs font-semibold text-foreground/85">
+                {view === 'historyDetail' ? historyDetail?.title || '历史对话' : '历史对话'}
+              </span>
+              {view === 'historyDetail' && historyDetail?.archivedAt ? (
+                <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">
+                  {formatDistanceToNow(new Date(historyDetail.archivedAt), { addSuffix: true, locale: zhCN })}归档
+                </span>
+              ) : null}
+            </div>
+          )}
+
           <div ref={scrollRef} className="max-h-[min(52vh,420px)] flex-1 space-y-3 overflow-y-auto px-3.5 py-4">
-            {!user && (
+            {view === 'history' && (
+              <>
+                {historyLoading ? (
+                  <div className="space-y-2">
+                    {[1, 2, 3].map((item) => (
+                      <div key={item} className="h-14 animate-pulse rounded-[var(--radius-sm)] bg-muted" />
+                    ))}
+                  </div>
+                ) : !historyItems || historyItems.length === 0 ? (
+                  <p className="py-6 text-center text-xs text-muted-foreground">
+                    这个场景还没有历史对话。点「开启新对话」后，旧对话会出现在这里。
+                  </p>
+                ) : (
+                  historyItems.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => void openHistoryDetail(item)}
+                      className="block w-full rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.15)] bg-[hsl(var(--surface-raised))] px-3 py-2.5 text-left transition-colors hover:bg-[hsl(var(--status-info-surface)/0.4)]"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="truncate text-[13px] font-medium text-foreground">{item.title}</p>
+                        {item.archivedAt ? (
+                          <span className="shrink-0 text-[10px] text-muted-foreground">
+                            {formatDistanceToNow(new Date(item.archivedAt), { addSuffix: true, locale: zhCN })}
+                          </span>
+                        ) : null}
+                      </div>
+                      {item.preview ? (
+                        <p className="mt-0.5 truncate text-xs text-muted-foreground">{item.preview}</p>
+                      ) : null}
+                    </button>
+                  ))
+                )}
+              </>
+            )}
+
+            {view === 'historyDetail' && (
+              <>
+                {historyDetailLoading ? (
+                  <div className="flex justify-center py-6">
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  </div>
+                ) : historyDetail && historyDetail.messages.length === 0 ? (
+                  <p className="py-6 text-center text-xs text-muted-foreground">这条对话没有消息。</p>
+                ) : (
+                  historyDetail?.messages.map((message, i) =>
+                    message.role === 'assistant' ? (
+                      <TutorBubble key={i}>
+                        <TutorMessageContent content={message.content} />
+                      </TutorBubble>
+                    ) : (
+                      <UserBubble key={i} message={message} />
+                    ),
+                  )
+                )}
+              </>
+            )}
+
+            {view === 'chat' && !user && (
               <TutorBubble>
                 你好呀！我是小迪 👋 STEAM 探索的 AI 学习导师。登录后我就能记住你的进度，陪你做项目、聊挑战、认自然～
               </TutorBubble>
             )}
-            {messages.length === 0 && greeting && (
+            {view === 'chat' && messages.length === 0 && greeting && (
               <>
                 <TutorBubble>{greeting.message}</TutorBubble>
                 {user && context.contextType === 'challenge' && stageIndex != null && (
@@ -490,29 +678,30 @@ export function GlobalTutorFab({
               </>
             )}
 
-            {messages.map((message, i) =>
-              message.role === 'assistant' ? (
-                <TutorBubble key={i} error={message.error}>
-                  {message.content ? (
-                    message.error ? (
-                      message.content
-                    ) : (
-                      <TutorMessageContent content={message.content} />
-                    )
-                  ) : null}
-                  {message.streaming && !message.content ? (
-                    <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                      小迪正在思考…
-                    </span>
-                  ) : null}
-                </TutorBubble>
-              ) : (
-                <UserBubble key={i} message={message} />
-              ),
-            )}
+            {view === 'chat' &&
+              messages.map((message, i) =>
+                message.role === 'assistant' ? (
+                  <TutorBubble key={i} error={message.error}>
+                    {message.content ? (
+                      message.error ? (
+                        message.content
+                      ) : (
+                        <TutorMessageContent content={message.content} />
+                      )
+                    ) : null}
+                    {message.streaming && !message.content ? (
+                      <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        小迪正在思考…
+                      </span>
+                    ) : null}
+                  </TutorBubble>
+                ) : (
+                  <UserBubble key={i} message={message} />
+                ),
+              )}
 
-            {busy && messages[messages.length - 1]?.role !== 'assistant' && (
+            {view === 'chat' && busy && messages[messages.length - 1]?.role !== 'assistant' && (
               <TutorBubble>
                 <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -521,14 +710,31 @@ export function GlobalTutorFab({
               </TutorBubble>
             )}
 
-            {quota && !quota.canChat && (
+            {view === 'chat' && quota && !quota.canChat && (
               <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
                 今日免费次数或本月代币已用完。开通会员每月可获 {MEMBER_AI_MONTHLY_CREDITS} 代币，绝大多数时间够用～
               </div>
             )}
           </div>
 
-          {user ? (
+          {view !== 'chat' ? (
+            <div className="flex items-center justify-between gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
+              <p className="text-xs text-muted-foreground">
+                {view === 'historyDetail' ? '历史对话仅可回看' : '点击一条历史对话即可回看'}
+              </p>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  setView('chat')
+                  setHistoryDetail(null)
+                }}
+              >
+                返回当前对话
+              </Button>
+            </div>
+          ) : user ? (
             <div className="space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
               {pendingImages.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">

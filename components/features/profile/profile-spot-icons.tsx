@@ -13,6 +13,10 @@ export type ProfileSpotIconName =
   | 'timeline-observation'
   | 'timeline-achievement'
   | 'timeline-growth'
+  | 'plan-pbl'
+  | 'plan-radar'
+  | 'plan-playground'
+  | 'plan-xp'
 
 export const PROFILE_SPOT_ICON_SIZES = {
   sm: 'h-10 w-10',
@@ -34,6 +38,10 @@ const PROFILE_SPOT_ICON_SRC: Record<ProfileSpotIconName, string> = {
   'timeline-observation': '/assets/profile-icons/timeline-observation.webp',
   'timeline-achievement': '/assets/profile-icons/timeline-achievement.webp',
   'timeline-growth': '/assets/profile-icons/timeline-growth.webp',
+  'plan-pbl': '/assets/profile-icons/plan-pbl.webp',
+  'plan-radar': '/assets/profile-icons/plan-radar.webp',
+  'plan-playground': '/assets/profile-icons/plan-playground.webp',
+  'plan-xp': '/assets/profile-icons/plan-xp.webp',
 }
 
 export const PROFILE_ACTION_GRID_ICONS = {

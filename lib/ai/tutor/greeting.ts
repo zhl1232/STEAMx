@@ -96,8 +96,8 @@ const GLOBAL_SURFACE_GREETINGS: Record<
     quickPrompts: ['2048 有什么技巧？', '数独入门教教我', '五子棋怎么布局？'],
   }),
   profile: (name) => ({
-    message: `嗨 ${name}！这里是你的成长小天地～要不要一起看看接下来练什么？`,
-    quickPrompts: ['我的薄弱项怎么练？', '帮我定个今天的小目标', '下一步做什么好？'],
+    message: `嗨 ${name}！这里是你的成长小天地，我可以陪你把本周探索计划走起来。`,
+    quickPrompts: ['带我看看本周计划', '先做哪一步？', '我的薄弱项怎么练？'],
   }),
   users: (name) => ({
     message: `你好 ${name}！在看同学的主页呀～看到喜欢的作品，自己也可以动手试一个。`,

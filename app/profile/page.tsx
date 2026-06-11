@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useEffectEvent, useMemo, useState, type ReactNode } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import {
@@ -31,7 +31,7 @@ import { BadgeIcon } from '@/components/features/gamification/badge-icon'
 import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-tasks-graduated-card'
 import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
 import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
-import { ProfileSpotIcon, ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
+import { ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
 import {
   ProfileTimelineIcon,
   isProfileTimelineIconName,
@@ -63,7 +63,6 @@ import {
   type ProfileStudyCheckInSummary,
   type StudyCheckInLoadState,
 } from '@/lib/profile/study-checkin'
-import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import type { ProfileNextAction } from '@/lib/profile/next-action'
 import { isExploreVacuum as isProfileExploreVacuum, resolveProfileNextAction } from '@/lib/profile/next-action'
@@ -72,8 +71,10 @@ import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import { profileHomeQueryKey, useProfilePageData } from '@/hooks/profile/use-profile-page-data'
 import { useToast } from '@/hooks/use-toast'
-import { getExploringCardSubtitle } from '@/lib/profile/exploring-projects-card'
 import { invalidateProfileHomeData } from '@/lib/profile/profile-home-client'
+import type { WeeklyPlan } from '@/lib/profile/weekly-plan'
+import { fetchWeeklyPlan, invalidateWeeklyPlan } from '@/lib/profile/weekly-plan-client'
+import { WeeklyPlanCard, WeeklyPlanCardSkeleton } from '@/components/features/profile/weekly-plan-card'
 
 const SteamRadarChart = dynamic(
   () => import('@/components/features/profile/steam-radar-chart').then((mod) => mod.SteamRadarChart),
@@ -83,6 +84,8 @@ const SteamRadarChart = dynamic(
 )
 
 /** 卡片内引导操作：浅底 + 描边，避免与头图「我的内容」主按钮抢视觉层级（见 globals `.profile-soft-cta`） */
+
+const weeklyPlanQueryKey = (userId: string | undefined) => ['profile', 'weekly-plan', userId] as const
 
 type ProfileContext = {
   userName: string
@@ -183,6 +186,15 @@ export default function ProfilePage() {
     isPending: isProfileHomePending,
     isError: isProfileHomeError,
   } = useProfilePageData(user?.id)
+  const {
+    data: weeklyPlan,
+    isPending: isWeeklyPlanPending,
+    isError: isWeeklyPlanError,
+  } = useQuery({
+    queryKey: weeklyPlanQueryKey(user?.id),
+    queryFn: () => fetchWeeklyPlan(user!.id),
+    enabled: !!user?.id,
+  })
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
   const [growthGraduationSparkle, setGrowthGraduationSparkle] = useState(false)
   const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null)
@@ -202,8 +214,6 @@ export default function ProfilePage() {
   const totalLikesReceived = profileHomeData?.totalLikesReceived ?? 0
   const steamRadar = profileHomeData?.steamRadar ?? null
   const exploringProjects = profileHomeData?.exploringProjects ?? []
-  const exploringLastActivityByProjectId =
-    profileHomeData?.exploringLastActivityByProjectId ?? {}
   const myObservations = profileHomeData?.myObservations ?? []
   const observationsTotal = profileHomeData?.observationsTotal ?? 0
   const naturalObservationProgress = profileHomeData?.naturalObservationProgress ?? null
@@ -259,7 +269,11 @@ export default function ProfilePage() {
       await refreshProfile()
       if (user?.id) {
         invalidateProfileHomeData(user.id)
-        await queryClient.invalidateQueries({ queryKey: profileHomeQueryKey(user.id) })
+        invalidateWeeklyPlan(user.id)
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: profileHomeQueryKey(user.id) }),
+          queryClient.invalidateQueries({ queryKey: weeklyPlanQueryKey(user.id) }),
+        ])
       }
 
       if (payload?.graduated) {
@@ -364,6 +378,9 @@ export default function ProfilePage() {
     stats,
     growthTasks: resolvedGrowthTasks,
     nextAction,
+    weeklyPlan: weeklyPlan ?? null,
+    weeklyPlanLoading: isWeeklyPlanPending,
+    weeklyPlanError: isWeeklyPlanError,
     growthTasksGraduatedAt,
     growthGraduationSparkle,
     completedTaskCount,
@@ -374,14 +391,11 @@ export default function ProfilePage() {
     userBadgeDetails,
     myProjects,
     steamRadar,
-    exploringProjects,
-    exploringLastActivityByProjectId,
     myObservations,
     observationsTotal,
     naturalObservationProgress,
     studyCheckInSummary,
     studyCheckInState,
-    profileTimelineEvents,
     profile,
   }
 
@@ -397,6 +411,9 @@ function DesktopProfilePage({
   stats,
   growthTasks,
   nextAction,
+  weeklyPlan,
+  weeklyPlanLoading,
+  weeklyPlanError,
   growthTasksGraduatedAt,
   growthGraduationSparkle,
   completedTaskCount,
@@ -412,13 +429,15 @@ function DesktopProfilePage({
   naturalObservationProgress,
   studyCheckInSummary,
   studyCheckInState,
-  profileTimelineEvents,
   profile,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
   growthTasks: ProfileGrowthTask[]
   nextAction: ProfileNextAction
+  weeklyPlan: WeeklyPlan | null
+  weeklyPlanLoading: boolean
+  weeklyPlanError: boolean
   growthTasksGraduatedAt: string | null
   growthGraduationSparkle: boolean
   completedTaskCount: number
@@ -434,7 +453,6 @@ function DesktopProfilePage({
   naturalObservationProgress: NaturalObservationProgressSummary | null
   studyCheckInSummary: ProfileStudyCheckInSummary | null
   studyCheckInState: StudyCheckInLoadState
-  profileTimelineEvents: ProfileTimelineEvent[] | null
   profile: ReturnType<typeof useAuth>['profile']
 }) {
   const isExploreVacuum = isProfileExploreVacuum({ steamRadar, myProjects, myObservations })
@@ -496,16 +514,24 @@ function DesktopProfilePage({
                 />
               </div>
             )}
-
-            <LearningTimeline events={profileTimelineEvents} />
           </div>
 
           <aside className="col-span-12 min-w-0 space-y-6 xl:col-span-4">
-            <ProfileNextActionCard
-              action={nextAction}
-              claimPending={claimingTaskId === nextAction.growthTaskId}
-              onClaim={onClaimGrowthTask}
-            />
+            {weeklyPlan ? (
+              <WeeklyPlanCard
+                plan={weeklyPlan}
+                claimPendingTaskId={claimingTaskId}
+                onClaim={onClaimGrowthTask}
+              />
+            ) : weeklyPlanLoading && !weeklyPlanError ? (
+              <WeeklyPlanCardSkeleton />
+            ) : (
+              <ProfileNextActionCard
+                action={nextAction}
+                claimPending={claimingTaskId === nextAction.growthTaskId}
+                onClaim={onClaimGrowthTask}
+              />
+            )}
             <GrowthTasksPanel
               tasks={growthTasks}
               growthTasksGraduatedAt={growthTasksGraduatedAt}
@@ -530,30 +556,30 @@ function MobileProfilePage({
   profileContext,
   stats,
   nextAction,
+  weeklyPlan,
+  weeklyPlanLoading,
+  weeklyPlanError,
   claimingTaskId,
   onClaimGrowthTask,
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
   steamRadar,
-  exploringProjects,
-  exploringLastActivityByProjectId,
-  profileTimelineEvents,
   profile,
   naturalObservationProgress,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
   nextAction: ProfileNextAction
+  weeklyPlan: WeeklyPlan | null
+  weeklyPlanLoading: boolean
+  weeklyPlanError: boolean
   claimingTaskId: GrowthTaskId | null
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   steamRadar: SteamRadarWithGuidance | null
-  exploringProjects: Project[]
-  exploringLastActivityByProjectId: Record<number, string>
-  profileTimelineEvents: ProfileTimelineEvent[] | null
   profile: ReturnType<typeof useAuth>['profile']
   naturalObservationProgress: NaturalObservationProgressSummary | null
 }) {
@@ -580,21 +606,25 @@ function MobileProfilePage({
           compact
         />
 
-        <ProfileNextActionCard
-          action={nextAction}
-          claimPending={claimingTaskId === nextAction.growthTaskId}
-          onClaim={onClaimGrowthTask}
-          variant="mobile"
-        />
-
-        <MobileExploringProjectsCard
-          projects={exploringProjects}
-          lastActivityByProjectId={exploringLastActivityByProjectId}
-        />
-
-        <NaturalObservationProgressCard progress={naturalObservationProgress} mobile />
-
         <MobileActionGrid />
+
+        {weeklyPlan ? (
+          <WeeklyPlanCard
+            plan={weeklyPlan}
+            claimPendingTaskId={claimingTaskId}
+            onClaim={onClaimGrowthTask}
+            variant="mobile"
+          />
+        ) : weeklyPlanLoading && !weeklyPlanError ? (
+          <WeeklyPlanCardSkeleton variant="mobile" />
+        ) : (
+          <ProfileNextActionCard
+            action={nextAction}
+            claimPending={claimingTaskId === nextAction.growthTaskId}
+            onClaim={onClaimGrowthTask}
+            variant="mobile"
+          />
+        )}
 
         <section className="profile-mobile-panel p-4">
           <MobileProfileSectionTitle title="STEAM 能力雷达" />
@@ -614,6 +644,8 @@ function MobileProfilePage({
           )}
         </section>
 
+        <NaturalObservationProgressCard progress={naturalObservationProgress} mobile />
+
         <section id="profile-badges-anchor" className="profile-mobile-panel p-4">
           <div className="flex items-center justify-between gap-3">
             <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
@@ -629,8 +661,6 @@ function MobileProfilePage({
           </div>
           <BadgeShowcase badges={featuredBadges} unlockedBadges={unlockedBadges} compact />
         </section>
-
-        <LearningTimeline events={profileTimelineEvents} compact mobile />
 
       </div>
     </div>
@@ -1026,113 +1056,6 @@ function MobileActionGrid() {
   )
 }
 
-function MobileExploringProjectsCard({
-  projects,
-  lastActivityByProjectId = {},
-}: {
-  projects: Project[]
-  lastActivityByProjectId?: Record<number, string>
-}) {
-  return (
-    <section className="profile-mobile-panel p-4">
-      <MobileProfileSectionTitle
-        title="探索中的项目"
-        actionHref="/profile/library?tab=exploring"
-        actionLabel={projects.length > 0 ? '查看全部' : '去探索'}
-      />
-
-      {projects.length > 0 ? (
-        <ExploringProjectsStrip
-          projects={projects}
-          lastActivityByProjectId={lastActivityByProjectId}
-          className="mt-3"
-        />
-      ) : (
-        <div className="mt-3 flex items-center gap-3">
-          <ProfileSpotIcon name="exploring-map" />
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-foreground">暂无探索中的项目</span>
-            <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
-              在项目详情页点击「开始探索」后会显示在这里。
-            </span>
-          </span>
-          <Link href="/explore" className="profile-action-cta">
-            去发现
-          </Link>
-        </div>
-      )}
-    </section>
-  )
-}
-
-function ExploringProjectsStrip({
-  projects,
-  lastActivityByProjectId,
-  className,
-}: {
-  projects: Project[]
-  lastActivityByProjectId: Record<number, string>
-  className?: string
-}) {
-  return (
-    <div className={cn('-mx-1 overflow-x-auto px-1 no-scrollbar', className)}>
-      <div className="flex w-max gap-3 pb-0.5">
-        {projects.map((project) => (
-          <ExploringStripMiniCard
-            key={project.id}
-            project={project}
-            lastActivityAt={lastActivityByProjectId[Number(project.id)]}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function ExploringStripMiniCard({
-  project,
-  lastActivityAt,
-}: {
-  project: Project
-  lastActivityAt?: string
-}) {
-  const subtitle = getExploringCardSubtitle(project, lastActivityAt)
-
-  return (
-    <Link
-      href={`/project/${project.id}/records`}
-      className="surface-card flex w-[168px] shrink-0 flex-col overflow-hidden transition hover:border-[hsl(var(--surface-border-strong))] hover:shadow-sm"
-    >
-      <div className="relative aspect-[16/10] shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]">
-        {project.image ? (
-          <OptimizedImage
-            src={project.image}
-            alt={project.title}
-            fill
-            variant="thumbnail"
-            className="object-cover"
-          />
-        ) : (
-          <div className="grid h-full place-items-center text-muted-foreground/80">
-            <FolderOpen className="h-7 w-7" />
-          </div>
-        )}
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col p-2.5">
-        <h4 className="line-clamp-1 text-[13px] font-medium leading-snug text-foreground">
-          {project.title}
-        </h4>
-        <div className="mt-1 flex items-center gap-1.5">
-          <p className="min-w-0 flex-1 truncate text-[11px] text-muted-foreground">{subtitle}</p>
-          <span className="shrink-0 text-[11px] font-semibold text-[hsl(var(--brand-blue))]">
-            继续探索
-          </span>
-        </div>
-      </div>
-    </Link>
-  )
-}
-
 function BadgeShowcase({
   badges,
   unlockedBadges,
@@ -1403,84 +1326,6 @@ function CommunityFeedPanel({
           action={loadFailed ? '去消息中心' : '去创造营'}
           density="compact"
         />
-      )}
-    </section>
-  )
-}
-
-function LearningTimeline({
-  events,
-  className,
-  compact = false,
-  mobile = false,
-}: {
-  events: ProfileTimelineEvent[] | null
-  className?: string
-  compact?: boolean
-  mobile?: boolean
-}) {
-  const visibleEvents = events ? [...events].reverse() : []
-
-  return (
-    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg p-6', className)}>
-      {mobile ? (
-        <MobileProfileSectionTitle title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
-      ) : (
-        <SectionTitle iconName="timeline" title="探索轨迹" actionHref="/profile/timeline" actionLabel="查看详情" />
-      )}
-      {events === null ? (
-        <div className="mt-5 flex min-h-[118px] items-center gap-3 rounded-md border border-dashed border-[hsl(var(--surface-border))] px-4 text-sm font-medium text-muted-foreground">
-          <ProfileImageIcon name="timeline" variant="timeline" size="sm" className="h-10 w-10" />
-          正在同步真实轨迹
-        </div>
-      ) : visibleEvents.length === 0 ? (
-        <EmptyBlock
-          icon={Radar}
-          iconName="timeline"
-          title="还没有探索轨迹"
-          description="发布作品、完成项目或提交观察后，这里会显示真实记录。"
-          href="/explore"
-          action="去探索项目"
-          density="compact"
-        />
-      ) : (
-        <div
-          className={cn('mt-5 grid gap-2', compact && 'gap-1.5')}
-          style={{ gridTemplateColumns: `repeat(${visibleEvents.length}, minmax(0, 1fr))` }}
-        >
-          {visibleEvents.map((item, index) => {
-            const detailParts = [
-              item.detail,
-              item.statusLabel,
-              item.xpAmount ? `+${item.xpAmount} XP` : null,
-            ].filter(Boolean)
-            const content = (
-              <>
-                {index > 0 ? (
-                  <span className="absolute left-[-50%] top-5 h-0.5 w-full bg-[hsl(var(--surface-border))]" aria-hidden="true" />
-                ) : null}
-                <ProfileImageIcon
-                  name={item.iconName}
-                  variant="timeline"
-                  className={cn('relative z-10 mx-auto', item.status === 'rejected' && 'opacity-70 grayscale')}
-                />
-                <span className="mt-2 block text-xs font-semibold text-muted-foreground">{item.dateLabel}</span>
-                <span className="mt-1 block truncate text-xs font-bold text-foreground">{item.label}</span>
-                <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{detailParts.join(' / ')}</span>
-              </>
-            )
-
-            return item.href ? (
-              <Link key={item.id} href={item.href} className="relative min-w-0 rounded-sm px-1 pb-1 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-                {content}
-              </Link>
-            ) : (
-              <div key={item.id} className="relative min-w-0 px-1 pb-1 text-center">
-                {content}
-              </div>
-            )
-          })}
-        </div>
       )}
     </section>
   )

@@ -324,9 +324,13 @@ export function useTangram() {
     const [selectedId, setSelectedId] = useState<TangramPieceId>("large-a")
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved">("playing")
-    const [stats, setStats] = useState<TangramStats>(() => loadStats())
+    const [stats, setStats] = useState<TangramStats>(EMPTY_STATS)
     const solvedRecordedRef = useRef(false)
     const level = TANGRAM_LEVELS[levelIndex]
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     useEffect(() => {
         if (status !== "playing") return
