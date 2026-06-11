@@ -13,6 +13,14 @@ function compact(value: string | null | undefined, max = 400) {
   return text.length > max ? `${text.slice(0, max)}…` : text
 }
 
+function compactLines(lines: Array<string | null | undefined>) {
+  return lines.filter(Boolean).join('\n')
+}
+
+export function buildStepReferenceInstruction(resourceLabel: string) {
+  return `引用${resourceLabel}时，只能照抄上方已列出的精确编号和标题；如果不确定编号，就只说标题或区域名，不要自行改编号。`
+}
+
 export async function buildTutorSceneContext(
   supabase: SupabaseClient<Database>,
   userId: string,
@@ -186,6 +194,7 @@ async function buildChallengeContext(
       : '',
     stage?.hint ? `提示：${compact(stage.hint, 200)}` : '',
     progressSummary ? `\n【各阶段产出】\n${compact(progressSummary, 1400)}` : '',
+    `【学生页面上有】阶段工作台、每一步的目标和产出记录。${buildStepReferenceInstruction('阶段步骤')}回复时尽量让学生对照当前阶段或已保存产出，不要整段复述页面内容。`,
   ]
     .filter(Boolean)
     .join('\n')
@@ -233,7 +242,7 @@ async function buildProjectContext(
   ])
 
   const stepSummary = (steps ?? [])
-    .map((step, i) => `第${i + 1}步 ${compact(step.title ?? '步骤', 40)}：${compact(step.description, 100)}`)
+    .map((step, i) => `第${i + 1}步「${compact(step.title ?? '步骤', 40)}」：${compact(step.description, 100)}`)
     .join('\n')
 
   const materialText = (materials ?? [])
@@ -248,7 +257,8 @@ async function buildProjectContext(
     project.description ? `简介：${compact(project.description, 300)}` : '',
     project.problem_statement ? `问题：${compact(project.problem_statement, 200)}` : '',
     materialText ? `材料：${materialText}` : '',
-    stepSummary ? `步骤概览：\n${stepSummary}` : '',
+    stepSummary ? `页面步骤（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
+    `【学生页面上有】项目详情、材料清单和步骤列表。${buildStepReferenceInstruction('项目步骤')}需要学生动手时，直接引导他看页面里的材料清单或对应步骤标题，不要把整页内容重新念一遍。`,
   ]
     .filter(Boolean)
     .join('\n')
@@ -268,6 +278,30 @@ const SPECIES_TOPIC_LABELS: Record<string, string> = {
   fungi: '真菌',
 }
 
+function getSpeciesTopicLabel(topic: string | null | undefined) {
+  return topic ? SPECIES_TOPIC_LABELS[topic] ?? topic : ''
+}
+
+export function buildSpeciesPageResourceSummary(input: {
+  natureTopic?: string | null
+  audioUrl?: string | null
+}) {
+  const resources = [
+    '识别特征信息卡',
+    '常见环境信息卡',
+    '常见时段信息卡',
+    '底部最近观察记录',
+  ]
+  if (input.natureTopic === 'birds') {
+    resources.push(
+      input.audioUrl
+        ? '页面下方有「鸟鸣音频」卡，可播放真实鸟鸣；聊叫声时引导学生点开听，不要用文字拟声替代真实音频'
+        : '本页暂无鸟鸣音频；聊叫声时不要假装页面有音频，也不要编造具体拟声',
+    )
+  }
+  return `【学生页面上有】${resources.join('、')}。`
+}
+
 async function buildSpeciesContext(
   supabase: SupabaseClient<Database>,
   contextId: string,
@@ -280,7 +314,7 @@ async function buildSpeciesContext(
   const { data: species, error } = await supabase
     .from('species')
     .select(
-      'common_name, scientific_name, aliases, taxon_group, identification_notes, habitat_notes, seasonality_notes, nature_topic',
+      'common_name, scientific_name, aliases, taxon_group, identification_notes, habitat_notes, seasonality_notes, nature_topic, audio_url',
     )
     .eq('slug', slug)
     .eq('is_active', true)
@@ -297,12 +331,16 @@ async function buildSpeciesContext(
   const summary = [
     `物种：${compact(species.common_name, 80)}`,
     species.scientific_name ? `学名：${compact(species.scientific_name, 80)}` : '',
-    species.nature_topic ? `专题：${SPECIES_TOPIC_LABELS[species.nature_topic] ?? species.nature_topic}` : '',
+    species.nature_topic ? `专题：${getSpeciesTopicLabel(species.nature_topic)}` : '',
     species.taxon_group ? `分类：${compact(species.taxon_group, 80)}` : '',
     aliases ? `别名：${aliases}` : '',
     species.identification_notes ? `识别要点：${compact(species.identification_notes, 400)}` : '',
     species.habitat_notes ? `常见环境：${compact(species.habitat_notes, 300)}` : '',
     species.seasonality_notes ? `季节与活动：${compact(species.seasonality_notes, 200)}` : '',
+    buildSpeciesPageResourceSummary({
+      natureTopic: species.nature_topic,
+      audioUrl: species.audio_url,
+    }),
   ]
     .filter(Boolean)
     .join('\n')
@@ -350,7 +388,7 @@ async function buildObservationContext(
     .join('、')
 
   const summary = [
-    observation.nature_topic ? `专题：${observation.nature_topic}` : '',
+    observation.nature_topic ? `专题：${getSpeciesTopicLabel(observation.nature_topic)}` : '',
     speciesText ? `物种：${speciesText}` : '',
     observation.location_name ? `地点：${observation.location_name}` : '',
     observation.habitat ? `生境：${compact(observation.habitat, 80)}` : '',
@@ -358,6 +396,7 @@ async function buildObservationContext(
     observation.lifecycle_stage ? `生命阶段：${observation.lifecycle_stage}` : '',
     observation.sex ? `性别：${observation.sex}` : '',
     observation.notes ? `记录：${compact(observation.notes, 400)}` : '',
+    '【学生页面上有】观察照片、地点/生境/天气等记录字段、鉴定和评论区。需要看图时可以提醒学生把页面上的观察照片发给小迪。',
   ]
     .filter(Boolean)
     .join('\n')
@@ -436,7 +475,7 @@ async function buildCourseContext(
       typeof lessonContent.summary === 'string' && lessonContent.summary
         ? `课时目标：${compact(lessonContent.summary, 200)}`
         : '',
-      stepLines ? `课时步骤：\n${stepLines}` : '',
+    stepLines ? `课时步骤（编号和标题必须照抄）：\n${stepLines}` : '',
     ]
       .filter(Boolean)
       .join('\n')
@@ -447,6 +486,12 @@ async function buildCourseContext(
     course?.description ? `简介：${compact(course.description, 300)}` : '',
     currentLessonText,
     lessonLines ? `进度：\n${lessonLines}` : '',
+    compactLines([
+      '【学生页面上有】训练营课表和学习进度。',
+      currentLesson
+        ? `当前课时页面还有 Scratch 工作区和课时步骤；${buildStepReferenceInstruction('课时步骤')}讲操作时让学生对照页面里的步骤标题和编辑器。`
+        : null,
+    ]),
   ]
     .filter(Boolean)
     .join('\n')

@@ -1,8 +1,8 @@
 import type { StageAiFeedback } from '@/lib/mappers/types'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_TEXT_MODEL = 'qwen-plus'
-const DEFAULT_VISION_MODEL = 'qwen3.6-plus'
+const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
+const DEFAULT_VISION_MODEL = 'qwen3.7-plus'
 
 export class StageCoachError extends Error {
   userMessage: string

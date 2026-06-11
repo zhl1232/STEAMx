@@ -1,4 +1,11 @@
 import type { StudentProfileSnapshot, TutorGlobalSurface, TutorGreeting, TutorSceneContext } from '@/lib/ai/tutor/types'
+import { generateTutorGreeting } from '@/lib/ai/tutor/engine'
+
+type GreetingCacheEntry = { value: TutorGreeting; expiresAt: number }
+type GreetingGenerator = typeof generateTutorGreeting
+
+const GREETING_CACHE_MAX = 500
+const greetingCache = new Map<string, GreetingCacheEntry>()
 
 const CHALLENGE_QUICK_PROMPTS: Record<string, string[]> = {
   observe: ['这步我该观察什么？', '怎么把观察写清楚？', '我还缺哪些信息？'],
@@ -6,6 +13,57 @@ const CHALLENGE_QUICK_PROMPTS: Record<string, string[]> = {
   build_test: ['测试要注意什么？', '数据怎么记录？', '失败了怎么办？'],
   iterate: ['怎么改进更有效？', '取舍怎么说清楚？', '对比前后差异怎么写？'],
   generic: ['这步重点是什么？', '我卡住了怎么办？', '给我一个小动作'],
+}
+
+function getEndOfToday() {
+  const end = new Date()
+  end.setHours(24, 0, 0, 0)
+  return end.getTime()
+}
+
+function buildGreetingCacheKey(userId: string, scene: TutorSceneContext) {
+  return [
+    userId,
+    scene.contextType,
+    scene.contextId,
+    scene.surface ?? '',
+    scene.stageIndex ?? '',
+  ].join(':')
+}
+
+function setGreetingCache(key: string, value: TutorGreeting) {
+  if (greetingCache.size >= GREETING_CACHE_MAX) {
+    const oldest = greetingCache.keys().next().value
+    if (oldest) greetingCache.delete(oldest)
+  }
+  greetingCache.set(key, { value, expiresAt: getEndOfToday() })
+}
+
+function normalizeGeneratedGreeting(greeting: TutorGreeting): TutorGreeting | null {
+  const message = greeting.message.trim()
+  const quickPrompts = greeting.quickPrompts
+    .map((prompt) => prompt.trim())
+    .filter((prompt) => prompt.length > 0)
+
+  if (message.length === 0 || message.length > 60) return null
+  if (quickPrompts.length < 2 || quickPrompts.length > 3) return null
+  if (quickPrompts.some((prompt) => prompt.length > 12)) return null
+
+  return {
+    message,
+    quickPrompts,
+  }
+}
+
+export function invalidateTutorGreetingCache(userId: string, scene: Pick<TutorSceneContext, 'contextType' | 'contextId'>) {
+  const prefix = `${userId}:${scene.contextType}:${scene.contextId}:`
+  for (const key of Array.from(greetingCache.keys())) {
+    if (key.startsWith(prefix)) greetingCache.delete(key)
+  }
+}
+
+export function clearTutorGreetingCache() {
+  greetingCache.clear()
 }
 
 /** global 场景按页面定制开场白，避免「每个页面都说同一句话」 */
@@ -113,6 +171,34 @@ export function buildTutorGreeting(
   return {
     message: `你好呀 ${name}！我是小迪 👋 史迪姆平台的 AI 学习导师。探索、PBL、自然观察、Scratch 训练营，我都能陪你。`,
     quickPrompts: ['今天做什么好？', '帮我找个项目', '我该怎么开始？'],
+  }
+}
+
+export async function getSmartTutorGreeting(input: {
+  userId: string
+  profile: StudentProfileSnapshot
+  scene: TutorSceneContext
+  notebook: string | null
+  generate?: GreetingGenerator
+}): Promise<TutorGreeting> {
+  const key = buildGreetingCacheKey(input.userId, input.scene)
+  const cached = greetingCache.get(key)
+  if (cached && cached.expiresAt > Date.now()) return cached.value
+  if (cached) greetingCache.delete(key)
+
+  const fallback = buildTutorGreeting(input.profile, input.scene)
+  try {
+    const generated = await (input.generate ?? generateTutorGreeting)({
+      profile: input.profile,
+      scene: input.scene,
+      notebook: input.notebook,
+    })
+    const normalized = normalizeGeneratedGreeting(generated)
+    if (!normalized) return fallback
+    setGreetingCache(key, normalized)
+    return normalized
+  } catch {
+    return fallback
   }
 }
 

@@ -172,7 +172,7 @@ flowchart TD
 
 仓库已通过 DashScope（阿里云）OpenAI 兼容接口调用 Qwen，见 [lib/ai/qwen-vision.ts](/home/arron/work/lib/ai/qwen-vision.ts) 与 [lib/ai/auto-reply.ts](/home/arron/work/lib/ai/auto-reply.ts)：
 
-- 环境变量：`DASHSCOPE_API_KEY`、`DASHSCOPE_BASE_URL`、`DASHSCOPE_VISION_MODEL`（默认 `qwen3.6-plus`，支持图文）、`DASHSCOPE_TEXT_MODEL`（默认 `qwen-plus`）。
+- 环境变量：`DASHSCOPE_API_KEY`、`DASHSCOPE_BASE_URL`、`DASHSCOPE_VISION_MODEL`（默认 `qwen3.7-plus`，支持图文）、`DASHSCOPE_TEXT_MODEL`（默认 `qwen3.7-plus`）。
 - 调用方式：`POST {baseUrl}/chat/completions`，`messages` 支持 `text` + `image_url`，支持 `response_format: json_object`。
 
 AI 指导**复用同一套调用骨架**，新增一个 PBL 专用模块即可。

@@ -229,6 +229,8 @@ const SINGLE_BADGES: Badge[] = [
     // 生命游戏专属徽章
     { id: "life_explorer", name: "涌现探索者", description: "首次运行生命游戏", icon: "dna", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeSessions ?? 0) >= 1 },
     { id: "life_observer", name: "永恒观测者", description: "生命游戏演化超过 1000 代", icon: "tree_structure", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeMaxGen ?? 0) >= 1000 },
+    { id: "life_challenge_first", name: "生命设计师", description: "完成 1 个生命游戏挑战", icon: "target", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeChallengesSolved ?? 0) >= 1 },
+    { id: "life_challenge_all", name: "涌现工程师", description: "完成所有生命游戏挑战", icon: "sparkles", kind: "single", seriesKey: "life", condition: (stats) => (stats.gameOfLifeChallengesSolved ?? 0) >= 8 },
     // 汉诺塔专属徽章
     { id: "hanoi_first_win", name: "塔之初见", description: "首次通关汉诺塔", icon: "layers", kind: "single", seriesKey: "hanoi", condition: (stats) => (stats.hanoiWins ?? 0) >= 1 },
     { id: "hanoi_perfect", name: "最优解", description: "以最少步数（2ⁿ−1）通关汉诺塔", icon: "target", kind: "single", seriesKey: "hanoi", condition: (stats) => (stats.hanoiPerfect ?? 0) >= 1 },
@@ -244,6 +246,17 @@ const SINGLE_BADGES: Badge[] = [
     { id: "circuit_first_solve", name: "电路入门", description: "首次点亮灯泡", icon: "lightbulb_filament", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 1 },
     { id: "circuit_10", name: "电工达人", description: "累计完成 10 个电路关卡", icon: "circuitry", kind: "single", seriesKey: "circuit", condition: (stats) => (stats.circuitSolved ?? 0) >= 10 },
     { id: "circuit_logic", name: "逻辑门大师", description: "完成所有含逻辑门的关卡", icon: "binary", kind: "single", seriesKey: "circuit", condition: (stats) => stats.circuitLogicCleared === true },
+    // 游乐场新增玩法徽章
+    { id: "fifteen_first", name: "滑块入门", description: "首次复原数字华容道", icon: "grid_nine", kind: "single", seriesKey: "fifteen", condition: (stats) => (stats.fifteenWins ?? 0) >= 1 },
+    { id: "fifteen_master", name: "空间规划师", description: "累计复原 5 次数字华容道", icon: "puzzle_piece", kind: "single", seriesKey: "fifteen", condition: (stats) => (stats.fifteenWins ?? 0) >= 5 },
+    { id: "memory_first", name: "记忆点亮", description: "首次完成记忆翻牌", icon: "brain", kind: "single", seriesKey: "memory", condition: (stats) => (stats.memoryWins ?? 0) >= 1 },
+    { id: "memory_master", name: "工作记忆达人", description: "累计完成 5 次记忆翻牌", icon: "award", kind: "single", seriesKey: "memory", condition: (stats) => (stats.memoryWins ?? 0) >= 5 },
+    { id: "quick_math_first", name: "速算起跑", description: "速算闪电战得分达到 100", icon: "calculator", kind: "single", seriesKey: "quickmath", condition: (stats) => (stats.quickMathBestScore ?? 0) >= 100 },
+    { id: "quick_math_combo", name: "连击心算家", description: "速算闪电战达到 10 连击", icon: "zap", kind: "single", seriesKey: "quickmath", condition: (stats) => (stats.quickMathBestStreak ?? 0) >= 10 },
+    { id: "maze_first", name: "迷宫初探", description: "首次走出迷宫", icon: "compass", kind: "single", seriesKey: "maze", condition: (stats) => (stats.mazeWins ?? 0) >= 1 },
+    { id: "maze_master", name: "寻路专家", description: "累计走出 5 次迷宫", icon: "route", kind: "single", seriesKey: "maze", condition: (stats) => (stats.mazeWins ?? 0) >= 5 },
+    { id: "tangram_first", name: "几何拼手", description: "完成 1 个七巧板剪影", icon: "palette", kind: "single", seriesKey: "tangram", condition: (stats) => (stats.tangramSolved ?? 0) >= 1 },
+    { id: "tangram_all", name: "七巧大师", description: "完成所有七巧板剪影", icon: "sparkles", kind: "single", seriesKey: "tangram", condition: (stats) => (stats.tangramSolved ?? 0) >= 8 },
     // 鸟类观察专属徽章
     { id: "first_observation", name: "第一次观察", description: "提交第一条鸟类观察记录", icon: "bird", kind: "single", seriesKey: "bird_observation", condition: (stats) => (stats.observationsSubmitted ?? 0) >= 1 },
     { id: "observation_streak_7", name: "连续观察 7 天", description: "连续 7 天提交观察记录", icon: "flame", kind: "single", seriesKey: "bird_observation", condition: (stats) => (stats.observationStreak ?? 0) >= 7 },
@@ -272,6 +285,11 @@ export const SERIES_ORDER: { key: string; label: string }[] = [
     { key: "sudoku", label: "数独" },
     { key: "nqueens", label: "N 皇后" },
     { key: "circuit", label: "电路拼图" },
+    { key: "fifteen", label: "数字华容道" },
+    { key: "memory", label: "记忆翻牌" },
+    { key: "quickmath", label: "速算闪电战" },
+    { key: "maze", label: "迷宫探险" },
+    { key: "tangram", label: "七巧板" },
     { key: "bird_observation", label: "鸟类观察" },
     { key: "rare", label: "稀有限定" },
 ];
@@ -288,7 +306,7 @@ export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, m
         const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "circuit", "bird_observation", "rare"]);
+    const singleSeries = new Set(["first_steps", "minesweeper", "gomoku", "game2048", "game24", "life", "hanoi", "sudoku", "nqueens", "circuit", "fifteen", "memory", "quickmath", "maze", "tangram", "bird_observation", "rare"]);
     const singleUnlocked = badges.filter((b) => b.seriesKey && singleSeries.has(b.seriesKey) && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;

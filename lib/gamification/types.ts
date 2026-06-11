@@ -36,6 +36,7 @@ export interface UserStats {
     // 生命游戏专属
     gameOfLifeSessions?: number;   // 运行次数
     gameOfLifeMaxGen?: number;     // 最高演化代数
+    gameOfLifeChallengesSolved?: number; // 生命游戏挑战完成数
     // 汉诺塔专属
     hanoiWins?: number;            // 通关次数
     hanoiPerfect?: number;         // 以最优步数（2^n-1）通关次数
@@ -47,6 +48,13 @@ export interface UserStats {
     // 电路拼图专属
     circuitSolved?: number;        // 累计通关数
     circuitLogicCleared?: boolean; // 是否完成逻辑门关卡
+    // 游乐场新增玩法
+    fifteenWins?: number;
+    memoryWins?: number;
+    quickMathBestScore?: number;
+    quickMathBestStreak?: number;
+    mazeWins?: number;
+    tangramSolved?: number;
     // 鸟类观察专属
     observationsSubmitted?: number;    // 提交的观察记录数
     speciesObserved?: number;          // 观察到的不重复物种数

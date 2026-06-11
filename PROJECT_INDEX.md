@@ -18,7 +18,7 @@
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
 | `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
-| `/playground` | `app/playground/page.tsx` | 益智游乐场 — 10 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏） |
+| `/playground` | `app/playground/page.tsx` | 益智游乐场 — 15 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 今日行动、作品展示、STEAM 雷达图、自然观察进度、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
@@ -124,7 +124,7 @@
 
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
-| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计头像排行、评论区 |
+| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+「请导师看看这步」走全局小迪）、提交作品画廊 |
 | `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
@@ -243,7 +243,7 @@
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
-| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、用户画像、场景上下文（global 按页面 `surface` 区分标题/摘要并在对话时注入首页推荐候选项目、course 支持当前课时步骤、observation 仅本人返回可发图、species 按 `/nature/species/[slug]` 注入物种档案摘要）、笔记本长期记忆、开场白（global 按页面差异化，首页保留个性化逻辑）；回复允许轻量 Markdown（列表/加粗） |
+| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、按场景 active 对话线程（开启新对话会归档旧线程并保留历史）、聊天化 system prompt、自然语言学生画像、场景上下文（global 按页面 `surface` 区分标题/摘要并在对话时注入首页推荐候选项目、project/challenge/course 标注页面可对照资源、observation 仅本人返回可发图、species 按 `/nature/species/[slug]` 注入物种档案摘要与鸟鸣音频卡可用性）、笔记本长期记忆、qwen-flash 智能开场白（按用户+场景当天缓存，模板兜底）；回复允许轻量 Markdown（列表/加粗） |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 ### 4.10 根级工具文件
@@ -272,18 +272,18 @@
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 19 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序/电路/生命游戏） |
+| `use-2048` 等 | `hooks/playground/` | 24 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序/电路/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
 
 ---
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **185 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **186 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles`（含 `membership_tier` / …） · … · **`tutor_messages`**（小迪统一对话，按 context_type/context_id 分组） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · …
+`profiles`（含 `membership_tier` / …） · … · **`tutor_conversations`**（小迪对话线程，active/archived） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · …
 
 完整类型定义：`lib/supabase/types.ts`
 

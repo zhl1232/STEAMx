@@ -1,7 +1,13 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { useGameOfLife } from "@/hooks/playground/use-game-of-life"
+import {
+    evaluateLifeChallenge,
+    evolveGrid,
+    LIFE_CHALLENGES,
+    useGameOfLife,
+    type LifeChallengeResult,
+} from "@/hooks/playground/use-game-of-life"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -18,6 +24,8 @@ import {
     Zap,
     Clock,
     ChevronDown,
+    Star,
+    Target,
 } from "lucide-react"
 
 const ROWS = 40
@@ -64,8 +72,12 @@ export default function GameOfLifePage() {
         step,
         clear,
         randomize,
+        randomizeWithDensity,
         setSpeed,
         loadPreset,
+        loadCells,
+        applyGrid,
+        recordChallengeResult,
         resetStats,
     } = useGameOfLife(ROWS, COLS)
     const { checkBadges } = useGamification()
@@ -90,6 +102,56 @@ export default function GameOfLifePage() {
     }, [status, generation])
 
     const [presetOpen, setPresetOpen] = useState(false)
+    const [mode, setMode] = useState<"sandbox" | "challenge">("sandbox")
+    const [randomDensity, setRandomDensity] = useState(0.3)
+    const [selectedChallengeId, setSelectedChallengeId] = useState(LIFE_CHALLENGES[0].id)
+    const [challengeResult, setChallengeResult] = useState<LifeChallengeResult | null>(null)
+    const [designSnapshot, setDesignSnapshot] = useState<boolean[][] | null>(null)
+    const selectedChallenge = LIFE_CHALLENGES.find((challenge) => challenge.id === selectedChallengeId) ?? LIFE_CHALLENGES[0]
+
+    const loadSelectedChallenge = useCallback(() => {
+        setMode("challenge")
+        setChallengeResult(null)
+        setDesignSnapshot(null)
+        if (selectedChallenge.starterCells) {
+            loadCells(selectedChallenge.starterCells)
+            return
+        }
+        clear()
+    }, [clear, loadCells, selectedChallenge])
+
+    const restoreDesign = useCallback(() => {
+        if (!designSnapshot) return
+        applyGrid(designSnapshot, 0)
+        setDesignSnapshot(null)
+        setChallengeResult(null)
+    }, [applyGrid, designSnapshot])
+
+    const runChallenge = useCallback(() => {
+        // 判定始终基于摆放的"设计稿"；判定后展示演化终态，可一键恢复设计
+        const design = designSnapshot ?? grid
+        const result = evaluateLifeChallenge(design, selectedChallenge)
+        setChallengeResult(result)
+        if (result.generation > 0) {
+            setDesignSnapshot(design.map((row) => [...row]))
+            applyGrid(evolveGrid(design, result.generation), result.generation)
+        }
+        if (result.solved) {
+            recordChallengeResult(selectedChallenge.id, result.stars)
+            checkBadges({
+                projectsPublished: 0, projectsLiked: 0, projectsCompleted: 0,
+                commentsCount: 0, scienceCompleted: 0, techCompleted: 0,
+                engineeringCompleted: 0, artCompleted: 0, mathCompleted: 0,
+                likesGiven: 0, likesReceived: 0, collectionsCount: 0,
+                challengesJoined: 0, level: 1, loginDays: 0, consecutiveDays: 0,
+                discussionsCreated: 0, repliesCount: 0,
+                minesweeperWins: 0, minesweeperExpertWins: 0, minesweeperBestTime: 999,
+                gameOfLifeSessions: stats.totalSessions,
+                gameOfLifeMaxGen: stats.maxGeneration,
+                gameOfLifeChallengesSolved: stats.challengesSolved.length + (stats.challengesSolved.includes(selectedChallenge.id) ? 0 : 1),
+            })
+        }
+    }, [applyGrid, checkBadges, designSnapshot, grid, recordChallengeResult, selectedChallenge, stats])
 
     // ── Canvas rendering ─────────────────────────────────────────────
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -187,6 +249,9 @@ export default function GameOfLifePage() {
             if (!cell) return
             paintingRef.current = true
             paintValueRef.current = !grid[cell.row][cell.col]
+            // 手动改格子意味着开始新的设计，丢弃旧的判定快照
+            setDesignSnapshot(null)
+            setChallengeResult(null)
             toggleCell(cell.row, cell.col)
         },
         [status, grid, toggleCell, getCellFromXY],
@@ -301,6 +366,27 @@ export default function GameOfLifePage() {
                     </div>
                 </div>
 
+                <div className="w-full max-w-5xl mb-3 flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/60 p-2">
+                    {(["sandbox", "challenge"] as const).map((nextMode) => (
+                        <button
+                            key={nextMode}
+                            type="button"
+                            onClick={() => setMode(nextMode)}
+                            className={cn(
+                                "rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
+                                mode === nextMode
+                                    ? "bg-emerald-500 text-white"
+                                    : "text-muted-foreground hover:bg-muted",
+                            )}
+                        >
+                            {nextMode === "sandbox" ? "自由沙盒" : "挑战关卡"}
+                        </button>
+                    ))}
+                    <span className="ml-auto text-[11px] text-muted-foreground">
+                        挑战进度 {stats.challengesSolved.length}/{LIFE_CHALLENGES.length}
+                    </span>
+                </div>
+
                 {/* Controls toolbar */}
                 <div className="w-full max-w-5xl flex flex-wrap items-center gap-2 mb-3">
                     <button
@@ -376,12 +462,24 @@ export default function GameOfLifePage() {
                     </div>
 
                     <button
-                        onClick={randomize}
+                        onClick={() => randomizeWithDensity(randomDensity)}
                         className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium h-8 border border-border bg-background hover:bg-muted transition-colors"
                     >
                         <Shuffle className="w-3.5 h-3.5" />
-                        随机
+                        随机 {Math.round(randomDensity * 100)}%
                     </button>
+                    <label className="flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
+                        密度
+                        <input
+                            type="range"
+                            min="5"
+                            max="60"
+                            value={Math.round(randomDensity * 100)}
+                            onChange={(event) => setRandomDensity(Number(event.target.value) / 100)}
+                            className="w-20 accent-emerald-500"
+                            aria-label="随机密度"
+                        />
+                    </label>
                     <button
                         onClick={clear}
                         className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium h-8 border border-border bg-background hover:bg-muted transition-colors text-destructive hover:text-destructive"
@@ -390,6 +488,96 @@ export default function GameOfLifePage() {
                         清空
                     </button>
                 </div>
+
+                {mode === "challenge" && (
+                    <div className="w-full max-w-5xl mb-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3">
+                        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                            <div className="space-y-2">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <Target className="h-4 w-4 text-emerald-500" />
+                                    <select
+                                        value={selectedChallengeId}
+                                        onChange={(event) => {
+                                            setSelectedChallengeId(event.target.value)
+                                            setChallengeResult(null)
+                                            setDesignSnapshot(null)
+                                        }}
+                                        className="rounded-xs border border-border bg-background px-2 py-1 text-xs font-bold"
+                                        aria-label="选择生命游戏挑战"
+                                    >
+                                        {LIFE_CHALLENGES.map((challenge) => (
+                                            <option key={challenge.id} value={challenge.id}>
+                                                {challenge.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <span className="text-[11px] text-muted-foreground">
+                                        预算 {selectedChallenge.maxCells} 个细胞
+                                    </span>
+                                    <div className="flex items-center gap-0.5">
+                                        {Array.from({ length: 3 }).map((_, index) => (
+                                            <Star
+                                                key={index}
+                                                className={cn(
+                                                    "h-3.5 w-3.5",
+                                                    index < (stats.challengeStars[selectedChallenge.id] ?? 0)
+                                                        ? "fill-amber-500 text-amber-500"
+                                                        : "text-muted-foreground/30",
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-bold text-foreground">{selectedChallenge.description}</p>
+                                    <p className="text-xs text-muted-foreground">{selectedChallenge.objective}</p>
+                                </div>
+                                {challengeResult && (
+                                    <div className={cn(
+                                        "rounded-xs border px-3 py-2 text-xs",
+                                        challengeResult.solved
+                                            ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                                            : "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+                                    )}>
+                                        <div className="font-bold">{challengeResult.message}</div>
+                                        <div className="mt-1 flex items-center gap-2">
+                                            <span>第 {challengeResult.generation} 代</span>
+                                            <span>存活 {challengeResult.population}</span>
+                                            {challengeResult.solved && (
+                                                <span>获得 {challengeResult.stars} 星</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex flex-wrap gap-2 lg:justify-end">
+                                <button
+                                    type="button"
+                                    onClick={loadSelectedChallenge}
+                                    className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-bold hover:bg-muted"
+                                >
+                                    {selectedChallenge.starterCells ? "载入种子" : "清空开始"}
+                                </button>
+                                {designSnapshot && (
+                                    <button
+                                        type="button"
+                                        onClick={restoreDesign}
+                                        className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-bold hover:bg-muted"
+                                    >
+                                        恢复设计
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={runChallenge}
+                                    className="rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-600"
+                                >
+                                    {designSnapshot ? "重新判定" : "运行挑战判定"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Canvas Grid */}
                 <div
@@ -416,9 +604,12 @@ export default function GameOfLifePage() {
             <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-10">
                 <Tabs defaultValue="concepts" className="flex-1 flex flex-col">
                     <div className="border-b border-border px-4 pt-3">
-                        <TabsList className="grid grid-cols-2 w-full bg-muted/40">
+                        <TabsList className="grid grid-cols-3 w-full bg-muted/40">
                             <TabsTrigger value="concepts" className="text-xs sm:text-sm">
                                 概念讲解
+                            </TabsTrigger>
+                            <TabsTrigger value="challenges" className="text-xs sm:text-sm">
+                                挑战
                             </TabsTrigger>
                             <TabsTrigger value="stats" className="text-xs sm:text-sm">
                                 统计
@@ -480,8 +671,72 @@ export default function GameOfLifePage() {
                                     <li>加载「滑翔机」预设，观察它如何在网格上移动。</li>
                                     <li>加载「脉冲星」预设，发现周期为 3 的振荡器。</li>
                                     <li>加载「Gosper 滑翔机枪」，看一台无限发射滑翔机的「机器」。</li>
+                                    <li>加载「R-五联骨牌」，看 5 个细胞如何产生长时间混沌演化。</li>
                                     <li>点击「随机」按钮，观察混沌初始条件如何自组织。</li>
                                 </ul>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="challenges" className="m-0 space-y-4">
+                            <div className="space-y-2">
+                                <h2 className="text-base font-semibold flex items-center gap-2">
+                                    <Target className="w-4 h-4 text-emerald-500" />
+                                    挑战关卡
+                                </h2>
+                                <p className="text-xs text-muted-foreground leading-relaxed">
+                                    生命游戏不是只能旁观。挑战模式会给你细胞预算、演化代数和目标，让你用最小初态设计稳定结构、振荡器、滑翔机路线或长寿群落。
+                                </p>
+                            </div>
+
+                            <div className="space-y-2">
+                                {LIFE_CHALLENGES.map((challenge, index) => {
+                                    const stars = stats.challengeStars[challenge.id] ?? 0
+                                    const solved = stats.challengesSolved.includes(challenge.id)
+                                    return (
+                                        <button
+                                            key={challenge.id}
+                                            type="button"
+                                            onClick={() => {
+                                                setMode("challenge")
+                                                setSelectedChallengeId(challenge.id)
+                                                setChallengeResult(null)
+                                                setDesignSnapshot(null)
+                                            }}
+                                            className={cn(
+                                                "w-full rounded-sm border p-3 text-left transition-colors",
+                                                selectedChallenge.id === challenge.id
+                                                    ? "border-emerald-500/50 bg-emerald-500/10"
+                                                    : "border-border bg-muted/20 hover:bg-muted/40",
+                                            )}
+                                        >
+                                            <div className="flex items-center justify-between gap-2">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 text-[10px] font-black text-emerald-600">
+                                                        {index + 1}
+                                                    </span>
+                                                    <span className="text-xs font-bold text-foreground">{challenge.name}</span>
+                                                </div>
+                                                <div className="flex items-center gap-0.5">
+                                                    {Array.from({ length: 3 }).map((_, starIndex) => (
+                                                        <Star
+                                                            key={starIndex}
+                                                            className={cn(
+                                                                "h-3 w-3",
+                                                                starIndex < stars
+                                                                    ? "fill-amber-500 text-amber-500"
+                                                                    : "text-muted-foreground/25",
+                                                            )}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <p className="mt-1 text-[11px] text-muted-foreground">{challenge.objective}</p>
+                                            <p className="mt-1 text-[10px] text-muted-foreground/70">
+                                                {solved ? "已完成" : "未完成"} · 预算 {challenge.maxCells} 个细胞
+                                            </p>
+                                        </button>
+                                    )
+                                })}
                             </div>
                         </TabsContent>
 
@@ -514,6 +769,15 @@ export default function GameOfLifePage() {
                                         <p className="text-lg font-bold tabular-nums">{stats.maxPopulation}</p>
                                     </div>
                                     <Activity className="w-5 h-5 text-muted-foreground/40" />
+                                </div>
+                                <div className="rounded-sm bg-muted/30 p-3 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-[11px] text-muted-foreground">挑战完成</p>
+                                        <p className="text-lg font-bold tabular-nums">
+                                            {stats.challengesSolved.length}/{LIFE_CHALLENGES.length}
+                                        </p>
+                                    </div>
+                                    <Target className="w-5 h-5 text-muted-foreground/40" />
                                 </div>
                             </div>
 

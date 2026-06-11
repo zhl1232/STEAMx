@@ -41,6 +41,7 @@ export interface CellComponent {
     fixed: boolean
     active?: boolean
     interactive?: boolean
+    closed?: boolean
 }
 
 export interface CircuitCell {
@@ -48,6 +49,7 @@ export interface CircuitCell {
     col: number
     component: CellComponent
     powered: boolean
+    dimmed?: boolean
 }
 
 export interface CircuitLevel {
@@ -65,6 +67,12 @@ export interface CircuitLevel {
         col: number
         label: string
         startOn: boolean
+    }>
+    switchControls?: Array<{
+        row: number
+        col: number
+        label: string
+        startClosed: boolean
     }>
     bulbTargets?: Array<{
         row: number
@@ -172,7 +180,7 @@ function wt(r = 0, fixed = false): CellComponent { return { type: "wire_tee", ro
 function wx(fixed = false): CellComponent { return { type: "wire_cross", rotation: 0, fixed } }
 function bat(r = 0, interactive = false, active = true): CellComponent { return { type: "battery", rotation: r, fixed: true, interactive, active } }
 function blb(r = 0): CellComponent { return { type: "bulb", rotation: r, fixed: true } }
-function sw(r = 0, fixed = false): CellComponent { return { type: "switch", rotation: r, fixed } }
+function sw(r = 0, fixed = false, closed = true, interactive = true): CellComponent { return { type: "switch", rotation: r, fixed, closed, interactive } }
 function res(r = 0, fixed = false): CellComponent { return { type: "resistor", rotation: r, fixed } }
 function andG(r = 0, fixed = false): CellComponent { return { type: "and_gate", rotation: r, fixed } }
 function orG(r = 0, fixed = false): CellComponent { return { type: "or_gate", rotation: r, fixed } }
@@ -337,8 +345,8 @@ export const LEVELS: CircuitLevel[] = [
     {
         id: "switch_gate",
         name: "开关控制",
-        description: "旋转开关导通电路",
-        objective: "把开关当作一段特殊导线，修复完整控制链。",
+        description: "先修通断开的导线，再合上开关",
+        objective: "开关只是最后一步：线路没修好时，合上开关也没用。",
         parMoves: 2,
         rows: 4,
         cols: 3,
@@ -346,15 +354,102 @@ export const LEVELS: CircuitLevel[] = [
         hasLogicGate: false,
         grid: [
             [e(),     bat(),   e()    ],
-            [e(),     sw(),    e()    ],
+            [e(),     sw(0, true, true, true), e()    ],
             [e(),     ws(),    e()    ],
             [e(),     blb(),   e()    ],
         ],
         startRotations: [
             [0, 0, 0],
-            [0, 90, 0],
+            [0, 0, 0],
             [0, 90, 0],
             [0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 1, label: "S", startClosed: false },
+        ],
+    },
+    {
+        id: "switch_bridge",
+        name: "开关桥",
+        description: "横向干线上有两段错位导线和一个断开的开关",
+        objective: "先把两段导线转回水平，再合上开关 S 完成桥接。",
+        parMoves: 3,
+        rows: 3,
+        cols: 5,
+        difficulty: "medium",
+        hasLogicGate: false,
+        grid: [
+            [e(),       e(),       e(),                  e(),       e()      ],
+            [bat(90),   ws(90),    sw(90, true, true),   ws(90),    blb(90)  ],
+            [e(),       e(),       e(),                  e(),       e()      ],
+        ],
+        startRotations: [
+            [0, 0, 0, 0, 0],
+            [90, 0, 90, 0, 90],
+            [0, 0, 0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 2, label: "S", startClosed: false },
+        ],
+    },
+    {
+        id: "resistor_dimmer",
+        name: "亮度对比",
+        description: "同一电源分出两条支路：直连的灯更亮，经过电阻的灯只会微亮",
+        objective: "修好三处接线，让 A、B 都亮起来，对比两盏灯的亮度差。",
+        parMoves: 3,
+        rows: 4,
+        cols: 3,
+        difficulty: "medium",
+        hasLogicGate: false,
+        grid: [
+            [e(),       bat(),    e()      ],
+            [wc(90),    wt(270),  wc(180)  ],
+            [ws(0),     e(),      res(0)   ],
+            [blb(0),    e(),      blb(0)   ],
+        ],
+        startRotations: [
+            [0, 0, 0],
+            [0, 180, 180],
+            [90, 0, 0],
+            [0, 0, 0],
+        ],
+        bulbTargets: [
+            { row: 3, col: 0, required: "lit", label: "A" },
+            { row: 3, col: 2, required: "lit", label: "B" },
+        ],
+    },
+    {
+        id: "dual_switch_series",
+        name: "通断取舍",
+        description: "开关 A 控制主干，开关 B 却通向一盏不该亮的灯",
+        objective: "合上 A 接通主线，但 B 必须保持断开，否则右侧灯会误亮。",
+        parMoves: 3,
+        rows: 5,
+        cols: 4,
+        difficulty: "medium",
+        hasLogicGate: false,
+        grid: [
+            [e(),   bat(),                     e(),                       e()      ],
+            [e(),   sw(0, true, true, true),   e(),                       e()      ],
+            [e(),   wt(0),                     sw(90, true, false, true), blb(90)  ],
+            [e(),   ws(0),                     e(),                       e()      ],
+            [e(),   blb(),                     e(),                       e()      ],
+        ],
+        startRotations: [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 90, 90],
+            [0, 90, 0, 0],
+            [0, 0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 1, label: "A", startClosed: false },
+            { row: 2, col: 2, label: "B", startClosed: true },
+        ],
+        bulbTargets: [
+            { row: 4, col: 1, required: "lit", label: "A" },
+            { row: 2, col: 3, required: "dark", label: "B" },
         ],
     },
     {
@@ -576,14 +671,130 @@ export const LEVELS: CircuitLevel[] = [
             [0, 0, 0],
         ],
     },
+    {
+        id: "and_switch_key",
+        name: "与门钥匙",
+        description: "AND 门的左路被开关把守，右路接线错位",
+        objective: "修好三处接线并合上开关 A，让 AND 的两路输入同时成立。",
+        parMoves: 4,
+        rows: 4,
+        cols: 3,
+        difficulty: "hard",
+        hasLogicGate: true,
+        grid: [
+            [bat(),                        e(),       bat()   ],
+            [sw(0, true, true, true),      e(),       ws()    ],
+            [wc(0),                        andG(90),  wc(270) ],
+            [e(),                          blb(),     e()     ],
+        ],
+        startRotations: [
+            [0, 0, 0],
+            [0, 0, 90],
+            [270, 90, 180],
+            [0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 0, label: "A", startClosed: false },
+        ],
+    },
+    {
+        id: "or_switch_key",
+        name: "或门择路",
+        description: "OR 门两路输入：左路由开关控制，右路却连着一盏不该亮的灯",
+        objective: "OR 只需一路输入。启用左路、并把右路的三通转开，保住暗灯 B。",
+        parMoves: 3,
+        rows: 4,
+        cols: 4,
+        difficulty: "hard",
+        hasLogicGate: true,
+        grid: [
+            [bat(),                        e(),      bat(),    e()      ],
+            [sw(0, true, true, true),      e(),      wt(90),   blb(90)  ],
+            [wc(0),                        orG(90),  wc(270),  e()      ],
+            [e(),                          blb(),    e(),      e()      ],
+        ],
+        startRotations: [
+            [0, 0, 0, 0],
+            [0, 0, 0, 90],
+            [270, 90, 270, 0],
+            [0, 0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 0, label: "A", startClosed: false },
+        ],
+        bulbTargets: [
+            { row: 3, col: 1, required: "lit", label: "A" },
+            { row: 1, col: 3, required: "dark", label: "B" },
+        ],
+    },
+    {
+        id: "not_switch_guard",
+        name: "非门保护",
+        description: "NOT 门反转逻辑：合上的开关反而让灯灭",
+        objective: "断开开关 S 切断输入，再修好输出线，灯才会亮。",
+        parMoves: 2,
+        rows: 5,
+        cols: 3,
+        difficulty: "hard",
+        hasLogicGate: true,
+        grid: [
+            [e(),   bat(),                      e() ],
+            [e(),   sw(0, true, false, true),   e() ],
+            [e(),   notG(),                     e() ],
+            [e(),   ws(),                       e() ],
+            [e(),   blb(),                      e() ],
+        ],
+        startRotations: [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 90, 0],
+            [0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 1, label: "S", startClosed: true },
+        ],
+    },
+    {
+        id: "logic_switch_cascade",
+        name: "级联抉择",
+        description: "终点灯有两条供电路线：AND 主链或备用电源 B",
+        objective: "走 AND 主链要修 3 处并合上 A；走备用电源只需开 B 加一处接线。怎样最省步数？",
+        parMoves: 2,
+        rows: 5,
+        cols: 5,
+        difficulty: "hard",
+        hasLogicGate: true,
+        grid: [
+            [e(),   bat(),                      e(),       e(),       e()                   ],
+            [e(),   sw(0, true, true, true),    e(),       e(),       e()                   ],
+            [e(),   andG(0),                    ws(90),    orG(90),   bat(90, true, false)  ],
+            [e(),   ws(),                       e(),       ws(),      e()                   ],
+            [e(),   bat(),                      e(),       blb(),     e()                   ],
+        ],
+        startRotations: [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 90, 90],
+            [0, 90, 0, 90, 0],
+            [0, 0, 0, 0, 0],
+        ],
+        switchControls: [
+            { row: 1, col: 1, label: "A", startClosed: false },
+        ],
+        sourceControls: [
+            { row: 2, col: 4, label: "B", startOn: false },
+        ],
+    },
 ]
 
 // ── Circuit simulation (BFS) ──────────────────────────────────────────
 
-function simulateCircuit(
+function simulateCircuitPass(
     grid: CellComponent[][],
     rows: number,
     cols: number,
+    options: { blockResistors?: boolean } = {},
 ): boolean[][] {
     const createBooleanGrid = () =>
         Array.from({ length: rows }, () => Array(cols).fill(false))
@@ -611,6 +822,12 @@ function simulateCircuit(
 
         const getSimConnections = (cell: CellComponent) => {
             if (cell.type === "battery" && cell.active === false) {
+                return new Set<Direction>()
+            }
+            if (cell.type === "switch" && cell.closed === false) {
+                return new Set<Direction>()
+            }
+            if (cell.type === "resistor" && options.blockResistors) {
                 return new Set<Direction>()
             }
             return getConnections(cell.type, cell.rotation)
@@ -707,6 +924,32 @@ function simulateCircuit(
     }
 }
 
+function simulateCircuit(
+    grid: CellComponent[][],
+    rows: number,
+    cols: number,
+): boolean[][] {
+    return simulateCircuitPass(grid, rows, cols)
+}
+
+function simulateCircuitState(
+    grid: CellComponent[][],
+    rows: number,
+    cols: number,
+): { powered: boolean[][]; dimmed: boolean[][] } {
+    const powered = simulateCircuitPass(grid, rows, cols)
+    const bright = simulateCircuitPass(grid, rows, cols, { blockResistors: true })
+    const dimmed = powered.map((row, rowIndex) =>
+        row.map((isPowered, colIndex) =>
+            isPowered
+            && !bright[rowIndex]?.[colIndex]
+            && grid[rowIndex]?.[colIndex]?.type === "bulb",
+        ),
+    )
+
+    return { powered, dimmed }
+}
+
 function checkAllBulbsLit(
     level: CircuitLevel,
     powered: boolean[][],
@@ -719,7 +962,7 @@ function checkAllBulbsLit(
     return true
 }
 
-export { simulateCircuit }
+export { simulateCircuit, simulateCircuitState }
 
 function getBulbTargets(level: CircuitLevel): Array<{
     row: number
@@ -763,6 +1006,17 @@ function getSourceControls(level: CircuitLevel): Array<{
 }
 
 export { getSourceControls }
+
+function getSwitchControls(level: CircuitLevel): Array<{
+    row: number
+    col: number
+    label: string
+    startClosed: boolean
+}> {
+    return level.switchControls ?? []
+}
+
+export { getSwitchControls }
 
 // ── Stats persistence ─────────────────────────────────────────────────
 
@@ -818,7 +1072,7 @@ function normalizeStats(raw: unknown): CircuitStats {
 
     return {
         totalGames: toSafeCount(raw.totalGames),
-        solvedCount: toSafeCount(raw.solvedCount),
+        solvedCount: solvedLevels.length,
         solvedLevels,
         bestTimes,
         bestMoves,
@@ -882,6 +1136,12 @@ function parseStoredProgress(raw: unknown): CircuitProgress | null {
                 nextCell.interactive = true
             }
 
+            if (templateCell.type === "switch" && templateCell.interactive) {
+                if (typeof storedCell.closed !== "boolean") return null
+                nextCell.closed = storedCell.closed
+                nextCell.interactive = true
+            }
+
             nextRow.push(nextCell)
         }
 
@@ -904,6 +1164,10 @@ function parseStoredProgress(raw: unknown): CircuitProgress | null {
 
 function buildPoweredGrid(level: CircuitLevel, grid: CellComponent[][]): boolean[][] {
     return simulateCircuit(grid, level.rows, level.cols)
+}
+
+function buildCircuitState(level: CircuitLevel, grid: CellComponent[][]): { powered: boolean[][]; dimmed: boolean[][] } {
+    return simulateCircuitState(grid, level.rows, level.cols)
 }
 
 function getMoveRating(moves: number, parMoves: number): number {
@@ -963,6 +1227,16 @@ function buildLevelStartGrid(level: CircuitLevel): CellComponent[][] {
 
         cell.interactive = true
         cell.active = source.startOn
+    }
+
+    for (const control of getSwitchControls(level)) {
+        const cell = grid[control.row]?.[control.col]
+        if (!cell || cell.type !== "switch") {
+            throw new Error(`Invalid switchControls entry for level ${level.id}`)
+        }
+
+        cell.interactive = true
+        cell.closed = control.startClosed
     }
 
     return grid
@@ -1069,13 +1343,14 @@ export function useCircuitPuzzle() {
 
     const initialState = initialStateRef.current
     const initialLevel = LEVELS[initialState.levelIndex]
-    const initialPowered = buildPoweredGrid(initialLevel, initialState.grid)
+    const initialCircuitState = buildCircuitState(initialLevel, initialState.grid)
 
     const [levelIndex, setLevelIndex] = useState(initialState.levelIndex)
     const [grid, setGrid] = useState<CellComponent[][]>(() =>
         deepCopyGrid(initialState.grid),
     )
-    const [powered, setPowered] = useState<boolean[][]>(initialPowered)
+    const [powered, setPowered] = useState<boolean[][]>(initialCircuitState.powered)
+    const [dimmed, setDimmed] = useState<boolean[][]>(initialCircuitState.dimmed)
     const [status, setStatus] = useState<CircuitStatus>(initialState.status)
     const [moves, setMoves] = useState(initialState.moves)
     const [time, setTime] = useState(initialState.time)
@@ -1109,14 +1384,16 @@ export function useCircuitPuzzle() {
 
     // Simulate whenever grid changes
     useEffect(() => {
-        const p = buildPoweredGrid(level, grid)
-        setPowered(p)
+        const circuitState = buildCircuitState(level, grid)
+        setPowered(circuitState.powered)
+        setDimmed(circuitState.dimmed)
 
         if (status === "playing" || status === "idle") {
-            const allLit = checkAllBulbsLit(level, p)
+            const allLit = checkAllBulbsLit(level, circuitState.powered)
             if (allLit && moves > 0) {
                 setStatus("solved")
                 persistStats((prev) => {
+                    const isFirstSolve = !prev.solvedLevels.includes(level.id)
                     const solvedLevels = prev.solvedLevels.includes(level.id)
                         ? prev.solvedLevels
                         : [...prev.solvedLevels, level.id]
@@ -1130,7 +1407,7 @@ export function useCircuitPuzzle() {
                     }
                     return {
                         totalGames: prev.totalGames + 1,
-                        solvedCount: prev.solvedCount + 1,
+                        solvedCount: isFirstSolve ? prev.solvedCount + 1 : prev.solvedCount,
                         solvedLevels,
                         bestTimes,
                         bestMoves,
@@ -1182,6 +1459,22 @@ export function useCircuitPuzzle() {
         [status],
     )
 
+    const toggleSwitch = useCallback(
+        (row: number, col: number) => {
+            if (status === "solved") return
+            setGrid((prev) => {
+                const cell = prev[row][col]
+                if (cell.type !== "switch" || !cell.interactive) return prev
+                if (status === "idle") setStatus("playing")
+                const next = prev.map((currentRow) => currentRow.map((currentCell) => ({ ...currentCell })))
+                next[row][col] = { ...cell, closed: !(cell.closed ?? true) }
+                setMoves((currentMoves) => currentMoves + 1)
+                return next
+            })
+        },
+        [status],
+    )
+
     const goToLevel = useCallback(
         (index: number) => {
             const clamped = Math.max(0, Math.min(unlockedLevelCount - 1, index))
@@ -1189,6 +1482,11 @@ export function useCircuitPuzzle() {
             setLevelIndex(clamped)
             setGrid(createPlayableGrid(nextLevel))
             setPowered(
+                Array.from({ length: nextLevel.rows }, () =>
+                    Array(nextLevel.cols).fill(false),
+                ),
+            )
+            setDimmed(
                 Array.from({ length: nextLevel.rows }, () =>
                     Array(nextLevel.cols).fill(false),
                 ),
@@ -1215,6 +1513,11 @@ export function useCircuitPuzzle() {
                 Array(level.cols).fill(false),
             ),
         )
+        setDimmed(
+            Array.from({ length: level.rows }, () =>
+                Array(level.cols).fill(false),
+            ),
+        )
         setStatus("idle")
         setMoves(0)
         setTime(0)
@@ -1227,12 +1530,14 @@ export function useCircuitPuzzle() {
         unlockedLevelCount,
         grid,
         powered,
+        dimmed,
         status,
         moves,
         time,
         stats,
         rotateCell,
         toggleSource,
+        toggleSwitch,
         goToLevel,
         nextLevel,
         prevLevel,

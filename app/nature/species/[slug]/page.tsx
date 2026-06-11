@@ -169,6 +169,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
     lifecycleAggregates: [],
     sexAggregates: [],
   };
+  const hasObservationStats = stats.totalObservationCount > 0;
 
   const galleryBlock = (
     <div className="min-w-0">
@@ -197,7 +198,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
     </div>
   );
 
-  const statsBlock = (
+  const statsBlock = hasObservationStats ? (
     <SpeciesStatsPanel
       totalObservationCount={stats.totalObservationCount}
       latestObservedAt={stats.latestObservedAt}
@@ -208,7 +209,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
       lifecycleAggregates={stats.lifecycleAggregates}
       sexAggregates={stats.sexAggregates}
     />
-  );
+  ) : null;
 
   const detailsBlock = (
     <div className="space-y-7">
@@ -345,10 +346,18 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
 
       <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
         <div className="px-4 pb-5 pt-2 sm:p-7">
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:gap-7">
-            <div className="lg:row-start-1 lg:col-start-1">{galleryBlock}</div>
-            <div className="order-last lg:order-none lg:row-start-1 lg:col-start-2">{statsBlock}</div>
-            <div className="lg:col-span-2 lg:row-start-2">{detailsBlock}</div>
+          <div
+            className={
+              hasObservationStats
+                ? "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:gap-7"
+                : "mx-auto grid max-w-5xl gap-6"
+            }
+          >
+            <div className={hasObservationStats ? "lg:row-start-1 lg:col-start-1" : ""}>{galleryBlock}</div>
+            {hasObservationStats ? (
+              <div className="order-last lg:order-none lg:row-start-1 lg:col-start-2">{statsBlock}</div>
+            ) : null}
+            <div className={hasObservationStats ? "lg:col-span-2 lg:row-start-2" : ""}>{detailsBlock}</div>
           </div>
         </div>
       </div>

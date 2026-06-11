@@ -2,7 +2,7 @@ import { after, NextRequest, NextResponse } from 'next/server'
 
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
 import { streamChatWithTutor, getTutorEngineUserMessage, type TutorEngineMessage } from '@/lib/ai/tutor/engine'
-import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
+import { getSmartTutorGreeting, invalidateTutorGreetingCache } from '@/lib/ai/tutor/greeting'
 import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
@@ -34,6 +34,7 @@ const TUTOR_IMAGE_SOURCES = [
 ]
 
 type TutorMessageRow = Database['public']['Tables']['tutor_messages']['Row']
+type TutorConversationRow = Database['public']['Tables']['tutor_conversations']['Row']
 
 function parseContextParams(searchParams: URLSearchParams) {
   const contextType = (searchParams.get('contextType') || 'global') as TutorContextType
@@ -65,19 +66,124 @@ function mapMessage(row: TutorMessageRow) {
   }
 }
 
-async function loadHistory(
+function buildConversationMeta(input: {
+  stageIndex?: number
+  lessonId?: number
+  surface?: TutorGlobalSurface
+}) {
+  const meta: Record<string, unknown> = {}
+  if (typeof input.stageIndex === 'number') meta.stageIndex = input.stageIndex
+  if (typeof input.lessonId === 'number') meta.lessonId = input.lessonId
+  if (input.surface) meta.surface = input.surface
+  return meta
+}
+
+async function getActiveConversation(
   supabase: Awaited<ReturnType<typeof createClient>>,
   userId: string,
   contextType: TutorContextType,
   contextId: string,
 ) {
-  // 降序取最新 N 条再反转，避免长对话只显示最旧消息。
   const { data, error } = await supabase
-    .from('tutor_messages')
+    .from('tutor_conversations')
     .select('*')
     .eq('user_id', userId)
     .eq('context_type', contextType)
     .eq('context_id', contextId)
+    .eq('status', 'active')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error) throw error
+  return data as TutorConversationRow | null
+}
+
+async function createConversation(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  input: {
+    userId: string
+    contextType: TutorContextType
+    contextId: string
+    title: string
+    meta: Record<string, unknown>
+  },
+) {
+  const { data, error } = await supabase
+    .from('tutor_conversations')
+    .insert({
+      user_id: input.userId,
+      context_type: input.contextType,
+      context_id: input.contextId,
+      title: input.title || '小迪对话',
+      meta: input.meta,
+    } as never)
+    .select('*')
+    .single()
+
+  if (error) throw error
+  return data as TutorConversationRow
+}
+
+async function getOrCreateActiveConversation(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  input: {
+    userId: string
+    contextType: TutorContextType
+    contextId: string
+    title: string
+    meta: Record<string, unknown>
+  },
+) {
+  const active = await getActiveConversation(supabase, input.userId, input.contextType, input.contextId)
+  if (active) return active
+
+  try {
+    return await createConversation(supabase, input)
+  } catch (error) {
+    // 并发打开同一场景时，唯一索引可能已经创建 active 线程；重查即可。
+    const activeAfterRace = await getActiveConversation(supabase, input.userId, input.contextType, input.contextId)
+    if (activeAfterRace) return activeAfterRace
+    throw error
+  }
+}
+
+async function startNewConversation(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  input: {
+    userId: string
+    contextType: TutorContextType
+    contextId: string
+    title: string
+    meta: Record<string, unknown>
+  },
+) {
+  const now = new Date().toISOString()
+  const { error } = await supabase
+    .from('tutor_conversations')
+    .update({
+      status: 'archived',
+      archived_at: now,
+      updated_at: now,
+    } as never)
+    .eq('user_id', input.userId)
+    .eq('context_type', input.contextType)
+    .eq('context_id', input.contextId)
+    .eq('status', 'active')
+
+  if (error) throw error
+  return createConversation(supabase, input)
+}
+
+async function loadHistory(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  conversationId: string,
+) {
+  // 降序取最新 N 条再反转，避免长对话只显示最旧消息。
+  const { data, error } = await supabase
+    .from('tutor_messages')
+    .select('*')
+    .eq('conversation_id', conversationId)
     .order('id', { ascending: false })
     .limit(HISTORY_LIMIT)
 
@@ -111,20 +217,39 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ quota })
     }
 
-    const [messages, quota, studentProfile, scene, notebook] = await Promise.all([
-      loadHistory(supabase, user.id, contextType, contextId),
+    const [quota, studentProfile, scene, notebook] = await Promise.all([
       getAiCreditStatusForProfile(supabase, profile),
       buildStudentProfile(supabase, user.id),
       buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface }),
       loadTutorNotebook(supabase, user.id),
     ])
+    const conversation = await getOrCreateActiveConversation(supabase, {
+      userId: user.id,
+      contextType,
+      contextId,
+      title: scene.title,
+      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+    })
+    const messages = await loadHistory(supabase, conversation.id)
 
-    const greeting = messages.length === 0 ? buildTutorGreeting(studentProfile, scene) : null
+    const greeting = messages.length === 0
+      ? await getSmartTutorGreeting({
+          userId: user.id,
+          profile: studentProfile,
+          scene,
+          notebook,
+        })
+      : null
 
     return NextResponse.json({
       messages,
       quota,
       greeting,
+      conversation: {
+        id: conversation.id,
+        title: conversation.title,
+        createdAt: conversation.created_at,
+      },
       scene: {
         title: scene.title,
         contextType: scene.contextType,
@@ -142,17 +267,18 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
-    const { contextType, contextId } = parseContextParams(request.nextUrl.searchParams)
+    const { contextType, contextId, stageIndex, lessonId, surface } = parseContextParams(request.nextUrl.searchParams)
+    const scene = await buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface })
+    const conversation = await startNewConversation(supabase, {
+      userId: user.id,
+      contextType,
+      contextId,
+      title: scene.title,
+      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+    })
 
-    const { error } = await supabase
-      .from('tutor_messages')
-      .delete()
-      .eq('user_id', user.id)
-      .eq('context_type', contextType)
-      .eq('context_id', contextId)
-
-    if (error) throw error
-    return NextResponse.json({ ok: true })
+    invalidateTutorGreetingCache(user.id, { contextType, contextId })
+    return NextResponse.json({ ok: true, conversation: { id: conversation.id } })
   } catch (error) {
     return handleApiError(error)
   }
@@ -212,7 +338,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const [studentProfile, scene, notebook, recentRows] = await Promise.all([
+    const [studentProfile, scene, notebook] = await Promise.all([
       buildStudentProfile(supabase, user.id),
       buildTutorSceneContext(supabase, user.id, contextType, contextId, {
         stageIndex,
@@ -221,15 +347,20 @@ export async function POST(request: NextRequest) {
         includeRecommendations: true,
       }),
       loadTutorNotebook(supabase, user.id),
-      supabase
-        .from('tutor_messages')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('context_type', contextType)
-        .eq('context_id', contextId)
-        .order('id', { ascending: false })
-        .limit(CONTEXT_TURNS),
     ])
+    const conversation = await getOrCreateActiveConversation(supabase, {
+      userId: user.id,
+      contextType,
+      contextId,
+      title: scene.title,
+      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+    })
+    const recentRows = await supabase
+      .from('tutor_messages')
+      .select('*')
+      .eq('conversation_id', conversation.id)
+      .order('id', { ascending: false })
+      .limit(CONTEXT_TURNS)
 
     if (recentRows.error) throw recentRows.error
 
@@ -314,6 +445,7 @@ export async function POST(request: NextRequest) {
 
         const { error: insertError } = await supabase.from('tutor_messages').insert([
           {
+            conversation_id: conversation.id,
             user_id: user.id,
             context_type: contextType,
             context_id: contextId,
@@ -323,6 +455,7 @@ export async function POST(request: NextRequest) {
             meta,
           },
           {
+            conversation_id: conversation.id,
             user_id: user.id,
             context_type: contextType,
             context_id: contextId,
@@ -340,6 +473,14 @@ export async function POST(request: NextRequest) {
           }
           safeEnqueue({ type: 'warning', warning: '本条回复未能保存到历史记录。' })
         } else {
+          const { error: updateConversationError } = await supabase
+            .from('tutor_conversations')
+            .update({ updated_at: new Date().toISOString() } as never)
+            .eq('id', conversation.id)
+            .eq('user_id', user.id)
+          if (updateConversationError) {
+            safeEnqueue({ type: 'warning', warning: '对话时间未能更新，但消息已保存。' })
+          }
           after(async () => {
             await maybeUpdateTutorNotebook(user.id)
           })

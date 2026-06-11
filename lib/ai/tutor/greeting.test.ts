@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
+import { buildTutorGreeting, clearTutorGreetingCache, getSmartTutorGreeting } from '@/lib/ai/tutor/greeting'
 import type { StudentProfileSnapshot, TutorSceneContext } from '@/lib/ai/tutor/types'
 
 const baseProfile: StudentProfileSnapshot = {
@@ -14,6 +14,10 @@ const baseProfile: StudentProfileSnapshot = {
   recentActivity: '探索中《太阳能小车》',
   text: '昵称：小明',
 }
+
+afterEach(() => {
+  clearTutorGreetingCache()
+})
 
 describe('buildTutorGreeting', () => {
   it('returns challenge-specific greeting', () => {
@@ -86,5 +90,61 @@ describe('buildTutorGreeting', () => {
     // baseProfile.recentActivity 含「探索中」→ 首页走个性化分支
     const greeting = buildTutorGreeting(baseProfile, scene)
     expect(greeting.message).toContain('项目在进行中')
+  })
+
+  it('uses generated greeting and caches it for the same scene', async () => {
+    const scene: TutorSceneContext = {
+      contextType: 'species',
+      contextId: 'turdus-merula',
+      title: '乌鸫',
+      summary: '页面下方有「鸟鸣音频」卡。',
+    }
+    const generate = vi.fn(async () => ({
+      message: '小明，乌鸫这页可以边看特征边听鸟鸣。',
+      quickPrompts: ['怎么认它', '听叫声', '在哪观察'],
+    }))
+
+    const first = await getSmartTutorGreeting({
+      userId: 'user-1',
+      profile: baseProfile,
+      scene,
+      notebook: null,
+      generate,
+    })
+    const second = await getSmartTutorGreeting({
+      userId: 'user-1',
+      profile: baseProfile,
+      scene,
+      notebook: null,
+      generate,
+    })
+
+    expect(first).toEqual(second)
+    expect(first.message).toContain('鸟鸣')
+    expect(generate).toHaveBeenCalledTimes(1)
+  })
+
+  it('falls back to template when generated greeting is invalid', async () => {
+    const scene: TutorSceneContext = {
+      contextType: 'species',
+      contextId: 'turdus-merula',
+      title: '乌鸫',
+      summary: '',
+    }
+    const generate = vi.fn(async () => ({
+      message: '这是一条明显过长、超过限制、应该被丢弃的开场白，因为它会让聊天面板又回到冗长不自然的问题状态。',
+      quickPrompts: ['这个快捷问题也太长了'],
+    }))
+
+    const greeting = await getSmartTutorGreeting({
+      userId: 'user-1',
+      profile: baseProfile,
+      scene,
+      notebook: null,
+      generate,
+    })
+
+    expect(greeting.message).toContain('乌鸫')
+    expect(generate).toHaveBeenCalledTimes(1)
   })
 })

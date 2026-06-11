@@ -129,6 +129,7 @@ function EmptyState({ children }: { children: React.ReactNode }) {
 }
 
 export function SpeciesStatsPanel({
+  totalObservationCount,
   topObservers,
   topIdentifiers,
   monthlyAggregates,
@@ -187,6 +188,10 @@ export function SpeciesStatsPanel({
   const hasLifecycle = lifecycleChartData.length > 0
   const hasSex = sexChartData.length > 0
   const canRenderChart = chartWidth > 0
+
+  if (totalObservationCount <= 0) {
+    return null
+  }
 
   return (
     <section className="surface-subtle relative isolate min-w-0 overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">

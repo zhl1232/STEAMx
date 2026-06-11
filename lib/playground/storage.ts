@@ -18,6 +18,11 @@ export const PLAYGROUND_KEYS = [
   { key: "sudoku_stats", label: "数独" },
   { key: "nqueens_stats", label: "N 皇后" },
   { key: "circuit_stats", label: "电路拼图" },
+  { key: "fifteen_puzzle_stats", label: "数字华容道" },
+  { key: "memory_match_stats", label: "记忆翻牌" },
+  { key: "quick_math_stats", label: "速算闪电战" },
+  { key: "maze_runner_stats", label: "迷宫探险" },
+  { key: "tangram_stats", label: "七巧板" },
 ] as const;
 
 export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];

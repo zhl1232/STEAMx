@@ -6,7 +6,7 @@ import {
 } from '@/lib/ai/observation-media-analysis'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_MODEL = 'qwen3.6-plus'
+const DEFAULT_MODEL = 'qwen3.7-plus'
 
 type ObservationVisionErrorCode =
   | 'missing_config'

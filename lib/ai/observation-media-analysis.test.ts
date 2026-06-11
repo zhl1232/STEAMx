@@ -86,7 +86,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         ],
       },
       speciesRows,
-      'qwen3.6-plus',
+      'qwen3.7-plus',
       { ok: true },
     )
 
@@ -120,7 +120,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         ],
       },
       speciesRows,
-      'qwen3.6-plus',
+      'qwen3.7-plus',
       { ok: true },
     )
 
@@ -145,7 +145,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         ],
       },
       speciesRows,
-      'qwen3.6-plus',
+      'qwen3.7-plus',
       { ok: true },
     )
 
@@ -173,7 +173,7 @@ describe('mapVisionPayloadToAnalysisResult', () => {
         ],
       },
       speciesRows,
-      'qwen3.6-plus',
+      'qwen3.7-plus',
       { ok: true },
     )
 

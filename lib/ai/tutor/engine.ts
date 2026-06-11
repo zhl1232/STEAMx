@@ -1,7 +1,10 @@
+import type { StudentProfileSnapshot, TutorGreeting, TutorSceneContext } from '@/lib/ai/tutor/types'
+
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_TEXT_MODEL = 'qwen-plus'
-const DEFAULT_VISION_MODEL = 'qwen3.6-plus'
+const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
+const DEFAULT_VISION_MODEL = 'qwen3.7-plus'
 const DEFAULT_FLASH_MODEL = 'qwen-flash'
+const GREETING_TIMEOUT_MS = 3500
 
 export class TutorEngineError extends Error {
   userMessage: string
@@ -87,6 +90,89 @@ function parseContent(raw: unknown): string {
       .join('\n')
   }
   return ''
+}
+
+function extractJsonObject(text: string) {
+  const trimmed = text.trim()
+  if (trimmed.startsWith('{') && trimmed.endsWith('}')) return trimmed
+  const match = trimmed.match(/\{[\s\S]*\}/)
+  return match?.[0] ?? trimmed
+}
+
+export async function generateTutorGreeting(input: {
+  profile: StudentProfileSnapshot
+  scene: TutorSceneContext
+  notebook: string | null
+}): Promise<TutorGreeting> {
+  const { apiKey, baseUrl, model } = getConfig(false, true)
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), GREETING_TIMEOUT_MS)
+
+  try {
+    const notebookText = input.notebook?.trim()
+      ? `\n【小迪的笔记本】\n${input.notebook.trim().slice(0, 500)}`
+      : ''
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        model,
+        temperature: 0.55,
+        messages: [
+          {
+            role: 'system',
+            content: [
+              '你只为「小迪」生成聊天面板的开场白 JSON，不要输出其他文字。',
+              '格式必须是 {"message":"...","quickPrompts":["...","...","..."]}。',
+              'message 用中文 1-2 句，不超过 60 字，像真人导师自然打招呼；最多 1 个表情，可以不用。',
+              'quickPrompts 给 2-3 个中文短问题，每个不超过 12 字。',
+              '结合学生画像、笔记本和当前页面资源；禁止照抄英文枚举、@、ID、字段名或内部标签。',
+              '如果页面有音频、步骤、材料清单等真实资源，可以自然提一句让学生对照页面使用；不要编造页面没有的资源。',
+            ].join('\n'),
+          },
+          {
+            role: 'user',
+            content: [
+              '【学生画像】',
+              input.profile.text,
+              notebookText,
+              '',
+              `【当前场景：${input.scene.contextType} — ${input.scene.title}】`,
+              input.scene.summary.slice(0, 1200),
+            ].join('\n'),
+          },
+        ],
+      }),
+    })
+
+    const raw = await response.json().catch(() => null)
+    if (!response.ok) {
+      throw new TutorEngineError(
+        `DashScope greeting failed (${response.status})`,
+        '小迪暂时不可用，请稍后再试。',
+        response.status,
+      )
+    }
+
+    const content = parseContent(
+      (raw as { choices?: Array<{ message?: { content?: unknown } }> })?.choices?.[0]?.message?.content,
+    )
+    const parsed = JSON.parse(extractJsonObject(content)) as Partial<TutorGreeting>
+    if (typeof parsed.message !== 'string' || !Array.isArray(parsed.quickPrompts)) {
+      throw new TutorEngineError('Invalid greeting payload', '小迪暂时不可用，请稍后再试。')
+    }
+
+    return {
+      message: parsed.message,
+      quickPrompts: parsed.quickPrompts.filter((prompt): prompt is string => typeof prompt === 'string'),
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
 }
 
 export async function chatWithTutorComplete(

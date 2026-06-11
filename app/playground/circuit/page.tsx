@@ -7,6 +7,7 @@ import {
     getConnections,
     getBulbTargets,
     getSourceControls,
+    getSwitchControls,
     getMoveRating,
     type ComponentType,
 } from "@/hooks/playground/use-circuit-puzzle"
@@ -54,15 +55,19 @@ function ComponentIcon({
     type,
     rotation,
     powered,
+    dimmed,
     fixed,
     active = true,
+    closed = true,
     size = CELL_SIZE,
 }: {
     type: ComponentType
     rotation: number
     powered: boolean
+    dimmed?: boolean
     fixed: boolean
     active?: boolean
+    closed?: boolean
     size?: number
 }) {
     const half = size / 2
@@ -75,8 +80,8 @@ function ComponentIcon({
     const hasBottom = connections.has("bottom")
     const hasLeft = connections.has("left")
 
-    const wireColor = powered ? "#22c55e" : "#6b7280"
-    const glowColor = powered ? "#22c55e40" : "transparent"
+    const wireColor = powered ? (dimmed ? "#a3e635" : "#22c55e") : "#6b7280"
+    const glowColor = powered ? (dimmed ? "#a3e63530" : "#22c55e40") : "transparent"
 
     if (type === "empty") return null
 
@@ -109,11 +114,14 @@ function ComponentIcon({
 
             {type === "bulb" && (
                 <g>
-                    <circle cx={half} cy={half} r={12} fill={powered ? "#fbbf24" : "#374151"} stroke={powered ? "#f59e0b" : "#6b7280"} strokeWidth={2} />
+                    <circle cx={half} cy={half} r={12} fill={powered ? (dimmed ? "#fde68a" : "#fbbf24") : "#374151"} stroke={powered ? (dimmed ? "#ca8a04" : "#f59e0b") : "#6b7280"} strokeWidth={2} />
                     {powered && (
                         <circle cx={half} cy={half} r={16} fill={glowColor} />
                     )}
                     <text x={half} y={half + 3.5} textAnchor="middle" fontSize={10} fill={powered ? "#92400e" : "#9ca3af"}>💡</text>
+                    {dimmed && (
+                        <text x={half} y={half + 25} textAnchor="middle" fontSize={8} fontWeight="bold" fill="#854d0e">微亮</text>
+                    )}
                 </g>
             )}
 
@@ -131,7 +139,18 @@ function ComponentIcon({
                 <g>
                     <circle cx={half} cy={half - 6} r={4} fill={wireColor} />
                     <circle cx={half} cy={half + 6} r={4} fill={wireColor} />
-                    <line x1={half} y1={half - 6} x2={half + 8} y2={half + 4} stroke={wireColor} strokeWidth={2.5} strokeLinecap="round" />
+                    <line
+                        x1={half}
+                        y1={half - 6}
+                        x2={closed ? half : half + 10}
+                        y2={closed ? half + 6 : half + 2}
+                        stroke={wireColor}
+                        strokeWidth={2.5}
+                        strokeLinecap="round"
+                    />
+                    {!closed && (
+                        <text x={half + 16} y={half + 4} textAnchor="middle" fontSize={8} fontWeight="bold" fill="#ef4444">OFF</text>
+                    )}
                 </g>
             )}
 
@@ -160,12 +179,15 @@ export default function CircuitPage() {
         unlockedLevelCount,
         grid,
         powered,
+        dimmed,
         status,
         moves,
         time,
         stats,
         rotateCell,
         toggleSource,
+        toggleSwitch,
+        goToLevel,
         nextLevel,
         prevLevel,
         resetLevel,
@@ -178,8 +200,10 @@ export default function CircuitPage() {
     const allLogicCleared = logicLevels.length > 0 && logicLevels.every((l) => stats.solvedLevels.includes(l.id))
     const bulbTargets = getBulbTargets(level)
     const sourceControls = getSourceControls(level)
+    const switchControls = getSwitchControls(level)
     const bulbTargetByCell = new Map(bulbTargets.map((target) => [`${target.row},${target.col}`, target]))
     const sourceControlByCell = new Map(sourceControls.map((source) => [`${source.row},${source.col}`, source]))
+    const switchControlByCell = new Map(switchControls.map((control) => [`${control.row},${control.col}`, control]))
     const totalStars = LEVELS.reduce((sum, currentLevel) => {
         const bestMoves = stats.bestMoves[currentLevel.id]
         return sum + (bestMoves != null ? getMoveRating(bestMoves, currentLevel.parMoves) : 0)
@@ -240,7 +264,7 @@ export default function CircuitPage() {
                                     电路拼图 · 逻辑与电学
                                 </h1>
                                 <p className="text-[11px] sm:text-sm text-muted-foreground">
-                                    旋转元件连通电路，点亮所有灯泡。
+                                    旋转元件、切换开关，让灯泡达到目标状态。
                                 </p>
                             </div>
                         </div>
@@ -360,6 +384,23 @@ export default function CircuitPage() {
                                     </span>
                                 )
                             })}
+                            {switchControls.map((control) => {
+                                const cell = grid[control.row]?.[control.col]
+                                const isClosed = cell?.closed ?? control.startClosed
+                                return (
+                                    <span
+                                        key={`${control.row}-${control.col}`}
+                                        className={cn(
+                                            "text-[10px] font-bold px-2 py-1 rounded-full border",
+                                            isClosed
+                                                ? "text-emerald-600 border-emerald-500/30 bg-emerald-500/10"
+                                                : "text-rose-600 border-rose-500/30 bg-rose-500/10",
+                                        )}
+                                    >
+                                        开关 {control.label}: {isClosed ? "闭合" : "断开"}
+                                    </span>
+                                )
+                            })}
                             {bulbTargets.map((target) => (
                                 <span
                                     key={`${target.row}-${target.col}`}
@@ -423,7 +464,7 @@ export default function CircuitPage() {
                                             key={`${r}-${c}`}
                                             className={cn(
                                                 "absolute transition-all duration-150",
-                                                ((cell.type !== "empty" && !cell.fixed) || (cell.type === "battery" && cell.interactive)) && status !== "solved"
+                                                ((cell.type !== "empty" && !cell.fixed) || (cell.type === "battery" && cell.interactive) || (cell.type === "switch" && cell.interactive)) && status !== "solved"
                                                     ? "cursor-pointer hover:bg-primary/5 active:scale-95"
                                                     : "cursor-default",
                                                 powered[r]?.[c] && "bg-green-500/5",
@@ -439,9 +480,13 @@ export default function CircuitPage() {
                                                     toggleSource(r, c)
                                                     return
                                                 }
+                                                if (cell.type === "switch" && cell.interactive) {
+                                                    toggleSwitch(r, c)
+                                                    return
+                                                }
                                                 rotateCell(r, c)
                                             }}
-                                            disabled={(cell.fixed && !(cell.type === "battery" && cell.interactive)) || cell.type === "empty" || status === "solved"}
+                                            disabled={(cell.fixed && !(cell.type === "battery" && cell.interactive) && !(cell.type === "switch" && cell.interactive)) || cell.type === "empty" || status === "solved"}
                                         >
                                             {sourceControlByCell.has(`${r},${c}`) && (
                                                 <span className="absolute right-1.5 top-1.5 z-10 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500/15 px-1 text-[9px] font-black text-rose-600">
@@ -460,12 +505,19 @@ export default function CircuitPage() {
                                                     {bulbTarget.label}
                                                 </span>
                                             )}
+                                            {switchControlByCell.has(`${r},${c}`) && (
+                                                <span className="absolute right-1.5 bottom-1.5 z-10 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-500/15 px-1 text-[9px] font-black text-emerald-600">
+                                                    {switchControlByCell.get(`${r},${c}`)?.label}
+                                                </span>
+                                            )}
                                             <ComponentIcon
                                                 type={cell.type}
                                                 rotation={cell.rotation}
                                                 powered={powered[r]?.[c] ?? false}
+                                                dimmed={dimmed[r]?.[c] ?? false}
                                                 fixed={cell.fixed}
                                                 active={cell.active ?? true}
+                                                closed={cell.closed ?? true}
                                                 size={CELL_SIZE}
                                             />
                                         </button>
@@ -543,7 +595,7 @@ export default function CircuitPage() {
 
                     {/* Hint text */}
                     <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3 sm:mt-4">
-                        点击可旋转元件旋转 90° · 点击带字母的电源切换输入 · 满足所有灯泡目标状态即过关
+                        点击可旋转元件旋转 90° · 点击带字母的电源或开关切换状态 · 满足所有灯泡目标状态即过关
                     </p>
                 </div>
             </div>
@@ -591,7 +643,7 @@ export default function CircuitPage() {
                                 </div>
                                 <p className="text-xs text-muted-foreground leading-relaxed">
                                     电压（V）= 电流（I）× 电阻（R）。电阻越大，流过的电流越小。
-                                    在本游戏中，电阻作为导通元件存在——它不阻断电路，但在真实电路中会降低电流。
+                                    在本游戏的简化模型中，电阻不会阻断电路，但只经过电阻供电的灯泡会显示为「微亮」。
                                 </p>
                             </div>
 
@@ -630,7 +682,8 @@ export default function CircuitPage() {
                                     <li>点击非固定元件旋转 90°，使端口对齐</li>
                                     <li>电流从电池出发，沿连通路径流动</li>
                                     <li>两个元件相邻的端口必须都朝向彼此才算连通</li>
-                                    <li>所有灯泡都亮起就算过关</li>
+                                    <li>按关卡标签让灯泡达到「亮」或「灭」的目标状态</li>
+                                    <li>开关断开时不导电，闭合后才是一段通路</li>
                                 </ol>
                             </div>
                         </div>
@@ -695,9 +748,19 @@ export default function CircuitPage() {
                                         const bestMoves = stats.bestMoves[l.id]
                                         const bestRating = bestMoves != null ? getMoveRating(bestMoves, l.parMoves) : 0
                                         return (
-                                            <div
+                                            <button
                                                 key={l.id}
-                                                className="flex items-center justify-between text-xs"
+                                                type="button"
+                                                disabled={!unlocked}
+                                                onClick={() => {
+                                                    const targetIndex = LEVELS.findIndex((candidate) => candidate.id === l.id)
+                                                    goToLevel(targetIndex)
+                                                }}
+                                                className={cn(
+                                                    "flex w-full items-center justify-between rounded-xs px-1.5 py-1 text-left text-xs transition-colors",
+                                                    unlocked ? "hover:bg-primary/5" : "cursor-not-allowed opacity-60",
+                                                    level.id === l.id && "bg-primary/10",
+                                                )}
                                             >
                                                 <div className="flex items-center gap-2">
                                                     {solved ? (
@@ -752,7 +815,7 @@ export default function CircuitPage() {
                                                         {bestTime != null ? formatTime(bestTime) : "—"}
                                                     </span>
                                                 </div>
-                                            </div>
+                                            </button>
                                         )
                                     })}
                                 </div>

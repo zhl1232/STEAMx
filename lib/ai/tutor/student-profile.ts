@@ -16,6 +16,13 @@ const STEAM_LABELS: Record<string, string> = {
   M: '数学',
 }
 
+const NATURE_TOPIC_LABELS: Record<string, string> = {
+  birds: '鸟类',
+  insects: '昆虫',
+  plants: '树木',
+  fungi: '真菌',
+}
+
 function birthDateToAgeGroup(birthDate: string | null | undefined): string | null {
   if (!birthDate) return null
   const birth = new Date(birthDate)
@@ -34,6 +41,15 @@ function levelFromXp(xp: number) {
 function compact(value: string, max = 120) {
   const text = value.trim()
   return text.length > max ? `${text.slice(0, max)}…` : text
+}
+
+export function describeObservationActivity(
+  natureTopic: string | null | undefined,
+  locationName: string | null | undefined,
+) {
+  const topic = natureTopic ? NATURE_TOPIC_LABELS[natureTopic] ?? '自然' : '自然'
+  const location = locationName ? compact(locationName, 20) : ''
+  return location ? `在${location}观察过${topic}` : `观察过${topic}`
 }
 
 export async function buildStudentProfile(
@@ -136,8 +152,10 @@ export async function buildStudentProfile(
   }).filter(Boolean)
 
   const observationLines = (observationsResult.data ?? []).map((row) => {
-    const topic = row.nature_topic ? String(row.nature_topic) : '自然'
-    return `观察${topic}${row.location_name ? `@${compact(row.location_name, 20)}` : ''}`
+    return describeObservationActivity(
+      row.nature_topic ? String(row.nature_topic) : null,
+      row.location_name,
+    )
   })
 
   const lessonLines = (lessonsResult.data ?? []).map((row) => {

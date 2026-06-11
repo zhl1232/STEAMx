@@ -5,8 +5,10 @@ import {
     buildLevelStartGrid,
     getBulbTargets,
     getSourceControls,
+    getSwitchControls,
     LEVELS,
     simulateCircuit,
+    simulateCircuitState,
     type CellComponent,
     useCircuitPuzzle,
 } from "./use-circuit-puzzle"
@@ -128,6 +130,8 @@ describe("useCircuitPuzzle", () => {
     })
 
     it("ships every level with a valid solved layout", () => {
+        expect(LEVELS).toHaveLength(24)
+
         for (const level of LEVELS) {
             const powered = simulateCircuit(level.grid, level.rows, level.cols)
             const targetSatisfied = getBulbTargets(level).every((target) =>
@@ -209,6 +213,78 @@ describe("useCircuitPuzzle", () => {
         expect(result.current.status).toBe("playing")
         expect(result.current.moves).toBe(1)
         expect(result.current.grid[source.row][source.col].active).toBe(true)
+    })
+
+    it("treats switches as open circuits until they are closed", () => {
+        const level = LEVELS.find((currentLevel) => currentLevel.id === "switch_bridge")
+        expect(level).toBeDefined()
+        if (!level) return
+
+        const switchControl = getSwitchControls(level)[0]
+        expect(switchControl).toMatchObject({ label: "S", startClosed: false })
+
+        // 在已修好接线的设计布局上验证：开关断开则灯灭，闭合则灯亮
+        const designGrid = level.grid.map((row) => row.map((cell) => ({ ...cell })))
+        designGrid[switchControl.row][switchControl.col].closed = false
+        let powered = simulateCircuit(designGrid, level.rows, level.cols)
+        expect(powered[1][4]).toBe(false)
+
+        designGrid[switchControl.row][switchControl.col].closed = true
+        powered = simulateCircuit(designGrid, level.rows, level.cols)
+        expect(powered[1][4]).toBe(true)
+    })
+
+    it("requires more than just toggling switches to solve switch levels", () => {
+        for (const level of LEVELS) {
+            const controls = getSwitchControls(level)
+            if (controls.length === 0) continue
+
+            const startGrid = buildLevelStartGrid(level)
+            for (const control of controls) {
+                startGrid[control.row][control.col].closed = !control.startClosed
+            }
+
+            const powered = simulateCircuit(startGrid, level.rows, level.cols)
+            const solvedByTogglesAlone = getBulbTargets(level).every((target) =>
+                target.required === "lit"
+                    ? powered[target.row][target.col]
+                    : !powered[target.row][target.col],
+            )
+
+            expect(solvedByTogglesAlone, `${level.id} should not be solved by toggles alone`).toBe(false)
+        }
+    })
+
+    it("marks bulbs powered only through resistors as dimmed", () => {
+        const level = LEVELS.find((currentLevel) => currentLevel.id === "resistor_dimmer")
+        expect(level).toBeDefined()
+        if (!level) return
+
+        const grid = level.grid.map((row) => row.map((cell) => ({ ...cell })))
+        const state = simulateCircuitState(grid, level.rows, level.cols)
+
+        // B 灯（3,2）经过电阻：亮但微亮；A 灯（3,0）直连：亮且全亮
+        expect(state.powered[3][2]).toBe(true)
+        expect(state.dimmed[3][2]).toBe(true)
+        expect(state.powered[3][0]).toBe(true)
+        expect(state.dimmed[3][0]).toBe(false)
+    })
+
+    it("keeps the forbidden branch dark when its switch is opened in dual_switch_series", () => {
+        const level = LEVELS.find((currentLevel) => currentLevel.id === "dual_switch_series")
+        expect(level).toBeDefined()
+        if (!level) return
+
+        // 设计布局：A 闭合、B 断开 → 主灯亮、支路灯灭
+        const powered = simulateCircuit(level.grid, level.rows, level.cols)
+        expect(powered[4][1]).toBe(true)
+        expect(powered[2][3]).toBe(false)
+
+        // 若把 B 也闭合，支路灯会误亮，违反暗灯目标
+        const wrongGrid = level.grid.map((row) => row.map((cell) => ({ ...cell })))
+        wrongGrid[2][2].closed = true
+        const wrongPowered = simulateCircuit(wrongGrid, level.rows, level.cols)
+        expect(wrongPowered[2][3]).toBe(true)
     })
 
     it("evaluates logic gates using their documented rules", () => {

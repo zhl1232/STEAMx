@@ -6,10 +6,10 @@ import {
   ChevronDown,
   ImagePlus,
   Loader2,
+  MessageSquarePlus,
   MoreHorizontal,
   Send,
   Sparkles,
-  Trash2,
   X,
 } from 'lucide-react'
 
@@ -376,7 +376,7 @@ export function GlobalTutorFab({
     setPendingImages((current) => current.filter((item) => item !== url))
   }
 
-  const clearTopic = async () => {
+  const startNewTopic = async () => {
     try {
       await fetch(`/api/tutor/chat?${buildParams()}`, { method: 'DELETE' })
     } catch {
@@ -404,7 +404,14 @@ export function GlobalTutorFab({
         >
           <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
             <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-2 ring-[hsl(var(--brand-blue)/0.35)]">
-              <OptimizedImage src={TUTOR_AVATAR} alt="AI 导师小迪" fill variant="thumbnail" className="object-cover" />
+              <OptimizedImage
+                src={TUTOR_AVATAR}
+                alt="AI 导师小迪"
+                fill
+                variant="thumbnail"
+                loading="eager"
+                className="object-cover"
+              />
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 text-sm font-semibold tracking-tight">
@@ -427,9 +434,9 @@ export function GlobalTutorFab({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => void clearTopic()} className="text-destructive">
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  清空本话题
+                <DropdownMenuItem onClick={() => void startNewTopic()}>
+                  <MessageSquarePlus className="mr-2 h-4 w-4" />
+                  开启新对话
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -643,7 +650,14 @@ export function GlobalTutorFab({
         ) : (
           <>
             <span className="relative h-full w-full overflow-hidden rounded-full">
-              <OptimizedImage src={TUTOR_AVATAR} alt="AI 导师小迪" fill variant="thumbnail" className="object-cover" />
+              <OptimizedImage
+                src={TUTOR_AVATAR}
+                alt="AI 导师小迪"
+                fill
+                variant="thumbnail"
+                loading="eager"
+                className="object-cover"
+              />
             </span>
             <span className="absolute -right-0.5 -top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[hsl(var(--brand-blue))] ring-2 ring-[hsl(var(--surface-raised))]">
               <Sparkles className="h-2.5 w-2.5 text-[hsl(var(--brand-blue-foreground))]" />

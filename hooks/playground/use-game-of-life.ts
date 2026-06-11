@@ -16,6 +16,34 @@ export type GameOfLifeStats = {
     totalSessions: number
     maxGeneration: number
     maxPopulation: number
+    challengesSolved: string[]
+    challengeStars: Record<string, number>
+}
+
+export type LifeChallengeGoal =
+    | { type: "stable"; generations: number; minPopulation: number }
+    | { type: "oscillator"; generations: number }
+    | { type: "survive"; generations: number; minPopulation: number }
+    | { type: "delivery"; generations: number; target: { row: number; col: number; rows: number; cols: number } }
+    | { type: "extinction"; generations: number }
+
+export type LifeChallenge = {
+    id: string
+    name: string
+    description: string
+    objective: string
+    maxCells: number
+    starCells: [number, number, number]
+    goal: LifeChallengeGoal
+    starterCells?: number[][]
+}
+
+export type LifeChallengeResult = {
+    solved: boolean
+    stars: number
+    generation: number
+    population: number
+    message: string
 }
 
 const DEFAULT_ROWS = 40
@@ -32,7 +60,112 @@ const EMPTY_STATS: GameOfLifeStats = {
     totalSessions: 0,
     maxGeneration: 0,
     maxPopulation: 0,
+    challengesSolved: [],
+    challengeStars: {},
 }
+
+export const LIFE_CHALLENGES: LifeChallenge[] = [
+    {
+        id: "block-still-life",
+        name: "静物方块",
+        description: "用 4 个细胞做出不会变化的 2×2 方块。",
+        objective: "4 代后仍保持至少 4 个细胞稳定存活。",
+        maxCells: 6,
+        starCells: [4, 5, 6],
+        goal: { type: "stable", generations: 4, minPopulation: 4 },
+    },
+    {
+        id: "blinker-cycle",
+        name: "闪烁器",
+        description: "摆出一条 3 格直线，让它每 2 代回到原样。",
+        objective: "2 代后图案与初始状态一致。",
+        maxCells: 5,
+        starCells: [3, 4, 5],
+        goal: { type: "oscillator", generations: 2 },
+    },
+    {
+        id: "tiny-colony",
+        name: "小型聚落",
+        description: "用有限细胞创造一个能延续一段时间的群落。",
+        objective: "20 代后仍至少有 6 个活细胞。",
+        maxCells: 12,
+        starCells: [8, 10, 12],
+        goal: { type: "survive", generations: 20, minPopulation: 6 },
+    },
+    {
+        id: "glider-mail",
+        name: "滑翔机快递",
+        description: "让滑翔机把生命信号送进右下角目标区。",
+        objective: "16 代后目标区内至少出现 1 个活细胞。",
+        maxCells: 7,
+        starCells: [5, 6, 7],
+        starterCells: [
+            [10, 11],
+            [11, 12],
+            [12, 10],
+            [12, 11],
+            [12, 12],
+        ],
+        goal: { type: "delivery", generations: 16, target: { row: 14, col: 14, rows: 8, cols: 8 } },
+    },
+    {
+        id: "r-pentomino-seed",
+        name: "R-五联骨牌",
+        description: "观察一个小种子如何持续产生复杂结构。",
+        objective: "80 代后仍至少有 20 个活细胞。",
+        maxCells: 5,
+        starCells: [5, 5, 5],
+        starterCells: [
+            [18, 29],
+            [18, 30],
+            [19, 28],
+            [19, 29],
+            [20, 29],
+        ],
+        goal: { type: "survive", generations: 80, minPopulation: 20 },
+    },
+    {
+        id: "clean-extinction",
+        name: "归零实验",
+        description: "设计一个会自行消亡的图案，理解孤独与拥挤。",
+        objective: "8 代内所有细胞全部灭绝。",
+        maxCells: 10,
+        starCells: [4, 7, 10],
+        goal: { type: "extinction", generations: 8 },
+    },
+    {
+        id: "pulsar-heart",
+        name: "脉冲星心跳",
+        description: "用脉冲星观察周期结构的回归。",
+        objective: "3 代后图案与初始状态一致。",
+        maxCells: 48,
+        starCells: [48, 48, 48],
+        // 标准脉冲星（周期 3，共 48 格）：横竖各 4 条 6 格短杠
+        starterCells: (() => {
+            const cells: number[][] = []
+            const base = { row: 12, col: 24 }
+            const bars = [0, 5, 7, 12]
+            const spans = [2, 3, 4, 8, 9, 10]
+            for (const bar of bars) {
+                for (const span of spans) {
+                    cells.push([base.row + bar, base.col + span])
+                    cells.push([base.row + span, base.col + bar])
+                }
+            }
+            return cells
+        })(),
+        goal: { type: "oscillator", generations: 3 },
+    },
+    {
+        id: "long-watch",
+        name: "长程观测",
+        description: "让随机般的初态熬过更长时间。",
+        objective: "120 代后仍至少有 12 个活细胞。",
+        maxCells: 30,
+        starCells: [16, 22, 30],
+        goal: { type: "survive", generations: 120, minPopulation: 12 },
+    },
+]
 
 // ── Grid utilities ───────────────────────────────────────────────────
 
@@ -48,6 +181,17 @@ function countPopulation(grid: boolean[][]): number {
         }
     }
     return count
+}
+
+function gridsEqual(a: boolean[][], b: boolean[][]): boolean {
+    if (a.length !== b.length) return false
+    for (let row = 0; row < a.length; row++) {
+        if (a[row].length !== b[row].length) return false
+        for (let col = 0; col < a[row].length; col++) {
+            if (a[row][col] !== b[row][col]) return false
+        }
+    }
+    return true
 }
 
 function nextGeneration(grid: boolean[][]): boolean[][] {
@@ -80,6 +224,87 @@ function nextGeneration(grid: boolean[][]): boolean[][] {
     return next
 }
 
+export { countPopulation, createEmptyGrid, nextGeneration }
+
+/** 连续演化若干代，返回最终网格（用于挑战结果回放展示） */
+export function evolveGrid(grid: boolean[][], generations: number): boolean[][] {
+    let current = grid.map((row) => [...row])
+    for (let generation = 0; generation < generations; generation++) {
+        current = nextGeneration(current)
+    }
+    return current
+}
+
+export function evaluateLifeChallenge(grid: boolean[][], challenge: LifeChallenge): LifeChallengeResult {
+    const initialPopulation = countPopulation(grid)
+    if (initialPopulation === 0) {
+        return {
+            solved: false,
+            stars: 0,
+            generation: 0,
+            population: 0,
+            message: "先在网格上放置一些活细胞。",
+        }
+    }
+    if (initialPopulation > challenge.maxCells) {
+        return {
+            solved: false,
+            stars: 0,
+            generation: 0,
+            population: initialPopulation,
+            message: `细胞预算超出 ${initialPopulation - challenge.maxCells} 个，先删掉一些细胞。`,
+        }
+    }
+
+    let current = grid.map((row) => [...row])
+    let previous = current
+    for (let generation = 1; generation <= challenge.goal.generations; generation++) {
+        previous = current
+        current = nextGeneration(current)
+    }
+
+    const population = countPopulation(current)
+    const solved = (() => {
+        switch (challenge.goal.type) {
+            case "stable":
+                return population >= challenge.goal.minPopulation && gridsEqual(current, previous)
+            case "oscillator":
+                return gridsEqual(current, grid)
+            case "survive":
+                return population >= challenge.goal.minPopulation
+            case "delivery": {
+                const { row, col, rows, cols } = challenge.goal.target
+                for (let r = row; r < row + rows; r++) {
+                    for (let c = col; c < col + cols; c++) {
+                        if (current[r]?.[c]) return true
+                    }
+                }
+                return false
+            }
+            case "extinction":
+                return population === 0
+        }
+    })()
+
+    const stars = solved
+        ? initialPopulation <= challenge.starCells[0]
+            ? 3
+            : initialPopulation <= challenge.starCells[1]
+                ? 2
+                : 1
+        : 0
+
+    return {
+        solved,
+        stars,
+        generation: challenge.goal.generations,
+        population,
+        message: solved
+            ? `挑战成功：演化 ${challenge.goal.generations} 代后达成目标。`
+            : `还没达成：演化 ${challenge.goal.generations} 代后剩余 ${population} 个活细胞。`,
+    }
+}
+
 // ── Stats persistence ────────────────────────────────────────────────
 
 function loadStats(): GameOfLifeStats {
@@ -89,6 +314,14 @@ function loadStats(): GameOfLifeStats {
         totalSessions: p.totalSessions ?? 0,
         maxGeneration: p.maxGeneration ?? 0,
         maxPopulation: p.maxPopulation ?? 0,
+        challengesSolved: Array.isArray(p.challengesSolved) ? p.challengesSolved.filter((id): id is string => typeof id === "string") : [],
+        challengeStars: p.challengeStars && typeof p.challengeStars === "object" && !Array.isArray(p.challengeStars)
+            ? Object.fromEntries(
+                Object.entries(p.challengeStars)
+                    .filter(([, value]) => typeof value === "number")
+                    .map(([key, value]) => [key, Math.max(0, Math.min(3, Math.floor(value as number)))]),
+            )
+            : {},
     }
 }
 
@@ -279,6 +512,18 @@ export function useGameOfLife(rows = DEFAULT_ROWS, cols = DEFAULT_COLS) {
         sessionCountedRef.current = false
     }, [rows, cols, stopInterval])
 
+    const randomizeWithDensity = useCallback((density: number) => {
+        stopInterval()
+        const clampedDensity = Math.max(0.05, Math.min(0.6, density))
+        const newGrid = Array.from({ length: rows }, () =>
+            Array.from({ length: cols }, () => Math.random() < clampedDensity),
+        )
+        setGrid(newGrid)
+        setGeneration(0)
+        setStatus("idle")
+        sessionCountedRef.current = false
+    }, [rows, cols, stopInterval])
+
     const setSpeed = useCallback(
         (newSpeed: GameOfLifeSpeed) => {
             setSpeedState(newSpeed)
@@ -317,6 +562,46 @@ export function useGameOfLife(rows = DEFAULT_ROWS, cols = DEFAULT_COLS) {
         [rows, cols, stopInterval],
     )
 
+    const loadCells = useCallback((cells: number[][]) => {
+        stopInterval()
+        const newGrid = createEmptyGrid(rows, cols)
+        for (const [row, col] of cells) {
+            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                newGrid[row][col] = true
+            }
+        }
+        setGrid(newGrid)
+        setGeneration(0)
+        setStatus("idle")
+        sessionCountedRef.current = false
+    }, [rows, cols, stopInterval])
+
+    /** 直接展示某个网格状态（如挑战演化结果回放、恢复设计稿） */
+    const applyGrid = useCallback((nextGrid: boolean[][], nextGeneration: number) => {
+        stopInterval()
+        setGrid(nextGrid.map((row) => [...row]))
+        setGeneration(nextGeneration)
+        setStatus("idle")
+    }, [stopInterval])
+
+    const recordChallengeResult = useCallback((challengeId: string, stars: number) => {
+        if (stars <= 0) return
+        persistStats((prev) => {
+            const challengesSolved = prev.challengesSolved.includes(challengeId)
+                ? prev.challengesSolved
+                : [...prev.challengesSolved, challengeId]
+            const previousStars = prev.challengeStars[challengeId] ?? 0
+            return {
+                ...prev,
+                challengesSolved,
+                challengeStars: {
+                    ...prev.challengeStars,
+                    [challengeId]: Math.max(previousStars, stars),
+                },
+            }
+        })
+    }, [persistStats])
+
     const resetStats = useCallback(() => {
         const fresh = { ...EMPTY_STATS }
         setStats(fresh)
@@ -340,8 +625,12 @@ export function useGameOfLife(rows = DEFAULT_ROWS, cols = DEFAULT_COLS) {
         step,
         clear,
         randomize,
+        randomizeWithDensity,
         setSpeed,
         loadPreset,
+        loadCells,
+        applyGrid,
+        recordChallengeResult,
         resetStats,
     }
 }

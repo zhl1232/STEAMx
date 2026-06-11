@@ -1201,9 +1201,49 @@ export interface Database {
         }
         Relationships: []
       }
+      tutor_conversations: {
+        Row: {
+          id: string
+          user_id: string
+          context_type: string
+          context_id: string
+          title: string
+          status: string
+          meta: Json
+          created_at: string
+          updated_at: string
+          archived_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          context_type: string
+          context_id?: string
+          title?: string
+          status?: string
+          meta?: Json
+          created_at?: string
+          updated_at?: string
+          archived_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          context_type?: string
+          context_id?: string
+          title?: string
+          status?: string
+          meta?: Json
+          created_at?: string
+          updated_at?: string
+          archived_at?: string | null
+        }
+        Relationships: []
+      }
       tutor_messages: {
         Row: {
           id: number
+          conversation_id: string
           user_id: string
           context_type: string
           context_id: string
@@ -1215,6 +1255,7 @@ export interface Database {
         }
         Insert: {
           id?: number
+          conversation_id: string
           user_id: string
           context_type: string
           context_id?: string
@@ -1226,6 +1267,7 @@ export interface Database {
         }
         Update: {
           id?: number
+          conversation_id?: string
           user_id?: string
           context_type?: string
           context_id?: string
