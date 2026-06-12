@@ -34,7 +34,7 @@ export function MobileTodayTasksCard({
       <section className={cn('profile-mobile-panel p-4', className)}>
         <MobileProfileSectionTitle title="今日任务" trailing={`${completedTaskCount}/${GROWTH_TASK_TOTAL}`} />
         <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
-          成长任务已全部完成，去社区挑战解锁更多成就吧。
+          新手引导已全部完成，去社区挑战解锁更多成就吧。
         </p>
       </section>
     )

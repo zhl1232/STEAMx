@@ -17,9 +17,9 @@
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
-| `/playground` | `app/playground/page.tsx` | 益智游乐场 — 15 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
-| `/profile` | `app/profile/page.tsx` | 个人主页 — 本周探索计划（含本周已完成轨迹与探索中项目入口，主页不再单独展示探索轨迹/探索中的项目模块）、作品展示、STEAM 雷达图、自然观察进度、成长任务、学习打卡；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/树木/真菌；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 15 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端本局提示可折叠、游戏内页顶栏显示当前游戏名与返回首页；首页 UI 对齐 `surface-card` / `ToneBadge`，移动端首屏优先推荐与游戏列表 |
+| `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
@@ -78,7 +78,7 @@
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
 | observations | `api/observations/` | 自然观察 CRUD；提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录 |
-| profile | `api/profile/` | 个人资料摘要、成长任务、学习打卡、本周探索计划（聚合 PBL 阶段/课程/自然观察/雷达等信号） |
+| profile | `api/profile/` | 个人资料摘要、新手引导、学习打卡、本周探索计划（聚合 PBL 阶段/课程/自然观察/雷达等信号） |
 | projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
 | resources | `api/resources/` | 学习资料卡公开读取（仅 published） |
@@ -116,7 +116,7 @@
 - `error-boundary.tsx` — 错误边界
 
 ### 3.3 首页 (`components/home/`)
-- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、6 个热门项目、推荐流、社区动态；自然观察频道图在桌面小屏保持整图显示
+- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、6 个热门项目、推荐流、社区动态；移动端将自然观察与排行榜合并为手动横向 snap 快捷入口，320px 窄屏隐藏 Hero 底部特性标签并缩短 Hero；自然观察频道图在中宽/宽屏保持鸟主体可见
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
@@ -135,7 +135,7 @@
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
-| `profile/` | 17 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，含新增 `plan-*` 图标）、STEAM 雷达图、成长任务行、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
+| `profile/` | 16 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，含新增 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
 ### 3.5 管理后台 (`components/admin/`) — 11 个组件
 项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**训练营管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
@@ -217,11 +217,11 @@
 
 ### 4.8 个人资料 (`lib/profile/`)
 - `timeline.ts` — 用户活动时间线
-- `next-action.ts` — 个人主页「今日行动」决策：按可领取成长任务、探索中项目、未完成成长任务、STEAM 雷达补短板、自然待观察物种、时间线回顾等顺序给出下一步（作为本周探索计划加载失败时的 UI 回退）
-- `weekly-plan.ts` — 个人主页「本周探索计划」纯规则生成：3-5 步学习路径，聚合已完成时间线、PBL 阶段、在学课程、探索中项目、STEAM 雷达、自然观察与成长任务；同一摘要供小迪 profile 场景解读
-- `growth-tasks.ts` — 新手成长任务系统
+- `next-action.ts` — 个人主页「今日行动」决策：按可领取新手引导、探索中项目、未完成新手引导、STEAM 雷达补短板、自然待观察物种、时间线回顾等顺序给出下一步（作为本周探索计划加载失败时的 UI 回退）
+- `weekly-plan.ts` — 个人主页「本周探索计划」纯规则生成：3-5 步学习路径，聚合已完成时间线、PBL 阶段、在学课程、探索中项目、STEAM 雷达、自然观察与新手引导；同一摘要供小迪 profile 场景解读
+- `growth-tasks.ts` — 新手引导系统（内部模块名仍为 growth-tasks）
 - `steam-radar.ts` — STEAM 能力雷达图数据
-- `study-checkin.ts` — 学习打卡逻辑
+- `study-checkin.ts` — 每日打卡展示逻辑；后端 `get_user_study_checkin_summary` 同时计入每日登录打卡、已通过项目终稿、已通过观察与待审/已通过挑战作品
 - `settings.ts` — 设置项读写
 - `avatar-options.ts` — 默认头像选项
 
@@ -245,7 +245,7 @@
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
 | `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts` | AI 导师小迪：DashScope 流式对话、按场景 active 对话线程（开启新对话会归档旧线程并保留历史）、聊天化 system prompt、自然语言学生画像、场景上下文（global 按页面 `surface` 区分标题/摘要，profile 场景额外注入「本周探索计划」摘要，对话时注入首页推荐候选项目、project/challenge/course 标注页面可对照资源、observation 仅本人返回可发图、species 按 `/nature/species/[slug]` 注入物种档案摘要与鸟鸣音频卡可用性）、笔记本长期记忆、qwen-flash 智能开场白（按用户+场景当天缓存，模板兜底）；回复允许轻量 Markdown（列表/加粗） |
-| `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/成长任务/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
+| `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 ### 4.10 根级工具文件
@@ -361,7 +361,7 @@
 | 目录 | 内容 |
 |------|------|
 | `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
-| `public/assets/profile-icons/` | 个人主页模块 icon WebP（256px、成长任务、探索地图、时间线、快捷入口 action-*） |
+| `public/assets/profile-icons/` | 个人主页模块 icon WebP（256px、新手引导、探索地图、时间线、快捷入口 action-*） |
 | `public/assets/timeline/` | 个人探索轨迹历史 PNG（已由 `profile-icons` 替代） |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、树木、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |

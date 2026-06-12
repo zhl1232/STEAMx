@@ -93,11 +93,14 @@ export function MobileGlobalHeader({
     <header
       className={cn('app-mobile-header', className)}
     >
-      <div className="flex h-12 items-center px-4">
+      <div className="flex min-h-12 items-center px-4 py-1">
         {/* 左侧 */}
         <div className={cn('shrink-0 flex h-10 items-center', variant === 'search' ? 'mr-2' : 'mr-2')}>
           {variant === 'logo' ? (
-            <Link href="/" className="flex items-center space-x-2">
+            <Link
+              href="/"
+              className="-ml-1 flex min-h-11 items-center space-x-2 rounded-[var(--radius-sm)] py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
               <SteamLogo className="h-6 w-6 shrink-0 min-[390px]:h-7 min-[390px]:w-7" />
               <span className="nav-logo-text font-sans text-[17px] font-bold min-[390px]:text-[18px]">
                 STEAM 探索
@@ -131,14 +134,14 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-8 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] pl-9 pr-9 text-[13px] font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] backdrop-blur-md placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-11 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button
                   type="button"
                   onClick={handleClear}
                   aria-label="清空搜索"
-                  className="absolute right-2 top-1/2 grid h-6 w-6 -translate-y-1/2 place-items-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted))] hover:text-foreground"
+                  className="absolute right-1.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted))] hover:text-foreground"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -150,7 +153,7 @@ export function MobileGlobalHeader({
         {/* 右侧操作区 */}
         <nav
           className={cn(
-            'flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2',
+            'flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2 max-md:[&_a]:min-h-11 max-md:[&_a]:min-w-11 max-md:[&_button]:min-h-11 max-md:[&_button]:min-w-11',
             variant === 'search' ? 'ml-2' : 'flex-1',
           )}
         >

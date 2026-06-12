@@ -966,12 +966,12 @@ export function ExploreClient({
     const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
 
     return (
-        <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+        <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-20 md:min-h-[calc(100vh-4rem)] md:pb-8">
             <MobileGlobalHeader
                 variant="search"
                 showNotification={false}
                 showUserButton={false}
-                className="border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] backdrop-blur-xl"
+                className="border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
                 searchValue={searchQuery}
                 searchPlaceholder="搜索项目、材料、作者..."
                 onSearchChange={setSearchQuery}
@@ -986,7 +986,7 @@ export function ExploreClient({
                         onClick={openSheet}
                         data-testid="explore-more-filters"
                         className={cn(
-                            "relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
+                            "relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
                             hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
                         )}
                         aria-label="筛选条件"
@@ -1053,9 +1053,9 @@ export function ExploreClient({
                                             <button
                                                 type="button"
                                                 onClick={handleClearFilters}
-                                                className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:text-sm"
+                                                className="inline-flex min-h-11 items-center gap-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:text-sm"
                                             >
-                                                <ArrowLeft className="h-4 w-4" aria-hidden aria-label="返回探索" />
+                                                <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
                                                 返回探索
                                             </button>
                                             <button
@@ -1169,7 +1169,7 @@ export function ExploreClient({
                                                         tone="primary"
                                                         shape="pill"
                                                         size="md"
-                                                        className="h-8 px-3 text-[12px] font-bold md:text-[13px]"
+                                                        className="h-11 px-3 text-[12px] font-bold md:h-8 md:text-[13px]"
                                                     >
                                                         {option.label}
                                                     </FilterChip>
@@ -1179,9 +1179,7 @@ export function ExploreClient({
                                     </div>
                                 ) : (
                                     <>
-                                <div className="hidden">
-                                    <h1 className="sr-only">探索</h1>
-                                </div>
+                                <h1 className="sr-only">探索</h1>
 
                                 <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
                                     <form id="explore-search" onSubmit={handleSearchSubmit} className="hidden md:block">
@@ -1220,6 +1218,7 @@ export function ExploreClient({
 
                                 <div className="space-y-2.5 md:mt-4 md:space-y-2">
                                     <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
+                                    <div className="relative md:static">
                                     <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
                                     <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
                                         {displayCategories.map((category) => {
@@ -1239,7 +1238,7 @@ export function ExploreClient({
                                                     shape="pill"
                                                     size="md"
                                                     className={cn(
-                                                        "h-8 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
+                                                        "h-11 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
                                                         !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
                                                         isActive && tone && cn(
                                                             activeToneBg,
@@ -1260,6 +1259,11 @@ export function ExploreClient({
                                             )
                                         })}
                                     </div>
+                                    </div>
+                                    <div
+                                        aria-hidden
+                                        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[hsl(var(--app-canvas))] via-[hsl(var(--app-canvas)/0.88)] to-transparent md:hidden"
+                                    />
                                     </div>
                                 </div>
                                     </>
@@ -1282,7 +1286,7 @@ export function ExploreClient({
                                     !isResultsMode && "pb-5 pt-0.5 md:pb-0 md:pt-0",
                                 )}>
                                     {isFiltering && (
-                                        <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 flex items-center gap-2 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.8)] backdrop-blur-md px-4 py-2 text-xs font-bold text-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-3 duration-300">
+                                        <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 flex items-center gap-2 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] px-4 py-2 text-xs font-bold text-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-3 duration-300 md:bg-[hsl(var(--surface-raised)/0.8)] md:backdrop-blur-md">
                                             <Sparkles className="h-3.5 w-3.5 animate-spin text-[hsl(var(--brand-blue))]" strokeWidth={2.4} aria-hidden="true" />
                                             <span className="tracking-wide text-foreground/90">正在更新项目列表...</span>
                                         </div>
@@ -1305,7 +1309,7 @@ export function ExploreClient({
                                                         shape="pill"
                                                         size="md"
                                                         className={cn(
-                                                            "h-8 min-w-[78px] px-3.5 text-[12px] font-bold md:h-10 md:min-w-[96px] md:text-sm",
+                                                            "h-11 min-w-[78px] px-3.5 text-[12px] font-bold md:h-10 md:min-w-[96px] md:text-sm",
                                                             isActive
                                                                 ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
                                                                 : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
@@ -1322,7 +1326,7 @@ export function ExploreClient({
                                     <div
                                         className={cn(
                                             COMPACT_VERTICAL_PROJECT_GRID_CLASS,
-                                            "transition-opacity duration-300",
+                                            "max-md:pr-2 transition-opacity duration-300",
                                             isFiltering && "opacity-40 pointer-events-none"
                                         )}
                                         onClickCapture={handleExploreProjectLinkClick}
@@ -1547,7 +1551,7 @@ export function ExploreClient({
                                                     active={draftCategory === category}
                                                     shape="pill"
                                                     size="md"
-                                                    className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                    className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                                 >
                                                     {category}
                                                 </FilterChip>
@@ -1566,7 +1570,7 @@ export function ExploreClient({
                                                         active={draftSubCategory === sub}
                                                         shape="pill"
                                                         size="md"
-                                                        className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                        className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                                     >
                                                         {sub}
                                                     </FilterChip>
@@ -1585,7 +1589,7 @@ export function ExploreClient({
                                                     active={draftDifficulty === option.value}
                                                     shape="pill"
                                                     size="md"
-                                                    className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                    className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                                 >
                                                     {option.label}
                                                 </FilterChip>
@@ -1613,7 +1617,7 @@ export function ExploreClient({
                                                             active={draftTags.includes(tag)}
                                                             shape="pill"
                                                             size="md"
-                                                            className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                            className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                                         >
                                                             {tag}
                                                         </FilterChip>
@@ -1626,7 +1630,7 @@ export function ExploreClient({
                                                     type="button"
                                                     data-testid="explore-more-tags"
                                                     onClick={openTagPicker}
-                                                    className="flex w-full items-center justify-between py-1 text-sm font-medium text-[hsl(var(--brand-blue))]"
+                                                    className="flex min-h-11 w-full items-center justify-between py-2 text-sm font-medium text-[hsl(var(--brand-blue))]"
                                                 >
                                                     <span>查看更多标签</span>
                                                     <ChevronRight className="h-4 w-4 shrink-0" aria-hidden />
@@ -1641,13 +1645,13 @@ export function ExploreClient({
                                 <div className="flex gap-3">
                                     <Button
                                         variant="outline"
-                                        className="flex-1"
+                                        className="h-11 flex-1"
                                         onClick={() => handleFilterSheetOpenChange(false)}
                                     >
                                         取消
                                     </Button>
                                     <Button
-                                        className="flex-1"
+                                        className="h-11 flex-1"
                                         onClick={handleConfirmFilters}
                                     >
                                         查看结果
@@ -1697,7 +1701,7 @@ export function ExploreClient({
                                                 active
                                                 shape="pill"
                                                 size="md"
-                                                className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                             >
                                                 {tag}
                                             </FilterChip>
@@ -1720,7 +1724,7 @@ export function ExploreClient({
                                                 active={draftTags.includes(tag)}
                                                 shape="pill"
                                                 size="md"
-                                                className="h-auto px-3.5 py-2 text-sm font-medium md:h-auto"
+                                                className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                             >
                                                 {tag}
                                             </FilterChip>
@@ -1731,7 +1735,7 @@ export function ExploreClient({
 
                             <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
                                 <Button
-                                    className="w-full"
+                                    className="h-11 w-full"
                                     onClick={() => setSheetView('filters')}
                                 >
                                     完成

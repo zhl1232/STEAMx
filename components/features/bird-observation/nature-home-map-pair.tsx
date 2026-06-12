@@ -59,7 +59,11 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
     <section className="nature-section-card nature-home-map-panel overflow-hidden p-0">
       <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.42)] px-4 py-2 md:border-[hsl(var(--surface-border)/0.6)] md:px-5 md:py-2.5">
         <p className="section-kicker tracking-normal">最近观察</p>
-        <Link href="/nature/observations" className="nature-link inline-flex shrink-0 items-center gap-0.5 text-xs md:text-sm">
+        {/* h-11 + 负 margin：触控命中区扩到 44px 高且不改变行高，z-[1] 避免被地图画布抢占命中 */}
+        <Link
+          href="/nature/observations"
+          className="nature-link relative z-[1] -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-xs md:text-sm"
+        >
           查看全部
           <ChevronRight className="h-4 w-4" />
         </Link>

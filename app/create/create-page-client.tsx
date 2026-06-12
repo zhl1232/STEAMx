@@ -1,47 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import {
-    ArrowRight,
     Image as ImageIcon,
     Lightbulb,
     Sparkles,
-    Trophy,
-    UsersRound,
     Wrench,
 } from "lucide-react";
 
 import { useChallenge } from "@/lib/context/challenge-context";
-import {
-    ChallengeBoard,
-    getChallengeSubmissionCount,
-} from "@/components/features/pbl/challenge-board";
+import { ChallengeBoard } from "@/components/features/pbl/challenge-board";
 import { CourseBoard } from "@/components/features/courses/course-board";
-import { getFeaturedNatureChallenges } from "@/lib/pbl/featured-nature-challenges";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import type { Challenge } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 
 const createHeroImage = "/assets/community-hero-kids-robot.png";
-const natureFeatureImage = "/assets/home-nature-channel-bird.png";
 const mobileHeaderClassName =
     "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
 
 type CreateTab = "pbl" | "courses";
 
-type ChallengeGroups = {
-    activeTimed: Challenge[];
-    evergreen: Challenge[];
-    ended: Challenge[];
-};
-
-const heroMetricToneClassNames = [
-    "text-[hsl(var(--brand-blue))]",
-    "text-[hsl(var(--status-success))]",
-    "text-[hsl(var(--brand-amber))]",
-    "text-[hsl(var(--tone-art))]",
+const CREATE_TABS = [
+    { value: "pbl" as const, label: "PBL 挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
+    { value: "courses" as const, label: "训练营", tabId: "create-tab-courses", panelId: "create-panel-courses" },
 ] as const;
 
 const createValues = [
@@ -75,38 +57,6 @@ const createValues = [
     },
 ] as const;
 
-function formatMetricValue(value: number) {
-    if (value >= 10000) {
-        const formatted = (value / 10000).toFixed(value >= 100000 ? 0 : 1).replace(/\.0$/, "");
-        return `${formatted}万`;
-    }
-
-    if (value >= 1000) {
-        const formatted = (value / 1000).toFixed(1).replace(/\.0$/, "");
-        return `${formatted}k`;
-    }
-
-    return value.toLocaleString("zh-CN");
-}
-
-function buildHeroMetrics(challengeGroups: ChallengeGroups) {
-    const allChallenges = [
-        ...challengeGroups.activeTimed,
-        ...challengeGroups.evergreen,
-        ...challengeGroups.ended,
-    ];
-    const activeChallengeCount = challengeGroups.activeTimed.length + challengeGroups.evergreen.length;
-    const participantCount = allChallenges.reduce((sum, challenge) => sum + (challenge.participants || 0), 0);
-    const submissionCount = allChallenges.reduce((sum, challenge) => sum + getChallengeSubmissionCount(challenge), 0);
-
-    return [
-        { value: formatMetricValue(activeChallengeCount), label: "进行挑战", icon: Trophy, color: heroMetricToneClassNames[0] },
-        { value: formatMetricValue(challengeGroups.activeTimed.length), label: "限时专题", icon: Sparkles, color: heroMetricToneClassNames[1] },
-        { value: formatMetricValue(participantCount), label: "参与人次", icon: UsersRound, color: heroMetricToneClassNames[2] },
-        { value: formatMetricValue(submissionCount), label: "作品提交", icon: ImageIcon, color: heroMetricToneClassNames[3] },
-    ] as const;
-}
-
 function CreateHero() {
     return (
         <section className="relative isolate min-h-[232px] overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.68)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_70px_-44px_hsl(var(--brand-blue)/0.28)] md:min-h-[360px] lg:min-h-[374px]">
@@ -116,7 +66,7 @@ function CreateHero() {
                 fill
                 priority
                 loading="eager"
-                sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
+                sizes="(max-width: 1024px) 100vw, 100vw"
                 className="object-cover object-[66%_center] dark:brightness-75 md:object-[72%_center]"
             />
             <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(4,16,31,0.02)_0%,rgba(4,16,31,0.08)_44%,rgba(4,16,31,0.48)_100%)] md:bg-[linear-gradient(90deg,rgba(247,251,255,0.92)_0%,rgba(247,251,255,0.74)_34%,rgba(247,251,255,0.18)_66%,rgba(247,251,255,0.02)_86%),linear-gradient(180deg,rgba(4,16,31,0.02)_0%,rgba(4,16,31,0.16)_100%)] md:dark:bg-[linear-gradient(90deg,rgba(7,16,29,0.86)_0%,rgba(7,16,29,0.62)_34%,rgba(7,16,29,0.18)_68%,rgba(7,16,29,0.02)_88%),linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.24)_100%)]" />
@@ -126,8 +76,9 @@ function CreateHero() {
                     <p className="max-w-[13.5rem] text-[16px] font-extrabold leading-[1.28] tracking-normal [text-shadow:0_2px_7px_rgba(0,0,0,0.72)] min-[390px]:text-[17px] md:max-w-[28rem] md:text-[28px] md:font-black md:leading-[1.12] md:text-[hsl(var(--community-hero-fg))] md:[text-shadow:0_2px_10px_rgba(255,255,255,0.7)] md:dark:text-slate-50 md:dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.82)]">
                         动手实践，探索创造的乐趣
                     </p>
-                    <p className="mt-3 hidden max-w-md text-sm font-semibold leading-6 text-[hsl(var(--community-hero-muted))] md:block md:text-base md:leading-7">
-                        挑一个真实挑战开始，或者进入训练营把 Scratch 作品一步步做出来。
+                    <p className="mt-2 max-w-[15rem] text-[13px] font-semibold leading-5 text-white/95 [text-shadow:0_1px_6px_rgba(0,0,0,0.68)] min-[390px]:max-w-[16rem] min-[390px]:text-sm min-[390px]:leading-[1.45] md:mt-3 md:max-w-md md:text-base md:leading-7 md:text-[hsl(var(--community-hero-muted))] md:[text-shadow:none]">
+                        <span className="md:hidden">挑挑战或进训练营，把想法做出来。</span>
+                        <span className="hidden md:inline">挑一个真实挑战开始，或者进入训练营把 Scratch 作品一步步做出来。</span>
                     </p>
                 </div>
             </div>
@@ -138,7 +89,9 @@ function CreateHero() {
 function CreatePathCardsSection() {
     return (
         <section aria-label="创造路径">
-            <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
+            <p className="mb-2 text-xs font-medium text-muted-foreground md:hidden">左右滑动查看更多</p>
+            <div className="relative md:static">
+                <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
                 {createValues.map((item) => (
                     <div
                         key={item.label}
@@ -162,89 +115,13 @@ function CreatePathCardsSection() {
                         </div>
                     </div>
                 ))}
+                </div>
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-[linear-gradient(270deg,hsl(var(--app-canvas))_0%,hsl(var(--app-canvas)/0)_100%)] md:hidden"
+                />
             </div>
         </section>
-    );
-}
-
-function NatureFeatureCard({ challenge }: { challenge?: Challenge }) {
-    const href = challenge ? `/pbl/${challenge.id}` : "/nature";
-    const title = challenge?.title || "自然观察专题挑战";
-    const description = challenge?.description || "观察自然，记录生命，保护我们共同的家园";
-    const badge = challenge
-        ? (challenge.challengeType === "timed" ? "限时专题" : "本期专题")
-        : "本期专题";
-
-    return (
-        <Link
-            href={href}
-            className="surface-card group relative block min-h-[260px] overflow-hidden rounded-[var(--radius-sm)]"
-        >
-            <Image
-                src={natureFeatureImage}
-                alt="蓝色鸟停在树枝上"
-                fill
-                sizes="(max-width: 1280px) 34vw, 560px"
-                className="object-cover object-[68%_center] transition duration-500 group-hover:scale-105 dark:brightness-90"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,253,246,0.96)_0%,rgba(246,253,246,0.82)_43%,rgba(246,253,246,0.22)_72%,rgba(246,253,246,0.04)_100%)] dark:bg-[linear-gradient(90deg,rgba(6,22,14,0.9)_0%,rgba(6,22,14,0.72)_44%,rgba(6,22,14,0.18)_78%,rgba(6,22,14,0.04)_100%)]" />
-            <div className="relative z-10 flex h-full max-w-[310px] flex-col justify-center px-8 py-7">
-                <span className="status-success-surface mb-4 w-fit rounded-[var(--radius-xs)] border px-4 py-2 text-[13px] font-bold shadow-sm">
-                    {badge}
-                </span>
-                <h2 className="text-panel-title font-black leading-tight text-[hsl(var(--community-hero-fg))]">
-                    {title}
-                </h2>
-                <p className="mt-3 text-[15px] font-medium leading-7 text-[hsl(var(--community-hero-muted))]">
-                    {description}
-                </p>
-                <span className="mt-7 inline-flex h-11 w-fit items-center gap-2 rounded-[var(--radius-sm)] bg-[hsl(var(--status-success))] px-5 text-[15px] font-bold text-[hsl(var(--status-success-foreground))] shadow-[0_16px_32px_-20px_hsl(var(--status-success)/0.82)] transition group-hover:bg-[hsl(var(--status-success)/0.9)]">
-                    参与专题挑战
-                    <ArrowRight className="h-4 w-4" />
-                </span>
-            </div>
-        </Link>
-    );
-}
-
-function CreateStatsCard({ metrics }: { metrics: ReturnType<typeof buildHeroMetrics> }) {
-    return (
-        <section className="surface-panel p-5">
-            <div className="flex items-start justify-between gap-4">
-                <h2 className="text-[20px] font-bold leading-7 text-foreground">本期进度</h2>
-                <span className="shrink-0 pt-1 text-xs font-semibold text-muted-foreground">公开数据</span>
-            </div>
-            <div className="mt-4 divide-y divide-border/70">
-                {metrics.map((metric) => (
-                    <div key={metric.label} className="flex min-w-0 items-center gap-3 py-3 first:pt-0 last:pb-0">
-                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-[hsl(var(--surface-muted)/0.72)]">
-                            <metric.icon className={cn("h-5 w-5", metric.color)} strokeWidth={2.2} />
-                        </span>
-                        <div className="min-w-0 flex-1">
-                            <p className="text-xl font-black leading-6 tabular-nums text-foreground">{metric.value}</p>
-                            <p className="mt-1 text-xs font-semibold text-muted-foreground">{metric.label}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </section>
-    );
-}
-
-function DesktopCreateSidebar({
-    challenge,
-    metrics,
-}: {
-    challenge?: Challenge;
-    metrics: ReturnType<typeof buildHeroMetrics>;
-}) {
-    return (
-        <aside className="hidden min-w-0 lg:block">
-            <div className="sticky top-20 space-y-5">
-                <NatureFeatureCard challenge={challenge} />
-                <CreateStatsCard metrics={metrics} />
-            </div>
-        </aside>
     );
 }
 
@@ -255,24 +132,44 @@ function CreateTabs({
     activeTab: CreateTab;
     onChange: (tab: CreateTab) => void;
 }) {
+    const focusTab = (tabId: string) => {
+        document.getElementById(tabId)?.focus();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+            return;
+        }
+
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const nextIndex = (index + direction + CREATE_TABS.length) % CREATE_TABS.length;
+        const nextTab = CREATE_TABS[nextIndex];
+        onChange(nextTab.value);
+        focusTab(nextTab.tabId);
+    };
+
     return (
-        <div className="flex min-w-0 items-center gap-6 md:gap-8">
-            {([
-                ["pbl", "PBL 挑战"],
-                ["courses", "训练营"],
-            ] as const).map(([value, label]) => (
-                    <button
-                        key={value}
-                        type="button"
-                        onClick={() => onChange(value)}
-                        className={cn(
-                            "community-tab",
-                            activeTab === value && "community-tab-active",
-                        )}
-                    >
-                        {label}
-                    </button>
-                ))}
+        <div role="tablist" aria-label="创造内容分类" className="flex min-w-0 items-center gap-6 md:gap-8">
+            {CREATE_TABS.map((tab, index) => (
+                <button
+                    key={tab.value}
+                    id={tab.tabId}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === tab.value}
+                    aria-controls={tab.panelId}
+                    tabIndex={activeTab === tab.value ? 0 : -1}
+                    onClick={() => onChange(tab.value)}
+                    onKeyDown={(event) => handleKeyDown(event, index)}
+                    className={cn(
+                        "community-tab",
+                        activeTab === tab.value && "community-tab-active",
+                    )}
+                >
+                    {tab.label}
+                </button>
+            ))}
         </div>
     );
 }
@@ -280,38 +177,40 @@ function CreateTabs({
 export function CreatePageClient() {
     const { challenges, challengesError, isLoading, reloadChallenges } = useChallenge();
     const [activeTab, setActiveTab] = useState<CreateTab>("pbl");
-    const featuredNatureChallenges = getFeaturedNatureChallenges(challenges);
     const activeTimed = challenges.activeTimed ?? [];
     const evergreen = challenges.evergreen ?? [];
     const ended = challenges.ended ?? [];
-    const displayChallengeGroups = { activeTimed, evergreen, ended };
-    const metrics = buildHeroMetrics(displayChallengeGroups);
-    const featureChallenge = featuredNatureChallenges[0];
+    const activePanel = CREATE_TABS.find((tab) => tab.value === activeTab) ?? CREATE_TABS[0];
 
     return (
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader
                 variant="title"
                 title="创造"
-                showUserButton={false}
+                showSearch={true}
+                showUserButton={true}
                 showNotification={true}
                 className={mobileHeaderClassName}
             />
-            <main className="app-shell-wide grid gap-5 pb-28 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px]">
-                <div className="min-w-0 space-y-4 md:space-y-6">
-                    <CreateHero />
-                    <CreatePathCardsSection />
+            <main className="app-shell-wide space-y-4 pb-28 pt-5 md:space-y-6 md:pb-14 md:pt-6">
+                <CreateHero />
+                <CreatePathCardsSection />
 
-                    <section>
-                        <div className="overflow-hidden rounded-none bg-transparent shadow-none md:rounded-[var(--radius-sm)] md:border md:border-[hsl(var(--surface-border)/0.9)] md:bg-[hsl(var(--surface-raised)/0.9)] md:shadow-[0_24px_70px_-46px_hsl(var(--surface-shadow)/0.42)] md:backdrop-blur-sm">
-                            <div className="flex min-h-[48px] items-center justify-between gap-4 px-0 md:min-h-[58px] md:border-b md:border-[hsl(var(--surface-border)/0.72)] md:px-6">
-                                <CreateTabs activeTab={activeTab} onChange={setActiveTab} />
-                            </div>
+                <section aria-label="挑战与训练营">
+                    <div className="overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.94)] shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.32)] backdrop-blur-sm md:border-[hsl(var(--surface-border)/0.9)] md:bg-[hsl(var(--surface-raised)/0.9)] md:shadow-[0_24px_70px_-46px_hsl(var(--surface-shadow)/0.42)]">
+                        <div className="flex min-h-[48px] items-center justify-between gap-4 border-b border-[hsl(var(--surface-border)/0.62)] px-1 md:min-h-[58px] md:border-[hsl(var(--surface-border)/0.72)] md:px-6">
+                            <CreateTabs activeTab={activeTab} onChange={setActiveTab} />
+                        </div>
+                        <div
+                            role="tabpanel"
+                            id={activePanel.panelId}
+                            aria-labelledby={activePanel.tabId}
+                        >
                             {activeTab === "pbl" ? (
                                 <ChallengeBoard
-                                    activeTimed={displayChallengeGroups.activeTimed}
-                                    evergreen={displayChallengeGroups.evergreen}
-                                    ended={displayChallengeGroups.ended}
+                                    activeTimed={activeTimed}
+                                    evergreen={evergreen}
+                                    ended={ended}
                                     isLoading={isLoading}
                                     challengesError={challengesError}
                                     reloadChallenges={reloadChallenges}
@@ -320,10 +219,8 @@ export function CreatePageClient() {
                                 <CourseBoard />
                             )}
                         </div>
-                    </section>
-                </div>
-
-                <DesktopCreateSidebar challenge={featureChallenge} metrics={metrics} />
+                    </div>
+                </section>
             </main>
         </div>
     );

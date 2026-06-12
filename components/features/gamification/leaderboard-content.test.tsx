@@ -127,7 +127,7 @@ describe('LeaderboardContent growth tasks panel', () => {
 
     render(<LeaderboardContent />)
 
-    expect(await screen.findByText('成长任务')).toBeInTheDocument()
+    expect(await screen.findByText('新手引导')).toBeInTheDocument()
     expect(screen.getByText('记录 1 条自然观察')).toBeInTheDocument()
     expect(screen.getAllByText('+10 经验').length).toBeGreaterThan(0)
     expect(screen.getByText('成长体系')).toBeInTheDocument()
@@ -178,7 +178,7 @@ describe('LeaderboardContent growth tasks panel', () => {
 
     render(<LeaderboardContent />)
 
-    expect(await screen.findByText('成长任务已毕业')).toBeInTheDocument()
+    expect(await screen.findByText('新手引导已完成')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /前往挑战中心/ })).toHaveAttribute('href', '/create')
     expect(screen.queryByText('记录 1 条自然观察')).not.toBeInTheDocument()
   })
@@ -189,7 +189,7 @@ describe('LeaderboardContent growth tasks panel', () => {
 
     render(<LeaderboardContent />)
 
-    expect(await screen.findByText('登录后查看你的成长任务进度')).toBeInTheDocument()
+    expect(await screen.findByText('登录后查看你的新手引导进度')).toBeInTheDocument()
     expect(fetchMock.mock.calls.some(([input]) => String(input) === '/api/profile/growth-tasks/sync')).toBe(false)
   })
 

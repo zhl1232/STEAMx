@@ -201,7 +201,7 @@ const SINGLE_BADGES: Badge[] = [
     {
         id: "growth_graduate",
         name: "探索启程",
-        description: "完成全部 5 项成长任务",
+        description: "完成全部 5 项新手引导",
         icon: "rocket",
         kind: "single",
         seriesKey: "first_steps",

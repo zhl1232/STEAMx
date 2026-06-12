@@ -66,20 +66,20 @@ export function getStudyCheckInHint(
   summary: ProfileStudyCheckInSummary | null,
 ) {
   if (state === 'loading') {
-    return '正在同步最近的真实探索记录。'
+    return '正在同步最近的打卡记录。'
   }
 
   if (state === 'error' || !summary) {
-    return '暂时无法载入探索记录，请稍后刷新重试。'
+    return '暂时无法载入打卡记录，请稍后刷新重试。'
   }
 
   if (summary.todayCompleted) {
-    return '今天已完成一次真实探索，明天继续保持。'
+    return '今天已完成打卡，明天继续保持。'
   }
 
   if (summary.streak > 0) {
-    return '今天再完成 1 次项目、观察或挑战提交，就能续上连续探索。'
+    return '今天登录、完成项目、提交观察或挑战作品，都能续上连续打卡。'
   }
 
-  return '从今天开始，完成 1 次项目、观察或挑战提交即可点亮第一天。'
+  return '从今天开始，登录或完成 1 次项目、观察、挑战提交即可点亮第一天。'
 }

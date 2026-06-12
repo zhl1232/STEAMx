@@ -116,6 +116,10 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     ) : null}
                 </div>
             </div>
+            <span className="pointer-events-none absolute bottom-3 right-3 z-0 inline-flex items-center gap-0.5 text-[12px] font-bold text-[hsl(var(--brand-blue))] min-[560px]:hidden">
+                开始学习
+                <ChevronRight className="h-3.5 w-3.5" />
+            </span>
             <span
                 className={cn(
                     "pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center gap-1 rounded-[var(--radius-sm)]",

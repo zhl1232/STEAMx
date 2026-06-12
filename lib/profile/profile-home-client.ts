@@ -63,7 +63,7 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
       throw new Error(timelinePayload?.error || '探索轨迹加载失败')
     }
     if (!growthRes.ok) {
-      throw new Error(growthPayload?.error || '成长任务加载失败')
+      throw new Error(growthPayload?.error || '新手引导加载失败')
     }
     if (!observationsRes.ok) {
       throw new Error(observationsPayload?.error || '观察记录加载失败')

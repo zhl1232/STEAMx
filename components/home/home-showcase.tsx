@@ -7,7 +7,6 @@ import {
   Leaf,
   Lightbulb,
   Flame,
-  Trophy,
   UsersRound,
 } from "lucide-react";
 
@@ -30,7 +29,8 @@ import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
-const natureImage = "/assets/home-nature-channel-bird.png";
+const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v3.png";
+const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -180,7 +180,7 @@ function getShowcaseProjects(projects: Project[]) {
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-lg md:rounded-md">
-      <div className="relative min-h-[176px] min-[390px]:min-h-[184px] md:min-h-[220px]">
+      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[220px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -203,7 +203,7 @@ function HomeHero({ image }: { image: string }) {
         <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 min-[390px]:min-h-[184px] md:min-h-[220px] md:justify-center md:px-12 md:py-6">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[220px] md:justify-center md:px-12 md:py-6">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[760px]">
             <h1 className="whitespace-nowrap font-sans text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:text-[40px] lg:text-[44px]">
               <span className="text-[hsl(var(--brand-blue))]">探索</span>
@@ -230,7 +230,7 @@ function HomeHero({ image }: { image: string }) {
             </div>
           </div>
 
-          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
+          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 max-[379px]:hidden min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
             {homeHeroFeatures.map((item) => (
               <div
                 key={item.label}
@@ -248,27 +248,39 @@ function HomeHero({ image }: { image: string }) {
   );
 }
 
-function MobileLeaderboardEntry() {
+function MobileLeaderboardEntry({ className }: { className?: string }) {
   return (
     <Link
       href="/leaderboard"
-      className="surface-card-interactive group grid min-h-[60px] grid-cols-[38px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-md border border-[hsl(var(--brand-amber)/0.34)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.16),hsl(var(--brand-blue)/0.08)_58%,hsl(var(--surface-raised))_100%)] px-3.5 py-2 shadow-[0_18px_42px_-32px_hsl(var(--brand-amber)/0.75)] md:hidden"
+      className={cn(
+        "surface-card-interactive group relative block min-h-[90px] overflow-hidden rounded-sm border border-[hsl(var(--brand-amber)/0.42)] bg-[linear-gradient(120deg,hsl(var(--brand-amber)/0.18)_0%,hsl(var(--surface-raised))_44%,hsl(var(--brand-blue)/0.16)_100%)] shadow-[0_18px_36px_-30px_hsl(var(--brand-amber)/0.8)] min-[390px]:min-h-[94px]",
+        className,
+      )}
     >
-      <span className="grid h-[38px] w-[38px] place-items-center rounded-sm bg-[hsl(var(--brand-amber)/0.18)] text-[hsl(var(--brand-amber))]">
-        <Trophy className="h-5 w-5" strokeWidth={2.4} />
+      <span className="absolute inset-0 bg-[radial-gradient(circle_at_78%_34%,hsl(var(--brand-blue)/0.2),transparent_34%),radial-gradient(circle_at_18%_0%,hsl(var(--brand-amber)/0.24),transparent_38%)]" />
+      <span className="absolute inset-0 opacity-55 mix-blend-soft-light bg-[linear-gradient(145deg,transparent_0%,transparent_46%,rgba(255,255,255,0.5)_47%,transparent_58%),repeating-linear-gradient(100deg,rgba(255,255,255,0.32)_0_1px,transparent_1px_20px)]" />
+      <span className="pointer-events-none absolute bottom-[-8px] right-[-10px] top-0 w-[56%] min-[390px]:w-[54%]">
+        <Image
+          src={leaderboardForegroundImage}
+          alt=""
+          fill
+          sizes="220px"
+          className="object-contain object-right-bottom drop-shadow-[0_16px_22px_rgba(146,64,14,0.2)] transition duration-500 group-hover:scale-[1.04]"
+        />
       </span>
-      <span className="min-w-0">
-        <span className="block text-[14px] font-extrabold leading-5 text-foreground">社区排行榜</span>
-        <span className="mt-0.5 block truncate text-[11px] font-medium leading-4 text-muted-foreground">查看积分、徽章和项目榜单</span>
-      </span>
-      <span
-        className={cn(
-          buttonVariants({ variant: "ghost", tone: "brand", size: "sm" }),
-          "h-7 gap-1 px-2.5 text-[11px] font-semibold transition group-hover:bg-[hsl(var(--brand-blue)/0.92)]"
-        )}
-      >
-        查看
-        <ArrowRight className="h-3.5 w-3.5" />
+      <span className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.88)_48%,hsl(var(--surface-raised)/0.18)_74%,transparent_100%)]" />
+      <span className="relative z-10 flex h-full min-h-[90px] max-w-[220px] flex-col justify-center px-4 py-2 min-[390px]:min-h-[94px]">
+        <span className="block font-sans text-[15px] font-extrabold leading-none text-foreground min-[390px]:text-[16px]">社区排行榜</span>
+        <span className="mt-1 block whitespace-nowrap text-[11px] font-medium leading-4 text-muted-foreground">积分、徽章和项目高手榜</span>
+        <span
+          className={cn(
+            buttonVariants({ variant: "default", tone: "brand", size: "sm" }),
+            "mt-2 h-6 w-fit gap-1 rounded-full px-3 text-[10px] font-bold shadow-[0_10px_18px_-14px_hsl(var(--brand-blue)/0.95)] transition group-hover:translate-x-0.5 min-[390px]:h-7 min-[390px]:text-[11px]",
+          )}
+        >
+          查看榜单
+          <ArrowRight className="h-3 w-3" />
+        </span>
       </span>
     </Link>
   );
@@ -306,23 +318,27 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
   );
 }
 
-function NatureChannel() {
+function NatureChannel({ className }: { className?: string }) {
   return (
     <Link
       href="/nature"
-      className="group relative block min-h-[90px] overflow-hidden rounded-sm md:bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm min-[1480px]:h-full"
+      className={cn(
+        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm min-[1480px]:h-full",
+        className,
+      )}
     >
-      <div className="absolute inset-y-0 right-0 hidden w-[70%] bg-[radial-gradient(circle_at_82%_50%,rgba(63,163,95,0.38),transparent_50%)] md:block" />
-      <div className="absolute inset-0 overflow-hidden md:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,transparent_62%,rgba(0,0,0,0.28)_74%,black_88%,black_100%)] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_62%,rgba(0,0,0,0.28)_74%,black_88%,black_100%)] min-[1480px]:[-webkit-mask-image:none] min-[1480px]:[mask-image:none]">
+      <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.98)_0%,rgba(18,95,42,0.94)_42%,rgba(74,147,61,0.72)_72%,rgba(134,190,77,0.58)_100%),linear-gradient(24deg,rgba(235,248,166,0)_0%,rgba(235,248,166,0.22)_72%,rgba(235,248,166,0.36)_100%)]" />
+      <div className="absolute inset-0 opacity-35 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.2)_49%,transparent_58%),linear-gradient(24deg,transparent_0%,transparent_64%,rgba(255,255,255,0.16)_65%,transparent_72%),repeating-linear-gradient(112deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)]" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-[66%] min-[390px]:w-[60%] md:w-[54%] min-[1480px]:w-[64%]">
         <Image
-          src={natureImage}
-          alt="蓝色鸟停在树枝上"
+          src={natureForegroundImage}
+          alt=""
           fill
-          sizes="(max-width: 768px) 248px, (min-width: 1640px) 480px, (min-width: 1480px) 420px, 100vw"
-          className="object-cover object-right transition duration-500 dark:brightness-90 group-hover:scale-[1.02] md:object-contain min-[1480px]:object-cover min-[1480px]:object-[64%_center] min-[1480px]:group-hover:scale-105"
+          sizes="(max-width: 768px) 220px, (min-width: 1640px) 310px, (min-width: 1480px) 280px, 360px"
+          className="object-contain object-right-bottom drop-shadow-[0_14px_22px_rgba(3,34,12,0.24)] transition duration-500 group-hover:scale-[1.02] dark:brightness-95"
         />
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.8)_38%,rgba(18,70,30,0.28)_68%,rgba(18,70,30,0.02)_100%)] md:bg-[linear-gradient(90deg,rgba(18,70,30,0.96)_0%,rgba(18,70,30,0.92)_52%,rgba(18,70,30,0.48)_74%,rgba(18,70,30,0.04)_100%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(18,70,30,0.92)_0%,rgba(18,70,30,0.78)_38%,rgba(18,70,30,0.16)_73%,rgba(18,70,30,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.88)_40%,rgba(11,64,27,0.42)_66%,rgba(11,64,27,0)_100%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.92)_50%,rgba(11,64,27,0.42)_74%,rgba(11,64,27,0)_100%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.82)_38%,rgba(11,64,27,0.18)_72%,rgba(11,64,27,0)_100%)]" />
       <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
         <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
         <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
@@ -332,6 +348,25 @@ function NatureChannel() {
         </span>
       </div>
     </Link>
+  );
+}
+
+function MobileShortcutCarousel() {
+  return (
+    <section className="md:hidden" aria-label="首页快捷入口">
+      <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
+          <NatureChannel className="h-full" />
+        </div>
+        <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
+          <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+        </div>
+      </div>
+      <div className="mt-0.5 flex justify-center gap-1" aria-hidden="true">
+        <span className="h-1 w-4 rounded-full bg-[hsl(var(--brand-green)/0.72)]" />
+        <span className="h-1 w-1 rounded-full bg-[hsl(var(--surface-border-strong))]" />
+      </div>
+    </section>
   );
 }
 
@@ -364,7 +399,10 @@ function ProjectSection({ projects }: { projects: Project[] }) {
           <Flame className="h-5 w-5 shrink-0 text-[hsl(var(--brand-amber))] md:h-6 md:w-6" aria-hidden />
           <h2 className="font-sans text-[17px] font-extrabold tracking-normal text-foreground md:text-[20px]">热门项目</h2>
         </div>
-        <Link href="/explore" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))]">
+        <Link
+          href="/explore"
+          className="-my-3 inline-flex min-h-11 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 py-3 text-[13px] font-medium text-[hsl(var(--brand-blue))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
           查看全部
           <ArrowRight className="h-4 w-4" />
         </Link>
@@ -550,11 +588,13 @@ export function HomeShowcase({
     <div className="app-canvas min-h-screen">
       <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:py-8">
         <HomeHero image={heroImage} />
-        <MobileLeaderboardEntry />
+        <MobileShortcutCarousel />
 
         <div className="grid gap-2.5 min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1480px]:gap-5 min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
           <CategoryGrid categoryTileCounts={categoryTileCounts} />
-          <NatureChannel />
+          <div className="hidden md:block">
+            <NatureChannel />
+          </div>
         </div>
 
         <div className="grid items-stretch gap-2.5 md:gap-5 xl:grid-cols-[minmax(0,1fr)_480px]">

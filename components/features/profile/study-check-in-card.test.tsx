@@ -7,7 +7,7 @@ describe('StudyCheckInCard', () => {
   it('shows a preserved streak through yesterday when today is not completed', () => {
     render(
       <StudyCheckInCard
-        title={<div>探索打卡</div>}
+        title={<div>每日打卡</div>}
         state="ready"
         summary={{
           streak: 8,
@@ -25,18 +25,18 @@ describe('StudyCheckInCard', () => {
       />,
     )
 
-    expect(screen.getByText('连续探索')).toBeInTheDocument()
+    expect(screen.getByText('连续打卡')).toBeInTheDocument()
     expect(screen.getByText('8')).toBeInTheDocument()
     expect(screen.getByText('今天还没完成')).toBeInTheDocument()
     expect(
-      screen.getByText('今天再完成 1 次项目、观察或挑战提交，就能续上连续探索。'),
+      screen.getByText('今天登录、完成项目、提交观察或挑战作品，都能续上连续打卡。'),
     ).toBeInTheDocument()
   })
 
   it('shows a neutral fallback when data fails to load', () => {
     render(
       <StudyCheckInCard
-        title={<div>探索打卡</div>}
+        title={<div>每日打卡</div>}
         state="error"
         summary={null}
       />,
@@ -44,6 +44,6 @@ describe('StudyCheckInCard', () => {
 
     expect(screen.getByText('暂时不可用')).toBeInTheDocument()
     expect(screen.getByText('--')).toBeInTheDocument()
-    expect(screen.getByText('暂时无法载入探索记录，请稍后刷新重试。')).toBeInTheDocument()
+    expect(screen.getByText('暂时无法载入打卡记录，请稍后刷新重试。')).toBeInTheDocument()
   })
 })

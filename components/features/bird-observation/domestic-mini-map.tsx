@@ -562,12 +562,12 @@ export function DomesticMiniMap({
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" style={{ touchAction: "none" }} />
 
-      {/* Zoom controls */}
-      <div className="absolute bottom-3 right-3 z-[7] flex flex-col gap-1">
+      {/* Zoom controls：放在左下角，避开全局 AI 导师 FAB 所在的右下热区 */}
+      <div className="absolute bottom-3 left-3 z-[7] flex flex-col gap-1">
         <button
           type="button"
           onClick={() => handleZoom(1)}
-          className="grid h-8 w-8 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-sm font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e]"
+          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
           aria-label="放大"
         >
           +
@@ -575,7 +575,7 @@ export function DomesticMiniMap({
         <button
           type="button"
           onClick={() => handleZoom(-1)}
-          className="grid h-8 w-8 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-sm font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e]"
+          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
           aria-label="缩小"
         >
           −

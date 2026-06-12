@@ -108,7 +108,7 @@ export function resolveProfileNextAction(input: ProfileNextActionInput): Profile
       subtitle: `${growthTask.progressLabel} · 完成后获得 ${growthTask.reward}`,
       href: growthTask.href,
       actionLabel: '去完成',
-      badgeLabel: '成长',
+      badgeLabel: '引导',
     }
   }
 

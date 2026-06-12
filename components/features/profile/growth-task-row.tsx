@@ -11,11 +11,12 @@ type GrowthTaskRowProps = {
   task: ProfileGrowthTask
   claimPending?: boolean
   onClaim?: (taskId: GrowthTaskId) => void
+  compact?: boolean
 }
 
-export function GrowthTaskRow({ task, claimPending = false, onClaim }: GrowthTaskRowProps) {
+export function GrowthTaskRow({ task, claimPending = false, onClaim, compact = false }: GrowthTaskRowProps) {
   return (
-    <div className="surface-subtle flex items-start gap-3 p-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]">
+    <div className={cn('surface-subtle flex items-start gap-3 transition hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-muted)/0.82)]', compact ? 'p-2.5' : 'p-3')}>
       <span className={cn('mt-0.5 text-[hsl(var(--brand-green))]', !task.done && 'text-muted-foreground')}>
         {task.done ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
       </span>
@@ -23,12 +24,12 @@ export function GrowthTaskRow({ task, claimPending = false, onClaim }: GrowthTas
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-            <span className="block text-sm font-semibold text-foreground">{task.label}</span>
+            <span className={cn('block font-semibold text-foreground', compact ? 'text-xs leading-5' : 'text-sm')}>{task.label}</span>
           </Link>
-          <span className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-green))]">{task.reward}</span>
+          <span className={cn('shrink-0 font-semibold text-[hsl(var(--brand-green))]', compact ? 'text-[11px]' : 'text-xs')}>{task.reward}</span>
         </div>
 
-        <div className="mt-2 flex items-center gap-3">
+        <div className={cn('flex items-center gap-3', compact ? 'mt-1.5' : 'mt-2')}>
           <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
             <span className="block h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]">
               <span className="block h-full rounded-full bg-[hsl(var(--brand-blue))]" style={{ width: `${task.progress}%` }} />
@@ -39,7 +40,7 @@ export function GrowthTaskRow({ task, claimPending = false, onClaim }: GrowthTas
             <Button
               type="button"
               size="sm"
-              className="h-8 rounded-xs px-3 text-xs font-bold"
+              className={cn('rounded-xs text-xs font-bold', compact ? 'h-7 px-2.5' : 'h-8 px-3')}
               disabled={claimPending}
               onClick={() => onClaim?.(task.id)}
             >

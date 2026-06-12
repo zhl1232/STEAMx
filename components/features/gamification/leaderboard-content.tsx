@@ -102,7 +102,7 @@ function LeaderboardGrowthGraduatedCard() {
             <div className="flex items-start gap-2">
                 <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
                 <div className="min-w-0">
-                    <div className="font-semibold text-slate-900 dark:text-slate-100">成长任务已毕业</div>
+                    <div className="font-semibold text-slate-900 dark:text-slate-100">新手引导已完成</div>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
                         新手引导全部完成，来挑战下一阶段，把作品带到更大的舞台吧。
                     </p>
@@ -476,8 +476,8 @@ function LeaderboardGrowthTaskList({
     if (!isSignedIn) {
         return (
             <div className="rounded-md border border-blue-100 bg-blue-50/70 p-4 text-sm dark:border-blue-300/20 dark:bg-blue-400/10">
-                <div className="font-semibold text-slate-900 dark:text-slate-100">登录后查看你的成长任务进度</div>
-                <p className="mt-2 leading-6 text-muted-foreground">成长任务会根据个人中心的真实项目、观察和连续探索记录同步。</p>
+                <div className="font-semibold text-slate-900 dark:text-slate-100">登录后查看你的新手引导进度</div>
+                <p className="mt-2 leading-6 text-muted-foreground">新手引导会根据个人中心的真实项目、观察和连续探索记录同步。</p>
                 <Link href="/login" className="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300">
                     去登录
                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -503,7 +503,7 @@ function LeaderboardGrowthTaskList({
     if (hasError) {
         return (
             <div className="rounded-md border border-orange-200 bg-orange-50/70 p-4 text-sm dark:border-orange-300/20 dark:bg-orange-400/10">
-                <div className="font-semibold text-orange-700 dark:text-orange-300">成长任务加载失败</div>
+                <div className="font-semibold text-orange-700 dark:text-orange-300">新手引导加载失败</div>
                 <p className="mt-2 leading-6 text-muted-foreground">没有展示临时数据，稍后可重新同步真实进度。</p>
                 <button
                     type="button"
@@ -523,7 +523,7 @@ function LeaderboardGrowthTaskList({
     const previewTasks = getGrowthTaskPreview(tasks ?? []);
 
     if (previewTasks.length === 0) {
-        return <div className="rounded-md border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无成长任务数据</div>;
+        return <div className="rounded-md border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无新手引导数据</div>;
     }
 
     return (
@@ -620,7 +620,7 @@ function LeaderboardSidePanel({
             <section className="surface-panel p-5 lg:p-6">
                 <div className="mb-4 flex items-center gap-2">
                     <Calendar className="h-5 w-5 text-blue-500" />
-                    <h3 className="font-bold">成长任务</h3>
+                    <h3 className="font-bold">新手引导</h3>
                 </div>
                 <LeaderboardGrowthTaskList
                     isSignedIn={isSignedIn}
@@ -675,7 +675,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                 });
                 const payload = await response.json().catch(() => ({}));
                 if (!response.ok) {
-                    throw new Error(payload?.error || "成长任务加载失败");
+                    throw new Error(payload?.error || "新手引导加载失败");
                 }
                 if (signal?.aborted) return;
                 setGrowthTasks((payload?.tasks as ProfileGrowthTask[] | undefined) || []);

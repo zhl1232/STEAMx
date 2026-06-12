@@ -191,7 +191,7 @@ import { Surface } from "@/components/ui/surface"
 | `app-canvas-community` | 社区页背景渐变 |
 | `community-nature-cta` | 挑战页「补充观察记录」链接 |
 | `community-related-project-link` | 挑战详情相关项目卡片 |
-| `profile-action-cta` | 个人页移动端卡片内次级行动按钮（今日任务、空状态、成长任务必须统一使用；不要做成实心主按钮） |
+| `profile-action-cta` | 个人页移动端卡片内次级行动按钮（今日任务、空状态、新手引导必须统一使用；不要做成实心主按钮） |
 | `profile-soft-cta` / `profile-success-cta` / `profile-stats-bar` | 个人页桌面次要 CTA 与统计条 |
 | `skip-link` | 键盘用户「跳到主内容」 |
 

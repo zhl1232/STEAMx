@@ -111,7 +111,7 @@ function ExploreRecommendationCard({
           </div>
         </div>
 
-        <p className="line-clamp-2 text-[11px] leading-[1.58] text-muted-foreground/82">
+        <p className="line-clamp-2 text-xs leading-[1.58] text-muted-foreground/82">
           {project.description || "适合边做边学的 STEAM 实践项目。"}
         </p>
       </div>
@@ -209,7 +209,7 @@ export function ExploreForYouRail({
           type="button"
           onClick={handleRotate}
           disabled={isPending}
-          className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60 md:text-[13px]"
+          className="inline-flex min-h-11 shrink-0 items-center gap-1 px-3 py-2 text-[12px] font-semibold text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60 md:text-[13px]"
         >
           <Repeat2 className={cn("h-3.5 w-3.5", isPending && "animate-spin")} />
           换一批

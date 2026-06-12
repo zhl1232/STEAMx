@@ -79,9 +79,15 @@ export function CompactChallengeCard({
             </div>
 
             {action && !ended ? (
-                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] min-[560px]:inline-flex">
-                    参与挑战
-                </span>
+                <>
+                    <span className="pointer-events-none absolute bottom-3 right-3 z-0 inline-flex items-center gap-0.5 text-[12px] font-bold text-[hsl(var(--brand-blue))] min-[560px]:hidden">
+                        参与挑战
+                        <ChevronRight className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] min-[560px]:inline-flex">
+                        参与挑战
+                    </span>
+                </>
             ) : null}
         </article>
     );

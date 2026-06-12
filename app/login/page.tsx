@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, Compass } from 'lucide-react'
+import { ArrowRight, BookOpenCheck, FolderOpen, Leaf, Sparkles } from 'lucide-react'
 
 import { AuthFlow } from '@/components/auth/auth-flow'
 import { SteamLogo } from '@/components/layout/logo'
@@ -32,14 +32,41 @@ export default function LoginPage() {
           <div className="relative z-10 flex h-full flex-col justify-between gap-8">
             <div className="max-w-xl">
               <p className="section-kicker">探索 · 创造 · 成长</p>
+              <h1 className="mt-5 max-w-md font-heading text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
+                回到你的探索档案
+              </h1>
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                作品、自然观察、徽章和本周计划会接在一起，登录后继续刚才打开的页面。
+              </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-lg border border-border/80 bg-background p-4 shadow-sm">
-                <span className="grid h-9 w-9 place-items-center rounded-md bg-primary/10 text-primary">
-                  <Compass className="h-4 w-4" />
+            <div className="max-w-md space-y-4">
+              <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-md bg-primary/10 text-primary">
+                  <BookOpenCheck className="h-4.5 w-4.5" />
                 </span>
-                <p className="mt-1.5 text-xs leading-5 text-muted-foreground">登录成功后会继续跳回原本要访问的页面。</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">本周下一步</p>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">继续计划、完成新手引导，少一点翻找。</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-md bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]">
+                  <Leaf className="h-4.5 w-4.5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">观察与作品</p>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">把实验、照片和完成记录整理成可回看的档案。</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-md bg-[hsl(var(--brand-amber)/0.14)] text-[hsl(var(--brand-amber))]">
+                  <Sparkles className="h-4.5 w-4.5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">徽章与能力雷达</p>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">看到自己在哪些 STEAM 能力上正在发光。</p>
+                </div>
               </div>
             </div>
           </div>
@@ -54,6 +81,9 @@ export default function LoginPage() {
               sizes="(min-width: 1024px) 52vw, 100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/95 to-card/20" />
+          </div>
+          <div className="pointer-events-none absolute right-8 top-8 hidden h-24 w-24 rotate-6 rounded-xl border border-primary/10 bg-background/56 shadow-[0_18px_38px_-30px_hsl(var(--surface-shadow)/0.44)] lg:grid lg:place-items-center">
+            <FolderOpen className="h-9 w-9 text-primary/70" />
           </div>
         </section>
 

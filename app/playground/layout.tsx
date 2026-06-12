@@ -8,6 +8,7 @@ import {
     Bot,
     Brain,
     Calculator,
+    ChevronRight,
     Compass,
     Crown,
     Dna,
@@ -27,6 +28,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { Button } from "@/components/ui/button"
+import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
 import { useToast } from "@/hooks/use-toast"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 import { getPlaygroundItem, PLAYGROUND_KEYS, removePlaygroundItem } from "@/lib/playground/storage"
@@ -45,13 +48,15 @@ type PlaygroundNavItem = {
     steamTags?: ("Science" | "Technology" | "Engineering" | "Arts" | "Math")[]
 }
 
-const STEAM_DOT_META = {
-    Science: { label: "科学 Science", color: "bg-blue-500" },
-    Technology: { label: "技术 Technology", color: "bg-violet-500" },
-    Engineering: { label: "工程 Engineering", color: "bg-orange-500" },
-    Arts: { label: "艺术 Arts", color: "bg-fuchsia-500" },
-    Math: { label: "数学 Math", color: "bg-emerald-500" },
-} as const
+type SteamTag = NonNullable<PlaygroundNavItem["steamTags"]>[number]
+
+const STEAM_DOT_META: Record<SteamTag, { label: string; tone: CategoryTone }> = {
+    Science: { label: "科学", tone: "science" },
+    Technology: { label: "技术", tone: "tech" },
+    Engineering: { label: "工程", tone: "engineering" },
+    Arts: { label: "艺术", tone: "art" },
+    Math: { label: "数学", tone: "math" },
+}
 
 const games: PlaygroundNavItem[] = [
     {
@@ -326,11 +331,11 @@ function SettingsDialog({
                         className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4"
                     >
                         <div
-                            className="pointer-events-auto w-full max-w-sm rounded-lg border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.98)] p-5 shadow-[0_28px_80px_-42px_hsl(var(--surface-shadow)/0.7)]"
+                            className="surface-panel pointer-events-auto w-full max-w-sm p-5 shadow-[0_28px_80px_-42px_hsl(var(--surface-shadow)/0.7)]"
                             onClick={(event) => event.stopPropagation()}
                         >
                             <div className="mb-4 flex items-center gap-2">
-                                <span className="grid h-9 w-9 place-items-center rounded-md bg-primary/10 text-primary">
+                                <span className="surface-subtle grid h-9 w-9 place-items-center text-primary">
                                     <Settings className="h-4 w-4" />
                                 </span>
                                 <div>
@@ -341,7 +346,7 @@ function SettingsDialog({
 
                             <div className="mb-4 space-y-1.5">
                                 {error ? (
-                                    <div className="rounded-sm border border-destructive/20 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
+                                    <div className="surface-subtle border-destructive/20 bg-destructive/5 px-3 py-2 text-xs text-destructive">
                                         {error}
                                     </div>
                                 ) : null}
@@ -349,15 +354,18 @@ function SettingsDialog({
                                     const hasData = getPlaygroundItem(key) !== null
                                     const isPending = pendingAction === key || pendingAction === "all"
                                     return (
-                                        <div key={key} className="flex items-center justify-between rounded-sm px-2.5 py-2 hover:bg-muted/50">
+                                        <div key={key} className="flex items-center justify-between rounded-[var(--radius-sm)] px-2.5 py-2 hover:bg-muted/50">
                                             <span className="text-xs font-semibold">{label}</span>
-                                            <button
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
                                                 onClick={() => clearOne(key)}
                                                 disabled={!hasData || pendingAction !== null}
-                                                className="min-h-8 rounded-full border border-transparent px-3 text-[11px] font-bold text-destructive transition-colors hover:border-destructive/20 hover:bg-destructive/5 disabled:cursor-not-allowed disabled:text-muted-foreground/30"
+                                                className="min-h-11 px-3 text-xs font-bold text-destructive hover:bg-destructive/5 hover:text-destructive disabled:text-muted-foreground/30"
                                             >
                                                 {hasData ? (isPending ? "处理中..." : "清除") : "无数据"}
-                                            </button>
+                                            </Button>
                                         </div>
                                     )
                                 })}
@@ -365,43 +373,57 @@ function SettingsDialog({
 
                             <div className="border-t border-border pt-3">
                                 {!confirmAll ? (
-                                    <button
+                                    <Button
+                                        type="button"
+                                        variant="outline"
                                         onClick={() => setConfirmAll(true)}
                                         disabled={pendingAction !== null}
-                                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-destructive/20 text-xs font-bold text-destructive transition-colors hover:bg-destructive/5 disabled:opacity-60"
+                                        className="min-h-11 w-full gap-2 border-destructive/20 text-xs font-bold text-destructive hover:bg-destructive/5 hover:text-destructive"
                                     >
                                         <Trash2 className="h-3.5 w-3.5" />
                                         重置所有游戏数据
-                                    </button>
+                                    </Button>
                                 ) : (
-                                    <div className="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/5 p-2">
-                                        <AlertTriangle className="h-4 w-4 shrink-0 text-destructive" />
-                                        <p className="flex-1 text-[10px] leading-4 text-destructive">确定清除全部游戏数据？此操作不可撤销。</p>
-                                        <button
-                                            onClick={clearAll}
-                                            disabled={pendingAction !== null}
-                                            className="rounded-xs bg-destructive px-2.5 py-1.5 text-[10px] font-bold text-white disabled:opacity-60"
-                                        >
-                                            {pendingAction === "all" ? "处理中..." : "确定"}
-                                        </button>
-                                        <button
-                                            onClick={() => setConfirmAll(false)}
-                                            disabled={pendingAction !== null}
-                                            className="px-2 py-1.5 text-[10px] text-muted-foreground disabled:opacity-60"
-                                        >
-                                            取消
-                                        </button>
+                                    <div className="surface-subtle flex flex-col gap-3 border-destructive/20 bg-destructive/5 p-3 sm:flex-row sm:items-center">
+                                        <div className="flex min-w-0 flex-1 items-start gap-2">
+                                            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                                            <p className="text-xs leading-5 text-destructive">确定清除全部游戏数据？此操作不可撤销。</p>
+                                        </div>
+                                        <div className="flex shrink-0 gap-2">
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="sm"
+                                                onClick={clearAll}
+                                                disabled={pendingAction !== null}
+                                                className="min-h-11 px-4 text-xs"
+                                            >
+                                                {pendingAction === "all" ? "处理中..." : "确定"}
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => setConfirmAll(false)}
+                                                disabled={pendingAction !== null}
+                                                className="min-h-11 px-4 text-xs"
+                                            >
+                                                取消
+                                            </Button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
 
-                            <button
+                            <Button
+                                type="button"
+                                variant="ghost"
                                 onClick={onClose}
                                 disabled={pendingAction !== null}
-                                className="mt-2 min-h-10 w-full text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+                                className="mt-2 min-h-11 w-full text-xs font-semibold text-muted-foreground"
                             >
                                 关闭
-                            </button>
+                            </Button>
                         </div>
                     </motion.div>
                 </>
@@ -412,42 +434,60 @@ function SettingsDialog({
 
 function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
     const pathname = usePathname()
+    const isHome = pathname === "/playground"
     const navItems = [{ name: "首页", href: "/playground", icon: Home }, ...games]
 
     return (
-        <div className="sticky top-[var(--mobile-global-header-height,0px)] z-30 border-b border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.92)] backdrop-blur-xl lg:hidden">
-            <div className="flex min-h-14 items-center justify-between px-4">
-                <div className="w-10" />
-                <h1 className="font-sans text-lg font-black tracking-tight">游乐场</h1>
-                <button
+        <div className="surface-panel sticky top-[var(--mobile-global-header-height,0px)] z-30 rounded-none border-x-0 border-t-0 lg:hidden">
+            <div className="flex min-h-14 items-center justify-between gap-3 px-4">
+                {isHome ? (
+                    <div className="w-11" />
+                ) : (
+                    <Link
+                        href="/playground"
+                        className="grid h-11 w-11 place-items-center rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border))] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                        aria-label="返回游乐场首页"
+                    >
+                        <Home className="h-5 w-5" />
+                    </Link>
+                )}
+                <h1 className="min-w-0 flex-1 truncate text-center font-sans text-lg font-black tracking-tight">
+                    {isHome ? "游乐场" : games.find((game) => pathname.startsWith(game.href))?.name ?? "游乐场"}
+                </h1>
+                <Button
                     type="button"
+                    variant="outline"
+                    size="icon"
                     onClick={onSettings}
-                    className="grid h-10 w-10 place-items-center rounded-md border border-[hsl(var(--surface-border)/0.85)] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="h-11 w-11 shrink-0"
                     aria-label="打开游乐场设置"
                 >
                     <Settings className="h-5 w-5" />
-                </button>
+                </Button>
             </div>
-            <nav className="flex gap-2 overflow-x-auto px-4 pb-3 no-scrollbar" aria-label="游乐场游戏导航">
-                {navItems.map((item) => {
-                    const active = pathname === item.href || (item.href !== "/playground" && pathname.startsWith(item.href))
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={cn(
-                                "inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-md px-4 text-sm font-bold transition-colors",
-                                active
-                                    ? "bg-foreground text-background shadow-sm"
-                                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
-                            )}
-                        >
-                            <item.icon className="h-4 w-4" />
-                            {item.name}
-                        </Link>
-                    )
-                })}
-            </nav>
+            {!isHome ? (
+                <nav className="flex gap-2 overflow-x-auto px-4 pb-3 no-scrollbar" aria-label="游乐场游戏导航">
+                    {navItems.map((item) => {
+                        const active =
+                            pathname === item.href || (item.href !== "/playground" && pathname.startsWith(item.href))
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={cn(
+                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-[var(--radius-sm)] px-4 text-sm font-bold transition-colors",
+                                    active
+                                        ? "bg-primary text-primary-foreground shadow-sm"
+                                        : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
+                                )}
+                            >
+                                <item.icon className="h-4 w-4" />
+                                {item.name}
+                            </Link>
+                        )
+                    })}
+                </nav>
+            ) : null}
         </div>
     )
 }
@@ -457,7 +497,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
 
     return (
         <aside className="hidden w-[220px] shrink-0 lg:block">
-            <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-hidden border-r border-[hsl(var(--surface-border)/0.82)] bg-[hsl(var(--surface-raised)/0.76)] p-4 shadow-[18px_0_54px_-46px_hsl(var(--surface-shadow)/0.7)] backdrop-blur-xl">
+            <div className="surface-panel sticky top-16 h-[calc(100vh-4rem)] overflow-hidden rounded-none border-y-0 border-l-0 p-4">
                 <div className="mb-5">
                     <div className="flex items-center gap-2">
                         <span className="grid h-10 w-10 place-items-center rounded-md bg-primary/10 text-primary">
@@ -465,7 +505,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                         </span>
                         <div>
                             <h2 className="font-sans text-lg font-black">游乐场</h2>
-                            <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">进度登录后自动同步</p>
+                            <p className="mt-0.5 text-xs leading-4 text-muted-foreground">进度登录后自动同步</p>
                         </div>
                     </div>
                 </div>
@@ -477,7 +517,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                         className={cn(
                             "flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-bold transition-colors",
                             pathname === "/playground"
-                                ? "bg-foreground text-background shadow-sm"
+                                ? "bg-primary text-primary-foreground shadow-sm"
                                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
                         )}
                     >
@@ -498,12 +538,12 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                                 )}
                             >
-                                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-background/80 ring-1 ring-inset ring-border/70 dark:bg-white/[0.05]">
+                                <span className="surface-subtle grid h-8 w-8 shrink-0 place-items-center rounded-[var(--radius-sm)]">
                                     <game.icon className={cn("h-[18px] w-[18px]", active ? game.color : "text-muted-foreground group-hover:text-primary")} />
                                 </span>
                                 <span className="min-w-0 flex-1">
                                     <span className="block truncate text-sm font-bold">{game.name}</span>
-                                    <span className="block truncate text-[10px] text-muted-foreground">{game.nameEn || game.description}</span>
+                                    <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>
                                 </span>
                                 {game.steamTags?.length ? (
                                     <span
@@ -514,7 +554,10 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                                         {game.steamTags.map((tag) => (
                                             <span
                                                 key={`${game.href}-${tag}`}
-                                                className={cn("h-1.5 w-1.5 rounded-full", STEAM_DOT_META[tag].color)}
+                                                className={cn(
+                                                    "h-1.5 w-1.5 rounded-full",
+                                                    categoryToneClasses[STEAM_DOT_META[tag].tone].badge,
+                                                )}
                                             />
                                         ))}
                                     </span>
@@ -525,16 +568,17 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                 </nav>
 
                 <div className="mt-4 space-y-2">
-                    <button
-                        onClick={onSettings}
+                    <Button
                         type="button"
-                        className="flex min-h-10 w-full items-center justify-center gap-2 rounded-md border border-[hsl(var(--surface-border)/0.84)] text-xs font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+                        variant="outline"
+                        onClick={onSettings}
+                        className="min-h-11 w-full gap-2 text-xs font-bold"
                     >
                         <Settings className="h-3.5 w-3.5" />
                         设置
-                    </button>
-                    <div className="rounded-md border border-border/70 bg-background/70 px-3 py-3 text-center">
-                        <p className="text-xs font-bold leading-5 text-muted-foreground">
+                    </Button>
+                    <div className="surface-subtle px-3 py-3 text-center">
+                        <p className="text-xs font-semibold leading-5 text-muted-foreground">
                             用游戏理解算法
                             <br />
                             用实战拆解原理
@@ -546,39 +590,67 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
     )
 }
 
-function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
+function MissionHintCard({
+    kicker,
+    icon: Icon,
+    tone,
+    children,
+}: {
+    kicker: string
+    icon: LucideIcon
+    tone: CategoryTone
+    children: string
+}) {
+    const toneClass = categoryToneClasses[tone]
+
+    return (
+        <div className={cn("flex min-w-0 items-start gap-3 rounded-[var(--radius-sm)] px-3 py-3", toneClass.bg)}>
+            <span
+                className={cn(
+                    "grid h-10 w-10 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-background/80",
+                    toneClass.text,
+                )}
+            >
+                <Icon className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+                <div className={cn("text-xs font-bold", toneClass.text)}>{kicker}</div>
+                <p className="mt-0.5 text-sm font-semibold leading-6 text-foreground md:truncate">{children}</p>
+            </div>
+        </div>
+    )
+}
+
+function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
     const Icon = game.icon
 
     return (
-        <section className="pt-4 lg:px-8 lg:pt-5">
-            <div className="app-shell-wide grid w-full gap-3 rounded-lg border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.88)] p-3 shadow-[0_18px_54px_-42px_hsl(var(--surface-shadow)/0.58)] backdrop-blur md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)]">
-                <div className="flex min-w-0 items-center gap-3 rounded-md bg-primary/10 px-3 py-3">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-background/82 text-primary shadow-sm">
-                        <Icon className="h-5 w-5" />
-                    </span>
-                    <div className="min-w-0">
-                        <div className="text-[11px] font-black uppercase tracking-wide text-primary">本局目标</div>
-                        <p className="mt-0.5 truncate text-sm font-bold text-foreground">{game.mission}</p>
-                    </div>
-                </div>
-                <div className="flex min-w-0 items-center gap-3 rounded-md bg-emerald-50/70 px-3 py-3 dark:bg-emerald-400/10">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-emerald-600 shadow-sm dark:bg-white/[0.08] dark:text-emerald-300">
-                        <Touchpad className="h-5 w-5" />
-                    </span>
-                    <div className="min-w-0">
-                        <div className="text-[11px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-300">操作提示</div>
-                        <p className="mt-0.5 truncate text-sm font-bold text-foreground">{game.controls}</p>
-                    </div>
-                </div>
-                <div className="flex min-w-0 items-center gap-3 rounded-md bg-orange-50/75 px-3 py-3 dark:bg-orange-400/10">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-orange-600 shadow-sm dark:bg-white/[0.08] dark:text-orange-300">
-                        <Medal className="h-5 w-5" />
-                    </span>
-                    <div className="min-w-0">
-                        <div className="text-[11px] font-black uppercase tracking-wide text-orange-600 dark:text-orange-300">下一枚徽章</div>
-                        <p className="mt-0.5 truncate text-sm font-bold text-foreground">{game.badgeGoal}</p>
-                    </div>
-                </div>
+        <div className="grid gap-2 p-3 sm:gap-3 lg:grid-cols-3">
+            <MissionHintCard kicker="本局目标" icon={Icon} tone="tech">
+                {game.mission}
+            </MissionHintCard>
+            <MissionHintCard kicker="操作提示" icon={Touchpad} tone="science">
+                {game.controls}
+            </MissionHintCard>
+            <MissionHintCard kicker="下一枚徽章" icon={Medal} tone="engineering">
+                {game.badgeGoal}
+            </MissionHintCard>
+        </div>
+    )
+}
+
+function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
+    return (
+        <section className="pt-3 lg:px-8 lg:pt-5">
+            <details className="surface-panel group xl:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 [&::-webkit-details-marker]:hidden">
+                    <span className="text-sm font-black">本局提示</span>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition group-open:rotate-90" />
+                </summary>
+                <GameMissionCards game={game} />
+            </details>
+            <div className="surface-panel hidden xl:block">
+                <GameMissionCards game={game} />
             </div>
         </section>
     )

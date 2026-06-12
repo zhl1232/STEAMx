@@ -20,7 +20,6 @@ import {
   Radar,
   Rocket,
   Settings,
-  Sparkles,
   Trophy,
   UsersRound,
   type LucideIcon,
@@ -28,7 +27,6 @@ import {
 
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { BadgeIcon } from '@/components/features/gamification/badge-icon'
-import { GrowthTasksGraduatedCard } from '@/components/features/profile/growth-tasks-graduated-card'
 import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
 import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
 import { ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
@@ -169,6 +167,11 @@ function clampProgress(value: number, target: number) {
   return Math.min(100, Math.max(0, Math.round((value / target) * 100)))
 }
 
+function hasSteamRadarValue(radar: SteamRadarWithGuidance | null) {
+  if (!radar) return false
+  return Object.values(radar).some((item) => (item.display ?? item.raw ?? 0) > 0)
+}
+
 function getObservationTitle(observation: ObservationEvent) {
   const firstSpecies = observation.species[0]?.commonName
   if (firstSpecies) return firstSpecies
@@ -196,7 +199,6 @@ export default function ProfilePage() {
     enabled: !!user?.id,
   })
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
-  const [growthGraduationSparkle, setGrowthGraduationSparkle] = useState(false)
   const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null)
 
   const showLoadError = useEffectEvent((description: string) => {
@@ -261,11 +263,6 @@ export default function ProfilePage() {
         throw new Error(payload?.error || '领取失败')
       }
 
-      if (payload?.graduated) {
-        setGrowthGraduationSparkle(true)
-        window.setTimeout(() => setGrowthGraduationSparkle(false), 600)
-      }
-
       await refreshProfile()
       if (user?.id) {
         invalidateProfileHomeData(user.id)
@@ -279,7 +276,7 @@ export default function ProfilePage() {
       if (payload?.graduated) {
         void refetchStats()
         toast({
-          title: '成长任务全部完成',
+          title: '新手引导已完成',
           description: '解锁「探索启程」徽章，开启下一段冒险吧',
         })
         return
@@ -382,7 +379,6 @@ export default function ProfilePage() {
     weeklyPlanLoading: isWeeklyPlanPending,
     weeklyPlanError: isWeeklyPlanError,
     growthTasksGraduatedAt,
-    growthGraduationSparkle,
     completedTaskCount,
     claimingTaskId,
     onClaimGrowthTask: handleClaimGrowthTask,
@@ -415,7 +411,6 @@ function DesktopProfilePage({
   weeklyPlanLoading,
   weeklyPlanError,
   growthTasksGraduatedAt,
-  growthGraduationSparkle,
   completedTaskCount,
   claimingTaskId,
   onClaimGrowthTask,
@@ -439,7 +434,6 @@ function DesktopProfilePage({
   weeklyPlanLoading: boolean
   weeklyPlanError: boolean
   growthTasksGraduatedAt: string | null
-  growthGraduationSparkle: boolean
   completedTaskCount: number
   claimingTaskId: GrowthTaskId | null
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
@@ -456,96 +450,102 @@ function DesktopProfilePage({
   profile: ReturnType<typeof useAuth>['profile']
 }) {
   const isExploreVacuum = isProfileExploreVacuum({ steamRadar, myProjects, myObservations })
+  const hasRadarValue = hasSteamRadarValue(steamRadar)
+  const primaryPlanCard = (
+    <PrimaryPlanCard
+      weeklyPlan={weeklyPlan}
+      weeklyPlanLoading={weeklyPlanLoading}
+      weeklyPlanError={weeklyPlanError}
+      nextAction={nextAction}
+      claimingTaskId={claimingTaskId}
+      onClaimGrowthTask={onClaimGrowthTask}
+    />
+  )
 
   return (
     <div className="profile-page-surface min-h-screen pb-10 text-foreground">
-      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 min-w-0 space-y-6 xl:col-span-8">
-            <ProfileHero
-              profileContext={profileContext}
-              stats={stats}
-              profile={profile}
-              compact={false}
-            />
+      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6 min-[1440px]:px-10">
+        <div className="space-y-5">
+          <ProfileHero
+            profileContext={profileContext}
+            stats={stats}
+            profile={profile}
+            compact={false}
+          />
 
-            <div className="grid gap-4 lg:grid-cols-2">
-              <ExperienceBadgesPanel
-                profileContext={profileContext}
-                featuredBadges={featuredBadges}
-                unlockedBadges={unlockedBadges}
-                userBadgeDetails={userBadgeDetails}
-                className={cn(isExploreVacuum && 'lg:col-span-2')}
-              />
+          {primaryPlanCard}
+
+          <div className="grid items-start gap-5 min-[1440px]:grid-cols-[minmax(0,1fr)_400px] min-[1680px]:grid-cols-[minmax(0,1fr)_420px]">
+            <main className="min-w-0 space-y-5">
+              <section
+                className={cn(
+                  'surface-panel flex flex-col rounded-lg',
+                  hasRadarValue ? 'min-h-[230px] p-6 lg:min-h-[250px]' : 'self-start p-5',
+                )}
+              >
+                <SectionTitle iconName="timeline" title="STEAM 能力雷达" />
+                {steamRadar && hasRadarValue ? (
+                  <SteamRadarChart
+                    initialRadar={steamRadar}
+                    showHeader={false}
+                    className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[190px] [&>p]:line-clamp-2"
+                  />
+                ) : (
+                  <SteamRadarEmptyPlaceholder />
+                )}
+              </section>
 
               {!isExploreVacuum ? (
-                <section className="surface-panel flex min-h-[230px] flex-col rounded-lg p-6 lg:min-h-[250px]">
-                  <SectionTitle iconName="timeline" title="STEAM 能力雷达" />
-                  {steamRadar ? (
-                    <SteamRadarChart
-                      initialRadar={steamRadar}
-                      showHeader={false}
-                      className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[190px] [&>p]:line-clamp-2"
-                    />
-                  ) : (
-                    <SteamRadarEmptyPlaceholder />
-                  )}
+                <section className="surface-panel rounded-lg p-6">
+                  <SectionTitle iconName="projects" title="作品与观察" actionHref="/profile/library" actionLabel="查看内容库" />
+                  <div className="mt-4 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+                    <ProjectShowcase projects={myProjects} emptyDensity="compact" embedded />
+                    <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" embedded />
+                  </div>
                 </section>
               ) : null}
-            </div>
 
-            {isExploreVacuum ? (
-              <ProfileStarterHub />
-            ) : (
-              <div className="grid gap-4 lg:grid-cols-2">
-                <section className="surface-panel rounded-lg p-6">
-                  <SectionTitle iconName="projects" title="我的项目 / 作品" actionHref="/profile/library" actionLabel="查看全部" />
-                  <ProjectShowcase projects={myProjects} emptyDensity="compact" />
-                </section>
+              {isExploreVacuum ? (
+                <ProfileStarterHub />
+              ) : (
+                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[1440px]:grid-cols-1 min-[1680px]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                  <NaturalObservationProgressCard
+                    progress={naturalObservationProgress}
+                    compact
+                  />
+                  <CommunityFeedPanel
+                    projects={myProjects}
+                    compactEmpty={isExploreVacuum}
+                  />
+                </div>
+              )}
+            </main>
 
-                <section className="surface-panel rounded-lg p-6">
-                  <SectionTitle iconName="observation" title="最近观察记录" actionHref="/nature/observations" actionLabel="查看全部" />
-                  <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" />
-                </section>
-
-                <NaturalObservationProgressCard
-                  progress={naturalObservationProgress}
-                  className="lg:col-span-2"
+            <aside className="min-w-0">
+              <div className="grid gap-5 lg:grid-cols-2 min-[1440px]:grid-cols-1">
+                <ExperienceBadgesPanel
+                  profileContext={profileContext}
+                  featuredBadges={featuredBadges}
+                  unlockedBadges={unlockedBadges}
+                  userBadgeDetails={userBadgeDetails}
+                  className="lg:col-span-2 min-[1440px]:col-span-1"
+                />
+                <GrowthTasksPanel
+                  tasks={growthTasks}
+                  growthTasksGraduatedAt={growthTasksGraduatedAt}
+                  completedTaskCount={completedTaskCount}
+                  claimingTaskId={claimingTaskId}
+                  onClaim={onClaimGrowthTask}
+                  compact
+                />
+                <StudyCheckInPanel
+                  studyCheckInSummary={studyCheckInSummary}
+                  studyCheckInState={studyCheckInState}
+                  compact
                 />
               </div>
-            )}
+            </aside>
           </div>
-
-          <aside className="col-span-12 min-w-0 space-y-6 xl:col-span-4">
-            {weeklyPlan ? (
-              <WeeklyPlanCard
-                plan={weeklyPlan}
-                claimPendingTaskId={claimingTaskId}
-                onClaim={onClaimGrowthTask}
-              />
-            ) : weeklyPlanLoading && !weeklyPlanError ? (
-              <WeeklyPlanCardSkeleton />
-            ) : (
-              <ProfileNextActionCard
-                action={nextAction}
-                claimPending={claimingTaskId === nextAction.growthTaskId}
-                onClaim={onClaimGrowthTask}
-              />
-            )}
-            <GrowthTasksPanel
-              tasks={growthTasks}
-              growthTasksGraduatedAt={growthTasksGraduatedAt}
-              growthGraduationSparkle={growthGraduationSparkle}
-              completedTaskCount={completedTaskCount}
-              claimingTaskId={claimingTaskId}
-              onClaim={onClaimGrowthTask}
-            />
-            <StudyCheckInPanel studyCheckInSummary={studyCheckInSummary} studyCheckInState={studyCheckInState} />
-            <CommunityFeedPanel
-              projects={myProjects}
-              compactEmpty={isExploreVacuum}
-            />
-          </aside>
         </div>
       </div>
     </div>
@@ -667,6 +667,44 @@ function MobileProfilePage({
   )
 }
 
+function PrimaryPlanCard({
+  weeklyPlan,
+  weeklyPlanLoading,
+  weeklyPlanError,
+  nextAction,
+  claimingTaskId,
+  onClaimGrowthTask,
+}: {
+  weeklyPlan: WeeklyPlan | null
+  weeklyPlanLoading: boolean
+  weeklyPlanError: boolean
+  nextAction: ProfileNextAction
+  claimingTaskId: GrowthTaskId | null
+  onClaimGrowthTask: (taskId: GrowthTaskId) => void
+}) {
+  if (weeklyPlan) {
+    return (
+      <WeeklyPlanCard
+        plan={weeklyPlan}
+        claimPendingTaskId={claimingTaskId}
+        onClaim={onClaimGrowthTask}
+      />
+    )
+  }
+
+  if (weeklyPlanLoading && !weeklyPlanError) {
+    return <WeeklyPlanCardSkeleton />
+  }
+
+  return (
+    <ProfileNextActionCard
+      action={nextAction}
+      claimPending={claimingTaskId === nextAction.growthTaskId}
+      onClaim={onClaimGrowthTask}
+    />
+  )
+}
+
 function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
   if (compact) {
     return (
@@ -687,46 +725,16 @@ function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div
-        className={cn(
-          'absolute rounded-full blur-3xl',
-          compact
-            ? '-right-16 -top-16 h-40 w-40 bg-[hsl(var(--brand-blue)/0.18)]'
-            : '-right-24 -top-24 h-72 w-72 bg-[hsl(var(--brand-blue)/0.2)]',
-        )}
+      <OptimizedImage
+        src="/assets/profile-mobile-hero-space-bg.png"
+        alt=""
+        fill
+        priority
+        variant="cover"
+        className="object-cover object-[86%_10%] opacity-95"
       />
-      <div
-        className={cn(
-          'absolute rounded-full blur-2xl',
-          compact
-            ? '-bottom-14 left-12 h-36 w-36 bg-[hsl(var(--brand-green)/0.12)]'
-            : '-bottom-24 right-32 h-64 w-64 bg-[hsl(var(--brand-green)/0.12)]',
-        )}
-      />
-      <div
-        className={cn(
-          'absolute bg-[hsl(var(--brand-amber)/0.16)] shadow-[0_18px_42px_-30px_hsl(var(--brand-amber)/0.4)]',
-          compact
-            ? 'right-7 top-8 h-10 w-10 rotate-12 rounded-md'
-            : 'right-16 top-16 h-20 w-20 rotate-12 rounded-xl',
-        )}
-      />
-      <div
-        className={cn(
-          'absolute border border-[hsl(var(--brand-blue)/0.18)]',
-          compact
-            ? 'right-20 top-24 h-12 w-12 rotate-45 rounded-lg'
-            : 'right-56 top-28 h-24 w-24 rotate-45 rounded-xl',
-        )}
-      />
-      <div
-        className={cn(
-          'absolute inset-0',
-          compact
-            ? 'bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.2)_0%,hsl(var(--tone-science-soft)/0.24)_100%)] dark:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.12)_0%,hsl(var(--surface-muted)/0.24)_100%)]'
-            : 'bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.92)_44%,hsl(var(--tone-science-soft)/0.52)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.86)_48%,hsl(var(--brand-blue)/0.16)_100%)]',
-        )}
-      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.94)_36%,hsl(var(--surface-raised)/0.66)_58%,hsl(var(--surface-raised)/0.16)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.86)_42%,hsl(var(--surface-raised)/0.52)_68%,hsl(var(--surface-raised)/0.22)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)/0.72))]" />
     </div>
   )
 }
@@ -993,9 +1001,9 @@ function SteamRadarEmptyPlaceholder() {
   const spokeRadius = 40
 
   return (
-    <div className="mt-4 flex min-h-[200px] flex-1 flex-col items-center justify-center gap-4 rounded-md bg-[hsl(var(--surface-muted)/0.45)] px-4 py-7 dark:bg-[hsl(var(--surface-muted)/0.35)]">
-      <div className="relative mx-auto aspect-square w-[min(200px,88%)] max-w-[210px] shrink-0">
-        <svg viewBox="0 0 100 100" className="h-full w-full text-muted-foreground/55 dark:text-muted-foreground/45" aria-hidden>
+    <div className="mt-4 flex flex-col gap-4 rounded-md border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 items-center gap-3">
+        <svg viewBox="0 0 100 100" className="h-16 w-16 shrink-0 text-muted-foreground/48 dark:text-muted-foreground/42" aria-hidden>
           {ringRadii.map((r) => (
             <polygon key={r} points={radarWebRingPoints(r)} fill="none" stroke="currentColor" strokeWidth="0.55" vectorEffect="non-scaling-stroke" />
           ))}
@@ -1015,10 +1023,12 @@ function SteamRadarEmptyPlaceholder() {
             )
           })}
         </svg>
-      </div>
-      <div className="max-w-xs px-1 text-center">
-        <p className="text-sm font-semibold leading-snug text-muted-foreground">参与挑战，点亮你的能力雷达</p>
-        <p className="mt-1.5 text-xs leading-5 text-muted-foreground/90">完成项目或挑战后，这里会显示你的 STEAM 五维图谱。</p>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold leading-5 text-foreground">还没有能力雷达</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            完成项目或挑战后，会生成 STEAM 五维图谱。
+          </p>
+        </div>
       </div>
       <Link href="/explore" className={cn('profile-soft-cta', 'h-9 w-fit shrink-0')}>
         去探索项目
@@ -1031,14 +1041,13 @@ function MobileActionGrid() {
   const { unreadCount } = useOptionalNotifications()
   const actions = [
     { label: '我的内容', href: '/profile/library', src: PROFILE_ACTION_GRID_ICONS.content },
+    { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
     { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
     { label: '创客商店', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
-    { label: '邀请好友', href: '/share', src: PROFILE_ACTION_GRID_ICONS.invite },
-    { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
   ]
 
   return (
-    <section className="profile-mobile-panel grid grid-cols-5 gap-1.5 p-3">
+    <section className="profile-mobile-panel grid grid-cols-4 gap-2 p-3">
       {actions.map((action) => (
         <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
           <span className="relative block">
@@ -1089,21 +1098,6 @@ function BadgeShowcase({
   )
 }
 
-function ProfileMedalIllustration() {
-  return (
-    <div className="absolute inset-0 grid place-items-center">
-      <div className="relative h-[108px] w-[108px]">
-        <div className="absolute inset-x-6 bottom-1 h-12 rounded-b-lg bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.3),hsl(var(--brand-green)/0.18))] blur-[1px]" />
-        <div className="absolute left-7 top-7 h-16 w-10 -rotate-12 rounded-md bg-[hsl(var(--brand-blue)/0.18)]" />
-        <div className="absolute right-7 top-7 h-16 w-10 rotate-12 rounded-md bg-[hsl(var(--brand-green)/0.16)]" />
-        <div className="absolute left-1/2 top-3 grid h-20 w-20 -translate-x-1/2 place-items-center rounded-full border border-[hsl(var(--brand-amber)/0.32)] bg-[linear-gradient(145deg,hsl(var(--brand-amber)/0.28),hsl(var(--surface-raised)/0.96)_58%,hsl(var(--brand-blue)/0.12))] shadow-[0_18px_34px_-22px_hsl(var(--brand-amber)/0.45)]">
-          <Sparkles className="h-8 w-8 text-[hsl(var(--brand-amber))]" strokeWidth={2.4} />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function ExperienceBadgesPanel({
   profileContext,
   featuredBadges,
@@ -1141,30 +1135,24 @@ function ExperienceBadgesPanel({
         )}
       />
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,1fr)_108px]">
-        <div className="min-w-0">
-          <div className="flex items-end gap-3">
-            <span className="text-[34px] font-extrabold leading-none text-[hsl(var(--brand-blue))]">
-              Lv.{profileContext.level}
-            </span>
+      <div className="mt-4 rounded-md bg-[hsl(var(--surface-muted)/0.38)] p-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div className="flex min-w-0 items-end gap-3">
+            <span className="text-[34px] font-extrabold leading-none text-[hsl(var(--brand-blue))]">Lv.{profileContext.level}</span>
             <span className="pb-1 text-sm font-semibold text-foreground">{profileContext.levelTitle}</span>
           </div>
-          <div className="mt-4">
-            <div className="mb-2 flex items-center justify-between gap-3 text-xs">
-              <span className="font-semibold text-muted-foreground">
-                经验值 {profileContext.xpIntoLevel.toLocaleString()} / {profileContext.xpNeededThisLevel.toLocaleString()}
-              </span>
-              <span className="font-medium text-[hsl(var(--brand-blue))]">{levelProgressPercent}%</span>
-            </div>
-            <LevelProgress showLabel={false} />
+          <span className="pb-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">{levelProgressPercent}%</span>
+        </div>
+        <div className="mt-4">
+          <div className="mb-2 flex items-center justify-between gap-3 text-xs">
+            <span className="font-semibold text-muted-foreground">
+              经验值 {profileContext.xpIntoLevel.toLocaleString()} / {profileContext.xpNeededThisLevel.toLocaleString()}
+            </span>
           </div>
+          <LevelProgress showLabel={false} />
           <p className="mt-2 text-xs leading-5 text-muted-foreground">
             再获得 {remainingXP.toLocaleString()} 经验值即可进入下一等级。
           </p>
-        </div>
-
-        <div className="relative min-h-[108px] overflow-visible">
-          <ProfileMedalIllustration />
         </div>
       </div>
 
@@ -1188,17 +1176,20 @@ function StudyCheckInPanel({
   studyCheckInSummary,
   studyCheckInState,
   className,
+  compact = false,
 }: {
   studyCheckInSummary: ProfileStudyCheckInSummary | null
   studyCheckInState: StudyCheckInLoadState
   className?: string
+  compact?: boolean
 }) {
   return (
     <StudyCheckInCard
-      title={<SectionTitle iconName="progress" title="探索打卡" />}
+      title={<SectionTitle iconName="progress" title="每日打卡" />}
       summary={studyCheckInSummary}
       state={studyCheckInState}
       className={className}
+      compact={compact}
     />
   )
 }
@@ -1334,39 +1325,34 @@ function CommunityFeedPanel({
 function GrowthTasksPanel({
   tasks,
   growthTasksGraduatedAt,
-  growthGraduationSparkle,
   completedTaskCount,
   claimingTaskId,
   onClaim,
+  compact = false,
 }: {
   tasks: ProfileGrowthTask[]
   growthTasksGraduatedAt: string | null
-  growthGraduationSparkle: boolean
   completedTaskCount: number
   claimingTaskId: GrowthTaskId | null
   onClaim: (taskId: GrowthTaskId) => void
+  compact?: boolean
 }) {
+  // 毕业后不再占用侧栏卡位，「探索启程」徽章已在徽章墙中承载纪念
   if (growthTasksGraduatedAt) {
-    return (
-      <GrowthTasksGraduatedCard
-        tasks={tasks}
-        showSparkle={growthGraduationSparkle}
-        claimingTaskId={claimingTaskId}
-        onClaim={onClaim}
-      />
-    )
+    return null
   }
 
   return (
-    <section className="surface-panel rounded-lg p-6">
-      <SectionTitle iconName="growth" title={`成长任务（${completedTaskCount}/5）`} />
-      <div className="mt-5 space-y-3">
+    <section className={cn('surface-panel rounded-lg', compact ? 'p-4' : 'p-6')}>
+      <SectionTitle iconName="growth" title={`新手引导（${completedTaskCount}/5）`} />
+      <div className={cn(compact ? 'mt-4 space-y-2.5' : 'mt-5 space-y-3')}>
         {tasks.map((task) => (
           <GrowthTaskRow
             key={task.id}
             task={task}
             claimPending={claimingTaskId === task.id}
             onClaim={onClaim}
+            compact={compact}
           />
         ))}
       </div>
@@ -1378,10 +1364,12 @@ function ProjectShowcase({
   projects,
   mobile = false,
   emptyDensity = 'default',
+  embedded = false,
 }: {
   projects: Project[]
   mobile?: boolean
   emptyDensity?: 'default' | 'compact'
+  embedded?: boolean
 }) {
   if (projects.length === 0) {
     return (
@@ -1398,36 +1386,41 @@ function ProjectShowcase({
     )
   }
 
-  const visibleProjects = projects.slice(0, mobile ? 6 : 8)
+  const visibleProjects = projects.slice(0, mobile ? 6 : embedded ? 3 : 8)
 
   return (
     <div className={cn('mt-4', mobile ? '-mx-1 overflow-x-auto px-1' : '')}>
       <div
         className={cn(
-          mobile ? 'flex w-max gap-3 pb-1' : 'grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4',
+          mobile
+            ? 'flex w-max gap-3 pb-1'
+            : embedded
+              ? 'space-y-3'
+              : 'grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4',
         )}
       >
         {visibleProjects.map((project) => (
-          <MiniProjectCard key={project.id} project={project} mobile={mobile} />
+          <MiniProjectCard key={project.id} project={project} mobile={mobile} embedded={embedded} />
         ))}
       </div>
     </div>
   )
 }
 
-function MiniProjectCard({ project, mobile }: { project: Project; mobile: boolean }) {
+function MiniProjectCard({ project, mobile, embedded }: { project: Project; mobile: boolean; embedded?: boolean }) {
   return (
     <Link
       href={`/project/${project.id}`}
       className={cn(
-        'surface-card group flex h-full flex-col overflow-hidden transition-shadow duration-200 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md',
+        'group overflow-hidden transition duration-200 hover:bg-[hsl(var(--surface-muted)/0.68)]',
         mobile ? 'w-[176px]' : '',
+        embedded ? 'grid grid-cols-[82px_minmax(0,1fr)] items-center rounded-md p-1.5' : 'surface-card flex h-full flex-col hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md',
       )}
     >
       <div
         className={cn(
           'relative shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]',
-          mobile ? 'aspect-[16/10]' : 'aspect-[16/10]',
+          embedded ? 'h-16 w-[82px] rounded-sm' : mobile ? 'aspect-[16/10]' : 'aspect-[16/10]',
         )}
       >
         {project.image ? (
@@ -1444,11 +1437,11 @@ function MiniProjectCard({ project, mobile }: { project: Project; mobile: boolea
           </div>
         )}
       </div>
-      <div className={cn('flex min-h-0 flex-1 flex-col', mobile ? 'p-3' : 'px-3.5 pb-3 pt-2.5')}>
+      <div className={cn('flex min-h-0 flex-1 flex-col', embedded ? 'px-3 py-1' : mobile ? 'p-3' : 'px-3.5 pb-3 pt-2.5')}>
         <h3 className="truncate font-sans text-[13px] font-medium leading-snug tracking-tight text-foreground">
           {project.title}
         </h3>
-        <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-[hsl(var(--surface-border))]/80 pt-2 text-[11px] tabular-nums text-muted-foreground">
+        <div className={cn('flex items-center justify-between gap-2 text-[11px] tabular-nums text-muted-foreground', embedded ? 'mt-2' : 'mt-2.5 border-t border-[hsl(var(--surface-border))]/80 pt-2')}>
           <span className="inline-flex w-full justify-end items-center gap-2 text-muted-foreground/90">
             <span className="inline-flex items-center gap-0.5">
               <Eye className="h-3 w-3 opacity-70" aria-hidden />
@@ -1470,11 +1463,13 @@ function ObservationList({
   total,
   mobile = false,
   emptyDensity = 'default',
+  embedded = false,
 }: {
   observations: ObservationEvent[]
   total: number
   mobile?: boolean
   emptyDensity?: 'default' | 'compact'
+  embedded?: boolean
 }) {
   if (observations.length === 0) {
     return (
@@ -1491,7 +1486,7 @@ function ObservationList({
     )
   }
 
-  const visibleObservations = observations.slice(0, mobile ? 4 : 5)
+  const visibleObservations = observations.slice(0, mobile ? 4 : embedded ? 3 : 5)
 
   return (
     <div className={cn('mt-4', mobile ? '-mx-1 overflow-x-auto px-1' : 'space-y-3')}>
@@ -1500,7 +1495,10 @@ function ObservationList({
           <Link
             key={observation.id}
             href={`/nature/observations/${observation.id}`}
-            className={cn('surface-card group block transition hover:bg-[hsl(var(--surface-muted)/0.82)]', mobile ? 'w-[172px] overflow-hidden' : 'p-4')}
+            className={cn(
+              'group block transition hover:bg-[hsl(var(--surface-muted)/0.82)]',
+              mobile ? 'surface-card w-[172px] overflow-hidden' : embedded ? 'rounded-md p-1.5' : 'surface-card p-4',
+            )}
           >
             <div className={cn('flex gap-3', mobile && 'block')}>
               <div className={cn('relative shrink-0 overflow-hidden rounded-sm bg-[hsl(var(--surface-border))]', mobile ? 'h-[92px] w-full rounded-none' : 'h-16 w-20')}>
@@ -1541,10 +1539,12 @@ function NaturalObservationProgressCard({
   progress,
   className,
   mobile = false,
+  compact = false,
 }: {
   progress: NaturalObservationProgressSummary | null
   className?: string
   mobile?: boolean
+  compact?: boolean
 }) {
   const allProgress = progress?.topicProgress.find((item) => item.topic === 'all') ?? null
   const observedCount = allProgress?.observedCount ?? progress?.uniqueSpeciesCount ?? 0
@@ -1556,15 +1556,21 @@ function NaturalObservationProgressCard({
   }
 
   return (
-    <section className={cn(mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg p-6', className)}>
+    <section
+      className={cn(
+        mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg',
+        !mobile && compact ? 'p-5' : !mobile && 'p-6',
+        className,
+      )}
+    >
       {mobile ? (
         <MobileProfileSectionTitle title="自然观察进度" actionHref="/nature/species" actionLabel="查看清单" />
       ) : (
         <SectionTitle iconName="observation" title="自然观察进度" actionHref="/nature/species" actionLabel="查看物种清单" />
       )}
 
-      <div className="mt-2">
-        <div className="flex items-baseline justify-between">
+      <div className={cn(compact ? 'mt-4' : 'mt-2')}>
+        <div className={cn('flex items-baseline justify-between', compact && 'gap-4')}>
           <div className="flex items-baseline gap-2">
             <span className="text-sm font-medium text-muted-foreground">已观察</span>
             <span className="text-2xl font-bold tabular-nums text-foreground">
@@ -1577,7 +1583,10 @@ function NaturalObservationProgressCard({
           </span>
         </div>
         <div
-          className="mb-1 mt-3 h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]"
+          className={cn(
+            'mb-1 mt-3 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]',
+            compact ? 'h-2' : 'h-1.5',
+          )}
           role="progressbar"
           aria-label={`自然观察进度，已观察 ${observedCount.toLocaleString()} / ${totalSpecies.toLocaleString()} 种，${progressPercent}%`}
           aria-valuemin={0}
