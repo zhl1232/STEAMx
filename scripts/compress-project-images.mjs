@@ -1,16 +1,24 @@
 /**
- * 压缩 public/projects 下的图片（PNG/JPG/JPEG/WebP）
- * 使用方式：pnpm run compress:images  或  node scripts/compress-project-images.mjs
- * 可选环境变量：COMPRESS_IMAGES_DIR=public/other 指定目录
+ * 压缩目录下的图片（PNG/JPG/JPEG/WebP）
+ * 使用方式：
+ *   pnpm run compress:images
+ *   COMPRESS_IMAGES_DIR=public/fruits/images node scripts/compress-project-images.mjs
+ * 可选环境变量：
+ *   COMPRESS_IMAGES_DIR   目标目录（默认 public/projects）
+ *   COMPRESS_MAX_SIDE     最大边长（默认 1920；物种图建议 1280）
+ *   COMPRESS_JPEG_QUALITY JPEG 质量（默认 85；物种图建议 80）
  */
 
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { compressSpeciesImageFile } from "./lib/compress-species-image.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const DEFAULT_DIR = process.env.COMPRESS_IMAGES_DIR || "public/projects";
+const MAX_SIDE = Number(process.env.COMPRESS_MAX_SIDE || 1920);
+const JPEG_QUALITY = Number(process.env.COMPRESS_JPEG_QUALITY || 85);
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 
 function getAllImageFiles(dir, list = []) {
@@ -49,35 +57,18 @@ async function main() {
   let totalBefore = 0;
   let totalAfter = 0;
 
+  console.log(`maxSide=${MAX_SIDE}, jpegQuality=${JPEG_QUALITY}\n`);
+
   for (const filePath of files) {
-    const ext = path.extname(filePath).toLowerCase();
     const name = path.relative(ROOT, filePath);
     const before = fs.statSync(filePath).size;
 
     try {
-      const input = fs.readFileSync(filePath);
-      let pipeline = sharp.default(input);
-      const meta = await pipeline.metadata();
-      const w = meta.width || 1920;
-      const h = meta.height || 1080;
-
-      // 可选：限制最大边长，减少体积（例如 1920）
-      const maxSide = 1920;
-      if (w > maxSide || h > maxSide) {
-        pipeline = pipeline.resize(maxSide, maxSide, { fit: "inside", withoutEnlargement: true });
-      }
-
-      if (ext === ".png") {
-        pipeline = pipeline.png({ compressionLevel: 8, effort: 9 });
-      } else if (ext === ".jpg" || ext === ".jpeg") {
-        pipeline = pipeline.jpeg({ quality: 85, mozjpeg: true });
-      } else if (ext === ".webp") {
-        pipeline = pipeline.webp({ quality: 85 });
-      }
-
-      const buf = await pipeline.toBuffer();
-      fs.writeFileSync(filePath, buf);
-      const after = buf.length;
+      const after = await compressSpeciesImageFile(filePath, sharp, {
+        maxSide: MAX_SIDE,
+        jpegQuality: JPEG_QUALITY,
+        webpQuality: JPEG_QUALITY,
+      });
       totalBefore += before;
       totalAfter += after;
       const pct = before > 0 ? ((1 - after / before) * 100).toFixed(1) : "0";

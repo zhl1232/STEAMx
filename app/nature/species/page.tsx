@@ -121,7 +121,6 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
       <MobilePageHeader
         title="物种"
         fallbackHref="/nature"
-        className="-mx-4 mb-4 md:hidden"
       />
 
       <section className="nature-species-hero relative overflow-hidden">

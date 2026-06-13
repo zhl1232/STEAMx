@@ -20,6 +20,7 @@
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
     "prepare": "husky",
     "compress:images": "node scripts/compress-project-images.mjs",
+    "compress:fruit-images": "COMPRESS_IMAGES_DIR=public/fruits/images COMPRESS_MAX_SIDE=1280 COMPRESS_JPEG_QUALITY=80 node scripts/compress-project-images.mjs",
     "birds:fetch-media": "node scripts/fetch-bird-media-from-wikimedia.mjs",
     "birds:sync-media-db": "node scripts/sync-bird-media-to-db.mjs",
     "db:push": "node scripts/db-push.mjs push",

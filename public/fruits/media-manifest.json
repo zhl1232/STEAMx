@@ -1,0 +1,563 @@
+{
+  "generatedAt": "2026-06-13T11:28:21.832Z",
+  "perSpecies": 3,
+  "strategy": "produce-focused",
+  "note": "Rebuilt from public/fruits/images after batch fetch; OSS not synced yet",
+  "summary": {
+    "total": 41,
+    "downloaded": 41,
+    "exists": 0,
+    "notFound": 0,
+    "error": 0,
+    "totalImages": 120
+  },
+  "results": [
+    {
+      "slug": "actinidia-arguta",
+      "scientificName": "Actinidia arguta",
+      "images": [
+        "actinidia-arguta-1.jpg",
+        "actinidia-arguta-2.jpg",
+        "actinidia-arguta-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "annona-spp",
+      "scientificName": "Annona spp.",
+      "images": [
+        "annona-spp-1.jpg",
+        "annona-spp-2.jpg",
+        "annona-spp-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "arachis-hypogaea",
+      "scientificName": "Arachis hypogaea",
+      "images": [
+        "arachis-hypogaea-1.jpg",
+        "arachis-hypogaea-2.jpg",
+        "arachis-hypogaea-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "armeniaca-mume",
+      "scientificName": "Armeniaca mume",
+      "images": [
+        "armeniaca-mume-1.jpg",
+        "armeniaca-mume-2.jpg",
+        "armeniaca-mume-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "armeniaca-vulgaris",
+      "scientificName": "Armeniaca vulgaris",
+      "images": [
+        "armeniaca-vulgaris-1.jpg",
+        "armeniaca-vulgaris-2.jpg",
+        "armeniaca-vulgaris-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "canarium-album",
+      "scientificName": "Canarium album",
+      "images": [
+        "canarium-album-1.jpg",
+        "canarium-album-2.jpg",
+        "canarium-album-3.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "inaturalist-general",
+        "inaturalist-general",
+        "inaturalist-general"
+      ]
+    },
+    {
+      "slug": "carya-illinoinensis",
+      "scientificName": "Carya illinoinensis",
+      "images": [
+        "carya-illinoinensis-1.jpg",
+        "carya-illinoinensis-2.jpg",
+        "carya-illinoinensis-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "cerasus-avium",
+      "scientificName": "Cerasus avium",
+      "images": [
+        "cerasus-avium-1.jpg",
+        "cerasus-avium-2.jpg",
+        "cerasus-avium-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "citrullus-lanatus",
+      "scientificName": "Citrullus lanatus",
+      "images": [
+        "citrullus-lanatus-1.jpg",
+        "citrullus-lanatus-2.jpg",
+        "citrullus-lanatus-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "citrus-ehime-28",
+      "scientificName": "Citrus '愛媛果試28号'",
+      "images": [
+        "citrus-ehime-28-1.jpg",
+        "citrus-ehime-28-2.jpg",
+        "citrus-ehime-28-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "citrus-harumi-shiranui",
+      "scientificName": "Citrus 'Harumi' Citrus 'Shiranui'",
+      "images": [
+        "citrus-harumi-shiranui-1.jpg",
+        "citrus-harumi-shiranui-2.jpg",
+        "citrus-harumi-shiranui-3.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "inaturalist-fruiting",
+        "inaturalist-fruiting",
+        "inaturalist-fruiting"
+      ]
+    },
+    {
+      "slug": "citrus-limon",
+      "scientificName": "Citrus × limon",
+      "images": [
+        "citrus-limon-1.jpg",
+        "citrus-limon-2.jpg",
+        "citrus-limon-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "citrus-maxima",
+      "scientificName": "Citrus maxima",
+      "images": [
+        "citrus-maxima-1.jpg",
+        "citrus-maxima-2.jpg",
+        "citrus-maxima-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "citrus-reticulata",
+      "scientificName": "Citrus reticulata",
+      "images": [
+        "citrus-reticulata-1.jpg",
+        "citrus-reticulata-2.jpg",
+        "citrus-reticulata-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "clausena-lansium",
+      "scientificName": "Clausena lansium",
+      "images": [
+        "clausena-lansium-1.jpg",
+        "clausena-lansium-2.jpg",
+        "clausena-lansium-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "cocos-nucifera",
+      "scientificName": "Cocos nucifera",
+      "images": [
+        "cocos-nucifera-1.jpg",
+        "cocos-nucifera-2.jpg",
+        "cocos-nucifera-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "ficus-carica",
+      "scientificName": "Ficus carica",
+      "images": [
+        "ficus-carica-1.jpg",
+        "ficus-carica-2.jpg",
+        "ficus-carica-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "fragaria-ananassa",
+      "scientificName": "Fragaria × ananassa",
+      "images": [
+        "fragaria-ananassa-1.jpg",
+        "fragaria-ananassa-2.jpg",
+        "fragaria-ananassa-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "helianthus-annuus",
+      "scientificName": "Helianthus annuus",
+      "images": [
+        "helianthus-annuus-1.jpg",
+        "helianthus-annuus-2.jpg",
+        "helianthus-annuus-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "juglans-regia",
+      "scientificName": "Juglans regia",
+      "images": [
+        "juglans-regia-1.jpg",
+        "juglans-regia-2.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "lycium-barbarum",
+      "scientificName": "Lycium barbarum",
+      "images": [
+        "lycium-barbarum-1.jpg",
+        "lycium-barbarum-2.jpg",
+        "lycium-barbarum-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "lycopersicon-esculentum",
+      "scientificName": "Lycopersicon esculentum",
+      "images": [
+        "lycopersicon-esculentum-1.jpg",
+        "lycopersicon-esculentum-2.jpg",
+        "lycopersicon-esculentum-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "macadamia-spp",
+      "scientificName": "Macadamia spp.",
+      "images": [
+        "macadamia-spp-1.jpg",
+        "macadamia-spp-2.jpg",
+        "macadamia-spp-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "malus-micromalus",
+      "scientificName": "Malus micromalus",
+      "images": [
+        "malus-micromalus-1.jpg",
+        "malus-micromalus-2.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "wikimedia-commons",
+        "wikimedia-commons"
+      ]
+    },
+    {
+      "slug": "malus-pumila",
+      "scientificName": "Malus pumila",
+      "images": [
+        "malus-pumila-1.jpg",
+        "malus-pumila-2.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "passiflora-edulis",
+      "scientificName": "Passiflora edulis",
+      "images": [
+        "passiflora-edulis-1.jpg",
+        "passiflora-edulis-2.jpg",
+        "passiflora-edulis-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "persea-americana",
+      "scientificName": "Persea americana",
+      "images": [
+        "persea-americana-1.jpg",
+        "persea-americana-2.jpg",
+        "persea-americana-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "phoenix-dactylifera",
+      "scientificName": "Phoenix dactylifera",
+      "images": [
+        "phoenix-dactylifera-1.jpg",
+        "phoenix-dactylifera-2.jpg",
+        "phoenix-dactylifera-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "physalis-peruviana",
+      "scientificName": "Physalis peruviana",
+      "images": [
+        "physalis-peruviana-1.jpg",
+        "physalis-peruviana-2.jpg",
+        "physalis-peruviana-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "pinus-koraiensis",
+      "scientificName": "Pinus koraiensis",
+      "images": [
+        "pinus-koraiensis-1.jpg",
+        "pinus-koraiensis-2.jpg",
+        "pinus-koraiensis-3.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "inaturalist-general",
+        "inaturalist-general",
+        "inaturalist-general"
+      ]
+    },
+    {
+      "slug": "pyrus-bretschneideri",
+      "scientificName": "Pyrus bretschneideri",
+      "images": [
+        "pyrus-bretschneideri-1.jpg",
+        "pyrus-bretschneideri-2.jpg",
+        "pyrus-bretschneideri-3.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "inaturalist-general",
+        "inaturalist-general",
+        "inaturalist-general"
+      ]
+    },
+    {
+      "slug": "pyrus-communis",
+      "scientificName": "Pyrus communis",
+      "images": [
+        "pyrus-communis-1.jpg",
+        "pyrus-communis-2.jpg",
+        "pyrus-communis-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "pyrus-ussuriensis",
+      "scientificName": "Pyrus ussuriensis",
+      "images": [
+        "pyrus-ussuriensis-1.jpg",
+        "pyrus-ussuriensis-2.jpg",
+        "pyrus-ussuriensis-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "ribes-spp",
+      "scientificName": "Ribes spp.",
+      "images": [
+        "ribes-spp-1.jpg",
+        "ribes-spp-2.jpg",
+        "ribes-spp-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "rubus-spp",
+      "scientificName": "Rubus spp.",
+      "images": [
+        "rubus-spp-1.jpg",
+        "rubus-spp-2.jpg",
+        "rubus-spp-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "saccharum-officinarum",
+      "scientificName": "Saccharum officinarum",
+      "images": [
+        "saccharum-officinarum-1.jpg",
+        "saccharum-officinarum-2.jpg",
+        "saccharum-officinarum-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "siraitia-grosvenorii",
+      "scientificName": "Siraitia grosvenorii",
+      "images": [
+        "siraitia-grosvenorii-1.jpg",
+        "siraitia-grosvenorii-2.jpg",
+        "siraitia-grosvenorii-3.jpg"
+      ],
+      "status": "downloaded",
+      "error": "no iNaturalist fruiting obs; Wikimedia timeout",
+      "sources": [
+        "inaturalist-general",
+        "inaturalist-general",
+        "inaturalist-general"
+      ]
+    },
+    {
+      "slug": "syzygium-samarangense",
+      "scientificName": "Syzygium samarangense",
+      "images": [
+        "syzygium-samarangense-1.jpg",
+        "syzygium-samarangense-2.jpg",
+        "syzygium-samarangense-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "tamarindus-indica",
+      "scientificName": "Tamarindus indica",
+      "images": [
+        "tamarindus-indica-1.jpg",
+        "tamarindus-indica-2.jpg",
+        "tamarindus-indica-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "vaccinium-spp",
+      "scientificName": "Vaccinium spp.",
+      "images": [
+        "vaccinium-spp-1.jpg",
+        "vaccinium-spp-2.jpg",
+        "vaccinium-spp-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    },
+    {
+      "slug": "vaccinium-spp-cranberry",
+      "scientificName": "Vaccinium spp.",
+      "images": [
+        "vaccinium-spp-cranberry-1.jpg",
+        "vaccinium-spp-cranberry-2.jpg",
+        "vaccinium-spp-cranberry-3.jpg"
+      ],
+      "status": "downloaded",
+      "sources": [
+        "produce-focused-batch"
+      ]
+    }
+  ]
+}
