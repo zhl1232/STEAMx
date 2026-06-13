@@ -33,7 +33,7 @@ export function getUnknownSpeciesLabel(topic: ObservationSubmitTopic): string {
   const unit = getObservationSubmitTopicCopy(topic).subjectUnit
   if (unit.includes('鸟')) return '未知鸟类'
   if (unit.includes('昆虫')) return '未知昆虫'
-  return '未知树木'
+  return '未知植物'
 }
 
 export function getObservationTopicLabel(topic: ObservationSubmitTopic): string {

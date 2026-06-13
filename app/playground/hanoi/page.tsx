@@ -192,6 +192,7 @@ export default function HanoiPage() {
             )
                 ? 1
                 : 0,
+            hanoiMaxDisksCleared: Math.max(0, ...Object.keys(stats.bestMoves).map(Number)),
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])

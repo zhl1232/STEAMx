@@ -928,6 +928,9 @@ export interface Database {
           aliases: string[]
           taxon_group: string | null
           nature_topic: string | null
+          life_form: string | null
+          cultivation_status: string | null
+          plant_uses: string[]
           identification_notes: string | null
           habitat_notes: string | null
           seasonality_notes: string | null
@@ -945,6 +948,9 @@ export interface Database {
           aliases?: string[]
           taxon_group?: string | null
           nature_topic?: string | null
+          life_form?: string | null
+          cultivation_status?: string | null
+          plant_uses?: string[]
           identification_notes?: string | null
           habitat_notes?: string | null
           seasonality_notes?: string | null
@@ -962,6 +968,9 @@ export interface Database {
           aliases?: string[]
           taxon_group?: string | null
           nature_topic?: string | null
+          life_form?: string | null
+          cultivation_status?: string | null
+          plant_uses?: string[]
           identification_notes?: string | null
           habitat_notes?: string | null
           seasonality_notes?: string | null

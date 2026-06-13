@@ -277,7 +277,7 @@ export default function ProfilePage() {
         void refetchStats()
         toast({
           title: '新手引导已完成',
-          description: '解锁「探索启程」徽章，开启下一段冒险吧',
+          description: '解锁「新手毕业」徽章，开启下一段冒险吧',
         })
         return
       }
@@ -1337,7 +1337,7 @@ function GrowthTasksPanel({
   onClaim: (taskId: GrowthTaskId) => void
   compact?: boolean
 }) {
-  // 毕业后不再占用侧栏卡位，「探索启程」徽章已在徽章墙中承载纪念
+  // 毕业后不再占用侧栏卡位，「新手毕业」徽章已在徽章墙中承载纪念
   if (growthTasksGraduatedAt) {
     return null
   }

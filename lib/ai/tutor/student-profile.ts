@@ -19,7 +19,7 @@ const STEAM_LABELS: Record<string, string> = {
 const NATURE_TOPIC_LABELS: Record<string, string> = {
   birds: '鸟类',
   insects: '昆虫',
-  plants: '树木',
+  plants: '植物',
   fungi: '真菌',
 }
 

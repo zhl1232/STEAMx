@@ -52,7 +52,7 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     sudoku: "约束推理、排除法和耐心。",
     nqueens: "回溯搜索与全局布局能力。",
     circuit: "电路、逻辑门与通路构造。",
-    bird_observation: "偏自然观察与记录的户外成就线。",
+    sorting: "通过可视化体验不同排序算法的过程。",
     rare: "限定、纪念或人工授予的特别徽章。",
 };
 
@@ -146,7 +146,7 @@ const SERIES_THEME: Partial<Record<string, SeriesTheme>> = {
     sudoku: THEME_ZINC,
     nqueens: THEME_VIOLET,
     circuit: THEME_CYAN,
-    bird_observation: THEME_EMERALD,
+    sorting: THEME_CYAN,
     rare: THEME_PINK,
 };
 

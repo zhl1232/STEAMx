@@ -140,10 +140,12 @@ export function useGamificationData() {
                 consecutiveDays: stats.consecutiveDays || 0,
                 discussionsCreated: stats.discussionsCreated || 0,
                 repliesCount: stats.repliesCount || 0,
-                // 扫雷属于纯前端 localStorage 状态，服务端统计不存在，一律给默认值
+                // 游乐场徽章由 /api/playground/badges/sync 从 playground_stats 云端战绩补发。
                 minesweeperWins: 0,
                 minesweeperExpertWins: 0,
                 minesweeperBestTime: 999,
+                sortingRuns: 0,
+                sortingAlgorithmsUsed: 0,
                 // 鸟类观察统计
                 observationsSubmitted: stats.observationsSubmitted || 0,
                 speciesObserved: stats.speciesObserved || 0,

@@ -18,11 +18,11 @@ export interface UserStats {
     consecutiveDays: number;      // 连续登录天数
     discussionsCreated: number;   // 发起的讨论数
     repliesCount: number;         // 回复数
-    // 扫雷专属（通关徽章触发，由前端 localStorage 传入）
+    // 游乐场专属（从 playground_stats 云端战绩补发；游戏内仍可前端即时提示）
     minesweeperWins: number;       // 任意难度通关次数（有记录即有过通关）
     minesweeperExpertWins: number; // 高级难度通关次数
     minesweeperBestTime: number;   // 历史最快时间（秒），999 = 无记录
-    // 五子棋专属（本地战绩用于前端触发徽章）
+    // 五子棋专属
     gomokuWins?: number;           // 对局胜利场次
     gomokuPvEWins?: number;        // 对战 AI 获胜次数
     // 2048 专属
@@ -40,6 +40,7 @@ export interface UserStats {
     // 汉诺塔专属
     hanoiWins?: number;            // 通关次数
     hanoiPerfect?: number;         // 以最优步数（2^n-1）通关次数
+    hanoiMaxDisksCleared?: number; // 曾通关的最大圆盘层数
     // 数独专属
     sudokuWins?: number;           // 通关次数
     sudokuHardWins?: number;       // 困难难度通关次数
@@ -48,6 +49,9 @@ export interface UserStats {
     // 电路拼图专属
     circuitSolved?: number;        // 累计通关数
     circuitLogicCleared?: boolean; // 是否完成逻辑门关卡
+    // 排序可视化专属
+    sortingRuns?: number;          // 运行排序演示次数
+    sortingAlgorithmsUsed?: number; // 使用过的排序算法数量
     // 游乐场新增玩法
     fifteenWins?: number;
     memoryWins?: number;
@@ -55,6 +59,10 @@ export interface UserStats {
     quickMathBestStreak?: number;
     mazeWins?: number;
     tangramSolved?: number;
+    /** 游乐场：玩过不同游戏数量（仅云端 sync 聚合） */
+    playgroundGamesPlayed?: number;
+    /** 游乐场：累计胜利/通关次数（仅云端 sync 聚合） */
+    playgroundWinsTotal?: number;
     // 鸟类观察专属
     observationsSubmitted?: number;    // 提交的观察记录数
     speciesObserved?: number;          // 观察到的不重复物种数

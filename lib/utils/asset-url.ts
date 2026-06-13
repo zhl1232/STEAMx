@@ -13,6 +13,7 @@ const REMOTE_ASSET_PREFIXES = [
   '/birds/',
   '/insects/',
   '/trees/',
+  '/fruits/',
   '/projects/',
 ] as const
 

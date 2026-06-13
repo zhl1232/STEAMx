@@ -16,6 +16,8 @@ public/birds/images/
 public/birds/audio/
 public/insects/images/
 public/trees/images/
+public/fruits/images/
+public/fruits/rejected-images/
 public/projects/generated/*.png
 public/projects/generated/*.jpg
 public/projects/generated/*.jpeg

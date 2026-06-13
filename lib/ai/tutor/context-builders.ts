@@ -62,7 +62,7 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   },
   nature: {
     title: '自然观察',
-    summary: '学生正在逛自然观察频道（鸟类、昆虫、树木等专题），可以引导他开始或继续一次自然观察。',
+    summary: '学生正在逛自然观察频道（鸟类、昆虫、植物等专题），可以引导他开始或继续一次自然观察。',
   },
   create: {
     title: '挑战与训练营',
@@ -286,7 +286,7 @@ async function buildProjectContext(
 const SPECIES_TOPIC_LABELS: Record<string, string> = {
   birds: '鸟类',
   insects: '昆虫',
-  plants: '树木',
+  plants: '植物',
   fungi: '真菌',
 }
 

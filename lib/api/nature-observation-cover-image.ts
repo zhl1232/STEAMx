@@ -45,10 +45,14 @@ const speciesImageDirectories: Partial<Record<NatureTopicKey, string>> = {
   plants: '/trees/images',
 }
 
-const speciesManifestFiles: Partial<Record<NatureTopicKey, string>> = {
-  birds: 'birds.json',
-  insects: 'insects.json',
-  plants: 'trees.json',
+const speciesExtraImageDirectories: Partial<Record<NatureTopicKey, string[]>> = {
+  plants: ['/fruits/images'],
+}
+
+const speciesManifestFiles: Partial<Record<NatureTopicKey, string[]>> = {
+  birds: ['birds.json'],
+  insects: ['insects.json'],
+  plants: ['trees.json', 'fruits.json'],
 }
 
 const speciesImageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
@@ -122,15 +126,16 @@ function listSpeciesImagesInDirectory(slug: string, publicDirectory: string): st
 export function getSpeciesImageUrls(row: SpeciesRow): string[] {
   const coverImageUrl = resolvePublicAssetUrl(row.cover_image_url)
   const topicKey = row.nature_topic as NatureTopicKey
-  const manifestFile = speciesManifestFiles[topicKey]
-  const manifest = manifestFile ? loadSpeciesImageManifest(manifestFile) : null
+  const manifestFiles = speciesManifestFiles[topicKey] ?? []
+  const manifestUrls = manifestFiles.flatMap((manifestFile) => {
+    const manifest = loadSpeciesImageManifest(manifestFile)
+    return manifest?.[row.slug] ?? []
+  })
+  const resolvedManifestUrls = manifestUrls
+    .map((url) => resolvePublicAssetUrl(url))
+    .filter((url): url is string => Boolean(url))
 
-  if (manifest) {
-    const manifestUrls = manifest[row.slug] ?? []
-    const resolvedManifestUrls = manifestUrls
-      .map((url) => resolvePublicAssetUrl(url))
-      .filter((url): url is string => Boolean(url))
-
+  if (resolvedManifestUrls.length > 0) {
     return Array.from(
       new Set(
         [coverImageUrl, ...resolvedManifestUrls].filter((url): url is string => Boolean(url)),
@@ -141,6 +146,7 @@ export function getSpeciesImageUrls(row: SpeciesRow): string[] {
   const assetDirectories = [
     getAssetDirectoryFromUrl(row.cover_image_url),
     speciesImageDirectories[topicKey],
+    ...(speciesExtraImageDirectories[topicKey] ?? []),
   ].filter((directory): directory is string => Boolean(directory))
 
   return Array.from(

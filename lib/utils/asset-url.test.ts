@@ -34,6 +34,9 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl('/projects/tech_3dprint.webp')).toBe(
       'https://assets.example.com/projects/tech_3dprint.webp',
     )
+    expect(rewriteAssetUrl('/fruits/images/morus-alba-1.jpg')).toBe(
+      'https://assets.example.com/fruits/images/morus-alba-1.jpg',
+    )
   })
 
   it('preserves query strings during rewrite', () => {
@@ -76,6 +79,7 @@ describe('rewriteAssetUrl', () => {
   it('recognizes configured static asset URLs only for whitelisted paths', () => {
     expect(isConfiguredAssetUrl('https://assets.example.com/birds/images/x.jpg')).toBe(true)
     expect(shouldBypassAssetImageOptimization('https://assets.example.com/birds/images/x.jpg')).toBe(true)
+    expect(isConfiguredAssetUrl('https://assets.example.com/fruits/images/x.jpg')).toBe(true)
     expect(isConfiguredAssetUrl('https://assets.example.com/assets/hero.png')).toBe(false)
     expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(false)
   })

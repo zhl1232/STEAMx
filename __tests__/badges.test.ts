@@ -28,20 +28,6 @@ const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
 });
 
 describe("Minesweeper Badge Logic", () => {
-    test("minesweeper_rookie requires minesweeperWins >= 1", () => {
-        const badge = BADGES.find((b) => b.id === "minesweeper_rookie");
-        expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ minesweeperWins: 0 }))).toBe(false);
-        expect(badge!.condition(createStats({ minesweeperWins: 1 }))).toBe(true);
-    });
-
-    test("minesweeper_expert requires minesweeperExpertWins >= 1", () => {
-        const badge = BADGES.find((b) => b.id === "minesweeper_expert");
-        expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ minesweeperExpertWins: 0 }))).toBe(false);
-        expect(badge!.condition(createStats({ minesweeperExpertWins: 1 }))).toBe(true);
-    });
-
     test("minesweeper_speedster requires bestTime > 0 and <= 60", () => {
         const badge = BADGES.find((b) => b.id === "minesweeper_speedster");
         expect(badge).toBeDefined();
@@ -133,7 +119,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
 
     // 已删除的重叠 single 徽章不应再存在
     test("removed duplicate single badges should not exist", () => {
-        const removedIds = ["first_like", "first_comment", "first_publish", "first_collection"];
+        const removedIds = ["first_like", "first_comment", "first_publish", "first_collection", "first_observation", "observation_streak_7"];
         for (const id of removedIds) {
             expect(BADGES.find((b) => b.id === id)).toBeUndefined();
         }
@@ -146,8 +132,12 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats({ scienceCompleted: 20 }))).toBe(true);
     });
 
-    test("social_butterfly requires comment, discussion or reply", () => {
-        const badge = BADGES.find((b) => b.id === "social_butterfly");
+    test("social_butterfly duplicate single badge should not exist", () => {
+        expect(BADGES.find((b) => b.id === "social_butterfly")).toBeUndefined();
+    });
+
+    test("social_bronze includes comments, discussions and replies", () => {
+        const badge = BADGES.find((b) => b.id === "social_bronze");
         expect(badge).toBeDefined();
         expect(badge!.condition(createStats())).toBe(false);
         expect(badge!.condition(createStats({ commentsCount: 1 }))).toBe(true);
@@ -155,11 +145,11 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats({ repliesCount: 1 }))).toBe(true);
     });
 
-    test("social_platinum requires comments + replies >= 500", () => {
+    test("social_platinum requires discussions + comments + replies >= 500", () => {
         const badge = BADGES.find((b) => b.id === "social_platinum");
         expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ commentsCount: 250, repliesCount: 249 }))).toBe(false);
-        expect(badge!.condition(createStats({ commentsCount: 250, repliesCount: 250 }))).toBe(true);
+        expect(badge!.condition(createStats({ discussionsCreated: 1, commentsCount: 250, repliesCount: 248 }))).toBe(false);
+        expect(badge!.condition(createStats({ discussionsCreated: 1, commentsCount: 250, repliesCount: 249 }))).toBe(true);
     });
 
     test("level_bronze requires level >= 5", () => {
@@ -178,16 +168,16 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         }
     });
 
-    test("streak_platinum requires consecutiveDays >= 90", () => {
+    test("streak_platinum requires consecutiveDays >= 100", () => {
         const badge = BADGES.find((b) => b.id === "streak_platinum");
         expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ consecutiveDays: 89 }))).toBe(false);
-        expect(badge!.condition(createStats({ consecutiveDays: 90 }))).toBe(true);
+        expect(badge!.condition(createStats({ consecutiveDays: 99 }))).toBe(false);
+        expect(badge!.condition(createStats({ consecutiveDays: 100 }))).toBe(true);
     });
 
     test("tiered badge names use achievement titles without legacy dot format", () => {
         const tiered = BADGES.filter((b) => b.kind === "tiered");
-        expect(tiered.length).toBe(64);
+        expect(tiered.length).toBe(72);
         for (const badge of tiered) {
             expect(badge.name).not.toMatch(/·/);
             expect(badge.name.length).toBeGreaterThan(0);
@@ -200,8 +190,94 @@ describe("Badge System Logic (Dynamic Badges)", () => {
     });
 
     test("milestone series uses 项目完成 tier names", () => {
-        expect(BADGES.find((b) => b.id === "milestone_platinum")?.name).toBe("传奇创造");
+        expect(BADGES.find((b) => b.id === "milestone_gold")?.name).toBe("创造巨匠");
+        expect(BADGES.find((b) => b.id === "milestone_platinum")?.name).toBe("传奇英雄");
         expect(BADGES.find((b) => b.id === "science_expert_bronze")?.name).toBe("好奇观察员");
-        expect(BADGES.find((b) => b.id === "level_gold")?.name).toBe("高阶玩家");
+        expect(BADGES.find((b) => b.id === "level_gold")?.name).toBe("高阶探索者");
+    });
+
+    test("tangram_all requires completing the current 4 silhouettes", () => {
+        const badge = BADGES.find((b) => b.id === "tangram_all");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ tangramSolved: 3 }))).toBe(false);
+        expect(badge!.condition(createStats({ tangramSolved: 4 }))).toBe(true);
+    });
+
+    test("removed playground single badges should not exist", () => {
+        const removedIds = [
+            "minesweeper_rookie",
+            "minesweeper_expert",
+            "gomoku_rookie",
+            "gomoku_strategist",
+            "gomoku_master",
+            "game2048_first_win",
+            "game2048_4096",
+            "game2048_high_scorer",
+            "game24_first_solve",
+            "game24_streak_5",
+            "game24_streak_10",
+            "game24_50",
+            "life_explorer",
+            "life_observer",
+            "life_challenge_first",
+            "hanoi_first_win",
+            "hanoi_master",
+            "sudoku_first_win",
+            "sudoku_hard",
+            "sudoku_master",
+            "nqueens_first_solve",
+            "nqueens_master",
+            "circuit_first_solve",
+            "circuit_10",
+            "sorting_first_run",
+            "sorting_polyglot",
+            "fifteen_first",
+            "fifteen_master",
+            "memory_first",
+            "memory_master",
+            "quick_math_first",
+            "quick_math_combo",
+            "maze_first",
+            "maze_master",
+            "tangram_first",
+        ];
+        for (const id of removedIds) {
+            expect(BADGES.find((b) => b.id === id)).toBeUndefined();
+        }
+    });
+
+    test("playground star badges use playground_star series", () => {
+        const starIds = [
+            "minesweeper_speedster",
+            "game2048_8192",
+            "game24_speed",
+            "hanoi_perfect",
+            "life_challenge_all",
+            "circuit_logic",
+            "tangram_all",
+        ];
+        for (const id of starIds) {
+            const badge = BADGES.find((b) => b.id === id);
+            expect(badge).toBeDefined();
+            expect(badge!.seriesKey).toBe("playground_star");
+        }
+    });
+
+    test("playground_explorer tiers require games played thresholds", () => {
+        const bronze = BADGES.find((b) => b.id === "playground_explorer_bronze");
+        const platinum = BADGES.find((b) => b.id === "playground_explorer_platinum");
+        expect(bronze!.condition(createStats({ playgroundGamesPlayed: 2 }))).toBe(false);
+        expect(bronze!.condition(createStats({ playgroundGamesPlayed: 3 }))).toBe(true);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 14 }))).toBe(false);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 15 }))).toBe(true);
+    });
+
+    test("playground_victories tiers require total wins thresholds", () => {
+        const bronze = BADGES.find((b) => b.id === "playground_victories_bronze");
+        const platinum = BADGES.find((b) => b.id === "playground_victories_platinum");
+        expect(bronze!.condition(createStats({ playgroundWinsTotal: 4 }))).toBe(false);
+        expect(bronze!.condition(createStats({ playgroundWinsTotal: 5 }))).toBe(true);
+        expect(platinum!.condition(createStats({ playgroundWinsTotal: 499 }))).toBe(false);
+        expect(platinum!.condition(createStats({ playgroundWinsTotal: 500 }))).toBe(true);
     });
 });

@@ -196,7 +196,7 @@ function getPodiumBadges(tab: LeaderboardType, rank: number): Array<{ icon: stri
         return [
             { icon: "binoculars", tier: rank === 1 ? "gold" : "silver", seriesKey: "bird_observer", label: "自然观察先锋" },
             { icon: "feather", tier: "silver", seriesKey: "species_collector", label: "物种收集" },
-            { icon: "bird", tier: rank === 3 ? "bronze" : "silver", seriesKey: "bird_observation", label: "鸟类观察" },
+            { icon: "binoculars", tier: rank === 3 ? "bronze" : "silver", seriesKey: "bird_observer", label: "观察记录" },
         ];
     }
 

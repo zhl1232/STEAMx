@@ -22,7 +22,7 @@ describe('nature topic classification', () => {
     expect(normalizeSpeciesTopicFilter('insects')).toBe('insects')
     expect(normalizeSpeciesTopicFilter('bad-topic')).toBe('all')
     expect(normalizeSpeciesTopicFilter(null)).toBe('all')
-    expect(getNatureTopicLabel('plants')).toBe('树木')
+    expect(getNatureTopicLabel('plants')).toBe('植物')
     expect(getNatureTopicLabel(null)).toBe('未分类')
   })
 
@@ -39,7 +39,7 @@ describe('nature topic classification', () => {
       { key: 'all', label: '全部', count: 4 },
       { key: 'birds', label: '鸟类', count: 2 },
       { key: 'insects', label: '昆虫', count: 1 },
-      { key: 'plants', label: '树木', count: 1 },
+      { key: 'plants', label: '植物', count: 1 },
     ])
   })
 })

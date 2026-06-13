@@ -83,8 +83,8 @@ const topicCardBase: TopicCardBase[] = [
   },
   {
     key: "plants",
-    title: "树木",
-    subtitle: "读懂树叶与年轮",
+    title: "植物",
+    subtitle: "读懂叶片、花果与种子",
     href: "/nature/species?topic=plants",
     image: "/trees/images/ginkgo-biloba-1.jpg",
     icon: Trees,

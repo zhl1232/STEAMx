@@ -285,6 +285,7 @@ const TRUSTED_LOCAL_ASSET_PREFIXES = [
   '/projects/',
   '/birds/',
   '/trees/',
+  '/fruits/',
   '/insects/',
   '/assets/',
 ]

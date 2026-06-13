@@ -6,6 +6,11 @@
 
 import type { Database } from '@/lib/supabase/types'
 import type { NatureTopicKey } from '@/lib/config/nature-topics'
+import type {
+    PlantCultivationStatus,
+    PlantLifeForm,
+    PlantUseKey,
+} from '@/lib/observations/plant-attributes'
 import type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
 import { formatRelativeTime } from '@/lib/date-utils'
 
@@ -469,6 +474,9 @@ export interface Species {
     isActive: boolean
     topicKey?: NatureTopicKey | null
     topicLabel?: string
+    lifeForm?: PlantLifeForm | null
+    cultivationStatus?: PlantCultivationStatus | null
+    plantUses?: PlantUseKey[]
     observedByCurrentUser?: boolean
     observationCount?: number
     aliasesDisplay?: string
@@ -789,6 +797,9 @@ export function mapDbSpecies(dbSpecies: DbSpecies): Species {
         coverImageUrl: dbSpecies.cover_image_url,
         audioUrl: dbSpecies.audio_url,
         isActive: dbSpecies.is_active,
+        lifeForm: dbSpecies.life_form as PlantLifeForm | null,
+        cultivationStatus: dbSpecies.cultivation_status as PlantCultivationStatus | null,
+        plantUses: (dbSpecies.plant_uses || []) as PlantUseKey[],
     }
 }
 

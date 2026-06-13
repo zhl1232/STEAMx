@@ -25,6 +25,17 @@ export function usePlaygroundSync() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const syncedRef = useRef(false);
 
+  const syncBadgesFromCloud = useCallback(async () => {
+    try {
+      const response = await fetch("/api/playground/badges/sync", { method: "POST" });
+      if (!response.ok) {
+        console.error("[PlaygroundSync] badge sync failed", response.status);
+      }
+    } catch (error) {
+      console.error("[PlaygroundSync] badge sync error", error);
+    }
+  }, []);
+
   const uploadToCloud = useCallback(
     async (userId: string, options?: { throwOnError?: boolean }) => {
       const blob = collectAllStats();
@@ -45,9 +56,10 @@ export function usePlaygroundSync() {
         }
         return false;
       }
+      await syncBadgesFromCloud();
       return true;
     },
-    [],
+    [syncBadgesFromCloud],
   );
 
   // Initial sync on login
@@ -91,6 +103,8 @@ export function usePlaygroundSync() {
           );
         if (upsertError) {
           console.error("[PlaygroundSync] write-back failed", upsertError.message);
+        } else {
+          await syncBadgesFromCloud();
         }
 
         syncedRef.current = true;
@@ -107,7 +121,7 @@ export function usePlaygroundSync() {
     return () => {
       cancelled = true;
     };
-  }, [user?.id]);
+  }, [syncBadgesFromCloud, user?.id]);
 
   // Listen for changes and debounced upload
   useEffect(() => {

@@ -23,6 +23,7 @@
  *   public/manifests/birds.json
  *   public/manifests/insects.json
  *   public/manifests/trees.json
+ *   public/manifests/fruits.json
  *   public/manifests/projects.json
  */
 
@@ -30,8 +31,6 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-
-import { createOssClient, uploadDirectory } from '../lib/utils/oss-client.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
@@ -59,6 +58,7 @@ const GROUPS = [
   { id: 'birds', localDir: 'public/birds', publicPrefix: 'birds', manifest: 'birds.json', kind: 'species', imageSubdir: 'images' },
   { id: 'insects', localDir: 'public/insects', publicPrefix: 'insects', manifest: 'insects.json', kind: 'species', imageSubdir: 'images' },
   { id: 'trees', localDir: 'public/trees', publicPrefix: 'trees', manifest: 'trees.json', kind: 'species', imageSubdir: 'images' },
+  { id: 'fruits', localDir: 'public/fruits/images', publicPrefix: 'fruits/images', manifest: 'fruits.json', kind: 'species', imageSubdir: 'images', manifestRootDir: 'public/fruits', manifestPublicPrefix: 'fruits' },
   { id: 'project-covers', localDir: 'public/projects', publicPrefix: 'projects', manifest: null, kind: 'flat', recursive: false },
   { id: 'projects', localDir: 'public/projects/generated', publicPrefix: 'projects/generated', manifest: 'projects.json', kind: 'flat' },
   { id: 'project-steps', localDir: 'public/projects/steps', publicPrefix: 'projects/steps', manifest: null, kind: 'flat' },
@@ -86,7 +86,8 @@ function compareSpeciesImage(left, right) {
 }
 
 async function buildSpeciesManifest(group) {
-  const imageDir = path.join(ROOT, group.localDir, group.imageSubdir)
+  const manifestRootDir = group.manifestRootDir ?? group.localDir
+  const imageDir = path.join(ROOT, manifestRootDir, group.imageSubdir)
   if (!existsSync(imageDir)) {
     console.warn(`  (skip manifest: ${imageDir} does not exist)`)
     return null
@@ -107,10 +108,11 @@ async function buildSpeciesManifest(group) {
   }
 
   const manifest = {}
+  const manifestPublicPrefix = group.manifestPublicPrefix ?? group.publicPrefix
   const sortedSlugs = Array.from(filesBySlug.keys()).sort()
   for (const slug of sortedSlugs) {
     const files = filesBySlug.get(slug).sort(compareSpeciesImage)
-    manifest[slug] = files.map((name) => `/${group.publicPrefix}/${group.imageSubdir}/${name}`)
+    manifest[slug] = files.map((name) => `/${manifestPublicPrefix}/${group.imageSubdir}/${name}`)
   }
   return manifest
 }
@@ -147,7 +149,7 @@ async function writeManifest(group, manifest) {
   console.log(`  ✓ wrote ${path.relative(ROOT, manifestPath)} (${count} entries)`)
 }
 
-async function processGroup(group, args, client) {
+async function processGroup(group, args, client, uploadDirectory) {
   console.log(`\n# Group: ${group.id}`)
 
   const localPath = path.join(ROOT, group.localDir)
@@ -157,6 +159,9 @@ async function processGroup(group, args, client) {
   }
 
   if (!args.skipUpload && !args.dryRun) {
+    if (!client || !uploadDirectory) {
+      throw new Error('OSS client was not initialized')
+    }
     await uploadDirectory(client, {
       localDir: localPath,
       publicPathPrefix: group.publicPrefix,
@@ -202,12 +207,16 @@ async function main() {
   }
 
   let client = null
+  let uploadDirectory = null
   if (!args.skipUpload && !args.dryRun) {
+    const oss = await import('../lib/utils/oss-client.mjs')
+    uploadDirectory = oss.uploadDirectory
+    const createOssClient = oss.createOssClient
     client = createOssClient()
   }
 
   for (const group of groups) {
-    await processGroup(group, args, client)
+    await processGroup(group, args, client, uploadDirectory)
   }
 
   console.log('\nDone.')

@@ -393,11 +393,11 @@ const SERIES_VISUALS: Partial<Record<string, SeriesVisual>> = {
       "radial-gradient(circle at 35% 28%, rgba(103, 232, 249, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(14, 165, 233, 0.16), transparent 48%)",
     ringClass: "border-cyan-100/20",
   },
-  bird_observation: {
-    motif: "nature",
+  sorting: {
+    motif: "branch",
     accentImage:
-      "radial-gradient(circle at 35% 28%, rgba(110, 231, 183, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(16, 185, 129, 0.16), transparent 48%)",
-    ringClass: "border-emerald-100/20",
+      "radial-gradient(circle at 35% 28%, rgba(103, 232, 249, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(6, 182, 212, 0.16), transparent 48%)",
+    ringClass: "border-cyan-100/20",
   },
   rare: {
     motif: "honor",

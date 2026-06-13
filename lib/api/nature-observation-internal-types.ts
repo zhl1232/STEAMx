@@ -3,6 +3,11 @@
  */
 
 import type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
+import type {
+  PlantCultivationStatus,
+  PlantLifeForm,
+  PlantUseKey,
+} from '@/lib/observations/plant-attributes'
 
 export type SpeciesRow = {
   id: number
@@ -12,6 +17,9 @@ export type SpeciesRow = {
   aliases: string[]
   taxon_group: string | null
   nature_topic: string | null
+  life_form?: PlantLifeForm | null
+  cultivation_status?: PlantCultivationStatus | null
+  plant_uses?: PlantUseKey[] | null
   identification_notes: string | null
   habitat_notes: string | null
   seasonality_notes: string | null

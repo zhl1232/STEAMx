@@ -6,7 +6,7 @@ import { callRpc } from "@/lib/supabase/rpc"
 
 const OBSERVATION_XP = 10
 const OBSERVER_THRESHOLDS = [1, 10, 30, 100]
-const OBSERVATION_BADGE_SERIES = new Set(["bird_observation", "bird_observer", "species_collector"])
+const OBSERVATION_BADGE_SERIES = new Set(["bird_observer", "species_collector"])
 
 function getNextThreshold(count: number) {
   return OBSERVER_THRESHOLDS.find((threshold) => count < threshold) ?? OBSERVER_THRESHOLDS[OBSERVER_THRESHOLDS.length - 1]

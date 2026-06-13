@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
 import { useSortingRace, type SortingAlgorithm, type SortingSpeed } from "@/hooks/playground/use-sorting-race"
+import { useGamification } from "@/lib/context/gamification-context"
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -46,6 +48,7 @@ function formatMs(ms: number): string {
 }
 
 export default function SortingPage() {
+    const { checkBadges } = useGamification()
     const {
         bars,
         algorithm,
@@ -65,6 +68,35 @@ export default function SortingPage() {
         resume,
         reset,
     } = useSortingRace()
+
+    useEffect(() => {
+        if (status !== "completed") return
+        checkBadges({
+            projectsPublished: 0,
+            projectsLiked: 0,
+            projectsCompleted: 0,
+            commentsCount: 0,
+            scienceCompleted: 0,
+            techCompleted: 0,
+            engineeringCompleted: 0,
+            artCompleted: 0,
+            mathCompleted: 0,
+            likesGiven: 0,
+            likesReceived: 0,
+            collectionsCount: 0,
+            challengesJoined: 0,
+            level: 1,
+            loginDays: 0,
+            consecutiveDays: 0,
+            discussionsCreated: 0,
+            repliesCount: 0,
+            minesweeperWins: 0,
+            minesweeperExpertWins: 0,
+            minesweeperBestTime: 999,
+            sortingRuns: stats.totalRuns,
+            sortingAlgorithmsUsed: Object.values(stats.algorithmsUsed).filter((count) => count > 0).length,
+        })
+    }, [checkBadges, stats.algorithmsUsed, stats.totalRuns, status])
 
     const isActive = status === "running" || status === "paused"
 
