@@ -37,7 +37,7 @@ import type {
   ObservationEventSpeciesRow,
   SpeciesRow,
 } from './nature-observation-internal-types'
-import { getSpeciesImageUrls, normalizeSpeciesRow } from './nature-observation-cover-image'
+import { mapSpeciesRowWithCoverImages } from './nature-observation-cover-image'
 
 export interface SpeciesListOptions {
   query?: string
@@ -73,12 +73,12 @@ function buildSpeciesSearchFilter(sanitizedQuery: string) {
 }
 
 function mapSpeciesWithDerivedFields(row: SpeciesRow): Species {
-  const normalizedRow = normalizeSpeciesRow(row)
+  const { normalizedRow, imageUrls } = mapSpeciesRowWithCoverImages(row)
   const topicKey = resolveSpeciesNatureTopicKey(row)
 
   return {
     ...mapDbSpecies(normalizedRow as never),
-    imageUrls: getSpeciesImageUrls(normalizedRow),
+    imageUrls,
     topicKey,
     topicLabel: getNatureTopicLabel(topicKey),
   }

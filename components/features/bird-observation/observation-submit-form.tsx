@@ -1139,6 +1139,7 @@ export function ObservationSubmitForm({
   const submitBlocker = getSubmitBlocker()
   const submitMissingLabel = submitBlocker?.label ?? "必要信息"
   const mobileSubmitReady = canSubmit && !isSubmitting && !isAnalyzingImages
+  const showAiAnalysisOverlay = evidenceImages.length > 0 && isAnalyzingImages
 
   const speciesStatusTone =
     selectedSpecies
@@ -1305,7 +1306,6 @@ export function ObservationSubmitForm({
     { label: "描述字数 ≥ 10 字", done: noteLength >= 10 },
   ]
   const requiredChecks = [
-    evidenceImages.length > 0,
     analysisReady,
     locationAndTimeReady,
     locationDisclosureReady,
@@ -1372,6 +1372,32 @@ export function ObservationSubmitForm({
 
   return (
     <>
+      {showAiAnalysisOverlay ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="observation-submit-theme fixed inset-0 z-[70] grid place-items-center bg-black/45 px-6 backdrop-blur-sm"
+        >
+          <div className="flex w-full max-w-sm flex-col items-center gap-5 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] px-8 py-10 text-center [box-shadow:var(--obs-panel-shadow)]">
+            <div className="relative grid h-16 w-16 place-items-center">
+              <span className="absolute inset-0 animate-ping rounded-full bg-[var(--obs-accent-soft)]" />
+              <span className="relative grid h-16 w-16 place-items-center rounded-full bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
+                <Loader2 className="h-8 w-8 animate-spin" />
+              </span>
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-lg font-semibold text-[var(--obs-text)]">小迪正在识别照片 🌿</p>
+              <p className="text-sm leading-6 text-[var(--obs-muted)]">
+                正在分析图片质量并匹配候选物种，稍等一下就好～
+              </p>
+            </div>
+            {analysisPendingCount > 0 ? (
+              <p className="text-xs text-[var(--obs-muted-2)]">还剩 {analysisPendingCount} 张待识别</p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
       <form onSubmit={handleSubmit} className="observation-submit-theme relative pb-36 md:pb-10">
         <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:inset-x-[-2rem]" />
 

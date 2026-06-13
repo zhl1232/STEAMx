@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
+import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { logger } from "@/lib/logger"
 import { readObservationPhotoMetadata, type ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
 import { uploadFileSecure, validateFileType } from "@/lib/utils/upload"
@@ -93,7 +94,8 @@ export function ObservationSubmitPhotoSection({
   onPhotoMetadata,
   analyzingMessage = "正在分析图片质量，并尝试匹配候选。",
 }: ObservationSubmitPhotoSectionProps) {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
+  const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isUploading, setIsUploading] = useState(false)
@@ -113,7 +115,22 @@ export function ObservationSubmitPhotoSection({
   const handleSelectFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? [])
     if (fileInputRef.current) fileInputRef.current.value = ""
-    if (files.length === 0 || !user) return
+    if (files.length === 0) return
+
+    if (!user) {
+      if (authLoading) {
+        toast({
+          title: "正在确认登录状态",
+          description: "请稍候一两秒后重新选择照片。",
+        })
+      } else {
+        promptLogin(undefined, {
+          title: "登录后再上传照片",
+          description: "登录后即可上传观察照片并发布记录。",
+        })
+      }
+      return
+    }
 
     const remaining = MAX_IMAGES - evidenceImages.length
     if (remaining <= 0) {
@@ -263,13 +280,19 @@ export function ObservationSubmitPhotoSection({
             type="button"
             className="group flex aspect-[16/11] min-h-[180px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-[var(--obs-border-strong)] [background:var(--obs-photo-bg)] px-6 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:text-[var(--obs-text)] sm:min-h-[210px] md:aspect-[16/10]"
             onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
+            disabled={isUploading || authLoading}
           >
             {isUploading ? (
               <>
                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-500/60 border-t-transparent" />
                 <p className="text-base font-medium text-[var(--obs-text)]">上传中...</p>
                 <p className="text-sm text-[var(--obs-muted-2)]">正在处理 {uploadingCount} 张图片</p>
+              </>
+            ) : authLoading ? (
+              <>
+                <Loader2 className="h-9 w-9 animate-spin text-[var(--obs-accent)]" />
+                <p className="text-base font-medium text-[var(--obs-text)]">正在确认登录状态...</p>
+                <p className="text-sm text-[var(--obs-muted-2)]">稍候即可上传照片</p>
               </>
             ) : (
               <>
@@ -293,10 +316,10 @@ export function ObservationSubmitPhotoSection({
             type="button"
             className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-5 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)] md:min-h-0"
             onClick={() => fileInputRef.current?.click()}
-            disabled={!canAddMore || isUploading}
+            disabled={!canAddMore || isUploading || authLoading}
           >
             <span className="grid h-11 w-11 place-items-center rounded-full bg-[var(--obs-accent)] text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
-              {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
+              {isUploading || authLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
             </span>
             <span className="text-base font-semibold text-[var(--obs-text)]">
               {canAddMore ? "添加更多照片" : "照片已达上限"}

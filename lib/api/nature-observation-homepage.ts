@@ -30,7 +30,7 @@ import type {
   ObservationEventSpeciesRow,
   SpeciesRow,
 } from './nature-observation-internal-types'
-import { normalizeSpeciesRow } from './nature-observation-cover-image'
+import { mapSpeciesRowWithCoverImages } from './nature-observation-cover-image'
 
 const HOMEPAGE_SPECIES_SELECT = [
   'id',
@@ -726,11 +726,16 @@ async function getTopicObservationFeaturedSpeciesBase(
     observationCountBySpecies.set(row.species_id, (observationCountBySpecies.get(row.species_id) ?? 0) + 1)
   }
 
-  return speciesRows.map((row) => ({
-    ...mapDbSpecies(normalizeSpeciesRow(row) as never),
-    observationCount: observationCountBySpecies.get(row.id) ?? 0,
-    observedByCurrentUser: false,
-  }))
+  return speciesRows.map((row) => {
+    const { normalizedRow, imageUrls } = mapSpeciesRowWithCoverImages(row)
+
+    return {
+      ...mapDbSpecies(normalizedRow as never),
+      imageUrls,
+      observationCount: observationCountBySpecies.get(row.id) ?? 0,
+      observedByCurrentUser: false,
+    }
+  })
 }
 
 export async function getTopicObservationFeaturedSpecies(topicKey: NatureTopicKey, limit = 8): Promise<Species[]> {

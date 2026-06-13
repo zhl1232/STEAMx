@@ -20,15 +20,18 @@ function resolvePublicAssetUrl(rawUrl: string | null): string | null {
     return null
   }
 
+  const relativePath = trimmedUrl.replace(/^\/+/, '')
+  const absolutePath = path.join(process.cwd(), 'public', relativePath)
+  if (existsSync(absolutePath)) {
+    return trimmedUrl
+  }
+
   const rewritten = rewriteAssetUrl(trimmedUrl)
   if (rewritten && /^https?:\/\//i.test(rewritten)) {
     return rewritten
   }
 
-  const relativePath = trimmedUrl.replace(/^\/+/, '')
-  const absolutePath = path.join(process.cwd(), 'public', relativePath)
-
-  return existsSync(absolutePath) ? trimmedUrl : null
+  return null
 }
 
 export function normalizeSpeciesRow(row: SpeciesRow): SpeciesRow {
@@ -36,6 +39,23 @@ export function normalizeSpeciesRow(row: SpeciesRow): SpeciesRow {
     ...row,
     cover_image_url: resolvePublicAssetUrl(row.cover_image_url),
     audio_url: resolvePublicAssetUrl(row.audio_url),
+  }
+}
+
+export function mapSpeciesRowWithCoverImages(row: SpeciesRow): {
+  normalizedRow: SpeciesRow
+  imageUrls: string[]
+} {
+  const normalizedRow = normalizeSpeciesRow(row)
+  const imageUrls = getSpeciesImageUrls(row)
+  const coverImageUrl = normalizedRow.cover_image_url ?? imageUrls[0] ?? null
+
+  return {
+    imageUrls,
+    normalizedRow: {
+      ...normalizedRow,
+      cover_image_url: coverImageUrl,
+    },
   }
 }
 
