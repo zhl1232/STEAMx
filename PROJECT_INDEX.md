@@ -56,7 +56,7 @@
 
 ## 2. API 路由 (`app/api/`)
 
-29 个 API 模块，每个目录下含 `route.ts`：
+30 个 API 模块，每个目录下含 `route.ts`：
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
@@ -71,6 +71,7 @@
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
 | geo | `api/geo/` | 反向地理编码 |
+| health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务 |
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏）与历史 approved 项目低比例 backfill 入队 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |

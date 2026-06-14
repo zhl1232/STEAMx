@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 
 import type { NatureTopicKey } from '@/lib/config/nature-topics'
-import { rewriteAssetUrl } from '@/lib/utils/asset-url'
+import { REWRITTEN_ASSET_PREFIXES } from '@/lib/utils/asset-url'
 
 import type { SpeciesRow } from './nature-observation-internal-types'
 
@@ -26,9 +26,9 @@ function resolvePublicAssetUrl(rawUrl: string | null): string | null {
     return trimmedUrl
   }
 
-  const rewritten = rewriteAssetUrl(trimmedUrl)
-  if (rewritten && /^https?:\/\//i.test(rewritten)) {
-    return rewritten
+  // 保留清单/数据库中的规范本地路径；CDN 重写由展示层负责。
+  if (REWRITTEN_ASSET_PREFIXES.some((prefix) => trimmedUrl.startsWith(prefix))) {
+    return trimmedUrl
   }
 
   return null
