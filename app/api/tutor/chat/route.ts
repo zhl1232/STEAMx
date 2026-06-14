@@ -2,7 +2,7 @@ import { after, NextRequest, NextResponse } from 'next/server'
 
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
 import { streamChatWithTutor, getTutorEngineUserMessage, type TutorEngineMessage } from '@/lib/ai/tutor/engine'
-import { getSmartTutorGreeting, invalidateTutorGreetingCache } from '@/lib/ai/tutor/greeting'
+import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
@@ -232,14 +232,7 @@ export async function GET(request: NextRequest) {
     })
     const messages = await loadHistory(supabase, conversation.id)
 
-    const greeting = messages.length === 0
-      ? await getSmartTutorGreeting({
-          userId: user.id,
-          profile: studentProfile,
-          scene,
-          notebook,
-        })
-      : null
+    const greeting = messages.length === 0 ? buildTutorGreeting(studentProfile, scene) : null
 
     return NextResponse.json({
       messages,
@@ -277,7 +270,6 @@ export async function DELETE(request: NextRequest) {
       meta: buildConversationMeta({ stageIndex, lessonId, surface }),
     })
 
-    invalidateTutorGreetingCache(user.id, { contextType, contextId })
     return NextResponse.json({ ok: true, conversation: { id: conversation.id } })
   } catch (error) {
     return handleApiError(error)

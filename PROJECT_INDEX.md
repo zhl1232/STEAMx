@@ -65,14 +65,14 @@
 | courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库） |
-| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节）；DELETE 归档当前线程并开启新对话）；历史对话只读回看 `conversations`（GET 按场景列归档线程+首条用户消息预览）与 `conversations/[id]`（GET 线程消息，归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
+| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节）；DELETE 归档当前线程并开启新对话）；历史对话只读回看 `conversations`（GET 按场景列归档线程+首条用户消息预览）与 `conversations/[id]`（GET 线程消息，归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
 | geo | `api/geo/` | 反向地理编码 |
 | home | `api/home/` | 首页推荐数据 |
-| internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏） |
+| internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏）与历史 approved 项目低比例 backfill 入队 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
@@ -131,7 +131,7 @@
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
-| `tutor/` | 4 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider、`global-tutor-fab` 悬浮球+流式对话（聊天框可直传图片、场景照片一键发图、Scratch 课时页紧凑位；⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图）、`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）、`tutor-message-content` 回复轻量 Markdown 渲染 + `[project:ID|标题]` 项目 chip |
+| `tutor/` | 5 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider、`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）并用 React Query 预取当前小迪会话、`global-tutor-fab` 悬浮球+流式对话（聊天框可直传图片、场景照片一键发图、Scratch 课时页紧凑位；打开时优先消费预取缓存，⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图）、`tutor-session` 会话 query key/fetch helper、`tutor-message-content` 回复轻量 Markdown 渲染 + `[project:ID|标题]` 项目 chip |
 | `playground/` | 1 | 键盘帮助弹窗 |
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
@@ -331,12 +331,13 @@
 
 ## 10. 部署与 CI
 
-- `deploy/docker-compose.yml` — Docker 部署编排
+- `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口
 - `deploy/nginx.conf` — Nginx 反向代理配置
 - `deploy/server-init.sh` — 服务器初始化脚本
-- `Dockerfile` — 生产镜像构建
+- `deploy/auto-interactions-worker.mjs` — 自动互动队列 Docker worker（可在启动时按 `AUTO_INTERACTION_BACKFILL_*` 低比例补偿历史项目；随后按 `AUTO_INTERACTION_WORKER_INTERVAL_SECONDS` 周期 POST `/api/internal/auto-interactions/run`）
+- `Dockerfile` — 生产镜像构建；将 Next standalone 与自动互动 worker 脚本复制进运行镜像
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright
-- `.github/workflows/release.yml` — Release：构建 Docker 镜像 + SSH 部署
+- `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 同步 compose 文件 + SSH 部署
 
 ---
 

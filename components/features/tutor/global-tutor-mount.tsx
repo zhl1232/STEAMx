@@ -1,25 +1,60 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { GlobalTutorFab } from '@/components/features/tutor/global-tutor-fab'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
+import {
+  fetchTutorSession,
+  TUTOR_SESSION_STALE_MS,
+  tutorSessionQueryKey,
+  type TutorSessionQueryInput,
+} from '@/components/features/tutor/tutor-session'
 import { useToast } from '@/hooks/use-toast'
+import { useAuth } from '@/lib/context/auth-context'
 import { resolveTutorContextFromPath, shouldShowGlobalTutor } from '@/lib/ai/tutor/resolve-context'
 
 export function GlobalTutorMount() {
   const pathname = usePathname() ?? '/'
   const tutorCtx = useOptionalTutorContext()
+  const queryClient = useQueryClient()
+  const { user } = useAuth()
   const { toast } = useToast()
 
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
+  const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
+  const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex
+  const sessionInput = useMemo<TutorSessionQueryInput | null>(() => {
+    if (!visible || !user?.id || !baseContext) return null
+    return {
+      userId: user.id,
+      contextType: baseContext.contextType,
+      contextId: baseContext.contextId,
+      stageIndex,
+      lessonId: baseContext.lessonId,
+      surface: baseContext.surface,
+    }
+  }, [
+    visible,
+    user?.id,
+    baseContext,
+    stageIndex,
+  ])
 
-  if (!shouldShowGlobalTutor(pathname)) return null
-  if (tutorCtx?.override.hideFab) return null
+  useEffect(() => {
+    if (!sessionInput) return
+    void queryClient.prefetchQuery({
+      queryKey: tutorSessionQueryKey(sessionInput),
+      queryFn: () => fetchTutorSession(sessionInput),
+      staleTime: TUTOR_SESSION_STALE_MS,
+    })
+  }, [queryClient, sessionInput])
+
+  if (!visible) return null
   if (!baseContext) return null
 
-  const stageIndex = tutorCtx?.override.stageIndex ?? baseContext.stageIndex
   const open = tutorCtx?.open ?? false
   const setOpen = tutorCtx?.setOpen ?? (() => undefined)
 

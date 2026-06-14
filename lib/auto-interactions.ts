@@ -27,6 +27,13 @@ type ActorProfile = {
   avatar_url?: string | null
 }
 
+export type AutoInteractionEnqueueOptions = {
+  replyRate?: number
+  likeRate?: number
+  collectionRate?: number
+  random?: () => number
+}
+
 const MAX_JOB_ATTEMPTS = 3
 
 function getAdminClient() {
@@ -46,6 +53,12 @@ function getNumberEnv(name: string, fallback: number, min: number, max: number) 
   const raw = Number(process.env[name])
   if (!Number.isFinite(raw)) return fallback
   return Math.min(max, Math.max(min, raw))
+}
+
+function clampRate(value: number | undefined, fallback: number) {
+  if (value == null) return fallback
+  if (!Number.isFinite(value)) return fallback
+  return Math.min(1, Math.max(0, value))
 }
 
 export function isAutoInteractionEnabled() {
@@ -72,8 +85,8 @@ export function sampleAutoInteractionDelayMs(random = Math.random) {
   return Math.round(minutes * 60_000)
 }
 
-export function sampleReplyCount(random = Math.random) {
-  const replyRate = getNumberEnv('AUTO_REPLY_RATE', 0.8, 0, 1)
+export function sampleReplyCount(random = Math.random, replyRateOverride?: number) {
+  const replyRate = clampRate(replyRateOverride, getNumberEnv('AUTO_REPLY_RATE', 0.8, 0, 1))
   if (random() >= replyRate) return 0
 
   const roll = random()
@@ -82,7 +95,10 @@ export function sampleReplyCount(random = Math.random) {
   return 3
 }
 
-export function sampleLikeCount(random = Math.random) {
+export function sampleLikeCount(random = Math.random, likeRateOverride?: number) {
+  const likeRate = clampRate(likeRateOverride, 1)
+  if (likeRate < 1 && random() >= likeRate) return 0
+
   const roll = random()
   if (roll < 0.25) return 0
   if (roll < 0.60) return 1
@@ -91,7 +107,10 @@ export function sampleLikeCount(random = Math.random) {
   return random() < 0.5 ? 4 : 5
 }
 
-export function sampleCollectionCount(random = Math.random) {
+export function sampleCollectionCount(random = Math.random, collectionRateOverride?: number) {
+  const collectionRate = clampRate(collectionRateOverride, 1)
+  if (collectionRate < 1 && random() >= collectionRate) return 0
+
   const roll = random()
   if (roll < 0.70) return 0
   if (roll < 0.92) return 1
@@ -308,6 +327,7 @@ function pickJobsForAction(params: {
 export async function enqueueAutoInteractionsForTarget(
   targetType: AutoInteractionTargetType,
   targetId: number,
+  options: AutoInteractionEnqueueOptions = {},
 ) {
   if (!isAutoInteractionEnabled()) {
     return { queued: 0, skipped: 'disabled' as const }
@@ -337,10 +357,11 @@ export async function enqueueAutoInteractionsForTarget(
     return { queued: 0, skipped: 'no_actor' as const }
   }
 
-  const replyCount = sampleReplyCount()
-  const likeCount = sampleLikeCount()
+  const random = options.random ?? Math.random
+  const replyCount = sampleReplyCount(random, options.replyRate)
+  const likeCount = sampleLikeCount(random, options.likeRate)
   const collectionCount =
-    targetType === 'observation' ? 0 : sampleCollectionCount()
+    targetType === 'observation' ? 0 : sampleCollectionCount(random, options.collectionRate)
 
   const jobs = [
     ...pickJobsForAction({ context, actors, actionType: 'reply', count: replyCount, indexOffset: 0 }),

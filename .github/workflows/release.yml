@@ -74,6 +74,17 @@ jobs:
           source: steam-app.tar.gz
           target: /tmp/
 
+      - name: Copy compose file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: deploy/docker-compose.yml
+          target: /tmp/
+          strip_components: 1
+
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         with:
@@ -84,13 +95,18 @@ jobs:
           script: |
             gunzip -c /tmp/steam-app.tar.gz | docker load
             rm -f /tmp/steam-app.tar.gz
+            cp /tmp/docker-compose.yml /opt/steam-app/docker-compose.yml
+            rm -f /tmp/docker-compose.yml
             cd /opt/steam-app
             missing_runtime=""
-            for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY DASHSCOPE_API_KEY; do
+            for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY DASHSCOPE_API_KEY; do
               if ! grep -qE "^${name}=.+" .env.production; then
                 missing_runtime="$missing_runtime $name"
               fi
             done
+            if ! grep -qE "^(CRON_SECRET|INTERNAL_API_SECRET)=.+" .env.production; then
+              missing_runtime="$missing_runtime CRON_SECRET_OR_INTERNAL_API_SECRET"
+            fi
             if [ -n "$missing_runtime" ]; then
               echo "Missing runtime variables in /opt/steam-app/.env.production:$missing_runtime" >&2
               exit 1

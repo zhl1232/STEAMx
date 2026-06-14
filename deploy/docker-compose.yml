@@ -13,3 +13,16 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  auto-interactions-worker:
+    image: steam-app:latest
+    container_name: steam-auto-interactions-worker
+    restart: unless-stopped
+    depends_on:
+      steam-app:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      AUTO_INTERACTION_WORKER_URL: http://steam-app:3000/api/internal/auto-interactions/run
+    command: ["node", "auto-interactions-worker.mjs"]

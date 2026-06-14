@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
-const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v3.png";
+const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
@@ -327,18 +327,18 @@ function NatureChannel({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.98)_0%,rgba(18,95,42,0.94)_42%,rgba(74,147,61,0.72)_72%,rgba(134,190,77,0.58)_100%),linear-gradient(24deg,rgba(235,248,166,0)_0%,rgba(235,248,166,0.22)_72%,rgba(235,248,166,0.36)_100%)]" />
-      <div className="absolute inset-0 opacity-35 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.2)_49%,transparent_58%),linear-gradient(24deg,transparent_0%,transparent_64%,rgba(255,255,255,0.16)_65%,transparent_72%),repeating-linear-gradient(112deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)]" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-[66%] min-[390px]:w-[60%] md:w-[54%] min-[1480px]:w-[64%]">
+      <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.99)_0%,rgba(13,79,34,0.99)_58%,rgba(19,98,43,0.98)_100%)]" />
+      <div className="absolute inset-0 opacity-25 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_49%,transparent_58%),repeating-linear-gradient(112deg,rgba(255,255,255,0.07)_0_1px,transparent_1px_18px)]" />
+      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-150px] md:w-[50%] lg:right-[-180px] min-[1480px]:right-[-84px] min-[1480px]:w-[78%] min-[1640px]:right-[-96px] min-[1640px]:w-[76%]">
         <Image
           src={natureForegroundImage}
           alt=""
           fill
-          sizes="(max-width: 768px) 220px, (min-width: 1640px) 310px, (min-width: 1480px) 280px, 360px"
-          className="object-contain object-right-bottom drop-shadow-[0_14px_22px_rgba(3,34,12,0.24)] transition duration-500 group-hover:scale-[1.02] dark:brightness-95"
+          sizes="(max-width: 768px) 320px, (min-width: 1640px) 420px, (min-width: 1480px) 370px, 430px"
+          className="object-contain object-right-center drop-shadow-[0_18px_24px_rgba(3,34,12,0.28)] transition duration-500 group-hover:scale-[1.03] dark:brightness-95"
         />
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.88)_40%,rgba(11,64,27,0.42)_66%,rgba(11,64,27,0)_100%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.92)_50%,rgba(11,64,27,0.42)_74%,rgba(11,64,27,0)_100%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.82)_38%,rgba(11,64,27,0.18)_72%,rgba(11,64,27,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_42%,rgba(11,64,27,0.34)_58%,transparent_76%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_45%,rgba(11,64,27,0.26)_62%,transparent_78%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.78)_36%,rgba(11,64,27,0.18)_58%,transparent_74%)]" />
       <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
         <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
         <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>

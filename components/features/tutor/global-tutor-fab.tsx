@@ -1,7 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   ArrowLeft,
   ChevronDown,
@@ -27,6 +28,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
+import {
+  buildTutorChatParams,
+  fetchTutorSession,
+  TUTOR_SESSION_STALE_MS,
+  tutorSessionQueryKey,
+  type TutorSessionPayload,
+  type TutorSessionQueryInput,
+} from '@/components/features/tutor/tutor-session'
 import { TutorMessageContent } from '@/components/features/tutor/tutor-message-content'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
@@ -105,6 +114,7 @@ export function GlobalTutorFab({
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const tutorCtx = useOptionalTutorContext()
+  const queryClient = useQueryClient()
 
   const [mounted, setMounted] = useState(false)
   const [messages, setMessages] = useState<TutorChatMessage[]>([])
@@ -131,48 +141,87 @@ export function GlobalTutorFab({
   const contextKeyRef = useRef(contextKey)
   contextKeyRef.current = contextKey
 
-  const buildParams = useCallback(() => {
-    const params = new URLSearchParams({
+  const sessionInput = useMemo<TutorSessionQueryInput | null>(() => {
+    if (!user?.id) return null
+    return {
+      userId: user.id,
       contextType: context.contextType,
       contextId: context.contextId,
+      stageIndex,
+      lessonId: context.lessonId,
+      surface: context.surface,
+    }
+  }, [user?.id, context.contextType, context.contextId, stageIndex, context.lessonId, context.surface])
+
+  const sessionQueryKey = useMemo(
+    () => (sessionInput ? tutorSessionQueryKey(sessionInput) : (['tutor-session', 'disabled'] as const)),
+    [sessionInput],
+  )
+
+  const sessionQuery = useQuery({
+    queryKey: sessionQueryKey,
+    queryFn: () => {
+      if (!sessionInput) throw new Error('Missing tutor session input')
+      return fetchTutorSession(sessionInput)
+    },
+    enabled: open && Boolean(sessionInput),
+    staleTime: TUTOR_SESSION_STALE_MS,
+  })
+
+  const buildParams = useCallback(() => {
+    return buildTutorChatParams({
+      contextType: context.contextType,
+      contextId: context.contextId,
+      stageIndex,
+      lessonId: context.lessonId,
+      surface: context.surface,
     })
-    if (typeof stageIndex === 'number') params.set('stageIndex', String(stageIndex))
-    if (typeof context.lessonId === 'number') params.set('lessonId', String(context.lessonId))
-    if (context.surface) params.set('surface', context.surface)
-    return params
   }, [context.contextType, context.contextId, stageIndex, context.lessonId, context.surface])
 
+  const applySessionPayload = useCallback((payload: TutorSessionPayload) => {
+    setQuota(payload.quota ?? null)
+    setSceneTitle(payload.scene?.title ?? '')
+    setSuggestedImages(Array.isArray(payload.scene?.suggestedImages) ? payload.scene.suggestedImages : [])
+    // 正在流式发送时不要用 DB 历史覆盖本地乐观消息
+    if (!busyRef.current) {
+      setMessages((payload.messages ?? []).map((m: TutorChatMessage) => ({ ...m })))
+      setGreeting(payload.greeting ?? null)
+    }
+  }, [])
+
   const loadSession = useCallback(async () => {
+    if (!sessionInput) return
     const requestKey = contextKeyRef.current
     try {
-      const res = await fetch(`/api/tutor/chat?${buildParams()}`)
-      if (!res.ok) return
-      const payload = await res.json()
+      const payload = await queryClient.fetchQuery({
+        queryKey: tutorSessionQueryKey(sessionInput),
+        queryFn: () => fetchTutorSession(sessionInput),
+        staleTime: 0,
+      })
       // 响应期间场景已切换：丢弃，避免旧话题数据串进新话题
       if (contextKeyRef.current !== requestKey) return
-      setQuota(payload.quota ?? null)
-      setSceneTitle(payload.scene?.title ?? '')
-      setSuggestedImages(Array.isArray(payload.scene?.suggestedImages) ? payload.scene.suggestedImages : [])
-      // 正在流式发送时不要用 DB 历史覆盖本地乐观消息
-      if (!busyRef.current) {
-        setMessages((payload.messages ?? []).map((m: TutorChatMessage) => ({ ...m })))
-        setGreeting(payload.greeting ?? null)
-      }
+      applySessionPayload(payload)
     } catch {
       // 网络异常保持本地状态
     }
-  }, [buildParams])
+  }, [applySessionPayload, queryClient, sessionInput])
 
   const refreshQuota = useCallback(async () => {
     try {
       const res = await fetch(`/api/tutor/chat?${buildParams()}&quotaOnly=1`)
       if (!res.ok) return
       const payload = await res.json()
-      setQuota(payload.quota ?? null)
+      const nextQuota = payload.quota ?? null
+      setQuota(nextQuota)
+      if (sessionInput) {
+        queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
+          current ? { ...current, quota: nextQuota } : current,
+        )
+      }
     } catch {
       // ignore
     }
-  }, [buildParams])
+  }, [buildParams, queryClient, sessionInput])
 
   useEffect(() => setMounted(true), [])
 
@@ -189,9 +238,9 @@ export function GlobalTutorFab({
   }, [contextKey])
 
   useEffect(() => {
-    if (!open || !user) return
-    void loadSession()
-  }, [open, user, loadSession])
+    if (!sessionQuery.data) return
+    applySessionPayload(sessionQuery.data)
+  }, [applySessionPayload, sessionQuery.data])
 
   useEffect(() => {
     // busy 时不消费，等当前回复结束后 effect 因 busy 变化重跑再发送，避免丢消息。
@@ -232,9 +281,14 @@ export function GlobalTutorFab({
       setBusy(true)
       setGreeting(null)
       setInput('')
+      const userMessage: TutorChatMessage = {
+        role: 'user',
+        content: trimmed,
+        images: images?.length ? images : undefined,
+      }
       setMessages((current) => [
         ...current,
-        { role: 'user', content: trimmed, images: images?.length ? images : undefined },
+        userMessage,
         { role: 'assistant', content: '', streaming: true },
       ])
 
@@ -333,7 +387,19 @@ export function GlobalTutorFab({
           throw new Error(streamError)
         }
 
-        patchStreaming({ role: 'assistant', content: full || '…' })
+        const assistantMessage: TutorChatMessage = { role: 'assistant', content: full || '…' }
+        patchStreaming(assistantMessage)
+        if (sessionInput) {
+          queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
+            current
+              ? {
+                  ...current,
+                  messages: [...(current.messages ?? []), userMessage, assistantMessage],
+                  greeting: null,
+                }
+              : current,
+          )
+        }
         if (streamWarning) {
           toast({ title: streamWarning, variant: 'destructive' })
         }
@@ -349,7 +415,19 @@ export function GlobalTutorFab({
         setBusy(false)
       }
     },
-    [user, context.contextType, context.contextId, context.lessonId, context.surface, stageIndex, promptLogin, refreshQuota, toast],
+    [
+      user,
+      context.contextType,
+      context.contextId,
+      context.lessonId,
+      context.surface,
+      stageIndex,
+      promptLogin,
+      queryClient,
+      refreshQuota,
+      sessionInput,
+      toast,
+    ],
   )
 
   // 输入框/发送按钮共用：携带待发图片，确认会发送后再清空，避免被 guard 拦截时丢图。
@@ -643,6 +721,17 @@ export function GlobalTutorFab({
               <TutorBubble>
                 你好呀！我是小迪 👋 STEAM 探索的 AI 学习导师。登录后我就能记住你的进度，陪你做项目、聊挑战、认自然～
               </TutorBubble>
+            )}
+            {view === 'chat' && user && messages.length === 0 && !greeting && sessionQuery.isFetching && (
+              <TutorBubble>
+                <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  小迪正在准备这个场景…
+                </span>
+              </TutorBubble>
+            )}
+            {view === 'chat' && user && messages.length === 0 && !greeting && sessionQuery.isError && (
+              <TutorBubble error>小迪场景加载失败，可以直接提问，我会在发送时重新连接。</TutorBubble>
             )}
             {view === 'chat' && messages.length === 0 && greeting && (
               <>

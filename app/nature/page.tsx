@@ -184,8 +184,6 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
         className="object-cover object-[center_36%] dark:brightness-75 md:object-center"
         sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
       />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.08)_52%,rgba(0,0,0,0.35)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.28)_38%,rgba(0,0,0,0.04)_74%),linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.18)_100%)]" />
-
       <div className="relative z-10 flex min-h-[220px] flex-col justify-end p-4 text-white min-[390px]:min-h-[232px] md:min-h-[360px] md:justify-between md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
         <div>
           <h1 className="hidden text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:block md:text-[58px] lg:text-[62px]">
