@@ -106,6 +106,30 @@ async function runBackfillOnce({ url, secret }) {
   }
 }
 
+async function runBackfillWithRetry({ url, secret }) {
+  const attempts = 6
+  const retryDelayMs = 10_000
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      await runBackfillOnce({ url, secret })
+      return
+    } catch (error) {
+      console.error(JSON.stringify({
+        at: new Date().toISOString(),
+        event: 'auto-interactions-backfill',
+        ok: false,
+        attempt,
+        attempts,
+        error: error instanceof Error ? error.message : String(error),
+      }))
+      if (attempt < attempts) {
+        await sleep(retryDelayMs)
+      }
+    }
+  }
+}
+
 async function runOnce({ url, secret, limit }) {
   const startedAt = Date.now()
   const response = await fetch(url, {
@@ -169,16 +193,7 @@ async function main() {
   }))
 
   if (readBoolean('AUTO_INTERACTION_BACKFILL_ON_START', false)) {
-    try {
-      await runBackfillOnce({ url: backfillUrl, secret })
-    } catch (error) {
-      console.error(JSON.stringify({
-        at: new Date().toISOString(),
-        event: 'auto-interactions-backfill',
-        ok: false,
-        error: error instanceof Error ? error.message : String(error),
-      }))
-    }
+    await runBackfillWithRetry({ url: backfillUrl, secret })
   }
 
   while (!stopping) {

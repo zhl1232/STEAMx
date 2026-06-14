@@ -13,11 +13,11 @@
 
 | 路由 | 入口文件 | 功能说明 |
 |------|----------|----------|
-| `/` | `app/page.tsx` | 首页 — 推荐项目轮播、6 个热门项目、社区动态 Feed、STEAM 分类磁贴入口 |
+| `/` | `app/page.tsx` | 首页 — 桌面端 Hero 明确「探索项目 / 进入创造营」双 CTA，`lg+` 采用分类+自然频道、热门项目+个性推荐双栏信息仪表盘；移动端保留自然观察/排行榜横向快捷入口；下方展示 6 个热门项目、社区动态 Feed 与本周挑战入口 |
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；植物专题覆盖树木与水果干果；专题图经统一 OSS 资源重写链路加载），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 15 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端本局提示可折叠、游戏内页顶栏显示当前游戏名与返回首页；首页 UI 对齐 `surface-card` / `ToneBadge`，移动端首屏优先推荐与游戏列表 |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -118,7 +118,7 @@
 - `error-boundary.tsx` — 错误边界
 
 ### 3.3 首页 (`components/home/`)
-- `home-showcase.tsx` — 首页主体：轮播、分类磁贴、6 个热门项目、推荐流、社区动态；移动端将自然观察与排行榜合并为手动横向 snap 快捷入口，320px 窄屏隐藏 Hero 底部特性标签并缩短 Hero；自然观察频道图在中宽/宽屏保持鸟主体可见
+- `home-showcase.tsx` — 首页主体：Hero、分类入口、自然频道、6 个热门项目、个性推荐、社区动态与本周挑战；桌面 `lg+` 将自然频道和个性推荐提前到右侧栏以增强信息效率，Hero 提供「开始探索项目 / 进入创造营」双 CTA；移动端将自然观察与排行榜合并为手动横向 snap 快捷入口，320px 窄屏隐藏 Hero 底部特性标签并缩短 Hero；自然观察频道图在中宽/宽屏保持鸟主体可见；页脚移除假二维码与过期活动信息
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
@@ -365,9 +365,8 @@
 
 | 目录 | 内容 |
 |------|------|
-| `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画 |
+| `public/assets/` | 页面背景图、英雄图（WebP/PNG）、游乐场插画；`/nature` 专题入口卡背景 `nature-topic-birds.webp` / `nature-topic-insects.webp` / `nature-topic-plants.webp` / `nature-topic-fungi.webp` |
 | `public/assets/profile-icons/` | 个人主页模块 icon WebP（256px、新手引导、探索地图、时间线、快捷入口 action-*） |
-| `public/assets/timeline/` | 个人探索轨迹历史 PNG（已由 `profile-icons` 替代） |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、植物、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer） |

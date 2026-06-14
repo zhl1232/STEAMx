@@ -32,7 +32,13 @@ import { getAssetDisplayUrl, rewriteAssetUrl, shouldBypassAssetImageOptimization
 import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
-const lakeImage = "/assets/observation-list-reeds-sky-bg.png";
+
+const topicCardImages: Record<NatureTopicKey, string> = {
+  birds: "/assets/nature-topic-birds.webp",
+  insects: "/assets/nature-topic-insects.webp",
+  plants: "/assets/nature-topic-plants.webp",
+  fungi: "/assets/nature-topic-fungi.webp",
+};
 
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
@@ -68,7 +74,7 @@ const topicCardBase: TopicCardBase[] = [
     title: "鸟类",
     subtitle: "发现天空的精灵",
     href: "/nature/species?topic=birds",
-    image: "/birds/images/alcedo-atthis.jpg",
+    image: topicCardImages.birds,
     icon: Feather,
     tint: "from-[#e9f6ff]/90 via-[#bfe5f6]/[0.34] to-transparent dark:from-[#123b64]/95 dark:via-[#1e5f91]/[0.72] dark:to-[#071d32]/[0.42]",
   },
@@ -77,7 +83,7 @@ const topicCardBase: TopicCardBase[] = [
     title: "昆虫",
     subtitle: "微观世界的生命",
     href: "/nature/species?topic=insects",
-    image: "/insects/images/pantala-flavescens-1.jpg",
+    image: topicCardImages.insects,
     icon: Bug,
     tint: "from-[#e5fbf2]/90 via-[#9ee8d0]/[0.34] to-transparent dark:from-[#07405a]/85 dark:via-[#1684a6]/[0.48] dark:to-[#081f2a]/[0.22]",
   },
@@ -86,7 +92,7 @@ const topicCardBase: TopicCardBase[] = [
     title: "植物",
     subtitle: "读懂叶片、花果与种子",
     href: "/nature/species?topic=plants",
-    image: "/trees/images/ginkgo-biloba-1.jpg",
+    image: topicCardImages.plants,
     icon: Trees,
     tint: "from-[#eff8d8]/90 via-[#cdeba0]/[0.36] to-transparent dark:from-[#243f12]/[0.94] dark:via-[#51721c]/[0.66] dark:to-[#17230c]/[0.38]",
   },
@@ -94,7 +100,7 @@ const topicCardBase: TopicCardBase[] = [
     key: "fungi",
     title: "真菌",
     subtitle: "神秘而重要的分解者",
-    image: lakeImage,
+    image: topicCardImages.fungi,
     icon: Leaf,
     tint: "from-[#fff3d8]/90 via-[#edc06e]/[0.32] to-transparent dark:from-[#51380f]/85 dark:via-[#a0712f]/[0.44] dark:to-[#1f1507]/[0.24]",
   },
@@ -234,10 +240,11 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         unoptimized={topicImage.unoptimized}
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
-        className="translate-x-[10%] scale-[1.04] object-cover object-center brightness-[1.04] saturate-[1.06] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,rgba(0,0,0,0.28)_18%,rgba(0,0,0,0.78)_36%,#000_52%)] dark:brightness-[0.82] dark:saturate-[0.92] motion-safe:group-hover:translate-x-[8%] motion-safe:group-hover:scale-[1.08]"
+        className="object-cover object-right opacity-95 brightness-[1.02] saturate-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] dark:opacity-85 dark:brightness-[0.88] dark:saturate-[0.92] motion-safe:group-hover:scale-[1.03]"
         sizes="(max-width: 768px) 68vw, 20vw"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.97)_0%,hsl(var(--surface-raised)/0.82)_26%,hsl(var(--surface-raised)/0.16)_50%,transparent_62%)]" />
+      <div className={`absolute inset-0 bg-gradient-to-r ${topic.tint}`} />
+      <div className="absolute inset-0 bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.94)_0%,hsl(var(--surface-raised)/0.82)_36%,hsl(var(--surface-raised)/0.34)_52%,transparent_70%)] dark:bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--surface-raised)/0.78)_38%,hsl(var(--surface-raised)/0.28)_54%,transparent_72%)]" />
       <div className="relative z-10 flex h-full min-h-[132px] flex-col justify-between p-3.5 md:min-h-[188px] md:p-5">
         <div>
           <div className="flex items-center gap-2">

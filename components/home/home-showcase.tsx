@@ -180,7 +180,7 @@ function getShowcaseProjects(projects: Project[]) {
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-lg md:rounded-md">
-      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[220px]">
+      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[280px] lg:min-h-[300px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -203,24 +203,52 @@ function HomeHero({ image }: { image: string }) {
         <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[220px] md:justify-center md:px-12 md:py-6">
-          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[760px]">
-            <h1 className="whitespace-nowrap font-sans text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:text-[40px] lg:text-[44px]">
-              <span className="text-[hsl(var(--brand-blue))]">探索</span>
-              <span className="px-1.5 text-foreground md:px-4">·</span>
-              <span className="text-[hsl(var(--brand-green))]">创造</span>
-              <span className="px-1.5 text-foreground md:px-4">·</span>
-              <span className="text-[hsl(var(--brand-amber))]">成长</span>
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[280px] md:justify-center md:px-12 md:py-8 lg:min-h-[300px]">
+          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[600px] lg:max-w-[680px]">
+            <p className="hidden text-[13px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
+              STEAM 项目式学习社区
+            </p>
+            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-3 md:text-[42px] md:leading-[1.08] lg:text-[50px]">
+              <span className="md:hidden">
+                <span className="text-[hsl(var(--brand-blue))]">探索</span>
+                <span className="px-1.5 text-foreground">·</span>
+                <span className="text-[hsl(var(--brand-green))]">创造</span>
+                <span className="px-1.5 text-foreground">·</span>
+                <span className="text-[hsl(var(--brand-amber))]">成长</span>
+              </span>
+              <span className="hidden md:block">把好奇心做成作品</span>
             </h1>
 
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
               在 STEAM 的世界里发现无限可能
             </p>
-            <p className="mt-3 hidden max-w-none text-[21px] font-medium leading-7 tracking-normal text-muted-foreground md:block">
-              在 STEAM 的世界里发现无限可能
+            <p className="mt-4 hidden max-w-[560px] text-[18px] font-medium leading-8 tracking-normal text-muted-foreground md:block">
+              选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
             </p>
 
-            <div className="mt-4 hidden max-w-[500px] grid-cols-4 gap-3.5 text-muted-foreground md:grid">
+            <div className="mt-6 hidden flex-wrap gap-3 md:flex">
+              <Link
+                href="/explore"
+                className={cn(
+                  buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
+                  "h-11 gap-2 px-5 text-[14px] font-bold shadow-[0_18px_34px_-24px_hsl(var(--brand-blue)/0.9)]",
+                )}
+              >
+                开始探索项目
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/create"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
+                  "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-5 text-[14px] font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]",
+                )}
+              >
+                进入创造营
+              </Link>
+            </div>
+
+            <div className="mt-5 hidden max-w-[520px] grid-cols-4 gap-3.5 text-muted-foreground md:grid">
               {homeHeroFeatures.map((item) => (
                 <div key={item.label} className="flex flex-col items-start gap-1 text-left md:flex-row md:items-center md:gap-1.5">
                   <item.icon className={cn("h-[18px] w-[18px] shrink-0", item.color)} strokeWidth={2.2} />
@@ -288,7 +316,7 @@ function MobileLeaderboardEntry({ className }: { className?: string }) {
 
 function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:grid-cols-3 md:gap-4 md:pb-1 min-[1280px]:grid-cols-6">
+    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:gap-3.5 min-[1640px]:grid-cols-6">
       {homeCategoryTiles.map((category) => {
         const meta = CATEGORY_META[category.metaKey];
         const Icon = meta.icon;
@@ -300,16 +328,17 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "surface-card-interactive group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-md border px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 min-[390px]:gap-2.5 md:min-h-[116px] md:gap-3 md:rounded-sm md:px-4 md:py-4 min-[1480px]:gap-4 min-[1480px]:px-5",
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.52)] px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 hover:bg-[hsl(var(--surface-raised)/0.9)] hover:shadow-[0_18px_34px_-30px_hsl(var(--surface-shadow)/0.4)] min-[390px]:gap-2.5 md:min-h-[96px] md:gap-3 md:px-4 md:py-4 lg:min-h-[108px] min-[1480px]:gap-4 min-[1480px]:px-5",
               tone.border,
-              tone.bg,
             )}
           >
-            <Icon className={cn("h-5 w-5 shrink-0 transition group-hover:scale-105 min-[390px]:h-5 min-[390px]:w-5 md:h-10 md:w-10 min-[1480px]:h-11 min-[1480px]:w-11", tone.text)} strokeWidth={2.2} />
+            <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition group-hover:scale-105 md:h-11 md:w-11", tone.bg)}>
+              <Icon className={cn("h-5 w-5 md:h-6 md:w-6", tone.text)} strokeWidth={2.2} />
+            </span>
             <div className="min-w-0">
-              <h2 className={cn("whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[18px] min-[1480px]:text-[20px]", tone.text)}>{category.labelOverride ?? meta.label}</h2>
-              <p className="mt-2 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{meta.description}</p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-3 md:text-[12px] min-[1480px]:text-[14px]">{countLabel}</p>
+              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[17px] min-[1480px]:text-[18px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
+              <p className="mt-1.5 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{meta.description}</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-2 md:text-[12px] min-[1480px]:text-[13px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -323,18 +352,18 @@ function NatureChannel({ className }: { className?: string }) {
     <Link
       href="/nature"
       className={cn(
-        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm min-[1480px]:h-full",
+        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm lg:min-h-full",
         className,
       )}
     >
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.99)_0%,rgba(13,79,34,0.99)_58%,rgba(19,98,43,0.98)_100%)]" />
       <div className="absolute inset-0 opacity-25 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_49%,transparent_58%),repeating-linear-gradient(112deg,rgba(255,255,255,0.07)_0_1px,transparent_1px_18px)]" />
-      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-150px] md:w-[50%] lg:right-[-180px] min-[1480px]:right-[-84px] min-[1480px]:w-[78%] min-[1640px]:right-[-96px] min-[1640px]:w-[76%]">
+      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-80px] md:w-[64%] lg:right-[-92px] lg:w-[78%] min-[1640px]:right-[-96px] min-[1640px]:w-[76%]">
         <Image
           src={natureForegroundImage}
           alt=""
           fill
-          sizes="(max-width: 768px) 320px, (min-width: 1640px) 420px, (min-width: 1480px) 370px, 430px"
+          sizes="(max-width: 768px) 320px, (min-width: 1640px) 420px, (min-width: 1024px) 320px, 430px"
           className="object-contain object-right-center drop-shadow-[0_18px_24px_rgba(3,34,12,0.28)] transition duration-500 group-hover:scale-[1.03] dark:brightness-95"
         />
       </div>
@@ -391,7 +420,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
       className={cn(
         "overflow-hidden py-1",
         "max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:rounded-none",
-        "md:p-5",
+        "md:p-5 lg:p-6",
       )}
     >
       <div className="mb-2 flex items-center justify-between md:mb-4">
@@ -407,7 +436,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
+      <div className={cn(COMPACT_VERTICAL_PROJECT_GRID_CLASS, "min-[1480px]:grid-cols-2 min-[1640px]:grid-cols-3")}>
         {visible.map((project, index) => (
           <HomeProjectCard key={project.id} project={project} index={index} />
         ))}
@@ -439,8 +468,8 @@ function communityFeedIconWrap(kind: HomeCommunityFeedKind) {
 
 function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityFeedItem[] }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-      <Surface className="p-4">
+    <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]">
+      <section className="rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.58)] p-4 shadow-none">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-foreground">社区动态</h2>
           <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
@@ -469,23 +498,23 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
             })}
           </div>
         )}
-      </Surface>
+      </section>
 
-      <Surface className="p-4">
+      <section className="rounded-md border border-[hsl(var(--brand-amber)/0.28)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.1),hsl(var(--surface-raised)/0.76)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-[18px] font-bold text-foreground">活动推荐</h2>
+          <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
           <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
         </div>
-        <Link href="/create" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border))] p-2 transition hover:bg-[hsl(var(--surface-muted))]">
-          <div className="relative h-[58px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
+        <Link href="/create" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-raised)/0.72)]">
+          <div className="relative h-[64px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
             <Image src={heroImage} alt="STEAM 创新大赛" fill sizes="120px" className="object-cover object-[62%_center]" />
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-[15px] font-bold text-foreground">全国青少年 STEAM 创新大赛</h3>
-            <p className="mt-2 text-[12px] text-muted-foreground">2024.06.01 - 2024.08.31 · 线上活动</p>
+            <h3 className="truncate text-[15px] font-bold text-foreground">用一个实验解释身边现象</h3>
+            <p className="mt-2 text-[12px] leading-5 text-muted-foreground">每周开放 · 提交过程记录和作品成果</p>
           </div>
         </Link>
-      </Surface>
+      </section>
     </div>
   );
 }
@@ -528,7 +557,7 @@ const homeFooterColumns = [
 function HomeFooter() {
   return (
     <footer className="hidden border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6 md:block">
-      <div className="app-shell-wide grid grid-cols-[1.5fr_repeat(4,1fr)_1.2fr] gap-10 px-8 text-[13px] text-muted-foreground">
+      <div className="app-shell-wide grid grid-cols-2 gap-x-10 gap-y-7 px-8 text-[13px] text-muted-foreground lg:grid-cols-[1.5fr_repeat(4,1fr)]">
         <div>
           <Link href="/" className="mb-3 flex items-center gap-2">
             <SteamLogo className="h-8 w-8" />
@@ -550,19 +579,8 @@ function HomeFooter() {
             </ul>
           </div>
         ))}
-        <div className="flex items-center gap-4">
-          <div className="grid h-[86px] w-[86px] grid-cols-5 grid-rows-5 gap-1 rounded-xs border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] p-2">
-            {Array.from({ length: 25 }).map((_, index) => (
-              <span key={index} className={cn("rounded-[1px]", index % 3 === 0 || index % 7 === 0 ? "bg-foreground" : "bg-[hsl(var(--surface-border))]")} />
-            ))}
-          </div>
-          <div>
-            <h3 className="font-bold text-foreground">关注我们</h3>
-            <p className="mt-2">获取更多内容和活动信息</p>
-          </div>
-        </div>
       </div>
-      <p className="mt-4 text-center text-[12px] text-muted-foreground">© 2024 STEAM 探索 · 粤ICP备 2024001234 号-1</p>
+      <p className="mt-4 text-center text-[12px] text-muted-foreground">© 2026 STEAM 探索 · 面向青少年的项目式学习社区</p>
     </footer>
   );
 }
@@ -586,20 +604,20 @@ export function HomeShowcase({
 }) {
   return (
     <div className="app-canvas min-h-screen">
-      <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:py-8">
+      <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:py-8 lg:gap-8">
         <HomeHero image={heroImage} />
         <MobileShortcutCarousel />
 
-        <div className="grid gap-2.5 min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1480px]:gap-5 min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
+        <div className="grid gap-2.5 md:gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-5 min-[1480px]:grid-cols-[minmax(0,1fr)_380px] min-[1640px]:grid-cols-[minmax(0,1fr)_420px]">
           <CategoryGrid categoryTileCounts={categoryTileCounts} />
-          <div className="hidden md:block">
+          <div className="hidden md:block lg:min-h-full">
             <NatureChannel />
           </div>
         </div>
 
-        <div className="grid items-stretch gap-2.5 md:gap-5 xl:grid-cols-[minmax(0,1fr)_480px]">
+        <div className="grid items-stretch gap-2.5 md:gap-5 lg:grid-cols-[minmax(0,1fr)_340px] min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
           <ProjectSection projects={recentHotProjects} />
-          <div className="hidden xl:block">
+          <div className="hidden lg:block">
             <RecommendationPanel
               className="h-full"
               initialProjects={initialRecommendations}

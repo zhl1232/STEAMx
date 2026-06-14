@@ -87,9 +87,19 @@ function getUnreadByTab(notifications: Notification[], dmUnreadCount: number) {
 
 function MessagePageSkeleton() {
   return (
-    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
+    <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+      <div className="md:hidden">
+        <MobilePageHeader title="消息" fallbackHref="/" />
+        <div className="mobile-subnav sticky top-[var(--mobile-page-header-height)] z-20">
+          <div className="px-4 pb-3 pt-1">
+            <div className="h-10 w-full animate-pulse rounded-full bg-muted" />
+          </div>
+        </div>
+      </div>
+
+      <div className="page-shell flex-1 md:pt-8">
       <div className="surface-panel overflow-hidden">
-        <div className="border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5">
+        <div className="hidden border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5 md:block">
           <div className="h-3 w-16 animate-pulse rounded-full bg-muted" />
           <div className="mt-3 h-9 w-40 animate-pulse rounded-md bg-muted" />
           <div className="mt-4 h-10 w-full animate-pulse rounded-full bg-muted" />
@@ -105,6 +115,7 @@ function MessagePageSkeleton() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
@@ -170,38 +181,36 @@ function MessagesContent() {
   }
 
   return (
-    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
-      <div className="mobile-subnav top-0 z-30 -mx-4 mb-4 md:hidden">
-        <MobilePageHeader
-          title="消息"
-          fallbackHref="/"
-          sticky={false}
-          className="border-none bg-transparent shadow-none"
-        />
-        <div className="px-4 pb-3 pt-1">
-          <div className="segmented-control flex w-full justify-between gap-1">
-            {TABS.map(({ key, shortLabel }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setTab(key)}
-                className={cn(
-                  "segmented-option min-w-0 flex-1 px-0",
-                  tab === key && "segmented-option-active",
-                )}
-              >
-                <span className="relative inline-flex items-center">
-                  {shortLabel}
-                  {unreadByTab[key] > 0 ? (
-                    <span className="absolute -right-2.5 top-0 h-2 w-2 rounded-full bg-destructive" aria-hidden />
-                  ) : null}
-                </span>
-              </button>
-            ))}
+    <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
+      <div className="md:hidden">
+        <MobilePageHeader title="消息" fallbackHref="/" />
+        <div className="mobile-subnav sticky top-[var(--mobile-page-header-height)] z-20">
+          <div className="px-4 pb-3 pt-1">
+            <div className="segmented-control flex w-full justify-between gap-1">
+              {TABS.map(({ key, shortLabel }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setTab(key)}
+                  className={cn(
+                    "segmented-option min-w-0 flex-1 px-0",
+                    tab === key && "segmented-option-active",
+                  )}
+                >
+                  <span className="relative inline-flex items-center">
+                    {shortLabel}
+                    {unreadByTab[key] > 0 ? (
+                      <span className="absolute -right-2.5 top-0 h-2 w-2 rounded-full bg-destructive" aria-hidden />
+                    ) : null}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
+      <div className="page-shell flex-1 md:pt-8">
       <section className="surface-panel overflow-hidden">
         <div className="hidden border-b border-border/60 px-6 py-6 md:block">
           <div className="flex items-start justify-between gap-6">
@@ -419,6 +428,7 @@ function MessagesContent() {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 }

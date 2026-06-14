@@ -112,7 +112,7 @@ export function RecommendationPanel(props: {
           type="button"
           onClick={handleRotate}
           disabled={isPending}
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
+          className="inline-flex min-h-9 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 text-[13px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
         >
           <Repeat2 className={cn("h-3.5 w-3.5", isPending && "animate-spin")} />
           换一批
@@ -121,23 +121,32 @@ export function RecommendationPanel(props: {
 
       {projects.length > 0 ? (
         <div className="flex flex-1 flex-col gap-2.5">
-          {projects.map((project) => {
+          {projects.slice(0, 6).map((project) => {
             const tone = getCategoryTone(project.category);
 
             return (
               <Link
                 key={project.id}
                 href={`/project/${project.id}`}
-                className="grid min-h-[56px] grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted))]"
+                className="grid min-h-[58px] grid-cols-[68px_minmax(0,1fr)] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted))] min-[1480px]:grid-cols-[76px_minmax(0,1fr)_auto]"
               >
                 <div className="relative h-[50px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
                   <OptimizedImage src={project.image} alt={project.title} fill variant="thumbnail" className="object-cover" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="truncate text-[14px] font-semibold text-foreground">{project.title}</h3>
-                  <p className="mt-1 text-[12px] text-muted-foreground">{project.author}</p>
+                  <p className="mt-1 truncate text-[12px] text-muted-foreground">{project.author}</p>
+                  <div className="mt-1.5 flex items-center gap-2 min-[1480px]:hidden">
+                    <ToneBadge tone={tone} className="rounded-full px-1.5 py-0.5 font-medium">
+                      {project.category || "科学"}
+                    </ToneBadge>
+                    <span className="inline-flex items-center gap-1 text-[12px] text-muted-foreground">
+                      <ThumbsUp className="h-3.5 w-3.5" />
+                      {formatCount(project.likes)}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-col items-end gap-1.5">
+                <div className="hidden flex-col items-end gap-1.5 min-[1480px]:flex">
                   <ToneBadge tone={tone} className="rounded-full px-1.5 py-0.5 font-medium">
                     {project.category || "科学"}
                   </ToneBadge>
