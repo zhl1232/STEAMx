@@ -8,7 +8,7 @@ import { ChevronRight, Feather, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Species } from "@/lib/mappers/types";
 import type { SpeciesObservationStatusFilter } from "@/lib/observations/progress";
-import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
+import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from "@/lib/utils/asset-url";
 import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
 import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
@@ -96,7 +96,7 @@ export function SpeciesListLoadMore({
           const familyPinyin = toSpeciesPinyinLabel(family);
           const genusPinyin = toSpeciesPinyinLabel(genus);
           const staggerMs = Math.min(index, 10) * 40;
-          const coverImageSrc = getAssetDisplayUrl(item.coverImageUrl) ?? item.coverImageUrl;
+          const coverImageSrc = resolveAssetDisplayUrl(item.coverImageUrl) ?? item.coverImageUrl;
 
           return (
             <Link
@@ -114,7 +114,7 @@ export function SpeciesListLoadMore({
                     sizes="(min-width: 1536px) 25vw, (min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     quality={60}
-                    unoptimized={shouldBypassAssetImageOptimization(item.coverImageUrl)}
+                    unoptimized={shouldBypassAssetDisplayOptimization(item.coverImageUrl)}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-[hsl(var(--primary)/0.78)]">
