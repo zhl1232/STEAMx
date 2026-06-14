@@ -76,9 +76,14 @@ export function ObservationsListLoadMore({
 
   return (
     <>
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {items.map((observation) => (
-          <ObservationCard key={observation.id} observation={observation} fromHref={fromHref} />
+      <div className="grid gap-5 md:mt-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3">
+        {items.map((observation, index) => (
+          <ObservationCard
+            key={observation.id}
+            observation={observation}
+            fromHref={fromHref}
+            priority={index === 0}
+          />
         ))}
       </div>
 

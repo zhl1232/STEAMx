@@ -24,6 +24,7 @@ export function GlobalTutorMount() {
   const { toast } = useToast()
 
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
+  const hideTutorOnMobile = pathname === '/nature/observations'
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
   const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex
   const sessionInput = useMemo<TutorSessionQueryInput | null>(() => {
@@ -68,6 +69,7 @@ export function GlobalTutorMount() {
       subtitle={tutorCtx?.override.subtitle}
       quickPrompts={tutorCtx?.override.quickPrompts}
       fabPlacement={baseContext.lessonId != null ? 'compact' : 'default'}
+      hideOnMobile={hideTutorOnMobile}
       showReviewAction={Boolean(tutorCtx?.override.getReviewPayload)}
       onReview={() => {
         const payload = tutorCtx?.override.getReviewPayload?.()

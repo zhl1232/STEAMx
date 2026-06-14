@@ -83,6 +83,26 @@ export function getAssetDisplayUrl(input: string | null | undefined): string | n
 }
 
 /**
+ * 展示用资源 URL：先把 `/birds/...` 等本地路径重写到 CDN，再在开发环境走 `/api/assets` 代理。
+ */
+export function resolveAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
+  if (input == null) return input
+  if (typeof input !== 'string') return input
+
+  const trimmed = input.trim()
+  if (!trimmed) return input
+
+  const rewritten = rewriteAssetUrl(trimmed) ?? trimmed
+  return getAssetDisplayUrl(rewritten) ?? rewritten
+}
+
+export function shouldBypassAssetDisplayOptimization(input: string | null | undefined): boolean {
+  if (!input || typeof input !== 'string') return false
+  const rewritten = rewriteAssetUrl(input) ?? input
+  return isConfiguredAssetUrl(rewritten) || shouldRewrite(input.trim().split('?')[0])
+}
+
+/**
  * 把本地资源路径重写为远程 URL。
  * 输入 `/birds/images/foo.jpg` → 输出 `https://assets.example.com/birds/images/foo.jpg`
  *

@@ -1,6 +1,17 @@
 import { after, NextRequest, NextResponse } from 'next/server'
 
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
+import {
+  finalizeReplyAudio,
+  findSpeciesAudiosForMessage,
+  findSpeciesAudiosMentionedInText,
+  type TutorAudioRef,
+} from '@/lib/ai/tutor/audio-tags'
+import {
+  buildSpeciesHintsSummary,
+  findSpeciesHintsForText,
+  speciesHintsToAudioRefs,
+} from '@/lib/ai/tutor/species-hints'
 import { streamChatWithTutor, getTutorEngineUserMessage, type TutorEngineMessage } from '@/lib/ai/tutor/engine'
 import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
@@ -26,6 +37,16 @@ import type { Database } from '@/lib/supabase/types'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
+
+function mergeTutorAudios(...groups: TutorAudioRef[][]) {
+  const merged = new Map<string, TutorAudioRef>()
+  for (const group of groups) {
+    for (const audio of group) {
+      if (!merged.has(audio.slug)) merged.set(audio.slug, audio)
+    }
+  }
+  return [...merged.values()]
+}
 /** 小迪可接收的图片来源：PBL 阶段产出、自然观察照片、聊天直传 */
 const TUTOR_IMAGE_SOURCES = [
   { bucket: 'project-completions', pathPrefix: 'challenge-submissions' },
@@ -340,6 +361,7 @@ export async function POST(request: NextRequest) {
       }),
       loadTutorNotebook(supabase, user.id),
     ])
+    const messageAudios = await findSpeciesAudiosForMessage(supabase, content)
     const conversation = await getOrCreateActiveConversation(supabase, {
       userId: user.id,
       contextType,
@@ -371,7 +393,19 @@ export async function POST(request: NextRequest) {
       images: images.length ? images : undefined,
     })
 
-    const systemPrompt = buildTutorSystemPrompt({ scene, profile: studentProfile, notebook })
+    const conversationText = history.map((message) => message.content).join('\n')
+    const speciesHints = await findSpeciesHintsForText(supabase, conversationText)
+    const hintsSummary = buildSpeciesHintsSummary(speciesHints)
+    const sceneForPrompt = hintsSummary
+      ? { ...scene, summary: [scene.summary, hintsSummary].filter(Boolean).join('\n\n') }
+      : scene
+    const availableAudios = mergeTutorAudios(
+      scene.availableAudios ?? [],
+      messageAudios,
+      speciesHintsToAudioRefs(speciesHints),
+    )
+
+    const systemPrompt = buildTutorSystemPrompt({ scene: sceneForPrompt, profile: studentProfile, notebook })
 
     const encoder = new TextEncoder()
     let fullReply = ''
@@ -430,6 +464,15 @@ export async function POST(request: NextRequest) {
           safeClose()
           return
         }
+
+        fullReply = finalizeReplyAudio(
+          fullReply,
+          content,
+          mergeTutorAudios(
+            availableAudios,
+            await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`),
+          ),
+        )
 
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex

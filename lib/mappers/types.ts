@@ -362,6 +362,8 @@ export interface ObservationIdentification {
     source: 'human' | 'ai'
     identifierUserId?: string | null
     identifierDisplayName?: string | null
+    identifierAvatarUrl?: string | null
+    identifierAvatarFrameId?: string | null
     confidence?: number | null
     modelName?: string | null
     createdAt: string

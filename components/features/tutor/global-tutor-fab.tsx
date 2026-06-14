@@ -88,6 +88,8 @@ type TutorPanelProps = {
   showReviewAction?: boolean
   /** compact：无底部导航的工作区页面（如 Scratch 课时页），贴近底边并避开编辑器右下按钮 */
   fabPlacement?: 'default' | 'compact'
+  /** Hide the floating tutor affordance on phone-sized viewports when it would cover primary content. */
+  hideOnMobile?: boolean
 }
 
 function formatQuota(quota: AiCreditStatus | null) {
@@ -109,6 +111,7 @@ export function GlobalTutorFab({
   onReview,
   showReviewAction = false,
   fabPlacement = 'default',
+  hideOnMobile = false,
 }: TutorPanelProps) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
@@ -579,6 +582,7 @@ export function GlobalTutorFab({
         <section
           className={cn(
             'fixed right-4 z-50 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] md:right-6',
+            hideOnMobile && 'max-lg:hidden',
             fabPlacement === 'compact'
               ? 'bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-[10.5rem]'
               : 'bottom-[calc(12rem+env(safe-area-inset-bottom))] md:bottom-24',
@@ -935,6 +939,7 @@ export function GlobalTutorFab({
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
           'fixed right-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-2 ring-[hsl(var(--brand-blue)/0.4)] transition-transform hover:scale-105 active:scale-95 md:right-6',
+          hideOnMobile && 'max-lg:hidden',
           fabPlacement === 'compact'
             ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
             : 'bottom-[calc(8.5rem+env(safe-area-inset-bottom))] md:bottom-6',

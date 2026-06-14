@@ -32,7 +32,10 @@ export async function loadObservationIdentifications(
     await Promise.all([
       supabase.from('species').select('*').in('id', speciesIds),
       humanUserIds.length > 0
-        ? supabase.from('profiles').select('id, display_name').in('id', humanUserIds)
+        ? supabase
+            .from('profiles')
+            .select('id, display_name, avatar_url, equipped_avatar_frame_id')
+            .in('id', humanUserIds)
         : Promise.resolve({ data: [], error: null }),
     ])
 
@@ -44,9 +47,14 @@ export async function loadObservationIdentifications(
   const speciesById = new Map<number, SpeciesRow>(
     ((speciesData || []) as SpeciesRow[]).map((row) => [row.id, row]),
   )
-  const displayNameById = new Map<string, string | null>(
-    ((profileData || []) as Array<{ id: string; display_name: string | null }>)
-      .map((row) => [row.id, row.display_name]),
+  type ProfileRow = {
+    id: string
+    display_name: string | null
+    avatar_url: string | null
+    equipped_avatar_frame_id?: string | null
+  }
+  const profileById = new Map<string, ProfileRow>(
+    ((profileData || []) as ProfileRow[]).map((row) => [row.id, row]),
   )
   const grouped = new Map<number, ObservationIdentification[]>()
 
@@ -63,7 +71,11 @@ export async function loadObservationIdentifications(
       sex: row.sex,
       source: row.source,
       identifierUserId: row.identifier_user_id,
-      identifierDisplayName: row.identifier_user_id ? displayNameById.get(row.identifier_user_id) ?? null : null,
+      identifierDisplayName: row.identifier_user_id ? profileById.get(row.identifier_user_id)?.display_name ?? null : null,
+      identifierAvatarUrl: row.identifier_user_id ? profileById.get(row.identifier_user_id)?.avatar_url ?? null : null,
+      identifierAvatarFrameId: row.identifier_user_id
+        ? profileById.get(row.identifier_user_id)?.equipped_avatar_frame_id ?? null
+        : null,
       confidence: row.confidence,
       modelName: row.model_name,
       createdAt: row.created_at,

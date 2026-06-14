@@ -21,6 +21,12 @@ export type TutorChatMessage = {
   images?: string[]
 }
 
+export type TutorAudioRef = {
+  slug: string
+  label: string
+  audioUrl: string
+}
+
 export type TutorSceneContext = {
   contextType: TutorContextType
   contextId: string
@@ -29,6 +35,8 @@ export type TutorSceneContext = {
   stageIndex?: number
   stageKind?: string | null
   suggestedImages?: string[]
+  /** 当前场景可插入对话的鸟鸣音频 */
+  availableAudios?: TutorAudioRef[]
   /** 仅 global 场景：当前页面标识 */
   surface?: TutorGlobalSurface
 }

@@ -4,18 +4,17 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   ArrowLeftRight,
-  Bot,
   Check,
   HelpCircle,
   Loader2,
   Search,
   Send,
-  UserRound,
 } from "lucide-react"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import {
   Sheet,
   SheetContent,
@@ -47,8 +46,11 @@ import {
   type CompareSpeciesTarget,
 } from "@/components/features/bird-observation/observation-species-compare-sheet"
 import { natureActionButtonClass } from "@/lib/nature/action-buttons"
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
+
+const TUTOR_AVATAR = "/ai-tutor-mascot.png"
 
 interface SpeciesOption {
   id: number
@@ -99,6 +101,12 @@ function initials(name: string | null | undefined): string {
   const trimmed = name?.trim()
   if (!trimmed) return "?"
   return trimmed.slice(0, 1).toUpperCase()
+}
+
+function resolveUserAvatarUrl(avatarUrl: string | null | undefined, userId: string | null | undefined): string | undefined {
+  if (avatarUrl) return avatarUrl
+  if (userId) return getDefaultAvatarPath(userId)
+  return undefined
 }
 
 function formatIdentificationTraits(identification: ObservationIdentification): string | null {
@@ -732,9 +740,13 @@ function ActivityTimelineItem({
     return (
       <li className="relative flex gap-3 pb-6 pl-1">
         {!isLast ? <span className="absolute bottom-0 left-[18px] top-11 w-px bg-border/60" aria-hidden /> : null}
-        <Avatar className="h-9 w-9 shrink-0 ring-4 ring-background">
-          <AvatarFallback className="text-xs">{initials(comment.author)}</AvatarFallback>
-        </Avatar>
+        <AvatarWithFrame
+          src={resolveUserAvatarUrl(comment.avatar, comment.userId)}
+          alt={comment.author}
+          fallback={initials(comment.author)}
+          avatarFrameId={comment.avatarFrameId}
+          className="h-9 w-9 shrink-0 ring-4 ring-background"
+        />
         <div className="min-w-0 flex-1 pt-0.5">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
             <span className="text-sm font-medium text-foreground">{comment.author}</span>
@@ -759,18 +771,29 @@ function ActivityTimelineItem({
   return (
     <li className="relative flex gap-3 pb-6 pl-1">
       {!isLast ? <span className="absolute bottom-0 left-[18px] top-11 w-px bg-border/60" aria-hidden /> : null}
-      <div
-        className={cn(
-          "flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-4 ring-background",
-          isAi ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground",
-        )}
-      >
-        {isAi ? <Bot className="h-4 w-4" /> : <UserRound className="h-4 w-4" />}
-      </div>
+      {isAi ? (
+        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-4 ring-background ring-[hsl(var(--brand-blue)/0.35)]">
+          <OptimizedImage
+            src={TUTOR_AVATAR}
+            alt="小迪"
+            fill
+            variant="thumbnail"
+            className="object-cover"
+          />
+        </span>
+      ) : (
+        <AvatarWithFrame
+          src={resolveUserAvatarUrl(identification.identifierAvatarUrl, identification.identifierUserId)}
+          alt={identification.identifierDisplayName || (isOwner ? "发布者" : "社区用户")}
+          fallback={initials(identification.identifierDisplayName)}
+          avatarFrameId={identification.identifierAvatarFrameId}
+          className="h-9 w-9 shrink-0 ring-4 ring-background"
+        />
+      )}
       <div className="min-w-0 flex-1 pt-0.5">
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
           <span className="text-sm font-medium text-foreground">
-            {isAi ? "AI 助手" : identification.identifierDisplayName || (isOwner ? "发布者" : "社区用户")}
+            {isAi ? "小迪" : identification.identifierDisplayName || (isOwner ? "发布者" : "社区用户")}
           </span>
           <span className="text-xs text-muted-foreground">{formatRelativeTime(identification.createdAt)}</span>
         </div>

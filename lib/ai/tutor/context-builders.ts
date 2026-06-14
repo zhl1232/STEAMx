@@ -1,6 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { TutorGlobalSurface, TutorSceneContext } from '@/lib/ai/tutor/types'
+import {
+  buildAvailableAudiosSummary,
+  mapSpeciesRowToAudioRef,
+  type TutorAudioRef,
+} from '@/lib/ai/tutor/audio-tags'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
@@ -307,7 +312,7 @@ export function buildSpeciesPageResourceSummary(input: {
   if (input.natureTopic === 'birds') {
     resources.push(
       input.audioUrl
-        ? '页面下方有「鸟鸣音频」卡，可播放真实鸟鸣；聊叫声时引导学生点开听，不要用文字拟声替代真实音频'
+        ? '聊叫声时可简短说明识别要点；有录音时播放器会自动出现，不要提示用户去点听，也不要说「系统已附上」或文字拟声'
         : '本页暂无鸟鸣音频；聊叫声时不要假装页面有音频，也不要编造具体拟声',
     )
   }
@@ -340,6 +345,14 @@ async function buildSpeciesContext(
     ? species.aliases.map((item) => compact(String(item), 40)).filter(Boolean).join('、')
     : ''
 
+  const availableAudios: TutorAudioRef[] = []
+  const audioRef = mapSpeciesRowToAudioRef({
+    slug,
+    common_name: species.common_name,
+    audio_url: species.audio_url,
+  })
+  if (audioRef) availableAudios.push(audioRef)
+
   const summary = [
     `物种：${compact(species.common_name, 80)}`,
     species.scientific_name ? `学名：${compact(species.scientific_name, 80)}` : '',
@@ -353,6 +366,7 @@ async function buildSpeciesContext(
       natureTopic: species.nature_topic,
       audioUrl: species.audio_url,
     }),
+    buildAvailableAudiosSummary(availableAudios),
   ]
     .filter(Boolean)
     .join('\n')
@@ -362,6 +376,7 @@ async function buildSpeciesContext(
     contextId: slug,
     title: species.common_name,
     summary,
+    availableAudios: availableAudios.length ? availableAudios : undefined,
   }
 }
 
@@ -383,7 +398,7 @@ async function buildObservationContext(
 
   const { data: speciesRows } = await supabase
     .from('observation_event_species')
-    .select('species_id, confidence, species(name, common_name)')
+    .select('species_id, confidence, species(slug, name, common_name, audio_url)')
     .eq('observation_event_id', observationId)
     .limit(3)
 
@@ -399,6 +414,23 @@ async function buildObservationContext(
     })
     .join('、')
 
+  const availableAudios = (speciesRows ?? [])
+    .map((row) => {
+      const sp = row.species as {
+        slug?: string
+        common_name?: string
+        name?: string
+        audio_url?: string | null
+      } | null
+      if (!sp?.slug) return null
+      return mapSpeciesRowToAudioRef({
+        slug: sp.slug,
+        common_name: sp.common_name || sp.name || '未知物种',
+        audio_url: sp.audio_url ?? null,
+      })
+    })
+    .filter((item): item is TutorAudioRef => item !== null)
+
   const summary = [
     observation.nature_topic ? `专题：${getSpeciesTopicLabel(observation.nature_topic)}` : '',
     speciesText ? `物种：${speciesText}` : '',
@@ -409,6 +441,7 @@ async function buildObservationContext(
     observation.sex ? `性别：${observation.sex}` : '',
     observation.notes ? `记录：${compact(observation.notes, 400)}` : '',
     '【学生页面上有】观察照片、地点/生境/天气等记录字段、鉴定和评论区。需要看图时可以提醒学生把页面上的观察照片发给小迪。',
+    buildAvailableAudiosSummary(availableAudios),
   ]
     .filter(Boolean)
     .join('\n')
@@ -422,6 +455,7 @@ async function buildObservationContext(
     title: speciesText || '自然观察',
     summary,
     suggestedImages: isOwner ? (observation.media_urls ?? []).slice(0, 4) : undefined,
+    availableAudios: availableAudios.length ? availableAudios : undefined,
   }
 }
 

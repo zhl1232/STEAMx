@@ -9,7 +9,7 @@ import { SpeciesStatsPanel } from "@/components/features/bird-observation/specie
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { getAssetDisplayUrl } from "@/lib/utils/asset-url";
+import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 import { SpeciesImageGallery } from "./species-image-gallery";
@@ -132,7 +132,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const habitatIllustrationUrl = `${topicAssetPrefix}-habitat.png`;
   const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;
   const audioIllustrationUrl = "/assets/species-detail/bird-audio.png";
-  const audioSrc = getAssetDisplayUrl(species.audioUrl) ?? species.audioUrl;
+  const audioSrc = resolveAssetDisplayUrl(species.audioUrl) ?? species.audioUrl;
   const taxonSummaryItems = [
     species.aliasesDisplay ? { label: "别名", value: species.aliasesDisplay, pinyin: aliasesPinyin } : null,
   ].filter((item): item is { label: string; value: string; pinyin: string | null } => Boolean(item));

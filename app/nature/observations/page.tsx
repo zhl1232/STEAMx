@@ -26,15 +26,17 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
   const fromHref = page > 0 ? `/nature/observations?page=${page}` : "/nature/observations";
 
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pt-4 pb-24 md:pt-6 md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="观察记录" fallbackHref="/nature" />
       </div>
 
-      <section className="surface-panel overflow-hidden">
-        <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-          <p className="section-kicker">自然观察</p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">观察记录</h1>
+      <section className="surface-panel overflow-hidden max-md:overflow-visible max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:backdrop-blur-0">
+        <div className="py-4 md:px-7 md:py-7 lg:px-8">
+          <div className="hidden md:block">
+            <p className="section-kicker">自然观察</p>
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight">观察记录</h1>
+          </div>
 
           <ObservationsListLoadMore
             initialObservations={observations}

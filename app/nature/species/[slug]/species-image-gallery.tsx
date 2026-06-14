@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
-import { getAssetDisplayUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
+import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from "@/lib/utils/asset-url";
 
 interface SpeciesImageGalleryProps {
   imageUrls: string[];
@@ -16,7 +16,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
   const railRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const activeImageUrl = imageUrls[activeIndex] ?? imageUrls[0];
-  const activeImageSrc = getAssetDisplayUrl(activeImageUrl) ?? activeImageUrl;
+  const activeImageSrc = resolveAssetDisplayUrl(activeImageUrl) ?? activeImageUrl;
   const hasManyImages = imageUrls.length > 5;
 
   function selectImage(index: number) {
@@ -49,7 +49,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
           sizes="(max-width: 1024px) 100vw, 660px"
           quality={72}
           priority
-          unoptimized={shouldBypassAssetImageOptimization(activeImageUrl)}
+          unoptimized={shouldBypassAssetDisplayOptimization(activeImageUrl)}
         />
         {/* 移动端图片计数器 */}
         {imageUrls.length > 1 ? (
@@ -78,7 +78,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
             aria-label={`${speciesName} 图集`}
           >
             {imageUrls.map((imageUrl, index) => {
-              const imageSrc = getAssetDisplayUrl(imageUrl) ?? imageUrl;
+              const imageSrc = resolveAssetDisplayUrl(imageUrl) ?? imageUrl;
 
               return (
                 <button
@@ -103,7 +103,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
                     className="object-cover"
                     sizes="72px"
                     quality={48}
-                    unoptimized={shouldBypassAssetImageOptimization(imageUrl)}
+                    unoptimized={shouldBypassAssetDisplayOptimization(imageUrl)}
                   />
                 </button>
               );

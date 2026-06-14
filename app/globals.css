@@ -410,6 +410,12 @@
     max-width: var(--shell-wide);
   }
 
+  .app-header-bar button,
+  .app-header-bar [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
   .app-desktop-header {
     border-color: hsl(var(--nav-bar-border) / 0.9);
     background-color: hsl(var(--nav-bar-bg) / 0.92);
@@ -474,7 +480,7 @@
 
   .nav-link {
     color: hsl(var(--nav-muted));
-    @apply relative flex h-16 shrink-0 items-center whitespace-nowrap px-1 text-sm font-semibold transition-colors xl:text-[15px];
+    @apply relative flex h-16 min-w-11 shrink-0 items-center justify-center whitespace-nowrap px-1 text-sm font-semibold transition-colors xl:text-[15px];
   }
 
   .nav-link:hover {

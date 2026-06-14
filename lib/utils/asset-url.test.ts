@@ -3,7 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   getAssetDisplayUrl,
   isConfiguredAssetUrl,
+  resolveAssetDisplayUrl,
   rewriteAssetUrl,
+  shouldBypassAssetDisplayOptimization,
   shouldBypassAssetImageOptimization,
 } from './asset-url'
 
@@ -111,5 +113,48 @@ describe('rewriteAssetUrl', () => {
     expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
       'https://assets.example.com/birds/images/x.jpg',
     )
+  })
+})
+
+describe('resolveAssetDisplayUrl', () => {
+  beforeEach(() => {
+    vi.stubEnv(ENV_KEY, 'https://assets.example.com')
+    vi.stubEnv(NODE_ENV_KEY, 'development')
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('rewrites relative bird assets and proxies them in development', () => {
+    expect(resolveAssetDisplayUrl('/birds/audio/lanius-cristatus.ogg')).toBe(
+      '/api/assets/birds/audio/lanius-cristatus.ogg',
+    )
+    expect(resolveAssetDisplayUrl('/birds/images/lanius-cristatus.jpg')).toBe(
+      '/api/assets/birds/images/lanius-cristatus.jpg',
+    )
+  })
+
+  it('keeps direct CDN URLs in production', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'production')
+
+    expect(resolveAssetDisplayUrl('/birds/audio/lanius-cristatus.ogg')).toBe(
+      'https://assets.example.com/birds/audio/lanius-cristatus.ogg',
+    )
+  })
+})
+
+describe('shouldBypassAssetDisplayOptimization', () => {
+  beforeEach(() => {
+    vi.stubEnv(ENV_KEY, 'https://assets.example.com')
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('treats relative bird image paths as static assets', () => {
+    expect(shouldBypassAssetDisplayOptimization('/birds/images/lanius-cristatus.jpg')).toBe(true)
+    expect(shouldBypassAssetDisplayOptimization('/assets/local.png')).toBe(false)
   })
 })
