@@ -11,6 +11,7 @@ import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
+import { mapChallengeWorkspace, type ChallengeWorkspaceRow } from '@/lib/pbl/challenge-workspace'
 import type { Database } from '@/lib/supabase/types'
 
 function compact(value: string | null | undefined, max = 400) {
@@ -184,7 +185,22 @@ async function buildChallengeContext(
     completed: '已完成',
   }
 
-  const progressList = await getStageProgressByUser(supabase, challengeId, userId)
+  const [progressList, workspaceResponse] = await Promise.all([
+    getStageProgressByUser(supabase, challengeId, userId),
+    supabase
+      .from('challenge_workspaces')
+      .select('project_goal, personal_plan, updated_at')
+      .eq('challenge_id', challengeId)
+      .eq('user_id', userId)
+      .maybeSingle(),
+  ])
+
+  if (workspaceResponse.error) throw workspaceResponse.error
+
+  const workspace = workspaceResponse.data
+    ? mapChallengeWorkspace(workspaceResponse.data as ChallengeWorkspaceRow)
+    : null
+  const personalStep = workspace?.personalPlan?.steps.find((item) => item.stageIndex === idx) ?? null
   const progressByIndex = new Map(progressList.map((item) => [item.stageIndex, item]))
   const progressSummary = stages
     .map((s, i) => {
@@ -210,6 +226,10 @@ async function buildChallengeContext(
       ? `当前阶段（${idx + 1}/${stages.length}）：${compact(stage.title, 120)}\n目标：${compact(stage.description, 400)}`
       : '',
     stage?.hint ? `提示：${compact(stage.hint, 200)}` : '',
+    workspace?.projectGoal ? `学生自己的项目方向：${compact(workspace.projectGoal, 180)}` : '',
+    personalStep
+      ? `当前阶段的个人化推进提示：${compact(personalStep.focus, 180)} ${compact(personalStep.evidencePrompt, 160)} ${compact(personalStep.checkpointPrompt, 160)}`
+      : '',
     progressSummary ? `\n【各阶段产出】\n${compact(progressSummary, 1400)}` : '',
     `【学生页面上有】阶段工作台、每一步的目标和产出记录。${buildStepReferenceInstruction('阶段步骤')}回复时尽量让学生对照当前阶段或已保存产出，不要整段复述页面内容。`,
   ]

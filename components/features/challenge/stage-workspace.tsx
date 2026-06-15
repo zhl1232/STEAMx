@@ -7,7 +7,9 @@ import {
   Lightbulb,
   Loader2,
   Lock,
+  Save,
   Sparkles,
+  Target,
   Upload,
   X,
 } from "lucide-react"
@@ -29,6 +31,7 @@ import type {
   StageProgress,
   StageProgressStatus,
 } from "@/lib/mappers/types"
+import type { ChallengePersonalPlanStep, ChallengeWorkspace } from "@/lib/pbl/challenge-workspace"
 import { cn } from "@/lib/utils"
 
 const MAX_STAGE_IMAGES = 6
@@ -94,6 +97,9 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [savingIndex, setSavingIndex] = useState<number | null>(null)
   const [uploadingByStage, setUploadingByStage] = useState<Record<number, UploadingImage[]>>({})
   const [autosaveState, setAutosaveState] = useState<Record<number, "saving" | "saved" | "error">>({})
+  const [workspace, setWorkspace] = useState<ChallengeWorkspace | null>(null)
+  const [projectGoalDraft, setProjectGoalDraft] = useState("")
+  const [workspaceSaving, setWorkspaceSaving] = useState(false)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)
@@ -114,6 +120,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     let cancelled = false
     if (!user) {
       setSavedProgress({})
+      setWorkspace(null)
+      setProjectGoalDraft("")
       setDrafts(() => {
         const next: Record<number, StageDraft> = {}
         stages.forEach((_, index) => {
@@ -125,9 +133,14 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     }
 
     const load = async () => {
-      const res = await fetch(`/api/challenges/${challengeId}/stages`)
+      const [res, workspaceRes] = await Promise.all([
+        fetch(`/api/challenges/${challengeId}/stages`),
+        fetch(`/api/challenges/${challengeId}/workspace`),
+      ])
       if (cancelled) return
       const progressList: StageProgress[] = res.ok ? (await res.json()).progress ?? [] : []
+      const workspacePayload = workspaceRes.ok ? await workspaceRes.json().catch(() => ({})) : {}
+      const nextWorkspace = (workspacePayload.workspace ?? null) as ChallengeWorkspace | null
       const progressMap: Record<number, StageProgress> = {}
       progressList.forEach((item) => {
         progressMap[item.stageIndex] = item
@@ -140,6 +153,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
 
       setSavedProgress(progressMap)
       setDrafts(draftMap)
+      setWorkspace(nextWorkspace)
+      setProjectGoalDraft(nextWorkspace?.projectGoal ?? "")
 
       const firstIncomplete = stages.findIndex((_, index) => progressMap[index]?.status !== "completed")
       setExpanded(firstIncomplete === -1 ? stages.length - 1 : firstIncomplete)
@@ -167,6 +182,16 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     [savedProgress, currentStep],
   )
 
+  const personalPlanStepByIndex = useMemo(() => {
+    const map = new Map<number, ChallengePersonalPlanStep>()
+    workspace?.personalPlan?.steps.forEach((step) => {
+      map.set(step.stageIndex, step)
+    })
+    return map
+  }, [workspace])
+
+  const currentPersonalPlanStep = personalPlanStepByIndex.get(currentStep)
+
   // 最新草稿放 ref，让 getReviewPayload 始终读到最新值，又不必把 drafts 加进依赖（每次按键都会变）。
   const draftsRef = useRef(drafts)
   useEffect(() => {
@@ -175,23 +200,40 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
 
   useEffect(() => {
     const stage = stages[currentStep]
+    const stageKind = stage?.kind ?? "generic"
+    const quickPrompts = currentPersonalPlanStep
+      ? ["这一步怎么贴合我的项目方向？", ...KIND_QUICK_PROMPTS[stageKind]]
+      : KIND_QUICK_PROMPTS[stageKind]
     setTutorOverride({
       stageIndex: currentStep,
       stageTitle: stage?.title,
-      subtitle: stage?.title ? `陪你完成「${stage.title}」这步` : undefined,
-      quickPrompts: KIND_QUICK_PROMPTS[stage?.kind ?? "generic"],
+      subtitle: workspace?.projectGoal
+        ? `围绕「${workspace.projectGoal}」推进这步`
+        : stage?.title
+          ? `陪你完成「${stage.title}」这步`
+          : undefined,
+      quickPrompts,
       getReviewPayload: () => {
         const draft = draftsRef.current[currentStep]
         if (!draft || (!draft.notes.trim() && draft.images.length === 0)) return null
         const stageTitle = stage?.title ?? `阶段 ${currentStep + 1}`
+        const goalText = workspace?.projectGoal ? `我的项目方向：${workspace.projectGoal}\n` : ""
+        const planText = currentPersonalPlanStep ? `本步重点：${currentPersonalPlanStep.focus}\n` : ""
         return {
-          text: `请看看我在「${stageTitle}」这一步的产出，给我一点改进方向：\n${draft.notes.trim() || "（先上传了图片）"}`,
+          text: `${goalText}${planText}请看看我在「${stageTitle}」这一步的产出，给我一点改进方向：\n${draft.notes.trim() || "（先上传了图片）"}`,
           images: draft.images,
         }
       },
     })
     return () => clearTutorOverride()
-  }, [setTutorOverride, clearTutorOverride, currentStep, stages])
+  }, [
+    setTutorOverride,
+    clearTutorOverride,
+    currentStep,
+    stages,
+    workspace?.projectGoal,
+    currentPersonalPlanStep,
+  ])
 
   const ensureCanEdit = useCallback(() => {
     if (!user) {
@@ -420,6 +462,39 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     queueTutorSend(text, draft.images)
   }, [drafts, currentStep, buildDraft, stages, toast, queueTutorSend, ensureCanEdit])
 
+  const saveProjectGoal = useCallback(async () => {
+    if (!ensureCanEdit()) return
+
+    setWorkspaceSaving(true)
+    try {
+      const normalizedGoal = projectGoalDraft.trim()
+      const res = await fetch(`/api/challenges/${challengeId}/workspace`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ project_goal: normalizedGoal || null }),
+      })
+      const payload = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(payload?.error || "保存失败")
+
+      const nextWorkspace = (payload.workspace ?? null) as ChallengeWorkspace | null
+      setWorkspace(nextWorkspace)
+      setProjectGoalDraft(nextWorkspace?.projectGoal ?? "")
+      toast({
+        title: nextWorkspace ? "项目方向已保存" : "项目方向已清空",
+        description: nextWorkspace ? "每个阶段已生成更贴合你目标的提示。" : undefined,
+      })
+    } catch (error) {
+      logger.error("Challenge workspace save failed", { error })
+      toast({
+        title: "保存失败",
+        description: error instanceof Error ? error.message : "请稍后重试",
+        variant: "destructive",
+      })
+    } finally {
+      setWorkspaceSaving(false)
+    }
+  }, [challengeId, ensureCanEdit, projectGoalDraft, toast])
+
   if (!stages || stages.length === 0) return null
 
   return (
@@ -434,6 +509,67 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
         </span>
       </div>
 
+      {user ? (
+        <div className="space-y-3 rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--status-info-surface)/0.32)] p-3.5">
+          <div className="flex items-start gap-2.5">
+            <Target className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))]" />
+            <div className="min-w-0 flex-1">
+              <Label htmlFor="pbl-project-goal" className="text-sm font-semibold">
+                我的项目方向
+              </Label>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                用一句话写下你想做成什么，工作台会把每一步提示调整到这个方向上。
+              </p>
+            </div>
+          </div>
+          <Textarea
+            id="pbl-project-goal"
+            value={projectGoalDraft}
+            onChange={(event) => setProjectGoalDraft(event.target.value)}
+            maxLength={160}
+            placeholder="例如：做一个适合操场午休区的小型遮阳模型。"
+            disabled={!isActive || workspaceSaving}
+            className="min-h-[68px] bg-background/82 text-sm"
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-auto text-[11px] text-muted-foreground">
+              {projectGoalDraft.trim().length}/160
+              {workspace?.personalPlan ? ` · 已生成 ${workspace.personalPlan.steps.length} 个阶段提示` : ""}
+            </span>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => void saveProjectGoal()}
+              disabled={!isActive || workspaceSaving}
+            >
+              {workspaceSaving ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-1.5 h-3.5 w-3.5" />}
+              保存方向
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-start gap-2.5 rounded-[var(--radius-md)] border border-dashed border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-muted)/0.45)] p-3.5 sm:flex-row sm:items-center">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">登录后保存你的项目方向</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">保存后，每个阶段会出现更贴合你目标的推进提示。</p>
+          </div>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              promptLogin(() => undefined, {
+                title: "登录后设置项目方向",
+                description: "登录后就能保存目标并生成个人化阶段提示。",
+              })
+            }
+          >
+            登录后设置
+          </Button>
+        </div>
+      )}
+
       <div className="space-y-2.5">
         {stages.map((stage, index) => {
           const draft = drafts[index] ?? buildDraft(index)
@@ -447,6 +583,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
           const totalImages = draft.images.length + uploading.length
           const kind = stage.kind ?? "generic"
           const dataField = stage.kind ? KIND_DATA_LABEL[stage.kind] : undefined
+          const personalStep = personalPlanStepByIndex.get(index)
 
           return (
             <div
@@ -511,6 +648,20 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                       </summary>
                       <p className="mt-2 text-[13px] leading-6 text-foreground/80">{stage.hint}</p>
                     </details>
+                  )}
+
+                  {personalStep && (
+                    <div className="space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.28)] p-3">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        个人化计划
+                      </div>
+                      <div className="space-y-1.5 text-[13px] leading-6 text-foreground/82">
+                        <p><span className="font-semibold text-foreground">本步重点：</span>{personalStep.focus}</p>
+                        <p><span className="font-semibold text-foreground">证据提醒：</span>{personalStep.evidencePrompt}</p>
+                        <p><span className="font-semibold text-foreground">完成判断：</span>{personalStep.checkpointPrompt}</p>
+                      </div>
+                    </div>
                   )}
 
                   {!user ? (

@@ -1402,6 +1402,36 @@ export interface Database {
         }
         Relationships: []
       }
+      challenge_workspaces: {
+        Row: {
+          id: number
+          challenge_id: number
+          user_id: string
+          project_goal: string
+          personal_plan: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          challenge_id: number
+          user_id: string
+          project_goal: string
+          personal_plan: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          challenge_id?: number
+          user_id?: string
+          project_goal?: string
+          personal_plan?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       observation_likes: {
         Row: {
           user_id: string

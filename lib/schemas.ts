@@ -97,6 +97,10 @@ export const ChallengeStageProgressSchema = z.object({
   video_url: relativeOrAbsoluteUrlSchema.nullable().optional(),
 });
 
+export const ChallengeWorkspaceUpdateSchema = z.object({
+  project_goal: z.string().max(160).nullable(),
+});
+
 export const ChallengeStageCoachSchema = z.object({
   mode: z.enum(['qa', 'review']),
   question: z.string().max(1000).optional(),
@@ -172,6 +176,7 @@ export type Project = z.infer<typeof ProjectSchema>;
 export type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
 export type ChallengeSubmissionInput = z.infer<typeof ChallengeSubmissionSchema>;
 export type ChallengeStageProgressInput = z.infer<typeof ChallengeStageProgressSchema>;
+export type ChallengeWorkspaceUpdateInput = z.infer<typeof ChallengeWorkspaceUpdateSchema>;
 export type ChallengeStageCoachInput = z.infer<typeof ChallengeStageCoachSchema>;
 export type ChallengeTutorSendInput = z.infer<typeof ChallengeTutorSendSchema>;
 export type TutorSendInput = z.infer<typeof TutorSendSchema>;
