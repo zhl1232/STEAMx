@@ -97,6 +97,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname === '/project' ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/pbl/') ||
+    pathname.startsWith('/playground/') ||
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
     pathname.startsWith('/project/') ||

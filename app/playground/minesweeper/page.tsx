@@ -30,6 +30,7 @@ export default function MinesweeperPage() {
         changeDifficulty,
         difficultyName,
         autoReveal,
+        stats,
         bestTimes,
         isNewRecord,
     } = useMinesweeper("intermediate")
@@ -44,7 +45,7 @@ export default function MinesweeperPage() {
     // 胜利时触发扫雷徽章检测
     useEffect(() => {
         if (status !== "won") return
-        const allBestTimes = Object.values(bestTimes)
+        const allBestTimes = Object.values(stats.bestTimes)
         const overallBest = allBestTimes.length > 0 ? Math.min(...allBestTimes) : 999
         checkBadges({
             // 非扫雷字段传 0，checkBadges 只关心条件满足与否
@@ -55,12 +56,11 @@ export default function MinesweeperPage() {
             challengesJoined: 0, level: 1, loginDays: 0, consecutiveDays: 0,
             discussionsCreated: 0, repliesCount: 0,
             // 扫雷专属字段
-            minesweeperWins: Object.keys(bestTimes).length,
-            minesweeperExpertWins: bestTimes["expert"] !== undefined ? 1 : 0,
+            minesweeperWins: stats.wins,
+            minesweeperExpertWins: stats.winsByDifficulty["expert"] ?? 0,
             minesweeperBestTime: overallBest,
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status])
+    }, [checkBadges, stats, status])
 
     const getNumberColor = (num: number) => {
         switch (num) {

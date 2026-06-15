@@ -180,7 +180,7 @@ function getShowcaseProjects(projects: Project[]) {
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-lg md:rounded-md">
-      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[280px] lg:min-h-[300px]">
+      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] lg:min-h-[260px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -203,12 +203,12 @@ function HomeHero({ image }: { image: string }) {
         <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[280px] md:justify-center md:px-12 md:py-8 lg:min-h-[300px]">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] md:justify-center md:px-10 md:py-7 lg:min-h-[260px]">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[600px] lg:max-w-[680px]">
-            <p className="hidden text-[13px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
+            <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               STEAM 项目式学习社区
             </p>
-            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-3 md:text-[42px] md:leading-[1.08] lg:text-[50px]">
+            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[36px] md:leading-[1.08] lg:text-[42px]">
               <span className="md:hidden">
                 <span className="text-[hsl(var(--brand-blue))]">探索</span>
                 <span className="px-1.5 text-foreground">·</span>
@@ -222,11 +222,11 @@ function HomeHero({ image }: { image: string }) {
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
               在 STEAM 的世界里发现无限可能
             </p>
-            <p className="mt-4 hidden max-w-[560px] text-[18px] font-medium leading-8 tracking-normal text-muted-foreground md:block">
+            <p className="mt-3 hidden max-w-[540px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
               选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
             </p>
 
-            <div className="mt-6 hidden flex-wrap gap-3 md:flex">
+            <div className="mt-5 hidden flex-wrap gap-3 md:flex">
               <Link
                 href="/explore"
                 className={cn(
@@ -248,7 +248,7 @@ function HomeHero({ image }: { image: string }) {
               </Link>
             </div>
 
-            <div className="mt-5 hidden max-w-[520px] grid-cols-4 gap-3.5 text-muted-foreground md:grid">
+            <div className="mt-4 hidden max-w-[500px] grid-cols-4 gap-3 text-muted-foreground md:grid">
               {homeHeroFeatures.map((item) => (
                 <div key={item.label} className="flex flex-col items-start gap-1 text-left md:flex-row md:items-center md:gap-1.5">
                   <item.icon className={cn("h-[18px] w-[18px] shrink-0", item.color)} strokeWidth={2.2} />
@@ -316,7 +316,7 @@ function MobileLeaderboardEntry({ className }: { className?: string }) {
 
 function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:gap-3.5 min-[1640px]:grid-cols-6">
+    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:gap-3 min-[1640px]:grid-cols-6">
       {homeCategoryTiles.map((category) => {
         const meta = CATEGORY_META[category.metaKey];
         const Icon = meta.icon;
@@ -328,17 +328,17 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.52)] px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 hover:bg-[hsl(var(--surface-raised)/0.9)] hover:shadow-[0_18px_34px_-30px_hsl(var(--surface-shadow)/0.4)] min-[390px]:gap-2.5 md:min-h-[96px] md:gap-3 md:px-4 md:py-4 lg:min-h-[108px] min-[1480px]:gap-4 min-[1480px]:px-5",
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.52)] px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 hover:bg-[hsl(var(--surface-raised)/0.9)] hover:shadow-[0_18px_34px_-30px_hsl(var(--surface-shadow)/0.4)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3 lg:min-h-[84px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               tone.border,
             )}
           >
-            <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition group-hover:scale-105 md:h-11 md:w-11", tone.bg)}>
-              <Icon className={cn("h-5 w-5 md:h-6 md:w-6", tone.text)} strokeWidth={2.2} />
+            <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition group-hover:scale-105 md:h-10 md:w-10", tone.bg)}>
+              <Icon className={cn("h-5 w-5 md:h-[22px] md:w-[22px]", tone.text)} strokeWidth={2.2} />
             </span>
             <div className="min-w-0">
-              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[17px] min-[1480px]:text-[18px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
-              <p className="mt-1.5 hidden text-[12px] text-muted-foreground md:block min-[1480px]:text-[13px]">{meta.description}</p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-2 md:text-[12px] min-[1480px]:text-[13px]">{countLabel}</p>
+              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[16px] min-[1480px]:text-[17px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
+              <p className="mt-1.5 hidden text-[12px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -352,13 +352,13 @@ function NatureChannel({ className }: { className?: string }) {
     <Link
       href="/nature"
       className={cn(
-        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[176px] md:rounded-sm lg:min-h-full",
+        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[172px] md:rounded-sm lg:min-h-full",
         className,
       )}
     >
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.99)_0%,rgba(13,79,34,0.99)_58%,rgba(19,98,43,0.98)_100%)]" />
       <div className="absolute inset-0 opacity-25 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_49%,transparent_58%),repeating-linear-gradient(112deg,rgba(255,255,255,0.07)_0_1px,transparent_1px_18px)]" />
-      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-80px] md:w-[64%] lg:right-[-92px] lg:w-[78%] min-[1640px]:right-[-96px] min-[1640px]:w-[76%]">
+      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-16px] md:w-[64%] lg:right-[-16px] lg:w-[78%] min-[1640px]:right-[-32px] min-[1640px]:w-[76%]">
         <Image
           src={natureForegroundImage}
           alt=""
@@ -368,10 +368,10 @@ function NatureChannel({ className }: { className?: string }) {
         />
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_42%,rgba(11,64,27,0.34)_58%,transparent_76%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_45%,rgba(11,64,27,0.26)_62%,transparent_78%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.78)_36%,rgba(11,64,27,0.18)_58%,transparent_74%)]" />
-      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[176px] md:max-w-none md:px-7 md:py-6 md:text-white">
-        <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[22px]">自然观察频道</h2>
-        <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-4 md:text-[14px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
-        <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] md:mt-6 md:h-9 md:gap-2 md:px-5 md:text-[14px]">
+      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[172px] md:max-w-none md:px-6 md:py-5 md:text-white">
+        <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[20px]">自然观察频道</h2>
+        <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-3 md:text-[13px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
+        <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] md:mt-5 md:h-8 md:gap-2 md:px-4 md:text-[13px]">
           立即进入
           <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
         </span>
@@ -407,7 +407,10 @@ function HomeProjectCard({ project, index }: { project: Project; index: number }
       priority={index < 4}
       variant="compact"
       compactLayout="vertical"
-      className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+      className={cn(
+        COMPACT_VERTICAL_PROJECT_CARD_CLASS,
+        "md:[&>div>div:first-of-type]:aspect-[16/8.8] lg:[&>div>div:last-child]:gap-1.5 lg:[&>div>div:last-child]:p-3",
+      )}
     />
   );
 }
@@ -420,7 +423,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
       className={cn(
         "overflow-hidden py-1",
         "max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:rounded-none",
-        "md:p-5 lg:p-6",
+        "md:p-5",
       )}
     >
       <div className="mb-2 flex items-center justify-between md:mb-4">
@@ -436,7 +439,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className={cn(COMPACT_VERTICAL_PROJECT_GRID_CLASS, "min-[1480px]:grid-cols-2 min-[1640px]:grid-cols-3")}>
+      <div className={cn(COMPACT_VERTICAL_PROJECT_GRID_CLASS, "min-[1180px]:grid-cols-3")}>
         {visible.map((project, index) => (
           <HomeProjectCard key={project.id} project={project} index={index} />
         ))}
@@ -604,22 +607,22 @@ export function HomeShowcase({
 }) {
   return (
     <div className="app-canvas min-h-screen">
-      <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-7 md:py-8 lg:gap-8">
+      <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-5 md:py-6 lg:gap-5">
         <HomeHero image={heroImage} />
         <MobileShortcutCarousel />
 
-        <div className="grid gap-2.5 md:gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-5 min-[1480px]:grid-cols-[minmax(0,1fr)_380px] min-[1640px]:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="grid gap-2.5 md:gap-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 min-[1480px]:grid-cols-[minmax(0,1fr)_340px] min-[1640px]:grid-cols-[minmax(0,1fr)_380px]">
           <CategoryGrid categoryTileCounts={categoryTileCounts} />
           <div className="hidden md:block lg:min-h-full">
             <NatureChannel />
           </div>
         </div>
 
-        <div className="grid items-stretch gap-2.5 md:gap-5 lg:grid-cols-[minmax(0,1fr)_340px] min-[1480px]:grid-cols-[minmax(0,1fr)_420px] min-[1640px]:grid-cols-[minmax(0,1fr)_480px]">
+        <div className="grid items-start gap-2.5 md:gap-5 lg:grid-cols-[minmax(0,1fr)_300px] min-[1480px]:grid-cols-[minmax(0,1fr)_360px] min-[1640px]:grid-cols-[minmax(0,1fr)_400px]">
           <ProjectSection projects={recentHotProjects} />
           <div className="hidden lg:block">
             <RecommendationPanel
-              className="h-full"
+              className="h-auto"
               initialProjects={initialRecommendations}
               initialMode={initialRecommendationMode}
               initialNextOffset={initialRecommendationNextOffset}

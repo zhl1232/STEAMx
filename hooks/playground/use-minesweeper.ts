@@ -1,5 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage";
+import {
+    MINESWEEPER_STATS_KEY,
+    readMergedMinesweeperStats,
+    type MinesweeperStats,
+} from "@/lib/playground/minesweeper-stats";
+import { setPlaygroundItem } from "@/lib/playground/storage";
 
 export type CellState = {
     row: number;
@@ -37,16 +42,10 @@ const getNeighbors = (row: number, col: number, maxRow: number, maxCol: number) 
     return neighbors;
 };
 
-const BEST_TIMES_KEY = 'minesweeper_best_times';
-
-type BestTimes = Record<string, number>; // difficulty -> best seconds
+export type { MinesweeperStats } from "@/lib/playground/minesweeper-stats";
 
 function isWithinBounds(row: number, col: number, rows: number, cols: number) {
     return row >= 0 && row < rows && col >= 0 && col < cols;
-}
-
-function loadBestTimes(): BestTimes {
-    return getPlaygroundItem<BestTimes>(BEST_TIMES_KEY) ?? {};
 }
 
 export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'beginner') {
@@ -56,9 +55,10 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     const [status, setStatus] = useState<GameStatus>('idle');
     const [flagsCount, setFlagsCount] = useState(0);
     const [time, setTime] = useState(0);
-    const [bestTimes, setBestTimes] = useState<BestTimes>(loadBestTimes);
+    const [stats, setStats] = useState<MinesweeperStats>(readMergedMinesweeperStats);
     const [isNewRecord, setIsNewRecord] = useState(false);
     const timeRef = useRef(0);
+    const bestTimes = stats.bestTimes;
 
     // 初始化空盘面（没有雷，点第一下时才布雷）
     const initBoard = useCallback((diff: DifficultyInfo) => {
@@ -81,6 +81,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         setStatus('idle');
         setFlagsCount(0);
         setTime(0);
+        setIsNewRecord(false);
         timeRef.current = 0;
     }, []);
 
@@ -103,17 +104,37 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         return () => clearInterval(timer);
     }, [status]);
 
-    const updateBestTime = useCallback((key: string, finalTime: number) => {
-        setBestTimes((prev) => {
-            const current = prev[key];
-            if (current === undefined || finalTime < current) {
-                const next = { ...prev, [key]: finalTime };
-                setPlaygroundItem(BEST_TIMES_KEY, next);
-                setIsNewRecord(true);
-                return next;
-            }
-            setIsNewRecord(false);
-            return prev;
+    const recordStartedGame = useCallback(() => {
+        setStats((prev) => {
+            const next = { ...prev, totalGames: prev.totalGames + 1 };
+            setPlaygroundItem(MINESWEEPER_STATS_KEY, next);
+            return next;
+        });
+    }, []);
+
+    const recordWin = useCallback((key: string, finalTime: number) => {
+        const normalizedTime = Math.max(1, Math.floor(finalTime));
+        setStats((prev) => {
+            const current = prev.bestTimes[key];
+            const nextBestTimes =
+                current === undefined || normalizedTime < current
+                    ? { ...prev.bestTimes, [key]: normalizedTime }
+                    : prev.bestTimes;
+            const isRecord = nextBestTimes !== prev.bestTimes;
+            const next: MinesweeperStats = {
+                ...prev,
+                totalGames: Math.max(prev.totalGames, prev.wins + 1),
+                wins: prev.wins + 1,
+                winsByDifficulty: {
+                    ...prev.winsByDifficulty,
+                    [key]: (prev.winsByDifficulty[key] ?? 0) + 1,
+                },
+                bestTimes: nextBestTimes,
+            };
+
+            setPlaygroundItem(MINESWEEPER_STATS_KEY, next);
+            setIsNewRecord(isRecord);
+            return next;
         });
     }, []);
 
@@ -187,6 +208,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         // 第一次点击才真正初始化布雷（防杀开局）
         if (status === 'idle') {
             currentBoard = placeMines(row, col);
+            recordStartedGame();
             setStatus('playing');
         }
 
@@ -325,8 +347,11 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         });
 
         if (unrevealedSafeCells === 0) {
+            const finalTime = Math.max(1, timeRef.current);
+            timeRef.current = finalTime;
+            setTime(finalTime);
             setStatus('won');
-            updateBestTime(difficultyKey, timeRef.current);
+            recordWin(difficultyKey, finalTime);
         }
     };
 
@@ -347,6 +372,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         flagsCount,
         time,
         minesLeft: difficulty.mines - flagsCount,
+        stats,
         revealCell,
         toggleFlag,
         autoReveal,

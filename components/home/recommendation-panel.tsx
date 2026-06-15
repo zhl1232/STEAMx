@@ -105,14 +105,14 @@ export function RecommendationPanel(props: {
   };
 
   return (
-    <Surface className={cn("flex h-full flex-col p-4", props.className)}>
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-[18px] font-bold text-foreground">个性推荐</h2>
+    <Surface className={cn("flex h-full flex-col p-3.5", props.className)}>
+      <div className="mb-2.5 flex items-center justify-between">
+        <h2 className="text-[16px] font-bold text-foreground">个性推荐</h2>
         <button
           type="button"
           onClick={handleRotate}
           disabled={isPending}
-          className="inline-flex min-h-9 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 text-[13px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
+          className="inline-flex min-h-8 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 text-[12px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
         >
           <Repeat2 className={cn("h-3.5 w-3.5", isPending && "animate-spin")} />
           换一批
@@ -120,7 +120,7 @@ export function RecommendationPanel(props: {
       </div>
 
       {projects.length > 0 ? (
-        <div className="flex flex-1 flex-col gap-2.5">
+        <div className="flex flex-1 flex-col gap-1.5">
           {projects.slice(0, 6).map((project) => {
             const tone = getCategoryTone(project.category);
 
@@ -128,15 +128,15 @@ export function RecommendationPanel(props: {
               <Link
                 key={project.id}
                 href={`/project/${project.id}`}
-                className="grid min-h-[58px] grid-cols-[68px_minmax(0,1fr)] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted))] min-[1480px]:grid-cols-[76px_minmax(0,1fr)_auto]"
+                className="grid min-h-[54px] grid-cols-[64px_minmax(0,1fr)] items-center gap-2.5 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted))] min-[1480px]:grid-cols-[70px_minmax(0,1fr)_auto]"
               >
-                <div className="relative h-[50px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
+                <div className="relative h-[46px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
                   <OptimizedImage src={project.image} alt={project.title} fill variant="thumbnail" className="object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate text-[14px] font-semibold text-foreground">{project.title}</h3>
-                  <p className="mt-1 truncate text-[12px] text-muted-foreground">{project.author}</p>
-                  <div className="mt-1.5 flex items-center gap-2 min-[1480px]:hidden">
+                  <h3 className="truncate text-[13px] font-semibold text-foreground min-[1480px]:text-[14px]">{project.title}</h3>
+                  <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{project.author}</p>
+                  <div className="mt-1 flex items-center gap-2 min-[1480px]:hidden">
                     <ToneBadge tone={tone} className="rounded-full px-1.5 py-0.5 font-medium">
                       {project.category || "科学"}
                     </ToneBadge>
@@ -146,7 +146,7 @@ export function RecommendationPanel(props: {
                     </span>
                   </div>
                 </div>
-                <div className="hidden flex-col items-end gap-1.5 min-[1480px]:flex">
+                <div className="hidden flex-col items-end gap-1 min-[1480px]:flex">
                   <ToneBadge tone={tone} className="rounded-full px-1.5 py-0.5 font-medium">
                     {project.category || "科学"}
                   </ToneBadge>

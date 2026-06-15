@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { BADGES } from '../lib/gamification/badges'
+import { BADGES, PLAYGROUND_BADGE_COUNT } from '../lib/gamification/badges'
 import { UserStats } from '../lib/gamification/types'
 
 const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
@@ -279,5 +279,16 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(bronze!.condition(createStats({ playgroundWinsTotal: 5 }))).toBe(true);
         expect(platinum!.condition(createStats({ playgroundWinsTotal: 499 }))).toBe(false);
         expect(platinum!.condition(createStats({ playgroundWinsTotal: 500 }))).toBe(true);
+    });
+
+    test("playground badge count follows the active playground badge series", () => {
+        const count = BADGES.filter((badge) =>
+            badge.seriesKey === "playground_explorer" ||
+            badge.seriesKey === "playground_victories" ||
+            badge.seriesKey === "playground_star"
+        ).length;
+
+        expect(PLAYGROUND_BADGE_COUNT).toBe(15);
+        expect(PLAYGROUND_BADGE_COUNT).toBe(count);
     });
 });

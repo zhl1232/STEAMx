@@ -141,6 +141,17 @@ describe('ConditionalAppShell mobile header policy', () => {
     expect(screen.getByTestId('daily-check-in-sync')).toBeInTheDocument()
   })
 
+  it('keeps the bottom nav on the playground hub but hides it on playground game routes', () => {
+    const { unmount } = renderShell('/playground', <div data-testid="page-content" />)
+
+    expect(screen.getByTestId('bottom-nav')).toBeInTheDocument()
+
+    unmount()
+    renderShell('/playground/minesweeper', <div data-testid="page-content" />)
+
+    expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
+  })
+
   it.each(['/create', '/explore', '/nature', '/profile'])(
     'lets the primary mobile entry route %s own its header',
     (pathname) => {

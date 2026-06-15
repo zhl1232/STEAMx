@@ -35,7 +35,9 @@ import { BadgeIcon } from "@/components/features/gamification/badge-icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge"
+import { BADGES, PLAYGROUND_BADGE_COUNT } from "@/lib/gamification/badges"
 import { getPlaygroundItem, PLAYGROUND_CHANGE_EVENT } from "@/lib/playground/storage"
+import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
@@ -68,9 +70,9 @@ const GAMES: GameCard[] = [
         visual: "mines",
         tags: ["Science", "Math"],
         description: "经典逻辑推理游戏，训练你的推理与安全排雷能力。",
-        statsKey: "minesweeper_best_times",
-        getPlayed: (raw) => (raw && typeof raw === "object" ? Object.keys(raw).length : 0),
-        getWins: (raw) => (raw && typeof raw === "object" ? Object.keys(raw).length : 0),
+        statsKey: "minesweeper_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames") || countBestTimeRecords(readBestTimes(raw)),
+        getWins: (raw) => safeNum(raw, "wins") || countBestTimeRecords(readBestTimes(raw)),
     },
     {
         name: "五子棋",
@@ -294,7 +296,21 @@ const STEAM_DIMS: { key: SteamTag; label: string; name: string; icon: LucideIcon
     { key: "Math", label: "数学", name: "Math", icon: Sigma, color: "text-cyan-600 dark:text-cyan-300", bg: "bg-cyan-100 dark:bg-cyan-400/10" },
 ]
 
-const BADGE_COUNT = 28
+const BADGE_COUNT = PLAYGROUND_BADGE_COUNT
+const BADGE_PREVIEW_IDS = [
+    "playground_explorer_bronze",
+    "playground_victories_bronze",
+    "minesweeper_speedster",
+    "game2048_8192",
+    "game24_speed",
+    "hanoi_perfect",
+    "circuit_logic",
+    "tangram_all",
+] as const
+const BADGE_PREVIEW_BADGES = BADGE_PREVIEW_IDS.flatMap((id) => {
+    const badge = BADGES.find((item) => item.id === id)
+    return badge ? [badge] : []
+})
 
 const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }>> = {
     mines: {
@@ -335,6 +351,19 @@ function safeNum(raw: unknown, key: string): number {
     return 0
 }
 
+function readBestTimes(raw: unknown): unknown {
+    if (!raw || typeof raw !== "object") return raw
+    const value = (raw as Record<string, unknown>).bestTimes
+    if (value && typeof value === "object") return value
+    if ("totalGames" in raw || "wins" in raw || "winsByDifficulty" in raw) return {}
+    return raw
+}
+
+function countBestTimeRecords(raw: unknown): number {
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return 0
+    return Object.values(raw).filter((value) => typeof value === "number" && Number.isFinite(value) && value >= 0).length
+}
+
 function readStats(key: string): unknown {
     return getPlaygroundItem(key)
 }
@@ -361,6 +390,13 @@ const EMPTY_STATS: AggStats = {
     },
 }
 
+function readGameStats(game: GameCard): unknown {
+    if (game.statsKey === "minesweeper_stats") {
+        return readMergedMinesweeperStats()
+    }
+    return readStats(game.statsKey)
+}
+
 function aggregateStats(): AggStats {
     let totalPlayed = 0
     let totalWins = 0
@@ -375,7 +411,7 @@ function aggregateStats(): AggStats {
     }
 
     for (const game of GAMES) {
-        const raw = readStats(game.statsKey)
+        const raw = readGameStats(game)
         const played = game.getPlayed(raw)
         const wins = game.getWins(raw)
         totalPlayed += played
@@ -1058,17 +1094,6 @@ function RecommendationPanel({ games }: { games: GameCard[] }) {
 }
 
 function BadgePanel() {
-    const badges = [
-        { icon: "trophy", label: "初来乍到", tier: "gold" as const, seriesKey: "milestone" },
-        { icon: "bomb", label: "扫雷达人", tier: "silver" as const, seriesKey: "minesweeper" },
-        { icon: "grid_nine", label: "五子棋手", tier: "bronze" as const, seriesKey: "gomoku" },
-        { icon: "dna", label: "生命观察者", tier: "platinum" as const, seriesKey: "life" },
-        { icon: "calculator", label: "天才计算器", tier: "silver" as const, seriesKey: "game24" },
-        { icon: "layers", label: "汉诺大师", tier: "gold" as const, seriesKey: "hanoi" },
-        { icon: "target", label: "约束专家", tier: "silver" as const, seriesKey: "sudoku" },
-        { icon: "circuitry", label: "电路学徒", tier: "platinum" as const, seriesKey: "circuit" },
-    ]
-
     return (
         <section className="surface-panel p-4">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -1081,20 +1106,17 @@ function BadgePanel() {
                 </Link>
             </div>
             <div className="grid grid-cols-4 gap-3">
-                {badges.map((badge) => (
-                    <div key={badge.label} className="text-center">
+                {BADGE_PREVIEW_BADGES.map((badge) => (
+                    <div key={badge.id} className="text-center">
                         <div className="group mx-auto w-fit">
                             <BadgeIcon icon={badge.icon} tier={badge.tier} seriesKey={badge.seriesKey} size="sm" showGlow />
                         </div>
-                        <p className="mt-1 line-clamp-2 text-xs font-semibold leading-tight text-muted-foreground">{badge.label}</p>
+                        <p className="mt-1 line-clamp-2 text-xs font-semibold leading-tight text-muted-foreground">{badge.name}</p>
                     </div>
                 ))}
             </div>
-            <div className="mt-4 flex items-center gap-3">
-                <span className="text-xs font-bold text-muted-foreground">已解锁 12/28</span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-white/[0.08]">
-                    <div className="h-full w-[43%] rounded-full bg-primary" />
-                </div>
+            <div className="mt-4 rounded-sm bg-muted/35 px-3 py-2 text-xs font-medium leading-relaxed text-muted-foreground">
+                覆盖跨游戏探索、累计胜利和高难度彩蛋三类目标。
             </div>
         </section>
     )

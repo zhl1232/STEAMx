@@ -9,6 +9,7 @@
 
 export const PLAYGROUND_KEYS = [
   { key: "minesweeper_best_times", label: "扫雷" },
+  { key: "minesweeper_stats", label: "扫雷战绩" },
   { key: "gomoku_records", label: "五子棋" },
   { key: "game_of_life_stats", label: "生命游戏" },
   { key: "game_2048_stats", label: "2048" },

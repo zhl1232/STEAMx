@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DIFFICULTIES, useMinesweeper } from './use-minesweeper'
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
-    getPlaygroundItemMock: vi.fn(() => null),
+    getPlaygroundItemMock: vi.fn((_key: string): unknown => null),
     setPlaygroundItemMock: vi.fn(),
 }))
 
@@ -18,6 +18,7 @@ const originalIntermediate = { ...DIFFICULTIES.intermediate }
 describe('useMinesweeper', () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        getPlaygroundItemMock.mockImplementation(() => null)
         DIFFICULTIES.beginner = { ...originalBeginner }
         DIFFICULTIES.intermediate = { ...originalIntermediate }
     })
@@ -78,6 +79,28 @@ describe('useMinesweeper', () => {
         expect(result.current.minesLeft).toBe(DIFFICULTIES.beginner.mines - 1)
     })
 
+    it('hydrates legacy best time records into the structured stats shape', () => {
+        getPlaygroundItemMock.mockImplementation((key: string) => {
+            if (key === 'minesweeper_best_times') return { beginner: 0, expert: 120 }
+            return null
+        })
+
+        const { result } = renderHook(() => useMinesweeper('beginner'))
+
+        expect(result.current.stats).toMatchObject({
+            totalGames: 2,
+            wins: 2,
+            winsByDifficulty: {
+                beginner: 1,
+                expert: 1,
+            },
+            bestTimes: {
+                beginner: 1,
+                expert: 120,
+            },
+        })
+    })
+
     it('resets elapsed time when changing difficulty before saving a new best record', async () => {
         vi.useFakeTimers()
         DIFFICULTIES.beginner = { rows: 2, cols: 2, mines: 1 }
@@ -106,7 +129,12 @@ describe('useMinesweeper', () => {
             })
 
             expect(result.current.status).toBe('won')
-            expect(setPlaygroundItemMock).toHaveBeenLastCalledWith('minesweeper_best_times', { beginner: 2 })
+            expect(setPlaygroundItemMock).toHaveBeenCalledWith('minesweeper_stats', expect.objectContaining({
+                totalGames: 1,
+                wins: 1,
+                winsByDifficulty: expect.objectContaining({ beginner: 1 }),
+                bestTimes: { beginner: 2 },
+            }))
 
             act(() => {
                 result.current.changeDifficulty('intermediate')
@@ -122,10 +150,16 @@ describe('useMinesweeper', () => {
             })
 
             expect(result.current.status).toBe('won')
-            expect(setPlaygroundItemMock).toHaveBeenLastCalledWith('minesweeper_best_times', {
-                beginner: 2,
-                intermediate: 0,
-            })
+            expect(result.current.time).toBe(1)
+            expect(setPlaygroundItemMock).toHaveBeenCalledWith('minesweeper_stats', expect.objectContaining({
+                totalGames: 2,
+                wins: 2,
+                winsByDifficulty: expect.objectContaining({ beginner: 1, intermediate: 1 }),
+                bestTimes: {
+                    beginner: 2,
+                    intermediate: 1,
+                },
+            }))
         } finally {
             randomSpy.mockRestore()
         }

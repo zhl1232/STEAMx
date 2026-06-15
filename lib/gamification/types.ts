@@ -19,7 +19,7 @@ export interface UserStats {
     discussionsCreated: number;   // 发起的讨论数
     repliesCount: number;         // 回复数
     // 游乐场专属（从 playground_stats 云端战绩补发；游戏内仍可前端即时提示）
-    minesweeperWins: number;       // 任意难度通关次数（有记录即有过通关）
+    minesweeperWins: number;       // 任意难度通关次数
     minesweeperExpertWins: number; // 高级难度通关次数
     minesweeperBestTime: number;   // 历史最快时间（秒），999 = 无记录
     // 五子棋专属

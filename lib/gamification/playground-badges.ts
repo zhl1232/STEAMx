@@ -49,14 +49,15 @@ function getStringArray(source: Record<string, unknown>, key: string): string[] 
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : []
 }
 
-function getPositiveNumbers(source: Record<string, unknown>): number[] {
-  return Object.values(source).filter((value): value is number => {
-    return typeof value === "number" && Number.isFinite(value) && value > 0
+function getNonNegativeTimes(source: Record<string, unknown>): number[] {
+  return Object.values(source).flatMap((value) => {
+    if (typeof value !== "number" || !Number.isFinite(value) || value < 0) return []
+    return [Math.max(1, value)]
   })
 }
 
-function getBestPositiveValue(source: Record<string, unknown>, fallback = 999): number {
-  const values = getPositiveNumbers(source)
+function getBestTimeValue(source: Record<string, unknown>, fallback = 999): number {
+  const values = getNonNegativeTimes(source)
   if (values.length === 0) return fallback
   return Math.min(...values)
 }
@@ -88,7 +89,47 @@ function hasPlayedGame(...signals: number[]): boolean {
   return signals.some((value) => value > 0)
 }
 
+function sumRecordCounts(source: Record<string, unknown>): number {
+  let sum = 0
+  for (const value of Object.values(source)) {
+    if (typeof value === "number" && Number.isFinite(value) && value > 0) {
+      sum += Math.floor(value)
+    }
+  }
+  return sum
+}
+
+function mergeBestTimeRecords(...sources: Record<string, unknown>[]): Record<string, unknown> {
+  const merged: Record<string, unknown> = {}
+  for (const source of sources) {
+    for (const [key, value] of Object.entries(source)) {
+      if (typeof value !== "number" || !Number.isFinite(value) || value < 0) continue
+      const normalized = Math.max(1, value)
+      const current = merged[key]
+      merged[key] = typeof current === "number" ? Math.min(current, normalized) : normalized
+    }
+  }
+  return merged
+}
+
+function getMinesweeperWins(minesweeperStats: Record<string, unknown>, bestTimes: Record<string, unknown>): number {
+  return Math.max(
+    getNumber(minesweeperStats, "wins"),
+    sumRecordCounts(getRecord(minesweeperStats, "winsByDifficulty")),
+    getNonNegativeTimes(bestTimes).length,
+  )
+}
+
+function getMinesweeperExpertWins(minesweeperStats: Record<string, unknown>, bestTimes: Record<string, unknown>): number {
+  const expertTime = bestTimes.expert
+  return Math.max(
+    getNumber(getRecord(minesweeperStats, "winsByDifficulty"), "expert"),
+    typeof expertTime === "number" && Number.isFinite(expertTime) && expertTime >= 0 ? 1 : 0,
+  )
+}
+
 function countPlaygroundGamesPlayed(args: {
+  minesweeperStats: Record<string, unknown>
   minesweeperBestTimes: Record<string, unknown>
   gomoku: Record<string, unknown>
   game2048: Record<string, unknown>
@@ -107,7 +148,7 @@ function countPlaygroundGamesPlayed(args: {
   tangramSolvedLevels: string[]
 }): number {
   let count = 0
-  if (getPositiveNumbers(args.minesweeperBestTimes).length > 0) count++
+  if (hasPlayedGame(getNumber(args.minesweeperStats, "totalGames"), getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes))) count++
   if (hasPlayedGame(getNumber(args.gomoku, "wins"), getNumber(args.gomoku, "losses"), getNumber(args.gomoku, "draws"))) count++
   if (hasPlayedGame(getNumber(args.game2048, "wins"), getNumber(args.game2048, "maxTile"), getNumber(args.game2048, "bestScore"))) count++
   if (getNumber(args.game24, "solvedCount") > 0) count++
@@ -126,6 +167,7 @@ function countPlaygroundGamesPlayed(args: {
 }
 
 function sumPlaygroundWins(args: {
+  minesweeperStats: Record<string, unknown>
   minesweeperBestTimes: Record<string, unknown>
   gomoku: Record<string, unknown>
   game2048: Record<string, unknown>
@@ -141,7 +183,7 @@ function sumPlaygroundWins(args: {
   tangramSolved: number
 }): number {
   return (
-    getPositiveNumbers(args.minesweeperBestTimes).length +
+    getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes) +
     getNumber(args.gomoku, "wins") +
     getNumber(args.game2048, "wins") +
     getNumber(args.game24, "solvedCount") +
@@ -160,7 +202,11 @@ function sumPlaygroundWins(args: {
 export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const source = isRecord(playgroundStats) ? playgroundStats : {}
 
-  const minesweeperBestTimes = getRecord(source, "minesweeper_best_times")
+  const minesweeperStats = getRecord(source, "minesweeper_stats")
+  const minesweeperBestTimes = mergeBestTimeRecords(
+    getRecord(source, "minesweeper_best_times"),
+    getRecord(minesweeperStats, "bestTimes"),
+  )
   const gomoku = getRecord(source, "gomoku_records")
   const game2048 = getRecord(source, "game_2048_stats")
   const game24 = getRecord(source, "game_24_stats")
@@ -184,6 +230,7 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const tangramSolvedLevels = getStringArray(tangram, "solvedLevels")
   const lifeChallengesSolved = getStringArray(life, "challengesSolved").length
   const playgroundGamesPlayed = countPlaygroundGamesPlayed({
+    minesweeperStats,
     minesweeperBestTimes,
     gomoku,
     game2048,
@@ -202,6 +249,7 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     tangramSolvedLevels,
   })
   const playgroundWinsTotal = sumPlaygroundWins({
+    minesweeperStats,
     minesweeperBestTimes,
     gomoku,
     game2048,
@@ -219,9 +267,9 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
 
   return {
     ...DEFAULT_PLAYGROUND_STATS,
-    minesweeperWins: getPositiveNumbers(minesweeperBestTimes).length,
-    minesweeperExpertWins: getNumber(minesweeperBestTimes, "expert") > 0 ? 1 : 0,
-    minesweeperBestTime: getBestPositiveValue(minesweeperBestTimes),
+    minesweeperWins: getMinesweeperWins(minesweeperStats, minesweeperBestTimes),
+    minesweeperExpertWins: getMinesweeperExpertWins(minesweeperStats, minesweeperBestTimes),
+    minesweeperBestTime: getBestTimeValue(minesweeperBestTimes),
     gomokuWins: getNumber(gomoku, "wins"),
     gomokuPvEWins: getNumber(gomoku, "gomokuPvEWins"),
     game2048BestScore: getNumber(game2048, "bestScore"),

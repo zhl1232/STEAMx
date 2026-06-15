@@ -32,6 +32,38 @@ describe("playground badge stats", () => {
     expect(stats.playgroundWinsTotal).toBe(8)
   })
 
+  test("prefers structured minesweeper wins while keeping legacy best time fallback", () => {
+    const stats = buildPlaygroundUserStats({
+      minesweeper_best_times: { beginner: 45 },
+      minesweeper_stats: {
+        totalGames: 12,
+        wins: 7,
+        winsByDifficulty: { beginner: 4, expert: 3 },
+        bestTimes: { expert: 120 },
+      },
+    })
+
+    expect(stats.minesweeperWins).toBe(7)
+    expect(stats.minesweeperExpertWins).toBe(3)
+    expect(stats.minesweeperBestTime).toBe(45)
+    expect(stats.playgroundGamesPlayed).toBe(1)
+    expect(stats.playgroundWinsTotal).toBe(7)
+  })
+
+  test("does not treat a missing expert best time as an expert win", () => {
+    const stats = buildPlaygroundUserStats({
+      minesweeper_stats: {
+        totalGames: 2,
+        wins: 2,
+        winsByDifficulty: { beginner: 2 },
+        bestTimes: { beginner: 20 },
+      },
+    })
+
+    expect(stats.minesweeperExpertWins).toBe(0)
+    expect(stats.minesweeperBestTime).toBe(20)
+  })
+
   test("returns unlocked playground badge ids from cloud stats", () => {
     const unlocked = getUnlockedPlaygroundBadgeIds({
       minesweeper_best_times: { beginner: 45, expert: 120 },

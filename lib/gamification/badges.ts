@@ -244,6 +244,11 @@ const RARE_BADGES: Badge[] = [
 
 export const BADGES: Badge[] = [...TIERED_BADGES, ...SINGLE_BADGES, ...RARE_BADGES];
 
+export const PLAYGROUND_BADGE_SERIES_KEYS = ["playground_explorer", "playground_victories", "playground_star"] as const;
+export const PLAYGROUND_BADGE_COUNT =
+    TIERED_BADGES.filter((badge) => badge.seriesKey === "playground_explorer" || badge.seriesKey === "playground_victories").length +
+    SINGLE_BADGES.filter((badge) => badge.seriesKey === "playground_star").length;
+
 /** 用于 UI 分组：阶梯系列 key 的显示顺序与分组标题 */
 export const SERIES_ORDER: { key: string; label: string }[] = [
     ...TIERED_SERIES.map((s) => ({ key: s.seriesKey, label: s.label })),
