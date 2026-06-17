@@ -42,9 +42,8 @@ function formatTime(seconds: number) {
 
 function cellSizeForN(n: number, isMobile: boolean): number {
     if (isMobile) {
-        if (n <= 6) return 44
-        if (n <= 8) return 36
-        if (n <= 10) return 30
+        if (n <= 8) return 44
+        if (n <= 10) return 34
         return 28
     }
     if (n <= 6) return 56
@@ -175,7 +174,7 @@ export default function NQueensPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-8 w-8 self-end sm:self-auto"
+                            className="rounded-full h-11 w-11 self-end sm:h-8 sm:w-8 sm:self-auto"
                             onClick={reset}
                             aria-label="重置棋盘"
                             title="重置"
@@ -192,7 +191,7 @@ export default function NQueensPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-xs"
+                                className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
                                 disabled={n <= 4 || isVisualizing}
                                 onClick={() => setN(n - 1)}
                                 aria-label="减少棋盘大小"
@@ -205,7 +204,7 @@ export default function NQueensPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-xs"
+                                className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
                                 disabled={n >= 12 || isVisualizing}
                                 onClick={() => setN(n + 1)}
                                 aria-label="增加棋盘大小"
@@ -224,7 +223,7 @@ export default function NQueensPage() {
                                     onClick={() => setMode(m)}
                                     disabled={isVisualizing}
                                     className={cn(
-                                        "px-2.5 py-1 text-[10px] sm:text-xs font-medium transition-colors flex items-center gap-1",
+                                        "min-h-11 px-3 py-1 text-[10px] sm:min-h-0 sm:px-2.5 sm:text-xs font-medium transition-colors flex items-center gap-1",
                                         mode === m
                                             ? "bg-primary text-primary-foreground"
                                             : "text-muted-foreground hover:text-foreground",
@@ -279,7 +278,7 @@ export default function NQueensPage() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="h-7 rounded-xs text-xs gap-1 px-2.5"
+                                        className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2.5"
                                         onClick={startVisualization}
                                     >
                                         <Play className="w-3 h-3" />
@@ -289,7 +288,7 @@ export default function NQueensPage() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="h-7 rounded-xs text-xs gap-1 px-2.5"
+                                        className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2.5"
                                         onClick={isVisualizationPaused ? resumeVisualization : pauseVisualization}
                                     >
                                         {isVisualizationPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
@@ -304,7 +303,7 @@ export default function NQueensPage() {
                                             key={s}
                                             onClick={() => setSpeed(s)}
                                             className={cn(
-                                                "px-2 py-1 text-[10px] font-medium transition-colors",
+                                                "min-h-11 px-3 py-1 text-[10px] font-medium transition-colors sm:min-h-0 sm:px-2",
                                                 speed === s
                                                     ? "bg-primary text-primary-foreground"
                                                     : "text-muted-foreground hover:text-foreground",
@@ -319,8 +318,8 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Chess Board */}
-                    <div className="relative bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl">
-                        <div className="flex items-center justify-center">
+                    <div className="relative overflow-x-auto no-scrollbar touch-pan-x bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl" aria-label="N 皇后棋盘，可横向滑动查看大棋盘">
+                        <div className="flex items-center justify-start sm:justify-center">
                             <div
                                 className="grid border border-amber-900/30 rounded-xs overflow-hidden shadow-lg"
                                 style={{

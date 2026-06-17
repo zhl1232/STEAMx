@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { Grid3X3, RotateCcw, Sparkles, Timer, Trophy } from "lucide-react"
+import { Grid3X3, RotateCcw, Sparkles, Timer, Trophy, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react"
 import { useFifteenPuzzle, type FifteenSize } from "@/hooks/playground/use-fifteen-puzzle"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
@@ -65,7 +65,13 @@ export default function FifteenPuzzlePage() {
                                 <p className="text-xs text-muted-foreground">滑动数字，还原顺序。</p>
                             </div>
                         </div>
-                        <Button variant="outline" size="icon" onClick={() => game.startNewGame()} aria-label="重新开始">
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-11 w-11"
+                            onClick={() => game.startNewGame()}
+                            aria-label="重新开始"
+                        >
                             <RotateCcw className="h-4 w-4" />
                         </Button>
                     </div>
@@ -76,6 +82,7 @@ export default function FifteenPuzzlePage() {
                                 key={size}
                                 variant={game.size === size ? "default" : "outline"}
                                 size="sm"
+                                className="min-h-11 px-4"
                                 onClick={() => game.startNewGame(size)}
                             >
                                 {size}×{size}
@@ -87,8 +94,10 @@ export default function FifteenPuzzlePage() {
                     </div>
 
                     <div
-                        className="grid gap-2 rounded-lg bg-muted/30 p-3"
+                        className="grid gap-2 rounded-lg bg-muted/30 p-3 touch-none select-none"
                         style={{ gridTemplateColumns: `repeat(${game.size}, minmax(0, 1fr))` }}
+                        onTouchStart={game.onTouchStart}
+                        onTouchEnd={game.onTouchEnd}
                     >
                         {game.board.map((tile, index) => (
                             <button
@@ -117,6 +126,53 @@ export default function FifteenPuzzlePage() {
                             <p className="text-xs text-muted-foreground">{game.moves} 步 · {formatTime(game.time)}</p>
                         </div>
                     )}
+
+                    {/* 移动端方向按钮 */}
+                    <div className="flex xl:hidden justify-center mt-4">
+                        <div className="grid grid-cols-3 grid-rows-3 gap-1.5 w-[148px] h-[148px]">
+                            <div />
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => game.moveByDirection("up")}
+                                className="w-full h-full rounded-sm"
+                                aria-label="向上移动"
+                            >
+                                <ArrowUp className="w-5 h-5" aria-hidden />
+                            </Button>
+                            <div />
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => game.moveByDirection("left")}
+                                className="w-full h-full rounded-sm"
+                                aria-label="向左移动"
+                            >
+                                <ArrowLeft className="w-5 h-5" aria-hidden />
+                            </Button>
+                            <div />
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => game.moveByDirection("right")}
+                                className="w-full h-full rounded-sm"
+                                aria-label="向右移动"
+                            >
+                                <ArrowRight className="w-5 h-5" aria-hidden />
+                            </Button>
+                            <div />
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => game.moveByDirection("down")}
+                                className="w-full h-full rounded-sm"
+                                aria-label="向下移动"
+                            >
+                                <ArrowDown className="w-5 h-5" aria-hidden />
+                            </Button>
+                            <div />
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -10,10 +10,6 @@ describe("playground badge stats", () => {
         wins: 2,
         bestMoves: { 3: 7, 8: 300 },
       },
-      sorting_race_stats: {
-        totalRuns: 5,
-        algorithmsUsed: { bubble: 1, selection: 1, insertion: 1, merge: 1, quick: 1 },
-      },
       tangram_stats: {
         solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],
       },
@@ -25,10 +21,8 @@ describe("playground badge stats", () => {
     expect(stats.hanoiWins).toBe(2)
     expect(stats.hanoiPerfect).toBe(1)
     expect(stats.hanoiMaxDisksCleared).toBe(8)
-    expect(stats.sortingRuns).toBe(5)
-    expect(stats.sortingAlgorithmsUsed).toBe(5)
     expect(stats.tangramSolved).toBe(4)
-    expect(stats.playgroundGamesPlayed).toBe(4)
+    expect(stats.playgroundGamesPlayed).toBe(3)
     expect(stats.playgroundWinsTotal).toBe(8)
   })
 
@@ -67,9 +61,9 @@ describe("playground badge stats", () => {
   test("returns unlocked playground badge ids from cloud stats", () => {
     const unlocked = getUnlockedPlaygroundBadgeIds({
       minesweeper_best_times: { beginner: 45, expert: 120 },
-      sorting_race_stats: {
-        totalRuns: 5,
-        algorithmsUsed: { bubble: 1, selection: 1, insertion: 1, merge: 1, quick: 1 },
+      hanoi_stats: {
+        wins: 1,
+        bestMoves: { 3: 7 },
       },
       tangram_stats: {
         solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],

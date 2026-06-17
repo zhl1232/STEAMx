@@ -15,10 +15,9 @@ export const PLAYGROUND_KEYS = [
   { key: "game_2048_stats", label: "2048" },
   { key: "game_24_stats", label: "24 点" },
   { key: "hanoi_stats", label: "汉诺塔" },
-  { key: "sorting_race_stats", label: "排序可视化" },
+
   { key: "sudoku_stats", label: "数独" },
   { key: "nqueens_stats", label: "N 皇后" },
-  { key: "circuit_stats", label: "电路拼图" },
   { key: "fifteen_puzzle_stats", label: "数字华容道" },
   { key: "memory_match_stats", label: "记忆翻牌" },
   { key: "quick_math_stats", label: "速算闪电战" },

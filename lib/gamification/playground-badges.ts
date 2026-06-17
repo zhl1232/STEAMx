@@ -28,8 +28,6 @@ const DEFAULT_PLAYGROUND_STATS: UserStats = {
   minesweeperBestTime: 999,
 }
 
-const CIRCUIT_LOGIC_LEVEL_IDS = ["logic_cascade", "logic_switch_cascade"]
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
@@ -139,8 +137,6 @@ function countPlaygroundGamesPlayed(args: {
   hanoiBestMoves: Record<string, unknown>
   sudoku: Record<string, unknown>
   nqueens: Record<string, unknown>
-  circuitSolvedLevels: string[]
-  sorting: Record<string, unknown>
   fifteen: Record<string, unknown>
   memory: Record<string, unknown>
   quickMath: Record<string, unknown>
@@ -156,8 +152,6 @@ function countPlaygroundGamesPlayed(args: {
   if (hasPlayedGame(getNumber(args.hanoi, "wins")) || Object.keys(args.hanoiBestMoves).length > 0) count++
   if (getNumber(args.sudoku, "wins") > 0) count++
   if (getNumber(args.nqueens, "manualSolves") > 0) count++
-  if (args.circuitSolvedLevels.length > 0) count++
-  if (getNumber(args.sorting, "totalRuns") > 0) count++
   if (hasPlayedGame(getNumber(args.fifteen, "totalGames"), getNumber(args.fifteen, "wins"))) count++
   if (hasPlayedGame(getNumber(args.memory, "totalGames"), getNumber(args.memory, "wins"))) count++
   if (hasPlayedGame(getNumber(args.quickMath, "bestScore"), getNumber(args.quickMath, "bestStreak"))) count++
@@ -175,7 +169,6 @@ function sumPlaygroundWins(args: {
   hanoi: Record<string, unknown>
   sudoku: Record<string, unknown>
   nqueens: Record<string, unknown>
-  circuitSolvedLevels: string[]
   fifteen: Record<string, unknown>
   memory: Record<string, unknown>
   maze: Record<string, unknown>
@@ -190,7 +183,6 @@ function sumPlaygroundWins(args: {
     getNumber(args.hanoi, "wins") +
     getNumber(args.sudoku, "wins") +
     getNumber(args.nqueens, "manualSolves") +
-    args.circuitSolvedLevels.length +
     getNumber(args.fifteen, "wins") +
     getNumber(args.memory, "wins") +
     getNumber(args.maze, "wins") +
@@ -216,10 +208,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const sudoku = getRecord(source, "sudoku_stats")
   const sudokuWinsByDifficulty = getRecord(sudoku, "winsByDifficulty")
   const nqueens = getRecord(source, "nqueens_stats")
-  const circuit = getRecord(source, "circuit_stats")
-  const circuitSolvedLevels = getStringArray(circuit, "solvedLevels")
-  const sorting = getRecord(source, "sorting_race_stats")
-  const sortingAlgorithmsUsed = getRecord(sorting, "algorithmsUsed")
   const fifteen = getRecord(source, "fifteen_puzzle_stats")
   const memory = getRecord(source, "memory_match_stats")
   const quickMath = getRecord(source, "quick_math_stats")
@@ -240,8 +228,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     hanoiBestMoves,
     sudoku,
     nqueens,
-    circuitSolvedLevels,
-    sorting,
     fifteen,
     memory,
     quickMath,
@@ -257,7 +243,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     hanoi,
     sudoku,
     nqueens,
-    circuitSolvedLevels,
     fifteen,
     memory,
     maze,
@@ -287,10 +272,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     sudokuWins: getNumber(sudoku, "wins"),
     sudokuHardWins: getNumber(sudokuWinsByDifficulty, "hard"),
     nqueensManualSolves: getNumber(nqueens, "manualSolves"),
-    circuitSolved: circuitSolvedLevels.length,
-    circuitLogicCleared: CIRCUIT_LOGIC_LEVEL_IDS.every((levelId) => circuitSolvedLevels.includes(levelId)),
-    sortingRuns: getNumber(sorting, "totalRuns"),
-    sortingAlgorithmsUsed: Object.keys(sortingAlgorithmsUsed).filter((key) => getNumber(sortingAlgorithmsUsed, key) > 0).length,
     fifteenWins: getNumber(fifteen, "wins"),
     memoryWins: getNumber(memory, "wins"),
     quickMathBestScore: getNumber(quickMath, "bestScore"),

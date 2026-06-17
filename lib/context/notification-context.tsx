@@ -49,6 +49,7 @@ type NotificationContextType = {
 };
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const UNREAD_COUNT_CACHE_TTL_MS = 1500;
 const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
   notifications: [],
   unreadCount: 0,
@@ -64,6 +65,107 @@ const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
   createNotification: async () => {},
   isLoading: false,
 };
+
+type UnreadCountSnapshot = {
+  notificationUnreadCount: number;
+  dmUnreadCount: number;
+};
+
+let unreadCountCache: { userId: string; fetchedAt: number; data: UnreadCountSnapshot } | null = null;
+let unreadCountInFlight: { userId: string; promise: Promise<UnreadCountSnapshot> } | null = null;
+
+function isLocalDevelopmentHost() {
+  if (process.env.NODE_ENV !== "development") return false;
+  if (typeof window === "undefined") return false;
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+}
+
+function shouldSubscribeRealtimeNotifications() {
+  if (process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME === "true") return true;
+  if (process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME === "false") return false;
+  return !isLocalDevelopmentHost();
+}
+
+async function fetchUnreadCountSnapshot(userId: string, { force = false }: { force?: boolean } = {}) {
+  const now = Date.now();
+  if (
+    !force &&
+    unreadCountCache?.userId === userId &&
+    now - unreadCountCache.fetchedAt < UNREAD_COUNT_CACHE_TTL_MS
+  ) {
+    return unreadCountCache.data;
+  }
+
+  if (!force && unreadCountInFlight?.userId === userId) {
+    return unreadCountInFlight.promise;
+  }
+
+  const promise = (async (): Promise<UnreadCountSnapshot> => {
+    const [notificationResponse, dmResponse] = await Promise.all([
+      fetch("/api/notifications/unread-count"),
+      fetch("/api/messages/unread-count"),
+    ]);
+
+    if (notificationResponse.status === 401 || dmResponse.status === 401) {
+      return { notificationUnreadCount: 0, dmUnreadCount: 0 };
+    }
+
+    let notificationUnreadCount = unreadCountCache?.userId === userId
+      ? unreadCountCache.data.notificationUnreadCount
+      : 0;
+    let dmUnreadCount = unreadCountCache?.userId === userId
+      ? unreadCountCache.data.dmUnreadCount
+      : 0;
+
+    if (notificationResponse.ok) {
+      const payload = await notificationResponse.json();
+      notificationUnreadCount = Number(payload?.count ?? 0);
+    } else {
+      logger.error("Error fetching notification unread count:", {
+        detail: await notificationResponse.text(),
+      });
+    }
+
+    if (dmResponse.ok) {
+      const payload = await dmResponse.json();
+      dmUnreadCount = Number(payload?.count ?? 0);
+    } else {
+      logger.error("Error fetching message unread count:", { detail: await dmResponse.text() });
+    }
+
+    return { notificationUnreadCount, dmUnreadCount };
+  })();
+
+  unreadCountInFlight = { userId, promise };
+
+  try {
+    const data = await promise;
+    unreadCountCache = { userId, fetchedAt: Date.now(), data };
+    return data;
+  } finally {
+    if (unreadCountInFlight?.promise === promise) {
+      unreadCountInFlight = null;
+    }
+  }
+}
+
+function updateUnreadCountCache(
+  userId: string,
+  updater: (current: UnreadCountSnapshot) => UnreadCountSnapshot,
+) {
+  if (!unreadCountCache || unreadCountCache.userId !== userId) return;
+  unreadCountCache = {
+    userId,
+    fetchedAt: Date.now(),
+    data: updater(unreadCountCache.data),
+  };
+}
+
+export function __resetNotificationUnreadCountCacheForTests() {
+  if (process.env.NODE_ENV !== "test") return;
+  unreadCountCache = null;
+  unreadCountInFlight = null;
+}
 
 export function mergeLatestNotifications(latest: Notification[], existing: Notification[]) {
   const latestIds = new Set(latest.map((notification) => notification.id));
@@ -97,46 +199,18 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   notificationsRef.current = notifications;
   hasMoreRef.current = hasMore;
 
-  const fetchingUnreadRef = useRef(false);
-  const fetchUnreadCount = useCallback(async () => {
+  const fetchUnreadCount = useCallback(async ({ force = false }: { force?: boolean } = {}) => {
     if (!user) {
       setNotificationUnreadCount(0);
       setDmUnreadCount(0);
       return;
     }
-    if (fetchingUnreadRef.current) return;
-    fetchingUnreadRef.current = true;
     try {
-      const [notificationResponse, dmResponse] = await Promise.all([
-        fetch("/api/notifications/unread-count"),
-        fetch("/api/messages/unread-count"),
-      ]);
-
-      if (notificationResponse.status === 401 || dmResponse.status === 401) {
-        setNotificationUnreadCount(0);
-        setDmUnreadCount(0);
-        return;
-      }
-
-      if (notificationResponse.ok) {
-        const payload = await notificationResponse.json();
-        setNotificationUnreadCount(Number(payload?.count ?? 0));
-      } else {
-        logger.error("Error fetching notification unread count:", {
-          detail: await notificationResponse.text(),
-        });
-      }
-
-      if (dmResponse.ok) {
-        const payload = await dmResponse.json();
-        setDmUnreadCount(Number(payload?.count ?? 0));
-      } else {
-        logger.error("Error fetching message unread count:", { detail: await dmResponse.text() });
-      }
+      const snapshot = await fetchUnreadCountSnapshot(user.id, { force });
+      setNotificationUnreadCount(snapshot.notificationUnreadCount);
+      setDmUnreadCount(snapshot.dmUnreadCount);
     } catch (error) {
       logger.error(error, { context: "Error fetching unread count" });
-    } finally {
-      fetchingUnreadRef.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
@@ -256,6 +330,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   // Realtime 订阅：通知/私信表有自己的新行或变更时刷新未读数，替代轮询。
   useEffect(() => {
     if (!user?.id) return;
+    if (!shouldSubscribeRealtimeNotifications()) return;
 
     const supabase = createClient();
     let refreshTimer: number | null = null;
@@ -273,7 +348,9 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     };
 
     const channel = supabase
-      .channel(`unread-counts:${user.id}`)
+      .channel(`unread-counts:${user.id}`, {
+        config: { private: true },
+      })
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
@@ -284,7 +361,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         { event: "*", schema: "public", table: "messages", filter: `receiver_id=eq.${user.id}` },
         scheduleRefresh,
       )
-      .subscribe();
+      .subscribe((status, error) => {
+        if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+          logger.warn("Notification realtime channel unavailable; HTTP unread-count fallback remains active.", {
+            status,
+            error,
+          });
+        }
+      });
 
     // 兜底：WebSocket 断线期间可能漏事件，回到前台时刷一次。
     const onVisible = () => {
@@ -323,6 +407,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
       setNotificationUnreadCount((c) => Math.max(0, c - 1));
+      updateUnreadCountCache(user.id, (current) => ({
+        ...current,
+        notificationUnreadCount: Math.max(0, current.notificationUnreadCount - 1),
+      }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [user?.id],
@@ -342,6 +430,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setNotificationUnreadCount(0);
+    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
@@ -362,7 +451,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         if (shouldLoadNotificationList) {
           fetchNotifications({ reset: true });
         }
-        fetchUnreadCount();
+        fetchUnreadCount({ force: true });
       }
     },
     [user, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount],
@@ -383,10 +472,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     setNotifications([]);
     setNotificationUnreadCount(0);
     setHasMore(true);
+    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   const unreadCount = notificationUnreadCount + dmUnreadCount;
+  const refreshUnreadCount = useCallback(() => fetchUnreadCount({ force: true }), [fetchUnreadCount]);
 
   const contextValue = useMemo(
     () => ({
@@ -399,7 +490,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       loadMore,
       markAsRead,
       markAllAsRead,
-      refreshUnreadCount: fetchUnreadCount,
+      refreshUnreadCount,
       clearAll,
       createNotification,
       isLoading,
@@ -414,7 +505,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       loadMore,
       markAsRead,
       markAllAsRead,
-      fetchUnreadCount,
+      refreshUnreadCount,
       clearAll,
       createNotification,
       isLoading,

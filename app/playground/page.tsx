@@ -6,7 +6,6 @@ import Link from "next/link"
 import {
     ArrowRight,
     Award,
-    BarChart3,
     Beaker,
     Bomb,
     Bot,
@@ -27,7 +26,6 @@ import {
     Sigma,
     Star,
     Trophy,
-    Zap,
     type LucideIcon,
 } from "lucide-react"
 
@@ -41,7 +39,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sorting" | "sudoku" | "nqueens" | "circuit" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram"
+type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram"
 
 type GameCard = {
     name: string
@@ -144,20 +142,7 @@ const GAMES: GameCard[] = [
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
     },
-    {
-        name: "排序可视化",
-        subtitle: "Sorting Visualizer",
-        href: "/playground/sorting",
-        icon: BarChart3,
-        color: "text-cyan-600 dark:text-cyan-300",
-        iconBg: "bg-cyan-100 dark:bg-cyan-400/10",
-        visual: "sorting",
-        tags: ["Technology", "Arts"],
-        description: "通过可视化了解排序算法的原理与过程。",
-        statsKey: "sorting_race_stats",
-        getPlayed: (raw) => safeNum(raw, "totalRuns"),
-        getWins: (raw) => safeNum(raw, "totalRuns"),
-    },
+
     {
         name: "数独",
         subtitle: "Sudoku",
@@ -185,20 +170,6 @@ const GAMES: GameCard[] = [
         statsKey: "nqueens_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "manualSolves"),
-    },
-    {
-        name: "电路拼图",
-        subtitle: "Circuit Puzzle",
-        href: "/playground/circuit",
-        icon: Zap,
-        color: "text-teal-600 dark:text-teal-300",
-        iconBg: "bg-teal-100 dark:bg-teal-400/10",
-        visual: "circuit",
-        tags: ["Science", "Engineering"],
-        description: "连接电路元件点亮灯泡，理解电路的工作原理。",
-        statsKey: "circuit_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => safeNum(raw, "solvedCount"),
     },
     {
         name: "数字华容道",
@@ -304,7 +275,7 @@ const BADGE_PREVIEW_IDS = [
     "game2048_8192",
     "game24_speed",
     "hanoi_perfect",
-    "circuit_logic",
+    "life_challenge_all",
     "tangram_all",
 ] as const
 const BADGE_PREVIEW_BADGES = BADGE_PREVIEW_IDS.flatMap((id) => {
@@ -325,10 +296,7 @@ const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }
         light: "/assets/playground-art/hanoi-transparent-light.png",
         dark: "/assets/playground-art/hanoi-transparent-dark.png",
     },
-    sorting: {
-        light: "/assets/playground-art/sorting-transparent-light.png",
-        dark: "/assets/playground-art/sorting-transparent-dark.png",
-    },
+
     sudoku: {
         light: "/assets/playground-art/sudoku-transparent-light.png",
         dark: "/assets/playground-art/sudoku-transparent-dark.png",
@@ -336,10 +304,6 @@ const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }
     nqueens: {
         light: "/assets/playground-art/nqueens-transparent-light.png",
         dark: "/assets/playground-art/nqueens-transparent-dark.png",
-    },
-    circuit: {
-        light: "/assets/playground-art/circuit-transparent-light.png",
-        dark: "/assets/playground-art/circuit-transparent-dark.png",
     },
 }
 
@@ -458,6 +422,7 @@ function getStatus(gameIndex: number, played: number): { label: string; classNam
 
 export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
+    const [recommendationOffset, setRecommendationOffset] = useState(0)
 
     useEffect(() => {
         const refreshStats = () => {
@@ -481,7 +446,18 @@ export default function PlaygroundPage() {
             ? unexploredGames.filter((game) => game.tags.some((tag) => missingDims.some((dim) => dim.key === tag)))
             : unexploredGames
     )
-    const toRecommend = (recommendedGames.length > 0 ? recommendedGames : GAMES).slice(0, 3)
+    const recommendationPool = recommendedGames.length > 0 ? recommendedGames : GAMES
+    const toRecommend = Array.from(
+        { length: Math.min(3, recommendationPool.length) },
+        (_, index) => recommendationPool[(recommendationOffset + index) % recommendationPool.length],
+    )
+    const shuffleRecommendations = () => {
+        setRecommendationOffset((current) => (current + 1) % Math.max(1, recommendationPool.length))
+    }
+    const mobileRecommendedGame = toRecommend[0]
+    const mobileGames = mobileRecommendedGame
+        ? GAMES.filter((game) => game.href !== mobileRecommendedGame.href)
+        : GAMES
     const hasPlayHistory = displayStats.totalPlayed > 0
 
     return (
@@ -491,10 +467,29 @@ export default function PlaygroundPage() {
                     <HeroPanel className="order-1" />
 
                     <div className="order-2 xl:hidden">
-                        <RecommendationPanel games={toRecommend} />
+                        <RecommendationPanel
+                            games={toRecommend.slice(0, 1)}
+                            onShuffle={shuffleRecommendations}
+                            canShuffle={recommendationPool.length > 1}
+                            compact
+                        />
                     </div>
 
-                    <div className="order-3 grid gap-3 md:grid-cols-2 xl:order-5 2xl:grid-cols-3">
+                    <section className="order-3 space-y-3 md:hidden" aria-labelledby="playground-mobile-games-heading">
+                        <div className="flex items-center justify-between px-1">
+                            <h2 id="playground-mobile-games-heading" className="text-sm font-black tracking-tight text-foreground">全部游戏</h2>
+                            <span className="text-xs font-semibold text-muted-foreground">{GAMES.length} 款</span>
+                        </div>
+                        <div className="grid gap-3">
+                            {mobileGames.map((game) => {
+                                const gameStats = displayStats.perGame.get(game.href)
+                                const played = gameStats?.played ?? 0
+                                return <GameTile key={game.href} game={game} index={GAMES.indexOf(game)} played={played} />
+                            })}
+                        </div>
+                    </section>
+
+                    <div className="order-3 hidden gap-3 md:grid md:grid-cols-2 xl:order-5 2xl:grid-cols-3">
                         {GAMES.map((game, index) => {
                             const gameStats = displayStats.perGame.get(game.href)
                             const played = gameStats?.played ?? 0
@@ -518,7 +513,11 @@ export default function PlaygroundPage() {
                 </section>
 
                 <aside className="hidden space-y-5 xl:sticky xl:top-20 xl:block xl:self-start">
-                    <RecommendationPanel games={toRecommend} />
+                    <RecommendationPanel
+                        games={toRecommend}
+                        onShuffle={shuffleRecommendations}
+                        canShuffle={recommendationPool.length > toRecommend.length}
+                    />
                     <BadgePanel />
                 </aside>
             </div>
@@ -561,13 +560,13 @@ function HeroPanel({ className }: { className?: string }) {
     return (
         <section className={cn("surface-panel relative overflow-hidden p-4 sm:p-6 lg:min-h-[236px] lg:p-8", className)}>
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_26%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_92%_72%,hsl(var(--brand-green)/0.1),transparent_28%)]" />
-            <div className="relative grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(380px,1fr)] lg:items-center lg:gap-7">
+            <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] lg:items-center lg:gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.92fr)]">
                 <div>
                     <ToneBadge tone="tech" className="gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold normal-case tracking-normal">
                         <Code2 className="h-3.5 w-3.5" />
                         Hello, World! 欢迎进入数智空间
                     </ToneBadge>
-                    <h1 className="mt-4 max-w-xl text-3xl font-black leading-tight tracking-tight text-foreground sm:mt-5 sm:text-5xl lg:text-6xl">
+                    <h1 className="mt-4 max-w-xl text-3xl font-black leading-tight tracking-tight text-foreground sm:mt-5 sm:text-5xl lg:text-[3.25rem] xl:text-6xl">
                         STEAM <span className="text-primary">Playground</span>
                     </h1>
                     <p className="mt-3 max-w-xl text-sm font-medium leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
@@ -850,10 +849,14 @@ function GameArtwork({ game }: { game: GameCard }) {
                     {game.visual === "2048" ? <Game2048Artwork /> : null}
                     {game.visual === "24" ? <Game24Artwork /> : null}
                     {game.visual === "hanoi" ? <HanoiArtwork /> : null}
-                    {game.visual === "sorting" ? <SortingArtwork /> : null}
+
                     {game.visual === "sudoku" ? <SudokuArtwork /> : null}
                     {game.visual === "nqueens" ? <NQueensArtwork /> : null}
-                    {game.visual === "circuit" ? <CircuitArtwork /> : null}
+                    {game.visual === "fifteen" ? <FifteenArtwork /> : null}
+                    {game.visual === "memory" ? <MemoryArtwork /> : null}
+                    {game.visual === "quickmath" ? <QuickMathArtwork /> : null}
+                    {game.visual === "maze" ? <MazeArtwork /> : null}
+                    {game.visual === "tangram" ? <TangramArtwork /> : null}
                 </>
             )}
         </div>
@@ -986,18 +989,6 @@ function HanoiArtwork() {
     )
 }
 
-function SortingArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-slate-50 dark:fill-slate-900" />
-            <rect x="13" y="12" width="66" height="68" rx="10" className="fill-white stroke-slate-200 dark:fill-white/7 dark:stroke-white/10" />
-            <rect x="23" y="48" width="6" height="25" rx="2" className="fill-emerald-400 dark:fill-emerald-300" />
-            <rect x="35" y="26" width="6" height="47" rx="2" className="fill-blue-500 dark:fill-blue-300" />
-            <rect x="47" y="41" width="6" height="32" rx="2" className="fill-violet-400 dark:fill-violet-300" />
-            <rect x="59" y="20" width="6" height="53" rx="2" className="fill-cyan-500 dark:fill-cyan-300" />
-        </svg>
-    )
-}
 
 function SudokuArtwork() {
     return (
@@ -1039,32 +1030,140 @@ function NQueensArtwork() {
     )
 }
 
-function CircuitArtwork() {
+function FifteenArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-teal-950 dark:fill-teal-950" />
-            <path d="M14 22 H34 V43 H58 V22 H78 M14 72 H32 V55 H60 V72 H78 M46 43 V55" fill="none" className="stroke-teal-200 dark:stroke-teal-100" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-            {[14, 78, 32, 60, 46, 34, 58].map((cx, index) => (
-                <circle key={index} cx={cx} cy={[22, 22, 55, 55, 49, 43, 43][index]} r="5" className="fill-teal-200 dark:fill-teal-100" />
+            <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
+            <rect x="13" y="13" width="66" height="66" rx="12" className="fill-white stroke-cyan-200 dark:fill-white/7 dark:stroke-cyan-300/20" />
+            {[
+                [22, 22, "1"], [46, 22, "2"], [70, 22, "3"],
+                [22, 46, "4"], [46, 46, "5"], [70, 46, "6"],
+                [22, 70, "7"], [46, 70, "8"],
+            ].map(([x, y, value]) => (
+                <rect
+                    key={`${x}-${y}-${value}`}
+                    x={Number(x) - 8}
+                    y={Number(y) - 8}
+                    width="16"
+                    height="16"
+                    rx="4"
+                    className="fill-cyan-500/15 stroke-cyan-400/35 dark:fill-cyan-300/14 dark:stroke-cyan-200/30"
+                />
             ))}
-            <circle cx="24" cy="72" r="2.5" className="fill-white/55" />
-            <circle cx="70" cy="22" r="2.5" className="fill-white/55" />
+            {[
+                [22, 22, "1"], [46, 22, "2"], [70, 22, "3"],
+                [22, 46, "4"], [46, 46, "5"], [70, 46, "6"],
+                [22, 70, "7"], [46, 70, "8"],
+            ].map(([x, y, value]) => (
+                <text key={`${value}-text`} x={x} y={y} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[10px] font-black dark:fill-cyan-100">
+                    {value}
+                </text>
+            ))}
         </svg>
     )
 }
 
-function RecommendationPanel({ games }: { games: GameCard[] }) {
+function MemoryArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-fuchsia-50 dark:fill-fuchsia-950/45" />
+            {[
+                [18, 18, "fill-blue-400"], [48, 18, "fill-fuchsia-400"],
+                [18, 48, "fill-emerald-400"], [48, 48, "fill-amber-400"],
+            ].map(([x, y, color], index) => (
+                <rect
+                    key={`${x}-${y}`}
+                    x={x}
+                    y={y}
+                    width="26"
+                    height="26"
+                    rx="7"
+                    className={cn("stroke-white/70 dark:stroke-white/20", color as string)}
+                    strokeWidth="2"
+                    opacity={index === 1 || index === 2 ? "0.55" : "1"}
+                />
+            ))}
+            <path d="M25 31 H37 M31 25 V37 M55 31 H67 M25 61 H37 M55 55 L67 67 M67 55 L55 67" className="stroke-white" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+    )
+}
+
+function QuickMathArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-amber-50 dark:fill-amber-950/45" />
+            <circle cx="46" cy="46" r="27" className="fill-white stroke-amber-200 dark:fill-white/7 dark:stroke-amber-300/25" strokeWidth="3" />
+            <path d="M46 23 V31 M46 61 V69 M23 46 H31 M61 46 H69" className="stroke-amber-500 dark:stroke-amber-200" strokeWidth="4" strokeLinecap="round" />
+            <path d="M36 49 L43 56 L58 35" className="stroke-emerald-500 dark:stroke-emerald-300" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            <text x="46" y="21" textAnchor="middle" className="fill-amber-600 text-[11px] font-black dark:fill-amber-200">60s</text>
+        </svg>
+    )
+}
+
+function MazeArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-lime-50 dark:fill-lime-950/45" />
+            <path
+                d="M18 18 H74 V30 H30 V42 H62 V54 H42 V74 H18 Z"
+                className="fill-none stroke-lime-700 dark:stroke-lime-200"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <circle cx="20" cy="20" r="5" className="fill-emerald-500 dark:fill-emerald-300" />
+            <circle cx="42" cy="74" r="5" className="fill-blue-500 dark:fill-blue-300" />
+            <path d="M22 20 C36 22 33 38 48 42 C63 46 56 62 43 72" className="fill-none stroke-blue-400/70 dark:stroke-blue-200/70" strokeWidth="3" strokeDasharray="4 5" strokeLinecap="round" />
+        </svg>
+    )
+}
+
+function TangramArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-violet-50 dark:fill-violet-950/45" />
+            <path d="M18 18 L54 18 L18 54 Z" className="fill-violet-500 dark:fill-violet-300" />
+            <path d="M56 18 L74 36 L56 54 Z" className="fill-sky-500 dark:fill-sky-300" />
+            <path d="M20 56 H54 L37 73 Z" className="fill-emerald-500 dark:fill-emerald-300" />
+            <path d="M56 56 H74 V74 H56 Z" className="fill-amber-400 dark:fill-amber-300" />
+            <path d="M39 38 L55 54 L39 54 Z" className="fill-rose-400 dark:fill-rose-300" />
+            <path d="M20 57 L36 73 H20 Z" className="fill-fuchsia-400 dark:fill-fuchsia-300" />
+            <path d="M57 19 L73 35 L73 19 Z" className="fill-blue-400 dark:fill-blue-300" />
+        </svg>
+    )
+}
+
+function RecommendationPanel({
+    games,
+    onShuffle,
+    canShuffle,
+    compact = false,
+}: {
+    games: GameCard[]
+    onShuffle: () => void
+    canShuffle: boolean
+    compact?: boolean
+}) {
     return (
         <section className="surface-panel p-4">
             <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                     <Star className="h-5 w-5 text-[hsl(var(--tone-engineering))]" />
-                    <h2 className="font-sans font-black">推荐探索</h2>
+                    <h2 className="font-sans font-black">{compact ? "今日推荐" : "推荐探索"}</h2>
                 </div>
-                <Button type="button" variant="ghost" size="sm" className="min-h-11 gap-1 text-primary">
-                    换一换
-                    <RotateCw className="h-3.5 w-3.5" />
-                </Button>
+                {canShuffle ? (
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={onShuffle}
+                        className="min-h-11 gap-1 text-primary"
+                        aria-label={compact ? "换一个今日推荐游戏" : "换一组推荐游戏"}
+                    >
+                        换一换
+                        <RotateCw className="h-3.5 w-3.5" />
+                    </Button>
+                ) : null}
             </div>
             <div className="space-y-2.5">
                 {games.map((game) => {

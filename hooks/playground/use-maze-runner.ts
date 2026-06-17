@@ -18,10 +18,18 @@ export type MazeDemo = {
     done: boolean
 }
 
+export type MazeAlgorithmComparison = {
+    algorithm: MazeAlgorithm
+    visitedCount: number
+    pathSteps: number
+    isShortest: boolean
+}
+
 const STATS_KEY = "maze_runner_stats"
 const EMPTY_STATS: MazeStats = { totalGames: 0, wins: 0, bestSteps: {} }
 const DEMO_TICK_MS = 30
 const DEMO_CELLS_PER_TICK = 2
+const DEFAULT_MAZE_SEED = 20260616
 const DELTAS: MazePoint[] = [
     { row: -1, col: 0 },
     { row: 0, col: 1 },
@@ -47,11 +55,31 @@ function saveStats(stats: MazeStats) {
     setPlaygroundItem(STATS_KEY, stats)
 }
 
-export function generateMaze(size: MazeSize): boolean[][] {
+function createSeededRandom(seed: number) {
+    let value = seed >>> 0
+    return () => {
+        value = (value * 1664525 + 1013904223) >>> 0
+        return value / 0x100000000
+    }
+}
+
+function shuffleWithRandom<T>(items: T[], random: () => number): T[] {
+    const shuffled = [...items]
+    for (let index = shuffled.length - 1; index > 0; index--) {
+        const swapIndex = Math.floor(random() * (index + 1))
+        const current = shuffled[index]
+        shuffled[index] = shuffled[swapIndex]
+        shuffled[swapIndex] = current
+    }
+    return shuffled
+}
+
+export function generateMaze(size: MazeSize, seed = Date.now()): boolean[][] {
+    const random = createSeededRandom(seed)
     const maze = Array.from({ length: size }, () => Array(size).fill(true))
     const carve = (row: number, col: number) => {
         maze[row][col] = false
-        const dirs = [...DELTAS].sort(() => Math.random() - 0.5)
+        const dirs = shuffleWithRandom(DELTAS, random)
         for (const dir of dirs) {
             const nextRow = row + dir.row * 2
             const nextCol = col + dir.col * 2
@@ -122,9 +150,27 @@ export function solveMaze(maze: boolean[][], algorithm: MazeAlgorithm): MazePoin
     return exploreMaze(maze, algorithm).path
 }
 
+export function compareMazeAlgorithms(maze: boolean[][]): MazeAlgorithmComparison[] {
+    const results = (["bfs", "dfs", "astar"] as MazeAlgorithm[]).map((algorithm) => {
+        const result = exploreMaze(maze, algorithm)
+        return {
+            algorithm,
+            visitedCount: result.visited.length,
+            pathSteps: Math.max(result.path.length - 1, 0),
+            isShortest: false,
+        }
+    })
+    const shortestPath = Math.min(...results.map((result) => result.pathSteps).filter((steps) => steps > 0))
+
+    return results.map((result) => ({
+        ...result,
+        isShortest: result.pathSteps === shortestPath,
+    }))
+}
+
 export function useMazeRunner(initialSize: MazeSize = 13) {
     const [size, setSize] = useState<MazeSize>(initialSize)
-    const [maze, setMaze] = useState<boolean[][]>(() => generateMaze(initialSize))
+    const [maze, setMaze] = useState<boolean[][]>(() => generateMaze(initialSize, DEFAULT_MAZE_SEED))
     const [player, setPlayer] = useState<MazePoint>({ row: 1, col: 1 })
     const [steps, setSteps] = useState(0)
     const [status, setStatus] = useState<"playing" | "won">("playing")
@@ -137,6 +183,8 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
         const path = exploreMaze(maze, "bfs").path
         return path.length > 0 ? path.length - 1 : 0
     }, [maze])
+
+    const algorithmComparison = useMemo(() => compareMazeAlgorithms(maze), [maze])
 
     const stopDemoTimer = useCallback(() => {
         if (demoTimerRef.current !== null) {
@@ -175,9 +223,10 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
 
     const startNewGame = useCallback(
         (nextSize: MazeSize = size) => {
+            const nextSeed = Date.now()
             clearDemo()
             setSize(nextSize)
-            setMaze(generateMaze(nextSize))
+            setMaze(generateMaze(nextSize, nextSeed))
             setPlayer({ row: 1, col: 1 })
             setSteps(0)
             setStatus("playing")
@@ -222,6 +271,7 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
         status,
         demo,
         optimalSteps,
+        algorithmComparison,
         stats,
         runDemo,
         clearDemo,

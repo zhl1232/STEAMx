@@ -66,12 +66,21 @@ export function getMemoryColumns(difficulty: MemoryDifficulty): number {
 
 export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
     const [difficulty, setDifficulty] = useState(initialDifficulty)
-    const [cards, setCards] = useState<MemoryCard[]>(() => createMemoryDeck(initialDifficulty))
+    const [cards, setCards] = useState<MemoryCard[]>(() =>
+        SYMBOLS.slice(0, PAIRS[initialDifficulty]).flatMap((symbol, pairIndex) => [
+            { id: `${symbol}-${pairIndex}-a`, symbol, matched: false },
+            { id: `${symbol}-${pairIndex}-b`, symbol, matched: false },
+        ]),
+    )
     const [openIds, setOpenIds] = useState<string[]>([])
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "won">("playing")
     const [stats, setStats] = useState<MemoryStats>(() => loadStats())
+
+    useEffect(() => {
+        setCards(createMemoryDeck(initialDifficulty))
+    }, [initialDifficulty])
 
     useEffect(() => {
         if (status !== "playing") return

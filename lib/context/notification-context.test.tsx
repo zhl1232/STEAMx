@@ -1,6 +1,15 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { NotificationProvider, mergeLatestNotificationState, mergeLatestNotifications, useNotifications } from './notification-context'
+import {
+    __resetNotificationUnreadCountCacheForTests,
+    NotificationProvider,
+    mergeLatestNotificationState,
+    mergeLatestNotifications,
+    useNotifications,
+} from './notification-context'
+
+const mockSupabaseChannel = vi.fn()
+const mockRemoveChannel = vi.fn()
 
 const mockAuthState = {
     user: { id: 'user-1' },
@@ -27,8 +36,8 @@ vi.mock('@/lib/supabase/client', () => {
     }
     return {
         createClient: () => ({
-            channel: () => channel,
-            removeChannel: vi.fn(),
+            channel: mockSupabaseChannel.mockReturnValue(channel),
+            removeChannel: mockRemoveChannel,
         }),
     }
 })
@@ -65,6 +74,9 @@ describe('NotificationProvider', () => {
     beforeEach(() => {
         vi.clearAllMocks()
         vi.useRealTimers()
+        delete process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME
+        __resetNotificationUnreadCountCacheForTests()
+        window.history.replaceState({}, '', '/messages')
         vi.stubGlobal('fetch', vi.fn((input: string | URL | Request) => {
             const rawUrl = typeof input === 'string'
                 ? input
@@ -111,6 +123,67 @@ describe('NotificationProvider', () => {
 
             throw new Error(`Unexpected fetch: ${rawUrl}`)
         }))
+    })
+
+    it('subscribes to unread counts through a private Realtime channel', async () => {
+        process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME = 'true'
+
+        render(
+            <NotificationProvider>
+                <TestComponent />
+            </NotificationProvider>,
+        )
+
+        await waitFor(() => {
+            expect(mockSupabaseChannel).toHaveBeenCalledWith('unread-counts:user-1', {
+                config: { private: true },
+            })
+        })
+    })
+
+    it('skips the realtime websocket when disabled while keeping HTTP unread counts', async () => {
+        process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME = 'false'
+
+        render(
+            <NotificationProvider>
+                <TestComponent />
+            </NotificationProvider>,
+        )
+
+        await waitFor(() => {
+            expect(screen.getByTestId('unread-count')).toHaveTextContent('3')
+        })
+        expect(mockSupabaseChannel).not.toHaveBeenCalled()
+    })
+
+    it('deduplicates concurrent unread-count refreshes across provider mounts', async () => {
+        render(
+            <>
+                <NotificationProvider>
+                    <TestComponent />
+                </NotificationProvider>
+                <NotificationProvider>
+                    <TestComponent />
+                </NotificationProvider>
+            </>,
+        )
+
+        await waitFor(() => {
+            expect(screen.getAllByTestId('unread-count')[0]).toHaveTextContent('3')
+        })
+
+        const calls = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls
+            .map(([input]) => {
+                const rawUrl = typeof input === 'string'
+                    ? input
+                    : input instanceof URL
+                        ? input.toString()
+                        : input.url
+                return new URL(rawUrl, 'http://localhost').pathname
+            })
+
+        expect(calls.filter((pathname) => pathname === '/api/notifications/unread-count')).toHaveLength(1)
+        expect(calls.filter((pathname) => pathname === '/api/messages/unread-count')).toHaveLength(1)
     })
 
     it('does not decrement unread count when marking an already-read local notification', async () => {

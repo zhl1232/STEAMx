@@ -46,9 +46,6 @@ export interface UserStats {
     sudokuHardWins?: number;       // 困难难度通关次数
     // N 皇后专属
     nqueensManualSolves?: number;  // 手动求解次数
-    // 电路拼图专属
-    circuitSolved?: number;        // 累计通关数
-    circuitLogicCleared?: boolean; // 是否完成逻辑门关卡
     // 排序可视化专属
     sortingRuns?: number;          // 运行排序演示次数
     sortingAlgorithmsUsed?: number; // 使用过的排序算法数量

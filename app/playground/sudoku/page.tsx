@@ -162,7 +162,7 @@ export default function SudokuPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-8 w-8 self-end sm:self-auto"
+                            className="rounded-full h-11 w-11 self-end sm:h-8 sm:w-8 sm:self-auto"
                             onClick={() => newGame()}
                             aria-label="新游戏"
                             title="新游戏"
@@ -180,8 +180,8 @@ export default function SudokuPage() {
                                     key={d}
                                     onClick={() => newGame(d)}
                                     disabled={isPlaying}
-                                    className={cn(
-                                        "px-3 py-1.5 text-xs font-bold rounded-xs transition-all",
+                                className={cn(
+                                        "min-h-11 px-3 py-1.5 text-xs font-bold rounded-xs transition-all sm:min-h-0",
                                         difficulty === d
                                             ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                                             : "text-muted-foreground hover:text-foreground hover:bg-accent",
@@ -210,7 +210,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-xs"
+                                className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
                                 onClick={undo}
                                 disabled={!history.canUndo}
                                 aria-label="撤销"
@@ -221,7 +221,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-7 w-7 rounded-xs"
+                                className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
                                 onClick={redo}
                                 disabled={!history.canRedo}
                                 aria-label="重做"
@@ -232,7 +232,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-7 rounded-xs text-xs gap-1 px-2"
+                                className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2"
                                 onClick={checkErrors}
                                 disabled={status === "won"}
                                 title="检查错误"
@@ -243,7 +243,7 @@ export default function SudokuPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-7 rounded-xs text-xs gap-1 px-2"
+                                className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2"
                                 onClick={solve}
                                 disabled={status === "won"}
                                 title="显示答案"
@@ -255,8 +255,8 @@ export default function SudokuPage() {
                     </div>
 
                     {/* Board */}
-                    <div className="w-full flex justify-center pb-2">
-                        <div className="relative bg-background/40 rounded-md p-1.5 sm:p-2.5 border border-border shadow-xl">
+                    <div className="w-full overflow-x-auto no-scrollbar touch-pan-x pb-2" aria-label="数独棋盘，可横向滑动查看完整 9×9 棋盘">
+                        <div className="relative w-max bg-background/40 rounded-md p-1.5 sm:p-2.5 border border-border shadow-xl">
                             <div
                                 className="grid"
                                 style={{ gridTemplateColumns: "repeat(9, 1fr)" }}
@@ -294,7 +294,7 @@ export default function SudokuPage() {
                                                 key={`${rIdx}-${cIdx}`}
                                                 onClick={() => selectCell(rIdx, cIdx)}
                                                 className={cn(
-                                                    "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-sm sm:text-base md:text-lg transition-colors duration-100 select-none relative",
+                                                    "w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-sm sm:text-base md:text-lg transition-colors duration-100 select-none relative",
                                                     "border-border/60 border-r border-b",
                                                     thickLeft
                                                         ? "border-l-2 border-l-foreground/30"
@@ -414,7 +414,7 @@ export default function SudokuPage() {
                                     onClick={() => setNumber(num)}
                                     disabled={isFull || status === "won"}
                                     className={cn(
-                                        "relative w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg sm:text-xl font-bold transition-all border",
+                                        "relative h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg sm:text-xl font-bold transition-all border",
                                         isFull
                                             ? "bg-muted/30 text-muted-foreground/30 border-border/30 cursor-not-allowed"
                                             : "bg-background/80 text-foreground border-border hover:bg-primary/10 hover:border-primary/40 active:scale-95",
@@ -440,7 +440,7 @@ export default function SudokuPage() {
                         <button
                             onClick={clearCell}
                             disabled={status === "won"}
-                            className="w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
+                            className="h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
                             title="清除"
                         >
                             <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -450,7 +450,7 @@ export default function SudokuPage() {
                             onClick={toggleNoteMode}
                             disabled={status === "won"}
                             className={cn(
-                                "w-10 h-12 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border flex items-center justify-center",
+                                "h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border flex items-center justify-center",
                                 isNoteMode
                                     ? "bg-primary/20 text-primary border-primary/50 ring-2 ring-primary/30"
                                     : "bg-background/80 text-muted-foreground border-border hover:bg-primary/10 hover:border-primary/40",

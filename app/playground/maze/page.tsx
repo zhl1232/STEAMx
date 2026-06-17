@@ -1,22 +1,29 @@
 "use client"
 
-import { useEffect } from "react"
-import { Bot, Compass, Footprints, RotateCcw, Trophy } from "lucide-react"
+import { useEffect, useState } from "react"
+import { BarChart3, Bot, Compass, Footprints, RotateCcw, Trophy } from "lucide-react"
 import { useMazeRunner, type MazeAlgorithm, type MazeSize } from "@/hooks/playground/use-maze-runner"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const SIZES: MazeSize[] = [9, 13, 17]
-const ALGORITHMS: Array<{ key: MazeAlgorithm; label: string }> = [
-    { key: "bfs", label: "BFS" },
-    { key: "dfs", label: "DFS" },
-    { key: "astar", label: "A*" },
+const ALGORITHMS: Array<{ key: MazeAlgorithm; label: string; shortLabel: string; description: string }> = [
+    { key: "bfs", label: "广度优先 BFS", shortLabel: "BFS", description: "一层层扩散，保证最短路线。" },
+    { key: "dfs", label: "深度优先 DFS", shortLabel: "DFS", description: "先一路深入，走不通再回退。" },
+    { key: "astar", label: "A* 智能寻路", shortLabel: "A*", description: "把已走步数和离终点距离一起估算。" },
 ]
+
+const ALGORITHM_LABELS: Record<MazeAlgorithm, string> = {
+    bfs: "BFS",
+    dfs: "DFS",
+    astar: "A*",
+}
 
 export default function MazePage() {
     const game = useMazeRunner(13)
     const { checkBadges } = useGamification()
+    const [comparisonVisible, setComparisonVisible] = useState(false)
 
     const visitedSet = new Set<string>()
     const pathSet = new Set<string>()
@@ -68,18 +75,25 @@ export default function MazePage() {
         })
     }, [checkBadges, game.stats.wins, game.status])
 
+    const activeComparison = game.demo
+        ? game.algorithmComparison.find((result) => result.algorithm === game.demo?.algorithm)
+        : null
+    const leastVisited = Math.min(...game.algorithmComparison.map((result) => result.visitedCount))
+
     return (
         <div className="playground-game-page">
             <div className="playground-game-main playground-game-center">
-                <div className="w-full max-w-2xl playground-game-board">
+                <div className="w-full max-w-3xl playground-game-board">
                     <div className="mb-5 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-md border border-lime-400/40 bg-lime-500/10">
                                 <Compass className="h-5 w-5 text-lime-500" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-black">迷宫探险</h1>
-                                <p className="text-xs text-muted-foreground">先自己走，再看算法怎么找路。</p>
+                                <h1 className="text-xl font-black">迷宫寻路实验</h1>
+                                <p className="text-xs text-muted-foreground">
+                                    先自己走到终点，再比较三种算法谁探索得更少。
+                                </p>
                             </div>
                         </div>
                         <Button variant="outline" size="icon" onClick={() => game.startNewGame()} aria-label="重新开始">
@@ -87,31 +101,61 @@ export default function MazePage() {
                         </Button>
                     </div>
 
-                    <div className="mb-4 flex flex-wrap items-center gap-2">
-                        {SIZES.map((size) => (
-                            <Button key={size} size="sm" variant={game.size === size ? "default" : "outline"} onClick={() => game.startNewGame(size)}>
-                                {size}×{size}
-                            </Button>
-                        ))}
-                        <span className="mx-1 hidden text-xs text-muted-foreground sm:inline">演示：</span>
-                        {ALGORITHMS.map((algorithm) => (
+                    <div className="mb-4 grid grid-cols-3 gap-1.5 sm:gap-2">
+                        <div className="min-w-0 rounded-md bg-lime-500/10 px-2.5 py-2 sm:px-3">
+                            <div className="text-[11px] font-bold text-lime-600 dark:text-lime-300">你的路线</div>
+                            <div className="mt-1 text-lg font-black">{game.steps} 步</div>
+                        </div>
+                        <div className="min-w-0 rounded-md bg-sky-500/10 px-2.5 py-2 sm:px-3">
+                            <div className="text-[11px] font-bold text-sky-600 dark:text-sky-300">理论最短</div>
+                            <div className="mt-1 text-lg font-black">{game.optimalSteps} 步</div>
+                        </div>
+                        <div className="min-w-0 rounded-md bg-amber-500/10 px-2.5 py-2 sm:px-3">
+                            <div className="text-[11px] font-bold text-amber-600 dark:text-amber-300">实验重点</div>
+                            <div className="mt-1 text-xs font-bold leading-4 sm:text-sm">看探索格数</div>
+                        </div>
+                    </div>
+
+                    <div className="mb-4 flex flex-col gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-xs font-bold text-muted-foreground">迷宫规模</span>
+                            {SIZES.map((size) => (
+                                <Button key={size} size="sm" variant={game.size === size ? "default" : "outline"} onClick={() => game.startNewGame(size)}>
+                                    {size}×{size}
+                                </Button>
+                            ))}
                             <Button
-                                key={algorithm.key}
+                                className="ml-0 sm:ml-auto"
                                 size="sm"
-                                variant={game.demo?.algorithm === algorithm.key ? "secondary" : "outline"}
-                                onClick={() => game.runDemo(algorithm.key)}
+                                variant={comparisonVisible ? "secondary" : "default"}
+                                onClick={() => setComparisonVisible((visible) => !visible)}
                             >
-                                {algorithm.label}
+                                <BarChart3 className="mr-1.5 h-4 w-4" />
+                                算法对比
                             </Button>
-                        ))}
-                        {game.demo && (
-                            <Button size="sm" variant="ghost" onClick={game.clearDemo}>
-                                清除
-                            </Button>
-                        )}
-                        <span className="ml-auto rounded-full bg-muted px-3 py-1 text-xs font-bold">
-                            {game.steps} 步
-                        </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-xs font-bold text-muted-foreground">回放算法</span>
+                            {ALGORITHMS.map((algorithm) => (
+                                <Button
+                                    key={algorithm.key}
+                                    size="sm"
+                                    variant={game.demo?.algorithm === algorithm.key ? "secondary" : "outline"}
+                                    onClick={() => {
+                                        setComparisonVisible(true)
+                                        game.runDemo(algorithm.key)
+                                    }}
+                                >
+                                    <span className="sm:hidden">{algorithm.shortLabel}</span>
+                                    <span className="hidden sm:inline">{algorithm.label}</span>
+                                </Button>
+                            ))}
+                            {game.demo && (
+                                <Button size="sm" variant="ghost" onClick={game.clearDemo}>
+                                    清除
+                                </Button>
+                            )}
+                        </div>
                     </div>
 
                     <div className="mx-auto grid max-w-[min(78vw,620px)] gap-0.5 rounded-lg bg-muted/40 p-2" style={{ gridTemplateColumns: `repeat(${game.size}, minmax(0, 1fr))` }}>
@@ -138,11 +182,50 @@ export default function MazePage() {
                     </div>
 
                     {game.demo && (
-                        <p className="mt-2 text-center text-xs text-muted-foreground">
+                        <div className="mt-3 rounded-md bg-muted/30 px-3 py-2 text-center text-xs text-muted-foreground">
                             {game.demo.done
-                                ? `${game.demo.algorithm.toUpperCase()} 共探索 ${game.demo.visited.length} 格，路径 ${Math.max(game.demo.path.length - 1, 0)} 步`
-                                : `${game.demo.algorithm.toUpperCase()} 正在探索… ${game.demo.progress}/${game.demo.visited.length} 格`}
-                        </p>
+                                ? `${ALGORITHM_LABELS[game.demo.algorithm]} 探索 ${game.demo.visited.length} 格，路线 ${Math.max(game.demo.path.length - 1, 0)} 步${activeComparison?.visitedCount === leastVisited ? "，本局探索最少。" : "。"}`
+                                : `${ALGORITHM_LABELS[game.demo.algorithm]} 正在探索 ${game.demo.progress}/${game.demo.visited.length} 格`}
+                        </div>
+                    )}
+
+                    {comparisonVisible && (
+                        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                            {game.algorithmComparison.map((result) => {
+                                const meta = ALGORITHMS.find((algorithm) => algorithm.key === result.algorithm)!
+                                const isActive = game.demo?.algorithm === result.algorithm
+                                const isLeastVisited = result.visitedCount === leastVisited
+                                return (
+                                    <button
+                                        key={result.algorithm}
+                                        type="button"
+                                        onClick={() => game.runDemo(result.algorithm)}
+                                        className={cn(
+                                            "rounded-md border bg-background px-3 py-3 text-left transition hover:border-lime-400/70 hover:bg-lime-500/5",
+                                            isActive && "border-lime-400 bg-lime-500/10",
+                                        )}
+                                    >
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className="font-bold">{meta.label}</span>
+                                            {isLeastVisited && (
+                                                <span className="rounded-full bg-lime-500/15 px-2 py-0.5 text-[10px] font-bold text-lime-700 dark:text-lime-300">
+                                                    探索最少
+                                                </span>
+                                            )}
+                                        </div>
+                                        <p className="mt-1 min-h-8 text-xs leading-4 text-muted-foreground">{meta.description}</p>
+                                        <div className="mt-3 flex items-end justify-between gap-2 text-xs">
+                                            <span>
+                                                探索 <strong className="text-base text-foreground">{result.visitedCount}</strong> 格
+                                            </span>
+                                            <span>
+                                                路线 <strong className="text-base text-foreground">{result.pathSteps}</strong> 步
+                                            </span>
+                                        </div>
+                                    </button>
+                                )
+                            })}
+                        </div>
                     )}
 
                     <div className="mt-4 grid grid-cols-3 gap-2 sm:hidden">
@@ -182,12 +265,12 @@ export default function MazePage() {
                     <section className="rounded-sm border border-border bg-muted/20 p-4 text-xs text-muted-foreground">
                         <h3 className="mb-2 flex items-center gap-2 font-bold text-foreground">
                             <Bot className="h-4 w-4" />
-                            算法视角
+                            怎么读这个实验
                         </h3>
                         <p className="leading-relaxed">
-                            点击 BFS / DFS / A* 可以回放算法的探索过程：蓝色是探索过的格子，绿色是最终路径。
-                            BFS 逐层扩散保证最短路；DFS 一路深入、靠回溯脱身；A* 用「已走步数 + 预估距离」优先朝目标推进。
-                            对比三者点亮的蓝色区域大小，就能感受到启发式搜索的效率差异。
+                            蓝色格子代表算法检查过的区域，绿色格子是最终路线。
+                            在这种只有一条通路的迷宫里，三种算法通常能走出同样长的路线；真正值得比较的是探索了多少格。
+                            探索越少，说明算法越快把注意力放到可能接近终点的方向。
                         </p>
                     </section>
                     <section className="flex items-center gap-2 rounded-sm bg-muted/20 p-4 text-xs text-muted-foreground">

@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react"
 import {
     AlertTriangle,
-    BarChart3,
     Bomb,
     Bot,
     Brain,
@@ -21,7 +20,6 @@ import {
     Settings,
     Trash2,
     Touchpad,
-    Zap,
     type LucideIcon,
 } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
@@ -130,18 +128,7 @@ const games: PlaygroundNavItem[] = [
         color: "text-orange-500 dark:text-orange-300",
         steamTags: ["Technology", "Engineering"],
     },
-    {
-        name: "排序可视化",
-        nameEn: "Sorting",
-        href: "/playground/sorting",
-        icon: BarChart3,
-        description: "五大经典排序算法对比",
-        mission: "比较算法如何把数组变成有序。",
-        controls: "选择算法、速度和数据量后开始。",
-        badgeGoal: "完成多算法对比，点亮排序专家目标。",
-        color: "text-cyan-500 dark:text-cyan-300",
-        steamTags: ["Technology"],
-    },
+
     {
         name: "数独",
         nameEn: "Sudoku",
@@ -165,18 +152,6 @@ const games: PlaygroundNavItem[] = [
         badgeGoal: "累计手动解出 5 次可解锁回溯专家。",
         color: "text-yellow-500 dark:text-yellow-300",
         steamTags: ["Technology", "Engineering"],
-    },
-    {
-        name: "电路拼图",
-        nameEn: "Circuit",
-        href: "/playground/circuit",
-        icon: Zap,
-        description: "串并联与逻辑门探索",
-        mission: "连接元件，让电路成功点亮。",
-        controls: "旋转、连接或移动元件完成回路。",
-        badgeGoal: "完成逻辑门关卡可解锁逻辑门大师。",
-        color: "text-teal-500 dark:text-teal-300",
-        steamTags: ["Science", "Engineering"],
     },
     {
         name: "数字华容道",
@@ -466,7 +441,7 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
                 </Button>
             </div>
             {!isHome ? (
-                <nav className="flex gap-2 overflow-x-auto px-4 pb-3 no-scrollbar" aria-label="游乐场游戏导航">
+                <nav className="hidden gap-2 overflow-x-auto px-4 pb-3 no-scrollbar sm:flex" aria-label="游乐场游戏导航">
                     {navItems.map((item) => {
                         const active =
                             pathname === item.href || (item.href !== "/playground" && pathname.startsWith(item.href))
@@ -641,7 +616,7 @@ function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
 
 function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
     return (
-        <section className="pt-3 lg:px-8 lg:pt-5">
+        <section className="hidden pt-3 sm:block lg:px-8 lg:pt-5">
             <details className="surface-panel group xl:hidden">
                 <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 [&::-webkit-details-marker]:hidden">
                     <span className="text-sm font-black">本局提示</span>

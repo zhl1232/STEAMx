@@ -18,7 +18,7 @@
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
 | `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
-| `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 15 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、排序可视化、电路、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端本局提示可折叠、游戏内页顶栏显示当前游戏名与返回首页；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布；首页 UI 对齐 `surface-card` / `ToneBadge`，移动端首屏优先推荐与游戏列表 |
+| `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 13 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；迷宫页定位为「寻路算法实验」，支持手动通关后对比 BFS / DFS / A* 的探索格数、路线步数与回放动画；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体；扫雷页桌面端采用紧凑工具栏与轻量棋盘 shell，普通桌面收窄右侧课程面板以增加主游戏区宽度，移动端初级棋盘按容器等分完整显示、中高难度保留横向滑动，本地战绩挂载后读取以避免 SSR hydration mismatch；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复；游戏卡片均有独立图形 fallback |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
@@ -169,7 +169,7 @@
 - `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
-- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数经 Supabase Realtime 订阅 `notifications`/`messages` 表变更刷新，无定时轮询，页面回到前台兜底刷一次）
+- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket 并保留 HTTP 兜底，页面回到前台兜底刷一次）
 - `login-prompt-context.tsx` — 未登录操作引导弹窗
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
@@ -278,7 +278,7 @@
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 24 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/排序/电路/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
+| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
 
 ---
 

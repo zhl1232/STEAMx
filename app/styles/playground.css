@@ -20,6 +20,17 @@
     @apply relative w-full max-w-full rounded-lg border p-3 backdrop-blur sm:p-6;
   }
 
+  .minesweeper-game-main {
+    @apply justify-start px-2 py-3 sm:px-4 sm:py-5 xl:px-6 xl:py-6;
+  }
+
+  .minesweeper-game-shell {
+    background-color: hsl(var(--surface-raised) / 0.74);
+    border-color: hsl(var(--surface-border) / 0.68);
+    box-shadow: 0 18px 52px -44px hsl(var(--surface-shadow) / 0.52);
+    @apply rounded-md p-1 sm:p-3 xl:p-4;
+  }
+
   .playground-info-panel {
     background-color: hsl(var(--surface-raised) / 0.88);
     border-color: hsl(var(--surface-border) / 0.86);

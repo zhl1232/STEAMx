@@ -51,7 +51,13 @@ export default function MemoryPage() {
                                 <p className="text-xs text-muted-foreground">记住图案位置，找出所有配对。</p>
                             </div>
                         </div>
-                        <Button variant="outline" size="icon" onClick={() => game.startNewGame()} aria-label="重新开始">
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-11 w-11"
+                            onClick={() => game.startNewGame()}
+                            aria-label="重新开始"
+                        >
                             <RotateCcw className="h-4 w-4" />
                         </Button>
                     </div>
@@ -62,6 +68,7 @@ export default function MemoryPage() {
                                 key={item.key}
                                 size="sm"
                                 variant={game.difficulty === item.key ? "default" : "outline"}
+                                className="min-h-11 px-4"
                                 onClick={() => game.startNewGame(item.key)}
                             >
                                 {item.label}

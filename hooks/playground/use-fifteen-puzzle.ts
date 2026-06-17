@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 
 export type FifteenSize = 3 | 4 | 5
@@ -11,6 +11,7 @@ export type FifteenStats = {
 }
 
 const STATS_KEY = "fifteen_puzzle_stats"
+const SWIPE_THRESHOLD = 30
 const EMPTY_STATS: FifteenStats = {
     totalGames: 0,
     wins: 0,
@@ -98,11 +99,15 @@ function shuffledBoard(size: FifteenSize): number[] {
 
 export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     const [size, setSizeState] = useState<FifteenSize>(initialSize)
-    const [board, setBoard] = useState<number[]>(() => shuffledBoard(initialSize))
+    const [board, setBoard] = useState<number[]>(() => createSolvedBoard(initialSize))
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved">("playing")
     const [stats, setStats] = useState<FifteenStats>(() => loadStats())
+
+    useEffect(() => {
+        setBoard(shuffledBoard(initialSize))
+    }, [initialSize])
 
     useEffect(() => {
         if (status !== "playing") return
@@ -164,6 +169,34 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
         if (index >= 0) tapTile(index)
     }, [board, size, tapTile])
 
+    /* ── 触摸滑动 ── */
+    const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+
+    const onTouchStart = useCallback((e: React.TouchEvent) => {
+        if (e.cancelable) e.preventDefault()
+        const touch = e.touches[0]
+        touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+    }, [])
+
+    const onTouchEnd = useCallback((e: React.TouchEvent) => {
+        if (!touchStartRef.current) return
+        if (e.cancelable) e.preventDefault()
+        const touch = e.changedTouches[0]
+        const dx = touch.clientX - touchStartRef.current.x
+        const dy = touch.clientY - touchStartRef.current.y
+        touchStartRef.current = null
+
+        const absDx = Math.abs(dx)
+        const absDy = Math.abs(dy)
+        if (Math.max(absDx, absDy) < SWIPE_THRESHOLD) return
+
+        if (absDx > absDy) {
+            moveByDirection(dx > 0 ? "right" : "left")
+        } else {
+            moveByDirection(dy > 0 ? "down" : "up")
+        }
+    }, [moveByDirection])
+
     return {
         size,
         board,
@@ -177,5 +210,7 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
         moveByDirection,
         startNewGame,
         isSolvable: isSolvableBoard(board, size),
+        onTouchStart,
+        onTouchEnd,
     }
 }

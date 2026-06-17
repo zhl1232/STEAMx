@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import {
+    createEmptyMinesweeperStats,
     MINESWEEPER_STATS_KEY,
     readMergedMinesweeperStats,
     type MinesweeperStats,
@@ -55,7 +56,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     const [status, setStatus] = useState<GameStatus>('idle');
     const [flagsCount, setFlagsCount] = useState(0);
     const [time, setTime] = useState(0);
-    const [stats, setStats] = useState<MinesweeperStats>(readMergedMinesweeperStats);
+    const [stats, setStats] = useState<MinesweeperStats>(createEmptyMinesweeperStats);
     const [isNewRecord, setIsNewRecord] = useState(false);
     const timeRef = useRef(0);
     const bestTimes = stats.bestTimes;
@@ -88,6 +89,10 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
     useEffect(() => {
         initBoard(difficulty);
     }, [difficulty, initBoard]);
+
+    useEffect(() => {
+        setStats(readMergedMinesweeperStats());
+    }, []);
 
     // 计时器（用 ref 同步时间，方便 checkWinCondition 读取准确值）
     useEffect(() => {
@@ -179,9 +184,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         const mineCells = candidateCells.slice(0, difficulty.mines);
 
         for (const [r, c] of mineCells) {
-            if (!protectedCells.has(`${r},${c}`)) {
-                newBoard[r][c].isMine = true;
-            }
+            newBoard[r][c].isMine = true;
         }
 
         // 计算相邻数字
@@ -257,8 +260,8 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         if (!isWithinBounds(row, col, difficulty.rows, difficulty.cols)) return;
         if (board[row][col].isRevealed) return;
 
-        const newBoard = [...board];
-        const cell = { ...newBoard[row][col] };
+        const newBoard = JSON.parse(JSON.stringify(board)) as CellState[][];
+        const cell = newBoard[row][col];
 
         if (!cell.isFlagged) {
             if (flagsCount >= difficulty.mines) return; // 旗子用完不能再插
@@ -269,7 +272,6 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
             setFlagsCount(prev => prev - 1);
         }
 
-        newBoard[row][col] = cell;
         setBoard(newBoard);
     };
 
@@ -309,7 +311,7 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
                 }
             };
 
-            neighbors.forEach(([r, c]) => {
+            for (const [r, c] of neighbors) {
                 const neighborCell = currentBoard[r][c];
                 if (!neighborCell.isRevealed && !neighborCell.isFlagged) {
                     if (neighborCell.isMine) {
@@ -318,11 +320,12 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
                         currentBoard.forEach(row => row.forEach(cell => {
                             if (cell.isMine) cell.isRevealed = true;
                         }));
+                        break;
                     } else {
                         revealEmpty(r, c);
                     }
                 }
-            });
+            }
 
             if (hasChanged || lost) {
                 setBoard(currentBoard);

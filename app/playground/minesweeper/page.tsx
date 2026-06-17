@@ -33,7 +33,7 @@ export default function MinesweeperPage() {
         stats,
         bestTimes,
         isNewRecord,
-    } = useMinesweeper("intermediate")
+    } = useMinesweeper("beginner")
 
     const { checkBadges } = useGamification()
 
@@ -77,6 +77,34 @@ export default function MinesweeperPage() {
     }
 
     const currentBest = difficultyName ? bestTimes[difficultyName] : undefined
+    const isBeginner = difficultyName === "beginner"
+
+    const getCellLabel = (rIdx: number, cIdx: number) => {
+        const cell = board[rIdx]?.[cIdx]
+        if (!cell) return `第 ${rIdx + 1} 行第 ${cIdx + 1} 列`
+        const position = `第 ${rIdx + 1} 行第 ${cIdx + 1} 列`
+        if (cell.isFlagged) return `${position}，已标记`
+        if (!cell.isRevealed) return `${position}，未翻开`
+        if (cell.isMine) return `${position}，地雷`
+        if (cell.neighborMines > 0) return `${position}，周围 ${cell.neighborMines} 个地雷`
+        return `${position}，安全空格`
+    }
+
+    const activateCell = (rIdx: number, cIdx: number) => {
+        const cell = board[rIdx]?.[cIdx]
+        if (!cell) return
+        if (longPressTriggeredRef.current) {
+            longPressTriggeredRef.current = false
+            return
+        }
+        if (cell.isRevealed) {
+            autoReveal(rIdx, cIdx)
+        } else if (isFlagMode) {
+            toggleFlag(rIdx, cIdx)
+        } else {
+            revealCell(rIdx, cIdx)
+        }
+    }
 
     const clearLongPressTimer = () => {
         if (longPressTimerRef.current) {
@@ -90,17 +118,74 @@ export default function MinesweeperPage() {
     return (
         <div className="playground-game-page">
             {/* 左侧游戏区 */}
-            <div className="playground-game-main playground-game-center overflow-hidden">
-                <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
+            <div className="playground-game-main minesweeper-game-main overflow-hidden">
+                <div className="minesweeper-game-shell max-w-full lg:max-w-max w-full relative">
 
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row items-center justify-between min-w-full gap-4 mb-4 sm:mb-8 bg-background/60 p-4 rounded-sm border border-border shadow-inner">
-                        <div className="flex gap-1 sm:gap-2 bg-primary/10 p-1.5 rounded-xs border border-primary/20">
+                    {/* Mobile compact controls */}
+                    <div className="mb-1.5 rounded-sm border border-border/60 bg-background/60 p-1.5 shadow-inner md:hidden">
+                        <div className="grid grid-cols-3 gap-1 rounded-xs border border-primary/20 bg-primary/10 p-1">
                             {(["beginner", "intermediate", "expert"] as const).map((level) => (
                                 <button
                                     key={level}
                                     onClick={() => changeDifficulty(level)}
-                                    className={`px-3 py-1.5 text-xs font-bold rounded-xs transition-all ${difficultyName === level
+                                    className={`min-h-10 rounded-xs px-2 text-sm font-bold transition-all ${difficultyName === level
+                                        ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                                        }`}
+                                >
+                                    {DIFF_LABELS[level].label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mt-1.5 flex items-center justify-between gap-1.5">
+                            <div className="flex shrink-0 items-center gap-1 rounded-sm border border-border/50 bg-muted/60 p-0.5">
+                                <button
+                                    onClick={() => setIsFlagMode(false)}
+                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${!isFlagMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+                                    aria-label="挖掘模式"
+                                    aria-pressed={!isFlagMode}
+                                >
+                                    <MousePointerClick className="h-4 w-4" />
+                                    挖
+                                </button>
+                                <button
+                                    onClick={() => setIsFlagMode(true)}
+                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm" : "text-muted-foreground"}`}
+                                    aria-label="标记模式"
+                                    aria-pressed={isFlagMode}
+                                >
+                                    <Flag className="h-4 w-4" />
+                                    旗
+                                </button>
+                            </div>
+
+                            <div className="flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xs border border-border bg-background/80 px-2 font-mono text-base">
+                                <Flag className="h-4 w-4 shrink-0 text-destructive" />
+                                <span className="text-destructive">{minesLeft.toString().padStart(3, "0")}</span>
+                                <span className="h-4 w-px bg-border" />
+                                <Timer className="h-4 w-4 shrink-0 text-primary" />
+                                <span className="text-primary">{time.toString().padStart(3, "0")}</span>
+                            </div>
+
+                            <button
+                                onClick={resetGame}
+                                aria-label="重新开始扫雷"
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/25 transition-all active:scale-95"
+                            >
+                                {status === "lost" ? <Bomb size={19} /> : status === "won" ? <Trophy size={19} /> : <RefreshCw size={19} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Desktop controls */}
+                    <div className="mb-3 hidden flex-col gap-3 rounded-sm border border-border/70 bg-background/60 p-2.5 shadow-inner sm:mb-4 md:flex lg:flex-row lg:items-center lg:justify-between lg:p-3">
+                        <div className="flex justify-center gap-1 rounded-xs border border-primary/20 bg-primary/10 p-1">
+                            {(["beginner", "intermediate", "expert"] as const).map((level) => (
+                                <button
+                                    key={level}
+                                    onClick={() => changeDifficulty(level)}
+                                    className={`min-h-10 px-3 py-2 text-sm font-bold rounded-xs transition-all sm:min-h-9 sm:px-4 sm:py-1.5 ${difficultyName === level
                                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                                         : "text-muted-foreground hover:text-foreground hover:bg-accent"
                                         }`}
@@ -110,20 +195,37 @@ export default function MinesweeperPage() {
                             ))}
                         </div>
 
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-destructive font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-xs border border-border">
-                                <Flag className="w-5 h-5" />
+                        <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-end">
+                            <div className="flex items-center gap-1 rounded-sm border border-border/50 bg-muted/60 p-1">
+                                <button
+                                    onClick={() => setIsFlagMode(false)}
+                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${!isFlagMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                                >
+                                    <MousePointerClick className="w-4 h-4" />
+                                    <span>挖掘</span>
+                                </button>
+                                <button
+                                    onClick={() => setIsFlagMode(true)}
+                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                                >
+                                    <Flag className="w-4 h-4" />
+                                    <span>标记</span>
+                                </button>
+                            </div>
+                            <div className="flex min-h-10 items-center gap-2 rounded-xs border border-border bg-background/80 px-3 font-mono text-xl text-destructive sm:min-h-9">
+                                <Flag className="w-4 h-4" />
                                 {minesLeft.toString().padStart(3, "0")}
                             </div>
                             <button
                                 onClick={resetGame}
-                                className="w-12 h-12 flex items-center justify-center bg-primary hover:opacity-90 text-primary-foreground rounded-full transition-all hover:rotate-180 duration-500 shadow-xl shadow-primary/30 animate-pulse-glow"
+                                aria-label="重新开始扫雷"
+                                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-500 hover:rotate-180 hover:opacity-90 sm:h-9 sm:w-9"
                             >
-                                {status === "lost" ? <Bomb size={22} /> : status === "won" ? <Trophy size={22} /> : <RefreshCw size={22} />}
+                                {status === "lost" ? <Bomb size={20} /> : status === "won" ? <Trophy size={20} /> : <RefreshCw size={20} />}
                             </button>
-                            <div className="flex flex-col items-center gap-0.5">
-                                <div className="flex items-center gap-2 text-primary font-mono text-2xl bg-background/80 px-4 py-1.5 rounded-xs border border-border">
-                                    <Timer className="w-5 h-5" />
+                            <div className="flex flex-col items-center gap-0.5 sm:items-end">
+                                <div className="flex min-h-10 items-center gap-2 rounded-xs border border-border bg-background/80 px-3 font-mono text-xl text-primary sm:min-h-9">
+                                    <Timer className="w-4 h-4" />
                                     {time.toString().padStart(3, "0")}
                                 </div>
                                 {currentBest !== undefined && (
@@ -138,37 +240,9 @@ export default function MinesweeperPage() {
                         </div>
                     </div>
 
-                    {/* 移动端操作切换 & 提示 */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 animate-in fade-in slide-in-from-top-2 duration-500 w-full">
-                        <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-sm border border-border/50">
-                            <button
-                                onClick={() => setIsFlagMode(false)}
-                                className={`flex items-center gap-2 px-6 py-2 rounded-xs text-sm font-bold transition-all duration-300 ${!isFlagMode ? "bg-background text-foreground shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
-                            >
-                                <MousePointerClick className="w-4 h-4" />
-                                <span>挖掘</span>
-                            </button>
-                            <button
-                                onClick={() => setIsFlagMode(true)}
-                                className={`flex items-center gap-2 px-6 py-2 rounded-xs text-sm font-bold transition-all duration-300 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm scale-100" : "text-muted-foreground hover:text-foreground scale-95"}`}
-                            >
-                                <Flag className="w-4 h-4" />
-                                <span>标记</span>
-                            </button>
-                        </div>
-                        <div className="text-xs text-muted-foreground bg-muted/30 py-2.5 px-5 rounded-full border border-border/50 hidden md:flex items-center gap-2 shadow-inner">
-                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                            <span>电脑端可直接 <strong className="text-foreground">右键</strong> 快速标记，移动端可 <strong className="text-foreground">长按格子</strong> 或使用 <strong className="text-foreground">上方切换</strong> 模式</span>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-full border border-border/50 bg-muted/30 px-4 py-2 text-xs text-muted-foreground md:hidden">
-                            <span className="h-2 w-2 rounded-full bg-primary" />
-                            长按格子可快速插旗
-                        </div>
-                    </div>
-
                     {/* Board Wrapper */}
-                    <div className="w-full overflow-x-auto no-scrollbar touch-pan-x touch-pan-y pb-2">
-                        <div className="relative w-max p-2 bg-background/40 rounded-md border border-border mx-auto shadow-xl">
+                    <div className="w-full overflow-x-auto no-scrollbar touch-pan-x touch-pan-y pb-1" aria-label="扫雷棋盘，可横向滑动查看大棋盘">
+                        <div className={`relative mx-0 rounded-sm border border-border/70 bg-background/40 p-1 shadow-lg sm:mx-auto sm:p-1.5 ${isBeginner ? "w-full max-w-[406px] sm:w-max sm:max-w-none" : "w-max"}`}>
                             <AnimatePresence>
                                 {status === "lost" && (
                                     <motion.div
@@ -177,7 +251,7 @@ export default function MinesweeperPage() {
                                         className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-sm"
                                     >
                                         <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex items-center gap-4">
-                                            <Bomb className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" /> 游戏结束
+                                            <Bomb className="w-8 h-8 sm:w-10 sm:h-10" /> 游戏结束
                                         </div>
                                     </motion.div>
                                 )}
@@ -189,7 +263,7 @@ export default function MinesweeperPage() {
                                     >
                                         <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-2">
                                             <div className="flex items-center gap-3 text-primary font-black text-xl sm:text-3xl">
-                                                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500 animate-bounce" /> 恭喜通关！
+                                                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500" /> 恭喜通关！
                                             </div>
                                             <div className="text-sm text-muted-foreground font-medium">
                                                 耗时 <span className="text-primary font-bold">{formatTime(time)}</span>
@@ -209,18 +283,15 @@ export default function MinesweeperPage() {
                                     {row.map((cell, cIdx) => (
                                         <div
                                             key={`${rIdx}-${cIdx}`}
-                                            onClick={() => {
-                                                if (longPressTriggeredRef.current) {
-                                                    longPressTriggeredRef.current = false
-                                                    return
-                                                }
-                                                if (cell.isRevealed) {
-                                                    autoReveal(rIdx, cIdx)
-                                                } else if (isFlagMode) {
-                                                    toggleFlag(rIdx, cIdx)
-                                                } else {
-                                                    revealCell(rIdx, cIdx)
-                                                }
+                                            role="button"
+                                            tabIndex={status === "won" || status === "lost" ? -1 : 0}
+                                            aria-label={getCellLabel(rIdx, cIdx)}
+                                            aria-pressed={cell.isFlagged}
+                                            onClick={() => activateCell(rIdx, cIdx)}
+                                            onKeyDown={(event) => {
+                                                if (event.key !== "Enter" && event.key !== " ") return
+                                                event.preventDefault()
+                                                activateCell(rIdx, cIdx)
                                             }}
                                             onContextMenu={(e: React.MouseEvent<HTMLDivElement>) => {
                                                 e.preventDefault()
@@ -242,12 +313,12 @@ export default function MinesweeperPage() {
                                             onTouchEnd={clearLongPressTimer}
                                             onTouchCancel={clearLongPressTimer}
                                             className={`
-                        w-9 h-9 sm:w-11 sm:h-11 border border-border/50 flex items-center justify-center text-base sm:text-xl font-black cursor-pointer transition-all duration-150 select-none
+                        ${isBeginner ? "h-auto w-auto min-w-0 flex-1 aspect-square" : "h-11 w-11"} sm:h-11 sm:w-11 border flex items-center justify-center text-base sm:text-xl font-black cursor-pointer transition-all duration-150 select-none
                         ${cell.isRevealed
                                                     ? cell.isMine
-                                                        ? "bg-destructive text-destructive-foreground shadow-inner"
-                                                        : "bg-muted/50 text-foreground shadow-inner"
-                                                    : "bg-accent hover:bg-accent/80 hover:scale-[1.02] active:scale-95 shadow-sm border-t-white/10 border-l-white/10 dark:border-t-white/5 dark:border-l-white/5"
+                                                        ? "bg-destructive text-destructive-foreground shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-destructive/80"
+                                                        : "bg-background/80 text-foreground shadow-inner border-border/40"
+                                                    : "bg-gradient-to-br from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 border-primary/20 border-t-primary/30 border-l-primary/30 shadow-sm hover:scale-[1.02] active:scale-95"
                                                 }
                       `}
                                         >
@@ -274,7 +345,7 @@ export default function MinesweeperPage() {
             </div>
 
             {/* 右侧知识面板 */}
-            <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
+            <div className="w-full xl:w-80 2xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
                 <div className="flex border-b border-border">
                     <button
                         onClick={() => setActiveTab("course")}

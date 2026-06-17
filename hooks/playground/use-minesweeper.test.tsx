@@ -1,6 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DIFFICULTIES, useMinesweeper } from './use-minesweeper'
+import { createEmptyMinesweeperStats } from '@/lib/playground/minesweeper-stats'
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
     getPlaygroundItemMock: vi.fn((_key: string): unknown => null),
@@ -79,7 +80,20 @@ describe('useMinesweeper', () => {
         expect(result.current.minesLeft).toBe(DIFFICULTIES.beginner.mines - 1)
     })
 
-    it('hydrates legacy best time records into the structured stats shape', () => {
+    it('uses an empty stats snapshot for SSR-safe initial rendering', () => {
+        expect(createEmptyMinesweeperStats()).toMatchObject({
+            totalGames: 0,
+            wins: 0,
+            winsByDifficulty: {
+                beginner: 0,
+                intermediate: 0,
+                expert: 0,
+            },
+            bestTimes: {},
+        })
+    })
+
+    it('loads legacy best time records after mount', async () => {
         getPlaygroundItemMock.mockImplementation((key: string) => {
             if (key === 'minesweeper_best_times') return { beginner: 0, expert: 120 }
             return null
@@ -87,7 +101,7 @@ describe('useMinesweeper', () => {
 
         const { result } = renderHook(() => useMinesweeper('beginner'))
 
-        expect(result.current.stats).toMatchObject({
+        await waitFor(() => expect(result.current.stats).toMatchObject({
             totalGames: 2,
             wins: 2,
             winsByDifficulty: {
@@ -98,7 +112,7 @@ describe('useMinesweeper', () => {
                 beginner: 1,
                 expert: 120,
             },
-        })
+        }))
     })
 
     it('resets elapsed time when changing difficulty before saving a new best record', async () => {

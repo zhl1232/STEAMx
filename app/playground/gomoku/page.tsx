@@ -108,7 +108,7 @@ export default function GomokuPage() {
                             size="sm"
                             variant={mode === "pvp" ? "default" : "outline"}
                             className={cn(
-                                "flex items-center gap-1 rounded-full px-3 sm:px-4 py-1.5 text-xs sm:text-sm h-8",
+                                "flex min-h-11 items-center gap-1 rounded-full px-3 py-1.5 text-xs sm:h-8 sm:min-h-0 sm:px-4 sm:text-sm",
                                 mode === "pvp" && "shadow-md shadow-primary/30"
                             )}
                             onClick={() => handleModeChange("pvp")}
@@ -120,7 +120,7 @@ export default function GomokuPage() {
                             size="sm"
                             variant={mode === "pve" ? "default" : "outline"}
                             className={cn(
-                                "flex items-center gap-1 rounded-full px-3 sm:px-4 py-1.5 text-xs sm:text-sm h-8",
+                                "flex min-h-11 items-center gap-1 rounded-full px-3 py-1.5 text-xs sm:h-8 sm:min-h-0 sm:px-4 sm:text-sm",
                                 mode === "pve" && "shadow-md shadow-primary/30"
                             )}
                             onClick={() => handleModeChange("pve")}
@@ -142,7 +142,7 @@ export default function GomokuPage() {
                                         type="button"
                                         onClick={() => handleLevelChange(value)}
                                         className={cn(
-                                            "rounded-full px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-medium transition-colors",
+                                            "min-h-11 rounded-full px-3 py-1 text-[11px] font-medium transition-colors sm:min-h-0 sm:px-3 sm:text-xs",
                                             level === value
                                                 ? "bg-primary text-primary-foreground shadow-sm"
                                                 : "text-muted-foreground hover:text-foreground"
@@ -157,7 +157,7 @@ export default function GomokuPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-8 w-8"
+                            className="rounded-full h-11 w-11 sm:h-8 sm:w-8"
                             onClick={handleRestart}
                             aria-label="重新开始"
                         >
@@ -200,30 +200,32 @@ export default function GomokuPage() {
                 <div className="w-full max-w-4xl flex flex-col md:flex-row gap-4 sm:gap-6 items-start">
                     {/* Board: CSS Grid 自适应宽度 */}
                     <div className="w-full md:flex-1 min-w-0">
-                        <div className="w-full aspect-square max-w-[480px] mx-auto md:max-w-none rounded-md border border-amber-900/20 dark:border-amber-200/10 p-1 sm:p-2 shadow-inner bg-gradient-to-br from-amber-100 to-amber-200/80 dark:from-amber-950/40 dark:to-amber-900/30">
-                            <div className="grid grid-cols-[repeat(15,1fr)] grid-rows-[repeat(15,1fr)] w-full h-full">
-                                {board.flat().map((cell) => {
-                                    const isWinnerCell =
-                                        winnerInfo?.line?.some((p) => p.row === cell.row && p.col === cell.col) ??
-                                        false
-                                    return (
-                                        <button
-                                            key={`${cell.row}-${cell.col}`}
-                                            onClick={() => handleCellClick(cell.row, cell.col)}
-                                            className={cn(
-                                                "border border-amber-800/15 dark:border-amber-300/10 flex items-center justify-center rounded-[1px] sm:rounded-xs transition-colors duration-100 aspect-square",
-                                                "bg-amber-200/40 dark:bg-amber-900/20 hover:bg-amber-300/50 dark:hover:bg-amber-800/30 active:bg-amber-300/70",
-                                                isWinnerCell && "ring-1 sm:ring-2 ring-primary ring-offset-0 sm:ring-offset-1 ring-offset-amber-100 dark:ring-offset-amber-950"
-                                            )}
-                                        >
-                                            {cell.value === "black" ? (
-                                                <div className="w-[70%] h-[70%] rounded-full bg-gray-900 dark:bg-gray-100 shadow-sm sm:shadow-md shadow-black/40 border border-gray-700 dark:border-gray-300" />
-                                            ) : cell.value === "white" ? (
-                                                <div className="w-[70%] h-[70%] rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm sm:shadow-md shadow-black/25 border sm:border-2 border-gray-400 dark:border-gray-500" />
-                                            ) : null}
-                                        </button>
-                                    )
-                                })}
+                        <div className="w-full overflow-x-auto no-scrollbar touch-pan-x pb-2" aria-label="五子棋棋盘，可横向滑动获得更大的落子区域">
+                            <div className="aspect-square w-[675px] max-w-none mx-auto rounded-md border border-amber-900/20 dark:border-amber-200/10 p-1 sm:p-2 md:w-full shadow-inner bg-gradient-to-br from-amber-100 to-amber-200/80 dark:from-amber-950/40 dark:to-amber-900/30">
+                                <div className="grid grid-cols-[repeat(15,1fr)] grid-rows-[repeat(15,1fr)] w-full h-full">
+                                    {board.flat().map((cell) => {
+                                        const isWinnerCell =
+                                            winnerInfo?.line?.some((p) => p.row === cell.row && p.col === cell.col) ??
+                                            false
+                                        return (
+                                            <button
+                                                key={`${cell.row}-${cell.col}`}
+                                                onClick={() => handleCellClick(cell.row, cell.col)}
+                                                className={cn(
+                                                    "border border-amber-800/15 dark:border-amber-300/10 flex items-center justify-center rounded-[1px] sm:rounded-xs transition-colors duration-100 aspect-square",
+                                                    "bg-amber-200/40 dark:bg-amber-900/20 hover:bg-amber-300/50 dark:hover:bg-amber-800/30 active:bg-amber-300/70",
+                                                    isWinnerCell && "ring-1 sm:ring-2 ring-primary ring-offset-0 sm:ring-offset-1 ring-offset-amber-100 dark:ring-offset-amber-950"
+                                                )}
+                                            >
+                                                {cell.value === "black" ? (
+                                                    <div className="w-[70%] h-[70%] rounded-full bg-gray-900 dark:bg-gray-100 shadow-sm sm:shadow-md shadow-black/40 border border-gray-700 dark:border-gray-300" />
+                                                ) : cell.value === "white" ? (
+                                                    <div className="w-[70%] h-[70%] rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm sm:shadow-md shadow-black/25 border sm:border-2 border-gray-400 dark:border-gray-500" />
+                                                ) : null}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -386,4 +388,3 @@ export default function GomokuPage() {
         </div>
     )
 }
-

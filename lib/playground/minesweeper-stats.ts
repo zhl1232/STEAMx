@@ -21,6 +21,15 @@ function createEmptyWinsByDifficulty(): Record<string, number> {
   }, {})
 }
 
+export function createEmptyMinesweeperStats(): MinesweeperStats {
+  return {
+    totalGames: 0,
+    wins: 0,
+    winsByDifficulty: createEmptyWinsByDifficulty(),
+    bestTimes: {},
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
