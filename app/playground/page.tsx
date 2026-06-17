@@ -790,7 +790,7 @@ function GameTile({ game, index, played }: { game: GameCard; index: number; play
     return (
         <Link
             href={game.href}
-            className="surface-card surface-card-interactive group relative flex min-h-[140px] gap-3 overflow-hidden p-3.5 sm:min-h-[156px]"
+            className="surface-card surface-card-interactive group relative flex min-h-[124px] items-center gap-3 overflow-hidden p-3 sm:min-h-[132px] md:min-h-[152px] md:items-stretch md:p-3.5 xl:min-h-[164px]"
         >
             <GameArtwork game={game} />
             <div className="flex min-w-0 flex-1 flex-col">
@@ -799,7 +799,7 @@ function GameTile({ game, index, played }: { game: GameCard; index: number; play
                     {game.subtitle ? <span className="hidden truncate text-xs font-semibold text-muted-foreground sm:inline">{game.subtitle}</span> : null}
                 </div>
                 <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted-foreground">{game.description}</p>
-                <div className="mt-auto flex items-end justify-between gap-2 pt-3 sm:gap-3">
+                <div className="mt-3 flex items-end justify-between gap-2 pt-1 md:mt-auto md:pt-3 sm:gap-3">
                     <div className="flex min-w-0 flex-wrap gap-1.5">
                         {game.tags.map((tag) => (
                             <ToneBadge key={tag} tone={STEAM_TAG_TONE[tag]} className="rounded-full px-2 py-0.5 text-[11px]">
