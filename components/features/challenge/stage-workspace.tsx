@@ -57,6 +57,10 @@ const KIND_QUICK_PROMPTS: Record<ChallengeStageKind, string[]> = {
   generic: ["这一步该从哪开始？", "帮我理一下思路"],
 }
 
+function hasReviewableDraft(draft: StageDraft) {
+  return draft.notes.trim().length > 0 || draft.images.length > 0 || draft.dataSummary.trim().length > 0 || draft.checked.length > 0
+}
+
 interface UploadingImage {
   id: string
   preview: string
@@ -89,7 +93,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   // 只解构稳定的回调，避免把整个 context 对象放进 effect 依赖造成循环。
-  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride, queueSend: queueTutorSend } = useTutorContext()
+  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
 
   const [drafts, setDrafts] = useState<Record<number, StageDraft>>({})
   const [savedProgress, setSavedProgress] = useState<Record<number, StageProgress>>({})
@@ -100,6 +104,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [workspace, setWorkspace] = useState<ChallengeWorkspace | null>(null)
   const [projectGoalDraft, setProjectGoalDraft] = useState("")
   const [workspaceSaving, setWorkspaceSaving] = useState(false)
+  const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)
@@ -450,17 +455,54 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     }
   }, [challengeId, stages, ensureCanEdit, buildStagePayload, setDraftField, toast])
 
-  const reviewCurrentStep = useCallback(() => {
+  const reviewStage = useCallback(async (index: number) => {
     if (!ensureCanEdit()) return
-    const draft = drafts[currentStep] ?? buildDraft(currentStep)
-    if (!draft.notes.trim() && draft.images.length === 0) {
+    const draft = drafts[index] ?? buildDraft(index)
+    if (!hasReviewableDraft(draft)) {
       toast({ title: "先填写这一步的产出，再请导师看看", variant: "destructive" })
       return
     }
-    const stageTitle = stages[currentStep]?.title ?? `阶段 ${currentStep + 1}`
-    const text = `请看看我在「${stageTitle}」这一步的产出，给我一点改进方向：\n${draft.notes.trim() || "（先上传了图片）"}`
-    queueTutorSend(text, draft.images)
-  }, [drafts, currentStep, buildDraft, stages, toast, queueTutorSend, ensureCanEdit])
+
+    setReviewingIndex(index)
+    try {
+      dirtyStagesRef.current.delete(index)
+      const inflight = autosaveInflightRef.current.get(index)
+      if (inflight) await inflight
+
+      const res = await fetch(`/api/challenges/${challengeId}/stages/${index}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildStagePayload(index, draft.status)),
+      })
+      const payload = await res.json().catch(() => ({}))
+
+      const progress = payload.progress as StageProgress | null
+      if (progress) {
+        setSavedProgress((current) => ({ ...current, [index]: progress }))
+        setDraftField(index, "status", progress.status)
+      }
+      if (!res.ok) throw new Error(payload?.error || "导师反馈失败")
+      setAutosaveState((current) => ({ ...current, [index]: "saved" }))
+      toast({ title: "导师反馈已生成" })
+    } catch (error) {
+      logger.error("Stage review failed", { error })
+      toast({
+        title: "导师反馈失败",
+        description: error instanceof Error ? error.message : "请稍后重试",
+        variant: "destructive",
+      })
+    } finally {
+      setReviewingIndex(null)
+    }
+  }, [
+    drafts,
+    buildDraft,
+    toast,
+    ensureCanEdit,
+    challengeId,
+    buildStagePayload,
+    setDraftField,
+  ])
 
   const saveProjectGoal = useCallback(async () => {
     if (!ensureCanEdit()) return
@@ -787,6 +829,50 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                         </div>
                       )}
 
+                      {saved?.aiFeedback && (
+                        <div className="space-y-3 rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+                              <Sparkles className="h-3.5 w-3.5" />
+                              导师反馈
+                            </div>
+                            {saved.aiFeedback.generatedAt && (
+                              <span className="text-[11px] text-muted-foreground">
+                                {new Date(saved.aiFeedback.generatedAt).toLocaleString("zh-CN", {
+                                  month: "numeric",
+                                  day: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </span>
+                            )}
+                          </div>
+                          <div className="grid gap-3 md:grid-cols-3">
+                            {[
+                              { label: "做得好", items: saved.aiFeedback.strengths, tone: "text-[hsl(var(--brand-green))]" },
+                              { label: "还缺", items: saved.aiFeedback.gaps, tone: "text-[hsl(var(--brand-amber))]" },
+                              { label: "下一步", items: saved.aiFeedback.nextActions, tone: "text-[hsl(var(--brand-blue))]" },
+                            ].map((section) => (
+                              <div key={section.label} className="space-y-1.5">
+                                <p className={cn("text-[11px] font-semibold", section.tone)}>{section.label}</p>
+                                {section.items.length > 0 ? (
+                                  <ul className="space-y-1 text-[12px] leading-5 text-foreground/78">
+                                    {section.items.map((item, itemIndex) => (
+                                      <li key={`${section.label}-${itemIndex}`} className="flex gap-1.5">
+                                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-current opacity-45" />
+                                        <span>{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p className="text-[12px] leading-5 text-muted-foreground">暂无</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {isActive && (
                         <div className="flex flex-wrap items-center gap-2.5">
                           {status === "completed" ? (
@@ -811,11 +897,12 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                           </span>
                           <button
                             type="button"
-                            onClick={reviewCurrentStep}
-                            className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface))]"
+                            onClick={() => void reviewStage(index)}
+                            disabled={reviewingIndex === index}
+                            className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface))] disabled:cursor-not-allowed disabled:opacity-60"
                           >
-                            <Sparkles className="h-3.5 w-3.5" />
-                            请导师看看这步
+                            {reviewingIndex === index ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
+                            {reviewingIndex === index ? "导师查看中" : saved?.aiFeedback ? "重新查看这步" : "请导师看看这步"}
                           </button>
                         </div>
                       )}

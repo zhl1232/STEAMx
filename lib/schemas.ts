@@ -106,6 +106,7 @@ export const ChallengeStageCoachSchema = z.object({
   question: z.string().max(1000).optional(),
   notes: z.string().max(5000).optional(),
   images: z.array(relativeOrAbsoluteUrlSchema).max(9).default([]),
+  data: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 export const ChallengeTutorSendSchema = z.object({

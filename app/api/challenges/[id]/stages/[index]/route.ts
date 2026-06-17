@@ -8,6 +8,11 @@ import {
   validateContentSafeIfPresent,
   validateOwnedOrTrustedProjectImageUrl,
 } from '@/lib/api/validation'
+import {
+  buildStageArtifactSnapshot,
+  getStageDataSummary,
+  shouldKeepStageFeedback,
+} from '@/lib/pbl/challenge-stage-progress'
 import { ChallengeStageProgressSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
@@ -72,6 +77,7 @@ export async function PUT(
     }
 
     validateContentSafeIfPresent(parsed.data.notes, '阶段说明')
+    validateContentSafeIfPresent(getStageDataSummary(parsed.data.data), '阶段补充记录')
     for (const image of parsed.data.images) {
       validateOwnedOrTrustedProjectImageUrl(image, user.id, '阶段图片', STAGE_IMAGE_OPTIONS)
     }
@@ -80,6 +86,25 @@ export async function PUT(
         bucket: 'project-completion-videos',
       })
     }
+
+    const existingProgress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
+    const keepFeedback = existingProgress
+      ? shouldKeepStageFeedback({
+          existingFeedback: existingProgress.aiFeedback,
+          previous: buildStageArtifactSnapshot({
+            notes: existingProgress.notes ?? null,
+            images: existingProgress.images,
+            data: existingProgress.data ?? null,
+            videoUrl: existingProgress.videoUrl ?? null,
+          }),
+          next: buildStageArtifactSnapshot({
+            notes: parsed.data.notes ?? null,
+            images: parsed.data.images,
+            data: parsed.data.data ?? null,
+            videoUrl: parsed.data.video_url ?? null,
+          }),
+        })
+      : false
 
     const { error: upsertError } = await supabase
       .from('challenge_stage_progress')
@@ -93,6 +118,7 @@ export async function PUT(
           images: parsed.data.images,
           data: (parsed.data.data ?? null) as Json | null,
           video_url: parsed.data.video_url ?? null,
+          ai_feedback: keepFeedback ? (existingProgress?.aiFeedback as unknown as Json) : null,
           updated_at: new Date().toISOString(),
         } as never,
         { onConflict: 'challenge_id,user_id,stage_index' },
