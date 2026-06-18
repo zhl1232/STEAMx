@@ -43,6 +43,7 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
+import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { AI_CREDIT_COST_VISION, MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
@@ -74,6 +75,15 @@ type TutorHistoryDetail = {
   title: string
   archivedAt: string | null
   messages: TutorChatMessage[]
+}
+
+type TutorStreamEvent = {
+  type?: string
+  content?: string
+  reply?: string
+  error?: string
+  warning?: string
+  toolCall?: TutorToolCall
 }
 
 type TutorPanelProps = {
@@ -117,6 +127,7 @@ export function GlobalTutorFab({
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const tutorCtx = useOptionalTutorContext()
+  const dispatchTutorToolCall = tutorCtx?.dispatchToolCall
   const queryClient = useQueryClient()
 
   const [mounted, setMounted] = useState(false)
@@ -360,7 +371,7 @@ export function GlobalTutorFab({
             if (!trimmedLine.startsWith('data:')) continue
             const json = trimmedLine.slice(5).trim()
             if (!json) continue
-            let event: { type?: string; content?: string; reply?: string; error?: string; warning?: string }
+            let event: TutorStreamEvent
             try {
               event = JSON.parse(json)
             } catch {
@@ -375,6 +386,8 @@ export function GlobalTutorFab({
               streamWarning = event.warning || null
             } else if (event.type === 'error') {
               streamError = event.error || '小迪暂时不可用'
+            } else if (event.type === 'tool_call' && event.toolCall) {
+              void dispatchTutorToolCall?.(event.toolCall).catch(() => undefined)
             }
           }
         }
@@ -430,6 +443,7 @@ export function GlobalTutorFab({
       refreshQuota,
       sessionInput,
       toast,
+      dispatchTutorToolCall,
     ],
   )
 

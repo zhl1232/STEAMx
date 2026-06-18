@@ -32,6 +32,7 @@ import type {
   StageProgress,
   StageProgressStatus,
 } from "@/lib/mappers/types"
+import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls"
 import type { ChallengePersonalPlanStep, ChallengeWorkspace } from "@/lib/pbl/challenge-workspace"
 import type { StageCoachAction, StageCoachActionResult } from "@/lib/pbl/stage-coach-actions"
 import { cn } from "@/lib/utils"
@@ -105,7 +106,11 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   // 只解构稳定的回调，避免把整个 context 对象放进 effect 依赖造成循环。
-  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
+  const {
+    setOverride: setTutorOverride,
+    clearOverride: clearTutorOverride,
+    registerToolHandler,
+  } = useTutorContext()
 
   const [drafts, setDrafts] = useState<Record<number, StageDraft>>({})
   const [savedProgress, setSavedProgress] = useState<Record<number, StageProgress>>({})
@@ -119,10 +124,13 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
   const [coachActionResults, setCoachActionResults] = useState<Record<number, Partial<Record<StageCoachAction, StageCoachActionResult>>>>({})
   const [runningCoachAction, setRunningCoachAction] = useState<{ stageIndex: number; action: StageCoachAction } | null>(null)
+  const [toolFocus, setToolFocus] = useState<TutorToolCall | null>(null)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)
   const autosaveInflightRef = useRef<Map<number, Promise<void>>>(new Map())
+  const stageCardRefs = useRef<Record<number, HTMLDivElement | null>>({})
+  const toolFocusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const buildDraft = useCallback(
     (index: number, progress?: StageProgress): StageDraft => ({
@@ -210,6 +218,35 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   }, [workspace])
 
   const currentPersonalPlanStep = personalPlanStepByIndex.get(currentStep)
+
+  const focusStageFromTutorTool = useCallback((toolCall: TutorToolCall) => {
+    if (toolCall.name !== "pbl.focus_current_stage") return
+
+    const requestedIndex = toolCall.payload.stageIndex
+    const targetIndex = isUnlocked(requestedIndex) ? requestedIndex : currentStep
+    setExpanded(targetIndex)
+    setToolFocus({ ...toolCall, payload: { ...toolCall.payload, stageIndex: targetIndex } })
+
+    if (toolFocusTimerRef.current) clearTimeout(toolFocusTimerRef.current)
+    toolFocusTimerRef.current = setTimeout(() => {
+      setToolFocus(null)
+      toolFocusTimerRef.current = null
+    }, 3600)
+
+    window.setTimeout(() => {
+      stageCardRefs.current[targetIndex]?.scrollIntoView({ behavior: "smooth", block: "center" })
+    }, 80)
+  }, [currentStep, isUnlocked])
+
+  useEffect(() => {
+    return registerToolHandler("pbl.focus_current_stage", focusStageFromTutorTool)
+  }, [registerToolHandler, focusStageFromTutorTool])
+
+  useEffect(() => {
+    return () => {
+      if (toolFocusTimerRef.current) clearTimeout(toolFocusTimerRef.current)
+    }
+  }, [])
 
   // 最新草稿放 ref，让 getReviewPayload 始终读到最新值，又不必把 drafts 加进依赖（每次按键都会变）。
   const draftsRef = useRef(drafts)
@@ -699,13 +736,20 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
           const dataField = stage.kind ? KIND_DATA_LABEL[stage.kind] : undefined
           const personalStep = personalPlanStepByIndex.get(index)
           const actionResults = coachActionResults[index] ?? {}
+          const isToolFocused = toolFocus?.payload.stageIndex === index
+          const focusReviewAction = isToolFocused && toolFocus?.payload.reason === "review"
+          const focusChecklist = isToolFocused && !focusReviewAction
 
           return (
             <div
               key={index}
+              ref={(node) => {
+                stageCardRefs.current[index] = node
+              }}
               className={cn(
                 "rounded-[var(--radius-md)] border bg-[hsl(var(--surface-muted)/0.5)] transition-colors animate-in fade-in slide-in-from-bottom-2 duration-300",
                 isOpen ? "border-[hsl(var(--brand-blue)/0.4)]" : "border-transparent",
+                isToolFocused && "border-[hsl(var(--brand-blue)/0.78)] bg-[hsl(var(--status-info-surface)/0.42)] shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.14)]",
               )}
             >
               <button
@@ -820,7 +864,12 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                       )}
 
                       {stage.checklist && stage.checklist.length > 0 && (
-                        <div className="space-y-2 rounded-[var(--radius-sm)] bg-[hsl(var(--surface-raised)/0.7)] p-3">
+                        <div
+                          className={cn(
+                            "space-y-2 rounded-[var(--radius-sm)] bg-[hsl(var(--surface-raised)/0.7)] p-3 transition-shadow",
+                            focusChecklist && "shadow-[0_0_0_2px_hsl(var(--brand-blue)/0.22)]",
+                          )}
+                        >
                           <div className="flex items-center justify-between gap-2">
                             <Label className="text-xs font-semibold">完成清单</Label>
                             <span className="text-[11px] tabular-nums text-muted-foreground">{draft.checked.length}/{stage.checklist.length}</span>
@@ -845,7 +894,12 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                         </div>
                       )}
 
-                      <div className="space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--surface-raised)/0.58)] p-3">
+                      <div
+                        className={cn(
+                          "space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--surface-raised)/0.58)] p-3 transition-shadow",
+                          focusChecklist && "shadow-[0_0_0_2px_hsl(var(--brand-blue)/0.2)]",
+                        )}
+                      >
                         <div className="flex items-start gap-2">
                           <ClipboardList className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
                           <div className="min-w-0 flex-1">
@@ -1036,7 +1090,10 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                             type="button"
                             onClick={() => void reviewStage(index)}
                             disabled={reviewingIndex === index}
-                            className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface))] disabled:cursor-not-allowed disabled:opacity-60"
+                            className={cn(
+                              "ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface))] disabled:cursor-not-allowed disabled:opacity-60",
+                              focusReviewAction && "shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.22)]",
+                            )}
                           >
                             {reviewingIndex === index ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
                             {reviewingIndex === index ? "导师查看中" : saved?.aiFeedback ? "重新查看这步" : "请导师看看这步"}

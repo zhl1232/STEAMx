@@ -1,6 +1,8 @@
 'use client'
 
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react'
+
+import type { TutorToolCall, TutorToolName } from '@/lib/ai/tutor/tool-calls'
 
 export type TutorContextOverride = {
   subtitle?: string
@@ -13,6 +15,8 @@ export type TutorContextOverride = {
   hideFab?: boolean
 }
 
+export type TutorToolHandler = (toolCall: TutorToolCall) => void | Promise<void>
+
 type TutorContextValue = {
   override: TutorContextOverride
   setOverride: (next: TutorContextOverride) => void
@@ -23,6 +27,8 @@ type TutorContextValue = {
   pendingSend: { text: string; images?: string[] } | null
   queueSend: (text: string, images?: string[]) => void
   consumePendingSend: () => { text: string; images?: string[] } | null
+  registerToolHandler: (name: TutorToolName, handler: TutorToolHandler) => () => void
+  dispatchToolCall: (toolCall: TutorToolCall) => Promise<boolean>
 }
 
 const TutorContext = createContext<TutorContextValue | null>(null)
@@ -34,6 +40,7 @@ export function TutorProvider({ children }: { children: ReactNode }) {
   const [override, setOverrideState] = useState<TutorContextOverride>(EMPTY_OVERRIDE)
   const [open, setOpen] = useState(false)
   const [pendingSend, setPendingSend] = useState<{ text: string; images?: string[] } | null>(null)
+  const toolHandlersRef = useRef<Partial<Record<TutorToolName, TutorToolHandler>>>({})
 
   const setOverride = useCallback((next: TutorContextOverride) => {
     setOverrideState(next)
@@ -56,6 +63,23 @@ export function TutorProvider({ children }: { children: ReactNode }) {
     return current
   }, [pendingSend])
 
+  const registerToolHandler = useCallback((name: TutorToolName, handler: TutorToolHandler) => {
+    toolHandlersRef.current = { ...toolHandlersRef.current, [name]: handler }
+    return () => {
+      if (toolHandlersRef.current[name] !== handler) return
+      const next = { ...toolHandlersRef.current }
+      delete next[name]
+      toolHandlersRef.current = next
+    }
+  }, [])
+
+  const dispatchToolCall = useCallback(async (toolCall: TutorToolCall) => {
+    const handler = toolHandlersRef.current[toolCall.name]
+    if (!handler) return false
+    await handler(toolCall)
+    return true
+  }, [])
+
   const value = useMemo(
     () => ({
       override,
@@ -67,8 +91,21 @@ export function TutorProvider({ children }: { children: ReactNode }) {
       pendingSend,
       queueSend,
       consumePendingSend,
+      registerToolHandler,
+      dispatchToolCall,
     }),
-    [override, setOverride, clearOverride, open, openTutor, pendingSend, queueSend, consumePendingSend],
+    [
+      override,
+      setOverride,
+      clearOverride,
+      open,
+      openTutor,
+      pendingSend,
+      queueSend,
+      consumePendingSend,
+      registerToolHandler,
+      dispatchToolCall,
+    ],
   )
 
   return <TutorContext.Provider value={value}>{children}</TutorContext.Provider>

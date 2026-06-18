@@ -17,6 +17,7 @@ import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
+import { buildTutorToolCalls } from '@/lib/ai/tutor/tool-calls'
 import { TUTOR_GLOBAL_SURFACES, type TutorContextType, type TutorGlobalSurface } from '@/lib/ai/tutor/types'
 import { consumeAiCredit, getAiCreditStatusForProfile, refundAiCredit } from '@/lib/api/ai-credits'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
@@ -406,6 +407,11 @@ export async function POST(request: NextRequest) {
     )
 
     const systemPrompt = buildTutorSystemPrompt({ scene: sceneForPrompt, profile: studentProfile, notebook })
+    const toolCalls = buildTutorToolCalls({
+      contextType,
+      stageIndex,
+      content,
+    })
 
     const encoder = new TextEncoder()
     let fullReply = ''
@@ -435,6 +441,10 @@ export async function POST(request: NextRequest) {
         }
 
         try {
+          for (const toolCall of toolCalls) {
+            safeEnqueue({ type: 'tool_call', toolCall })
+          }
+
           const stream = streamChatWithTutor(systemPrompt, history)
           while (true) {
             const { value, done } = await stream.next()
