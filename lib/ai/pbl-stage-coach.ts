@@ -3,6 +3,11 @@ import {
   normalizeChallengeSubmissionDraft,
   type ChallengeSubmissionDraft,
 } from '@/lib/pbl/challenge-submission-draft'
+import {
+  normalizeStageCoachActionResult,
+  type StageCoachAction,
+  type StageCoachActionResult,
+} from '@/lib/pbl/stage-coach-actions'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
@@ -174,6 +179,94 @@ function parseFeedbackPayload(text: string): StageAiFeedback {
   }
 
   throw new StageCoachError('Invalid feedback payload', 'AI 反馈格式异常，请稍后重试。')
+}
+
+function parseStageCoachActionPayload(
+  text: string,
+  action: StageCoachAction,
+): StageCoachActionResult {
+  const trimmed = text.trim()
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i)
+  const candidate = fenced?.[1]?.trim() || trimmed
+  const start = candidate.indexOf('{')
+  const end = candidate.lastIndexOf('}')
+
+  if (start >= 0 && end > start) {
+    try {
+      const parsed = JSON.parse(candidate.slice(start, end + 1)) as Partial<StageCoachActionResult>
+      return normalizeStageCoachActionResult({ action, payload: parsed })
+    } catch {
+      // fall through
+    }
+  }
+
+  throw new StageCoachError('Invalid coach action payload', '导师动作格式异常，请稍后重试。')
+}
+
+function getStageCoachActionInstruction(action: StageCoachAction) {
+  if (action === 'breakdown') {
+    return [
+      '动作：拆题。把当前阶段拆成 3-4 个学生可以立刻回答的小问题。',
+      'bullets 必须都是问题句或检查点，帮助学生明确先观察/比较/测试什么。',
+      'followUp 给一个最小行动，不超过 30 字。',
+    ].join('\n')
+  }
+  if (action === 'hint') {
+    return [
+      '动作：提示。给 2-3 条开放提示，不能直接给完整方案或替学生做决定。',
+      'bullets 要结合阶段类型、已有记录和完成清单，提醒可尝试的观察、变量、证据或取舍。',
+      'followUp 给一个可立即尝试的小动作，不超过 30 字。',
+    ].join('\n')
+  }
+  return [
+    '动作：总结。把学生当前阶段材料整理成 3-5 条阶段小结。',
+    'bullets 需要区分已完成证据、关键发现、仍缺证据或下一步判断；材料不足时必须明说缺什么。',
+    'followUp 说明下一处最该补的记录，不超过 30 字。',
+  ].join('\n')
+}
+
+/**
+ * 阶段受控导师动作：拆题 / 提示 / 总结。只返回可渲染 JSON，不直接改写学生产出。
+ */
+export async function generateStageCoachAction(
+  context: StageCoachContext,
+  artifact: StageArtifact,
+  action: StageCoachAction,
+): Promise<StageCoachActionResult> {
+  const systemPrompt = [
+    '你是青少年 STEAM 项目式学习(PBL)的引导老师，正在帮助学生推进当前阶段。',
+    '只严格输出 JSON，不要额外文字。格式：{"action":"","title":"","bullets":[],"followUp":""}',
+    'action 必须是 breakdown、hint 或 summary 之一；title 不超过 14 个中文字符。',
+    'bullets 每条中文不超过 32 字，避免空话；followUp 不超过 36 字。',
+    '原则：脚手架式引导，不直接给完整答案，不替学生决定唯一做法，不编造学生没记录的测试结果。',
+    getStageCoachActionInstruction(action),
+  ].join('\n')
+
+  const content = await callDashScope(
+    {
+      response_format: { type: 'json_object' },
+      temperature: action === 'hint' ? 0.55 : 0.35,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        {
+          role: 'user',
+          content: [
+            buildContextText(context),
+            `\n当前学生阶段产出：${compact(artifact.notes, 1600) || '（暂无文字记录）'}`,
+            artifact.imageUrls.length > 0 ? `图片数量：${artifact.imageUrls.length}` : '',
+            `\n请执行动作：${action}`,
+          ].filter(Boolean).join('\n'),
+        },
+      ],
+    },
+    false,
+  )
+
+  if (!content.trim()) {
+    throw new StageCoachError('Empty coach action', '导师没有给出内容，请稍后重试。')
+  }
+
+  return parseStageCoachActionPayload(content, action)
 }
 
 /**

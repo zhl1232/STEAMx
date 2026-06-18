@@ -109,6 +109,10 @@ export const ChallengeStageCoachSchema = z.object({
   data: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
+export const ChallengeStageCoachActionSchema = ChallengeStageProgressSchema.extend({
+  action: z.enum(['breakdown', 'hint', 'summary']),
+});
+
 export const ChallengeTutorSendSchema = z.object({
   stageIndex: z.number().int().min(0).max(50),
   content: z.string().max(4000).default(''),
@@ -179,6 +183,7 @@ export type ChallengeSubmissionInput = z.infer<typeof ChallengeSubmissionSchema>
 export type ChallengeStageProgressInput = z.infer<typeof ChallengeStageProgressSchema>;
 export type ChallengeWorkspaceUpdateInput = z.infer<typeof ChallengeWorkspaceUpdateSchema>;
 export type ChallengeStageCoachInput = z.infer<typeof ChallengeStageCoachSchema>;
+export type ChallengeStageCoachActionInput = z.infer<typeof ChallengeStageCoachActionSchema>;
 export type ChallengeTutorSendInput = z.infer<typeof ChallengeTutorSendSchema>;
 export type TutorSendInput = z.infer<typeof TutorSendSchema>;
 export type ChallengeSubmissionRatingInput = z.infer<typeof ChallengeSubmissionRatingSchema>;

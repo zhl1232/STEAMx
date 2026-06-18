@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } f
 import {
   CheckCircle2,
   ChevronDown,
+  ClipboardList,
   Lightbulb,
   Loader2,
   Lock,
@@ -32,6 +33,7 @@ import type {
   StageProgressStatus,
 } from "@/lib/mappers/types"
 import type { ChallengePersonalPlanStep, ChallengeWorkspace } from "@/lib/pbl/challenge-workspace"
+import type { StageCoachAction, StageCoachActionResult } from "@/lib/pbl/stage-coach-actions"
 import { cn } from "@/lib/utils"
 
 const MAX_STAGE_IMAGES = 6
@@ -56,6 +58,16 @@ const KIND_QUICK_PROMPTS: Record<ChallengeStageKind, string[]> = {
   iterate: ["取舍说明该怎么写？", "怎么对比改进前后？"],
   generic: ["这一步该从哪开始？", "帮我理一下思路"],
 }
+
+const COACH_ACTION_META: Array<{
+  action: StageCoachAction
+  label: string
+  description: string
+}> = [
+  { action: "breakdown", label: "帮我拆题", description: "把这步拆成小问题" },
+  { action: "hint", label: "给我提示", description: "不直接给答案" },
+  { action: "summary", label: "整理这步", description: "归纳已有证据" },
+]
 
 function hasReviewableDraft(draft: StageDraft) {
   return draft.notes.trim().length > 0 || draft.images.length > 0 || draft.dataSummary.trim().length > 0 || draft.checked.length > 0
@@ -105,6 +117,8 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [projectGoalDraft, setProjectGoalDraft] = useState("")
   const [workspaceSaving, setWorkspaceSaving] = useState(false)
   const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
+  const [coachActionResults, setCoachActionResults] = useState<Record<number, Partial<Record<StageCoachAction, StageCoachActionResult>>>>({})
+  const [runningCoachAction, setRunningCoachAction] = useState<{ stageIndex: number; action: StageCoachAction } | null>(null)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)
@@ -504,6 +518,64 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     setDraftField,
   ])
 
+  const runCoachAction = useCallback(async (index: number, action: StageCoachAction) => {
+    if (!ensureCanEdit()) return
+
+    const draft = drafts[index] ?? buildDraft(index)
+    setRunningCoachAction({ stageIndex: index, action })
+    try {
+      dirtyStagesRef.current.delete(index)
+      const inflight = autosaveInflightRef.current.get(index)
+      if (inflight) await inflight
+
+      const nextStatus: StageProgressStatus =
+        (savedProgress[index]?.status ?? "not_started") === "completed" ? "completed" : "in_progress"
+      const res = await fetch(`/api/challenges/${challengeId}/stages/${index}/coach`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...buildStagePayload(index, nextStatus), action }),
+      })
+      const payload = await res.json().catch(() => ({}))
+
+      const progress = payload.progress as StageProgress | null
+      if (progress) {
+        setSavedProgress((current) => ({ ...current, [index]: progress }))
+        setDraftField(index, "status", progress.status)
+      }
+      if (!res.ok) throw new Error(payload?.error || "导师工具失败")
+
+      const result = payload.result as StageCoachActionResult | null
+      if (result) {
+        setCoachActionResults((current) => ({
+          ...current,
+          [index]: { ...(current[index] ?? {}), [action]: result },
+        }))
+      }
+      setAutosaveState((current) => ({ ...current, [index]: "saved" }))
+      if (!hasReviewableDraft(draft) && action === "summary") {
+        toast({ title: "已整理当前阶段", description: "材料还少时，导师会优先提示缺什么证据。" })
+      }
+    } catch (error) {
+      logger.error("Stage coach action failed", { error })
+      toast({
+        title: "导师工具失败",
+        description: error instanceof Error ? error.message : "请稍后重试",
+        variant: "destructive",
+      })
+    } finally {
+      setRunningCoachAction(null)
+    }
+  }, [
+    drafts,
+    buildDraft,
+    savedProgress,
+    ensureCanEdit,
+    challengeId,
+    buildStagePayload,
+    setDraftField,
+    toast,
+  ])
+
   const saveProjectGoal = useCallback(async () => {
     if (!ensureCanEdit()) return
 
@@ -626,6 +698,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
           const kind = stage.kind ?? "generic"
           const dataField = stage.kind ? KIND_DATA_LABEL[stage.kind] : undefined
           const personalStep = personalPlanStepByIndex.get(index)
+          const actionResults = coachActionResults[index] ?? {}
 
           return (
             <div
@@ -771,6 +844,70 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                           </div>
                         </div>
                       )}
+
+                      <div className="space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--surface-raised)/0.58)] p-3">
+                        <div className="flex items-start gap-2">
+                          <ClipboardList className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-semibold">导师工具</p>
+                            <p className="mt-0.5 text-[11px] leading-5 text-muted-foreground">
+                              用结构化动作推进这一步，结果只作为参考。
+                            </p>
+                          </div>
+                        </div>
+                        <div className="grid gap-2 sm:grid-cols-3">
+                          {COACH_ACTION_META.map((item) => {
+                            const isRunning = runningCoachAction?.stageIndex === index && runningCoachAction.action === item.action
+                            return (
+                              <button
+                                key={item.action}
+                                type="button"
+                                onClick={() => void runCoachAction(index, item.action)}
+                                disabled={!isActive || Boolean(runningCoachAction)}
+                                className="rounded-[var(--radius-xs)] border border-[hsl(var(--surface-border)/0.72)] bg-background/72 px-2.5 py-2 text-left transition-colors hover:border-[hsl(var(--brand-blue)/0.42)] hover:bg-[hsl(var(--status-info-surface)/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+                              >
+                                <span className="flex items-center gap-1.5 text-[12px] font-semibold">
+                                  {isRunning ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 text-[hsl(var(--brand-blue))]" />}
+                                  {isRunning ? "处理中" : item.label}
+                                </span>
+                                <span className="mt-1 block text-[11px] text-muted-foreground">{item.description}</span>
+                              </button>
+                            )
+                          })}
+                        </div>
+                        {Object.keys(actionResults).length > 0 && (
+                          <div className="space-y-2 pt-1">
+                            {COACH_ACTION_META.map((item) => {
+                              const result = actionResults[item.action]
+                              if (!result) return null
+                              return (
+                                <div key={item.action} className="rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface)/0.28)] p-2.5">
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <p className="text-[12px] font-semibold text-[hsl(var(--brand-blue))]">{result.title}</p>
+                                    {result.generatedAt && (
+                                      <span className="text-[10px] text-muted-foreground">
+                                        {new Date(result.generatedAt).toLocaleTimeString("zh-CN", {
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                        })}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <ul className="mt-1.5 space-y-1 text-[12px] leading-5 text-foreground/78">
+                                    {result.bullets.map((bullet, bulletIndex) => (
+                                      <li key={`${item.action}-${bulletIndex}`} className="flex gap-1.5">
+                                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] opacity-45" />
+                                        <span>{bullet}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <p className="mt-1.5 text-[11px] font-medium text-foreground/70">{result.followUp}</p>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </div>
 
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-xs text-muted-foreground">图片 {draft.images.length}/{MAX_STAGE_IMAGES}</span>
