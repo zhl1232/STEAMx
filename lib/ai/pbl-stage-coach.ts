@@ -1,4 +1,8 @@
 import type { StageAiFeedback } from '@/lib/mappers/types'
+import {
+  normalizeChallengeSubmissionDraft,
+  type ChallengeSubmissionDraft,
+} from '@/lib/pbl/challenge-submission-draft'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
@@ -216,6 +220,68 @@ export async function reviewStageArtifact(
   }
 
   return parseFeedbackPayload(content)
+}
+
+function parseSubmissionDraftPayload(text: string, fallback: ChallengeSubmissionDraft): ChallengeSubmissionDraft {
+  const trimmed = text.trim()
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i)
+  const candidate = fenced?.[1]?.trim() || trimmed
+  const start = candidate.indexOf('{')
+  const end = candidate.lastIndexOf('}')
+
+  if (start >= 0 && end > start) {
+    try {
+      const parsed = JSON.parse(candidate.slice(start, end + 1)) as Partial<ChallengeSubmissionDraft>
+      return normalizeChallengeSubmissionDraft({
+        fallback,
+        draft: { ...parsed, source: 'ai' },
+      })
+    } catch {
+      // fall through
+    }
+  }
+
+  throw new StageCoachError('Invalid submission draft payload', 'AI 投稿草稿格式异常，请稍后重试。')
+}
+
+/**
+ * 最终投稿草稿：把阶段产出整理成可编辑标题、说明、反思和 STEAM 收获。
+ */
+export async function generateChallengeSubmissionDraft(input: {
+  contextText: string
+  fallback: ChallengeSubmissionDraft
+}): Promise<ChallengeSubmissionDraft> {
+  const systemPrompt = [
+    '你是青少年 STEAM 项目式学习(PBL)的写作整理助手。',
+    '任务：把学生已经记录的阶段产出整理成最终挑战投稿草稿，不能编造没有依据的测试结果、图片内容或结论。',
+    '只严格输出 JSON，不要额外文字。格式：',
+    '{"title":"", "notes":"", "steamInsights":[{"key":"S|T|E|A|M","label":"","evidence":""}]}',
+    'title 不超过 30 个中文字符，像作品名，不要写成口号。',
+    'notes 使用中文，分为【作品说明】【反思记录】【STEAM 能力收获】三段；整体不超过 900 字。',
+    'steamInsights 取 2-4 条，evidence 必须引用阶段记录里的具体行为、数据、取舍或证据。',
+    '如果材料不足，明确写还需要补充什么，不要假装已经完成。',
+  ].join('\n')
+
+  const content = await callDashScope(
+    {
+      response_format: { type: 'json_object' },
+      temperature: 0.35,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        {
+          role: 'user',
+          content: `${input.contextText}\n\n【本地草稿兜底】\n${input.fallback.notes}`,
+        },
+      ],
+    },
+    false,
+  )
+
+  if (!content.trim()) {
+    throw new StageCoachError('Empty submission draft', 'AI 投稿草稿为空，请稍后重试。')
+  }
+
+  return parseSubmissionDraftPayload(content, input.fallback)
 }
 
 export function getStageCoachUserMessage(error: unknown): string {

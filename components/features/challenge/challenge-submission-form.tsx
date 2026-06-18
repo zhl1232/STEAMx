@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { Loader2, Upload, Video, X } from 'lucide-react'
+import { Loader2, Upload, Video, Wand2, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -17,6 +17,7 @@ import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { logger } from '@/lib/logger'
 import type { Challenge, ChallengeStage, ChallengeSubmission, StageProgress } from '@/lib/mappers/types'
+import type { ChallengeSubmissionDraft } from '@/lib/pbl/challenge-submission-draft'
 
 const MAX_IMAGES = 9
 const MAX_VIDEO_SIZE_MB = 30
@@ -116,6 +117,8 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   const [submission, setSubmission] = useState<ChallengeSubmission | null>(null)
   const [isBootLoading, setIsBootLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isGeneratingDraft, setIsGeneratingDraft] = useState(false)
+  const [generatedDraft, setGeneratedDraft] = useState<ChallengeSubmissionDraft | null>(null)
 
   const [title, setTitle] = useState('')
   const [notes, setNotes] = useState('')
@@ -294,6 +297,68 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   ]
   const doneChecks = submissionChecks.filter((item) => item.done).length
 
+  const applySubmissionDraft = useCallback((draft: ChallengeSubmissionDraft) => {
+    const nextImages = [...proofImages]
+    for (const image of draft.images) {
+      if (!nextImages.includes(image) && nextImages.length < MAX_IMAGES) nextImages.push(image)
+    }
+
+    setTitle(draft.title)
+    setNotes(draft.notes)
+    setProofImages(nextImages)
+    setProofCaptions((captions) => {
+      const padded = captions.slice(0, nextImages.length)
+      while (padded.length < nextImages.length) padded.push('')
+      return padded
+    })
+    setGeneratedDraft(draft)
+  }, [proofImages])
+
+  const handleGenerateDraft = useCallback(async () => {
+    if (!user) {
+      promptLogin(() => router.refresh(), {
+        title: '登录后整理投稿草稿',
+        description: '登录后即可把阶段记录整理成可编辑的挑战投稿草稿。',
+      })
+      return
+    }
+
+    setIsGeneratingDraft(true)
+
+    try {
+      const response = await fetch(`/api/challenges/${challengeId}/submission/draft`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ use_ai: true }),
+      })
+      const payload = await response.json().catch(() => ({}))
+      const draft = payload.draft as ChallengeSubmissionDraft | undefined
+
+      if (draft) {
+        applySubmissionDraft(draft)
+      }
+
+      if (!response.ok && !draft) {
+        throw new Error(payload?.error || '草稿整理失败')
+      }
+
+      toast({
+        title: draft?.source === 'ai' ? '投稿草稿已整理' : '已生成本地草稿',
+        description: payload.warning || payload.error || '标题、说明、图片和 STEAM 收获已填入表单，可继续修改。',
+        variant: response.ok ? 'default' : 'destructive',
+      })
+    } catch (error) {
+      logger.error('Challenge submission draft generation failed', { error })
+      toast({
+        title: '草稿整理失败',
+        description: error instanceof Error ? error.message : '请稍后再试',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsGeneratingDraft(false)
+    }
+  }, [applySubmissionDraft, challengeId, promptLogin, router, toast, user])
+
   const handleSubmit = async () => {
     if (!user) {
       promptLogin(() => router.refresh(), {
@@ -411,6 +476,30 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
             <span className="font-semibold text-foreground">{doneChecks}/5</span> 项信息已确认
           </div>
         </div>
+
+        {!isReadOnly ? (
+          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-md border border-primary/20 bg-primary/5 p-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-foreground">从阶段记录整理投稿草稿</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                自动汇总工作台里的文字、图片、反馈和 STEAM 收获，生成后仍可手动编辑。
+              </p>
+            </div>
+            <Button
+              type="button"
+              onClick={handleGenerateDraft}
+              disabled={isGeneratingDraft}
+              shape="pill"
+            >
+              {isGeneratingDraft ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wand2 className="mr-2 h-4 w-4" />
+              )}
+              {isGeneratingDraft ? '整理中...' : '整理投稿草稿'}
+            </Button>
+          </div>
+        ) : null}
 
         {submission?.status === 'rejected' && submission.rejectionReason ? (
           <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
@@ -566,6 +655,16 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
             className="min-h-[180px]"
             disabled={isReadOnly}
           />
+          {generatedDraft?.steamInsights.length ? (
+            <div className="grid gap-2 pt-2 md:grid-cols-2">
+              {generatedDraft.steamInsights.map((item) => (
+                <div key={`${item.key}-${item.evidence}`} className="rounded-md border border-border/70 bg-muted/35 p-3">
+                  <p className="text-sm font-semibold text-foreground">{item.label}收获</p>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{item.evidence}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div className="space-y-3">
@@ -635,6 +734,23 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
                 ))}
               </div>
             </section>
+
+            {generatedDraft?.steamInsights.length ? (
+              <section className="surface-subtle p-4">
+                <p className="section-kicker">草稿来源</p>
+                <h2 className="mt-3 text-lg font-semibold tracking-tight">
+                  {generatedDraft.source === 'ai' ? 'AI 已整理' : '本地规则草稿'}
+                </h2>
+                <div className="mt-4 space-y-2">
+                  {generatedDraft.steamInsights.map((item) => (
+                    <div key={`${item.key}-${item.label}`} className="rounded-md bg-background/72 px-3 py-2.5">
+                      <p className="text-sm font-medium text-foreground">{item.label}</p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">{item.evidence}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             <section className="surface-subtle p-4">
               <p className="text-sm font-semibold tracking-tight">审核提示</p>
