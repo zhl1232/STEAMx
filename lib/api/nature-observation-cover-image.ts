@@ -48,7 +48,8 @@ export function mapSpeciesRowWithCoverImages(row: SpeciesRow): {
 } {
   const normalizedRow = normalizeSpeciesRow(row)
   const imageUrls = getSpeciesImageUrls(row)
-  const coverImageUrl = normalizedRow.cover_image_url ?? imageUrls[0] ?? null
+  const manifestCoverImageUrl = imageUrls.length > 0 ? imageUrls[0] : null
+  const coverImageUrl = manifestCoverImageUrl ?? normalizedRow.cover_image_url ?? null
 
   return {
     imageUrls,
@@ -156,11 +157,7 @@ export function getSpeciesImageUrls(row: SpeciesRow): string[] {
     .filter((url): url is string => Boolean(url))
 
   if (resolvedManifestUrls.length > 0) {
-    return Array.from(
-      new Set(
-        [coverImageUrl, ...resolvedManifestUrls].filter((url): url is string => Boolean(url)),
-      ),
-    )
+    return Array.from(new Set(resolvedManifestUrls))
   }
 
   const assetDirectories = [

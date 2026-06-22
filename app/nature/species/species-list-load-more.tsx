@@ -2,11 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { Species } from "@/lib/mappers/types";
+import {
+  buildNatureSpeciesFiltersKey,
+  clearNatureSpeciesScrollRestore,
+  readNatureSpeciesScrollRestore,
+  saveNatureSpeciesScrollRestore,
+} from "@/lib/nature-species-scroll-restore";
 import type { SpeciesObservationStatusFilter } from "@/lib/observations/progress";
 import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from "@/lib/utils/asset-url";
 import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
@@ -42,6 +48,17 @@ export function SpeciesListLoadMore({
   const [loading, setLoading] = useState(false);
   const fetchingRef = useRef(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const pageRef = useRef(initialPage);
+  const pendingScrollRestoreRef = useRef<ReturnType<typeof readNatureSpeciesScrollRestore>>(null);
+  const didCheckScrollRestoreRef = useRef(false);
+
+  const buildSearchParams = useCallback(() => {
+    const p = new URLSearchParams();
+    if (query) p.set("q", query);
+    if (topic !== "all") p.set("topic", topic);
+    if (status !== "all") p.set("status", status);
+    return p;
+  }, [query, topic, status]);
 
   const loadMore = useCallback(async () => {
     if (fetchingRef.current || !hasMore) return;
@@ -58,7 +75,11 @@ export function SpeciesListLoadMore({
       if (!res.ok) throw new Error("fetch failed");
       const data = (await res.json()) as { species: Species[]; hasMore: boolean };
       setItems((prev) => [...prev, ...data.species]);
-      setPage((prev) => prev + 1);
+      setPage((prev) => {
+        const nextPage = prev + 1;
+        pageRef.current = nextPage;
+        return nextPage;
+      });
       setHasMore(data.hasMore);
     } catch {
       // 静默失败；按钮可重试
@@ -67,6 +88,106 @@ export function SpeciesListLoadMore({
       setLoading(false);
     }
   }, [hasMore, page, pageSize, query, topic, status]);
+
+  const saveScrollPosition = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    saveNatureSpeciesScrollRestore({
+      filtersKey: buildNatureSpeciesFiltersKey(buildSearchParams()),
+      scrollY: window.scrollY,
+      nextPage: pageRef.current + 1,
+    });
+  }, [buildSearchParams]);
+
+  const handleSpeciesLinkClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    if (!target.closest('a[href^="/nature/species/"]')) return;
+    saveScrollPosition();
+  }, [saveScrollPosition]);
+
+  useLayoutEffect(() => {
+    if (didCheckScrollRestoreRef.current) return;
+    didCheckScrollRestoreRef.current = true;
+
+    const saved = readNatureSpeciesScrollRestore();
+    if (!saved) return;
+
+    const filtersKey = buildNatureSpeciesFiltersKey(buildSearchParams());
+    if (saved.filtersKey !== filtersKey) {
+      clearNatureSpeciesScrollRestore();
+      return;
+    }
+
+    pendingScrollRestoreRef.current = saved;
+    clearNatureSpeciesScrollRestore();
+  }, [buildSearchParams]);
+
+  useEffect(() => {
+    const saved = pendingScrollRestoreRef.current;
+    if (!saved) return;
+
+    pendingScrollRestoreRef.current = null;
+    let cancelled = false;
+
+    const restoreScroll = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+          window.scrollTo({ top: saved.scrollY, left: 0, behavior: "auto" });
+        });
+      });
+    };
+
+    const syncRestoredSpecies = (nextItems: Species[], nextHasMore: boolean, nextPage: number) => {
+      if (cancelled) return;
+      setItems(nextItems);
+      setHasMore(nextHasMore);
+      setPage(nextPage);
+      pageRef.current = nextPage;
+      restoreScroll();
+    };
+
+    if (saved.nextPage <= initialPage + 1) {
+      syncRestoredSpecies(initialSpecies, initialHasMore, initialPage);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    void (async () => {
+      const pagesToRestore = Array.from(
+        { length: Math.max(0, saved.nextPage - (initialPage + 1)) },
+        (_, index) => initialPage + 1 + index,
+      );
+
+      const restoredItems = [...initialSpecies];
+      let nextHasMore = initialHasMore;
+      let restoredPage = initialPage;
+
+      for (const pageToLoad of pagesToRestore) {
+        if (!nextHasMore) break;
+
+        const p = buildSearchParams();
+        p.set("page", String(pageToLoad));
+        p.set("pageSize", String(pageSize));
+        const res = await fetch(`/api/species?${p.toString()}`);
+        if (!res.ok) throw new Error("fetch failed");
+        const data = (await res.json()) as { species: Species[]; hasMore: boolean };
+        restoredItems.push(...data.species);
+        nextHasMore = data.hasMore;
+        restoredPage = pageToLoad;
+      }
+
+      syncRestoredSpecies(restoredItems, nextHasMore, restoredPage);
+    })().catch(() => {
+      restoreScroll();
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [buildSearchParams, initialHasMore, initialPage, initialSpecies, pageSize]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -89,7 +210,7 @@ export function SpeciesListLoadMore({
 
   return (
     <>
-      <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4" onClick={handleSpeciesLinkClick}>
         {items.map((item, index) => {
           const commonNamePinyin = toSpeciesPinyinLabel(item.commonName);
           const { family, genus } = splitTaxonGroup(item.taxonGroup);

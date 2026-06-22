@@ -10,6 +10,7 @@ import {
   UsersRound,
 } from "lucide-react";
 
+import { MobileShortcutCarouselFrame } from "@/components/home/mobile-shortcut-carousel";
 import { RecommendationPanel } from "@/components/home/recommendation-panel";
 import { buttonVariants } from "@/components/ui/button";
 import { Surface } from "@/components/ui/surface";
@@ -382,20 +383,14 @@ function NatureChannel({ className }: { className?: string }) {
 
 function MobileShortcutCarousel() {
   return (
-    <section className="md:hidden" aria-label="首页快捷入口">
-      <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
-          <NatureChannel className="h-full" />
-        </div>
-        <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
-          <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
-        </div>
+    <MobileShortcutCarouselFrame slideCount={2}>
+      <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
+        <NatureChannel className="h-full" />
       </div>
-      <div className="mt-0.5 flex justify-center gap-1" aria-hidden="true">
-        <span className="h-1 w-4 rounded-full bg-[hsl(var(--brand-green)/0.72)]" />
-        <span className="h-1 w-1 rounded-full bg-[hsl(var(--surface-border-strong))]" />
+      <div className="min-w-0 grow-0 shrink-0 basis-[calc(100%-2rem)] snap-start">
+        <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
       </div>
-    </section>
+    </MobileShortcutCarouselFrame>
   );
 }
 

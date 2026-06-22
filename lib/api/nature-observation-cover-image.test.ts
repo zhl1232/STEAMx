@@ -54,4 +54,18 @@ describe('mapSpeciesRowWithCoverImages', () => {
       process.env.NEXT_PUBLIC_ASSETS_BASE_URL = previousBaseUrl
     }
   })
+
+  it('uses an explicit manifest gallery instead of a stale database cover', () => {
+    const { normalizedRow, imageUrls } = mapSpeciesRowWithCoverImages(
+      buildSpeciesRow({
+        slug: 'velarifictorus-micado',
+        common_name: '迷卡斗蟋',
+        nature_topic: 'insects',
+        cover_image_url: '/insects/images/velarifictorus-micado-1.jpg',
+      }),
+    )
+
+    expect(imageUrls).toEqual(['/insects/images/velarifictorus-micado-4.jpg'])
+    expect(normalizedRow.cover_image_url).toBe('/insects/images/velarifictorus-micado-4.jpg')
+  })
 })

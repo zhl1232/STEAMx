@@ -13,11 +13,11 @@
 
 | 路由 | 入口文件 | 功能说明 |
 |------|----------|----------|
-| `/` | `app/page.tsx` | 首页 — 桌面端 Hero 明确「探索项目 / 进入创造营」双 CTA，`lg+` 采用紧凑分类+自然频道、热门项目三列+个性推荐双栏信息仪表盘；移动端保留自然观察/排行榜横向快捷入口；下方展示 6 个热门项目、社区动态 Feed 与本周挑战入口 |
+| `/` | `app/page.tsx` | 首页 — 桌面端 Hero 明确「探索项目 / 进入创造营」双 CTA，`lg+` 采用紧凑分类+自然频道、热门项目三列+个性推荐双栏信息仪表盘；移动端保留自然观察/排行榜横向快捷入口，横向滚动时同步更新位置指示点；下方展示 6 个热门项目、社区动态 Feed 与本周挑战入口 |
 | `/explore` | `app/explore/page.tsx` | 探索页 — 项目搜索、分类/子分类筛选、排序；子路由 `observations/`（观察列表）、`species/`（物种档案） |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序，地图使用高德瓦片 + canvas marker/popup）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度；点入详情前保存当前滚动位置和已加载页，返回后恢复；详情页进入时滚到顶部）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/navigate` | `app/navigate/page.tsx` | 站内地图导航确认页 — 展示自然观察坐标与复制坐标操作；用户点击按钮后按设备触发高德 App scheme，不在页面静态内容中渲染外部地图网页链接 |
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 13 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；迷宫页定位为「寻路算法实验」，支持手动通关后对比 BFS / DFS / A* 的探索格数、路线步数与回放动画；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体；扫雷页桌面端采用紧凑工具栏与轻量棋盘 shell，普通桌面收窄右侧课程面板以增加主游戏区宽度，移动端初级棋盘按容器等分完整显示、中高难度保留横向滑动，本地战绩挂载后读取以避免 SSR hydration mismatch；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复；游戏卡片均有独立图形 fallback |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
@@ -120,6 +120,7 @@
 
 ### 3.3 首页 (`components/home/`)
 - `home-showcase.tsx` — 首页主体：Hero、分类入口、自然频道、6 个热门项目、个性推荐、社区动态与本周挑战；桌面 `lg+` 将自然频道和个性推荐提前到右侧栏以增强信息效率，分类入口与热门项目采用更紧凑的仪表盘密度，热门项目在常见桌面宽度三列展示；Hero 提供「开始探索项目 / 进入创造营」双 CTA；移动端将自然观察与排行榜合并为手动横向 snap 快捷入口，320px 窄屏隐藏 Hero 底部特性标签并缩短 Hero；自然观察频道图在中宽/宽屏保持鸟主体可见；页脚移除假二维码与过期活动信息
+- `mobile-shortcut-carousel.tsx` — 移动端首页快捷入口的 client frame：监听横向滚动并同步位置指示点，指示点也可点击跳转到对应卡片
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
@@ -127,7 +128,7 @@
 
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
-| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
+| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；`domestic-mini-map` 统一绘制高德地图瓦片、自然观察 marker、热点 popup 与拖拽缩放 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
 | `courses/` | 5 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`（支持小迪 `course.focus_lesson_step` 在卡住/下一步意图下切换并短暂高亮当前步骤）、课时工作区分发 `lesson-workspace-renderer`、Scratch iframe `scratch-workspace`、3D 搭建图纸 `building-3d-workspace`（Three.js 按需加载，步骤切换时显示/高亮当前零件并可完成课时） |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
@@ -179,7 +180,7 @@
 - `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
 - `categories.ts` — 分类与子分类
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
-- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度；植物物种图集同时读取树木与水果 manifest；物种封面优先使用本地 `public/` 文件，缺失时再回退 OSS；数据库封面为空时回退 manifest 首张图）
+- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度；植物物种图集同时读取树木与水果 manifest；物种详情图集有 manifest 时以 manifest 清单为准并取首张作封面，否则回退数据库封面/本地目录/OSS）
 - `nature-observation-progress.ts` — 用户自然观察进度摘要：按专题汇总已观察/待观察物种，并提供个人页待观察预览
 - `nature-observation-observed-species.ts` — 已观察物种统计：审核通过记录上优先取社群共识物种，否则取 AI 置信度 ≥ 0.8 的鉴定结果
 - `observation-gamification.ts` — 观察游戏化逻辑
@@ -247,6 +248,7 @@
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
 | `lib/playground/` | `catalog.ts`, `storage.ts`, `minesweeper-stats.ts` | 游戏目录、本地/云端成绩存储；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times` |
 | `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
+| `lib/nature-species-scroll-restore.ts` | `nature-species-scroll-restore.ts` | 自然物种清单 sessionStorage 滚动恢复：按 q/topic/status 构建筛选 key，保存 scrollY 与下一页页码 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
@@ -286,7 +288,7 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **189 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；训练营课时类型扩展与 3D 搭建课样板：`20260622100000_extend_course_lesson_types.sql` / `20260622101000_seed_building_3d_course.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **190 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；训练营课时类型扩展与 3D 搭建课样板：`20260622100000_extend_course_lesson_types.sql` / `20260622101000_seed_building_3d_course.sql`；昆虫迷卡斗蟋封面修正：`20260622113000_fix_velarifictorus_micado_cover.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
@@ -374,7 +376,7 @@
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、植物、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer） |
-| `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
+| `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`）；`public/manifests/insects.json` 与 `public/insects/media-manifest.json` 控制图集清单，迷卡斗蟋剔除误抓的光谱图后仅保留 `velarifictorus-micado-4.jpg` |
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/fruits/` | 水果与干果物种图片（并入植物专题，已纳入 OSS 同步与 `/api/assets` 代理白名单；`images/` 本地目录 gitignore） |
 | `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/*.webp` 根层旧封面、`public/projects/generated/*.webp` 与 `public/projects/steps/` 已迁 OSS，配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer |

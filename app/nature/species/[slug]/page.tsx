@@ -12,6 +12,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
+import { SpeciesDetailScrollTop } from "./species-detail-scroll-top";
 import { SpeciesImageGallery } from "./species-image-gallery";
 
 interface SpeciesDetailPageProps {
@@ -338,6 +339,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
 
   return (
     <div className="app-shell-wide px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
+      <SpeciesDetailScrollTop />
       <MobilePageHeader
         title={species.commonName}
         fallbackHref={fallbackHref}
