@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import type { CourseLessonRow, CourseLessonStep } from "@/lib/courses/types";
+import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import { cn } from "@/lib/utils";
 import { LessonRichText } from "./lesson-rich-text";
 
@@ -28,6 +29,7 @@ export function LessonSidebar({
     const summary =
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
     const steps = lesson.steps ?? [];
+    const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
     return (
         <aside className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
@@ -96,16 +98,22 @@ export function LessonSidebar({
                 ) : null}
             </div>
             <p className="shrink-0 border-t border-border px-4 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
-                基于{" "}
-                <a
-                    href="https://scratch.mit.edu"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                >
-                    Scratch
-                </a>{" "}
-                · 作品保存在本平台
+                {lessonType.workspace === "scratch" ? (
+                    <>
+                        基于{" "}
+                        <a
+                            href="https://scratch.mit.edu"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                        >
+                            Scratch
+                        </a>{" "}
+                        · 作品保存在本平台
+                    </>
+                ) : (
+                    <>课时类型：{lessonType.label}</>
+                )}
             </p>
         </aside>
     );

@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Smartphone } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
-import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
+import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { Button } from "@/components/ui/button";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
-import { canUseScratchEditor } from "@/lib/courses/device";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +34,6 @@ export function LessonPageClient({
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { registerToolHandler, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
-    const showEditor = canUseScratchEditor();
     const steps = lesson.steps;
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
     const activeStepTitle = steps[clampedActiveStep]?.title;
@@ -118,27 +115,12 @@ export function LessonPageClient({
                     />
                 </div>
                 <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-                    {!showEditor ? (
-                        <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/30 px-3 py-2">
-                            <p className="text-xs text-muted-foreground">
-                                建议在平板或电脑上使用完整编辑器
-                            </p>
-                            <Button variant="outline" size="sm" asChild>
-                                <Link href={previewHref}>
-                                    <Smartphone className="mr-1 h-4 w-4" />
-                                    预览
-                                </Link>
-                            </Button>
-                        </div>
-                    ) : null}
-                    <ScratchWorkspace
+                    <LessonWorkspaceRenderer
                         courseId={courseId}
-                        lessonId={lesson.id}
-                        tutorialDeckId={
-                            typeof lesson.content?.tutorialDeckId === "string"
-                                ? lesson.content.tutorialDeckId
-                                : undefined
-                        }
+                        lesson={lesson}
+                        previewHref={previewHref}
+                        activeStepIndex={clampedActiveStep}
+                        onStepChange={setActiveStep}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}
                     />

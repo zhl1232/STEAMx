@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 
+import { UnsupportedLessonWorkspace } from "@/components/features/courses/building-3d-workspace";
 import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
+import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseDetail } from "@/lib/api/courses";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -30,11 +32,16 @@ export default async function LessonPreviewPage({ params }: PageProps) {
     const course = await getCourseDetail(supabase, courseId);
     const lesson = course?.lessons.find((l) => l.id === lessonId);
     if (!course || !lesson) notFound();
+    const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
     return (
         <div className={cn("flex flex-col overflow-hidden", PREVIEW_HEIGHT)}>
             <MobileGlobalHeader variant="title" title={`预览 · ${lesson.title}`} />
-            <ScratchWorkspace courseId={courseId} lessonId={lessonId} playerOnly />
+            {lessonType.workspace === "scratch" ? (
+                <ScratchWorkspace courseId={courseId} lessonId={lessonId} playerOnly />
+            ) : (
+                <UnsupportedLessonWorkspace lessonType={lesson.lesson_type} />
+            )}
         </div>
     );
 }

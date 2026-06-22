@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireRole, handleApiError } from '@/lib/api/auth'
-import { validateRequiredString, validateEnum } from '@/lib/api/validation'
+import { isValidLessonTypeSlug } from '@/lib/courses/lesson-types'
+import { validateRequiredString, ValidationError } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 
 type RouteParams = { params: Promise<{ id: string }> }
@@ -20,17 +21,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const body = await request.json()
 
     const title = validateRequiredString(body.title, 'Title', 200)
-    const lessonType = validateEnum(body.lesson_type, 'lesson_type', [
-      'scratch',
-      'reading',
-      'video',
-      'quiz',
-    ] as const)
+    const lessonType = body.lesson_type ?? 'scratch'
+    if (!isValidLessonTypeSlug(lessonType)) {
+      throw new ValidationError('lesson_type must be a valid lesson type slug')
+    }
 
     const insertData = {
       course_id: courseId,
       title,
-      lesson_type: lessonType ?? 'scratch',
+      lesson_type: lessonType,
       content: body.content ?? {},
       steps: body.steps ?? [],
       resources: body.resources ?? [],

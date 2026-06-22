@@ -1,5 +1,7 @@
+import type { LessonTypeSlug } from '@/lib/courses/lesson-types'
+
 export type CourseStatus = 'draft' | 'approved' | 'archived'
-export type LessonType = 'scratch' | 'reading' | 'video' | 'quiz'
+export type LessonType = LessonTypeSlug
 
 export interface CourseLessonStep {
   title: string
@@ -29,7 +31,30 @@ export interface LessonContent {
   tutorialDeckId?: string
   /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */
   requiredBlocks?: LessonRequiredBlock[]
+  /** 3D 搭建课内容；仅 lesson_type=building_3d 时由搭建工作区读取 */
+  building3d?: Building3DLessonContent
   [key: string]: unknown
+}
+
+export interface Building3DPart {
+  id: string
+  name: string
+  color: string
+  quantity: number
+}
+
+export interface Building3DStep {
+  title: string
+  description: string
+  partIds: string[]
+  highlightNodeIds?: string[]
+  cameraHint?: 'front' | 'side' | 'top' | 'isometric'
+}
+
+export interface Building3DLessonContent {
+  modelUrl?: string
+  parts: Building3DPart[]
+  steps3d: Building3DStep[]
 }
 
 export interface CourseRow {
