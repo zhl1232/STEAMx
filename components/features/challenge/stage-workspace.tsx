@@ -95,6 +95,8 @@ interface StageWorkspaceProps {
   isActive: boolean
 }
 
+type PblFocusCurrentStageToolCall = Extract<TutorToolCall, { name: "pbl.focus_current_stage" }>
+
 function statusMeta(status: StageProgressStatus) {
   if (status === "completed") return { label: "已完成", tone: "success" as const }
   if (status === "in_progress") return { label: "进行中", tone: "info" as const }
@@ -124,7 +126,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
   const [coachActionResults, setCoachActionResults] = useState<Record<number, Partial<Record<StageCoachAction, StageCoachActionResult>>>>({})
   const [runningCoachAction, setRunningCoachAction] = useState<{ stageIndex: number; action: StageCoachAction } | null>(null)
-  const [toolFocus, setToolFocus] = useState<TutorToolCall | null>(null)
+  const [toolFocus, setToolFocus] = useState<PblFocusCurrentStageToolCall | null>(null)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)

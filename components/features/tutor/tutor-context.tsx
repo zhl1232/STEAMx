@@ -9,6 +9,8 @@ export type TutorContextOverride = {
   stageIndex?: number
   /** PBL：当前阶段标题，用于「带我开始这一步」等提示词 */
   stageTitle?: string
+  /** Scratch 训练营：当前课时步骤索引，用于小迪聚焦步骤 UI。 */
+  lessonStepIndex?: number
   quickPrompts?: string[]
   /** PBL：获取当前阶段产出用于「请导师看看」 */
   getReviewPayload?: () => { text: string; images: string[] } | null

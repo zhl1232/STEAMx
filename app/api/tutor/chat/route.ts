@@ -324,6 +324,7 @@ export async function POST(request: NextRequest) {
     const images = parsed.data.images
     const stageIndex = parsed.data.stageIndex
     const lessonId = parsed.data.lessonId
+    const lessonStepIndex = parsed.data.lessonStepIndex
     const surface = parsed.data.surface
     const cost = getAiChatCreditCost(images.length > 0)
 
@@ -410,6 +411,8 @@ export async function POST(request: NextRequest) {
     const toolCalls = buildTutorToolCalls({
       contextType,
       stageIndex,
+      lessonId,
+      lessonStepIndex,
       content,
     })
 
@@ -487,6 +490,7 @@ export async function POST(request: NextRequest) {
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
         if (typeof lessonId === 'number') meta.lessonId = lessonId
+        if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
 
         const { error: insertError } = await supabase.from('tutor_messages').insert([
           {

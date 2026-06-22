@@ -134,6 +134,7 @@ export const TutorSendSchema = z.object({
   images: z.array(relativeOrAbsoluteUrlSchema).max(6).default([]),
   stageIndex: z.number().int().min(0).max(50).optional(),
   lessonId: z.number().int().positive().optional(),
+  lessonStepIndex: z.number().int().min(0).max(50).optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
   meta: z.record(z.string(), z.unknown()).optional(),
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
