@@ -33,7 +33,8 @@ export async function POST(_request: NextRequest, { params }: RouteParams) {
     }
 
     const progress = await getUserLessonProgress(supabase, user.id, lessonId)
-    if (!progress?.scratch_project_path) {
+    const scratchProjectPath = progress?.scratch_project_path ?? null
+    if (ctx.lesson.lesson_type === 'scratch' && !scratchProjectPath) {
       return NextResponse.json(
         { error: '请先保存 Scratch 作品再标记完成' },
         { status: 400 }
@@ -41,19 +42,27 @@ export async function POST(_request: NextRequest, { params }: RouteParams) {
     }
 
     // 幂等：已完成过则直接返回，不再校验、不再加经验
-    if (progress.completed_at) {
+    if (progress?.completed_at) {
       return NextResponse.json({ progress, alreadyCompleted: true })
     }
 
-    // 关键积木校验：仅当本课配置了 requiredBlocks 时启用
-    const requiredBlocks = (ctx.lesson.content?.requiredBlocks ?? []) as LessonRequiredBlock[]
+    // 关键积木校验：仅 Scratch 课且配置了 requiredBlocks 时启用
+    const requiredBlocks = ctx.lesson.lesson_type === 'scratch'
+      ? ((ctx.lesson.content?.requiredBlocks ?? []) as LessonRequiredBlock[])
+      : []
     if (requiredBlocks.length > 0) {
+      if (!scratchProjectPath) {
+        return NextResponse.json(
+          { error: '请先保存 Scratch 作品再标记完成' },
+          { status: 400 }
+        )
+      }
       if (!supabaseAdmin) {
         return NextResponse.json({ error: '服务端配置异常' }, { status: 500 })
       }
       const { data: file, error: downloadError } = await supabaseAdmin.storage
         .from('scratch-projects')
-        .download(progress.scratch_project_path)
+        .download(scratchProjectPath)
       if (downloadError || !file) {
         logger.warn('Lesson complete: sb3 download failed', { downloadError, lessonId })
         return NextResponse.json(

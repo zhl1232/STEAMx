@@ -1,0 +1,16 @@
+0 Duplo Car (STEAM training camp sample model)
+0 Name: duplo-car.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // 大颗粒小车样板：3 步搭建，零件全部来自 LDraw 官方/非官方库（CC BY / CCAL）。
+0 // LDraw 坐标系 +Y 朝下，向上叠砖即 Y 递减。每个 0 STEP 对应课程的一步。
+0 // Step 1: 红色车底盘（自带轮座）
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+0 // Step 2: 黄色 2x4 车身，旋转 90 度让长边对齐底盘长轴
+1 14 0 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 3: 蓝色 2x2 驾驶舱
+1 1 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP

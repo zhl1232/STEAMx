@@ -30,10 +30,10 @@
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
 | `/create` | `app/create/page.tsx` | 创造营 — PBL 挑战 + **训练营** Tab；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | PBL 挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
-| `/courses` | `app/courses/page.tsx` | Scratch 训练营列表 |
+| `/courses` | `app/courses/page.tsx` | 训练营列表（Scratch 编程 + 大颗粒积木搭建等） |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表 |
-| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + iframe Scratch 编辑器） |
-| `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | 手机端作品预览（player 模式） |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览，3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐） |
+| `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
 | `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/训练营管理；子路由 `projects/`、`moderator-applications/` |
@@ -128,7 +128,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
-| `courses/` | 3 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、Scratch iframe `scratch-workspace` |
+| `courses/` | 6 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`、工作区路由 `lesson-workspace-renderer`、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、步骤富文本 `lesson-rich-text` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
@@ -318,6 +318,7 @@
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
 | `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等；支持 `--only=fruits`；`--only=project-covers` 只同步 `public/projects` 根层旧项目封面） |
 | `fetch-scratch-assets.mjs` | 镜像 Scratch 素材库到本地，再经 migrate 脚本上传 OSS |
+| `pack-ldraw-model.mjs` | 把 `scripts/ldraw-models/*.ldr` 递归抓取依赖打包成单个自托管 `.mpd` + `LDConfig.ldr` 到 `public/courses/ldraw/`（大颗粒积木 3D 课用，零件库 CC BY / CCAL）；用法 `node scripts/pack-ldraw-model.mjs <source.ldr> <outName>` |
 
 ---
 

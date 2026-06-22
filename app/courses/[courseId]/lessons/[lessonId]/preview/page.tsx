@@ -17,8 +17,7 @@ export const metadata = buildPageMetadata({
     path: "/courses",
 });
 
-const PREVIEW_HEIGHT =
-    "max-md:min-h-[calc(100dvh-var(--mobile-global-header-height,3rem)-env(safe-area-inset-top))] md:min-h-[calc(100dvh-4rem)] md:max-h-[calc(100dvh-4rem)]";
+const PREVIEW_HEIGHT = "max-md:h-full md:min-h-[calc(100dvh-4rem)] md:max-h-[calc(100dvh-4rem)]";
 
 export default async function LessonPreviewPage({ params }: PageProps) {
     const { courseId: cRaw, lessonId: lRaw } = await params;

@@ -161,4 +161,14 @@ describe('ConditionalAppShell mobile header policy', () => {
       expect(screen.getByTestId('page-owned-mobile-header')).toBeInTheDocument()
     },
   )
+
+  it.each(['/courses', '/courses/2', '/courses/2/lessons/9', '/courses/2/lessons/9/preview'])(
+    'lets course routes %s own their mobile header',
+    (pathname) => {
+      renderShell(pathname)
+
+      expect(screen.queryByTestId('shell-mobile-global-header')).not.toBeInTheDocument()
+      expect(screen.getByTestId('page-owned-mobile-header')).toBeInTheDocument()
+    },
+  )
 })

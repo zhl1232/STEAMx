@@ -25,6 +25,7 @@ import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
 
 const pageOwnedMobileHeaderRoots = [
+  '/courses',
   '/profile',
   '/messages',
   '/users',

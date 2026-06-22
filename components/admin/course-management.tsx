@@ -31,6 +31,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { LESSON_TYPE_OPTIONS } from "@/lib/courses/lesson-types";
 import { getApiErrorMessage } from "@/lib/utils/http";
 import type { CourseStatus } from "@/lib/courses/types";
 
@@ -375,6 +376,29 @@ export function CourseManagement() {
                                         />
                                     </div>
                                     <div>
+                                        <Label>课时类型</Label>
+                                        <Select
+                                            value={lessonForm.lesson_type}
+                                            onValueChange={(v) =>
+                                                setLessonForm((f) => ({
+                                                    ...f,
+                                                    lesson_type: v,
+                                                }))
+                                            }
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {LESSON_TYPE_OPTIONS.map((option) => (
+                                                    <SelectItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div>
                                         <Label>时长（分钟）</Label>
                                         <Input
                                             type="number"
@@ -410,12 +434,13 @@ export function CourseManagement() {
                             <li key={l.id} className="flex justify-between border-b py-2">
                                 <span>
                                     {l.sort_order}. {l.title}
+                                    <Badge variant="outline" className="ml-2">
+                                        {LESSON_TYPE_OPTIONS.find((option) => option.value === l.lesson_type)?.label ?? l.lesson_type}
+                                    </Badge>
                                 </span>
                                 <a
                                     href={`/courses/${selectedCourseId}/lessons/${l.id}`}
                                     className="text-[hsl(var(--nav-active))] hover:underline"
-                                    target="_blank"
-                                    rel="noreferrer"
                                 >
                                     打开
                                 </a>

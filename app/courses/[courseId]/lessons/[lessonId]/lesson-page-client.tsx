@@ -2,19 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Smartphone } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
-import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
+import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { Button } from "@/components/ui/button";
-import { canUseScratchEditor } from "@/lib/courses/device";
+import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
-/** 课时页可用高度：桌面顶栏 4rem；移动顶栏用 shell 的 CSS 变量 */
-const LESSON_PAGE_HEIGHT =
-    "max-md:h-[calc(100dvh-var(--mobile-global-header-height,3rem)-env(safe-area-inset-top))] md:h-[calc(100dvh-4rem)]";
+/** 课时页可用高度：移动端填满 shell main；桌面减去顶栏 */
+const LESSON_PAGE_HEIGHT = "max-md:h-full md:h-[calc(100dvh-4rem)]";
 
 export function LessonPageClient({
     courseId,
@@ -31,7 +29,10 @@ export function LessonPageClient({
 }) {
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
-    const showEditor = canUseScratchEditor();
+    const steps = lesson.steps ?? [];
+    const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
+    const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
+    const isBuildingLesson = lessonWorkspace === "building_3d";
 
     return (
         <div
@@ -54,42 +55,28 @@ export function LessonPageClient({
             <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
                 <div
                     className={cn(
-                        "flex shrink-0 flex-col border-border lg:w-[min(100%,300px)] lg:border-r xl:w-[320px]",
-                        "max-lg:max-h-[38vh] max-lg:border-b",
-                        "lg:min-h-0 lg:max-h-none",
+                        "flex flex-col border-border lg:w-[min(100%,300px)] lg:border-r xl:w-[320px]",
+                        "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden max-lg:border-b",
+                        isBuildingLesson && "max-lg:max-h-[min(58vh,32rem)]",
+                        "lg:min-h-0 lg:max-h-none lg:shrink-0",
                     )}
                 >
                     <LessonSidebar
                         courseId={courseId}
                         courseTitle={courseTitle}
                         lesson={lesson}
-                        activeStepIndex={activeStep}
+                        activeStepIndex={clampedActiveStep}
                         onStepClick={setActiveStep}
                         completed={completed}
                     />
                 </div>
                 <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-                    {!showEditor ? (
-                        <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/30 px-3 py-2">
-                            <p className="text-xs text-muted-foreground">
-                                建议在平板或电脑上使用完整编辑器
-                            </p>
-                            <Button variant="outline" size="sm" asChild>
-                                <Link href={previewHref}>
-                                    <Smartphone className="mr-1 h-4 w-4" />
-                                    预览
-                                </Link>
-                            </Button>
-                        </div>
-                    ) : null}
-                    <ScratchWorkspace
+                    <LessonWorkspaceRenderer
                         courseId={courseId}
-                        lessonId={lesson.id}
-                        tutorialDeckId={
-                            typeof lesson.content?.tutorialDeckId === "string"
-                                ? lesson.content.tutorialDeckId
-                                : undefined
-                        }
+                        lesson={lesson}
+                        previewHref={previewHref}
+                        activeStepIndex={clampedActiveStep}
+                        onStepChange={setActiveStep}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}
                     />

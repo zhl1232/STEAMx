@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireRole, handleApiError } from '@/lib/api/auth'
-import { validateRequiredString, validateEnum } from '@/lib/api/validation'
+import { isValidLessonTypeSlug } from '@/lib/courses/lesson-types'
+import { validateRequiredString, ValidationError } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 
 type RouteParams = { params: Promise<{ lessonId: string }> }
@@ -25,12 +26,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       updateData.title = validateRequiredString(body.title, 'Title', 200)
     }
     if (body.lesson_type !== undefined) {
-      updateData.lesson_type = validateEnum(body.lesson_type, 'lesson_type', [
-        'scratch',
-        'reading',
-        'video',
-        'quiz',
-      ] as const)
+      if (!isValidLessonTypeSlug(body.lesson_type)) {
+        throw new ValidationError('lesson_type must be a valid lesson type slug')
+      }
+      updateData.lesson_type = body.lesson_type
     }
     if (body.content !== undefined) updateData.content = body.content
     if (body.steps !== undefined) updateData.steps = body.steps
