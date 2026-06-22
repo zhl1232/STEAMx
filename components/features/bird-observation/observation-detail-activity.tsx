@@ -823,7 +823,7 @@ function ActivityTimelineItem({
                 : "border-border/80 bg-muted/50 hover:bg-muted",
             )}
             disabled={alreadyAgreed || isAgreeing}
-            onClick={() => void onAgree(identification.speciesId)}
+            onClick={() =>  onAgree(identification.speciesId)}
           >
             {isAgreeing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
             {alreadyAgreed ? "已认同" : "同意"}

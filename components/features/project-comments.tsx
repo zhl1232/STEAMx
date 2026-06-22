@@ -289,7 +289,7 @@ export function ProjectComments({
     if (!target) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting) handleLoadMore();
+        if (entries[0]?.isIntersecting) void handleLoadMore();
       },
       { root: null, rootMargin: "200px 0px", threshold: 0.1 },
     );
@@ -381,7 +381,7 @@ export function ProjectComments({
 
       if (!user) {
         promptLogin(
-          () => { doSubmit(); },
+          () => { void doSubmit(); },
           {
             title: parentId != null ? "登录以回复评论" : "登录以发表评论",
             description: parentId != null
@@ -392,7 +392,7 @@ export function ProjectComments({
         return;
       }
 
-      doSubmit();
+      void doSubmit();
     },
     [addComment, projectId, user, promptLogin, buildCommentPayload, triggerCommentHighlight, isSheetOpen, preserveScrollOnSubmit],
   );

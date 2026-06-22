@@ -139,7 +139,7 @@ export function ChallengeManagement() {
     }
   }, [toast, typeFilter])
 
-  useEffect(() => { fetchChallenges() }, [fetchChallenges])
+  useEffect(() => { void fetchChallenges() }, [fetchChallenges])
 
   const resetForm = () => {
     setForm(EMPTY_FORM)
@@ -212,7 +212,7 @@ export function ChallengeManagement() {
       toast({ title: editingId ? '挑战已更新' : '挑战已创建' })
       setDialogOpen(false)
       resetForm()
-      fetchChallenges()
+      void fetchChallenges()
     } catch (error) {
       toast({
         title: '操作失败',
@@ -239,7 +239,7 @@ export function ChallengeManagement() {
       if (data.settlement) {
         toast({ title: '结算完成', description: `共 ${data.settlement.total_submissions} 个作品参与排名` })
       }
-      fetchChallenges()
+      void fetchChallenges()
     } catch (error) {
       toast({
         title: '操作失败',
@@ -258,7 +258,7 @@ export function ChallengeManagement() {
       }
 
       toast({ title: '挑战已删除' })
-      fetchChallenges()
+      void fetchChallenges()
     } catch (error) {
       toast({
         title: '删除失败',
@@ -289,7 +289,7 @@ export function ChallengeManagement() {
   const renderStatusActions = (ch: AdminChallenge) => {
     if (ch.challenge_type === 'timed') {
       if (ch.status === 'draft') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />发布</Button>
-      if (ch.status === 'active') return <Button size="sm" variant="destructive" shape="pill" onClick={() => { if (confirm('确认结束并结算此挑战？')) handleStatusChange(ch.id, 'ended') }}><StopCircle className="mr-1 h-3 w-3" />结束并结算</Button>
+      if (ch.status === 'active') return <Button size="sm" variant="destructive" shape="pill" onClick={() => { if (confirm('确认结束并结算此挑战？')) void handleStatusChange(ch.id, 'ended') }}><StopCircle className="mr-1 h-3 w-3" />结束并结算</Button>
     } else {
       if (ch.status === 'draft') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'active')}><Play className="mr-1 h-3 w-3" />上线</Button>
       if (ch.status === 'active') return <Button size="sm" variant="outline" onClick={() => handleStatusChange(ch.id, 'archived')}><Archive className="mr-1 h-3 w-3" />归档</Button>

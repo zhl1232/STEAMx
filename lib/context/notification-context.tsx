@@ -314,14 +314,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     }
 
     if (shouldLoadNotificationList) {
-      fetchNotificationsRef.current({ reset: true });
+      void fetchNotificationsRef.current({ reset: true });
     } else {
       setNotifications((prev) => (prev.length === 0 ? prev : []));
       setHasMore(true);
       setIsLoading(false);
     }
 
-    fetchUnreadCountRef.current();
+    void fetchUnreadCountRef.current();
   }, [user?.id, shouldLoadNotificationList]);
 
   const shouldLoadNotificationListRef = useRef(shouldLoadNotificationList);
@@ -449,9 +449,9 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         logger.error("Error creating notification:", { detail: await response.text() });
       } else if (notification.user_id === user.id) {
         if (shouldLoadNotificationList) {
-          fetchNotifications({ reset: true });
+          void fetchNotifications({ reset: true });
         }
-        fetchUnreadCount({ force: true });
+        void fetchUnreadCount({ force: true });
       }
     },
     [user, shouldLoadNotificationList, fetchNotifications, fetchUnreadCount],

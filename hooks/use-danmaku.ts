@@ -41,7 +41,7 @@ export function useDanmaku({ initialComments = [], autoPlay = true, runOnce = fa
 
     // Track management
     const TRACK_COUNT = 8;
-    const tracksRef = useRef<number[]>(new Array(TRACK_COUNT).fill(0));
+    const tracksRef = useRef<number[]>(Array.from({ length: TRACK_COUNT }, () => 0));
 
     const getAvailableTrack = useCallback(() => {
         const now = Date.now();

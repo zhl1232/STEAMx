@@ -110,6 +110,7 @@ vi.mock('@/lib/logger', () => ({
 class MockIntersectionObserver implements IntersectionObserver {
     readonly root = null
     readonly rootMargin = ''
+    readonly scrollMargin = ''
     readonly thresholds = []
 
     constructor(callback: IntersectionObserverCallback) {
@@ -149,6 +150,10 @@ function createAbortError() {
     return new DOMException('Aborted', 'AbortError')
 }
 
+function requestUrl(input: RequestInfo | URL) {
+    return typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+}
+
 describe('ExploreClient', () => {
     beforeEach(() => {
         vi.clearAllMocks()
@@ -171,7 +176,7 @@ describe('ExploreClient', () => {
         vi.stubGlobal(
             'fetch',
             vi.fn(async (input: RequestInfo | URL) => {
-                const url = String(input)
+                const url = requestUrl(input)
                 if (url.includes('/api/explore/recommendations')) {
                 return {
                     ok: true,
@@ -327,7 +332,7 @@ describe('ExploreClient', () => {
         let loadMoreSignal: AbortSignal | undefined
 
         fetchMock.mockImplementation((input, init) => {
-            const url = String(input)
+            const url = requestUrl(input)
 
             if (url.includes('page=1')) {
                 loadMoreSignal = init?.signal ?? undefined

@@ -14,10 +14,9 @@
 
 @layer base {
   :root {
-    /* next/font 注入 --font-noto-sans / --font-noto-serif / --font-jetbrains-mono(SIL OFL 1.1) */
-    --font-sans: var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
-    --font-heading: var(--font-noto-serif), ui-serif, serif;
-    --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-heading: ui-serif, "Songti SC", "SimSun", "Noto Serif CJK SC", serif;
+    --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
     /* 浅色模式背景:极淡的冷白 */
     --background: 220 30% 98%;

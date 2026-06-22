@@ -276,7 +276,7 @@ export function EditProfileDialog({ children }: { children: React.ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={(open) => {
       setOpen(open)
-      if (open) loadProfile()
+      if (open) void loadProfile()
     }}>
       <DialogTrigger asChild>
         {children}

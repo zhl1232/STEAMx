@@ -21,7 +21,6 @@ import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/publi
 import {
   calculateProgressPercent,
   normalizeSpeciesObservationStatusFilter,
-  type SpeciesObservationStatusFilter,
 } from '@/lib/observations/progress'
 import {
   getNatureTopicLabel,
@@ -29,7 +28,6 @@ import {
   resolveSpeciesNatureTopicKey,
   visibleSpeciesTopicKeys,
   type SpeciesTopicCount,
-  type SpeciesTopicFilter,
 } from '@/lib/utils/nature-topic-classification'
 
 import type {
@@ -41,8 +39,8 @@ import { mapSpeciesRowWithCoverImages } from './nature-observation-cover-image'
 
 export interface SpeciesListOptions {
   query?: string
-  topic?: SpeciesTopicFilter | string | null
-  status?: SpeciesObservationStatusFilter | string | null
+  topic?: string | null
+  status?: string | null
   page?: number
   pageSize?: number
 }

@@ -35,11 +35,12 @@ export function TipProjectDialog({
   projectId,
 }: TipProjectDialogProps) {
   const { user, refreshProfile } = useAuth()
-  const { coins = 0 } = useGamification()
+  const { coins } = useGamification()
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const router = useRouter()
+  const displayedCoins = coins ?? 0
 
   const target: TipTarget | null = user && projectOwnerId !== user.id
     ? {
@@ -75,9 +76,9 @@ export function TipProjectDialog({
         throw new Error(res?.error || "tip_failed")
       }
 
-      queryClient.invalidateQueries({ queryKey: ["tip_my", "project", target.id] })
-      queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
-      refreshProfile()
+      void queryClient.invalidateQueries({ queryKey: ["tip_my", "project", target.id] })
+      void queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
+      void refreshProfile()
       router.refresh()
       toast({ title: "投币成功", description: `已赞赏 ${amount} 硬币` })
     } catch (error) {
@@ -105,7 +106,7 @@ export function TipProjectDialog({
         <p className="text-sm text-muted-foreground">
           投币给「{projectTitle}」的项目作者。每人对本项目最多投 2 硬币。
           <br />
-          当前余额：<strong>{coins}</strong> 硬币
+          当前余额：<strong>{displayedCoins}</strong> 硬币
         </p>
 
         {!target ? (
@@ -118,7 +119,7 @@ export function TipProjectDialog({
           <ul className="max-h-[60vh] space-y-3 overflow-y-auto">
             <TipRow
               target={target}
-              coins={coins}
+              coins={displayedCoins}
               onTip={handleTip}
             />
           </ul>
@@ -179,7 +180,7 @@ function TipRow({
               disabled={pending}
               onClick={() => {
                 setPending(true)
-                onTip(target, amount)
+                void onTip(target, amount)
                 setTimeout(() => setPending(false), 500)
               }}
             >

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react"
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import type { ObservationEvent, ObservationLocationSummary } from "@/lib/mappers/types"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
+import { appendNatureFrom, buildNavigationHref } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
 
 function recencyLabel(dateString: string): { text: string; className: string } {
@@ -143,14 +143,17 @@ export function SpeciesHotspotPanel({
                   </Link>
                 ) : null}
                 {hasCoordinates ? (
-                  <a
-                    href={`https://uri.amap.com/marker?position=${location.longitude},${location.latitude}&name=${encodeURIComponent(location.locationName)}&src=steam-explore`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-primary hover:underline"
+                  <Link
+                    href={buildNavigationHref({
+                      latitude: location.latitude as number,
+                      longitude: location.longitude as number,
+                      name: location.locationName,
+                      from: currentPath,
+                    })}
+                    className="text-muted-foreground transition-colors hover:text-primary hover:underline"
                   >
-                    在高德中查看位置
-                  </a>
+                    坐标 {location.latitude?.toFixed(4)}, {location.longitude?.toFixed(4)}
+                  </Link>
                 ) : null}
               </div>
             </div>

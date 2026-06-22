@@ -24,29 +24,16 @@ export default function AboutSettingsPage() {
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ?? "";
 
   const linkItems = [
-    ...(supportEmail
-      ? [
-          {
-            icon: MessageSquareHeart,
-            label: "问题反馈",
-            href: `mailto:${supportEmail}?subject=问题反馈`,
-            external: true,
-            description: "通过邮件反馈问题或建议。",
-          },
-        ]
-      : []),
     {
       icon: FileText,
       label: "用户协议",
       href: "/legal/terms",
-      external: false,
       description: "查看平台的使用规则与服务条款。",
     },
     {
       icon: ShieldAlert,
       label: "隐私政策",
       href: "/legal/privacy",
-      external: false,
       description: "了解个人信息的收集、使用与保护方式。",
     },
   ];
@@ -63,7 +50,19 @@ export default function AboutSettingsPage() {
             <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">帮助入口</h2>
           </div>
           <div className="space-y-3">
-            {!supportEmail ? (
+            {supportEmail ? (
+              <div className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+                    <MessageSquareHeart className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">问题反馈</div>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{supportEmail}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
               <div className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
@@ -76,14 +75,12 @@ export default function AboutSettingsPage() {
                 </div>
                 <span className="rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs">未启用</span>
               </div>
-            ) : null}
+            )}
 
             {linkItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noopener noreferrer" : undefined}
                 className="surface-subtle flex items-center justify-between gap-4 px-4 py-4 transition-transform hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-3">

@@ -38,7 +38,7 @@ export function ProjectHeroActions({
       })
       return
     }
-    toggleLike(projectId)
+    void toggleLike(projectId)
   }
 
   const handleCollection = () => {

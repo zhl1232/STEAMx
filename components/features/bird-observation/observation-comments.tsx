@@ -49,7 +49,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
   }, [observationId])
 
   useEffect(() => {
-    loadComments()
+    void loadComments()
   }, [loadComments])
 
   const handleSubmit = async () => {

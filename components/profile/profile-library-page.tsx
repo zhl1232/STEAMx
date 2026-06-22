@@ -249,7 +249,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
       }
     }
 
-    loadLikedProjects()
+    void loadLikedProjects()
 
     return () => {
       cancelled = true
@@ -296,7 +296,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
       }
     }
 
-    loadCollectedProjects()
+    void loadCollectedProjects()
 
     return () => {
       cancelled = true
@@ -350,7 +350,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
       }
     }
 
-    loadCompletedProjects()
+    void loadCompletedProjects()
 
     return () => {
       cancelled = true

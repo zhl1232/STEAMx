@@ -72,7 +72,7 @@ export function usePlaygroundSync() {
 
     let cancelled = false;
 
-    (async () => {
+    void (async () => {
       try {
         const { data, error } = await supabaseRef.current
           .from("playground_stats")

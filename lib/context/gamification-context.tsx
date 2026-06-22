@@ -171,8 +171,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             });
 
             // Trigger confetti
-            import('canvas-confetti').then((confetti) => {
-                confetti.default({
+            void import('canvas-confetti').then((confetti) => {
+                void confetti.default({
                     particleCount: 150,
                     spread: 80,
                     origin: { y: 0.6 }
@@ -185,7 +185,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
         // If action implies a stat change (not just passive XP), refresh stats to trigger badge checks
         if (actionType && !['daily_login', 'visit'].includes(actionType)) {
-            refetchStats();
+            void refetchStats();
         }
     }, [user, xp, supabase, toast, updateXpMutation, refetchStats]);
 

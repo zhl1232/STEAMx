@@ -487,7 +487,7 @@ export async function POST(request: NextRequest) {
           ),
         )
 
-        const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
+        const meta: Record<string, unknown> = { ...parsed.data.meta }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
         if (typeof lessonId === 'number') meta.lessonId = lessonId
         if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex

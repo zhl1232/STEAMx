@@ -16,7 +16,7 @@ const baseOptions = [
 
 export default function AppearanceSettingsPage() {
   const { theme, setTheme } = useTheme();
-  const { level = 1 } = useGamification();
+  const { level } = useGamification();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);

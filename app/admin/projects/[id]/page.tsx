@@ -161,7 +161,7 @@ export default function EditProjectPage() {
     }, [id, supabase, toast])
 
     useEffect(() => {
-        fetchData()
+        void fetchData()
     }, [fetchData])
 
     const handleSave = async () => {
@@ -585,7 +585,7 @@ export default function EditProjectPage() {
                                         <ImageUpload
                                             value={step.image_url}
                                             onChange={url => updateStep(index, 'image_url', url)}
-                                            pathPrefix={`project-steps/${params.id}`}
+                                            pathPrefix={`project-steps/${String(params.id)}`}
                                         />
                                     </div>
                                 </div>

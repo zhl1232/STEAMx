@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useHorizontalSwipe } from "@/hooks/use-horizontal-swipe"
 import { cn } from "@/lib/utils"
 
-const slideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] }
+const slideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] as const }
 
 const slideVariants = {
   enter: (direction: number) => ({

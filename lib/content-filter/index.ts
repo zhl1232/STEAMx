@@ -104,8 +104,8 @@ export function checkContent(text: string): FilterResult {
 
   const root = getTrie()
   const normalised = normalise(text)
-  const chars = [...text]
-  const normChars = [...normalised]
+  const chars = Array.from(text)
+  const normChars = Array.from(normalised)
   const len = normChars.length
 
   const matchedSet = new Set<string>()

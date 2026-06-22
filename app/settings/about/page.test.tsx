@@ -35,15 +35,13 @@ describe("AboutSettingsPage", () => {
     expect(screen.queryByRole("link", { name: /问题反馈/i })).not.toBeInTheDocument();
   });
 
-  it("renders the feedback mailto link when a support email is configured", () => {
+  it("renders the configured support email without an external link", () => {
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL = "support@example.test";
 
     render(<AboutSettingsPage />);
 
-    expect(screen.getByRole("link", { name: /问题反馈/i })).toHaveAttribute(
-      "href",
-      "mailto:support@example.test?subject=问题反馈",
-    );
+    expect(screen.getByText("support@example.test")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /问题反馈/i })).not.toBeInTheDocument();
   });
 
   afterAll(() => {

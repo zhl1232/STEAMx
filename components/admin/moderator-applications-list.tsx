@@ -173,7 +173,7 @@ export function ModeratorApplicationsList() {
 
     useEffect(() => {
         if (!authLoading) {
-            fetchApplications();
+            void fetchApplications();
         }
     }, [authLoading, fetchApplications]);
 

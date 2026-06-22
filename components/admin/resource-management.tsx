@@ -80,7 +80,7 @@ export function ResourceManagement() {
     }
   }, [toast])
 
-  useEffect(() => { fetchResources() }, [fetchResources])
+  useEffect(() => { void fetchResources() }, [fetchResources])
 
   const resetForm = () => {
     setForm(EMPTY_FORM)
@@ -121,7 +121,7 @@ export function ResourceManagement() {
       toast({ title: editingId ? '资料卡已更新' : '资料卡已创建' })
       setDialogOpen(false)
       resetForm()
-      fetchResources()
+      void fetchResources()
     } catch (error) {
       toast({
         title: '操作失败',
@@ -144,7 +144,7 @@ export function ResourceManagement() {
       }
 
       toast({ title: status === 'published' ? '资料卡已发布' : '资料卡已下架为草稿' })
-      fetchResources()
+      void fetchResources()
     } catch (error) {
       toast({
         title: '操作失败',
@@ -163,7 +163,7 @@ export function ResourceManagement() {
       }
 
       toast({ title: '资料卡已删除' })
-      fetchResources()
+      void fetchResources()
     } catch (error) {
       toast({
         title: '删除失败',
@@ -299,7 +299,7 @@ export function ResourceManagement() {
                           ) : (
                             <>
                               <Button size="sm" variant="ghost" asChild>
-                                <Link href={learningResourcePath(resource.id)} target="_blank">
+                                <Link href={learningResourcePath(resource.id)}>
                                   <ArrowUpRight className="mr-1 h-3 w-3" />查看
                                 </Link>
                               </Button>

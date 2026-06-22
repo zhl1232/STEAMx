@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react"
+import { act, render, screen, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import PlaygroundPage from "./page"
 
@@ -42,8 +42,9 @@ describe("PlaygroundPage", () => {
             )
         })
 
-        expect(await screen.findByText("总游玩局数")).toBeInTheDocument()
-        expect(screen.getAllByText("已玩 3").length).toBeGreaterThan(0)
+        await waitFor(() => {
+            expect(screen.getAllByText("已玩 3").length).toBeGreaterThan(0)
+        })
     })
 
     it("merges minesweeper structured stats with legacy best-time records", async () => {

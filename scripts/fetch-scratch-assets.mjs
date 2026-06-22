@@ -54,7 +54,7 @@ async function loadAllMd5ext() {
     const data = JSON.parse(await fs.readFile(file, "utf8"));
     collectMd5ext(data, set);
   }
-  return [...set].sort();
+  return [...set].sort((left, right) => left.localeCompare(right));
 }
 
 async function fetchOne(md5ext, { base, retries }) {

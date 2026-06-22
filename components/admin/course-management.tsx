@@ -441,8 +441,6 @@ export function CourseManagement() {
                                 <a
                                     href={`/courses/${selectedCourseId}/lessons/${l.id}`}
                                     className="text-[hsl(var(--nav-active))] hover:underline"
-                                    target="_blank"
-                                    rel="noreferrer"
                                 >
                                     打开
                                 </a>

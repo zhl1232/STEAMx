@@ -160,7 +160,7 @@ function MessagesContent() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting && hasMore && !isLoadingMore) loadMore();
+        if (entries[0]?.isIntersecting && hasMore && !isLoadingMore) void loadMore();
       },
       { rootMargin: "100px", threshold: 0 },
     );

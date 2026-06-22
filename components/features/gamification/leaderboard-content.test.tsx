@@ -12,6 +12,10 @@ const fetchMock = vi.fn()
 
 let mockUser: { id: string } | null = { id: 'user-1' }
 
+function requestUrl(input: RequestInfo | URL) {
+  return typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+}
+
 vi.mock('next/link', () => ({
   __esModule: true,
   default: ({ children, href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) => (
@@ -66,7 +70,7 @@ function makeTask(overrides: Partial<ProfileGrowthTask>): ProfileGrowthTask {
 
 function mockFetchWithGrowthTasks(tasks: ProfileGrowthTask[]) {
   fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
-    const url = String(input)
+    const url = requestUrl(input)
 
     if (url.startsWith('/api/leaderboard')) {
       return new Response(JSON.stringify({ users: [] }), { status: 200 })
@@ -153,13 +157,13 @@ describe('LeaderboardContent growth tasks panel', () => {
         description: '已领取「记录 1 条自然观察」奖励，+10 经验',
       })
     })
-    expect(fetchMock.mock.calls.filter(([input]) => String(input) === '/api/profile/growth-tasks/sync')).toHaveLength(2)
-    expect(fetchMock.mock.calls.some(([input]) => String(input) === '/api/profile/growth-tasks/claim')).toBe(true)
+    expect(fetchMock.mock.calls.filter(([input]) => requestUrl(input) === '/api/profile/growth-tasks/sync')).toHaveLength(2)
+    expect(fetchMock.mock.calls.some(([input]) => requestUrl(input) === '/api/profile/growth-tasks/claim')).toBe(true)
   })
 
   it('shows graduated challenge card when growthTasksGraduatedAt is set', async () => {
     fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
-      const url = String(input)
+      const url = requestUrl(input)
       if (url.startsWith('/api/leaderboard')) {
         return new Response(JSON.stringify({ users: [] }), { status: 200 })
       }
@@ -190,13 +194,13 @@ describe('LeaderboardContent growth tasks panel', () => {
     render(<LeaderboardContent />)
 
     expect(await screen.findByText('登录后查看你的新手引导进度')).toBeInTheDocument()
-    expect(fetchMock.mock.calls.some(([input]) => String(input) === '/api/profile/growth-tasks/sync')).toBe(false)
+    expect(fetchMock.mock.calls.some(([input]) => requestUrl(input) === '/api/profile/growth-tasks/sync')).toBe(false)
   })
 
   it('loads the observation leaderboard tab and renders observation counts', async () => {
     const user = userEvent.setup()
     fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
-      const url = String(input)
+      const url = requestUrl(input)
 
       if (url.startsWith('/api/leaderboard')) {
         const params = new URL(url, 'http://localhost').searchParams
@@ -231,7 +235,7 @@ describe('LeaderboardContent growth tasks panel', () => {
     await waitFor(() => {
       expect(
         fetchMock.mock.calls.some(([input]) => {
-          const url = String(input)
+          const url = requestUrl(input)
           return url.startsWith('/api/leaderboard') && new URL(url, 'http://localhost').searchParams.get('type') === 'observations'
         }),
       ).toBe(true)

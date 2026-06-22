@@ -411,7 +411,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       setProjects((prev) => [mappedProject, ...prev]);
 
       // Award XP for publishing a project
-      await addXp(50, "发布新项目", "publish_project", createdProject.id);
+       addXp(50, "发布新项目", "publish_project", createdProject.id);
 
       // Check badges
       const stats = await getUserStats();
@@ -551,12 +551,12 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       // 副作用异步执行，不阻塞 UI（addXp 内的 refetchStats 会自动触发 checkBadges）
       const commentRow = newComment as { id: number };
-      (async () => {
+      void (async () => {
         try {
           // 通知
           const createdComment = newComment as DbComment;
           if (createdComment.reply_to_user_id) {
-            createNotification({
+            void createNotification({
               user_id: createdComment.reply_to_user_id,
               type: "mention",
               content: `${profile?.display_name || "某人"} 在评论中@了你`,
@@ -570,7 +570,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           }
 
           // XP（内部会 refetchStats → 自动 checkBadges）
-          await addXp(1, "发表评论", "comment_project", commentRow.id);
+           addXp(1, "发表评论", "comment_project", commentRow.id);
 
           // 每周小目标（并行查询）
           const weekStart = getWeekStartISO();
@@ -671,7 +671,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (action === "liked") {
-          await addXp(1, "点赞项目", "like_project", pid);
+           addXp(1, "点赞项目", "like_project", pid);
         }
       } catch (error) {
         setLikedProjects((prev) => {

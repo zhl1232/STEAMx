@@ -9,13 +9,17 @@ function jsonResponse(body: unknown, ok = true) {
   } as Response
 }
 
+function requestUrl(input: RequestInfo | URL) {
+  return typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+}
+
 describe('fetchProfileHomeData', () => {
   beforeEach(() => {
     invalidateProfileHomeData('user-1')
     vi.stubGlobal(
       'fetch',
       vi.fn((input: RequestInfo | URL) => {
-        const url = String(input)
+        const url = requestUrl(input)
         if (url.includes('/api/profile/summary')) {
           return Promise.resolve(
             jsonResponse({

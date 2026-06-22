@@ -494,7 +494,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!loading && canReview) {
-      loadData()
+      void loadData()
     }
   }, [loading, canReview, loadData])
 

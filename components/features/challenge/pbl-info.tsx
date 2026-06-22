@@ -38,14 +38,10 @@ function ResourceItem({ resource }: { resource: ChallengeResource }) {
 
   if (isExternal) {
     return (
-      <a
-        href={resource.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex items-center gap-3 py-2.5"
-      >
+      <div className="group flex items-center gap-3 py-2.5">
         {content}
-      </a>
+        <span className="sr-only">外部资料需先导入平台</span>
+      </div>
     )
   }
 

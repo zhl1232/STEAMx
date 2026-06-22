@@ -384,7 +384,7 @@ export interface ObservationEvent {
     notes?: string | null
     mediaUrls: string[]
     isPublic: boolean
-    status: 'pending' | 'approved' | 'rejected' | string
+    status: string
     natureTopic?: NatureTopicKey | null
     identificationStatus: 'needs_id' | 'community_confirmed'
     observedAtSource?: 'photo_exif' | 'manual' | null

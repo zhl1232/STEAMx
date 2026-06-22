@@ -111,7 +111,7 @@ export function ReportsList() {
   }, [statusFilter, page, limit, toast]);
 
   useEffect(() => {
-    fetchReports();
+    void fetchReports();
   }, [fetchReports]);
 
   useEffect(() => {
@@ -135,7 +135,7 @@ export function ReportsList() {
       setReviewReport(null);
       setReviewNote("");
       setReviewAction("none");
-      fetchReports();
+      void fetchReports();
     } catch (err) {
       toast({
         title: "操作失败",

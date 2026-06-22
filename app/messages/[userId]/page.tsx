@@ -91,7 +91,7 @@ export default function ConversationPage() {
 
     const onScroll = () => {
       if (el.scrollTop <= 80 && hasMore && !isLoadingMore && !isLoading) {
-        handleLoadMore();
+        void handleLoadMore();
       }
     };
 
@@ -241,7 +241,7 @@ export default function ConversationPage() {
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault();
-                    handleSend();
+                    void handleSend();
                   }
                 }}
                 maxLength={2000}

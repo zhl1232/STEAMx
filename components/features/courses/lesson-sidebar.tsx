@@ -81,18 +81,25 @@ export function LessonSidebar({
                             参考资源
                         </h3>
                         <ul className="space-y-1">
-                            {lesson.resources.map((r) => (
-                                <li key={r.url}>
-                                    <a
-                                        href={r.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-sm text-[hsl(var(--nav-active))] hover:underline"
-                                    >
-                                        {r.title}
-                                    </a>
-                                </li>
-                            ))}
+                            {lesson.resources.map((r) => {
+                                const isInternal = r.url.startsWith("/");
+                                return (
+                                    <li key={r.url}>
+                                        {isInternal ? (
+                                            <Link
+                                                href={r.url}
+                                                className="text-sm text-[hsl(var(--nav-active))] hover:underline"
+                                            >
+                                                {r.title}
+                                            </Link>
+                                        ) : (
+                                            <span className="text-sm text-muted-foreground">
+                                                {r.title}
+                                            </span>
+                                        )}
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 ) : null}
@@ -100,16 +107,7 @@ export function LessonSidebar({
             <p className="shrink-0 border-t border-border px-4 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
                 {lessonType.workspace === "scratch" ? (
                     <>
-                        基于{" "}
-                        <a
-                            href="https://scratch.mit.edu"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline"
-                        >
-                            Scratch
-                        </a>{" "}
-                        · 作品保存在本平台
+                        基于 Scratch · 作品保存在本平台
                     </>
                 ) : (
                     <>课时类型：{lessonType.label}</>

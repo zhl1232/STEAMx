@@ -313,7 +313,8 @@ export default function GameOfLifePage() {
             switch (e.key) {
                 case " ":
                     e.preventDefault()
-                    status === "running" ? pause() : start()
+                    if (status === "running") pause()
+                    else start()
                     break
                 case "n":
                 case "N":

@@ -12,6 +12,8 @@ import type { Database } from '@/lib/supabase/types'
 type CreditRpcResult = Record<string, unknown>
 
 function parseCreditStatus(data: CreditRpcResult | null): AiCreditStatus {
+  const grantPeriod = typeof data?.grantPeriod === 'string' ? data.grantPeriod : ''
+
   return {
     isMember: Boolean(data?.isMember),
     walletBalance: Number(data?.walletBalance ?? 0),
@@ -19,7 +21,7 @@ function parseCreditStatus(data: CreditRpcResult | null): AiCreditStatus {
     freeDaily: Number(data?.freeDaily ?? FREE_AI_DAILY_QUOTA),
     freeUsedToday: Number(data?.freeUsedToday ?? 0),
     freeRemainingToday: Number(data?.freeRemainingToday ?? 0),
-    grantPeriod: String(data?.grantPeriod ?? ''),
+    grantPeriod,
     dayResetAt: Number(data?.dayResetAt ?? 0),
     canChat: Boolean(data?.canChat),
   }

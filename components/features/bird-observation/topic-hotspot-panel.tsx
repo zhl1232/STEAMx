@@ -6,7 +6,7 @@ import { useMemo, useState } from "react"
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import type { ObservationLocationSummary } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
+import { appendNatureFrom, buildNavigationHref } from "@/lib/utils/nature-navigation"
 
 function recencyLabel(dateString: string): { text: string; className: string } {
   const ageDays = (Date.now() - new Date(dateString).getTime()) / 86_400_000
@@ -130,15 +130,17 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
               )}
 
               {location.latitude != null && location.longitude != null ? (
-                <a
-                  href={`https://uri.amap.com/marker?position=${location.longitude},${location.latitude}&name=${encodeURIComponent(location.locationName)}&src=steam-explore`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-3 inline-flex text-xs font-medium text-primary hover:underline"
-                  onClick={(event) => event.stopPropagation()}
+                <Link
+                  href={buildNavigationHref({
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    name: location.locationName,
+                    from: fromHref,
+                  })}
+                  className="mt-3 inline-flex text-xs font-medium text-muted-foreground transition-colors hover:text-primary hover:underline"
                 >
-                  在高德中查看位置
-                </a>
+                  坐标 {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+                </Link>
               ) : null}
             </div>
           ))}

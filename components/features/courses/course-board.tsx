@@ -17,7 +17,7 @@ export function CourseBoard() {
 
     useEffect(() => {
         let cancelled = false;
-        (async () => {
+        void (async () => {
             try {
                 const res = await fetch("/api/courses");
                 if (!res.ok) throw new Error("加载失败");

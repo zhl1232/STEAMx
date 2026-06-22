@@ -109,7 +109,7 @@ async function buildSpeciesManifest(group) {
 
   const manifest = {}
   const manifestPublicPrefix = group.manifestPublicPrefix ?? group.publicPrefix
-  const sortedSlugs = Array.from(filesBySlug.keys()).sort()
+  const sortedSlugs = Array.from(filesBySlug.keys()).sort((left, right) => left.localeCompare(right))
   for (const slug of sortedSlugs) {
     const files = filesBySlug.get(slug).sort(compareSpeciesImage)
     manifest[slug] = files.map((name) => `/${manifestPublicPrefix}/${group.imageSubdir}/${name}`)

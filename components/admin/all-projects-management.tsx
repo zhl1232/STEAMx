@@ -182,7 +182,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                           </div>
 
                           <div className="flex flex-wrap gap-2">
-                            <Link href={`/project/${project.id}`} target="_blank">
+                            <Link href={`/project/${project.id}`}>
                               <Button variant="outline" size="sm">
                                 <Eye className="mr-2 h-4 w-4" />
                                 查看

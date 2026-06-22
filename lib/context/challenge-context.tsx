@@ -80,7 +80,7 @@ export function ChallengeProvider({
             const loadData = async () => {
                 await reloadChallenges();
             };
-            loadData();
+            void loadData();
         }
     }, [authLoading, user?.id, reloadChallenges]);
 
@@ -125,7 +125,7 @@ export function ChallengeProvider({
             const changed = Boolean(payload?.changed);
 
             if (!isJoined && changed) {
-                await addXp(10, "参加挑战", "join_challenge", cid);
+                 addXp(10, "参加挑战", "join_challenge", cid);
             }
         } catch (error) {
             setChallenges(snapshot);

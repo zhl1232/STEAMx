@@ -18,6 +18,7 @@
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
 | `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/navigate` | `app/navigate/page.tsx` | 站内地图导航确认页 — 展示自然观察坐标与复制坐标操作；用户点击按钮后按设备触发高德 App scheme，不在页面静态内容中渲染外部地图网页链接 |
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 13 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏挑战模式、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；迷宫页定位为「寻路算法实验」，支持手动通关后对比 BFS / DFS / A* 的探索格数、路线步数与回放动画；`layout.tsx` 统一 `surface-panel` / `Button` / `--tone-*` 侧栏与本局提示条，移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体；扫雷页桌面端采用紧凑工具栏与轻量棋盘 shell，普通桌面收窄右侧课程面板以增加主游戏区宽度，移动端初级棋盘按容器等分完整显示、中高难度保留横向滑动，本地战绩挂载后读取以避免 SSR hydration mismatch；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复；游戏卡片均有独立图形 fallback |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`notifications/`、`privacy/`、`security/`、`about/` |
@@ -45,7 +46,7 @@
 
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
-- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
+- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token；字体走系统字体栈，不加载外部字体
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
@@ -298,7 +299,7 @@
 
 ## 7. Scratch 编辑器子包 (`packages/scratch-host/`)
 
-- 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离
+- 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离；依赖升级保持 React 18 线，避免破坏 Scratch GUI 兼容
 - 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
 - Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；生产环境配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，`/internalapi/asset/*` 会 rewrite 到 OSS
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
@@ -329,6 +330,7 @@
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置
 - `playwright.config.ts` / `playwright.integration.config.ts` — Playwright 配置
+- 质量脚本：`pnpm lint`（ESLint/Next/React Hooks）、`pnpm lint:ox`（Oxlint 快速补充检查）、`pnpm type-check`（TypeScript `tsc --noEmit` 稳定基线）、`pnpm type-check:native`（`@typescript/native-preview`/`tsgo` 快速语义检查）、`pnpm type-check:ox`（Oxlint + `oxlint-tsgolint` 的 type-aware/type-check 实验通道）
 
 ---
 
@@ -348,12 +350,12 @@
 
 | 文件 | 用途 |
 |------|------|
-| `package.json` | 依赖与脚本 |
+| `package.json` | 依赖与脚本；主 TypeScript 检查使用 6.x 稳定版，另保留 `tsgo` native preview 实验检查，Oxlint 只作为 ESLint 的补充 |
 | `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理；主应用新增 `three` 供训练营 3D 搭建课工作区按需加载 |
 | `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式等） |
-| `tailwind.config.ts` | Tailwind CSS 配置（自定义主题） |
-| `postcss.config.js` | PostCSS 配置 |
+| `tailwind.config.ts` | Tailwind CSS 3 配置（自定义主题）；动画工具类由 `tailwindcss-animate` 提供 |
+| `postcss.config.js` | PostCSS 配置；使用 `postcss-import`、`tailwindcss`、`autoprefixer` |
 | `eslint.config.mjs` | ESLint 配置；忽略 `packages/scratch-host/dist/**` 构建产物，只 lint 源码 |
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |

@@ -67,7 +67,7 @@ export function CompletionRecordComments({
     onSuccess: () => {
       setContent("")
       setReplyTo(null)
-      queryClient.invalidateQueries({ queryKey: ["completion_comments", completionId] })
+      void queryClient.invalidateQueries({ queryKey: ["completion_comments", completionId] })
     },
     onError: (error) => {
       toast({

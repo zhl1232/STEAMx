@@ -171,7 +171,7 @@ export function useGamificationData() {
             }
         },
         onSuccess: () => {
-            refreshProfile();
+            void refreshProfile();
         }
     });
 

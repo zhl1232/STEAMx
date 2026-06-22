@@ -230,7 +230,7 @@ export function CompleteProjectDialog({
     }, [user, toast, totalImages]);
 
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) processFiles(e.target.files);
+        if (e.target.files) void processFiles(e.target.files);
         e.target.value = "";
     };
 
@@ -252,7 +252,7 @@ export function CompleteProjectDialog({
             e.stopPropagation();
             setIsDragging(false);
             if (e.dataTransfer.files.length > 0) {
-                processFiles(e.dataTransfer.files);
+                void processFiles(e.dataTransfer.files);
             }
         },
         [processFiles]
@@ -403,7 +403,7 @@ export function CompleteProjectDialog({
             if (!isProgress) {
                 try {
                     const confetti = (await import("canvas-confetti")).default;
-                    confetti({
+                    void confetti({
                         particleCount: 120,
                         spread: 80,
                         origin: { x: 0.5, y: 0.6 },

@@ -247,7 +247,7 @@ async function main() {
         try {
           const wikiImg = await getWikimediaImage(sp.scientific_name);
           if (wikiImg) allImages.push(wikiImg);
-        } catch (e) {
+        } catch {
           // Wikimedia is a best-effort fallback — don't fail the species over it
         }
       }
@@ -263,7 +263,7 @@ async function main() {
         try {
           await downloadFile(allImages[n].url, outPath);
           downloaded.push(fileName);
-        } catch (e) {
+        } catch {
           // skip this image
         }
         await sleep(200);

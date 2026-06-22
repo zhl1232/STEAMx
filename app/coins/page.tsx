@@ -426,7 +426,7 @@ function WalletSidePanel({
 
 export default function CoinsPage() {
   const { user, loading: authLoading } = useAuth();
-  const { coins = 0 } = useGamification();
+  const { coins } = useGamification();
   const showDesktopSidePanel = useMediaQuery("(min-width: 1280px)");
   const supabase = useMemo(() => createClient(), []);
   const userId = user?.id ?? "";

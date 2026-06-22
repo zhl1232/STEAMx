@@ -17,7 +17,7 @@ import {
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { observationSubmitTopicFromNatureTopic } from "@/lib/observations/submit-topic";
 
-import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { appendNatureFrom, buildNavigationHref, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
@@ -80,8 +80,13 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
     ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
     : null;
   const hasCoordinates = observation.latitude != null && observation.longitude != null;
-  const amapHref = hasCoordinates
-    ? `https://uri.amap.com/marker?position=${observation.longitude},${observation.latitude}&name=${encodeURIComponent(observation.locationName)}&src=steam-explore`
+  const navigationHref = hasCoordinates
+    ? buildNavigationHref({
+        latitude: observation.latitude as number,
+        longitude: observation.longitude as number,
+        name: observation.locationName,
+        from: currentPath,
+      })
     : null;
   const isConfirmed = observation.identificationStatus === "community_confirmed";
   const hasMedia = observation.mediaUrls.length > 0;
@@ -247,21 +252,18 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                       latitude: observation.latitude as number,
                       longitude: observation.longitude as number,
                       label: observation.locationName,
+                      href: navigationHref ?? undefined,
                     },
                   ]}
                   heightClassName="h-48 sm:h-56"
                 />
-                {amapHref ? (
-                  <a
-                    href={amapHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="打开导航"
-                    className="absolute right-2 top-2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/94 text-foreground shadow-sm backdrop-blur transition-colors hover:bg-background"
-                  >
-                    <Navigation className="h-4 w-4" />
-                  </a>
-                ) : null}
+                <Link
+                  href={navigationHref ?? "#"}
+                  className="absolute right-2 top-2 inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border/70 bg-background/94 px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur transition-colors hover:text-primary"
+                >
+                  <Navigation className="h-3.5 w-3.5" />
+                  打开导航
+                </Link>
               </div>
             ) : (
               <p className="mt-4 text-sm text-muted-foreground">暂无 GPS 定位，仅保留文字地点。</p>

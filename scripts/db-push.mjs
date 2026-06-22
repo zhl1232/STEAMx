@@ -16,7 +16,6 @@
 
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { config } from "node:process";
 
 // ── Load .env.local ──────────────────────────────────
 
@@ -52,7 +51,6 @@ const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const args = process.argv.slice(2);
 const command = args.find((a) => !a.startsWith("-")) || "push";
 const dryRun = args.includes("--dry-run");
-const verbose = args.includes("--verbose") || args.includes("-v");
 
 // ── Helpers ──────────────────────────────────────────
 

@@ -148,12 +148,7 @@ function CommentCardComponent({
         />
       </button>
     ) : (
-      <a
-        href={comment.image_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-2 block"
-      >
+      <div className="mt-2 block">
         <Image
           src={comment.image_url}
           alt="评论附图"
@@ -161,7 +156,7 @@ function CommentCardComponent({
           height={200}
           className="rounded-xs border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
         />
-      </a>
+      </div>
     ));
 
   return (
@@ -221,7 +216,7 @@ function CommentCardComponent({
               disabled={isSaving}
               onKeyDown={(e) => {
                 if (e.key === "Escape") handleCancelEdit();
-                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleSaveEdit();
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) void handleSaveEdit();
               }}
             />
             <div className="flex items-center gap-2">

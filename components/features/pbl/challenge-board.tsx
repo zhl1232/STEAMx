@@ -158,7 +158,7 @@ export function ChallengeBoard({
                     <div className="rounded-md border border-destructive/20 bg-destructive/5 px-6 py-12 text-center">
                         <p className="text-lg font-bold">挑战加载失败</p>
                         <p className="mt-2 text-sm leading-6 text-muted-foreground">{challengesError}</p>
-                        <Button className="mt-4" onClick={() => void reloadChallenges()}>
+                        <Button className="mt-4" onClick={() =>  reloadChallenges()}>
                             重试
                         </Button>
                     </div>
@@ -223,7 +223,7 @@ export function ChallengeRail({
                 <div className="rounded-md border border-destructive/20 bg-destructive/5 px-4 py-8 text-center">
                     <p className="text-base font-bold">挑战加载失败</p>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">{challengesError}</p>
-                    <Button className="mt-4" onClick={() => void reloadChallenges()}>
+                    <Button className="mt-4" onClick={() =>  reloadChallenges()}>
                         重试
                     </Button>
                 </div>

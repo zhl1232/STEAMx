@@ -43,8 +43,9 @@ export function ProfileHeader({
   followingCount,
   statLinks,
 }: ProfileHeaderProps) {
-  const { unlockedBadges, userBadgeDetails, coins = 0 } = useGamification();
+  const { unlockedBadges, userBadgeDetails, coins } = useGamification();
   const { unreadCount } = useNotifications();
+  const displayedCoins = coins ?? 0;
 
   const userName = profile?.display_name || user.user_metadata?.full_name || "未命名用户";
   const userAvatar = profile?.avatar_url || getDefaultAvatarPath(user.id);
@@ -76,7 +77,7 @@ export function ProfileHeader({
               className="inline-flex h-9 items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3.5 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted/70"
             >
               <CoinIcon className="h-[18px] w-[18px] text-amber-500" />
-              <span className="tabular-nums">{coins}</span>
+              <span className="tabular-nums">{displayedCoins}</span>
             </Link>
 
             <div className="flex items-center gap-1.5">

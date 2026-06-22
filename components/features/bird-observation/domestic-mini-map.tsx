@@ -1,14 +1,10 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from "react"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 
-// ---------------------------------------------------------------------------
-// 高德瓦片 URL – 与之前 Leaflet 版完全一致，不需要 API Key
-// ---------------------------------------------------------------------------
-const TILE_URL = "https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}"
-const TILE_SUBDOMAINS = ["1", "2", "3", "4"]
 const TILE_SIZE = 256
 const MIN_ZOOM = 3
 const MAX_ZOOM = 18
@@ -130,27 +126,6 @@ function formatPopupDate(dateString: string | undefined) {
 }
 
 // ---------------------------------------------------------------------------
-// Tile cache
-// ---------------------------------------------------------------------------
-const tileCache = new Map<string, HTMLImageElement>()
-
-function getTileUrl(x: number, y: number, z: number) {
-  const s = TILE_SUBDOMAINS[Math.abs(x + y) % TILE_SUBDOMAINS.length]
-  return TILE_URL.replace("{s}", s).replace("{x}", String(x)).replace("{y}", String(y)).replace("{z}", String(z))
-}
-
-function loadTile(x: number, y: number, z: number): HTMLImageElement {
-  const key = `${z}/${x}/${y}`
-  const cached = tileCache.get(key)
-  if (cached) return cached
-  const img = new Image()
-  img.crossOrigin = "anonymous"
-  img.src = getTileUrl(x, y, z)
-  tileCache.set(key, img)
-  return img
-}
-
-// ---------------------------------------------------------------------------
 // Fit bounds helper
 // ---------------------------------------------------------------------------
 function fitBounds(markers: DomesticMiniMapMarker[], width: number, height: number, padding = 0.25) {
@@ -183,6 +158,46 @@ function fitBounds(markers: DomesticMiniMapMarker[], width: number, height: numb
   return { centerLng, centerLat, zoom: Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom)) }
 }
 
+function drawLocalMapBackground(ctx: CanvasRenderingContext2D, width: number, height: number, isDark: boolean) {
+  const bg = ctx.createLinearGradient(0, 0, width, height)
+  if (isDark) {
+    bg.addColorStop(0, "#07130f")
+    bg.addColorStop(0.6, "#0f1f24")
+    bg.addColorStop(1, "#172018")
+  } else {
+    bg.addColorStop(0, "#e9f6ee")
+    bg.addColorStop(0.58, "#dceef4")
+    bg.addColorStop(1, "#f2ecd8")
+  }
+  ctx.fillStyle = bg
+  ctx.fillRect(0, 0, width, height)
+
+  ctx.save()
+  ctx.strokeStyle = isDark ? "rgba(255,255,255,0.08)" : "rgba(18,80,70,0.12)"
+  ctx.lineWidth = 1
+  for (let x = 24; x < width; x += 48) {
+    ctx.beginPath()
+    ctx.moveTo(x, 0)
+    ctx.lineTo(x, height)
+    ctx.stroke()
+  }
+  for (let y = 24; y < height; y += 48) {
+    ctx.beginPath()
+    ctx.moveTo(0, y)
+    ctx.lineTo(width, y)
+    ctx.stroke()
+  }
+
+  ctx.strokeStyle = isDark ? "rgba(125,211,252,0.16)" : "rgba(37,99,235,0.14)"
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  ctx.moveTo(width * 0.08, height * 0.62)
+  ctx.bezierCurveTo(width * 0.28, height * 0.45, width * 0.42, height * 0.78, width * 0.62, height * 0.48)
+  ctx.bezierCurveTo(width * 0.76, height * 0.28, width * 0.88, height * 0.36, width * 0.98, height * 0.18)
+  ctx.stroke()
+  ctx.restore()
+}
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
@@ -205,7 +220,6 @@ export function DomesticMiniMap({
   const initialCenter = defaultCenter ?? { lat: 39.9042, lon: 116.4074 }
   const initialZoom = defaultZoom ?? 11
   const stateRef = useRef({ centerLng: initialCenter.lon, centerLat: initialCenter.lat, zoom: initialZoom, dragging: false, dragStartX: 0, dragStartY: 0, dragStartLng: 0, dragStartLat: 0 })
-  const animRef = useRef<number | null>(null)
   const hoveredMarkerIndexRef = useRef(-1)
   const popupLockedRef = useRef(false)
   const [popup, setPopup] = useState<DomesticMiniMapPopup | null>(null)
@@ -236,43 +250,8 @@ export function DomesticMiniMap({
     const centerPx = lngToPixelX(centerLng, zoom)
     const centerPy = latToPixelY(centerLat, zoom)
 
-    // Apply dark mode inversion via CSS filter on the canvas for tile rendering
     const isDark = document.documentElement.classList.contains("dark")
-
-    // Draw tiles
-    const tileStartX = Math.floor((centerPx - width / 2) / TILE_SIZE)
-    const tileStartY = Math.floor((centerPy - height / 2) / TILE_SIZE)
-    const tileEndX = Math.ceil((centerPx + width / 2) / TILE_SIZE)
-    const tileEndY = Math.ceil((centerPy + height / 2) / TILE_SIZE)
-    const maxTile = Math.pow(2, zoom)
-
-    let allLoaded = true
-    for (let tx = tileStartX; tx <= tileEndX; tx++) {
-      for (let ty = tileStartY; ty <= tileEndY; ty++) {
-        if (ty < 0 || ty >= maxTile) continue
-        const wrappedTx = ((tx % maxTile) + maxTile) % maxTile
-        const img = loadTile(wrappedTx, ty, zoom)
-        const screenX = tx * TILE_SIZE - centerPx + width / 2
-        const screenY = ty * TILE_SIZE - centerPy + height / 2
-
-        if (img.complete && img.naturalWidth > 0) {
-          if (isDark) {
-            ctx.filter = "invert(0.88) hue-rotate(180deg) saturate(0.58) brightness(0.72) contrast(0.9)"
-          }
-          ctx.drawImage(img, screenX, screenY, TILE_SIZE, TILE_SIZE)
-          if (isDark) {
-            ctx.filter = "none"
-          }
-        } else {
-          allLoaded = false
-          ctx.fillStyle = isDark ? "#0b1710" : "#e8f1e9"
-          ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE)
-          img.onload = () => {
-            if (canvasRef.current) draw()
-          }
-        }
-      }
-    }
+    drawLocalMapBackground(ctx, width, height, isDark)
 
     // Draw markers
     const maxWeight = Math.max(...markers.map((m) => m.weight || 1), 1)
@@ -308,17 +287,12 @@ export function DomesticMiniMap({
       ctx.restore()
     }
 
-    // Attribution
     ctx.save()
     ctx.font = "11px sans-serif"
     ctx.fillStyle = isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)"
     ctx.textAlign = "right"
-    ctx.fillText("高德地图", width - 6, height - 6)
+    ctx.fillText("本地坐标概览", width - 6, height - 6)
     ctx.restore()
-
-    if (!allLoaded) {
-      animRef.current = requestAnimationFrame(draw)
-    }
   }, [markers, activeMarkerIndex, enableTimeDecay, externalHoverIndex])
 
   const findMarkerHit = useCallback((clientX: number, clientY: number): MarkerHit | null => {
@@ -417,7 +391,6 @@ export function DomesticMiniMap({
 
     return () => {
       observer.disconnect()
-      if (animRef.current != null) cancelAnimationFrame(animRef.current)
     }
   }, [markers, draw, fitMode, initialCenter.lat, initialCenter.lon, initialZoom])
 
@@ -611,12 +584,12 @@ export function DomesticMiniMap({
             <p className="mt-2 line-clamp-2 leading-5 text-[#40564b] dark:text-[#bed4c4]">{popup.summary}</p>
           ) : null}
           {popup.href ? (
-            <a
+            <Link
               href={popup.href}
               className="pointer-events-auto mt-2 inline-flex items-center gap-1 rounded-full bg-[#0f9a5a] px-2.5 py-1 text-[11px] font-semibold text-white shadow-[0_8px_18px_-12px_rgba(15,154,90,0.85)] transition-colors hover:bg-[#0b844b]"
             >
               查看详情 →
-            </a>
+            </Link>
           ) : null}
         </div>
       ) : null}

@@ -163,7 +163,7 @@ export default function HanoiPage() {
 
     useEffect(() => {
         if (status !== "won") return
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } })
+        void confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } })
         checkBadges({
             projectsPublished: 0,
             projectsLiked: 0,

@@ -228,7 +228,7 @@ async function main() {
         try {
           await downloadFile(allImages[n].url, outPath);
           downloaded.push(fileName);
-        } catch (e) {
+        } catch {
           // skip this image
         }
         await sleep(200);

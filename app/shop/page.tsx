@@ -475,11 +475,11 @@ function LoadingState({ label }: { label: string }) {
 export default function ShopPage() {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth();
   const {
-    coins = 0,
-    level = 1,
-    progress = 0,
-    levelProgress = 0,
-    levelTotalNeeded = 1,
+    coins,
+    level,
+    progress,
+    levelProgress,
+    levelTotalNeeded,
   } = useGamification();
   const [activeType, setActiveType] = useState<ShopItemType>("avatar_frame");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -490,6 +490,11 @@ export default function ShopPage() {
   const typedProfile = profile as Profile | null;
   const equippedAvatarFrameId = typedProfile?.equipped_avatar_frame_id ?? null;
   const equippedNameColorId = typedProfile?.equipped_name_color_id ?? null;
+  const displayedCoins = coins ?? 0;
+  const displayedLevel = level ?? 1;
+  const displayedProgress = progress ?? 0;
+  const displayedLevelProgress = levelProgress ?? 0;
+  const displayedLevelTotalNeeded = levelTotalNeeded ?? 1;
 
   const {
     data: ownedItemIds = [],
@@ -519,9 +524,9 @@ export default function ShopPage() {
       if (!res?.ok) throw createShopMutationError(res, "purchase_failed");
     },
     onSuccess: (_, itemId) => {
-      queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
-      queryClient.invalidateQueries({ queryKey: ["coin_logs", user?.id] });
-      refreshProfile();
+      void queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
+      void queryClient.invalidateQueries({ queryKey: ["coin_logs", user?.id] });
+      void refreshProfile();
       const item = getShopItemById(itemId);
       toast({ title: "兑换成功", description: item ? `已获得「${item.name}」` : undefined });
     },
@@ -543,8 +548,8 @@ export default function ShopPage() {
       if (!res?.ok) throw createShopMutationError(res, "equip_failed");
     },
     onSuccess: () => {
-      refreshProfile();
-      queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
+      void refreshProfile();
+      void queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
       toast({ title: "装备已更新" });
     },
     onError: (error: Error) => {
@@ -578,12 +583,12 @@ export default function ShopPage() {
     const equipped = item.type === "avatar_frame"
       ? equippedAvatarFrameId === item.id
       : equippedNameColorId === item.id;
-    const levelLocked = (item.minLevel ?? 0) > level;
+    const levelLocked = (item.minLevel ?? 0) > displayedLevel;
     return {
       owned,
       equipped,
       levelLocked,
-      canBuy: !owned && !levelLocked && coins >= item.price,
+      canBuy: !owned && !levelLocked && displayedCoins >= item.price,
     };
   };
   if (authLoading || !user) {
@@ -624,7 +629,7 @@ export default function ShopPage() {
         rightSlot={(
           <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-sm font-black text-slate-950 shadow-sm dark:bg-white/[0.04] dark:text-slate-50">
             <CoinIcon className="h-4 w-4 text-amber-500" />
-            {coins.toLocaleString()}
+            {displayedCoins.toLocaleString()}
           </span>
         )}
       />
@@ -645,12 +650,12 @@ export default function ShopPage() {
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_330px] xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0 space-y-5">
             <ShopHero
-              level={level}
+              level={displayedLevel}
               displayName={displayName}
               avatarSrc={avatarSrc}
-              progress={progress}
-              levelProgress={levelProgress}
-              levelTotalNeeded={levelTotalNeeded}
+              progress={displayedProgress}
+              levelProgress={displayedLevelProgress}
+              levelTotalNeeded={displayedLevelTotalNeeded}
               selectedItem={selectedItem}
               equippedAvatarFrameId={equippedAvatarFrameId}
               equippedNameColorId={equippedNameColorId}
@@ -733,10 +738,10 @@ export default function ShopPage() {
               selectedItem={selectedItem}
               displayName={displayName}
               avatarSrc={avatarSrc}
-              level={level}
+              level={displayedLevel}
               equippedAvatarFrameId={equippedAvatarFrameId}
               equippedNameColorId={equippedNameColorId}
-              coins={coins}
+              coins={displayedCoins}
             />
           </div>
         </div>

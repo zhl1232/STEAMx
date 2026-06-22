@@ -78,7 +78,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
             })
             return
         }
-        toggleLike(projectId)
+        void toggleLike(projectId)
     }
 
     const handleCollection = () => {

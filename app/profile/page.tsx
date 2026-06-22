@@ -274,7 +274,7 @@ export default function ProfilePage() {
       }
 
       if (payload?.graduated) {
-        void refetchStats()
+         refetchStats()
         toast({
           title: '新手引导已完成',
           description: '解锁「新手毕业」徽章，开启下一段冒险吧',
@@ -1236,7 +1236,7 @@ function CommunityFeedPanel({
     }
 
     setNotifications(null)
-    loadNotifications()
+    void loadNotifications()
 
     return () => {
       cancelled = true

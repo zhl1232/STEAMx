@@ -15,7 +15,7 @@ interface ObservationMediaCarouselProps {
   alt: string;
 }
 
-const previewSlideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] };
+const previewSlideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] as const };
 
 const previewSlideVariants = {
   enter: (direction: number) => ({

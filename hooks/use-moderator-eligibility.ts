@@ -56,7 +56,7 @@ export function useModeratorEligibility() {
             }
         }
 
-        checkEligibility();
+        void checkEligibility();
     }, [user, profile]);
 
     return { eligibility, isLoading };

@@ -108,7 +108,7 @@ export default function Game24Page() {
 
   useEffect(() => {
     if (status !== "solved") return
-    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } })
+    void confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } })
     checkBadges({
       projectsPublished: 0, projectsLiked: 0, projectsCompleted: 0,
       commentsCount: 0, scienceCompleted: 0, techCompleted: 0,

@@ -113,7 +113,7 @@ export function ExplorationRecordFeedCard({
     },
     onSuccess: () => {
       if (!hasServerLikeMeta) {
-        queryClient.invalidateQueries({ queryKey: ["completion_likes", completion.id, user?.id] })
+        void queryClient.invalidateQueries({ queryKey: ["completion_likes", completion.id, user?.id] })
       }
     },
   })

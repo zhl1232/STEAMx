@@ -147,8 +147,8 @@ export function useMarkConversationRead() {
       return response.json();
     },
     onSuccess: (_data, peerId) => {
-      queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
-      queryClient.invalidateQueries({ queryKey: ["messages", user?.id, peerId, "infinite"] });
+      void queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
+      void queryClient.invalidateQueries({ queryKey: ["messages", user?.id, peerId, "infinite"] });
       void refreshUnreadCount();
     },
   });
@@ -189,8 +189,8 @@ export function useSendMessage(options?: { onSuccess?: () => void }) {
       return payload?.message;
     },
     onSuccess: (_data, { receiverId }) => {
-      queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
-      queryClient.invalidateQueries({ queryKey: ["messages", user?.id, receiverId, "infinite"] });
+      void queryClient.invalidateQueries({ queryKey: ["conversations", user?.id] });
+      void queryClient.invalidateQueries({ queryKey: ["messages", user?.id, receiverId, "infinite"] });
       options?.onSuccess?.();
     },
     onError: (err: Error) => {

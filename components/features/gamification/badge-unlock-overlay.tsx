@@ -55,7 +55,7 @@ export function BadgeUnlockOverlay() {
   useEffect(() => {
     if (!badge) return;
 
-    confetti({
+    void confetti({
       particleCount: 120,
       spread: 82,
       startVelocity: 32,

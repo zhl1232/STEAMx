@@ -83,4 +83,4 @@ async function main() {
   console.log("\n合计:", (totalBefore / 1024).toFixed(1), "KB ->", (totalAfter / 1024).toFixed(1), "KB, 节省", (saved / 1024).toFixed(1), "KB ( -" + pct + "% )");
 }
 
-main();
+void main();

@@ -85,7 +85,7 @@ export default function Game2048Page() {
     useEffect(() => {
         if (status !== "won" && status !== "gameover") return
         if (status === "won") {
-            confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } })
+            void confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } })
         }
         checkBadges({
             projectsPublished: 0, projectsLiked: 0, projectsCompleted: 0,

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { ComponentProps } from 'react'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 
@@ -67,15 +68,17 @@ const markdownComponents: ComponentProps<typeof ReactMarkdown>['components'] = {
     </blockquote>
   ),
   hr: () => <hr className="my-6 border-[hsl(var(--surface-border)/0.55)]" />,
-  a: ({ href, children }) => (
-    <a
-      href={href}
-      className="font-medium text-primary underline underline-offset-2"
-      {...(href?.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-    >
-      {children}
-    </a>
-  ),
+  a: ({ href, children }) => {
+    if (href?.startsWith('/') && !href.startsWith('//')) {
+      return (
+        <Link href={href} className="font-medium text-primary underline underline-offset-2">
+          {children}
+        </Link>
+      )
+    }
+
+    return <span>{children}</span>
+  },
   code: ({ children }) => (
     <code className="rounded bg-muted px-1.5 py-0.5 text-[13px]">{children}</code>
   ),

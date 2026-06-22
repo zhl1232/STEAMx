@@ -7,6 +7,7 @@ import { DomesticMiniMap } from "@/components/features/bird-observation/domestic
 import { Button } from "@/components/ui/button";
 import { getNatureObservationHotspots } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildNavigationHref } from "@/lib/utils/nature-navigation";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "观察地图",
@@ -77,6 +78,12 @@ export default async function NatureMapPage() {
                 weight: hotspot.observationCount,
                 imageUrl: hotspot.imageUrl,
                 summary: `最近 ${formatDate(hotspot.latestObservedAt)} 有观察记录，共 ${formatCount(hotspot.observationCount)} 条公开记录。`,
+                href: buildNavigationHref({
+                  latitude: hotspot.latitude as number,
+                  longitude: hotspot.longitude as number,
+                  name: hotspot.locationName,
+                  from: "/nature/map",
+                }),
               }))}
               heightClassName="h-[420px]"
               enableTimeDecay
@@ -124,14 +131,17 @@ export default async function NatureMapPage() {
                     </span>
                   </div>
                   {hotspot.latitude != null && hotspot.longitude != null ? (
-                    <a
-                      href={`https://uri.amap.com/marker?position=${hotspot.longitude},${hotspot.latitude}&name=${encodeURIComponent(hotspot.locationName)}&src=steam-explore`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-3 inline-flex text-xs font-medium text-primary hover:underline"
+                    <Link
+                      href={buildNavigationHref({
+                        latitude: hotspot.latitude,
+                        longitude: hotspot.longitude,
+                        name: hotspot.locationName,
+                        from: "/nature/map",
+                      })}
+                      className="mt-3 inline-flex text-xs font-medium text-muted-foreground transition-colors hover:text-primary hover:underline"
                     >
-                      在高德中查看位置
-                    </a>
+                      坐标 {hotspot.latitude.toFixed(4)}, {hotspot.longitude.toFixed(4)}
+                    </Link>
                   ) : null}
                 </div>
               </div>

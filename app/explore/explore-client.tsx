@@ -719,7 +719,7 @@ export function ExploreClient({
 
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMoreRef.current) {
-                loadMore()
+                void loadMore()
             }
         })
 
@@ -788,7 +788,7 @@ export function ExploreClient({
         setDraftSubCategory("")
         setDraftTags([])
         const params = buildSearchParams({ category, subCategory: "", tags: [] })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -796,7 +796,7 @@ export function ExploreClient({
         const query = searchQuery.trim()
         setSearchQuery(query)
         const params = buildSearchParams({ query })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleTagClick = (tag: string) => {
@@ -806,7 +806,7 @@ export function ExploreClient({
         setSelectedTags(nextTags)
         setDraftTags(nextTags)
         const params = buildSearchParams({ tags: nextTags })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleClearFilters = () => {
@@ -820,13 +820,13 @@ export function ExploreClient({
         setDraftDifficulty("all")
         setDraftTags([])
         setResultTotal(0)
-        executeFilter(new URLSearchParams())
+        void executeFilter(new URLSearchParams())
     }
 
     const handleSortChange = (sortBy: SortBy) => {
         if (sortBy === selectedSortBy) return
         setSelectedSortBy(sortBy)
-        executeFilter(buildSearchParams({ sortBy }))
+        void executeFilter(buildSearchParams({ sortBy }))
     }
 
     const handlePresetClick = (presetId: ExplorePresetId) => {
@@ -845,27 +845,27 @@ export function ExploreClient({
         setSelectedSortBy(preset.sortBy)
         setDraftDifficulty(preset.difficulty)
 
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleRemoveSubCategory = () => {
         setSelectedSubCategory("")
         const params = buildSearchParams({ subCategory: "" })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleRemoveDifficulty = () => {
         setSelectedDifficulty("all")
         setDraftDifficulty("all")
         const params = buildSearchParams({ difficulty: "all" })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const handleRemoveTag = (tag: string) => {
         const newTags = selectedTags.filter(t => t !== tag)
         setSelectedTags(newTags)
         const params = buildSearchParams({ tags: newTags })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     // Sheet 逻辑
@@ -948,7 +948,7 @@ export function ExploreClient({
             difficulty: draftDifficulty,
             tags: draftTags,
         })
-        executeFilter(params)
+        void executeFilter(params)
     }
 
     const activePresetId = detectActivePreset(getFilterState())
@@ -978,7 +978,7 @@ export function ExploreClient({
                 onSearchSubmit={(value) => {
                     const trimmed = value.trim()
                     setSearchQuery(trimmed)
-                    executeFilter(buildSearchParams({ query: trimmed }))
+                    void executeFilter(buildSearchParams({ query: trimmed }))
                 }}
                 rightSlot={
                     <button
@@ -1110,7 +1110,7 @@ export function ExploreClient({
                                                 <FilterChip
                                                     onClick={() => {
                                                         setSearchQuery("")
-                                                        executeFilter(buildSearchParams({ query: "" }))
+                                                        void executeFilter(buildSearchParams({ query: "" }))
                                                     }}
                                                     active
                                                     shape="pill"

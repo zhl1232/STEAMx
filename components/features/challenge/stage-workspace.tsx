@@ -587,7 +587,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
       if (result) {
         setCoachActionResults((current) => ({
           ...current,
-          [index]: { ...(current[index] ?? {}), [action]: result },
+          [index]: { ...current[index], [action]: result },
         }))
       }
       setAutosaveState((current) => ({ ...current, [index]: "saved" }))

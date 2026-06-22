@@ -788,7 +788,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
             }
         };
 
-        fetchLeaderboard();
+        void fetchLeaderboard();
         return () => controller.abort();
     }, [user, currentTab, xpTimeRange]);
 

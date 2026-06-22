@@ -165,7 +165,7 @@ export function ProjectDetailActions({
       })
       return
     }
-    toggleLike(projectId)
+    void toggleLike(projectId)
   }
 
   const handleTip = () => {

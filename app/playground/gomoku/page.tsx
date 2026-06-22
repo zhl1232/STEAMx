@@ -56,7 +56,7 @@ export default function GomokuPage() {
 
     useEffect(() => {
         if (status === "won" && winnerInfo) {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } })
+            void confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } })
 
             checkBadges({
                 projectsPublished: 0,

@@ -164,7 +164,7 @@ function ShareForm() {
                 }
             }
         };
-        loadChallenge();
+        void loadChallenge();
     }, [challengeParam, user, supabase, toast, router]);
 
     // 加载编辑数据
@@ -230,7 +230,7 @@ function ShareForm() {
         };
 
         if (editId) {
-            loadProjectToEdit();
+            void loadProjectToEdit();
         }
     }, [editId, user, supabase, toast, router]);
 
