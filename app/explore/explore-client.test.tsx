@@ -110,6 +110,7 @@ vi.mock('@/lib/logger', () => ({
 class MockIntersectionObserver implements IntersectionObserver {
     readonly root = null
     readonly rootMargin = ''
+    readonly scrollMargin = ''
     readonly thresholds = []
 
     constructor(callback: IntersectionObserverCallback) {

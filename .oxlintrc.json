@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "react-hooks", "nextjs", "typescript"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "settings": {
+    "react": {
+      "version": "19.0"
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "typescript/no-explicit-any": "error",
+    "no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
+  },
+  "ignorePatterns": [
+    "node_modules/**",
+    ".next/**",
+    ".open-next/**",
+    "out/**",
+    "public/**",
+    "*.config.js",
+    "*.config.ts",
+    "*.config.mjs",
+    "playwright-report/**",
+    "test-results/**",
+    "coverage/**",
+    ".agents/**",
+    "packages/scratch-host/dist/**"
+  ]
+}

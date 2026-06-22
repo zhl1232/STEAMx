@@ -361,6 +361,15 @@
 | `.env.example` | 环境变量模板 |
 | `.impeccable.md` | 设计上下文（用户画像、品牌调性、设计原则） |
 
+### 常用 pnpm 脚本（`package.json`）
+
+| 命令 | 说明 |
+|------|------|
+| `pnpm type-check` | TypeScript 类型检查（`tsgo --noEmit`，`@typescript/native-preview` 原生编译器）；CI 使用此命令 |
+| `pnpm type-check:tsc` | 同上，但使用经典 `tsc --noEmit`（与 `tsgo` 的 lib 定义可能不完全一致） |
+| `pnpm lint` / `pnpm lint:eslint` | oxlint 快速检查 / ESLint 全量 Next.js 规则 |
+| `pnpm test` / `pnpm test:e2e` | Vitest 单元测试 / Playwright E2E |
+
 ---
 
 ## 12. 静态资源 (`public/`)
