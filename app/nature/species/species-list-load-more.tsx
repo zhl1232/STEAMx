@@ -1,12 +1,25 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, Feather, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { Species } from "@/lib/mappers/types";
+import {
+  type CachedNatureSpeciesListState,
+  natureSpeciesListStateQueryKey,
+  natureSpeciesPageQueryOptions,
+} from "@/lib/nature-species-queries";
+import {
+  buildNatureSpeciesFiltersKey,
+  clearNatureSpeciesScrollRestore,
+  getNatureSpeciesNextPageForAnchor,
+  readNatureSpeciesScrollRestore,
+  saveNatureSpeciesScrollRestore,
+} from "@/lib/nature-species-scroll-restore";
 import type { SpeciesObservationStatusFilter } from "@/lib/observations/progress";
 import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from "@/lib/utils/asset-url";
 import type { SpeciesTopicFilter } from "@/lib/utils/nature-topic-classification";
@@ -36,37 +49,216 @@ export function SpeciesListLoadMore({
   total,
   fromHref,
 }: SpeciesListLoadMoreProps) {
-  const [items, setItems] = useState(initialSpecies);
-  const [page, setPage] = useState(initialPage);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const fetchingRef = useRef(false);
+  const isRestoringScrollRef = useRef(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const serverState = useMemo<CachedNatureSpeciesListState>(
+    () => ({
+      items: initialSpecies,
+      page: initialPage,
+      hasMore: initialHasMore,
+      total,
+    }),
+    [initialHasMore, initialPage, initialSpecies, total],
+  );
+
+  const queryInput = useMemo(
+    () => ({
+      query,
+      topic,
+      status,
+      pageSize,
+    }),
+    [pageSize, query, status, topic],
+  );
+  const listStateKey = useMemo(() => natureSpeciesListStateQueryKey(queryInput), [queryInput]);
+
+  const [items, setItems] = useState(serverState.items);
+  const [page, setPage] = useState(serverState.page);
+  const [hasMore, setHasMore] = useState(serverState.hasMore);
+  const pageRef = useRef(serverState.page);
+
+  const buildFilterParams = useCallback(() => {
+    const params = new URLSearchParams();
+    if (queryInput.query) params.set("q", queryInput.query);
+    if (queryInput.topic !== "all") params.set("topic", queryInput.topic);
+    if (queryInput.status !== "all") params.set("status", queryInput.status);
+    return params;
+  }, [queryInput]);
+
+  const fetchSpeciesPage = useCallback(
+    (pageNum: number) =>
+      queryClient.fetchQuery(
+        natureSpeciesPageQueryOptions({
+          ...queryInput,
+          page: pageNum,
+        }),
+      ),
+    [queryClient, queryInput],
+  );
+
+  const mergeUniqueSpeciesById = useCallback((existing: Species[], incoming: Species[]) => {
+    if (incoming.length === 0) return existing;
+
+    const seen = new Set(existing.map((item) => item.id));
+    const appended: Species[] = [];
+
+    for (const item of incoming) {
+      if (seen.has(item.id)) continue;
+      seen.add(item.id);
+      appended.push(item);
+    }
+
+    return appended.length > 0 ? [...existing, ...appended] : existing;
+  }, []);
+
+  // 用 ref 持有最新回调引用，供 mount-only 的 useLayoutEffect 使用，避免陈旧闭包。
+  const buildFilterParamsRef = useRef(buildFilterParams);
+  const fetchSpeciesPageRef = useRef(fetchSpeciesPage);
+  buildFilterParamsRef.current = buildFilterParams;
+  fetchSpeciesPageRef.current = fetchSpeciesPage;
+
+  const saveScrollPosition = useCallback((anchorElement?: HTMLElement | null, anchorSlug?: string, anchorIndex?: number) => {
+    if (typeof window === "undefined") return;
+    const anchorTop = anchorElement?.getBoundingClientRect().top;
+    const nextPageForAnchor = getNatureSpeciesNextPageForAnchor(anchorIndex, pageSize);
+
+    saveNatureSpeciesScrollRestore({
+      filtersKey: buildNatureSpeciesFiltersKey(buildFilterParams()),
+      scrollY: window.scrollY,
+      nextPage: Math.max(pageRef.current + 1, nextPageForAnchor),
+      anchorSlug,
+      anchorTop,
+      anchorIndex,
+    });
+  }, [buildFilterParams, pageSize]);
+
+  const handleSpeciesLinkClick = useCallback((anchorElement?: HTMLElement | null, anchorSlug?: string, anchorIndex?: number) => {
+    saveScrollPosition(anchorElement, anchorSlug, anchorIndex);
+  }, [saveScrollPosition]);
 
   const loadMore = useCallback(async () => {
-    if (fetchingRef.current || !hasMore) return;
+    if (isRestoringScrollRef.current || fetchingRef.current || !hasMore) return;
     fetchingRef.current = true;
     setLoading(true);
     try {
-      const p = new URLSearchParams();
-      p.set("page", String(page + 1));
-      p.set("pageSize", String(pageSize));
-      if (query) p.set("q", query);
-      if (topic !== "all") p.set("topic", topic);
-      if (status !== "all") p.set("status", status);
-      const res = await fetch(`/api/species?${p.toString()}`);
-      if (!res.ok) throw new Error("fetch failed");
-      const data = (await res.json()) as { species: Species[]; hasMore: boolean };
-      setItems((prev) => [...prev, ...data.species]);
-      setPage((prev) => prev + 1);
+      const nextPage = pageRef.current + 1;
+      const data = await fetchSpeciesPage(nextPage);
+      // 使用函数式更新避免闭包捕获陈旧 items
+      setItems((prev) => mergeUniqueSpeciesById(prev, data.species));
+      setPage(nextPage);
+      pageRef.current = nextPage;
       setHasMore(data.hasMore);
+      // queryClient 状态由下方 useEffect 统一同步，此处不再重复调用
     } catch {
       // 静默失败；按钮可重试
     } finally {
       fetchingRef.current = false;
       setLoading(false);
     }
-  }, [hasMore, page, pageSize, query, topic, status]);
+  }, [fetchSpeciesPage, hasMore, mergeUniqueSpeciesById]);
+
+  useEffect(() => {
+    queryClient.setQueryData<CachedNatureSpeciesListState>(listStateKey, {
+      items,
+      page,
+      hasMore,
+      total,
+    });
+  }, [hasMore, items, listStateKey, page, queryClient, total]);
+
+  useLayoutEffect(() => {
+    const saved = readNatureSpeciesScrollRestore();
+    if (!saved) return;
+
+    const filtersKey = buildNatureSpeciesFiltersKey(buildFilterParamsRef.current());
+    if (saved.filtersKey !== filtersKey) {
+      clearNatureSpeciesScrollRestore();
+      return;
+    }
+
+    clearNatureSpeciesScrollRestore();
+    isRestoringScrollRef.current = true;
+
+    let cancelled = false;
+    const cachedState = queryClient.getQueryData<CachedNatureSpeciesListState>(listStateKey);
+    const targetLoadedPage = Math.max(initialPage, saved.nextPage - 1);
+
+    const restoreScroll = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+          const anchorElement = saved.anchorSlug
+            ? document.querySelector<HTMLElement>(`[data-species-slug="${CSS.escape(saved.anchorSlug)}"]`)
+            : null;
+          const nextScrollY = anchorElement && typeof saved.anchorTop === "number"
+            ? window.scrollY + anchorElement.getBoundingClientRect().top - saved.anchorTop
+            : saved.scrollY;
+          window.scrollTo({ top: Math.max(0, nextScrollY), left: 0, behavior: "auto" });
+          isRestoringScrollRef.current = false;
+        });
+      });
+    };
+
+    const syncRestoredSpecies = (nextItems: Species[], nextHasMore: boolean, nextPage: number) => {
+      if (cancelled) return;
+      setItems(nextItems);
+      setHasMore(nextHasMore);
+      setPage(nextPage);
+      pageRef.current = nextPage;
+      restoreScroll();
+    };
+
+    if (cachedState && cachedState.page >= targetLoadedPage) {
+      syncRestoredSpecies(cachedState.items, cachedState.hasMore, cachedState.page);
+      return () => {
+        cancelled = true;
+        isRestoringScrollRef.current = false;
+      };
+    }
+
+    if (saved.nextPage <= initialPage + 1) {
+      syncRestoredSpecies(serverState.items, serverState.hasMore, serverState.page);
+      return () => {
+        cancelled = true;
+        isRestoringScrollRef.current = false;
+      };
+    }
+
+    void (async () => {
+      const baseState =
+        cachedState && cachedState.page >= serverState.page
+          ? cachedState
+          : serverState;
+      let mergedSpecies = [...baseState.items];
+      let nextHasMore = baseState.hasMore;
+      let restoredPage = baseState.page;
+
+      for (let pageNum = restoredPage + 1; pageNum <= targetLoadedPage; pageNum += 1) {
+        if (cancelled) return;
+
+        try {
+          const data = await fetchSpeciesPageRef.current(pageNum);
+          mergedSpecies = mergeUniqueSpeciesById(mergedSpecies, data.species ?? []);
+          nextHasMore = data.hasMore ?? false;
+          restoredPage = pageNum;
+        } catch {
+          break;
+        }
+      }
+
+      syncRestoredSpecies(mergedSpecies, nextHasMore, restoredPage);
+    })();
+
+    return () => {
+      cancelled = true;
+      isRestoringScrollRef.current = false;
+    };
+    // 仅在组件挂载时执行一次，从 sessionStorage 读取恢复点。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -102,6 +294,8 @@ export function SpeciesListLoadMore({
             <Link
               key={item.id}
               href={appendNatureFrom(`/nature/species/${item.slug}`, fromHref)}
+              data-species-slug={item.slug}
+              onPointerDown={(event) => handleSpeciesLinkClick(event.currentTarget, item.slug, index)}
               className="nature-species-card group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 hover:-translate-y-0.5"
               style={{ animationDelay: `${staggerMs}ms` }}
             >

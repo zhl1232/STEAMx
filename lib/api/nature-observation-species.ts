@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 import { fetchObservedSpeciesIdsForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
 import { sanitizeSearch } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
@@ -526,7 +528,7 @@ export async function getSpeciesById(id: number): Promise<Species | null> {
   return mapSpeciesWithDerivedFields(data as SpeciesRow)
 }
 
-export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
+export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: string): Promise<Species | null> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -632,7 +634,7 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
     topLocations,
     stats: await computeSpeciesStats(supabase, data.id, eventIds, typedLinkedRows),
   }
-}
+})
 
 interface SpeciesStatsEventRow {
   id: number
