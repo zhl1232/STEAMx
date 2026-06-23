@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
+import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
+import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -29,10 +31,51 @@ export function LessonPageClient({
 }) {
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
+    const [focusedStep, setFocusedStep] = useState<number | null>(null);
+    const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { registerToolHandler, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const steps = lesson.steps ?? [];
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
+    const activeStepTitle = steps[clampedActiveStep]?.title;
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     const isBuildingLesson = lessonWorkspace === "building_3d";
+
+    const focusLessonStepFromTutorTool = useCallback((toolCall: TutorToolCall) => {
+        if (toolCall.name !== "course.focus_lesson_step") return;
+        if (toolCall.payload.lessonId !== lesson.id) return;
+
+        const maxStepIndex = Math.max(steps.length - 1, 0);
+        const targetIndex = Math.min(Math.max(toolCall.payload.stepIndex, 0), maxStepIndex);
+        setActiveStep(targetIndex);
+        setFocusedStep(targetIndex);
+
+        if (focusTimerRef.current) clearTimeout(focusTimerRef.current);
+        focusTimerRef.current = setTimeout(() => {
+            setFocusedStep(null);
+            focusTimerRef.current = null;
+        }, 3600);
+    }, [lesson.id, steps.length]);
+
+    useEffect(() => {
+        return registerToolHandler("course.focus_lesson_step", focusLessonStepFromTutorTool);
+    }, [focusLessonStepFromTutorTool, registerToolHandler]);
+
+    useEffect(() => {
+        setTutorOverride({
+            subtitle: activeStepTitle ? `正在做「${activeStepTitle}」` : lesson.title,
+            quickPrompts: ["这一步怎么做？", "我卡住了", "下一步该做什么？"],
+        });
+
+        return () => {
+            clearTutorOverride();
+        };
+    }, [activeStepTitle, clearTutorOverride, lesson.title, setTutorOverride]);
+
+    useEffect(() => {
+        return () => {
+            if (focusTimerRef.current) clearTimeout(focusTimerRef.current);
+        };
+    }, []);
 
     return (
         <div
@@ -66,6 +109,7 @@ export function LessonPageClient({
                         courseTitle={courseTitle}
                         lesson={lesson}
                         activeStepIndex={clampedActiveStep}
+                        focusedStepIndex={focusedStep}
                         onStepClick={setActiveStep}
                         completed={completed}
                     />

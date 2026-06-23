@@ -1,6 +1,6 @@
 import type { TutorContextType } from '@/lib/ai/tutor/types'
 
-export const TUTOR_TOOL_NAMES = ['pbl.focus_current_stage'] as const
+export const TUTOR_TOOL_NAMES = ['pbl.focus_current_stage', 'course.focus_lesson_step'] as const
 
 export type TutorToolName = (typeof TUTOR_TOOL_NAMES)[number]
 
@@ -9,15 +9,26 @@ export type PblFocusCurrentStageToolPayload = {
   reason: 'stuck' | 'next_step' | 'review'
 }
 
+export type CourseFocusLessonStepToolPayload = {
+  lessonId: number
+  stepIndex: number
+  reason: 'stuck' | 'next_step' | 'review'
+}
+
 export type TutorToolCall =
   | {
       name: 'pbl.focus_current_stage'
       payload: PblFocusCurrentStageToolPayload
     }
+  | {
+      name: 'course.focus_lesson_step'
+      payload: CourseFocusLessonStepToolPayload
+    }
 
 type BuildTutorToolCallsInput = {
   contextType: TutorContextType
   stageIndex?: number
+  lessonId?: number
   content: string
 }
 
@@ -53,11 +64,24 @@ function detectPblFocusReason(content: string): PblFocusCurrentStageToolPayload[
 }
 
 export function buildTutorToolCalls(input: BuildTutorToolCallsInput): TutorToolCall[] {
-  if (input.contextType !== 'challenge') return []
-  if (typeof input.stageIndex !== 'number') return []
-
   const reason = detectPblFocusReason(input.content)
   if (!reason) return []
+
+  if (input.contextType === 'course' && typeof input.lessonId === 'number') {
+    return [
+      {
+        name: 'course.focus_lesson_step',
+        payload: {
+          lessonId: input.lessonId,
+          stepIndex: 0,
+          reason,
+        },
+      },
+    ]
+  }
+
+  if (input.contextType !== 'challenge') return []
+  if (typeof input.stageIndex !== 'number') return []
 
   return [
     {

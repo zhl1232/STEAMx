@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import type { CourseLessonRow, CourseLessonStep } from "@/lib/courses/types";
@@ -12,6 +13,7 @@ export function LessonSidebar({
     courseTitle,
     lesson,
     activeStepIndex,
+    focusedStepIndex,
     onStepClick,
     completed,
 }: {
@@ -19,6 +21,7 @@ export function LessonSidebar({
     courseTitle: string;
     lesson: CourseLessonRow;
     activeStepIndex: number;
+    focusedStepIndex?: number | null;
     onStepClick: (index: number) => void;
     completed?: boolean;
 }) {
@@ -65,6 +68,7 @@ export function LessonSidebar({
                             step={step}
                             index={index}
                             active={index === activeStepIndex}
+                            focused={index === focusedStepIndex}
                             onClick={() => onStepClick(index)}
                         />
                     ))}
@@ -111,16 +115,26 @@ function LessonStepItem({
     step,
     index,
     active,
+    focused,
     onClick,
 }: {
     step: CourseLessonStep;
     index: number;
     active: boolean;
+    focused: boolean;
     onClick: () => void;
 }) {
+    const itemRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        if (!focused) return;
+        itemRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, [focused]);
+
     return (
         <li>
             <button
+                ref={itemRef}
                 type="button"
                 onClick={onClick}
                 className={cn(
@@ -128,6 +142,7 @@ function LessonStepItem({
                     active
                         ? "bg-[hsl(var(--brand-blue)/0.12)] ring-1 ring-[hsl(var(--brand-blue)/0.35)]"
                         : "hover:bg-muted/60",
+                    focused && "ring-2 ring-[hsl(var(--brand-amber))] ring-offset-2 ring-offset-card",
                 )}
             >
                 <span className="text-xs font-bold text-[hsl(var(--brand-blue))]">

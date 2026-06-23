@@ -37,6 +37,8 @@ import type { ChallengePersonalPlanStep, ChallengeWorkspace } from "@/lib/pbl/ch
 import type { StageCoachAction, StageCoachActionResult } from "@/lib/pbl/stage-coach-actions"
 import { cn } from "@/lib/utils"
 
+type PblFocusToolCall = Extract<TutorToolCall, { name: "pbl.focus_current_stage" }>
+
 const MAX_STAGE_IMAGES = 6
 
 const KIND_LABEL: Record<ChallengeStageKind, string> = {
@@ -124,7 +126,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
   const [coachActionResults, setCoachActionResults] = useState<Record<number, Partial<Record<StageCoachAction, StageCoachActionResult>>>>({})
   const [runningCoachAction, setRunningCoachAction] = useState<{ stageIndex: number; action: StageCoachAction } | null>(null)
-  const [toolFocus, setToolFocus] = useState<TutorToolCall | null>(null)
+  const [toolFocus, setToolFocus] = useState<PblFocusToolCall | null>(null)
   // 用户编辑过、尚未自动保存的阶段；ref 存集合，tick 触发防抖 effect。
   const dirtyStagesRef = useRef<Set<number>>(new Set())
   const [dirtyTick, setDirtyTick] = useState(0)

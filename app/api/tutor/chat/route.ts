@@ -410,6 +410,7 @@ export async function POST(request: NextRequest) {
     const toolCalls = buildTutorToolCalls({
       contextType,
       stageIndex,
+      lessonId,
       content,
     })
 

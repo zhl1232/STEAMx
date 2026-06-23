@@ -65,4 +65,32 @@ describe('buildTutorToolCalls', () => {
       }),
     ).toEqual([])
   })
+
+  it('emits a course lesson step focus tool call when the student asks for help in a lesson', () => {
+    expect(
+      buildTutorToolCalls({
+        contextType: 'course',
+        lessonId: 42,
+        content: '我卡住了，这一步不知道怎么做',
+      }),
+    ).toEqual([
+      {
+        name: 'course.focus_lesson_step',
+        payload: {
+          lessonId: 42,
+          stepIndex: 0,
+          reason: 'stuck',
+        },
+      },
+    ])
+  })
+
+  it('does not emit course tool calls without a lesson page context', () => {
+    expect(
+      buildTutorToolCalls({
+        contextType: 'course',
+        content: '我卡住了',
+      }),
+    ).toEqual([])
+  })
 })
