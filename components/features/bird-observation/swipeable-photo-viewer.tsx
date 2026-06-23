@@ -2,12 +2,13 @@
 
 import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, type Easing } from "framer-motion"
 
 import { useHorizontalSwipe } from "@/hooks/use-horizontal-swipe"
 import { cn } from "@/lib/utils"
 
-const slideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] }
+const slideEase: Easing = [0.32, 0.72, 0, 1]
+const slideTransition = { type: "tween" as const, duration: 0.26, ease: slideEase }
 
 const slideVariants = {
   enter: (direction: number) => ({

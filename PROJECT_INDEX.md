@@ -348,7 +348,7 @@
 
 | 文件 | 用途 |
 |------|------|
-| `package.json` | 依赖与脚本 |
+| `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.108.x |
 | `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理 |
 | `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式等） |
@@ -367,7 +367,7 @@
 |------|------|
 | `pnpm type-check` | TypeScript 类型检查（`tsgo --noEmit`，`@typescript/native-preview` 原生编译器）；CI 使用此命令 |
 | `pnpm type-check:tsc` | 同上，但使用经典 `tsc --noEmit`（与 `tsgo` 的 lib 定义可能不完全一致） |
-| `pnpm lint` / `pnpm lint:eslint` | oxlint 快速检查 / ESLint 全量 Next.js 规则 |
+| `pnpm lint` / `pnpm lint:eslint` | oxlint 快速检查产品源码（`app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板）/ ESLint 全量 Next.js 规则 |
 | `pnpm test` / `pnpm test:e2e` | Vitest 单元测试 / Playwright E2E |
 
 ---

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Easing } from "framer-motion";
 
 import { SwipeablePhotoViewer } from "@/components/features/bird-observation/swipeable-photo-viewer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -15,7 +15,8 @@ interface ObservationMediaCarouselProps {
   alt: string;
 }
 
-const previewSlideTransition = { type: "tween" as const, duration: 0.26, ease: [0.32, 0.72, 0, 1] };
+const previewSlideEase: Easing = [0.32, 0.72, 0, 1];
+const previewSlideTransition = { type: "tween" as const, duration: 0.26, ease: previewSlideEase };
 
 const previewSlideVariants = {
   enter: (direction: number) => ({
