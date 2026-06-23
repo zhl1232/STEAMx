@@ -185,7 +185,7 @@ export interface SteamWeights {
 /**
  * 挑战脚手架资源三分类：
  * - project：参考项目（站内项目教程，给灵感不要求照做）
- * - skill：前置技能（借用项目/训练营课时，补一个具体薄弱点）
+ * - skill：前置技能（借用项目/技能课程课时，补一个具体薄弱点）
  * - reference：资料卡（链 /resources/[id]，过程中随查随用）
  */
 export const CHALLENGE_RESOURCE_TYPES = ['project', 'skill', 'reference'] as const

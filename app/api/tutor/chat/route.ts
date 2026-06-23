@@ -91,11 +91,13 @@ function mapMessage(row: TutorMessageRow) {
 function buildConversationMeta(input: {
   stageIndex?: number
   lessonId?: number
+  lessonStepIndex?: number
   surface?: TutorGlobalSurface
 }) {
   const meta: Record<string, unknown> = {}
   if (typeof input.stageIndex === 'number') meta.stageIndex = input.stageIndex
   if (typeof input.lessonId === 'number') meta.lessonId = input.lessonId
+  if (typeof input.lessonStepIndex === 'number') meta.lessonStepIndex = input.lessonStepIndex
   if (input.surface) meta.surface = input.surface
   return meta
 }
@@ -324,6 +326,7 @@ export async function POST(request: NextRequest) {
     const images = parsed.data.images
     const stageIndex = parsed.data.stageIndex
     const lessonId = parsed.data.lessonId
+    const lessonStepIndex = parsed.data.lessonStepIndex
     const surface = parsed.data.surface
     const cost = getAiChatCreditCost(images.length > 0)
 
@@ -357,6 +360,7 @@ export async function POST(request: NextRequest) {
       buildTutorSceneContext(supabase, user.id, contextType, contextId, {
         stageIndex,
         lessonId,
+        lessonStepIndex,
         surface,
         includeRecommendations: true,
       }),
@@ -368,7 +372,7 @@ export async function POST(request: NextRequest) {
       contextType,
       contextId,
       title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+      meta: buildConversationMeta({ stageIndex, lessonId, lessonStepIndex, surface }),
     })
     const recentRows = await supabase
       .from('tutor_messages')
@@ -411,6 +415,8 @@ export async function POST(request: NextRequest) {
       contextType,
       stageIndex,
       lessonId,
+      lessonStepIndex,
+      scratchBlockKeywords: scene.scratchBlockKeywords,
       content,
     })
 
@@ -488,6 +494,7 @@ export async function POST(request: NextRequest) {
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
         if (typeof lessonId === 'number') meta.lessonId = lessonId
+        if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
 
         const { error: insertError } = await supabase.from('tutor_messages').insert([
           {

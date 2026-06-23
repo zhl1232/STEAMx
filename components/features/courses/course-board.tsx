@@ -61,7 +61,7 @@ export function CourseBoard() {
         return (
             <div className="p-8 text-center text-muted-foreground">
                 <BookOpen className="mx-auto mb-3 h-10 w-10 opacity-50" />
-                <p>训练营课程即将上线，敬请期待。</p>
+                <p>技能课程即将上线，敬请期待。</p>
             </div>
         );
     }
@@ -83,7 +83,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
             <Link
                 href={`/courses/${course.id}`}
                 className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
-                aria-label={`进入训练营：${course.title}`}
+                aria-label={`进入技能课程：${course.title}`}
             />
             <div className="relative min-h-[102px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
                 <OptimizedImage
@@ -94,7 +94,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 <span className="absolute left-2 top-2 rounded-[var(--radius-xs)] bg-[hsl(var(--brand-blue))] px-2 py-1 text-[11px] font-semibold text-white shadow-sm">
-                    训练营
+                    课程
                 </span>
             </div>
             <div className="pointer-events-none relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1">

@@ -22,12 +22,12 @@ const GLOBAL_SURFACE_GREETINGS: Record<
     quickPrompts: ['第一次观察从哪开始？', '怎么拍出能识别的照片？', '观察笔记怎么写？'],
   }),
   create: (name) => ({
-    message: `嗨 ${name}！想接一个 PBL 挑战，还是进训练营学 Scratch？我帮你挑个合适的开始。`,
-    quickPrompts: ['哪个挑战适合新手？', 'PBL 挑战怎么玩？', 'Scratch 该怎么入门？'],
+    message: `嗨 ${name}！想接一个项目挑战，还是学一门技能课程？我帮你挑个合适的开始。`,
+    quickPrompts: ['哪个挑战适合新手？', '项目挑战怎么玩？', '该先学哪门课？'],
   }),
   courses: (name) => ({
-    message: `你好 ${name}！我是小迪 💻 想用 Scratch 做出自己的游戏和动画吗？挑一个训练营开始吧。`,
-    quickPrompts: ['新手该选哪个训练营？', 'Scratch 能做什么？', '学完能做出游戏吗？'],
+    message: `你好 ${name}！我是小迪 💻 想按课表系统学编程、搭建还是其他本领？挑一门技能课程开始吧。`,
+    quickPrompts: ['新手该选哪门课？', 'Scratch 能做什么？', '学完能做出什么？'],
   }),
   community: (name) => ({
     message: `嗨 ${name}！社区里有很多同学的讨论和分享，看到感兴趣的话题可以一起聊聊。`,
@@ -111,7 +111,7 @@ export function buildTutorGreeting(
   }
 
   return {
-    message: `你好呀 ${name}！我是小迪 👋 史迪姆平台的 AI 学习导师。探索、PBL、自然观察、Scratch 训练营，我都能陪你。`,
+    message: `你好呀 ${name}！我是小迪 👋 史迪姆平台的 AI 学习导师。探索、项目挑战、自然观察、技能课程，我都能陪你。`,
     quickPrompts: ['今天做什么好？', '帮我找个项目', '我该怎么开始？'],
   }
 }

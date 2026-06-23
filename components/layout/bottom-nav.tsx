@@ -32,7 +32,7 @@ export function BottomNav() {
         },
         {
             href: "/create",
-            label: "创造",
+            label: "创造营",
             icon: Sparkles,
             active:
                 pathname === "/create" ||

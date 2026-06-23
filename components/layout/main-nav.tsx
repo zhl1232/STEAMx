@@ -14,7 +14,7 @@ export function MainNav() {
         },
         {
             href: "/create",
-            label: "创造",
+            label: "创造营",
             active:
                 pathname === "/create" ||
                 pathname?.startsWith("/create/") ||

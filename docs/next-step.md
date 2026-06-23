@@ -1,21 +1,21 @@
 # Next step 备忘
 
-> 2026-06-18 复核：已落地项已从本文删除。当前已具备 `/create`、`/pbl/[id]`、阶段工作台、阶段进度保存、完成清单、阶段图文产出、全局小迪阶段上下文、阶段结构化反馈卡片、导师工具拆题/提示/总结受控动作、小迪 SSE 结构化 `tool_call` 通道与 PBL 当前阶段高亮 handler、提交页按阶段产出预填、一键整理投稿草稿、挑战作品审核与奖励闭环。本文只保留仍未完成或可选恢复的后续项。
+> 2026-06-23 复核：已落地项已从本文删除。当前已具备 `/create`、`/pbl/[id]`、阶段工作台、阶段进度保存、完成清单、阶段图文产出、全局小迪阶段上下文、阶段结构化反馈卡片、导师工具拆题/提示/总结受控动作、小迪 SSE 结构化 `tool_call` 通道、PBL 当前阶段高亮 handler、课时当前步骤高亮 handler（`course.focus_lesson_step` 会使用 active step）、Scratch 当前步骤积木关键词提示 handler（`course.highlight_scratch_blocks`，含主站提示条与 Scratch iframe 内 overlay）、提交页按阶段产出预填、一键整理投稿草稿、挑战作品审核与奖励闭环。本文只保留仍未完成或可选恢复的后续项。
 
 ## AI Tutor Agent 化深度集成
 
 ### 方向判断
 
-- **优先级**：P1（Agent 运行时骨架与 PBL 首个 handler 已落地，下一步应接入非 PBL 的首个可视化 skill）。
+- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler 与 Scratch iframe 内积木关键词提示已落地，下一步应继续到 Scratch 分类/flyout 定位或 Playground 棋盘级提示）。
 - **产品定位**：将小迪从「对话式导师」升级为可调用工具的 Agent，能直接与产品 UI 交互，而不只是输出文字建议。
 - **技术基础**：已有 tutor 引擎、场景上下文、图片来源校验、代币门禁与对话线程；可复用 Qwen Vision 做棋盘、Scratch 或作品截图识别。
 
 ### 能力范围
 
 - **工具调用通道扩展**：现有 tutor 流式回复之外已有结构化 `tool_call` 通道，后续可接入更多白名单工具。
-- **场景级 handler 扩展**：前端已支持当前场景注册受控 tool handler，后续扩展 Scratch 课时、Playground 等场景。
+- **场景级 handler 扩展**：前端已支持当前场景注册受控 tool handler；Scratch 课时已支持当前步骤聚焦与 iframe 内积木关键词提示，后续扩展到 Scratch 分类/flyout 定位、Playground 棋盘级提示等场景。
 - **典型能力示例**：
-  - Scratch 卡关：根据用户描述或截图，高亮提示对应的 Scratch 积木块。
+  - Scratch 卡关：已可按当前步骤在主站与 Scratch iframe 内提示相关积木关键词；后续根据用户描述或截图，打开对应分类或定位对应积木块。
   - 扫雷 / 迷宫：基于当前棋盘状态给出可视化下一步提示。
   - PBL 阶段：已支持在「我卡住了 / 下一步 / 看看反馈」意图中展开并高亮当前阶段；后续可细化到缺失检查项或相关材料入口。
 
@@ -27,7 +27,7 @@
 
 ### 建议迭代顺序
 
-1. **P1：首个非 PBL 可视化 skill**：例如 Scratch 积木高亮或迷宫 BFS 提示，复用现有「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
+1. **P1：Scratch 分类/flyout 定位或 Playground 棋盘提示**：例如对接 Scratch GUI 可控 API 打开对应积木分类，或做迷宫 BFS 提示，复用现有「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
 2. **P1：工具调用策略升级**：从确定性意图规则扩展到模型受控工具选择，但仍保持服务端白名单、payload 校验与前端受控 handler。
 3. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。
 

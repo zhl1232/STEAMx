@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, Save, Upload, HelpCircle, Check } from "lucide-react";
+import { Check, HelpCircle, Loader2, Save, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -14,6 +14,12 @@ import {
 import { canUseScratchEditor } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
 import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
+
+export type ScratchWorkspaceBlockHint = {
+    stepIndex: number;
+    keywords: string[];
+    reason: "stuck" | "next_step" | "review";
+};
 
 function getScratchHostUrl(playerOnly: boolean): string {
     const origin =
@@ -57,6 +63,8 @@ export function ScratchWorkspace({
     playerOnly = false,
     tutorialDeckId,
     initialCompleted = false,
+    blockHint,
+    onDismissBlockHint,
     onProjectSaved,
     onCompleted,
 }: {
@@ -65,6 +73,8 @@ export function ScratchWorkspace({
     playerOnly?: boolean;
     tutorialDeckId?: string;
     initialCompleted?: boolean;
+    blockHint?: ScratchWorkspaceBlockHint | null;
+    onDismissBlockHint?: () => void;
     onProjectSaved?: () => void;
     onCompleted?: () => void;
 }) {
@@ -345,6 +355,19 @@ export function ScratchWorkspace({
         }
     };
 
+    useEffect(() => {
+        if (!blockHint?.keywords.length || playerOnly) return;
+        postToIframe({
+            type: "HIGHLIGHT_BLOCK_KEYWORDS",
+            keywords: blockHint.keywords,
+        });
+    }, [blockHint, playerOnly, postToIframe]);
+
+    useEffect(() => {
+        if (blockHint?.keywords.length || playerOnly) return;
+        postToIframe({ type: "DISMISS_BLOCK_KEYWORDS" });
+    }, [blockHint, playerOnly, postToIframe]);
+
     if (!editorAllowed && !playerOnly) {
         return (
             <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
@@ -374,80 +397,111 @@ export function ScratchWorkspace({
     return (
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
             {!playerOnly ? (
-                <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-1.5 backdrop-blur-sm">
-                    <Button
-                        type="button"
-                        size="sm"
-                        disabled={!ready || !projectLoaded || busy}
-                        onClick={handleSaveClick}
-                    >
-                        {saving && !completing ? (
-                            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                        ) : (
-                            <Save className="mr-1 h-4 w-4" />
+                <>
+                    <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-1.5 backdrop-blur-sm">
+                        <Button
+                            type="button"
+                            size="sm"
+                            disabled={!ready || !projectLoaded || busy}
+                            onClick={handleSaveClick}
+                        >
+                            {saving && !completing ? (
+                                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                            ) : (
+                                <Save className="mr-1 h-4 w-4" />
+                            )}
+                            <span className="hidden sm:inline">保存到课程</span>
+                            <span className="sm:hidden">保存</span>
+                        </Button>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept=".sb3"
+                            className="hidden"
+                            onChange={(e) => {
+                                const f = e.target.files?.[0];
+                                if (f) handleFileUpload(f);
+                            }}
+                        />
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            disabled={!ready || !projectLoaded || busy}
+                            onClick={() => fileInputRef.current?.click()}
+                        >
+                            <Upload className="mr-1 h-4 w-4" />
+                            <span className="hidden sm:inline">打开文件</span>
+                            <span className="sm:hidden">打开</span>
+                        </Button>
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            disabled={!ready || !projectLoaded}
+                            onClick={handleTutorialClick}
+                            title={tutorialDeckId ? "打开本课教程" : "打开教程"}
+                        >
+                            <HelpCircle className="mr-1 h-4 w-4" />
+                            <span className="hidden sm:inline">
+                                {tutorialDeckId ? "本课教程" : "教程"}
+                            </span>
+                            <span className="sm:hidden">教程</span>
+                        </Button>
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant="secondary"
+                            disabled={!ready || !projectLoaded || busy || completed}
+                            onClick={() => void handleComplete()}
+                        >
+                            {completing ? (
+                                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                            ) : completed ? (
+                                <Check className="mr-1 h-4 w-4" />
+                            ) : null}
+                            <span className="hidden sm:inline">
+                                {completed ? "已完成" : "完成课时"}
+                            </span>
+                            <span className="sm:hidden">{completed ? "已完成" : "完成"}</span>
+                        </Button>
+                        {(loadingProject || !ready) && (
+                            <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                                加载编辑器…
+                            </span>
                         )}
-                        <span className="hidden sm:inline">保存到课程</span>
-                        <span className="sm:hidden">保存</span>
-                    </Button>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept=".sb3"
-                        className="hidden"
-                        onChange={(e) => {
-                            const f = e.target.files?.[0];
-                            if (f) handleFileUpload(f);
-                        }}
-                    />
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        disabled={!ready || !projectLoaded || busy}
-                        onClick={() => fileInputRef.current?.click()}
-                    >
-                        <Upload className="mr-1 h-4 w-4" />
-                        <span className="hidden sm:inline">打开文件</span>
-                        <span className="sm:hidden">打开</span>
-                    </Button>
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        disabled={!ready || !projectLoaded}
-                        onClick={handleTutorialClick}
-                        title={tutorialDeckId ? "打开本课教程" : "打开教程"}
-                    >
-                        <HelpCircle className="mr-1 h-4 w-4" />
-                        <span className="hidden sm:inline">
-                            {tutorialDeckId ? "本课教程" : "教程"}
-                        </span>
-                        <span className="sm:hidden">教程</span>
-                    </Button>
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant="secondary"
-                        disabled={!ready || !projectLoaded || busy || completed}
-                        onClick={() => void handleComplete()}
-                    >
-                        {completing ? (
-                            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                        ) : completed ? (
-                            <Check className="mr-1 h-4 w-4" />
-                        ) : null}
-                        <span className="hidden sm:inline">
-                            {completed ? "已完成" : "完成课时"}
-                        </span>
-                        <span className="sm:hidden">{completed ? "已完成" : "完成"}</span>
-                    </Button>
-                    {(loadingProject || !ready) && (
-                        <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                            加载编辑器…
-                        </span>
-                    )}
-                </div>
+                    </div>
+                    {blockHint?.keywords.length ? (
+                        <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-[hsl(var(--brand-amber)/0.28)] bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2 text-xs">
+                            <span className="font-semibold text-foreground">
+                                可以先找这些积木
+                            </span>
+                            <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                                {blockHint.keywords.map((keyword) => (
+                                    <span
+                                        key={keyword}
+                                        className="rounded-[var(--radius-xs)] border border-[hsl(var(--brand-amber)/0.35)] bg-background/85 px-2 py-0.5 font-medium text-[hsl(var(--brand-amber))]"
+                                    >
+                                        {keyword}
+                                    </span>
+                                ))}
+                            </div>
+                            {onDismissBlockHint ? (
+                                <Button
+                                    type="button"
+                                    size="icon"
+                                    variant="ghost"
+                                    className="h-7 w-7 shrink-0"
+                                    aria-label="关闭积木提示"
+                                    onClick={onDismissBlockHint}
+                                >
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            ) : null}
+                        </div>
+                    ) : null}
+                </>
             ) : null}
             <div
                 className={cn(

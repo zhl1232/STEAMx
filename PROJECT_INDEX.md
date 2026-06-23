@@ -28,15 +28,15 @@
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
-| `/create` | `app/create/page.tsx` | 创造营 — PBL 挑战 + **训练营** Tab；`/create` 重定向自 `/community` |
-| `/pbl/[id]` | `app/pbl/[id]/page.tsx` | PBL 挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
-| `/courses` | `app/courses/page.tsx` | 训练营列表（Scratch 编程 + 大颗粒积木搭建等） |
+| `/create` | `app/create/page.tsx` | 创造营 — **项目挑战** + **技能课程** Tab；`/create` 重定向自 `/community` |
+| `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
+| `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 大颗粒积木搭建等） |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表 |
 | `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览，3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
-| `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/训练营管理；子路由 `projects/`、`moderator-applications/` |
+| `/admin` | `app/admin/page.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/**技能课程**管理；子路由 `projects/`、`moderator-applications/` |
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
 | `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款） |
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
@@ -60,9 +60,9 @@
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
-| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**训练营 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通 |
+| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通 |
 | assets | `api/assets/` | 本地开发用受限静态资源代理；仅代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects` 资源。本地默认经代理带生产 Referer 拉取 OSS，以模拟线上 CDN 防盗链；生产环境直连 `NEXT_PUBLIC_ASSETS_BASE_URL`；非生产设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 可绕过代理直连排查 |
-| courses | `api/courses/` | 训练营列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
+| courses | `api/courses/` | 技能课程列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；投稿草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑终稿草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
 | tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选、course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；DELETE 归档当前线程并开启新对话）；历史对话只读回看 `conversations`（GET 按场景列归档线程+首条用户消息预览）与 `conversations/[id]`（GET 线程消息，归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
@@ -129,7 +129,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
-| `courses/` | 6 | 训练营列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤）、工作区路由 `lesson-workspace-renderer`、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、步骤富文本 `lesson-rich-text` |
+| `courses/` | 6 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；课时页会把当前 active step 传给小迪，避免“下一步/卡住了”回跳到第 1 步；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区显示当前步骤相关积木关键词提示）、工作区路由 `lesson-workspace-renderer`、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、步骤富文本 `lesson-rich-text` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
@@ -141,7 +141,7 @@
 | `profile/` | 16 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，含新增 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
 ### 3.5 管理后台 (`components/admin/`) — 11 个组件
-项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**训练营管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
+项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
@@ -249,7 +249,8 @@
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
-| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts` | AI 导师小迪：…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；`tool-calls.ts` 定义白名单工具调用类型与确定性触发规则（当前 PBL 阶段卡住/下一步/反馈意图 -> `pbl.focus_current_stage`）；…
+| `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts` | 技能课程课时类型、设备能力判断、Scratch iframe postMessage 协议、`.sb3` 积木校验与小迪 Scratch 积木关键词提示规则 |
+| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts` | AI 导师小迪：…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；`tool-calls.ts` 定义白名单工具调用类型与确定性触发规则（当前 PBL 阶段卡住/下一步/反馈意图 -> `pbl.focus_current_stage`；课时页卡住/下一步/反馈意图 -> `course.focus_lesson_step` 并使用当前 active step，若有步骤积木关键词则追加 `course.highlight_scratch_blocks`）；…
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
@@ -302,7 +303,7 @@
 - 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
 - Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；生产环境配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，`/internalapi/asset/*` 会 rewrite 到 OSS
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
-- 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议；保存走 `POST /api/courses/.../project`
+- 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议；保存走 `POST /api/courses/.../project`；主站可向 iframe 发送 `HIGHLIGHT_BLOCK_KEYWORDS` / `DISMISS_BLOCK_KEYWORDS`，host 内部显示/关闭积木关键词提示 overlay
 
 ---
 

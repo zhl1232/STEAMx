@@ -35,6 +35,8 @@ export type TutorSceneContext = {
   stageIndex?: number
   stageKind?: string | null
   suggestedImages?: string[]
+  /** Scratch 课时：当前步骤可受控高亮提示的积木关键词 */
+  scratchBlockKeywords?: string[]
   /** 当前场景可插入对话的鸟鸣音频 */
   availableAudios?: TutorAudioRef[]
   /** 仅 global 场景：当前页面标识 */

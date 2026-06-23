@@ -58,6 +58,62 @@
         color: #555;
         font-size: 12px;
       }
+      #scratch-block-hint-overlay {
+        position: fixed;
+        top: 54px;
+        right: 14px;
+        z-index: 1200;
+        max-width: min(360px, calc(100vw - 28px));
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid rgba(245, 158, 11, 0.42);
+        border-radius: 8px;
+        background: rgba(255, 251, 235, 0.96);
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+        color: #3f2f05;
+        font-family: system-ui, sans-serif;
+        pointer-events: auto;
+      }
+      .scratch-block-hint-title {
+        grid-column: 1 / 2;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .scratch-block-hint-keywords {
+        grid-column: 1 / 3;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .scratch-block-hint-chip {
+        border: 1px solid rgba(217, 119, 6, 0.38);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.86);
+        padding: 3px 8px;
+        font-size: 12px;
+        font-weight: 650;
+        line-height: 1.35;
+        color: #8a4b0c;
+      }
+      .scratch-block-hint-close {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        width: 24px;
+        height: 24px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #7c4a03;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+      .scratch-block-hint-close:hover {
+        background: rgba(245, 158, 11, 0.14);
+      }
       /* 完全隐藏 Scratch 顶部菜单栏容器 */
       [class*="gui_menu-bar-position"],
       [class*="menu-bar_menu-bar"] {

@@ -22,8 +22,8 @@ const mobileHeaderClassName =
 type CreateTab = "pbl" | "courses";
 
 const CREATE_TABS = [
-    { value: "pbl" as const, label: "PBL 挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
-    { value: "courses" as const, label: "训练营", tabId: "create-tab-courses", panelId: "create-panel-courses" },
+    { value: "pbl" as const, label: "项目挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
+    { value: "courses" as const, label: "技能课程", tabId: "create-tab-courses", panelId: "create-panel-courses" },
 ] as const;
 
 const createValues = [
@@ -77,8 +77,8 @@ function CreateHero() {
                         动手实践，探索创造的乐趣
                     </p>
                     <p className="mt-2 max-w-[15rem] text-[13px] font-semibold leading-5 text-white/95 [text-shadow:0_1px_6px_rgba(0,0,0,0.68)] min-[390px]:max-w-[16rem] min-[390px]:text-sm min-[390px]:leading-[1.45] md:mt-3 md:max-w-md md:text-base md:leading-7 md:text-[hsl(var(--community-hero-muted))] md:[text-shadow:none]">
-                        <span className="md:hidden">挑挑战或进训练营，把想法做出来。</span>
-                        <span className="hidden md:inline">挑一个真实挑战开始，或者进入训练营把 Scratch 作品一步步做出来。</span>
+                        <span className="md:hidden">接项目挑战或学技能课程，把想法做出来。</span>
+                        <span className="hidden md:inline">接一个真实项目挑战，或者进入技能课程一步步学本领。</span>
                     </p>
                 </div>
             </div>
@@ -186,7 +186,7 @@ export function CreatePageClient() {
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader
                 variant="title"
-                title="创造"
+                title="创造营"
                 showSearch={true}
                 showUserButton={true}
                 showNotification={true}
@@ -196,7 +196,7 @@ export function CreatePageClient() {
                 <CreateHero />
                 <CreatePathCardsSection />
 
-                <section aria-label="挑战与训练营">
+                <section aria-label="项目挑战与技能课程">
                     <div className="overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.94)] shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.32)] backdrop-blur-sm md:border-[hsl(var(--surface-border)/0.9)] md:bg-[hsl(var(--surface-raised)/0.9)] md:shadow-[0_24px_70px_-46px_hsl(var(--surface-shadow)/0.42)]">
                         <div className="flex min-h-[48px] items-center justify-between gap-4 border-b border-[hsl(var(--surface-border)/0.62)] px-1 md:min-h-[58px] md:border-[hsl(var(--surface-border)/0.72)] md:px-6">
                             <CreateTabs activeTab={activeTab} onChange={setActiveTab} />

@@ -12,6 +12,7 @@ let guiProjectShowing = false
 let loadChain = Promise.resolve()
 let pendingAfterGui = null
 let bootstrapDone = false
+let blockHintDismissTimer = null
 
 function setStatus(text) {
   const el = document.getElementById('scratch-status')
@@ -21,6 +22,66 @@ function setStatus(text) {
 function postToParent(message) {
   if (window.parent === window) return
   window.parent.postMessage({ ...message, source: SOURCE }, window.location.origin)
+}
+
+function getBlockHintOverlay() {
+  let overlay = document.getElementById('scratch-block-hint-overlay')
+  if (overlay) return overlay
+
+  overlay = document.createElement('div')
+  overlay.id = 'scratch-block-hint-overlay'
+  overlay.setAttribute('role', 'status')
+  overlay.innerHTML = [
+    '<div class="scratch-block-hint-title">可以先找这些积木</div>',
+    '<div class="scratch-block-hint-keywords"></div>',
+    '<button type="button" class="scratch-block-hint-close" aria-label="关闭积木提示">×</button>',
+  ].join('')
+  overlay.querySelector('.scratch-block-hint-close')?.addEventListener('click', () => {
+    hideBlockHintOverlay()
+  })
+  document.body.appendChild(overlay)
+  return overlay
+}
+
+function hideBlockHintOverlay() {
+  if (blockHintDismissTimer) {
+    clearTimeout(blockHintDismissTimer)
+    blockHintDismissTimer = null
+  }
+  document.getElementById('scratch-block-hint-overlay')?.remove()
+}
+
+function showBlockHintOverlay(keywords) {
+  const safeKeywords = Array.isArray(keywords)
+    ? keywords
+        .map((keyword) => (typeof keyword === 'string' ? keyword.trim() : ''))
+        .filter(Boolean)
+        .slice(0, 4)
+    : []
+  if (safeKeywords.length === 0) {
+    hideBlockHintOverlay()
+    return
+  }
+
+  const overlay = getBlockHintOverlay()
+  const keywordContainer = overlay.querySelector('.scratch-block-hint-keywords')
+  if (keywordContainer) {
+    keywordContainer.replaceChildren(
+      ...safeKeywords.map((keyword) => {
+        const chip = document.createElement('span')
+        chip.className = 'scratch-block-hint-chip'
+        chip.textContent = keyword
+        return chip
+      }),
+    )
+  }
+  setStatus(`提示：${safeKeywords.join('、')}`)
+
+  if (blockHintDismissTimer) clearTimeout(blockHintDismissTimer)
+  blockHintDismissTimer = setTimeout(() => {
+    blockHintDismissTimer = null
+    hideBlockHintOverlay()
+  }, 12000)
 }
 
 function hasStageTarget(vm) {
@@ -323,6 +384,12 @@ export function initHostMessageListener() {
             tutorialButton.click()
           }
         }
+        break
+      case 'HIGHLIGHT_BLOCK_KEYWORDS':
+        showBlockHintOverlay(data.keywords)
+        break
+      case 'DISMISS_BLOCK_KEYWORDS':
+        hideBlockHintOverlay()
         break
       default:
         break

@@ -1,6 +1,10 @@
 import type { TutorContextType } from '@/lib/ai/tutor/types'
 
-export const TUTOR_TOOL_NAMES = ['pbl.focus_current_stage', 'course.focus_lesson_step'] as const
+export const TUTOR_TOOL_NAMES = [
+  'pbl.focus_current_stage',
+  'course.focus_lesson_step',
+  'course.highlight_scratch_blocks',
+] as const
 
 export type TutorToolName = (typeof TUTOR_TOOL_NAMES)[number]
 
@@ -15,6 +19,13 @@ export type CourseFocusLessonStepToolPayload = {
   reason: 'stuck' | 'next_step' | 'review'
 }
 
+export type CourseHighlightScratchBlocksToolPayload = {
+  lessonId: number
+  stepIndex: number
+  keywords: string[]
+  reason: 'stuck' | 'next_step' | 'review'
+}
+
 export type TutorToolCall =
   | {
       name: 'pbl.focus_current_stage'
@@ -24,11 +35,17 @@ export type TutorToolCall =
       name: 'course.focus_lesson_step'
       payload: CourseFocusLessonStepToolPayload
     }
+  | {
+      name: 'course.highlight_scratch_blocks'
+      payload: CourseHighlightScratchBlocksToolPayload
+    }
 
 type BuildTutorToolCallsInput = {
   contextType: TutorContextType
   stageIndex?: number
   lessonId?: number
+  lessonStepIndex?: number
+  scratchBlockKeywords?: string[]
   content: string
 }
 
@@ -68,16 +85,30 @@ export function buildTutorToolCalls(input: BuildTutorToolCallsInput): TutorToolC
   if (!reason) return []
 
   if (input.contextType === 'course' && typeof input.lessonId === 'number') {
-    return [
+    const stepIndex = typeof input.lessonStepIndex === 'number' ? input.lessonStepIndex : 0
+    const toolCalls: TutorToolCall[] = [
       {
         name: 'course.focus_lesson_step',
         payload: {
           lessonId: input.lessonId,
-          stepIndex: 0,
+          stepIndex,
           reason,
         },
       },
     ]
+    const keywords = (input.scratchBlockKeywords ?? []).filter((keyword) => keyword.trim().length > 0).slice(0, 4)
+    if (keywords.length > 0) {
+      toolCalls.push({
+        name: 'course.highlight_scratch_blocks',
+        payload: {
+          lessonId: input.lessonId,
+          stepIndex,
+          keywords,
+          reason,
+        },
+      })
+    }
+    return toolCalls
   }
 
   if (input.contextType !== 'challenge') return []

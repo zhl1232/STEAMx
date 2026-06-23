@@ -4,7 +4,7 @@ export type ResolvedTutorContext = {
   contextType: TutorContextType
   contextId: string
   stageIndex?: number
-  /** Scratch 训练营：当前课时 id（课时学习页） */
+  /** 技能课程：当前课时 id（课时学习页） */
   lessonId?: number
   /** global 场景：页面标识，决定小迪的开场白与场景上下文 */
   surface?: TutorGlobalSurface

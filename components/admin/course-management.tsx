@@ -189,7 +189,7 @@ export function CourseManagement() {
     return (
         <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <h2 className="text-lg font-bold">训练营课程</h2>
+                <h2 className="text-lg font-bold">技能课程</h2>
                 <Dialog open={courseDialog} onOpenChange={setCourseDialog}>
                     <DialogTrigger asChild>
                         <Button

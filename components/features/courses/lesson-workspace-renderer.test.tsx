@@ -5,7 +5,13 @@ import { LessonWorkspaceRenderer } from './lesson-workspace-renderer'
 import type { CourseLessonRow } from '@/lib/courses/types'
 
 vi.mock('@/components/features/courses/scratch-workspace', () => ({
-  ScratchWorkspace: () => <div data-testid="scratch-workspace" />,
+  ScratchWorkspace: ({ blockHint }: { blockHint?: { keywords: string[] } | null }) => (
+    <div data-testid="scratch-workspace">
+      {blockHint?.keywords.map((keyword) => (
+        <span key={keyword}>{keyword}</span>
+      ))}
+    </div>
+  ),
 }))
 
 vi.mock('@/components/features/courses/building-3d-workspace', () => ({
@@ -53,6 +59,27 @@ describe('LessonWorkspaceRenderer', () => {
     renderWorkspace('scratch')
 
     expect(screen.getByTestId('scratch-workspace')).toBeInTheDocument()
+  })
+
+  it('passes Scratch block hints to the Scratch workspace', () => {
+    render(
+      <LessonWorkspaceRenderer
+        courseId={1}
+        lesson={{ ...baseLesson, lesson_type: 'scratch' }}
+        previewHref="/preview"
+        activeStepIndex={0}
+        scratchBlockHint={{
+          stepIndex: 0,
+          keywords: ['重复执行'],
+          reason: 'next_step',
+        }}
+        onStepChange={vi.fn()}
+        initialCompleted={false}
+        onCompleted={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByText('重复执行')).toBeInTheDocument()
   })
 
   it('renders 3D building workspace for building lessons', () => {

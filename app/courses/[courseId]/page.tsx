@@ -17,13 +17,13 @@ export async function generateMetadata({ params }: PageProps) {
     if (!course) {
         return buildPageMetadata({
             title: "课程未找到",
-            description: "训练营课程",
+            description: "技能课程",
             path: `/courses/${courseId}`,
         });
     }
     return buildPageMetadata({
         title: course.title,
-        description: course.description ?? "Scratch 少儿编程训练营",
+        description: course.description ?? "按课表系统学习的 STEAM 技能课程",
         path: `/courses/${courseId}`,
     });
 }

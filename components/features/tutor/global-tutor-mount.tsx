@@ -27,6 +27,7 @@ export function GlobalTutorMount() {
   const hideTutorOnMobile = pathname === '/nature/observations'
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
   const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex
+  const lessonStepIndex = tutorCtx?.override.lessonStepIndex
   const sessionInput = useMemo<TutorSessionQueryInput | null>(() => {
     if (!visible || !user?.id || !baseContext) return null
     return {
@@ -65,6 +66,7 @@ export function GlobalTutorMount() {
       onToggle={() => setOpen(!open)}
       context={baseContext}
       stageIndex={stageIndex}
+      lessonStepIndex={lessonStepIndex}
       stageTitle={tutorCtx?.override.stageTitle}
       subtitle={tutorCtx?.override.subtitle}
       quickPrompts={tutorCtx?.override.quickPrompts}

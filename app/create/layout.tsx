@@ -7,9 +7,9 @@ import { CreateProviderShell } from "./create-provider";
 
 export const metadata: Metadata = buildPageMetadata({
     title: "STEAM 创造营",
-    description: "参与 PBL 项目式挑战，动手创造科学、技术、工程、艺术、数学作品，在做中学，在创造中成长。",
+    description: "参与项目挑战，学习技能课程，动手创造科学、技术、工程、艺术、数学作品，在做中学，在创造中成长。",
     path: "/create",
-    keywords: ["PBL挑战", "STEAM创造", "项目式学习", "创客挑战"],
+    keywords: ["项目挑战", "技能课程", "STEAM创造", "项目式学习", "创客挑战"],
 });
 
 export default async function CreateLayout({ children }: { children: React.ReactNode }) {

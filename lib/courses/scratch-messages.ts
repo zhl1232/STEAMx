@@ -9,6 +9,8 @@ export type ScratchParentMessage =
   | { type: 'RUN_PLAYER_ONLY' }
   | { type: 'OPEN_TUTORIALS' }
   | { type: 'OPEN_TUTORIAL_DECK'; deckId: string }
+  | { type: 'HIGHLIGHT_BLOCK_KEYWORDS'; keywords: string[] }
+  | { type: 'DISMISS_BLOCK_KEYWORDS' }
 
 export type ScratchHostMessage =
   | { type: 'SCRATCH_READY'; source: typeof SCRATCH_MESSAGE_SOURCE }

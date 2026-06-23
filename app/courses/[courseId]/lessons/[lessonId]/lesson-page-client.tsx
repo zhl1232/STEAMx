@@ -6,10 +6,11 @@ import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
+import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
+import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,7 @@ export function LessonPageClient({
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
+    const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { registerToolHandler, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const steps = lesson.steps ?? [];
@@ -41,13 +43,20 @@ export function LessonPageClient({
     const isBuildingLesson = lessonWorkspace === "building_3d";
 
     const focusLessonStepFromTutorTool = useCallback((toolCall: TutorToolCall) => {
-        if (toolCall.name !== "course.focus_lesson_step") return;
+        if (toolCall.name !== "course.focus_lesson_step" && toolCall.name !== "course.highlight_scratch_blocks") return;
         if (toolCall.payload.lessonId !== lesson.id) return;
 
         const maxStepIndex = Math.max(steps.length - 1, 0);
         const targetIndex = Math.min(Math.max(toolCall.payload.stepIndex, 0), maxStepIndex);
         setActiveStep(targetIndex);
         setFocusedStep(targetIndex);
+        if (toolCall.name === "course.highlight_scratch_blocks") {
+            setScratchBlockHint({
+                stepIndex: targetIndex,
+                keywords: toolCall.payload.keywords.slice(0, 4),
+                reason: toolCall.payload.reason,
+            });
+        }
 
         if (focusTimerRef.current) clearTimeout(focusTimerRef.current);
         focusTimerRef.current = setTimeout(() => {
@@ -61,21 +70,33 @@ export function LessonPageClient({
     }, [focusLessonStepFromTutorTool, registerToolHandler]);
 
     useEffect(() => {
+        return registerToolHandler("course.highlight_scratch_blocks", focusLessonStepFromTutorTool);
+    }, [focusLessonStepFromTutorTool, registerToolHandler]);
+
+    useEffect(() => {
         setTutorOverride({
             subtitle: activeStepTitle ? `正在做「${activeStepTitle}」` : lesson.title,
+            lessonStepIndex: clampedActiveStep,
             quickPrompts: ["这一步怎么做？", "我卡住了", "下一步该做什么？"],
         });
 
         return () => {
             clearTutorOverride();
         };
-    }, [activeStepTitle, clearTutorOverride, lesson.title, setTutorOverride]);
+    }, [activeStepTitle, clampedActiveStep, clearTutorOverride, lesson.title, setTutorOverride]);
 
     useEffect(() => {
         return () => {
             if (focusTimerRef.current) clearTimeout(focusTimerRef.current);
         };
     }, []);
+
+    useEffect(() => {
+        setScratchBlockHint((current) => {
+            if (!current || current.stepIndex === clampedActiveStep) return current;
+            return null;
+        });
+    }, [clampedActiveStep]);
 
     return (
         <div
@@ -120,6 +141,8 @@ export function LessonPageClient({
                         lesson={lesson}
                         previewHref={previewHref}
                         activeStepIndex={clampedActiveStep}
+                        scratchBlockHint={scratchBlockHint}
+                        onDismissScratchBlockHint={() => setScratchBlockHint(null)}
                         onStepChange={setActiveStep}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}

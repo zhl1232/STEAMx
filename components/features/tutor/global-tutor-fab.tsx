@@ -91,6 +91,7 @@ type TutorPanelProps = {
   onToggle: () => void
   context: ResolvedTutorContext
   stageIndex?: number
+  lessonStepIndex?: number
   stageTitle?: string
   subtitle?: string
   quickPrompts?: string[]
@@ -115,6 +116,7 @@ export function GlobalTutorFab({
   onToggle,
   context,
   stageIndex,
+  lessonStepIndex,
   stageTitle,
   subtitle,
   quickPrompts = [],
@@ -332,6 +334,7 @@ export function GlobalTutorFab({
             images: images ?? [],
             stageIndex,
             lessonId: context.lessonId,
+            lessonStepIndex,
             surface: context.surface,
           }),
         })
@@ -438,6 +441,7 @@ export function GlobalTutorFab({
       context.lessonId,
       context.surface,
       stageIndex,
+      lessonStepIndex,
       promptLogin,
       queryClient,
       refreshQuota,

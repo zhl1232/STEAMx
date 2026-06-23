@@ -9,11 +9,11 @@ export function buildTutorSystemPrompt(input: {
 
   const sceneLabel: Record<TutorSceneContext['contextType'], string> = {
     global: '全站浏览',
-    challenge: 'PBL 挑战',
+    challenge: '项目挑战',
     project: '探索项目',
     observation: '自然观察',
     species: '物种档案',
-    course: 'Scratch 训练营',
+    course: '技能课程',
   }
 
   return [

@@ -2,7 +2,7 @@ import { act, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { LessonPageClient } from './lesson-page-client'
-import { TutorProvider, useTutorContext } from '@/components/features/tutor/tutor-context'
+import { TutorProvider, useTutorContext, type TutorContextOverride } from '@/components/features/tutor/tutor-context'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import type { CourseLessonRow } from '@/lib/courses/types'
 
@@ -11,8 +11,29 @@ vi.mock('@/components/layout/mobile-global-header', () => ({
 }))
 
 vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
-  LessonWorkspaceRenderer: ({ activeStepIndex }: { activeStepIndex: number }) => (
-    <div data-testid="lesson-workspace">workspace step {activeStepIndex + 1}</div>
+  LessonWorkspaceRenderer: ({
+    activeStepIndex,
+    scratchBlockHint,
+    onDismissScratchBlockHint,
+  }: {
+    activeStepIndex: number
+    scratchBlockHint?: { keywords: string[] } | null
+    onDismissScratchBlockHint?: () => void
+  }) => (
+    <div data-testid="lesson-workspace">
+      <p>workspace step {activeStepIndex + 1}</p>
+      {scratchBlockHint?.keywords.length ? (
+        <div>
+          <p>可以先找这些积木</p>
+          {scratchBlockHint.keywords.map((keyword) => (
+            <span key={keyword}>{keyword}</span>
+          ))}
+          <button type="button" onClick={onDismissScratchBlockHint}>
+            关闭积木提示
+          </button>
+        </div>
+      ) : null}
+    </div>
   ),
 }))
 
@@ -49,6 +70,16 @@ function TutorDispatchCapture({
 }) {
   const { dispatchToolCall } = useTutorContext()
   onReady(dispatchToolCall)
+  return null
+}
+
+function TutorOverrideCapture({
+  onChange,
+}: {
+  onChange: (override: TutorContextOverride) => void
+}) {
+  const { override } = useTutorContext()
+  onChange(override)
   return null
 }
 
@@ -95,5 +126,89 @@ describe('LessonPageClient', () => {
     } finally {
       Element.prototype.scrollIntoView = originalScrollIntoView
     }
+  })
+
+  it('keeps the tutor context aligned with the active lesson step', async () => {
+    let dispatchToolCall: ((toolCall: TutorToolCall) => Promise<boolean>) | null = null
+    const observedOverrides: TutorContextOverride[] = []
+
+    render(
+      <TutorProvider>
+        <TutorDispatchCapture onReady={(dispatch) => {
+          dispatchToolCall = dispatch
+        }} />
+        <TutorOverrideCapture onChange={(override) => {
+          observedOverrides.push(override)
+        }} />
+        <LessonPageClient
+          courseId={7}
+          courseTitle="工程课"
+          lesson={lesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    expect(observedOverrides.at(-1)).toMatchObject({
+      lessonStepIndex: 0,
+      subtitle: '正在做「准备零件」',
+    })
+
+    await act(async () => {
+      await dispatchToolCall?.({
+        name: 'course.focus_lesson_step',
+        payload: {
+          lessonId: 42,
+          stepIndex: 1,
+          reason: 'next_step',
+        },
+      })
+    })
+
+    expect(observedOverrides.at(-1)).toMatchObject({
+      lessonStepIndex: 1,
+      subtitle: '正在做「装上车轮」',
+    })
+  })
+
+  it('shows Scratch block hints from tutor tool calls', async () => {
+    let dispatchToolCall: ((toolCall: TutorToolCall) => Promise<boolean>) | null = null
+
+    render(
+      <TutorProvider>
+        <TutorDispatchCapture onReady={(dispatch) => {
+          dispatchToolCall = dispatch
+        }} />
+        <LessonPageClient
+          courseId={7}
+          courseTitle="工程课"
+          lesson={lesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    await act(async () => {
+      await dispatchToolCall?.({
+        name: 'course.highlight_scratch_blocks',
+        payload: {
+          lessonId: 42,
+          stepIndex: 1,
+          keywords: ['重复执行', '外观'],
+          reason: 'next_step',
+        },
+      })
+    })
+
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(screen.getByText('可以先找这些积木')).toBeInTheDocument()
+    expect(screen.getByText('重复执行')).toBeInTheDocument()
+    expect(screen.getByText('外观')).toBeInTheDocument()
+
+    await act(async () => {
+      screen.getByRole('button', { name: '关闭积木提示' }).click()
+    })
+
+    expect(screen.queryByText('重复执行')).not.toBeInTheDocument()
   })
 })

@@ -9,6 +9,8 @@ export type TutorContextOverride = {
   stageIndex?: number
   /** PBL：当前阶段标题，用于「带我开始这一步」等提示词 */
   stageTitle?: string
+  /** 技能课程：当前课时步骤，用于小迪聚焦当前步骤 */
+  lessonStepIndex?: number
   quickPrompts?: string[]
   /** PBL：获取当前阶段产出用于「请导师看看」 */
   getReviewPayload?: () => { text: string; images: string[] } | null

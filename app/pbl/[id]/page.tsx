@@ -184,7 +184,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
         className="-ml-2 mb-6 hidden rounded-full px-2 text-sm hover:bg-transparent md:inline-flex"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
-        返回创造
+        返回创造营
       </Button>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.5fr)_320px] lg:gap-6">

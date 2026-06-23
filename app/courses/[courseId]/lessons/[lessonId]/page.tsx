@@ -17,13 +17,13 @@ export async function generateMetadata({ params }: PageProps) {
     if (!lesson) {
         return buildPageMetadata({
             title: "课时",
-            description: "Scratch 训练营",
+            description: "技能课程",
             path: `/courses/${courseId}/lessons/${lessonId}`,
         });
     }
     return buildPageMetadata({
-        title: `${lesson.title} · ${course?.title ?? "训练营"}`,
-        description: course?.description ?? "Scratch 课时学习",
+        title: `${lesson.title} · ${course?.title ?? "技能课程"}`,
+        description: course?.description ?? "技能课程课时学习",
         path: `/courses/${courseId}/lessons/${lessonId}`,
     });
 }

@@ -8,6 +8,7 @@ import {
 } from '@/lib/ai/tutor/audio-tags'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
+import { buildScratchBlockHintKeywords } from '@/lib/courses/scratch-hints'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -36,6 +37,7 @@ export async function buildTutorSceneContext(
   options?: {
     stageIndex?: number
     lessonId?: number
+    lessonStepIndex?: number
     surface?: TutorGlobalSurface
     includeRecommendations?: boolean
   },
@@ -50,7 +52,7 @@ export async function buildTutorSceneContext(
     case 'species':
       return buildSpeciesContext(supabase, contextId)
     case 'course':
-      return buildCourseContext(supabase, userId, contextId, options?.lessonId)
+      return buildCourseContext(supabase, userId, contextId, options?.lessonId, options?.lessonStepIndex)
     default:
       return buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
   }
@@ -71,12 +73,12 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
     summary: '学生正在逛自然观察频道（鸟类、昆虫、植物等专题），可以引导他开始或继续一次自然观察。',
   },
   create: {
-    title: '挑战与训练营',
-    summary: '学生正在创造营浏览 PBL 挑战和 Scratch 训练营，可以帮他挑一个合适的开始。',
+    title: '项目挑战与技能课程',
+    summary: '学生正在创造营浏览项目挑战和技能课程，可以帮他挑一个合适的开始。',
   },
   courses: {
-    title: 'Scratch 训练营',
-    summary: '学生正在看 Scratch 训练营课程列表，可能想学编程做游戏和动画。',
+    title: '技能课程',
+    summary: '学生正在看技能课程列表，可能想学编程、搭建或其他 STEAM 技能。',
   },
   community: {
     title: '逛社区',
@@ -160,7 +162,7 @@ async function buildChallengeContext(
 ): Promise<TutorSceneContext> {
   const challengeId = Number.parseInt(contextId, 10)
   if (Number.isNaN(challengeId)) {
-    return { contextType: 'challenge', contextId, title: 'PBL 挑战', summary: '' }
+    return { contextType: 'challenge', contextId, title: '项目挑战', summary: '' }
   }
 
   const { data: challenge } = await supabase
@@ -170,7 +172,7 @@ async function buildChallengeContext(
     .maybeSingle()
 
   if (!challenge) {
-    return { contextType: 'challenge', contextId, title: 'PBL 挑战', summary: '挑战不存在或已下架。' }
+    return { contextType: 'challenge', contextId, title: '项目挑战', summary: '挑战不存在或已下架。' }
   }
 
   const stages = (Array.isArray(challenge.stages) ? challenge.stages : []) as unknown as ChallengeStage[]
@@ -484,10 +486,11 @@ async function buildCourseContext(
   userId: string,
   contextId: string,
   lessonId?: number,
+  lessonStepIndex?: number,
 ): Promise<TutorSceneContext> {
   const courseId = Number.parseInt(contextId, 10)
   if (Number.isNaN(courseId)) {
-    return { contextType: 'course', contextId, title: '训练营', summary: '' }
+    return { contextType: 'course', contextId, title: '技能课程', summary: '' }
   }
 
   const [{ data: course }, { data: lessons }, { data: progress }, currentLessonResult] = await Promise.all([
@@ -529,9 +532,19 @@ async function buildCourseContext(
     | { id: number; title: string; content: LessonContent | null; steps: unknown }
     | null
   let currentLessonText = ''
+  let scratchBlockKeywords: string[] = []
   if (currentLesson) {
     const lessonContent = (currentLesson.content ?? {}) as LessonContent
     const steps = (Array.isArray(currentLesson.steps) ? currentLesson.steps : []) as CourseLessonStep[]
+    const currentStep =
+      typeof lessonStepIndex === 'number' && steps[lessonStepIndex]
+        ? steps[lessonStepIndex]
+        : null
+    const currentStepNumber = typeof lessonStepIndex === 'number' ? lessonStepIndex + 1 : null
+    scratchBlockKeywords = buildScratchBlockHintKeywords({
+      step: currentStep,
+      lessonContent,
+    })
     const stepLines = steps
       .slice(0, 8)
       .map((step, i) => `第${i + 1}步「${compact(step.title, 40)}」：${compact(step.description, 120)}`)
@@ -540,6 +553,9 @@ async function buildCourseContext(
       `当前课时：${compact(currentLesson.title, 80)}`,
       typeof lessonContent.summary === 'string' && lessonContent.summary
         ? `课时目标：${compact(lessonContent.summary, 200)}`
+        : '',
+      currentStep && currentStepNumber != null
+        ? `学生当前停在第${currentStepNumber}步「${compact(currentStep.title, 40)}」。他问下一步或卡住时，优先围绕这一当前步骤，不要跳回第1步。`
         : '',
     stepLines ? `课时步骤（编号和标题必须照抄）：\n${stepLines}` : '',
     ]
@@ -553,7 +569,7 @@ async function buildCourseContext(
     currentLessonText,
     lessonLines ? `进度：\n${lessonLines}` : '',
     compactLines([
-      '【学生页面上有】训练营课表和学习进度。',
+      '【学生页面上有】技能课程课表和学习进度。',
       currentLesson
         ? `当前课时页面还有 Scratch 工作区和课时步骤；${buildStepReferenceInstruction('课时步骤')}讲操作时让学生对照页面里的步骤标题和编辑器。`
         : null,
@@ -565,7 +581,8 @@ async function buildCourseContext(
   return {
     contextType: 'course',
     contextId,
-    title: currentLesson?.title ?? course?.title ?? '训练营',
+    title: currentLesson?.title ?? course?.title ?? '技能课程',
     summary,
+    scratchBlockKeywords,
   }
 }

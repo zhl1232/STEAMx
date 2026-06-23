@@ -7,7 +7,10 @@ import {
     Building3DWorkspace,
     UnsupportedLessonWorkspace,
 } from "@/components/features/courses/building-3d-workspace";
-import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
+import {
+    ScratchWorkspace,
+    type ScratchWorkspaceBlockHint,
+} from "@/components/features/courses/scratch-workspace";
 import { Button } from "@/components/ui/button";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import { canUseScratchEditor } from "@/lib/courses/device";
@@ -18,6 +21,8 @@ export function LessonWorkspaceRenderer({
     lesson,
     previewHref,
     activeStepIndex,
+    scratchBlockHint,
+    onDismissScratchBlockHint,
     onStepChange,
     initialCompleted,
     onCompleted,
@@ -26,6 +31,8 @@ export function LessonWorkspaceRenderer({
     lesson: CourseLessonRow;
     previewHref: string;
     activeStepIndex: number;
+    scratchBlockHint?: ScratchWorkspaceBlockHint | null;
+    onDismissScratchBlockHint?: () => void;
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
     onCompleted: () => void;
@@ -58,6 +65,8 @@ export function LessonWorkspaceRenderer({
                             : undefined
                     }
                     initialCompleted={initialCompleted}
+                    blockHint={scratchBlockHint}
+                    onDismissBlockHint={onDismissScratchBlockHint}
                     onCompleted={onCompleted}
                 />
             </>

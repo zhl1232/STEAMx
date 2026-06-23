@@ -198,7 +198,7 @@ function buildTodoSteps(input: BuildWeeklyPlanInput): WeeklyPlanStep[] {
       subtitle: `继续《${input.inProgressPbl.challenge.title}》 · 已完成 ${input.inProgressPbl.completedStages}/${input.inProgressPbl.totalStages} 步`,
       href: `/pbl/${input.inProgressPbl.challenge.id}`,
       actionLabel: '继续挑战',
-      badgeLabel: 'PBL',
+      badgeLabel: '项目挑战',
     })
   }
 
@@ -229,7 +229,7 @@ function buildTodoSteps(input: BuildWeeklyPlanInput): WeeklyPlanStep[] {
       subtitle: `继续《${input.inProgressCourse.courseTitle}》 · 已完成 ${input.inProgressCourse.completedLessons}/${input.inProgressCourse.totalLessons} 课`,
       href: `/courses/${input.inProgressCourse.courseId}/lessons/${input.inProgressCourse.lessonId}`,
       actionLabel: '继续课程',
-      badgeLabel: '训练营',
+      badgeLabel: '技能课程',
     })
   }
 

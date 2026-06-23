@@ -71,6 +71,8 @@ describe('buildTutorToolCalls', () => {
       buildTutorToolCalls({
         contextType: 'course',
         lessonId: 42,
+        lessonStepIndex: 1,
+        scratchBlockKeywords: ['重复执行', '外观'],
         content: '我卡住了，这一步不知道怎么做',
       }),
     ).toEqual([
@@ -78,7 +80,16 @@ describe('buildTutorToolCalls', () => {
         name: 'course.focus_lesson_step',
         payload: {
           lessonId: 42,
-          stepIndex: 0,
+          stepIndex: 1,
+          reason: 'stuck',
+        },
+      },
+      {
+        name: 'course.highlight_scratch_blocks',
+        payload: {
+          lessonId: 42,
+          stepIndex: 1,
+          keywords: ['重复执行', '外观'],
           reason: 'stuck',
         },
       },
