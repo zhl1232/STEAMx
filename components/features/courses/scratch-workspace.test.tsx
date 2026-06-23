@@ -42,6 +42,7 @@ describe('ScratchWorkspace', () => {
         blockHint={{
           stepIndex: 0,
           keywords: ['重复执行', '播放声音'],
+          category: 'control',
           reason: 'next_step',
         }}
       />,
@@ -53,6 +54,7 @@ describe('ScratchWorkspace', () => {
         source: 'steam-scratch-parent',
         type: 'HIGHLIGHT_BLOCK_KEYWORDS',
         keywords: ['重复执行', '播放声音'],
+        category: 'control',
       },
       window.location.origin,
     )

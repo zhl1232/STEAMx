@@ -195,6 +195,7 @@ describe('LessonPageClient', () => {
           lessonId: 42,
           stepIndex: 1,
           keywords: ['重复执行', '外观'],
+          category: 'control',
           reason: 'next_step',
         },
       })

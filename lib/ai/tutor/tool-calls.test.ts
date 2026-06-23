@@ -73,6 +73,7 @@ describe('buildTutorToolCalls', () => {
         lessonId: 42,
         lessonStepIndex: 1,
         scratchBlockKeywords: ['重复执行', '外观'],
+        scratchBlockCategory: 'control',
         content: '我卡住了，这一步不知道怎么做',
       }),
     ).toEqual([
@@ -90,6 +91,7 @@ describe('buildTutorToolCalls', () => {
           lessonId: 42,
           stepIndex: 1,
           keywords: ['重复执行', '外观'],
+          category: 'control',
           reason: 'stuck',
         },
       },

@@ -5,6 +5,18 @@ import { attachVmHooks } from './vm-hooks.js'
 
 const SOURCE = 'steam-scratch-host'
 const PARENT_SOURCE = 'steam-scratch-parent'
+const CATEGORY_LABELS = {
+  motion: '运动',
+  looks: '外观',
+  sound: '声音',
+  events: '事件',
+  control: '控制',
+  sensing: '侦测',
+  operators: '运算',
+  data: '变量',
+  myBlocks: '自制积木',
+}
+const CATEGORY_IDS = new Set(Object.keys(CATEGORY_LABELS))
 
 let vmRef = null
 let playerOnly = false
@@ -24,6 +36,10 @@ function postToParent(message) {
   window.parent.postMessage({ ...message, source: SOURCE }, window.location.origin)
 }
 
+function normalizeCategory(category) {
+  return typeof category === 'string' && CATEGORY_IDS.has(category) ? category : null
+}
+
 function getBlockHintOverlay() {
   let overlay = document.getElementById('scratch-block-hint-overlay')
   if (overlay) return overlay
@@ -33,6 +49,7 @@ function getBlockHintOverlay() {
   overlay.setAttribute('role', 'status')
   overlay.innerHTML = [
     '<div class="scratch-block-hint-title">可以先找这些积木</div>',
+    '<div class="scratch-block-hint-category"></div>',
     '<div class="scratch-block-hint-keywords"></div>',
     '<button type="button" class="scratch-block-hint-close" aria-label="关闭积木提示">×</button>',
   ].join('')
@@ -51,7 +68,49 @@ function hideBlockHintOverlay() {
   document.getElementById('scratch-block-hint-overlay')?.remove()
 }
 
-function showBlockHintOverlay(keywords) {
+function findScratchWorkspace() {
+  const scratchBlocks = window.ScratchBlocks
+  if (scratchBlocks && typeof scratchBlocks.getMainWorkspace === 'function') {
+    const workspace = scratchBlocks.getMainWorkspace()
+    if (workspace?.toolbox_) return workspace
+  }
+  return null
+}
+
+function selectScratchCategory(category) {
+  const categoryId = normalizeCategory(category)
+  if (!categoryId) return false
+
+  const workspace = findScratchWorkspace()
+  if (workspace?.toolbox_) {
+    try {
+      if (typeof workspace.toolbox_.setSelectedCategoryById === 'function') {
+        workspace.toolbox_.setSelectedCategoryById(categoryId)
+        return true
+      }
+      if (typeof workspace.toolbox_.scrollToCategoryById === 'function') {
+        workspace.toolbox_.scrollToCategoryById(categoryId)
+        return true
+      }
+    } catch (err) {
+      console.warn('[scratch-host] category API selection failed:', err)
+    }
+  }
+
+  const selector = [
+    `[data-id="${categoryId}"]`,
+    `[data-category="${categoryId}"]`,
+    `[id="${categoryId}"]`,
+  ].join(',')
+  const element = document.querySelector(selector)
+  if (element instanceof HTMLElement) {
+    element.click()
+    return true
+  }
+  return false
+}
+
+function showBlockHintOverlay(keywords, category) {
   const safeKeywords = Array.isArray(keywords)
     ? keywords
         .map((keyword) => (typeof keyword === 'string' ? keyword.trim() : ''))
@@ -63,7 +122,16 @@ function showBlockHintOverlay(keywords) {
     return
   }
 
+  const categoryId = normalizeCategory(category)
+  const categorySelected = selectScratchCategory(categoryId)
   const overlay = getBlockHintOverlay()
+  const categoryEl = overlay.querySelector('.scratch-block-hint-category')
+  if (categoryEl) {
+    categoryEl.textContent = categoryId
+      ? `已尝试打开「${CATEGORY_LABELS[categoryId]}」分类`
+      : ''
+    categoryEl.toggleAttribute('hidden', !categoryId)
+  }
   const keywordContainer = overlay.querySelector('.scratch-block-hint-keywords')
   if (keywordContainer) {
     keywordContainer.replaceChildren(
@@ -75,7 +143,11 @@ function showBlockHintOverlay(keywords) {
       }),
     )
   }
-  setStatus(`提示：${safeKeywords.join('、')}`)
+  setStatus(
+    categoryId && categorySelected
+      ? `已打开${CATEGORY_LABELS[categoryId]}分类`
+      : `提示：${safeKeywords.join('、')}`,
+  )
 
   if (blockHintDismissTimer) clearTimeout(blockHintDismissTimer)
   blockHintDismissTimer = setTimeout(() => {
@@ -386,7 +458,7 @@ export function initHostMessageListener() {
         }
         break
       case 'HIGHLIGHT_BLOCK_KEYWORDS':
-        showBlockHintOverlay(data.keywords)
+        showBlockHintOverlay(data.keywords, data.category)
         break
       case 'DISMISS_BLOCK_KEYWORDS':
         hideBlockHintOverlay()

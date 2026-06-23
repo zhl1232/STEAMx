@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildScratchBlockHintKeywords } from '@/lib/courses/scratch-hints'
+import { buildScratchBlockHintKeywords, resolveScratchBlockCategory } from '@/lib/courses/scratch-hints'
 
 describe('buildScratchBlockHintKeywords', () => {
   it('extracts Scratch block keywords from the current lesson step', () => {
@@ -32,5 +32,12 @@ describe('buildScratchBlockHintKeywords', () => {
         },
       }),
     ).toEqual(['重复执行', '当绿旗被点击'])
+  })
+
+  it('resolves the first matching Scratch category from keywords', () => {
+    expect(resolveScratchBlockCategory(['重复执行', '播放声音'])).toBe('control')
+    expect(resolveScratchBlockCategory(['播放声音'])).toBe('sound')
+    expect(resolveScratchBlockCategory(['切换背景'])).toBe('looks')
+    expect(resolveScratchBlockCategory(['没有映射的词'])).toBeUndefined()
   })
 })
