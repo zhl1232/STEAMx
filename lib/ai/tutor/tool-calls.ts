@@ -1,4 +1,5 @@
 import type { TutorContextType } from '@/lib/ai/tutor/types'
+import type { ScratchBlockCategory } from '@/lib/courses/scratch-hints'
 
 export const TUTOR_TOOL_NAMES = [
   'pbl.focus_current_stage',
@@ -23,6 +24,7 @@ export type CourseHighlightScratchBlocksToolPayload = {
   lessonId: number
   stepIndex: number
   keywords: string[]
+  category?: ScratchBlockCategory
   reason: 'stuck' | 'next_step' | 'review'
 }
 
@@ -46,6 +48,7 @@ type BuildTutorToolCallsInput = {
   lessonId?: number
   lessonStepIndex?: number
   scratchBlockKeywords?: string[]
+  scratchBlockCategory?: ScratchBlockCategory
   content: string
 }
 
@@ -104,6 +107,7 @@ export function buildTutorToolCalls(input: BuildTutorToolCallsInput): TutorToolC
           lessonId: input.lessonId,
           stepIndex,
           keywords,
+          category: input.scratchBlockCategory,
           reason,
         },
       })

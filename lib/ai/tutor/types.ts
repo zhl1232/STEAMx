@@ -1,3 +1,5 @@
+import type { ScratchBlockCategory } from '@/lib/courses/scratch-hints'
+
 export const TUTOR_CONTEXT_TYPES = ['global', 'challenge', 'project', 'observation', 'course', 'species'] as const
 export type TutorContextType = (typeof TUTOR_CONTEXT_TYPES)[number]
 
@@ -37,6 +39,8 @@ export type TutorSceneContext = {
   suggestedImages?: string[]
   /** Scratch 课时：当前步骤可受控高亮提示的积木关键词 */
   scratchBlockKeywords?: string[]
+  /** Scratch 课时：可优先打开的积木分类 */
+  scratchBlockCategory?: ScratchBlockCategory
   /** 当前场景可插入对话的鸟鸣音频 */
   availableAudios?: TutorAudioRef[]
   /** 仅 global 场景：当前页面标识 */

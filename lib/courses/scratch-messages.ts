@@ -1,3 +1,5 @@
+import type { ScratchBlockCategory } from '@/lib/courses/scratch-hints'
+
 export const SCRATCH_MESSAGE_SOURCE = 'steam-scratch-host' as const
 export const SCRATCH_PARENT_SOURCE = 'steam-scratch-parent' as const
 
@@ -9,7 +11,7 @@ export type ScratchParentMessage =
   | { type: 'RUN_PLAYER_ONLY' }
   | { type: 'OPEN_TUTORIALS' }
   | { type: 'OPEN_TUTORIAL_DECK'; deckId: string }
-  | { type: 'HIGHLIGHT_BLOCK_KEYWORDS'; keywords: string[] }
+  | { type: 'HIGHLIGHT_BLOCK_KEYWORDS'; keywords: string[]; category?: ScratchBlockCategory }
   | { type: 'DISMISS_BLOCK_KEYWORDS' }
 
 export type ScratchHostMessage =

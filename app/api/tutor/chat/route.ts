@@ -417,6 +417,7 @@ export async function POST(request: NextRequest) {
       lessonId,
       lessonStepIndex,
       scratchBlockKeywords: scene.scratchBlockKeywords,
+      scratchBlockCategory: scene.scratchBlockCategory,
       content,
     })
 

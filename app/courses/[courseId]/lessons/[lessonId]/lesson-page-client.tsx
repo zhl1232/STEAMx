@@ -54,6 +54,7 @@ export function LessonPageClient({
             setScratchBlockHint({
                 stepIndex: targetIndex,
                 keywords: toolCall.payload.keywords.slice(0, 4),
+                category: toolCall.payload.category,
                 reason: toolCall.payload.reason,
             });
         }

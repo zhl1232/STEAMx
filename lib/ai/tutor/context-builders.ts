@@ -8,7 +8,7 @@ import {
 } from '@/lib/ai/tutor/audio-tags'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
-import { buildScratchBlockHintKeywords } from '@/lib/courses/scratch-hints'
+import { buildScratchBlockHintKeywords, resolveScratchBlockCategory } from '@/lib/courses/scratch-hints'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -533,6 +533,7 @@ async function buildCourseContext(
     | null
   let currentLessonText = ''
   let scratchBlockKeywords: string[] = []
+  let scratchBlockCategory: ReturnType<typeof resolveScratchBlockCategory> = undefined
   if (currentLesson) {
     const lessonContent = (currentLesson.content ?? {}) as LessonContent
     const steps = (Array.isArray(currentLesson.steps) ? currentLesson.steps : []) as CourseLessonStep[]
@@ -545,6 +546,7 @@ async function buildCourseContext(
       step: currentStep,
       lessonContent,
     })
+    scratchBlockCategory = resolveScratchBlockCategory(scratchBlockKeywords)
     const stepLines = steps
       .slice(0, 8)
       .map((step, i) => `第${i + 1}步「${compact(step.title, 40)}」：${compact(step.description, 120)}`)
@@ -584,5 +586,6 @@ async function buildCourseContext(
     title: currentLesson?.title ?? course?.title ?? '技能课程',
     summary,
     scratchBlockKeywords,
+    scratchBlockCategory,
   }
 }

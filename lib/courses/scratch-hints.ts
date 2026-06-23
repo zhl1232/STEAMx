@@ -1,11 +1,22 @@
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 
 export type ScratchBlockHintReason = 'stuck' | 'next_step' | 'review'
+export type ScratchBlockCategory =
+  | 'motion'
+  | 'looks'
+  | 'sound'
+  | 'events'
+  | 'control'
+  | 'sensing'
+  | 'operators'
+  | 'data'
+  | 'myBlocks'
 
 export type ScratchBlockHint = {
   stepIndex: number
   keywords: string[]
   reason: ScratchBlockHintReason
+  category?: ScratchBlockCategory
 }
 
 const SCRATCH_BLOCK_KEYWORDS = [
@@ -43,6 +54,42 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '画笔',
 ]
 
+const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
+  ['当绿旗被点击', 'events'],
+  ['当角色被点击', 'events'],
+  ['当按下', 'events'],
+  ['广播消息', 'events'],
+  ['广播', 'events'],
+  ['收到消息', 'events'],
+  ['重复执行', 'control'],
+  ['重复', 'control'],
+  ['如果', 'control'],
+  ['否则', 'control'],
+  ['等待', 'control'],
+  ['克隆', 'control'],
+  ['移动', 'motion'],
+  ['转动', 'motion'],
+  ['面向', 'motion'],
+  ['碰到边缘就反弹', 'motion'],
+  ['方向键', 'motion'],
+  ['鼠标指针', 'motion'],
+  ['切换背景', 'looks'],
+  ['下一个背景', 'looks'],
+  ['切换造型', 'looks'],
+  ['下一个造型', 'looks'],
+  ['说', 'looks'],
+  ['外观', 'looks'],
+  ['播放声音', 'sound'],
+  ['声音', 'sound'],
+  ['碰到颜色', 'sensing'],
+  ['碰到', 'sensing'],
+  ['计时器', 'sensing'],
+  ['随机数', 'operators'],
+  ['变量', 'data'],
+  ['分数', 'data'],
+  ['画笔', 'myBlocks'],
+]
+
 function addKeyword(keywords: string[], keyword: string) {
   if (!keyword || keywords.includes(keyword)) return
   keywords.push(keyword)
@@ -76,4 +123,15 @@ export function buildScratchBlockHintKeywords(input: {
   }
 
   return keywords
+}
+
+export function resolveScratchBlockCategory(keywords: string[]): ScratchBlockCategory | undefined {
+  for (const keyword of keywords) {
+    const normalized = keyword.trim()
+    if (!normalized) continue
+    for (const [pattern, category] of KEYWORD_CATEGORY_ENTRIES) {
+      if (normalized.includes(pattern) || pattern.includes(normalized)) return category
+    }
+  }
+  return undefined
 }

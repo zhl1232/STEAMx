@@ -11,6 +11,7 @@ import {
     SCRATCH_PARENT_SOURCE,
     isScratchHostMessage,
 } from "@/lib/courses/scratch-messages";
+import type { ScratchBlockCategory } from "@/lib/courses/scratch-hints";
 import { canUseScratchEditor } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
 import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
@@ -18,6 +19,7 @@ import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
 export type ScratchWorkspaceBlockHint = {
     stepIndex: number;
     keywords: string[];
+    category?: ScratchBlockCategory;
     reason: "stuck" | "next_step" | "review";
 };
 
@@ -360,6 +362,7 @@ export function ScratchWorkspace({
         postToIframe({
             type: "HIGHLIGHT_BLOCK_KEYWORDS",
             keywords: blockHint.keywords,
+            category: blockHint.category,
         });
     }, [blockHint, playerOnly, postToIframe]);
 
