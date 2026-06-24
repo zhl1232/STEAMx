@@ -1,10 +1,11 @@
 'use client'
 
-import { memo, useMemo, type ReactNode } from 'react'
+import { Children, Fragment, memo, useMemo, type ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
+import { ScratchRichText } from '@/components/features/courses/lesson-rich-text'
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
 import { resolveAssetDisplayUrl } from '@/lib/utils/asset-url'
 
@@ -69,9 +70,20 @@ function TutorAudioPlayer({ path, label }: { path: string; label: string }) {
   )
 }
 
+function renderScratchInline(children: ReactNode): ReactNode {
+  return Children.toArray(children).flatMap((child, index) => {
+    if (typeof child === 'string') return [<ScratchRichText key={`scratch-${index}`} text={child} />]
+    return [<Fragment key={`node-${index}`}>{child}</Fragment>]
+  })
+}
+
 function TutorMarkdownBlock({ content }: { content: string }) {
   const normalized = useMemo(
-    () => content.replace(PROJECT_TAG_REGEX, (_match, id: string, title: string) => `[${title}](/project/${id})`),
+    () =>
+      content.replace(
+        PROJECT_TAG_REGEX,
+        (_match, id: string, title: string) => `[${title}](/project/${id})`,
+      ),
     [content],
   )
 
@@ -82,11 +94,13 @@ function TutorMarkdownBlock({ content }: { content: string }) {
       allowedElements={ALLOWED_ELEMENTS}
       unwrapDisallowed
       components={{
-        p: ({ children }) => <p className="my-0">{children}</p>,
+        p: ({ children }) => <p className="my-0">{renderScratchInline(children)}</p>,
+        strong: ({ children }) => <strong>{renderScratchInline(children)}</strong>,
+        em: ({ children }) => <em>{renderScratchInline(children)}</em>,
         ul: ({ children }) => <ul className="my-0 list-disc space-y-0.5 pl-4">{children}</ul>,
         ol: ({ children }) => <ol className="my-0 list-decimal space-y-0.5 pl-4">{children}</ol>,
-        li: ({ children }) => <li className="my-0">{children}</li>,
-        a: ({ href, children }) => <MarkdownLink href={href}>{children}</MarkdownLink>,
+        li: ({ children }) => <li className="my-0">{renderScratchInline(children)}</li>,
+        a: ({ href, children }) => <MarkdownLink href={href}>{renderScratchInline(children)}</MarkdownLink>,
       }}
     >
       {normalized}

@@ -10,8 +10,13 @@ import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import {
     SCRATCH_PARENT_SOURCE,
     isScratchHostMessage,
+    type ScratchEditorContext,
 } from "@/lib/courses/scratch-messages";
-import type { ScratchBlockCategory } from "@/lib/courses/scratch-hints";
+import {
+    getScratchRichTextCategoryLabel,
+    type ScratchBlockCategory,
+    type ScratchBlockHintItem,
+} from "@/lib/courses/scratch-hints";
 import { canUseScratchEditor } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
 import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
@@ -19,6 +24,7 @@ import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
 export type ScratchWorkspaceBlockHint = {
     stepIndex: number;
     keywords: string[];
+    items?: ScratchBlockHintItem[];
     category?: ScratchBlockCategory;
     reason: "stuck" | "next_step" | "review";
 };
@@ -32,6 +38,20 @@ function getScratchHostUrl(playerOnly: boolean): string {
     if (playerOnly) url.searchParams.set("playerOnly", "1");
     else url.searchParams.set("embed", "1");
     return url.toString();
+}
+
+function getBlockHintReasonLabel(reason: ScratchWorkspaceBlockHint["reason"]) {
+    if (reason === "review") return "检查这一步"
+    if (reason === "stuck") return "先补这一步"
+    return "继续做这一步"
+}
+
+function getBlockHintItems(blockHint: ScratchWorkspaceBlockHint): ScratchBlockHintItem[] {
+    if (blockHint.items?.length) return blockHint.items
+    return blockHint.keywords.map((keyword) => ({
+        label: keyword,
+        findLabel: keyword,
+    }))
 }
 
 async function uploadSb3ToLesson(
@@ -67,6 +87,7 @@ export function ScratchWorkspace({
     initialCompleted = false,
     blockHint,
     onDismissBlockHint,
+    onEditorContextChange,
     onProjectSaved,
     onCompleted,
 }: {
@@ -77,6 +98,7 @@ export function ScratchWorkspace({
     initialCompleted?: boolean;
     blockHint?: ScratchWorkspaceBlockHint | null;
     onDismissBlockHint?: () => void;
+    onEditorContextChange?: (context: ScratchEditorContext) => void;
     onProjectSaved?: () => void;
     onCompleted?: () => void;
 }) {
@@ -233,6 +255,9 @@ export function ScratchWorkspace({
                 const ok = await persistBase64(msg.base64);
                 finishPendingSave(ok);
             }
+            if (msg.type === "EDITOR_CONTEXT" && !playerOnly) {
+                onEditorContextChange?.(msg.context);
+            }
         };
         window.addEventListener("message", onMessage);
         return () => window.removeEventListener("message", onMessage);
@@ -245,6 +270,7 @@ export function ScratchWorkspace({
         playerOnly,
         postToIframe,
         promptLogin,
+        onEditorContextChange,
         toast,
         user,
     ]);
@@ -362,6 +388,7 @@ export function ScratchWorkspace({
         postToIframe({
             type: "HIGHLIGHT_BLOCK_KEYWORDS",
             keywords: blockHint.keywords,
+            items: blockHint.items,
             category: blockHint.category,
         });
     }, [blockHint, playerOnly, postToIframe]);
@@ -396,6 +423,7 @@ export function ScratchWorkspace({
     }
 
     const busy = saving || completing;
+    const blockHintItems = blockHint ? getBlockHintItems(blockHint) : [];
 
     return (
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -476,19 +504,46 @@ export function ScratchWorkspace({
                         )}
                     </div>
                     {blockHint?.keywords.length ? (
-                        <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-[hsl(var(--brand-amber)/0.28)] bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2 text-xs">
-                            <span className="font-semibold text-foreground">
-                                可以先找这些积木
-                            </span>
-                            <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                                {blockHint.keywords.map((keyword) => (
-                                    <span
-                                        key={keyword}
-                                        className="rounded-[var(--radius-xs)] border border-[hsl(var(--brand-amber)/0.35)] bg-background/85 px-2 py-0.5 font-medium text-[hsl(var(--brand-amber))]"
-                                    >
-                                        {keyword}
+                        <div className="flex shrink-0 items-start gap-2 border-b border-[hsl(var(--brand-amber)/0.28)] bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2 text-xs">
+                            <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                    <span className="font-semibold text-foreground">
+                                        第 {blockHint.stepIndex + 1} 步要用到
                                     </span>
-                                ))}
+                                    <span className="text-muted-foreground">
+                                        {getBlockHintReasonLabel(blockHint.reason)}
+                                        {blockHint.category
+                                            ? ` · 已帮你打开${getScratchRichTextCategoryLabel(blockHint.category) ?? "对应"}分类`
+                                            : " · 先找积木，再改文字或数字"}
+                                    </span>
+                                </div>
+                                <ol className="mt-1.5 grid min-w-0 gap-1.5 sm:grid-cols-2">
+                                    {blockHintItems.map((item, index) => (
+                                        <li
+                                            key={`${item.findLabel}-${item.editHint ?? ""}-${index}`}
+                                            className="rounded-[var(--radius-sm)] border border-[hsl(var(--brand-amber)/0.24)] bg-background/92 px-2.5 py-1.5"
+                                        >
+                                            <div className="flex min-w-0 items-center gap-1.5">
+                                                <span className="shrink-0 rounded-full bg-[hsl(var(--brand-amber)/0.16)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
+                                                    找
+                                                </span>
+                                                <span className="min-w-0 truncate font-semibold text-foreground">
+                                                    {item.findLabel}
+                                                </span>
+                                            </div>
+                                            {item.findHint ? (
+                                                <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
+                                                    {item.findHint}
+                                                </p>
+                                            ) : null}
+                                            {item.editHint ? (
+                                                <p className="mt-1 text-[11px] font-medium leading-snug text-[hsl(var(--brand-blue))]">
+                                                    拖出来后：{item.editHint}
+                                                </p>
+                                            ) : null}
+                                        </li>
+                                    ))}
+                                </ol>
                             </div>
                             {onDismissBlockHint ? (
                                 <Button

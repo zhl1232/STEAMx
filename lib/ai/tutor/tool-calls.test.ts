@@ -72,7 +72,11 @@ describe('buildTutorToolCalls', () => {
         contextType: 'course',
         lessonId: 42,
         lessonStepIndex: 1,
-        scratchBlockKeywords: ['重复执行', '外观'],
+        scratchBlockKeywords: ['重复执行', '说 你好!'],
+        scratchBlockItems: [
+          { label: '重复执行', findLabel: '重复执行' },
+          { label: '说 出发啦！', findLabel: '说 你好!', editHint: '把文字改成「出发啦！」' },
+        ],
         scratchBlockCategory: 'control',
         content: '我卡住了，这一步不知道怎么做',
       }),
@@ -90,7 +94,11 @@ describe('buildTutorToolCalls', () => {
         payload: {
           lessonId: 42,
           stepIndex: 1,
-          keywords: ['重复执行', '外观'],
+          keywords: ['重复执行', '说 你好!'],
+          items: [
+            { label: '重复执行', findLabel: '重复执行' },
+            { label: '说 出发啦！', findLabel: '说 你好!', editHint: '把文字改成「出发啦！」' },
+          ],
           category: 'control',
           reason: 'stuck',
         },

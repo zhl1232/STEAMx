@@ -44,6 +44,7 @@ import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
+import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 import { AI_CREDIT_COST_VISION, MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
@@ -92,6 +93,7 @@ type TutorPanelProps = {
   context: ResolvedTutorContext
   stageIndex?: number
   lessonStepIndex?: number
+  scratchEditorContext?: ScratchEditorContext | null
   stageTitle?: string
   subtitle?: string
   quickPrompts?: string[]
@@ -117,6 +119,7 @@ export function GlobalTutorFab({
   context,
   stageIndex,
   lessonStepIndex,
+  scratchEditorContext,
   stageTitle,
   subtitle,
   quickPrompts = [],
@@ -335,6 +338,7 @@ export function GlobalTutorFab({
             stageIndex,
             lessonId: context.lessonId,
             lessonStepIndex,
+            scratchEditorContext: scratchEditorContext ?? undefined,
             surface: context.surface,
           }),
         })
@@ -442,6 +446,7 @@ export function GlobalTutorFab({
       context.surface,
       stageIndex,
       lessonStepIndex,
+      scratchEditorContext,
       promptLogin,
       queryClient,
       refreshQuota,

@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react'
 
 import type { TutorToolCall, TutorToolName } from '@/lib/ai/tutor/tool-calls'
+import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 
 export type TutorContextOverride = {
   subtitle?: string
@@ -11,6 +12,8 @@ export type TutorContextOverride = {
   stageTitle?: string
   /** 技能课程：当前课时步骤，用于小迪聚焦当前步骤 */
   lessonStepIndex?: number
+  /** 技能课程：Scratch 编辑器当前选中角色、角色列表与基础状态 */
+  scratchEditorContext?: ScratchEditorContext | null
   quickPrompts?: string[]
   /** PBL：获取当前阶段产出用于「请导师看看」 */
   getReviewPayload?: () => { text: string; images: string[] } | null

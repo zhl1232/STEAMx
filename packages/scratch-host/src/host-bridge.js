@@ -25,6 +25,8 @@ let loadChain = Promise.resolve()
 let pendingAfterGui = null
 let bootstrapDone = false
 let blockHintDismissTimer = null
+let editorContextTimer = null
+let lastEditorContextJson = ''
 
 function setStatus(text) {
   const el = document.getElementById('scratch-status')
@@ -34,6 +36,70 @@ function setStatus(text) {
 function postToParent(message) {
   if (window.parent === window) return
   window.parent.postMessage({ ...message, source: SOURCE }, window.location.origin)
+}
+
+function safeNumber(value) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined
+}
+
+function getTargetCostumeName(target) {
+  const costumeIndex = typeof target?.currentCostume === 'number' ? target.currentCostume : 0
+  const costume = Array.isArray(target?.sprite?.costumes) ? target.sprite.costumes[costumeIndex] : null
+  return typeof costume?.name === 'string' ? costume.name : undefined
+}
+
+function buildEditorContext(vm) {
+  const targets = Array.isArray(vm?.runtime?.targets) ? vm.runtime.targets : []
+  const serializedTargets = targets
+    .filter(
+      (target) =>
+        !Object.prototype.hasOwnProperty.call(target, 'isOriginal') ||
+        target.isOriginal,
+    )
+    .slice(0, 20)
+    .map((target) => {
+      const blocks = target?.blocks?._blocks
+      return {
+        id: String(target?.id ?? ''),
+        name: String(target?.sprite?.name || target?.name || (target?.isStage ? '舞台' : '角色')),
+        isStage: Boolean(target?.isStage),
+        x: safeNumber(target?.x),
+        y: safeNumber(target?.y),
+        direction: safeNumber(target?.direction),
+        size: safeNumber(target?.size),
+        visible: typeof target?.visible === 'boolean' ? target.visible : undefined,
+        costumeName: getTargetCostumeName(target),
+        blockCount: blocks && typeof blocks === 'object' ? Object.keys(blocks).length : undefined,
+      }
+    })
+    .filter((target) => target.id && target.name)
+
+  const selectedTarget = vm?.editingTarget
+  const selectedTargetName =
+    selectedTarget?.sprite?.name || selectedTarget?.name || (selectedTarget?.isStage ? '舞台' : undefined)
+
+  return {
+    selectedTargetId: selectedTarget?.id ? String(selectedTarget.id) : undefined,
+    selectedTargetName: selectedTargetName ? String(selectedTargetName) : undefined,
+    targets: serializedTargets,
+  }
+}
+
+function postEditorContextNow() {
+  if (!vmRef) return
+  const context = buildEditorContext(vmRef)
+  const json = JSON.stringify(context)
+  if (json === lastEditorContextJson) return
+  lastEditorContextJson = json
+  postToParent({ type: 'EDITOR_CONTEXT', context })
+}
+
+function scheduleEditorContextPost(delay = 120) {
+  if (editorContextTimer) clearTimeout(editorContextTimer)
+  editorContextTimer = setTimeout(() => {
+    editorContextTimer = null
+    postEditorContextNow()
+  }, delay)
 }
 
 function normalizeCategory(category) {
@@ -244,6 +310,7 @@ async function bootstrapDefaultProject(vm) {
   setStatus(playerOnly ? '预览模式' : '编辑模式')
 
   postToParent({ type: 'SCRATCH_READY' })
+  scheduleEditorContextPost(0)
   void flushPendingAfterGui()
 }
 
@@ -308,6 +375,7 @@ async function loadProjectBuffer(buffer) {
     }
     syncTargetsToGui(vmRef)
     drawStage(vmRef)
+    scheduleEditorContextPost(0)
   })
 }
 
@@ -319,6 +387,7 @@ async function loadProjectFromUrl(url) {
       await waitForStageTarget(vmRef, 30000)
     }
     drawStage(vmRef)
+    scheduleEditorContextPost(0)
     postToParent({ type: 'PROJECT_LOADED', ok: true })
     return
   }
@@ -394,7 +463,23 @@ export function registerHostBridge(vm) {
     window.__scratchVm = vm
   }
   patchScratchStorageForEmbed(vm.runtime?.storage)
-  attachVmHooks(vm, { syncTargetsToGui, drawStage })
+  attachVmHooks(vm, { syncTargetsToGui, drawStage, onProjectChanged: scheduleEditorContextPost })
+  if (typeof vm.on === 'function') {
+    ;[
+      'PROJECT_CHANGED',
+      'targetsUpdate',
+      'TARGETS_UPDATE',
+      'editingTargetChanged',
+      'workspaceUpdate',
+      'MONITORS_UPDATE',
+    ].forEach((eventName) => {
+      try {
+        vm.on(eventName, () => scheduleEditorContextPost())
+      } catch {
+        // Some VM builds do not expose all event names.
+      }
+    })
+  }
   setStatus('加载 Scratch…')
 
   void bootstrapDefaultProject(vm).catch((err) => {

@@ -67,6 +67,7 @@ export function GlobalTutorMount() {
       context={baseContext}
       stageIndex={stageIndex}
       lessonStepIndex={lessonStepIndex}
+      scratchEditorContext={tutorCtx?.override.scratchEditorContext}
       stageTitle={tutorCtx?.override.stageTitle}
       subtitle={tutorCtx?.override.subtitle}
       quickPrompts={tutorCtx?.override.quickPrompts}

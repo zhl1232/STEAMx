@@ -41,19 +41,47 @@ describe('ScratchWorkspace', () => {
         lessonId={2}
         blockHint={{
           stepIndex: 0,
-          keywords: ['重复执行', '播放声音'],
+          keywords: ['当绿旗被点击', '说 你好!'],
+          items: [
+            {
+              label: '当绿旗被点击',
+              findLabel: '当绿旗被点击',
+              findHint: '黄色事件帽子，带绿色小旗图标',
+            },
+            {
+              label: '说 出发啦！',
+              findLabel: '说 你好!',
+              editHint: '把文字改成「出发啦！」',
+            },
+          ],
           category: 'control',
           reason: 'next_step',
         }}
       />,
     )
 
-    expect(screen.getByText('可以先找这些积木')).toBeInTheDocument()
+    expect(screen.getByText('第 1 步要用到')).toBeInTheDocument()
+    expect(screen.getByText(/继续做这一步/)).toBeInTheDocument()
+    expect(screen.getAllByText('找')).toHaveLength(2)
+    expect(screen.getByText('说 你好!')).toBeInTheDocument()
+    expect(screen.getByText('拖出来后：把文字改成「出发啦！」')).toBeInTheDocument()
     expect(postMessage).toHaveBeenCalledWith(
       {
         source: 'steam-scratch-parent',
         type: 'HIGHLIGHT_BLOCK_KEYWORDS',
-        keywords: ['重复执行', '播放声音'],
+        keywords: ['当绿旗被点击', '说 你好!'],
+        items: [
+          {
+            label: '当绿旗被点击',
+            findLabel: '当绿旗被点击',
+            findHint: '黄色事件帽子，带绿色小旗图标',
+          },
+          {
+            label: '说 出发啦！',
+            findLabel: '说 你好!',
+            editHint: '把文字改成「出发啦！」',
+          },
+        ],
         category: 'control',
       },
       window.location.origin,
@@ -68,5 +96,39 @@ describe('ScratchWorkspace', () => {
       },
       window.location.origin,
     )
+  })
+
+  it('reports Scratch editor context from the iframe', () => {
+    postMessage.mockClear()
+    const onEditorContextChange = vi.fn()
+
+    render(
+      <ScratchWorkspace
+        courseId={1}
+        lessonId={2}
+        onEditorContextChange={onEditorContextChange}
+      />,
+    )
+
+    window.dispatchEvent(
+      new MessageEvent('message', {
+        origin: window.location.origin,
+        data: {
+          source: 'steam-scratch-host',
+          type: 'EDITOR_CONTEXT',
+          context: {
+            selectedTargetId: 'bear-1',
+            selectedTargetName: 'Bear',
+            targets: [{ id: 'bear-1', name: 'Bear' }],
+          },
+        },
+      }),
+    )
+
+    expect(onEditorContextChange).toHaveBeenCalledWith({
+      selectedTargetId: 'bear-1',
+      selectedTargetName: 'Bear',
+      targets: [{ id: 'bear-1', name: 'Bear' }],
+    })
   })
 })

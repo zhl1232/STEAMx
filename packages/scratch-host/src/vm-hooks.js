@@ -26,13 +26,14 @@ function createVmChain() {
  * @param {{
  *   syncTargetsToGui: (vm: unknown) => void
  *   drawStage: (vm: unknown) => void
+ *   onProjectChanged?: () => void
  * }} helpers
  */
 export function attachVmHooks(vm, helpers) {
   if (vm.__steamScratchHooks) return
   vm.__steamScratchHooks = true
 
-  const { syncTargetsToGui, drawStage } = helpers
+  const { syncTargetsToGui, drawStage, onProjectChanged } = helpers
   const { chain } = createVmChain()
 
   const originalLoadProject = vm.loadProject.bind(vm)
@@ -75,6 +76,7 @@ export function attachVmHooks(vm, helpers) {
           syncTargetsToGui(vm)
           forceReduxTargetsFromVm(vm)
           drawStage(vm)
+          onProjectChanged?.()
           return result
         })
         .catch((err) => {
@@ -98,6 +100,7 @@ export function attachVmHooks(vm, helpers) {
             syncTargetsToGui(vm)
             forceReduxTargetsFromVm(vm)
             drawStage(vm)
+            onProjectChanged?.()
             return result
           })
           .catch((err) => {

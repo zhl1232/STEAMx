@@ -12,6 +12,7 @@ import {
     type ScratchWorkspaceBlockHint,
 } from "@/components/features/courses/scratch-workspace";
 import { Button } from "@/components/ui/button";
+import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
 import { canUseScratchEditor } from "@/lib/courses/device";
 import type { CourseLessonRow } from "@/lib/courses/types";
@@ -23,6 +24,7 @@ export function LessonWorkspaceRenderer({
     activeStepIndex,
     scratchBlockHint,
     onDismissScratchBlockHint,
+    onScratchEditorContextChange,
     onStepChange,
     initialCompleted,
     onCompleted,
@@ -33,6 +35,7 @@ export function LessonWorkspaceRenderer({
     activeStepIndex: number;
     scratchBlockHint?: ScratchWorkspaceBlockHint | null;
     onDismissScratchBlockHint?: () => void;
+    onScratchEditorContextChange?: (context: ScratchEditorContext) => void;
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
     onCompleted: () => void;
@@ -67,6 +70,7 @@ export function LessonWorkspaceRenderer({
                     initialCompleted={initialCompleted}
                     blockHint={scratchBlockHint}
                     onDismissBlockHint={onDismissScratchBlockHint}
+                    onEditorContextChange={onScratchEditorContextChange}
                     onCompleted={onCompleted}
                 />
             </>

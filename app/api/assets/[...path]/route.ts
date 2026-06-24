@@ -11,8 +11,13 @@ const PASS_THROUGH_HEADERS = [
   'last-modified',
 ] as const
 
+const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
+
 function isAllowedAssetPath(pathname: string) {
-  return REWRITTEN_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+  return (
+    pathname.startsWith(SCRATCH_ASSET_PREFIX) ||
+    REWRITTEN_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+  )
 }
 
 function getAssetReferer() {

@@ -8,7 +8,16 @@ import {
 } from '@/lib/ai/tutor/audio-tags'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
-import { buildScratchBlockHintKeywords, resolveScratchBlockCategory } from '@/lib/courses/scratch-hints'
+import {
+  buildScratchBlockHintItems,
+  buildScratchBlockHintKeywords,
+  keepScratchRichTextBlockMarkers,
+  resolveScratchBlockCategory,
+  stripScratchRichTextMarkers,
+  type ScratchBlockCategory,
+  type ScratchBlockHintItem,
+} from '@/lib/courses/scratch-hints'
+import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -19,6 +28,74 @@ function compact(value: string | null | undefined, max = 400) {
   const text = typeof value === 'string' ? value.trim() : ''
   if (!text) return ''
   return text.length > max ? `${text.slice(0, max)}…` : text
+}
+
+function compactLessonText(value: string | null | undefined, max = 400) {
+  return compact(typeof value === 'string' ? stripScratchRichTextMarkers(value) : value, max)
+}
+
+function compactScratchStepText(value: string | null | undefined, max = 400) {
+  return compact(typeof value === 'string' ? keepScratchRichTextBlockMarkers(value) : value, max)
+}
+
+function scratchMarkerCategory(category: ScratchBlockCategory) {
+  return category === 'myBlocks' ? 'myblocks' : category
+}
+
+function formatScratchBlockReferenceItems(items: ScratchBlockHintItem[]) {
+  if (!items.length) return ''
+  return items
+    .slice(0, 4)
+    .map((item) => {
+      const block = item.category
+        ? `[[block:${scratchMarkerCategory(item.category)}|${item.findLabel}]]`
+        : item.findLabel
+      return `- ${block}${item.editHint ? `；拖出后${item.editHint}` : ''}`
+    })
+    .join('\n')
+}
+
+function formatScratchNumber(value: number | undefined) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null
+  return Number.isInteger(value) ? String(value) : value.toFixed(1)
+}
+
+function formatScratchEditorContext(context?: ScratchEditorContext) {
+  if (!context || !Array.isArray(context.targets) || context.targets.length === 0) return ''
+
+  const selected =
+    context.targets.find((target) => target.id === context.selectedTargetId) ??
+    context.targets.find((target) => target.name === context.selectedTargetName)
+  const selectedName = selected?.name ?? context.selectedTargetName
+  const stage = context.targets.find((target) => target.isStage)
+  const sprites = context.targets.filter((target) => !target.isStage).slice(0, 8)
+  const spriteLines = sprites
+    .map((target) => {
+      const facts = [
+        target.id === selected?.id ? '当前选中' : '',
+        target.visible === false ? '隐藏' : '',
+        target.costumeName ? `造型「${compact(target.costumeName, 24)}」` : '',
+        formatScratchNumber(target.x) && formatScratchNumber(target.y)
+          ? `坐标(${formatScratchNumber(target.x)}, ${formatScratchNumber(target.y)})`
+          : '',
+        formatScratchNumber(target.direction) ? `方向${formatScratchNumber(target.direction)}` : '',
+        formatScratchNumber(target.size) ? `大小${formatScratchNumber(target.size)}` : '',
+        typeof target.blockCount === 'number' ? `已有${target.blockCount}个积木` : '',
+      ].filter(Boolean)
+      return `- ${compact(target.name, 40)}${facts.length ? `：${facts.join('，')}` : ''}`
+    })
+    .join('\n')
+
+  return [
+    '【Scratch 当前编辑器】',
+    selectedName
+      ? `当前选中角色/对象：${compact(selectedName, 40)}。回答具体操作时优先围绕这个对象；如果它不是小猫，不要默认说“小猫”。`
+      : '',
+    stage?.name ? `舞台/背景对象：${compact(stage.name, 40)}` : '',
+    spriteLines ? `角色列表：\n${spriteLines}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n')
 }
 
 function compactLines(lines: Array<string | null | undefined>) {
@@ -38,6 +115,7 @@ export async function buildTutorSceneContext(
     stageIndex?: number
     lessonId?: number
     lessonStepIndex?: number
+    scratchEditorContext?: ScratchEditorContext
     surface?: TutorGlobalSurface
     includeRecommendations?: boolean
   },
@@ -52,7 +130,14 @@ export async function buildTutorSceneContext(
     case 'species':
       return buildSpeciesContext(supabase, contextId)
     case 'course':
-      return buildCourseContext(supabase, userId, contextId, options?.lessonId, options?.lessonStepIndex)
+      return buildCourseContext(
+        supabase,
+        userId,
+        contextId,
+        options?.lessonId,
+        options?.lessonStepIndex,
+        options?.scratchEditorContext,
+      )
     default:
       return buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
   }
@@ -487,6 +572,7 @@ async function buildCourseContext(
   contextId: string,
   lessonId?: number,
   lessonStepIndex?: number,
+  scratchEditorContext?: ScratchEditorContext,
 ): Promise<TutorSceneContext> {
   const courseId = Number.parseInt(contextId, 10)
   if (Number.isNaN(courseId)) {
@@ -533,6 +619,7 @@ async function buildCourseContext(
     | null
   let currentLessonText = ''
   let scratchBlockKeywords: string[] = []
+  let scratchBlockItems: ScratchBlockHintItem[] = []
   let scratchBlockCategory: ReturnType<typeof resolveScratchBlockCategory> = undefined
   if (currentLesson) {
     const lessonContent = (currentLesson.content ?? {}) as LessonContent
@@ -542,24 +629,33 @@ async function buildCourseContext(
         ? steps[lessonStepIndex]
         : null
     const currentStepNumber = typeof lessonStepIndex === 'number' ? lessonStepIndex + 1 : null
+    scratchBlockItems = buildScratchBlockHintItems({
+      step: currentStep,
+      lessonContent,
+    })
     scratchBlockKeywords = buildScratchBlockHintKeywords({
       step: currentStep,
       lessonContent,
     })
     scratchBlockCategory = resolveScratchBlockCategory(scratchBlockKeywords)
+    const scratchBlockReferenceLines = formatScratchBlockReferenceItems(scratchBlockItems)
     const stepLines = steps
       .slice(0, 8)
-      .map((step, i) => `第${i + 1}步「${compact(step.title, 40)}」：${compact(step.description, 120)}`)
+      .map((step, i) => `第${i + 1}步「${compactLessonText(step.title, 40)}」：${compactScratchStepText(step.description, 160)}`)
       .join('\n')
     currentLessonText = [
-      `当前课时：${compact(currentLesson.title, 80)}`,
+      `当前课时：${compactLessonText(currentLesson.title, 80)}`,
       typeof lessonContent.summary === 'string' && lessonContent.summary
-        ? `课时目标：${compact(lessonContent.summary, 200)}`
+        ? `课时目标：${compactLessonText(lessonContent.summary, 200)}`
         : '',
       currentStep && currentStepNumber != null
-        ? `学生当前停在第${currentStepNumber}步「${compact(currentStep.title, 40)}」。他问下一步或卡住时，优先围绕这一当前步骤，不要跳回第1步。`
+        ? `学生当前停在第${currentStepNumber}步「${compactLessonText(currentStep.title, 40)}」。他问下一步或卡住时，优先围绕这一当前步骤，不要跳回第1步。`
         : '',
-    stepLines ? `课时步骤（编号和标题必须照抄）：\n${stepLines}` : '',
+      formatScratchEditorContext(scratchEditorContext),
+      scratchBlockReferenceLines
+        ? `当前步骤可直接引用的 Scratch 积木标记（回答时优先照抄标记，不要手写颜色）：\n${scratchBlockReferenceLines}`
+        : '',
+      stepLines ? `课时步骤（编号和标题必须照抄）：\n${stepLines}` : '',
     ]
       .filter(Boolean)
       .join('\n')
@@ -586,6 +682,8 @@ async function buildCourseContext(
     title: currentLesson?.title ?? course?.title ?? '技能课程',
     summary,
     scratchBlockKeywords,
+    scratchBlockItems,
     scratchBlockCategory,
+    scratchEditorContext,
   }
 }

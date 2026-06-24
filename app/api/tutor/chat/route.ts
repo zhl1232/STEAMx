@@ -327,6 +327,7 @@ export async function POST(request: NextRequest) {
     const stageIndex = parsed.data.stageIndex
     const lessonId = parsed.data.lessonId
     const lessonStepIndex = parsed.data.lessonStepIndex
+    const scratchEditorContext = parsed.data.scratchEditorContext
     const surface = parsed.data.surface
     const cost = getAiChatCreditCost(images.length > 0)
 
@@ -361,6 +362,7 @@ export async function POST(request: NextRequest) {
         stageIndex,
         lessonId,
         lessonStepIndex,
+        scratchEditorContext,
         surface,
         includeRecommendations: true,
       }),
@@ -417,6 +419,7 @@ export async function POST(request: NextRequest) {
       lessonId,
       lessonStepIndex,
       scratchBlockKeywords: scene.scratchBlockKeywords,
+      scratchBlockItems: scene.scratchBlockItems,
       scratchBlockCategory: scene.scratchBlockCategory,
       content,
     })

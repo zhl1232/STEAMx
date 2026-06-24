@@ -127,6 +127,25 @@ export const TutorGlobalSurfaceSchema = z.enum([
   'home', 'explore', 'nature', 'create', 'courses', 'community', 'playground', 'profile', 'users',
 ]);
 
+const ScratchEditorTargetContextSchema = z.object({
+  id: z.string().max(120),
+  name: z.string().max(80),
+  isStage: z.boolean().optional(),
+  x: z.number().finite().optional(),
+  y: z.number().finite().optional(),
+  direction: z.number().finite().optional(),
+  size: z.number().finite().optional(),
+  visible: z.boolean().optional(),
+  costumeName: z.string().max(120).optional(),
+  blockCount: z.number().int().min(0).max(5000).optional(),
+});
+
+const ScratchEditorContextSchema = z.object({
+  selectedTargetId: z.string().max(120).optional(),
+  selectedTargetName: z.string().max(80).optional(),
+  targets: z.array(ScratchEditorTargetContextSchema).max(20).default([]),
+});
+
 export const TutorSendSchema = z.object({
   contextType: TutorContextTypeSchema.default('global'),
   contextId: z.string().max(64).optional(),
@@ -135,6 +154,7 @@ export const TutorSendSchema = z.object({
   stageIndex: z.number().int().min(0).max(50).optional(),
   lessonId: z.number().int().positive().optional(),
   lessonStepIndex: z.number().int().min(0).max(50).optional(),
+  scratchEditorContext: ScratchEditorContextSchema.optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
   meta: z.record(z.string(), z.unknown()).optional(),
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {

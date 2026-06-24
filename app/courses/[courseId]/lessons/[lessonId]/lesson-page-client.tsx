@@ -11,6 +11,7 @@ import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
+import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,7 @@ export function LessonPageClient({
     const [completed, setCompleted] = useState(initialCompleted);
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
+    const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { registerToolHandler, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const steps = lesson.steps ?? [];
@@ -54,6 +56,7 @@ export function LessonPageClient({
             setScratchBlockHint({
                 stepIndex: targetIndex,
                 keywords: toolCall.payload.keywords.slice(0, 4),
+                items: toolCall.payload.items?.slice(0, 4),
                 category: toolCall.payload.category,
                 reason: toolCall.payload.reason,
             });
@@ -78,13 +81,14 @@ export function LessonPageClient({
         setTutorOverride({
             subtitle: activeStepTitle ? `正在做「${activeStepTitle}」` : lesson.title,
             lessonStepIndex: clampedActiveStep,
+            scratchEditorContext,
             quickPrompts: ["这一步怎么做？", "我卡住了", "下一步该做什么？"],
         });
 
         return () => {
             clearTutorOverride();
         };
-    }, [activeStepTitle, clampedActiveStep, clearTutorOverride, lesson.title, setTutorOverride]);
+    }, [activeStepTitle, clampedActiveStep, clearTutorOverride, lesson.title, scratchEditorContext, setTutorOverride]);
 
     useEffect(() => {
         return () => {
@@ -144,6 +148,7 @@ export function LessonPageClient({
                         activeStepIndex={clampedActiveStep}
                         scratchBlockHint={scratchBlockHint}
                         onDismissScratchBlockHint={() => setScratchBlockHint(null)}
+                        onScratchEditorContextChange={setScratchEditorContext}
                         onStepChange={setActiveStep}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}
