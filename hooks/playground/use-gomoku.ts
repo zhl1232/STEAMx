@@ -75,7 +75,9 @@ function loadStats(): GomokuStats {
 }
 
 function saveStats(stats: GomokuStats) {
-    setPlaygroundItem(STATS_KEY, stats)
+    // 合并到既有 records，避免覆盖在线对战写入的 gomokuOnlineWins 等字段
+    const existing = getPlaygroundItem<Record<string, unknown>>(STATS_KEY) ?? {}
+    setPlaygroundItem(STATS_KEY, { ...existing, ...stats })
 }
 
 // ── Win detection ─────────────────────────────────────────────────────
@@ -700,7 +702,10 @@ export function useGomoku(
 
     const updateStats = useCallback(
         (result: "win" | "loss" | "draw") => {
-            setStats((prev) => {
+            setStats(() => {
+                // 从 localStorage 实时读最新值，避免内存快照过期导致覆盖
+                // （例如在线对局已把 wins 写大，切回 PvE 结算时内存 prev 仍是旧值）。
+                const prev = loadStats();
                 const next: GomokuStats = {
                     totalGames: prev.totalGames + 1,
                     wins: prev.wins + (result === "win" ? 1 : 0),

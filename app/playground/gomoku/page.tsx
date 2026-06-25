@@ -1,14 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { useGomoku, type GomokuLevel, type GomokuMode } from "@/hooks/playground/use-gomoku"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Sparkles, Brain, RefreshCw, Target, User, Bot, Trophy } from "lucide-react"
+import { Sparkles, Brain, RefreshCw, Target, User, Bot, Trophy, Globe } from "lucide-react"
 import confetti from "canvas-confetti"
+import { GomokuOnlineView } from "@/components/features/playground/gomoku-online-view"
+
+type PageMode = GomokuMode | "online"
 
 function formatRatio(win: number, total: number) {
     if (total === 0) return "—"
@@ -16,16 +20,30 @@ function formatRatio(win: number, total: number) {
 }
 
 export default function GomokuPage() {
-    const [mode, setMode] = useState<GomokuMode>("pve")
+    return (
+        <Suspense fallback={null}>
+            <GomokuPageInner />
+        </Suspense>
+    )
+}
+
+function GomokuPageInner() {
+    const searchParams = useSearchParams()
+    const initialRoomCode = searchParams.get("room")
+    // 带 room 参数时直接进入在线模式
+    const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "pve")
     const [level, setLevel] = useState<GomokuLevel>("normal")
-    const { board, currentPlayer, status, winnerInfo, moveCount, stats, resetGame, makeMove } = useGomoku(mode, level)
     const { checkBadges } = useGamification()
+    // 在线模式下不使用 useGomoku 的产物，但仍调用以保持 hook 顺序稳定；
+    // updateStats 已改为实时读 localStorage，不会用过期快照覆盖在线写入的战绩。
+    const { board, currentPlayer, status, winnerInfo, moveCount, stats, resetGame, makeMove } =
+        useGomoku(mode === "online" ? "pve" : mode, level)
 
     const handleRestart = () => {
         resetGame()
     }
 
-    const handleModeChange = (next: GomokuMode) => {
+    const handleModeChange = (next: PageMode) => {
         setMode(next)
         resetGame()
     }
@@ -128,6 +146,18 @@ export default function GomokuPage() {
                             <Bot className="w-3 h-3 sm:w-4 sm:h-4" />
                             AI
                         </Button>
+                        <Button
+                            size="sm"
+                            variant={mode === "online" ? "default" : "outline"}
+                            className={cn(
+                                "flex min-h-11 items-center gap-1 rounded-full px-3 py-1.5 text-xs sm:h-8 sm:min-h-0 sm:px-4 sm:text-sm",
+                                mode === "online" && "shadow-md shadow-primary/30"
+                            )}
+                            onClick={() => handleModeChange("online")}
+                        >
+                            <Globe className="w-3 h-3 sm:w-4 sm:h-4" />
+                            在线
+                        </Button>
                         {mode === "pve" && (
                             <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 p-0.5">
                                 {(
@@ -166,6 +196,12 @@ export default function GomokuPage() {
                     </div>
                 </div>
 
+                {mode === "online" ? (
+                    <GomokuOnlineView initialRoomCode={initialRoomCode} />
+                ) : null}
+
+                {mode !== "online" && (
+                <>
                 {/* Mobile: status bar above board */}
                 <div className="w-full max-w-4xl flex md:hidden items-center gap-2 mb-2 px-1">
                     <div
@@ -325,6 +361,8 @@ export default function GomokuPage() {
                         </Card>
                     </div>
                 </div>
+                </>
+                )}
             </div>
 
             {/* Right panel: concepts + tips */}

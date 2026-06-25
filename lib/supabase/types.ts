@@ -185,6 +185,73 @@ export interface Database {
           }
         ]
       }
+      gomoku_matches: {
+        Row: {
+          id: string
+          code: string
+          host_user_id: string
+          guest_user_id: string | null
+          status: string
+          board: Json
+          current_turn: string
+          host_color: string
+          moves: Json
+          winner: string | null
+          win_line: Json | null
+          created_at: string
+          started_at: string | null
+          finished_at: string | null
+          last_activity_at: string
+        }
+        Insert: {
+          id?: string
+          code: string
+          host_user_id: string
+          guest_user_id?: string | null
+          status?: string
+          board?: Json
+          current_turn?: string
+          host_color?: string
+          moves?: Json
+          winner?: string | null
+          win_line?: Json | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Update: {
+          id?: string
+          code?: string
+          host_user_id?: string
+          guest_user_id?: string | null
+          status?: string
+          board?: Json
+          current_turn?: string
+          host_color?: string
+          moves?: Json
+          winner?: string | null
+          win_line?: Json | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gomoku_matches_host_user_id_fkey"
+            columns: ["host_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gomoku_matches_guest_user_id_fkey"
+            columns: ["guest_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       categories: {
         Row: {
           id: number
@@ -2643,6 +2710,17 @@ export interface Database {
       consume_rate_limit: {
         Args: { p_key: string; p_limit: number; p_window_seconds: number }
         Returns: { ok?: boolean; error?: string; limit?: number; remaining?: number; reset_at?: number }
+      }
+      gomoku_place_stone: {
+        Args: { match_uuid: string; p_row: number; p_col: number }
+        Returns: {
+          ok: boolean
+          reason: string
+          board: Json | null
+          current_turn: string | null
+          winner: string | null
+          win_line: Json | null
+        }[]
       }
       get_ai_credit_status: {
         Args: { p_is_member: boolean; p_monthly_grant: number; p_free_daily: number }

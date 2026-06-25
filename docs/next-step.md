@@ -80,8 +80,8 @@
 
 ### 建议迭代顺序
 
-1. **P1：Realtime 房间模型**：数据表、Supabase channel 约定、通用 `useGameRoom` hook。
-2. **P1：五子棋对战 MVP**：匹配队列或开房二选一，完整一局可玩并写入成绩/统计。
+1. ~~**P1：Realtime 房间模型**：数据表、Supabase channel 约定、通用 `useGameRoom` hook。~~（已落地：`gomoku_matches` 表 + `gomoku_place_stone` RPC + 私有 channel RLS + `hooks/playground/use-game-room.ts`，服务端权威 + postgres_changes + 本地开发轮询兜底）
+2. ~~**P1：五子棋对战 MVP**：匹配队列或开房二选一，完整一局可玩并写入成绩/统计。~~（已落地：开房邀请 + 6 位房间码 + 分享链接，`hooks/playground/use-gomoku-online.ts` 落子走 RPC、胜负由服务端判定、断线重连 + 战绩写入 + 徽章；`app/playground/gomoku` 新增「在线」模式）
 3. **P2：排序竞速对战**：同题竞速、实时排行榜条。
 4. **P2：迷宫/扫雷协作**：共享状态同步与协作胜利结算。
 5. **P3：游乐场大厅**：在线人数、热门房间、邀请入口与社区动态联动。
