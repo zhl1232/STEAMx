@@ -25,6 +25,7 @@ export type ScratchWorkspaceBlockHint = {
     stepIndex: number;
     keywords: string[];
     items?: ScratchBlockHintItem[];
+    targetItemIndex?: number;
     category?: ScratchBlockCategory;
     reason: "stuck" | "next_step" | "review";
 };
@@ -52,6 +53,40 @@ function getBlockHintItems(blockHint: ScratchWorkspaceBlockHint): ScratchBlockHi
         label: keyword,
         findLabel: keyword,
     }))
+}
+
+function getBlockHintTargetIndex(
+    blockHint: ScratchWorkspaceBlockHint,
+    items = getBlockHintItems(blockHint),
+): number {
+    const count = items.length || blockHint.keywords.length
+    if (count <= 0) return 0
+    const index = Number.isFinite(blockHint.targetItemIndex)
+        ? Math.trunc(blockHint.targetItemIndex ?? 0)
+        : 0
+    return Math.min(Math.max(index, 0), count - 1)
+}
+
+function getBlockHintCategory(
+    blockHint: ScratchWorkspaceBlockHint,
+    items = getBlockHintItems(blockHint),
+): ScratchBlockCategory | undefined {
+    const targetItem = items[getBlockHintTargetIndex(blockHint, items)]
+    return targetItem?.category ?? blockHint.category
+}
+
+function getIframeBlockHintPayload(blockHint: ScratchWorkspaceBlockHint) {
+    const items = getBlockHintItems(blockHint)
+    const targetIndex = getBlockHintTargetIndex(blockHint, items)
+    const targetItem = items[targetIndex]
+    const targetKeyword =
+        targetItem?.findLabel ?? blockHint.keywords[targetIndex] ?? blockHint.keywords[0]
+
+    return {
+        keywords: targetKeyword ? [targetKeyword] : blockHint.keywords,
+        items: blockHint.items?.length && targetItem ? [targetItem] : undefined,
+        category: targetItem?.category ?? blockHint.category,
+    }
 }
 
 async function uploadSb3ToLesson(
@@ -385,11 +420,12 @@ export function ScratchWorkspace({
 
     useEffect(() => {
         if (!blockHint?.keywords.length || playerOnly) return;
+        const payload = getIframeBlockHintPayload(blockHint);
         postToIframe({
             type: "HIGHLIGHT_BLOCK_KEYWORDS",
-            keywords: blockHint.keywords,
-            items: blockHint.items,
-            category: blockHint.category,
+            keywords: payload.keywords,
+            items: payload.items,
+            category: payload.category,
         });
     }, [blockHint, playerOnly, postToIframe]);
 
@@ -424,6 +460,8 @@ export function ScratchWorkspace({
 
     const busy = saving || completing;
     const blockHintItems = blockHint ? getBlockHintItems(blockHint) : [];
+    const blockHintTargetIndex = blockHint ? getBlockHintTargetIndex(blockHint, blockHintItems) : 0;
+    const blockHintCategory = blockHint ? getBlockHintCategory(blockHint, blockHintItems) : undefined;
 
     return (
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -512,20 +550,31 @@ export function ScratchWorkspace({
                                     </span>
                                     <span className="text-muted-foreground">
                                         {getBlockHintReasonLabel(blockHint.reason)}
-                                        {blockHint.category
-                                            ? ` · 已帮你打开${getScratchRichTextCategoryLabel(blockHint.category) ?? "对应"}分类`
+                                        {blockHintItems.length > 1
+                                            ? ` · 当前 ${blockHintTargetIndex + 1}/${blockHintItems.length}`
+                                            : ""}
+                                        {blockHintCategory
+                                            ? ` · 已帮你打开${getScratchRichTextCategoryLabel(blockHintCategory) ?? "对应"}分类`
                                             : " · 先找积木，再改文字或数字"}
                                     </span>
                                 </div>
                                 <ol className="mt-1.5 grid min-w-0 gap-1.5 sm:grid-cols-2">
-                                    {blockHintItems.map((item, index) => (
+                                    {blockHintItems.map((item, index) => {
+                                        const active = index === blockHintTargetIndex;
+                                        return (
                                         <li
                                             key={`${item.findLabel}-${item.editHint ?? ""}-${index}`}
-                                            className="rounded-[var(--radius-sm)] border border-[hsl(var(--brand-amber)/0.24)] bg-background/92 px-2.5 py-1.5"
+                                            aria-current={active ? "step" : undefined}
+                                            className={cn(
+                                                "rounded-[var(--radius-sm)] border px-2.5 py-1.5",
+                                                active
+                                                    ? "border-[hsl(var(--brand-amber)/0.55)] bg-background shadow-sm ring-1 ring-[hsl(var(--brand-amber)/0.22)]"
+                                                    : "border-[hsl(var(--brand-amber)/0.24)] bg-background/82",
+                                            )}
                                         >
                                             <div className="flex min-w-0 items-center gap-1.5">
                                                 <span className="shrink-0 rounded-full bg-[hsl(var(--brand-amber)/0.16)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
-                                                    找
+                                                    {active ? "正在找" : index < blockHintTargetIndex ? "已提示" : "接着"}
                                                 </span>
                                                 <span className="min-w-0 truncate font-semibold text-foreground">
                                                     {item.findLabel}
@@ -542,7 +591,8 @@ export function ScratchWorkspace({
                                                 </p>
                                             ) : null}
                                         </li>
-                                    ))}
+                                        )
+                                    })}
                                 </ol>
                             </div>
                             {onDismissBlockHint ? (

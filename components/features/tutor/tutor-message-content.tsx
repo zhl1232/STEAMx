@@ -21,7 +21,13 @@ type ContentPart =
   | { type: 'markdown'; content: string }
   | { type: 'audio'; path: string; label: string }
 
-function splitTutorContent(content: string): ContentPart[] {
+function stripAudioTags(content: string) {
+  return content.replace(AUDIO_TAG_REGEX, '').replace(/\n{3,}/g, '\n\n').trim()
+}
+
+function splitTutorContent(content: string, allowAudio: boolean): ContentPart[] {
+  if (!allowAudio) return [{ type: 'markdown', content: stripAudioTags(content) }]
+
   const parts: ContentPart[] = []
   let lastIndex = 0
   const regex = new RegExp(AUDIO_TAG_REGEX.source, 'g')
@@ -111,8 +117,14 @@ function TutorMarkdownBlock({ content }: { content: string }) {
 /**
  * 小迪回复气泡内容：轻量 Markdown（列表/加粗）+ 站内项目引用 chip + 鸟鸣音频播放器。
  */
-export const TutorMessageContent = memo(function TutorMessageContent({ content }: { content: string }) {
-  const parts = useMemo(() => splitTutorContent(content), [content])
+export const TutorMessageContent = memo(function TutorMessageContent({
+  content,
+  allowAudio = false,
+}: {
+  content: string
+  allowAudio?: boolean
+}) {
+  const parts = useMemo(() => splitTutorContent(content, allowAudio), [allowAudio, content])
 
   return (
     <div className="space-y-1.5 whitespace-normal">

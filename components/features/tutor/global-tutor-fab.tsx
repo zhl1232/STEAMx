@@ -40,6 +40,7 @@ import { TutorMessageContent } from '@/components/features/tutor/tutor-message-c
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
+import { hasTutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
@@ -93,6 +94,8 @@ type TutorPanelProps = {
   context: ResolvedTutorContext
   stageIndex?: number
   lessonStepIndex?: number
+  lessonStepCount?: number
+  scratchBlockTargetItemIndex?: number
   scratchEditorContext?: ScratchEditorContext | null
   stageTitle?: string
   subtitle?: string
@@ -119,6 +122,8 @@ export function GlobalTutorFab({
   context,
   stageIndex,
   lessonStepIndex,
+  lessonStepCount,
+  scratchBlockTargetItemIndex,
   scratchEditorContext,
   stageTitle,
   subtitle,
@@ -186,6 +191,9 @@ export function GlobalTutorFab({
     enabled: open && Boolean(sessionInput),
     staleTime: TUTOR_SESSION_STALE_MS,
   })
+  const clientToolCapabilities = tutorCtx?.override.sceneCapabilities
+  const serverSceneCapabilities = sessionQuery.data?.scene?.sceneCapabilities
+  const allowAudioMessages = hasTutorSceneCapability(serverSceneCapabilities, 'speciesAudio')
 
   const buildParams = useCallback(() => {
     return buildTutorChatParams({
@@ -338,7 +346,10 @@ export function GlobalTutorFab({
             stageIndex,
             lessonId: context.lessonId,
             lessonStepIndex,
+            lessonStepCount,
+            scratchBlockTargetItemIndex,
             scratchEditorContext: scratchEditorContext ?? undefined,
+            sceneCapabilities: clientToolCapabilities,
             surface: context.surface,
           }),
         })
@@ -446,6 +457,8 @@ export function GlobalTutorFab({
       context.surface,
       stageIndex,
       lessonStepIndex,
+      lessonStepCount,
+      scratchBlockTargetItemIndex,
       scratchEditorContext,
       promptLogin,
       queryClient,
@@ -453,6 +466,7 @@ export function GlobalTutorFab({
       sessionInput,
       toast,
       dispatchTutorToolCall,
+      clientToolCapabilities,
     ],
   )
 
@@ -734,7 +748,7 @@ export function GlobalTutorFab({
                   historyDetail?.messages.map((message, i) =>
                     message.role === 'assistant' ? (
                       <TutorBubble key={i}>
-                        <TutorMessageContent content={message.content} />
+                        <TutorMessageContent content={message.content} allowAudio={allowAudioMessages} />
                       </TutorBubble>
                     ) : (
                       <UserBubble key={i} message={message} />
@@ -802,7 +816,7 @@ export function GlobalTutorFab({
                       message.error ? (
                         message.content
                       ) : (
-                        <TutorMessageContent content={message.content} />
+                        <TutorMessageContent content={message.content} allowAudio={allowAudioMessages} />
                       )
                     ) : null}
                     {message.streaming && !message.content ? (

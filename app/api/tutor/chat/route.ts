@@ -15,10 +15,14 @@ import {
 import { streamChatWithTutor, getTutorEngineUserMessage, type TutorEngineMessage } from '@/lib/ai/tutor/engine'
 import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
+import { planTutorToolDecision, shouldPlanTutorToolDecision } from '@/lib/ai/tutor/tool-call-planner'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
+import { buildTutorReplyFocusSummary } from '@/lib/ai/tutor/reply-focus'
+import { hasTutorSceneCapability, resolveTutorSceneCapabilities } from '@/lib/ai/tutor/scene-capabilities'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
-import { buildTutorToolCalls } from '@/lib/ai/tutor/tool-calls'
+import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { TUTOR_GLOBAL_SURFACES, type TutorContextType, type TutorGlobalSurface } from '@/lib/ai/tutor/types'
+import { logger } from '@/lib/logger'
 import { consumeAiCredit, getAiCreditStatusForProfile, refundAiCredit } from '@/lib/api/ai-credits'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
@@ -92,12 +96,18 @@ function buildConversationMeta(input: {
   stageIndex?: number
   lessonId?: number
   lessonStepIndex?: number
+  lessonStepCount?: number
+  scratchBlockTargetItemIndex?: number
   surface?: TutorGlobalSurface
 }) {
   const meta: Record<string, unknown> = {}
   if (typeof input.stageIndex === 'number') meta.stageIndex = input.stageIndex
   if (typeof input.lessonId === 'number') meta.lessonId = input.lessonId
   if (typeof input.lessonStepIndex === 'number') meta.lessonStepIndex = input.lessonStepIndex
+  if (typeof input.lessonStepCount === 'number') meta.lessonStepCount = input.lessonStepCount
+  if (typeof input.scratchBlockTargetItemIndex === 'number') {
+    meta.scratchBlockTargetItemIndex = input.scratchBlockTargetItemIndex
+  }
   if (input.surface) meta.surface = input.surface
   return meta
 }
@@ -270,6 +280,7 @@ export async function GET(request: NextRequest) {
       scene: {
         title: scene.title,
         contextType: scene.contextType,
+        sceneCapabilities: scene.sceneCapabilities ?? [],
         suggestedImages: scene.suggestedImages ?? [],
       },
       hasNotebook: Boolean(notebook?.trim()),
@@ -327,7 +338,10 @@ export async function POST(request: NextRequest) {
     const stageIndex = parsed.data.stageIndex
     const lessonId = parsed.data.lessonId
     const lessonStepIndex = parsed.data.lessonStepIndex
+    const lessonStepCount = parsed.data.lessonStepCount
+    const scratchBlockTargetItemIndex = parsed.data.scratchBlockTargetItemIndex
     const scratchEditorContext = parsed.data.scratchEditorContext
+    const clientSceneCapabilities = parsed.data.sceneCapabilities
     const surface = parsed.data.surface
     const cost = getAiChatCreditCost(images.length > 0)
 
@@ -362,19 +376,32 @@ export async function POST(request: NextRequest) {
         stageIndex,
         lessonId,
         lessonStepIndex,
+        scratchBlockTargetItemIndex,
         scratchEditorContext,
         surface,
         includeRecommendations: true,
       }),
       loadTutorNotebook(supabase, user.id),
     ])
-    const messageAudios = await findSpeciesAudiosForMessage(supabase, content)
+    const canUseSpeciesAudio = hasTutorSceneCapability(scene.sceneCapabilities, 'speciesAudio')
+    const effectiveSceneCapabilities = resolveTutorSceneCapabilities({
+      serverCapabilities: scene.sceneCapabilities,
+      clientCapabilities: clientSceneCapabilities,
+    })
+    const messageAudios = canUseSpeciesAudio ? await findSpeciesAudiosForMessage(supabase, content) : []
     const conversation = await getOrCreateActiveConversation(supabase, {
       userId: user.id,
       contextType,
       contextId,
       title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, lessonStepIndex, surface }),
+      meta: buildConversationMeta({
+        stageIndex,
+        lessonId,
+        lessonStepIndex,
+        lessonStepCount,
+        scratchBlockTargetItemIndex,
+        surface,
+      }),
     })
     const recentRows = await supabase
       .from('tutor_messages')
@@ -401,28 +428,97 @@ export async function POST(request: NextRequest) {
     })
 
     const conversationText = history.map((message) => message.content).join('\n')
-    const speciesHints = await findSpeciesHintsForText(supabase, conversationText)
+    const speciesHints = canUseSpeciesAudio ? await findSpeciesHintsForText(supabase, conversationText) : []
     const hintsSummary = buildSpeciesHintsSummary(speciesHints)
-    const sceneForPrompt = hintsSummary
-      ? { ...scene, summary: [scene.summary, hintsSummary].filter(Boolean).join('\n\n') }
-      : scene
-    const availableAudios = mergeTutorAudios(
-      scene.availableAudios ?? [],
-      messageAudios,
-      speciesHintsToAudioRefs(speciesHints),
-    )
+    const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
+    let toolCalls: TutorToolCall[] = []
+    if (
+      shouldPlanTutorToolDecision({
+        contextType,
+        sceneCapabilities: effectiveSceneCapabilities,
+        stageIndex,
+        lessonId,
+        lessonStepIndex,
+        lessonStepCount,
+        scratchBlockKeywords: scene.scratchBlockKeywords,
+        scratchBlockItems: scene.scratchBlockItems,
+        scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
+        scratchBlockCategory: scene.scratchBlockCategory,
+        scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
+        content,
+      })
+    ) {
+      try {
+        const plannerDecision = await planTutorToolDecision({
+          contextType,
+          sceneCapabilities: effectiveSceneCapabilities,
+          stageIndex,
+          lessonId,
+          lessonStepIndex,
+          lessonStepCount,
+          scratchBlockKeywords: scene.scratchBlockKeywords,
+          scratchBlockItems: scene.scratchBlockItems,
+          scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
+          scratchBlockCategory: scene.scratchBlockCategory,
+          scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
+          content,
+        })
+        toolCalls = plannerDecision?.toolCalls ?? []
+      } catch (error) {
+        logger.warn('Tutor tool planner failed.', {
+          contextType,
+          contextId,
+          lessonId,
+          lessonStepIndex,
+          stageIndex,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
+    const focusLessonStepCall = toolCalls.find((toolCall) => toolCall.name === 'course.focus_lesson_step')
+    const highlightScratchBlocksCall = toolCalls.find((toolCall) => toolCall.name === 'course.highlight_scratch_blocks')
+    const promptLessonStepIndex =
+      focusLessonStepCall?.name === 'course.focus_lesson_step'
+        ? focusLessonStepCall.payload.stepIndex
+        : lessonStepIndex
+    const promptScratchBlockTargetItemIndex =
+      highlightScratchBlocksCall?.name === 'course.highlight_scratch_blocks'
+        ? highlightScratchBlocksCall.payload.targetItemIndex
+        : promptLessonStepIndex === lessonStepIndex
+          ? normalizedScratchBlockTargetItemIndex
+          : undefined
+    const promptScene =
+      contextType === 'course' &&
+      typeof lessonId === 'number' &&
+      (promptLessonStepIndex !== lessonStepIndex ||
+        promptScratchBlockTargetItemIndex !== scene.scratchBlockTargetItemIndex)
+        ? await buildTutorSceneContext(supabase, user.id, contextType, contextId, {
+            stageIndex,
+            lessonId,
+            lessonStepIndex: promptLessonStepIndex,
+            scratchBlockTargetItemIndex: promptScratchBlockTargetItemIndex,
+            scratchEditorContext,
+            surface,
+            includeRecommendations: true,
+          })
+        : scene
+    const replyFocusSummary = buildTutorReplyFocusSummary({
+      toolCalls,
+      previousLessonStepIndex: lessonStepIndex,
+    })
+    const sceneForPrompt = replyFocusSummary || hintsSummary
+      ? { ...promptScene, summary: [replyFocusSummary, promptScene.summary, hintsSummary].filter(Boolean).join('\n\n') }
+      : promptScene
+    const canUsePromptSpeciesAudio = hasTutorSceneCapability(promptScene.sceneCapabilities, 'speciesAudio')
+    const availableAudios = canUsePromptSpeciesAudio
+      ? mergeTutorAudios(
+          promptScene.availableAudios ?? [],
+          messageAudios,
+          speciesHintsToAudioRefs(speciesHints),
+        )
+      : []
 
     const systemPrompt = buildTutorSystemPrompt({ scene: sceneForPrompt, profile: studentProfile, notebook })
-    const toolCalls = buildTutorToolCalls({
-      contextType,
-      stageIndex,
-      lessonId,
-      lessonStepIndex,
-      scratchBlockKeywords: scene.scratchBlockKeywords,
-      scratchBlockItems: scene.scratchBlockItems,
-      scratchBlockCategory: scene.scratchBlockCategory,
-      content,
-    })
 
     const encoder = new TextEncoder()
     let fullReply = ''
@@ -486,19 +582,22 @@ export async function POST(request: NextRequest) {
           return
         }
 
-        fullReply = finalizeReplyAudio(
-          fullReply,
-          content,
-          mergeTutorAudios(
-            availableAudios,
-            await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`),
-          ),
-        )
+        const replyAudios = canUsePromptSpeciesAudio
+          ? mergeTutorAudios(
+              availableAudios,
+              await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`),
+            )
+          : []
+        fullReply = finalizeReplyAudio(fullReply, content, replyAudios)
 
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
         if (typeof lessonId === 'number') meta.lessonId = lessonId
         if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
+        if (typeof lessonStepCount === 'number') meta.lessonStepCount = lessonStepCount
+        if (typeof scratchBlockTargetItemIndex === 'number') {
+          meta.scratchBlockTargetItemIndex = scratchBlockTargetItemIndex
+        }
 
         const { error: insertError } = await supabase.from('tutor_messages').insert([
           {

@@ -1,22 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
+import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry";
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
+import type { ScratchBlockHintItem } from "@/lib/courses/scratch-hints";
 import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
 /** 课时页可用高度：移动端填满 shell main；桌面减去顶栏 */
 const LESSON_PAGE_HEIGHT = "max-md:h-full md:h-[calc(100dvh-4rem)]";
+
+function getHintTargetCount(payload: {
+    keywords: string[];
+    items?: ScratchBlockHintItem[];
+}) {
+    return Math.max(payload.items?.length ?? 0, payload.keywords.length);
+}
+
+function clampHintTargetIndex(index: number | undefined, count: number) {
+    if (count <= 0) return undefined;
+    if (typeof index !== "number" || !Number.isFinite(index)) return 0;
+    return Math.min(Math.max(Math.trunc(index), 0), count - 1);
+}
+
+function shouldReuseScratchHintTarget(
+    current: ScratchWorkspaceBlockHint | null,
+    payload: Extract<TutorToolCall, { name: "course.highlight_scratch_blocks" }>["payload"],
+    targetIndex: number | undefined,
+) {
+    if (!current) return false;
+    if (current.stepIndex !== payload.stepIndex) return false;
+    if (payload.reason !== "next_step") return false;
+    if (typeof targetIndex === "number") return false;
+    return getHintTargetCount(payload) > 1;
+}
 
 export function LessonPageClient({
     courseId,
@@ -37,7 +64,7 @@ export function LessonPageClient({
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
     const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { registerToolHandler, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
+    const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const steps = lesson.steps ?? [];
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
     const activeStepTitle = steps[clampedActiveStep]?.title;
@@ -53,12 +80,33 @@ export function LessonPageClient({
         setActiveStep(targetIndex);
         setFocusedStep(targetIndex);
         if (toolCall.name === "course.highlight_scratch_blocks") {
-            setScratchBlockHint({
-                stepIndex: targetIndex,
-                keywords: toolCall.payload.keywords.slice(0, 4),
-                items: toolCall.payload.items?.slice(0, 4),
-                category: toolCall.payload.category,
-                reason: toolCall.payload.reason,
+            const keywords = toolCall.payload.keywords.slice(0, 4);
+            const items = toolCall.payload.items?.slice(0, 4);
+            const targetCount = getHintTargetCount({ keywords, items });
+            const hasToolTargetIndex =
+                typeof toolCall.payload.targetItemIndex === "number" &&
+                Number.isFinite(toolCall.payload.targetItemIndex);
+            const toolTargetIndex = hasToolTargetIndex
+                ? clampHintTargetIndex(toolCall.payload.targetItemIndex, targetCount)
+                : undefined;
+            setScratchBlockHint((current) => {
+                const shouldReuse = shouldReuseScratchHintTarget(
+                    current,
+                    { ...toolCall.payload, stepIndex: targetIndex },
+                    toolTargetIndex,
+                );
+                const nextTargetIndex = shouldReuse
+                    ? clampHintTargetIndex((current?.targetItemIndex ?? 0) + 1, targetCount)
+                    : toolTargetIndex ?? clampHintTargetIndex(0, targetCount);
+
+                return {
+                    stepIndex: targetIndex,
+                    keywords,
+                    items,
+                    targetItemIndex: nextTargetIndex,
+                    category: toolCall.payload.category,
+                    reason: toolCall.payload.reason,
+                };
             });
         }
 
@@ -68,27 +116,48 @@ export function LessonPageClient({
             focusTimerRef.current = null;
         }, 3600);
     }, [lesson.id, steps.length]);
+    const sceneCapabilities = useMemo(
+        () =>
+            getTutorSceneCapabilities({
+                focusCourseLessonStep: focusLessonStepFromTutorTool,
+            }),
+        [focusLessonStepFromTutorTool],
+    );
 
     useEffect(() => {
-        return registerToolHandler("course.focus_lesson_step", focusLessonStepFromTutorTool);
-    }, [focusLessonStepFromTutorTool, registerToolHandler]);
-
-    useEffect(() => {
-        return registerToolHandler("course.highlight_scratch_blocks", focusLessonStepFromTutorTool);
-    }, [focusLessonStepFromTutorTool, registerToolHandler]);
+        return registerToolHandlers({
+            focusCourseLessonStep: focusLessonStepFromTutorTool,
+        });
+    }, [focusLessonStepFromTutorTool, registerToolHandlers]);
 
     useEffect(() => {
         setTutorOverride({
             subtitle: activeStepTitle ? `正在做「${activeStepTitle}」` : lesson.title,
             lessonStepIndex: clampedActiveStep,
+            lessonStepCount: steps.length,
+            scratchBlockTargetItemIndex:
+                scratchBlockHint?.stepIndex === clampedActiveStep
+                    ? scratchBlockHint.targetItemIndex
+                    : undefined,
             scratchEditorContext,
+            sceneCapabilities,
             quickPrompts: ["这一步怎么做？", "我卡住了", "下一步该做什么？"],
         });
 
         return () => {
             clearTutorOverride();
         };
-    }, [activeStepTitle, clampedActiveStep, clearTutorOverride, lesson.title, scratchEditorContext, setTutorOverride]);
+    }, [
+        activeStepTitle,
+        clampedActiveStep,
+        clearTutorOverride,
+        lesson.title,
+        scratchBlockHint,
+        scratchEditorContext,
+        sceneCapabilities,
+        setTutorOverride,
+        steps.length,
+    ]);
 
     useEffect(() => {
         return () => {

@@ -66,6 +66,35 @@ describe('buildScratchBlockHintKeywords', () => {
         },
       }),
     ).toEqual(['重复执行', '当绿旗被点击'])
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '整理作品',
+          description: '检查作品是否完整。',
+          checklist: [],
+        },
+        lessonContent: {
+          requiredBlocks: [
+            { label: '重复执行', anyOf: ['control_forever'] },
+            { label: '当绿旗被点击', anyOf: ['event_whenflagclicked'] },
+          ],
+        },
+      }),
+    ).toEqual([
+      {
+        label: '重复执行',
+        findLabel: '重复执行',
+        category: 'control',
+        blockIds: ['control_forever'],
+      },
+      {
+        label: '当绿旗被点击',
+        findLabel: '当绿旗被点击',
+        category: 'events',
+        findHint: '黄色事件帽子，带绿色小旗图标',
+        blockIds: ['event_whenflagclicked'],
+      },
+    ])
   })
 
   it('resolves a Scratch category when hinted keywords stay in one category', () => {
@@ -95,12 +124,14 @@ describe('buildScratchBlockHintItems', () => {
       {
         label: '当绿旗被点击',
         findLabel: '当绿旗被点击',
+        blockIds: ['event_whenflagclicked'],
         category: 'events',
         findHint: '黄色事件帽子，带绿色小旗图标',
       },
       {
         label: '说 出发啦！',
         findLabel: '说 你好!',
+        blockIds: ['looks_say'],
         category: 'looks',
         editHint: '把文字改成「出发啦！」',
       },

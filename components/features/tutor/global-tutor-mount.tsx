@@ -28,6 +28,8 @@ export function GlobalTutorMount() {
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
   const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex
   const lessonStepIndex = tutorCtx?.override.lessonStepIndex
+  const lessonStepCount = tutorCtx?.override.lessonStepCount
+  const scratchBlockTargetItemIndex = tutorCtx?.override.scratchBlockTargetItemIndex
   const sessionInput = useMemo<TutorSessionQueryInput | null>(() => {
     if (!visible || !user?.id || !baseContext) return null
     return {
@@ -67,6 +69,8 @@ export function GlobalTutorMount() {
       context={baseContext}
       stageIndex={stageIndex}
       lessonStepIndex={lessonStepIndex}
+      lessonStepCount={lessonStepCount}
+      scratchBlockTargetItemIndex={scratchBlockTargetItemIndex}
       scratchEditorContext={tutorCtx?.override.scratchEditorContext}
       stageTitle={tutorCtx?.override.stageTitle}
       subtitle={tutorCtx?.override.subtitle}

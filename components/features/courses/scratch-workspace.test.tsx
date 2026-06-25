@@ -26,7 +26,7 @@ vi.mock('./scratch-loading-overlay', () => ({
 }))
 
 describe('ScratchWorkspace', () => {
-  it('forwards block hint keywords to the Scratch iframe and dismisses them', () => {
+  it('forwards the current block hint target to the Scratch iframe and dismisses it', () => {
     postMessage.mockClear()
     Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {
       configurable: true,
@@ -46,11 +46,13 @@ describe('ScratchWorkspace', () => {
             {
               label: '当绿旗被点击',
               findLabel: '当绿旗被点击',
+              category: 'events',
               findHint: '黄色事件帽子，带绿色小旗图标',
             },
             {
               label: '说 出发啦！',
               findLabel: '说 你好!',
+              category: 'looks',
               editHint: '把文字改成「出发啦！」',
             },
           ],
@@ -62,27 +64,25 @@ describe('ScratchWorkspace', () => {
 
     expect(screen.getByText('第 1 步要用到')).toBeInTheDocument()
     expect(screen.getByText(/继续做这一步/)).toBeInTheDocument()
-    expect(screen.getAllByText('找')).toHaveLength(2)
+    expect(screen.getByText(/当前 1\/2/)).toBeInTheDocument()
+    expect(screen.getByText('正在找')).toBeInTheDocument()
+    expect(screen.getByText('接着')).toBeInTheDocument()
     expect(screen.getByText('说 你好!')).toBeInTheDocument()
     expect(screen.getByText('拖出来后：把文字改成「出发啦！」')).toBeInTheDocument()
     expect(postMessage).toHaveBeenCalledWith(
       {
         source: 'steam-scratch-parent',
         type: 'HIGHLIGHT_BLOCK_KEYWORDS',
-        keywords: ['当绿旗被点击', '说 你好!'],
+        keywords: ['当绿旗被点击'],
         items: [
           {
             label: '当绿旗被点击',
             findLabel: '当绿旗被点击',
+            category: 'events',
             findHint: '黄色事件帽子，带绿色小旗图标',
           },
-          {
-            label: '说 出发啦！',
-            findLabel: '说 你好!',
-            editHint: '把文字改成「出发啦！」',
-          },
         ],
-        category: 'control',
+        category: 'events',
       },
       window.location.origin,
     )
@@ -93,6 +93,62 @@ describe('ScratchWorkspace', () => {
       {
         source: 'steam-scratch-parent',
         type: 'DISMISS_BLOCK_KEYWORDS',
+      },
+      window.location.origin,
+    )
+  })
+
+  it('uses targetItemIndex to highlight a later block hint item', () => {
+    postMessage.mockClear()
+    Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {
+      configurable: true,
+      get() {
+        return { postMessage }
+      },
+    })
+
+    render(
+      <ScratchWorkspace
+        courseId={1}
+        lessonId={2}
+        blockHint={{
+          stepIndex: 0,
+          keywords: ['当绿旗被点击', '说 你好!'],
+          items: [
+            {
+              label: '当绿旗被点击',
+              findLabel: '当绿旗被点击',
+              category: 'events',
+            },
+            {
+              label: '说 出发啦！',
+              findLabel: '说 你好!',
+              category: 'looks',
+              editHint: '把文字改成「出发啦！」',
+            },
+          ],
+          targetItemIndex: 1,
+          reason: 'next_step',
+        }}
+      />,
+    )
+
+    expect(screen.getByText(/当前 2\/2/)).toBeInTheDocument()
+    expect(screen.getByText('已提示')).toBeInTheDocument()
+    expect(postMessage).toHaveBeenCalledWith(
+      {
+        source: 'steam-scratch-parent',
+        type: 'HIGHLIGHT_BLOCK_KEYWORDS',
+        keywords: ['说 你好!'],
+        items: [
+          {
+            label: '说 出发啦！',
+            findLabel: '说 你好!',
+            category: 'looks',
+            editHint: '把文字改成「出发啦！」',
+          },
+        ],
+        category: 'looks',
       },
       window.location.origin,
     )

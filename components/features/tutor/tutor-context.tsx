@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react'
 
+import { buildTutorToolHandlers, type TutorToolHandlerContext } from '@/components/features/tutor/tool-handler-registry'
+import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { TutorToolCall, TutorToolName } from '@/lib/ai/tutor/tool-calls'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 
@@ -12,8 +14,13 @@ export type TutorContextOverride = {
   stageTitle?: string
   /** 技能课程：当前课时步骤，用于小迪聚焦当前步骤 */
   lessonStepIndex?: number
+  /** 技能课程：当前课时总步骤数，用于 Scratch 多动作提示结束后再进入下一步骤 */
+  lessonStepCount?: number
+  /** 技能课程：当前 Scratch 步骤内正在提示第几个积木动作 */
+  scratchBlockTargetItemIndex?: number
   /** 技能课程：Scratch 编辑器当前选中角色、角色列表与基础状态 */
   scratchEditorContext?: ScratchEditorContext | null
+  sceneCapabilities?: TutorSceneCapability[]
   quickPrompts?: string[]
   /** PBL：获取当前阶段产出用于「请导师看看」 */
   getReviewPayload?: () => { text: string; images: string[] } | null
@@ -33,6 +40,7 @@ type TutorContextValue = {
   queueSend: (text: string, images?: string[]) => void
   consumePendingSend: () => { text: string; images?: string[] } | null
   registerToolHandler: (name: TutorToolName, handler: TutorToolHandler) => () => void
+  registerToolHandlers: (context: TutorToolHandlerContext) => () => void
   dispatchToolCall: (toolCall: TutorToolCall) => Promise<boolean>
 }
 
@@ -78,6 +86,16 @@ export function TutorProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  const registerToolHandlers = useCallback((context: TutorToolHandlerContext) => {
+    const handlers = buildTutorToolHandlers(context)
+    const cleanups = Object.entries(handlers).map(([name, handler]) =>
+      registerToolHandler(name as TutorToolName, handler),
+    )
+    return () => {
+      for (const cleanup of cleanups.reverse()) cleanup()
+    }
+  }, [registerToolHandler])
+
   const dispatchToolCall = useCallback(async (toolCall: TutorToolCall) => {
     const handler = toolHandlersRef.current[toolCall.name]
     if (!handler) return false
@@ -97,6 +115,7 @@ export function TutorProvider({ children }: { children: ReactNode }) {
       queueSend,
       consumePendingSend,
       registerToolHandler,
+      registerToolHandlers,
       dispatchToolCall,
     }),
     [
@@ -109,6 +128,7 @@ export function TutorProvider({ children }: { children: ReactNode }) {
       queueSend,
       consumePendingSend,
       registerToolHandler,
+      registerToolHandlers,
       dispatchToolCall,
     ],
   )

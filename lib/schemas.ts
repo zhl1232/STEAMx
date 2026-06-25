@@ -126,6 +126,11 @@ export const TutorContextTypeSchema = z.enum(['global', 'challenge', 'project', 
 export const TutorGlobalSurfaceSchema = z.enum([
   'home', 'explore', 'nature', 'create', 'courses', 'community', 'playground', 'profile', 'users',
 ]);
+export const TutorSceneCapabilitySchema = z.enum([
+  'focusChallengeStage',
+  'focusCourseLessonStep',
+  'speciesAudio',
+]);
 
 const ScratchEditorTargetContextSchema = z.object({
   id: z.string().max(120),
@@ -138,6 +143,11 @@ const ScratchEditorTargetContextSchema = z.object({
   visible: z.boolean().optional(),
   costumeName: z.string().max(120).optional(),
   blockCount: z.number().int().min(0).max(5000).optional(),
+  blocks: z.array(z.object({
+    id: z.string().max(120),
+    type: z.string().max(120),
+    label: z.string().max(120).optional(),
+  })).max(120).optional(),
 });
 
 const ScratchEditorContextSchema = z.object({
@@ -154,7 +164,10 @@ export const TutorSendSchema = z.object({
   stageIndex: z.number().int().min(0).max(50).optional(),
   lessonId: z.number().int().positive().optional(),
   lessonStepIndex: z.number().int().min(0).max(50).optional(),
+  lessonStepCount: z.number().int().min(0).max(50).optional(),
+  scratchBlockTargetItemIndex: z.number().int().min(0).max(20).optional(),
   scratchEditorContext: ScratchEditorContextSchema.optional(),
+  sceneCapabilities: z.array(TutorSceneCapabilitySchema).max(8).optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
   meta: z.record(z.string(), z.unknown()).optional(),
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {

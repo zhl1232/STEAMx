@@ -17,6 +17,8 @@ export type ScratchBlockHintItem = {
   label: string
   /** Text the student can actually find in the Scratch toolbox first. */
   findLabel: string
+  /** Scratch opcode candidates for locating the block in the flyout. */
+  blockIds?: string[]
   /** Scratch category used to render the block with the same color as the editor. */
   category?: ScratchBlockCategory
   /** Extra visual cue for finding the default block. */
@@ -134,6 +136,32 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['画笔', 'myBlocks'],
 ]
 
+const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
+  ['当绿旗被点击', ['event_whenflagclicked']],
+  ['当角色被点击', ['event_whenthisspriteclicked']],
+  ['当按下', ['event_whenkeypressed']],
+  ['广播消息', ['event_broadcast']],
+  ['广播', ['event_broadcast']],
+  ['收到消息', ['event_whenbroadcastreceived']],
+  ['重复执行', ['control_forever']],
+  ['重复', ['control_repeat']],
+  ['如果', ['control_if']],
+  ['等待', ['control_wait']],
+  ['移动', ['motion_movesteps']],
+  ['转动', ['motion_turnright', 'motion_turnleft']],
+  ['面向', ['motion_pointtowards', 'motion_pointindirection']],
+  ['碰到边缘就反弹', ['motion_ifonedgebounce']],
+  ['切换背景', ['looks_switchbackdropto']],
+  ['下一个背景', ['looks_nextbackdrop']],
+  ['切换造型', ['looks_switchcostumeto']],
+  ['下一个造型', ['looks_nextcostume']],
+  ['播放声音', ['sound_play', 'sound_playuntildone']],
+  ['碰到颜色', ['sensing_touchingcolor']],
+  ['碰到', ['sensing_touchingobject']],
+  ['计时器', ['sensing_timer']],
+  ['随机数', ['operator_random']],
+]
+
 function addUniqueValue(values: string[], value: string) {
   const normalizedValue = value.trim()
   if (!normalizedValue || values.includes(normalizedValue)) return
@@ -163,11 +191,11 @@ function addKeyword(keywords: string[], keyword: string) {
 
 function createSimpleHintItem(label: string): ScratchBlockHintItem {
   const normalized = label.trim()
-  return {
+  return withInferredBlockIds({
     label: normalized,
     findLabel: normalized,
     category: resolveKeywordCategory(normalized),
-  }
+  })
 }
 
 function normalizeSpeechText(value: string) {
@@ -178,68 +206,110 @@ function normalizeScratchBlockHintItem(label: string, category?: ScratchBlockCat
   const normalized = label.trim()
 
   if (normalized === '当绿旗被点击') {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: normalized,
       category: category ?? 'events',
       findHint: '黄色事件帽子，带绿色小旗图标',
-    }
+    })
   }
 
   const sayForSecondsMatch = normalized.match(/^说\s+(.+?)\s*持续\s*([0-9.]+)\s*秒$/u)
   if (sayForSecondsMatch) {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: `说 你好! ${sayForSecondsMatch[2]} 秒`,
       category: category ?? 'looks',
       editHint: `把文字改成「${normalizeSpeechText(sayForSecondsMatch[1] ?? '')}」`,
-    }
+    })
   }
 
   const sayMatch = normalized.match(/^说\s+(.+)$/u)
   if (sayMatch) {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: '说 你好!',
       category: category ?? 'looks',
       editHint: `把文字改成「${normalizeSpeechText(sayMatch[1] ?? '')}」`,
-    }
+    })
   }
 
   const keyPressMatch = normalized.match(/^当按下\s+(.+?)\s*键$/u)
   if (keyPressMatch) {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: '当按下 空格 键',
       category: category ?? 'events',
       editHint: `把按键改成「${keyPressMatch[1]?.trim() ?? ''}」`,
-    }
+    })
   }
 
   const coordinateChangeMatch = normalized.match(/^将\s+([xy])\s*坐标增加\s+(-?[0-9.]+)$/u)
   if (coordinateChangeMatch && coordinateChangeMatch[2]?.startsWith('-')) {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: `将 ${coordinateChangeMatch[1]} 坐标增加 10`,
       category: category ?? 'motion',
       editHint: `把数字改成「${coordinateChangeMatch[2]}」`,
-    }
+    })
   }
 
   const waitMatch = normalized.match(/^等待\s+([0-9.]+)\s*秒$/u)
   if (waitMatch && waitMatch[1] !== '1') {
-    return {
+    return withInferredBlockIds({
       label: normalized,
       findLabel: '等待 1 秒',
       category: category ?? 'control',
       editHint: `把秒数改成「${waitMatch[1]}」`,
+    })
+  }
+
+  return withInferredBlockIds({
+    ...createSimpleHintItem(normalized),
+    category: category ?? resolveKeywordCategory(normalized),
+  })
+}
+
+function withBlockIds(item: ScratchBlockHintItem, blockIds?: string[]) {
+  const safeBlockIds: string[] = []
+  for (const blockId of blockIds ?? []) {
+    const safeBlockId = blockId.trim()
+    if (safeBlockId && !safeBlockIds.includes(safeBlockId)) safeBlockIds.push(safeBlockId)
+    if (safeBlockIds.length >= 6) break
+  }
+  return safeBlockIds.length > 0 ? { ...item, blockIds: safeBlockIds } : item
+}
+
+function inferScratchBlockIds(item: Pick<ScratchBlockHintItem, 'label' | 'findLabel'>) {
+  const labels = [item.findLabel, item.label].filter(Boolean)
+  const blockIds: string[] = []
+
+  for (const label of labels) {
+    const normalized = label.trim()
+    if (!normalized) continue
+
+    if (/^说\s+.+?\s*持续\s*[0-9.]+\s*秒$/u.test(normalized)) {
+      blockIds.push('looks_sayforsecs')
+    } else if (/^说\s+/u.test(normalized)) {
+      blockIds.push('looks_say')
+    }
+
+    if (/^将\s+x\s*坐标增加/u.test(normalized)) blockIds.push('motion_changexby')
+    if (/^将\s+y\s*坐标增加/u.test(normalized)) blockIds.push('motion_changeyby')
+
+    for (const [pattern, ids] of SCRATCH_BLOCK_ID_ENTRIES) {
+      if (normalized.includes(pattern) || pattern.includes(normalized)) {
+        blockIds.push(...ids)
+        break
+      }
     }
   }
 
-  return {
-    ...createSimpleHintItem(normalized),
-    category: category ?? resolveKeywordCategory(normalized),
-  }
+  return blockIds
+}
+
+function withInferredBlockIds(item: ScratchBlockHintItem) {
+  return withBlockIds(item, inferScratchBlockIds(item))
 }
 
 function normalizeRichTextCategoryKey(categoryKey: string) {
@@ -385,7 +455,8 @@ export function buildScratchBlockHintItems(input: {
 
   const requiredBlocks = input.lessonContent?.requiredBlocks ?? []
   for (const block of requiredBlocks) {
-    addHintItem(items, normalizeScratchBlockHintItem(block.label))
+    const item = normalizeScratchBlockHintItem(block.label)
+    addHintItem(items, withBlockIds(item, [...(item.blockIds ?? []), ...block.anyOf]))
     if (items.length >= maxItems) return items
   }
 

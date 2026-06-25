@@ -5,6 +5,7 @@ import type {
   TutorGlobalSurface,
   TutorGreeting,
 } from '@/lib/ai/tutor/types'
+import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 
 export const TUTOR_SESSION_STALE_MS = 5 * 60 * 1000
 
@@ -29,6 +30,7 @@ export type TutorSessionPayload = {
   scene?: {
     title?: string
     contextType?: TutorContextType
+    sceneCapabilities?: TutorSceneCapability[]
     suggestedImages?: string[]
   }
   hasNotebook?: boolean

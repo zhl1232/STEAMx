@@ -1,3 +1,4 @@
+import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { ScratchBlockCategory, ScratchBlockHintItem } from '@/lib/courses/scratch-hints'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 
@@ -44,8 +45,14 @@ export type TutorSceneContext = {
   scratchBlockItems?: ScratchBlockHintItem[]
   /** Scratch 课时：可优先打开的积木分类 */
   scratchBlockCategory?: ScratchBlockCategory
+  /** Scratch 课时：当前步骤内正在提示第几个积木动作 */
+  scratchBlockTargetItemIndex?: number
+  /** Scratch 课时：当前步骤总共有多少个积木动作 */
+  scratchBlockStepItemCount?: number
   /** Scratch 课时：编辑器当前选中的角色、角色列表与基础状态 */
   scratchEditorContext?: ScratchEditorContext
+  /** 当前 scene 默认提供给 tutor tool 的前端能力 */
+  sceneCapabilities?: TutorSceneCapability[]
   /** 当前场景可插入对话的鸟鸣音频 */
   availableAudios?: TutorAudioRef[]
   /** 仅 global 场景：当前页面标识 */

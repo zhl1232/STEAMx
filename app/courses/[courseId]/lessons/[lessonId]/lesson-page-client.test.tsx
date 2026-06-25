@@ -18,7 +18,11 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
     onScratchEditorContextChange,
   }: {
     activeStepIndex: number
-    scratchBlockHint?: { keywords: string[]; items?: Array<{ findLabel: string; editHint?: string }> } | null
+    scratchBlockHint?: {
+      keywords: string[]
+      targetItemIndex?: number
+      items?: Array<{ findLabel: string; editHint?: string }>
+    } | null
     onDismissScratchBlockHint?: () => void
     onScratchEditorContextChange?: (context: {
       selectedTargetId?: string
@@ -43,6 +47,7 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
       {scratchBlockHint?.keywords.length ? (
         <div>
           <p>第 {activeStepIndex + 1} 步要用到</p>
+          <p>当前提示 {scratchBlockHint.targetItemIndex ?? 0}</p>
           {scratchBlockHint.keywords.map((keyword) => (
             <span key={keyword}>{keyword}</span>
           ))}
@@ -255,6 +260,7 @@ describe('LessonPageClient', () => {
 
     expect(screen.getByText('workspace step 2')).toBeInTheDocument()
     expect(screen.getByText('第 2 步要用到')).toBeInTheDocument()
+    expect(screen.getByText('当前提示 0')).toBeInTheDocument()
     expect(screen.getByText('重复执行')).toBeInTheDocument()
     expect(screen.getByText('说 你好!')).toBeInTheDocument()
     expect(screen.getByText('把文字改成「出发啦！」')).toBeInTheDocument()
@@ -264,5 +270,67 @@ describe('LessonPageClient', () => {
     })
 
     expect(screen.queryByText('重复执行')).not.toBeInTheDocument()
+  })
+
+  it('advances Scratch block hints inside the same lesson step before changing lesson steps', async () => {
+    let dispatchToolCall: ((toolCall: TutorToolCall) => Promise<boolean>) | null = null
+    const observedOverrides: TutorContextOverride[] = []
+
+    render(
+      <TutorProvider>
+        <TutorDispatchCapture onReady={(dispatch) => {
+          dispatchToolCall = dispatch
+        }} />
+        <TutorOverrideCapture onChange={(override) => {
+          observedOverrides.push(override)
+        }} />
+        <LessonPageClient
+          courseId={7}
+          courseTitle="工程课"
+          lesson={lesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    const payload = {
+      lessonId: 42,
+      stepIndex: 1,
+      keywords: ['重复执行', '说 你好!'],
+      items: [
+        { label: '重复执行', findLabel: '重复执行' },
+        { label: '说 出发啦！', findLabel: '说 你好!', editHint: '把文字改成「出发啦！」' },
+      ],
+      category: 'control' as const,
+      reason: 'next_step' as const,
+    }
+
+    await act(async () => {
+      await dispatchToolCall?.({
+        name: 'course.highlight_scratch_blocks',
+        payload,
+      })
+    })
+
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(screen.getByText('当前提示 0')).toBeInTheDocument()
+    expect(observedOverrides.at(-1)).toMatchObject({
+      lessonStepIndex: 1,
+      scratchBlockTargetItemIndex: 0,
+    })
+
+    await act(async () => {
+      await dispatchToolCall?.({
+        name: 'course.highlight_scratch_blocks',
+        payload,
+      })
+    })
+
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(screen.getByText('当前提示 1')).toBeInTheDocument()
+    expect(observedOverrides.at(-1)).toMatchObject({
+      lessonStepIndex: 1,
+      scratchBlockTargetItemIndex: 1,
+    })
   })
 })

@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { Progress } from "@/components/ui/progress"
 import { Textarea } from "@/components/ui/textarea"
+import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
@@ -111,7 +112,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const {
     setOverride: setTutorOverride,
     clearOverride: clearTutorOverride,
-    registerToolHandler,
+    registerToolHandlers,
   } = useTutorContext()
 
   const [drafts, setDrafts] = useState<Record<number, StageDraft>>({})
@@ -239,10 +240,19 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
       stageCardRefs.current[targetIndex]?.scrollIntoView({ behavior: "smooth", block: "center" })
     }, 80)
   }, [currentStep, isUnlocked])
+  const sceneCapabilities = useMemo(
+    () =>
+      getTutorSceneCapabilities({
+        focusChallengeStage: focusStageFromTutorTool,
+      }),
+    [focusStageFromTutorTool],
+  )
 
   useEffect(() => {
-    return registerToolHandler("pbl.focus_current_stage", focusStageFromTutorTool)
-  }, [registerToolHandler, focusStageFromTutorTool])
+    return registerToolHandlers({
+      focusChallengeStage: focusStageFromTutorTool,
+    })
+  }, [registerToolHandlers, focusStageFromTutorTool])
 
   useEffect(() => {
     return () => {
@@ -270,6 +280,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
         : stage?.title
           ? `陪你完成「${stage.title}」这步`
           : undefined,
+      sceneCapabilities,
       quickPrompts,
       getReviewPayload: () => {
         const draft = draftsRef.current[currentStep]
@@ -291,6 +302,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     stages,
     workspace?.projectGoal,
     currentPersonalPlanStep,
+    sceneCapabilities,
   ])
 
   const ensureCanEdit = useCallback(() => {

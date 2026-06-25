@@ -14,6 +14,13 @@ export type ScratchEditorTargetContext = {
   visible?: boolean
   costumeName?: string
   blockCount?: number
+  blocks?: ScratchEditorBlockContext[]
+}
+
+export type ScratchEditorBlockContext = {
+  id: string
+  type: string
+  label?: string
 }
 
 export type ScratchEditorContext = {
@@ -30,7 +37,12 @@ export type ScratchParentMessage =
   | { type: 'RUN_PLAYER_ONLY' }
   | { type: 'OPEN_TUTORIALS' }
   | { type: 'OPEN_TUTORIAL_DECK'; deckId: string }
-  | { type: 'HIGHLIGHT_BLOCK_KEYWORDS'; keywords: string[]; items?: ScratchBlockHintItem[]; category?: ScratchBlockCategory }
+  | {
+      type: 'HIGHLIGHT_BLOCK_KEYWORDS'
+      keywords: string[]
+      items?: ScratchBlockHintItem[]
+      category?: ScratchBlockCategory
+    }
   | { type: 'DISMISS_BLOCK_KEYWORDS' }
 
 export type ScratchHostMessage =

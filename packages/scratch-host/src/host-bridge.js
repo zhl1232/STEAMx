@@ -17,6 +17,49 @@ const CATEGORY_LABELS = {
   myBlocks: '自制积木',
 }
 const CATEGORY_IDS = new Set(Object.keys(CATEGORY_LABELS))
+const FLYOUT_DOM_CATEGORY_BY_HINT_CATEGORY = {
+  motion: 'motion',
+  looks: 'looks',
+  sound: 'sounds',
+  events: 'events',
+  control: 'control',
+  sensing: 'sensing',
+  operators: 'operators',
+  data: 'data',
+  myBlocks: 'more',
+}
+const FLYOUT_DOM_BLOCK_MATCHERS = {
+  event_whenflagclicked: { category: 'events', texts: ['whenclicked', '当绿旗被点击'], index: 0 },
+  event_whenkeypressed: { category: 'events', texts: ['whenkeypressed', 'keypressed', '当按下'] },
+  event_whenthisspriteclicked: { category: 'events', texts: ['whenthisspriteclicked', 'whenstageclicked', '当角色被点击'] },
+  event_whenbackdropswitchesto: { category: 'events', texts: ['whenbackdropswitchesto', '当背景切换'] },
+  event_broadcast: { category: 'events', texts: ['broadcast', '广播'] },
+  event_whenbroadcastreceived: { category: 'events', texts: ['whenireceive', '收到消息'] },
+  control_wait: { category: 'control', texts: ['waitseconds', '等待'] },
+  control_repeat: { category: 'control', texts: ['repeat'], rejectTexts: ['repeatuntil'] },
+  control_forever: { category: 'control', texts: ['forever', '重复执行'] },
+  control_if: { category: 'control', texts: ['ifthen', '如果'] },
+  motion_movesteps: { category: 'motion', texts: ['movesteps', '移动'] },
+  motion_turnright: { category: 'motion', texts: ['turndegrees', '右转'] },
+  motion_turnleft: { category: 'motion', texts: ['turndegrees', '左转'] },
+  motion_pointtowards: { category: 'motion', texts: ['pointtowards', '面向'] },
+  motion_pointindirection: { category: 'motion', texts: ['pointindirection', '面向'] },
+  motion_ifonedgebounce: { category: 'motion', texts: ['ifonedgebounce', '碰到边缘就反弹'] },
+  motion_changexby: { category: 'motion', texts: ['changexby', '将x坐标增加'] },
+  motion_changeyby: { category: 'motion', texts: ['changeyby', '将y坐标增加'] },
+  looks_say: { category: 'looks', texts: ['say'], rejectTexts: ['sayforseconds', 'think'] },
+  looks_sayforsecs: { category: 'looks', texts: ['sayforseconds'] },
+  looks_switchbackdropto: { category: 'looks', texts: ['switchbackdropto', '切换背景'] },
+  looks_nextbackdrop: { category: 'looks', texts: ['nextbackdrop', '下一个背景'] },
+  looks_switchcostumeto: { category: 'looks', texts: ['switchcostumeto', '切换造型'] },
+  looks_nextcostume: { category: 'looks', texts: ['nextcostume', '下一个造型'] },
+  sound_play: { category: 'sounds', texts: ['playsound', '播放声音'] },
+  sound_playuntildone: { category: 'sounds', texts: ['playsounduntildone', '播放声音'] },
+  sensing_touchingobject: { category: 'sensing', texts: ['touching', '碰到'], rejectTexts: ['touchingcolor'] },
+  sensing_touchingcolor: { category: 'sensing', texts: ['touchingcolor', '碰到颜色'] },
+  sensing_timer: { category: 'sensing', texts: ['timer', '计时器'], rejectTexts: ['resettimer'] },
+  operator_random: { category: 'operators', texts: ['pickrandomto', '随机数'] },
+}
 
 let vmRef = null
 let playerOnly = false
@@ -25,6 +68,8 @@ let loadChain = Promise.resolve()
 let pendingAfterGui = null
 let bootstrapDone = false
 let blockHintDismissTimer = null
+let blockHintLocateTimer = null
+let highlightedFlyoutBlock = null
 let editorContextTimer = null
 let lastEditorContextJson = ''
 
@@ -46,6 +91,25 @@ function getTargetCostumeName(target) {
   const costumeIndex = typeof target?.currentCostume === 'number' ? target.currentCostume : 0
   const costume = Array.isArray(target?.sprite?.costumes) ? target.sprite.costumes[costumeIndex] : null
   return typeof costume?.name === 'string' ? costume.name : undefined
+}
+
+function serializeTargetBlocks(target) {
+  const blocks = target?.blocks?._blocks
+  if (!blocks || typeof blocks !== 'object') return undefined
+
+  return Object.entries(blocks)
+    .map(([id, block]) => {
+      if (!block || Array.isArray(block) || typeof block !== 'object') return null
+      const type = typeof block.opcode === 'string' ? block.opcode : typeof block.type === 'string' ? block.type : ''
+      if (!type) return null
+      return {
+        id: String(block.id ?? id),
+        type,
+        label: typeof block.name === 'string' ? block.name : undefined,
+      }
+    })
+    .filter(Boolean)
+    .slice(0, 120)
 }
 
 function buildEditorContext(vm) {
@@ -70,6 +134,7 @@ function buildEditorContext(vm) {
         visible: typeof target?.visible === 'boolean' ? target.visible : undefined,
         costumeName: getTargetCostumeName(target),
         blockCount: blocks && typeof blocks === 'object' ? Object.keys(blocks).length : undefined,
+        blocks: serializeTargetBlocks(target),
       }
     })
     .filter((target) => target.id && target.name)
@@ -131,16 +196,44 @@ function hideBlockHintOverlay() {
     clearTimeout(blockHintDismissTimer)
     blockHintDismissTimer = null
   }
+  if (blockHintLocateTimer) {
+    clearTimeout(blockHintLocateTimer)
+    blockHintLocateTimer = null
+  }
+  clearFlyoutBlockHighlight()
   document.getElementById('scratch-block-hint-overlay')?.remove()
 }
 
 function findScratchWorkspace() {
-  const scratchBlocks = window.ScratchBlocks
+  const scratchBlocks = window.ScratchBlocks ?? window.Blockly
   if (scratchBlocks && typeof scratchBlocks.getMainWorkspace === 'function') {
     const workspace = scratchBlocks.getMainWorkspace()
     if (workspace?.toolbox_) return workspace
   }
   return null
+}
+
+function escapeCssIdent(value) {
+  if (window.CSS && typeof window.CSS.escape === 'function') {
+    return window.CSS.escape(value)
+  }
+  return String(value).replace(/[^a-zA-Z0-9_-]/g, '\\$&')
+}
+
+function isScratchCategorySelected(toolbox, categoryId) {
+  if (typeof toolbox?.getSelectedCategoryId !== 'function') return true
+  return toolbox.getSelectedCategoryId() === categoryId
+}
+
+function dispatchCategoryMouseup(element) {
+  element.dispatchEvent(
+    new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    }),
+  )
+  element.click()
 }
 
 function selectScratchCategory(category) {
@@ -152,31 +245,326 @@ function selectScratchCategory(category) {
     try {
       if (typeof workspace.toolbox_.setSelectedCategoryById === 'function') {
         workspace.toolbox_.setSelectedCategoryById(categoryId)
-        return true
+        if (isScratchCategorySelected(workspace.toolbox_, categoryId)) return true
       }
       if (typeof workspace.toolbox_.scrollToCategoryById === 'function') {
         workspace.toolbox_.scrollToCategoryById(categoryId)
-        return true
+        if (isScratchCategorySelected(workspace.toolbox_, categoryId)) return true
       }
     } catch (err) {
       console.warn('[scratch-host] category API selection failed:', err)
     }
   }
 
+  const safeCategoryId = escapeCssIdent(categoryId)
   const selector = [
+    `.scratchCategoryId-${safeCategoryId}`,
     `[data-id="${categoryId}"]`,
     `[data-category="${categoryId}"]`,
     `[id="${categoryId}"]`,
   ].join(',')
   const element = document.querySelector(selector)
   if (element instanceof HTMLElement) {
-    element.click()
+    dispatchCategoryMouseup(element)
     return true
   }
   return false
 }
 
-function showBlockHintOverlay(keywords, category) {
+function normalizeTextForMatch(value) {
+  return String(value ?? '')
+    .replace(/\s+/g, '')
+    .replace(/[！]/g, '!')
+    .replace(/[？]/g, '?')
+    .toLowerCase()
+}
+
+function normalizeHintItems(items, keywords) {
+  if (Array.isArray(items) && items.length > 0) {
+    return items
+      .map((item) => {
+        const findLabel = typeof item?.findLabel === 'string' ? item.findLabel.trim() : ''
+        const label = typeof item?.label === 'string' ? item.label.trim() : findLabel
+        const category = normalizeCategory(item?.category)
+        const blockIds = Array.isArray(item?.blockIds)
+          ? item.blockIds
+              .map((blockId) => (typeof blockId === 'string' ? blockId.trim() : ''))
+              .filter(Boolean)
+              .slice(0, 6)
+          : []
+        return { label, findLabel, blockIds, category }
+      })
+      .filter((item) => item.findLabel)
+      .slice(0, 4)
+  }
+
+  return keywords.map((keyword) => ({
+    label: keyword,
+    findLabel: keyword,
+    blockIds: [],
+    category: null,
+  }))
+}
+
+function getFirstHintItemCategory(items) {
+  const item = items.find((candidate) => normalizeCategory(candidate.category))
+  return item ? normalizeCategory(item.category) : null
+}
+
+function getFlyoutWorkspace() {
+  const workspace = findScratchWorkspace()
+  const flyout = workspace?.getFlyout?.() ?? workspace?.toolbox_?.flyout_
+  const flyoutWorkspace = flyout?.getWorkspace?.()
+  if (!flyout || !flyoutWorkspace || typeof flyoutWorkspace.getTopBlocks !== 'function') return null
+  return { flyout, flyoutWorkspace }
+}
+
+function getBlockText(block) {
+  try {
+    if (typeof block?.toString === 'function') {
+      return block.toString(80, '')
+    }
+  } catch {
+    // Fall through to an empty string; flyout location is best-effort.
+  }
+  return ''
+}
+
+function getFlyoutDomBlocks() {
+  return Array.from(document.querySelectorAll('.blocklyFlyout .blocklyDraggable[data-category]'))
+    .filter((element) => element instanceof Element)
+}
+
+function getFlyoutDomCategory(category) {
+  const categoryId = normalizeCategory(category)
+  return categoryId ? FLYOUT_DOM_CATEGORY_BY_HINT_CATEGORY[categoryId] ?? categoryId : null
+}
+
+function getDomBlockText(element) {
+  return normalizeTextForMatch(element.textContent || '')
+}
+
+function domBlockMatchesRule(element, rule) {
+  const category = element.getAttribute('data-category')
+  if (rule.category && category !== rule.category) return false
+
+  const text = getDomBlockText(element)
+  if (Array.isArray(rule.rejectTexts)) {
+    const rejected = rule.rejectTexts.some((candidate) => text.includes(normalizeTextForMatch(candidate)))
+    if (rejected) return false
+  }
+  return rule.texts.some((candidate) => text.includes(normalizeTextForMatch(candidate)))
+}
+
+function findFlyoutDomBlockByRule(blockId) {
+  const rule = FLYOUT_DOM_BLOCK_MATCHERS[blockId]
+  if (!rule) return null
+
+  const categoryBlocks = getFlyoutDomBlocks().filter(
+    (element) => element.getAttribute('data-category') === rule.category,
+  )
+  const matchedByText = categoryBlocks.find((element) => domBlockMatchesRule(element, rule))
+  if (matchedByText) return matchedByText
+
+  if (typeof rule.index === 'number') return categoryBlocks[rule.index] ?? null
+  return null
+}
+
+function findFlyoutDomBlockByText(item) {
+  const expectedCategory = getFlyoutDomCategory(item.category)
+  const candidateTexts = [item.findLabel, item.label].map(normalizeTextForMatch).filter(Boolean)
+  if (!candidateTexts.length) return null
+
+  return getFlyoutDomBlocks().find((element) => {
+    if (expectedCategory && element.getAttribute('data-category') !== expectedCategory) return false
+    const text = getDomBlockText(element)
+    return candidateTexts.some((candidate) => text.includes(candidate) || candidate.includes(text))
+  }) ?? null
+}
+
+function findMatchingFlyoutDomBlock(items, keywords) {
+  const normalizedItems = normalizeHintItems(items, keywords)
+
+  for (const item of normalizedItems) {
+    for (const blockId of item.blockIds) {
+      const element = findFlyoutDomBlockByRule(blockId)
+      if (element) return { domElement: element, label: item.findLabel || item.label || blockId }
+    }
+  }
+
+  for (const item of normalizedItems) {
+    const element = findFlyoutDomBlockByText(item)
+    if (element) return { domElement: element, label: item.findLabel || item.label }
+  }
+
+  for (const keyword of keywords) {
+    const element = findFlyoutDomBlockByText({ label: keyword, findLabel: keyword, category: null })
+    if (element) return { domElement: element, label: keyword }
+  }
+
+  return null
+}
+
+function findFlyoutBlockById(blocks, candidateIds) {
+  for (const block of blocks) {
+    const blockType = String(block?.type ?? '')
+    const blockId = String(block?.id ?? '')
+    if (candidateIds.has(blockType) || candidateIds.has(blockId)) return block
+  }
+  return null
+}
+
+function findFlyoutBlockByText(blocks, candidateTexts) {
+  const normalizedTexts = candidateTexts.map(normalizeTextForMatch).filter(Boolean)
+  if (!normalizedTexts.length) return null
+
+  for (const block of blocks) {
+    const normalizedBlockText = normalizeTextForMatch(getBlockText(block))
+    if (!normalizedBlockText) continue
+    const matchedText = normalizedTexts.find(
+      (text) => normalizedBlockText.includes(text) || text.includes(normalizedBlockText),
+    )
+    if (matchedText) return block
+  }
+  return null
+}
+
+function findMatchingFlyoutBlock(items, keywords) {
+  const flyoutState = getFlyoutWorkspace()
+  if (!flyoutState) return findMatchingFlyoutDomBlock(items, keywords)
+
+  const blocks = flyoutState.flyoutWorkspace.getTopBlocks(false)
+  const normalizedItems = normalizeHintItems(items, keywords)
+
+  for (const item of normalizedItems) {
+    const candidateIds = new Set(item.blockIds)
+    const block = findFlyoutBlockById(blocks, candidateIds)
+    if (block) {
+      return { ...flyoutState, block, label: item.findLabel || item.label || block.toString?.(60, '') || String(block.type ?? '') }
+    }
+  }
+
+  for (const item of normalizedItems) {
+    const candidateTexts = [item.findLabel]
+    if (item.label && item.label !== item.findLabel) candidateTexts.push(item.label)
+    const block = findFlyoutBlockByText(blocks, candidateTexts)
+    if (block) {
+      return { ...flyoutState, block, label: item.findLabel || item.label || block.toString?.(60, '') || getBlockText(block) }
+    }
+  }
+
+  const block = findFlyoutBlockByText(blocks, keywords)
+  if (block) return { ...flyoutState, block, label: keywords[0] || block.toString?.(60, '') || getBlockText(block) }
+
+  return findMatchingFlyoutDomBlock(items, keywords)
+}
+
+function clearFlyoutBlockHighlight() {
+  if (highlightedFlyoutBlock) {
+    highlightedFlyoutBlock.classList.remove('scratch-block-hint-target')
+    highlightedFlyoutBlock.removeAttribute('data-steam-scratch-block-hint-target')
+    highlightedFlyoutBlock = null
+  }
+}
+
+function getBlockSvgGroup(block) {
+  const svgGroup = block?.svgGroup_
+  if (svgGroup instanceof Element) return svgGroup
+  const svgRoot = block?.getSvgRoot?.()
+  return svgRoot instanceof Element ? svgRoot : null
+}
+
+function scrollFlyoutToBlock(flyout, block) {
+  const xy = block?.getRelativeToSurfaceXY?.()
+  if (!xy) return
+  const isHorizontal = Boolean(flyout?.horizontalLayout_)
+  const target = Math.max((isHorizontal ? xy.x : xy.y) - 18, 0)
+  if (typeof flyout.scrollTo === 'function') {
+    flyout.scrollTo(target)
+    return
+  }
+  if (typeof flyout.setScrollPos === 'function') {
+    flyout.setScrollPos(target)
+  }
+}
+
+function highlightFlyoutBlock(block) {
+  const svgGroup = getBlockSvgGroup(block)
+  if (!svgGroup) return false
+  clearFlyoutBlockHighlight()
+  svgGroup.classList.add('scratch-block-hint-target')
+  svgGroup.setAttribute('data-steam-scratch-block-hint-target', '1')
+  highlightedFlyoutBlock = svgGroup
+  return true
+}
+
+function scrollFlyoutDomBlockIntoView(element) {
+  if (typeof element?.scrollIntoView === 'function') {
+    try {
+      element.scrollIntoView({ block: 'center', inline: 'nearest' })
+    } catch {
+      element.scrollIntoView()
+    }
+  }
+}
+
+function highlightFlyoutDomBlock(element) {
+  if (!(element instanceof Element)) return false
+  clearFlyoutBlockHighlight()
+  element.classList.add('scratch-block-hint-target')
+  element.setAttribute('data-steam-scratch-block-hint-target', '1')
+  highlightedFlyoutBlock = element
+  return true
+}
+
+function scheduleFlyoutBlockLocation(items, keywords, categoryId) {
+  if (blockHintLocateTimer) {
+    clearTimeout(blockHintLocateTimer)
+    blockHintLocateTimer = null
+  }
+  clearFlyoutBlockHighlight()
+
+  let attempts = 0
+  const locate = () => {
+    attempts += 1
+    const match = findMatchingFlyoutBlock(items, keywords)
+    if (!match) {
+      if (attempts < 4) {
+        blockHintLocateTimer = setTimeout(locate, 160 * attempts)
+      } else {
+        blockHintLocateTimer = null
+      }
+      return
+    }
+
+    blockHintLocateTimer = null
+    if (match.domElement) {
+      scrollFlyoutDomBlockIntoView(match.domElement)
+      highlightFlyoutDomBlock(match.domElement)
+    } else {
+      scrollFlyoutToBlock(match.flyout, match.block)
+      highlightFlyoutBlock(match.block)
+    }
+
+    const label = String(match.label || '').trim()
+    const categoryEl = document
+      .getElementById('scratch-block-hint-overlay')
+      ?.querySelector('.scratch-block-hint-category')
+    if (categoryEl) {
+      categoryEl.textContent = label
+        ? `已定位到「${label}」`
+        : categoryId
+          ? `已打开「${CATEGORY_LABELS[categoryId]}」分类`
+          : ''
+      categoryEl.toggleAttribute('hidden', !categoryEl.textContent)
+    }
+    if (label) setStatus(`已定位积木：${label}`)
+  }
+
+  blockHintLocateTimer = setTimeout(locate, categoryId ? 120 : 40)
+}
+
+function showBlockHintOverlay(keywords, category, items) {
   const safeKeywords = Array.isArray(keywords)
     ? keywords
         .map((keyword) => (typeof keyword === 'string' ? keyword.trim() : ''))
@@ -188,7 +576,8 @@ function showBlockHintOverlay(keywords, category) {
     return
   }
 
-  const categoryId = normalizeCategory(category)
+  const safeItems = normalizeHintItems(items, safeKeywords)
+  const categoryId = normalizeCategory(category) ?? getFirstHintItemCategory(safeItems)
   const categorySelected = selectScratchCategory(categoryId)
   const overlay = getBlockHintOverlay()
   const categoryEl = overlay.querySelector('.scratch-block-hint-category')
@@ -214,6 +603,7 @@ function showBlockHintOverlay(keywords, category) {
       ? `已打开${CATEGORY_LABELS[categoryId]}分类`
       : `提示：${safeKeywords.join('、')}`,
   )
+  scheduleFlyoutBlockLocation(safeItems, safeKeywords, categoryId)
 
   if (blockHintDismissTimer) clearTimeout(blockHintDismissTimer)
   blockHintDismissTimer = setTimeout(() => {
@@ -543,7 +933,7 @@ export function initHostMessageListener() {
         }
         break
       case 'HIGHLIGHT_BLOCK_KEYWORDS':
-        showBlockHintOverlay(data.keywords, data.category)
+        showBlockHintOverlay(data.keywords, data.category, data.items)
         break
       case 'DISMISS_BLOCK_KEYWORDS':
         hideBlockHintOverlay()

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { TutorGlobalSurface, TutorSceneContext } from '@/lib/ai/tutor/types'
 import {
   buildAvailableAudiosSummary,
@@ -10,7 +11,6 @@ import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
 import {
   buildScratchBlockHintItems,
-  buildScratchBlockHintKeywords,
   keepScratchRichTextBlockMarkers,
   resolveScratchBlockCategory,
   stripScratchRichTextMarkers,
@@ -42,17 +42,112 @@ function scratchMarkerCategory(category: ScratchBlockCategory) {
   return category === 'myBlocks' ? 'myblocks' : category
 }
 
-function formatScratchBlockReferenceItems(items: ScratchBlockHintItem[]) {
+function clampScratchBlockItemIndex(index: number | undefined, count: number) {
+  if (count <= 0) return undefined
+  if (typeof index !== 'number' || !Number.isFinite(index)) return undefined
+  return Math.min(Math.max(Math.trunc(index), 0), count - 1)
+}
+
+function formatScratchBlockReferenceItems(items: ScratchBlockHintItem[], targetItemIndex?: number) {
   if (!items.length) return ''
+  const targetIndex = clampScratchBlockItemIndex(targetItemIndex, items.length)
   return items
     .slice(0, 4)
-    .map((item) => {
+    .map((item, index) => {
       const block = item.category
         ? `[[block:${scratchMarkerCategory(item.category)}|${item.findLabel}]]`
         : item.findLabel
-      return `- ${block}${item.editHint ? `；拖出后${item.editHint}` : ''}`
+      const prefix = index === targetIndex ? '当前要做：' : ''
+      return `- ${prefix}${block}${item.editHint ? `；拖出后${item.editHint}` : ''}`
     })
     .join('\n')
+}
+
+function getSelectedScratchTarget(context?: ScratchEditorContext) {
+  if (!context || !Array.isArray(context.targets) || context.targets.length === 0) return null
+  return (
+    context.targets.find((target) => target.id === context.selectedTargetId) ??
+    context.targets.find((target) => target.name === context.selectedTargetName) ??
+    null
+  )
+}
+
+function getSelectedScratchBlockTypes(context?: ScratchEditorContext) {
+  const selected = getSelectedScratchTarget(context)
+  const blocks = selected?.blocks
+  if (!Array.isArray(blocks) || blocks.length === 0) return new Set<string>()
+  return new Set(
+    blocks
+      .map((block) => block.type.trim())
+      .filter(Boolean),
+  )
+}
+
+const OPCODE_ONLY_SCRATCH_BLOCK_IDS = new Set([
+  'event_whenflagclicked',
+  'event_whenthisspriteclicked',
+  'control_forever',
+  'motion_ifonedgebounce',
+  'looks_nextbackdrop',
+  'looks_nextcostume',
+])
+
+function canTreatExistingOpcodeAsComplete(item: ScratchBlockHintItem) {
+  const blockIds = item.blockIds ?? []
+  if (blockIds.length === 0) return false
+  if (item.editHint?.trim()) return false
+  if (item.label.trim() !== item.findLabel.trim()) return false
+  return blockIds.every((blockId) => OPCODE_ONLY_SCRATCH_BLOCK_IDS.has(blockId))
+}
+
+function filterScratchBlockItemsByExistingBlocks(
+  items: ScratchBlockHintItem[],
+  context?: ScratchEditorContext,
+) {
+  const existingTypes = getSelectedScratchBlockTypes(context)
+  if (existingTypes.size === 0) {
+    return {
+      pendingItems: items,
+      existingItems: [] as ScratchBlockHintItem[],
+      pendingOriginalIndexes: items.map((_, index) => index),
+    }
+  }
+
+  const pendingItems: ScratchBlockHintItem[] = []
+  const existingItems: ScratchBlockHintItem[] = []
+  const pendingOriginalIndexes: number[] = []
+  for (const [index, item] of items.entries()) {
+    const blockIds = item.blockIds ?? []
+    const alreadyExists =
+      canTreatExistingOpcodeAsComplete(item) &&
+      blockIds.some((blockId) => existingTypes.has(blockId))
+    if (alreadyExists) existingItems.push(item)
+    else {
+      pendingItems.push(item)
+      pendingOriginalIndexes.push(index)
+    }
+  }
+  return { pendingItems, existingItems, pendingOriginalIndexes }
+}
+
+function resolvePendingScratchTargetItemIndex(input: {
+  requestedIndex?: number
+  allItemCount: number
+  pendingOriginalIndexes: number[]
+}) {
+  if (input.pendingOriginalIndexes.length === 0) return undefined
+  if (
+    typeof input.requestedIndex !== 'number' ||
+    !Number.isFinite(input.requestedIndex) ||
+    input.allItemCount <= 0
+  ) {
+    return undefined
+  }
+
+  const requestedOriginalIndex = clampScratchBlockItemIndex(input.requestedIndex, input.allItemCount)
+  if (typeof requestedOriginalIndex !== 'number') return undefined
+  const pendingIndex = input.pendingOriginalIndexes.indexOf(requestedOriginalIndex)
+  return pendingIndex >= 0 ? pendingIndex : undefined
 }
 
 function formatScratchNumber(value: number | undefined) {
@@ -69,6 +164,11 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
   const selectedName = selected?.name ?? context.selectedTargetName
   const stage = context.targets.find((target) => target.isStage)
   const sprites = context.targets.filter((target) => !target.isStage).slice(0, 8)
+  const selectedBlocks = (selected?.blocks ?? [])
+    .map((block) => block.type)
+    .filter(Boolean)
+    .slice(0, 12)
+    .join('、')
   const spriteLines = sprites
     .map((target) => {
       const facts = [
@@ -91,6 +191,7 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
     selectedName
       ? `当前选中角色/对象：${compact(selectedName, 40)}。回答具体操作时优先围绕这个对象；如果它不是小猫，不要默认说“小猫”。`
       : '',
+    selectedBlocks ? `当前选中对象已有积木 opcode：${selectedBlocks}` : '',
     stage?.name ? `舞台/背景对象：${compact(stage.name, 40)}` : '',
     spriteLines ? `角色列表：\n${spriteLines}` : '',
   ]
@@ -100,6 +201,21 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
 
 function compactLines(lines: Array<string | null | undefined>) {
   return lines.filter(Boolean).join('\n')
+}
+
+function resolveDefaultSceneCapabilities(input: {
+  contextType: TutorSceneContext['contextType']
+  stageIndex?: number
+  lessonId?: number
+}) {
+  const capabilities: TutorSceneCapability[] = []
+  if (input.contextType === 'challenge' && typeof input.stageIndex === 'number') {
+    capabilities.push('focusChallengeStage')
+  }
+  if (input.contextType === 'course' && typeof input.lessonId === 'number') {
+    capabilities.push('focusCourseLessonStep')
+  }
+  return capabilities
 }
 
 export function buildStepReferenceInstruction(resourceLabel: string) {
@@ -115,6 +231,7 @@ export async function buildTutorSceneContext(
     stageIndex?: number
     lessonId?: number
     lessonStepIndex?: number
+    scratchBlockTargetItemIndex?: number
     scratchEditorContext?: ScratchEditorContext
     surface?: TutorGlobalSurface
     includeRecommendations?: boolean
@@ -136,6 +253,7 @@ export async function buildTutorSceneContext(
         contextId,
         options?.lessonId,
         options?.lessonStepIndex,
+        options?.scratchBlockTargetItemIndex,
         options?.scratchEditorContext,
       )
     default:
@@ -332,6 +450,7 @@ async function buildChallengeContext(
     summary,
     stageIndex: idx,
     stageKind: stage?.kind ?? null,
+    sceneCapabilities: resolveDefaultSceneCapabilities({ contextType: 'challenge', stageIndex: idx }),
     suggestedImages: draftImages.slice(0, 6),
   }
 }
@@ -483,6 +602,7 @@ async function buildSpeciesContext(
     contextId: slug,
     title: species.common_name,
     summary,
+    sceneCapabilities: availableAudios.length ? ['speciesAudio'] : undefined,
     availableAudios: availableAudios.length ? availableAudios : undefined,
   }
 }
@@ -562,6 +682,7 @@ async function buildObservationContext(
     title: speciesText || '自然观察',
     summary,
     suggestedImages: isOwner ? (observation.media_urls ?? []).slice(0, 4) : undefined,
+    sceneCapabilities: availableAudios.length ? ['speciesAudio'] : undefined,
     availableAudios: availableAudios.length ? availableAudios : undefined,
   }
 }
@@ -572,6 +693,7 @@ async function buildCourseContext(
   contextId: string,
   lessonId?: number,
   lessonStepIndex?: number,
+  scratchBlockTargetItemIndex?: number,
   scratchEditorContext?: ScratchEditorContext,
 ): Promise<TutorSceneContext> {
   const courseId = Number.parseInt(contextId, 10)
@@ -620,6 +742,9 @@ async function buildCourseContext(
   let currentLessonText = ''
   let scratchBlockKeywords: string[] = []
   let scratchBlockItems: ScratchBlockHintItem[] = []
+  let existingScratchBlockItems: ScratchBlockHintItem[] = []
+  let allScratchBlockItemCount = 0
+  let targetScratchBlockIndex: number | undefined
   let scratchBlockCategory: ReturnType<typeof resolveScratchBlockCategory> = undefined
   if (currentLesson) {
     const lessonContent = (currentLesson.content ?? {}) as LessonContent
@@ -629,16 +754,22 @@ async function buildCourseContext(
         ? steps[lessonStepIndex]
         : null
     const currentStepNumber = typeof lessonStepIndex === 'number' ? lessonStepIndex + 1 : null
-    scratchBlockItems = buildScratchBlockHintItems({
+    const allScratchBlockItems = buildScratchBlockHintItems({
       step: currentStep,
       lessonContent,
     })
-    scratchBlockKeywords = buildScratchBlockHintKeywords({
-      step: currentStep,
-      lessonContent,
-    })
+    allScratchBlockItemCount = allScratchBlockItems.length
+    const filteredScratchBlocks = filterScratchBlockItemsByExistingBlocks(allScratchBlockItems, scratchEditorContext)
+    scratchBlockItems = filteredScratchBlocks.pendingItems
+    existingScratchBlockItems = filteredScratchBlocks.existingItems
+    scratchBlockKeywords = [...new Set(scratchBlockItems.map((item) => item.findLabel).filter(Boolean))]
     scratchBlockCategory = resolveScratchBlockCategory(scratchBlockKeywords)
-    const scratchBlockReferenceLines = formatScratchBlockReferenceItems(scratchBlockItems)
+    targetScratchBlockIndex = resolvePendingScratchTargetItemIndex({
+      requestedIndex: scratchBlockTargetItemIndex,
+      allItemCount: allScratchBlockItems.length,
+      pendingOriginalIndexes: filteredScratchBlocks.pendingOriginalIndexes,
+    })
+    const scratchBlockReferenceLines = formatScratchBlockReferenceItems(scratchBlockItems, targetScratchBlockIndex)
     const stepLines = steps
       .slice(0, 8)
       .map((step, i) => `第${i + 1}步「${compactLessonText(step.title, 40)}」：${compactScratchStepText(step.description, 160)}`)
@@ -648,10 +779,19 @@ async function buildCourseContext(
       typeof lessonContent.summary === 'string' && lessonContent.summary
         ? `课时目标：${compactLessonText(lessonContent.summary, 200)}`
         : '',
+      allScratchBlockItemCount > scratchBlockItems.length && scratchBlockItems.length > 0
+        ? `当前步骤原本有 ${allScratchBlockItemCount} 个 Scratch 动作；其中 ${allScratchBlockItemCount - scratchBlockItems.length} 个已经出现在当前角色上，页面现在只提示剩下的 ${scratchBlockItems.length} 个。`
+        : '',
       currentStep && currentStepNumber != null
         ? `学生当前停在第${currentStepNumber}步「${compactLessonText(currentStep.title, 40)}」。他问下一步或卡住时，优先围绕这一当前步骤，不要跳回第1步。`
         : '',
+      typeof targetScratchBlockIndex === 'number' && scratchBlockItems.length > 1
+        ? `当前步骤含 ${scratchBlockItems.length} 个 Scratch 动作，页面正提示第 ${targetScratchBlockIndex + 1} 个；本次回复先讲标成“当前要做”的动作，不要直接跳到下一课时步骤。`
+        : '',
       formatScratchEditorContext(scratchEditorContext),
+      existingScratchBlockItems.length > 0
+        ? `当前选中对象已经有这些本步骤相关积木：${existingScratchBlockItems.map((item) => item.findLabel).join('、')}；页面工具只提示还没看到的积木。`
+        : '',
       scratchBlockReferenceLines
         ? `当前步骤可直接引用的 Scratch 积木标记（回答时优先照抄标记，不要手写颜色）：\n${scratchBlockReferenceLines}`
         : '',
@@ -684,6 +824,9 @@ async function buildCourseContext(
     scratchBlockKeywords,
     scratchBlockItems,
     scratchBlockCategory,
+    scratchBlockTargetItemIndex: targetScratchBlockIndex,
+    scratchBlockStepItemCount: allScratchBlockItemCount,
     scratchEditorContext,
+    sceneCapabilities: resolveDefaultSceneCapabilities({ contextType: 'course', lessonId }),
   }
 }

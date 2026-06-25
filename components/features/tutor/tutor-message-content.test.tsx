@@ -31,4 +31,16 @@ describe('TutorMessageContent', () => {
     expect(screen.getByLabelText('Scratch 分类：音乐')).toBeInTheDocument()
     expect(screen.getByLabelText('Scratch 积木：演奏音符 60 0.5 拍')).toBeInTheDocument()
   })
+
+  it('only renders audio tags when the scene allows audio', () => {
+    const content = '这是黑头鸦的叫声。\n\n[audio:/birds/audio/crow.ogg|黑头鸦]'
+    const { rerender } = render(<TutorMessageContent content={content} />)
+
+    expect(screen.queryByText('黑头鸦 · 鸟鸣')).not.toBeInTheDocument()
+    expect(screen.queryByText(/\[audio:/)).not.toBeInTheDocument()
+
+    rerender(<TutorMessageContent content={content} allowAudio />)
+
+    expect(screen.getByText('黑头鸦 · 鸟鸣')).toBeInTheDocument()
+  })
 })
