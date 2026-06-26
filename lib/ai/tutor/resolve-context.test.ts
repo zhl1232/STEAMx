@@ -24,4 +24,12 @@ describe('resolveTutorContextFromPath', () => {
       contextId: '42',
     })
   })
+
+  it('keeps playground game pages on the playground surface', () => {
+    expect(resolveTutorContextFromPath('/playground/gomoku')).toEqual({
+      contextType: 'global',
+      contextId: '',
+      surface: 'playground',
+    })
+  })
 })

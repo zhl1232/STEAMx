@@ -70,7 +70,7 @@ function resolveGlobalSurface(pathname: string): TutorGlobalSurface | null {
   if (pathname === '/create') return 'create'
   if (pathname === '/courses') return 'courses'
   if (pathname === '/community' || pathname.startsWith('/community/')) return 'community'
-  if (pathname === '/playground') return 'playground'
+  if (pathname === '/playground' || pathname.startsWith('/playground/')) return 'playground'
   if (pathname.startsWith('/profile')) return 'profile'
   if (pathname.startsWith('/users/')) return 'users'
   return null
