@@ -95,18 +95,20 @@ export function LessonSidebar({
                     </div>
                 ) : null}
             </div>
-            <p className="shrink-0 border-t border-border px-4 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
-                基于{" "}
-                <a
-                    href="https://scratch.mit.edu"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                >
-                    Scratch
-                </a>{" "}
-                · 作品保存在本平台
-            </p>
+            {lesson.lesson_type === "scratch" ? (
+                <p className="shrink-0 border-t border-border px-4 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
+                    基于{" "}
+                    <a
+                        href="https://scratch.mit.edu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline"
+                    >
+                        Scratch
+                    </a>{" "}
+                    · 作品保存在本平台
+                </p>
+            ) : null}
         </aside>
     );
 }

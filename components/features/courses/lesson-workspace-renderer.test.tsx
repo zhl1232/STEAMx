@@ -21,6 +21,12 @@ vi.mock('@/components/features/courses/building-3d-workspace', () => ({
   ),
 }))
 
+vi.mock('@/components/features/courses/playground-workspace', () => ({
+  PlaygroundWorkspace: ({ lesson }: { lesson: { id: number } }) => (
+    <div data-testid="playground-workspace">{lesson.id}</div>
+  ),
+}))
+
 vi.mock('@/lib/courses/device', () => ({
   canUseScratchEditor: () => true,
 }))
@@ -86,6 +92,12 @@ describe('LessonWorkspaceRenderer', () => {
     renderWorkspace('building_3d')
 
     expect(screen.getByTestId('building-3d-workspace')).toBeInTheDocument()
+  })
+
+  it('renders playground workspace for playground lessons', () => {
+    renderWorkspace('playground')
+
+    expect(screen.getByTestId('playground-workspace')).toHaveTextContent('1')
   })
 
   it('renders a fallback for future lesson types', () => {

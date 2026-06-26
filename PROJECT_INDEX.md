@@ -30,9 +30,9 @@
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
 | `/create` | `app/create/page.tsx` | 创造营 — **项目挑战** + **技能课程** Tab；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
-| `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 大颗粒积木搭建等） |
-| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表 |
-| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览，3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐） |
+| `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 大颗粒积木搭建 + 五子棋博弈论入门等） |
+| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章） |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
@@ -129,7 +129,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
-| `courses/` | 6 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；课时页会把当前 active step 和 Scratch 步骤内的积木提示游标传给小迪，避免“下一步/卡住了”回跳到第 1 步，且同一步有多个积木动作时先逐个高亮再进入下一步骤；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区按“第 N 步要用到”展示「先找默认积木，再改文字/参数」提示，并让 Scratch iframe 打开分类、按 opcode/文案定位 flyout 里的当前目标积木；Scratch iframe 会把当前选中角色、角色列表、基础状态和已有积木 opcode 回传给课时页，课程场景据此过滤无参数的已存在积木；带文字/数字编辑要求的积木不只靠 opcode 判定完成，随小迪消息注入场景上下文）、工作区路由 `lesson-workspace-renderer`、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、步骤富文本 `lesson-rich-text`（导出 Scratch 分类工具箱图例 + 积木形状富文本渲染，事件帽子积木含小绿旗，供课程步骤和小迪回复复用） |
+| `courses/` | 8 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；课时页会把当前 active step 和 Scratch 步骤内的积木提示游标传给小迪，避免“下一步/卡住了”回跳到第 1 步，且同一步有多个积木动作时先逐个高亮再进入下一步骤；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区按“第 N 步要用到”展示「先找默认积木，再改文字/参数」提示，并让 Scratch iframe 打开分类、按 opcode/文案定位 flyout 里的当前目标积木；Scratch iframe 会把当前选中角色、角色列表、基础状态和已有积木 opcode 回传给课时页，课程场景据此过滤无参数的已存在积木；带文字/数字编辑要求的积木不只靠 opcode 判定完成，随小迪消息注入场景上下文；底部「基于 Scratch · 作品保存在本平台」只在 `lesson_type=scratch` 时显示）、工作区路由 `lesson-workspace-renderer`（按 `lesson_type` 分发 Scratch / building_3d / playground）、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、游乐场实训 `playground-workspace`（把 `/playground/*` 游戏包成导学课：讲解 + 棋盘示意 + 「去实战」按钮跳回游戏页 + 本课进度条 + 完成课时 +XP；目前支持 `gameKey=gomoku` 五子棋）、五子棋棋盘 SVG `gomoku-board`（纯 SVG 15×15 棋盘 + 星位 + 黑白子 + 获胜连线，随主题色变化，供课程详情页 Hero 和 playground 课时步骤示意复用）、步骤富文本 `lesson-rich-text`（导出 Scratch 分类工具箱图例 + 积木形状富文本渲染，事件帽子积木含小绿旗，供课程步骤和小迪回复复用） |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
@@ -249,7 +249,7 @@
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
-| `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts` | 技能课程课时类型、设备能力判断、Scratch iframe postMessage 协议（含 `EDITOR_CONTEXT` 选中角色/对象快照）、`.sb3` 积木校验；`scratch-hints.ts` 同时负责小迪 Scratch 积木提示规则、课时富文本标记解析与自然语言清洗，区分 Scratch 工具箱可找到的默认积木和拖出后要改的文字/参数，`requiredBlocks.anyOf` 会作为 flyout 定位候选 opcode 下发，并支持 `[[cat]]` / `[[block]]` 渲染成课程同款 Scratch 积木形状 |
+| `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts` | 技能课程课时类型（scratch / building_3d / playground / reading / video / quiz）、设备能力判断、Scratch iframe postMessage 协议（含 `EDITOR_CONTEXT` 选中角色/对象快照）、`.sb3` 积木校验；`scratch-hints.ts` 同时负责小迪 Scratch 积木提示规则、课时富文本标记解析与自然语言清洗，区分 Scratch 工具箱可找到的默认积木和拖出后要改的文字/参数，`requiredBlocks.anyOf` 会作为 flyout 定位候选 opcode 下发，并支持 `[[cat]]` / `[[block]]` 渲染成课程同款 Scratch 积木形状 |
 | `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `reply-focus.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts`, `tool-registry.ts`, `tool-call-planner.ts`, `scene-capabilities.ts` | AI 导师小迪：…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；课时/阶段 UI 交互使用白名单 tool call，`scene-capabilities.ts` 定义前后端共享的 scene capability 契约（如 `focusCourseLessonStep`、`focusChallengeStage`），`context-builders.ts` 会按场景产出服务端 capability 上限（例如课程课时默认带 `focusCourseLessonStep`、PBL 阶段默认带 `focusChallengeStage`），POST 规划时再与前端当前真实挂载的 handler capability 取交集；`tool-registry.ts` 先按当前 scene 与 capability 限定可用工具，`tool-call-planner.ts` 只在这些可用工具里做 AI 决策，再由 registry 统一校验并生成真实 tool call；`tool-calls.ts` 仅保留工具名称和 payload 类型，不再用正则做“卡住/下一步/反馈”确定性判断；Scratch 课时会结合当前步骤、服务端归一化后的 pending `targetItemIndex` 游标和原始子动作数，决定是停留当前子动作、切到同一步下一个积木动作，还是进入下一课时步骤；`reply-focus.ts` 会把本轮页面工具的当前高亮子动作插到模型场景最前面，确保文本回复和高亮目标一致，避免“然后呢”触发同一步下一个动作时回复却提前讲下一步骤；planner 失败时不触发页面工具，但不影响主回复链路；…
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
@@ -286,7 +286,7 @@
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **203 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **203 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`；五子棋博弈论入门课程种子（lesson_type=playground）：`20260626140000_seed_gomoku_course.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 

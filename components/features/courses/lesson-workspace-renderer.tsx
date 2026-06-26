@@ -11,6 +11,7 @@ import {
     ScratchWorkspace,
     type ScratchWorkspaceBlockHint,
 } from "@/components/features/courses/scratch-workspace";
+import { PlaygroundWorkspace } from "@/components/features/courses/playground-workspace";
 import { Button } from "@/components/ui/button";
 import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
@@ -80,6 +81,19 @@ export function LessonWorkspaceRenderer({
     if (lessonType.workspace === "building_3d") {
         return (
             <Building3DWorkspace
+                courseId={courseId}
+                lesson={lesson}
+                activeStepIndex={activeStepIndex}
+                onStepChange={onStepChange}
+                initialCompleted={initialCompleted}
+                onCompleted={onCompleted}
+            />
+        );
+    }
+
+    if (lessonType.workspace === "playground") {
+        return (
+            <PlaygroundWorkspace
                 courseId={courseId}
                 lesson={lesson}
                 activeStepIndex={activeStepIndex}

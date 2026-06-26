@@ -4,7 +4,7 @@ export type LessonTypeDefinition = {
   slug: LessonTypeSlug
   label: string
   description: string
-  workspace: 'scratch' | 'building_3d' | 'unsupported'
+  workspace: 'scratch' | 'building_3d' | 'playground' | 'unsupported'
 }
 
 export const LESSON_TYPE_SLUG_PATTERN = /^[a-z][a-z0-9_]{1,31}$/
@@ -21,6 +21,12 @@ export const LESSON_TYPE_DEFINITIONS = [
     label: '大颗粒积木搭建',
     description: '使用 3D 图纸和零件清单完成实体搭建。',
     workspace: 'building_3d',
+  },
+  {
+    slug: 'playground',
+    label: '游乐场实训',
+    description: '在游乐场游戏中完成挑战，配套分步讲解与实战入口。',
+    workspace: 'playground',
   },
   {
     slug: 'reading',

@@ -33,7 +33,22 @@ export interface LessonContent {
   requiredBlocks?: LessonRequiredBlock[]
   /** 大颗粒积木搭建课内容；仅 lesson_type=building_3d 时由搭建工作区读取 */
   building3d?: Building3DLessonContent
+  /** 游乐场实训课配置；仅 lesson_type=playground 时由实训工作区读取 */
+  playground?: PlaygroundLessonContent
   [key: string]: unknown
+}
+
+/**
+ * 游乐场实训课内容：把游乐场里的某款游戏按「讲解 + 实战」组织成一节技能课。
+ * `gameKey` 指向 lib/playground/catalog 的游戏标识，目前仅 'gomoku' 有完整课程化文案。
+ */
+export interface PlaygroundLessonContent {
+  /** 游乐场游戏 key（与 playground 页面/目录对应），如 'gomoku' */
+  gameKey: string
+  /** 游乐场实战链接，例如 '/playground/gomoku'；缺省时按 gameKey 推导 */
+  practiceHref?: string
+  /** 实战按钮文案，例如「去和 AI 下一局」 */
+  practiceCta?: string
 }
 
 export interface Building3DPart {
