@@ -18,6 +18,11 @@ import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import type {
     CourseLessonRow,
+    CourseLessonStep,
+    GomokuBoardLine,
+    GomokuBoardMark,
+    GomokuBoardStone,
+    GomokuBoardVisual,
     PlaygroundLessonContent,
 } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
@@ -177,7 +182,10 @@ export function PlaygroundWorkspace({
                         ) : null}
 
                         {descriptor?.key === "gomoku" ? (
-                            <GomokuStepVisual stepIndex={clampedStep} />
+                            <GomokuStepVisual
+                                step={currentStep}
+                                stepIndex={clampedStep}
+                            />
                         ) : null}
 
                         {currentStep?.hint ? (
@@ -322,7 +330,34 @@ export function PlaygroundWorkspace({
  * 步骤 2：黑方五连获胜（呼应极小极大算法的终局）。
  * 超出已知步骤时回退到步骤 0 的示意。
  */
-function GomokuStepVisual({ stepIndex }: { stepIndex: number }) {
+function getStructuredGomokuVisuals(step: CourseLessonStep | undefined) {
+    return (step?.visuals ?? []).filter(
+        (visual): visual is GomokuBoardVisual =>
+            visual?.type === "gomoku_board" &&
+            typeof visual.caption === "string" &&
+            visual.caption.length > 0,
+    );
+}
+
+function asStoneList(value: GomokuBoardVisual["blackStones"]): GomokuBoardStone[] {
+    return Array.isArray(value) ? value : [];
+}
+
+function asMarkList(value: GomokuBoardVisual["marks"]): GomokuBoardMark[] {
+    return Array.isArray(value) ? value : [];
+}
+
+function asLineList(value: GomokuBoardVisual["lines"]): GomokuBoardLine[] {
+    return Array.isArray(value) ? value : [];
+}
+
+function GomokuStepVisual({
+    step,
+    stepIndex,
+}: {
+    step: CourseLessonStep | undefined;
+    stepIndex: number;
+}) {
     const configs: Array<{
         black: Array<{ r: number; c: number }>;
         white: Array<{ r: number; c: number }>;
@@ -377,6 +412,38 @@ function GomokuStepVisual({ stepIndex }: { stepIndex: number }) {
             caption: "AI 评估到这一步连五，即判定为胜局",
         },
     ];
+
+    const structuredVisuals = getStructuredGomokuVisuals(step);
+    if (structuredVisuals.length > 0) {
+        return (
+            <div
+                className={cn(
+                    "grid gap-3",
+                    structuredVisuals.length > 1 && "sm:grid-cols-2",
+                )}
+            >
+                {structuredVisuals.map((visual, index) => (
+                    <figure
+                        key={`${visual.caption}-${index}`}
+                        className="surface-subtle flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-4"
+                    >
+                        <GomokuBoard
+                            blackStones={asStoneList(visual.blackStones)}
+                            whiteStones={asStoneList(visual.whiteStones)}
+                            marks={asMarkList(visual.marks)}
+                            lines={asLineList(visual.lines)}
+                            winLine={visual.winLine}
+                            ariaLabel={visual.ariaLabel ?? visual.caption}
+                            className="max-w-[260px] drop-shadow-[0_10px_18px_hsl(var(--surface-shadow)/0.2)]"
+                        />
+                        <figcaption className="text-center text-xs font-medium text-muted-foreground">
+                            {visual.caption}
+                        </figcaption>
+                    </figure>
+                ))}
+            </div>
+        );
+    }
 
     const config = configs[Math.min(stepIndex, configs.length - 1)] ?? configs[0];
 

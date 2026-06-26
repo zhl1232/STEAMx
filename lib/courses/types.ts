@@ -8,7 +8,46 @@ export interface CourseLessonStep {
   description: string
   hint?: string
   checklist?: string[]
+  /** Optional lesson visuals rendered by compatible workspaces. */
+  visuals?: CourseLessonStepVisual[]
 }
+
+export type GomokuBoardTone = 'blue' | 'amber' | 'success' | 'danger' | 'neutral'
+
+export interface GomokuBoardPoint {
+  r: number
+  c: number
+}
+
+export interface GomokuBoardStone extends GomokuBoardPoint {
+  label?: string
+}
+
+export interface GomokuBoardMark extends GomokuBoardPoint {
+  label?: string
+  tone?: GomokuBoardTone
+  kind?: 'dot' | 'ring' | 'target'
+}
+
+export interface GomokuBoardLine {
+  from: GomokuBoardPoint
+  to: GomokuBoardPoint
+  tone?: GomokuBoardTone
+  dashed?: boolean
+}
+
+export interface GomokuBoardVisual {
+  type: 'gomoku_board'
+  caption: string
+  ariaLabel?: string
+  blackStones?: GomokuBoardStone[]
+  whiteStones?: GomokuBoardStone[]
+  marks?: GomokuBoardMark[]
+  lines?: GomokuBoardLine[]
+  winLine?: GomokuBoardLine
+}
+
+export type CourseLessonStepVisual = GomokuBoardVisual
 
 export interface CourseLessonResource {
   title: string

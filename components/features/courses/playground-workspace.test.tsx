@@ -108,6 +108,56 @@ describe("PlaygroundWorkspace", () => {
     expect(screen.getByText("能说出胜负规则")).toBeInTheDocument();
   });
 
+  it("renders structured Gomoku board visuals from the active step", () => {
+    const visualLesson: CourseLessonRow = {
+      ...lesson,
+      steps: [
+        {
+          title: "识别活三",
+          description: "活三两端都空。",
+          visuals: [
+            {
+              type: "gomoku_board",
+              caption: "活三：A/B 都是扩展点",
+              blackStones: [
+                { r: 7, c: 6 },
+                { r: 7, c: 7 },
+                { r: 7, c: 8 },
+              ],
+              marks: [
+                { r: 7, c: 5, label: "A", tone: "danger" },
+                { r: 7, c: 9, label: "B", tone: "danger" },
+              ],
+              lines: [
+                {
+                  from: { r: 7, c: 5 },
+                  to: { r: 7, c: 9 },
+                  tone: "danger",
+                  dashed: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    render(
+      <PlaygroundWorkspace
+        courseId={7}
+        lesson={visualLesson}
+        activeStepIndex={0}
+        onStepChange={vi.fn()}
+        initialCompleted={false}
+      />,
+    );
+
+    expect(screen.getByText("活三：A/B 都是扩展点")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "活三：A/B 都是扩展点" })).toBeInTheDocument();
+    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.getByText("B")).toBeInTheDocument();
+  });
+
   it("shows the complete button on the last step and calls the complete API", async () => {
     const onCompleted = vi.fn();
     const fetchSpy = vi

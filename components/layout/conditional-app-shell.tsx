@@ -93,7 +93,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const isHomePage = pathname === '/'
 
   const isProfilePage = pathname.startsWith('/profile')
-  const isScratchLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
+  const isCourseLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
   const hideMobileBottomNav =
     pathname === '/project' ||
     pathname.startsWith('/share') ||
@@ -102,7 +102,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
     pathname.startsWith('/project/') ||
-    isScratchLessonPage
+    isCourseLessonPage
   const hideGlobalHeader = pathname.startsWith('/share')
   const hideMobileGlobalHeader = hasPageOwnedMobileHeader(pathname)
   const showMobileGlobalHeader = !hideMobileGlobalHeader
@@ -162,7 +162,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         跳到主内容
       </a>
       <div
-        className={cn('flex flex-col bg-background', isScratchLessonPage ? 'h-screen overflow-hidden' : 'min-h-screen')}
+        className="flex min-h-screen flex-col bg-background"
         style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '3rem' : '0rem' }}
       >
         {/* 移动端统一 Header */}
@@ -201,7 +201,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         </header>
         <main
           id="main-content"
-          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0', isScratchLessonPage && 'overflow-hidden')}
+          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}
         >
           {pageContent}
         </main>

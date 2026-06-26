@@ -17,8 +17,9 @@ import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
-/** 课时页可用高度：移动端填满 shell main；桌面减去顶栏 */
-const LESSON_PAGE_HEIGHT = "max-md:h-full md:h-[calc(100dvh-4rem)]";
+/** 交互式编辑/搭建课需要固定工作区；阅读型 playground 课在移动端应交给页面自然滚动。 */
+const FIXED_LESSON_PAGE_HEIGHT = "max-md:h-[100dvh] md:h-[calc(100dvh-4rem)]";
+const SCROLL_LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
 
 function getHintTargetCount(payload: {
     keywords: string[];
@@ -70,6 +71,7 @@ export function LessonPageClient({
     const activeStepTitle = steps[clampedActiveStep]?.title;
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     const isBuildingLesson = lessonWorkspace === "building_3d";
+    const usesFixedMobileWorkspace = lessonWorkspace === "scratch" || lessonWorkspace === "building_3d";
 
     const focusLessonStepFromTutorTool = useCallback((toolCall: TutorToolCall) => {
         if (toolCall.name !== "course.focus_lesson_step" && toolCall.name !== "course.highlight_scratch_blocks") return;
@@ -175,8 +177,9 @@ export function LessonPageClient({
     return (
         <div
             className={cn(
-                "mx-auto flex w-full flex-col overflow-hidden app-canvas",
-                LESSON_PAGE_HEIGHT,
+                "mx-auto flex w-full flex-col app-canvas",
+                usesFixedMobileWorkspace ? "overflow-hidden" : "overflow-visible md:overflow-hidden",
+                usesFixedMobileWorkspace ? FIXED_LESSON_PAGE_HEIGHT : SCROLL_LESSON_PAGE_HEIGHT,
             )}
             style={{ maxWidth: "var(--shell-wide)" }}
         >
@@ -194,7 +197,10 @@ export function LessonPageClient({
                 <div
                     className={cn(
                         "flex flex-col border-border lg:w-[min(100%,300px)] lg:border-r xl:w-[320px]",
-                        "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden max-lg:border-b",
+                        usesFixedMobileWorkspace
+                            ? "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden"
+                            : "max-lg:shrink-0 max-lg:overflow-visible",
+                        "max-lg:border-b",
                         isBuildingLesson && "max-lg:max-h-[min(58vh,32rem)]",
                         "lg:min-h-0 lg:max-h-none lg:shrink-0",
                     )}
@@ -209,7 +215,12 @@ export function LessonPageClient({
                         completed={completed}
                     />
                 </div>
-                <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                <div
+                    className={cn(
+                        "flex min-w-0 flex-1 flex-col",
+                        usesFixedMobileWorkspace ? "min-h-0" : "min-h-[60vh] md:min-h-0",
+                    )}
+                >
                     <LessonWorkspaceRenderer
                         courseId={courseId}
                         lesson={lesson}

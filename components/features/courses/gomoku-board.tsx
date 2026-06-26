@@ -1,4 +1,10 @@
 import { cn } from "@/lib/utils";
+import type {
+    GomokuBoardTone,
+    GomokuBoardLine,
+    GomokuBoardMark,
+    GomokuBoardStone,
+} from "@/lib/courses/types";
 
 type GomokuBoardProps = {
     /** 棋盘交点数，默认 15×15 */
@@ -7,13 +13,61 @@ type GomokuBoardProps = {
     viewBoxSize?: number;
     className?: string;
     /** 棋子坐标（行、列，0 起）。不传则只画空棋盘。 */
-    blackStones?: Array<{ r: number; c: number }>;
-    whiteStones?: Array<{ r: number; c: number }>;
+    blackStones?: GomokuBoardStone[];
+    whiteStones?: GomokuBoardStone[];
+    /** 候选落点、读棋编号等空点标记。 */
+    marks?: GomokuBoardMark[];
+    /** 威胁线、读棋线等辅助连线。 */
+    lines?: GomokuBoardLine[];
     /** 高亮一条连线（黑方五连），传入起点与终点的交点坐标 */
-    winLine?: { from: { r: number; c: number }; to: { r: number; c: number } };
+    winLine?: GomokuBoardLine;
     /** 无障碍标签 */
     ariaLabel?: string;
 };
+
+const LINE_TONE_CLASSES = {
+    blue: "stroke-[hsl(var(--brand-blue))]",
+    amber: "stroke-[hsl(var(--brand-amber))]",
+    success: "stroke-[hsl(var(--status-success))]",
+    danger: "stroke-[hsl(var(--status-danger))]",
+    neutral: "stroke-slate-500 dark:stroke-slate-300",
+} as const;
+
+const MARK_TONE_CLASSES = {
+    blue: {
+        fill: "fill-[hsl(var(--brand-blue)/0.14)]",
+        stroke: "stroke-[hsl(var(--brand-blue))]",
+        text: "fill-[hsl(var(--brand-blue))]",
+    },
+    amber: {
+        fill: "fill-[hsl(var(--brand-amber)/0.16)]",
+        stroke: "stroke-[hsl(var(--brand-amber))]",
+        text: "fill-[hsl(var(--brand-amber))]",
+    },
+    success: {
+        fill: "fill-[hsl(var(--status-success)/0.14)]",
+        stroke: "stroke-[hsl(var(--status-success))]",
+        text: "fill-[hsl(var(--status-success))]",
+    },
+    danger: {
+        fill: "fill-[hsl(var(--status-danger)/0.14)]",
+        stroke: "stroke-[hsl(var(--status-danger))]",
+        text: "fill-[hsl(var(--status-danger))]",
+    },
+    neutral: {
+        fill: "fill-slate-500/10 dark:fill-slate-200/10",
+        stroke: "stroke-slate-500 dark:stroke-slate-300",
+        text: "fill-slate-600 dark:fill-slate-200",
+    },
+} as const;
+
+function getLineToneClass(tone: GomokuBoardTone | undefined) {
+    return LINE_TONE_CLASSES[tone ?? "amber"] ?? LINE_TONE_CLASSES.amber;
+}
+
+function getMarkToneClasses(tone: GomokuBoardTone | undefined) {
+    return MARK_TONE_CLASSES[tone ?? "blue"] ?? MARK_TONE_CLASSES.blue;
+}
 
 /**
  * 纯 SVG 五子棋棋盘组件：15×15 网格 + 星位 + 可选黑白子 + 可选获胜连线。
@@ -26,6 +80,8 @@ export function GomokuBoard({
     className,
     blackStones = [],
     whiteStones = [],
+    marks = [],
+    lines = [],
     winLine,
     ariaLabel = "五子棋棋盘示意",
 }: GomokuBoardProps) {
@@ -112,15 +168,32 @@ export function GomokuBoard({
                     y1={toXY(winLine.from.r, winLine.from.c).y}
                     x2={toXY(winLine.to.r, winLine.to.c).x}
                     y2={toXY(winLine.to.r, winLine.to.c).y}
-                    className="stroke-[hsl(var(--brand-blue))]"
+                    className={LINE_TONE_CLASSES[winLine.tone ?? "blue"] ?? LINE_TONE_CLASSES.blue}
                     strokeWidth="3"
                     strokeLinecap="round"
+                    strokeDasharray={winLine.dashed ? "6 5" : undefined}
                     opacity="0.85"
                 />
             ) : null}
 
+            {/* 辅助威胁线 */}
+            {lines.map((line, index) => (
+                <line
+                    key={`line-${index}-${line.from.r}-${line.from.c}-${line.to.r}-${line.to.c}`}
+                    x1={toXY(line.from.r, line.from.c).x}
+                    y1={toXY(line.from.r, line.from.c).y}
+                    x2={toXY(line.to.r, line.to.c).x}
+                    y2={toXY(line.to.r, line.to.c).y}
+                    className={getLineToneClass(line.tone)}
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeDasharray={line.dashed ? "5 5" : undefined}
+                    opacity="0.78"
+                />
+            ))}
+
             {/* 白子 */}
-            {whiteStones.map(({ r, c }) => {
+            {whiteStones.map(({ r, c, label }) => {
                 const { x, y } = toXY(r, c);
                 return (
                     <g key={`w-${r}-${c}`}>
@@ -132,17 +205,103 @@ export function GomokuBoard({
                             strokeWidth="1.2"
                         />
                         <circle cx={x - span * 0.1} cy={y - span * 0.1} r={radius * 0.28} className="fill-white/70 dark:fill-white/40" />
+                        {label ? (
+                            <text
+                                x={x}
+                                y={y + 1}
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                className="fill-slate-900 text-[11px] font-black"
+                            >
+                                {label}
+                            </text>
+                        ) : null}
                     </g>
                 );
             })}
 
             {/* 黑子 */}
-            {blackStones.map(({ r, c }) => {
+            {blackStones.map(({ r, c, label }) => {
                 const { x, y } = toXY(r, c);
                 return (
                     <g key={`b-${r}-${c}`}>
                         <circle cx={x} cy={y} r={radius} className="fill-slate-950 dark:fill-slate-100" strokeWidth="0.8" />
                         <circle cx={x - span * 0.1} cy={y - span * 0.1} r={radius * 0.28} className="fill-slate-700/60 dark:fill-slate-300/60" />
+                        {label ? (
+                            <text
+                                x={x}
+                                y={y + 1}
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                className="fill-white text-[11px] font-black dark:fill-slate-950"
+                            >
+                                {label}
+                            </text>
+                        ) : null}
+                    </g>
+                );
+            })}
+
+            {/* 候选点与读棋编号 */}
+            {marks.map((mark, index) => {
+                const { x, y } = toXY(mark.r, mark.c);
+                const tone = getMarkToneClasses(mark.tone);
+                const kind = mark.kind ?? "target";
+                const markRadius = mark.label ? radius * 0.74 : radius * 0.58;
+                return (
+                    <g key={`mark-${index}-${mark.r}-${mark.c}`}>
+                        {kind === "dot" ? (
+                            <circle
+                                cx={x}
+                                cy={y}
+                                r={radius * 0.28}
+                                className={cn(tone.fill, tone.stroke)}
+                                strokeWidth="2"
+                            />
+                        ) : (
+                            <circle
+                                cx={x}
+                                cy={y}
+                                r={markRadius}
+                                className={cn(kind === "ring" ? "fill-transparent" : tone.fill, tone.stroke)}
+                                strokeWidth={kind === "ring" ? "2.6" : "2"}
+                            />
+                        )}
+                        {kind === "target" ? (
+                            <>
+                                <line
+                                    x1={x - markRadius * 0.72}
+                                    y1={y}
+                                    x2={x + markRadius * 0.72}
+                                    y2={y}
+                                    className={tone.stroke}
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                    opacity="0.72"
+                                />
+                                <line
+                                    x1={x}
+                                    y1={y - markRadius * 0.72}
+                                    x2={x}
+                                    y2={y + markRadius * 0.72}
+                                    className={tone.stroke}
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                    opacity="0.72"
+                                />
+                            </>
+                        ) : null}
+                        {mark.label ? (
+                            <text
+                                x={x}
+                                y={y + 0.8}
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                className={cn(tone.text, "text-[10px] font-black")}
+                            >
+                                {mark.label}
+                            </text>
+                        ) : null}
                     </g>
                 );
             })}
