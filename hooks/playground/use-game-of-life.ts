@@ -390,13 +390,20 @@ export function useGameOfLife(rows = DEFAULT_ROWS, cols = DEFAULT_COLS) {
     const [generation, setGeneration] = useState(0)
     const [status, setStatus] = useState<GameOfLifeStatus>("idle")
     const [speed, setSpeedState] = useState<GameOfLifeSpeed>("normal")
-    const [stats, setStats] = useState<GameOfLifeStats>(() => loadStats())
-
+    const [stats, setStats] = useState<GameOfLifeStats>(() => ({
+        ...EMPTY_STATS,
+        challengesSolved: [],
+        challengeStars: {},
+    }))
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const speedRef = useRef<GameOfLifeSpeed>(speed)
     const gridRef = useRef(grid)
     const generationRef = useRef(generation)
     const sessionCountedRef = useRef(false)
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     gridRef.current = grid
     generationRef.current = generation

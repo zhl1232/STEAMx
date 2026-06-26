@@ -178,7 +178,7 @@ export function LessonPageClient({
         <div
             className={cn(
                 "mx-auto flex w-full flex-col app-canvas",
-                usesFixedMobileWorkspace ? "overflow-hidden" : "overflow-visible md:overflow-hidden",
+                usesFixedMobileWorkspace ? "overflow-hidden" : "overflow-x-hidden overflow-y-visible md:overflow-hidden",
                 usesFixedMobileWorkspace ? FIXED_LESSON_PAGE_HEIGHT : SCROLL_LESSON_PAGE_HEIGHT,
             )}
             style={{ maxWidth: "var(--shell-wide)" }}
@@ -203,6 +203,9 @@ export function LessonPageClient({
                         "max-lg:border-b",
                         isBuildingLesson && "max-lg:max-h-[min(58vh,32rem)]",
                         "lg:min-h-0 lg:max-h-none lg:shrink-0",
+                        // playground 课时在移动端用单栏：讲解+实战都由 PlaygroundWorkspace 承载，
+                        // 不再额外渲染左侧步骤列表，避免与工作区讲解重复堆叠。
+                        lessonWorkspace === "playground" && "max-lg:hidden",
                     )}
                 >
                     <LessonSidebar

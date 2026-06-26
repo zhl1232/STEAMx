@@ -61,7 +61,11 @@ export function useQuickMath() {
     const [bestRoundStreak, setBestRoundStreak] = useState(0)
     const [secondsLeft, setSecondsLeft] = useState(ROUND_SECONDS)
     const [status, setStatus] = useState<"idle" | "playing" | "finished">("idle")
-    const [stats, setStats] = useState<QuickMathStats>(() => loadStats())
+    const [stats, setStats] = useState<QuickMathStats>(() => ({ ...EMPTY_STATS }))
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     const finishRound = useCallback(() => {
         setStatus("finished")

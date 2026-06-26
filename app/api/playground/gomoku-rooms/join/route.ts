@@ -7,8 +7,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 
 // 按 6 位房间码加入待开始对局。加入即进入 playing，记录 started_at。
-// 注：用 supabaseAdmin 更新 guest_user_id，因为 RLS 的 update policy 要求
-//   auth.uid() 已是 host/guest，而待加入用户此时不在行内，会被 RLS 拒绝。
+// 注：按房间码读取与写入 guest_user_id 都用 supabaseAdmin。
+//   RLS 只允许 host/guest 读取对局；待加入用户尚不是 guest，普通客户端会把有效房间隐藏成“查不到”。
 //   鉴权由 requireAuth 保证，且先校验房间状态与是否已满。
 export async function POST(request: Request) {
     const supabase = await createClient()
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         const body = await request.json().catch(() => null)
         const code = validateRequiredString(body?.code, "code", 6).toUpperCase()
 
-        const { data: match, error } = await supabase
+        const { data: match, error } = await supabaseAdmin
             .from("gomoku_matches")
             .select("id, host_user_id, guest_user_id, status")
             .eq("code", code)

@@ -338,7 +338,11 @@ export function use24Game(timerDuration = 60) {
   const [round, setRound] = useState(1)
   const [streak, setStreak] = useState(0)
   const [solutions, setSolutions] = useState<string[]>([])
-  const [stats, setStats] = useState<Game24Stats>(() => loadStats())
+  const [stats, setStats] = useState<Game24Stats>(() => ({ ...EMPTY_STATS }))
+
+  useEffect(() => {
+    setStats(loadStats())
+  }, [])
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const solutionsRef = useRef<string[]>(initialRound.solutions)

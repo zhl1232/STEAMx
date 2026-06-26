@@ -155,10 +155,10 @@ export function PlaygroundWorkspace({
 
     return (
         <section className="flex min-h-0 flex-1 flex-col bg-muted/20">
-            <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row">
+            <div className="flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-y-auto">
                 {/* 讲解面板：展示当前步骤的标题、描述与提示 */}
-                <div className="flex min-h-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
-                    <div className="mx-auto w-full max-w-2xl space-y-5">
+                <div className="flex min-h-0 flex-1 flex-col px-4 py-4 sm:px-6 lg:px-8 lg:py-7 lg:overflow-y-auto">
+                    <div className="mx-auto w-full max-w-2xl space-y-4 lg:space-y-5">
                         <header className="space-y-2">
                             <div className="flex flex-wrap items-center gap-2">
                                 <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
@@ -170,7 +170,7 @@ export function PlaygroundWorkspace({
                                     </span>
                                 ) : null}
                             </div>
-                            <h2 className="text-lg font-black leading-snug text-foreground sm:text-xl">
+                            <h2 className="text-base font-black leading-snug text-foreground sm:text-lg lg:text-xl">
                                 {currentStep?.title ?? lesson.title}
                             </h2>
                         </header>
@@ -189,7 +189,7 @@ export function PlaygroundWorkspace({
                         ) : null}
 
                         {currentStep?.hint ? (
-                            <Card className="border-[hsl(var(--brand-amber)/0.32)] bg-[hsl(var(--brand-amber)/0.08)] p-3.5">
+                            <Card className="border-[hsl(var(--brand-amber)/0.32)] bg-[hsl(var(--brand-amber)/0.08)] p-3 lg:p-3.5">
                                 <p className="text-xs font-semibold text-[hsl(var(--brand-amber))]">
                                     提示
                                 </p>
@@ -213,6 +213,7 @@ export function PlaygroundWorkspace({
                             </ul>
                         ) : null}
 
+                        {/* 参考资源：所有视口都放在讲解面板底部，避免与侧栏重复 */}
                         {lesson.resources?.length ? (
                             <div className="border-t border-border pt-3">
                                 <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
@@ -240,8 +241,9 @@ export function PlaygroundWorkspace({
 
                 {/* 实战侧栏：去游乐场游戏 + 步骤导航 + 完成课时 */}
                 <aside className="flex shrink-0 flex-col border-border bg-card lg:w-[320px] lg:border-l max-lg:border-t">
+                    {/* 实战入口：桌面端带说明文案；移动端只保留按钮，文案省掉以减少噪音 */}
                     <div className="space-y-3 border-b border-border p-4">
-                        <div>
+                        <div className="hidden lg:block">
                             <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
                                 实战入口
                             </p>
@@ -257,7 +259,33 @@ export function PlaygroundWorkspace({
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-[1fr_1fr] gap-2 border-b border-border p-3">
+                    {/* 移动端：紧凑进度条 + 当前/总步骤；不放「下一步」预览以减少噪音 */}
+                    {total > 0 ? (
+                        <div className="border-b border-border px-4 py-3 lg:hidden">
+                            <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+                                <span className="font-bold">本课进度</span>
+                                <span>
+                                    {clampedStep + 1} / {total}
+                                </span>
+                            </div>
+                            <div className="flex gap-1">
+                                {steps.map((step, index) => (
+                                    <span
+                                        key={`${step.title}-${index}`}
+                                        aria-hidden
+                                        className={cn(
+                                            "h-1.5 flex-1 rounded-full transition",
+                                            index <= clampedStep
+                                                ? "bg-[hsl(var(--brand-blue))]"
+                                                : "bg-[hsl(var(--surface-border))]",
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
+
+                    <div className="grid grid-cols-[1fr_1fr] gap-2 border-b border-border p-3 lg:grid-cols-2">
                         <Button
                             type="button"
                             variant="outline"
@@ -288,9 +316,9 @@ export function PlaygroundWorkspace({
                         )}
                     </div>
 
-                    {/* 本课进度：用紧凑进度条代替重复的步骤列表（步骤导航由左侧 LessonSidebar 负责） */}
+                    {/* 桌面端：保留原有的本课进度块（含「下一步」预览） */}
                     {total > 0 ? (
-                        <div className="px-4 py-4">
+                        <div className="hidden px-4 py-4 lg:block">
                             <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                                 <span className="font-bold">本课进度</span>
                                 <span>

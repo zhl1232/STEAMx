@@ -6,6 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { createClient } from '@/lib/supabase/client'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { logger } from '@/lib/logger'
+import { toast } from '@/hooks/use-toast'
 
 type UserRole = 'user' | 'teacher' | 'moderator' | 'admin'
 
@@ -54,6 +55,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [supabase] = useState(() => (smokeMode ? null : createClient()))
   const lastFetchedUserIdRef = useRef<string | null>(null)
+  // 区分「主动登出」与「被远端 T 下线 / token 失效」：signOut 期间置 true，避免重复提示。
+  const signingOutRef = useRef(false)
+  // 记录上一次是否有已登录 user，用于检测「已登录 → 无 session」的被动登出转换。
+  const hadUserRef = useRef(false)
 
   const fetchProfile = useCallback(async (userId: string) => {
     if (!supabase) {
@@ -91,11 +96,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // access_token 已过期）。
     // 因此这里同步处理 user/loading，把任何 Supabase 调用 defer 到下一个事件循环。
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
         if (session?.user) {
           const sessionUser = session.user
           const userId = sessionUser.id
           setUser(sessionUser)
+          hadUserRef.current = true
 
           if (lastFetchedUserIdRef.current !== userId) {
             lastFetchedUserIdRef.current = userId
@@ -113,6 +119,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }, 0)
           }
         } else {
+          // 被动登出（在另一设备登录 / 账号被 T 下线 / token 失效）：
+          // 此前确实登录过、且不是本端主动 signOut 触发时，给一次提示。
+          if (hadUserRef.current && !signingOutRef.current) {
+            toast({
+              title: '登录已失效',
+              description: '账号可能在其他设备登录，请重新登录。',
+            })
+          }
+          hadUserRef.current = false
           lastFetchedUserIdRef.current = null
           setUser(null)
           setProfile(null)
@@ -128,6 +143,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [fetchProfile, smokeMode, supabase])
 
   const signOut = useCallback(async () => {
+    signingOutRef.current = true
     try {
       if (supabase) {
         const signOutPromise = supabase.auth.signOut()
@@ -154,6 +170,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       setUser(null)
       setProfile(null)
+      hadUserRef.current = false
       window.location.href = '/'
     }
   }, [supabase])

@@ -211,15 +211,23 @@ function gridToTiles(grid: Grid, idCounter: React.MutableRefObject<number>, merg
 
 export function use2048(options?: Use2048Options) {
     const initialGame = options?.initialGame;
-    const initialStats = initialGame?.stats ?? loadStats();
+    // SSR 与首次 CSR 都用空 stats，避免读 localStorage 造成 hydration mismatch；
+    // 真实本地战绩在挂载后由 effect 加载（除非显式传入 initialGame.stats 快照）。
+    const EMPTY_2048_STATS: Game2048Stats = { bestScore: 0, totalGames: 0, wins: 0, maxTile: 0 };
+    const initialStats = initialGame?.stats ?? EMPTY_2048_STATS;
 
     const [_grid, setGrid] = useState<Grid>(() => initialGame ? cloneGrid(initialGame.grid) : createEmptyGrid());
     const [tiles, setTiles] = useState<TileData[]>([]);
     const [score, setScore] = useState(() => initialGame?.score ?? 0);
     const [status, setStatus] = useState<Game2048Status>(() => initialGame?.status ?? 'idle');
-    const [stats, setStats] = useState<Game2048Stats>(() => initialStats);
+    const [stats, setStats] = useState<Game2048Stats>(() => cloneStats(initialStats));
     const [isNewRecord, setIsNewRecord] = useState(false);
     const [canUndo, setCanUndo] = useState(false);
+
+    useEffect(() => {
+        if (initialGame?.stats) return;
+        setStats(loadStats());
+    }, [initialGame?.stats]);
 
     const idCounterRef = useRef(1);
     const scoreRef = useRef(initialGame?.score ?? 0);

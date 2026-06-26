@@ -90,13 +90,21 @@ export function useHanoi() {
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [speed, setSpeedState] = useState<HanoiSpeed>("normal")
-    const [stats, setStats] = useState<HanoiStats>(() => loadStats())
+    const [stats, setStats] = useState<HanoiStats>(() => ({
+        ...EMPTY_STATS,
+        bestMoves: {},
+        bestTimes: {},
+    }))
     const [selectedPeg, setSelectedPeg] = useState<HanoiPeg | null>(null)
     const [autoSolvePaused, setAutoSolvePaused] = useState(false)
 
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const autoIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const solveStepsRef = useRef<SolveStep[]>([])
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
     const solveIndexRef = useRef(0)
     const speedRef = useRef<HanoiSpeed>(speed)
     const pegsRef = useRef(pegs)

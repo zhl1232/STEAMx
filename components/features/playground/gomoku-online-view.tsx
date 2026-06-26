@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { LogOut, RefreshCw, Trophy, Users, Loader2 } from "lucide-react";
 
+import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
 import { useGomokuOnline } from "@/hooks/playground/use-gomoku-online";
 import { createEmptyBoard } from "@/lib/playground/gomoku-online";
@@ -21,6 +22,7 @@ export function GomokuOnlineView({
     initialRoomCode?: string | null;
 }) {
     const online = useGomokuOnline();
+    const { loading: authLoading, user } = useAuth();
     const { checkBadges } = useGamification();
     const bootstrappedRef = useRef(false);
 
@@ -31,11 +33,15 @@ export function GomokuOnlineView({
     useEffect(() => {
         if (bootstrappedRef.current) return;
         if (typeof window === "undefined") return;
+        if (authLoading) return;
         if (online.phase !== "idle") return;
-        bootstrappedRef.current = true;
 
-        if (initialRoomCode && initialRoomCode.length === 6) {
-            void online.joinRoom(initialRoomCode);
+        const roomCode = initialRoomCode?.trim().toUpperCase();
+        if (!user) return;
+
+        bootstrappedRef.current = true;
+        if (roomCode && roomCode.length === 6) {
+            void online.joinRoom(roomCode);
             return;
         }
         const stored = window.localStorage.getItem(ACTIVE_MATCH_KEY);
@@ -43,7 +49,7 @@ export function GomokuOnlineView({
             void online.reconnect(stored);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [initialRoomCode, online.phase]);
+    }, [authLoading, initialRoomCode, online.phase, user]);
 
     // 胜负 confetti + 徽章
     useEffect(() => {
@@ -180,7 +186,12 @@ export function GomokuOnlineView({
             )}
 
             {/* 大厅（idle / waiting 态显示） */}
-            {showLobby ? <GomokuOnlineLobby online={online} /> : null}
+            {showLobby ? (
+                <GomokuOnlineLobby
+                    online={online}
+                    initialRoomCode={initialRoomCode}
+                />
+            ) : null}
 
             {/* 进行中/结束操作按钮 */}
             {showActionButtons ? (

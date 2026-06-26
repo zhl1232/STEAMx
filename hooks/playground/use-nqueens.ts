@@ -248,7 +248,10 @@ export function useNQueens() {
     const [totalSteps, setTotalSteps] = useState(0)
     const [backtracks, setBacktracks] = useState(0)
     const [solutionCount, setSolutionCount] = useState(0)
-    const [stats, setStats] = useState<NQueensStats>(() => loadStats())
+    const [stats, setStats] = useState<NQueensStats>(() => ({
+        ...EMPTY_STATS,
+        bestSolvesByN: {},
+    }))
 
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const visIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -257,6 +260,10 @@ export function useNQueens() {
     const speedRef = useRef<NQueensSpeed>(speed)
     const statusRef = useRef<NQueensStatus>(status)
     const timeRef = useRef(0)
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     speedRef.current = speed
     statusRef.current = status

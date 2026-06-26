@@ -694,7 +694,14 @@ export function useGomoku(
     const [status, setStatus] = useState<GomokuStatus>("idle")
     const [winnerInfo, setWinnerInfo] = useState<WinnerInfo>(null)
     const [moveCount, setMoveCount] = useState(0)
-    const [stats, setStats] = useState<GomokuStats>(() => loadStats())
+    // 服务端无 localStorage，初次渲染统一用 EMPTY_STATS，避免 SSR/CSR 文本
+    // 不一致（如「总对局」服务端 0、客户端 14）触发 hydration mismatch；
+    // 真实本地战绩在挂载后由下面的 effect 异步加载。
+    const [stats, setStats] = useState<GomokuStats>(() => ({ ...EMPTY_STATS }))
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     const aiPlayer: GomokuPlayer = "white"
     const isAiTurn =

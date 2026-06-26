@@ -32,7 +32,7 @@
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 大颗粒积木搭建 + 五子棋博弈论入门等） |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章） |
-| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页） |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页 |
@@ -78,9 +78,9 @@
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
-| playground | `api/playground/` | 游乐场云端战绩徽章同步；`badges/sync` 读取 `playground_stats` 并补发已达成的游乐场徽章 |
+| playground | `api/playground/` | 游乐场云端战绩徽章同步；`badges/sync` 读取 `playground_stats` 并补发已达成的游乐场徽章；在线五子棋 `gomoku-rooms` 创建/加入/离开房间，加入接口按 6 位邀请码用 service role 查询 waiting 对局后再写入 guest，避免 RLS 把未加入用户的有效房间隐藏成不存在；邀请链接会等前端 auth 初始化完成后再自动加入，未登录时登录链接用 `next` 保留 `room` 参数 |
 | observations | `api/observations/` | 自然观察 CRUD；提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录 |
-| profile | `api/profile/` | 个人资料摘要、新手引导、学习打卡、本周探索计划（聚合 PBL 阶段/课程/自然观察/雷达等信号） |
+| profile | `api/profile/` | 个人资料摘要、新手引导、学习打卡、本周探索计划（聚合 PBL 阶段/课程/自然观察/雷达等信号）；`growth-tasks/sync` 与 `weekly-plan` 都会读取 `profiles.bio` 并调用 `get_user_stats_summary` 计算成长任务进度 |
 | projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
 | resources | `api/resources/` | 学习资料卡公开读取（仅 published） |
@@ -129,7 +129,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
-| `courses/` | 9 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；课时页会把当前 active step 和 Scratch 步骤内的积木提示游标传给小迪，避免“下一步/卡住了”回跳到第 1 步，且同一步有多个积木动作时先逐个高亮再进入下一步骤；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区按“第 N 步要用到”展示「先找默认积木，再改文字/参数」提示，并让 Scratch iframe 打开分类、按 opcode/文案定位 flyout 里的当前目标积木；Scratch iframe 会把当前选中角色、角色列表、基础状态和已有积木 opcode 回传给课时页，课程场景据此过滤无参数的已存在积木；带文字/数字编辑要求的积木不只靠 opcode 判定完成，随小迪消息注入场景上下文；底部「基于 Scratch · 作品保存在本平台」只在 `lesson_type=scratch` 时显示）、工作区路由 `lesson-workspace-renderer`（按 `lesson_type` 分发 Scratch / building_3d / playground）、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、游乐场实训 `playground-workspace`（把 `/playground/*` 游戏包成导学课：讲解 + 棋盘示意 + 「去实战」按钮跳回游戏页 + 本课进度条 + 完成课时 +XP；目前支持 `gameKey=gomoku` 五子棋，步骤可用 `visuals[].type=gomoku_board` 配置多张结构化棋盘图解）、五子棋棋盘 SVG `gomoku-board`（纯 SVG 15×15 棋盘 + 星位 + 黑白子 + 获胜连线/辅助线 + 候选点/编号标记，随主题色变化，供课程详情页 Hero 和 playground 课时步骤示意复用）、步骤富文本 `lesson-rich-text`（导出 Scratch 分类工具箱图例 + 积木形状富文本渲染，事件帽子积木含小绿旗，供课程步骤和小迪回复复用） |
+| `courses/` | 9 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；课时页会把当前 active step 和 Scratch 步骤内的积木提示游标传给小迪，避免“下一步/卡住了”回跳到第 1 步，且同一步有多个积木动作时先逐个高亮再进入下一步骤；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区按“第 N 步要用到”展示「先找默认积木，再改文字/参数」提示，并让 Scratch iframe 打开分类、按 opcode/文案定位 flyout 里的当前目标积木；Scratch iframe 会把当前选中角色、角色列表、基础状态和已有积木 opcode 回传给课时页，课程场景据此过滤无参数的已存在积木；带文字/数字编辑要求的积木不只靠 opcode 判定完成，随小迪消息注入场景上下文；底部「基于 Scratch · 作品保存在本平台」只在 `lesson_type=scratch` 时显示）、工作区路由 `lesson-workspace-renderer`（按 `lesson_type` 分发 Scratch / building_3d / playground）、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支）、游乐场实训 `playground-workspace`（把 `/playground/*` 游戏包成导学课：讲解 + 棋盘示意 + 「去实战」按钮跳回游戏页 + 本课进度条 + 完成课时 +XP；目前支持 `gameKey=gomoku` 五子棋，步骤可用 `visuals[].type=gomoku_board` 配置多张结构化棋盘图解；移动端单栏精简：隐藏左侧 `LessonSidebar` 步骤列表，讲解面板收紧间距/字号，「实战入口」说明文案仅桌面端显示，「去实战」按钮在移动端落到侧栏底部，进度条移动端去掉「下一步：xxx」预览以减少噪音）、五子棋棋盘 SVG `gomoku-board`（纯 SVG 15×15 棋盘 + 星位 + 黑白子 + 获胜连线/辅助线 + 候选点/编号标记，随主题色变化，供课程详情页 Hero 和 playground 课时步骤示意复用）、步骤富文本 `lesson-rich-text`（导出 Scratch 分类工具箱图例 + 积木形状富文本渲染，事件帽子积木含小绿旗，供课程步骤和小迪回复复用） |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
@@ -280,13 +280,13 @@
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底，避免线上 WebSocket 不可用时持续重连刷错 |
+| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底，避免线上 WebSocket 不可用时持续重连刷错；各游戏 `stats` 初始化统一用空 stats（`EMPTY_STATS` 或显式空对象/数组字段），真实本地战绩在 `useEffect` 挂载后从 localStorage 异步加载，避免 SSR=0/CSR=真实值 造成 hydration mismatch（扫雷原本就是此模式） |
 
 ---
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **205 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`；五子棋博弈论入门课程种子与扩写（lesson_type=playground，结构化棋盘图解）：`20260626140000_seed_gomoku_course.sql`、`20260626150000_enrich_gomoku_course.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **207 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`；五子棋博弈论入门课程种子与扩写（lesson_type=playground，结构化棋盘图解，不含外部参考资源链接）：`20260626140000_seed_gomoku_course.sql`、`20260626150000_enrich_gomoku_course.sql`、`20260626200000_clear_gomoku_lesson_resources.sql`；个人资料 `profiles.bio` 明确建列与 Realtime `messages` 复制读取授权修复：`20260626211500_profiles_bio_column.sql`、`20260626211600_realtime_messages_select_grant.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 

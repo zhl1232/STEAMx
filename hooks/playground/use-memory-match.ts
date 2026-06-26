@@ -76,7 +76,11 @@ export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "won">("playing")
-    const [stats, setStats] = useState<MemoryStats>(() => loadStats())
+    const [stats, setStats] = useState<MemoryStats>(() => ({ ...EMPTY_STATS }))
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     useEffect(() => {
         setCards(createMemoryDeck(initialDifficulty))

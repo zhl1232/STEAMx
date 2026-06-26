@@ -309,7 +309,11 @@ export function useSudoku() {
     const [status, setStatus] = useState<SudokuStatus>("idle")
     const [time, setTime] = useState(0)
     const [conflicts, setConflicts] = useState<Set<string>>(() => new Set())
-    const [stats, setStats] = useState<SudokuStats>(() => loadStats())
+    const [stats, setStats] = useState<SudokuStats>(() => ({
+        ...EMPTY_STATS,
+        bestTimes: { easy: null, medium: null, hard: null },
+        winsByDifficulty: { easy: 0, medium: 0, hard: 0 },
+    }))
     const [isNoteMode, setIsNoteMode] = useState(false)
 
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -317,6 +321,10 @@ export function useSudoku() {
     const historyIndexRef = useRef(-1)
     const hasStartedRef = useRef(false)
     const checkingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     // ── Timer helpers ─────────────────────────────────────────────────
 

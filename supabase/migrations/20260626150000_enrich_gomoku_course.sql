@@ -97,10 +97,7 @@ BEGIN
             "checklist":["完成一局入门难度","能指出本局至少一个关键防守点"]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"RenjuNet：连珠规则与棋盘说明","url":"https://www.renju.net/rules/","type":"reference"},
-          {"title":"Gomoku 规则与常见变体概览","url":"https://en.wikipedia.org/wiki/Gomoku","type":"reference"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"建立本站五子棋规则、胜负方向和第一局实战观察方法。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"去和 AI 下一局"}
@@ -263,9 +260,7 @@ BEGIN
             ]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"RenjuNet：棋型和规则参考","url":"https://www.renju.net/rules/","type":"reference"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"掌握活二、活三、眠三、冲四、跳冲四和活四，建立攻防语言。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"去进阶难度识别棋型"}
@@ -408,9 +403,7 @@ BEGIN
             "checklist":["能解释双三、四三、双四的区别","在实战中主动寻找过双威胁"]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"RenjuNet：禁手与连珠规则参考","url":"https://www.renju.net/rules/","type":"reference"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"学习中盘最重要的组合战术：用一手棋制造两个防不完的威胁。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"去找双威胁"}
@@ -488,9 +481,7 @@ BEGIN
             "checklist":["挑战一次大师难度","复盘 AI 发起连续威胁的第一手"]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"AAAI 论文：Go-Moku Solved by New Search Techniques","url":"https://cdn.aaai.org/Symposia/Fall/1993/FS-93-02/FS93-02-001.pdf","type":"paper"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"把单个棋型串成连续威胁，理解 VCF/VCT 读棋和大师 AI 的长线杀法。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"挑战大师难度"}
@@ -558,10 +549,7 @@ BEGIN
             "checklist":["用 AI 检查表复盘一局","找出一手自己低估的对手反击"]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"AAAI 论文：Go-Moku Solved by New Search Techniques","url":"https://cdn.aaai.org/Symposia/Fall/1993/FS-93-02/FS93-02-001.pdf","type":"paper"},
-          {"title":"Gomoku 规则与算法背景","url":"https://en.wikipedia.org/wiki/Gomoku","type":"reference"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"看懂站内 AI：棋型评估、minimax、α-β 剪枝和 VCF 搜索如何协同选点。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"去观察 AI 选点"}
@@ -614,10 +602,7 @@ BEGIN
             "checklist":["能说明本站规则和连珠规则的差异","知道三三、四四、长连属于禁手主题"]
           }
         ]$steps$::jsonb,
-        $resources$[
-          {"title":"RenjuNet：连珠禁手与规则参考","url":"https://www.renju.net/rules/","type":"reference"},
-          {"title":"Gomoku 规则与变体概览","url":"https://en.wikipedia.org/wiki/Gomoku","type":"reference"}
-        ]$resources$::jsonb,
+        '[]'::jsonb,
         $content${
           "summary":"把课程知识转成每局都能执行的检查表、复盘表和难度进阶路线。",
           "playground":{"gameKey":"gomoku","practiceHref":"/playground/gomoku","practiceCta":"去完成一次复盘局"}

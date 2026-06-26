@@ -175,8 +175,12 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
     const [steps, setSteps] = useState(0)
     const [status, setStatus] = useState<"playing" | "won">("playing")
     const [demo, setDemo] = useState<MazeDemo | null>(null)
-    const [stats, setStats] = useState<MazeStats>(() => loadStats())
+    const [stats, setStats] = useState<MazeStats>(() => ({ ...EMPTY_STATS, bestSteps: {} }))
     const demoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     // 最短步数（BFS 路径长 - 1），只展示数字、不暴露路线
     const optimalSteps = useMemo(() => {

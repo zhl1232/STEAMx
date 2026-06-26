@@ -142,11 +142,15 @@ export function useGomokuOnline() {
     const roomRef = useRef(room);
     roomRef.current = room;
 
-    const [stats, setStats] = useState<GomokuOnlineStats>(() => loadStats());
+    const [stats, setStats] = useState<GomokuOnlineStats>(() => ({ ...EMPTY_STATS }));
     const [placing, setPlacing] = useState(false);
     const [lastError, setLastError] = useState<string | null>(null);
     // 已记账 matchId 集合（持久化），避免重入/新标签页重复记账
     const recordedRef = useRef<Set<string>>(loadRecordedIds());
+
+    useEffect(() => {
+        setStats(loadStats());
+    }, []);
 
     // 判断某 matchId 是否已记账（内存优先，命中即返回；否则回查 localStorage 以覆盖跨标签页）
     const isRecorded = useCallback((matchId: string): boolean => {

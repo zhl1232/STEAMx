@@ -103,7 +103,11 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved">("playing")
-    const [stats, setStats] = useState<FifteenStats>(() => loadStats())
+    const [stats, setStats] = useState<FifteenStats>(() => ({ ...EMPTY_STATS }))
+
+    useEffect(() => {
+        setStats(loadStats())
+    }, [])
 
     useEffect(() => {
         setBoard(shuffledBoard(initialSize))

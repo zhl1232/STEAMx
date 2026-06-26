@@ -27,8 +27,10 @@ function shareUrlFromCode(code: string): string {
  */
 export function GomokuOnlineLobby({
     online,
+    initialRoomCode,
 }: {
     online: OnlineApi;
+    initialRoomCode?: string | null;
 }) {
     const { user } = useAuth();
     const [joinCode, setJoinCode] = useState("");
@@ -56,6 +58,11 @@ export function GomokuOnlineLobby({
         }
     }, [online.code]);
 
+    const loginNextPath = initialRoomCode?.trim()
+        ? `/playground/gomoku?room=${encodeURIComponent(initialRoomCode.trim().toUpperCase())}`
+        : "/playground/gomoku";
+    const loginHref = `/login?next=${encodeURIComponent(loginNextPath)}`;
+
     if (!user) {
         return (
             <Card className="p-6 bg-background/80 border-border/80 text-center space-y-3">
@@ -65,7 +72,7 @@ export function GomokuOnlineLobby({
                     登录后即可创建房间，邀请好友在线对弈。
                 </p>
                 <Button asChild size="sm" className="min-h-11">
-                    <Link href="/login?redirect=/playground/gomoku">去登录</Link>
+                    <Link href={loginHref}>去登录</Link>
                 </Button>
             </Card>
         );
