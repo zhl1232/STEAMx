@@ -10,6 +10,8 @@ import {
 
 const mockSupabaseChannel = vi.fn()
 const mockRemoveChannel = vi.fn()
+const mockRealtimeDisconnect = vi.fn()
+let mockChannel: { on: ReturnType<typeof vi.fn>; subscribe: ReturnType<typeof vi.fn> }
 
 const mockAuthState = {
     user: { id: 'user-1' },
@@ -26,18 +28,18 @@ vi.mock('next/navigation', () => ({
 vi.mock('@/lib/logger', () => ({
     logger: {
         error: vi.fn(),
+        warn: vi.fn(),
     },
 }))
 
 vi.mock('@/lib/supabase/client', () => {
-    const channel = {
-        on: vi.fn(() => channel),
-        subscribe: vi.fn(() => channel),
-    }
     return {
         createClient: () => ({
-            channel: mockSupabaseChannel.mockReturnValue(channel),
+            channel: mockSupabaseChannel.mockReturnValue(mockChannel),
             removeChannel: mockRemoveChannel,
+            realtime: {
+                disconnect: mockRealtimeDisconnect,
+            },
         }),
     }
 })
@@ -74,6 +76,10 @@ describe('NotificationProvider', () => {
     beforeEach(() => {
         vi.clearAllMocks()
         vi.useRealTimers()
+        mockChannel = {
+            on: vi.fn(() => mockChannel),
+            subscribe: vi.fn(() => mockChannel),
+        }
         delete process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME
         __resetNotificationUnreadCountCacheForTests()
         window.history.replaceState({}, '', '/messages')
@@ -154,6 +160,29 @@ describe('NotificationProvider', () => {
             expect(screen.getByTestId('unread-count')).toHaveTextContent('3')
         })
         expect(mockSupabaseChannel).not.toHaveBeenCalled()
+    })
+
+    it('disconnects realtime after a channel failure while keeping HTTP unread counts', async () => {
+        process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME = 'true'
+        mockChannel.subscribe.mockImplementation((callback: (status: string) => void) => {
+            callback('CHANNEL_ERROR')
+            return mockChannel
+        })
+        mockRemoveChannel.mockResolvedValue('ok')
+
+        render(
+            <NotificationProvider>
+                <TestComponent />
+            </NotificationProvider>,
+        )
+
+        await waitFor(() => {
+            expect(screen.getByTestId('unread-count')).toHaveTextContent('3')
+        })
+        expect(mockRemoveChannel).toHaveBeenCalledWith(mockChannel)
+        await waitFor(() => {
+            expect(mockRealtimeDisconnect).toHaveBeenCalled()
+        })
     })
 
     it('deduplicates concurrent unread-count refreshes across provider mounts', async () => {

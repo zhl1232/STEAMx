@@ -73,6 +73,7 @@ type UnreadCountSnapshot = {
 
 let unreadCountCache: { userId: string; fetchedAt: number; data: UnreadCountSnapshot } | null = null;
 let unreadCountInFlight: { userId: string; promise: Promise<UnreadCountSnapshot> } | null = null;
+let notificationRealtimeUnavailable = false;
 
 function isLocalDevelopmentHost() {
   if (process.env.NODE_ENV !== "development") return false;
@@ -81,9 +82,14 @@ function isLocalDevelopmentHost() {
 }
 
 function shouldSubscribeRealtimeNotifications() {
+  if (notificationRealtimeUnavailable) return false;
   if (process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME === "true") return true;
   if (process.env.NEXT_PUBLIC_ENABLE_NOTIFICATION_REALTIME === "false") return false;
   return !isLocalDevelopmentHost();
+}
+
+function isRealtimeFailureStatus(status: string) {
+  return status === "CHANNEL_ERROR" || status === "TIMED_OUT";
 }
 
 async function fetchUnreadCountSnapshot(userId: string, { force = false }: { force?: boolean } = {}) {
@@ -165,6 +171,7 @@ export function __resetNotificationUnreadCountCacheForTests() {
   if (process.env.NODE_ENV !== "test") return;
   unreadCountCache = null;
   unreadCountInFlight = null;
+  notificationRealtimeUnavailable = false;
 }
 
 export function mergeLatestNotifications(latest: Notification[], existing: Notification[]) {
@@ -347,10 +354,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       }, 500);
     };
 
-    const channel = supabase
-      .channel(`unread-counts:${user.id}`, {
-        config: { private: true },
-      })
+    const channel = supabase.channel(`unread-counts:${user.id}`, {
+      config: { private: true },
+    });
+    channel
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
@@ -362,10 +369,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         scheduleRefresh,
       )
       .subscribe((status, error) => {
-        if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+        if (isRealtimeFailureStatus(status)) {
+          notificationRealtimeUnavailable = true;
           logger.warn("Notification realtime channel unavailable; HTTP unread-count fallback remains active.", {
             status,
             error,
+          });
+          void supabase.removeChannel(channel).finally(() => {
+            supabase.realtime.disconnect();
           });
         }
       });

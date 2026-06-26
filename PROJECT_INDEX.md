@@ -170,7 +170,7 @@
 - `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
-- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket 并保留 HTTP 兜底，页面回到前台兜底刷一次）
+- `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket；Realtime 失败后自动断开并保留 HTTP 兜底，页面回到前台兜底刷一次）
 - `login-prompt-context.tsx` — 未登录操作引导弹窗
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
@@ -244,7 +244,7 @@
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
-| `lib/playground/` | `catalog.ts`, `storage.ts`, `minesweeper-stats.ts` | 游戏目录、本地/云端成绩存储；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times` |
+| `lib/playground/` | `catalog.ts`, `storage.ts`, `minesweeper-stats.ts`, `gomoku-online.ts` | 游戏目录、本地/云端成绩存储；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times`；在线五子棋共享房间/棋盘类型、空棋盘构造和房间码生成，落子权威逻辑由数据库 RPC `gomoku_place_stone` 执行 |
 | `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
@@ -280,18 +280,18 @@
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板） |
+| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底，避免线上 WebSocket 不可用时持续重连刷错 |
 
 ---
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **187 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
+- `supabase/migrations/` — **203 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`（均需 `pnpm db:push` 应用）
 - `supabase/seed.sql` — 种子数据入口
 - `supabase/scripts/prepare_migration.sql` — 迁移准备脚本
 
 ### 核心数据表
-`profiles`（含 `membership_tier` / …） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`tutor_conversations`**（小迪对话线程，active/archived） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划） · …
+`profiles`（含 `membership_tier` / …） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`gomoku_matches`**（在线五子棋对局，`board`/`moves` JSONB 快照，落子走 `gomoku_place_stone` RPC） · **`tutor_conversations`**（小迪对话线程，active/archived） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划） · …
 
 完整类型定义：`lib/supabase/types.ts`
 

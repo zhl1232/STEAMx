@@ -47,6 +47,10 @@ function shouldSubscribePlaygroundRealtime() {
 
 const RECONNECT_POLL_INTERVAL_MS = 4000;
 
+function isRealtimeFailureStatus(status: string) {
+    return status === "CHANNEL_ERROR" || status === "TIMED_OUT";
+}
+
 /**
  * 通用在线对战房间 hook（MVP 仅服务于五子棋，但 channel/订阅逻辑与游戏无关）。
  * 负责：建房、加入、拉取全量、postgres_changes 订阅、断线轮询兜底、清理。
@@ -58,6 +62,7 @@ export function useGameRoom() {
     const channelRef = useRef<RealtimeChannel | null>(null);
     const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const lastMatchIdRef = useRef<string | null>(null);
+    const realtimeUnavailableRef = useRef(false);
 
     const [state, setState] = useState<GameRoomState>({
         phase: "idle",
@@ -126,11 +131,11 @@ export function useGameRoom() {
                 if (row) updateMatch(row);
             };
 
-            if (shouldSubscribePlaygroundRealtime()) {
-                const channel = supabaseRef.current
-                    .channel(`gomoku-match:${matchId}`, {
-                        config: { private: true },
-                    })
+            if (shouldSubscribePlaygroundRealtime() && !realtimeUnavailableRef.current) {
+                const channel = supabaseRef.current.channel(`gomoku-match:${matchId}`, {
+                    config: { private: true },
+                });
+                channel
                     .on(
                         "postgres_changes",
                         {
@@ -144,15 +149,18 @@ export function useGameRoom() {
                         },
                     )
                     .subscribe((status, error) => {
-                        if (
-                            status === "CHANNEL_ERROR" ||
-                            status === "TIMED_OUT" ||
-                            status === "CLOSED"
-                        ) {
+                        if (isRealtimeFailureStatus(status)) {
+                            realtimeUnavailableRef.current = true;
                             logger.warn("gomoku realtime channel unavailable", {
                                 status,
                                 error,
                             });
+                            if (channelRef.current === channel) {
+                                channelRef.current = null;
+                                void supabaseRef.current.removeChannel(channel).finally(() => {
+                                    supabaseRef.current.realtime.disconnect();
+                                });
+                            }
                         }
                     });
                 channelRef.current = channel;
