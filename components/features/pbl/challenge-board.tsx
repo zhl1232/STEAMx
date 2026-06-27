@@ -5,7 +5,7 @@ import { ChevronRight, Trophy, UsersRound } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
-import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
+import { CompactCardSkeleton } from "@/components/ui/loading-skeleton";
 import { cn } from "@/lib/utils";
 import type { Challenge } from "@/lib/mappers/types";
 
@@ -39,7 +39,7 @@ export function CompactChallengeCard({
                 className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
                 aria-label={`进入挑战：${challenge.title}`}
             />
-            <div className="relative min-h-[102px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
+            <div className="relative min-h-[96px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
                 <OptimizedImage
                     src={imageSrc}
                     alt={challenge.title}
@@ -66,28 +66,28 @@ export function CompactChallengeCard({
                 <p className="mt-1 hidden text-[13px] leading-5 text-muted-foreground xl:line-clamp-1">
                     {challenge.description}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-muted-foreground">
+                <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-muted-foreground">
                     <span className="inline-flex items-center gap-1">
-                        <UsersRound className="h-3.5 w-3.5" />
+                        <UsersRound className="h-4 w-4" />
                         {participantText}
                     </span>
                     <span className="inline-flex min-w-0 items-center gap-1">
-                        <Trophy className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
+                        <Trophy className="h-4 w-4 text-[hsl(var(--brand-amber))]" />
                         <span className="truncate">{submissionText}</span>
                     </span>
+                    {action && !ended ? (
+                        <span className="inline-flex items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1.5 text-[12.5px] font-bold text-[hsl(var(--brand-blue))] md:hidden">
+                            参与挑战
+                            <ChevronRight className="h-3.5 w-3.5" />
+                        </span>
+                    ) : null}
                 </div>
             </div>
 
             {action && !ended ? (
-                <>
-                    <span className="pointer-events-none absolute bottom-3 right-3 z-0 inline-flex items-center gap-0.5 text-[12px] font-bold text-[hsl(var(--brand-blue))] min-[560px]:hidden">
-                        参与挑战
-                        <ChevronRight className="h-3.5 w-3.5" />
-                    </span>
-                    <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] min-[560px]:inline-flex">
-                        参与挑战
-                    </span>
-                </>
+                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] md:inline-flex">
+                    参与挑战
+                </span>
             ) : null}
         </article>
     );
@@ -113,7 +113,10 @@ export function ChallengeRailSection({
     return (
         <section className="space-y-3">
             <div className="flex items-center justify-between gap-3">
-                <h2 className="text-panel-title font-black text-foreground md:text-[20px]">{title}</h2>
+                <h2 className="flex items-center gap-2 text-[18px] font-bold tracking-tight text-foreground md:text-[20px] md:font-black">
+                    <span className="h-4 w-1 shrink-0 rounded-full bg-[hsl(var(--brand-blue))]" aria-hidden="true" />
+                    {title}
+                </h2>
                 {showMore ? (
                     <button
                         type="button"
@@ -153,7 +156,7 @@ export function ChallengeBoard({
 
     return (
         <section className="overflow-hidden">
-            <div className="space-y-7 py-4 md:p-6">
+            <div className="space-y-6 pt-5 pb-5 md:p-6">
                 {challengesError && !isLoading ? (
                     <div className="rounded-md border border-destructive/20 bg-destructive/5 px-6 py-12 text-center">
                         <p className="text-lg font-bold">挑战加载失败</p>
@@ -165,9 +168,9 @@ export function ChallengeBoard({
                 ) : null}
 
                 {isLoading ? (
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2 md:gap-4">
                         {[1, 2, 3, 4].map((item) => (
-                            <ChallengeCardSkeleton key={item} className="!rounded-[var(--radius-sm)]" />
+                            <CompactCardSkeleton key={item} />
                         ))}
                     </div>
                 ) : null}

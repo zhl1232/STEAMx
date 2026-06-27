@@ -7,6 +7,7 @@ import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseDetail } from "@/lib/api/courses";
+import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
 
@@ -162,48 +163,56 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     </div>
 
                     <ol className="space-y-2.5 md:space-y-3">
-                        {course.lessons.map((lesson, index) => (
-                            <li key={lesson.id}>
-                                <Link
-                                    href={`/courses/${course.id}/lessons/${lesson.id}`}
-                                    className="surface-card surface-card-interactive group flex items-center gap-3 rounded-[var(--radius-md)] p-3.5 md:gap-4 md:p-4"
-                                >
-                                    <LessonIndexBadge
-                                        index={index}
-                                        isPlayground={lesson.lesson_type === "playground"}
-                                    />
-                                    <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-2">
-                                            <span className="truncate text-[15px] font-bold leading-snug text-foreground md:text-base">
-                                                {lesson.title}
-                                            </span>
+                        {course.lessons.map((lesson, index) => {
+                            const trackLabel = getLessonTrackLabel(lesson.content);
+                            return (
+                                <li key={lesson.id}>
+                                    <Link
+                                        href={`/courses/${course.id}/lessons/${lesson.id}`}
+                                        className="surface-card surface-card-interactive group flex items-center gap-3 rounded-[var(--radius-md)] p-3.5 md:gap-4 md:p-4"
+                                    >
+                                        <LessonIndexBadge
+                                            index={index}
+                                            isPlayground={lesson.lesson_type === "playground"}
+                                        />
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex items-center gap-2">
+                                                <span className="truncate text-[15px] font-bold leading-snug text-foreground md:text-base">
+                                                    {lesson.title}
+                                                </span>
+                                            </div>
+                                            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                                {lesson.duration_minutes ? (
+                                                    <span className="inline-flex items-center gap-1">
+                                                        <Clock className="h-3 w-3" />
+                                                        约 {lesson.duration_minutes} 分钟
+                                                    </span>
+                                                ) : null}
+                                                {lesson.lesson_type === "playground" ? (
+                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-playground)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-playground))]">
+                                                        实战
+                                                    </span>
+                                                ) : lesson.lesson_type === "scratch" ? (
+                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-tech)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-tech))]">
+                                                        Scratch
+                                                    </span>
+                                                ) : lesson.lesson_type === "building_3d" ? (
+                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-engineering))]">
+                                                        搭建
+                                                    </span>
+                                                ) : null}
+                                                {trackLabel ? (
+                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
+                                                        {trackLabel}
+                                                    </span>
+                                                ) : null}
+                                            </div>
                                         </div>
-                                        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                            {lesson.duration_minutes ? (
-                                                <span className="inline-flex items-center gap-1">
-                                                    <Clock className="h-3 w-3" />
-                                                    约 {lesson.duration_minutes} 分钟
-                                                </span>
-                                            ) : null}
-                                            {lesson.lesson_type === "playground" ? (
-                                                <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-playground)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-playground))]">
-                                                    实战
-                                                </span>
-                                            ) : lesson.lesson_type === "scratch" ? (
-                                                <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-tech)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-tech))]">
-                                                    Scratch
-                                                </span>
-                                            ) : lesson.lesson_type === "building_3d" ? (
-                                                <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-engineering))]">
-                                                    搭建
-                                                </span>
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]" />
-                                </Link>
-                            </li>
-                        ))}
+                                        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]" />
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ol>
                 </section>
             </main>

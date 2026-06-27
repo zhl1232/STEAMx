@@ -16,6 +16,7 @@ export function LessonSidebar({
     focusedStepIndex,
     onStepClick,
     completed,
+    compactSteps = false,
 }: {
     courseId: number;
     courseTitle: string;
@@ -24,6 +25,7 @@ export function LessonSidebar({
     focusedStepIndex?: number | null;
     onStepClick: (index: number) => void;
     completed?: boolean;
+    compactSteps?: boolean;
 }) {
     const summary =
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
@@ -69,6 +71,7 @@ export function LessonSidebar({
                             index={index}
                             active={index === activeStepIndex}
                             focused={index === focusedStepIndex}
+                            compact={compactSteps}
                             onClick={() => onStepClick(index)}
                         />
                     ))}
@@ -118,12 +121,14 @@ function LessonStepItem({
     index,
     active,
     focused,
+    compact,
     onClick,
 }: {
     step: CourseLessonStep;
     index: number;
     active: boolean;
     focused: boolean;
+    compact: boolean;
     onClick: () => void;
 }) {
     const itemRef = useRef<HTMLButtonElement>(null);
@@ -153,12 +158,17 @@ function LessonStepItem({
                 <span className="mt-0.5 block text-sm font-semibold text-foreground">
                     {step.title}
                 </span>
-                {active && step.description ? (
+                {active && compact ? (
+                    <span className="mt-1 inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
+                        当前步骤
+                    </span>
+                ) : null}
+                {active && !compact && step.description ? (
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                         <LessonRichText text={step.description} />
                     </p>
                 ) : null}
-                {active && step.hint ? (
+                {active && !compact && step.hint ? (
                     <p className="mt-1.5 text-xs leading-relaxed text-[hsl(var(--brand-amber))]">
                         提示：<LessonRichText text={step.hint} />
                     </p>

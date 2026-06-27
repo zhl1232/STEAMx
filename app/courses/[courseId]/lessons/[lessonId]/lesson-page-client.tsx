@@ -216,6 +216,7 @@ export function LessonPageClient({
                         focusedStepIndex={focusedStep}
                         onStepClick={setActiveStep}
                         completed={completed}
+                        compactSteps={lessonWorkspace === "playground"}
                     />
                 </div>
                 <div

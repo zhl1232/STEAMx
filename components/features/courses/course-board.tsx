@@ -6,7 +6,7 @@ import { BookOpen, ChevronRight } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
-import { ChallengeCardSkeleton } from "@/components/ui/loading-skeleton";
+import { CompactCardSkeleton } from "@/components/ui/loading-skeleton";
 import type { CourseListItem } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -38,9 +38,9 @@ export function CourseBoard() {
 
     if (loading) {
         return (
-            <div className="grid gap-3 py-4 md:grid-cols-2 md:p-6">
+            <div className="grid gap-3 pt-5 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
                 {Array.from({ length: 4 }).map((_, i) => (
-                    <ChallengeCardSkeleton key={i} className="!rounded-[var(--radius-sm)]" />
+                    <CompactCardSkeleton key={i} />
                 ))}
             </div>
         );
@@ -67,7 +67,7 @@ export function CourseBoard() {
     }
 
     return (
-        <div className="grid gap-3 py-4 md:grid-cols-2 md:p-6">
+        <div className="grid gap-3 pt-5 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
             {courses.map((course) => (
                 <CourseCard key={course.id} course={course} />
             ))}
@@ -85,7 +85,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                 className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
                 aria-label={`进入技能课程：${course.title}`}
             />
-            <div className="relative min-h-[102px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
+            <div className="relative min-h-[96px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
                 <OptimizedImage
                     src={imageSrc}
                     alt={course.title}
@@ -101,30 +101,38 @@ function CourseCard({ course }: { course: CourseListItem }) {
                 <h3 className="line-clamp-2 text-[15px] font-black leading-[1.45] text-foreground min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
                     {course.title}
                 </h3>
-                <p className="mt-1 line-clamp-2 text-[12px] leading-[1.65] text-muted-foreground min-[390px]:text-[13px] md:leading-5">
+                <p className="mt-1 line-clamp-1 text-[12px] leading-[1.55] text-muted-foreground min-[390px]:text-[13px] md:leading-5">
                     {course.description}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-muted-foreground">
+                <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[13px] text-muted-foreground">
                     <span className="inline-flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5" />
+                        <BookOpen className="h-4 w-4" />
                         {course.lesson_count} 课时
                     </span>
-                    {course.tags?.includes("Scratch") ? (
-                        <span className="rounded bg-[hsl(var(--tone-tech)/0.12)] px-1.5 py-0.5 text-[11px] font-semibold text-[hsl(var(--tone-tech))]">
-                            Scratch
+                    {course.tags?.slice(0, 2).map((tag) => (
+                        <span
+                            key={tag}
+                            className={cn(
+                                "rounded px-1.5 py-0.5 text-[11px] font-semibold",
+                                tag === "Scratch"
+                                    ? "bg-[hsl(var(--tone-tech)/0.12)] text-[hsl(var(--tone-tech))]"
+                                    : "bg-[hsl(var(--surface-muted))] text-muted-foreground",
+                            )}
+                        >
+                            {tag}
                         </span>
-                    ) : null}
+                    )) ?? null}
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1.5 text-[12.5px] font-bold text-[hsl(var(--brand-blue))] md:hidden">
+                        开始学习
+                        <ChevronRight className="h-3.5 w-3.5" />
+                    </span>
                 </div>
             </div>
-            <span className="pointer-events-none absolute bottom-3 right-3 z-0 inline-flex items-center gap-0.5 text-[12px] font-bold text-[hsl(var(--brand-blue))] min-[560px]:hidden">
-                开始学习
-                <ChevronRight className="h-3.5 w-3.5" />
-            </span>
             <span
                 className={cn(
                     "pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center gap-1 rounded-[var(--radius-sm)]",
                     "bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))]",
-                    "min-[560px]:inline-flex",
+                    "md:inline-flex",
                 )}
             >
                 开始学习

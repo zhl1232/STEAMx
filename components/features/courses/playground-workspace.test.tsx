@@ -38,6 +38,7 @@ const lesson: CourseLessonRow = {
   lesson_type: "playground",
   content: {
     summary: "建立规则",
+    track: "foundation",
     playground: {
       gameKey: "gomoku",
       practiceHref: "/playground/gomoku",
@@ -69,7 +70,7 @@ const lesson: CourseLessonRow = {
 };
 
 describe("PlaygroundWorkspace", () => {
-  it("renders the first step description, hint, and a link to the playground game", () => {
+  it("renders the first step description and hint without the practice link", () => {
     render(
       <PlaygroundWorkspace
         courseId={7}
@@ -84,10 +85,10 @@ describe("PlaygroundWorkspace", () => {
     expect(screen.getByRole("heading", { name: "看看 15×15 棋盘" })).toBeInTheDocument();
     expect(screen.getByText("15×15 格子，连成 5 子获胜。")).toBeInTheDocument();
     expect(screen.getByText("注意是 5 子。")).toBeInTheDocument();
+    expect(screen.getByText("基础必学")).toBeInTheDocument();
 
-    const link = screen.getByTestId("playground-link");
-    expect(link).toHaveAttribute("href", "/playground/gomoku");
-    expect(screen.getByText("去和 AI 下一局")).toBeInTheDocument();
+    expect(screen.queryByTestId("playground-link")).not.toBeInTheDocument();
+    expect(screen.queryByText("去和 AI 下一局")).not.toBeInTheDocument();
 
     // 首步不显示「完成这课」，显示「下一步」
     expect(screen.getByRole("button", { name: /下一步/ })).toBeInTheDocument();
@@ -158,6 +159,58 @@ describe("PlaygroundWorkspace", () => {
     expect(screen.getByText("B")).toBeInTheDocument();
   });
 
+  it("renders a Gomoku best-move training exercise and reveals feedback", () => {
+    const trainingLesson: CourseLessonRow = {
+      ...lesson,
+      steps: [
+        {
+          title: "先挡立即成五",
+          description: "白方下一手能连五，黑方必须先防守。",
+          training: {
+            type: "gomoku_best_move",
+            prompt: "黑方第一选在哪里？",
+            player: "black",
+            blackStones: [{ r: 8, c: 6 }],
+            whiteStones: [
+              { r: 7, c: 5 },
+              { r: 7, c: 6 },
+              { r: 7, c: 7 },
+              { r: 7, c: 8 },
+            ],
+            bestMoves: [{ r: 7, c: 4, label: "A", reason: "先挡白方左端成五点。" }],
+            candidateMoves: [
+              { r: 7, c: 4, label: "A", reason: "先挡白方左端成五点。" },
+              { r: 8, c: 7, label: "B", reason: "连接自己，但漏掉白方成五。" },
+            ],
+            explanation: "白方第 8 行已经四连，黑方必须先挡 A。",
+            correctFeedback: "对，先挡成五点",
+            wrongFeedback: "还不是第一选",
+          },
+        },
+      ],
+    };
+
+    render(
+      <PlaygroundWorkspace
+        courseId={7}
+        lesson={trainingLesson}
+        activeStepIndex={0}
+        onStepChange={vi.fn()}
+        initialCompleted={false}
+      />,
+    );
+
+    expect(screen.getByText("第一选训练")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "黑方第一选在哪里？" })).toBeInTheDocument();
+    expect(screen.getByText("先找第一选")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "选择第 9 行第 8 列" }));
+
+    expect(screen.getByText("还不是第一选")).toBeInTheDocument();
+    expect(screen.getByText("白方第 8 行已经四连，黑方必须先挡 A。")).toBeInTheDocument();
+    expect(screen.getByText(/A · 第 8 行第 5 列/)).toBeInTheDocument();
+  });
+
   it("shows the complete button on the last step and calls the complete API", async () => {
     const onCompleted = vi.fn();
     const fetchSpy = vi
@@ -178,6 +231,8 @@ describe("PlaygroundWorkspace", () => {
     );
 
     expect(screen.getByRole("button", { name: /完成这课/ })).toBeInTheDocument();
+    expect(screen.getByTestId("playground-link")).toHaveAttribute("href", "/playground/gomoku");
+    expect(screen.getByText("去和 AI 下一局")).toBeInTheDocument();
 
     await fireEvent.click(screen.getByRole("button", { name: /完成这课/ }));
 
@@ -213,7 +268,7 @@ describe("PlaygroundWorkspace", () => {
       <PlaygroundWorkspace
         courseId={7}
         lesson={unknownLesson}
-        activeStepIndex={0}
+        activeStepIndex={2}
         onStepChange={vi.fn()}
         initialCompleted={false}
       />,
@@ -231,7 +286,7 @@ describe("PlaygroundWorkspace", () => {
       <PlaygroundWorkspace
         courseId={7}
         lesson={emptyLesson}
-        activeStepIndex={0}
+        activeStepIndex={2}
         onStepChange={vi.fn()}
         initialCompleted={false}
       />,

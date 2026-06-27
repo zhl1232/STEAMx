@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import { GomokuBoard } from "./gomoku-board";
 
@@ -34,5 +34,21 @@ describe("GomokuBoard", () => {
     expect(screen.getByText("白")).toBeInTheDocument();
     expect(screen.getByText("A")).toBeInTheDocument();
     expect(screen.getByText("B")).toBeInTheDocument();
+  });
+
+  it("supports optional interactive point clicks", () => {
+    const onPointClick = vi.fn();
+    render(
+      <GomokuBoard
+        ariaLabel="训练棋盘"
+        onPointClick={onPointClick}
+        getPointAriaLabel={(point) => `选择 ${point.r},${point.c}`}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "选择 7,7" }));
+
+    expect(screen.getByRole("group", { name: "训练棋盘" })).toBeInTheDocument();
+    expect(onPointClick).toHaveBeenCalledWith({ r: 7, c: 7 });
   });
 });

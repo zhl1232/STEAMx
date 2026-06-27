@@ -164,7 +164,7 @@ export function GomokuOnlineView({
             </div>
 
             {showBoard ? (
-                <div className="w-full md:flex-1 min-w-0">
+                <div className="-mx-3 w-[calc(100%+1.5rem)] min-w-0 md:mx-0 md:w-full md:flex-1">
                     <GomokuBoard
                         board={board}
                         winLine={online.winLine}

@@ -110,6 +110,41 @@ function TutorOverrideCapture({
 }
 
 describe('LessonPageClient', () => {
+  it('keeps playground sidebars compact so step copy is not repeated', () => {
+    const playgroundLesson: CourseLessonRow = {
+      ...lesson,
+      title: '五子棋课',
+      lesson_type: 'playground',
+      content: {
+        summary: '练习第一选',
+        playground: { gameKey: 'gomoku' },
+      },
+      steps: [
+        {
+          title: '先看成五点',
+          description: '这段讲解应只出现在 playground 工作区。',
+          hint: '这条提示也不应出现在左侧步骤列表。',
+          checklist: [],
+        },
+      ],
+    }
+
+    render(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="五子棋"
+          lesson={playgroundLesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    expect(screen.getByRole('button', { name: /步骤 1 先看成五点 当前步骤/ })).toBeInTheDocument()
+    expect(screen.queryByText('这段讲解应只出现在 playground 工作区。')).not.toBeInTheDocument()
+    expect(screen.queryByText(/这条提示也不应出现在左侧步骤列表/)).not.toBeInTheDocument()
+  })
+
   it('focuses and highlights a lesson step from tutor tool calls', async () => {
     const scrollIntoView = vi.fn()
     const originalScrollIntoView = Element.prototype.scrollIntoView

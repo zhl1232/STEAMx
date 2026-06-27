@@ -971,7 +971,7 @@ export function ExploreClient({
                 variant="search"
                 showNotification={false}
                 showUserButton={false}
-                className="border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
+                className="bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
                 searchValue={searchQuery}
                 searchPlaceholder="搜索项目、材料、作者..."
                 onSearchChange={setSearchQuery}
@@ -1037,14 +1037,14 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-2.5 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-2 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
                             isResultsMode && "md:border-[hsl(var(--surface-border))]",
                         )}>
                             <div className={cn(
-                                "bg-transparent pb-3 pt-1 md:p-5",
+                                "bg-transparent pb-2 pt-0 md:p-5",
                                 isResultsMode && "md:border-b md:border-[hsl(var(--surface-border))]",
                             )}>
                                 {isResultsMode ? (
@@ -1271,7 +1271,7 @@ export function ExploreClient({
                             </div>
 
                             <div className={cn(
-                                "pb-4 pt-1 md:p-5",
+                                "pb-4 pt-0 md:p-5",
                                 !isResultsMode && forYouData && "flex flex-col gap-2.5",
                                 isResultsMode && "md:pt-4",
                             )}>

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type {
+    GomokuBoardPoint,
     GomokuBoardTone,
     GomokuBoardLine,
     GomokuBoardMark,
@@ -23,6 +24,9 @@ type GomokuBoardProps = {
     winLine?: GomokuBoardLine;
     /** 无障碍标签 */
     ariaLabel?: string;
+    /** 传入后棋盘交点变为可点击训练点；不传时保持纯展示。 */
+    onPointClick?: (point: GomokuBoardPoint) => void;
+    getPointAriaLabel?: (point: GomokuBoardPoint) => string;
 };
 
 const LINE_TONE_CLASSES = {
@@ -69,6 +73,13 @@ function getMarkToneClasses(tone: GomokuBoardTone | undefined) {
     return MARK_TONE_CLASSES[tone ?? "blue"] ?? MARK_TONE_CLASSES.blue;
 }
 
+function getLabelFontSize(label: string, baseSize: number) {
+    const length = Array.from(label).length;
+    if (length <= 1) return baseSize;
+    if (length === 2) return baseSize * 0.86;
+    return baseSize * 0.72;
+}
+
 /**
  * 纯 SVG 五子棋棋盘组件：15×15 网格 + 星位 + 可选黑白子 + 可选获胜连线。
  * 随主题色变化（amber 木色棋盘、slate 黑白子），不依赖任何位图。
@@ -84,6 +95,8 @@ export function GomokuBoard({
     lines = [],
     winLine,
     ariaLabel = "五子棋棋盘示意",
+    onPointClick,
+    getPointAriaLabel,
 }: GomokuBoardProps) {
     const padding = 22;
     const span = (viewBoxSize - padding * 2) / (size - 1);
@@ -106,12 +119,20 @@ export function GomokuBoard({
             : [{ r: Math.floor(size / 2), c: Math.floor(size / 2) }];
 
     const radius = span * 0.42;
+    const stoneLabelBaseSize = Math.min(Math.max(span * 0.72, 12.5), 15);
+    const markLabelBaseSize = Math.min(Math.max(span * 0.74, 12.5), 15);
+    const interactivePoints = onPointClick
+        ? Array.from({ length: size * size }, (_, index) => ({
+              r: Math.floor(index / size),
+              c: index % size,
+          }))
+        : [];
 
     return (
         <svg
             viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
             className={cn("h-auto w-full", className)}
-            role="img"
+            role={onPointClick ? "group" : "img"}
             aria-label={ariaLabel}
         >
             {/* 棋盘底板 */}
@@ -195,6 +216,7 @@ export function GomokuBoard({
             {/* 白子 */}
             {whiteStones.map(({ r, c, label }) => {
                 const { x, y } = toXY(r, c);
+                const labelFontSize = label ? getLabelFontSize(label, stoneLabelBaseSize) : stoneLabelBaseSize;
                 return (
                     <g key={`w-${r}-${c}`}>
                         <circle
@@ -211,7 +233,9 @@ export function GomokuBoard({
                                 y={y + 1}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                className="fill-slate-900 text-[11px] font-black"
+                                fontSize={labelFontSize}
+                                className="fill-slate-900 font-black"
+                                style={{ fontVariantNumeric: "tabular-nums" }}
                             >
                                 {label}
                             </text>
@@ -223,6 +247,7 @@ export function GomokuBoard({
             {/* 黑子 */}
             {blackStones.map(({ r, c, label }) => {
                 const { x, y } = toXY(r, c);
+                const labelFontSize = label ? getLabelFontSize(label, stoneLabelBaseSize) : stoneLabelBaseSize;
                 return (
                     <g key={`b-${r}-${c}`}>
                         <circle cx={x} cy={y} r={radius} className="fill-slate-950 dark:fill-slate-100" strokeWidth="0.8" />
@@ -233,7 +258,9 @@ export function GomokuBoard({
                                 y={y + 1}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                className="fill-white text-[11px] font-black dark:fill-slate-950"
+                                fontSize={labelFontSize}
+                                className="fill-white font-black dark:fill-slate-950"
+                                style={{ fontVariantNumeric: "tabular-nums" }}
                             >
                                 {label}
                             </text>
@@ -247,7 +274,11 @@ export function GomokuBoard({
                 const { x, y } = toXY(mark.r, mark.c);
                 const tone = getMarkToneClasses(mark.tone);
                 const kind = mark.kind ?? "target";
-                const markRadius = mark.label ? radius * 0.74 : radius * 0.58;
+                const labelFontSize = mark.label ? getLabelFontSize(mark.label, markLabelBaseSize) : markLabelBaseSize;
+                const markRadius = mark.label
+                    ? Math.max(radius * 0.94, labelFontSize * 0.58)
+                    : radius * 0.58;
+                const labelBackplateRadius = Math.max(labelFontSize * 0.52, markRadius * 0.62);
                 return (
                     <g key={`mark-${index}-${mark.r}-${mark.c}`}>
                         {kind === "dot" ? (
@@ -292,17 +323,52 @@ export function GomokuBoard({
                             </>
                         ) : null}
                         {mark.label ? (
-                            <text
-                                x={x}
-                                y={y + 0.8}
-                                textAnchor="middle"
-                                dominantBaseline="middle"
-                                className={cn(tone.text, "text-[10px] font-black")}
-                            >
-                                {mark.label}
-                            </text>
+                            <>
+                                <circle
+                                    cx={x}
+                                    cy={y}
+                                    r={labelBackplateRadius}
+                                    className="fill-[hsl(var(--background)/0.9)] dark:fill-[hsl(var(--background)/0.82)]"
+                                />
+                                <text
+                                    x={x}
+                                    y={y + 0.8}
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                    fontSize={labelFontSize}
+                                    className={cn(tone.text, "font-black")}
+                                    style={{ fontVariantNumeric: "tabular-nums" }}
+                                >
+                                    {mark.label}
+                                </text>
+                            </>
                         ) : null}
                     </g>
+                );
+            })}
+
+            {interactivePoints.map((point) => {
+                const { x, y } = toXY(point.r, point.c);
+                return (
+                    <circle
+                        key={`hit-${point.r}-${point.c}`}
+                        cx={x}
+                        cy={y}
+                        r={radius * 0.92}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={
+                            getPointAriaLabel?.(point) ??
+                            `落子到第 ${point.r + 1} 行第 ${point.c + 1} 列`
+                        }
+                        className="cursor-pointer fill-transparent transition-colors hover:fill-[hsl(var(--brand-blue)/0.1)] focus:outline-none focus-visible:fill-[hsl(var(--brand-blue)/0.16)]"
+                        onClick={() => onPointClick?.(point)}
+                        onKeyDown={(event) => {
+                            if (event.key !== "Enter" && event.key !== " ") return;
+                            event.preventDefault();
+                            onPointClick?.(point);
+                        }}
+                    />
                 );
             })}
         </svg>

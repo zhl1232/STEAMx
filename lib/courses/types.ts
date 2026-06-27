@@ -2,6 +2,7 @@ import type { LessonTypeSlug } from '@/lib/courses/lesson-types'
 
 export type CourseStatus = 'draft' | 'approved' | 'archived'
 export type LessonType = LessonTypeSlug
+export type CourseLessonTrack = 'foundation' | 'tactics' | 'ai' | 'review'
 
 export interface CourseLessonStep {
   title: string
@@ -10,6 +11,8 @@ export interface CourseLessonStep {
   checklist?: string[]
   /** Optional lesson visuals rendered by compatible workspaces. */
   visuals?: CourseLessonStepVisual[]
+  /** Optional interactive practice rendered by compatible workspaces. */
+  training?: CourseLessonTraining
 }
 
 export type GomokuBoardTone = 'blue' | 'amber' | 'success' | 'danger' | 'neutral'
@@ -49,6 +52,26 @@ export interface GomokuBoardVisual {
 
 export type CourseLessonStepVisual = GomokuBoardVisual
 
+export interface GomokuBestMoveCandidate extends GomokuBoardPoint {
+  label?: string
+  reason?: string
+}
+
+export interface GomokuBestMoveTraining {
+  type: 'gomoku_best_move'
+  prompt?: string
+  player: 'black' | 'white'
+  blackStones: GomokuBoardStone[]
+  whiteStones: GomokuBoardStone[]
+  bestMoves: GomokuBestMoveCandidate[]
+  candidateMoves?: GomokuBestMoveCandidate[]
+  explanation: string
+  correctFeedback?: string
+  wrongFeedback?: string
+}
+
+export type CourseLessonTraining = GomokuBestMoveTraining
+
 export interface CourseLessonResource {
   title: string
   url: string
@@ -66,6 +89,10 @@ export interface LessonRequiredBlock {
 export interface LessonContent {
   /** 一句话课程目标，展示在侧边栏 */
   summary?: string
+  /** Optional learning track label for course lists, e.g. foundation/tactics/AI/review. */
+  track?: CourseLessonTrack
+  /** Optional display override for the learning track. */
+  levelLabel?: string
   /** 本课对应的 Scratch 官方教程 deck id（如 'tell-a-story'、'pong-game'），用于「教程」按钮按课直达 */
   tutorialDeckId?: string
   /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */

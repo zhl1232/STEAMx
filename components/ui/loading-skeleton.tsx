@@ -1023,3 +1023,26 @@ export function ChallengeCardSkeleton({ className }: { className?: string } = {}
     </Card>
   )
 }
+
+/** 紧凑横向卡骨架 — 匹配 community-challenge-card（图左文右）布局，避免加载完成跳变 */
+export function CompactCardSkeleton({ className }: { className?: string } = {}) {
+  return (
+    <div
+      className={cn(
+        "relative grid animate-pulse grid-cols-[116px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.96)] p-2.5 min-[390px]:grid-cols-[124px_minmax(0,1fr)] min-[420px]:grid-cols-[136px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4 md:p-3",
+        className,
+      )}
+    >
+      <div className="min-h-[96px] overflow-hidden rounded-[var(--radius-xs)] bg-muted/55 min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px]" />
+      <div className="flex flex-col justify-center gap-2 py-1 pr-1">
+        <Skeleton className="h-4 w-[85%] rounded-full" />
+        <Skeleton className="h-4 w-[55%] rounded-full" />
+        <div className="mt-2 flex items-center gap-4">
+          <Skeleton className="h-3.5 w-20 rounded-full" />
+          <Skeleton className="h-3.5 w-20 rounded-full" />
+        </div>
+        <Skeleton className="mt-2.5 h-6 w-24 rounded-full" />
+      </div>
+    </div>
+  )
+}

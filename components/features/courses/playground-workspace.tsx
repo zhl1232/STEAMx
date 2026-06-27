@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+    Brain,
     Check,
     ChevronLeft,
     ChevronRight,
+    Eye,
     ExternalLink,
     Loader2,
+    RotateCcw,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,12 +22,21 @@ import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import type {
     CourseLessonRow,
     CourseLessonStep,
+    GomokuBestMoveTraining,
     GomokuBoardLine,
     GomokuBoardMark,
+    GomokuBoardPoint,
     GomokuBoardStone,
     GomokuBoardVisual,
     PlaygroundLessonContent,
 } from "@/lib/courses/types";
+import {
+    analyzeBestMoves,
+    createBoardFromPoints,
+    isSamePoint,
+} from "@/lib/playground/gomoku-engine";
+import type { GomokuPoint, ScoredGomokuMove } from "@/lib/playground/gomoku-engine";
+import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { cn } from "@/lib/utils";
 
 /**
@@ -97,6 +109,7 @@ export function PlaygroundWorkspace({
         () => resolvePlaygroundContent(lesson),
         [lesson],
     );
+    const trackLabel = getLessonTrackLabel(lesson.content);
 
     const steps = lesson.steps ?? [];
     const total = steps.length;
@@ -164,9 +177,9 @@ export function PlaygroundWorkspace({
                                 <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
                                     {descriptor ? descriptor.label : "游乐场实训"}
                                 </span>
-                                {typeof lesson.content?.summary === "string" ? (
-                                    <span className="text-xs text-muted-foreground">
-                                        {lesson.content.summary}
+                                {trackLabel ? (
+                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-playground)/0.12)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--tone-playground))]">
+                                        {trackLabel}
                                     </span>
                                 ) : null}
                             </div>
@@ -182,10 +195,18 @@ export function PlaygroundWorkspace({
                         ) : null}
 
                         {descriptor?.key === "gomoku" ? (
-                            <GomokuStepVisual
-                                step={currentStep}
-                                stepIndex={clampedStep}
-                            />
+                            <div className="space-y-3">
+                                <GomokuStepVisual
+                                    step={currentStep}
+                                    stepIndex={clampedStep}
+                                />
+                                {currentStep?.training?.type === "gomoku_best_move" ? (
+                                    <GomokuTrainingExercise
+                                        key={`${lesson.id}-${clampedStep}`}
+                                        training={currentStep.training}
+                                    />
+                                ) : null}
+                            </div>
                         ) : null}
 
                         {currentStep?.hint ? (
@@ -239,25 +260,26 @@ export function PlaygroundWorkspace({
                     </div>
                 </div>
 
-                {/* 实战侧栏：去游乐场游戏 + 步骤导航 + 完成课时 */}
+                {/* 实战侧栏：步骤导航 + 完成课时；实战入口只在最后一步出现 */}
                 <aside className="flex shrink-0 flex-col border-border bg-card lg:w-[320px] lg:border-l max-lg:border-t">
-                    {/* 实战入口：桌面端带说明文案；移动端只保留按钮，文案省掉以减少噪音 */}
-                    <div className="space-y-3 border-b border-border p-4">
-                        <div className="hidden lg:block">
-                            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                                实战入口
-                            </p>
-                            <p className="mt-1 text-sm text-foreground">
-                                看完讲解，到游乐场游戏里实战，再回来完成课时。
-                            </p>
+                    {isLastStep ? (
+                        <div className="space-y-3 border-b border-border p-4">
+                            <div className="hidden lg:block">
+                                <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                                    实战入口
+                                </p>
+                                <p className="mt-1 text-sm text-foreground">
+                                    看完讲解，到游乐场游戏里实战，再回来完成课时。
+                                </p>
+                            </div>
+                            <Button asChild size="lg" className="w-full">
+                                <Link href={practiceHref}>
+                                    {practiceCta}
+                                    <ExternalLink className="ml-1.5 h-4 w-4" />
+                                </Link>
+                            </Button>
                         </div>
-                        <Button asChild size="lg" className="w-full">
-                            <Link href={practiceHref}>
-                                {practiceCta}
-                                <ExternalLink className="ml-1.5 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </div>
+                    ) : null}
 
                     {/* 移动端：紧凑进度条 + 当前/总步骤；不放「下一步」预览以减少噪音 */}
                     {total > 0 ? (
@@ -377,6 +399,326 @@ function asMarkList(value: GomokuBoardVisual["marks"]): GomokuBoardMark[] {
 
 function asLineList(value: GomokuBoardVisual["lines"]): GomokuBoardLine[] {
     return Array.isArray(value) ? value : [];
+}
+
+function pointFromBoardPoint(point: GomokuBoardPoint): GomokuPoint {
+    return { row: point.r, col: point.c };
+}
+
+function boardPointFromMove(move: GomokuPoint): GomokuBoardPoint {
+    return { r: move.row, c: move.col };
+}
+
+function pointKey(point: GomokuBoardPoint) {
+    return `${point.r}:${point.c}`;
+}
+
+function isSameBoardPoint(left: GomokuBoardPoint, right: GomokuBoardPoint) {
+    return left.r === right.r && left.c === right.c;
+}
+
+function hasStoneAt(training: GomokuBestMoveTraining, point: GomokuBoardPoint) {
+    return [...training.blackStones, ...training.whiteStones].some((stone) =>
+        isSameBoardPoint(stone, point),
+    );
+}
+
+function getTrainingBestMoves(training: GomokuBestMoveTraining, engineMoves: ScoredGomokuMove[]) {
+    if (training.bestMoves.length > 0) return training.bestMoves;
+    return engineMoves.slice(0, 1).map((move) => boardPointFromMove(move));
+}
+
+function getTrainingCandidateMoves(
+    training: GomokuBestMoveTraining,
+    engineMoves: ScoredGomokuMove[],
+) {
+    const seen = new Set<string>();
+    const moves: Array<GomokuBoardPoint & { label?: string; reason?: string }> = [];
+
+    for (const move of training.candidateMoves ?? []) {
+        const key = pointKey(move);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        moves.push(move);
+    }
+
+    for (const move of engineMoves) {
+        const point = boardPointFromMove(move);
+        const key = pointKey(point);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        moves.push({
+            ...point,
+            label: String(move.rank),
+            reason: getEngineMoveReason(move),
+        });
+    }
+
+    return moves.slice(0, 5);
+}
+
+function getEngineMoveReason(move: ScoredGomokuMove) {
+    if (move.kind === "win") return "一步成五，立即获胜。";
+    if (move.kind === "block") return "对手下一手有成五点，这里必须先挡。";
+    if (move.kind === "vcf") return "从这步开始可以连续制造冲四威胁。";
+    if (move.kind === "search") return "AI 搜索后评分最高，后续局面更稳。";
+    return "这步同时增加自己威胁，并削弱对手连接。";
+}
+
+function getPlayerLabel(player: GomokuBestMoveTraining["player"]) {
+    return player === "black" ? "黑方" : "白方";
+}
+
+function getTrainingMarks({
+    training,
+    bestMoves,
+    candidateMoves,
+    selected,
+    answered,
+}: {
+    training: GomokuBestMoveTraining;
+    bestMoves: GomokuBoardPoint[];
+    candidateMoves: Array<GomokuBoardPoint & { label?: string }>;
+    selected: GomokuBoardPoint | null;
+    answered: boolean;
+}): GomokuBoardMark[] {
+    const marks: GomokuBoardMark[] = [];
+    const selectedKey = selected ? pointKey(selected) : null;
+    const bestKeys = new Set(bestMoves.map(pointKey));
+
+    if (!answered) {
+        for (const move of candidateMoves) {
+            marks.push({
+                r: move.r,
+                c: move.c,
+                label: move.label,
+                tone: "blue",
+                kind: "ring",
+            });
+        }
+        return marks;
+    }
+
+    for (const move of bestMoves) {
+        marks.push({
+            r: move.r,
+            c: move.c,
+            label: selectedKey === pointKey(move) ? "你" : "1",
+            tone: "success",
+            kind: "target",
+        });
+    }
+
+    for (const move of candidateMoves) {
+        const key = pointKey(move);
+        if (bestKeys.has(key) || key === selectedKey) continue;
+        marks.push({
+            r: move.r,
+            c: move.c,
+            label: move.label,
+            tone: "amber",
+            kind: "ring",
+        });
+    }
+
+    if (selected && !bestKeys.has(pointKey(selected)) && !hasStoneAt(training, selected)) {
+        marks.push({
+            r: selected.r,
+            c: selected.c,
+            label: "你",
+            tone: "danger",
+            kind: "target",
+        });
+    }
+
+    return marks;
+}
+
+function GomokuTrainingExercise({
+    training,
+}: {
+    training: GomokuBestMoveTraining;
+}) {
+    const [selected, setSelected] = useState<GomokuBoardPoint | null>(null);
+    const [revealed, setRevealed] = useState(false);
+
+    const board = useMemo(
+        () =>
+            createBoardFromPoints({
+                black: training.blackStones.map(pointFromBoardPoint),
+                white: training.whiteStones.map(pointFromBoardPoint),
+            }),
+        [training.blackStones, training.whiteStones],
+    );
+
+    const engineMoves = useMemo(
+        () => analyzeBestMoves(board, training.player, 5),
+        [board, training.player],
+    );
+
+    const bestMoves = useMemo(
+        () => getTrainingBestMoves(training, engineMoves),
+        [engineMoves, training],
+    );
+    const candidateMoves = useMemo(
+        () => getTrainingCandidateMoves(training, engineMoves),
+        [engineMoves, training],
+    );
+
+    const answered = Boolean(selected) || revealed;
+    const isCorrect = selected
+        ? bestMoves.some((move) => isSamePoint(pointFromBoardPoint(move), pointFromBoardPoint(selected)))
+        : false;
+
+    const marks = useMemo(
+        () =>
+            getTrainingMarks({
+                training,
+                bestMoves,
+                candidateMoves,
+                selected,
+                answered,
+            }),
+        [answered, bestMoves, candidateMoves, selected, training],
+    );
+
+    const handlePointClick = useCallback(
+        (point: GomokuBoardPoint) => {
+            if (hasStoneAt(training, point)) return;
+            setSelected(point);
+            setRevealed(true);
+        },
+        [training],
+    );
+
+    const reset = useCallback(() => {
+        setSelected(null);
+        setRevealed(false);
+    }, []);
+
+    const statusLabel = !answered
+        ? "先找第一选"
+        : isCorrect
+          ? training.correctFeedback ?? "命中第一选"
+          : selected
+            ? training.wrongFeedback ?? "这步不是第一选"
+            : "第一选已显示";
+
+    return (
+        <section className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-card p-3 shadow-sm sm:p-4">
+            <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--brand-blue))]">
+                        <Brain className="h-3.5 w-3.5" aria-hidden />
+                        第一选训练
+                    </div>
+                    <div
+                        className={cn(
+                            "rounded-full px-2.5 py-1 text-xs font-bold",
+                            !answered && "bg-muted text-muted-foreground",
+                            answered && isCorrect && "bg-[hsl(var(--status-success)/0.12)] text-[hsl(var(--status-success))]",
+                            answered && !isCorrect && "bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))]",
+                        )}
+                        aria-live="polite"
+                    >
+                        {statusLabel}
+                    </div>
+                </div>
+                <h3 className="text-sm font-black leading-snug text-foreground">
+                    {training.prompt ?? `${getPlayerLabel(training.player)}这一步下哪里？`}
+                </h3>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                    点选最强落点，再看 AI 排序。
+                </p>
+            </div>
+
+            <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,300px)_1fr] md:items-start">
+                <div className="surface-subtle rounded-[var(--radius-md)] p-3">
+                    <GomokuBoard
+                        blackStones={training.blackStones}
+                        whiteStones={training.whiteStones}
+                        marks={marks}
+                        ariaLabel="五子棋第一选训练棋盘"
+                        className="mx-auto max-w-[280px]"
+                        onPointClick={handlePointClick}
+                        getPointAriaLabel={(point) => {
+                            if (hasStoneAt(training, point)) {
+                                return `第 ${point.r + 1} 行第 ${point.c + 1} 列已有棋子`;
+                            }
+                            return `选择第 ${point.r + 1} 行第 ${point.c + 1} 列`;
+                        }}
+                    />
+                </div>
+
+                <div className="space-y-3">
+                    <div className="rounded-[var(--radius-sm)] border border-border bg-background/70 p-3">
+                        <p className="text-xs font-bold text-muted-foreground">
+                            {answered ? "复盘解释" : "读棋任务"}
+                        </p>
+                        <p className="mt-1 text-sm leading-relaxed text-foreground">
+                            {answered
+                                ? training.explanation
+                                : "先看有没有一步成五，再看是否必须防守，最后比较谁能制造活三、冲四或双威胁。"}
+                        </p>
+                    </div>
+
+                    {answered ? (
+                        <ol className="space-y-2">
+                            {candidateMoves.map((move, index) => {
+                                const isBest = bestMoves.some((best) => isSameBoardPoint(best, move));
+                                return (
+                                    <li
+                                        key={pointKey(move)}
+                                        className="flex gap-2 rounded-[var(--radius-sm)] bg-muted/45 p-2 text-xs leading-relaxed text-muted-foreground"
+                                    >
+                                        <span
+                                            className={cn(
+                                                "flex h-5 min-w-5 items-center justify-center rounded-full text-[11px] font-black",
+                                                isBest
+                                                    ? "bg-[hsl(var(--status-success)/0.14)] text-[hsl(var(--status-success))]"
+                                                    : "bg-background text-foreground",
+                                            )}
+                                        >
+                                            {isBest ? "1" : index + 1}
+                                        </span>
+                                        <span>
+                                            <span className="font-bold text-foreground">
+                                                {move.label ? `${move.label} · ` : ""}
+                                                {`第 ${move.r + 1} 行第 ${move.c + 1} 列`}
+                                            </span>
+                                            {move.reason ? `：${move.reason}` : ""}
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                        </ol>
+                    ) : null}
+
+                    <div className="flex flex-wrap gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setRevealed(true)}
+                        >
+                            <Eye className="mr-1 h-4 w-4" />
+                            看答案
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={reset}
+                            disabled={!answered}
+                        >
+                            <RotateCcw className="mr-1 h-4 w-4" />
+                            重试
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }
 
 function GomokuStepVisual({
