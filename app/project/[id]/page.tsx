@@ -24,6 +24,7 @@ import { MobileProjectSteps } from '@/components/features/project/mobile-project
 import { ProjectExplorationRecordsBlock } from '@/components/features/project/project-exploration-records'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
+import { ProjectCourseLink } from '@/components/features/project/project-course-link'
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStickyBar } from '@/components/features/project/project-detail-sticky-bar'
@@ -46,6 +47,7 @@ import {
   getProjectTotalCoinsReceived,
   type ProjectFilters,
 } from '@/lib/api/explore-data'
+import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
 import { createClient } from '@/lib/supabase/server'
 import { cn } from '@/lib/utils'
 import type { Project, ProjectStep } from '@/lib/mappers/types'
@@ -748,6 +750,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     nextProject,
     relatedProjects,
     authorSummary,
+    courseLessonRef,
   ] = await Promise.all([
     getProjectCompletions(project.id, 8, { onePerUser: true }),
     getProjectCompletionsCount(project.id),
@@ -761,6 +764,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
       : Promise.resolve(null),
     fromExplore ? Promise.resolve([]) : getRelatedProjects(project.id, project.category, 1),
     getProjectAuthorSummary(project.author_id, project.author),
+    getCourseLessonByWorksProjectId(supabase, Number(project.id)),
   ])
 
   const {
@@ -919,6 +923,15 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
             </section>
 
             <div className="space-y-3 px-4 pb-28 pt-3">
+              {courseLessonRef ? (
+                <ProjectCourseLink
+                  courseId={courseLessonRef.courseId}
+                  lessonId={courseLessonRef.lessonId}
+                  courseTitle={courseLessonRef.courseTitle}
+                  lessonTitle={courseLessonRef.lessonTitle}
+                />
+              ) : null}
+
               <MobileProjectIntro summary={projectSummary} tags={introTags} />
 
               <MobileProjectSteps steps={steps} materials={materials} />
@@ -1032,6 +1045,17 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 </div>
               </div>
             </section>
+
+            {courseLessonRef ? (
+              <div className="hidden md:block">
+                <ProjectCourseLink
+                  courseId={courseLessonRef.courseId}
+                  lessonId={courseLessonRef.lessonId}
+                  courseTitle={courseLessonRef.courseTitle}
+                  lessonTitle={courseLessonRef.lessonTitle}
+                />
+              </div>
+            ) : null}
 
             <section className="hidden items-start gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
               <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))] sm:h-7 sm:w-7">

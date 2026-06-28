@@ -11,7 +11,7 @@
 // 许可：LDraw 零件库按 CC BY / CCAL 再分发，使用处需署名（见课时页页脚）。
 
 import { execFile } from 'node:child_process'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 
@@ -25,6 +25,46 @@ const LDCONFIG_URL = `${COMPLETE}/LDConfig.ldr`
 const SEARCH_DIRS = ['parts', 'p', 'models']
 
 const OUT_DIR = resolve(process.cwd(), 'public/courses/ldraw')
+
+/** 从已打包的本地 MPD 文件里读取依赖块，避免重复下载相同 LDraw 零件。 */
+async function loadLocalMpdCache() {
+  const cache = new Map()
+
+  let files = []
+  try {
+    files = await readdir(OUT_DIR)
+  } catch {
+    return cache
+  }
+
+  for (const file of files) {
+    if (!file.endsWith('.mpd')) continue
+
+    const text = await readFile(resolve(OUT_DIR, file), 'utf8')
+    const lines = text.split(/\r?\n/)
+    let currentName = null
+    let currentLines = []
+
+    const flush = () => {
+      if (!currentName || currentLines.length === 0) return
+      const key = currentName.toLowerCase()
+      if (!cache.has(key)) cache.set(key, currentLines.join('\n').trimEnd())
+    }
+
+    for (const line of lines) {
+      if (line.startsWith('0 FILE ')) {
+        flush()
+        currentName = line.slice('0 FILE '.length).trim()
+        currentLines = []
+        continue
+      }
+      if (currentName) currentLines.push(line)
+    }
+    flush()
+  }
+
+  return cache
+}
 
 /** 把 LDraw 引用名（可能含反斜杠）规范化为正斜杠。 */
 function normalizeRef(ref) {
@@ -93,6 +133,7 @@ async function main() {
 
   const sourcePath = resolve(process.cwd(), sourcePathArg)
   const modelText = await readFile(sourcePath, 'utf8')
+  const localMpdCache = await loadLocalMpdCache()
 
   // key: 加载器缓存键（变换后、正斜杠、含 parts/ 或 p/ 前缀）；value: 文件内容
   const collected = new Map()
@@ -108,7 +149,8 @@ async function main() {
       const key = loaderKey(ref).toLowerCase()
       if (visited.has(key)) continue
       visited.add(key)
-      const resolved = await resolvePart(ref)
+      const cached = localMpdCache.get(key)
+      const resolved = cached ? { content: cached, url: 'local MPD cache' } : await resolvePart(ref)
       if (!resolved) {
         throw new Error(`无法解析零件引用: "${ref}"（在 parts/ p/ models/ 下都找不到）`)
       }
@@ -135,10 +177,15 @@ async function main() {
 
   // 配色文件（只需下载一次，多模型共用）。
   const ldconfigPath = resolve(OUT_DIR, 'LDConfig.ldr')
-  const ldconfig = await fetchText(LDCONFIG_URL)
-  if (!ldconfig) throw new Error('无法下载 LDConfig.ldr')
-  await writeFile(ldconfigPath, ldconfig, 'utf8')
-  console.log(`已写出: ${ldconfigPath}`)
+  let ldconfig = null
+  try {
+    ldconfig = await readFile(ldconfigPath, 'utf8')
+  } catch {
+    ldconfig = await fetchText(LDCONFIG_URL)
+    if (!ldconfig) throw new Error('无法下载 LDConfig.ldr')
+    await writeFile(ldconfigPath, ldconfig, 'utf8')
+    console.log(`已写出: ${ldconfigPath}`)
+  }
 }
 
 main().catch((err) => {

@@ -1,0 +1,29 @@
+0 Preschool Brick Park
+0 Name: preschool-park.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: map base and paths
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 120 0 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 2: entry gate
+1 14 -80 0 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 0 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -48 -100 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Step 3: play tower
+1 1 240 0 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: park car and story marker
+1 25 -160 0 120 1 0 0 0 1 0 0 0 1 41989.dat
+0 // Visible tire faces for the DUPLO car base.
+1 0 -200 15 60 16 0 0 0 0 16 0 -1 0 4-4ndis.dat
+1 0 -200 15 180 16 0 0 0 0 16 0 1 0 4-4ndis.dat
+1 0 -120 15 60 16 0 0 0 0 16 0 -1 0 4-4ndis.dat
+1 0 -120 15 180 16 0 0 0 0 16 0 1 0 4-4ndis.dat
+1 4 -40 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP

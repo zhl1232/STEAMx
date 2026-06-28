@@ -10,7 +10,31 @@ import {
 } from '@/lib/api/validation'
 import { canResubmitCompletion } from '@/lib/completion-records'
 import { scheduleCompletionModeration } from '@/lib/completions/moderate-completion'
+import { getProjectCompletions } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
+
+const GALLERY_LIMIT = 24
+
+/**
+ * GET /api/projects/[id]/completions
+ * 公开作品列表（is_public + approved 的终稿），用于课程工作区「作品」Tab 等就地展示。
+ */
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params
+    const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
+    const completions = await getProjectCompletions(projectId, GALLERY_LIMIT, {
+      sortBy: 'featured',
+      onePerUser: true,
+    })
+    return NextResponse.json({ completions })
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
 
 const SubmitCompletionSchema = z.object({
   kind: z.enum(['progress', 'final']),

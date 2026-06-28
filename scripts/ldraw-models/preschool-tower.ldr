@@ -1,0 +1,22 @@
+0 Preschool Stable Tower
+0 Name: preschool-tower.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: make a wide, flat base
+1 1 0 0 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 0 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Step 2: add a cross layer that overlaps the base seams
+1 14 -40 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 3: build a centered tower core
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: add the top cap and observe the center line
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP

@@ -1,0 +1,20 @@
+0 Preschool Cross Spinner
+0 Name: preschool-windmill.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: stand
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 2: first blade
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Step 3: second blade crossing the first
+1 14 0 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 4: center cap
+1 4 0 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP

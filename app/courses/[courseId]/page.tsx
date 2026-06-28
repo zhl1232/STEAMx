@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronRight, Clock, Target } from "lucide-react";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
+import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseDetail } from "@/lib/api/courses";
@@ -55,6 +56,9 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const isGomoku = usesGomokuHero(course);
+    const allSameLessonType =
+        course.lessons.length > 0 &&
+        course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
 
     return (
         <div className="min-h-screen app-canvas-community">
@@ -144,6 +148,15 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                     </span>
                                 ) : null}
                             </div>
+
+                            {course.lessons.length > 0 ? (
+                                <Button asChild tone="brand" shape="pill" size="lg" className="mt-6 gap-2 font-bold md:mt-7">
+                                    <Link href={`/courses/${course.id}/lessons/${course.lessons[0].id}`}>
+                                        开始第 1 课
+                                        <ChevronRight className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            ) : null}
                         </div>
                     </div>
                 </section>
@@ -188,7 +201,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                                         约 {lesson.duration_minutes} 分钟
                                                     </span>
                                                 ) : null}
-                                                {lesson.lesson_type === "playground" ? (
+                                                {!allSameLessonType && (lesson.lesson_type === "playground" ? (
                                                     <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-playground)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-playground))]">
                                                         实战
                                                     </span>
@@ -200,7 +213,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                                     <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-engineering))]">
                                                         搭建
                                                     </span>
-                                                ) : null}
+                                                ) : null)}
                                                 {trackLabel ? (
                                                     <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
                                                         {trackLabel}

@@ -93,6 +93,10 @@ export interface LessonContent {
   track?: CourseLessonTrack
   /** Optional display override for the learning track. */
   levelLabel?: string
+  /** 面向家长/老师的课前、引导、观察记录与延伸提示。 */
+  teacherGuide?: CourseTeacherGuide
+  /** 课时学习目标，适合在学习页快速浏览。 */
+  learningGoals?: string[]
   /** 本课对应的 Scratch 官方教程 deck id（如 'tell-a-story'、'pong-game'），用于「教程」按钮按课直达 */
   tutorialDeckId?: string
   /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */
@@ -102,6 +106,15 @@ export interface LessonContent {
   /** 游乐场实训课配置；仅 lesson_type=playground 时由实训工作区读取 */
   playground?: PlaygroundLessonContent
   [key: string]: unknown
+}
+
+export interface CourseTeacherGuide {
+  inquiryQuestion?: string
+  prepare?: string[]
+  guidePrompts?: string[]
+  observe?: string[]
+  extension?: string
+  familyShare?: string
 }
 
 /**
@@ -124,6 +137,21 @@ export interface Building3DPart {
   quantity: number
 }
 
+export type Building3DPrimitiveShape = 'box' | 'cylinder'
+export type Building3DVector3 = [number, number, number]
+
+export interface Building3DBrickInstance {
+  /** Unique node id used by steps3d.partIds/highlightNodeIds for staged reveal. */
+  id: string
+  /** Inventory part id shown in the part list. */
+  partId: string
+  shape?: Building3DPrimitiveShape
+  position: Building3DVector3
+  scale: Building3DVector3
+  rotation?: Building3DVector3
+  color?: string
+}
+
 export interface Building3DStep {
   title: string
   description: string
@@ -133,7 +161,7 @@ export interface Building3DStep {
 }
 
 export interface Building3DLessonContent {
-  /** GLTF/GLB 模型 URL（可选）；自定义抽象积木演示时留空 */
+  /** GLTF/GLB 模型 URL（可选）；大颗粒课程优先使用 ldrawModelUrl。 */
   modelUrl?: string
   /**
    * 自托管的 LDraw 模型（建议为打包后的 .mpd，见 scripts/pack-ldraw-model.mjs）。
@@ -144,8 +172,28 @@ export interface Building3DLessonContent {
   ldrawColorUrl?: string
   /** 零件库署名（LDraw 按 CC BY / CCAL 再分发时需展示） */
   attribution?: string
+  /** 课程动画/讲解视频（mp4 等可被 <video> 直接播放的源）。原 PPT 内嵌的视频抽出后即此源。 */
+  videoUrl?: string
+  /** 授课课件：每页一张图（PPT 转图后的画廊，按顺序翻页）。 */
+  slideImageUrls?: string[]
+  /**
+   * 视频所在的课件页码（1 基，对应 slideImageUrls 的第几页）。
+   * 设置后，课件翻页到该页时就地播放 videoUrl，还原「动画嵌在 PPT 里播放」。
+   */
+  videoSlideIndex?: number
+  /** 搭建说明 PDF（课件翻页器右上角「搭建说明」按钮打开；slideImageUrls 缺省时回退为内嵌 PDF）。 */
+  slidesPdfUrl?: string
+  /** 成品参考照片（真实积木拼好的样子）。 */
+  finishedImageUrl?: string
+  /**
+   * 「作品墙」背书项目 ID：搭完后让学员拍实物照上传到该项目（复用 /api/projects/[id]/completions），
+   * 进社区/个人主页展示。课程工作区据此显示「上传作品」入口。见 building-3d-workspace 的 LessonWorkUpload。
+   */
+  worksProjectId?: number
   parts: Building3DPart[]
   steps3d: Building3DStep[]
+  /** 历史/开发兜底：未提供模型文件时由 3D 工作区直接渲染。新增大颗粒课程应使用 ldrawModelUrl。 */
+  brickInstances?: Building3DBrickInstance[]
 }
 
 export interface CourseRow {

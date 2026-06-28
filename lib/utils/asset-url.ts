@@ -6,6 +6,7 @@
  * - 已是 http(s) 完整 URL 的直接放行
  * - 配置 base URL 后各环境先统一解析为同一资源域名
  * - 生产环境直接输出资源域名；开发环境默认经 /api/assets 代理，以生产 Referer 模拟 CDN 防盗链
+ * - LDraw（.mpd/.ldr）在所有环境均经 /api/assets 代理（FileLoader 不带 Referer，CDN 会 403 返回 HTML）
  * - 开发态如需直连资源域名排查，可显式设置 NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct
  */
 
@@ -15,6 +16,7 @@ const REMOTE_ASSET_PREFIXES = [
   '/trees/',
   '/fruits/',
   '/projects/',
+  '/courses/',
 ] as const
 
 export function getAssetsBaseUrl(): string | null {
@@ -68,15 +70,26 @@ function shouldProxyConfiguredAssets() {
   return process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE !== 'direct'
 }
 
+/** LDraw 模型/配色：CDN 防盗链，浏览器 FileLoader 不带 Referer 会 403 返回 HTML。始终走 /api/assets。 */
+function isLdrawLibraryPath(pathname: string): boolean {
+  const path = pathname.split('?')[0]
+  return path.startsWith('/courses/ldraw/') && /\.(mpd|ldr)$/i.test(path)
+}
+
+function shouldProxyAssetPath(assetPath: string): boolean {
+  if (isLdrawLibraryPath(assetPath)) return true
+  return shouldProxyConfiguredAssets()
+}
+
 export function getAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
   if (input == null) return input
   if (typeof input !== 'string') return input
 
   const trimmed = input.trim()
-  if (!trimmed || !shouldProxyConfiguredAssets()) return input
+  if (!trimmed) return input
 
   const assetPath = getConfiguredAssetPath(trimmed)
-  if (!assetPath) return input
+  if (!assetPath || !shouldProxyAssetPath(assetPath)) return input
 
   const sourceUrl = new URL(trimmed)
   return `/api/assets${assetPath}${sourceUrl.search}`

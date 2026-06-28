@@ -70,8 +70,9 @@ export function LessonPageClient({
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
     const activeStepTitle = steps[clampedActiveStep]?.title;
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
-    const isBuildingLesson = lessonWorkspace === "building_3d";
-    const usesFixedMobileWorkspace = lessonWorkspace === "scratch" || lessonWorkspace === "building_3d";
+    // Scratch 编辑器需要固定一屏；building_3d 在移动端交给页面自然滚动，
+    // 让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
+    const usesFixedMobileWorkspace = lessonWorkspace === "scratch";
 
     const focusLessonStepFromTutorTool = useCallback((toolCall: TutorToolCall) => {
         if (toolCall.name !== "course.focus_lesson_step" && toolCall.name !== "course.highlight_scratch_blocks") return;
@@ -200,9 +201,8 @@ export function LessonPageClient({
                         usesFixedMobileWorkspace
                             ? "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden"
                             : "max-lg:shrink-0 max-lg:overflow-visible",
-                        "max-lg:border-b",
-                        isBuildingLesson && "max-lg:max-h-[min(58vh,32rem)]",
-                        "lg:min-h-0 lg:max-h-none lg:shrink-0",
+                        "max-lg:order-2 max-lg:border-b",
+                        "lg:order-none lg:min-h-0 lg:max-h-none lg:shrink-0",
                         // playground 课时在移动端用单栏：讲解+实战都由 PlaygroundWorkspace 承载，
                         // 不再额外渲染左侧步骤列表，避免与工作区讲解重复堆叠。
                         lessonWorkspace === "playground" && "max-lg:hidden",
@@ -221,8 +221,11 @@ export function LessonPageClient({
                 </div>
                 <div
                     className={cn(
-                        "flex min-w-0 flex-1 flex-col",
+                        "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-none",
                         usesFixedMobileWorkspace ? "min-h-0" : "min-h-[60vh] md:min-h-0",
+                        // building_3d 在移动端不参与 flex 撑满，3D 画布用固定 dvh 高度，
+                        // 避免可滚动布局下 flex-1 高度波动触发 ResizeObserver 反复 setSize 闪烁。
+                        lessonWorkspace === "building_3d" && "max-lg:flex-none",
                     )}
                 >
                     <LessonWorkspaceRenderer

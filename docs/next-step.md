@@ -1,6 +1,39 @@
 # Next step 备忘
 
-> 2026-06-24 复核：已落地项已从本文删除。当前已具备 `/create`、`/pbl/[id]`、阶段工作台、阶段进度保存、完成清单、阶段图文产出、全局小迪阶段上下文、阶段结构化反馈卡片、导师工具拆题/提示/总结受控动作、小迪 SSE 结构化 `tool_call` 通道、PBL 当前阶段高亮 handler、课时当前步骤高亮 handler（`course.focus_lesson_step` 会使用 active step）、Scratch 当前步骤积木关键词提示 handler（`course.highlight_scratch_blocks`，含主站提示条、Scratch iframe 内 overlay、可解析分类时的 toolbox 分类切换，并可基于 `requiredBlocks.anyOf` opcode 或积木文案定位 flyout 里的具体积木）、提交页按阶段产出预填、一键整理投稿草稿、挑战作品审核与奖励闭环。本文只保留仍未完成或可选恢复的后续项。
+> 2026-06-28 复核：已落地项已从本文删除。当前已具备 `/create`、`/pbl/[id]`、阶段工作台、阶段进度保存、完成清单、阶段图文产出、全局小迪阶段上下文、阶段结构化反馈卡片、导师工具拆题/提示/总结受控动作、小迪 SSE 结构化 `tool_call` 通道、PBL 当前阶段高亮 handler、课时当前步骤高亮 handler（`course.focus_lesson_step` 会使用 active step）、Scratch 当前步骤积木关键词提示 handler（`course.highlight_scratch_blocks`，含主站提示条、Scratch iframe 内 overlay、可解析分类时的 toolbox 分类切换，并可基于 `requiredBlocks.anyOf` opcode 或积木文案定位 flyout 里的具体积木）、提交页按阶段产出预填、一键整理投稿草稿、挑战作品审核与奖励闭环。本文只保留仍未完成或可选恢复的后续项。
+
+## 积木课件批量上线（3+/4+/5+）
+
+### 方向判断
+
+- **优先级**：P2（MVP 已上线：300 课 slides/PDF/成品图/292 视频 + 占位 steps 已入库；后续补精细文案、LDraw、作品墙）。
+- **产品定位**：把 `C:\Users\Administrator\Documents` 下 3+/4+/5+ 共 300 课批量转成线上 `building_3d` 课时；最小可上线路径先跳过 LDraw，以「幻灯片 + PDF + 视频 + 成品图」图文课件上线。
+- **技术基础**：资源管线见 `.agents/skills/import-courseware/SKILL.md`；草稿在 `scripts/courseware/*.json`（301 份，含 `eiffel-tower`）；批量切图/OSS 报告见 `scripts/courseware/batch-slide-export-report.json`（`uploaded: 300, uploadFailed: 0`）。
+
+### 当前进度（2026-06-28 MVP 已上线）
+
+**已完成（最小可上线）**
+
+- 301 份 JSON 草稿；300 课 `--prepare` 后 OSS 绝对 URL + 占位 `steps`（按课件页）+ 292 课 `videoSlideIndex`；无 LDraw 引用。
+- OSS：`slides` 300/300、`pdf` 300/300、`finished` 300/300、`video` 292/300（8 课源素材无 mp4）。
+- DB：`3+课件100` / `4+课件100` / `5+课件100` 三门课 + **300 课时**已幂等 upsert（`node scripts/upsert-courseware.mjs`）。
+- 脚本：`scripts/upsert-courseware.mjs`（`--prepare` / `--upload-assets` / 默认入库）、`scripts/check-courseware-oss.mjs`（OSS 存在性核对）。
+
+**仍待完善**
+
+| 类别 | 缺口 |
+|------|------|
+| 本地/OSS 动画 | 8 课无 `animation.mp4`（源素材缺失）：`3-dian-hua-ji`、`3-pen-zai`、`4-dian-hua-ji`、`4-diao-che`、`4-hua-kai-hua-luo`、`4-mo-tian-lun`、`4-re-qi-qiu`、`5-re-qi-qiu` |
+| 教学文案 | 当前为按页占位 `steps`；`parts` / 精细 `steps3d` 仍空 |
+| LDraw | 298 课暂无 `.mpd`；**已补** `3-ai-fei-er-tie-ta`（3+ 第 1 课「埃菲尔铁塔」，复用 `eiffel-tower.mpd`）、`3-bao-jian`（3+ 第 2 课「宝剑」） |
+| 作品墙 | 300 课缺 `worksProjectId` |
+
+### 建议迭代顺序（MVP 之后）
+
+1. **P2：撰写精细 `steps` 教学文案**：读 PDF/PPT 替换占位步骤。
+2. **P2：作品墙**：批量建背书项目 + 回填 `worksProjectId`。
+3. **P3：LDraw 建模**：逐课建模 → `pack-ldraw-model.mjs` → 补 `steps3d` / `parts`。
+4. **P3：补 8 课动画**：从源文件夹找回或确认无动画并去掉 JSON 中 `videoUrl`。
 
 ## AI Tutor Agent 化深度集成
 

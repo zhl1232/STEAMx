@@ -101,6 +101,45 @@ export async function getLessonInCourse(
   return { course, lesson }
 }
 
+/**
+ * 按背书项目 ID 反查它所属的课程课时（即 content.building3d.worksProjectId 指向该项目的课时）。
+ * 用于项目详情页展示「回到课程」入口。仅返回已发布课程。
+ */
+export async function getCourseLessonByWorksProjectId(
+  supabase: DbClient,
+  projectId: number
+): Promise<{ courseId: number; lessonId: number; courseTitle: string; lessonTitle: string } | null> {
+  if (!Number.isInteger(projectId) || projectId <= 0) return null
+
+  const { data: lessonRow, error } = await supabase
+    .from('course_lessons')
+    .select('id, course_id, title')
+    // jsonb 路径过滤：worksProjectId 存在于 content.building3d 下（`as 'content'` 仅为绕过列名类型约束，
+    // 运行时 PostgREST 仍按完整 jsonb 路径过滤）。
+    .eq('content->building3d->>worksProjectId' as 'content', String(projectId))
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !lessonRow) return null
+  const lesson = lessonRow as { id: number; course_id: number; title: string }
+
+  const { data: courseRow } = await supabase
+    .from('courses')
+    .select('id, title, status')
+    .eq('id', lesson.course_id)
+    .maybeSingle()
+
+  const course = courseRow as { id: number; title: string; status: string } | null
+  if (!course || course.status !== 'approved') return null
+
+  return {
+    courseId: course.id,
+    lessonId: lesson.id,
+    courseTitle: course.title,
+    lessonTitle: lesson.title,
+  }
+}
+
 export async function getUserLessonProgress(
   supabase: DbClient,
   userId: string,

@@ -39,6 +39,9 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl('/fruits/images/morus-alba-1.jpg')).toBe(
       'https://assets.example.com/fruits/images/morus-alba-1.jpg',
     )
+    expect(rewriteAssetUrl('/courses/3-bao-jian/slides/slide-01.png')).toBe(
+      'https://assets.example.com/courses/3-bao-jian/slides/slide-01.png',
+    )
   })
 
   it('preserves query strings during rewrite', () => {
@@ -126,6 +129,15 @@ describe('resolveAssetDisplayUrl', () => {
     vi.unstubAllEnvs()
   })
 
+  it('rewrites courseware assets and proxies them in development', () => {
+    expect(resolveAssetDisplayUrl('/courses/3-bao-jian/slides/slide-01.png')).toBe(
+      '/api/assets/courses/3-bao-jian/slides/slide-01.png',
+    )
+    expect(resolveAssetDisplayUrl('https://assets.example.com/courses/3-bao-jian/animation.mp4')).toBe(
+      '/api/assets/courses/3-bao-jian/animation.mp4',
+    )
+  })
+
   it('rewrites relative bird assets and proxies them in development', () => {
     expect(resolveAssetDisplayUrl('/birds/audio/lanius-cristatus.ogg')).toBe(
       '/api/assets/birds/audio/lanius-cristatus.ogg',
@@ -140,6 +152,17 @@ describe('resolveAssetDisplayUrl', () => {
 
     expect(resolveAssetDisplayUrl('/birds/audio/lanius-cristatus.ogg')).toBe(
       'https://assets.example.com/birds/audio/lanius-cristatus.ogg',
+    )
+  })
+
+  it('always proxies LDraw library files in production (CDN Referer hotlink)', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'production')
+
+    expect(resolveAssetDisplayUrl('/courses/ldraw/eiffel-tower.mpd')).toBe(
+      '/api/assets/courses/ldraw/eiffel-tower.mpd',
+    )
+    expect(resolveAssetDisplayUrl('https://assets.example.com/courses/ldraw/LDConfig.ldr')).toBe(
+      '/api/assets/courses/ldraw/LDConfig.ldr',
     )
   })
 })

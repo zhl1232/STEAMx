@@ -1,0 +1,23 @@
+0 Preschool Push Car
+0 Name: preschool-car.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: car base with wheels
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 // Visible tire faces added because 41989.dat contains the wheel holders but not separate black tires.
+1 0 -40 15 -60 16 0 0 0 0 16 0 -1 0 4-4ndis.dat
+1 0 -40 15 60 16 0 0 0 0 16 0 1 0 4-4ndis.dat
+1 0 40 15 -60 16 0 0 0 0 16 0 -1 0 4-4ndis.dat
+1 0 40 15 60 16 0 0 0 0 16 0 1 0 4-4ndis.dat
+0 STEP
+0 // Step 2: centered long body
+1 14 0 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 3: driver seat and cargo block
+1 25 -40 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 40 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: observe symmetry and wheel placement
+0 STEP

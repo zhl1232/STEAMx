@@ -166,7 +166,7 @@ function MobileNatureHeader({ submitHref }: { submitHref: string }) {
       showUserButton={false}
       className={mobileHeaderClassName}
       rightSlot={
-        <Button asChild tone="brand" size="sm" className="h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9 min-[390px]:px-3 min-[390px]:text-sm">
+        <Button asChild tone="brand" size="sm" className="!h-8 !min-h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:!h-9 min-[390px]:!min-h-9 min-[390px]:px-3 min-[390px]:text-sm">
           <Link href={submitHref}>
             <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
             发布观察

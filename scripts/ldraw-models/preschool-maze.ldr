@@ -1,0 +1,22 @@
+0 Preschool Maze Path
+0 Name: preschool-maze.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: start and finish markers
+1 2 -220 0 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 0 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 2: maze walls with clear gaps between bricks
+1 1 -80 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 0 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Step 3: path marker
+1 25 -40 0 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: add a last wall and trace the route
+1 1 240 0 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP

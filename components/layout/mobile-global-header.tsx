@@ -95,7 +95,12 @@ export function MobileGlobalHeader({
     >
       <div className="flex min-h-12 items-center px-4 py-1">
         {/* 左侧 */}
-        <div className={cn('shrink-0 flex h-10 items-center', variant === 'search' ? 'mr-2' : 'mr-2')}>
+        <div
+          className={cn(
+            'flex h-10 items-center',
+            variant === 'search' ? 'mr-2' : 'mr-2 min-w-0 flex-1',
+          )}
+        >
           {variant === 'logo' ? (
             <Link
               href="/"
@@ -111,7 +116,7 @@ export function MobileGlobalHeader({
               <SteamLogo className="h-7 w-7 shrink-0" />
             </Link>
           ) : (
-            <h1 className="text-[20px] font-semibold leading-none text-foreground min-[390px]:text-[22px]">
+            <h1 className="max-w-full truncate text-[20px] font-semibold leading-none text-foreground min-[390px]:text-[22px]">
               {title}
             </h1>
           )}
@@ -154,7 +159,7 @@ export function MobileGlobalHeader({
         <nav
           className={cn(
             'flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2 max-md:[&_a]:min-h-11 max-md:[&_a]:min-w-11 max-md:[&_button]:min-h-11 max-md:[&_button]:min-w-11',
-            variant === 'search' ? 'ml-2' : 'flex-1',
+            variant === 'search' ? 'ml-2' : 'shrink-0',
           )}
         >
           {variant !== 'search' && showSearch ? (

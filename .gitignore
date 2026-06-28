@@ -27,6 +27,15 @@ public/projects/generated/*.gif
 public/projects/generated/*.avif
 public/projects/generated/*.bmp
 public/projects/steps/
+# 乐高课件本地大文件（视频/PPT/PDF/成品图）；正式上线走 OSS，源 .ldr 与打包后的 .mpd 仍入库
+public/courses/eiffel-tower/
+public/courses/*/slides/
+public/courses/*/animation.mp4
+public/courses/*/instructions.pdf
+public/courses/*/finished.png
+public/courses/*/finished.webp
+# import/upsert 生成的课时 manifest（可重新跑 import-courseware / upsert 产出）
+scripts/courseware/
 packages/scratch-host/dist
 .open-next
 

@@ -1,0 +1,20 @@
+0 Preschool Left Right Balance Bridge
+0 Name: preschool-seesaw.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: two equal supports
+1 4 -80 0 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 0 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 2: bridge beam supported at both ends
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Step 3: two equal loads
+1 1 -80 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 80 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: add one extra load to compare more and less
+1 1 80 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP

@@ -1,0 +1,22 @@
+0 Preschool Pattern Garden
+0 Name: preschool-garden.ldr
+0 Author: STEAM Explore
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 BFC CERTIFY CCW
+0 // Uses LDraw Duplo parts. Each 0 STEP matches a lesson step.
+0 // Step 1: garden base
+1 2 -80 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Step 2: red-yellow-red pattern
+1 4 -120 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 3: make two plants taller
+1 2 -120 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 40 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Step 4: add a low fence behind the garden
+1 15 0 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP

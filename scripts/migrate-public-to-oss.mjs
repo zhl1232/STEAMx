@@ -63,6 +63,9 @@ const GROUPS = [
   { id: 'projects', localDir: 'public/projects/generated', publicPrefix: 'projects/generated', manifest: 'projects.json', kind: 'flat' },
   { id: 'project-steps', localDir: 'public/projects/steps', publicPrefix: 'projects/steps', manifest: null, kind: 'flat' },
   { id: 'scratch-assets', localDir: 'public/scratch/assets', publicPrefix: 'scratch/assets', manifest: null, kind: 'flat' },
+  // 课程素材（课件图/视频/PDF/成品图/LDraw 模型）。由 scripts/import-courseware.mjs 暂存到
+  // public/courses/<slug>/，这里批量推到 oss:courses/<slug>/。递归、无 manifest。
+  { id: 'courses', localDir: 'public/courses', publicPrefix: 'courses', manifest: null, kind: 'flat', recursive: true },
 ]
 
 function parseArgs(argv) {
