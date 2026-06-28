@@ -86,10 +86,10 @@ describe('rewriteAssetUrl', () => {
     expect(shouldBypassAssetImageOptimization('https://assets.example.com/birds/images/x.jpg')).toBe(true)
     expect(isConfiguredAssetUrl('https://assets.example.com/fruits/images/x.jpg')).toBe(true)
     expect(isConfiguredAssetUrl('https://assets.example.com/assets/hero.png')).toBe(false)
-    expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(false)
+    expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(true)
   })
 
-  it('uses the local asset proxy for configured assets outside production by default', () => {
+  it('uses the local asset proxy for configured assets by default', () => {
     vi.stubEnv(NODE_ENV_KEY, 'development')
 
     expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
@@ -100,16 +100,30 @@ describe('rewriteAssetUrl', () => {
     )
   })
 
-  it('can keep configured asset URLs direct outside production for raw CDN debugging', () => {
-    vi.stubEnv(NODE_ENV_KEY, 'development')
-    vi.stubEnv(DISPLAY_MODE_ENV_KEY, 'direct')
+  it('proxies configured assets in production (CDN hotlink protection)', () => {
+    vi.stubEnv(NODE_ENV_KEY, 'production')
 
     expect(getAssetDisplayUrl('https://assets.example.com/birds/images/x.jpg')).toBe(
-      'https://assets.example.com/birds/images/x.jpg',
+      '/api/assets/birds/images/x.jpg',
+    )
+    expect(getAssetDisplayUrl('https://assets.example.com/courses/3-bao-jian/finished.png')).toBe(
+      '/api/assets/courses/3-bao-jian/finished.png',
     )
   })
 
-  it('keeps configured asset URLs direct in production', () => {
+  it('recognizes whitelisted CDN URLs even without NEXT_PUBLIC_ASSETS_BASE_URL', () => {
+    vi.stubEnv(ENV_KEY, undefined)
+
+    expect(isConfiguredAssetUrl('https://assets.steamx.cc/courses/3-ai-fei-er-tie-ta/finished.png')).toBe(true)
+    expect(getAssetDisplayUrl('https://assets.steamx.cc/courses/3-ai-fei-er-tie-ta/finished.png')).toBe(
+      '/api/assets/courses/3-ai-fei-er-tie-ta/finished.png',
+    )
+    expect(getAssetDisplayUrl('/courses/eiffel-tower/finished.png')).toBe(
+      '/api/assets/courses/eiffel-tower/finished.png',
+    )
+  })
+
+  it('keeps configured asset URLs direct only when NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct', () => {
     vi.stubEnv(NODE_ENV_KEY, 'production')
     vi.stubEnv(DISPLAY_MODE_ENV_KEY, 'direct')
 
@@ -147,11 +161,14 @@ describe('resolveAssetDisplayUrl', () => {
     )
   })
 
-  it('keeps direct CDN URLs in production', () => {
+  it('proxies courseware assets in production', () => {
     vi.stubEnv(NODE_ENV_KEY, 'production')
 
     expect(resolveAssetDisplayUrl('/birds/audio/lanius-cristatus.ogg')).toBe(
-      'https://assets.example.com/birds/audio/lanius-cristatus.ogg',
+      '/api/assets/birds/audio/lanius-cristatus.ogg',
+    )
+    expect(resolveAssetDisplayUrl('/courses/3-bao-jian/slides/slide-01.png')).toBe(
+      '/api/assets/courses/3-bao-jian/slides/slide-01.png',
     )
   })
 
@@ -163,6 +180,18 @@ describe('resolveAssetDisplayUrl', () => {
     )
     expect(resolveAssetDisplayUrl('https://assets.example.com/courses/ldraw/LDConfig.ldr')).toBe(
       '/api/assets/courses/ldraw/LDConfig.ldr',
+    )
+  })
+
+  it('proxies CDN courseware URLs without build-time assets base env', () => {
+    vi.stubEnv(ENV_KEY, undefined)
+    vi.stubEnv(NODE_ENV_KEY, 'production')
+
+    expect(resolveAssetDisplayUrl('https://assets.steamx.cc/courses/4-an-jian-ji/finished.png')).toBe(
+      '/api/assets/courses/4-an-jian-ji/finished.png',
+    )
+    expect(resolveAssetDisplayUrl('/courses/eiffel-tower/finished.png')).toBe(
+      '/api/assets/courses/eiffel-tower/finished.png',
     )
   })
 })

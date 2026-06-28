@@ -2,10 +2,9 @@
 
 import Image, { ImageProps } from "next/image"
 import {
-  getAssetDisplayUrl,
-  isConfiguredAssetUrl,
+  isProxiedAssetDisplayUrl,
+  resolveAssetDisplayUrl,
   rewriteAssetUrl,
-  shouldBypassAssetImageOptimization,
 } from "@/lib/utils/asset-url"
 import { cn } from "@/lib/utils"
 
@@ -159,12 +158,12 @@ export function OptimizedImage({
     isSupabasePublicStorageUrl(rawSrc) &&
     supportsSupabaseRenderTransform(rawSrc)
   const optimizedSrc = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src
-  const src = typeof optimizedSrc === "string"
-    ? getAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
-    : optimizedSrc
+  const src =
+    typeof optimizedSrc === "string"
+      ? resolveAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
+      : optimizedSrc
   const useDirectStaticAsset =
-    (typeof optimizedSrc === "string" && shouldBypassAssetImageOptimization(optimizedSrc)) ||
-    (rawSrc !== null && isConfiguredAssetUrl(rawSrc))
+    (typeof src === "string" && isProxiedAssetDisplayUrl(src)) || useDirectSupabaseTransform
 
   return (
     <Image

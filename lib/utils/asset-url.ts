@@ -5,9 +5,9 @@
  * - 只重写白名单前缀，避免误伤 /assets、/scratch、用户上传等路径
  * - 已是 http(s) 完整 URL 的直接放行
  * - 配置 base URL 后各环境先统一解析为同一资源域名
- * - 生产环境直接输出资源域名；开发环境默认经 /api/assets 代理，以生产 Referer 模拟 CDN 防盗链
- * - LDraw（.mpd/.ldr）在所有环境均经 /api/assets 代理（FileLoader 不带 Referer，CDN 会 403 返回 HTML）
- * - 开发态如需直连资源域名排查，可显式设置 NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct
+ * - 配置 CDN 防盗链时，各环境默认经 /api/assets 代理并附带 Referer；直连 CDN 会 403
+ * - LDraw（.mpd/.ldr）始终走 /api/assets（FileLoader 不带 Referer）
+ * - 排查 CDN 原文件时可显式设置 NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct
  */
 
 const REMOTE_ASSET_PREFIXES = [
@@ -20,7 +20,7 @@ const REMOTE_ASSET_PREFIXES = [
 ] as const
 
 export function getAssetsBaseUrl(): string | null {
-  const raw = process.env.NEXT_PUBLIC_ASSETS_BASE_URL
+  const raw = process.env.ASSETS_BASE_URL || process.env.NEXT_PUBLIC_ASSETS_BASE_URL
   if (!raw) return null
 
   const trimmed = raw.trim().replace(/\/+$/, '')
@@ -29,6 +29,49 @@ export function getAssetsBaseUrl(): string | null {
 
 function shouldRewrite(pathname: string): boolean {
   return REMOTE_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+}
+
+function splitPathAndQuery(input: string): { pathname: string; search: string } {
+  const [pathname, query = ''] = input.split('?', 2)
+  const search = query ? `?${query}` : ''
+  return { pathname, search }
+}
+
+/**
+ * 从相对路径或绝对 URL 提取 OSS 对象路径（如 `/courses/foo.png`）。
+ * 不依赖 build 时是否注入 NEXT_PUBLIC_ASSETS_BASE_URL，避免生产客户端漏配 env 时无法代理。
+ */
+function parseWhitelistedAssetPath(input: string): { pathname: string; search: string } | null {
+  const trimmed = input.trim()
+  if (!trimmed) return null
+
+  if (trimmed.startsWith('/')) {
+    const { pathname, search } = splitPathAndQuery(trimmed)
+    return shouldRewrite(pathname) ? { pathname, search } : null
+  }
+
+  const configuredPath = getConfiguredAssetPath(trimmed)
+  if (configuredPath) {
+    try {
+      const url = new URL(trimmed)
+      return { pathname: configuredPath, search: url.search }
+    } catch {
+      return null
+    }
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    try {
+      const url = new URL(trimmed)
+      if (shouldRewrite(url.pathname)) {
+        return { pathname: url.pathname, search: url.search }
+      }
+    } catch {
+      return null
+    }
+  }
+
+  return null
 }
 
 function getConfiguredAssetPath(input: string): string | null {
@@ -59,15 +102,20 @@ function getConfiguredAssetPath(input: string): string | null {
 export function isConfiguredAssetUrl(input: string | null | undefined): boolean {
   if (!input) return false
 
-  return getConfiguredAssetPath(input) !== null
+  return parseWhitelistedAssetPath(input) !== null
+}
+
+export function isProxiedAssetDisplayUrl(input: string | null | undefined): boolean {
+  if (!input || typeof input !== 'string') return false
+  return input.startsWith('/api/assets/')
 }
 
 export function shouldBypassAssetImageOptimization(input: string | null | undefined): boolean {
-  return isConfiguredAssetUrl(input)
+  return isProxiedAssetDisplayUrl(input) || isConfiguredAssetUrl(input)
 }
 
 function shouldProxyConfiguredAssets() {
-  return process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE !== 'direct'
+  return process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE !== 'direct'
 }
 
 /** LDraw 模型/配色：CDN 防盗链，浏览器 FileLoader 不带 Referer 会 403 返回 HTML。始终走 /api/assets。 */
@@ -76,8 +124,8 @@ function isLdrawLibraryPath(pathname: string): boolean {
   return path.startsWith('/courses/ldraw/') && /\.(mpd|ldr)$/i.test(path)
 }
 
-function shouldProxyAssetPath(assetPath: string): boolean {
-  if (isLdrawLibraryPath(assetPath)) return true
+function shouldProxyAssetPath(pathname: string): boolean {
+  if (isLdrawLibraryPath(pathname)) return true
   return shouldProxyConfiguredAssets()
 }
 
@@ -88,15 +136,14 @@ export function getAssetDisplayUrl(input: string | null | undefined): string | n
   const trimmed = input.trim()
   if (!trimmed) return input
 
-  const assetPath = getConfiguredAssetPath(trimmed)
-  if (!assetPath || !shouldProxyAssetPath(assetPath)) return input
+  const parsed = parseWhitelistedAssetPath(trimmed)
+  if (!parsed || !shouldProxyAssetPath(parsed.pathname)) return input
 
-  const sourceUrl = new URL(trimmed)
-  return `/api/assets${assetPath}${sourceUrl.search}`
+  return `/api/assets${parsed.pathname}${parsed.search}`
 }
 
 /**
- * 展示用资源 URL：先把 `/birds/...` 等本地路径重写到 CDN，再在开发环境走 `/api/assets` 代理。
+ * 展示用资源 URL：先把 `/birds/...` 等本地路径重写到 CDN，再经 `/api/assets` 代理（绕过 CDN 防盗链）。
  */
 export function resolveAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
   if (input == null) return input
@@ -105,12 +152,16 @@ export function resolveAssetDisplayUrl(input: string | null | undefined): string
   const trimmed = input.trim()
   if (!trimmed) return input
 
+  const directProxy = getAssetDisplayUrl(trimmed)
+  if (directProxy !== trimmed) return directProxy
+
   const rewritten = rewriteAssetUrl(trimmed) ?? trimmed
   return getAssetDisplayUrl(rewritten) ?? rewritten
 }
 
 export function shouldBypassAssetDisplayOptimization(input: string | null | undefined): boolean {
   if (!input || typeof input !== 'string') return false
+  if (isProxiedAssetDisplayUrl(input)) return true
   const rewritten = rewriteAssetUrl(input) ?? input
   return isConfiguredAssetUrl(rewritten) || shouldRewrite(input.trim().split('?')[0])
 }
