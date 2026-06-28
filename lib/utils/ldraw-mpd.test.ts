@@ -11,6 +11,11 @@ import {
   splitPackedMpd,
 } from './ldraw-mpd'
 
+type ParseCache = {
+  setData: (fileName: string, text: string) => void
+  fetchData: (fileName: string) => Promise<string>
+}
+
 describe('assertValidLdrawMpd', () => {
   it('rejects CDN 403 HTML', () => {
     expect(() => assertValidLdrawMpd('<!DOCTYPE html><html>403</html>')).toThrow(/HTML/)
@@ -33,9 +38,9 @@ describe('buildEmbeddedLookup', () => {
 describe('patchParseCacheForEmbedded', () => {
   it('returns embedded text without calling original fetchData', async () => {
     const embedded = new Map([['parts/s/3001s01.dat', 'subpart']])
-    const parseCache = {
+    const parseCache: ParseCache = {
       setData: () => {},
-      fetchData: async () => {
+      fetchData: async (_fileName: string) => {
         throw new Error('network')
       },
     }
@@ -45,9 +50,9 @@ describe('patchParseCacheForEmbedded', () => {
   })
 
   it('throws when part is missing from embedded map', async () => {
-    const parseCache = {
+    const parseCache: ParseCache = {
       setData: () => {},
-      fetchData: async () => {
+      fetchData: async (_fileName: string) => {
         throw new Error('network')
       },
     }
