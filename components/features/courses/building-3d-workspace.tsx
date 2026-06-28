@@ -687,7 +687,6 @@ export function Building3DWorkspace({
 
             {view === "video" && content.videoUrl ? (
                 <div className="flex min-h-0 flex-1 items-center justify-center bg-black p-2">
-                    {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                     <video
                         key={content.videoUrl}
                         src={content.videoUrl}
@@ -721,7 +720,6 @@ export function Building3DWorkspace({
                             </div>
                             <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-3">
                                 {currentSlide === videoSlide0 && content.videoUrl ? (
-                                    /* eslint-disable-next-line jsx-a11y/media-has-caption */
                                     <video
                                         key={content.videoUrl}
                                         src={content.videoUrl}

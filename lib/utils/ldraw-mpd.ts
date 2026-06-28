@@ -121,25 +121,22 @@ export function patchParseCacheForEmbedded(
   }
 }
 
-type LDrawLoaderInstance = import('three/examples/jsm/loaders/LDrawLoader.js').LDrawLoader & {
+type LDrawLoaderBase = import('three/examples/jsm/loaders/LDrawLoader.js').LDrawLoader
+
+/** three.js 类型未暴露 partsCache，运行时有该字段。 */
+type LDrawLoaderWithPartsCache = LDrawLoaderBase & {
   partsCache: {
     parseCache: LDrawParseCache
   }
-  addDefaultMaterials: () => void
-  preloadMaterials: (url: string) => Promise<void>
-  parse: (
-    text: string,
-    onLoad: (group: import('three').Group) => void,
-    onError?: (error: unknown) => void,
-  ) => void
 }
 
 /** 拉取打包 MPD，预填内联零件后 parse（不走 loadAsync，避免子件路径错到课时页）。 */
 export async function loadPackedLdrawModel(
-  loader: LDrawLoaderInstance,
+  loader: LDrawLoaderBase,
   mpdUrl: string,
   colorUrl: string,
 ): Promise<import('three').Group> {
+  const packedLoader = loader as LDrawLoaderWithPartsCache
   const response = await fetch(mpdUrl, { cache: 'no-store' })
   if (!response.ok) {
     throw new Error(`LDraw MPD 加载失败: HTTP ${response.status}`)
@@ -159,18 +156,18 @@ export async function loadPackedLdrawModel(
     )
   }
 
-  const parseCache = loader.partsCache.parseCache
+  const parseCache = packedLoader.partsCache.parseCache
   patchParseCacheForEmbedded(parseCache, embedded)
 
   for (const [name, fileText] of embedded) {
     parseCache.setData(name, fileText)
   }
 
-  loader.addDefaultMaterials()
-  await loader.preloadMaterials(colorUrl)
+  packedLoader.addDefaultMaterials()
+  await packedLoader.preloadMaterials(colorUrl)
 
   // 传完整 MPD：LDrawLoader 会在 parse 时自动处理内联 0 FILE 块。
   return new Promise((resolve, reject) => {
-    loader.parse(mpdText, resolve, reject)
+    packedLoader.parse(mpdText, resolve, reject)
   })
 }
