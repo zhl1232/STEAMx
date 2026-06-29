@@ -1,0 +1,2149 @@
+{
+  "model": "3-chang-jing-long.ldr",
+  "sourceImageDirectory": "C:\\Users\\arron\\Downloads\\ilovepdf_pages-to-jpg",
+  "coordinateSystem": "LDraw: X left/right, Y vertical with negative values upward, Z front/back; one Duplo stud is 40 LDraw units.",
+  "steps": [
+    {
+      "step": 1,
+      "instructionPage": "3+长颈龙搭建说明_page-0001.jpg",
+      "title": "搭建恐龙脚 · 4 块 2302 弧面脚，分别向上叠 4 层交替黄色和绿色的 2x2 积木",
+      "addedCount": 20,
+      "additionsSummary": [
+        {
+          "partId": "2302.dat",
+          "partName": "Duplo Brick 2 x 3 with Curved Top",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 4
+        },
+        {
+          "partId": "3437.dat",
+          "partName": "Duplo Brick 2 x 2",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 8
+        },
+        {
+          "partId": "3437.dat",
+          "partName": "Duplo Brick 2 x 2",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 8
+        }
+      ],
+      "placements": [
+        {
+          "id": "p001",
+          "partId": "2302.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": 0,
+            "z": -200
+          },
+          "orientation": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 0.0000 -200.0000 -1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 -0.000000 0.000000 -1.000000 2302.dat"
+        },
+        {
+          "id": "p002",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -48,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -48.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p003",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -96,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -96.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p004",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -144,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -144.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p005",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -192,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -192.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p006",
+          "partId": "2302.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": 0,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 0.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 2302.dat"
+        },
+        {
+          "id": "p007",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -48,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -48.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p008",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -96,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -96.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p009",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -144,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -144.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p010",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -192,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -192.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p011",
+          "partId": "2302.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": 0,
+            "z": 200
+          },
+          "orientation": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 0.0000 200.0000 -1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 -0.000000 0.000000 -1.000000 2302.dat"
+        },
+        {
+          "id": "p012",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -48,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -48.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p013",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -96,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -96.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p014",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -144,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -144.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p015",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -192,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -192.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p016",
+          "partId": "2302.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": 0,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 0.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 2302.dat"
+        },
+        {
+          "id": "p017",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -48,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -48.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p018",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -96,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -96.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p019",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -144,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -144.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p020",
+          "partId": "3437.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -192,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -192.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "instructionPage": "3+长颈龙搭建说明_page-0002.jpg",
+      "title": "连接四肢 · 四条腿上方压上一块绿色的 6x12 大颗粒底板",
+      "addedCount": 1,
+      "additionsSummary": [
+        {
+          "partId": "4196.dat",
+          "partName": "Duplo Plate 6 x 12",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 1
+        }
+      ],
+      "placements": [
+        {
+          "id": "p021",
+          "partId": "4196.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -216,
+            "z": 0
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "The LDraw 4196 plate is rotated 90 degrees so its 12-stud side runs front-to-back and its four corners sit directly over the four 2 x 2 leg columns.",
+          "ldrawLine": "1 2 0.0000 -216.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 4196.dat"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "instructionPage": "3+长颈龙搭建说明_page-0003.jpg",
+      "title": "立起支架 · 底板前后两端立起黄色拱门支架墙",
+      "addedCount": 2,
+      "additionsSummary": [
+        {
+          "partId": "31191.dat",
+          "partName": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "placements": [
+        {
+          "id": "p022",
+          "partId": "31191.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.82,
+          "position": {
+            "x": 0,
+            "y": -456,
+            "z": -200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "Closest available LDraw part for the yellow round doorway frame.",
+          "ldrawLine": "1 14 0.0000 -456.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31191.dat"
+        },
+        {
+          "id": "p023",
+          "partId": "31191.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.82,
+          "position": {
+            "x": 0,
+            "y": -456,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "Closest available LDraw part for the yellow round doorway frame.",
+          "ldrawLine": "1 14 0.0000 -456.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31191.dat"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "instructionPage": "3+长颈龙搭建说明_page-0004.jpg",
+      "title": "拼滑梯管道 · 四节直滑梯相接，穿过两个黄色拱门的圆孔",
+      "addedCount": 4,
+      "additionsSummary": [
+        {
+          "partId": "31452.dat",
+          "partName": "Duplo Ball Tube Straight",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "quantity": 2
+        },
+        {
+          "partId": "31452.dat",
+          "partName": "Duplo Ball Tube Straight",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "placements": [
+        {
+          "id": "p024",
+          "partId": "31452.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": -240
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -346.0000 -240.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat"
+        },
+        {
+          "id": "p025",
+          "partId": "31452.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": -120
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 -346.0000 -120.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat"
+        },
+        {
+          "id": "p026",
+          "partId": "31452.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": 0
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -346.0000 0.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat"
+        },
+        {
+          "id": "p027",
+          "partId": "31452.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": 120
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 -346.0000 120.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "instructionPage": "3+长颈龙搭建说明_page-0005.jpg",
+      "title": "搭建恐龙尾巴 · 左端滑梯向外、向下弯曲至地面",
+      "addedCount": 4,
+      "additionsSummary": [
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "quantity": 2
+        },
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "placements": [
+        {
+          "id": "p028",
+          "partId": "31195.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": -240
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 -346.0000 -240.0000 -0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 -0.000000 0.000000 -1.000000 31195.dat"
+        },
+        {
+          "id": "p029",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -381.147,
+            "z": -324.853
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            0.707107,
+            0,
+            0.707107,
+            0.707107,
+            0,
+            -0.707107
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -381.1470 -324.8530 -0.000000 1.000000 -0.000000 0.707107 0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat"
+        },
+        {
+          "id": "p030",
+          "partId": "31195.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -345.9996,
+            "z": -409.7058
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -0.0000 -345.9996 -409.7058 -0.000000 1.000000 -0.000000 0.000000 0.000000 1.000000 1.000000 0.000000 -0.000000 31195.dat"
+        },
+        {
+          "id": "p031",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -430.8526,
+            "z": -374.5588
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            0.707107,
+            0,
+            0.707107,
+            0.707107,
+            0,
+            -0.707107
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -430.8526 -374.5588 -0.000000 1.000000 -0.000000 0.707107 0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "instructionPage": "3+长颈龙搭建说明_page-0006.jpg",
+      "title": "搭建滑梯入口 · 右端安装一块红色平台板，并接上一节弯管",
+      "addedCount": 3,
+      "additionsSummary": [
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "quantity": 1
+        },
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 1
+        },
+        {
+          "partId": "42029.dat",
+          "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+          "colorCode": 4,
+          "colorName": "Red",
+          "quantity": 1
+        }
+      ],
+      "placements": [
+        {
+          "id": "p032",
+          "partId": "42029.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.85,
+          "position": {
+            "x": 0,
+            "y": -504,
+            "z": 200
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation.",
+          "ldrawLine": "1 4 0.0000 -504.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
+        },
+        {
+          "id": "p033",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -346,
+            "z": 240
+          },
+          "orientation": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -346.0000 240.0000 0.000000 -1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat"
+        },
+        {
+          "id": "p034",
+          "partId": "31195.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -381.147,
+            "z": 324.853
+          },
+          "orientation": [
+            0,
+            -1,
+            0,
+            0.707107,
+            0,
+            0.707107,
+            -0.707107,
+            0,
+            0.707107
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -0.0000 -381.1470 324.8530 0.000000 -1.000000 0.000000 0.707107 0.000000 0.707107 -0.707107 0.000000 0.707107 31195.dat"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "instructionPage": "3+长颈龙搭建说明_page-0007.jpg",
+      "title": "恐龙脖子 · 垂直向上拼接三节直管和两节弯管，作为恐龙高耸的脖子",
+      "addedCount": 5,
+      "additionsSummary": [
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "quantity": 1
+        },
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 1
+        },
+        {
+          "partId": "31452.dat",
+          "partName": "Duplo Ball Tube Straight",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "quantity": 2
+        },
+        {
+          "partId": "31452.dat",
+          "partName": "Duplo Ball Tube Straight",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 1
+        }
+      ],
+      "placements": [
+        {
+          "id": "p035",
+          "partId": "31452.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -345.9996,
+            "z": 409.7058
+          },
+          "orientation": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -345.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+        },
+        {
+          "id": "p036",
+          "partId": "31452.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -225.9996,
+            "z": 409.7058
+          },
+          "orientation": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 -225.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+        },
+        {
+          "id": "p037",
+          "partId": "31452.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -105.9996,
+            "z": 409.7058
+          },
+          "orientation": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 -105.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+        },
+        {
+          "id": "p038",
+          "partId": "31195.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": 14.0004,
+            "z": 409.7058
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 14.0004 409.7058 -0.000000 1.000000 0.000000 -0.000000 -0.000000 1.000000 1.000000 0.000000 0.000000 31195.dat"
+        },
+        {
+          "id": "p039",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": 98.8534,
+            "z": 374.5588
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            -0.707107,
+            0,
+            0.707107,
+            0.707107,
+            0,
+            0.707107
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 1 0.0000 98.8534 374.5588 -0.000000 1.000000 -0.000000 -0.707107 -0.000000 0.707107 0.707107 0.000000 0.707107 31195.dat"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "instructionPage": "3+长颈龙搭建说明_page-0008.jpg",
+      "title": "搭建恐龙头部 · 脖子顶端用黄色积木和红色嘴巴拼搭头部，安上黄色印刷眼睛砖",
+      "addedCount": 4,
+      "additionsSummary": [
+        {
+          "partId": "31195.dat",
+          "partName": "Duplo Ball Tube 45 Degrees",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 1
+        },
+        {
+          "partId": "3437.dat",
+          "partName": "Duplo Brick 2 x 2",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 2
+        },
+        {
+          "partId": "42029.dat",
+          "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+          "colorCode": 4,
+          "colorName": "Red",
+          "quantity": 1
+        }
+      ],
+      "placements": [
+        {
+          "id": "p040",
+          "partId": "31195.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": 183.7063,
+            "z": 409.7063
+          },
+          "orientation": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 0.0000 183.7063 409.7063 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat"
+        },
+        {
+          "id": "p041",
+          "partId": "42029.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.85,
+          "position": {
+            "x": 0,
+            "y": 143.7063,
+            "z": 389.7063
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation.",
+          "ldrawLine": "1 4 0.0000 143.7063 389.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
+        },
+        {
+          "id": "p042",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.8,
+          "position": {
+            "x": 0,
+            "y": 95.7063,
+            "z": 349.7063
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
+          "ldrawLine": "1 14 0.0000 95.7063 349.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        },
+        {
+          "id": "p043",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.8,
+          "position": {
+            "x": 0,
+            "y": 95.7063,
+            "z": 429.7063
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
+          "ldrawLine": "1 14 0.0000 95.7063 429.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "instructionPage": "3+长颈龙搭建说明_page-0009.jpg",
+      "title": "砌起身体 · 直管道两侧砌起黄色与绿色的 2x4 墙壁",
+      "addedCount": 20,
+      "additionsSummary": [
+        {
+          "partId": "3011.dat",
+          "partName": "Duplo Brick 2 x 4",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 8
+        },
+        {
+          "partId": "3011.dat",
+          "partName": "Duplo Brick 2 x 4",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 12
+        }
+      ],
+      "placements": [
+        {
+          "id": "p044",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -264,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p045",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -264,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p046",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -264,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p047",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -264,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p048",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -312,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p049",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -312,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p050",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -312,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p051",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -312,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p052",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -360,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p053",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -360,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p054",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -360,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p055",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -360,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p056",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -408,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p057",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -408,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p058",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -408,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p059",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -408,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p060",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -456,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p061",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -456,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -80.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p062",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -456,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p063",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -456,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 80.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "instructionPage": "3+长颈龙搭建说明_page-0010.jpg",
+      "title": "恐龙背脊 · 两面墙顶部用绿色积木连接，拼成平整的后背",
+      "addedCount": 6,
+      "additionsSummary": [
+        {
+          "partId": "3011.dat",
+          "partName": "Duplo Brick 2 x 4",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 6
+        }
+      ],
+      "placements": [
+        {
+          "id": "p064",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -504,
+            "z": -160
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 0.0000 -504.0000 -160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat"
+        },
+        {
+          "id": "p065",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 0,
+            "y": -504,
+            "z": 160
+          },
+          "orientation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 0.0000 -504.0000 160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat"
+        },
+        {
+          "id": "p066",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -504,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -504.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p067",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -80,
+            "y": -504,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -80.0000 -504.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p068",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -504,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -504.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p069",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 80,
+            "y": -504,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 80.0000 -504.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "instructionPage": "3+长颈龙搭建说明_page-0011.jpg",
+      "title": "装饰背脊 · 后背后方叠上黄色和绿色的起伏积木",
+      "addedCount": 5,
+      "additionsSummary": [
+        {
+          "partId": "3011.dat",
+          "partName": "Duplo Brick 2 x 4",
+          "colorCode": 2,
+          "colorName": "Green",
+          "quantity": 2
+        },
+        {
+          "partId": "3011.dat",
+          "partName": "Duplo Brick 2 x 4",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "quantity": 3
+        }
+      ],
+      "placements": [
+        {
+          "id": "p070",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -40,
+            "y": -552,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -40.0000 -552.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p071",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": 40,
+            "y": -552,
+            "z": 80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 40.0000 -552.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p072",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": -40,
+            "y": -552,
+            "z": 0
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 -40.0000 -552.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p073",
+          "partId": "3011.dat",
+          "colorCode": 2,
+          "colorName": "Green",
+          "confidence": 0.95,
+          "position": {
+            "x": 40,
+            "y": -552,
+            "z": 0
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 2 40.0000 -552.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        },
+        {
+          "id": "p074",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.95,
+          "position": {
+            "x": -40,
+            "y": -552,
+            "z": -80
+          },
+          "orientation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "ldrawLine": "1 14 -40.0000 -552.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat"
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "instructionPage": "3+长颈龙搭建说明_page-0012.jpg",
+      "title": "大功告成 · 长颈龙恐龙滑梯游乐场搭建完成！检查所有积木插口并对照成品图",
+      "addedCount": 0,
+      "additionsSummary": [],
+      "placements": []
+    }
+  ]
+}

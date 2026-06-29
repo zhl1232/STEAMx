@@ -25,6 +25,7 @@ const LDCONFIG_URL = `${COMPLETE}/LDConfig.ldr`
 const SEARCH_DIRS = ['parts', 'p', 'models']
 
 const OUT_DIR = resolve(process.cwd(), 'public/courses/ldraw')
+const LOCAL_PART_ROOT = resolve(process.cwd(), 'scripts/ldraw-models')
 
 /** 从已打包的本地 MPD 文件里读取依赖块，避免重复下载相同 LDraw 零件。 */
 async function loadLocalMpdCache() {
@@ -94,7 +95,7 @@ async function fetchText(url) {
     const idx = stdout.lastIndexOf('\n')
     const body = stdout.slice(0, idx)
     const code = stdout.slice(idx + 1).trim()
-    if (code === '404') return null
+    if (code === '404' || code === '400') return null
     if (code !== '200') throw new Error(`HTTP ${code} for ${url}`)
     return body
   } catch (err) {
@@ -105,6 +106,15 @@ async function fetchText(url) {
 /** 在候选子目录里找到引用文件的内容；返回 { content, url } 或 null。 */
 async function resolvePart(ref) {
   const normalized = normalizeRef(ref)
+  for (const dir of SEARCH_DIRS) {
+    try {
+      const localPath = resolve(LOCAL_PART_ROOT, dir, normalized)
+      const content = await readFile(localPath, 'utf8')
+      return { content, url: localPath }
+    } catch {
+      // Continue to the public LDraw mirror.
+    }
+  }
   // 已经带子目录前缀（如 s/3011s01.dat 或 48/1-4chrd.dat）时也要在 parts/ 与 p/ 下试。
   for (const dir of SEARCH_DIRS) {
     const url = `${COMPLETE}/${dir}/${normalized}`

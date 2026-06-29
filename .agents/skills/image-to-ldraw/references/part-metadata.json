@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "grid": {
+    "studPitchLdu": 40,
+    "defaultSupportCoverage": 0.2
+  },
+  "orientationMatrices": {
+    "north": [1, 0, 0, 0, 1, 0, 0, 0, 1],
+    "east": [0, 0, 1, 0, 1, 0, -1, 0, 0],
+    "south": [-1, 0, 0, 0, 1, 0, 0, 0, -1],
+    "west": [0, 0, -1, 0, 1, 0, 1, 0, 0]
+  },
+  "parts": {
+    "2302.dat": {
+      "name": "Duplo Brick 2 x 3 with Curved Top",
+      "category": "brick",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 3, "z": 2 },
+      "heightLdu": 48,
+      "bbox": { "xMin": -40, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -40, "xMax": 40, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 48, "xMin": -40, "xMax": 80, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -40, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "category": "brick",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 4, "z": 2 },
+      "heightLdu": 48,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 48, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
+    "3437.dat": {
+      "name": "Duplo Brick 2 x 2",
+      "category": "brick",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 2, "z": 2 },
+      "heightLdu": 48,
+      "bbox": { "xMin": -40, "xMax": 40, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -40, "xMax": 40, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 48, "xMin": -40, "xMax": 40, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -40, "xMax": 40, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
+    "4196.dat": {
+      "name": "Duplo Plate 6 x 12",
+      "category": "plate",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 12, "z": 6 },
+      "heightLdu": 24,
+      "bbox": { "xMin": -240, "xMax": 240, "yMin": 0, "yMax": 24, "zMin": -120, "zMax": 120 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 24 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -240, "xMax": 240, "zMin": -120, "zMax": 120 },
+        "bottom": { "yLdu": 24, "xMin": -240, "xMax": 240, "zMin": -120, "zMax": 120 }
+      },
+      "collisionVolumes": [
+        { "xMin": -240, "xMax": 240, "yMin": 0, "yMax": 24, "zMin": -120, "zMax": 120 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
+    "41989.dat": {
+      "name": "Duplo Car Base 2 x 4",
+      "category": "vehicle-base",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 4, "z": 2 },
+      "heightLdu": 48,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 48, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural",
+      "notes": ["Visible tire discs are decorative and should use exact LDraw lines if modeled."]
+    },
+    "42029.dat": {
+      "name": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+      "category": "tube-holder",
+      "ldrawStatus": "Custom LDraw approximation",
+      "studFootprint": { "x": 4, "z": 2 },
+      "heightLdu": 96,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": -96, "yMax": 48, "zMin": -40, "zMax": 120 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 48, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
+        { "xMin": -80, "xMax": 80, "yMin": -96, "yMax": 0, "zMin": 24, "zMax": 120 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": ["Local approximation stored in scripts/ldraw-models/parts/42029.dat."]
+    },
+    "31191.dat": {
+      "name": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",
+      "category": "tube",
+      "ldrawStatus": "Unofficial",
+      "studFootprint": { "x": 6, "z": 2 },
+      "heightLdu": 240,
+      "bbox": { "xMin": -120, "xMax": 120, "yMin": 0, "yMax": 240, "zMin": -80, "zMax": 80 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 240 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -120, "xMax": 120, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 240, "xMin": -120, "xMax": 120, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -120, "xMax": -85, "yMin": 0, "yMax": 240, "zMin": -80, "zMax": 80 },
+        { "xMin": 85, "xMax": 120, "yMin": 0, "yMax": 240, "zMin": -80, "zMax": 80 },
+        { "xMin": -85, "xMax": 85, "yMin": 0, "yMax": 30, "zMin": -80, "zMax": 80 },
+        { "xMin": -85, "xMax": 85, "yMin": 190, "yMax": 240, "zMin": -80, "zMax": 80 }
+      ],
+      "tubeOpenings": [
+        {
+          "center": { "x": 0, "y": 110, "z": 0 },
+          "axis": "z",
+          "innerRadiusLdu": 80,
+          "thicknessLdu": 160,
+          "toleranceLdu": 8
+        }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural",
+      "notes": ["Full frame height is 240 LDU; bottom connection plane is local y=240.", "Collision volumes approximate the frame around the circular opening instead of filling the hole."]
+    },
+    "31195.dat": {
+      "name": "Duplo Ball Tube 45 Degrees",
+      "category": "tube",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 4, "z": 4 },
+      "heightLdu": 160,
+      "bbox": { "xMin": -120, "xMax": 120, "yMin": -120, "yMax": 120, "zMin": -120, "zMax": 120 },
+      "origin": { "type": "tube-center", "originToTop": 0, "originToBottom": 0 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -80, "zMax": 80 },
+        "bottom": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -80, "zMax": 80 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": -80, "yMax": 80, "zMin": -13, "zMax": 120 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "tubeJoint": {
+        "inlet": { "center": { "x": 0, "y": 0, "z": 0 }, "axis": "z" },
+        "outlet": {
+          "center": { "x": -35.148, "y": 0, "z": 84.852 },
+          "rotationYDeg": 45
+        },
+        "chainLocal": {
+          "translate": { "x": -35.147, "y": 0, "z": 84.853 },
+          "rotateYDeg": 45,
+          "notes": "Copied from official 31195.dat outlet flange; multiply on the right when chaining elbows."
+        }
+      },
+      "notes": [
+        "Manual review required for tube-to-tube orientation.",
+        "Do not use named north/east/south/west for chained elbows; emit exact ldrawLine and verify against the instruction image.",
+        "At the -Z end of a straight 31452 run, start with rotZ(-90deg)*rotY(180deg) (mirror of the +Z-end rotZ(+90deg)) so the first elbow bends downward; for a 4-piece tail that must end lower, chain std chainLocal for the first two elbows then mirrored chainLocal for the last two."
+      ]
+    },
+    "31452.dat": {
+      "name": "Duplo Ball Tube Straight",
+      "category": "tube",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 4, "z": 4 },
+      "heightLdu": 132,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": -80, "yMax": 80, "zMin": -13, "zMax": 120 },
+      "origin": { "type": "tube-center", "originToTop": 0, "originToBottom": 0 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -13, "zMax": 120 },
+        "bottom": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -13, "zMax": 120 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": -80, "yMax": 80, "zMin": -13, "zMax": 120 }
+      ],
+      "tubePath": {
+        "type": "straight",
+        "start": { "x": 0, "y": 0, "z": 0 },
+        "end": { "x": 0, "y": 0, "z": 120 },
+        "outerRadiusLdu": 66
+      },
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": ["Manual review required for tube assemblies."]
+    },
+    "4-4ndis.dat": {
+      "name": "Disc primitive used for visible tire faces",
+      "category": "decorative-primitive",
+      "ldrawStatus": "Primitive",
+      "decorative": true,
+      "requiresExactTransform": true,
+      "bbox": { "xMin": -1, "xMax": 1, "yMin": -1, "yMax": 1, "zMin": -1, "zMax": 1 },
+      "origin": { "type": "primitive", "originToTop": 0, "originToBottom": 0 },
+      "connectionSurfaces": {},
+      "collisionVolumes": [],
+      "allowedOrientations": [],
+      "supportPolicy": "decorative",
+      "notes": ["Use placement.ldrawLine or placement.transform; do not use as a normal grid part."]
+    }
+  }
+}

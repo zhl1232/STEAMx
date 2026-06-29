@@ -139,7 +139,7 @@ export async function loadPackedLdrawModel(
   const packedLoader = loader as LDrawLoaderWithPartsCache
   const response = await fetch(mpdUrl, { cache: 'no-store' })
   if (!response.ok) {
-    throw new Error(`LDraw MPD 加载失败: HTTP ${response.status}`)
+    throw new Error(`LDraw MPD 加载失败: HTTP ${response.status} (${mpdUrl})`)
   }
 
   const mpdText = await response.text()

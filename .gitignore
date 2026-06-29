@@ -36,6 +36,8 @@ public/courses/*/finished.png
 public/courses/*/finished.webp
 # import/upsert 生成的课时 manifest（可重新跑 import-courseware / upsert 产出）
 scripts/courseware/
+scripts/ldraw-models/.cache/
+scratch/
 packages/scratch-host/dist
 .open-next
 

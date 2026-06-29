@@ -1,0 +1,145 @@
+{
+  "model": "3-chang-jing-long.ldr",
+  "sourceImageDirectory": "C:\\Users\\arron\\Downloads\\ilovepdf_pages-to-jpg",
+  "totalParts": 74,
+  "items": [
+    {
+      "partId": "2302.dat",
+      "partName": "Duplo Brick 2 x 3 with Curved Top",
+      "ldrawStatus": "Official",
+      "colorCode": 2,
+      "colorName": "Green",
+      "quantity": 4,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "ldrawStatus": "Official",
+      "colorCode": 2,
+      "colorName": "Green",
+      "quantity": 16,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "ldrawStatus": "Official",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 15,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "31191.dat",
+      "partName": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",
+      "ldrawStatus": "Unofficial",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 2,
+      "confidence": 0.82,
+      "notes": [
+        "Closest available LDraw part for the yellow round doorway frame."
+      ],
+      "substitutes": []
+    },
+    {
+      "partId": "31195.dat",
+      "partName": "Duplo Ball Tube 45 Degrees",
+      "ldrawStatus": "Official",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 4,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "31195.dat",
+      "partName": "Duplo Ball Tube 45 Degrees",
+      "ldrawStatus": "Official",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 5,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "31452.dat",
+      "partName": "Duplo Ball Tube Straight",
+      "ldrawStatus": "Official",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 4,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "31452.dat",
+      "partName": "Duplo Ball Tube Straight",
+      "ldrawStatus": "Official",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 3,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "3437.dat",
+      "partName": "Duplo Brick 2 x 2",
+      "ldrawStatus": "Official",
+      "colorCode": 2,
+      "colorName": "Green",
+      "quantity": 8,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "3437.dat",
+      "partName": "Duplo Brick 2 x 2",
+      "ldrawStatus": "Official",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 10,
+      "confidence": 0.8,
+      "notes": [
+        "Plain yellow 2x2 used; printed eye decoration is not modeled."
+      ],
+      "substitutes": []
+    },
+    {
+      "partId": "4196.dat",
+      "partName": "Duplo Plate 6 x 12",
+      "ldrawStatus": "Official",
+      "colorCode": 2,
+      "colorName": "Green",
+      "quantity": 1,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "42029.dat",
+      "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+      "ldrawStatus": "Custom LDraw approximation",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 2,
+      "confidence": 0.85,
+      "notes": [
+        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation."
+      ],
+      "substitutes": []
+    }
+  ]
+}

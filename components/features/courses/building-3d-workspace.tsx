@@ -161,6 +161,11 @@ function partMap(parts: Building3DPart[]) {
     return new Map(parts.map((part) => [part.id, part]));
 }
 
+function getErrorMessage(error: unknown, fallback: string) {
+    if (error instanceof Error) return error.message;
+    return fallback;
+}
+
 async function loadThree(): Promise<LoadedThree> {
     const [THREE, controls, gltf, ldraw, ldrawLine] = await Promise.all([
         import("three"),
@@ -388,180 +393,197 @@ export function Building3DWorkspace({
             if (!mount) return;
             setLoading(true);
             setLoadError(null);
-            const { THREE, OrbitControls, GLTFLoader, LDrawLoader, LDrawConditionalLineMaterial } = await loadThree();
-            if (cancelled || !mountRef.current) return;
+            try {
+                const { THREE, OrbitControls, GLTFLoader, LDrawLoader, LDrawConditionalLineMaterial } =
+                    await loadThree();
+                if (cancelled || !mountRef.current) return;
 
-            const FLOOR_Y = -0.18;
+                const FLOOR_Y = -0.18;
 
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color("#f8fbff");
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color("#f8fbff");
 
-            const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: false,
-                preserveDrawingBuffer: true,
-            });
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            mount.appendChild(renderer.domElement);
+                const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+                const renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: false,
+                    preserveDrawingBuffer: true,
+                });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.shadowMap.enabled = true;
+                mount.appendChild(renderer.domElement);
 
-            const controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.08;
-            controls.minDistance = 4;
-            controls.maxDistance = 16;
+                const controls = new OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.08;
+                controls.minDistance = 4;
+                controls.maxDistance = 16;
 
-            const hemi = new THREE.HemisphereLight("#ffffff", "#cbd5e1", 2.2);
-            scene.add(hemi);
-            const key = new THREE.DirectionalLight("#ffffff", 2);
-            key.position.set(4, 7, 5);
-            key.castShadow = true;
-            scene.add(key);
-            const floor = new THREE.Mesh(
-                new THREE.PlaneGeometry(14, 10),
-                new THREE.MeshStandardMaterial({ color: "#e8f1f8", roughness: 0.9 }),
-            );
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = FLOOR_Y;
-            floor.receiveShadow = true;
-            scene.add(floor);
+                const hemi = new THREE.HemisphereLight("#ffffff", "#cbd5e1", 2.2);
+                scene.add(hemi);
+                const key = new THREE.DirectionalLight("#ffffff", 2);
+                key.position.set(4, 7, 5);
+                key.castShadow = true;
+                scene.add(key);
+                const floor = new THREE.Mesh(
+                    new THREE.PlaneGeometry(14, 10),
+                    new THREE.MeshStandardMaterial({ color: "#e8f1f8", roughness: 0.9 }),
+                );
+                floor.rotation.x = -Math.PI / 2;
+                floor.position.y = FLOOR_Y;
+                floor.receiveShadow = true;
+                scene.add(floor);
 
-            let root: import("three").Object3D | null = null;
-            let revealPartsByStep = true;
-            // LDraw 模型用模型内 `0 STEP` 元数据驱动分步显隐（buildingStep）。
-            let ldrawNumSteps = 0;
+                let root: import("three").Object3D | null = null;
+                let revealPartsByStep = true;
+                // LDraw 模型用模型内 `0 STEP` 元数据驱动分步显隐（buildingStep）。
+                let ldrawNumSteps = 0;
 
-            if (content.ldrawModelUrl) {
-                try {
-                    const ldrawLoader = new LDrawLoader();
-                    ldrawLoader.smoothNormals = true;
-                    ldrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
-                    const colorUrl =
-                        resolveAssetDisplayUrl(content.ldrawColorUrl ?? DEFAULT_LDRAW_COLOR_URL)
-                        ?? DEFAULT_LDRAW_COLOR_URL;
-                    const model = await loadPackedLdrawModel(
-                        ldrawLoader,
-                        content.ldrawModelUrl,
-                        colorUrl,
-                    );
-                    if (cancelled || !mountRef.current) return;
-                    prepareLdrawModel(THREE, model, FLOOR_Y);
-                    root = model;
-                    revealPartsByStep = false;
-                    ldrawNumSteps =
-                        typeof model.userData.numBuildingSteps === "number"
-                            ? model.userData.numBuildingSteps
-                            : content.steps3d.length;
-                    scene.add(root);
-                } catch (error) {
-                    setLoadError(error instanceof Error ? error.message : "LDraw 模型加载失败");
-                }
-            } else if (content.modelUrl) {
-                try {
-                    const gltf = await new GLTFLoader().loadAsync(content.modelUrl);
-                    root = gltf.scene;
-                    revealPartsByStep = false;
-                    root.traverse((object) => {
-                        if (!("isMesh" in object)) return;
-                        const mesh = object as import("three").Mesh;
-                        mesh.castShadow = true;
-                        mesh.receiveShadow = true;
-                    });
-                    scene.add(root);
-                } catch (error) {
-                    setLoadError(error instanceof Error ? error.message : "3D 模型加载失败");
-                }
-            } else {
-                const demo = createDemoBrickScene(THREE, content.parts, content.steps3d, content.brickInstances);
-                root = demo.root;
-                scene.add(root);
-            }
-
-            const defaultMaterials = new Map<import("three").Mesh, import("three").Material | import("three").Material[]>();
-            root?.traverse((object) => {
-                if (!("isMesh" in object)) return;
-                const mesh = object as import("three").Mesh;
-                defaultMaterials.set(mesh, mesh.material);
-            });
-
-            const highlightMaterial = new THREE.MeshStandardMaterial({
-                color: "#f59e0b",
-                emissive: "#7c2d12",
-                emissiveIntensity: 0.18,
-                roughness: 0.38,
-            });
-
-            const focusStep = (stepIndex: number) => {
-                if (ldrawNumSteps > 0) {
-                    const clamped = Math.min(Math.max(stepIndex, 0), ldrawNumSteps - 1);
-                    root?.traverse((object) => {
-                        const buildingStep = (object.userData as { buildingStep?: number }).buildingStep;
-                        if (typeof buildingStep === "number") {
-                            object.visible = buildingStep <= clamped;
-                        }
-                    });
-                    const ldrawStep = content.steps3d[Math.min(clamped, content.steps3d.length - 1)];
-                    applyCameraHint(THREE, camera, controls, ldrawStep?.cameraHint);
-                    return;
-                }
-
-                const step = content.steps3d[Math.min(stepIndex, content.steps3d.length - 1)];
-                const visibleParts = new Set<string>();
-                for (let i = 0; i <= stepIndex; i++) {
-                    const priorStep = content.steps3d[i];
-                    for (const partId of priorStep?.partIds ?? []) visibleParts.add(partId);
-                    for (const nodeId of priorStep?.highlightNodeIds ?? []) visibleParts.add(nodeId);
-                }
-                const activeParts = new Set([
-                    ...(step?.partIds ?? []),
-                    ...(step?.highlightNodeIds ?? []),
-                ]);
-
-                for (const [mesh, material] of defaultMaterials) {
-                    const partId = typeof mesh.userData.partId === "string" ? mesh.userData.partId : mesh.name;
-                    const nodeId = typeof mesh.userData.nodeId === "string" ? mesh.userData.nodeId : mesh.name;
-                    const shown = !revealPartsByStep || !partId || visibleParts.has(partId) || visibleParts.has(nodeId);
-                    mesh.visible = shown;
-                    mesh.material = activeParts.has(partId) || activeParts.has(nodeId) ? highlightMaterial : material;
-                }
-                applyCameraHint(THREE, camera, controls, step?.cameraHint);
-            };
-
-            const resize = () => {
-                const width = mount.clientWidth || 640;
-                const height = mount.clientHeight || 420;
-                renderer.setSize(width, height, true);
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-            };
-            const resizeObserver = new ResizeObserver(resize);
-            resizeObserver.observe(mount);
-            resize();
-            focusStep(activeStepIndexRef.current);
-
-            let frame = 0;
-            const animate = () => {
-                frame = requestAnimationFrame(animate);
-                controls.update();
-                renderer.render(scene, camera);
-            };
-            animate();
-
-            state = {
-                cleanup: () => {
-                    cancelAnimationFrame(frame);
-                    resizeObserver.disconnect();
-                    controls.dispose();
-                    renderer.dispose();
-                    if (renderer.domElement.parentElement === mount) {
-                        mount.removeChild(renderer.domElement);
+                if (content.ldrawModelUrl) {
+                    try {
+                        const ldrawLoader = new LDrawLoader();
+                        ldrawLoader.smoothNormals = true;
+                        ldrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
+                        const colorUrl =
+                            resolveAssetDisplayUrl(content.ldrawColorUrl ?? DEFAULT_LDRAW_COLOR_URL)
+                            ?? DEFAULT_LDRAW_COLOR_URL;
+                        const model = await loadPackedLdrawModel(
+                            ldrawLoader,
+                            content.ldrawModelUrl,
+                            colorUrl,
+                        );
+                        if (cancelled || !mountRef.current) return;
+                        prepareLdrawModel(THREE, model, FLOOR_Y);
+                        root = model;
+                        revealPartsByStep = false;
+                        const parsedStepCount = model.userData.numBuildingSteps;
+                        ldrawNumSteps =
+                            typeof parsedStepCount === "number" && parsedStepCount > 0
+                                ? parsedStepCount
+                                : content.steps3d.length;
+                        scene.add(root);
+                    } catch (error) {
+                        setLoadError(getErrorMessage(error, "LDraw 模型加载失败"));
                     }
-                },
-                focusStep,
-            };
-            sceneRef.current = state;
-            if (!cancelled) setLoading(false);
+                } else if (content.modelUrl) {
+                    try {
+                        const gltf = await new GLTFLoader().loadAsync(content.modelUrl);
+                        root = gltf.scene;
+                        revealPartsByStep = false;
+                        root.traverse((object) => {
+                            if (!("isMesh" in object)) return;
+                            const mesh = object as import("three").Mesh;
+                            mesh.castShadow = true;
+                            mesh.receiveShadow = true;
+                        });
+                        scene.add(root);
+                    } catch (error) {
+                        setLoadError(getErrorMessage(error, "3D 模型加载失败"));
+                    }
+                } else {
+                    const demo = createDemoBrickScene(THREE, content.parts, content.steps3d, content.brickInstances);
+                    root = demo.root;
+                    scene.add(root);
+                }
+
+                if (!root) {
+                    throw new Error("3D 场景未能构建成功（模型为空）");
+                }
+
+                const defaultMaterials = new Map<
+                    import("three").Mesh,
+                    import("three").Material | import("three").Material[]
+                >();
+                root.traverse((object) => {
+                    if (!("isMesh" in object)) return;
+                    const mesh = object as import("three").Mesh;
+                    defaultMaterials.set(mesh, mesh.material);
+                });
+
+                const highlightMaterial = new THREE.MeshStandardMaterial({
+                    color: "#f59e0b",
+                    emissive: "#7c2d12",
+                    emissiveIntensity: 0.18,
+                    roughness: 0.38,
+                });
+
+                const focusStep = (stepIndex: number) => {
+                    if (ldrawNumSteps > 0) {
+                        const clamped = Math.min(Math.max(stepIndex, 0), ldrawNumSteps - 1);
+                        root?.traverse((object) => {
+                            const buildingStep = (object.userData as { buildingStep?: number }).buildingStep;
+                            if (typeof buildingStep === "number") {
+                                object.visible = buildingStep <= clamped;
+                            }
+                        });
+                        const ldrawStep = content.steps3d[Math.min(clamped, content.steps3d.length - 1)];
+                        applyCameraHint(THREE, camera, controls, ldrawStep?.cameraHint);
+                        return;
+                    }
+
+                    const step = content.steps3d[Math.min(stepIndex, content.steps3d.length - 1)];
+                    const visibleParts = new Set<string>();
+                    for (let i = 0; i <= stepIndex; i++) {
+                        const priorStep = content.steps3d[i];
+                        for (const partId of priorStep?.partIds ?? []) visibleParts.add(partId);
+                        for (const nodeId of priorStep?.highlightNodeIds ?? []) visibleParts.add(nodeId);
+                    }
+                    const activeParts = new Set([
+                        ...(step?.partIds ?? []),
+                        ...(step?.highlightNodeIds ?? []),
+                    ]);
+
+                    for (const [mesh, material] of defaultMaterials) {
+                        const partId = typeof mesh.userData.partId === "string" ? mesh.userData.partId : mesh.name;
+                        const nodeId = typeof mesh.userData.nodeId === "string" ? mesh.userData.nodeId : mesh.name;
+                        const shown =
+                            !revealPartsByStep || !partId || visibleParts.has(partId) || visibleParts.has(nodeId);
+                        mesh.visible = shown;
+                        mesh.material = activeParts.has(partId) || activeParts.has(nodeId) ? highlightMaterial : material;
+                    }
+                    applyCameraHint(THREE, camera, controls, step?.cameraHint);
+                };
+
+                const resize = () => {
+                    const width = mount.clientWidth || 640;
+                    const height = mount.clientHeight || 420;
+                    renderer.setSize(width, height, true);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                };
+                const resizeObserver = new ResizeObserver(resize);
+                resizeObserver.observe(mount);
+                resize();
+                focusStep(activeStepIndexRef.current);
+
+                let frame = 0;
+                const animate = () => {
+                    frame = requestAnimationFrame(animate);
+                    controls.update();
+                    renderer.render(scene, camera);
+                };
+                animate();
+
+                state = {
+                    cleanup: () => {
+                        cancelAnimationFrame(frame);
+                        resizeObserver.disconnect();
+                        controls.dispose();
+                        renderer.dispose();
+                        if (renderer.domElement.parentElement === mount) {
+                            mount.removeChild(renderer.domElement);
+                        }
+                    },
+                    focusStep,
+                };
+                sceneRef.current = state;
+            } catch (error) {
+                setLoadError(getErrorMessage(error, "3D 场景初始化失败"));
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
         }
 
         void setup();

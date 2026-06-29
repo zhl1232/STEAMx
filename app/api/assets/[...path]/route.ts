@@ -100,15 +100,18 @@ async function proxyAsset(
   { params }: { params: Promise<{ path: string[] }> },
   method: 'GET' | 'HEAD',
 ) {
-  const baseUrl = getAssetsBaseUrl()
-  if (!baseUrl) {
-    return NextResponse.json({ error: 'Assets base URL is not configured' }, { status: 404 })
-  }
-
   const { path } = await params
   const pathname = `/${path.map((part) => encodeURIComponent(part)).join('/')}`
   if (!isAllowedAssetPath(pathname)) {
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
+  }
+
+  const baseUrl = getAssetsBaseUrl()
+  if (!baseUrl) {
+    // 开发环境未配置 ASSETS_BASE_URL 时，回退到 public/ 本地文件
+    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
+    if (localResponse) return localResponse
+    return NextResponse.json({ error: 'Assets base URL is not configured' }, { status: 404 })
   }
 
   // LDraw 库始终走 public/ 本地（文件小、打包后最新，避免 OSS/CDN 旧缓存）
@@ -139,7 +142,7 @@ async function proxyAsset(
       const localText = local.data.toString('utf8')
       const upstreamEmbedded = countEmbeddedLdrawFiles(upstreamText)
       const localEmbedded = countEmbeddedLdrawFiles(localText)
-      if (localEmbedded > upstreamEmbedded) {
+      if (process.env.NODE_ENV !== 'production' || localEmbedded > upstreamEmbedded) {
         const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
         if (localResponse) return localResponse
       }

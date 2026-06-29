@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image to LDraw"
+  short_description: "Convert Duplo build images into validated LDraw"
+  default_prompt: "Use $image-to-ldraw to convert these Duplo build instruction images into reviewed LDraw data."

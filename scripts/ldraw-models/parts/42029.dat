@@ -1,0 +1,18 @@
+0 Duplo Ball Tube Holder with 2 x 4 Brick Base (Approximation)
+0 Name: 42029.dat
+0 Author: STEAM Explore
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Brick
+0 !KEYWORDS Duplo, Ball, Tube, Holder, Ring, Entrance
+0 // Approximate local LDraw part for LEGO/BrickLink element 42029.
+0 // The 2 x 4 Duplo brick base reuses official 3011.dat; the tube holder is a flat annular rim.
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+
+0 // Round tube holder rim, centered toward one end of the 2 x 4 base.
+1 16 0 -56 72 10 0 0 0 1 0 0 0 10 48\4-4ring9.dat
+1 16 0 -54 72 9 0 0 0 1 0 0 0 9 48\4-4edge.dat
+1 16 0 -58 72 8 0 0 0 1 0 0 0 8 48\4-4edge.dat
