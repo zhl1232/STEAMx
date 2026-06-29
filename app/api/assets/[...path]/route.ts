@@ -111,9 +111,9 @@ async function proxyAsset(
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
   }
 
-  // 开发环境：LDraw 库始终走 public/ 本地（打包后最新，避免 OSS/CDN 旧缓存）
-  if (process.env.NODE_ENV !== 'production' && isLdrawLibraryPath(pathname)) {
-    const localResponse = await respondWithLocalAsset(pathname)
+  // LDraw 库始终走 public/ 本地（文件小、打包后最新，避免 OSS/CDN 旧缓存）
+  if (isLdrawLibraryPath(pathname)) {
+    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
     if (localResponse) return localResponse
   }
 
