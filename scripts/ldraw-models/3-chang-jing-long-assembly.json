@@ -44,18 +44,18 @@
             "z": -200
           },
           "orientation": [
+            0,
+            0,
             -1,
-            0,
-            0,
             0,
             1,
             0,
+            1,
             0,
-            0,
-            -1
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 0.0000 -200.0000 -1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 -0.000000 0.000000 -1.000000 2302.dat"
+          "ldrawLine": "1 2 -80.0000 0.0000 -200.0000 -0.000000 0.000000 -1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 2302.dat"
         },
         {
           "id": "p002",
@@ -169,18 +169,18 @@
             "z": -200
           },
           "orientation": [
+            0,
+            0,
+            -1,
+            0,
             1,
             0,
-            0,
-            0,
             1,
             0,
-            0,
-            0,
-            1
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 0.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 2302.dat"
+          "ldrawLine": "1 2 80.0000 0.0000 -200.0000 -0.000000 0.000000 -1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 2302.dat"
         },
         {
           "id": "p007",
@@ -294,18 +294,18 @@
             "z": 200
           },
           "orientation": [
+            0,
+            0,
             -1,
-            0,
-            0,
             0,
             1,
             0,
+            1,
             0,
-            0,
-            -1
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 0.0000 200.0000 -1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 -0.000000 0.000000 -1.000000 2302.dat"
+          "ldrawLine": "1 2 -80.0000 0.0000 200.0000 -0.000000 0.000000 -1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 2302.dat"
         },
         {
           "id": "p012",
@@ -419,18 +419,18 @@
             "z": 200
           },
           "orientation": [
+            0,
+            0,
+            -1,
+            0,
             1,
             0,
-            0,
-            0,
             1,
             0,
-            0,
-            0,
-            1
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 0.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 2302.dat"
+          "ldrawLine": "1 2 80.0000 0.0000 200.0000 -0.000000 0.000000 -1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 2302.dat"
         },
         {
           "id": "p017",
@@ -826,12 +826,12 @@
               "type": "portDelta",
               "fromPortId": "inlet",
               "toPortId": "outlet",
-              "label": "tail elbow must bend outward and downward",
+              "label": "tail elbow must keep bending downward and toward the step 5 tail direction",
               "min": {
                 "y": 20
               },
               "max": {
-                "z": -40
+                "z": -20
               }
             }
           ],
@@ -867,6 +867,18 @@
               "targetPlacementId": "p028",
               "targetPortId": "outlet",
               "label": "tail elbow chain must keep adjacent ports joined"
+            },
+            {
+              "type": "portDelta",
+              "fromPortId": "inlet",
+              "toPortId": "outlet",
+              "label": "tail elbow must keep bending downward and toward the step 5 tail direction",
+              "min": {
+                "y": 20
+              },
+              "max": {
+                "z": -20
+              }
             }
           ],
           "ldrawLine": "1 1 0.0000 -310.8530 -324.8530 -0.000000 -1.000000 0.000000 -0.707107 0.000000 0.707107 -0.707107 0.000000 -0.707107 31195.dat"
@@ -884,12 +896,12 @@
           },
           "orientation": [
             0,
-            -1,
+            1,
             0,
             0,
             0,
             1,
-            -1,
+            1,
             0,
             0
           ],
@@ -901,9 +913,21 @@
               "targetPlacementId": "p029",
               "targetPortId": "outlet",
               "label": "tail elbow chain must keep adjacent ports joined"
+            },
+            {
+              "type": "portDelta",
+              "fromPortId": "inlet",
+              "toPortId": "outlet",
+              "label": "tail elbow must keep bending downward and toward the step 5 tail direction",
+              "min": {
+                "y": 20
+              },
+              "max": {
+                "z": -20
+              }
             }
           ],
-          "ldrawLine": "1 14 0.0000 -226.0002 -360.0004 -0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31195.dat"
+          "ldrawLine": "1 14 0.0000 -226.0002 -360.0004 -0.000000 1.000000 0.000000 0.000000 -0.000000 1.000000 1.000000 0.000000 0.000000 31195.dat"
         },
         {
           "id": "p031",
@@ -914,18 +938,18 @@
           "position": {
             "x": 0,
             "y": -141.1472,
-            "z": -324.8534
+            "z": -395.1474
           },
           "orientation": [
             0,
-            -1,
+            1,
             0,
             0.707107,
             0,
             0.707107,
-            -0.707107,
+            0.707107,
             0,
-            0.707107
+            -0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
           "tubeChecks": [
@@ -935,9 +959,21 @@
               "targetPlacementId": "p030",
               "targetPortId": "outlet",
               "label": "tail elbow chain must keep adjacent ports joined"
+            },
+            {
+              "type": "portDelta",
+              "fromPortId": "inlet",
+              "toPortId": "outlet",
+              "label": "tail elbow must keep bending downward and toward the step 5 tail direction",
+              "min": {
+                "y": 20
+              },
+              "max": {
+                "z": -20
+              }
             }
           ],
-          "ldrawLine": "1 1 0.0000 -141.1472 -324.8534 0.000000 -1.000000 0.000000 0.707107 0.000000 0.707107 -0.707107 0.000000 0.707107 31195.dat"
+          "ldrawLine": "1 1 0.0000 -141.1472 -395.1474 -0.000000 1.000000 0.000000 0.707107 -0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat"
         }
       ]
     },
@@ -963,7 +999,7 @@
         },
         {
           "partId": "42029.dat",
-          "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+          "partName": "Duplo Plate 2 x 4 with Round Tube Holder",
           "colorCode": 4,
           "colorName": "Red",
           "quantity": 1
@@ -993,7 +1029,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation.",
+          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation.",
           "ldrawLine": "1 4 0.0000 -504.0000 200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
         },
         {
@@ -1233,7 +1269,7 @@
         },
         {
           "partId": "42029.dat",
-          "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+          "partName": "Duplo Plate 2 x 4 with Round Tube Holder",
           "colorCode": 4,
           "colorName": "Red",
           "quantity": 1
@@ -1288,7 +1324,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation.",
+          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation.",
           "ldrawLine": "1 4 -0.0000 -986.0003 460.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
         },
         {

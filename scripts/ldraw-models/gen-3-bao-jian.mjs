@@ -1,221 +1,209 @@
 #!/usr/bin/env node
-// 生成「宝剑」LDraw 源模型（standard LEGO 件），按课件 slide 07–15 共 9 步搭建。
-// 规则：每块新砖必须与下方已有砖 footprint 重叠 ≥15%（同 eiffel 自检）。
-// 用法：node scripts/ldraw-models/gen-3-bao-jian.mjs
+// 生成「宝剑」可校验 assembly.json。
+// 来源：3+ 课件「宝剑」instructions.pdf，共 14 个搭建步骤。
 
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-const BRICK = 24
-const IDENT = '1 0 0 0 1 0 0 0 1'
-const ROT90 = '0 0 1 0 1 0 -1 0 0'
+const OUT = resolve(process.cwd(), 'scripts/ldraw-models/3-bao-jian-assembly.json')
 
-const COLOR = { red: 4, yellow: 14, blue: 1 }
-
-const lines = []
-const bricks = []
-let current = []
-
-function step(comment) {
-  if (current.length) lines.push(...current, '0 STEP')
-  current = []
-  if (comment) current.push(`0 // ${comment}`)
+const COLOR = {
+  blue: { code: 1, name: 'Blue' },
+  red: { code: 4, name: 'Red' },
+  yellow: { code: 14, name: 'Yellow' },
 }
 
-function place({ color, part, cx, cz, originY, height, sizeX, sizeZ, along, decorative = false }) {
-  const matrix = along === 'z' ? ROT90 : IDENT
-  const halfX = (along === 'z' ? sizeZ : sizeX) / 2
-  const halfZ = (along === 'z' ? sizeX : sizeZ) / 2
-  current.push(`1 ${color} ${cx} ${originY} ${cz} ${matrix} ${part}`)
-  bricks.push({
-    x0: cx - halfX, x1: cx + halfX,
-    z0: cz - halfZ, z1: cz + halfZ,
-    yBottom: originY, yTop: originY - height,
-    decorative, line: lines.length + current.length,
+const PART = {
+  duplo24: '3011.dat',
+  duplo22: '3437.dat',
+  duplo24Plate: '40666.dat',
+}
+
+const MATRIX = {
+  // Side-built bricks: local top studs face world -Z, matching the PDF side view.
+  sideHorizontal: [1, 0, 0, 0, 0, -1, 0, 1, 0],
+  sideVertical: [0, 0, -1, -1, 0, 0, 0, 1, 0],
+}
+
+const DEPTH = {
+  brickFront: -48,
+  center: 0,
+  brickBack: 48,
+  plateFront: -24,
+  plateBack: 48,
+}
+
+const steps = [
+  ['page-01.png', '搭建剑身起点'],
+  ['page-02.png', '延长剑身第一段'],
+  ['page-03.png', '延长剑身第二段'],
+  ['page-04.png', '完成剑身长条'],
+  ['page-05.png', '搭建剑格竖梁'],
+  ['page-06.png', '加厚剑格竖梁'],
+  ['page-07.png', '搭建剑柄'],
+  ['page-08.png', '搭建剑架起点'],
+  ['page-09.png', '延长剑架横梁'],
+  ['page-10.png', '搭建黄色支撑'],
+  ['page-11.png', '加固左侧底座'],
+  ['page-12.png', '加固右侧底座'],
+  ['page-13.png', '包边红色支撑'],
+  ['page-14.png', '完成宝剑'],
+].map(([source, title], index) => ({
+  step: index + 1,
+  source,
+  title,
+  placements: [],
+}))
+
+function ldrawLine({ partId, color, u, v, depth = 0, orientation }) {
+  return [
+    '1',
+    color.code,
+    u * 40,
+    v * 40,
+    depth,
+    ...MATRIX[orientation],
+    partId,
+  ].join(' ')
+}
+
+function place({
+  step,
+  id,
+  partId = PART.duplo24,
+  color,
+  u,
+  v,
+  depth = 0,
+  orientation = 'sideHorizontal',
+  confidence = 0.92,
+  assumptions = [],
+}) {
+  steps[step - 1].placements.push({
+    id,
+    partId,
+    colorCode: color.code,
+    colorName: color.name,
+    orientation: MATRIX[orientation],
+    ldrawLine: ldrawLine({
+      partId,
+      color,
+      u,
+      v,
+      depth,
+      orientation,
+    }),
+    confidence,
+    sourceStep: step,
+    assumptions,
   })
 }
 
-function brick24({ color, cx, cz, originY, along = 'z' }) {
-  place({ color, part: '3001.dat', cx, cz, originY, height: BRICK, sizeX: 80, sizeZ: 40, along })
-}
-function brick22({ color, cx, cz, originY }) {
-  place({ color, part: '3003.dat', cx, cz, originY, height: BRICK, sizeX: 40, sizeZ: 40, along: 'x' })
-}
-function brick210({ color, cx, cz, originY, along = 'z' }) {
-  place({ color, part: '3006.dat', cx, cz, originY, height: BRICK, sizeX: 200, sizeZ: 40, along })
+function bladeSegment({ step, segmentIndex, x }) {
+  place({ step, id: `s${step}_blade_${segmentIndex}_blue_front`, color: COLOR.blue, u: x, v: 0, depth: DEPTH.brickFront })
+  // PDF page 1: yellow core is offset one stud toward the blade tip (left in the side view).
+  place({ step, id: `s${step}_blade_${segmentIndex}_yellow_core`, color: COLOR.yellow, u: x - 1, v: 0, depth: DEPTH.center })
+  place({ step, id: `s${step}_blade_${segmentIndex}_blue_back`, color: COLOR.blue, u: x, v: 0, depth: DEPTH.brickBack })
 }
 
-/** 查询某 footprint 正下方已有砖的最高顶面 yTop（默认地面 0）。 */
-function topYBelow(x0, x1, z0, z1, beforeIndex = bricks.length) {
-  let top = 0
-  for (let i = 0; i < beforeIndex; i++) {
-    const b = bricks[i]
-    const ox = Math.min(x1, b.x1) - Math.max(x0, b.x0)
-    const oz = Math.min(z1, b.z1) - Math.max(z0, b.z0)
-    if (ox > 0 && oz > 0) top = Math.min(top, b.yTop)
+// Steps 1-4: PDF pages 1-4 build the long sword body as a side-built sandwich:
+// blue front + yellow core + blue back. The yellow strip is staggered one stud
+// toward the tip so it protrudes on the left and sits recessed on the right.
+[
+  { step: 1, xs: [-12, -8] },
+  { step: 2, xs: [-4, 0] },
+  { step: 3, xs: [4, 8] },
+  { step: 4, xs: [12] },
+].forEach(({ step, xs }) => {
+  xs.forEach((x, offset) => bladeSegment({ step, segmentIndex: offset + 1, x }))
+})
+
+// Step 5: two vertical blue 2x4 pieces clamped into the blade center layer.
+place({ step: 5, id: 's5_guard_top_center', color: COLOR.blue, u: 14, v: -2, depth: DEPTH.center, orientation: 'sideVertical' })
+place({ step: 5, id: 's5_guard_bottom_center', color: COLOR.blue, u: 14, v: 2, depth: DEPTH.center, orientation: 'sideVertical' })
+
+// Step 6: thicken back layer and extend front layer on the same guard column (u=14).
+place({ step: 6, id: 's6_guard_top_back', color: COLOR.blue, u: 14, v: -3, orientation: 'sideVertical', depth: DEPTH.brickBack })
+place({ step: 6, id: 's6_guard_bottom_back', color: COLOR.blue, u: 14, v: 3, orientation: 'sideVertical', depth: DEPTH.brickBack })
+place({ step: 6, id: 's6_guard_top_extension', color: COLOR.blue, u: 14, v: -3, depth: DEPTH.brickFront, orientation: 'sideVertical' })
+place({ step: 6, id: 's6_guard_bottom_extension', color: COLOR.blue, u: 14, v: 3, depth: DEPTH.brickFront, orientation: 'sideVertical' })
+
+// Step 7: six blue 2x4 pieces extend the handle to the right.
+for (const x of [16, 20, 24]) {
+  place({ step: 7, id: `s7_handle_${x}_front`, color: COLOR.blue, u: x, v: 0, depth: DEPTH.brickFront })
+  place({ step: 7, id: `s7_handle_${x}_back`, color: COLOR.blue, u: x, v: 0, depth: DEPTH.brickBack })
+}
+
+// Steps 8-9: red 2x4 plates flank the yellow 2x4 center strip of the display stand.
+place({ step: 8, id: 's8_stand_yellow_start', color: COLOR.yellow, u: -14, v: 16, depth: DEPTH.center })
+place({ step: 8, id: 's8_stand_red_front', partId: PART.duplo24Plate, color: COLOR.red, u: -12, v: 16, depth: DEPTH.plateFront })
+place({ step: 8, id: 's8_stand_red_back', partId: PART.duplo24Plate, color: COLOR.red, u: -12, v: 16, depth: DEPTH.plateBack })
+
+for (const x of [-10, -6, -2, 2, 6]) {
+  place({ step: 9, id: `s9_stand_yellow_${x}`, color: COLOR.yellow, u: x, v: 16, depth: DEPTH.center })
+}
+for (const x of [-8, -4, 0, 4]) {
+  place({ step: 9, id: `s9_stand_red_${x}_front`, partId: PART.duplo24Plate, color: COLOR.red, u: x, v: 16, depth: DEPTH.plateFront })
+  place({ step: 9, id: `s9_stand_red_${x}_back`, partId: PART.duplo24Plate, color: COLOR.red, u: x, v: 16, depth: DEPTH.plateBack })
+}
+
+// Step 10: two yellow support blocks under the sword, each using five 2x4 bricks and one 2x2 cap.
+for (const [side, x] of [['left', -14], ['right', 10]]) {
+  for (const z of [4, 8, 12, 16, 20]) {
+    place({ step: 10, id: `s10_${side}_support_${z}`, color: COLOR.yellow, u: x, v: z, orientation: 'sideVertical' })
   }
-  return top
+  place({ step: 10, id: `s10_${side}_cap`, partId: PART.duplo22, color: COLOR.yellow, u: x, v: 22 })
 }
 
-function footprint(cx, cz, halfX, halfZ) {
-  return { x0: cx - halfX, x1: cx + halfX, z0: cz - halfZ, z1: cz + halfZ }
+// Steps 11-12: red plates and red 2x4 bricks strengthen the two ends of the stand.
+for (const [id, x, z] of [
+  ['s11_left_plate_top', -16, 14],
+  ['s11_left_plate_bottom', -16, 18],
+]) {
+  place({ step: 11, id, partId: PART.duplo24Plate, color: COLOR.red, u: x, v: z })
+}
+for (const [id, x, z] of [
+  ['s11_left_brick_outer', -18, 16],
+  ['s11_left_brick_inner', -10, 20],
+]) {
+  place({ step: 11, id, color: COLOR.red, u: x, v: z })
 }
 
-function stack24(color, cx, cz, along = 'z', decorative = false) {
-  const halfX = along === 'z' ? 20 : 40
-  const halfZ = along === 'z' ? 40 : 20
-  const fp = footprint(cx, cz, halfX, halfZ)
-  const y = topYBelow(fp.x0, fp.x1, fp.z0, fp.z1)
-  place({ color, part: '3001.dat', cx, cz, originY: y, height: BRICK, sizeX: 80, sizeZ: 40, along, decorative })
+for (const [id, x, z] of [
+  ['s12_right_plate_top', 8, 14],
+  ['s12_right_plate_bottom', 8, 18],
+]) {
+  place({ step: 12, id, partId: PART.duplo24Plate, color: COLOR.red, u: x, v: z })
+}
+for (const [id, x, z] of [
+  ['s12_right_brick_outer', 12, 20],
+  ['s12_right_brick_inner', 4, 20],
+]) {
+  place({ step: 12, id, color: COLOR.red, u: x, v: z })
 }
 
-function stack22(color, cx, cz) {
-  const fp = footprint(cx, cz, 20, 20)
-  const y = topYBelow(fp.x0, fp.x1, fp.z0, fp.z1)
-  brick22({ color, cx, cz, originY: y })
-}
-
-function stack210(color, cx, cz, along = 'z') {
-  const halfX = along === 'z' ? 20 : 100
-  const halfZ = along === 'z' ? 100 : 20
-  const fp = footprint(cx, cz, halfX, halfZ)
-  const y = topYBelow(fp.x0, fp.x1, fp.z0, fp.z1)
-  brick210({ color, cx, cz, originY: y, along })
-}
-
-lines.push(
-  '0 LEGO Sword and Rack (STEAM 课件 · 宝剑 · 9 步搭建)',
-  '0 Name: 3-bao-jian.ldr',
-  '0 Author: STEAM Explore',
-  '0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt',
-  '0 BFC CERTIFY CCW',
-  '0 // 由 scripts/ldraw-models/gen-3-bao-jian.mjs 生成',
-)
-
-// ---- Step 1: 6 黄中梁 + 两侧各 5 红 ----
-step('Step 1: 搭建剑架 · 6 块黄色 2x4 拼成长梁，两侧压红色 2x4')
-for (let i = 0; i < 6; i++) {
-  brick24({ color: COLOR.yellow, cx: 0, cz: -200 + i * 80, originY: 0, along: 'z' })
-}
-for (let i = 0; i < 5; i++) {
-  brick24({ color: COLOR.red, cx: -40, cz: -160 + i * 80, originY: 0, along: 'z' })
-  brick24({ color: COLOR.red, cx: 40, cz: -160 + i * 80, originY: 0, along: 'z' })
-}
-
-// ---- Step 2: 左端 2 红 2x10 + 黄柱 ----
-step('Step 2: 搭建剑架 · 左端 2 块红色 2x10 并排，叠黄色砖')
-stack210(COLOR.red, -20, -200, 'z')
-stack210(COLOR.red, 20, -200, 'z')
-stack22(COLOR.yellow, -20, -200)
-stack24(COLOR.yellow, 20, -280, 'z')
-stack24(COLOR.yellow, 20, -200, 'z')
-stack24(COLOR.yellow, 20, -120, 'z')
-stack22(COLOR.yellow, -20, -200)
-
-// ---- Step 3: 右端对称 ----
-step('Step 3: 搭建剑架 · 右端对称立柱')
-stack210(COLOR.red, -20, 200, 'z')
-stack210(COLOR.red, 20, 200, 'z')
-stack22(COLOR.yellow, -20, 200)
-stack24(COLOR.yellow, 20, 120, 'z')
-stack24(COLOR.yellow, 20, 200, 'z')
-stack24(COLOR.yellow, 20, 280, 'z')
-stack22(COLOR.yellow, -20, 200)
-stack22(COLOR.yellow, 20, 200)
-
-// ---- Step 4: 完善剑架 · 两端红柱加高 + 侧梁 ----
-step('Step 4: 完善剑架 · 红色 2x4 加固两端外框')
-stack24(COLOR.red, -40, -200, 'z')
-stack24(COLOR.red, 40, -200, 'z')
-stack24(COLOR.red, -40, 200, 'z')
-stack24(COLOR.red, 40, 200, 'z')
-stack24(COLOR.red, -40, -200, 'z')
-stack24(COLOR.red, 40, -200, 'z')
-stack24(COLOR.red, -40, 200, 'z')
-stack24(COLOR.red, 40, 200, 'z')
-stack24(COLOR.red, -40, 0, 'x')
-stack24(COLOR.red, 40, 0, 'x')
-stack24(COLOR.red, -40, -80, 'x')
-stack24(COLOR.red, 40, -80, 'x')
-
-// ---- Step 5: 左端蓝色剑身起步 ----
-step('Step 5: 搭建剑身 · 左端加蓝色砖与黄色 2x2')
-stack24(COLOR.blue, -20, -200, 'z')
-stack24(COLOR.blue, -20, -200, 'z')
-stack24(COLOR.blue, 20, -200, 'z')
-stack24(COLOR.blue, 20, -200, 'z')
-stack22(COLOR.yellow, 0, -200)
-stack22(COLOR.yellow, 20, 200)
-stack24(COLOR.yellow, 0, -240, 'z', true)
-stack24(COLOR.yellow, 0, 240, 'z', true)
-
-// ---- Step 6: 剑身蓝黄长梁 ----
-step('Step 6: 搭建剑身 · 蓝黄相间长梁')
-for (let i = 0; i < 6; i++) {
-  const cz = -200 + i * 80
-  stack24(COLOR.yellow, 0, cz, 'z')
-  stack24(COLOR.blue, -40, cz, 'z')
-  stack24(COLOR.blue, 40, cz, 'z')
-}
-stack24(COLOR.yellow, 0, -240, 'z', true)
-stack24(COLOR.yellow, 0, 240, 'z', true)
-
-// ---- Step 7: 剑柄轨 ----
-step('Step 7: 搭建剑柄 · 上下轨各加蓝色砖')
-for (let i = 0; i < 3; i++) {
-  const cz = -160 + i * 80
-  stack24(COLOR.blue, -40, cz, 'z')
-  stack24(COLOR.blue, 40, cz, 'z')
-}
-stack24(COLOR.blue, 0, 200, 'z')
-stack24(COLOR.blue, 0, 200, 'z')
-
-// ---- Step 8: 十字护手 ----
-step('Step 8: 搭建剑柄 · 蓝色护手与黄色端头')
-stack210(COLOR.blue, 0, -160, 'z')
-stack210(COLOR.blue, 0, 160, 'z')
-stack210(COLOR.blue, -40, 120, 'x')
-stack210(COLOR.blue, 40, 120, 'x')
-stack24(COLOR.yellow, 0, -240, 'x')
-stack24(COLOR.yellow, 0, 240, 'x')
-
-// ---- Step 9: 完成 ----
-step('Step 9: 完成！宝剑与剑架')
-stack24(COLOR.blue, 0, 240, 'z')
-stack24(COLOR.yellow, 0, -240, 'z')
-step()
-
-// ---- 几何自检 ----
-const EPS = 0.001
-function overlapArea(a, b) {
-  const ox = Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0)
-  const oz = Math.min(a.z1, b.z1) - Math.max(a.z0, b.z0)
-  return Math.max(0, ox) * Math.max(0, oz)
-}
-const issues = []
-for (let i = 0; i < bricks.length; i++) {
-  const b = bricks[i]
-  if (b.decorative) continue
-  if (b.yBottom < -EPS) {
-    const supporters = bricks.slice(0, i).filter((c) => Math.abs(c.yTop - b.yBottom) < EPS)
-    const area = supporters.reduce((s, c) => s + overlapArea(c, b), 0)
-    const need = (b.x1 - b.x0) * (b.z1 - b.z0) * 0.125
-    if (area < need) issues.push(`砖#${i} (y${b.yBottom}) 支撑不足: ${area.toFixed(0)}/${need.toFixed(0)}`)
-  }
-  for (let j = 0; j < i; j++) {
-    const o = bricks[j]
-    if (o.decorative) continue
-    if (Math.abs(o.yTop - b.yTop) < EPS && overlapArea(o, b) > EPS) {
-      issues.push(`砖#${i} 与 砖#${j} 同层穿模 (y${b.yTop})`)
-    }
+// Step 13: eight red 2x4 plates wrap the yellow supports, matching the final red side posts in the PDF.
+for (const [side, x] of [['left_outer', -16], ['left_inner', -12], ['right_outer', 8], ['right_inner', 12]]) {
+  for (const z of [6, 10]) {
+    place({ step: 13, id: `s13_${side}_${z}`, partId: PART.duplo24Plate, color: COLOR.red, u: x, v: z, orientation: 'sideVertical' })
   }
 }
 
-const target = resolve(process.cwd(), 'scripts/ldraw-models/3-bao-jian.ldr')
-writeFileSync(target, lines.join('\n') + '\n', 'utf8')
-process.stderr.write(`已写出 ${target}\n零件数: ${bricks.length}\n`)
-if (issues.length) {
-  process.stderr.write(`几何自检发现 ${issues.length} 处问题:\n` + issues.map((x) => '  - ' + x).join('\n') + '\n')
-  process.exit(2)
+const assembly = {
+  model: '3-bao-jian.ldr',
+  title: '宝剑（PDF 14 步版）',
+  sourceImages: Array.from(
+    { length: 14 },
+    (_, index) => `https://assets.steamx.cc/courses/3-bao-jian/instructions.pdf#page=${index + 1}`,
+  ),
+  coordinateSystem: 'LDraw Duplo side-build grid; +Y down; one Duplo stud = 40 LDU. PDF face-stud layout is modeled on the world X/Y plane with studs facing world -Z.',
+  notes: [
+    'All placements use exact side-build LDraw transforms so the generated 0 STEP order and visible brick orientations follow instructions.pdf pages 1-14.',
+    'The model is intentionally vertical: the Duplo top-stud face is rotated forward instead of lying on the ground plane.',
+    'Blue/yellow sword-body and red/yellow stand-body colors are modeled as front/core/back depth layers, matching the PDF sandwich construction.',
+  ],
+  steps,
 }
-process.stderr.write('几何自检通过。\n')
+
+writeFileSync(OUT, JSON.stringify(assembly, null, 2) + '\n')
+console.log(`wrote ${OUT}`)

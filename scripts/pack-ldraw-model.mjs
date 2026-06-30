@@ -104,7 +104,7 @@ async function fetchText(url) {
 }
 
 /** 在候选子目录里找到引用文件的内容；返回 { content, url } 或 null。 */
-async function resolvePart(ref) {
+async function resolveLocalPart(ref) {
   const normalized = normalizeRef(ref)
   for (const dir of SEARCH_DIRS) {
     try {
@@ -112,9 +112,18 @@ async function resolvePart(ref) {
       const content = await readFile(localPath, 'utf8')
       return { content, url: localPath }
     } catch {
-      // Continue to the public LDraw mirror.
+      // Continue to the next local candidate.
     }
   }
+  return null
+}
+
+/** 在候选子目录或公共镜像里找到引用文件的内容；返回 { content, url } 或 null。 */
+async function resolvePart(ref) {
+  const localPart = await resolveLocalPart(ref)
+  if (localPart) return localPart
+
+  const normalized = normalizeRef(ref)
   // 已经带子目录前缀（如 s/3011s01.dat 或 48/1-4chrd.dat）时也要在 parts/ 与 p/ 下试。
   for (const dir of SEARCH_DIRS) {
     const url = `${COMPLETE}/${dir}/${normalized}`
@@ -160,7 +169,8 @@ async function main() {
       if (visited.has(key)) continue
       visited.add(key)
       const cached = localMpdCache.get(key)
-      const resolved = cached ? { content: cached, url: 'local MPD cache' } : await resolvePart(ref)
+      const localPart = await resolveLocalPart(ref)
+      const resolved = localPart || (cached ? { content: cached, url: 'local MPD cache' } : await resolvePart(ref))
       if (!resolved) {
         throw new Error(`无法解析零件引用: "${ref}"（在 parts/ p/ models/ 下都找不到）`)
       }

@@ -1,0 +1,53 @@
+{
+  "model": "3-bao-jian.ldr",
+  "title": "宝剑（PDF 14 步版）",
+  "totalPlacements": 77,
+  "errors": [],
+  "warnings": [],
+  "bom": [
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 26,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 4,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 23,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "3437.dat",
+      "partName": "Duplo Brick 2 x 2",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 2,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "40666.dat",
+      "partName": "Duplo Plate 2 x 4",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 22,
+      "minConfidence": 0.92
+    }
+  ],
+  "outputs": {
+    "ldr": "/home/arron/work/scripts/ldraw-models/3-bao-jian.ldr",
+    "bom": "/home/arron/work/scripts/ldraw-models/3-bao-jian.bom.json"
+  }
+}

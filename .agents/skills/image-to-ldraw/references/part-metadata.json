@@ -65,6 +65,24 @@
       "allowedOrientations": ["north", "east", "south", "west"],
       "supportPolicy": "structural"
     },
+    "40666.dat": {
+      "name": "Duplo Plate 2 x 4",
+      "category": "plate",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 4, "z": 2 },
+      "heightLdu": 24,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 24, "zMin": -40, "zMax": 40 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 24 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 },
+        "bottom": { "yLdu": 24, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
+      },
+      "collisionVolumes": [
+        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 24, "zMin": -40, "zMax": 40 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
     "4196.dat": {
       "name": "Duplo Plate 6 x 12",
       "category": "plate",
@@ -103,25 +121,26 @@
       "notes": ["Visible tire discs are decorative and should use exact LDraw lines if modeled."]
     },
     "42029.dat": {
-      "name": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+      "name": "Duplo Plate 2 x 4 with Round Tube Holder",
       "category": "tube-holder",
       "ldrawStatus": "Custom LDraw approximation",
       "studFootprint": { "x": 4, "z": 2 },
-      "heightLdu": 96,
-      "bbox": { "xMin": -80, "xMax": 80, "yMin": -96, "yMax": 48, "zMin": -40, "zMax": 120 },
-      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 48 },
+      "heightLdu": 46,
+      "bbox": { "xMin": -80, "xMax": 80, "yMin": -6, "yMax": 40, "zMin": -40, "zMax": 200 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 24 },
       "connectionSurfaces": {
         "top": { "yLdu": 0, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 },
-        "bottom": { "yLdu": 48, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
+        "bottom": { "yLdu": 24, "xMin": -80, "xMax": 80, "zMin": -40, "zMax": 40 }
       },
       "collisionVolumes": [
-        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 48, "zMin": -40, "zMax": 40 },
-        { "xMin": -80, "xMax": 80, "yMin": -96, "yMax": 0, "zMin": 24, "zMax": 120 }
+        { "xMin": -80, "xMax": 80, "yMin": 0, "yMax": 24, "zMin": -40, "zMax": 40 },
+        { "xMin": -60, "xMax": 60, "yMin": 24, "yMax": 40, "zMin": -18, "zMax": 18 },
+        { "xMin": -80, "xMax": 80, "yMin": -6, "yMax": 18, "zMin": 40, "zMax": 200 }
       ],
       "allowedOrientations": ["north", "east", "south", "west"],
       "supportPolicy": "manual",
       "collisionPolicy": "manual",
-      "notes": ["Local approximation stored in scripts/ldraw-models/parts/42029.dat."]
+      "notes": ["Local approximation stored in scripts/ldraw-models/parts/42029.dat.", "Approximates the visible low plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and horizontal tube-holder ring; the ring outer edge is tangent to the plate front edge at z=40, and the circular hole is handled by manual collision policy."]
     },
     "31191.dat": {
       "name": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",

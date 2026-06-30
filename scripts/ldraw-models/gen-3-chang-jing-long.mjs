@@ -82,10 +82,10 @@ const PART_META = {
     confidence: 0.95
   },
   '42029.dat': {
-    name: 'Duplo Ball Tube Holder with 2 x 4 Brick Base',
+    name: 'Duplo Plate 2 x 4 with Round Tube Holder',
     ldrawStatus: 'Custom LDraw approximation',
     confidence: 0.85,
-    note: 'LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat.'
+    note: 'LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring.'
   }
 }
 
@@ -381,9 +381,9 @@ function duplo42029({ color, cx, cz, originY, rotY = 0, rotZ = 0, decorative = t
     cx,
     cz,
     originY,
-    height: BRICK_H,
+    height: 40,
     sizeX: 160,
-    sizeZ: 160,
+    sizeZ: 240,
     rotY,
     rotZ,
     decorative,
@@ -407,14 +407,14 @@ lines.push(
 step('Step 1: 搭建恐龙脚 · 4 块 2302 弧面脚，分别向上叠 4 层交替黄色和绿色的 2x2 积木')
 
 const legs = [
-  { cx: -LEG_X, cz: -LEG_Z, footRotY: 180 }, // 底板左前角支撑，脚尖朝外
-  { cx: LEG_X, cz: -LEG_Z, footRotY: 0 },    // 底板右前角支撑，脚尖朝外
-  { cx: -LEG_X, cz: LEG_Z, footRotY: 180 },  // 底板左后角支撑，脚尖朝外
-  { cx: LEG_X, cz: LEG_Z, footRotY: 0 }      // 底板右后角支撑，脚尖朝外
+  { cx: -LEG_X, cz: -LEG_Z, footRotY: 270 },
+  { cx: LEG_X, cz: -LEG_Z, footRotY: 270 },
+  { cx: -LEG_X, cz: LEG_Z, footRotY: 270 },
+  { cx: LEG_X, cz: LEG_Z, footRotY: 270 }
 ];
 
 for (const leg of legs) {
-  // 2302 弧面脚（Duplo 2 x 3 curved top）。左右两侧脚尖镜像朝外。
+  // 2302 弧面脚（Duplo 2 x 3 curved top）。四个脚尖统一朝搭建图里相反的一侧。
   place({
     color: COLOR.green,
     part: '2302.dat',
@@ -502,6 +502,10 @@ const curvedLocalNextStd = Matrix4.multiply(
   Matrix4.makeTranslation(-35.147, 0, 84.853),
   Matrix4.makeRotationY(-Math.PI / 4)
 );
+const curvedLocalNextFlipped = Matrix4.multiply(
+  curvedLocalNextStd,
+  Matrix4.makeRotationZ(Math.PI)
+);
 let previousCurvedTube = null
 for (let i = 0; i < 4; i++) {
   const tubeChecks = [
@@ -511,18 +515,16 @@ for (let i = 0; i < 4; i++) {
       targetPlacementId: i === 0 ? tailStraightTube.id : previousCurvedTube.id,
       targetPortId: i === 0 ? 'start' : 'outlet',
       label: i === 0 ? 'tail elbow must connect to the straight tube -Z end' : 'tail elbow chain must keep adjacent ports joined'
-    }
-  ];
-  if (i === 0) {
-    tubeChecks.push({
+    },
+    {
       type: 'portDelta',
       fromPortId: 'inlet',
       toPortId: 'outlet',
-      label: 'tail elbow must bend outward and downward',
+      label: 'tail elbow must keep bending downward and toward the step 5 tail direction',
       min: { y: 20 },
-      max: { z: -40 }
-    });
-  }
+      max: { z: -20 }
+    }
+  ];
   previousCurvedTube = placeMatrix({
     color: colorsCurved[i],
     part: '31195.dat',
@@ -533,7 +535,7 @@ for (let i = 0; i < 4; i++) {
     tubeChecks
   });
 
-  matCurved = Matrix4.multiply(matCurved, curvedLocalNextStd);
+  matCurved = Matrix4.multiply(matCurved, i === 1 ? curvedLocalNextFlipped : curvedLocalNextStd);
 }
 
 // ---- Step 6: 右端平台与一节蓝色弯管 ----

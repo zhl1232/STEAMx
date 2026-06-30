@@ -11,7 +11,7 @@ const MPD_FILES = readdirSync(LDraw_DIR)
   .sort()
 
 const EXPECTED_STEP_COUNTS: Record<string, number> = {
-  '3-bao-jian.mpd': 9,
+  '3-bao-jian.mpd': 14,
   '3-chang-jing-long.mpd': 12,
   '3-cheng-bao.mpd': 19,
   'duplo-car.mpd': 3,

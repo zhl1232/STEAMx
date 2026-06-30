@@ -130,14 +130,14 @@
     },
     {
       "partId": "42029.dat",
-      "partName": "Duplo Ball Tube Holder with 2 x 4 Brick Base",
+      "partName": "Duplo Plate 2 x 4 with Round Tube Holder",
       "ldrawStatus": "Custom LDraw approximation",
       "colorCode": 4,
       "colorName": "Red",
       "quantity": 2,
       "confidence": 0.85,
       "notes": [
-        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation."
+        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation."
       ],
       "substitutes": []
     }
