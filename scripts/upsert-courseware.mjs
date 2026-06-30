@@ -23,6 +23,7 @@ import {
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { convertCourseImagesToWebp, rewriteCourseImageUrlToWebp } from "./lib/course-image-webp.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -223,7 +224,7 @@ function prepareManifest(manifest, assetsBase) {
   const urlBase = `${assetsBase}/courses/${slug}`;
   const slideImageUrls = slideUrls.map((u) => {
     const name = u.split("/slides/")[1] || u.split("/").pop();
-    return `${urlBase}/slides/${name}`;
+    return rewriteCourseImageUrlToWebp(`${urlBase}/slides/${name}`);
   });
 
   const building3d = {
@@ -234,10 +235,10 @@ function prepareManifest(manifest, assetsBase) {
     ...(hasLocalFile(slug, "instructions.pdf")
       ? { slidesPdfUrl: `${urlBase}/instructions.pdf` }
       : {}),
-    ...(hasLocalFile(slug, "finished.png")
-      ? { finishedImageUrl: `${urlBase}/finished.png` }
-      : hasLocalFile(slug, "finished.webp")
+    ...(hasLocalFile(slug, "finished.webp")
         ? { finishedImageUrl: `${urlBase}/finished.webp` }
+      : hasLocalFile(slug, "finished.png")
+        ? { finishedImageUrl: `${urlBase}/finished.png` }
         : {}),
   };
 
@@ -263,9 +264,13 @@ function prepareManifest(manifest, assetsBase) {
   manifest.assets = {
     ...(manifest.assets || {}),
     slides: slideCount,
-    slideExt: manifest.assets?.slideExt || "png",
+    slideExt: slideImageUrls.length ? "webp" : (manifest.assets?.slideExt || "png"),
     ...(hasLocalFile(slug, "instructions.pdf") ? { pdf: "instructions.pdf" } : {}),
-    ...(hasLocalFile(slug, "finished.png") ? { finished: "finished.png" } : {}),
+    ...(hasLocalFile(slug, "finished.webp")
+      ? { finished: "finished.webp" }
+      : hasLocalFile(slug, "finished.png")
+        ? { finished: "finished.png" }
+        : {}),
     ...(hasLocalFile(slug, "animation.mp4") ? { video: "animation.mp4" } : {}),
     uploaded: true,
     mvp: true,
@@ -406,6 +411,8 @@ async function runUpload(manifests) {
       console.warn(`  skip upload (no dir): ${slug}`);
       continue;
     }
+
+    await convertCourseImagesToWebp(localDir, { recursive: false });
 
     const files = EXTRA_ASSETS.filter((name) => existsSync(join(localDir, name)));
     if (files.length === 0) continue;

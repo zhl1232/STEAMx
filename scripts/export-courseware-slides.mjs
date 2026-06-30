@@ -29,6 +29,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { unzipSync } from "fflate";
 import { pinyin } from "pinyin-pro";
+import {
+  convertCourseImagesToWebp,
+  webpFileNamesFromSlideFiles,
+} from "./lib/course-image-webp.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -61,6 +65,8 @@ const updateJson = !bool("no-update-json");
 const doUpload = bool("upload");
 const uploadConcurrency = Number(flag("upload-concurrency", flag("concurrency", 16))) || 16;
 const skipExistingUpload = bool("skip-existing-upload");
+const useWebp = !bool("no-webp");
+const webpQuality = Number(flag("quality", 82)) || 82;
 const onlyMatchers = (flag("only", "") || "")
   .split(",")
   .map((value) => value.trim().toLowerCase())
@@ -91,6 +97,8 @@ function printUsageAndExit() {
   console.error("  --only=<slug/title/path>   逗号分隔筛选");
   console.error("  --limit=<n>                只处理前 n 个匹配课件");
   console.error("  --upload                   导出后上传 slides 到 OSS");
+  console.error("  --no-webp                  关闭上传前 WebP 转换（默认转 WebP 并删除 PNG）");
+  console.error("  --quality=82               WebP 质量");
   console.error("  --skip-existing-upload     上传时跳过 OSS 已有对象（默认覆盖，修复旧 slide-01）");
   console.error("  --no-update-json           不刷新 scripts/courseware/<slug>.json 的 slideImageUrls");
   process.exit(1);
@@ -176,7 +184,7 @@ function inferUrlBase(existingJson, slug) {
   return match?.[1] || `/courses/${slug}`;
 }
 
-function updateCoursewareJson(item, files) {
+function updateCoursewareJson(item, files, slideExt = null) {
   if (!updateJson) return false;
 
   const manifestPath = path.join(ROOT, "scripts/courseware", `${item.slug}.json`);
@@ -195,7 +203,7 @@ function updateCoursewareJson(item, files) {
   json.assets = {
     ...(json.assets || {}),
     slides: files.length,
-    slideExt: "png",
+    slideExt: slideExt ?? (files[0]?.toLowerCase().endsWith(".webp") ? "webp" : "png"),
   };
   json.content = json.content || {};
   json.content.building3d = json.content.building3d || {};
@@ -203,6 +211,24 @@ function updateCoursewareJson(item, files) {
 
   writeFileSync(manifestPath, `${JSON.stringify(json, null, 2)}\n`, "utf8");
   return true;
+}
+
+async function convertSlidesToWebp(item, files) {
+  if (!useWebp || files.length === 0) return files;
+  const needsConversion = files.some((file) => /\.(png|jpe?g)$/i.test(file));
+  if (!needsConversion) return files;
+
+  const result = await convertCourseImagesToWebp(item.slidesDir, {
+    quality: webpQuality,
+    recursive: false,
+  });
+  if (result.converted > 0) {
+    const saved = result.beforeBytes > 0 ? Math.round((1 - result.afterBytes / result.beforeBytes) * 100) : 0;
+    console.log(
+      `  ✓ WebP slides: ${(result.beforeBytes / 1e6).toFixed(1)}MB -> ${(result.afterBytes / 1e6).toFixed(1)}MB (${saved}% saved)`,
+    );
+  }
+  return webpFileNamesFromSlideFiles(files);
 }
 
 function writeReport(report) {
@@ -261,15 +287,16 @@ function summarize(items) {
   };
 }
 
-function exportItem(item, index, total) {
+async function exportItem(item, index, total) {
   const before = Date.now();
   const expectedLabel = item.expectedSlides ?? "?";
   console.log(`\n[${index}/${total}] ${item.slug} (${item.lessonTitle}) expected=${expectedLabel} actual=${item.actualSlides}`);
 
   if (!force && item.expectedSlides !== null && item.actualSlides >= item.expectedSlides) {
     console.log("  = skip: slides 已完整");
-    const files = slideFiles(item.slidesDir);
-    const jsonUpdated = updateCoursewareJson(item, files);
+    let files = slideFiles(item.slidesDir);
+    files = await convertSlidesToWebp(item, files);
+    const jsonUpdated = updateCoursewareJson(item, files, useWebp ? "webp" : null);
     return {
       status: "skipped",
       reason: "complete",
@@ -327,8 +354,9 @@ function exportItem(item, index, total) {
       copyFileSync(path.join(tempDir, file), path.join(item.slidesDir, file));
     }
 
-    const finalFiles = slideFiles(item.slidesDir);
-    const jsonUpdated = updateCoursewareJson(item, finalFiles);
+    let finalFiles = slideFiles(item.slidesDir);
+    finalFiles = await convertSlidesToWebp(item, finalFiles);
+    const jsonUpdated = updateCoursewareJson(item, finalFiles, useWebp ? "webp" : null);
     console.log(`  ✓ replaced ${path.relative(ROOT, item.slidesDir)} (${finalFiles.length} slides)`);
     return {
       status: "exported",
@@ -413,7 +441,7 @@ async function main() {
 
   for (let i = 0; i < items.length; i += 1) {
     const item = items[i];
-    const result = exportItem(item, i + 1, items.length);
+    const result = await exportItem(item, i + 1, items.length);
     const row = {
       slug: item.slug,
       lessonTitle: item.lessonTitle,

@@ -27,11 +27,16 @@ const { createOssClient } = await import(join(ROOT, "lib/utils/oss-client.mjs"))
 const client = createOssClient();
 
 const ASSETS = [
-  ["slides/slide-01.png", "slide"],
+  ["slides/slide-01.webp", "slide"],
   ["instructions.pdf", "pdf"],
   ["animation.mp4", "video"],
-  ["finished.png", "finished"],
+  ["finished.webp", "finished"],
 ];
+
+const LEGACY_IMAGE_FALLBACKS = {
+  slide: "slides/slide-01.png",
+  finished: "finished.png",
+};
 
 async function head(key) {
   try {
@@ -47,7 +52,10 @@ const sampleResults = [];
 for (const slug of samples) {
   const row = { slug, assets: {} };
   for (const [path, label] of ASSETS) {
-    row.assets[label] = await head(`courses/${slug}/${path}`);
+    const result = await head(`courses/${slug}/${path}`);
+    row.assets[label] = result.ok || !LEGACY_IMAGE_FALLBACKS[label]
+      ? result
+      : { ...(await head(`courses/${slug}/${LEGACY_IMAGE_FALLBACKS[label]}`)), legacy: true };
   }
   sampleResults.push(row);
 }
@@ -61,7 +69,10 @@ const missing = { pdf: [], video: [], finished: [] };
 
 for (const slug of allSlugs) {
   for (const [path, label] of ASSETS) {
-    const r = await head(`courses/${slug}/${path}`);
+    let r = await head(`courses/${slug}/${path}`);
+    if (!r.ok && LEGACY_IMAGE_FALLBACKS[label]) {
+      r = { ...(await head(`courses/${slug}/${LEGACY_IMAGE_FALLBACKS[label]}`)), legacy: true };
+    }
     if (r.ok) {
       stats[label] += 1;
     } else if (label !== "slide" && missing[label].length < 15) {

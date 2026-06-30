@@ -135,8 +135,8 @@ function which(cmd) {
     return r.stdout.trim();
 }
 
-const SLIDE_FILE_RE = /^slide-(\d+)\.(png|webp)$/i;
-const CLEAN_SLOT_RE = /^slide-\d+\.(png|webp)$/i;
+const SLIDE_FILE_RE = /^slide-(\d+)\.(png|jpe?g|webp)$/i;
+const CLEAN_SLOT_RE = /^slide-\d+\.(png|jpe?g|webp)$/i;
 
 function getSlideFiles(dir) {
     if (!existsSync(dir)) return [];
@@ -288,7 +288,8 @@ if (slidesDir) {
     }
     const width = Math.max(2, String(imgs.length).length);
     imgs.forEach((f, i) => {
-        copyFileSync(join(slidesDir, f), join(slidesOutDir, `slide-${String(i + 1).padStart(width, "0")}.png`));
+        const ext = extname(f).toLowerCase();
+        copyFileSync(join(slidesDir, f), join(slidesOutDir, `slide-${String(i + 1).padStart(width, "0")}${ext}`));
     });
     console.log(`\n→ 采用现成幻灯片 ${imgs.length} 张（来自 ${slidesDir}）`);
 } else if (pptx) {
@@ -391,8 +392,8 @@ if (slideFiles.length > 0) {
 }
 
 if (useWebp && slideFiles.length > 0) {
-    const pngSlideFiles = slideFiles.filter((f) => f.toLowerCase().endsWith(".png"));
-    if (pngSlideFiles.length === 0) {
+    const rasterSlideFiles = slideFiles.filter((f) => /\.(png|jpe?g)$/i.test(f));
+    if (rasterSlideFiles.length === 0) {
         console.warn("→ 该目录暂无 PNG slide，已是 WebP 输出，直接复用。");
         slideExt = "webp";
     } else {
@@ -406,18 +407,18 @@ if (useWebp && slideFiles.length > 0) {
             console.log(`→ 转 WebP（q=${quality}）…`);
             let before = 0;
             let after = 0;
-            for (const f of pngSlideFiles) {
+            for (const f of rasterSlideFiles) {
                 const src = join(slidesOutDir, f);
-                const dst = src.replace(/\.png$/, ".webp");
+                const dst = src.replace(/\.(png|jpe?g)$/i, ".webp");
                 before += statSync(src).size;
                 await sharp(src).webp({ quality }).toFile(dst);
                 after += statSync(dst).size;
                 rmSync(src);
             }
             slideExt = "webp";
-            slideFiles = slideFiles.map((f) => f.replace(/\.png$/, ".webp"));
+            slideFiles = slideFiles.map((f) => f.replace(/\.(png|jpe?g)$/i, ".webp"));
             const pct = before ? Math.round((1 - after / before) * 100) : 0;
-            console.log(`  PNG ${(before / 1e6).toFixed(1)}MB → WebP ${(after / 1e6).toFixed(1)}MB（省 ${pct}%）`);
+            console.log(`  图片 ${(before / 1e6).toFixed(1)}MB → WebP ${(after / 1e6).toFixed(1)}MB（省 ${pct}%）`);
         }
     }
 }

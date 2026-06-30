@@ -31,6 +31,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { convertCourseImagesToWebp } from './lib/course-image-webp.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
@@ -159,6 +160,22 @@ async function processGroup(group, args, client, uploadDirectory) {
   if (!existsSync(localPath)) {
     console.warn(`  (skip: ${localPath} does not exist)`)
     return
+  }
+
+  if (group.id === 'courses' && !args.skipUpload && !args.dryRun) {
+    const result = await convertCourseImagesToWebp(localPath, {
+      recursive: true,
+      filter(filePath) {
+        const relativePath = path.relative(localPath, filePath).split(path.sep).join('/')
+        return /(^|\/)slides\/[^/]+\.(png|jpe?g)$/i.test(relativePath) || /(^|\/)finished\.(png|jpe?g)$/i.test(relativePath)
+      },
+    })
+    if (result.converted > 0) {
+      const saved = result.beforeBytes > 0 ? Math.round((1 - result.afterBytes / result.beforeBytes) * 100) : 0
+      console.log(
+        `  ✓ converted course images to WebP: ${(result.beforeBytes / 1e6).toFixed(1)}MB -> ${(result.afterBytes / 1e6).toFixed(1)}MB (${saved}% saved)`,
+      )
+    }
   }
 
   if (!args.skipUpload && !args.dryRun) {
