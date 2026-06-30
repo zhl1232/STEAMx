@@ -804,9 +804,9 @@
           },
           "orientation": [
             0,
-            1,
+            -1,
             0,
-            1,
+            -1,
             0,
             0,
             0,
@@ -814,7 +814,28 @@
             -1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 -346.0000 -240.0000 -0.000000 1.000000 0.000000 1.000000 0.000000 -0.000000 -0.000000 0.000000 -1.000000 31195.dat"
+          "tubeChecks": [
+            {
+              "type": "portConnection",
+              "portId": "inlet",
+              "targetPlacementId": "p024",
+              "targetPortId": "start",
+              "label": "tail elbow must connect to the straight tube -Z end"
+            },
+            {
+              "type": "portDelta",
+              "fromPortId": "inlet",
+              "toPortId": "outlet",
+              "label": "tail elbow must bend outward and downward",
+              "min": {
+                "y": 20
+              },
+              "max": {
+                "z": -40
+              }
+            }
+          ],
+          "ldrawLine": "1 14 0.0000 -346.0000 -240.0000 -0.000000 -1.000000 0.000000 -1.000000 0.000000 0.000000 -0.000000 0.000000 -1.000000 31195.dat"
         },
         {
           "id": "p029",
@@ -824,22 +845,31 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -381.147,
+            "y": -310.853,
             "z": -324.853
           },
           "orientation": [
             0,
-            1,
+            -1,
+            0,
+            -0.707107,
             0,
             0.707107,
-            0,
-            0.707107,
-            0.707107,
+            -0.707107,
             0,
             -0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -381.1470 -324.8530 -0.000000 1.000000 -0.000000 0.707107 0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat"
+          "tubeChecks": [
+            {
+              "type": "portConnection",
+              "portId": "inlet",
+              "targetPlacementId": "p028",
+              "targetPortId": "outlet",
+              "label": "tail elbow chain must keep adjacent ports joined"
+            }
+          ],
+          "ldrawLine": "1 1 0.0000 -310.8530 -324.8530 -0.000000 -1.000000 0.000000 -0.707107 0.000000 0.707107 -0.707107 0.000000 -0.707107 31195.dat"
         },
         {
           "id": "p030",
@@ -849,22 +879,31 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -345.9996,
-            "z": -409.7058
+            "y": -226.0002,
+            "z": -360.0004
           },
           "orientation": [
             0,
-            1,
+            -1,
             0,
             0,
             0,
             1,
-            1,
+            -1,
             0,
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -345.9996 -409.7058 -0.000000 1.000000 -0.000000 0.000000 0.000000 1.000000 1.000000 0.000000 -0.000000 31195.dat"
+          "tubeChecks": [
+            {
+              "type": "portConnection",
+              "portId": "inlet",
+              "targetPlacementId": "p029",
+              "targetPortId": "outlet",
+              "label": "tail elbow chain must keep adjacent ports joined"
+            }
+          ],
+          "ldrawLine": "1 14 0.0000 -226.0002 -360.0004 -0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31195.dat"
         },
         {
           "id": "p031",
@@ -874,22 +913,31 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -430.8526,
-            "z": -374.5588
+            "y": -141.1472,
+            "z": -324.8534
           },
           "orientation": [
             0,
-            1,
+            -1,
             0,
             0.707107,
             0,
             0.707107,
-            0.707107,
+            -0.707107,
             0,
-            -0.707107
+            0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -430.8526 -374.5588 -0.000000 1.000000 -0.000000 0.707107 0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat"
+          "tubeChecks": [
+            {
+              "type": "portConnection",
+              "portId": "inlet",
+              "targetPlacementId": "p030",
+              "targetPortId": "outlet",
+              "label": "tail elbow chain must keep adjacent ports joined"
+            }
+          ],
+          "ldrawLine": "1 1 0.0000 -141.1472 -324.8534 0.000000 -1.000000 0.000000 0.707107 0.000000 0.707107 -0.707107 0.000000 0.707107 31195.dat"
         }
       ]
     },
@@ -990,13 +1038,13 @@
             0,
             0.707107,
             0,
-            0.707107,
             -0.707107,
+            0.707107,
             0,
             0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -381.1470 324.8530 0.000000 -1.000000 0.000000 0.707107 0.000000 0.707107 -0.707107 0.000000 0.707107 31195.dat"
+          "ldrawLine": "1 14 -0.0000 -381.1470 324.8530 0.000000 -1.000000 -0.000000 0.707107 0.000000 -0.707107 0.707107 0.000000 0.707107 31195.dat"
         }
       ]
     },
@@ -1044,8 +1092,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -345.9996,
-            "z": 409.7058
+            "y": -465.9998,
+            "z": 360.0004
           },
           "orientation": [
             0,
@@ -1053,13 +1101,13 @@
             0,
             0,
             0,
-            1,
             -1,
+            1,
             0,
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -345.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+          "ldrawLine": "1 1 -0.0000 -465.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat"
         },
         {
           "id": "p036",
@@ -1069,8 +1117,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -225.9996,
-            "z": 409.7058
+            "y": -585.9998,
+            "z": 360.0004
           },
           "orientation": [
             0,
@@ -1078,13 +1126,13 @@
             0,
             0,
             0,
-            1,
             -1,
+            1,
             0,
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 -225.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+          "ldrawLine": "1 14 -0.0000 -585.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat"
         },
         {
           "id": "p037",
@@ -1094,8 +1142,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": -105.9996,
-            "z": 409.7058
+            "y": -705.9998,
+            "z": 360.0004
           },
           "orientation": [
             0,
@@ -1103,13 +1151,13 @@
             0,
             0,
             0,
-            1,
             -1,
+            1,
             0,
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -105.9996 409.7058 0.000000 -1.000000 0.000000 0.000000 0.000000 1.000000 -1.000000 0.000000 0.000000 31452.dat"
+          "ldrawLine": "1 1 -0.0000 -705.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat"
         },
         {
           "id": "p038",
@@ -1119,8 +1167,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": 14.0004,
-            "z": 409.7058
+            "y": -825.9998,
+            "z": 360.0004
           },
           "orientation": [
             0,
@@ -1128,13 +1176,13 @@
             0,
             0,
             0,
-            1,
-            1,
+            -1,
+            -1,
             0,
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 14.0004 409.7058 -0.000000 1.000000 0.000000 -0.000000 -0.000000 1.000000 1.000000 0.000000 0.000000 31195.dat"
+          "ldrawLine": "1 14 -0.0000 -825.9998 360.0004 -0.000000 1.000000 -0.000000 -0.000000 -0.000000 -1.000000 -1.000000 -0.000000 0.000000 31195.dat"
         },
         {
           "id": "p039",
@@ -1144,8 +1192,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": 98.8534,
-            "z": 374.5588
+            "y": -910.8528,
+            "z": 395.1474
           },
           "orientation": [
             0,
@@ -1153,13 +1201,13 @@
             0,
             -0.707107,
             0,
-            0.707107,
-            0.707107,
+            -0.707107,
+            -0.707107,
             0,
             0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 98.8534 374.5588 -0.000000 1.000000 -0.000000 -0.707107 -0.000000 0.707107 0.707107 0.000000 0.707107 31195.dat"
+          "ldrawLine": "1 1 -0.0000 -910.8528 395.1474 -0.000000 1.000000 0.000000 -0.707107 -0.000000 -0.707107 -0.707107 -0.000000 0.707107 31195.dat"
         }
       ]
     },
@@ -1200,8 +1248,8 @@
           "confidence": 0.95,
           "position": {
             "x": 0,
-            "y": 183.7063,
-            "z": 409.7063
+            "y": -946.0003,
+            "z": 480.0003
           },
           "orientation": [
             0,
@@ -1215,7 +1263,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 183.7063 409.7063 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat"
+          "ldrawLine": "1 14 -0.0000 -946.0003 480.0003 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat"
         },
         {
           "id": "p041",
@@ -1225,8 +1273,8 @@
           "confidence": 0.85,
           "position": {
             "x": 0,
-            "y": 143.7063,
-            "z": 389.7063
+            "y": -986.0003,
+            "z": 460.0003
           },
           "orientation": [
             1,
@@ -1241,7 +1289,7 @@
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
           "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. Element ID corrected to 42029; geometry is a local LDraw approximation.",
-          "ldrawLine": "1 4 0.0000 143.7063 389.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
+          "ldrawLine": "1 4 -0.0000 -986.0003 460.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat"
         },
         {
           "id": "p042",
@@ -1251,8 +1299,8 @@
           "confidence": 0.8,
           "position": {
             "x": 0,
-            "y": 95.7063,
-            "z": 349.7063
+            "y": -1034.0003,
+            "z": 420.0003
           },
           "orientation": [
             1,
@@ -1267,7 +1315,7 @@
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
           "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
-          "ldrawLine": "1 14 0.0000 95.7063 349.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+          "ldrawLine": "1 14 -0.0000 -1034.0003 420.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
         },
         {
           "id": "p043",
@@ -1277,8 +1325,8 @@
           "confidence": 0.8,
           "position": {
             "x": 0,
-            "y": 95.7063,
-            "z": 429.7063
+            "y": -1034.0003,
+            "z": 500.0003
           },
           "orientation": [
             1,
@@ -1293,7 +1341,7 @@
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
           "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
-          "ldrawLine": "1 14 0.0000 95.7063 429.7063 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
+          "ldrawLine": "1 14 -0.0000 -1034.0003 500.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat"
         }
       ]
     },

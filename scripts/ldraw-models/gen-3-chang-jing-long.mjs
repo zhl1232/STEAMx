@@ -229,7 +229,7 @@ function ldrawLine(color, matrix, part) {
   return `1 ${color} ${matrix.toLDrawString()} ${part}`
 }
 
-function registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection }) {
+function registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks }) {
   const meta = PART_META[part] || { name: part, ldrawStatus: 'Unknown', confidence: 0.5 }
   const e = matrix.elements
   const placement = {
@@ -257,8 +257,10 @@ function registerPlacement({ color, part, matrix, line, confidence, note, substi
   if (meta.note) placement.note = meta.note
   if (note) placement.note = placement.note ? `${placement.note} ${note}` : note
   if (substituteFor) placement.substituteFor = substituteFor
+  if (tubeChecks) placement.tubeChecks = tubeChecks
   placements.push(placement)
   if (currentStep) currentStep.additions.push(placement)
+  return placement
 }
 
 function place({
@@ -276,7 +278,8 @@ function place({
   confidence,
   note,
   substituteFor,
-  connection
+  connection,
+  tubeChecks
 }) {
   let mat = Matrix4.makeTranslation(cx, originY, cz);
   if (rotY) mat = Matrix4.multiply(mat, Matrix4.makeRotationY(rotY * Math.PI / 180));
@@ -284,7 +287,7 @@ function place({
   
   const line = ldrawLine(color, mat, part)
   current.push(line);
-  registerPlacement({ color, part, matrix: mat, line, confidence, note, substituteFor, connection })
+  const placement = registerPlacement({ color, part, matrix: mat, line, confidence, note, substituteFor, connection, tubeChecks })
 
   const isRotated = Math.round(rotY / 90) % 2 !== 0;
   const actualSizeX = isRotated ? sizeZ : sizeX;
@@ -299,6 +302,7 @@ function place({
     yBottom: originY + height,
     decorative, line: lines.length + current.length
   });
+  return placement
 }
 
 function placeMatrix({
@@ -312,11 +316,12 @@ function placeMatrix({
   confidence,
   note,
   substituteFor,
-  connection
+  connection,
+  tubeChecks
 }) {
   const line = ldrawLine(color, matrix, part)
   current.push(line);
-  registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection })
+  const placement = registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks })
   const e = matrix.elements;
   const cx = e[3];
   const cz = e[11];
@@ -329,6 +334,7 @@ function placeMatrix({
     yBottom: originY + height,
     decorative, line: lines.length + current.length
   });
+  return placement
 }
 
 function duplo22({ color, cx, cz, originY, decorative = false, confidence, note, substituteFor, connection }) {
@@ -471,40 +477,63 @@ place({
 // ---- Step 4: 拼直滑梯管 (颜色顺序：蓝黄蓝黄) ----
 // 对应 PDF Page 4 (穿过拱门，左侧蓝起，右侧黄收)
 step('Step 4: 拼滑梯管道 · 四节直滑梯相接，穿过两个黄色拱门的圆孔')
-duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, -240);   // 1: -240 -> -120
+const tailStraightTube = duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, -240);   // 1: -240 -> -120
 duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, -120); // 2: -120 -> 0
 duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, 0);     // 3: 0 -> 120
 duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, 120);   // 4: 120 -> 240
 
 function duploStraightTube(color, cx, cy, cz) {
   const mat = Matrix4.makeTranslation(cx, cy, cz);
-  placeMatrix({ color, part: '31452.dat', matrix: mat, sizeX: 80, sizeZ: 120, height: 80 });
+  return placeMatrix({ color, part: '31452.dat', matrix: mat, sizeX: 80, sizeZ: 120, height: 80 });
 }
 
 // ---- Step 5: 左端向下弯曲的尾部滑梯 ----
 // 对应 PDF Page 5 (尾巴弯管：黄蓝黄蓝；从 -Z 端向外、向下弯，勿折回 +Z 穿直管)
-// 初始朝向用 rotZ(-90deg)*rotY(180deg)，与 +Z 端 step6 的 rotZ(+90deg) 成镜像，首节即向下弯。
-// 四节链后半段改用镜像 chainLocal，避免 S 形对称把尾端又抬回上方。
+// 初始朝向用 rotZ(+90deg)*rotY(180deg)：局部 +Z 接到直管 -Z 端，局部 -X 朝向世界 +Y，首节即向下弯。
+// 后续弯头按官方 31195.dat outlet transform 链接，避免视觉相近但端口断开的假连接。
 step('Step 5: 搭建恐龙尾巴 · 左端滑梯向外、向下弯曲至地面')
 let matCurved = Matrix4.multiply(
   Matrix4.makeTranslation(0, TUBE_CENTER_Y, -240),
-  Matrix4.multiply(Matrix4.makeRotationZ(-Math.PI / 2), Matrix4.makeRotationY(Math.PI))
+  Matrix4.multiply(Matrix4.makeRotationZ(Math.PI / 2), Matrix4.makeRotationY(Math.PI))
 );
 
 const colorsCurved = [COLOR.yellow, COLOR.blue, COLOR.yellow, COLOR.blue];
 const curvedLocalNextStd = Matrix4.multiply(
   Matrix4.makeTranslation(-35.147, 0, 84.853),
-  Matrix4.makeRotationY(Math.PI / 4)
-);
-const curvedLocalNextMir = Matrix4.multiply(
-  Matrix4.makeTranslation(35.147, 0, -84.853),
   Matrix4.makeRotationY(-Math.PI / 4)
 );
+let previousCurvedTube = null
 for (let i = 0; i < 4; i++) {
-  placeMatrix({ color: colorsCurved[i], part: '31195.dat', matrix: matCurved, sizeX: 80, sizeZ: 120, height: 80 });
+  const tubeChecks = [
+    {
+      type: 'portConnection',
+      portId: 'inlet',
+      targetPlacementId: i === 0 ? tailStraightTube.id : previousCurvedTube.id,
+      targetPortId: i === 0 ? 'start' : 'outlet',
+      label: i === 0 ? 'tail elbow must connect to the straight tube -Z end' : 'tail elbow chain must keep adjacent ports joined'
+    }
+  ];
+  if (i === 0) {
+    tubeChecks.push({
+      type: 'portDelta',
+      fromPortId: 'inlet',
+      toPortId: 'outlet',
+      label: 'tail elbow must bend outward and downward',
+      min: { y: 20 },
+      max: { z: -40 }
+    });
+  }
+  previousCurvedTube = placeMatrix({
+    color: colorsCurved[i],
+    part: '31195.dat',
+    matrix: matCurved,
+    sizeX: 80,
+    sizeZ: 120,
+    height: 80,
+    tubeChecks
+  });
 
-  const localNext = i < 2 ? curvedLocalNextStd : curvedLocalNextMir;
-  matCurved = Matrix4.multiply(matCurved, localNext);
+  matCurved = Matrix4.multiply(matCurved, curvedLocalNextStd);
 }
 
 // ---- Step 6: 右端平台与一节蓝色弯管 ----
@@ -526,7 +555,7 @@ let matNeck = Matrix4.multiply(
 );
 const neckLocalNext = Matrix4.multiply(
   Matrix4.makeTranslation(-35.147, 0, 84.853),
-  Matrix4.makeRotationY(Math.PI / 4)
+  Matrix4.makeRotationY(-Math.PI / 4)
 );
 
 // 1. 蓝色弯管 (向上弯 45度)
@@ -771,6 +800,7 @@ function buildAssemblyTree() {
         position: item.position,
         orientation: item.orientation,
         connection: item.connection,
+        tubeChecks: item.tubeChecks,
         substituteFor: item.substituteFor,
         note: item.note,
         ldrawLine: item.ldrawLine
