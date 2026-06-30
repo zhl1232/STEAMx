@@ -112,6 +112,10 @@ function dot(a, b) {
   return a.x * b.x + a.y * b.y + a.z * b.z
 }
 
+function distance(a, b) {
+  return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z)
+}
+
 function subtract(a, b) {
   return { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z }
 }
@@ -202,12 +206,242 @@ function hasTubeOpenings(part) {
   return Array.isArray(part.tubeOpenings) && part.tubeOpenings.length > 0
 }
 
+function hasTubePath(part) {
+  return Boolean(part.tubePath)
+}
+
+function hasTubePorts(part) {
+  return Array.isArray(part.tubePorts) && part.tubePorts.length > 0
+}
+
+function resolveTubePorts(item) {
+  if (!Array.isArray(item.part.tubePorts)) return []
+  return item.part.tubePorts
+    .map((port) => {
+      const center = transformPoint(metadataPoint(port.center), item.matrix, item.origin)
+      const outward = normalizeVector(transformVector(metadataPoint(port.outward), item.matrix))
+      if (!outward) return null
+      return {
+        id: port.id,
+        center,
+        outward,
+        toleranceLdu: Number(port.toleranceLdu ?? item.part.tubePortToleranceLdu ?? 4),
+        alignmentDotMax: Number(port.alignmentDotMax ?? item.part.tubePortAlignmentDotMax ?? -0.95),
+      }
+    })
+    .filter(Boolean)
+}
+
+function findResolvedTubePort(item, portId) {
+  return resolveTubePorts(item).find((port) => port.id === portId)
+}
+
+function checkAxisBounds(delta, bounds, label) {
+  const messages = []
+  for (const axis of ['x', 'y', 'z']) {
+    const value = delta[axis]
+    const min = bounds?.min?.[axis]
+    const max = bounds?.max?.[axis]
+    if (typeof min === 'number' && value < min - EPS) {
+      messages.push(`${label} ${axis} delta ${formatNumber(value)} < ${formatNumber(min)}`)
+    }
+    if (typeof max === 'number' && value > max + EPS) {
+      messages.push(`${label} ${axis} delta ${formatNumber(value)} > ${formatNumber(max)}`)
+    }
+  }
+  return messages
+}
+
+function checkPlacementTubeConstraints(item, resolvedById) {
+  const checks = item.placement.tubeChecks
+  if (!Array.isArray(checks)) return []
+
+  const messages = []
+  for (const check of checks) {
+    if (check.type === 'portConnection') {
+      const port = findResolvedTubePort(item, check.portId)
+      const target = resolvedById.get(check.targetPlacementId)
+      const targetPort = target ? findResolvedTubePort(target, check.targetPortId) : undefined
+      if (!port || !target || !targetPort) {
+        messages.push(
+          `${item.placement.id} cannot run tube port connection check; missing ${check.portId ?? 'portId'} or ${check.targetPlacementId ?? 'targetPlacementId'}:${check.targetPortId ?? 'targetPortId'}`
+        )
+        continue
+      }
+
+      const maxDistance = Number(check.toleranceLdu ?? Math.max(port.toleranceLdu, targetPort.toleranceLdu))
+      const maxDot = Number(check.alignmentDotMax ?? Math.max(port.alignmentDotMax, targetPort.alignmentDotMax))
+      const portDistance = distance(port.center, targetPort.center)
+      const portDot = dot(port.outward, targetPort.outward)
+      const label = `${item.placement.id} ${item.placement.partId} ${check.label ?? `${check.portId}->${check.targetPlacementId}.${check.targetPortId}`}`
+      if (portDistance > maxDistance + EPS) {
+        messages.push(`${label} port distance ${formatNumber(portDistance)} > ${formatNumber(maxDistance)}`)
+      }
+      if (portDot > maxDot + EPS) {
+        messages.push(`${label} port outward dot ${formatNumber(portDot)} > ${formatNumber(maxDot)}`)
+      }
+      continue
+    }
+
+    if (check.type !== 'portDelta') {
+      messages.push(`${item.placement.id} has unsupported tube check type: ${check.type}`)
+      continue
+    }
+
+    const fromPort = findResolvedTubePort(item, check.fromPortId)
+    const toPort = findResolvedTubePort(item, check.toPortId)
+    if (!fromPort || !toPort) {
+      messages.push(
+        `${item.placement.id} cannot run tube port delta check; missing ${check.fromPortId ?? 'fromPortId'} or ${check.toPortId ?? 'toPortId'}`
+      )
+      continue
+    }
+
+    const delta = subtract(toPort.center, fromPort.center)
+    const label = `${item.placement.id} ${item.placement.partId} ${check.label ?? `${check.fromPortId}->${check.toPortId}`}`
+    messages.push(...checkAxisBounds(delta, check, label))
+  }
+  return messages
+}
+
+function tubePathPoints(item) {
+  const path = item.part.tubePath
+  if (!path) return []
+  const points = Array.isArray(path.points) ? path.points : [path.start, path.end]
+  return points.filter(Boolean).map((point) => transformPoint(metadataPoint(point), item.matrix, item.origin))
+}
+
+function closestSegmentPoints(aStart, aEnd, bStart, bEnd) {
+  const u = subtract(aEnd, aStart)
+  const v = subtract(bEnd, bStart)
+  const w = subtract(aStart, bStart)
+  const a = dot(u, u)
+  const b = dot(u, v)
+  const c = dot(v, v)
+  const d = dot(u, w)
+  const e = dot(v, w)
+  const denominator = a * c - b * b
+
+  let sNumerator
+  let sDenominator = denominator
+  let tNumerator
+  let tDenominator = denominator
+
+  if (denominator < EPS) {
+    sNumerator = 0
+    sDenominator = 1
+    tNumerator = e
+    tDenominator = c
+  } else {
+    sNumerator = b * e - c * d
+    tNumerator = a * e - b * d
+    if (sNumerator < 0) {
+      sNumerator = 0
+      tNumerator = e
+      tDenominator = c
+    } else if (sNumerator > sDenominator) {
+      sNumerator = sDenominator
+      tNumerator = e + b
+      tDenominator = c
+    }
+  }
+
+  if (tNumerator < 0) {
+    tNumerator = 0
+    if (-d < 0) {
+      sNumerator = 0
+    } else if (-d > a) {
+      sNumerator = sDenominator
+    } else {
+      sNumerator = -d
+      sDenominator = a
+    }
+  } else if (tNumerator > tDenominator) {
+    tNumerator = tDenominator
+    if (-d + b < 0) {
+      sNumerator = 0
+    } else if (-d + b > a) {
+      sNumerator = sDenominator
+    } else {
+      sNumerator = -d + b
+      sDenominator = a
+    }
+  }
+
+  const s = Math.abs(sNumerator) < EPS ? 0 : sNumerator / sDenominator
+  const t = Math.abs(tNumerator) < EPS ? 0 : tNumerator / tDenominator
+  const point = {
+    x: aStart.x + s * u.x,
+    y: aStart.y + s * u.y,
+    z: aStart.z + s * u.z,
+  }
+  const priorPoint = {
+    x: bStart.x + t * v.x,
+    y: bStart.y + t * v.y,
+    z: bStart.z + t * v.z,
+  }
+  return {
+    point,
+    priorPoint,
+    distance: distance(point, priorPoint),
+  }
+}
+
+function findAlignedTubePortConnection(item, prior, point, priorPoint) {
+  const ports = resolveTubePorts(item)
+  const priorPorts = resolveTubePorts(prior)
+  for (const port of ports) {
+    for (const priorPort of priorPorts) {
+      const maxDistance = Math.max(port.toleranceLdu, priorPort.toleranceLdu)
+      const maxDot = Math.max(port.alignmentDotMax, priorPort.alignmentDotMax)
+      if (
+        distance(port.center, priorPort.center) <= maxDistance + EPS &&
+        (!point || distance(point, port.center) <= maxDistance + EPS) &&
+        (!priorPoint || distance(priorPoint, priorPort.center) <= maxDistance + EPS) &&
+        dot(port.outward, priorPort.outward) <= maxDot + EPS
+      ) {
+        return { port, priorPort }
+      }
+    }
+  }
+  return undefined
+}
+
+function checkTubePathInterference(item, prior) {
+  if (!isTubePart(item.part) || !isTubePart(prior.part)) return []
+  if (!hasTubePath(item.part) || !hasTubePath(prior.part)) return []
+
+  const points = tubePathPoints(item)
+  const priorPoints = tubePathPoints(prior)
+  const tolerance = Math.max(
+    item.part.tubePath?.collisionToleranceLdu ?? item.part.tubePathToleranceLdu ?? 6,
+    prior.part.tubePath?.collisionToleranceLdu ?? prior.part.tubePathToleranceLdu ?? 6,
+  )
+  for (let i = 0; i < points.length - 1; i += 1) {
+    for (let j = 0; j < priorPoints.length - 1; j += 1) {
+      const closest = closestSegmentPoints(points[i], points[i + 1], priorPoints[j], priorPoints[j + 1])
+      if (closest.distance > tolerance + EPS) continue
+      if (findAlignedTubePortConnection(item, prior, closest.point, closest.priorPoint)) continue
+
+      return [
+        `${item.placement.id} ${item.placement.partId} tube path intersects ${prior.placement.id} ${prior.placement.partId} away from aligned ports`,
+      ]
+    }
+  }
+  return []
+}
+
 function shouldSkipCoarseCollision(item, prior) {
   // Arch frames are checked with tube opening alignment; coarse boxes false-positive passages.
   if (item.isExactTransform && hasTubeOpenings(prior.part)) return true
   if (prior.isExactTransform && hasTubeOpenings(item.part)) return true
-  // Chained tube flanges share volume by design.
-  if (isTubePart(item.part) && isTubePart(prior.part)) return true
+  // Tube pairs are checked by tubePorts above; coarse boxes false-positive valid flanges.
+  if (
+    isTubePart(item.part) &&
+    isTubePart(prior.part) &&
+    (hasTubePath(item.part) || hasTubePorts(item.part)) &&
+    (hasTubePath(prior.part) || hasTubePorts(prior.part))
+  ) return true
   // Exact ldrawLine bricks use coarse boxes only for gross placement; skip brick-brick pairs.
   if (item.isExactTransform && prior.isExactTransform) return true
   return false
@@ -457,6 +691,10 @@ export function resolveAssembly(assembly, partMetadata) {
           ldrawLine: ldrawLineForPlacement(placement, { origin, matrix }),
         }
 
+        for (const message of checkPlacementTubeConstraints(item, resolvedById)) {
+          throw new Error(message)
+        }
+
         if (part.supportPolicy !== 'decorative' && !part.decorative && !placement.decorative) {
           if (!exactTransform || placement.support) {
             const support = placement.support ?? { type: 'ground' }
@@ -502,6 +740,7 @@ export function resolveAssembly(assembly, partMetadata) {
           for (const prior of resolved) {
             if (prior.part.decorative || prior.part.supportPolicy === 'decorative' || prior.placement.decorative) continue
             for (const message of [
+              ...checkTubePathInterference(item, prior),
               ...checkTubeOpeningAlignment(item, prior),
               ...checkTubeOpeningAlignment(prior, item),
               ...checkTubeStraightPenetration(item, prior),

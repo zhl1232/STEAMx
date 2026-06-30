@@ -35,8 +35,8 @@ Use exact `transform` or `ldrawLine` only for special decorative or non-grid ele
 ### 45° ball tubes (`31195.dat`)
 
 - Read `tubeJoint.chainLocal` in `part-metadata.json` when chaining elbows; do not guess stud-grid orientations.
-- Straight `31452.dat` runs along local +Z. At the `-Z` end of a horizontal run, the first elbow usually starts with `rotZ(-90deg) * rotY(180deg)` (mirror of the `+Z`-end `rotZ(+90deg)`) so the first bend goes downward; for a 4-piece downward tail, chain std `chainLocal` for elbows 1–2 then mirrored `chainLocal` for elbows 3–4.
-- Elbow chains still require human review against the instruction image. The validator checks straight-tube penetration and tube-vs-structure coarse overlap, but not elbow aim.
+- Straight `31452.dat` runs along local +Z. In the long-neck dinosaur tail, the `-Z` end of the horizontal run uses `rotZ(+90deg) * rotY(180deg)` so local +Z connects to the straight tube `start` port and the first 45-degree elbow bends downward (+Y) and outward (-Z).
+- Elbow chains still require review against the instruction image. Add `tubeChecks` to exact-transform placements so the validator can enforce adjacent port connections and direction-sensitive bends from `tubePorts`.
 
 ## Validation
 
@@ -46,3 +46,4 @@ Treat validation failures as modeling errors unless a part explicitly has `suppo
 - A part supported by other placements must have its bottom connection plane aligned with the supporters' top plane.
 - Support coverage defaults to 20% of the supported footprint unless the part metadata overrides it.
 - Decorative parts are ignored for support and collision unless metadata says otherwise.
+- Tube parts with `tubePath`/`tubePorts` are checked for path interference, aligned port connections, and any placement-level `tubeChecks`.

@@ -46,6 +46,7 @@ Use this JSON as the human-review checkpoint between image analysis and LDraw ge
 - `sourceStep`: original instruction step/page number.
 - `assumptions`: text list for uncertain hidden structure, substitutes, or manual choices.
 - `needsReview`: set true when confidence is low or hidden structure is inferred.
+- `tubeChecks`: optional tube-specific validation checks for placements whose part metadata defines `tubePorts`.
 
 ## Supported Anchors
 
@@ -65,9 +66,39 @@ Use this JSON as the human-review checkpoint between image analysis and LDraw ge
 
 Do not encode layer numbers as final truth. If the image says "put this brick on p001", use support IDs and let metadata calculate Y from connection planes.
 
+## Tube Checks
+
+Use `tubeChecks` for tube parts when the instruction image requires a specific connection or bend direction. The validator resolves ports from `part-metadata.json` in world coordinates; do not hard-code final coordinates in the check.
+
+```json
+{
+  "type": "portConnection",
+  "portId": "inlet",
+  "targetPlacementId": "p024",
+  "targetPortId": "start",
+  "label": "tail elbow must connect to the straight tube -Z end"
+}
+```
+
+`portConnection` checks that the named port center is close to a previously placed tube port and that the two outward directions face each other. Optional `toleranceLdu` and `alignmentDotMax` override the part metadata tolerances.
+
+```json
+{
+  "type": "portDelta",
+  "fromPortId": "inlet",
+  "toPortId": "outlet",
+  "label": "tail elbow must bend outward and downward",
+  "min": { "y": 20 },
+  "max": { "z": -40 }
+}
+```
+
+`portDelta` checks the world-space delta from one port center to another. Remember LDraw +Y points downward, so a downward bend has a positive `y` delta.
+
 ## Review Checklist
 
 - Every part exists in `part-metadata.json`.
+- Tube chains with exact `ldrawLine` transforms declare expected `tubeChecks` for adjacent port connections and direction-sensitive bends.
 - Every non-ground part has support IDs unless it uses exact `originLdu` for a manual part.
 - Every low-confidence or hidden placement has `assumptions` and `needsReview`.
 - Step order matches the instruction images and final `.ldr` `0 STEP` order.

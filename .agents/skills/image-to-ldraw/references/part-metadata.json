@@ -169,6 +169,31 @@
       "collisionVolumes": [
         { "xMin": -80, "xMax": 80, "yMin": -80, "yMax": 80, "zMin": -13, "zMax": 120 }
       ],
+      "tubePath": {
+        "type": "polyline",
+        "points": [
+          { "x": 0, "y": 0, "z": 0 },
+          { "x": -9.134, "y": 0, "z": 45.922 },
+          { "x": -35.148, "y": 0, "z": 84.852 }
+        ],
+        "outerRadiusLdu": 66
+      },
+      "tubePorts": [
+        {
+          "id": "inlet",
+          "center": { "x": 0, "y": 0, "z": 0 },
+          "outward": { "x": 0, "y": 0, "z": -1 },
+          "toleranceLdu": 4,
+          "alignmentDotMax": -0.95
+        },
+        {
+          "id": "outlet",
+          "center": { "x": -35.148, "y": 0, "z": 84.852 },
+          "outward": { "x": -0.707107, "y": 0, "z": 0.707107 },
+          "toleranceLdu": 4,
+          "alignmentDotMax": -0.95
+        }
+      ],
       "allowedOrientations": ["north", "east", "south", "west"],
       "supportPolicy": "manual",
       "collisionPolicy": "manual",
@@ -180,14 +205,14 @@
         },
         "chainLocal": {
           "translate": { "x": -35.147, "y": 0, "z": 84.853 },
-          "rotateYDeg": 45,
-          "notes": "Copied from official 31195.dat outlet flange; multiply on the right when chaining elbows."
+          "rotateYDeg": -45,
+          "notes": "Copied from official 31195.dat outlet flange transform; multiply on the right when chaining elbows."
         }
       },
       "notes": [
-        "Manual review required for tube-to-tube orientation.",
-        "Do not use named north/east/south/west for chained elbows; emit exact ldrawLine and verify against the instruction image.",
-        "At the -Z end of a straight 31452 run, start with rotZ(-90deg)*rotY(180deg) (mirror of the +Z-end rotZ(+90deg)) so the first elbow bends downward; for a 4-piece tail that must end lower, chain std chainLocal for the first two elbows then mirrored chainLocal for the last two."
+        "Do not use named north/east/south/west for chained elbows; emit exact ldrawLine and verify with tubeChecks against the instruction image.",
+        "At the -Z end of the long-neck dinosaur straight 31452 run, rotZ(+90deg)*rotY(180deg) connects local +Z to the straight start port and bends the first elbow downward (+Y) and outward (-Z).",
+        "For a 4-piece tail that must stay physically connected, chain the official chainLocal between every adjacent elbow and declare portConnection checks between adjacent elbows."
       ]
     },
     "31452.dat": {
@@ -211,6 +236,22 @@
         "end": { "x": 0, "y": 0, "z": 120 },
         "outerRadiusLdu": 66
       },
+      "tubePorts": [
+        {
+          "id": "start",
+          "center": { "x": 0, "y": 0, "z": 0 },
+          "outward": { "x": 0, "y": 0, "z": -1 },
+          "toleranceLdu": 4,
+          "alignmentDotMax": -0.95
+        },
+        {
+          "id": "end",
+          "center": { "x": 0, "y": 0, "z": 120 },
+          "outward": { "x": 0, "y": 0, "z": 1 },
+          "toleranceLdu": 4,
+          "alignmentDotMax": -0.95
+        }
+      ],
       "allowedOrientations": ["north", "east", "south", "west"],
       "supportPolicy": "manual",
       "collisionPolicy": "manual",

@@ -27,7 +27,7 @@ Use this skill to turn instruction images into reliable, reviewable LDraw source
 - Use `originLdu` only for unusual parts that cannot be expressed by a regular stud-grid anchor.
 - If a visual model is unsure, set lower `confidence`, add `assumptions`, and leave `needsReview: true`.
 - Do not use raw web search for part facts. Use existing project MPDs/custom parts first; `resolve-parts.mjs` falls back only to the fixed LDraw mirror and writes a local cache.
-- `validate-assembly.mjs` always checks straight-tube (`31452.dat`) alignment through arch openings and rejects elbows that re-enter a straight run interior. Exact `ldrawLine` pairs skip coarse brick-brick boxes and arch-frame boxes, but **wrong elbow direction can still pass** if it does not hit those checks—review 31195 chains against the step image.
+- `validate-assembly.mjs` checks straight-tube (`31452.dat`) alignment through arch openings, tube path interference, and tube port connections from `part-metadata.json`. For `31195.dat` elbow chains, add placement-level `tubeChecks` when the instruction step requires a specific bend direction or adjacent port connection.
 
 ## References
 
