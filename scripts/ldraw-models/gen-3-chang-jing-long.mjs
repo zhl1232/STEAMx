@@ -229,7 +229,19 @@ function ldrawLine(color, matrix, part) {
   return `1 ${color} ${matrix.toLDrawString()} ${part}`
 }
 
-function registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks }) {
+// validate-assembly.mjs (image-to-ldraw skill) requires every exact-transform (ldrawLine)
+// placement to declare placement.support explicitly. This model predates that pipeline: it
+// authors absolute Matrix4 transforms directly and already runs its own geometric self-check
+// (see the "几何自检" support-area + overlap scan at the bottom of this file, gated by
+// process.exit(2) before any output is written) instead of validate-assembly.mjs's anchor/
+// support-id graph. Every placement documents that with a manual support exemption so the
+// exemption is visible in validate-assembly.mjs's report instead of silently bypassing it.
+const SELF_CHECKED_SUPPORT = {
+  type: 'manual',
+  reason: "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph.",
+}
+
+function registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks, acceptedOverlaps, decorative }) {
   const meta = PART_META[part] || { name: part, ldrawStatus: 'Unknown', confidence: 0.5 }
   const e = matrix.elements
   const placement = {
@@ -252,12 +264,20 @@ function registerPlacement({ color, part, matrix, line, confidence, note, substi
       Number(e[8].toFixed(6)), Number(e[9].toFixed(6)), Number(e[10].toFixed(6))
     ],
     connection: connection || 'Stud/tube connection inferred from the instruction image and Duplo grid.',
-    ldrawLine: line
+    ldrawLine: line,
+    support: SELF_CHECKED_SUPPORT
   }
+  // `decorative` used to only feed this script's own bricks[] self-check (below) and was silently
+  // dropped from the exported placement, so validate-assembly.mjs always ran full structural checks
+  // even for pieces the author had explicitly flagged as cosmetic (e.g. the loosely-seated roof-ridge
+  // caps in steps 10-11, which are intentionally placed on/through each other). Propagate it so both
+  // validators agree.
+  if (decorative) placement.decorative = true
   if (meta.note) placement.note = meta.note
   if (note) placement.note = placement.note ? `${placement.note} ${note}` : note
   if (substituteFor) placement.substituteFor = substituteFor
   if (tubeChecks) placement.tubeChecks = tubeChecks
+  if (acceptedOverlaps) placement.acceptedOverlaps = acceptedOverlaps
   placements.push(placement)
   if (currentStep) currentStep.additions.push(placement)
   return placement
@@ -279,7 +299,8 @@ function place({
   note,
   substituteFor,
   connection,
-  tubeChecks
+  tubeChecks,
+  acceptedOverlaps
 }) {
   let mat = Matrix4.makeTranslation(cx, originY, cz);
   if (rotY) mat = Matrix4.multiply(mat, Matrix4.makeRotationY(rotY * Math.PI / 180));
@@ -287,7 +308,7 @@ function place({
   
   const line = ldrawLine(color, mat, part)
   current.push(line);
-  const placement = registerPlacement({ color, part, matrix: mat, line, confidence, note, substituteFor, connection, tubeChecks })
+  const placement = registerPlacement({ color, part, matrix: mat, line, confidence, note, substituteFor, connection, tubeChecks, acceptedOverlaps, decorative })
 
   const isRotated = Math.round(rotY / 90) % 2 !== 0;
   const actualSizeX = isRotated ? sizeZ : sizeX;
@@ -317,11 +338,12 @@ function placeMatrix({
   note,
   substituteFor,
   connection,
-  tubeChecks
+  tubeChecks,
+  acceptedOverlaps
 }) {
   const line = ldrawLine(color, matrix, part)
   current.push(line);
-  const placement = registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks })
+  const placement = registerPlacement({ color, part, matrix, line, confidence, note, substituteFor, connection, tubeChecks, acceptedOverlaps })
   const e = matrix.elements;
   const cx = e[3];
   const cz = e[11];
@@ -546,6 +568,7 @@ duplo42029({
   cx: 0,
   cz: 200,
   originY: bodyY(-496),
+  rotY: 180,
   decorative: true,
   confidence: 0.85,
   note: 'Element ID corrected to 42029; geometry is a local LDraw approximation.'
@@ -805,7 +828,10 @@ function buildAssemblyTree() {
         tubeChecks: item.tubeChecks,
         substituteFor: item.substituteFor,
         note: item.note,
-        ldrawLine: item.ldrawLine
+        ldrawLine: item.ldrawLine,
+        support: item.support,
+        acceptedOverlaps: item.acceptedOverlaps,
+        decorative: item.decorative
       }))
     }))
   }

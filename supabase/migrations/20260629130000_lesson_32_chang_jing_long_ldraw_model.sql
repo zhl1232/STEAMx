@@ -22,7 +22,7 @@ SET content = jsonb_set(
       {"title":"立起拱门支架","description":"底板前后两端立起黄色拱门支架墙，为后面的滑梯管道留好圆孔。","partIds":[],"cameraHint":"front"},
       {"title":"拼滑梯管道","description":"四节直滑梯管相接，从前后两个黄色拱门的圆孔中穿过。","partIds":[],"cameraHint":"isometric"},
       {"title":"搭建恐龙尾巴","description":"左端滑梯向外、向下弯曲，一直接到地面，形成尾巴滑梯。","partIds":[],"cameraHint":"side"},
-      {"title":"搭建滑梯入口","description":"右端安装红色平台板，并接上一节弯管作为入口滑梯。","partIds":[],"cameraHint":"front"},
+      {"title":"搭建滑梯入口","description":"右端安装红色平台板，并接上一节弯管作为入口滑梯。","partIds":[],"cameraHint":"back"},
       {"title":"拼恐龙脖子","description":"垂直向上拼接三节直管和两节弯管，搭出高耸的脖子滑梯。","partIds":[],"cameraHint":"isometric"},
       {"title":"搭建恐龙头部","description":"脖子顶端用黄色积木和红色嘴巴拼头部，装上带眼睛的印刷砖。","partIds":[],"cameraHint":"front"},
       {"title":"砌起身体墙壁","description":"直管道两侧砌起黄色与绿色 2×4 墙壁，围出恐龙身体。","partIds":[],"cameraHint":"isometric"},

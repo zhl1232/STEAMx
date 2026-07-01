@@ -223,6 +223,7 @@ function applyCameraHint(
 ) {
     const positions = {
         front: new THREE.Vector3(0, 4, 9),
+        back: new THREE.Vector3(0, 4, -9),
         side: new THREE.Vector3(9, 4, 0),
         top: new THREE.Vector3(0, 10, 0.01),
         isometric: new THREE.Vector3(7, 5, 8),

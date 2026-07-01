@@ -157,7 +157,7 @@ export interface Building3DStep {
   description: string
   partIds: string[]
   highlightNodeIds?: string[]
-  cameraHint?: 'front' | 'side' | 'top' | 'isometric'
+  cameraHint?: 'front' | 'back' | 'side' | 'top' | 'isometric'
 }
 
 export interface Building3DLessonContent {
