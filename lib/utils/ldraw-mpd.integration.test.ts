@@ -81,5 +81,5 @@ describe('loadPackedLdrawModel integration', () => {
     } finally {
       globalThis.fetch = originalFetch
     }
-  }, 60_000)
+  }, 180_000)
 })

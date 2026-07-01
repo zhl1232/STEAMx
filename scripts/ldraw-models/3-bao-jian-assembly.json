@@ -31,7 +31,7 @@
       "placements": [
         {
           "id": "s1_blade_1_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -45,14 +45,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -480 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -480 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s1_blade_1_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -66,14 +70,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 -520 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 -520 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s1_blade_1_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -87,14 +95,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -480 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -480 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s1_blade_2_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -108,14 +120,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -320 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -320 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s1_blade_2_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -129,14 +145,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 -360 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 -360 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s1_blade_2_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -150,10 +170,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -320 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -320 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 1,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -164,7 +188,7 @@
       "placements": [
         {
           "id": "s2_blade_1_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -178,14 +202,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -160 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -160 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s2_blade_1_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -199,14 +227,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 -200 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 -200 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s2_blade_1_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -220,14 +252,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 -160 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 -160 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s2_blade_2_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -241,14 +277,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 0 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 0 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s2_blade_2_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -262,14 +302,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 -40 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 -40 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s2_blade_2_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -283,10 +327,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 0 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 0 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 2,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -297,7 +345,7 @@
       "placements": [
         {
           "id": "s3_blade_1_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -311,14 +359,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 160 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 160 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s3_blade_1_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -332,14 +384,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 120 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 120 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s3_blade_1_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -353,14 +409,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 160 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 160 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s3_blade_2_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -374,14 +434,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 320 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 320 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s3_blade_2_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -395,14 +459,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 280 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 280 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s3_blade_2_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -416,10 +484,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 320 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 320 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 3,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -430,7 +502,7 @@
       "placements": [
         {
           "id": "s4_blade_1_blue_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -444,14 +516,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 480 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 480 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 4,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s4_blade_1_yellow_core",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 14,
           "colorName": "Yellow",
           "orientation": [
@@ -465,14 +541,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 14 440 0 0 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 14 440 0 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 4,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s4_blade_1_blue_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -486,10 +566,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 480 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 480 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 4,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -500,7 +584,7 @@
       "placements": [
         {
           "id": "s5_guard_top_center",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -514,14 +598,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 -80 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 -80 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 5,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s5_guard_bottom_center",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -535,10 +623,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 80 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 80 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 5,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -549,7 +641,7 @@
       "placements": [
         {
           "id": "s6_guard_top_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -563,14 +655,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 -120 48 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 -120 24 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 6,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s6_guard_bottom_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -584,14 +680,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 120 48 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 120 24 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 6,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s6_guard_top_extension",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -605,14 +705,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 -120 -48 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 -120 -24 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 6,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s6_guard_bottom_extension",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -626,10 +730,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 560 120 -48 0 0 -1 -1 0 0 0 1 0 3011.dat",
+          "ldrawLine": "1 1 560 120 -24 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 6,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -640,7 +748,7 @@
       "placements": [
         {
           "id": "s7_handle_16_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -654,14 +762,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 640 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 640 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s7_handle_16_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -675,14 +787,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 640 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 640 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s7_handle_20_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -696,14 +812,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 800 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 800 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s7_handle_20_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -717,14 +837,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 800 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 800 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s7_handle_24_front",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -738,14 +862,18 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 960 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 960 0 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s7_handle_24_back",
-          "partId": "3011.dat",
+          "partId": "40666.dat",
           "colorCode": 1,
           "colorName": "Blue",
           "orientation": [
@@ -759,10 +887,14 @@
             1,
             0
           ],
-          "ldrawLine": "1 1 960 0 48 1 0 0 0 0 -1 0 1 0 3011.dat",
+          "ldrawLine": "1 1 960 0 24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 7,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -790,7 +922,11 @@
           "ldrawLine": "1 14 -560 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 8,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s8_stand_red_front",
@@ -811,7 +947,11 @@
           "ldrawLine": "1 4 -480 640 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 8,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s8_stand_red_back",
@@ -832,7 +972,11 @@
           "ldrawLine": "1 4 -480 640 48 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 8,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -860,7 +1004,11 @@
           "ldrawLine": "1 14 -400 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_yellow_-6",
@@ -881,7 +1029,11 @@
           "ldrawLine": "1 14 -240 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_yellow_-2",
@@ -902,7 +1054,11 @@
           "ldrawLine": "1 14 -80 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_yellow_2",
@@ -923,7 +1079,11 @@
           "ldrawLine": "1 14 80 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_yellow_6",
@@ -944,7 +1104,11 @@
           "ldrawLine": "1 14 240 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_-8_front",
@@ -965,7 +1129,11 @@
           "ldrawLine": "1 4 -320 640 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_-8_back",
@@ -986,7 +1154,11 @@
           "ldrawLine": "1 4 -320 640 48 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_-4_front",
@@ -1007,7 +1179,11 @@
           "ldrawLine": "1 4 -160 640 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_-4_back",
@@ -1028,7 +1204,11 @@
           "ldrawLine": "1 4 -160 640 48 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_0_front",
@@ -1049,7 +1229,11 @@
           "ldrawLine": "1 4 0 640 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_0_back",
@@ -1070,7 +1254,11 @@
           "ldrawLine": "1 4 0 640 48 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_4_front",
@@ -1091,7 +1279,11 @@
           "ldrawLine": "1 4 160 640 -24 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s9_stand_red_4_back",
@@ -1112,7 +1304,11 @@
           "ldrawLine": "1 4 160 640 48 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 9,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -1140,7 +1336,11 @@
           "ldrawLine": "1 14 -560 160 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_left_support_8",
@@ -1161,7 +1361,11 @@
           "ldrawLine": "1 14 -560 320 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_left_support_12",
@@ -1182,7 +1386,11 @@
           "ldrawLine": "1 14 -560 480 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_left_support_16",
@@ -1203,7 +1411,17 @@
           "ldrawLine": "1 14 -560 640 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s8_stand_yellow_start",
+              "reason": "Confirmed in instructions.pdf: interlocks with s8_stand_yellow_start at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s10_left_support_20",
@@ -1224,7 +1442,11 @@
           "ldrawLine": "1 14 -560 800 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_left_cap",
@@ -1245,7 +1467,17 @@
           "ldrawLine": "1 14 -560 880 0 1 0 0 0 0 -1 0 1 0 3437.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_left_support_20",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_left_support_20 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s10_right_support_4",
@@ -1266,7 +1498,11 @@
           "ldrawLine": "1 14 400 160 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_right_support_8",
@@ -1287,7 +1523,11 @@
           "ldrawLine": "1 14 400 320 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_right_support_12",
@@ -1308,7 +1548,11 @@
           "ldrawLine": "1 14 400 480 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_right_support_16",
@@ -1329,7 +1573,11 @@
           "ldrawLine": "1 14 400 640 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_right_support_20",
@@ -1350,7 +1598,11 @@
           "ldrawLine": "1 14 400 800 0 0 0 -1 -1 0 0 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s10_right_cap",
@@ -1371,7 +1623,17 @@
           "ldrawLine": "1 14 400 880 0 1 0 0 0 0 -1 0 1 0 3437.dat",
           "confidence": 0.92,
           "sourceStep": 10,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_right_support_20",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_20 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         }
       ]
     },
@@ -1399,7 +1661,21 @@
           "ldrawLine": "1 4 -640 560 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 11,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_left_support_12",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_left_support_12 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            },
+            {
+              "id": "s10_left_support_16",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_left_support_16 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s11_left_plate_bottom",
@@ -1420,7 +1696,21 @@
           "ldrawLine": "1 4 -640 720 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 11,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_left_support_16",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_left_support_16 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            },
+            {
+              "id": "s10_left_support_20",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_left_support_20 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s11_left_brick_outer",
@@ -1441,7 +1731,11 @@
           "ldrawLine": "1 4 -720 640 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 11,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s11_left_brick_inner",
@@ -1462,7 +1756,11 @@
           "ldrawLine": "1 4 -400 800 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 11,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -1490,7 +1788,21 @@
           "ldrawLine": "1 4 320 560 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 12,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_right_support_12",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_12 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            },
+            {
+              "id": "s10_right_support_16",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_16 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s12_right_plate_bottom",
@@ -1511,7 +1823,21 @@
           "ldrawLine": "1 4 320 720 0 1 0 0 0 0 -1 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 12,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_right_support_16",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_16 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            },
+            {
+              "id": "s10_right_support_20",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_20 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s12_right_brick_outer",
@@ -1532,7 +1858,17 @@
           "ldrawLine": "1 4 480 800 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 12,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          },
+          "acceptedOverlaps": [
+            {
+              "id": "s10_right_support_20",
+              "reason": "Confirmed in instructions.pdf: interlocks with s10_right_support_20 at a shared stud; coarse collision box reports the intended stud connection as a full overlap."
+            }
+          ]
         },
         {
           "id": "s12_right_brick_inner",
@@ -1553,7 +1889,11 @@
           "ldrawLine": "1 4 160 800 0 1 0 0 0 0 -1 0 1 0 3011.dat",
           "confidence": 0.92,
           "sourceStep": 12,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },
@@ -1581,7 +1921,11 @@
           "ldrawLine": "1 4 -640 240 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_left_outer_10",
@@ -1602,7 +1946,11 @@
           "ldrawLine": "1 4 -640 400 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_left_inner_6",
@@ -1623,7 +1971,11 @@
           "ldrawLine": "1 4 -480 240 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_left_inner_10",
@@ -1644,7 +1996,11 @@
           "ldrawLine": "1 4 -480 400 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_right_outer_6",
@@ -1665,7 +2021,11 @@
           "ldrawLine": "1 4 320 240 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_right_outer_10",
@@ -1686,7 +2046,11 @@
           "ldrawLine": "1 4 320 400 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_right_inner_6",
@@ -1707,7 +2071,11 @@
           "ldrawLine": "1 4 480 240 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         },
         {
           "id": "s13_right_inner_10",
@@ -1728,7 +2096,11 @@
           "ldrawLine": "1 4 480 400 0 0 0 -1 -1 0 0 0 1 0 40666.dat",
           "confidence": 0.92,
           "sourceStep": 13,
-          "assumptions": []
+          "assumptions": [],
+          "support": {
+            "type": "manual",
+            "reason": "Side-built exact-transform placement on the shared u/v/depth stud grid, verified against instructions.pdf per-step images rather than a stacked top/bottom connection."
+          }
         }
       ]
     },

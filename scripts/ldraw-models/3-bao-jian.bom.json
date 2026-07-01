@@ -5,14 +5,6 @@
     {
       "partId": "3011.dat",
       "partName": "Duplo Brick 2 x 4",
-      "colorCode": 1,
-      "colorName": "Blue",
-      "quantity": 26,
-      "minConfidence": 0.92
-    },
-    {
-      "partId": "3011.dat",
-      "partName": "Duplo Brick 2 x 4",
       "colorCode": 4,
       "colorName": "Red",
       "quantity": 4,
@@ -23,7 +15,7 @@
       "partName": "Duplo Brick 2 x 4",
       "colorCode": 14,
       "colorName": "Yellow",
-      "quantity": 23,
+      "quantity": 16,
       "minConfidence": 0.92
     },
     {
@@ -37,9 +29,25 @@
     {
       "partId": "40666.dat",
       "partName": "Duplo Plate 2 x 4",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 26,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "40666.dat",
+      "partName": "Duplo Plate 2 x 4",
       "colorCode": 4,
       "colorName": "Red",
       "quantity": 22,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "40666.dat",
+      "partName": "Duplo Plate 2 x 4",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 7,
       "minConfidence": 0.92
     }
   ]

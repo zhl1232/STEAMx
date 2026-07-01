@@ -35,6 +35,8 @@ describe('getOptimizedImageSrc', () => {
   })
 
   it('adds a cache version for local generated project images', () => {
+    delete process.env[ASSETS_BASE_ENV_KEY]
+
     expect(getOptimizedImageSrc('/projects/generated/project-0142.webp', 'card')).toBe(
       '/projects/generated/project-0142.webp?v=20260522-tech-images',
     )

@@ -442,9 +442,31 @@ function shouldSkipCoarseCollision(item, prior) {
     (hasTubePath(item.part) || hasTubePorts(item.part)) &&
     (hasTubePath(prior.part) || hasTubePorts(prior.part))
   ) return true
-  // Exact ldrawLine bricks use coarse boxes only for gross placement; skip brick-brick pairs.
-  if (item.isExactTransform && prior.isExactTransform) return true
+  // NOTE: exact ldrawLine (`isExactTransform`) pairs are intentionally NOT skipped here.
+  // Historically this function also skipped every exact-exact pair outright, which meant
+  // side-built models (where nearly every placement uses ldrawLine) never got real collision
+  // checking. Use a placement-level `acceptedOverlaps` entry (see `findOverlapExemption`) or
+  // part-level `collisionPolicy: 'manual'` to document and accept a *specific* known overlap
+  // instead of disabling the check for the whole part class.
   return false
+}
+
+function normalizeOverlapExemptions(placement) {
+  return Array.isArray(placement?.acceptedOverlaps) ? placement.acceptedOverlaps : []
+}
+
+// Looks up a documented, reason-carrying exemption for a specific colliding pair. Either side of
+// the pair may declare the exemption. Throws if an entry references the other placement but omits
+// a reason, so silent/undocumented exemptions are impossible.
+function findOverlapExemption(placementA, placementB) {
+  for (const [owner, other] of [[placementA, placementB], [placementB, placementA]]) {
+    const entry = normalizeOverlapExemptions(owner).find((candidate) => candidate?.id === other.id)
+    if (!entry) continue
+    const reason = typeof entry.reason === 'string' ? entry.reason.trim() : ''
+    if (!reason) throw new Error(`${owner.id} acceptedOverlaps entry for ${other.id} requires a non-empty reason`)
+    return reason
+  }
+  return undefined
 }
 
 function checkTubeStraightPenetration(tubeItem, straightItem) {
@@ -696,47 +718,63 @@ export function resolveAssembly(assembly, partMetadata) {
         }
 
         if (part.supportPolicy !== 'decorative' && !part.decorative && !placement.decorative) {
-          if (!exactTransform || placement.support) {
-            const support = placement.support ?? { type: 'ground' }
+          // Exact ldrawLine transforms used to silently skip this whole block whenever
+          // placement.support was omitted (the common case for side-built models), so they never
+          // got any structural validation at all. Now every non-decorative placement must declare
+          // support explicitly once it uses an exact transform; anchor-based placements keep the
+          // old ground-plane default for backward compatibility.
+          if (!placement.support && exactTransform) {
+            throw new Error(
+              `${placement.id} ${placement.partId} uses an exact transform (ldrawLine) and must declare placement.support: `
+              + `{type:'ground'}, {type:'placements', ids:[...]}, or {type:'manual', reason:'...'}`
+            )
+          }
+          const support = placement.support ?? { type: 'ground' }
+          if (support.type === 'manual') {
+            const reason = typeof support.reason === 'string' ? support.reason.trim() : ''
+            if (!reason) throw new Error(`${placement.id} support.type 'manual' requires a non-empty reason`)
+            warnings.push(`${placement.id} ${placement.partId} support manually accepted: ${reason}`)
+          } else if (support.type === 'ground' || !support.type) {
+            const top = bounds.topSurface
+            if (top && Math.abs(top.yMin) > EPS) {
+              const message = `${placement.id} ${placement.partId} is not on the ground plane`
+              if (part.supportPolicy === 'manual') warnings.push(`${message}; manual part accepted`)
+              else throw new Error(message)
+            }
+          } else if (support.type === 'placements') {
             const supportIds = getSupportIds(support)
-            if (support.type === 'ground' || !support.type) {
-              const top = bounds.topSurface
-              if (top && Math.abs(top.yMin) > EPS) {
-                const message = `${placement.id} ${placement.partId} is not on the ground plane`
-                if (part.supportPolicy === 'manual') warnings.push(`${message}; manual part accepted`)
-                else throw new Error(message)
+            if (supportIds.length === 0) throw new Error('support.ids is required for placement support')
+            const bottom = bounds.bottomSurface
+            const footprintArea = surfaceArea(bottom)
+            let coveredArea = 0
+            let expectedTopY
+            for (const id of supportIds) {
+              const supportItem = resolvedById.get(id)
+              if (!supportItem?.bounds.topSurface || !bottom) continue
+              expectedTopY ??= supportItem.bounds.topSurface.yMin
+              if (Math.abs(supportItem.bounds.topSurface.yMin - expectedTopY) > EPS) {
+                throw new Error(`${placement.id} support placements are not level`)
               }
+              coveredArea += overlapArea(bottom, supportItem.bounds.topSurface)
             }
-            if (support.type === 'placements') {
-              const bottom = bounds.bottomSurface
-              const footprintArea = surfaceArea(bottom)
-              let coveredArea = 0
-              let expectedTopY
-              for (const id of supportIds) {
-                const supportItem = resolvedById.get(id)
-                if (!supportItem?.bounds.topSurface || !bottom) continue
-                expectedTopY ??= supportItem.bounds.topSurface.yMin
-                if (Math.abs(supportItem.bounds.topSurface.yMin - expectedTopY) > EPS) {
-                  throw new Error(`${placement.id} support placements are not level`)
-                }
-                coveredArea += overlapArea(bottom, supportItem.bounds.topSurface)
-              }
-              if (bottom && typeof expectedTopY === 'number' && Math.abs(bottom.yMin - expectedTopY) > EPS) {
-                const message = `${placement.id} ${placement.partId} bottom plane is not aligned to support top plane`
-                if (part.supportPolicy === 'manual') warnings.push(`${message}; manual part accepted`)
-                else throw new Error(message)
-              }
-              const required = footprintArea * (part.supportCoverage ?? partMetadata.metadata.grid?.defaultSupportCoverage ?? 0.2)
-              if (part.supportPolicy === 'manual') {
-                if (coveredArea + EPS < required) {
-                  warnings.push(`${placement.id} ${placement.partId} has low support coverage; manual part accepted`)
-                }
-              } else if (coveredArea + EPS < required) {
-                throw new Error(`${placement.id} ${placement.partId} support coverage ${coveredArea.toFixed(2)} < ${required.toFixed(2)}`)
-              }
+            if (bottom && typeof expectedTopY === 'number' && Math.abs(bottom.yMin - expectedTopY) > EPS) {
+              const message = `${placement.id} ${placement.partId} bottom plane is not aligned to support top plane`
+              if (part.supportPolicy === 'manual') warnings.push(`${message}; manual part accepted`)
+              else throw new Error(message)
             }
+            const required = footprintArea * (part.supportCoverage ?? partMetadata.metadata.grid?.defaultSupportCoverage ?? 0.2)
+            if (part.supportPolicy === 'manual') {
+              if (coveredArea + EPS < required) {
+                warnings.push(`${placement.id} ${placement.partId} has low support coverage; manual part accepted`)
+              }
+            } else if (coveredArea + EPS < required) {
+              throw new Error(`${placement.id} ${placement.partId} support coverage ${coveredArea.toFixed(2)} < ${required.toFixed(2)}`)
+            }
+          } else {
+            throw new Error(`${placement.id} has unknown support.type: ${support.type}`)
           }
 
+          const collisionErrors = []
           for (const prior of resolved) {
             if (prior.part.decorative || prior.part.supportPolicy === 'decorative' || prior.placement.decorative) continue
             for (const message of [
@@ -752,16 +790,23 @@ export function resolveAssembly(assembly, partMetadata) {
             for (const volume of bounds.collisionVolumes) {
               for (const priorVolume of prior.bounds.collisionVolumes) {
                 if (volumeOverlaps(volume, priorVolume)) {
+                  const overlapReason = findOverlapExemption(placement, prior.placement)
                   const manualOverlap = part.collisionPolicy === 'manual' || prior.part.collisionPolicy === 'manual'
-                  if (manualOverlap) {
+                  if (overlapReason) {
+                    warnings.push(`${placement.id} overlaps ${prior.placement.id}; manually accepted: ${overlapReason}`)
+                  } else if (manualOverlap) {
                     warnings.push(`${placement.id} overlaps ${prior.placement.id}; manual collision accepted`)
                   } else {
-                    throw new Error(`${placement.id} overlaps ${prior.placement.id}`)
+                    // Collect rather than throw immediately: a single placement can overlap several
+                    // priors at once (e.g. a plate spanning two support columns), and fail-fast would
+                    // hide every overlap after the first, forcing a slow one-at-a-time discovery loop.
+                    collisionErrors.push(`${placement.id} overlaps ${prior.placement.id}`)
                   }
                 }
               }
             }
           }
+          if (collisionErrors.length > 0) throw new Error(collisionErrors.join('; '))
         }
 
         if (placement.needsReview) warnings.push(`${placement.id} is marked needsReview`)

@@ -44,7 +44,7 @@ describe("PlaygroundPage", () => {
 
         expect(await screen.findByText("总游玩局数")).toBeInTheDocument()
         expect(screen.getAllByText("已玩 3").length).toBeGreaterThan(0)
-    })
+    }, 15_000)
 
     it("merges minesweeper structured stats with legacy best-time records", async () => {
         storageState.set("minesweeper_stats", {

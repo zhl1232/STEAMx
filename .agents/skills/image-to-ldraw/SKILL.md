@@ -25,6 +25,9 @@ Use this skill to turn instruction images into reliable, reviewable LDraw source
 - Use LDraw coordinates from `references/duplo-ldraw-conventions.md`: +Y points downward; stacking upward makes Y more negative.
 - Express vertical placement through support relationships (`ground` or `placements`) wherever possible. The scripts compute Y by aligning the current part bottom connection plane to the supporter top connection plane.
 - Use `originLdu` only for unusual parts that cannot be expressed by a regular stud-grid anchor.
+- For a picture drawn from a single fixed side/isometric angle (not a ground-up stack — a sword, a silhouette), use the side-built `u`/`v`/`depth` `ldrawLine` pattern in `references/duplo-ldraw-conventions.md` ("Side-Built Models") instead of forcing it into `anchor`/`support`. Derive any front/center/back sandwich spacing from `heightLdu`, never a literal `±48`/`±24` — that exact mismatch previously made a sword model's blade render as thick bricks instead of thin plates.
+- Every `ldrawLine` (exact-transform) placement must declare `support` explicitly, including `{type:"manual", reason:"..."}` for side-built grids with no single stacking plane. `validate-assembly.mjs` errors on a missing `support` and on any collision not covered by the placement's `acceptedOverlaps` or the part's `collisionPolicy` — exact transforms are validated, not skipped.
+- Before trusting a color/step as "brick" vs "plate" (or any two similar-looking parts), measure it against the instruction image per `references/thickness-review.md` rather than assuming the previous step's part carries over.
 - If a visual model is unsure, set lower `confidence`, add `assumptions`, and leave `needsReview: true`.
 - Do not use raw web search for part facts. Use existing project MPDs/custom parts first; `resolve-parts.mjs` falls back only to the fixed LDraw mirror and writes a local cache.
 - `validate-assembly.mjs` checks straight-tube (`31452.dat`) alignment through arch openings, tube path interference, and tube port connections from `part-metadata.json`. For `31195.dat` elbow chains, add placement-level `tubeChecks` when the instruction step requires a specific bend direction or adjacent port connection.
@@ -32,7 +35,8 @@ Use this skill to turn instruction images into reliable, reviewable LDraw source
 ## References
 
 - Read `references/assembly-json.md` when drafting or reviewing `assembly.json`.
-- Read `references/duplo-ldraw-conventions.md` when changing coordinate, orientation, or support behavior.
+- Read `references/duplo-ldraw-conventions.md` when changing coordinate, orientation, or support behavior, and especially before building a side-built (non-ground-up) model.
+- Read `references/thickness-review.md` before finalizing part choices and before final visual review — it covers measuring brick-vs-plate thickness from instruction images and the step-by-step-render comparison pass.
 - Edit `references/part-metadata.json` before using a new part. The scripts intentionally fail on unknown or metadata-less parts.
 
 ## Scripts
@@ -41,3 +45,4 @@ Use this skill to turn instruction images into reliable, reviewable LDraw source
 - `scripts/validate-assembly.mjs`: validate schema, part metadata, support, collision, and generated LDraw transforms.
 - `scripts/assembly-to-ldraw.mjs`: emit `.ldr`, `.bom.json`, and `.report.json` from a reviewed assembly.
 - `scripts/ldraw-common.mjs`: shared geometry and validation module used by the command scripts.
+- `scripts/measure-thickness.mjs`: classify a measured instruction-icon front face as brick-thick or plate-thin (see `references/thickness-review.md`).
