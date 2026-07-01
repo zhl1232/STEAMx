@@ -14,7 +14,7 @@ const EXPECTED_STEP_COUNTS: Record<string, number> = {
   '3-bao-jian.mpd': 14,
   '3-chang-jing-long.mpd': 12,
   '3-cheng-bao.mpd': 19,
-  '3-cheng-qiang.mpd': 9,
+  '3-cheng-qiang.mpd': 11,
   'duplo-car.mpd': 3,
   'eiffel-tower.mpd': 13,
   'preschool-bridge.mpd': 4,
