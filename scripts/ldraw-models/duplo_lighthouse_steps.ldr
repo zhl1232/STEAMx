@@ -1,0 +1,159 @@
+0 FILE duplo_lighthouse_steps.ldr
+0 DUPLO Lighthouse - 17-step model reconstructed from the supplied PDF
+0 Name: duplo_lighthouse_steps.ldr
+0 Author: OpenAI
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 !LDRAW_ORG Model
+0 // Self-contained MPD saved with .ldr extension.
+0 // Uses only DUPLO parts: 4268, 31021p01, 3437, 3011, 2206, 51262, 6474, 63710.
+0 // Placement is reconstructed from perspective instruction images; hidden connections are approximated.
+0 // STEP 1 - green 24 x 24 baseplate and eight striped DUPLO fences
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 15 -120 -96 -280 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 -96 280 -1 0 0 0 1 0 0 0 -1 31021p01.dat
+1 15 120 -96 -280 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -96 280 -1 0 0 0 1 0 0 0 -1 31021p01.dat
+1 15 -280 -96 -120 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 280 -96 -120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 -280 -96 120 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 280 -96 120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+0 STEP
+0 // STEP 2 - red lower support frame: 8 x 2 x 2 and 4 x 2 x 4
+1 4 -120 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 3 - red 8 x 8 ring: 6 x DUPLO Brick 2 x 4
+1 4 -80 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 4 - two red DUPLO window modules with white four-pane windows
+1 16 -80 -288 -200 1 0 0 0 1 0 0 0 1 duplo_window_unit.ldr
+1 16 80 -288 200 -1 0 0 0 1 0 0 0 -1 duplo_window_unit.ldr
+0 STEP
+0 // STEP 5 - yellow body walls: 12 x DUPLO Brick 2 x 4, two complete ring courses
+1 14 -80 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 6 - yellow stepped upper body: 8 x DUPLO Brick 2 x 4, two 6 x 6 ring courses
+1 14 -40 -336 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -336 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -384 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -384 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -384 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -384 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 7 - first lantern-neck layer: 4 blue 2 x 2 and 3 yellow 2 x 4
+1 14 0 -432 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -432 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 8 - second lantern-neck layer: 4 blue 2 x 2 and 3 yellow 2 x 4
+1 14 0 -480 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -480 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -480 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -480 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -480 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - third lantern-neck layer: 4 blue 2 x 2 and 3 yellow 2 x 4
+1 14 0 -528 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -528 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -528 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -528 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -528 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 10 - yellow 8 x 8 upper platform ring: 6 x DUPLO Brick 2 x 4
+1 14 -80 -576 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -576 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -576 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -576 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 11 - light bluish gray DUPLO Plate 8 x 8
+1 71 0 -600 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // STEP 12 - orange lantern-floor ring: 6 x DUPLO Brick 2 x 4
+1 25 -80 -648 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 80 -648 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -80 -648 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 80 -648 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -120 -648 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 120 -648 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 13 - DUPLO figure in lantern room
+1 4 0 -650 0 1 0 0 0 1 0 0 0 1 63710.dat
+0 STEP
+0 // STEP 14 - four yellow corner columns: 12 x DUPLO Brick 2 x 2
+1 14 -120 -696 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -696 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -696 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -696 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -744 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -744 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -744 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -744 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -792 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -792 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -792 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -792 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 15 - light bluish gray DUPLO Plate 8 x 8 roof deck
+1 71 0 -816 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // STEP 16 - four blue DUPLO Slope 2 x 2 x 1.5 roof pieces
+1 1 -40 -888 -40 1 0 0 0 1 0 0 0 1 6474.dat
+1 1 40 -888 -40 0 0 1 0 1 0 -1 0 0 6474.dat
+1 1 40 -888 40 -1 0 0 0 1 0 0 0 -1 6474.dat
+1 1 -40 -888 40 0 0 -1 0 1 0 1 0 0 6474.dat
+0 STEP
+0 // STEP 17 - blue top beacon: 5 x DUPLO Brick 2 x 2
+1 1 0 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -960 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -1008 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -1056 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Page 18 of the source PDF is the completed model view.
+0 NOFILE
+0 FILE duplo_window_unit.ldr
+0 DUPLO red window wall module
+0 Name: duplo_window_unit.ldr
+0 !LDRAW_ORG Unofficial_Model
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 0 0 -52 1 0 0 0 1 0 0 0 1 2206.dat
+0 NOFILE

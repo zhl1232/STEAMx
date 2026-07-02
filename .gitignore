@@ -43,6 +43,7 @@ packages/scratch-host/dist
 
 # misc
 .DS_Store
+*:Zone.Identifier
 *.pem
 .antigravitycli/
 

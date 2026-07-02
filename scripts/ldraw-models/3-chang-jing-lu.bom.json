@@ -1,0 +1,102 @@
+{
+  "model": "3-chang-jing-lu.ldr",
+  "totalParts": 60,
+  "items": [
+    {
+      "partId": "2302.dat",
+      "partName": "Duplo Brick 2 x 3 with Curved Top",
+      "colorCode": 25,
+      "colorName": "Orange",
+      "quantity": 6,
+      "minConfidence": 0.78
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 16,
+      "minConfidence": 0.78
+    },
+    {
+      "partId": "3011.dat",
+      "partName": "Duplo Brick 2 x 4",
+      "colorCode": 25,
+      "colorName": "Orange",
+      "quantity": 12,
+      "minConfidence": 0.86
+    },
+    {
+      "partId": "31191.dat",
+      "partName": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 1,
+      "minConfidence": 0.82
+    },
+    {
+      "partId": "31195.dat",
+      "partName": "Duplo Ball Tube 45 Degrees",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 4,
+      "minConfidence": 0.78
+    },
+    {
+      "partId": "31195.dat",
+      "partName": "Duplo Ball Tube 45 Degrees",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 1,
+      "minConfidence": 0.78
+    },
+    {
+      "partId": "31452.dat",
+      "partName": "Duplo Ball Tube Straight",
+      "colorCode": 1,
+      "colorName": "Blue",
+      "quantity": 1,
+      "minConfidence": 0.86
+    },
+    {
+      "partId": "31452.dat",
+      "partName": "Duplo Ball Tube Straight",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 2,
+      "minConfidence": 0.86
+    },
+    {
+      "partId": "3437.dat",
+      "partName": "Duplo Brick 2 x 2",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 4,
+      "minConfidence": 0.84
+    },
+    {
+      "partId": "3437.dat",
+      "partName": "Duplo Brick 2 x 2",
+      "colorCode": 25,
+      "colorName": "Orange",
+      "quantity": 10,
+      "minConfidence": 0.7
+    },
+    {
+      "partId": "4196.dat",
+      "partName": "Duplo Plate 6 x 12",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 1,
+      "minConfidence": 0.92
+    },
+    {
+      "partId": "42029.dat",
+      "partName": "Duplo Plate 2 x 4 with Round Tube Holder",
+      "colorCode": 4,
+      "colorName": "Red",
+      "quantity": 2,
+      "minConfidence": 0.82
+    }
+  ]
+}

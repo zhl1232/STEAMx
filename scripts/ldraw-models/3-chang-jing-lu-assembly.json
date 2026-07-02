@@ -1,0 +1,1359 @@
+{
+  "model": "3-chang-jing-lu",
+  "title": "长颈鹿",
+  "sourceImages": [
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-07.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-08.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-09.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-10.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-11.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-12.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-13.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-14.webp",
+    "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-15.webp"
+  ],
+  "coordinateSystem": "LDraw Duplo grid; +Y down; one Duplo stud = 40 LDU. Only Duplo / large-brick parts from part-metadata.json are used.",
+  "steps": [
+    {
+      "step": 1,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-07.webp",
+      "title": "搭建四肢",
+      "placements": [
+        {
+          "id": "p001",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "ground"
+          }
+        },
+        {
+          "id": "p002",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.82,
+          "sourceStep": 1,
+          "assumptions": [
+            "The 2 x 2 ankle block is included from the step-1 parts callout; exact offset is inferred from the rendered instruction image."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p001"
+            ]
+          }
+        },
+        {
+          "id": "p003",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p002"
+            ]
+          }
+        },
+        {
+          "id": "p004",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p003"
+            ]
+          }
+        },
+        {
+          "id": "p005",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p004"
+            ]
+          }
+        },
+        {
+          "id": "p006",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p005"
+            ]
+          }
+        },
+        {
+          "id": "p007",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "ground"
+          }
+        },
+        {
+          "id": "p008",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.82,
+          "sourceStep": 1,
+          "assumptions": [
+            "The 2 x 2 ankle block is included from the step-1 parts callout; exact offset is inferred from the rendered instruction image."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p007"
+            ]
+          }
+        },
+        {
+          "id": "p009",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p008"
+            ]
+          }
+        },
+        {
+          "id": "p010",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p009"
+            ]
+          }
+        },
+        {
+          "id": "p011",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p010"
+            ]
+          }
+        },
+        {
+          "id": "p012",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p011"
+            ]
+          }
+        },
+        {
+          "id": "p013",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "ground"
+          }
+        },
+        {
+          "id": "p014",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.82,
+          "sourceStep": 1,
+          "assumptions": [
+            "The 2 x 2 ankle block is included from the step-1 parts callout; exact offset is inferred from the rendered instruction image."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p013"
+            ]
+          }
+        },
+        {
+          "id": "p015",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p014"
+            ]
+          }
+        },
+        {
+          "id": "p016",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p015"
+            ]
+          }
+        },
+        {
+          "id": "p017",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p016"
+            ]
+          }
+        },
+        {
+          "id": "p018",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p017"
+            ]
+          }
+        },
+        {
+          "id": "p019",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "ground"
+          }
+        },
+        {
+          "id": "p020",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.82,
+          "sourceStep": 1,
+          "assumptions": [
+            "The 2 x 2 ankle block is included from the step-1 parts callout; exact offset is inferred from the rendered instruction image."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p019"
+            ]
+          }
+        },
+        {
+          "id": "p021",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p020"
+            ]
+          }
+        },
+        {
+          "id": "p022",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p021"
+            ]
+          }
+        },
+        {
+          "id": "p023",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p022"
+            ]
+          }
+        },
+        {
+          "id": "p024",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 4
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p023"
+            ]
+          }
+        },
+        {
+          "id": "p025",
+          "partId": "4196.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.92,
+          "sourceStep": 1,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": 0
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p006",
+              "p012",
+              "p018",
+              "p024"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-08.webp",
+      "title": "搭建身体",
+      "placements": [
+        {
+          "id": "p026",
+          "partId": "42029.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.82,
+          "sourceStep": 2,
+          "assumptions": [
+            "Used Duplo 42029 tube-holder approximation; front ring direction inferred from slide 08."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 4 0 -288 -200 -1 0 0 0 1 0 0 0 -1 42029.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p027",
+          "partId": "42029.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.82,
+          "sourceStep": 2,
+          "assumptions": [
+            "Used Duplo 42029 tube-holder approximation; rear ring direction inferred from slide 08."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 4 0 -288 200 1 0 0 0 1 0 0 0 1 42029.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p028",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 2,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 0
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p025"
+            ]
+          }
+        },
+        {
+          "id": "p029",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.92,
+          "sourceStep": 2,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": 0
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p025"
+            ]
+          }
+        },
+        {
+          "id": "p030",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.92,
+          "sourceStep": 2,
+          "assumptions": [],
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 0
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p025"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-09.webp",
+      "title": "连接尾巴",
+      "placements": [
+        {
+          "id": "p031",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.78,
+          "sourceStep": 3,
+          "assumptions": [
+            "Blue Duplo 45-degree tail bend visually positioned from slide 09; exact port chain should be reviewed in 3D before MPD packing."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 1 0 -304 240 0 -1 0 1 0 0 0 0 1 31195.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p032",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.78,
+          "sourceStep": 3,
+          "assumptions": [
+            "Second blue tail bend continues downward/backward from the rear holder; angle is visual, not port-checked yet."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 1 0 -284 312 0 -1 0 0.707107 0 -0.707107 0.707107 0 0.707107 31195.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-10.webp",
+      "title": "完善身体",
+      "placements": [
+        {
+          "id": "p033",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": -2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p028"
+            ]
+          }
+        },
+        {
+          "id": "p034",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": -2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p029"
+            ]
+          }
+        },
+        {
+          "id": "p035",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": -2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p030"
+            ]
+          }
+        },
+        {
+          "id": "p036",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -2,
+            "z": 2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p028"
+            ]
+          }
+        },
+        {
+          "id": "p037",
+          "partId": "3011.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": 2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p029"
+            ]
+          }
+        },
+        {
+          "id": "p038",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.86,
+          "sourceStep": 4,
+          "assumptions": [
+            "Body brick layout is inferred from slide 10 perspective; exact interleaving should be checked visually."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 2,
+            "z": 2
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p030"
+            ]
+          }
+        },
+        {
+          "id": "p039",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.84,
+          "sourceStep": 4,
+          "assumptions": [
+            "Center back ridge represents the raised yellow row visible in slides 10-15."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": 0
+          },
+          "orientation": "east",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p034",
+              "p037"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-11.webp",
+      "title": "搭建颈部",
+      "placements": [
+        {
+          "id": "p040",
+          "partId": "31452.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.86,
+          "sourceStep": 5,
+          "assumptions": [
+            "Vertical Duplo tube stack follows slide 11; exact flange seating should be checked in 3D."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 4 0 -304 -232 1 0 0 0 0 -1 0 1 0 31452.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p041",
+          "partId": "31452.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.86,
+          "sourceStep": 5,
+          "assumptions": [
+            "Vertical Duplo tube stack follows slide 11; exact flange seating should be checked in 3D."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 1 0 -424 -232 1 0 0 0 0 -1 0 1 0 31452.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p042",
+          "partId": "31452.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.86,
+          "sourceStep": 5,
+          "assumptions": [
+            "Vertical Duplo tube stack follows slide 11; exact flange seating should be checked in 3D."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 4 0 -544 -232 1 0 0 0 0 -1 0 1 0 31452.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p043",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.78,
+          "sourceStep": 5,
+          "assumptions": [
+            "Top blue bend turns the neck toward the head; visual placement from slide 11."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 1 0 -664 -232 -1 0 0 0 0 -1 0 -1 0 31195.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p044",
+          "partId": "31195.dat",
+          "colorCode": 4,
+          "colorName": "Red",
+          "confidence": 0.78,
+          "sourceStep": 5,
+          "assumptions": [
+            "Top red bend completes the horizontal transition into the head frame."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 4 0 -700 -292 -1 0 0 0 0 -1 0 -1 0 31195.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p045",
+          "partId": "31195.dat",
+          "colorCode": 1,
+          "colorName": "Blue",
+          "confidence": 0.78,
+          "sourceStep": 5,
+          "assumptions": [
+            "Blue mouth/face tube is modeled as a Duplo 45-degree bend only; no small nozzle or eye details are added."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 1 0 -728 -344 0 -1 0 -1 0 0 0 0 -1 31195.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-12.webp",
+      "title": "搭建头部",
+      "placements": [
+        {
+          "id": "p046",
+          "partId": "31191.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.82,
+          "sourceStep": 6,
+          "assumptions": [
+            "Yellow Duplo round-doorway frame is the closest registered part for the head frame in slide 12."
+          ],
+          "needsReview": true,
+          "ldrawLine": "1 14 0 -784 -328 1 0 0 0 1 0 0 0 1 31191.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        },
+        {
+          "id": "p047",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.78,
+          "sourceStep": 6,
+          "assumptions": [
+            "Modeled as a Duplo 2 x 4 beam under the head frame, following slide 12 silhouette."
+          ],
+          "needsReview": true,
+          "decorative": true,
+          "ldrawLine": "1 14 0 -592 -328 1 0 0 0 1 0 0 0 1 3011.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Exact-transform Duplo tube/holder/head placement aligned from lesson 33 slide images; no single planar stud support graph represents the angled tube chain."
+          }
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-13.webp",
+      "title": "搭建眼睛",
+      "placements": [
+        {
+          "id": "p048",
+          "partId": "3011.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.8,
+          "sourceStep": 7,
+          "assumptions": [
+            "Printed eyes from the lesson image are intentionally not modeled; the Duplo beam preserves the large-brick shape only."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 0,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p046"
+            ]
+          }
+        },
+        {
+          "id": "p049",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.7,
+          "sourceStep": 7,
+          "assumptions": [
+            "Plain Duplo 2 x 2 used in place of the printed eye brick; no small eye pieces are used."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1,
+            "z": -9.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p048"
+            ]
+          }
+        },
+        {
+          "id": "p050",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.7,
+          "sourceStep": 7,
+          "assumptions": [
+            "Plain Duplo 2 x 2 used in place of the printed eye brick; no small eye pieces are used."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1,
+            "z": -9.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p048"
+            ]
+          }
+        },
+        {
+          "id": "p051",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.78,
+          "sourceStep": 7,
+          "assumptions": [
+            "Curved Duplo 2 x 3 approximates the rounded head side shown in slide 13."
+          ],
+          "needsReview": true,
+          "decorative": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1.5,
+            "z": -9.7
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p048"
+            ]
+          }
+        },
+        {
+          "id": "p052",
+          "partId": "2302.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.78,
+          "sourceStep": 7,
+          "assumptions": [
+            "Curved Duplo 2 x 3 approximates the rounded head side shown in slide 13."
+          ],
+          "needsReview": true,
+          "decorative": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1.5,
+            "z": -9.7
+          },
+          "orientation": "south",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p048"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-14.webp",
+      "title": "搭建头角",
+      "placements": [
+        {
+          "id": "p053",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p049"
+            ]
+          }
+        },
+        {
+          "id": "p054",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p053"
+            ]
+          }
+        },
+        {
+          "id": "p055",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p054"
+            ]
+          }
+        },
+        {
+          "id": "p056",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": -1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p055"
+            ]
+          }
+        },
+        {
+          "id": "p057",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p050"
+            ]
+          }
+        },
+        {
+          "id": "p058",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p057"
+            ]
+          }
+        },
+        {
+          "id": "p059",
+          "partId": "3437.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p058"
+            ]
+          }
+        },
+        {
+          "id": "p060",
+          "partId": "3437.dat",
+          "colorCode": 25,
+          "colorName": "Orange",
+          "confidence": 0.84,
+          "sourceStep": 8,
+          "assumptions": [
+            "Horn color order inferred from slide 14 and finished render; exact stripe order should be visually reviewed."
+          ],
+          "needsReview": true,
+          "anchor": {
+            "type": "centerStud",
+            "x": 1,
+            "z": -8.2
+          },
+          "orientation": "north",
+          "support": {
+            "type": "placements",
+            "ids": [
+              "p059"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "source": "https://assets.steamx.cc/courses/3-chang-jing-lu/slides/slide-15.webp",
+      "title": "成品展示",
+      "placements": []
+    }
+  ]
+}

@@ -276,6 +276,24 @@
       "collisionPolicy": "manual",
       "notes": ["Manual review required for tube assemblies."]
     },
+    "51262.dat": {
+      "name": "Duplo Plate 8 x 8",
+      "category": "plate",
+      "ldrawStatus": "Official",
+      "studFootprint": { "x": 8, "z": 8 },
+      "heightLdu": 24,
+      "bbox": { "xMin": -160, "xMax": 160, "yMin": 0, "yMax": 24, "zMin": -160, "zMax": 160 },
+      "origin": { "type": "top-center", "originToTop": 0, "originToBottom": 24 },
+      "connectionSurfaces": {
+        "top": { "yLdu": 0, "xMin": -160, "xMax": 160, "zMin": -160, "zMax": 160 },
+        "bottom": { "yLdu": 24, "xMin": -160, "xMax": 160, "zMin": -160, "zMax": 160 }
+      },
+      "collisionVolumes": [
+        { "xMin": -160, "xMax": 160, "yMin": 0, "yMax": 24, "zMin": -160, "zMax": 160 }
+      ],
+      "allowedOrientations": ["north", "east", "south", "west"],
+      "supportPolicy": "structural"
+    },
     "4-4ndis.dat": {
       "name": "Disc primitive used for visible tire faces",
       "category": "decorative-primitive",
