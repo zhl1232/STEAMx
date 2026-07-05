@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 生成「城堡」LDraw 源模型（standard LEGO 件），按 3+ 城堡搭建说明 PDF 的 19 步组织。
+// 生成「城堡」LDraw 源模型，按 3+ 城堡搭建说明 PDF 的 19 步组织。
 // LDraw 约定：上 = -Y，砖原点在砖底；上层 originY = 下层 originY - 下层高度。
 // 这是面向课程 3D 工作区的可加载近似模型：优先保证 0 STEP 分步、稳定打包和整体外观。
 
@@ -7,9 +7,13 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const BRICK = 24
-const PLATE = 8
+const PLATE = 12
+const MODEL_SCALE = 2
+const SOURCE_SCALE = 1 / MODEL_SCALE
 const IDENT = '1 0 0 0 1 0 0 0 1'
 const ROT90 = '0 0 1 0 1 0 -1 0 0'
+const ROT180 = '-1 0 0 0 1 0 0 0 -1'
+const ROT270 = '0 0 -1 0 1 0 1 0 0'
 
 const COLOR = {
   black: 0,
@@ -22,9 +26,38 @@ const COLOR = {
   glass: 47,
 }
 
+const PART = {
+  baseplate24: '4268.dat',
+  brick24: '3011.dat',
+  brick22: '3437.dat',
+  plate24: '40666.dat',
+  fence: '31021p01.dat',
+  largeDoor: '2205.dat',
+  largeDoorFrame: '92094.dat',
+  smallDoorFrame: '61649.dat',
+  smallWindow: '90265.dat',
+  flag: '15793.dat',
+  flagPole: '51708.dat',
+}
+
 const lines = []
 const bricks = []
 let current = []
+
+function worldValue(value) {
+  const rounded = Math.round(value * MODEL_SCALE * 1000) / 1000
+  return Object.is(rounded, -0) ? 0 : rounded
+}
+
+function formatNumber(value) {
+  return Number.isInteger(value) ? String(value) : String(value)
+}
+
+function pushPart({ color, part, cx, originY, cz, matrix }) {
+  current.push(
+    `1 ${color} ${formatNumber(worldValue(cx))} ${formatNumber(worldValue(originY))} ${formatNumber(worldValue(cz))} ${matrix} ${part}`,
+  )
+}
 
 function step(comment) {
   if (current.length) lines.push(...current, '0 STEP')
@@ -32,120 +65,273 @@ function step(comment) {
   if (comment) current.push(`0 // ${comment}`)
 }
 
-function place({ color, part, cx, cz, originY, height, sizeX, sizeZ, along = 'x', decorative = false }) {
-  const matrix = along === 'z' ? ROT90 : IDENT
-  const halfX = (along === 'z' ? sizeZ : sizeX) / 2
-  const halfZ = (along === 'z' ? sizeX : sizeZ) / 2
+function place({ color, part, cx, cz, originY, height, sizeX, sizeZ, along = 'x', matrix, decorative = false }) {
+  matrix ??= along === 'z' ? ROT90 : IDENT
+  const worldCx = worldValue(cx)
+  const worldCz = worldValue(cz)
+  const worldY = worldValue(originY)
+  const worldHeight = worldValue(height)
+  const worldSizeX = worldValue(sizeX)
+  const worldSizeZ = worldValue(sizeZ)
+  const halfX = (along === 'z' ? worldSizeZ : worldSizeX) / 2
+  const halfZ = (along === 'z' ? worldSizeX : worldSizeZ) / 2
 
-  current.push(`1 ${color} ${cx} ${originY} ${cz} ${matrix} ${part}`)
+  pushPart({ color, part, cx, originY: originY - height, cz, matrix })
   bricks.push({
-    x0: cx - halfX,
-    x1: cx + halfX,
-    z0: cz - halfZ,
-    z1: cz + halfZ,
-    yBottom: originY,
-    yTop: originY - height,
+    x0: worldCx - halfX,
+    x1: worldCx + halfX,
+    z0: worldCz - halfZ,
+    z1: worldCz + halfZ,
+    yBottom: worldY,
+    yTop: worldY - worldHeight,
     decorative,
     line: lines.length + current.length,
   })
 }
 
+function decorativePart({ color, part, cx, originY, cz, matrix, height, sizeX, sizeZ }) {
+  const worldCx = worldValue(cx)
+  const worldCz = worldValue(cz)
+  const worldY = worldValue(originY)
+  const worldHeight = worldValue(height)
+  const worldSizeX = worldValue(sizeX)
+  const worldSizeZ = worldValue(sizeZ)
+
+  pushPart({ color, part, cx, originY, cz, matrix })
+  bricks.push({
+    x0: worldCx - worldSizeX / 2,
+    x1: worldCx + worldSizeX / 2,
+    z0: worldCz - worldSizeZ / 2,
+    z1: worldCz + worldSizeZ / 2,
+    yBottom: worldY + worldHeight,
+    yTop: worldY,
+    decorative: true,
+    line: lines.length + current.length,
+  })
+}
+
 function brick24({ color, cx, cz, originY, along = 'x', decorative = false }) {
-  place({ color, part: '3001.dat', cx, cz, originY, height: BRICK, sizeX: 80, sizeZ: 40, along, decorative })
+  place({
+    color,
+    part: PART.brick24,
+    cx,
+    cz,
+    originY,
+    height: BRICK,
+    sizeX: 80,
+    sizeZ: 40,
+    along,
+    matrix: along === 'z' ? ROT90 : IDENT,
+    decorative,
+  })
 }
 
 function brick22({ color, cx, cz, originY, decorative = false }) {
-  place({ color, part: '3003.dat', cx, cz, originY, height: BRICK, sizeX: 40, sizeZ: 40, decorative })
+  place({
+    color,
+    part: PART.brick22,
+    cx,
+    cz,
+    originY,
+    height: BRICK,
+    sizeX: 40,
+    sizeZ: 40,
+    matrix: IDENT,
+    decorative,
+  })
 }
 
 function brick12({ color, cx, cz, originY, along = 'x', decorative = false }) {
-  place({ color, part: '3004.dat', cx, cz, originY, height: BRICK, sizeX: 40, sizeZ: 20, along, decorative })
+  place({
+    color,
+    part: PART.brick22,
+    cx,
+    cz,
+    originY,
+    height: BRICK,
+    sizeX: 40,
+    sizeZ: 40,
+    along,
+    matrix: along === 'z' ? ROT90 : IDENT,
+    decorative,
+  })
 }
 
 function brick11({ color, cx, cz, originY, decorative = false }) {
-  place({ color, part: '3005.dat', cx, cz, originY, height: BRICK, sizeX: 20, sizeZ: 20, decorative })
+  place({
+    color,
+    part: PART.brick22,
+    cx,
+    cz,
+    originY,
+    height: BRICK,
+    sizeX: 40,
+    sizeZ: 40,
+    matrix: IDENT,
+    decorative,
+  })
 }
 
 function plate24({ color, cx, cz, originY, along = 'x', decorative = false }) {
-  place({ color, part: '3020.dat', cx, cz, originY, height: PLATE, sizeX: 80, sizeZ: 40, along, decorative })
+  place({
+    color,
+    part: PART.plate24,
+    cx,
+    cz,
+    originY,
+    height: PLATE,
+    sizeX: 80,
+    sizeZ: 40,
+    along,
+    matrix: along === 'z' ? ROT90 : IDENT,
+    decorative,
+  })
 }
 
 function plate14({ color, cx, cz, originY, along = 'x', decorative = false }) {
-  place({ color, part: '3710.dat', cx, cz, originY, height: PLATE, sizeX: 80, sizeZ: 20, along, decorative })
+  place({
+    color,
+    part: PART.plate24,
+    cx,
+    cz,
+    originY,
+    height: PLATE,
+    sizeX: 80,
+    sizeZ: 40,
+    along,
+    matrix: along === 'z' ? ROT90 : IDENT,
+    decorative,
+  })
 }
 
 function plate12({ color, cx, cz, originY, along = 'x', decorative = false }) {
-  place({ color, part: '3023.dat', cx, cz, originY, height: PLATE, sizeX: 40, sizeZ: 20, along, decorative })
+  place({
+    color,
+    part: PART.plate24,
+    cx,
+    cz,
+    originY,
+    height: PLATE,
+    sizeX: 80,
+    sizeZ: 40,
+    along,
+    matrix: along === 'z' ? ROT90 : IDENT,
+    decorative,
+  })
 }
 
 function plate11({ color, cx, cz, originY, decorative = false }) {
-  place({ color, part: '3024.dat', cx, cz, originY, height: PLATE, sizeX: 20, sizeZ: 20, decorative })
+  place({
+    color,
+    part: PART.plate24,
+    cx,
+    cz,
+    originY,
+    height: PLATE,
+    sizeX: 80,
+    sizeZ: 40,
+    matrix: IDENT,
+    decorative,
+  })
 }
 
 function basePerimeter() {
-  // 绿色 32x32 底板。
-  place({
+  // 绿色 DUPLO 24x24 底板，输出为真实 1:1 DUPLO LDraw 尺寸，方便 Studio 编辑。
+  decorativePart({
     color: COLOR.green,
-    part: '3811.dat',
+    part: PART.baseplate24,
     cx: 0,
     cz: 0,
     originY: 0,
+    matrix: IDENT,
     height: 0,
-    sizeX: 640,
-    sizeZ: 640,
-    decorative: true,
+    sizeX: 480,
+    sizeZ: 480,
   })
 
-  // 橙色一圈矮墙，正面中间留入口。
-  for (const x of [-240, -160, -80, 80, 160, 240]) {
-    brick24({ color: COLOR.orange, cx: x, cz: 260, originY: 0 })
+  // 橙色一圈矮墙，正面中间留入口；坐标对齐 Studio 中调整后的第一步。
+  for (const x of [-200, -120, -40, 40, 120, 200]) {
+    brick24({ color: COLOR.orange, cx: x, cz: 220, originY: 0 })
   }
-  for (const x of [-240, -160, -80, 0, 80, 160, 240]) {
-    brick24({ color: COLOR.orange, cx: x, cz: -260, originY: 0 })
+  for (const x of [-200, -120, -40, 40, 120, 200]) {
+    brick24({ color: COLOR.orange, cx: x, cz: -220, originY: 0 })
   }
-  for (const z of [-200, -120, -40, 40, 120, 200]) {
-    brick24({ color: COLOR.orange, cx: -300, cz: z, originY: 0, along: 'z' })
-    brick24({ color: COLOR.orange, cx: 300, cz: z, originY: 0, along: 'z' })
+  for (const z of [-160, -80, 160]) {
+    brick24({ color: COLOR.orange, cx: -220, cz: z, originY: 0, along: 'z' })
+    brick24({ color: COLOR.orange, cx: 220, cz: z, originY: 0, along: 'z' })
   }
 
-  // 白红栏杆作为外观件处理，不参与几何自检。
+  // 白红栏杆使用真实 DUPLO 围栏件，摆在第一层城墙顶面。
   for (const rail of [
-    { cx: -170, cz: 230, along: 'x' },
-    { cx: 170, cz: 230, along: 'x' },
-    { cx: -170, cz: -230, along: 'x' },
-    { cx: 0, cz: -230, along: 'x' },
-    { cx: 170, cz: -230, along: 'x' },
-    { cx: -270, cz: -120, along: 'z' },
-    { cx: -270, cz: 80, along: 'z' },
-    { cx: 270, cz: -120, along: 'z' },
-    { cx: 270, cz: 80, along: 'z' },
+    { cx: -180, cz: 230, matrix: IDENT },
+    { cx: -60, cz: 230, matrix: IDENT },
+    { cx: 60, cz: 230, matrix: IDENT },
+    { cx: 180, cz: 230, matrix: IDENT },
+    { cx: -180, cz: -230, matrix: ROT180 },
+    { cx: -60, cz: -230, matrix: ROT180 },
+    { cx: 60, cz: -230, matrix: ROT180 },
+    { cx: 180, cz: -230, matrix: ROT180 },
+    { cx: -230, cz: -120, matrix: ROT90 },
+    { cx: -230, cz: 120, matrix: ROT90 },
+    { cx: 230, cz: -120, matrix: ROT270 },
+    { cx: 230, cz: 120, matrix: ROT270 },
   ]) {
-    const { cx, cz, along } = rail
-    const postOffsets = along === 'x'
-      ? [[-50, 0], [50, 0]]
-      : [[0, -50], [0, 50]]
-    for (const [dx, dz] of postOffsets) {
-      brick11({ color: COLOR.white, cx: cx + dx, cz: cz + dz, originY: -24, decorative: true })
-      plate11({ color: COLOR.gray, cx: cx + dx, cz: cz + dz, originY: -48, decorative: true })
-    }
-    plate14({ color: COLOR.white, cx, cz, originY: -48, along, decorative: true })
-    plate12({
-      color: COLOR.red,
-      cx: cx + (along === 'x' ? -20 : 0),
-      cz: cz + (along === 'z' ? -20 : 0),
-      originY: -56,
-      along,
-      decorative: true,
-    })
-    plate12({
-      color: COLOR.red,
-      cx: cx + (along === 'x' ? 20 : 0),
-      cz: cz + (along === 'z' ? 20 : 0),
-      originY: -56,
-      along,
-      decorative: true,
+    decorativePart({
+      color: COLOR.white,
+      part: PART.fence,
+      cx: rail.cx,
+      cz: rail.cz,
+      originY: -144 * SOURCE_SCALE,
+      matrix: rail.matrix,
+      height: 96 * SOURCE_SCALE,
+      sizeX: rail.matrix === ROT90 || rail.matrix === ROT270 ? 40 * SOURCE_SCALE : 240 * SOURCE_SCALE,
+      sizeZ: rail.matrix === ROT90 || rail.matrix === ROT270 ? 240 * SOURCE_SCALE : 40 * SOURCE_SCALE,
     })
   }
+}
+
+function largeDoorModule({ cx, cz, bottomY = 0 }) {
+  decorativePart({
+    color: COLOR.yellow,
+    part: PART.largeDoorFrame,
+    cx,
+    cz,
+    originY: bottomY - 240 * SOURCE_SCALE,
+    matrix: IDENT,
+    height: 240 * SOURCE_SCALE,
+    sizeX: 160 * SOURCE_SCALE,
+    sizeZ: 80 * SOURCE_SCALE,
+  })
+  pushPart({
+    color: COLOR.red,
+    part: PART.largeDoor,
+    cx: cx - 65.5 * SOURCE_SCALE,
+    originY: bottomY - 182 * SOURCE_SCALE,
+    cz,
+    matrix: IDENT,
+  })
+}
+
+function smallDoorModule({ cx, cz, bottomY = 0 }) {
+  decorativePart({
+    color: COLOR.yellow,
+    part: PART.smallDoorFrame,
+    cx,
+    cz,
+    originY: bottomY - 144 * SOURCE_SCALE,
+    matrix: IDENT,
+    height: 144 * SOURCE_SCALE,
+    sizeX: 160 * SOURCE_SCALE,
+    sizeZ: 80 * SOURCE_SCALE,
+  })
+  pushPart({
+    color: COLOR.white,
+    part: PART.smallWindow,
+    cx,
+    originY: bottomY - 144 * SOURCE_SCALE,
+    cz,
+    matrix: IDENT,
+  })
 }
 
 function towerLayer({ centerX, centerZ, cols, rows, originY, baseColor, windowFace = false, doorFace = false }) {
@@ -225,27 +411,31 @@ function sideTowerLayer({ centerX, centerZ, layer, color }) {
 }
 
 function flag({ cx, cz, baseY, direction = 1 }) {
-  for (let i = 0; i < 3; i++) {
-    brick11({ color: COLOR.black, cx, cz, originY: baseY - i * BRICK, decorative: true })
-  }
-  plate12({
-    color: COLOR.red,
-    cx: cx + direction * 24,
+  const poleTopOffset = 301.6 * SOURCE_SCALE
+  const flagMatrix = direction === 1 ? IDENT : ROT180
+  decorativePart({
+    color: COLOR.black,
+    part: PART.flagPole,
+    cx,
     cz,
-    originY: baseY - 3 * BRICK,
-    decorative: true,
+    originY: baseY,
+    matrix: IDENT,
+    height: poleTopOffset,
+    sizeX: 26 * SOURCE_SCALE,
+    sizeZ: 26 * SOURCE_SCALE,
   })
-  plate12({
+  pushPart({
     color: COLOR.red,
-    cx: cx + direction * 44,
+    part: PART.flag,
+    cx,
+    originY: baseY - poleTopOffset + 28 * SOURCE_SCALE,
     cz,
-    originY: baseY - 3 * BRICK,
-    decorative: true,
+    matrix: flagMatrix,
   })
 }
 
 lines.push(
-  '0 LEGO Castle (STEAM 课件 · 城堡 · 19 步搭建)',
+  '0 DUPLO Castle (STEAM 课件 · 城堡 · 19 步搭建)',
   '0 Name: 3-cheng-bao.ldr',
   '0 Author: STEAM Explore',
   '0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt',
@@ -261,6 +451,7 @@ basePerimeter()
 step('Step 2: 主塔一层，正面留出门洞和窗格')
 mainTowerLayer(0, COLOR.red)
 mainTowerLayer(1, COLOR.yellow)
+largeDoorModule({ cx: 0, cz: 62, bottomY: 0 })
 
 step('Step 3: 主塔继续向上叠红黄相间的墙身')
 mainTowerLayer(2, COLOR.red)
@@ -295,6 +486,7 @@ flag({ cx: 0, cz: 20, baseY: -11 * BRICK - PLATE - PLATE - BRICK, direction: 1 }
 step('Step 11: 右侧塔一层，连接到城墙边')
 sideTowerLayer({ centerX: 190, centerZ: 80, layer: 0, color: COLOR.red })
 sideTowerLayer({ centerX: 190, centerZ: 80, layer: 1, color: COLOR.yellow })
+smallDoorModule({ cx: 190, cz: 122, bottomY: 0 })
 
 step('Step 12: 右侧塔叠红黄墙身')
 sideTowerLayer({ centerX: 190, centerZ: 80, layer: 2, color: COLOR.red })
@@ -311,6 +503,7 @@ battlements({ centerX: 190, centerZ: 80, cols: 2, rows: 2, originY: -5 * BRICK -
 step('Step 15: 左侧塔一层，和右侧塔保持对称')
 sideTowerLayer({ centerX: -190, centerZ: 80, layer: 0, color: COLOR.red })
 sideTowerLayer({ centerX: -190, centerZ: 80, layer: 1, color: COLOR.yellow })
+smallDoorModule({ cx: -190, cz: 122, bottomY: 0 })
 
 step('Step 16: 左侧塔叠红黄墙身')
 sideTowerLayer({ centerX: -190, centerZ: 80, layer: 2, color: COLOR.red })

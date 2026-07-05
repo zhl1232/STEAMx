@@ -41,8 +41,8 @@ async function loadLocalMpdCache() {
   for (const file of files) {
     if (!file.endsWith('.mpd')) continue
 
-    const text = await readFile(resolve(OUT_DIR, file), 'utf8')
-    const lines = text.split(/\r?\n/)
+    const text = normalizeLDrawText(await readFile(resolve(OUT_DIR, file), 'utf8'))
+    const lines = text.split(/\n/)
     let currentName = null
     let currentLines = []
 
@@ -97,7 +97,7 @@ async function fetchText(url) {
     const code = stdout.slice(idx + 1).trim()
     if (code === '404' || code === '400') return null
     if (code !== '200') throw new Error(`HTTP ${code} for ${url}`)
-    return body
+    return normalizeLDrawText(body)
   } catch (err) {
     throw new Error(`fetch failed for ${url}: ${err.message}`)
   }
@@ -109,7 +109,7 @@ async function resolveLocalPart(ref) {
   for (const dir of SEARCH_DIRS) {
     try {
       const localPath = resolve(LOCAL_PART_ROOT, dir, normalized)
-      const content = await readFile(localPath, 'utf8')
+      const content = normalizeLDrawText(await readFile(localPath, 'utf8'))
       return { content, url: localPath }
     } catch {
       // Continue to the next local candidate.
@@ -143,6 +143,14 @@ function extractRef(line) {
   return tokens.slice(14).join(' ')
 }
 
+function normalizeLDrawText(text) {
+  return text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '')
+}
+
+function normalizeSourceModelText(text) {
+  return normalizeLDrawText(text).replace(/^0 FILE[^\n]*(?:\n)?/, '')
+}
+
 async function main() {
   const [sourcePathArg, outName] = process.argv.slice(2)
   if (!sourcePathArg || !outName) {
@@ -151,7 +159,7 @@ async function main() {
   }
 
   const sourcePath = resolve(process.cwd(), sourcePathArg)
-  const modelText = await readFile(sourcePath, 'utf8')
+  const modelText = normalizeSourceModelText(await readFile(sourcePath, 'utf8'))
   const localMpdCache = await loadLocalMpdCache()
 
   // key: 加载器缓存键（变换后、正斜杠、含 parts/ 或 p/ 前缀）；value: 文件内容

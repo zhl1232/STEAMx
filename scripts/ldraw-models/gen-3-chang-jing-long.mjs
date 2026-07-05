@@ -55,6 +55,11 @@ const PART_META = {
     ldrawStatus: 'Official',
     confidence: 0.95
   },
+  '3437pe1.dat': {
+    name: 'Duplo Brick 2 x 2 with Eye Print',
+    ldrawStatus: 'Official',
+    confidence: 0.95
+  },
   '3011.dat': {
     name: 'Duplo Brick 2 x 4',
     ldrawStatus: 'Official',
@@ -359,16 +364,18 @@ function placeMatrix({
   return placement
 }
 
-function duplo22({ color, cx, cz, originY, decorative = false, confidence, note, substituteFor, connection }) {
+function duplo22({ color, cx, cz, originY, part = '3437.dat', rotY = 0, rotZ = 0, decorative = false, confidence, note, substituteFor, connection }) {
   place({
     color,
-    part: '3437.dat',
+    part,
     cx,
     cz,
     originY,
     height: BRICK_H,
     sizeX: 80,
     sizeZ: 80,
+    rotY,
+    rotZ,
     decorative,
     confidence,
     note,
@@ -499,10 +506,11 @@ place({
 // ---- Step 4: 拼直滑梯管 (颜色顺序：蓝黄蓝黄) ----
 // 对应 PDF Page 4 (穿过拱门，左侧蓝起，右侧黄收)
 step('Step 4: 拼滑梯管道 · 四节直滑梯相接，穿过两个黄色拱门的圆孔')
-const tailStraightTube = duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, -240);   // 1: -240 -> -120
-duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, -120); // 2: -120 -> 0
-duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, 0);     // 3: 0 -> 120
-duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, 120);   // 4: 120 -> 240
+const step4TubeZShift = -DUPLO_STUD
+const tailStraightTube = duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, -240 + step4TubeZShift);   // 1: -280 -> -160
+duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, -120 + step4TubeZShift); // 2: -160 -> -40
+duploStraightTube(COLOR.blue, 0, TUBE_CENTER_Y, 0 + step4TubeZShift);     // 3: -40 -> 80
+duploStraightTube(COLOR.yellow, 0, TUBE_CENTER_Y, 120 + step4TubeZShift);   // 4: 80 -> 200
 
 function duploStraightTube(color, cx, cy, cz) {
   const mat = Matrix4.makeTranslation(cx, cy, cz);
@@ -515,7 +523,7 @@ function duploStraightTube(color, cx, cy, cz) {
 // 后续弯头按官方 31195.dat outlet transform 链接，避免视觉相近但端口断开的假连接。
 step('Step 5: 搭建恐龙尾巴 · 左端滑梯向外、向下弯曲至地面')
 let matCurved = Matrix4.multiply(
-  Matrix4.makeTranslation(0, TUBE_CENTER_Y, -240),
+  Matrix4.makeTranslation(0, TUBE_CENTER_Y, -240 + step4TubeZShift),
   Matrix4.multiply(Matrix4.makeRotationZ(Math.PI / 2), Matrix4.makeRotationY(Math.PI))
 );
 
@@ -575,7 +583,7 @@ duplo42029({
 });
 
 let matNeck = Matrix4.multiply(
-  Matrix4.makeTranslation(0, TUBE_CENTER_Y, 240),
+  Matrix4.makeTranslation(0, TUBE_CENTER_Y, 240 - DUPLO_STUD),
   Matrix4.makeRotationZ(Math.PI / 2)
 );
 const neckLocalNext = Matrix4.multiply(
@@ -637,35 +645,60 @@ const matMouth = Matrix4.multiply(
 );
 placeMatrix({ color: COLOR.yellow, part: '31195.dat', matrix: matMouth, sizeX: 80, sizeZ: 120, height: 80 });
 
-// 2. 红色的 Entrance 替代块 (2x4 红色积木)，放在蓝色弯管和黄色弯管交界处上方
-duplo42029({
+// 2. 红色的 Entrance 替代块：使用页面调试模式确认后的精确矩阵，
+// 并把圆环下调到脖子/黄色弯管中心线，形成套在脖子上的 collar。
+const headRingMatrix = new Matrix4([
+  -1, 0, 0, headX,
+  0, 0, -1, headY - 120,
+  0, -1, 0, headZ - 20,
+  0, 0, 0, 1
+]);
+placeMatrix({
   color: COLOR.red,
-  cx: headX,
-  cz: headZ - 20,
-  originY: headY - 40,
+  part: '42029.dat',
+  matrix: headRingMatrix,
+  sizeX: 160,
+  sizeZ: 240,
+  height: 40,
   decorative: true,
   confidence: 0.85,
-  note: 'Element ID corrected to 42029; geometry is a local LDraw approximation.'
+  note: 'Element ID corrected to 42029; ring matrix adjusted in page edit mode.'
 });
 
-// 3. 顶部的两块黄色 2x2 (眼睛)
-duplo22({
+// 3. 前脸的两块黄色 2x2 印刷眼睛，竖起来组成 2x4 眼睛面。
+const firstEyeMatrix = new Matrix4([
+  0, 0, -1, headX - 40,
+  1, 0, 0, headY - 120,
+  0, -1, 0, headZ + 30,
+  0, 0, 0, 1
+]);
+placeMatrix({
   color: COLOR.yellow,
-  cx: headX,
-  cz: headZ - 60,
-  originY: headY - 40 - 48,
+  part: '3437pe1.dat',
+  matrix: firstEyeMatrix,
+  sizeX: 80,
+  sizeZ: 80,
+  height: BRICK_H,
   decorative: true,
-  confidence: 0.8,
-  note: 'Plain yellow 2x2 used; printed eye decoration is not modeled.'
+  confidence: 0.9,
+  note: 'Printed eye brick.'
 });
-duplo22({
+const secondEyeMatrix = new Matrix4([
+  0, 0, -1, headX + 40,
+  1, 0, 0, headY - 120,
+  0, -1, 0, headZ + 30,
+  0, 0, 0, 1
+]);
+placeMatrix({
   color: COLOR.yellow,
-  cx: headX,
-  cz: headZ + 20,
-  originY: headY - 40 - 48,
+  part: '3437pe1.dat',
+  matrix: secondEyeMatrix,
+  sizeX: 80,
+  sizeZ: 80,
+  height: BRICK_H,
   decorative: true,
-  confidence: 0.8,
-  note: 'Plain yellow 2x2 used; printed eye decoration is not modeled.'
+  confidence: 0.9,
+  note: 'Printed eye brick.'
 });
 
 // ---- Step 9: 恐龙肚皮（侧壁砌墙，用 2x4 设置 rotY: 90 以彻底避免穿模） ----
@@ -675,38 +708,36 @@ for (let layer = 0; layer < 5; layer++) {
   const color = layer % 2 === 0 ? COLOR.yellow : COLOR.green;
   const y = BODY_BRICK_ORIGIN_Y - layer * BRICK_H;
   
-  // 左墙 (cx = -80, rotY = 90 让 2x4 的长边顺着 Z 轴，X 轴宽仅 80，不和 [-40, 40] 的管道干涉)
-  duplo24({ color, cx: -80, cz: -80, originY: y, rotY: 90 });
-  duplo24({ color, cx: -80, cz: 80, originY: y, rotY: 90 });
+  // 左墙外移一格，避开第 4 步后移后的滑梯管道。
+  duplo24({ color, cx: -120, cz: -80, originY: y, rotY: 90 });
+  duplo24({ color, cx: -120, cz: 80, originY: y, rotY: 90 });
   
-  // 右墙 (cx = 80, rotY = 90)
-  duplo24({ color, cx: 80, cz: -80, originY: y, rotY: 90 });
-  duplo24({ color, cx: 80, cz: 80, originY: y, rotY: 90 });
+  // 右墙同步外移一格。
+  duplo24({ color, cx: 120, cz: -80, originY: y, rotY: 90 });
+  duplo24({ color, cx: 120, cz: 80, originY: y, rotY: 90 });
 }
 
 // ---- Step 10: 封顶顶部平台 (6块绿色 2x4 围圈) ----
 // 对应 PDF Page 10 (脊背封顶平台)
 step('Step 10: 恐龙背脊 · 两面墙顶部用绿色积木连接，拼成平整的后背')
 // 1. 横放 2 块
-duplo24({ color: COLOR.green, cx: 0, cz: -160, originY: bodyY(-496), decorative: true });
-duplo24({ color: COLOR.green, cx: 0, cz: 160, originY: bodyY(-496), decorative: true });
+duplo24({ color: COLOR.green, cx: -40, cz: -200, originY: bodyY(-496), decorative: true });
+duplo24({ color: COLOR.green, cx: 40, cz: 120, originY: bodyY(-496), decorative: true });
 // 2. 纵放 4 块
 duplo24({ color: COLOR.green, cx: -80, cz: -80, originY: bodyY(-496), rotY: 90, decorative: true });
 duplo24({ color: COLOR.green, cx: -80, cz: 80, originY: bodyY(-496), rotY: 90, decorative: true });
-duplo24({ color: COLOR.green, cx: 80, cz: -80, originY: bodyY(-496), rotY: 90, decorative: true });
-duplo24({ color: COLOR.green, cx: 80, cz: 80, originY: bodyY(-496), rotY: 90, decorative: true });
+duplo24({ color: COLOR.green, cx: 80, cz: -160, originY: bodyY(-496), rotY: 90, decorative: true });
+duplo24({ color: COLOR.green, cx: 80, cz: 0, originY: bodyY(-496), rotY: 90, decorative: true });
 
 // ---- Step 11: 背部起伏脊梁 (3块黄色 2x4 + 2块绿色 2x4，纵放) ----
 // 对应 PDF Page 11 (背脊凸起)
 step('Step 11: 装饰背脊 · 后背后方叠上黄色和绿色的起伏积木')
-// 前排：2个黄色
-duplo24({ color: COLOR.yellow, cx: -40, cz: 80, originY: bodyY(-544), rotY: 90, decorative: true });
-duplo24({ color: COLOR.yellow, cx: 40, cz: 80, originY: bodyY(-544), rotY: 90, decorative: true });
-// 中排：2个绿色
-duplo24({ color: COLOR.green, cx: -40, cz: 0, originY: bodyY(-544), rotY: 90, decorative: true });
-duplo24({ color: COLOR.green, cx: 40, cz: 0, originY: bodyY(-544), rotY: 90, decorative: true });
-// 后排：1个黄色
-duplo24({ color: COLOR.yellow, cx: -40, cz: -80, originY: bodyY(-544), rotY: 90, decorative: true });
+// 5 块同方向排成一条中线，放在龙背中间。
+duplo24({ color: COLOR.yellow, cx: 0, cz: -160, originY: bodyY(-544), decorative: true });
+duplo24({ color: COLOR.green, cx: 0, cz: -80, originY: bodyY(-544), decorative: true });
+duplo24({ color: COLOR.yellow, cx: 0, cz: 0, originY: bodyY(-544), decorative: true });
+duplo24({ color: COLOR.green, cx: 0, cz: 80, originY: bodyY(-544), decorative: true });
+duplo24({ color: COLOR.yellow, cx: 0, cz: 160, originY: bodyY(-544), decorative: true });
 
 // ---- Step 12: 最终大功告成 ----
 // 对应 PDF Page 12 (成品展示，无新增零件)

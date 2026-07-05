@@ -768,7 +768,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": -240
+            "z": -280
           },
           "orientation": [
             1,
@@ -782,7 +782,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -346.0000 -240.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
+          "ldrawLine": "1 1 0.0000 -346.0000 -280.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -797,7 +797,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": -120
+            "z": -160
           },
           "orientation": [
             1,
@@ -811,7 +811,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 -346.0000 -120.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
+          "ldrawLine": "1 14 0.0000 -346.0000 -160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -826,7 +826,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": 0
+            "z": -40
           },
           "orientation": [
             1,
@@ -840,7 +840,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -346.0000 0.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
+          "ldrawLine": "1 1 0.0000 -346.0000 -40.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -855,7 +855,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": 120
+            "z": 80
           },
           "orientation": [
             1,
@@ -869,7 +869,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 0.0000 -346.0000 120.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
+          "ldrawLine": "1 14 0.0000 -346.0000 80.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -908,7 +908,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": -240
+            "z": -280
           },
           "orientation": [
             0,
@@ -943,7 +943,7 @@
               }
             }
           ],
-          "ldrawLine": "1 14 0.0000 -346.0000 -240.0000 -0.000000 -1.000000 0.000000 -1.000000 0.000000 0.000000 -0.000000 0.000000 -1.000000 31195.dat",
+          "ldrawLine": "1 14 0.0000 -346.0000 -280.0000 -0.000000 -1.000000 0.000000 -1.000000 0.000000 0.000000 -0.000000 0.000000 -1.000000 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -958,7 +958,7 @@
           "position": {
             "x": 0,
             "y": -310.853,
-            "z": -324.853
+            "z": -364.853
           },
           "orientation": [
             0,
@@ -993,7 +993,7 @@
               }
             }
           ],
-          "ldrawLine": "1 1 0.0000 -310.8530 -324.8530 -0.000000 -1.000000 0.000000 -0.707107 0.000000 0.707107 -0.707107 0.000000 -0.707107 31195.dat",
+          "ldrawLine": "1 1 0.0000 -310.8530 -364.8530 -0.000000 -1.000000 0.000000 -0.707107 0.000000 0.707107 -0.707107 0.000000 -0.707107 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1008,7 +1008,7 @@
           "position": {
             "x": 0,
             "y": -226.0002,
-            "z": -360.0004
+            "z": -400.0004
           },
           "orientation": [
             0,
@@ -1043,7 +1043,7 @@
               }
             }
           ],
-          "ldrawLine": "1 14 0.0000 -226.0002 -360.0004 -0.000000 1.000000 0.000000 0.000000 -0.000000 1.000000 1.000000 0.000000 0.000000 31195.dat",
+          "ldrawLine": "1 14 0.0000 -226.0002 -400.0004 -0.000000 1.000000 0.000000 0.000000 -0.000000 1.000000 1.000000 0.000000 0.000000 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1058,7 +1058,7 @@
           "position": {
             "x": 0,
             "y": -141.1472,
-            "z": -395.1474
+            "z": -435.1474
           },
           "orientation": [
             0,
@@ -1093,7 +1093,7 @@
               }
             }
           ],
-          "ldrawLine": "1 1 0.0000 -141.1472 -395.1474 -0.000000 1.000000 0.000000 0.707107 -0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat",
+          "ldrawLine": "1 1 0.0000 -141.1472 -435.1474 -0.000000 1.000000 0.000000 0.707107 -0.000000 0.707107 0.707107 0.000000 -0.707107 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1170,7 +1170,7 @@
           "position": {
             "x": 0,
             "y": -346,
-            "z": 240
+            "z": 200
           },
           "orientation": [
             0,
@@ -1184,7 +1184,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 0.0000 -346.0000 240.0000 0.000000 -1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat",
+          "ldrawLine": "1 1 0.0000 -346.0000 200.0000 0.000000 -1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1199,7 +1199,7 @@
           "position": {
             "x": 0,
             "y": -381.147,
-            "z": 324.853
+            "z": 284.853
           },
           "orientation": [
             0,
@@ -1213,7 +1213,7 @@
             0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -381.1470 324.8530 0.000000 -1.000000 -0.000000 0.707107 0.000000 -0.707107 0.707107 0.000000 0.707107 31195.dat",
+          "ldrawLine": "1 14 -0.0000 -381.1470 284.8530 0.000000 -1.000000 -0.000000 0.707107 0.000000 -0.707107 0.707107 0.000000 0.707107 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1266,7 +1266,7 @@
           "position": {
             "x": 0,
             "y": -465.9998,
-            "z": 360.0004
+            "z": 320.0004
           },
           "orientation": [
             0,
@@ -1280,7 +1280,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 -0.0000 -465.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
+          "ldrawLine": "1 1 -0.0000 -465.9998 320.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1295,7 +1295,7 @@
           "position": {
             "x": 0,
             "y": -585.9998,
-            "z": 360.0004
+            "z": 320.0004
           },
           "orientation": [
             0,
@@ -1309,7 +1309,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -585.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
+          "ldrawLine": "1 14 -0.0000 -585.9998 320.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1324,7 +1324,7 @@
           "position": {
             "x": 0,
             "y": -705.9998,
-            "z": 360.0004
+            "z": 320.0004
           },
           "orientation": [
             0,
@@ -1338,7 +1338,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 -0.0000 -705.9998 360.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
+          "ldrawLine": "1 1 -0.0000 -705.9998 320.0004 0.000000 -1.000000 -0.000000 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 31452.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1353,7 +1353,7 @@
           "position": {
             "x": 0,
             "y": -825.9998,
-            "z": 360.0004
+            "z": 320.0004
           },
           "orientation": [
             0,
@@ -1367,7 +1367,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -825.9998 360.0004 -0.000000 1.000000 -0.000000 -0.000000 -0.000000 -1.000000 -1.000000 -0.000000 0.000000 31195.dat",
+          "ldrawLine": "1 14 -0.0000 -825.9998 320.0004 -0.000000 1.000000 -0.000000 -0.000000 -0.000000 -1.000000 -1.000000 -0.000000 0.000000 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1382,7 +1382,7 @@
           "position": {
             "x": 0,
             "y": -910.8528,
-            "z": 395.1474
+            "z": 355.1474
           },
           "orientation": [
             0,
@@ -1396,7 +1396,7 @@
             0.707107
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 1 -0.0000 -910.8528 395.1474 -0.000000 1.000000 0.000000 -0.707107 -0.000000 -0.707107 -0.707107 -0.000000 0.707107 31195.dat",
+          "ldrawLine": "1 1 -0.0000 -910.8528 355.1474 -0.000000 1.000000 0.000000 -0.707107 -0.000000 -0.707107 -0.707107 -0.000000 0.707107 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1418,8 +1418,8 @@
           "quantity": 1
         },
         {
-          "partId": "3437.dat",
-          "partName": "Duplo Brick 2 x 2",
+          "partId": "3437pe1.dat",
+          "partName": "Duplo Brick 2 x 2 with Eye Print",
           "colorCode": 14,
           "colorName": "Yellow",
           "quantity": 2
@@ -1442,7 +1442,7 @@
           "position": {
             "x": 0,
             "y": -946.0003,
-            "z": 480.0003
+            "z": 440.0003
           },
           "orientation": [
             0,
@@ -1456,7 +1456,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -0.0000 -946.0003 480.0003 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat",
+          "ldrawLine": "1 14 -0.0000 -946.0003 440.0003 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 31195.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1470,90 +1470,87 @@
           "confidence": 0.85,
           "position": {
             "x": 0,
-            "y": -986.0003,
-            "z": 460.0003
-          },
-          "orientation": [
-            1,
-            0,
-            0,
-            0,
-            1,
-            0,
-            0,
-            0,
-            1
-          ],
-          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation.",
-          "ldrawLine": "1 4 -0.0000 -986.0003 460.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 42029.dat",
-          "support": {
-            "type": "manual",
-            "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
-          },
-          "decorative": true
-        },
-        {
-          "id": "p042",
-          "partId": "3437.dat",
-          "colorCode": 14,
-          "colorName": "Yellow",
-          "confidence": 0.8,
-          "position": {
-            "x": 0,
-            "y": -1034.0003,
+            "y": -1066.0003,
             "z": 420.0003
           },
           "orientation": [
-            1,
+            -1,
             0,
             0,
             0,
-            1,
             0,
+            -1,
             0,
-            0,
-            1
+            -1,
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
-          "ldrawLine": "1 14 -0.0000 -1034.0003 420.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat",
+          "note": "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; ring matrix adjusted in page edit mode.",
+          "ldrawLine": "1 4 -0.0000 -1066.0003 420.0003 -1.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 0.000000 -1.000000 0.000000 42029.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
+          }
+        },
+        {
+          "id": "p042",
+          "partId": "3437pe1.dat",
+          "colorCode": 14,
+          "colorName": "Yellow",
+          "confidence": 0.9,
+          "position": {
+            "x": -40,
+            "y": -1066.0003,
+            "z": 470.0003
           },
-          "decorative": true
+          "orientation": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
+          "note": "Printed eye brick.",
+          "ldrawLine": "1 14 -40.0000 -1066.0003 470.0003 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 0.000000 -1.000000 0.000000 3437pe1.dat",
+          "support": {
+            "type": "manual",
+            "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
+          }
         },
         {
           "id": "p043",
-          "partId": "3437.dat",
+          "partId": "3437pe1.dat",
           "colorCode": 14,
           "colorName": "Yellow",
-          "confidence": 0.8,
+          "confidence": 0.9,
           "position": {
-            "x": 0,
-            "y": -1034.0003,
-            "z": 500.0003
+            "x": 40,
+            "y": -1066.0003,
+            "z": 470.0003
           },
           "orientation": [
+            0,
+            0,
+            -1,
             1,
             0,
             0,
             0,
-            1,
-            0,
-            0,
-            0,
-            1
+            -1,
+            0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "note": "Plain yellow 2x2 used; printed eye decoration is not modeled.",
-          "ldrawLine": "1 14 -0.0000 -1034.0003 500.0003 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3437.dat",
+          "note": "Printed eye brick.",
+          "ldrawLine": "1 14 40.0000 -1066.0003 470.0003 0.000000 0.000000 -1.000000 1.000000 0.000000 0.000000 0.000000 -1.000000 0.000000 3437pe1.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
-          },
-          "decorative": true
+          }
         }
       ]
     },
@@ -1586,7 +1583,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -264,
             "z": -80
           },
@@ -1602,7 +1599,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1615,7 +1612,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -264,
             "z": 80
           },
@@ -1631,7 +1628,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1644,7 +1641,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -264,
             "z": -80
           },
@@ -1660,7 +1657,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -264.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1673,7 +1670,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -264,
             "z": 80
           },
@@ -1689,7 +1686,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -264.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1702,7 +1699,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -312,
             "z": -80
           },
@@ -1718,7 +1715,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 -120.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1731,7 +1728,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -312,
             "z": 80
           },
@@ -1747,7 +1744,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 -120.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1760,7 +1757,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -312,
             "z": -80
           },
@@ -1776,7 +1773,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 120.0000 -312.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1789,7 +1786,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -312,
             "z": 80
           },
@@ -1805,7 +1802,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 120.0000 -312.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1818,7 +1815,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -360,
             "z": -80
           },
@@ -1834,7 +1831,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1847,7 +1844,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -360,
             "z": 80
           },
@@ -1863,7 +1860,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1876,7 +1873,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -360,
             "z": -80
           },
@@ -1892,7 +1889,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -360.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1905,7 +1902,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -360,
             "z": 80
           },
@@ -1921,7 +1918,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -360.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1934,7 +1931,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -408,
             "z": -80
           },
@@ -1950,7 +1947,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 -120.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1963,7 +1960,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -408,
             "z": 80
           },
@@ -1979,7 +1976,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -80.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 -120.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -1992,7 +1989,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -408,
             "z": -80
           },
@@ -2008,7 +2005,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 120.0000 -408.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2021,7 +2018,7 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -408,
             "z": 80
           },
@@ -2037,7 +2034,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 120.0000 -408.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2050,7 +2047,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -456,
             "z": -80
           },
@@ -2066,7 +2063,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2079,7 +2076,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -80,
+            "x": -120,
             "y": -456,
             "z": 80
           },
@@ -2095,7 +2092,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -80.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 -120.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2108,7 +2105,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -456,
             "z": -80
           },
@@ -2124,7 +2121,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -456.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2137,7 +2134,7 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": 80,
+            "x": 120,
             "y": -456,
             "z": 80
           },
@@ -2153,7 +2150,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 80.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 120.0000 -456.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2183,9 +2180,9 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 0,
+            "x": -40,
             "y": -504,
-            "z": -160
+            "z": -200
           },
           "orientation": [
             1,
@@ -2199,7 +2196,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 0.0000 -504.0000 -160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
+          "ldrawLine": "1 2 -40.0000 -504.0000 -200.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2213,9 +2210,9 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 0,
+            "x": 40,
             "y": -504,
-            "z": 160
+            "z": 120
           },
           "orientation": [
             1,
@@ -2229,7 +2226,7 @@
             1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 0.0000 -504.0000 160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
+          "ldrawLine": "1 2 40.0000 -504.0000 120.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2305,7 +2302,7 @@
           "position": {
             "x": 80,
             "y": -504,
-            "z": -80
+            "z": -160
           },
           "orientation": [
             0,
@@ -2319,7 +2316,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -504.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 80.0000 -504.0000 -160.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2335,7 +2332,7 @@
           "position": {
             "x": 80,
             "y": -504,
-            "z": 80
+            "z": 0
           },
           "orientation": [
             0,
@@ -2349,7 +2346,7 @@
             0
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 80.0000 -504.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 80.0000 -504.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2387,23 +2384,23 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -40,
+            "x": 0,
             "y": -552,
-            "z": 80
+            "z": -160
           },
           "orientation": [
+            1,
+            0,
             0,
             0,
             1,
             0,
-            1,
             0,
-            -1,
             0,
-            0
+            1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -40.0000 -552.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 0.0000 -552.0000 -160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2413,27 +2410,27 @@
         {
           "id": "p071",
           "partId": "3011.dat",
-          "colorCode": 14,
-          "colorName": "Yellow",
+          "colorCode": 2,
+          "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 40,
+            "x": 0,
             "y": -552,
-            "z": 80
+            "z": -80
           },
           "orientation": [
+            1,
+            0,
             0,
             0,
             1,
             0,
-            1,
             0,
-            -1,
             0,
-            0
+            1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 40.0000 -552.0000 80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 0.0000 -552.0000 -80.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2443,27 +2440,27 @@
         {
           "id": "p072",
           "partId": "3011.dat",
-          "colorCode": 2,
-          "colorName": "Green",
+          "colorCode": 14,
+          "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -40,
+            "x": 0,
             "y": -552,
             "z": 0
           },
           "orientation": [
+            1,
+            0,
             0,
             0,
             1,
             0,
-            1,
             0,
-            -1,
             0,
-            0
+            1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 -40.0000 -552.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 0.0000 -552.0000 0.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2477,23 +2474,23 @@
           "colorName": "Green",
           "confidence": 0.95,
           "position": {
-            "x": 40,
+            "x": 0,
             "y": -552,
-            "z": 0
+            "z": 80
           },
           "orientation": [
+            1,
+            0,
             0,
             0,
             1,
             0,
-            1,
             0,
-            -1,
             0,
-            0
+            1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 2 40.0000 -552.0000 0.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 2 0.0000 -552.0000 80.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."
@@ -2507,23 +2504,23 @@
           "colorName": "Yellow",
           "confidence": 0.95,
           "position": {
-            "x": -40,
+            "x": 0,
             "y": -552,
-            "z": -80
+            "z": 160
           },
           "orientation": [
+            1,
+            0,
             0,
             0,
             1,
             0,
-            1,
             0,
-            -1,
             0,
-            0
+            1
           ],
           "connection": "Stud/tube connection inferred from the instruction image and Duplo grid.",
-          "ldrawLine": "1 14 -40.0000 -552.0000 -80.0000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 -1.000000 0.000000 0.000000 3011.dat",
+          "ldrawLine": "1 14 0.0000 -552.0000 160.0000 1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 3011.dat",
           "support": {
             "type": "manual",
             "reason": "Support and stacking are verified by this file's own geometric self-check (contiguous-Y support-area + overlap scan over bricks[], gated by process.exit(2)) rather than validate-assembly.mjs's support-id graph."

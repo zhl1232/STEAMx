@@ -1,0 +1,11 @@
+0 Duplo Brick  2 x  2 with Eye Pattern on Two Sides
+0 Name: 3437pb049.dat
+0 Author: STEAM Explore
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 !HELP Alias for the official LDraw eye-pattern part 3437pe1.dat, matching the Studio/BrickLink identifier used by this course model.
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Brick
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3437pe1.dat

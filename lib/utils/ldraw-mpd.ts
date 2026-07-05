@@ -131,18 +131,21 @@ type LDrawLoaderWithPartsCache = LDrawLoaderBase & {
 }
 
 /** 拉取打包 MPD，预填内联零件后 parse（不走 loadAsync，避免子件路径错到课时页）。 */
-export async function loadPackedLdrawModel(
-  loader: LDrawLoaderBase,
-  mpdUrl: string,
-  colorUrl: string,
-): Promise<import('three').Group> {
-  const packedLoader = loader as LDrawLoaderWithPartsCache
+export async function fetchPackedLdrawText(mpdUrl: string): Promise<string> {
   const response = await fetch(mpdUrl, { cache: 'no-store' })
   if (!response.ok) {
     throw new Error(`LDraw MPD 加载失败: HTTP ${response.status} (${mpdUrl})`)
   }
+  return response.text()
+}
 
-  const mpdText = await response.text()
+/** 从已取得的 MPD 文本 parse LDraw 模型；用于页面内调试编辑时快速重载预览。 */
+export async function parsePackedLdrawModelText(
+  loader: LDrawLoaderBase,
+  mpdText: string,
+  colorUrl: string,
+): Promise<import('three').Group> {
+  const packedLoader = loader as LDrawLoaderWithPartsCache
   assertValidLdrawMpd(mpdText)
 
   const fileBlockCount = countEmbeddedLdrawFiles(mpdText)
@@ -170,4 +173,14 @@ export async function loadPackedLdrawModel(
   return new Promise((resolve, reject) => {
     packedLoader.parse(mpdText, resolve, reject)
   })
+}
+
+/** 拉取打包 MPD，预填内联零件后 parse（不走 loadAsync，避免子件路径错到课时页）。 */
+export async function loadPackedLdrawModel(
+  loader: LDrawLoaderBase,
+  mpdUrl: string,
+  colorUrl: string,
+): Promise<import('three').Group> {
+  const mpdText = await fetchPackedLdrawText(mpdUrl)
+  return parsePackedLdrawModelText(loader, mpdText, colorUrl)
 }

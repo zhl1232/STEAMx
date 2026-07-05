@@ -13,9 +13,17 @@ const MPD_FILES = readdirSync(LDraw_DIR)
 const EXPECTED_STEP_COUNTS: Record<string, number> = {
   '3-bao-jian.mpd': 14,
   '3-chang-jing-long.mpd': 12,
-  '3-cheng-bao.mpd': 19,
+  '3-chang-jing-lu.mpd': 8,
+  '3-cheng-bao.mpd': 18,
   '3-cheng-qiang.mpd': 11,
+  '3-chong-wu-gou.mpd': 12,
   '3-chou-ti.mpd': 8,
+  '3-dong-fang-ming-zhu.mpd': 9,
+  'duplo_elephant_steps.mpd': 15,
+  'duplo_lighthouse_steps.mpd': 17,
+  'duplo_panda_steps.mpd': 13,
+  'duplo_telephone_steps.mpd': 7,
+  'duplo_cinema_steps.mpd': 15,
   'duplo-car.mpd': 3,
   'eiffel-tower.mpd': 13,
   'preschool-bridge.mpd': 4,
@@ -76,8 +84,13 @@ describe('LDraw MPD 打包产物', () => {
     const { fileNames, refs, stepCount } = parseMpd(text)
     const mainModel = file.replace(/\.mpd$/, '.ldr')
     const missing = [...refs].filter((ref) => !fileNames.has(ref))
+    const secondNonEmptyLine = text
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)[1]
 
     expect(text.startsWith(`0 FILE ${mainModel}`)).toBe(true)
+    expect(secondNonEmptyLine?.startsWith('0 FILE ')).toBe(false)
     expect(stepCount).toBe(EXPECTED_STEP_COUNTS[file])
     expect(missing).toEqual([])
   })

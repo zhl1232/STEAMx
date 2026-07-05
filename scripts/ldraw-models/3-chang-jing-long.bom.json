@@ -110,10 +110,21 @@
       "ldrawStatus": "Official",
       "colorCode": 14,
       "colorName": "Yellow",
-      "quantity": 10,
-      "confidence": 0.8,
+      "quantity": 8,
+      "confidence": 0.95,
+      "notes": [],
+      "substitutes": []
+    },
+    {
+      "partId": "3437pe1.dat",
+      "partName": "Duplo Brick 2 x 2 with Eye Print",
+      "ldrawStatus": "Official",
+      "colorCode": 14,
+      "colorName": "Yellow",
+      "quantity": 2,
+      "confidence": 0.9,
       "notes": [
-        "Plain yellow 2x2 used; printed eye decoration is not modeled."
+        "Printed eye brick."
       ],
       "substitutes": []
     },
@@ -137,7 +148,8 @@
       "quantity": 2,
       "confidence": 0.85,
       "notes": [
-        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation."
+        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; geometry is a local LDraw approximation.",
+        "LEGO/BrickLink element 42029; local LDraw approximation because the checked public LDraw mirror does not provide 42029.dat. The custom part models the low 2 x 4 plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and a tangent horizontal tube-holder ring. Element ID corrected to 42029; ring matrix adjusted in page edit mode."
       ],
       "substitutes": []
     }

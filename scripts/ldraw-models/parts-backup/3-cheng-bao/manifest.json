@@ -1,0 +1,659 @@
+{
+  "sourceMpd": "public/courses/ldraw/3-cheng-bao.mpd",
+  "outputRoot": "scripts/ldraw-models/parts-backup/3-cheng-bao",
+  "generatedAt": "2026-07-05T04:18:42.524Z",
+  "modelFile": "3-cheng-bao.ldr",
+  "totalFileBlocks": 70,
+  "dependencyFiles": 69,
+  "counts": {
+    "model": 1,
+    "part": 11,
+    "subpart": 6,
+    "primitive": 52
+  },
+  "directModelParts": [
+    "15793.dat",
+    "2205.dat",
+    "3011.dat",
+    "31021p01.dat",
+    "3437.dat",
+    "40666.dat",
+    "4268.dat",
+    "51708.dat",
+    "61649.dat",
+    "90265.dat",
+    "92094.dat"
+  ],
+  "files": [
+    {
+      "name": "3-cheng-bao.ldr",
+      "kind": "model",
+      "ldrawOrg": "",
+      "title": "0 DUPLO Castle (STEAM 课件 · 城堡 · 19 步搭建)",
+      "backupPath": "mpd-files/3-cheng-bao.ldr",
+      "studioPath": "studio-library/model/3-cheng-bao.ldr",
+      "directModelPart": false
+    },
+    {
+      "name": "4268.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2018-02",
+      "title": "0 Duplo Baseplate 24 x 24",
+      "backupPath": "mpd-files/4268.dat",
+      "studioPath": "studio-library/parts/4268.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "p/48/1-4disc.dat",
+      "kind": "primitive",
+      "ldrawOrg": "48_Primitive UPDATE 2002-02",
+      "title": "0 Hi-Res Disc 0.25",
+      "backupPath": "mpd-files/p/48/1-4disc.dat",
+      "studioPath": "studio-library/p/48/1-4disc.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "p/48/1-4cyli.dat",
+      "kind": "primitive",
+      "ldrawOrg": "48_Primitive UPDATE 2024-01",
+      "title": "0 Hi-Res Cylinder 0.25",
+      "backupPath": "mpd-files/p/48/1-4cyli.dat",
+      "studioPath": "studio-library/p/48/1-4cyli.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "p/48/1-4edge.dat",
+      "kind": "primitive",
+      "ldrawOrg": "48_Primitive UPDATE 2024-01",
+      "title": "0 Hi-Res Circle 0.25",
+      "backupPath": "mpd-files/p/48/1-4edge.dat",
+      "studioPath": "studio-library/p/48/1-4edge.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-8x8.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  8 x  8",
+      "backupPath": "mpd-files/stug20-8x8.dat",
+      "studioPath": "studio-library/p/stug20-8x8.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-4x4.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  4 x  4",
+      "backupPath": "mpd-files/stug20-4x4.dat",
+      "studioPath": "studio-library/p/stug20-4x4.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-2x2.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  2 x  2",
+      "backupPath": "mpd-files/stug20-2x2.dat",
+      "studioPath": "studio-library/p/stug20-2x2.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stud20.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo",
+      "backupPath": "mpd-files/stud20.dat",
+      "studioPath": "studio-library/p/stud20.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4cylc.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2009-02",
+      "title": "0 Cylinder Closed 1.0",
+      "backupPath": "mpd-files/4-4cylc.dat",
+      "studioPath": "studio-library/p/4-4cylc.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4edge.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2017-01",
+      "title": "0 Circle 1.0",
+      "backupPath": "mpd-files/4-4edge.dat",
+      "studioPath": "studio-library/p/4-4edge.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4disc.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2002-02",
+      "title": "0 Disc 1.0",
+      "backupPath": "mpd-files/4-4disc.dat",
+      "studioPath": "studio-library/p/4-4disc.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4cyli.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2005-01",
+      "title": "0 Cylinder 1.0",
+      "backupPath": "mpd-files/4-4cyli.dat",
+      "studioPath": "studio-library/p/4-4cyli.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-1x7.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  1 x  7",
+      "backupPath": "mpd-files/stug20-1x7.dat",
+      "studioPath": "studio-library/p/stug20-1x7.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-6x1.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2018-02",
+      "title": "0 Stud Duplo Group  6 x  1",
+      "backupPath": "mpd-files/stug20-6x1.dat",
+      "studioPath": "studio-library/p/stug20-6x1.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-7x1.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  7 x  1",
+      "backupPath": "mpd-files/stug20-7x1.dat",
+      "studioPath": "studio-library/p/stug20-7x1.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-1x8.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  1 x  8",
+      "backupPath": "mpd-files/stug20-1x8.dat",
+      "studioPath": "studio-library/p/stug20-1x8.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-7x7.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  7 x  7",
+      "backupPath": "mpd-files/stug20-7x7.dat",
+      "studioPath": "studio-library/p/stug20-7x7.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug20-3x3.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Group  3 x  3",
+      "backupPath": "mpd-files/stug20-3x3.dat",
+      "studioPath": "studio-library/p/stug20-3x3.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "3011.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2020-01",
+      "title": "0 Duplo Brick  2 x  4",
+      "backupPath": "mpd-files/3011.dat",
+      "studioPath": "studio-library/parts/3011.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "parts/s/3011s01.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2020-01",
+      "title": "0 ~Duplo Brick  2 x  4 without Front and Back Faces",
+      "backupPath": "mpd-files/parts/s/3011s01.dat",
+      "studioPath": "studio-library/parts/s/3011s01.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug8-1x3.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2013-01",
+      "title": "0 Stud Duplo Tube Group  1 x  3",
+      "backupPath": "mpd-files/stug8-1x3.dat",
+      "studioPath": "studio-library/p/stug8-1x3.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stud8.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2009-02",
+      "title": "0 Stud Duplo Tube",
+      "backupPath": "mpd-files/stud8.dat",
+      "studioPath": "studio-library/p/stud8.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4ring7.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2009-01",
+      "title": "0 Ring  7 x 1.0",
+      "backupPath": "mpd-files/4-4ring7.dat",
+      "studioPath": "studio-library/p/4-4ring7.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box5.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Box with 5 Faces and All Edges",
+      "backupPath": "mpd-files/box5.dat",
+      "studioPath": "studio-library/p/box5.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box3u2p.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Box with 3 Faces without 2 Parallel Edges",
+      "backupPath": "mpd-files/box3u2p.dat",
+      "studioPath": "studio-library/p/box3u2p.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug7-2x2.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Stud Duplo Open Group  2 x  2",
+      "backupPath": "mpd-files/stug7-2x2.dat",
+      "studioPath": "studio-library/p/stug7-2x2.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stud7.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2009-02",
+      "title": "0 Stud Duplo Open",
+      "backupPath": "mpd-files/stud7.dat",
+      "studioPath": "studio-library/p/stud7.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4ring3.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2009-01",
+      "title": "0 Ring  3 x 1.0",
+      "backupPath": "mpd-files/4-4ring3.dat",
+      "studioPath": "studio-library/p/4-4ring3.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box4-1.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Box with 4 Faces without 1 Edge",
+      "backupPath": "mpd-files/box4-1.dat",
+      "studioPath": "studio-library/p/box4-1.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "31021p01.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2010-03",
+      "title": "0 Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+      "backupPath": "mpd-files/31021p01.dat",
+      "studioPath": "studio-library/parts/31021p01.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "rect.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Rectangle",
+      "backupPath": "mpd-files/rect.dat",
+      "studioPath": "studio-library/p/rect.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2002-05",
+      "title": "0 Box 6 (six faces)",
+      "backupPath": "mpd-files/box.dat",
+      "studioPath": "studio-library/p/box.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box4.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Box with 4 Faces (2 Parallel Pairs) and All Edges",
+      "backupPath": "mpd-files/box4.dat",
+      "studioPath": "studio-library/p/box4.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "3437.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2020-03",
+      "title": "0 Duplo Brick  2 x  2",
+      "backupPath": "mpd-files/3437.dat",
+      "studioPath": "studio-library/parts/3437.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "parts/s/3437s01.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2020-03",
+      "title": "0 ~Duplo Brick  2 x  2 without Front and Back Faces",
+      "backupPath": "mpd-files/parts/s/3437s01.dat",
+      "studioPath": "studio-library/parts/s/3437s01.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "92094.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2022-06",
+      "title": "0 Duplo Door Frame  2 x  4 x  4",
+      "backupPath": "mpd-files/92094.dat",
+      "studioPath": "studio-library/parts/92094.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "ddoorhinge.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2022-06",
+      "title": "0 Duplo Door Hinge Socket",
+      "backupPath": "mpd-files/ddoorhinge.dat",
+      "studioPath": "studio-library/p/ddoorhinge.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "stug7-1x4.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2020-02",
+      "title": "0 Stud Duplo Open Group  1 x  4",
+      "backupPath": "mpd-files/stug7-1x4.dat",
+      "studioPath": "studio-library/p/stug7-1x4.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "rect1.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Rectangle with 1 Edge",
+      "backupPath": "mpd-files/rect1.dat",
+      "studioPath": "studio-library/p/rect1.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-4cylo.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-03",
+      "title": "0 Cylinder Open 0.25",
+      "backupPath": "mpd-files/1-4cylo.dat",
+      "studioPath": "studio-library/p/1-4cylo.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-4edge.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2017-01",
+      "title": "0 Circle 0.25",
+      "backupPath": "mpd-files/1-4edge.dat",
+      "studioPath": "studio-library/p/1-4edge.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-4cyli.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Cylinder 0.25",
+      "backupPath": "mpd-files/1-4cyli.dat",
+      "studioPath": "studio-library/p/1-4cyli.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-4ndis.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Disc Negative 0.25",
+      "backupPath": "mpd-files/1-4ndis.dat",
+      "studioPath": "studio-library/p/1-4ndis.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "rect2p.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Rectangle with 2 Parallel Edges",
+      "backupPath": "mpd-files/rect2p.dat",
+      "studioPath": "studio-library/p/rect2p.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "box4o4a.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Box with 4 Faces (2 Parallel Pairs) without Bottom Edges",
+      "backupPath": "mpd-files/box4o4a.dat",
+      "studioPath": "studio-library/p/box4o4a.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2205.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2020-01",
+      "title": "0 Duplo Door  1 x  4 x  4 with Four Panes",
+      "backupPath": "mpd-files/2205.dat",
+      "studioPath": "studio-library/parts/2205.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "1-4chrd.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-02",
+      "title": "0 Chord 0.25",
+      "backupPath": "mpd-files/1-4chrd.dat",
+      "studioPath": "studio-library/p/1-4chrd.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4cylo.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Cylinder Open 1.0",
+      "backupPath": "mpd-files/4-4cylo.dat",
+      "studioPath": "studio-library/p/4-4cylo.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "40666.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2009-02",
+      "title": "0 Duplo Plate  2 x  4",
+      "backupPath": "mpd-files/40666.dat",
+      "studioPath": "studio-library/parts/40666.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "51708.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2020-03",
+      "title": "0 Duplo Flagpole / Antenna  1 x  9",
+      "backupPath": "mpd-files/51708.dat",
+      "studioPath": "studio-library/parts/51708.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "stud28.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2020-03",
+      "title": "0 Duplo Tube and Stud Top",
+      "backupPath": "mpd-files/stud28.dat",
+      "studioPath": "studio-library/p/stud28.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-8chrd.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2004-02",
+      "title": "0 Chord 0.125",
+      "backupPath": "mpd-files/1-8chrd.dat",
+      "studioPath": "studio-library/p/1-8chrd.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "rect3.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Rectangle with 3 Edges",
+      "backupPath": "mpd-files/rect3.dat",
+      "studioPath": "studio-library/p/rect3.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "rect2a.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-01",
+      "title": "0 Rectangle with 2 Adjacent Edges",
+      "backupPath": "mpd-files/rect2a.dat",
+      "studioPath": "studio-library/p/rect2a.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "4-4con1.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Cone  1 x 1.0",
+      "backupPath": "mpd-files/4-4con1.dat",
+      "studioPath": "studio-library/p/4-4con1.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "8-8sphe.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Sphere 1.0",
+      "backupPath": "mpd-files/8-8sphe.dat",
+      "studioPath": "studio-library/p/8-8sphe.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "1-8sphe.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-03",
+      "title": "0 Sphere 0.125",
+      "backupPath": "mpd-files/1-8sphe.dat",
+      "studioPath": "studio-library/p/1-8sphe.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "15793.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2022-01",
+      "title": "0 Duplo Flag Wavy  2 x  5 without Slits",
+      "backupPath": "mpd-files/15793.dat",
+      "studioPath": "studio-library/parts/15793.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "parts/s/15793s00.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2022-01",
+      "title": "0 ~Duplo Flag Wavy  2 x  5 without Slits without Front",
+      "backupPath": "mpd-files/parts/s/15793s00.dat",
+      "studioPath": "studio-library/parts/s/15793s00.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "parts/s/51725s02.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2020-03",
+      "title": "0 ~Duplo Flag Wavy  2 x  5 Back Surface",
+      "backupPath": "mpd-files/parts/s/51725s02.dat",
+      "studioPath": "studio-library/parts/s/51725s02.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2-4cylo.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2010-03",
+      "title": "0 Cylinder Open 0.5",
+      "backupPath": "mpd-files/2-4cylo.dat",
+      "studioPath": "studio-library/p/2-4cylo.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2-4edge.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2017-01",
+      "title": "0 Circle 0.5",
+      "backupPath": "mpd-files/2-4edge.dat",
+      "studioPath": "studio-library/p/2-4edge.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2-4cyli.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2005-01",
+      "title": "0 Cylinder 0.5",
+      "backupPath": "mpd-files/2-4cyli.dat",
+      "studioPath": "studio-library/p/2-4cyli.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2-4chrd.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2014-01",
+      "title": "0 Chord 0.5",
+      "backupPath": "mpd-files/2-4chrd.dat",
+      "studioPath": "studio-library/p/2-4chrd.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "2-4ndis.dat",
+      "kind": "primitive",
+      "ldrawOrg": "Primitive UPDATE 2012-01",
+      "title": "0 Disc Negative 0.5",
+      "backupPath": "mpd-files/2-4ndis.dat",
+      "studioPath": "studio-library/p/2-4ndis.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "parts/s/51725s01.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2022-01",
+      "title": "0 ~Duplo Flag Wavy  2 x  5 Patternable Surface",
+      "backupPath": "mpd-files/parts/s/51725s01.dat",
+      "studioPath": "studio-library/parts/s/51725s01.dat",
+      "directModelPart": false
+    },
+    {
+      "name": "61649.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2022-06",
+      "title": "0 Duplo Door Frame  2 x  4 x  3 with Completely Open Back",
+      "backupPath": "mpd-files/61649.dat",
+      "studioPath": "studio-library/parts/61649.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "90265.dat",
+      "kind": "part",
+      "ldrawOrg": "Part UPDATE 2022-01",
+      "title": "0 Duplo Window  1 x  4 x  3 with Flat Top with 4 Same Size Panes",
+      "backupPath": "mpd-files/90265.dat",
+      "studioPath": "studio-library/parts/90265.dat",
+      "directModelPart": true
+    },
+    {
+      "name": "parts/s/27382s02.dat",
+      "kind": "subpart",
+      "ldrawOrg": "Subpart UPDATE 2022-01",
+      "title": "0 ~Duplo Door / Window  1 x  4 x  3 with Flat Top Common Geometry",
+      "backupPath": "mpd-files/parts/s/27382s02.dat",
+      "studioPath": "studio-library/parts/s/27382s02.dat",
+      "directModelPart": false
+    }
+  ]
+}

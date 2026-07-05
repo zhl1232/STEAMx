@@ -2,12 +2,12 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Box, Check, ChevronLeft, ChevronRight, FileText, Film, Loader2, PlayCircle, Presentation, RotateCcw, Sparkles, ZoomIn } from "lucide-react";
+import { Box, Check, ChevronLeft, ChevronRight, Copy, FileText, Film, Loader2, PlayCircle, Presentation, RotateCcw, Sparkles, ZoomIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
-import { loadPackedLdrawModel } from "@/lib/utils/ldraw-mpd";
+import { fetchPackedLdrawText, parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
@@ -45,6 +45,19 @@ const LessonWorksGallery = dynamic(
 type SceneState = {
     cleanup: () => void;
     focusStep: (stepIndex: number) => void;
+    previewLDrawLineEdit?: (lineIndex: number, line: string) => Promise<void>;
+};
+
+type LDrawEditableLine = {
+    index: number;
+    stepIndex: number;
+    line: string;
+    color: string;
+    fileName: string;
+    x: number;
+    y: number;
+    z: number;
+    matrix: number[];
 };
 
 const DEFAULT_PARTS: Building3DPart[] = [
@@ -164,6 +177,104 @@ function partMap(parts: Building3DPart[]) {
 function getErrorMessage(error: unknown, fallback: string) {
     if (error instanceof Error) return error.message;
     return fallback;
+}
+
+function parseLDrawEditableLine(line: string, index: number, stepIndex: number): LDrawEditableLine | null {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("1 ")) return null;
+    const tokens = trimmed.split(/\s+/);
+    if (tokens.length < 15) return null;
+    const numbers = tokens.slice(2, 14).map((token) => Number(token));
+    if (numbers.some((value) => !Number.isFinite(value))) return null;
+    return {
+        index,
+        stepIndex,
+        line,
+        color: tokens[1],
+        fileName: tokens.slice(14).join(" "),
+        x: numbers[0],
+        y: numbers[1],
+        z: numbers[2],
+        matrix: numbers.slice(3),
+    };
+}
+
+function parseLDrawStepLines(mainText: string): LDrawEditableLine[] {
+    const lines = mainText.split(/\r?\n/);
+    const editable: LDrawEditableLine[] = [];
+    let stepIndex = 0;
+    for (let index = 0; index < lines.length; index++) {
+        const line = lines[index];
+        if (line.trim() === "0 STEP") {
+            stepIndex += 1;
+            continue;
+        }
+        const parsed = parseLDrawEditableLine(line, index, stepIndex);
+        if (parsed) editable.push(parsed);
+    }
+    return editable;
+}
+
+function formatLDrawNumber(value: number) {
+    if (Math.abs(value) < 0.0005) return "0.0000";
+    return value.toFixed(4);
+}
+
+function formatLDrawMatrixNumber(value: number) {
+    if (Math.abs(value) < 0.0000005) return "0.000000";
+    return value.toFixed(6);
+}
+
+function formatLDrawLine(line: LDrawEditableLine) {
+    return [
+        "1",
+        line.color,
+        formatLDrawNumber(line.x),
+        formatLDrawNumber(line.y),
+        formatLDrawNumber(line.z),
+        ...line.matrix.map(formatLDrawMatrixNumber),
+        line.fileName,
+    ].join(" ");
+}
+
+function multiplyLDrawMatrices(a: number[], b: number[]) {
+    return [
+        a[0] * b[0] + a[1] * b[3] + a[2] * b[6],
+        a[0] * b[1] + a[1] * b[4] + a[2] * b[7],
+        a[0] * b[2] + a[1] * b[5] + a[2] * b[8],
+        a[3] * b[0] + a[4] * b[3] + a[5] * b[6],
+        a[3] * b[1] + a[4] * b[4] + a[5] * b[7],
+        a[3] * b[2] + a[4] * b[5] + a[5] * b[8],
+        a[6] * b[0] + a[7] * b[3] + a[8] * b[6],
+        a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
+        a[6] * b[2] + a[7] * b[5] + a[8] * b[8],
+    ];
+}
+
+function quarterTurnMatrix(axis: "x" | "y" | "z", direction: 1 | -1) {
+    const s = direction;
+    if (axis === "x") return [1, 0, 0, 0, 0, -s, 0, s, 0];
+    if (axis === "y") return [0, 0, s, 0, 1, 0, -s, 0, 0];
+    return [0, -s, 0, s, 0, 0, 0, 0, 1];
+}
+
+function updateEditableLine(
+    line: LDrawEditableLine,
+    patch: Partial<Pick<LDrawEditableLine, "x" | "y" | "z" | "matrix">>,
+): LDrawEditableLine {
+    return { ...line, ...patch, line: formatLDrawLine({ ...line, ...patch }) };
+}
+
+function replaceMainLDrawLine(mpdText: string, lineIndex: number, line: string) {
+    const { mainName, mainText, embedded } = splitPackedMpd(mpdText);
+    const mainLines = mainText.split(/\r?\n/);
+    if (lineIndex < 0 || lineIndex >= mainLines.length) return mpdText;
+    mainLines[lineIndex] = line;
+    const blocks = [`0 FILE ${mainName}\n${mainLines.join("\n").trimEnd()}\n`];
+    for (const [name, text] of embedded) {
+        blocks.push(`0 FILE ${name}\n${text.trimEnd()}\n`);
+    }
+    return blocks.join("\n");
 }
 
 async function loadThree(): Promise<LoadedThree> {
@@ -332,6 +443,163 @@ function createDemoBrickScene(
     return { root, meshesByPartId };
 }
 
+function LDrawDebugEditor({
+    modelUrl,
+    activeStepIndex,
+    onPreviewLine,
+}: {
+    modelUrl?: string;
+    activeStepIndex: number;
+    onPreviewLine?: (lineIndex: number, line: string) => Promise<void> | void;
+}) {
+    const { toast } = useToast();
+    const [lines, setLines] = useState<LDrawEditableLine[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const activeLines = useMemo(
+        () => lines.filter((line) => line.stepIndex === activeStepIndex),
+        [activeStepIndex, lines],
+    );
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [draft, setDraft] = useState<LDrawEditableLine | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        async function loadModelSource() {
+            if (!modelUrl) return;
+            setError(null);
+            try {
+                const response = await fetch(modelUrl, { cache: "no-store" });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const mpd = await response.text();
+                const { mainText } = splitPackedMpd(mpd);
+                if (!cancelled) setLines(parseLDrawStepLines(mainText));
+            } catch (err) {
+                if (!cancelled) setError(getErrorMessage(err, "无法读取 LDraw 源行"));
+            }
+        }
+        void loadModelSource();
+        return () => {
+            cancelled = true;
+        };
+    }, [modelUrl]);
+
+    useEffect(() => {
+        const first = activeLines[0] ?? null;
+        setSelectedIndex(first?.index ?? null);
+        setDraft(first);
+    }, [activeLines]);
+
+    const selectLine = (line: LDrawEditableLine) => {
+        setSelectedIndex(line.index);
+        setDraft(line);
+    };
+
+    const applyDraft = (next: LDrawEditableLine) => {
+        setDraft(next);
+        void onPreviewLine?.(next.index, formatLDrawLine(next));
+    };
+
+    const nudge = (axis: "x" | "y" | "z", amount: number) => {
+        if (!draft) return;
+        applyDraft(updateEditableLine(draft, { [axis]: draft[axis] + amount }));
+    };
+
+    const rotate = (axis: "x" | "y" | "z", direction: 1 | -1) => {
+        if (!draft) return;
+        applyDraft(updateEditableLine(draft, {
+            matrix: multiplyLDrawMatrices(draft.matrix, quarterTurnMatrix(axis, direction)),
+        }));
+    };
+
+    const copyLine = async () => {
+        if (!draft) return;
+        const line = formatLDrawLine(draft);
+        try {
+            await navigator.clipboard.writeText(line);
+            toast({ title: "已复制 LDraw 行" });
+        } catch {
+            toast({ title: "复制失败", description: line, variant: "destructive" });
+        }
+    };
+
+    return (
+        <div className="border-t border-border bg-[#f8fbff] px-4 py-3">
+            <div className="flex items-center justify-between gap-2">
+                <div>
+                    <h4 className="text-xs font-bold text-foreground">LDraw 调试</h4>
+                    <p className="mt-0.5 text-[11px] leading-tight text-muted-foreground">
+                        当前步骤 · 复制新行后回写源文件
+                    </p>
+                </div>
+                <span className="rounded-sm border border-border bg-background px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                    ?ldrawEdit=1
+                </span>
+            </div>
+            {error ? (
+                <p className="mt-2 rounded-sm border border-destructive/20 bg-destructive/10 px-2 py-1.5 text-xs text-destructive">
+                    {error}
+                </p>
+            ) : null}
+            <div className="mt-3 max-h-36 space-y-1 overflow-y-auto">
+                {activeLines.length > 0 ? activeLines.map((line) => (
+                    <button
+                        key={line.index}
+                        type="button"
+                        onClick={() => selectLine(line)}
+                        className={cn(
+                            "flex w-full items-center justify-between gap-2 rounded-sm border px-2 py-1.5 text-left text-xs transition-colors",
+                            selectedIndex === line.index
+                                ? "border-[hsl(var(--brand-blue))] bg-[hsl(var(--brand-blue)/0.08)] text-foreground"
+                                : "border-border bg-background text-muted-foreground hover:bg-muted",
+                        )}
+                    >
+                        <span className="min-w-0 truncate">{line.fileName}</span>
+                        <span className="shrink-0 font-mono">#{line.index + 1}</span>
+                    </button>
+                )) : (
+                    <p className="rounded-sm border border-dashed border-border bg-background px-2 py-2 text-xs text-muted-foreground">
+                        当前步骤没有可编辑零件行
+                    </p>
+                )}
+            </div>
+            {draft ? (
+                <div className="mt-3 space-y-3">
+                    <div className="grid grid-cols-3 gap-1.5">
+                        {(["x", "y", "z"] as const).map((axis) => (
+                            <div key={axis} className="rounded-sm border border-border bg-background p-1.5">
+                                <p className="mb-1 text-center font-mono text-[11px] uppercase text-muted-foreground">
+                                    {axis} {formatLDrawNumber(draft[axis])}
+                                </p>
+                                <div className="grid grid-cols-2 gap-1">
+                                    <button type="button" className="rounded-sm bg-muted px-1 py-1 text-[11px] font-semibold" onClick={() => nudge(axis, -40)}>-40</button>
+                                    <button type="button" className="rounded-sm bg-muted px-1 py-1 text-[11px] font-semibold" onClick={() => nudge(axis, 40)}>+40</button>
+                                    <button type="button" className="rounded-sm bg-muted px-1 py-1 text-[11px] font-semibold" onClick={() => nudge(axis, -10)}>-10</button>
+                                    <button type="button" className="rounded-sm bg-muted px-1 py-1 text-[11px] font-semibold" onClick={() => nudge(axis, 10)}>+10</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-3 gap-1.5">
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("y", 1)}>水平 +90</button>
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("z", 1)}>垂直 +90</button>
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("x", 1)}>前后 +90</button>
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("y", -1)}>水平 -90</button>
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("z", -1)}>垂直 -90</button>
+                        <button type="button" className="rounded-sm border border-border bg-background px-2 py-1.5 text-xs font-semibold" onClick={() => rotate("x", -1)}>前后 -90</button>
+                    </div>
+                    <pre className="max-h-28 overflow-auto rounded-sm border border-border bg-[#0f172a] p-2 text-[11px] leading-relaxed text-white">
+                        {formatLDrawLine(draft)}
+                    </pre>
+                    <Button type="button" size="sm" variant="outline" className="w-full bg-background" onClick={copyLine}>
+                        <Copy className="mr-1 h-3.5 w-3.5" />
+                        复制这一行
+                    </Button>
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
 export function Building3DWorkspace({
     courseId,
     lesson,
@@ -379,11 +647,16 @@ export function Building3DWorkspace({
     );
     const [slideIndex, setSlideIndex] = useState(0);
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
+    const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
     const currentSlide = Math.min(slideIndex, Math.max(slideCount - 1, 0));
 
     useEffect(() => {
         activeStepIndexRef.current = activeStepIndex;
     }, [activeStepIndex]);
+
+    useEffect(() => {
+        setLdrawEditEnabled(new URLSearchParams(window.location.search).get("ldrawEdit") === "1");
+    }, []);
 
     useEffect(() => {
         let cancelled = false;
@@ -439,22 +712,43 @@ export function Building3DWorkspace({
                 let revealPartsByStep = true;
                 // LDraw 模型用模型内 `0 STEP` 元数据驱动分步显隐（buildingStep）。
                 let ldrawNumSteps = 0;
+                let currentLdrawMpdText: string | null = null;
+                const defaultMaterials = new Map<
+                    import("three").Mesh,
+                    import("three").Material | import("three").Material[]
+                >();
+                const collectDefaultMaterials = (object: import("three").Object3D) => {
+                    defaultMaterials.clear();
+                    object.traverse((child) => {
+                        if (!("isMesh" in child)) return;
+                        const mesh = child as import("three").Mesh;
+                        defaultMaterials.set(mesh, mesh.material);
+                    });
+                };
+                const ldrawColorUrl =
+                    resolveAssetDisplayUrl(content.ldrawColorUrl ?? DEFAULT_LDRAW_COLOR_URL)
+                    ?? DEFAULT_LDRAW_COLOR_URL;
+                const createLdrawLoader = () => {
+                    const loader = new LDrawLoader();
+                    loader.smoothNormals = true;
+                    loader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
+                    return loader;
+                };
+                const parseLdrawPreviewModel = async (mpdText: string) => {
+                    const model = await parsePackedLdrawModelText(
+                        createLdrawLoader(),
+                        mpdText,
+                        ldrawColorUrl,
+                    );
+                    prepareLdrawModel(THREE, model, FLOOR_Y);
+                    return model;
+                };
 
                 if (content.ldrawModelUrl) {
                     try {
-                        const ldrawLoader = new LDrawLoader();
-                        ldrawLoader.smoothNormals = true;
-                        ldrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
-                        const colorUrl =
-                            resolveAssetDisplayUrl(content.ldrawColorUrl ?? DEFAULT_LDRAW_COLOR_URL)
-                            ?? DEFAULT_LDRAW_COLOR_URL;
-                        const model = await loadPackedLdrawModel(
-                            ldrawLoader,
-                            content.ldrawModelUrl,
-                            colorUrl,
-                        );
+                        currentLdrawMpdText = await fetchPackedLdrawText(content.ldrawModelUrl);
+                        const model = await parseLdrawPreviewModel(currentLdrawMpdText);
                         if (cancelled || !mountRef.current) return;
-                        prepareLdrawModel(THREE, model, FLOOR_Y);
                         root = model;
                         revealPartsByStep = false;
                         const parsedStepCount = model.userData.numBuildingSteps;
@@ -491,15 +785,7 @@ export function Building3DWorkspace({
                     throw new Error("3D 场景未能构建成功（模型为空）");
                 }
 
-                const defaultMaterials = new Map<
-                    import("three").Mesh,
-                    import("three").Material | import("three").Material[]
-                >();
-                root.traverse((object) => {
-                    if (!("isMesh" in object)) return;
-                    const mesh = object as import("three").Mesh;
-                    defaultMaterials.set(mesh, mesh.material);
-                });
+                collectDefaultMaterials(root);
 
                 const highlightMaterial = new THREE.MeshStandardMaterial({
                     color: "#f59e0b",
@@ -545,6 +831,21 @@ export function Building3DWorkspace({
                     applyCameraHint(THREE, camera, controls, step?.cameraHint);
                 };
 
+                const previewLDrawLineEdit = async (lineIndex: number, line: string) => {
+                    if (!currentLdrawMpdText || !content.ldrawModelUrl) return;
+                    const nextMpdText = replaceMainLDrawLine(currentLdrawMpdText, lineIndex, line);
+                    const nextRoot = await parseLdrawPreviewModel(nextMpdText);
+                    if (cancelled || !mountRef.current) return;
+                    if (root) {
+                        scene.remove(root);
+                    }
+                    root = nextRoot;
+                    scene.add(root);
+                    collectDefaultMaterials(root);
+                    currentLdrawMpdText = nextMpdText;
+                    focusStep(activeStepIndexRef.current);
+                };
+
                 const resize = () => {
                     const width = mount.clientWidth || 640;
                     const height = mount.clientHeight || 420;
@@ -576,6 +877,7 @@ export function Building3DWorkspace({
                         }
                     },
                     focusStep,
+                    previewLDrawLineEdit: content.ldrawModelUrl ? previewLDrawLineEdit : undefined,
                 };
                 sceneRef.current = state;
             } catch (error) {
@@ -633,6 +935,10 @@ export function Building3DWorkspace({
         const next = Math.min(Math.max(activeStepIndex + delta, 0), content.steps3d.length - 1);
         onStepChange(next);
     };
+
+    const previewLDrawLineEdit = useCallback((lineIndex: number, line: string) => {
+        return sceneRef.current?.previewLDrawLineEdit?.(lineIndex, line);
+    }, []);
 
     const showTabs = standaloneVideo || hasSlides || hasWorks;
 
@@ -919,6 +1225,13 @@ export function Building3DWorkspace({
                                 })}
                             </ul>
                         </div>
+                        {ldrawEditEnabled && content.ldrawModelUrl ? (
+                            <LDrawDebugEditor
+                                modelUrl={content.ldrawModelUrl}
+                                activeStepIndex={activeStepIndex}
+                                onPreviewLine={previewLDrawLineEdit}
+                            />
+                        ) : null}
                         <div className="space-y-2 border-t border-border p-3">
                             <div className="grid grid-cols-[1fr_1fr] gap-2">
                                 <Button

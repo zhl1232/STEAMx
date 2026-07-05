@@ -2,11 +2,10 @@
 // 生成「抽屉」LDraw 源模型（得宝 Duplo 件），对照 instructions.pdf 10 步搭建。
 // 用法：node scripts/ldraw-models/gen-3-chou-ti.mjs
 
-import { readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const MODEL_NAME = '3-chou-ti.ldr'
-const PART_42029 = resolve('scripts/ldraw-models/parts/42029.dat')
 
 const BRICK_H = 48
 const PLATE_H = 24
@@ -217,15 +216,8 @@ for (const { title, partLines } of steps) {
 }
 
 const modelBody = lines.join('\n')
-const part42029 = readFileSync(PART_42029, 'utf8').trimEnd()
-const mpdBody = [
-  `0 FILE ${MODEL_NAME}`,
-  modelBody,
-  '0 FILE 42029.dat',
-  part42029,
-  '',
-].join('\n')
+const ldrBody = [`0 FILE ${MODEL_NAME}`, modelBody, ''].join('\n')
 
 const outPath = resolve('scripts/ldraw-models/3-chou-ti.ldr')
-writeFileSync(outPath, mpdBody, 'utf8')
-console.log(`Wrote ${outPath} (${steps.length} steps, embedded 42029.dat)`)
+writeFileSync(outPath, ldrBody, 'utf8')
+console.log(`Wrote ${outPath} (${steps.length} steps)`)
