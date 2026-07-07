@@ -1,0 +1,46 @@
+0 3+ 浴缸 (Bathtub) - DUPLO draft for manual repair
+0 Name: 3-yu-gang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+浴缸 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tub basin, duck and shower pipe are simplified.
+
+0 // STEP 1 - tub floor
+1 4 -160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -48 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -48 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - yellow/red tub walls
+1 14 -240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - inner blue water and pillow
+1 1 -160 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 220 -144 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 320 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - shower pipe
+1 4 -360 -144 40 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 -360 -264 40 1 0 0 0 1 0 0 0 1 31452.dat
+1 4 -300 -384 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
+1 1 -200 -432 40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -60 -432 40 0 0 1 0 1 0 -1 0 0 31195.dat
+0 STEP
+
+0 // STEP 5 - small duck
+1 14 40 -168 20 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 120 -168 20 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 20 -216 -20 1 0 0 0 1 0 0 0 1 3437.dat

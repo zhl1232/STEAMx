@@ -1,0 +1,41 @@
+0 4+ 导弹车 (Missile Truck) - DUPLO draft for manual repair
+0 Name: 4-dao-dan-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+导弹车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Launcher rack, missiles and cabin are simplified.
+
+0 // STEP 1 - wheeled chassis
+1 2 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 280 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - blue/yellow cabin
+1 1 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -180 -192 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 20 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - black launcher support
+1 0 160 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 320 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 160 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 320 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 220 -192 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - raised missile rack
+1 0 260 -264 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 0 360 -336 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 0 460 -408 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 1 240 -300 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 1 340 -372 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 1 440 -444 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 14 520 -500 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat

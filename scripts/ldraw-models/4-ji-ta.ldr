@@ -1,0 +1,30 @@
+0 4+ 吉他 (Guitar) - DUPLO draft for manual repair
+0 Name: 4-ji-ta.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+吉他 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Guitar body, neck, frets and strings are simplified.
+
+0 // STEP 1 - yellow body silhouette
+1 14 -160 -48 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 14 -80 -128 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 14 0 -208 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 14 -160 -208 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 14 -80 -128 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 14 0 -48 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - black neck
+1 0 160 -240 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 0 260 -340 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 0 360 -440 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 0 460 -540 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - strings and bridge
+1 15 40 -220 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 15 140 -320 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 4 -20 -180 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 560 -620 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3437.dat

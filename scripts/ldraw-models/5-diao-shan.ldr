@@ -1,0 +1,40 @@
+0 5+ 吊扇 (Ceiling Fan) - DUPLO draft for manual repair
+0 Name: 5-diao-shan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+吊扇 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Support frame, fan blades, hub and hanging riders are simplified.
+
+0 // STEP 1 - green base and yellow frame posts
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red overhead beam
+1 4 -240 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - fan hub and green blades
+1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -140 -264 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 140 -264 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 0 -264 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -264 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - center drop and people markers
+1 0 0 -168 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 -80 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 -120 1 0 0 0 1 0 0 0 1 40666.dat

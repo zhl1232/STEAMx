@@ -1,0 +1,40 @@
+0 4+ 升降救援车 (Lift Rescue Truck) - DUPLO draft for manual repair
+0 Name: 4-sheng-jiang-jiu-yuan-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+升降救援车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Scissor lift geometry, bucket rails, lights and vehicle windows are simplified.
+
+0 // STEP 1 - green and yellow rescue truck
+1 2 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 160 -120 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - cabin windows and rear platform
+1 15 -200 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -80 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 120 -144 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 240 -144 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - scissor lift
+1 0 60 -216 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 200 -216 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 60 -336 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 200 -336 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 130 -276 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - basket and warning lights
+1 15 130 -420 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 50 -468 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 210 -468 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 130 -516 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 40 -552 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 220 -552 -120 1 0 0 0 1 0 0 0 1 3437.dat

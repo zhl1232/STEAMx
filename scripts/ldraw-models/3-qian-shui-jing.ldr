@@ -1,0 +1,44 @@
+0 3+ 潜水镜 (Diving Goggles) - DUPLO draft for manual repair
+0 Name: 3-qian-shui-jing.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+潜水镜 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Mask holes, snorkel curves and underwater animals are simplified.
+
+0 // STEP 1 - sea base
+1 1 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow mask frame
+1 14 0 -72 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - white lens openings and blue nose
+1 15 -100 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 100 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -192 -60 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red and blue snorkel
+1 4 260 -216 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -264 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 260 -312 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -360 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -384 80 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 5 - underwater plants and fish
+1 2 -420 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -420 -120 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -500 -96 160 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -120 -72 180 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 120 -72 180 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 420 -72 180 1 0 0 0 1 0 0 0 1 2302.dat

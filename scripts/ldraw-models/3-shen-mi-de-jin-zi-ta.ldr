@@ -1,0 +1,53 @@
+0 3+ 神秘的金字塔 (Pyramid) - DUPLO draft for manual repair
+0 Name: 3-shen-mi-de-jin-zi-ta.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+神秘的金字塔 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Pyramid steps and sphinx are simplified using supported DUPLO bricks.
+
+0 // STEP 1 - desert base
+1 14 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - pyramid first tier
+1 14 -360 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - pyramid middle tiers
+1 14 -320 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - pyramid top
+1 14 -240 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - sphinx body and paws
+1 14 260 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 420 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 220 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 460 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 340 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 6 - sphinx head and headdress
+1 14 520 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -216 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 460 -264 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 580 -264 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 500 -312 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 560 -312 40 1 0 0 0 1 0 0 0 1 3437.dat

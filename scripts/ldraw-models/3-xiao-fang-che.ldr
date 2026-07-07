@@ -1,0 +1,49 @@
+0 3+ 消防车 (Fire Truck) - DUPLO draft for manual repair
+0 Name: 3-xiao-fang-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+消防车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Side windows, ladder texture and roof cannon are simplified.
+
+0 // STEP 1 - wheeled chassis
+1 4 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 320 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - red body and yellow skirt
+1 14 -160 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 320 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -160 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - cab and side windows
+1 4 -220 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -220 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -220 -288 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 40 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 200 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 360 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - rear equipment deck
+1 2 120 -216 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 6 160 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 6 320 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 20 -264 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -312 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - blue water cannon
+1 1 140 -288 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 1 220 -360 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 1 300 -432 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
+1 4 -220 -336 40 1 0 0 0 1 0 0 0 1 2302.dat

@@ -1,0 +1,40 @@
+0 4+ 大龙虾 (Lobster) - DUPLO draft for manual repair
+0 Name: 4-da-long-xia.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+大龙虾 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Claws, legs and antennae are simplified with available parts.
+
+0 // STEP 1 - red body
+1 4 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - head and tail
+1 4 -300 -144 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -400 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -120 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 4 420 -120 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 3 - legs
+1 8 -160 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 160 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 -160 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 160 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - claws
+1 8 -520 -168 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 8 -600 -240 -180 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
+1 8 -520 -168 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 8 -600 -240 180 0.866 -0.500 0 0.500 0.866 0 0 0 1 31195.dat
+1 14 -360 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -216 80 1 0 0 0 1 0 0 0 1 3437.dat

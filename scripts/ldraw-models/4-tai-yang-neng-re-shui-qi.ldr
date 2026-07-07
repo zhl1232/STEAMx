@@ -1,0 +1,42 @@
+0 4+ 太阳能热水器 (Solar Water Heater) - DUPLO draft for manual repair
+0 Name: 4-tai-yang-neng-re-shui-qi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+太阳能热水器 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sloped collector, water tank, roof plate and support columns are simplified.
+
+0 // STEP 1 - green floor and striped supports
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 -120 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - upper tank box and green roof
+1 14 -40 -216 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -216 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 3 - cylindrical tank approximation
+1 1 -80 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 40 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 160 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 25 280 -240 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+0 STEP
+
+0 // STEP 4 - sloped red/yellow collector
+1 4 -180 -120 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 14 -260 -72 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 4 -340 -24 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 14 -420 24 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 4 -500 72 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 14 -580 120 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat

@@ -1,0 +1,41 @@
+0 4+ 章鱼 (Octopus) - DUPLO draft for manual repair
+0 Name: 4-zhang-yu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+章鱼 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Round head, eyes and eight tentacles are simplified.
+
+0 // STEP 1 - black tentacle ring
+1 0 -240 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 -80 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 80 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 240 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 -240 -48 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 -80 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 80 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 240 -48 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 2 - lower yellow head
+1 14 -160 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - rounded cap
+1 14 -80 -216 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 80 -216 -80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 0 -264 -120 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 0 -312 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - eyes and mouth
+1 15 -80 -216 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -216 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -80 -240 -180 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 80 -240 -180 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 0 -168 -180 0 0 1 0 1 0 -1 0 0 42029.dat

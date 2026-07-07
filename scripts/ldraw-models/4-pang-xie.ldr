@@ -1,0 +1,34 @@
+0 4+ 螃蟹 (Crab) - DUPLO draft for manual repair
+0 Name: 4-pang-xie.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+螃蟹 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Shell, legs and claws are simplified.
+
+0 // STEP 1 - green/yellow shell
+1 2 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - side legs
+1 0 -200 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 0 0 -72 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 0 200 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 0 -200 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 0 0 -72 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 0 200 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - eyes and claws
+1 14 -80 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -340 -144 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 2 -440 -216 -180 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
+1 2 340 -144 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 2 440 -216 -180 0.866 -0.500 0 0.500 0.866 0 0 0 1 2302.dat

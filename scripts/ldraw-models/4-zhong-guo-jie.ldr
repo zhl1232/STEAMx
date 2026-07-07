@@ -1,0 +1,39 @@
+0 4+ 中国结 (Chinese Knot) - DUPLO draft for manual repair
+0 Name: 4-zhong-guo-jie.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+中国结 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Diamond knot panel, yellow border, center disc and side tassels are simplified.
+
+0 // STEP 1 - red diamond body
+1 4 -120 -96 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 4 0 -192 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 4 120 -288 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 4 0 -96 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 4 -120 -192 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 4 -240 -288 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - yellow border and center
+1 14 -260 -96 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 14 260 -288 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 14 120 -96 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 14 -260 -288 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 14 0 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -240 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - black side tassels
+1 0 -420 -192 40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 -540 -192 40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 300 -192 40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 420 -192 40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - hanging points
+1 14 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -408 -160 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 -620 -192 -20 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 500 -192 -20 1 0 0 0 1 0 0 0 1 3437.dat

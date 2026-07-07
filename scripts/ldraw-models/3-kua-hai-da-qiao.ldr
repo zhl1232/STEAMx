@@ -1,0 +1,73 @@
+0 3+ 跨海大桥 (Sea-Crossing Bridge) - DUPLO draft for manual repair
+0 Name: 3-kua-hai-da-qiao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+跨海大桥 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: cable arches are stepped brick silhouettes.
+
+0 // STEP 1 - blue sea base
+1 1 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - green islands and road plates
+1 2 -480 -48 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 -160 -48 80 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 160 -48 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 480 -48 80 1 0 0 0 1 0 0 0 1 4196.dat
+1 7 -320 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 320 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - first yellow bridge tower
+1 14 -480 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -264 20 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - middle yellow bridge tower
+1 14 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 20 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 5 - far yellow bridge tower
+1 14 480 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -264 20 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 6 - red and yellow deck bands
+1 4 -320 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 320 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 7 - stepped cable silhouettes
+1 14 -360 -312 20 0.866 0.5 0 -0.5 0.866 0 0 0 1 40666.dat
+1 14 -240 -264 20 0.866 -0.5 0 0.5 0.866 0 0 0 1 40666.dat
+1 14 120 -312 20 0.866 0.5 0 -0.5 0.866 0 0 0 1 40666.dat
+1 14 240 -264 20 0.866 -0.5 0 0.5 0.866 0 0 0 1 40666.dat
+1 14 600 -312 20 0.866 0.5 0 -0.5 0.866 0 0 0 1 40666.dat
+1 14 720 -264 20 0.866 -0.5 0 0.5 0.866 0 0 0 1 40666.dat

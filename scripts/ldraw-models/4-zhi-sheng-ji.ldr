@@ -1,0 +1,39 @@
+0 4+ 直升机 (Helicopter) - DUPLO draft for manual repair
+0 Name: 4-zhi-sheng-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+直升机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Main rotor, tail rotor, skids, cabin windows and nose canopy are simplified.
+
+0 // STEP 1 - yellow landing pad and skids
+1 14 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 0 -120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 2 - black/red fuselage
+1 0 -120 -144 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -120 -240 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -240 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -192 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - tail boom and rear rotor
+1 8 260 -192 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 380 -192 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 500 -192 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 7 580 -192 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 7 580 -192 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - main rotor
+1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -180 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 180 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -336 -260 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -336 100 1 0 0 0 1 0 0 0 1 3011.dat

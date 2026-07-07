@@ -1,0 +1,50 @@
+0 3+ 小鸟归巢 (Birds Returning to Nest) - DUPLO draft for manual repair
+0 Name: 3-xiao-niao-gui-chao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+小鸟归巢 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tree trunk, nest and birds are simplified from the finished render.
+
+0 // STEP 1 - green ground
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - striped trunk
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - yellow nest platform
+1 14 -160 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -432 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -432 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -432 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - nest rim and birds
+1 6 -120 -480 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 6 0 -480 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 6 120 -480 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -100 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -20 -528 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 100 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 180 -528 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 -120 -576 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -576 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - small flying birds
+1 14 -360 -264 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -300 -264 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 360 -312 -80 -1 0 0 0 1 0 0 0 -1 3437.dat
+1 4 300 -312 -80 -1 0 0 0 1 0 0 0 -1 2302.dat

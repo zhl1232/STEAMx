@@ -1,0 +1,28 @@
+0 4+ 垃圾分类 (Waste Sorting Bins) - DUPLO draft for manual repair
+0 Name: 4-la-ji-fen-lei.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+垃圾分类 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Three bins and flip lids are simplified.
+
+0 // STEP 1 - red bin
+1 4 -280 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -280 -192 -40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - blue bin
+1 1 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 0 -192 -40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 3 - yellow bin
+1 14 280 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 280 -192 -40 1 0 0 0 1 0 0 0 1 4196.dat

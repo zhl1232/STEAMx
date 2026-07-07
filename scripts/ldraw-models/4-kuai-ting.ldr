@@ -1,0 +1,35 @@
+0 4+ 快艇 (Speedboat) - DUPLO draft for manual repair
+0 Name: 4-kuai-ting.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+快艇 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Water, hull, cockpit and engine tube are simplified.
+
+0 // STEP 1 - blue water
+1 1 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow hull
+1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+
+0 // STEP 3 - red deck and cockpit
+1 4 -120 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -20 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - blue engine and propeller
+1 1 300 -168 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 420 -168 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+1 7 540 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat

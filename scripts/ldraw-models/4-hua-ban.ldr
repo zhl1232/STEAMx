@@ -1,0 +1,39 @@
+0 4+ 画板 (Drawing Board) - DUPLO draft for manual repair
+0 Name: 4-hua-ban.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+画板 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Easel, target drawing and color tray are simplified.
+
+0 // STEP 1 - green floor and color tray
+1 2 -120 -24 160 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 200 -24 160 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -120 -48 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 120 -48 -120 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - easel legs
+1 0 -160 -96 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 0 160 -96 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 0 0 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - blue board
+1 1 -160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 0 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - tray color blocks
+1 4 -200 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 160 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LDraw Preview</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body { background: #f0f0f0; overflow: hidden; }
+    canvas { display: block; }
+    #status {
+      position: fixed; top: 10px; left: 10px;
+      font: 14px monospace; color: #333; background: rgba(255,255,255,0.8);
+      padding: 4px 8px; border-radius: 4px; z-index: 10;
+    }
+  </style>
+</head>
+<body>
+<div id="status">Loading...</div>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three'
+import { LDrawLoader } from 'three/addons/loaders/LDrawLoader.js'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+const params = new URLSearchParams(window.location.search)
+const modelUrl = params.get('model')
+const width = parseInt(params.get('w') || '800')
+const height = parseInt(params.get('h') || '600')
+const bgColor = params.get('bg') || '#f0f0f0'
+
+const statusEl = document.getElementById('status')
+
+if (!modelUrl) {
+  statusEl.textContent = 'Error: ?model=<url> required'
+  window.__PREVIEW_ERROR = 'No model URL'
+  throw new Error('No model URL provided')
+}
+
+// Setup scene
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(bgColor)
+
+const camera = new THREE.PerspectiveCamera(35, width / height, 1, 10000)
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true })
+renderer.setSize(width, height)
+renderer.setPixelRatio(1)
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+document.body.appendChild(renderer.domElement)
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6)
+scene.add(ambientLight)
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.2)
+dirLight.position.set(200, -400, 300)
+scene.add(dirLight)
+const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.4)
+dirLight2.position.set(-200, -200, -100)
+scene.add(dirLight2)
+
+// Controls (for interactive use)
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
+
+// Load model
+statusEl.textContent = 'Loading model...'
+
+const loader = new LDrawLoader()
+
+// Configure LDraw parts library path
+const ldrawPath = params.get('ldrawPath') || 'https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/complete/ldraw/'
+loader.setPartsLibraryPath(ldrawPath)
+
+try {
+  loader.load(modelUrl, (group) => {
+    statusEl.textContent = 'Rendering...'
+
+    // LDraw uses Y-up with negative Y being "up" visually
+    // Flip so the model appears right-side up
+    group.rotation.x = Math.PI
+    scene.add(group)
+
+    // Auto-fit camera to model
+    const box = new THREE.Box3().setFromObject(group)
+    const center = box.getCenter(new THREE.Vector3())
+    const size = box.getSize(new THREE.Vector3())
+    const maxDim = Math.max(size.x, size.y, size.z)
+    const fov = camera.fov * (Math.PI / 180)
+    const distance = maxDim / (2 * Math.tan(fov / 2)) * 1.5
+
+    // Position camera at a nice isometric-ish angle
+    camera.position.set(
+      center.x + distance * 0.7,
+      center.y + distance * 0.5,
+      center.z + distance * 0.7
+    )
+    camera.lookAt(center)
+    controls.target.copy(center)
+    controls.update()
+
+    // Render
+    renderer.render(scene, camera)
+
+    // Signal completion
+    statusEl.textContent = 'Done'
+    window.__PREVIEW_DONE = true
+
+    console.log('Preview render complete', {
+      modelUrl,
+      boundingBox: { min: box.min.toArray(), max: box.max.toArray() },
+      size: size.toArray(),
+    })
+  }, (progress) => {
+    if (progress.total > 0) {
+      const pct = Math.round((progress.loaded / progress.total) * 100)
+      statusEl.textContent = `Loading... ${pct}%`
+    }
+  }, (error) => {
+    console.error('Load error:', error)
+    statusEl.textContent = `Error: ${error.message}`
+    window.__PREVIEW_ERROR = error.message
+  })
+} catch (error) {
+  statusEl.textContent = `Error: ${error.message}`
+  window.__PREVIEW_ERROR = error.message
+}
+
+// Animation loop (for interactive mode)
+function animate() {
+  requestAnimationFrame(animate)
+  controls.update()
+  renderer.render(scene, camera)
+}
+animate()
+</script>
+</body>
+</html>

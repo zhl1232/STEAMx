@@ -1,0 +1,58 @@
+0 3+ 狙击枪 (Toy Rifle) - DUPLO draft for manual repair
+0 Name: 3-ju-ji-qiang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+狙击枪 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: cylinder barrel/scope are block tubes made from repeated DUPLO bricks.
+
+0 // STEP 1 - blue and yellow support stand
+1 1 -120 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - sloped foot rails
+1 1 -160 -168 -140 0.94 -0.342 0 0.342 0.94 0 0 0 1 3011.dat
+1 1 -80 -216 -140 0.94 -0.342 0 0.342 0.94 0 0 0 1 3011.dat
+1 1 160 -168 -140 0.94 0.342 0 -0.342 0.94 0 0 0 1 3011.dat
+1 1 80 -216 -140 0.94 0.342 0 -0.342 0.94 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - red central receiver
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - long barrel sections
+1 1 260 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 420 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 580 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 740 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - blue muzzle and rear stock
+1 1 900 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 980 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -420 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - top handle/scope
+1 4 -160 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 7 - trigger guard and lower rail
+1 14 -40 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -360 -80 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 0 -288 -120 1 0 0 0 1 0 0 0 1 40666.dat

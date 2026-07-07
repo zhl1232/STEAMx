@@ -1,0 +1,41 @@
+0 4+ 天平 (Balance Scale) - DUPLO draft for manual repair
+0 Name: 4-tian-ping.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+天平 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Beam linkages, chains, pivots and weighing pans are simplified.
+
+0 // STEP 1 - green base and striped pedestal
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - central pivot and caps
+1 0 0 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -360 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 8 -80 -312 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 80 -312 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - long black balance beam
+1 0 -160 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 -320 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 160 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 320 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 7 -420 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 420 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - blue pans and black hangers
+1 0 -420 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 420 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -460 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 380 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -460 -240 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 380 -240 40 1 0 0 0 1 0 0 0 1 40666.dat

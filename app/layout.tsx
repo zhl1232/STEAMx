@@ -68,6 +68,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh" className={fontClassNames} suppressHydrationWarning>
+      <head>
+        <link rel="preload" as="image" href="/xiaodi-ai/idle-0.webp" type="image/webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/xiaodi-ai/listening-0.webp" type="image/webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/xiaodi-ai/thinking-0.webp" type="image/webp" fetchPriority="high" />
+      </head>
       <body className="font-sans antialiased">
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <Script id="bootstrap-runtime-helpers" strategy="beforeInteractive">

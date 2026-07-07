@@ -1,0 +1,38 @@
+0 4+ 摩天轮 (Ferris Wheel) - DUPLO draft for manual repair
+0 Name: 4-mo-tian-lun.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+摩天轮 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Wheel tower, spokes and gondolas are simplified.
+
+0 // STEP 1 - base and tower
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - wheel hub and vertical spokes
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - horizontal and diagonal spokes
+1 1 -160 -240 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -240 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -312 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 1 120 -312 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 1 -120 -168 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 1 120 -168 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - gondolas
+1 4 -200 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -380 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -100 -80 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,65 @@
+0 3+ 轮船 (Ship) - DUPLO draft for manual repair
+0 Name: 3-lun-chuan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+轮船 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: railings and window prints are block approximations.
+
+0 // STEP 1 - long lower hull
+1 1 -320 -24 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 0 -24 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 320 -24 40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - yellow/green hull stripes
+1 14 -320 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -320 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -160 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 0 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 160 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 320 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - red deck and white rail posts
+1 4 -320 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -400 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -160 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 160 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 400 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - lower cabin
+1 2 -120 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -140 -240 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 80 -240 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 300 -240 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 5 - upper cabin and roof
+1 4 -80 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -100 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 120 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -80 -360 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -360 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 6 - white railing runs
+1 15 -320 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 320 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -320 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 320 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat

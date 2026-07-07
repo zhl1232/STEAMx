@@ -1,0 +1,42 @@
+0 3+ 舞龙 (Dragon Dance) - DUPLO draft for manual repair
+0 Name: 3-wu-long.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+舞龙 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Dragon body waves, poles and small figures are simplified.
+
+0 // STEP 1 - parade base and poles
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 400 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - dragon body wave
+1 14 -360 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - head and tail
+1 14 560 -192 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 640 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -168 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
+0 STEP
+
+0 // STEP 4 - legs and performers
+1 14 -280 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 480 -72 160 1 0 0 0 1 0 0 0 1 3437.dat

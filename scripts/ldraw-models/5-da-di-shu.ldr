@@ -1,0 +1,42 @@
+0 5+ 打地鼠 (Whack-a-Mole) - DUPLO draft for manual repair
+0 Name: 5-da-di-shu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+打地鼠 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Pop-up moles, gear linkages and strike levers are simplified.
+
+0 // STEP 1 - green base and red platform
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - yellow gear line and front cranks
+1 14 -200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 300 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 3 - three blue pop-up moles
+1 1 -160 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 40 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 240 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 -160 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 40 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 240 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 4 - hammer markers
+1 0 -280 -192 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 0 360 -192 -140 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 4 -360 -240 -180 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 440 -240 -180 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,40 @@
+0 4+ 龙门吊 (Gantry Crane) - DUPLO draft for manual repair
+0 Name: 4-long-men-diao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+龙门吊 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tall striped gantry, trolley and hook are simplified.
+
+0 // STEP 1 - wheeled bases
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - striped pillars
+1 4 -240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - top beam and trolley
+1 0 -240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 8 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - hook
+1 8 0 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 0 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 0 -528 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -180 -384 40 1 0 0 0 1 0 0 0 1 3437.dat

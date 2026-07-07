@@ -1,0 +1,53 @@
+0 3+ 篮球场 (Basketball Court) - DUPLO draft for manual repair
+0 Name: 3-lan-qiu-chang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+篮球场 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: hoops, people and court markings are simplified.
+
+0 // STEP 1 - large court base
+1 1 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - center yellow divider
+1 14 0 -72 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 160 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - left basket support
+1 14 -560 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -560 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -560 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -560 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -520 -240 -60 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 -520 -240 60 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 4 - right basket support
+1 14 560 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 560 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 560 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 560 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 520 -240 -60 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 520 -240 60 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 5 - red hoop rings as flat plates
+1 4 -600 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -600 -264 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 600 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 600 -264 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 6 - yellow player markers
+1 14 -240 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,45 @@
+0 3+ 室外咖啡桌 (Outdoor Cafe Table) - DUPLO draft for manual repair
+0 Name: 3-shi-wai-ka-fei-zhuo.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+室外咖啡桌 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Umbrella, fence and people are simplified.
+
+0 // STEP 1 - patio base
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - red picnic table
+1 4 -80 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -120 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -120 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - umbrella post and canopy
+1 14 0 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -264 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -312 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 7 0 -336 40 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 0 -384 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - white fence
+1 15 -320 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -160 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 160 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 320 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -240 -120 180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 240 -120 180 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 5 - people and chair markers
+1 4 -120 -144 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -144 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -120 -192 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 120 -192 100 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,55 @@
+0 3+ 油罐车 (Tanker Truck) - DUPLO draft for manual repair
+0 Name: 3-you-guan-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+油罐车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tank cylinder is approximated with curved-top bricks and plates.
+
+0 // STEP 1 - long wheeled chassis
+1 4 -360 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 280 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - red frame and cab base
+1 4 -360 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -120 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 120 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -420 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -500 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - cab windows and nose
+1 15 -420 -240 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -260 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -420 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -560 -144 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 4 - yellow tank lower band
+1 14 -80 -144 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -144 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -144 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -192 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 -20 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -192 -20 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - rounded tank top
+1 14 -80 -240 -20 1 0 0 0 1 0 0 0 1 2302.dat
+1 25 40 -240 -20 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 160 -240 -20 1 0 0 0 1 0 0 0 1 2302.dat
+1 25 280 -240 -20 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 400 -240 -20 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -120 -288 60 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 120 -288 60 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -288 60 1 0 0 0 1 0 0 0 1 40666.dat

@@ -1,0 +1,40 @@
+0 4+ 推土机 (Bulldozer) - DUPLO draft for manual repair
+0 Name: 4-tui-tu-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+推土机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Treads, plow blade, windows and rear body details are simplified.
+
+0 // STEP 1 - black tracked chassis
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - red lower body and white windows
+1 4 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -120 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 200 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - yellow roof and exhaust
+1 14 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 7 260 -192 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 4 260 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - orange front blade and arms
+1 0 -260 -120 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 0 -260 -120 100 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 25 -420 -96 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 25 -500 -48 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 25 -580 0 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat

@@ -1,0 +1,43 @@
+0 3+ 台球 (Billiards) - DUPLO draft for manual repair
+0 Name: 3-tai-qiu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+台球 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Pockets, balls and cue are coarse block approximations.
+
+0 // STEP 1 - table legs and blue side panels
+1 1 -240 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - green playing surface
+1 2 -160 -144 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -144 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 3 - blue rails and red pockets
+1 1 -320 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -168 -180 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -168 180 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -192 -180 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 360 -192 -180 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -192 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 360 -192 180 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - balls and cue
+1 14 -120 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 260 -240 -80 0.966 0 0.259 0 1 0 -0.259 0 0.966 3011.dat
+1 4 420 -288 -120 0.966 0 0.259 0 1 0 -0.259 0 0.966 3011.dat

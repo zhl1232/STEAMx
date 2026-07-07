@@ -1,0 +1,51 @@
+0 3+ 洗车场 (Car Wash) - DUPLO draft for manual repair
+0 Name: 3-xi-che-chang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+洗车场 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Brushes, hoses, people and sign are simplified.
+
+0 // STEP 1 - green car wash base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - striped portal columns
+1 14 -320 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -320 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -320 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 320 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 320 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - green roof and white rail
+1 2 -160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -240 -312 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -312 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 240 -312 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - car and brushes
+1 4 0 -72 80 1 0 0 0 1 0 0 0 1 41989.dat
+1 1 -200 -120 80 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 200 -120 80 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 -320 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 320 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 5 - side stair and workers
+1 1 520 -72 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -168 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -120 -120 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 120 -120 180 1 0 0 0 1 0 0 0 1 3437.dat

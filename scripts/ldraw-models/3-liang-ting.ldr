@@ -1,0 +1,59 @@
+0 3+ 凉亭 (Pavilion) - DUPLO draft for manual repair
+0 Name: 3-liang-ting.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+凉亭 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: railings and pitched roof are stepped block approximations.
+
+0 // STEP 1 - green square base
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - lower deck and corner posts
+1 7 0 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -200 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - tall red posts
+1 4 -200 -144 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -192 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -144 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -192 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -144 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -192 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -144 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -192 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - white railing panels
+1 15 0 -120 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -120 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - upper red frame
+1 4 0 -240 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -240 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 6 - red/yellow stepped roof
+1 4 -160 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -384 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 7 - roof ridge caps
+1 14 -80 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -432 0 1 0 0 0 1 0 0 0 1 3437.dat

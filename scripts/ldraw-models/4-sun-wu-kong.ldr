@@ -1,0 +1,45 @@
+0 4+ 孙悟空 (Monkey King) - DUPLO draft for manual repair
+0 Name: 4-sun-wu-kong.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+孙悟空 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Staff, headband, arms, tail and facial details are simplified.
+
+0 // STEP 1 - green stage and striped staff
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 -260 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -260 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -260 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - legs and body
+1 14 0 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 60 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 60 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 60 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - head and crown
+1 14 60 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 60 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -456 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 4 120 -456 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - arms, tail and red antenna tips
+1 0 -40 -240 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 0 180 -240 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 0 220 -180 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 14 260 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -40 -520 -180 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -520 -180 1 0 0 0 1 0 0 0 1 3437.dat

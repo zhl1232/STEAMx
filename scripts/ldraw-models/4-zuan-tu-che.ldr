@@ -1,0 +1,39 @@
+0 4+ 钻土车 (Drilling Truck) - DUPLO draft for manual repair
+0 Name: 4-zuan-tu-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+钻土车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Drill boom, conical bit, cabin windows and multi-wheel chassis are simplified.
+
+0 // STEP 1 - long wheeled truck chassis
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - red body and yellow cab
+1 4 -240 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -120 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 -240 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - black drill support
+1 0 300 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 420 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 540 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 660 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - yellow drill bit and warning cap
+1 14 760 -120 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 860 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 8 300 -192 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 4 220 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat

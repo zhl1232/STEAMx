@@ -1,0 +1,40 @@
+0 5+ 打桩机 (Pile Driver) - DUPLO draft for manual repair
+0 Name: 5-da-zhuang-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+打桩机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Moving hammer, guide tower, long beam and truck chassis are simplified.
+
+0 // STEP 1 - truck base and cab
+1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 -260 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 -100 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 60 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - striped vertical guide
+1 1 120 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 200 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - long red/yellow boom
+1 14 -40 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 440 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 600 -336 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - hammer and rear brace
+1 0 260 -216 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 260 -320 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 260 -400 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 20 -192 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 0 220 -192 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat

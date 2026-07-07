@@ -170,7 +170,9 @@ function anchorToOriginXZ(anchor, metadata) {
     const x = Number(anchor.x)
     const z = Number(anchor.z)
     if (![x, z].every(Number.isFinite)) throw new Error('centerStud anchor requires numeric x and z')
-    return { type: anchor.type, x: x * pitch, z: z * pitch }
+    // T2.1: Stud grid alignment — flag non-integer coords (warning, not error)
+    const gridAligned = Number.isInteger(x) && Number.isInteger(z)
+    return { type: anchor.type, x: x * pitch, z: z * pitch, gridAligned }
   }
   throw new Error(`unsupported anchor type: ${anchor.type}`)
 }
@@ -191,6 +193,89 @@ function volumeOverlaps(a, b) {
     overlap1d(a.yMin, a.yMax, b.yMin, b.yMax) &&
     overlap1d(a.zMin, a.zMax, b.zMin, b.zMax)
   )
+}
+
+// --- T2.2: OBB (Oriented Bounding Box) collision detection ---
+
+/**
+ * An OBB is defined by: center, halfExtents (3 values), and axes (3 unit vectors).
+ * For standard 90° rotations the OBB degenerates to AABB, so the cost is minimal.
+ */
+function createOBB(localBox, matrix, origin) {
+  // Local center of the box
+  const cx = (localBox.xMin + localBox.xMax) / 2
+  const cy = (localBox.yMin + localBox.yMax) / 2
+  const cz = (localBox.zMin + localBox.zMax) / 2
+  // Half extents
+  const hx = (localBox.xMax - localBox.xMin) / 2
+  const hy = (localBox.yMax - localBox.yMin) / 2
+  const hz = (localBox.zMax - localBox.zMin) / 2
+  // Transform center to world space
+  const center = transformPoint([cx, cy, cz], matrix, origin)
+  // Transform local axes to world space (just rotate, no translate)
+  const axisX = transformVector([1, 0, 0], matrix)
+  const axisY = transformVector([0, 1, 0], matrix)
+  const axisZ = transformVector([0, 0, 1], matrix)
+  return {
+    center,
+    halfExtents: [hx, hy, hz],
+    axes: [
+      { x: axisX.x, y: axisX.y, z: axisX.z },
+      { x: axisY.x, y: axisY.y, z: axisY.z },
+      { x: axisZ.x, y: axisZ.y, z: axisZ.z },
+    ],
+  }
+}
+
+/**
+ * SAT (Separating Axis Theorem) test for two OBBs.
+ * Returns true if they overlap.
+ */
+function obbOverlaps(a, b) {
+  const T = {
+    x: b.center.x - a.center.x,
+    y: b.center.y - a.center.y,
+    z: b.center.z - a.center.z,
+  }
+  // Test 15 separating axes: 3 from A, 3 from B, 9 cross products
+  for (let i = 0; i < 3; i++) {
+    if (satAxisSeparates(a, b, a.axes[i], T)) return false
+  }
+  for (let i = 0; i < 3; i++) {
+    if (satAxisSeparates(a, b, b.axes[i], T)) return false
+  }
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      const cross = crossProduct(a.axes[i], b.axes[j])
+      const len = Math.hypot(cross.x, cross.y, cross.z)
+      if (len < EPS) continue // parallel axes, skip
+      if (satAxisSeparates(a, b, cross, T)) return false
+    }
+  }
+  return true
+}
+
+function satAxisSeparates(a, b, axis, T) {
+  const projT = Math.abs(dotV(T, axis))
+  let projA = 0
+  let projB = 0
+  for (let i = 0; i < 3; i++) {
+    projA += a.halfExtents[i] * Math.abs(dotV(a.axes[i], axis))
+    projB += b.halfExtents[i] * Math.abs(dotV(b.axes[i], axis))
+  }
+  return projT > projA + projB + EPS
+}
+
+function dotV(a, b) {
+  return a.x * b.x + a.y * b.y + a.z * b.z
+}
+
+function crossProduct(a, b) {
+  return {
+    x: a.y * b.z - a.z * b.y,
+    y: a.z * b.x - a.x * b.z,
+    z: a.x * b.y - a.y * b.x,
+  }
 }
 
 function surfaceArea(surface) {
@@ -507,10 +592,15 @@ function createPartBounds(part, matrix, origin) {
   const collisionVolumes = collisionSource
     .filter(Boolean)
     .map((box) => transformBox(box, matrix, origin))
+  // T2.2: Also store OBB representations for precise collision
+  const collisionOBBs = collisionSource
+    .filter(Boolean)
+    .map((box) => createOBB(box, matrix, origin))
   const bbox = transformBox(part.bbox, matrix, origin)
   return {
     bbox,
     collisionVolumes,
+    collisionOBBs,
     topSurface: transformSurface(part.connectionSurfaces?.top, matrix, origin),
     bottomSurface: transformSurface(part.connectionSurfaces?.bottom, matrix, origin),
   }
@@ -692,6 +782,10 @@ export function resolveAssembly(assembly, partMetadata) {
         const anchorPosition = exactTransform
           ? { x: exactTransform.origin.x, y: exactTransform.origin.y, z: exactTransform.origin.z }
           : anchorToOriginXZ(anchor, partMetadata.metadata)
+        // T2.1: Warn on non-integer stud grid coordinates
+        if (!exactTransform && anchorPosition.gridAligned === false) {
+          warnings.push(`${placement.id} ${placement.partId} centerStud anchor (${anchor.x}, ${anchor.z}) is not on integer stud grid`)
+        }
         const origin = exactTransform
           ? exactTransform.origin
           : {
@@ -787,21 +881,25 @@ export function resolveAssembly(assembly, partMetadata) {
               throw new Error(message)
             }
             if (shouldSkipCoarseCollision(item, prior)) continue
-            for (const volume of bounds.collisionVolumes) {
-              for (const priorVolume of prior.bounds.collisionVolumes) {
-                if (volumeOverlaps(volume, priorVolume)) {
-                  const overlapReason = findOverlapExemption(placement, prior.placement)
-                  const manualOverlap = part.collisionPolicy === 'manual' || prior.part.collisionPolicy === 'manual'
-                  if (overlapReason) {
-                    warnings.push(`${placement.id} overlaps ${prior.placement.id}; manually accepted: ${overlapReason}`)
-                  } else if (manualOverlap) {
-                    warnings.push(`${placement.id} overlaps ${prior.placement.id}; manual collision accepted`)
-                  } else {
-                    // Collect rather than throw immediately: a single placement can overlap several
-                    // priors at once (e.g. a plate spanning two support columns), and fail-fast would
-                    // hide every overlap after the first, forcing a slow one-at-a-time discovery loop.
-                    collisionErrors.push(`${placement.id} overlaps ${prior.placement.id}`)
-                  }
+            for (let vi = 0; vi < bounds.collisionVolumes.length; vi++) {
+              for (let pi = 0; pi < prior.bounds.collisionVolumes.length; pi++) {
+                // T2.2: AABB broad-phase first, then OBB narrow-phase
+                if (!volumeOverlaps(bounds.collisionVolumes[vi], prior.bounds.collisionVolumes[pi])) continue
+                // Precise OBB check — if OBBs are available, use them to reduce false positives
+                const hasOBB = bounds.collisionOBBs?.[vi] && prior.bounds.collisionOBBs?.[pi]
+                if (hasOBB && !obbOverlaps(bounds.collisionOBBs[vi], prior.bounds.collisionOBBs[pi])) continue
+                // Confirmed overlap
+                const overlapReason = findOverlapExemption(placement, prior.placement)
+                const manualOverlap = part.collisionPolicy === 'manual' || prior.part.collisionPolicy === 'manual'
+                if (overlapReason) {
+                  warnings.push(`${placement.id} overlaps ${prior.placement.id}; manually accepted: ${overlapReason}`)
+                } else if (manualOverlap) {
+                  warnings.push(`${placement.id} overlaps ${prior.placement.id}; manual collision accepted`)
+                } else {
+                  // Collect rather than throw immediately: a single placement can overlap several
+                  // priors at once (e.g. a plate spanning two support columns), and fail-fast would
+                  // hide every overlap after the first, forcing a slow one-at-a-time discovery loop.
+                  collisionErrors.push(`${placement.id} overlaps ${prior.placement.id}`)
                 }
               }
             }

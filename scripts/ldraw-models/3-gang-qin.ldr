@@ -1,0 +1,90 @@
+0 3+ 钢琴 (Piano) - DUPLO draft for manual repair
+0 Name: 3-gang-qin.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+钢琴 course slides, build pages 1-8.
+0 // Draft policy: DUPLO-only approximation for manual Studio repair before MPD/course generation.
+0 // Uses only project-supported DUPLO parts: 51262.dat, 4196.dat, 3011.dat, 3437.dat, 40666.dat.
+0 // Known simplifications: keyboard keys use DUPLO 2x2/2x4 blocks; sloped lid is approximate.
+0 // Coordinates: +Y down; ordinary plates/bricks use top-centered DUPLO origins.
+
+0 // STEP 1 - green baseplates and four blue/yellow striped legs
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -260 -72 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -260 -120 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -260 -216 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -264 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -72 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -120 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -216 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -264 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -72 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -260 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -168 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -260 -216 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -264 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -72 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -168 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 260 -216 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -264 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red piano deck spanning the four legs
+1 4 -160 -288 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 160 -288 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 3 - center pedal/support stack
+1 14 0 -48 -115 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 -105 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -144 -105 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -192 -105 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -240 -105 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -264 -105 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - simplified white and black keyboard
+1 15 -240 -312 -115 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -80 -312 -115 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 80 -312 -115 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 240 -312 -115 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 -220 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -140 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -60 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 60 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 140 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 220 -360 -115 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - yellow lid support post behind the keyboard
+1 14 120 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -384 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -456 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 6 - blue piano body around the keybed
+1 1 -240 -336 20 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 20 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 20 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 20 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -336 100 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 100 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 100 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 100 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -300 -336 -60 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 300 -336 -60 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 7 - main sloped red piano lid, approximate angle
+1 4 40 -505 80 0.951 0.309 0 -0.309 0.951 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 8 - lid extension plates and final silhouette
+1 4 -300 -400 80 0.951 0.309 0 -0.309 0.951 0 0 0 1 40666.dat
+1 4 310 -598 80 0.951 0.309 0 -0.309 0.951 0 0 0 1 40666.dat

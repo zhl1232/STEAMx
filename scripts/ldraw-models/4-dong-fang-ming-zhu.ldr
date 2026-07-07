@@ -1,0 +1,44 @@
+0 4+ 东方明珠 (Oriental Pearl Tower) - DUPLO draft for manual repair
+0 Name: 4-dong-fang-ming-zhu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+东方明珠 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tapered tower, spheres and antenna are simplified.
+
+0 // STEP 1 - plaza and legs
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 0 -120 -72 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 0 120 -72 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 0 0 -72 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - lower tower
+1 4 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - lower observation deck
+1 14 -160 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - middle shaft and upper deck
+1 4 0 -408 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -456 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -504 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -552 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -552 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - top mast
+1 4 0 -600 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -648 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -696 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -744 0 1 0 0 0 1 0 0 0 1 2302.dat

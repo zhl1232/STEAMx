@@ -1,0 +1,48 @@
+0 3+ 毛毛虫 (Caterpillar) - DUPLO draft for manual repair
+0 Name: 3-mao-mao-chong.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+毛毛虫 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Caterpillar body, flower details and fence are simplified with supported DUPLO bricks.
+
+0 // STEP 1 - green garden base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow-green caterpillar body
+1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -160 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - blue head and tail cap
+1 1 -320 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -320 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red face block with antennae
+1 4 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 200 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 280 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - small flowers
+1 4 -420 -72 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -420 -120 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -220 -72 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -220 -120 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - back fence
+1 14 360 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -120 120 0 0 1 0 1 0 -1 0 0 3011.dat

@@ -1,0 +1,73 @@
+0 3+ 救护车 (Ambulance) - DUPLO draft for manual repair
+0 Name: 3-jiu-hu-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+救护车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: front windshield wedge and printed windows are block approximations.
+
+0 // STEP 1 - wheeled ambulance base
+1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 1 -360 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - yellow lower body
+1 14 -240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - green mid stripe
+1 2 -240 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -80 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 80 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 240 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -240 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -80 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 80 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 240 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - yellow cabin walls with red door opening
+1 14 -240 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -216 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - white windows and upper red cross
+1 15 -260 -216 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 260 -216 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -260 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 260 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -20 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -20 -240 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -240 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 6 - roof and blue rear equipment
+1 2 -240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -168 -20 0.966 0 -0.259 0 1 0 0.259 0 0.966 2302.dat
+1 1 -360 -168 60 0.966 0 -0.259 0 1 0 0.259 0 0.966 2302.dat
+0 STEP
+
+0 // STEP 7 - siren and roof lights
+1 4 -160 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -288 0 1 0 0 0 1 0 0 0 1 3437.dat

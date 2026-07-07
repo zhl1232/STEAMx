@@ -1,0 +1,36 @@
+0 4+ 显微镜 (Microscope) - DUPLO draft for manual repair
+0 Name: 4-xian-wei-jing.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+显微镜 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Curved arm, objective barrel, stage and eyepiece are simplified.
+
+0 // STEP 1 - black base and striped column
+1 0 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - black curved stand
+1 0 0 -288 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 0 120 -360 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 0 220 -430 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 8 280 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - eyepiece and objective barrel
+1 14 360 -528 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 14 440 -584 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 42029.dat
+1 8 260 -384 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 8 340 -312 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 42029.dat
+0 STEP
+
+0 // STEP 4 - red stage and sample plate
+1 4 160 -168 -100 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -168 -100 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 240 -216 -140 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 140 -96 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat

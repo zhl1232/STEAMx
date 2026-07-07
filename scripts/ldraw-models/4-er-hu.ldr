@@ -1,0 +1,35 @@
+0 4+ 二胡 (Erhu) - DUPLO draft for manual repair
+0 Name: 4-er-hu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+二胡 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Resonator box, bow and long neck are simplified.
+
+0 // STEP 1 - resonator box
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - vertical neck
+1 1 0 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - tuning pegs
+1 0 -80 -432 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 80 -384 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 0 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - bow
+1 0 160 -192 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 0 240 -264 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 0 320 -336 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat

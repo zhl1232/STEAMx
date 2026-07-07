@@ -1,0 +1,55 @@
+0 3+ 人行天桥 (Pedestrian Bridge) - DUPLO draft for manual repair
+0 Name: 3-ren-xing-tian-qiao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+人行天桥 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Stair details, people and railings are simplified.
+
+0 // STEP 1 - green street base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - red/yellow left stair tower
+1 4 -360 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - right stair tower
+1 4 360 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - bridge deck
+1 2 -240 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -240 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - white railings
+1 15 -240 -384 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -384 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 240 -384 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -240 -384 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -384 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 240 -384 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 6 - road blocks and pedestrians
+1 7 -80 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 80 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -96 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -96 160 1 0 0 0 1 0 0 0 1 3437.dat

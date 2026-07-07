@@ -1,0 +1,51 @@
+0 3+ 世博馆 (Expo Pavilion) - DUPLO draft for manual repair
+0 Name: 3-shi-bo-guan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+世博馆 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Roof color bands, columns and fence are simplified.
+
+0 // STEP 1 - green fenced base
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - four striped columns
+1 2 -160 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 160 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -160 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 160 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - red and yellow roof bands
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 0 -240 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 0 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 4 - broad blue roof
+1 1 -240 -288 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 240 -288 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -240 -288 80 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 240 -288 80 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 5 - roof parapet and garden accents
+1 1 -320 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -72 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -72 200 1 0 0 0 1 0 0 0 1 3437.dat

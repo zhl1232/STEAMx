@@ -1,0 +1,54 @@
+0 3+ 树屋 (Tree House) - DUPLO draft for manual repair
+0 Name: 3-shu-wu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+树屋 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Trees, stairs and bird decoration are simplified.
+
+0 // STEP 1 - garden base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - trunk and house support
+1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - tree house box
+1 14 -80 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -288 -100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - green roof and top bird
+1 2 -80 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -408 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -456 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -456 -40 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
+1 4 80 -456 -40 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat
+0 STEP
+
+0 // STEP 5 - yellow stairs
+1 14 -160 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -216 60 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - side trees
+1 27 -360 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -360 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -360 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 360 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 360 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 360 -168 40 1 0 0 0 1 0 0 0 1 3011.dat

@@ -1,0 +1,50 @@
+0 3+ 小提灯 (Small Lantern) - DUPLO draft for manual repair
+0 Name: 3-xiao-ti-deng.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+小提灯 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Circular windows and handle are simplified with block geometry.
+
+0 // STEP 1 - square red base
+1 4 -160 -24 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 160 -24 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 160 -48 80 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - striped lantern walls
+1 14 -160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - yellow window frame
+1 14 -240 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -80 -240 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -240 -140 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - roof layers
+1 4 -160 -336 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 160 -336 -80 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -120 -360 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 120 -360 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -408 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 5 - twin chimneys and handle
+1 14 -120 -456 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -504 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -456 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -504 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -552 0 1 0 0 0 1 0 0 0 1 3011.dat

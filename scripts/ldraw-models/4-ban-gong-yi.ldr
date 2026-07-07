@@ -1,0 +1,40 @@
+0 4+ 办公椅 (Office Chair) - DUPLO draft for manual repair
+0 Name: 4-ban-gong-yi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+办公椅 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Rolling base, seat and tall back are simplified.
+
+0 // STEP 1 - wheeled star base
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 -160 0 0 1 0 1 0 -1 0 0 41989.dat
+1 0 0 -72 160 0 0 1 0 1 0 -1 0 0 41989.dat
+0 STEP
+
+0 // STEP 2 - central post
+1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - seat and arm rests
+1 0 -120 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 120 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 -260 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 260 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - yellow back panel
+1 14 -160 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -408 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -408 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -408 160 1 0 0 0 1 0 0 0 1 3011.dat

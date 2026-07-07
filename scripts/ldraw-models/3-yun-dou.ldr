@@ -1,0 +1,39 @@
+0 3+ 熨斗 (Iron) - DUPLO draft for manual repair
+0 Name: 3-yun-dou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+熨斗 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sloped soleplate and handle are approximated with bricks and plates.
+
+0 // STEP 1 - green board
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - orange nose
+1 25 -220 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 25 -100 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 60 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - yellow body stripes
+1 14 -100 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 60 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -100 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 60 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -100 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 60 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - blue top deck and handle posts
+1 1 -60 -288 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -140 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 140 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - handle bridge
+1 1 0 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -432 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 80 -432 -40 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,53 @@
+0 3+ 幼儿园 (Kindergarten) - DUPLO draft for manual repair
+0 Name: 3-you-er-yuan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+幼儿园 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // School facade, fence, flag and playground tube are simplified.
+
+0 // STEP 1 - long playground base
+1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - white fence
+1 15 -620 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -500 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -380 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 380 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 500 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 620 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -500 -120 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 500 -120 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - school walls
+1 14 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -160 -168 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 160 -168 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - roof and ABC sign
+1 4 -160 -216 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 160 -216 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 25 -80 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - flag and slide tube
+1 4 -360 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -216 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 480 -120 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 4 580 -180 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat

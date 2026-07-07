@@ -1,0 +1,38 @@
+0 4+ 摇摇马 (Rocking Horse) - DUPLO draft for manual repair
+0 Name: 4-yao-yao-ma.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+摇摇马 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Rocker rails, legs, mane, head and handles are simplified.
+
+0 // STEP 1 - green/blue rocker base
+1 2 -120 -24 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -24 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -120 -24 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -24 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 2 - black legs
+1 0 -120 -96 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 120 -96 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 -120 -96 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 120 -96 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 3 - black body and red saddle
+1 0 -80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 240 -168 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -20 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 140 -216 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - head, ears and handle
+1 0 -240 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 -320 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -312 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 -340 -360 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 0 -260 -360 -120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 1 -420 -264 -80 0 0 1 0 1 0 -1 0 0 40666.dat

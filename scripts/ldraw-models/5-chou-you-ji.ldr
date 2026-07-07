@@ -1,0 +1,43 @@
+0 5+ 抽油机 (Pumpjack) - DUPLO draft for manual repair
+0 Name: 5-chou-you-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+抽油机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Walking beam, horsehead, crank wheel, derrick and hanging cable are simplified.
+
+0 // STEP 1 - green field and blue pit
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 240 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - yellow/red support tower
+1 14 -80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - triangular braces and walking beam
+1 8 -160 -216 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 8 160 -216 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 14 -240 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - horsehead, crank and hanging line
+1 4 360 -336 -120 0 0 1 0 1 0 -1 0 0 2302.dat
+1 0 360 -240 -120 1 0 0 0 0 -1 0 1 0 31452.dat
+1 14 -240 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -320 -144 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 8 420 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat

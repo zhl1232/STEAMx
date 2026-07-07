@@ -1,0 +1,40 @@
+0 3+ 乌龟 (Turtle) - DUPLO draft for manual repair
+0 Name: 3-wu-gui.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+乌龟 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Shell slope and flippers are simplified.
+
+0 // STEP 1 - yellow belly and flippers
+1 14 -160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -360 -48 -120 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
+1 14 360 -48 -120 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
+1 14 -360 -48 120 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
+1 14 360 -48 120 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
+0 STEP
+
+0 // STEP 2 - green lower shell
+1 2 -160 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 160 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 -240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - raised shell tiers
+1 27 -160 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 160 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - head and tail
+1 14 -480 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 0 -520 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat

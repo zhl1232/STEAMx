@@ -1,0 +1,45 @@
+0 4+ 叉车 (Forklift) - DUPLO draft for manual repair
+0 Name: 4-cha-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+叉车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Fork mast, forks and load pallet are simplified.
+
+0 // STEP 1 - vehicle chassis
+1 2 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - striped body
+1 4 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - cab and overhead guard
+1 0 -120 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 120 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -120 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 120 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - vertical mast
+1 0 -300 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -300 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -300 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -300 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -300 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - forks and load
+1 8 -440 -72 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 8 -440 -72 40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 27 -620 -48 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -620 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat

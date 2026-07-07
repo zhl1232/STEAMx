@@ -1,0 +1,49 @@
+0 5+ 磁悬浮列车 (Maglev Train) - DUPLO draft for manual repair
+0 Name: 5-ci-xuan-fu-lie-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+磁悬浮列车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Elevated track, striped pylons, long train body and streamlined nose are simplified.
+
+0 // STEP 1 - green base and elevated pylons
+1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -360 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - blue/yellow guideway
+1 1 -480 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - red train body and windows
+1 4 -400 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -240 -288 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 0 -288 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 240 -288 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - yellow roof and noses
+1 14 -240 -336 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 240 -336 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -560 -264 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 560 -264 0 -1 0 0 0 1 0 0 0 -1 2302.dat

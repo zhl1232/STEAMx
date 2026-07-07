@@ -1,0 +1,46 @@
+0 4+ 双层巴士 (Double Decker Bus) - DUPLO draft for manual repair
+0 Name: 4-shuang-ceng-ba-shi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+双层巴士 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Windows, upper-deck railings, passengers and front curved nose are simplified.
+
+0 // STEP 1 - long black bus chassis
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - lower red body and windows
+1 4 -240 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -240 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - upper red deck and railing
+1 4 -240 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -220 -264 -88 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -20 -264 -88 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 180 -264 -88 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - curved front and top riders
+1 14 420 -120 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 360 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 40 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 200 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 -260 -300 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 260 -300 -120 0 0 1 0 1 0 -1 0 0 31452.dat

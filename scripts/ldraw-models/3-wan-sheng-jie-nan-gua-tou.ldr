@@ -1,0 +1,44 @@
+0 3+ 万圣节南瓜头 (Halloween Pumpkin) - DUPLO draft for manual repair
+0 Name: 3-wan-sheng-jie-nan-gua-tou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+万圣节南瓜头 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Facial cutouts are approximated with dark blocks.
+
+0 // STEP 1 - orange pumpkin base
+1 25 -160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 25 160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - lower pumpkin body
+1 25 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - face layer
+1 25 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -100 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 100 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - mouth and upper taper
+1 0 -100 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 100 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - green stem
+1 2 0 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 40 -360 -40 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat

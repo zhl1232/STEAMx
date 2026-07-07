@@ -1,0 +1,40 @@
+0 3+ 漱口杯 (Rinse Cup) - DUPLO draft for manual repair
+0 Name: 3-shu-kou-bei.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+漱口杯 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Cup graphic, brush bristles and tray are simplified.
+
+0 // STEP 1 - yellow cup base
+1 14 -220 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - cup walls
+1 14 -300 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -140 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -300 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -140 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -380 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -60 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - upper rim and blue side handle
+1 14 -220 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -220 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -460 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -500 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red tray
+1 4 200 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 200 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 40 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 5 - toothbrush
+1 1 360 -96 80 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
+1 1 460 -144 120 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
+1 15 540 -168 150 0.866 0 0.5 0 1 0 -0.5 0 0.866 3437.dat

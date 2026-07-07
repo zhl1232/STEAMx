@@ -1,0 +1,44 @@
+0 5+ 帆船 (Sailboat) - DUPLO draft for manual repair
+0 Name: 5-fan-chuan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+帆船 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Hull, cabin, railings, mast lines and green sails are simplified.
+
+0 // STEP 1 - blue/yellow hull
+1 1 -360 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -500 -48 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 420 -48 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+
+0 // STEP 2 - deck and red cabin
+1 0 -280 -96 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 40 -96 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -120 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -80 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - masts and rail posts
+1 0 -180 -240 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 -180 -344 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 220 -240 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 220 -344 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 15 -320 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 320 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - green sails and small flags
+1 2 -260 -340 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 2 -320 -420 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 2 140 -340 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 2 80 -420 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 14 -180 -456 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 220 -456 -200 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,56 @@
+0 3+ 美丽的小区 (Neighborhood) - DUPLO draft for manual repair
+0 Name: 3-mei-li-de-xiao-qu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+美丽的小区 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Two houses, paths and fences are simplified.
+
+0 // STEP 1 - neighborhood base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow left house walls
+1 14 -300 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -140 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -300 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -140 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -260 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 -140 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - right house walls
+1 14 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 280 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red/green roofs
+1 4 -300 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -140 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 320 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - paths and garden blocks
+1 14 -80 -48 160 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 80 -48 160 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 240 -48 160 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -420 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 420 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - white fences and roof rail
+1 15 -420 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -260 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 260 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 420 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 240 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat

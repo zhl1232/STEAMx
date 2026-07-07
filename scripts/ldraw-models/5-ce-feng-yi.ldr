@@ -1,0 +1,37 @@
+0 5+ 测风仪 (Anemometer) - DUPLO draft for manual repair
+0 Name: 5-ce-feng-yi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+测风仪 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Rotating arms, cup ends, bearing hub and striped tower are simplified.
+
+0 // STEP 1 - blue base and striped tower
+1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - central hub
+1 4 0 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -384 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -432 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - red/blue cross arms
+1 4 -180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 0 -384 -260 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 -384 100 1 0 0 0 1 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 4 - wind cups
+1 4 -300 -384 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 300 -384 -80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 0 -384 -380 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 0 -384 220 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 0 -480 -120 1 0 0 0 0 -1 0 1 0 40666.dat

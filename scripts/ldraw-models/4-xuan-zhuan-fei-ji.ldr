@@ -1,0 +1,42 @@
+0 4+ 旋转飞机 (Spinning Airplane Ride) - DUPLO draft for manual repair
+0 Name: 4-xuan-zhuan-fei-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+旋转飞机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Rotating arms, aircraft pods, canopy and fence details are simplified.
+
+0 // STEP 1 - green base and striped tower
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - central hub and four arms
+1 0 0 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -160 -312 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 160 -312 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 0 -312 -200 1 0 0 0 1 0 0 0 1 31452.dat
+1 0 0 -312 120 1 0 0 0 1 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 3 - blue aircraft pods
+1 1 -340 -312 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 1 340 -312 -80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 -60 -312 -300 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 60 -312 220 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -420 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 420 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - yellow noses and fence markers
+1 14 -480 -312 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 480 -312 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 -60 -312 -420 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 60 -312 340 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 4 -200 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -48 160 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,41 @@
+0 4+ 旋转木马 (Carousel) - DUPLO draft for manual repair
+0 Name: 4-xuan-zhuan-mu-ma.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+旋转木马 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Canopy, hanging poles, small horses and rail fence are simplified.
+
+0 // STEP 1 - green base and striped center column
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - blue/yellow canopy
+1 14 0 -312 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -120 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -408 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - four hanging poles
+1 0 -180 -300 -100 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 180 -300 -100 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 -180 -300 100 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 180 -300 100 1 0 0 0 0 -1 0 1 0 31452.dat
+0 STEP
+
+0 // STEP 4 - small carousel horses and fence
+1 4 -180 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 180 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -180 -168 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 180 -168 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -48 160 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,37 @@
+0 4+ 大蚊子 (Mosquito) - DUPLO draft for manual repair
+0 Name: 4-da-wen-zi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+大蚊子 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Thin legs, wings and proboscis are simplified.
+
+0 // STEP 1 - body and tail
+1 8 -160 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 8 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 8 160 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -300 -120 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -420 -120 0 0 0 1 0 1 0 -1 0 0 2302.dat
+0 STEP
+
+0 // STEP 2 - head and proboscis
+1 0 280 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 380 -120 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 500 -120 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 3 - legs
+1 8 -160 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 160 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 -160 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 160 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - wings
+1 15 -80 -192 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 15 80 -192 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 15 -80 -192 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 15 80 -192 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat

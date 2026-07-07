@@ -1,0 +1,44 @@
+0 4+ 高铁站 (High-Speed Rail Station) - DUPLO draft for manual repair
+0 Name: 4-gao-tie-zhan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+高铁站 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Station platforms, train and shelters are simplified.
+
+0 // STEP 1 - long station base
+1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow platforms
+1 14 -480 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - train cars
+1 4 -320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -220 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 20 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 260 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - station shelters
+1 15 -520 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -520 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -520 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 520 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 520 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 520 -192 80 1 0 0 0 1 0 0 0 1 3011.dat

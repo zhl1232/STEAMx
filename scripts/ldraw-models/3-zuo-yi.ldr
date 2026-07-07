@@ -1,0 +1,52 @@
+0 3+ 座椅 (Chair) - DUPLO draft for manual repair
+0 Name: 3-zuo-yi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+座椅 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Chair legs, arms and back are simplified.
+
+0 // STEP 1 - four striped legs
+1 1 -160 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - green seat
+1 2 -160 -192 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 160 -192 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 3 - side arms
+1 14 -280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -288 0 0 0 1 0 1 0 -1 0 0 3437.dat
+1 14 280 -288 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 4 - tall back posts
+1 1 -160 -240 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -288 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -336 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -384 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -240 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -288 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -336 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -384 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - back rails and crown
+1 14 0 -432 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -480 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -576 160 1 0 0 0 1 0 0 0 1 3437.dat

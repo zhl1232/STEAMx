@@ -1,0 +1,40 @@
+0 4+ 摄像机 (Video Camera) - DUPLO draft for manual repair
+0 Name: 4-she-xiang-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+摄像机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Lens barrel, handle, side screen and multi-color body stripes are simplified.
+
+0 // STEP 1 - rainbow camera body
+1 14 -80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - black top deck and blue side plates
+1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -220 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 220 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 -80 -240 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 80 -240 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - front lens assembly
+1 0 -260 -144 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 -380 -144 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 -500 -144 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+1 8 -560 -144 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - handle and rear grip
+1 0 0 -312 -40 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 -120 -312 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 120 -312 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 260 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 300 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat

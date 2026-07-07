@@ -50,7 +50,7 @@ import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
 
-const TUTOR_AVATAR = "/ai-tutor-mascot.png"
+const TUTOR_AVATAR_FRAME = "/xiaodi-ai/idle-0.webp"
 
 interface SpeciesOption {
   id: number
@@ -772,13 +772,13 @@ function ActivityTimelineItem({
     <li className="relative flex gap-3 pb-6 pl-1">
       {!isLast ? <span className="absolute bottom-0 left-[18px] top-11 w-px bg-border/60" aria-hidden /> : null}
       {isAi ? (
-        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-4 ring-background ring-[hsl(var(--brand-blue)/0.35)]">
+        <span className="relative h-9 w-9 shrink-0 overflow-visible drop-shadow-[0_4px_7px_hsl(var(--brand-blue)/0.18)]">
           <OptimizedImage
-            src={TUTOR_AVATAR}
+            src={TUTOR_AVATAR_FRAME}
             alt="小迪"
             fill
             variant="thumbnail"
-            className="object-cover"
+            className="scale-[1.35] object-contain"
           />
         </span>
       ) : (

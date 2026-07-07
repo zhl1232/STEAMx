@@ -1,0 +1,51 @@
+0 3+ 跳水池 (Diving Pool) - DUPLO draft for manual repair
+0 Name: 3-tiao-shui-chi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+跳水池 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Water surface, lane edge, lifebuoy and diving towers are simplified.
+
+0 // STEP 1 - green base and blue water
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -240 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 0 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 240 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - yellow pool rim
+1 14 -320 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - striped diving towers
+1 1 -500 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -500 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -500 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -500 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 500 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 500 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 500 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 500 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -500 -264 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 500 -264 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - railings and lifebuoy
+1 15 -500 -312 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 500 -312 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -144 0 0 0 1 0 1 0 -1 0 0 3437.dat

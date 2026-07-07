@@ -1,0 +1,36 @@
+0 4+ 客机 (Passenger Plane) - DUPLO draft for manual repair
+0 Name: 4-ke-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+客机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Airport tower, fuselage, wings and tail are simplified.
+
+0 // STEP 1 - green airport base
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - tower
+1 4 -300 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -216 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -300 -264 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -300 -312 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - fuselage
+1 1 -40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 -120 -96 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+
+0 // STEP 4 - wings, tail and engines
+1 8 100 -120 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 8 100 -120 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 1 -140 -144 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 40 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 40 -144 120 1 0 0 0 1 0 0 0 1 3437.dat

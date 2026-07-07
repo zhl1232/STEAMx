@@ -1,0 +1,44 @@
+0 3+ 水上乐园 (Water Park) - DUPLO draft for manual repair
+0 Name: 3-shui-shang-le-yuan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+水上乐园 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tube slide uses DUPLO ball-tube parts as a visual approximation.
+
+0 // STEP 1 - fenced pool base
+1 1 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - central tower
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 0 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 3 - red roof and flag
+1 4 0 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 0 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -408 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - curved slide approximation
+1 1 160 -216 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 260 -168 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 360 -120 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 480 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 5 - fence and play pieces
+1 15 -420 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -200 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 200 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 420 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat

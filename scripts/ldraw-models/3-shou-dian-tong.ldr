@@ -1,0 +1,39 @@
+0 3+ 手电筒 (Flashlight) - DUPLO draft for manual repair
+0 Name: 3-shou-dian-tong.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+手电筒 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Cylinder body uses supported DUPLO ball-tube parts as a coarse visual stand-in.
+
+0 // STEP 1 - yellow lens frame
+1 14 -300 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -300 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -380 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -220 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 2 - blue tube barrel
+1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 40 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 200 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 3 - red retaining rings
+1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 42029.dat
+1 4 120 -96 0 0 0 1 0 1 0 -1 0 0 42029.dat
+0 STEP
+
+0 // STEP 4 - yellow rear cap and handle columns
+1 14 360 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 420 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - bottom red grip
+1 4 -240 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 80 1 0 0 0 1 0 0 0 1 3011.dat

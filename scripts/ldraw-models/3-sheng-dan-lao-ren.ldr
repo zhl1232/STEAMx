@@ -1,0 +1,52 @@
+0 3+ 圣诞老人 (Santa) - DUPLO draft for manual repair
+0 Name: 3-sheng-dan-lao-ren.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+圣诞老人 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sleigh curves, tree ornaments and Santa figure are simplified with supported DUPLO parts.
+
+0 // STEP 1 - green winter base
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - red sleigh runners and seat
+1 4 -260 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -100 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -260 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -100 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -180 -120 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 3 - Santa body and hat
+1 4 -180 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -180 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -180 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -180 -312 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -140 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - gift blocks
+1 1 -420 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -340 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -380 -144 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 5 - Christmas tree trunk and branches
+1 14 260 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 260 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 260 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 260 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 180 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 340 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 140 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 380 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - ornaments and star
+1 14 180 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 340 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 260 -312 0 1 0 0 0 1 0 0 0 1 3437.dat

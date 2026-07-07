@@ -1,0 +1,71 @@
+0 3+ 龙舟 (Dragon Boat) - DUPLO draft for manual repair
+0 Name: 3-long-zhou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+龙舟 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: dragon head/neck, paddlers and railings are simplified blocks.
+
+0 // STEP 1 - yellow boat hull
+1 14 -320 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 320 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - tapered bow and stern
+1 14 -560 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 560 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - red side rails
+1 4 -320 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - seats and paddler markers
+1 15 -240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 80 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - dragon neck and head
+1 14 520 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 600 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 680 -360 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 760 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - stepped tail
+1 14 -560 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -640 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -720 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -800 -264 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 7 - white fence accents and paddles
+1 15 -360 -144 -160 0.94 0.342 0 -0.342 0.94 0 0 0 1 40666.dat
+1 15 -120 -144 -160 0.94 0.342 0 -0.342 0.94 0 0 0 1 40666.dat
+1 15 120 -144 -160 0.94 0.342 0 -0.342 0.94 0 0 0 1 40666.dat
+1 15 360 -144 -160 0.94 0.342 0 -0.342 0.94 0 0 0 1 40666.dat
+1 15 -360 -144 160 0.94 -0.342 0 0.342 0.94 0 0 0 1 40666.dat
+1 15 -120 -144 160 0.94 -0.342 0 0.342 0.94 0 0 0 1 40666.dat
+1 15 120 -144 160 0.94 -0.342 0 0.342 0.94 0 0 0 1 40666.dat
+1 15 360 -144 160 0.94 -0.342 0 0.342 0.94 0 0 0 1 40666.dat

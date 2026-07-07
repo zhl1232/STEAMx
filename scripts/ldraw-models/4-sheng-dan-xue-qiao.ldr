@@ -1,0 +1,43 @@
+0 4+ 圣诞雪橇 (Christmas Sleigh) - DUPLO draft for manual repair
+0 Name: 4-sheng-dan-xue-qiao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+圣诞雪橇 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Reindeer, runners, gifts and minifigure details are simplified.
+
+0 // STEP 1 - sleigh base and runners
+1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 7 120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 7 120 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 7 340 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 7 340 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 2 - red and yellow cargo box
+1 4 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -216 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - front reindeer pair
+1 14 -240 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -120 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -360 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -240 -24 -140 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -240 -24 140 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - passengers and antlers
+1 4 0 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 80 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -420 -180 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 14 -420 -180 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 14 -420 -180 40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 14 -420 -180 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat

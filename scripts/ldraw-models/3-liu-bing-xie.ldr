@@ -1,0 +1,53 @@
+0 3+ 溜冰鞋 (Roller Skates) - DUPLO draft for manual repair
+0 Name: 3-liu-bing-xie.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+溜冰鞋 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: flower decoration and cuff curve are approximated with blocks.
+
+0 // STEP 1 - left skate wheel base
+1 4 -360 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - right skate wheel base
+1 4 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 280 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 3 - blue and yellow striped left shoe
+1 1 -280 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - blue and yellow striped right shoe
+1 1 200 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - red toe blocks and yellow flower panels
+1 4 -440 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -200 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 280 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 6 - blue rear cuffs
+1 1 -40 -240 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -288 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 440 -240 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 440 -288 40 1 0 0 0 1 0 0 0 1 3437.dat

@@ -1,0 +1,43 @@
+0 4+ 潜水艇 (Submarine) - DUPLO draft for manual repair
+0 Name: 4-qian-shui-ting.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+潜水艇 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Windows, propeller, ballast tanks and tall periscope are simplified.
+
+0 // STEP 1 - black hull and yellow bow tanks
+1 0 -160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 200 -24 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -380 -48 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 360 -48 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -280 -72 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 280 -72 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 2 - red cabin wall and white ports
+1 4 -240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -240 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -80 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - deck, conning tower and periscope
+1 8 -120 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 40 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 0 -396 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 7 0 -500 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - stern propeller and antenna
+1 7 460 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 540 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 7 300 -180 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat

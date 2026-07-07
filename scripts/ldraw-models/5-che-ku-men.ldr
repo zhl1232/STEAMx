@@ -1,0 +1,41 @@
+0 5+ 车库门 (Garage Door) - DUPLO draft for manual repair
+0 Name: 5-che-ku-men.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+车库门 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sliding door, garage shell, roof and small car are simplified.
+
+0 // STEP 1 - green driveway base
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - blue/yellow garage walls
+1 1 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - red door and green roof
+1 4 -120 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 200 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 4 - small orange car and side post
+1 25 -360 -48 -80 1 0 0 0 1 0 0 0 1 41989.dat
+1 25 -420 -96 -120 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -300 -96 -120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 15 360 -96 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 4 360 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat

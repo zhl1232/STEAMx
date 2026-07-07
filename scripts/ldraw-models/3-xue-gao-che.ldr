@@ -1,0 +1,54 @@
+0 3+ 雪糕车 (Ice Cream Truck) - DUPLO draft for manual repair
+0 Name: 3-xue-gao-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+雪糕车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Vendor counter, menu pictures and awning are simplified.
+
+0 // STEP 1 - wheeled cart base
+1 4 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 320 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - lower striped body
+1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - service window and menu blocks
+1 15 -120 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 80 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -120 -240 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 80 -240 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 280 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 6 -240 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - tall side walls
+1 14 -200 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 280 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 280 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - green awning and red counter
+1 2 -120 -384 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 120 -384 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 360 -384 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 520 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 680 -144 0 1 0 0 0 1 0 0 0 1 3011.dat

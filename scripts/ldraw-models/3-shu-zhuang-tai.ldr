@@ -1,0 +1,44 @@
+0 3+ 梳妆台 (Dressing Table) - DUPLO draft for manual repair
+0 Name: 3-shu-zhuang-tai.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+梳妆台 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Heart mirror and drawers are block approximations.
+
+0 // STEP 1 - green floor and table top
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 0 -72 -40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - striped legs and drawer blocks
+1 1 -160 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - mirror supports
+1 4 -80 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red heart mirror
+1 4 0 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -40 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - side shelf and seat marker
+1 1 260 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 340 -144 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -260 -72 100 1 0 0 0 1 0 0 0 1 3437.dat

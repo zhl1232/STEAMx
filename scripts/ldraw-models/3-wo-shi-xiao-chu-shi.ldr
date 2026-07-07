@@ -1,0 +1,41 @@
+0 3+ 我是小厨师 (Little Chef) - DUPLO draft for manual repair
+0 Name: 3-wo-shi-xiao-chu-shi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+我是小厨师 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Oven window, tray and raised utensil are simplified.
+
+0 // STEP 1 - yellow oven base
+1 14 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - oven walls and front window
+1 14 -240 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 0 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - orange top counter
+1 25 -240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - raised blue utensil
+1 1 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 5 - red serving tray
+1 4 420 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 420 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 360 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat

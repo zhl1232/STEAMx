@@ -1,0 +1,44 @@
+0 4+ 无人机 (Drone) - DUPLO draft for manual repair
+0 Name: 4-wu-ren-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+无人机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Technic frame, propellers, motors and landing legs are simplified.
+
+0 // STEP 1 - central black body
+1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - four arms
+1 0 -220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 -220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 0 -360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 -360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 3 - propeller hubs and blades
+1 14 -440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 -500 -168 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 7 500 -168 -120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 7 -500 -168 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 7 500 -168 120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - red landing legs and camera
+1 4 -160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat

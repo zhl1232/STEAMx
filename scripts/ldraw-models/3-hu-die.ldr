@@ -1,0 +1,72 @@
+0 3+ 蝴蝶 (Butterfly) - DUPLO draft for manual repair
+0 Name: 3-hu-die.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+蝴蝶 course slides, build pages 1-9.
+0 // Draft policy: DUPLO-only approximation for manual Studio repair before MPD/course generation.
+0 // Uses only project-supported DUPLO parts: 3011.dat, 3437.dat, 40666.dat.
+0 // Known simplifications: front-facing butterfly is modeled on a flat u/v plane; eyes use plain DUPLO bricks.
+0 // Side-built matrices: horizontal=[1 0 0 / 0 -1 0 / 0 1 0], vertical=[0 0 -1 / -1 0 0 / 0 1 0].
+
+0 // STEP 1 - yellow lower wing base
+1 14 -160 120 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 14 160 120 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 14 -260 160 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 14 260 160 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 2 - red upper wing bridge and blue body start
+1 4 -120 40 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 4 120 40 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 0 40 24 0 0 -1 -1 0 0 0 1 0 3437.dat
+1 4 -320 80 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 4 320 80 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 3 - central abdomen stack
+1 1 0 -40 24 0 0 -1 -1 0 0 0 1 0 3437.dat
+1 1 0 120 24 0 0 -1 -1 0 0 0 1 0 3437.dat
+1 14 0 200 24 0 0 -1 -1 0 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 4 - extend upper red wings
+1 4 -280 -40 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 4 280 -40 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 -440 0 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 1 440 0 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 5 - blue side pattern
+1 1 -420 80 24 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 420 80 24 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 -320 180 24 1 0 0 0 -1 0 0 1 0 3437.dat
+1 1 320 180 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 6 - widen upper wings symmetrically
+1 4 -120 -80 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 4 120 -80 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 -300 -100 24 1 0 0 0 -1 0 0 1 0 3437.dat
+1 1 300 -100 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 7 - complete lower wing blocks
+1 14 -220 240 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 14 220 240 0 1 0 0 0 -1 0 0 1 0 3011.dat
+1 1 -80 260 24 1 0 0 0 -1 0 0 1 0 3437.dat
+1 1 80 260 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 8 - white head bricks and yellow antennae
+1 15 -80 -160 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 15 80 -160 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 14 -160 -260 0 0 0 -1 -1 0 0 0 1 0 3437.dat
+1 14 160 -260 0 0 0 -1 -1 0 0 0 1 0 3437.dat
+1 14 -220 -340 0 1 0 0 0 -1 0 0 1 0 3437.dat
+1 14 220 -340 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 STEP
+
+0 // STEP 9 - black eye dots and final symmetric silhouette
+1 0 -80 -170 -24 1 0 0 0 -1 0 0 1 0 40666.dat
+1 0 80 -170 -24 1 0 0 0 -1 0 0 1 0 40666.dat

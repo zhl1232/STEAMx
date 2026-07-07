@@ -1,0 +1,42 @@
+0 3+ 推拉门 (Sliding Door) - DUPLO draft for manual repair
+0 Name: 3-tui-la-men.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+推拉门 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sliding track and door panels are simplified.
+
+0 // STEP 1 - green base and doorway posts
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 -300 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 300 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red/yellow columns and top lintel
+1 14 -300 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 300 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - green sliding door panels
+1 2 -120 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - red handle and yellow roof caps
+1 4 0 -144 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -312 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 280 -312 -80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat

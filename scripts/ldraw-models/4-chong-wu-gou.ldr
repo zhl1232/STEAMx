@@ -1,0 +1,40 @@
+0 4+ 宠物狗 (Pet Dog) - DUPLO draft for manual repair
+0 Name: 4-chong-wu-gou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+宠物狗 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Legs, ears, eyes and snout are simplified.
+
+0 // STEP 1 - legs
+1 8 -160 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 160 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 -160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - body and back
+1 0 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -240 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - head
+1 0 -240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -360 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -420 -264 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 -300 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -220 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - ears and tail
+1 25 -360 -336 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 25 -240 -336 -20 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 0 320 -216 40 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat

@@ -1,0 +1,47 @@
+0 3+ 礼盒 (Gift Boxes) - DUPLO draft for manual repair
+0 Name: 3-li-he.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+礼盒 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: bow loops are represented by upright 2x2 bricks.
+
+0 // STEP 1 - yellow large gift base
+1 14 -240 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - red ribbon on large gift
+1 4 -160 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -96 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - red bow
+1 4 -240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - yellow small gift base
+1 14 160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - blue ribbon on small gift
+1 1 240 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -96 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 6 - blue bow
+1 1 160 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -216 0 1 0 0 0 1 0 0 0 1 3437.dat

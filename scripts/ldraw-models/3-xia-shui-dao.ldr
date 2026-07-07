@@ -1,0 +1,65 @@
+0 3+ 下水道 (Sewer Run) - DUPLO draft for manual repair
+0 Name: 3-xia-shui-dao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+下水道 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Raised deck, striped supports and pipe bridge are simplified.
+
+0 // STEP 1 - green base
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - striped support piers
+1 1 -360 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -360 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - elevated red deck
+1 4 -320 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 480 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -320 -240 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -240 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 -240 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -240 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - yellow pipe frame
+1 14 -520 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -216 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -264 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -312 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -336 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 5 - twin sewer pipes and outlet
+1 4 -380 -300 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 -240 -300 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -100 -300 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -380 -220 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 -240 -220 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -100 -220 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 -620 -260 80 0 0 1 0 1 0 -1 0 0 31195.dat
+1 4 520 -288 40 1 0 0 0 1 0 0 0 1 42029.dat
+0 STEP
+
+0 // STEP 6 - red vent stack
+1 14 520 -288 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -336 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 520 -384 120 1 0 0 0 1 0 0 0 1 2302.dat

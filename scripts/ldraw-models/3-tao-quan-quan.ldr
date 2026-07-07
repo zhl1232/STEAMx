@@ -1,0 +1,44 @@
+0 3+ 套圈圈 (Ring Toss) - DUPLO draft for manual repair
+0 Name: 3-tao-quan-quan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+套圈圈 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Printed animal targets and rings are represented by simple posts and plates.
+
+0 // STEP 1 - red/green target base
+1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - first row posts
+1 14 -360 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -360 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -160 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - second row posts
+1 14 240 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 440 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 640 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 640 -120 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - rear tall targets
+1 15 -260 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 0 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 260 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 520 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - thrown rings as flat blocks
+1 1 -220 -168 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -168 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 460 -168 -40 1 0 0 0 1 0 0 0 1 40666.dat

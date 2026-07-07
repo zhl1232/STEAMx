@@ -1,0 +1,44 @@
+0 4+ 春节舞狮 (Lion Dance) - DUPLO draft for manual repair
+0 Name: 4-chun-jie-wu-shi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+春节舞狮 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Head details, layered cloth and face decorations are simplified.
+
+0 // STEP 1 - four legs
+1 4 -160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red body cloth
+1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - head and jaw
+1 14 -80 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -384 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 80 -384 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 4 - eyes and top ornaments
+1 15 -120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 0 -528 -80 1 0 0 0 1 0 0 0 1 2302.dat

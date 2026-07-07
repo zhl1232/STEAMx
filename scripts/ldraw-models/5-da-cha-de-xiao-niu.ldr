@@ -1,0 +1,39 @@
+0 5+ 打镲的小牛 (Cymbal Calf) - DUPLO draft for manual repair
+0 Name: 5-da-cha-de-xiao-niu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+打镲的小牛 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Cow face, horns, side cymbals, gear wheels and arms are simplified.
+
+0 // STEP 1 - green stage and legs
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red/yellow torso
+1 4 -80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - head, horns and cymbals
+1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -120 -408 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+1 14 120 -408 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 14 -240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+1 14 240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+0 STEP
+
+0 // STEP 4 - arms and face details
+1 4 -180 -240 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 4 180 -240 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 15 -40 -360 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -360 -160 1 0 0 0 1 0 0 0 1 3437.dat

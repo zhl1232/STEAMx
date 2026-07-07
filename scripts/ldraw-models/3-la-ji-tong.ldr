@@ -1,0 +1,58 @@
+0 3+ 垃圾桶 (Sorting Bins) - DUPLO draft for manual repair
+0 Name: 3-la-ji-tong.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+垃圾桶 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: A/B labels and lid recesses are represented by colored panels.
+
+0 // STEP 1 - green base strip
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - blue bin lower wall
+1 1 -300 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -140 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -300 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -140 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - red bin lower wall
+1 4 140 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 300 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 140 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 300 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - yellow divider and side posts
+1 14 0 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -460 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 460 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 5 - upper bin walls
+1 1 -300 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -140 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -300 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -140 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 140 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 300 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 140 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 300 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 6 - yellow upper frame
+1 14 -460 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 460 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 7 - green top lid and label tiles
+1 2 -240 -168 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 240 -168 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 15 -220 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 220 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat

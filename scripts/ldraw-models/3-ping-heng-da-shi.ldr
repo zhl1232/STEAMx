@@ -1,0 +1,48 @@
+0 3+ 平衡大师 (Balance Masters) - DUPLO draft for manual repair
+0 Name: 3-ping-heng-da-shi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+平衡大师 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Two balancing figures are simplified; round balance boards are represented by plates.
+
+0 // STEP 1 - red figure balance base
+1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - striped legs
+1 4 -300 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -180 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -180 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 180 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 180 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 300 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 300 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - bodies and arms
+1 4 -240 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -420 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -60 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 60 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 420 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - heads and eyes
+1 14 -240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -260 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 220 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - hats
+1 4 -240 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -408 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -408 0 1 0 0 0 1 0 0 0 1 40666.dat

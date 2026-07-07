@@ -1,0 +1,50 @@
+0 3+ 驯鹿雪橇 (Reindeer Sleigh) - DUPLO draft for manual repair
+0 Name: 3-xun-lu-xue-qiao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+驯鹿雪橇 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Sled runners, reindeer face and antlers are simplified.
+
+0 // STEP 1 - yellow sled runners
+1 14 -420 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -100 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -420 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -100 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - stepped sled seat
+1 14 -340 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -180 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - reindeer wheeled body
+1 6 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 6 320 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - neck and head
+1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 160 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - antlers and tow bar
+1 25 160 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 80 -528 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 25 400 -528 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -20 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat

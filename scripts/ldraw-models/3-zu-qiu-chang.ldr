@@ -1,0 +1,50 @@
+0 3+ 足球场 (Soccer Field) - DUPLO draft for manual repair
+0 Name: 3-zu-qiu-chang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+足球场 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Pitch markings, goals and ball are simplified.
+
+0 // STEP 1 - green field
+1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow boundary
+1 14 -520 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -520 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - goals
+1 25 -620 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -620 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -620 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -500 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 620 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 620 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 620 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 500 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 4 - center line, players and ball
+1 15 0 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 0 -120 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -120 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -96 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -96 40 1 0 0 0 1 0 0 0 1 3437.dat

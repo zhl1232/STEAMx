@@ -1,0 +1,41 @@
+0 4+ 大闸蟹 (Crab) - DUPLO draft for manual repair
+0 Name: 4-da-zha-xie.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+大闸蟹 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Claws, eyes and legs are simplified.
+
+0 // STEP 1 - body shell
+1 4 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - legs
+1 8 -200 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -72 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 200 -72 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 -200 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -72 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 200 -72 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - eye stalks
+1 14 -80 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -80 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 80 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - large claws
+1 8 -320 -144 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 4 -420 -216 -180 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
+1 8 320 -144 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 4 420 -216 -180 0.866 -0.500 0 0.500 0.866 0 0 0 1 31195.dat
+1 4 -420 -264 -220 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 420 -264 -220 -1 0 0 0 1 0 0 0 -1 2302.dat

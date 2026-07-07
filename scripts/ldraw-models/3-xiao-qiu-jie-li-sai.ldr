@@ -1,0 +1,48 @@
+0 3+ 小球接力赛 (Ball Relay Race) - DUPLO draft for manual repair
+0 Name: 3-xiao-qiu-jie-li-sai.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+小球接力赛 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Frame, ramps and ball are simplified.
+
+0 // STEP 1 - green base
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - left striped tower
+1 14 -220 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -220 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -220 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -220 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -220 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -220 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -220 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - right striped tower
+1 4 220 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 220 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 220 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 220 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 220 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 220 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 220 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - top beam and side rails
+1 1 -160 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -432 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 -432 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 5 - staggered blue chutes and ball
+1 1 60 -156 20 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 20 -228 20 0 0 -1 0 1 0 1 0 0 31195.dat
+1 1 60 -300 20 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 20 -372 20 0 0 -1 0 1 0 1 0 0 31195.dat
+1 14 120 -96 20 1 0 0 0 1 0 0 0 1 3437.dat

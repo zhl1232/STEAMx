@@ -1,0 +1,40 @@
+0 3+ 坦克 (Tank) - DUPLO draft for manual repair
+0 Name: 3-tan-ke.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+坦克 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Cannon and exhaust bend use supported tube/brick approximations.
+
+0 // STEP 1 - wheeled tank base
+1 2 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 2 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - green/yellow hull
+1 2 -160 -96 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 160 -96 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - turret
+1 14 0 -192 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - front cannon
+1 1 -280 -216 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -420 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -560 -216 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 5 - rear blue exhaust and top hatch
+1 1 300 -240 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 380 -288 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 0 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat

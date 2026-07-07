@@ -27,6 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { XiaoDi, type XiaoDiState } from '@/components/features/tutor/xiaodi'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
 import {
   buildTutorChatParams,
@@ -50,7 +51,6 @@ import { AI_CREDIT_COST_VISION, MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membersh
 import { uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
 
-const TUTOR_AVATAR = '/ai-tutor-mascot.png'
 /** 单条消息最多携带的图片数（与服务端引擎一致） */
 const MAX_CHAT_IMAGES = 4
 
@@ -610,6 +610,15 @@ export function GlobalTutorFab({
   }
 
   const panelSubtitle = subtitle || (sceneTitle ? `正在陪你：${sceneTitle}` : '你的 STEAM 学习伙伴')
+  const lastMessage = messages[messages.length - 1]
+  const mascotState: XiaoDiState =
+    lastMessage?.role === 'assistant' && lastMessage.streaming && lastMessage.content
+      ? 'speaking'
+      : busy || sessionQuery.isFetching
+        ? 'thinking'
+        : open
+          ? 'listening'
+          : 'idle'
 
   if (!mounted) return null
 
@@ -626,15 +635,10 @@ export function GlobalTutorFab({
           )}
         >
           <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
-            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-2 ring-[hsl(var(--brand-blue)/0.35)]">
-              <OptimizedImage
-                src={TUTOR_AVATAR}
-                alt="AI 导师小迪"
-                fill
-                variant="thumbnail"
-                loading="eager"
-                className="object-cover"
-              />
+            <span className="relative h-11 w-10 shrink-0 overflow-visible drop-shadow-[0_8px_12px_hsl(var(--brand-blue)/0.18)]">
+              <span className="absolute left-1/2 top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+                <XiaoDi state={mascotState} size={52} />
+              </span>
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 text-sm font-semibold tracking-tight">
@@ -765,10 +769,7 @@ export function GlobalTutorFab({
             )}
             {view === 'chat' && user && messages.length === 0 && !greeting && sessionQuery.isFetching && (
               <TutorBubble>
-                <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  小迪正在准备这个场景…
-                </span>
+                <span className="text-muted-foreground">小迪正在准备这个场景…</span>
               </TutorBubble>
             )}
             {view === 'chat' && user && messages.length === 0 && !greeting && sessionQuery.isError && (
@@ -778,7 +779,7 @@ export function GlobalTutorFab({
               <>
                 <TutorBubble>{greeting.message}</TutorBubble>
                 {user && context.contextType === 'challenge' && stageIndex != null && (
-                  <div className="pl-9">
+                  <div>
                     <button
                       type="button"
                       onClick={() => void sendMessage(buildStartStagePrompt(stageTitle || '当前阶段'))}
@@ -791,7 +792,7 @@ export function GlobalTutorFab({
                   </div>
                 )}
                 {user && (quickPrompts.length > 0 || greeting.quickPrompts.length > 0) && (
-                  <div className="flex flex-wrap gap-2 pl-9">
+                  <div className="flex flex-wrap gap-2">
                     {(quickPrompts.length > 0 ? quickPrompts : greeting.quickPrompts).map((prompt) => (
                       <button
                         key={prompt}
@@ -820,10 +821,7 @@ export function GlobalTutorFab({
                       )
                     ) : null}
                     {message.streaming && !message.content ? (
-                      <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        小迪正在思考…
-                      </span>
+                      <ThinkingIndicator />
                     ) : null}
                   </TutorBubble>
                 ) : (
@@ -833,10 +831,7 @@ export function GlobalTutorFab({
 
             {view === 'chat' && busy && messages[messages.length - 1]?.role !== 'assistant' && (
               <TutorBubble>
-                <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  小迪正在思考…
-                </span>
+                <ThinkingIndicator />
               </TutorBubble>
             )}
 
@@ -975,7 +970,10 @@ export function GlobalTutorFab({
         onClick={onToggle}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
-          'fixed right-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-2 ring-[hsl(var(--brand-blue)/0.4)] transition-transform hover:scale-105 active:scale-95 md:right-6',
+          'fixed right-4 z-50 inline-flex items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          open
+            ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
+            : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
           hideOnMobile && 'max-lg:hidden',
           fabPlacement === 'compact'
             ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
@@ -986,18 +984,8 @@ export function GlobalTutorFab({
           <ChevronDown className="h-6 w-6 text-[hsl(var(--brand-blue))]" />
         ) : (
           <>
-            <span className="relative h-full w-full overflow-hidden rounded-full">
-              <OptimizedImage
-                src={TUTOR_AVATAR}
-                alt="AI 导师小迪"
-                fill
-                variant="thumbnail"
-                loading="eager"
-                className="object-cover"
-              />
-            </span>
-            <span className="absolute -right-0.5 -top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[hsl(var(--brand-blue))] ring-2 ring-[hsl(var(--surface-raised))]">
-              <Sparkles className="h-2.5 w-2.5 text-[hsl(var(--brand-blue-foreground))]" />
+            <span className="flex h-full w-full items-center justify-center overflow-visible">
+              <XiaoDi state={mascotState} size={86} />
             </span>
           </>
         )}
@@ -1030,12 +1018,15 @@ function UserBubble({ message }: { message: TutorChatMessage }) {
   )
 }
 
+function ThinkingIndicator() {
+  return (
+    <span className="text-muted-foreground">小迪正在思考…</span>
+  )
+}
+
 function TutorBubble({ children, error }: { children: ReactNode; error?: boolean }) {
   return (
-    <div className="flex items-start gap-2">
-      <span className="relative mt-0.5 h-7 w-7 shrink-0 overflow-hidden rounded-full ring-1 ring-[hsl(var(--brand-blue)/0.3)]">
-        <OptimizedImage src={TUTOR_AVATAR} alt="小迪" fill variant="thumbnail" className="object-cover" />
-      </span>
+    <div className="flex items-start">
       <div
         className={cn(
           'max-w-[80%] whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tl-sm px-3 py-2 text-[13px] leading-6',

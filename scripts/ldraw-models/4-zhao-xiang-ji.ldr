@@ -1,0 +1,36 @@
+0 4+ 照相机 (Camera) - DUPLO draft for manual repair
+0 Name: 4-zhao-xiang-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+照相机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tripod, lens barrel, flash and body stripes are simplified.
+
+0 // STEP 1 - tripod legs
+1 0 -140 -48 120 0.866 0 0.500 0 1 0 -0.500 0 0.866 31452.dat
+1 0 140 -48 120 0.866 0 -0.500 0 1 0 0.500 0 0.866 31452.dat
+1 0 0 -48 -120 1 0 0 0 1 0 0 0 1 31452.dat
+1 8 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - striped camera body
+1 1 -120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - blue front lens
+1 1 -260 -216 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 -380 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+1 0 -460 -216 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // STEP 4 - top finder and red flash
+1 14 -60 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 60 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -312 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 4 240 -416 -80 1 0 0 0 1 0 0 0 1 42029.dat

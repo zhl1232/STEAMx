@@ -1,0 +1,55 @@
+0 3+ 捞球比赛 (Ball-Scooping Game) - DUPLO draft for manual repair
+0 Name: 3-lao-qiu-bi-sai.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+捞球比赛 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Known simplifications: bowls, balls and scoop are block/plate approximations.
+
+0 // STEP 1 - red game base
+1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - yellow front platform
+1 14 -160 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - striped central bin lower wall
+1 4 -160 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - yellow top rim and blue bowl markers
+1 14 -160 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -192 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -192 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -192 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - side red trays and blue cups
+1 4 -420 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 420 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -420 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 420 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -420 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 420 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - loose balls and scoop approximation
+1 1 -300 -96 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 300 -96 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 640 -48 120 0.94 0.342 0 -0.342 0.94 0 0 0 1 3011.dat
+1 1 720 -96 120 0.94 0.342 0 -0.342 0.94 0 0 0 1 40666.dat

@@ -1,0 +1,45 @@
+0 4+ 斜拉桥 (Cable-Stayed Bridge) - DUPLO draft for manual repair
+0 Name: 4-xie-la-qiao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+斜拉桥 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Twin towers, roadway, blue water and diagonal stay cables are simplified.
+
+0 // STEP 1 - blue water and green banks
+1 1 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -480 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 480 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - red/yellow deck
+1 4 -480 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 480 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - striped bridge towers
+1 4 -240 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - black stay cables
+1 0 -360 -216 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 -120 -216 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 120 -216 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 360 -216 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 -240 -336 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 240 -336 -80 1 0 0 0 1 0 0 0 1 40666.dat

@@ -1,0 +1,46 @@
+0 4+ 磁悬浮列车 (Maglev Train) - DUPLO draft for manual repair
+0 Name: 4-ci-xuan-fu-lie-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+磁悬浮列车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Track pylons and streamlined train nose are simplified.
+
+0 // STEP 1 - long green base and rails
+1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 0 -480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 -240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 0 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - pylons
+1 0 -360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 0 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - train body
+1 4 -320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -220 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 20 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 260 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - roof and noses
+1 1 -160 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 160 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -480 -240 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 480 -240 0 -1 0 0 0 1 0 0 0 -1 2302.dat

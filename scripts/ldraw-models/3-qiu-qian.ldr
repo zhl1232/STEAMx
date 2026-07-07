@@ -1,0 +1,48 @@
+0 3+ 秋千 (Swing) - DUPLO draft for manual repair
+0 Name: 3-qiu-qian.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+秋千 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // A-frame supports, eyes and hanging seat are block approximations.
+
+0 // STEP 1 - green ground strip
+1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - left blue/yellow ladder support
+1 1 -320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -320 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - right blue/yellow ladder support
+1 1 320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - top beam and eyes
+1 14 -160 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -40 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -40 -408 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 40 -408 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - red swing hangers and seat
+1 4 -160 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -260 -144 80 1 0 0 0 1 0 0 0 1 42029.dat
+1 1 260 -144 80 1 0 0 0 1 0 0 0 1 42029.dat

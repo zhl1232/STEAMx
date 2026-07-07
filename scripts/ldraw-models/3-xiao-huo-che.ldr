@@ -1,0 +1,60 @@
+0 3+ 小火车 (Small Train) - DUPLO draft for manual repair
+0 Name: 3-xiao-huo-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+小火车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Locomotive chimney, carriage windows and couplers are simplified.
+
+0 // STEP 1 - train wheels
+1 4 -360 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 600 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - locomotive base and front
+1 1 -360 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -520 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - blue cab and chimney
+1 14 -300 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -220 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -220 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -420 -192 -40 1 0 0 0 1 0 0 0 1 42029.dat
+1 1 -440 -260 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
+0 STEP
+
+0 // STEP 4 - passenger carriage 1
+1 14 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 40 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 200 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 7 120 -216 40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 5 - passenger carriage 2
+1 14 440 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 600 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 600 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 440 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 600 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 520 -216 40 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 6 - red couplers and buffers
+1 4 -80 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 320 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -620 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 720 -96 0 1 0 0 0 1 0 0 0 1 3437.dat

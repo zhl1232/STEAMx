@@ -1,0 +1,60 @@
+0 3+ 警车 (Police Car) - DUPLO draft for manual repair
+0 Name: 3-jing-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+警车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Uses project-supported DUPLO parts: 41989.dat, 3011.dat, 3437.dat, 40666.dat, 4196.dat, 2302.dat.
+0 // Known simplifications: window grid and light bar are represented with block/plate geometry.
+0 // Coordinates: +Y down; ordinary plates/bricks use top-centered DUPLO origins.
+
+0 // STEP 1 - long wheeled chassis
+1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - white lower stripe and blue side skirt
+1 15 -240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -120 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - blue body shell
+1 1 -240 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -300 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 300 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - red cab with white window blocks
+1 4 -120 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -140 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 80 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 -140 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 80 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - roof deck and police light bar
+1 1 -120 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 -40 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -100 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 20 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 6 - yellow headlights and final front/rear caps
+1 14 -340 -144 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 340 -144 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 -340 -168 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 340 -168 40 1 0 0 0 1 0 0 0 1 40666.dat

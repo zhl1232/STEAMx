@@ -1,0 +1,44 @@
+0 5+ 对抗球桌 (Table Football Game) - DUPLO draft for manual repair
+0 Name: 5-dui-kang-qiu-zhuo.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+对抗球桌 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Table walls, rods, paddles, side knobs and ball are simplified.
+
+0 // STEP 1 - blue/yellow rectangular table
+1 1 -240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - green playing field
+1 2 -120 -72 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 200 -72 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -360 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - rods and paddles
+1 8 -160 -120 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 160 -120 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 -160 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 160 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -160 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -168 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -168 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - side knobs and ball
+1 0 -340 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 340 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -340 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 340 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat

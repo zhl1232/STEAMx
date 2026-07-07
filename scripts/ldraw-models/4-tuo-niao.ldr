@@ -1,0 +1,40 @@
+0 4+ 鸵鸟 (Ostrich) - DUPLO draft for manual repair
+0 Name: 4-tuo-niao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+鸵鸟 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Long legs, neck, head crest, wings and nest eggs are simplified.
+
+0 // STEP 1 - grass base and yellow nest
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 -220 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -100 -72 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -120 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 2 - black long legs
+1 0 20 -120 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 160 -120 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 60 -216 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 0 200 -216 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 8 0 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 220 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - orange body and wings
+1 25 80 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 240 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 8 80 -336 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 240 -336 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 340 -288 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+
+0 // STEP 4 - tall neck and red/yellow head
+1 0 80 -384 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 25 80 -488 -40 1 0 0 0 0 -1 0 1 0 31452.dat
+1 14 80 -592 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -640 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 120 -640 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 80 -688 -120 1 0 0 0 1 0 0 0 1 40666.dat

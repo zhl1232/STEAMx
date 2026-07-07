@@ -1,0 +1,43 @@
+0 3+ 推土机 (Bulldozer) - DUPLO draft for manual repair
+0 Name: 3-tui-tu-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+推土机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Blade, fence and cargo are simplified.
+
+0 // STEP 1 - fenced worksite base
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - truck chassis
+1 4 260 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 420 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 3 - yellow dump bed and red cab
+1 14 260 -96 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 420 -96 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 180 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 500 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 500 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - front blade and ramp
+1 14 80 -96 -120 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
+1 14 -20 -120 -180 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
+1 14 420 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 500 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - piles and worksite fence
+1 14 -240 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -360 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -160 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -72 180 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 240 -72 180 1 0 0 0 1 0 0 0 1 3437.dat

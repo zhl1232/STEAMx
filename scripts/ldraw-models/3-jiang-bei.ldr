@@ -1,0 +1,98 @@
+0 3+ Trophy - DUPLO draft for manual repair
+0 Name: 3-jiang-bei.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+ Trophy course slides, build pages 1-10.
+0 // Draft policy: DUPLO-only approximation for manual Studio repair before MPD/course generation.
+0 // Uses project-supported DUPLO parts: 51262.dat, 4196.dat, 3011.dat, 3437.dat, 40666.dat.
+0 // Known simplifications: curved cup shoulders and handles are represented with stepped block geometry.
+0 // Coordinates: +Y down; ordinary plates/bricks use top-centered DUPLO origins.
+
+0 // STEP 1 - square trophy base
+1 7 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 2 - raised plinth
+1 14 -80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 3 - central stem
+1 14 0 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - lower cup shoulder
+1 14 0 -288 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - hollow cup walls and rim
+1 14 -160 -384 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -384 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -384 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -160 -408 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -408 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -408 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 6 - lower red handle anchors
+1 4 -300 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 7 - side handle lower steps
+1 4 -380 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -380 -288 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 380 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 380 -288 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -420 -312 0 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 420 -312 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 8 - side handle upper steps
+1 4 -420 -360 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -420 -360 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 420 -360 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 420 -360 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -380 -408 0 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 380 -408 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 STEP
+
+0 // STEP 9 - top red handle anchors
+1 4 -300 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -300 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 300 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 10 - final top rim thickness
+1 14 -160 -456 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -456 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -456 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -456 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -456 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -456 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -456 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -456 0 0 0 1 0 1 0 -1 0 0 3011.dat

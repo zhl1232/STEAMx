@@ -1,0 +1,39 @@
+0 5+ 鳄鱼 (Crocodile) - DUPLO draft for manual repair
+0 Name: 5-e-yu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+鳄鱼 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Long body, jaws, short legs and tail are simplified.
+
+0 // STEP 1 - long green body and tail
+1 2 -360 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 -220 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -60 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 100 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 260 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 420 -72 0 0 0 1 0 1 0 -1 0 0 2302.dat
+0 STEP
+
+0 // STEP 2 - back ridge and belly
+1 2 -220 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -20 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 180 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 340 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - head, jaws and eyes
+1 4 -520 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -520 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -640 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -520 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -440 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - legs and teeth markers
+1 14 -260 -24 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -24 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -260 -24 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -24 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -620 -144 -120 1 0 0 0 1 0 0 0 1 40666.dat

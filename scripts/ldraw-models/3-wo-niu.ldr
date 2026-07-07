@@ -1,0 +1,35 @@
+0 3+ 蜗牛 (Snail) - DUPLO draft for manual repair
+0 Name: 3-wo-niu.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+蜗牛 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Spiral shell is approximated with DUPLO tube pieces.
+
+0 // STEP 1 - red/yellow body
+1 4 -160 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 80 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - red head and face
+1 4 -320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -360 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -360 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - shell ring approximation
+1 14 120 -144 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 220 -144 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 320 -144 0 0 0 1 0 1 0 -1 0 0 31195.dat
+1 1 220 -240 0 1 0 0 0 1 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 4 - shell color caps and tail
+1 14 120 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 220 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 420 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat

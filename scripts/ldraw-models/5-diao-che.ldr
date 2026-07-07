@@ -1,0 +1,37 @@
+0 5+ 吊车 (Crane Truck) - DUPLO draft for manual repair
+0 Name: 5-diao-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+吊车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Boom, hook line, gear wheels and small truck body are simplified.
+
+0 // STEP 1 - wheeled crane chassis
+1 14 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 14 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 1 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 1 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -260 -144 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 2 - blue turntable and mast
+1 1 80 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 80 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -240 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 160 -192 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 3 - yellow boom
+1 14 220 -288 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 14 340 -360 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 14 460 -432 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 14 580 -504 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - hook and front detail
+1 8 640 -408 -80 1 0 0 0 0 -1 0 1 0 31452.dat
+1 8 640 -512 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -96 -80 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 -360 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat

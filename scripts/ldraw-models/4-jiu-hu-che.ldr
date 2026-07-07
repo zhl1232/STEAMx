@@ -1,0 +1,41 @@
+0 4+ 救护车 (Ambulance) - DUPLO draft for manual repair
+0 Name: 4-jiu-hu-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+救护车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Ambulance box, red cross and stretcher are simplified.
+
+0 // STEP 1 - wheeled chassis
+1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 STEP
+
+0 // STEP 2 - yellow body
+1 14 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - roof and cab
+1 1 -120 -192 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 120 -192 -40 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 340 -192 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 260 -240 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - red cross and stretcher
+1 4 -80 -216 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -216 -100 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -40 -264 -100 0 0 1 0 1 0 -1 0 0 3437.dat
+1 15 -420 -72 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -500 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -340 -96 80 1 0 0 0 1 0 0 0 1 3437.dat

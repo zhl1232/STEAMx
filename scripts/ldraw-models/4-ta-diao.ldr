@@ -1,0 +1,43 @@
+0 4+ 塔吊 (Tower Crane) - DUPLO draft for manual repair
+0 Name: 4-ta-diao.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+塔吊 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tower mast, boom truss, counterweight, cabin and hook are simplified.
+
+0 // STEP 1 - green base and striped tower
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - red/yellow upper cab
+1 4 0 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 0 -456 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 15 -80 -456 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 80 -456 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - black boom and rear counterweight
+1 0 -160 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 -320 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 -480 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 160 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 320 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -504 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 360 -552 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 4 - trolley, hook and braces
+1 8 -360 -504 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 8 -360 -552 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 -360 -600 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 0 -180 -408 -20 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 0 180 -408 -20 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat

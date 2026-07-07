@@ -1,0 +1,41 @@
+0 4+ 坦克 (Tank) - DUPLO draft for manual repair
+0 Name: 4-tan-ke.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+坦克 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Treads, turret beam, road wheels and barrel muzzle are simplified.
+
+0 // STEP 1 - black tracked chassis
+1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - green side armor
+1 2 -240 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -240 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - turret and hatch
+1 0 -80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 8 0 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 7 0 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - long cannon and rear detail
+1 8 -160 -216 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 -280 -216 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 -400 -216 -80 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -500 -216 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 7 300 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat

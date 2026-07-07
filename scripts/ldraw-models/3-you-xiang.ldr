@@ -1,0 +1,40 @@
+0 3+ 邮箱 (Mailbox) - DUPLO draft for manual repair
+0 Name: 3-you-xiang.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 3+邮箱 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Mail slot, stepped roof and post are simplified.
+
+0 // STEP 1 - base and post
+1 7 0 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - mailbox lower body
+1 2 -120 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 3 - dark mail slot and upper body
+1 2 -120 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 40 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - stepped roof
+1 2 -80 -456 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -456 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -504 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -552 0 1 0 0 0 1 0 0 0 1 3437.dat

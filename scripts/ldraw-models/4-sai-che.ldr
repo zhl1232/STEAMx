@@ -1,0 +1,36 @@
+0 4+ 赛车 (Race Car) - DUPLO draft for manual repair
+0 Name: 4-sai-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+赛车 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Technic body panels, steering details, wheel discs and spoilers are simplified.
+
+0 // STEP 1 - black rolling chassis
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+
+0 // STEP 2 - low black deck and cockpit
+1 8 -160 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 0 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 8 160 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 0 0 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - blue nose, rear wing and fins
+1 1 -300 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 -420 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 320 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 420 -120 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 1 420 -120 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 4 - gray axles and front blade
+1 7 -220 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 7 220 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
+1 8 -360 -144 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 8 -360 -144 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat

@@ -1,0 +1,41 @@
+0 5+ 扁担 (Shoulder Pole) - DUPLO draft for manual repair
+0 Name: 5-bian-dan.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 5+扁担 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Long Technic beam, hanging cords, pulleys and basket details are simplified.
+
+0 // STEP 1 - long shoulder pole
+1 14 -360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 2 - red/yellow rollers along the pole
+1 14 -420 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -260 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -100 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 60 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 220 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 380 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - hanging cords
+1 0 -360 -144 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 -360 -48 0 1 0 0 0 0 -1 0 1 0 40666.dat
+1 0 360 -144 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 360 -48 0 1 0 0 0 0 -1 0 1 0 40666.dat
+0 STEP
+
+0 // STEP 4 - blue carrying baskets
+1 1 -420 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -260 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -340 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 300 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 460 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 380 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat

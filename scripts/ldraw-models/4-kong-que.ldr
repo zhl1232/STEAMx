@@ -1,0 +1,39 @@
+0 4+ 孔雀 (Peacock) - DUPLO draft for manual repair
+0 Name: 4-kong-que.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+孔雀 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tail fan, legs and crest are simplified.
+
+0 // STEP 1 - ground and legs
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 0 -60 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 60 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 -60 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 60 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 2 - body and neck
+1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -168 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 0 180 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 220 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 260 -312 -120 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 3 - tail fan rows
+1 1 -260 -216 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 4 -180 -288 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+1 14 -80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -260 -168 160 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 4 -180 -240 160 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
+1 14 -80 -288 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -288 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 4 - crest and beak
+1 1 220 -360 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 320 -312 -120 0 0 1 0 1 0 -1 0 0 3437.dat
