@@ -1,0 +1,19 @@
+0 Duplo Technic 2 x 2 Joint Block with Side Holes (Simplified)
+0 Name: 74844.dat
+0 Author: STEAM Explore / OpenAI
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 !HELP Local simplified geometry for 4+孔雀 step-3 leg/neck joint block.
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Technic
+
+1 16 0 48 0 38 0 0 0 -48 0 0 0 38 box5.dat
+1 16 -20 0 -20 1 0 0 0 2.75 0 0 0 1 stud7.dat
+1 16 20 0 -20 1 0 0 0 2.75 0 0 0 1 stud7.dat
+1 16 -20 0 20 1 0 0 0 2.75 0 0 0 1 stud7.dat
+1 16 20 0 20 1 0 0 0 2.75 0 0 0 1 stud7.dat
+1 0 -38 24 0 4 0 0 0 -18 0 0 0 8 box5.dat
+1 0 38 24 0 4 0 0 0 -18 0 0 0 8 box5.dat
+1 0 0 24 -38 8 0 0 0 -18 0 0 0 4 box5.dat
+1 0 0 24 38 8 0 0 0 -18 0 0 0 4 box5.dat

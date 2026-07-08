@@ -8,16 +8,16 @@
 0 // Known simplifications: dragon head/neck, paddlers and railings are simplified blocks.
 
 0 // STEP 1 - yellow boat hull
-1 14 -320 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -480 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
 1 14 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 320 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 480 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
 0 // STEP 2 - tapered bow and stern
 1 14 -560 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
 1 14 560 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 4 -480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -480 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 480 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
 0 // STEP 3 - red side rails
@@ -50,7 +50,7 @@
 1 14 520 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 600 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 680 -360 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 760 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 820 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
 0 // STEP 6 - stepped tail

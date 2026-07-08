@@ -32,13 +32,13 @@
 1 2 0 -216 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
 0 // STEP 3 - two yellow round-doorway body frames
-1 14 -200 -240 0 1 0 0 0 1 0 0 0 1 duplo_doorway.dat
-1 14 200 -240 0 -1 0 0 0 1 0 0 0 -1 duplo_doorway.dat
+1 14 -200 -240 0 1 0 0 0 1 0 0 0 1 31191.dat
+1 14 200 -240 0 -1 0 0 0 1 0 0 0 -1 31191.dat
 0 STEP
 0 // STEP 4 - three yellow straight DUPLO tube sections
-1 14 -140 -360 0 1 0 0 0 1 0 0 0 1 duplo_tube_straight.dat
-1 14 0 -360 0 1 0 0 0 1 0 0 0 1 duplo_tube_straight.dat
-1 14 140 -360 0 1 0 0 0 1 0 0 0 1 duplo_tube_straight.dat
+1 14 -140 -360 0 1 0 0 0 1 0 0 0 1 31452.dat
+1 14 0 -360 0 1 0 0 0 1 0 0 0 1 31452.dat
+1 14 140 -360 0 1 0 0 0 1 0 0 0 1 31452.dat
 0 STEP
 0 // STEP 5 - yellow muzzle and red tongue
 1 14 280 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
@@ -48,8 +48,8 @@
 1 4 400 -240 0 0 0 1 0 1 0 -1 0 0 11170.dat
 0 STEP
 0 // STEP 6 - face and printed-eye bricks
-1 16 320 -360 -40 1 0 0 0 1 0 0 0 1 duplo_eye_brick.ldr
-1 16 320 -360 40 1 0 0 0 1 0 0 0 1 duplo_eye_brick.ldr
+1 16 320 -360 -40 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 16 320 -360 40 1 0 0 0 1 0 0 0 1 3437pe1.dat
 1 14 240 -360 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // STEP 7 - four yellow back and head-top bricks
@@ -65,10 +65,10 @@
 1 25 120 -408 120 0 0 -1 0 1 0 1 0 0 11170.dat
 0 STEP
 0 // STEP 9 - raised yellow ball-tube tail
-1 14 -270 -350 0 0 -1 0 1 0 0 0 0 1 duplo_tube_straight.dat
-1 14 -270 -480 0 -1 0 0 0 1 0 0 0 -1 duplo_tube_elbow.dat
-1 14 -340 -550 0 -1 0 0 0 1 0 0 0 -1 duplo_tube_elbow.dat
-1 14 -410 -550 0 0 -1 0 1 0 0 0 0 1 duplo_tube_straight.dat
+1 14 -270 -350 0 0 -1 0 1 0 0 0 0 1 31452.dat
+1 14 -270 -480 0 -1 0 0 0 1 0 0 0 -1 31195.dat
+1 14 -340 -550 0 -1 0 0 0 1 0 0 0 -1 31195.dat
+1 14 -410 -550 0 0 -1 0 1 0 0 0 0 1 31452.dat
 0 STEP
 0 NOFILE
 0 FILE duplo_doorway.dat

@@ -1,0 +1,16 @@
+0 Duplo Technic Long Hinge Leg Beam with Yellow Pins (Simplified)
+0 Name: 74847.dat
+0 Author: STEAM Explore / OpenAI
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+0 !HELP Local simplified geometry for 4+孔雀 step-2 grey leg/neck beam; yellow pin ends are fixed-color visual guides.
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Technic
+
+1 16 0 12 85 18 0 0 0 -24 0 0 0 78 box5.dat
+1 16 0 12 85 26 0 0 0 -12 0 0 0 92 box5.dat
+1 14 0 12 0 16 0 0 0 -24 0 0 0 16 box5.dat
+1 14 0 12 170 16 0 0 0 -24 0 0 0 16 box5.dat
+1 0 0 0 0 8 0 0 0 -8 0 0 0 8 box5.dat
+1 0 0 0 170 8 0 0 0 -8 0 0 0 8 box5.dat

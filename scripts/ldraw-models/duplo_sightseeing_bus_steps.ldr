@@ -7,9 +7,9 @@
 0 // Self-contained MPD saved with .ldr extension.
 0 // Uses DUPLO parts only; obscured connections and unavailable special parts are approximated.
 0 // STEP 1 - three linked DUPLO wheel chassis
-1 16 -240 -48 0 1 0 0 0 1 0 0 0 1 duplo_vehicle_base.ldr
-1 16 0 -48 0 1 0 0 0 1 0 0 0 1 duplo_vehicle_base.ldr
-1 16 240 -48 0 1 0 0 0 1 0 0 0 1 duplo_vehicle_base.ldr
+1 16 -240 -48 0 1 0 0 0 1 0 0 0 1 42093.dat
+1 16 0 -48 0 1 0 0 0 1 0 0 0 1 42093.dat
+1 16 240 -48 0 1 0 0 0 1 0 0 0 1 42093.dat
 0 STEP
 0 // STEP 2 - five red 2 x 4 bricks tie the chassis together
 1 4 -320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
@@ -38,7 +38,7 @@
 1 27 400 -144 40 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // STEP 5 - front red window cabin and blue curved roof
-1 16 -400 -240 0 1 0 0 0 1 0 0 0 1 duplo_window_unit.ldr
+1 16 -400 -240 0 1 0 0 0 1 0 0 0 1 90265.dat
 1 1 -420 -312 -40 1 0 0 0 1 0 0 0 1 6474.dat
 1 1 -420 -312 40 -1 0 0 0 1 0 0 0 -1 6474.dat
 0 STEP
@@ -63,10 +63,10 @@
 1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 0 // STEP 7 - eight blue DUPLO roof and canopy plates
-1 1 -400 -336 0 1 0 0 0 1 0 0 0 1 duplo_plate_4x8.dat
-1 1 -160 -408 0 1 0 0 0 1 0 0 0 1 duplo_plate_4x8.dat
-1 1 80 -456 0 1 0 0 0 1 0 0 0 1 duplo_plate_4x8.dat
-1 1 320 -504 0 1 0 0 0 1 0 0 0 1 duplo_plate_4x8.dat
+1 1 -400 -336 0 1 0 0 0 1 0 0 0 1 10199.dat
+1 1 -160 -408 0 1 0 0 0 1 0 0 0 1 10199.dat
+1 1 80 -456 0 1 0 0 0 1 0 0 0 1 10199.dat
+1 1 320 -504 0 1 0 0 0 1 0 0 0 1 10199.dat
 1 1 -320 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 -80 -408 0 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 160 -456 0 1 0 0 0 1 0 0 0 1 40666.dat
@@ -130,13 +130,13 @@
 1 27 -340 -192 280 1 0 0 0 1 0 0 0 1 40666.dat
 1 27 -180 -192 280 1 0 0 0 1 0 0 0 1 40666.dat
 1 27 -260 -240 280 1 0 0 0 1 0 0 0 1 3437.dat
-1 16 -420 -40 280 1 0 0 0 1 0 0 0 1 duplo_flower.dat
+1 16 -420 -48 280 1 0 0 0 1 0 0 0 1 15515.dat
 0 STEP
 0 // STEP 13 - final roadside flower groups
-1 4 -440 -40 -300 1 0 0 0 1 0 0 0 1 duplo_flower.dat
-1 1 -360 -40 -300 1 0 0 0 1 0 0 0 1 duplo_flower.dat
-1 15 340 -40 300 1 0 0 0 1 0 0 0 1 duplo_flower.dat
-1 14 420 -40 300 1 0 0 0 1 0 0 0 1 duplo_flower.dat
+1 4 -440 -48 -300 1 0 0 0 1 0 0 0 1 15515.dat
+1 1 -360 -48 -300 1 0 0 0 1 0 0 0 1 15515.dat
+1 15 340 -48 300 1 0 0 0 1 0 0 0 1 15515.dat
+1 14 420 -48 300 1 0 0 0 1 0 0 0 1 15515.dat
 0 STEP
 0 NOFILE
 0 FILE duplo_vehicle_base.ldr

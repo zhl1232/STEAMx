@@ -8,8 +8,8 @@
 0 // Horns, neck curve and landscape are simplified with supported bricks.
 
 0 // STEP 1 - small grass patch
+1 2 -840 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
 1 2 -360 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
-1 2 -120 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
 0 // STEP 2 - four striped legs
@@ -39,7 +39,7 @@
 
 0 // STEP 5 - curved yellow horns and ears
 1 14 360 -384 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
-1 14 520 -384 0 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat
+1 14 560 -384 0 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat
 1 1 340 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
 1 1 580 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP

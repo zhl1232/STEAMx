@@ -1,8 +1,8 @@
 -- 把「大颗粒积木工程启蒙」的第一课「会跑的小车」替换成「埃菲尔铁塔」样板课。
 -- 演示一节「乐高课」的完整形态：动画(mp4) + 课件(PDF，PPT 转图后可换成 slideImageUrls)
 -- + 13 步搭建说明(steps) + 自托管 LDraw 3D 模型(eiffel-tower.mpd，模型内 0 STEP 分步显隐)。
--- 13 步严格对照 public/courses/eiffel-tower/instructions.pdf 的 13 页；模型由
--- scripts/ldraw-models/gen-eiffel.mjs 生成并通过悬空/穿模几何自检。
+-- 13 步严格对照 public/courses/eiffel-tower/instructions.pdf 的 13 页；源 LDR 已移除，
+-- 课程继续使用已完成的 public/courses/ldraw/eiffel-tower.mpd。
 -- 资源走本地 public/（开发期），正式上线再迁 OSS。
 UPDATE public.course_lessons AS l
 SET

@@ -1,6 +1,6 @@
 -- 刷新「小小积木工程师：学前大颗粒启蒙」第 1 课「埃菲尔铁塔」的 LDraw 课程字段。
--- 模型源：scripts/ldraw-models/eiffel-tower.ldr
--- 打包产物：public/courses/ldraw/eiffel-tower.mpd。课件、视频、PDF、成品图和作品墙字段保持原值。
+-- 源 LDR 已移除；课程继续使用已完成的 public/courses/ldraw/eiffel-tower.mpd。
+-- 课件、视频、PDF、成品图和作品墙字段保持原值。
 
 WITH lesson_payload AS (
   SELECT

@@ -1,39 +1,145 @@
-0 4+ 孔雀 (Peacock) - DUPLO draft for manual repair
+0 4+ 孔雀 (Peacock) - DUPLO step draft
 0 Name: 4-kong-que.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+孔雀 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tail fan, legs and crest are simplified.
+0 // Source: C:\Users\arron\Downloads\pdf预览\4+孔雀搭建说明_pdf, pages 1-19.
+0 // Draft policy: source-step-aligned DUPLO model for manual Studio review before MPD/course generation.
+0 // Leg system uses user-confirmed local DUPLO mechanical parts 45202.dat, 74847.dat and 74844.dat.
+0 // Blue antenna rods use official 51708.dat. Leg geometry is temporary local geometry for the user-confirmed 45202/74847/74844 part IDs.
 
-0 // STEP 1 - ground and legs
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -60 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 60 -72 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -60 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 60 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 1 - baseplate, two feet and lower hinge beams
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 72 -120 -72 -50 1 0 0 0 1 0 0 0 1 45202.dat
+1 72 120 -72 50 1 0 0 0 1 0 0 0 1 45202.dat
+1 72 -120 -92 -50 0.954 0 0.3 0.3 0 -0.954 0 1 0 74847.dat
+1 72 120 -92 50 0.954 0 -0.3 -0.3 0 -0.954 0 1 0 74847.dat
 0 STEP
 
-0 // STEP 2 - body and neck
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 120 -168 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 180 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 220 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 260 -312 -120 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 2 - upper leg beams
+1 72 -72 -246 -50 0.963 0 0.27 0.27 0 -0.963 0 1 0 74847.dat
+1 72 72 -246 50 0.963 0 -0.27 -0.27 0 -0.963 0 1 0 74847.dat
 0 STEP
 
-0 // STEP 3 - tail fan rows
-1 1 -260 -216 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 4 -180 -288 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 14 -80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 40 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -260 -168 160 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 4 -180 -240 160 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 14 -80 -288 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 40 -288 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 3 - hip joint blocks
+1 72 -40 -408 -50 1 0 0 0 1 0 0 0 1 74844.dat
+1 72 40 -408 50 1 0 0 0 1 0 0 0 1 74844.dat
 0 STEP
 
-0 // STEP 4 - crest and beak
-1 1 220 -360 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 320 -312 -120 0 0 1 0 1 0 -1 0 0 3437.dat
+0 // STEP 4 - first black body block
+1 0 -40 -456 -40 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 5 - remaining black body blocks
+1 0 -40 -456 40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 120 -456 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 120 -456 40 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 6 - yellow 2x2, 2x4 and front 2x4-with-holes body blocks
+1 14 280 -456 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -40 -504 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -504 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 7 - stacked yellow neck block and neck base joint
+1 14 280 -504 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 72 320 -552 0 1 0 0 0 1 0 0 0 1 74844.dat
+0 STEP
+
+0 // STEP 8 - raised neck beam
+1 72 360 -564 0 0.893 0 0.45 0.45 0 -0.893 0 1 0 74847.dat
+0 STEP
+
+0 // STEP 9 - head, beak and blue crest rods
+1 72 430 -724 0 1 0 0 0 1 0 0 0 1 74844.dat
+1 14 430 -772 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 4 550 -772 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 690 -748 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 430 -1000 -110 0 1 0 -0.85 0 -0.5 -0.5 0 0.85 51708.dat
+1 1 430 -1000 110 0 1 0 -0.85 0 0.5 0.5 0 0.85 51708.dat
+0 STEP
+
+0 // STEP 10 - red, blue and green plates on the back
+1 4 -40 -528 -40 1 0 0 0 1 0 0 0 1 10661.dat
+1 1 -40 -528 40 1 0 0 0 1 0 0 0 1 10661.dat
+1 4 120 -480 -40 1 0 0 0 1 0 0 0 1 10661.dat
+1 2 120 -480 40 1 0 0 0 1 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 11 - black upright tail socket
+1 0 -190 -540 0 0 1 0 -1 0 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 12 - first green tail feathers, four upright plates
+1 2 -230 -500 -120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -230 -540 -40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -230 -540 40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -230 -500 120 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 13 - red tail feather layer, five upright plates
+1 4 -260 -500 -160 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -260 -540 -80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -260 -580 0 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -260 -540 80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -260 -500 160 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 14 - blue tail feather layer, six upright plates
+1 1 -290 -500 -200 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -290 -540 -120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -290 -580 -40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -290 -580 40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -290 -540 120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -290 -500 200 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 15 - yellow tail feather layer, seven upright plates
+1 14 -320 -500 -240 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -540 -160 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -580 -80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -600 0 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -580 80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -540 160 0 1 0 -1 0 0 0 0 1 10661.dat
+1 14 -320 -500 240 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 16 - second green tail feather layer, eight upright plates
+1 2 -350 -500 -280 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -530 -200 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -560 -120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -590 -40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -590 40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -560 120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -530 200 0 1 0 -1 0 0 0 0 1 10661.dat
+1 2 -350 -500 280 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 17 - second red tail feather layer, nine upright plates
+1 4 -380 -500 -320 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -530 -240 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -560 -160 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -590 -80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -610 0 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -590 80 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -560 160 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -530 240 0 1 0 -1 0 0 0 0 1 10661.dat
+1 4 -380 -500 320 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 18 - outer blue tail feather layer, ten upright plates
+1 1 -410 -480 -360 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -510 -280 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -540 -200 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -570 -120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -600 -40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -600 40 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -570 120 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -540 200 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -510 280 0 1 0 -1 0 0 0 0 1 10661.dat
+1 1 -410 -480 360 0 1 0 -1 0 0 0 0 1 10661.dat
+0 STEP
+
+0 // STEP 19 - final review view from source page 19
+0 STEP
