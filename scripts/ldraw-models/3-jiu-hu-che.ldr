@@ -5,14 +5,14 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: 3+救护车 finished image and course instructions.
 0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Known simplifications: front windshield wedge and printed windows are block approximations.
+0 // Known simplifications: 31196c01 front cab is still approximated because no redistributable LDraw model was found.
 
 0 // STEP 1 - wheeled ambulance base
 1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
 1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
 1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
 1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 1 -360 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 1 -400 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
 0 STEP
 
 0 // STEP 2 - yellow lower body
@@ -53,21 +53,20 @@
 1 15 260 -216 -40 1 0 0 0 1 0 0 0 1 40666.dat
 1 15 -260 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
 1 15 260 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -20 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -20 -240 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -240 0 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 -20 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 60 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 20 -264 -120 0 0 1 0 1 0 -1 0 0 3437.dat
 0 STEP
 
 0 // STEP 6 - roof and blue rear equipment
-1 2 -240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -360 -168 -20 0.966 0 -0.259 0 1 0 0.259 0 0.966 2302.dat
-1 1 -360 -168 60 0.966 0 -0.259 0 1 0 0.259 0 0.966 2302.dat
+1 2 -240 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -420 -192 0 0 0 1 0 1 0 -1 0 0 6345.dat
 0 STEP
 
 0 // STEP 7 - siren and roof lights
-1 4 -160 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -40 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 80 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 80 -312 0 1 0 0 0 1 0 0 0 1 3437.dat

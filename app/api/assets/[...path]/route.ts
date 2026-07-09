@@ -121,15 +121,22 @@ async function proxyAsset(
   }
 
   const upstreamUrl = `${baseUrl}${pathname}${request.nextUrl.search}`
-  const upstream = await fetch(upstreamUrl, {
-    method,
-    cache: 'no-store',
-    headers: {
-      Referer: getAssetReferer(),
-    },
-  })
+  let upstream: Response
+  try {
+    upstream = await fetch(upstreamUrl, {
+      method,
+      cache: 'no-store',
+      headers: {
+        Referer: getAssetReferer(),
+      },
+    })
+  } catch (error) {
+    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
+    if (localResponse) return localResponse
+    throw error
+  }
 
-  if (upstream.status === 404) {
+  if (!upstream.ok) {
     const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
     if (localResponse) return localResponse
   }

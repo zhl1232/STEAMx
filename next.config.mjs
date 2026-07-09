@@ -27,11 +27,20 @@ function buildScratchAssetDestination() {
   return `${baseUrl}/scratch/assets/:md5ext`
 }
 
+function buildAllowedDevOrigins() {
+  const extraOrigins = (process.env.NEXT_ALLOWED_DEV_ORIGINS || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+
+  return [...new Set(['127.0.0.1', 'localhost', ...extraOrigins])]
+}
+
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   devIndicators: false,
-  allowedDevOrigins: ["127.0.0.1"],
+  allowedDevOrigins: buildAllowedDevOrigins(),
   skipTrailingSlashRedirect: true,
   turbopack: {
     // Turbopack-specific options can be added here if needed
