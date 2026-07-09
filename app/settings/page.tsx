@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LogOut, ChevronRight, Shield, Bell, Eye, HelpCircle, Palette, User } from "lucide-react";
+import { LogOut, ChevronRight, Shield, Bell, Bot, Eye, HelpCircle, Palette, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -47,6 +47,7 @@ export default function SettingsPage() {
       title: "通用",
       items: [
         { icon: Palette, label: "外观", href: "/settings/appearance" },
+        { icon: Bot, label: "小迪语音", href: "/settings/xiaodi" },
         { icon: Bell, label: "消息与通知", href: "/settings/notifications" },
         { icon: Eye, label: "隐私设置", href: "/settings/privacy" },
       ],

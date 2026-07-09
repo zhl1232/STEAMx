@@ -174,6 +174,14 @@ export const TutorSendSchema = z.object({
   message: '消息不能为空',
 });
 
+export const TutorSpeechSynthesizeSchema = z.object({
+  text: z.string().min(1, '朗读内容不能为空').max(4000, '朗读内容太长'),
+});
+
+export const TutorSpeechTranscribeMetaSchema = z.object({
+  durationMs: z.coerce.number().int().min(1, '录音时长无效').max(30_000, '录音不能超过 30 秒'),
+});
+
 export const ChallengeSubmissionRatingSchema = z.object({
   submissionId: z.number().int().positive(),
   creativeExpression: z.number().int().min(1).max(5),
@@ -220,6 +228,8 @@ export type ChallengeStageCoachInput = z.infer<typeof ChallengeStageCoachSchema>
 export type ChallengeStageCoachActionInput = z.infer<typeof ChallengeStageCoachActionSchema>;
 export type ChallengeTutorSendInput = z.infer<typeof ChallengeTutorSendSchema>;
 export type TutorSendInput = z.infer<typeof TutorSendSchema>;
+export type TutorSpeechSynthesizeInput = z.infer<typeof TutorSpeechSynthesizeSchema>;
+export type TutorSpeechTranscribeMetaInput = z.infer<typeof TutorSpeechTranscribeMetaSchema>;
 export type ChallengeSubmissionRatingInput = z.infer<typeof ChallengeSubmissionRatingSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;

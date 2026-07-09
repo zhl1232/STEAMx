@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
@@ -10,9 +10,13 @@ import {
   ImagePlus,
   Loader2,
   MessageSquarePlus,
+  Mic,
   MoreHorizontal,
   Send,
   Sparkles,
+  Square,
+  Volume2,
+  VolumeX,
   X,
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -23,6 +27,7 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Textarea } from '@/components/ui/textarea'
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
@@ -38,6 +43,19 @@ import {
   type TutorSessionQueryInput,
 } from '@/components/features/tutor/tutor-session'
 import { TutorMessageContent } from '@/components/features/tutor/tutor-message-content'
+import {
+  createTutorPcmRecorder,
+  getTutorVoicePreferences,
+  markTutorLongPressHintShown,
+  mergeTutorVoiceTranscript,
+  setTutorVoicePreference,
+  shouldShowTutorLongPressHint,
+  TUTOR_VOICE_HINT_STATE_STORAGE_KEY,
+  TUTOR_VOICE_MAX_RECORDING_MS,
+  TUTOR_VOICE_PREFERENCES_CHANGE_EVENT,
+  type TutorPcmRecorder,
+  type TutorVoicePreferences,
+} from '@/components/features/tutor/tutor-voice'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
@@ -53,6 +71,8 @@ import { cn } from '@/lib/utils'
 
 /** 单条消息最多携带的图片数（与服务端引擎一致） */
 const MAX_CHAT_IMAGES = 4
+const TUTOR_LONG_PRESS_RECORDING_MS = 380
+const TUTOR_LONG_PRESS_HINT_VISIBLE_MS = 6500
 const TUTOR_CLIENT_TIMING_ENABLED =
   process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_TUTOR_DEBUG_TIMING === '1'
 
@@ -70,6 +90,14 @@ function getTutorUploadToast(error: unknown): { title: string; description: stri
     title: '图片上传失败',
     description: message,
   }
+}
+
+async function readTutorSpeechError(res: Response, fallback: string) {
+  const payload = await res.json().catch(() => null)
+  if (payload && typeof payload === 'object' && typeof (payload as { error?: unknown }).error === 'string') {
+    return (payload as { error: string }).error
+  }
+  return fallback
 }
 
 export type TutorChatMessage = {
@@ -107,6 +135,13 @@ type TutorStreamEvent = {
   phase?: string
   timings?: Array<{ name: string; elapsedMs: number; deltaMs: number }>
 }
+
+type TutorSendMessageOptions = {
+  forceReadReply?: boolean
+}
+
+type TutorSendMessageFn = (text: string, images?: string[], options?: TutorSendMessageOptions) => Promise<void>
+type TutorVoiceRecordingMode = 'composer' | 'longPress'
 
 type TutorPanelProps = {
   open: boolean
@@ -170,6 +205,13 @@ export function GlobalTutorFab({
   const [pendingImages, setPendingImages] = useState<string[]>([])
   const [suggestedImages, setSuggestedImages] = useState<string[]>([])
   const [uploadingImage, setUploadingImage] = useState(false)
+  const [recordingVoice, setRecordingVoice] = useState(false)
+  const [transcribingVoice, setTranscribingVoice] = useState(false)
+  const [voicePreferences, setVoicePreferences] = useState<TutorVoicePreferences>(() => getTutorVoicePreferences(null))
+  const [coarsePointer, setCoarsePointer] = useState(false)
+  const [showVoiceHint, setShowVoiceHint] = useState(false)
+  const [speechLoadingKey, setSpeechLoadingKey] = useState<string | null>(null)
+  const [playingSpeechKey, setPlayingSpeechKey] = useState<string | null>(null)
   const [view, setView] = useState<TutorPanelView>('chat')
   const [historyItems, setHistoryItems] = useState<TutorHistoryItem[] | null>(null)
   const [historyLoading, setHistoryLoading] = useState(false)
@@ -177,8 +219,21 @@ export function GlobalTutorFab({
   const [historyDetailLoading, setHistoryDetailLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const recorderRef = useRef<TutorPcmRecorder | null>(null)
+  const recordingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const longPressActiveRef = useRef(false)
+  const longPressReleasePendingRef = useRef(false)
+  const suppressNextToggleRef = useRef(false)
+  const voiceRecordingModeRef = useRef<TutorVoiceRecordingMode>('composer')
+  const speechAudioRef = useRef<HTMLAudioElement | null>(null)
+  const speechObjectUrlRef = useRef<string | null>(null)
+  const pendingAutoReadTextRef = useRef<string | null>(null)
+  const pendingAutoReadForceRef = useRef(false)
+  const sendMessageRef = useRef<TutorSendMessageFn | null>(null)
   // 发送中标记（ref 版），loadSession 用它避免覆盖乐观插入的消息。
   const busyRef = useRef(false)
+  const autoReadReplies = voicePreferences.autoReadReplies
 
   const contextKey = `${context.contextType}:${context.contextId}:${stageIndex ?? ''}:${context.lessonId ?? ''}:${context.surface ?? ''}`
   // 最新场景 key 放 ref，loadSession 响应回来时丢弃过期场景的数据（防快速切换串话题）。
@@ -270,7 +325,58 @@ export function GlobalTutorFab({
     }
   }, [buildParams, queryClient, sessionInput])
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const syncPreferences = () => setVoicePreferences(getTutorVoicePreferences())
+
+    syncPreferences()
+    window.addEventListener(TUTOR_VOICE_PREFERENCES_CHANGE_EVENT, syncPreferences)
+    window.addEventListener('storage', syncPreferences)
+    return () => {
+      window.removeEventListener(TUTOR_VOICE_PREFERENCES_CHANGE_EVENT, syncPreferences)
+      window.removeEventListener('storage', syncPreferences)
+    }
+  }, [])
+
+  useEffect(() => {
+    const media = window.matchMedia('(pointer: coarse)')
+    const syncPointer = () => setCoarsePointer(media.matches)
+
+    syncPointer()
+    media.addEventListener('change', syncPointer)
+    return () => media.removeEventListener('change', syncPointer)
+  }, [])
+
+  useEffect(() => {
+    if (
+      !mounted ||
+      open ||
+      hideOnMobile ||
+      !coarsePointer ||
+      !voicePreferences.mobileLongPressInput ||
+      !voicePreferences.showLongPressHint
+    ) {
+      setShowVoiceHint(false)
+      return
+    }
+
+    if (!shouldShowTutorLongPressHint(localStorage.getItem(TUTOR_VOICE_HINT_STATE_STORAGE_KEY))) return
+
+    setShowVoiceHint(true)
+    markTutorLongPressHintShown()
+    const timeout = setTimeout(() => setShowVoiceHint(false), TUTOR_LONG_PRESS_HINT_VISIBLE_MS)
+    return () => clearTimeout(timeout)
+  }, [
+    coarsePointer,
+    hideOnMobile,
+    mounted,
+    open,
+    voicePreferences.mobileLongPressInput,
+    voicePreferences.showLongPressHint,
+  ])
 
   // 切换场景（换页面/换阶段）时清空旧话题的本地缓存，等重新加载。
   useEffect(() => {
@@ -310,8 +416,246 @@ export function GlobalTutorFab({
     scrollRef.current.scrollTop = 0
   }, [view, historyDetail])
 
+  const stopSpeechPlayback = useCallback(() => {
+    const audio = speechAudioRef.current
+    if (audio) {
+      audio.pause()
+      audio.src = ''
+    }
+    if (speechObjectUrlRef.current) {
+      URL.revokeObjectURL(speechObjectUrlRef.current)
+    }
+    speechAudioRef.current = null
+    speechObjectUrlRef.current = null
+    setPlayingSpeechKey(null)
+    setSpeechLoadingKey(null)
+  }, [])
+
+  const playSpeech = useCallback(
+    async (text: string, speechKey: string) => {
+      if (!text.trim()) return
+      if (playingSpeechKey === speechKey) {
+        stopSpeechPlayback()
+        return
+      }
+
+      stopSpeechPlayback()
+      setSpeechLoadingKey(speechKey)
+
+      try {
+        const res = await fetch('/api/tutor/speech/synthesize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+
+        if (!res.ok) {
+          throw new Error(await readTutorSpeechError(res, '小迪语音暂时不可用，请稍后再试。'))
+        }
+
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const audio = new Audio(url)
+        speechObjectUrlRef.current = url
+        speechAudioRef.current = audio
+        setPlayingSpeechKey(speechKey)
+        setSpeechLoadingKey(null)
+
+        audio.onended = stopSpeechPlayback
+        audio.onerror = stopSpeechPlayback
+        await audio.play()
+      } catch (error) {
+        stopSpeechPlayback()
+        toast({
+          title: error instanceof Error ? error.message : '小迪语音暂时不可用，请稍后再试。',
+          variant: 'destructive',
+        })
+      }
+    },
+    [playingSpeechKey, stopSpeechPlayback, toast],
+  )
+
+  const finishVoiceRecording = useCallback(async () => {
+    const recorder = recorderRef.current
+    if (!recorder || transcribingVoice) return
+    recorderRef.current = null
+    const recordingMode = voiceRecordingModeRef.current
+    if (recordingTimerRef.current) {
+      clearTimeout(recordingTimerRef.current)
+      recordingTimerRef.current = null
+    }
+    setRecordingVoice(false)
+    setTranscribingVoice(true)
+    const requestKey = contextKeyRef.current
+
+    try {
+      const recording = await recorder.stop()
+      if (recording.durationMs < 350 || recording.blob.size <= 0) {
+        toast({ title: '没有录到声音，请再试一次。', variant: 'destructive' })
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('audio', recording.blob, 'xiaodi-voice.pcm')
+      formData.append('durationMs', String(Math.min(recording.durationMs, TUTOR_VOICE_MAX_RECORDING_MS)))
+      const res = await fetch('/api/tutor/speech/transcribe', { method: 'POST', body: formData })
+      if (!res.ok) {
+        throw new Error(await readTutorSpeechError(res, '小迪没有听清楚，请再说一次。'))
+      }
+      const payload = await res.json().catch(() => null)
+      const transcript = typeof payload?.transcript === 'string' ? payload.transcript.trim() : ''
+      if (contextKeyRef.current !== requestKey) return
+      if (!transcript) {
+        toast({ title: '小迪没有听清楚，请再说一次。', variant: 'destructive' })
+        return
+      }
+      if (recordingMode === 'longPress') {
+        void sendMessageRef.current?.(transcript, undefined, { forceReadReply: voicePreferences.voiceInputAutoPlay })
+      } else {
+        setInput((current) => mergeTutorVoiceTranscript(current, transcript))
+      }
+    } catch (error) {
+      toast({
+        title: error instanceof Error ? error.message : '小迪没有听清楚，请再说一次。',
+        variant: 'destructive',
+      })
+    } finally {
+      setTranscribingVoice(false)
+      voiceRecordingModeRef.current = 'composer'
+      longPressActiveRef.current = false
+      longPressReleasePendingRef.current = false
+    }
+  }, [toast, transcribingVoice, voicePreferences.voiceInputAutoPlay])
+
+  const startVoiceRecording = useCallback(async (mode: TutorVoiceRecordingMode = 'composer') => {
+    const resetLongPressState = () => {
+      if (mode !== 'longPress') return
+      longPressActiveRef.current = false
+      longPressReleasePendingRef.current = false
+      voiceRecordingModeRef.current = 'composer'
+    }
+
+    if (recordingVoice || transcribingVoice) {
+      resetLongPressState()
+      return
+    }
+    if (!user) {
+      resetLongPressState()
+      promptLogin(() => undefined, {
+        title: '登录后找小迪',
+        description: '登录后即可用语音和小迪对话。',
+      })
+      return
+    }
+    if (busyRef.current || (quota != null && !quota.canChat)) {
+      resetLongPressState()
+      return
+    }
+
+    try {
+      stopSpeechPlayback()
+      voiceRecordingModeRef.current = mode
+      const recorder = await createTutorPcmRecorder()
+      recorderRef.current = recorder
+      setRecordingVoice(true)
+      recordingTimerRef.current = setTimeout(() => {
+        void finishVoiceRecording()
+      }, TUTOR_VOICE_MAX_RECORDING_MS)
+      if (mode === 'longPress' && longPressReleasePendingRef.current) {
+        longPressReleasePendingRef.current = false
+        void finishVoiceRecording()
+      }
+    } catch (error) {
+      voiceRecordingModeRef.current = 'composer'
+      resetLongPressState()
+      toast({
+        title: error instanceof Error ? error.message : '无法打开麦克风，请检查浏览器权限。',
+        variant: 'destructive',
+      })
+    }
+  }, [finishVoiceRecording, promptLogin, quota, recordingVoice, stopSpeechPlayback, toast, transcribingVoice, user])
+
+  const toggleVoiceRecording = () => {
+    if (recordingVoice) {
+      void finishVoiceRecording()
+    } else {
+      void startVoiceRecording('composer')
+    }
+  }
+
+  const toggleAutoReadReplies = (checked: boolean) => {
+    setVoicePreferences((current) => ({ ...current, autoReadReplies: checked }))
+    setTutorVoicePreference('autoReadReplies', checked)
+  }
+
+  useEffect(() => {
+    if (!open) {
+      stopSpeechPlayback()
+      if (recordingTimerRef.current) {
+        clearTimeout(recordingTimerRef.current)
+        recordingTimerRef.current = null
+      }
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current)
+        longPressTimerRef.current = null
+      }
+      void recorderRef.current?.cancel()
+      recorderRef.current = null
+      setRecordingVoice(false)
+      longPressActiveRef.current = false
+      longPressReleasePendingRef.current = false
+    }
+  }, [open, stopSpeechPlayback])
+
+  useEffect(() => {
+    return () => {
+      if (recordingTimerRef.current) clearTimeout(recordingTimerRef.current)
+      if (longPressTimerRef.current) clearTimeout(longPressTimerRef.current)
+      void recorderRef.current?.cancel()
+      speechAudioRef.current?.pause()
+      if (speechObjectUrlRef.current) URL.revokeObjectURL(speechObjectUrlRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (busy || view !== 'chat') return
+    const pendingText = pendingAutoReadTextRef.current
+    if (!pendingText) return
+    if (!autoReadReplies && !pendingAutoReadForceRef.current) {
+      pendingAutoReadTextRef.current = null
+      pendingAutoReadForceRef.current = false
+      return
+    }
+    const lastIndex = messages.length - 1
+    const last = messages[lastIndex]
+    if (last?.role !== 'assistant' || last.error || last.streaming || last.content !== pendingText) return
+    pendingAutoReadTextRef.current = null
+    pendingAutoReadForceRef.current = false
+    void playSpeech(last.content, `chat-${lastIndex}`)
+  }, [autoReadReplies, busy, messages, playSpeech, view])
+
+  useEffect(() => {
+    stopSpeechPlayback()
+    if (recordingTimerRef.current) {
+      clearTimeout(recordingTimerRef.current)
+      recordingTimerRef.current = null
+    }
+    void recorderRef.current?.cancel()
+    recorderRef.current = null
+    setRecordingVoice(false)
+    setTranscribingVoice(false)
+    pendingAutoReadTextRef.current = null
+    pendingAutoReadForceRef.current = false
+    longPressActiveRef.current = false
+    longPressReleasePendingRef.current = false
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }, [contextKey, stopSpeechPlayback])
+
   const sendMessage = useCallback(
-    async (text: string, images?: string[]) => {
+    async (text: string, images?: string[], options: TutorSendMessageOptions = {}) => {
       if (!user) {
         promptLogin(() => undefined, {
           title: '登录后找小迪',
@@ -473,6 +817,10 @@ export function GlobalTutorFab({
 
         const assistantMessage: TutorChatMessage = { role: 'assistant', content: full || '…' }
         patchStreaming(assistantMessage)
+        if ((autoReadReplies || options.forceReadReply) && !assistantMessage.error) {
+          pendingAutoReadTextRef.current = assistantMessage.content
+          pendingAutoReadForceRef.current = options.forceReadReply === true
+        }
         if (sessionInput) {
           queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
             current
@@ -519,12 +867,81 @@ export function GlobalTutorFab({
       toast,
       dispatchTutorToolCall,
       clientToolCapabilities,
+      autoReadReplies,
     ],
   )
 
+  useEffect(() => {
+    sendMessageRef.current = sendMessage
+  }, [sendMessage])
+
+  const clearLongPressTimer = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }, [])
+
+  const handleFabPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    if (
+      open ||
+      hideOnMobile ||
+      !coarsePointer ||
+      !voicePreferences.mobileLongPressInput ||
+      event.pointerType === 'mouse' ||
+      busyRef.current ||
+      recordingVoice ||
+      transcribingVoice ||
+      (quota != null && !quota.canChat)
+    ) {
+      return
+    }
+
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId)
+    } catch {
+      // Some browsers may not allow capture after synthetic pointer events.
+    }
+
+    clearLongPressTimer()
+    longPressActiveRef.current = false
+    longPressReleasePendingRef.current = false
+    longPressTimerRef.current = setTimeout(() => {
+      suppressNextToggleRef.current = true
+      longPressActiveRef.current = true
+      setShowVoiceHint(false)
+      void startVoiceRecording('longPress')
+    }, TUTOR_LONG_PRESS_RECORDING_MS)
+  }
+
+  const handleFabPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+    clearLongPressTimer()
+
+    if (!longPressActiveRef.current) return
+
+    event.preventDefault()
+    suppressNextToggleRef.current = true
+    longPressActiveRef.current = false
+    if (recorderRef.current) {
+      void finishVoiceRecording()
+    } else {
+      longPressReleasePendingRef.current = true
+    }
+  }
+
+  const handleFabClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (suppressNextToggleRef.current) {
+      suppressNextToggleRef.current = false
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
+    onToggle()
+  }
+
   // 输入框/发送按钮共用：携带待发图片，确认会发送后再清空，避免被 guard 拦截时丢图。
   const submitComposer = () => {
-    if (busyRef.current || uploadingImage) return
+    if (busyRef.current || uploadingImage || recordingVoice || transcribingVoice) return
     if (quota != null && !quota.canChat) return
     const text = input
     const images = pendingImages
@@ -667,9 +1084,11 @@ export function GlobalTutorFab({
   const panelSubtitle = subtitle || (sceneTitle ? `正在陪你：${sceneTitle}` : '你的 STEAM 学习伙伴')
   const lastMessage = messages[messages.length - 1]
   const mascotState: XiaoDiState =
-    lastMessage?.role === 'assistant' && lastMessage.streaming && lastMessage.content
+    recordingVoice
+      ? 'listening'
+      : playingSpeechKey || (lastMessage?.role === 'assistant' && lastMessage.streaming && lastMessage.content)
       ? 'speaking'
-      : busy || sessionQuery.isFetching
+      : busy || transcribingVoice || sessionQuery.isFetching
         ? 'thinking'
         : 'idle'
 
@@ -722,6 +1141,13 @@ export function GlobalTutorFab({
                   <History className="mr-2 h-4 w-4" />
                   历史对话
                 </DropdownMenuItem>
+                <DropdownMenuCheckboxItem
+                  checked={autoReadReplies}
+                  onCheckedChange={(checked) => toggleAutoReadReplies(checked === true)}
+                >
+                  <Volume2 className="mr-2 h-4 w-4" />
+                  自动朗读新回复
+                </DropdownMenuCheckboxItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <button
@@ -802,15 +1228,29 @@ export function GlobalTutorFab({
                 ) : historyDetail && historyDetail.messages.length === 0 ? (
                   <p className="py-6 text-center text-xs text-muted-foreground">这条对话没有消息。</p>
                 ) : (
-                  historyDetail?.messages.map((message, i) =>
-                    message.role === 'assistant' ? (
-                      <TutorBubble key={i}>
+                  historyDetail?.messages.map((message, i) => {
+                    const speechKey = `history-${i}`
+                    return message.role === 'assistant' ? (
+                      <TutorBubble
+                        key={i}
+                        action={
+                          message.content ? (
+                            <TutorSpeechButton
+                              content={message.content}
+                              speechKey={speechKey}
+                              loading={speechLoadingKey === speechKey}
+                              playing={playingSpeechKey === speechKey}
+                              onPlay={playSpeech}
+                            />
+                          ) : null
+                        }
+                      >
                         <TutorMessageContent content={message.content} allowAudio={allowAudioMessages} />
                       </TutorBubble>
                     ) : (
                       <UserBubble key={i} message={message} />
-                    ),
-                  )
+                    )
+                  })
                 )}
               </>
             )}
@@ -863,9 +1303,24 @@ export function GlobalTutorFab({
             )}
 
             {view === 'chat' &&
-              messages.map((message, i) =>
-                message.role === 'assistant' ? (
-                  <TutorBubble key={i} error={message.error}>
+              messages.map((message, i) => {
+                const speechKey = `chat-${i}`
+                return message.role === 'assistant' ? (
+                  <TutorBubble
+                    key={i}
+                    error={message.error}
+                    action={
+                      message.content && !message.error && !message.streaming ? (
+                        <TutorSpeechButton
+                          content={message.content}
+                          speechKey={speechKey}
+                          loading={speechLoadingKey === speechKey}
+                          playing={playingSpeechKey === speechKey}
+                          onPlay={playSpeech}
+                        />
+                      ) : null
+                    }
+                  >
                     {message.content ? (
                       message.error ? (
                         message.content
@@ -879,8 +1334,8 @@ export function GlobalTutorFab({
                   </TutorBubble>
                 ) : (
                   <UserBubble key={i} message={message} />
-                ),
-              )}
+                )
+              })}
 
             {view === 'chat' && busy && messages[messages.length - 1]?.role !== 'assistant' && (
               <TutorBubble>
@@ -969,19 +1424,41 @@ export function GlobalTutorFab({
                 >
                   {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
                 </button>
+                <button
+                  type="button"
+                  onClick={toggleVoiceRecording}
+                  disabled={
+                    transcribingVoice ||
+                    (!recordingVoice && (busy || uploadingImage || (quota != null && !quota.canChat)))
+                  }
+                  aria-label={recordingVoice ? '停止语音输入' : '语音输入'}
+                  title={recordingVoice ? '停止语音输入' : '语音输入'}
+                  className={cn(
+                    'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.25)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.5)] disabled:opacity-50',
+                    recordingVoice && 'border-[hsl(var(--status-danger)/0.35)] bg-[hsl(var(--status-danger-surface)/0.65)] text-[hsl(var(--status-danger))]',
+                  )}
+                >
+                  {transcribingVoice ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : recordingVoice ? (
+                    <Square className="h-3.5 w-3.5 fill-current" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </button>
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="问问小迪…（Enter 发送）"
+                  placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问问小迪…（Enter 发送）'}
                   className="min-h-[40px] flex-1 resize-none text-sm"
-                  disabled={busy || (quota != null && !quota.canChat)}
+                  disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
                 />
                 <Button
                   type="button"
                   size="icon"
                   onClick={submitComposer}
-                  disabled={busy || uploadingImage || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
+                  disabled={busy || uploadingImage || recordingVoice || transcribingVoice || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
                   aria-label="发送"
                 >
                   <Send className="h-4 w-4" />
@@ -1018,12 +1495,34 @@ export function GlobalTutorFab({
         </section>
       )}
 
+      {!open && showVoiceHint && voicePreferences.mobileLongPressInput && (
+        <div
+          role="status"
+          className={cn(
+            'fixed right-3 z-50 max-w-[11.5rem] rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground/86 shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)] md:hidden',
+            hideOnMobile && 'hidden',
+            fabPlacement === 'compact'
+              ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
+              : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]',
+          )}
+        >
+          长按小迪直接说话
+          <span
+            aria-hidden
+            className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]"
+          />
+        </div>
+      )}
+
       <button
         type="button"
-        onClick={onToggle}
+        onClick={handleFabClick}
+        onPointerDown={handleFabPointerDown}
+        onPointerUp={handleFabPointerEnd}
+        onPointerCancel={handleFabPointerEnd}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
-          'fixed right-4 z-50 inline-flex items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
           open
             ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
             : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
@@ -1077,9 +1576,42 @@ function ThinkingIndicator() {
   )
 }
 
-function TutorBubble({ children, error }: { children: ReactNode; error?: boolean }) {
+function TutorSpeechButton({
+  content,
+  speechKey,
+  loading,
+  playing,
+  onPlay,
+}: {
+  content: string
+  speechKey: string
+  loading: boolean
+  playing: boolean
+  onPlay: (content: string, speechKey: string) => void | Promise<void>
+}) {
   return (
-    <div className="flex items-start">
+    <button
+      type="button"
+      onClick={() => void onPlay(content, speechKey)}
+      disabled={loading}
+      aria-label={playing ? '停止朗读' : '朗读这条回复'}
+      title={playing ? '停止朗读' : '朗读这条回复'}
+      className="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised))] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.55)] disabled:opacity-50"
+    >
+      {loading ? (
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+      ) : playing ? (
+        <VolumeX className="h-3.5 w-3.5" />
+      ) : (
+        <Volume2 className="h-3.5 w-3.5" />
+      )}
+    </button>
+  )
+}
+
+function TutorBubble({ children, error, action }: { children: ReactNode; error?: boolean; action?: ReactNode }) {
+  return (
+    <div className="flex items-start gap-1.5">
       <div
         className={cn(
           'max-w-[80%] whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tl-sm px-3 py-2 text-[13px] leading-6',
@@ -1090,6 +1622,7 @@ function TutorBubble({ children, error }: { children: ReactNode; error?: boolean
       >
         {children}
       </div>
+      {action}
     </div>
   )
 }

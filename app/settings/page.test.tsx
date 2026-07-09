@@ -61,6 +61,7 @@ describe("SettingsPage", () => {
 
     expect(screen.getByRole("link", { name: /个人资料/i })).toHaveAttribute("href", "/settings/profile");
     expect(screen.getByRole("link", { name: /账号与安全/i })).toHaveAttribute("href", "/settings/security");
+    expect(screen.getByRole("link", { name: /小迪语音/i })).toHaveAttribute("href", "/settings/xiaodi");
     expect(screen.getByRole("link", { name: /消息与通知/i })).toHaveAttribute("href", "/settings/notifications");
   });
 });
