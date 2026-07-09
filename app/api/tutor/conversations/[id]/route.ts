@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { validateUUID } from '@/lib/api/validation'
+import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 
@@ -62,6 +63,50 @@ export async function GET(
       },
       messages,
     })
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
+
+/** 删除当前用户的一条已归档小迪历史对话；消息由 conversation_id 外键级联删除 */
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const supabase = await createClient()
+
+  try {
+    const user = await requireAuth(supabase)
+    const { id } = await params
+    const conversationId = validateUUID(id, 'conversation id')
+
+    const { data: conversation, error: conversationError } = await supabase
+      .from('tutor_conversations')
+      .select('id, status')
+      .eq('id', conversationId)
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (conversationError) throw conversationError
+    if (!conversation) {
+      return NextResponse.json({ error: '对话不存在' }, { status: 404 })
+    }
+    if (conversation.status !== 'archived') {
+      return NextResponse.json({ error: '只能删除已归档的历史对话' }, { status: 400 })
+    }
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: '历史对话删除服务暂不可用' }, { status: 503 })
+    }
+
+    const { error: deleteError } = await supabaseAdmin
+      .from('tutor_conversations')
+      .delete()
+      .eq('id', conversation.id)
+      .eq('user_id', user.id)
+
+    if (deleteError) throw deleteError
+
+    return NextResponse.json({ ok: true })
   } catch (error) {
     return handleApiError(error)
   }

@@ -15,6 +15,7 @@ import {
   Send,
   Sparkles,
   Square,
+  Trash2,
   Volume2,
   VolumeX,
   X,
@@ -24,7 +25,6 @@ import { zhCN } from 'date-fns/locale'
 
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import { Textarea } from '@/components/ui/textarea'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -75,6 +75,11 @@ const TUTOR_LONG_PRESS_RECORDING_MS = 380
 const TUTOR_LONG_PRESS_HINT_VISIBLE_MS = 6500
 const TUTOR_CLIENT_TIMING_ENABLED =
   process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_TUTOR_DEBUG_TIMING === '1'
+const composerToolButtonClass =
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-transparent text-[hsl(var(--brand-blue))] transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
+const composerSendButtonClass =
+  'h-11 w-11 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
+const VOICE_WAVE_BARS = [8, 14, 10, 16, 9]
 
 function getTutorUploadToast(error: unknown): { title: string; description: string } {
   const message = getSecureUploadErrorMessage(error, '请确认网络或稍后重试。')
@@ -171,6 +176,21 @@ function formatQuota(quota: AiCreditStatus | null) {
   return `今日免费 ${quota.freeRemainingToday}/${quota.freeDaily}`
 }
 
+function formatVoiceElapsed(ms: number) {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000))
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
+type TutorVoiceFeedback = {
+  tone: 'recording' | 'processing' | 'speaking'
+  title: string
+  detail: string
+  elapsedMs?: number
+  canStopSpeech?: boolean
+}
+
 export function GlobalTutorFab({
   open,
   onToggle,
@@ -206,6 +226,8 @@ export function GlobalTutorFab({
   const [suggestedImages, setSuggestedImages] = useState<string[]>([])
   const [uploadingImage, setUploadingImage] = useState(false)
   const [recordingVoice, setRecordingVoice] = useState(false)
+  const [recordingStartedAt, setRecordingStartedAt] = useState<number | null>(null)
+  const [recordingElapsedMs, setRecordingElapsedMs] = useState(0)
   const [transcribingVoice, setTranscribingVoice] = useState(false)
   const [voicePreferences, setVoicePreferences] = useState<TutorVoicePreferences>(() => getTutorVoicePreferences(null))
   const [coarsePointer, setCoarsePointer] = useState(false)
@@ -217,6 +239,7 @@ export function GlobalTutorFab({
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyDetail, setHistoryDetail] = useState<TutorHistoryDetail | null>(null)
   const [historyDetailLoading, setHistoryDetailLoading] = useState(false)
+  const [deletingHistoryId, setDeletingHistoryId] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const recorderRef = useRef<TutorPcmRecorder | null>(null)
@@ -228,6 +251,7 @@ export function GlobalTutorFab({
   const voiceRecordingModeRef = useRef<TutorVoiceRecordingMode>('composer')
   const speechAudioRef = useRef<HTMLAudioElement | null>(null)
   const speechObjectUrlRef = useRef<string | null>(null)
+  const speechRequestIdRef = useRef(0)
   const pendingAutoReadTextRef = useRef<string | null>(null)
   const pendingAutoReadForceRef = useRef(false)
   const sendMessageRef = useRef<TutorSendMessageFn | null>(null)
@@ -416,7 +440,17 @@ export function GlobalTutorFab({
     scrollRef.current.scrollTop = 0
   }, [view, historyDetail])
 
+  useEffect(() => {
+    if (!recordingVoice || recordingStartedAt == null) return
+
+    const syncElapsed = () => setRecordingElapsedMs(Date.now() - recordingStartedAt)
+    syncElapsed()
+    const timer = setInterval(syncElapsed, 250)
+    return () => clearInterval(timer)
+  }, [recordingStartedAt, recordingVoice])
+
   const stopSpeechPlayback = useCallback(() => {
+    speechRequestIdRef.current += 1
     const audio = speechAudioRef.current
     if (audio) {
       audio.pause()
@@ -440,6 +474,7 @@ export function GlobalTutorFab({
       }
 
       stopSpeechPlayback()
+      const speechRequestId = speechRequestIdRef.current
       setSpeechLoadingKey(speechKey)
 
       try {
@@ -454,6 +489,7 @@ export function GlobalTutorFab({
         }
 
         const blob = await res.blob()
+        if (speechRequestIdRef.current !== speechRequestId) return
         const url = URL.createObjectURL(blob)
         const audio = new Audio(url)
         speechObjectUrlRef.current = url
@@ -463,8 +499,14 @@ export function GlobalTutorFab({
 
         audio.onended = stopSpeechPlayback
         audio.onerror = stopSpeechPlayback
-        await audio.play()
+        try {
+          await audio.play()
+        } catch (error) {
+          if (speechRequestIdRef.current !== speechRequestId) return
+          throw error
+        }
       } catch (error) {
+        if (speechRequestIdRef.current !== speechRequestId) return
         stopSpeechPlayback()
         toast({
           title: error instanceof Error ? error.message : '小迪语音暂时不可用，请稍后再试。',
@@ -485,6 +527,7 @@ export function GlobalTutorFab({
       recordingTimerRef.current = null
     }
     setRecordingVoice(false)
+    setRecordingStartedAt(null)
     setTranscribingVoice(true)
     const requestKey = contextKeyRef.current
 
@@ -557,6 +600,8 @@ export function GlobalTutorFab({
       voiceRecordingModeRef.current = mode
       const recorder = await createTutorPcmRecorder()
       recorderRef.current = recorder
+      setRecordingElapsedMs(0)
+      setRecordingStartedAt(Date.now())
       setRecordingVoice(true)
       recordingTimerRef.current = setTimeout(() => {
         void finishVoiceRecording()
@@ -567,6 +612,8 @@ export function GlobalTutorFab({
       }
     } catch (error) {
       voiceRecordingModeRef.current = 'composer'
+      setRecordingStartedAt(null)
+      setRecordingElapsedMs(0)
       resetLongPressState()
       toast({
         title: error instanceof Error ? error.message : '无法打开麦克风，请检查浏览器权限。',
@@ -602,6 +649,8 @@ export function GlobalTutorFab({
       void recorderRef.current?.cancel()
       recorderRef.current = null
       setRecordingVoice(false)
+      setRecordingStartedAt(null)
+      setRecordingElapsedMs(0)
       longPressActiveRef.current = false
       longPressReleasePendingRef.current = false
     }
@@ -643,6 +692,8 @@ export function GlobalTutorFab({
     void recorderRef.current?.cancel()
     recorderRef.current = null
     setRecordingVoice(false)
+    setRecordingStartedAt(null)
+    setRecordingElapsedMs(0)
     setTranscribingVoice(false)
     pendingAutoReadTextRef.current = null
     pendingAutoReadForceRef.current = false
@@ -950,7 +1001,7 @@ export function GlobalTutorFab({
     void sendMessage(text, images)
   }
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
       submitComposer()
@@ -1072,6 +1123,44 @@ export function GlobalTutorFab({
     }
   }
 
+  const deleteHistoryConversation = async (
+    conversation: Pick<TutorHistoryItem, 'id' | 'title'>,
+    event?: MouseEvent<HTMLButtonElement>,
+  ) => {
+    event?.preventDefault()
+    event?.stopPropagation()
+    if (deletingHistoryId) return
+
+    const title = conversation.title || '这条历史对话'
+    if (!window.confirm(`确定删除「${title}」吗？删除后不能恢复。`)) return
+
+    const requestKey = contextKeyRef.current
+    setDeletingHistoryId(conversation.id)
+    try {
+      const res = await fetch(`/api/tutor/conversations/${conversation.id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as { error?: unknown } | null
+        throw new Error(typeof payload?.error === 'string' ? payload.error : '请稍后再试')
+      }
+      if (contextKeyRef.current !== requestKey) return
+      setHistoryItems((current) => current?.filter((item) => item.id !== conversation.id) ?? current)
+      setHistoryDetail((current) => (current?.id === conversation.id ? null : current))
+      if (view === 'historyDetail' && historyDetail?.id === conversation.id) {
+        setView('history')
+      }
+      toast({ title: '历史对话已删除' })
+    } catch (error) {
+      if (contextKeyRef.current !== requestKey) return
+      toast({
+        title: '历史对话删除失败',
+        description: error instanceof Error ? error.message : '请稍后再试',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeletingHistoryId((current) => (current === conversation.id ? null : current))
+    }
+  }
+
   const exitHistory = () => {
     if (view === 'historyDetail') {
       setView('history')
@@ -1091,6 +1180,34 @@ export function GlobalTutorFab({
       : busy || transcribingVoice || sessionQuery.isFetching
         ? 'thinking'
         : 'idle'
+  const activeVoiceFeedback: TutorVoiceFeedback | null = recordingVoice
+    ? {
+        tone: 'recording',
+        title: voiceRecordingModeRef.current === 'longPress' ? '正在听，松开后发送' : '小迪正在听',
+        detail: voiceRecordingModeRef.current === 'longPress' ? '保持说话' : '点方块结束录音',
+        elapsedMs: recordingElapsedMs,
+      }
+    : transcribingVoice
+      ? {
+          tone: 'processing',
+          title: '正在识别语音',
+          detail: voiceRecordingModeRef.current === 'longPress' ? '识别后自动发送' : '把语音转成文字',
+        }
+      : speechLoadingKey
+        ? {
+            tone: 'processing',
+            title: '正在准备朗读',
+            detail: '生成小迪的声音',
+            canStopSpeech: true,
+          }
+        : playingSpeechKey
+          ? {
+              tone: 'speaking',
+              title: '小迪正在说',
+              detail: '回复播放中',
+              canStopSpeech: true,
+            }
+          : null
 
   if (!mounted) return null
 
@@ -1195,26 +1312,44 @@ export function GlobalTutorFab({
                     这个场景还没有历史对话。点「开启新对话」后，旧对话会出现在这里。
                   </p>
                 ) : (
-                  historyItems.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => void openHistoryDetail(item)}
-                      className="block w-full rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.15)] bg-[hsl(var(--surface-raised))] px-3 py-2.5 text-left transition-colors hover:bg-[hsl(var(--status-info-surface)/0.4)]"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="truncate text-[13px] font-medium text-foreground">{item.title}</p>
-                        {item.archivedAt ? (
-                          <span className="shrink-0 text-[10px] text-muted-foreground">
-                            {formatDistanceToNow(new Date(item.archivedAt), { addSuffix: true, locale: zhCN })}
-                          </span>
-                        ) : null}
+                  historyItems.map((item) => {
+                    const deleting = deletingHistoryId === item.id
+                    return (
+                      <div
+                        key={item.id}
+                        className="group flex items-stretch overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.15)] bg-[hsl(var(--surface-raised))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.4)]"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => void openHistoryDetail(item)}
+                          disabled={deleting}
+                          className="min-w-0 flex-1 px-3 py-2.5 text-left disabled:cursor-wait disabled:opacity-60"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="truncate text-[13px] font-medium text-foreground">{item.title}</p>
+                            {item.archivedAt ? (
+                              <span className="shrink-0 text-[10px] text-muted-foreground">
+                                {formatDistanceToNow(new Date(item.archivedAt), { addSuffix: true, locale: zhCN })}
+                              </span>
+                            ) : null}
+                          </div>
+                          {item.preview ? (
+                            <p className="mt-0.5 truncate text-xs text-muted-foreground">{item.preview}</p>
+                          ) : null}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(event) => void deleteHistoryConversation(item, event)}
+                          disabled={deleting || deletingHistoryId !== null}
+                          aria-label={`删除历史对话：${item.title}`}
+                          title="删除这条历史对话"
+                          className="my-1.5 mr-1.5 inline-flex w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--status-danger-surface)/0.78)] hover:text-[hsl(var(--status-danger))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--status-danger)/0.25)] disabled:cursor-wait disabled:opacity-55"
+                        >
+                          {deleting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
+                        </button>
                       </div>
-                      {item.preview ? (
-                        <p className="mt-0.5 truncate text-xs text-muted-foreground">{item.preview}</p>
-                      ) : null}
-                    </button>
-                  ))
+                    )
+                  })
                 )}
               </>
             )}
@@ -1355,20 +1490,44 @@ export function GlobalTutorFab({
               <p className="text-xs text-muted-foreground">
                 {view === 'historyDetail' ? '历史对话仅可回看' : '点击一条历史对话即可回看'}
               </p>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setView('chat')
-                  setHistoryDetail(null)
-                }}
-              >
-                返回当前对话
-              </Button>
+              <div className="flex shrink-0 items-center gap-1.5">
+                {view === 'historyDetail' && historyDetail ? (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    onClick={(event) =>
+                      void deleteHistoryConversation(
+                        { id: historyDetail.id, title: historyDetail.title },
+                        event,
+                      )
+                    }
+                    disabled={deletingHistoryId !== null}
+                    className="px-2 text-[hsl(var(--status-danger))] hover:bg-[hsl(var(--status-danger-surface)/0.78)] hover:text-[hsl(var(--status-danger))]"
+                  >
+                    {deletingHistoryId === historyDetail.id ? (
+                      <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                    )}
+                    删除
+                  </Button>
+                ) : null}
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setView('chat')
+                    setHistoryDetail(null)
+                  }}
+                >
+                  返回当前对话
+                </Button>
+              </div>
             </div>
           ) : user ? (
-            <div className="space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
+            <div className="space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.82)] px-3.5 py-3 shadow-[inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.5)]">
               {pendingImages.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   {pendingImages.map((image) => (
@@ -1406,7 +1565,10 @@ export function GlobalTutorFab({
                     ))}
                 </div>
               )}
-              <div className="flex items-end gap-2">
+              {activeVoiceFeedback ? (
+                <VoiceFeedbackBar feedback={activeVoiceFeedback} onStopSpeech={stopSpeechPlayback} />
+              ) : null}
+              <div className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--background)/0.86)] p-1 shadow-[0_18px_38px_-30px_hsl(var(--brand-blue)/0.8),inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.52)] transition-[border-color,box-shadow] focus-within:border-[hsl(var(--brand-blue)/0.48)] focus-within:shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.11),0_20px_42px_-32px_hsl(var(--brand-blue)/0.86)]">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -1415,54 +1577,62 @@ export function GlobalTutorFab({
                   hidden
                   onChange={(e) => void handleFilePick(e)}
                 />
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={busy || uploadingImage || pendingImages.length >= MAX_CHAT_IMAGES || (quota != null && !quota.canChat)}
-                  aria-label="发图片给小迪"
-                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.25)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.5)] disabled:opacity-50"
-                >
-                  {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleVoiceRecording}
-                  disabled={
-                    transcribingVoice ||
-                    (!recordingVoice && (busy || uploadingImage || (quota != null && !quota.canChat)))
-                  }
-                  aria-label={recordingVoice ? '停止语音输入' : '语音输入'}
-                  title={recordingVoice ? '停止语音输入' : '语音输入'}
-                  className={cn(
-                    'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.25)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.5)] disabled:opacity-50',
-                    recordingVoice && 'border-[hsl(var(--status-danger)/0.35)] bg-[hsl(var(--status-danger-surface)/0.65)] text-[hsl(var(--status-danger))]',
-                  )}
-                >
-                  {transcribingVoice ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : recordingVoice ? (
-                    <Square className="h-3.5 w-3.5 fill-current" />
-                  ) : (
-                    <Mic className="h-4 w-4" />
-                  )}
-                </button>
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问问小迪…（Enter 发送）'}
-                  className="min-h-[40px] flex-1 resize-none text-sm"
-                  disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
-                />
-                <Button
-                  type="button"
-                  size="icon"
-                  onClick={submitComposer}
-                  disabled={busy || uploadingImage || recordingVoice || transcribingVoice || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
-                  aria-label="发送"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
+                <div className="flex min-w-0 items-center gap-1">
+                  <div className="flex shrink-0 items-center gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={busy || uploadingImage || pendingImages.length >= MAX_CHAT_IMAGES || (quota != null && !quota.canChat)}
+                      aria-label="发图片给小迪"
+                      title="发图片给小迪"
+                      className={composerToolButtonClass}
+                    >
+                      {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={toggleVoiceRecording}
+                      disabled={
+                        transcribingVoice ||
+                        (!recordingVoice && (busy || uploadingImage || (quota != null && !quota.canChat)))
+                      }
+                      aria-label={recordingVoice ? '停止语音输入' : '语音输入'}
+                      title={recordingVoice ? '停止语音输入' : '语音输入'}
+                      className={cn(
+                        composerToolButtonClass,
+                        recordingVoice && 'border-[hsl(var(--status-danger)/0.35)] bg-[hsl(var(--status-danger-surface)/0.72)] text-[hsl(var(--status-danger))] shadow-[0_10px_20px_-16px_hsl(var(--status-danger)/0.9)]',
+                      )}
+                    >
+                      {transcribingVoice ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : recordingVoice ? (
+                        <Square className="h-3.5 w-3.5 fill-current" />
+                      ) : (
+                        <Mic className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问小迪一个问题…'}
+                    className="h-11 min-w-0 flex-1 border-0 bg-transparent px-2 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground/55 focus-visible:outline-none disabled:bg-transparent disabled:opacity-50"
+                    disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
+                  />
+                  <Button
+                    type="button"
+                    size="icon"
+                    shape="pill"
+                    onClick={submitComposer}
+                    disabled={busy || uploadingImage || recordingVoice || transcribingVoice || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
+                    aria-label="发送"
+                    title="发送"
+                    className={composerSendButtonClass}
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               {showReviewAction && onReview ? (
                 <button
@@ -1495,7 +1665,25 @@ export function GlobalTutorFab({
         </section>
       )}
 
-      {!open && showVoiceHint && voicePreferences.mobileLongPressInput && (
+      {!open && activeVoiceFeedback && (
+        <div
+          className={cn(
+            'fixed right-3 z-50 w-[min(82vw,18rem)] md:hidden',
+            hideOnMobile && 'hidden',
+            fabPlacement === 'compact'
+              ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
+              : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]',
+          )}
+        >
+          <VoiceFeedbackBar feedback={activeVoiceFeedback} compact onStopSpeech={stopSpeechPlayback} />
+          <span
+            aria-hidden
+            className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]"
+          />
+        </div>
+      )}
+
+      {!open && !activeVoiceFeedback && showVoiceHint && voicePreferences.mobileLongPressInput && (
         <div
           role="status"
           className={cn(
@@ -1544,6 +1732,96 @@ export function GlobalTutorFab({
       </button>
     </>,
     document.body,
+  )
+}
+
+function VoiceFeedbackBar({
+  feedback,
+  compact = false,
+  onStopSpeech,
+}: {
+  feedback: TutorVoiceFeedback
+  compact?: boolean
+  onStopSpeech?: () => void
+}) {
+  const isRecording = feedback.tone === 'recording'
+  const isProcessing = feedback.tone === 'processing'
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={cn(
+        'flex min-w-0 items-center gap-2 rounded-[var(--radius-sm)] border px-3 py-2 text-xs shadow-[0_14px_30px_-24px_hsl(var(--brand-blue)/0.68)]',
+        isRecording
+          ? 'border-[hsl(var(--status-danger)/0.2)] bg-[hsl(var(--status-danger-surface)/0.62)] text-[hsl(var(--status-danger))]'
+          : 'border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.58)] text-[hsl(var(--brand-blue))]',
+        compact && 'shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)]',
+      )}
+    >
+      <span
+        className={cn(
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
+          isRecording
+            ? 'bg-[hsl(var(--status-danger)/0.12)]'
+            : 'bg-[hsl(var(--brand-blue)/0.12)]',
+        )}
+        aria-hidden
+      >
+        {isProcessing ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <VoiceWave tone={isRecording ? 'recording' : 'speaking'} />
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[12px] font-semibold leading-4 text-foreground/88">
+          {feedback.title}
+        </span>
+        <span className="block truncate text-[10px] leading-4 text-muted-foreground">
+          {feedback.detail}
+        </span>
+      </span>
+      {feedback.elapsedMs != null ? (
+        <span className="shrink-0 rounded-full bg-[hsl(var(--surface-raised)/0.86)] px-2 py-0.5 font-mono text-[10px] text-foreground/72">
+          {formatVoiceElapsed(feedback.elapsedMs)}
+        </span>
+      ) : null}
+      {feedback.canStopSpeech && onStopSpeech ? (
+        <button
+          type="button"
+          onClick={onStopSpeech}
+          aria-label="停止朗读"
+          title="停止朗读"
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--surface-raised)/0.9)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--surface-raised))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)]"
+        >
+          <VolumeX className="h-3.5 w-3.5" />
+        </button>
+      ) : null}
+    </div>
+  )
+}
+
+function VoiceWave({ tone }: { tone: 'recording' | 'speaking' }) {
+  return (
+    <span className="flex h-4 items-center gap-0.5" aria-hidden>
+      {VOICE_WAVE_BARS.map((height, index) => (
+        <span
+          key={`${height}-${index}`}
+          className={cn(
+            'w-0.5 rounded-full opacity-80 motion-safe:animate-pulse',
+            tone === 'recording'
+              ? 'bg-[hsl(var(--status-danger))]'
+              : 'bg-[hsl(var(--brand-blue))]',
+          )}
+          style={{
+            height,
+            animationDelay: `${index * 110}ms`,
+            animationDuration: '900ms',
+          }}
+        />
+      ))}
+    </span>
   )
 }
 
