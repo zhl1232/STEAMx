@@ -3,16 +3,15 @@
 /**
  * 小迪吉祥物动画组件。
  *
- * 原版帧资源来自 public/xiaodi/<state>-<0..3>.webp（512x512 透明底，脚底统一锚定，
- * 由 scripts/xiaodi-rembg.py + scripts/xiaodi-frames.mjs 生成）；默认 ai-draft 变体使用
- * public/xiaodi-ai/<state>-<0..7>.webp 候选关键帧。
- * 每个状态按序列逐帧循环，外层再叠一层状态化 CSS 运动
+ * 帧资源已经合并为 sprite：默认 ai-draft 使用 public/xiaodi-ai/sprite.webp，
+ * legacy default 变体使用 public/xiaodi/sprite.webp。运行时只加载每个变体的一张 sprite，
+ * 每个状态按序列切换 sprite 坐标，外层再叠一层状态化 CSS 运动
  * （呼吸/前倾/摇摆/弹跳……），组成"绘本式"动画。
  *
  * 用法：<XiaoDi state="thinking" size={160} />
  */
 
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState, type CSSProperties } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -33,6 +32,7 @@ export type XiaoDiVariant = 'default' | 'ai-draft'
 
 const DEFAULT_FRAMES_PER_STATE = 4
 const AI_DRAFT_FRAMES_PER_STATE = 8
+const SPRITE_ROWS = XIAODI_STATES.length
 
 type StateConfig = {
   durationMs: number
@@ -90,23 +90,19 @@ function frameMs(state: XiaoDiState, variant: XiaoDiVariant) {
   return Math.round(durationMs / frameSequence(state, variant).length)
 }
 
-function frameSrc(state: XiaoDiState, index: number, variant: XiaoDiVariant) {
-  if (hasAiDraftFrames(state, variant)) return `/xiaodi-ai/${state}-${index}.webp`
-  return `/xiaodi/${state}-${index}.webp`
+function spriteSrc(variant: XiaoDiVariant) {
+  if (variant === 'ai-draft') return '/xiaodi-ai/sprite.webp'
+  return '/xiaodi/sprite.webp'
 }
 
-function frameKey(state: XiaoDiState, index: number, variant: XiaoDiVariant) {
-  return `${variant}:${state}:${index}`
-}
+const spritePromises = new Map<string, Promise<void>>()
+const decodedSprites = new Set<string>()
 
-const preloadedVariants = new Set<XiaoDiVariant>()
-const preloadPromises = new Map<string, Promise<void>>()
-const decodedSources = new Set<string>()
-
-function preloadImage(src: string) {
+function preloadSprite(variant: XiaoDiVariant) {
   if (typeof window === 'undefined') return Promise.resolve()
-  if (decodedSources.has(src)) return Promise.resolve()
-  const cached = preloadPromises.get(src)
+  const src = spriteSrc(variant)
+  if (decodedSprites.has(src)) return Promise.resolve()
+  const cached = spritePromises.get(src)
   if (cached) return cached
 
   const promise = new Promise<void>((resolve) => {
@@ -117,7 +113,7 @@ function preloadImage(src: string) {
     const finish = () => {
       if (settled) return
       settled = true
-      decodedSources.add(src)
+      decodedSprites.add(src)
       resolve()
     }
 
@@ -134,19 +130,20 @@ function preloadImage(src: string) {
     img.src = src
     if (img.complete && img.naturalWidth > 0) decodeThenFinish()
   })
-  preloadPromises.set(src, promise)
+  spritePromises.set(src, promise)
   return promise
 }
 
-function preloadStateFrames(state: XiaoDiState, variant: XiaoDiVariant) {
-  return Promise.all(Array.from({ length: frameCount(state, variant) }, (_, index) => preloadImage(frameSrc(state, index, variant))))
-}
-
-/** 预热当前帧集，状态切换时不闪帧 */
-function preloadAllFrames(variant: XiaoDiVariant) {
-  if (preloadedVariants.has(variant) || typeof window === 'undefined') return
-  preloadedVariants.add(variant)
-  for (const state of XIAODI_STATES) void preloadStateFrames(state, variant)
+function spriteSheetStyle(entry: StackEntry, size: number): CSSProperties {
+  const columns = frameCount(entry.state, entry.variant)
+  const row = XIAODI_STATES.indexOf(entry.state)
+  return {
+    width: columns * size,
+    height: SPRITE_ROWS * size,
+    backgroundImage: `url(${spriteSrc(entry.variant)})`,
+    backgroundSize: '100% 100%',
+    transform: `translate3d(${-entry.frame * size}px, ${-row * size}px, 0)`,
+  }
 }
 
 function usePrefersReducedMotion() {
@@ -183,21 +180,20 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
   const reducedMotion = usePrefersReducedMotion()
 
   // 当前/退场中的状态栈：状态切换时旧姿势短暂淡出，避免硬切。
-  // 帧切换会先 decode 目标帧，未就绪时继续显示上一帧，避免透明闪烁。
+  // 每个变体先 decode sprite；帧切换只移动 sprite 坐标，避免透明闪烁。
   const [current, setCurrent] = useState<XiaoDiState>(state)
   const [currentVariant, setCurrentVariant] = useState<XiaoDiVariant>(variant)
   const [exiting, setExiting] = useState<StackEntry | null>(null)
   const [exitReady, setExitReady] = useState(false)
   const [step, setStep] = useState(0)
   const [displayFrame, setDisplayFrame] = useState(0)
-  const [renderedFrameTick, setRenderedFrameTick] = useState(0)
+  const [spriteReadyTick, setSpriteReadyTick] = useState(0)
 
   const onCycleEndRef = useRef(onCycleEnd)
   onCycleEndRef.current = onCycleEnd
   const currentRef = useRef(current)
   const currentVariantRef = useRef(currentVariant)
   const displayFrameRef = useRef(displayFrame)
-  const renderedFrameKeysRef = useRef(new Set<string>())
 
   useEffect(() => {
     currentRef.current = current
@@ -211,24 +207,12 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
     displayFrameRef.current = displayFrame
   }, [displayFrame])
 
-  const markRenderedFrameReady = (entryState: XiaoDiState, entryVariant: XiaoDiVariant, index: number, src: string) => {
-    decodedSources.add(src)
-    const key = frameKey(entryState, index, entryVariant)
-    if (renderedFrameKeysRef.current.has(key)) return
-    renderedFrameKeysRef.current.add(key)
-    setRenderedFrameTick((value) => value + 1)
-  }
-
-  useEffect(() => {
-    void preloadStateFrames(state, variant)
-    preloadAllFrames(variant)
-  }, [state, variant])
-
   useEffect(() => {
     let cancelled = false
 
-    void preloadImage(frameSrc(state, 0, variant)).then(() => {
+    void preloadSprite(variant).then(() => {
       if (cancelled) return
+      setSpriteReadyTick((value) => value + 1)
       const previous = currentRef.current
       const previousVariant = currentVariantRef.current
       if (state === previous && variant === previousVariant) return
@@ -243,7 +227,6 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
       setCurrent(state)
       setCurrentVariant(variant)
       setDisplayFrame(0)
-      void preloadStateFrames(state, variant)
     })
 
     return () => {
@@ -255,15 +238,14 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
     if (!exiting) return
 
     if (!exitReady) {
-      const activeKey = frameKey(current, displayFrame, currentVariant)
-      if (!renderedFrameKeysRef.current.has(activeKey)) return
+      if (!decodedSprites.has(spriteSrc(currentVariant))) return
       setExitReady(true)
       return
     }
 
     const timer = setTimeout(() => setExiting(null), 180)
     return () => clearTimeout(timer)
-  }, [current, currentVariant, displayFrame, exiting, exitReady, renderedFrameTick])
+  }, [currentVariant, exiting, exitReady, spriteReadyTick])
 
   useEffect(() => {
     setStep(0)
@@ -284,16 +266,9 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
     const nextFrame = reducedMotion ? 0 : sequence[step % sequence.length]
     if (nextFrame === displayFrameRef.current) return
 
-    const nextSrc = frameSrc(current, nextFrame, currentVariant)
-    const nextKey = frameKey(current, nextFrame, currentVariant)
-    if (!renderedFrameKeysRef.current.has(nextKey)) {
-      void preloadImage(nextSrc)
-      return
-    }
-
     displayFrameRef.current = nextFrame
     setDisplayFrame(nextFrame)
-  }, [current, currentVariant, reducedMotion, renderedFrameTick, step])
+  }, [current, currentVariant, reducedMotion, step])
 
   const stacks: StackEntry[] =
     exiting && (exiting.state !== current || exiting.variant !== currentVariant)
@@ -310,40 +285,20 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
       <div className={styles.shadow} aria-hidden />
       {stacks.map((entry) => {
         const config = STATE_CONFIG[entry.state]
-        const activeFrame = entry.frame
         const entryKey = `${entry.state}-${entry.variant}`
-        const activeFrameReady = renderedFrameKeysRef.current.has(frameKey(entry.state, activeFrame, entry.variant))
+        const shouldAnimateEntry = Boolean(exiting) && !entry.exiting && exitReady
         return (
           <div
             key={entryKey}
             className={cn(
               styles.stack,
-              entry.exiting ? (exitReady ? styles.stackExit : styles.stackHold) : activeFrameReady ? styles.stackEnter : styles.stackWarm,
+              entry.exiting ? (exitReady ? styles.stackExit : styles.stackHold) : shouldAnimateEntry ? styles.stackEnter : styles.stackVisible,
             )}
           >
             <div className={cn(styles.layer, !reducedMotion && !entry.exiting && config.motionClass)}>
-              {Array.from({ length: frameCount(entry.state, entry.variant) }, (_, index) => (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  key={index}
-                  src={frameSrc(entry.state, index, entry.variant)}
-                  alt=""
-                  width={size}
-                  height={size}
-                  decoding="async"
-                  loading="eager"
-                  fetchPriority={entry.state === current && entry.variant === currentVariant ? 'high' : 'auto'}
-                  draggable={false}
-                  ref={(element) => {
-                    if (element?.complete && element.naturalWidth > 0) {
-                      markRenderedFrameReady(entry.state, entry.variant, index, element.currentSrc || element.src)
-                    }
-                  }}
-                  onLoad={(event) => markRenderedFrameReady(entry.state, entry.variant, index, event.currentTarget.currentSrc || event.currentTarget.src)}
-                  onError={(event) => markRenderedFrameReady(entry.state, entry.variant, index, event.currentTarget.currentSrc || event.currentTarget.src)}
-                  className={cn(styles.frame, index === activeFrame && styles.frameActive)}
-                />
-              ))}
+              <div className={styles.spriteViewport} aria-hidden>
+                <div className={styles.spriteSheet} style={spriteSheetStyle(entry, size)} />
+              </div>
             </div>
           </div>
         )

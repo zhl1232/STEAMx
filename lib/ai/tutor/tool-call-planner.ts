@@ -190,7 +190,7 @@ export async function planTutorToolDecision(input: PlannerInput) {
       role: 'user',
       content: input.content || '请判断当前是否需要触发页面工具。',
     },
-  ])
+  ], { modelMode: 'planner' })
 
   const decision = parsePlannerDecision(reply, input)
   if (!decision) return null

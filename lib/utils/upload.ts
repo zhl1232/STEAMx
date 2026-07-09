@@ -12,6 +12,48 @@ async function maybeCompressForBucket(file: File, bucket: string): Promise<File>
   return compressImageForBucket(file, bucket)
 }
 
+export class SecureUploadError extends Error {
+  readonly status?: number
+  readonly code?: string
+
+  constructor(message: string, options: { status?: number; code?: string } = {}) {
+    super(message)
+    this.name = 'SecureUploadError'
+    this.status = options.status
+    this.code = options.code
+  }
+}
+
+function normalizeErrorPayload(data: unknown, fallback: string): { message: string; code?: string } {
+  if (!data || typeof data !== 'object') {
+    return { message: fallback }
+  }
+
+  const payload = data as Record<string, unknown>
+  return {
+    message: typeof payload.error === 'string' && payload.error.trim() ? payload.error : fallback,
+    code: typeof payload.code === 'string' ? payload.code : undefined,
+  }
+}
+
+async function readUploadError(res: Response): Promise<{ message: string; code?: string }> {
+  const fallback = `上传失败（${res.status}）`
+  const data = await res.json().catch(() => null)
+  return normalizeErrorPayload(data, fallback)
+}
+
+export function getSecureUploadErrorMessage(error: unknown, fallback = '图片上传失败，请重试'): string {
+  if (error instanceof SecureUploadError || error instanceof ImageCompressionError) {
+    return error.message
+  }
+
+  return fallback
+}
+
+export function isExpectedSecureUploadRejection(error: unknown): boolean {
+  return error instanceof SecureUploadError && !!error.status && error.status >= 400 && error.status < 500
+}
+
 /**
  * Upload via the server-side /api/upload endpoint.
  * Performs magic-bytes validation and size checks on the server.
@@ -22,31 +64,28 @@ export async function uploadFileSecure(
   bucket: string,
   pathPrefix?: string
 ): Promise<string | null> {
-  try {
-    const prepared = await maybeCompressForBucket(file, bucket)
+  const prepared = await maybeCompressForBucket(file, bucket)
 
-    const formData = new FormData()
-    formData.append('file', prepared)
-    formData.append('bucket', bucket)
-    if (pathPrefix) {
-      formData.append('pathPrefix', pathPrefix)
-    }
-
-    const res = await fetch('/api/upload', { method: 'POST', body: formData })
-
-    if (!res.ok) {
-      const data = await res.json().catch(() => null)
-      const msg = data?.error || `Upload failed (${res.status})`
-      logger.error('Secure upload error', { error: msg, bucket })
-      throw new Error(msg)
-    }
-
-    const data = await res.json()
-    return data.publicUrl ?? null
-  } catch (error) {
-    logger.error('Unexpected error during secure upload', { error })
-    return null
+  const formData = new FormData()
+  formData.append('file', prepared)
+  formData.append('bucket', bucket)
+  if (pathPrefix) {
+    formData.append('pathPrefix', pathPrefix)
   }
+
+  const res = await fetch('/api/upload', { method: 'POST', body: formData })
+
+  if (!res.ok) {
+    const { message, code } = await readUploadError(res)
+    throw new SecureUploadError(message, { status: res.status, code })
+  }
+
+  const data = await res.json().catch(() => null)
+  if (typeof data?.publicUrl === 'string') {
+    return data.publicUrl
+  }
+
+  throw new SecureUploadError('图片上传失败，请重试', { status: res.status })
 }
 
 /**

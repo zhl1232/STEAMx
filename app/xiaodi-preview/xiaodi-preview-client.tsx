@@ -60,8 +60,7 @@ export function XiaoDiPreviewClient() {
       <header className="space-y-2">
         <h1 className="text-2xl font-bold">小迪动画预览</h1>
         <p className="text-sm text-muted-foreground">
-          默认使用全状态 AI 8 帧候选；可切回原版 4 帧逐帧播放做对比。AI 候选帧统一从
-          public/xiaodi-ai 读取。
+          默认使用全状态 AI 8 帧 sprite；可切回原版 4 帧 sprite 做对比。运行时不再加载逐帧图片。
         </p>
       </header>
 

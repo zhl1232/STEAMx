@@ -11,7 +11,12 @@ import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { logger } from "@/lib/logger"
 import { readObservationPhotoMetadata, type ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
-import { uploadFileSecure, validateFileType } from "@/lib/utils/upload"
+import {
+  getSecureUploadErrorMessage,
+  isExpectedSecureUploadRejection,
+  uploadFileSecure,
+  validateFileType,
+} from "@/lib/utils/upload"
 
 export interface ObservationMediaAnalysis {
   id?: number
@@ -176,10 +181,15 @@ export function ObservationSubmitPhotoSection({
         description: `成功添加 ${uploadedUrls.length} 张图片`,
       })
     } catch (error) {
-      logger.error("Observation image upload error", { error })
+      const description = getSecureUploadErrorMessage(error)
+      if (isExpectedSecureUploadRejection(error)) {
+        logger.warn("Observation image upload rejected", { error: description })
+      } else {
+        logger.error("Observation image upload error", { error })
+      }
       toast({
         title: "上传失败",
-        description: "图片上传失败，请重试",
+        description,
         variant: "destructive",
       })
     } finally {

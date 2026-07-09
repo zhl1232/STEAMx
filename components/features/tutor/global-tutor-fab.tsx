@@ -48,11 +48,29 @@ import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 import { AI_CREDIT_COST_VISION, MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
-import { uploadFileSecure } from '@/lib/utils/upload'
+import { SecureUploadError, getSecureUploadErrorMessage, uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
 
 /** 单条消息最多携带的图片数（与服务端引擎一致） */
 const MAX_CHAT_IMAGES = 4
+const TUTOR_CLIENT_TIMING_ENABLED =
+  process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_TUTOR_DEBUG_TIMING === '1'
+
+function getTutorUploadToast(error: unknown): { title: string; description: string } {
+  const message = getSecureUploadErrorMessage(error, '请确认网络或稍后重试。')
+
+  if (error instanceof SecureUploadError && error.code === 'image_content_rejected') {
+    return {
+      title: '这张图片不能发给小迪',
+      description: `${message} 请换一张与项目、手工、课程或自然观察有关的图片。`,
+    }
+  }
+
+  return {
+    title: '图片上传失败',
+    description: message,
+  }
+}
 
 export type TutorChatMessage = {
   role: 'user' | 'assistant'
@@ -86,6 +104,8 @@ type TutorStreamEvent = {
   error?: string
   warning?: string
   toolCall?: TutorToolCall
+  phase?: string
+  timings?: Array<{ name: string; elapsedMs: number; deltaMs: number }>
 }
 
 type TutorPanelProps = {
@@ -313,6 +333,21 @@ export function GlobalTutorFab({
         content: trimmed,
         images: images?.length ? images : undefined,
       }
+      const timingStart = TUTOR_CLIENT_TIMING_ENABLED ? performance.now() : 0
+      let firstEventMs: number | null = null
+      let firstChunkMs: number | null = null
+      const markTiming = () => Math.round(performance.now() - timingStart)
+      const logTiming = (outcome: string, details?: Record<string, unknown>) => {
+        if (!TUTOR_CLIENT_TIMING_ENABLED) return
+        console.info('[tutor timing]', {
+          label: 'client tutor send',
+          outcome,
+          totalMs: markTiming(),
+          firstEventMs,
+          firstChunkMs,
+          ...details,
+        })
+      }
       setMessages((current) => [
         ...current,
         userMessage,
@@ -353,6 +388,8 @@ export function GlobalTutorFab({
             surface: context.surface,
           }),
         })
+        const responseHeadersMs = TUTOR_CLIENT_TIMING_ENABLED ? markTiming() : 0
+        const serverTiming = TUTOR_CLIENT_TIMING_ENABLED ? res.headers.get('Server-Timing') : null
 
         if (res.status === 402) {
           const payload = await res.json().catch(() => ({}))
@@ -362,6 +399,7 @@ export function GlobalTutorFab({
             content: payload.error ?? '今日免费次数或本月代币已用完。开通会员每月可获 1500 代币～',
             error: true,
           })
+          logTiming('quota_exceeded', { responseHeadersMs, serverTiming })
           return
         }
 
@@ -389,6 +427,9 @@ export function GlobalTutorFab({
             if (!trimmedLine.startsWith('data:')) continue
             const json = trimmedLine.slice(5).trim()
             if (!json) continue
+            if (TUTOR_CLIENT_TIMING_ENABLED && firstEventMs == null) {
+              firstEventMs = markTiming()
+            }
             let event: TutorStreamEvent
             try {
               event = JSON.parse(json)
@@ -396,6 +437,9 @@ export function GlobalTutorFab({
               continue
             }
             if (event.type === 'chunk' && event.content) {
+              if (TUTOR_CLIENT_TIMING_ENABLED && firstChunkMs == null) {
+                firstChunkMs = markTiming()
+              }
               full += event.content
               patchStreaming({ role: 'assistant', content: full, streaming: true })
             } else if (event.type === 'done' && event.reply) {
@@ -406,6 +450,12 @@ export function GlobalTutorFab({
               streamError = event.error || '小迪暂时不可用'
             } else if (event.type === 'tool_call' && event.toolCall) {
               void dispatchTutorToolCall?.(event.toolCall).catch(() => undefined)
+            } else if (event.type === 'perf' && TUTOR_CLIENT_TIMING_ENABLED) {
+              console.info('[tutor timing]', {
+                label: 'server tutor stream',
+                phase: event.phase,
+                timings: event.timings,
+              })
             }
           }
         }
@@ -437,8 +487,10 @@ export function GlobalTutorFab({
         if (streamWarning) {
           toast({ title: streamWarning, variant: 'destructive' })
         }
+        logTiming('done', { responseHeadersMs, serverTiming, replyLength: full.length })
         void refreshQuota()
       } catch (error) {
+        logTiming('error', { error: error instanceof Error ? error.message : String(error) })
         patchStreaming({
           role: 'assistant',
           content: error instanceof Error ? error.message : '小迪暂时不可用，请稍后再试。',
@@ -502,11 +554,14 @@ export function GlobalTutorFab({
     setUploadingImage(true)
     try {
       for (const file of files.slice(0, room)) {
-        const url = await uploadFileSecure(file, 'project-images', 'tutor-chat')
-        if (url) {
-          setPendingImages((current) => (current.includes(url) ? current : [...current, url]))
-        } else {
-          toast({ title: '图片上传失败，请重试', variant: 'destructive' })
+        try {
+          const url = await uploadFileSecure(file, 'project-images', 'tutor-chat')
+          if (url) {
+            setPendingImages((current) => (current.includes(url) ? current : [...current, url]))
+          }
+        } catch (error) {
+          const uploadToast = getTutorUploadToast(error)
+          toast({ ...uploadToast, variant: 'destructive' })
         }
       }
     } finally {
@@ -616,9 +671,7 @@ export function GlobalTutorFab({
       ? 'speaking'
       : busy || sessionQuery.isFetching
         ? 'thinking'
-        : open
-          ? 'listening'
-          : 'idle'
+        : 'idle'
 
   if (!mounted) return null
 

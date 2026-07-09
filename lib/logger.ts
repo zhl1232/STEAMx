@@ -52,7 +52,7 @@ class Logger {
      * 记录警告日志
      */
     warn(message: string, context?: LogContext) {
-        if (this.isDevelopment) {
+        if (this.isDevelopment || typeof window === 'undefined') {
             console.warn(`[WARN] ${message}`, context || '')
         }
 

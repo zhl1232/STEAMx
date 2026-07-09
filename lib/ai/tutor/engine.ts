@@ -1,7 +1,7 @@
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
+const DEFAULT_TEXT_MODEL = 'qwen-flash'
 const DEFAULT_VISION_MODEL = 'qwen3.7-plus'
-const DEFAULT_FLASH_MODEL = 'qwen-flash'
+const DEFAULT_PLANNER_MODEL = 'qwen-flash'
 
 export class TutorEngineError extends Error {
   userMessage: string
@@ -21,15 +21,23 @@ export type TutorEngineMessage = {
   images?: string[]
 }
 
-function getConfig(preferVision: boolean, useFlash = false) {
+type TutorModelMode = 'text' | 'planner'
+
+function getConfig(preferVision: boolean, mode: TutorModelMode = 'text') {
   const apiKey = process.env.DASHSCOPE_API_KEY
   const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
-  let model = process.env.DASHSCOPE_TEXT_MODEL || DEFAULT_TEXT_MODEL
-  if (useFlash) {
-    model = process.env.DASHSCOPE_FLASH_MODEL || DEFAULT_FLASH_MODEL
-  } else if (preferVision) {
-    model = process.env.DASHSCOPE_VISION_MODEL || DEFAULT_VISION_MODEL
-  }
+  const model = preferVision
+    ? process.env.DASHSCOPE_TUTOR_VISION_MODEL || process.env.DASHSCOPE_VISION_MODEL || DEFAULT_VISION_MODEL
+    : mode === 'planner'
+      ? process.env.DASHSCOPE_TUTOR_PLANNER_MODEL ||
+        process.env.DASHSCOPE_FLASH_MODEL ||
+        process.env.DASHSCOPE_TUTOR_TEXT_MODEL ||
+        process.env.DASHSCOPE_TEXT_MODEL ||
+        DEFAULT_PLANNER_MODEL
+      : process.env.DASHSCOPE_TUTOR_TEXT_MODEL ||
+        process.env.DASHSCOPE_TEXT_MODEL ||
+        process.env.DASHSCOPE_FLASH_MODEL ||
+        DEFAULT_TEXT_MODEL
 
   if (!apiKey) {
     throw new TutorEngineError(
@@ -92,11 +100,12 @@ function parseContent(raw: unknown): string {
 export async function chatWithTutorComplete(
   systemPrompt: string,
   messages: TutorEngineMessage[],
+  options?: { modelMode?: TutorModelMode },
 ): Promise<string> {
   const { wantImages } = buildDashScopeMessages(systemPrompt, messages)
 
   const call = async (includeImages: boolean) => {
-    const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages)
+    const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages, options?.modelMode ?? 'text')
     const response = await fetch(`${baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -145,11 +154,12 @@ export async function chatWithTutorComplete(
 export async function* streamChatWithTutor(
   systemPrompt: string,
   messages: TutorEngineMessage[],
+  options?: { modelMode?: TutorModelMode },
 ): AsyncGenerator<string, string, undefined> {
   const { wantImages } = buildDashScopeMessages(systemPrompt, messages)
 
   const streamOnce = async function* (includeImages: boolean) {
-    const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages)
+    const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages, options?.modelMode ?? 'text')
     const response = await fetch(`${baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -258,7 +268,7 @@ export async function summarizeNotebook(
   previousNotebook: string,
   recentMessages: Array<{ role: string; content: string }>,
 ): Promise<string> {
-  const { apiKey, baseUrl, model } = getConfig(false, true)
+  const { apiKey, baseUrl, model } = getConfig(false, 'planner')
 
   const transcript = recentMessages
     .map((m) => `${m.role === 'user' ? '学生' : '小迪'}：${m.content.slice(0, 300)}`)

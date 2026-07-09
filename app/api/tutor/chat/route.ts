@@ -42,6 +42,53 @@ import type { Database } from '@/lib/supabase/types'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
+const TUTOR_TIMING_ENABLED = process.env.NODE_ENV === 'development' || process.env.TUTOR_DEBUG_TIMING === '1'
+
+type TutorTimingMark = {
+  name: string
+  elapsedMs: number
+  deltaMs: number
+}
+
+function createTutorTimingTrace(label: string) {
+  const startedAt = Date.now()
+  let lastAt = startedAt
+  const marks: TutorTimingMark[] = []
+
+  const mark = (name: string) => {
+    if (!TUTOR_TIMING_ENABLED) return
+    const now = Date.now()
+    marks.push({
+      name,
+      elapsedMs: now - startedAt,
+      deltaMs: now - lastAt,
+    })
+    lastAt = now
+  }
+
+  const snapshot = () => marks.map((item) => ({ ...item }))
+
+  const serverTiming = () => {
+    if (!TUTOR_TIMING_ENABLED || marks.length === 0) return undefined
+    return marks
+      .slice(0, 12)
+      .map((item) => `${item.name.replace(/[^a-zA-Z0-9_-]/g, '_')};dur=${Math.max(0, item.deltaMs)}`)
+      .join(', ')
+  }
+
+  const log = (outcome: string, context?: Record<string, unknown>) => {
+    if (!TUTOR_TIMING_ENABLED) return
+    console.info('[tutor timing]', {
+      label,
+      outcome,
+      totalMs: Date.now() - startedAt,
+      marks: snapshot(),
+      ...context,
+    })
+  }
+
+  return { mark, snapshot, serverTiming, log }
+}
 
 function mergeTutorAudios(...groups: TutorAudioRef[][]) {
   const merged = new Map<string, TutorAudioRef>()
@@ -313,6 +360,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
+  const timing = createTutorTimingTrace('api/tutor/chat POST')
 
   try {
     const user = await requireAuth(supabase)
@@ -321,6 +369,7 @@ export async function POST(request: NextRequest) {
       limit: AI_TUTOR_RATE_LIMIT_PER_MINUTE,
       windowMs: 60_000,
     })
+    timing.mark('auth_rate_limit')
 
     const body = await request.json()
     const parsed = TutorSendSchema.safeParse(body)
@@ -349,6 +398,7 @@ export async function POST(request: NextRequest) {
     for (const image of images) {
       validateOwnedOrTrustedImageUrlFromSources(image, user.id, '产出图片', TUTOR_IMAGE_SOURCES)
     }
+    timing.mark('parse_validate')
 
     const { data: profile } = await supabase
       .from('profiles')
@@ -369,6 +419,7 @@ export async function POST(request: NextRequest) {
         { status: 402 },
       )
     }
+    timing.mark('profile_credit')
 
     const [studentProfile, scene, notebook] = await Promise.all([
       buildStudentProfile(supabase, user.id),
@@ -383,12 +434,14 @@ export async function POST(request: NextRequest) {
       }),
       loadTutorNotebook(supabase, user.id),
     ])
+    timing.mark('profile_scene_notebook')
     const canUseSpeciesAudio = hasTutorSceneCapability(scene.sceneCapabilities, 'speciesAudio')
     const effectiveSceneCapabilities = resolveTutorSceneCapabilities({
       serverCapabilities: scene.sceneCapabilities,
       clientCapabilities: clientSceneCapabilities,
     })
     const messageAudios = canUseSpeciesAudio ? await findSpeciesAudiosForMessage(supabase, content) : []
+    timing.mark('message_audio')
     const conversation = await getOrCreateActiveConversation(supabase, {
       userId: user.id,
       contextType,
@@ -411,6 +464,7 @@ export async function POST(request: NextRequest) {
       .limit(CONTEXT_TURNS)
 
     if (recentRows.error) throw recentRows.error
+    timing.mark('conversation_history')
 
     const history: TutorEngineMessage[] = ((recentRows.data ?? []) as TutorMessageRow[])
       .slice()
@@ -430,6 +484,7 @@ export async function POST(request: NextRequest) {
     const conversationText = history.map((message) => message.content).join('\n')
     const speciesHints = canUseSpeciesAudio ? await findSpeciesHintsForText(supabase, conversationText) : []
     const hintsSummary = buildSpeciesHintsSummary(speciesHints)
+    timing.mark('species_hints')
     const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
     let toolCalls: TutorToolCall[] = []
     if (
@@ -475,6 +530,7 @@ export async function POST(request: NextRequest) {
         })
       }
     }
+    timing.mark('tool_planner')
     const focusLessonStepCall = toolCalls.find((toolCall) => toolCall.name === 'course.focus_lesson_step')
     const highlightScratchBlocksCall = toolCalls.find((toolCall) => toolCall.name === 'course.highlight_scratch_blocks')
     const promptLessonStepIndex =
@@ -502,6 +558,7 @@ export async function POST(request: NextRequest) {
             includeRecommendations: true,
           })
         : scene
+    timing.mark('prompt_scene')
     const replyFocusSummary = buildTutorReplyFocusSummary({
       toolCalls,
       previousLessonStepIndex: lessonStepIndex,
@@ -519,6 +576,7 @@ export async function POST(request: NextRequest) {
       : []
 
     const systemPrompt = buildTutorSystemPrompt({ scene: sceneForPrompt, profile: studentProfile, notebook })
+    timing.mark('build_prompt')
 
     const encoder = new TextEncoder()
     let fullReply = ''
@@ -548,11 +606,15 @@ export async function POST(request: NextRequest) {
         }
 
         try {
+          if (TUTOR_TIMING_ENABLED) {
+            safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
+          }
           for (const toolCall of toolCalls) {
             safeEnqueue({ type: 'tool_call', toolCall })
           }
 
           const stream = streamChatWithTutor(systemPrompt, history)
+          let sawFirstAiChunk = false
           while (true) {
             const { value, done } = await stream.next()
             if (done) {
@@ -560,14 +622,28 @@ export async function POST(request: NextRequest) {
               break
             }
             if (value) {
+              if (!sawFirstAiChunk) {
+                sawFirstAiChunk = true
+                timing.mark('first_ai_chunk')
+                if (TUTOR_TIMING_ENABLED) {
+                  safeEnqueue({ type: 'perf', phase: 'first_ai_chunk', timings: timing.snapshot() })
+                }
+              }
               fullReply += value
               safeEnqueue({ type: 'chunk', content: value })
             }
           }
+          timing.mark('ai_stream_done')
         } catch (error) {
           if (creditResult.source) {
             await refundAiCredit(supabase, cost, creditResult.source).catch(() => undefined)
           }
+          timing.log('stream_error', {
+            contextType,
+            hasImages: images.length > 0,
+            hasToolCalls: toolCalls.length > 0,
+            error: error instanceof Error ? error.message : String(error),
+          })
           safeEnqueue({ type: 'error', error: getTutorEngineUserMessage(error) })
           safeClose()
           return
@@ -589,6 +665,7 @@ export async function POST(request: NextRequest) {
             )
           : []
         fullReply = finalizeReplyAudio(fullReply, content, replyAudios)
+        timing.mark('finalize_audio')
 
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
@@ -641,20 +718,32 @@ export async function POST(request: NextRequest) {
             await maybeUpdateTutorNotebook(user.id)
           })
         }
+        timing.mark('persist_messages')
+        timing.log('done', {
+          contextType,
+          hasImages: images.length > 0,
+          hasToolCalls: toolCalls.length > 0,
+          replyLength: fullReply.length,
+        })
 
         safeEnqueue({ type: 'done', reply: fullReply })
         safeClose()
       },
     })
 
+    const serverTiming = timing.serverTiming()
     return new Response(readable, {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
         'Cache-Control': 'no-cache, no-transform',
         Connection: 'keep-alive',
+        ...(serverTiming ? { 'Server-Timing': serverTiming } : {}),
       },
     })
   } catch (error) {
+    timing.log('request_error', {
+      error: error instanceof Error ? error.message : String(error),
+    })
     if (error instanceof ValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }

@@ -4,7 +4,12 @@ import { useState, useRef, useEffect } from 'react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Upload, X, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { uploadFileSecure, validateFileType } from '@/lib/utils/upload'
+import {
+  getSecureUploadErrorMessage,
+  isExpectedSecureUploadRejection,
+  uploadFileSecure,
+  validateFileType,
+} from '@/lib/utils/upload'
 import { useAuth } from '@/lib/context/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import { logger } from '@/lib/logger'
@@ -70,10 +75,15 @@ export function ImageUpload({
         throw new Error('Upload failed')
       }
     } catch (error) {
-      logger.error('Upload error', { error })
+      const description = getSecureUploadErrorMessage(error)
+      if (isExpectedSecureUploadRejection(error)) {
+        logger.warn('Upload rejected', { error: description, bucket })
+      } else {
+        logger.error('Upload error', { error })
+      }
       toast({
         title: '上传失败',
-        description: '图片上传失败，请重试',
+        description,
         variant: 'destructive'
       })
     } finally {

@@ -40,7 +40,7 @@
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
 | `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款） |
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
-| `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用全状态 AI 8 帧候选帧集，并可切回原版 4 帧对比） |
+| `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用 AI sprite，并可切回原版 sprite 对比） |
 | `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
 | `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（CLI 指引） |
 
@@ -66,7 +66,7 @@
 | courses | `api/courses/` | 技能课程列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +XP |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；投稿草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑终稿草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
-| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，`/playground/*` 游戏页归入 playground surface；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；DELETE 归档当前线程并开启新对话）；历史对话只读回看 `conversations`（GET 按场景列归档线程+首条用户消息预览）与 `conversations/[id]`（GET 线程消息，归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
+| tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，`/playground/*` 游戏页归入 playground surface；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；开发环境或 `TUTOR_DEBUG_TIMING=1` 下输出服务端阶段耗时、`Server-Timing` 与 SSE `perf` 事件，用于定位响应头/首事件/首 chunk 延迟；DELETE 归档当前线程并开启新对话）；历史对话只读回看 `conversations`（GET 按场景列归档线程+首条用户消息预览）与 `conversations/[id]`（GET 线程消息，归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
 | comments | `api/comments/` | 项目评论 CRUD、点赞 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
@@ -89,7 +89,7 @@
 | settings | `api/settings/` | 用户设置更新 |
 | species | `api/species/` | 物种查询；支持 `topic`、关键词和 `status=all/unobserved/observed`，返回当前筛选范围的自然观察进度统计 |
 | tips | `api/tips/` | 打赏 |
-| upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象 |
+| upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象；审核拒绝返回 `code=image_content_rejected` 并透传安全原因给前端 toast，同时打结构化 warning 便于管理员查服务日志（当前不入 admin 后台列表） |
 | upload-video | `api/upload-video/` | 视频上传 |
 | users | `api/users/` | 用户公开信息查询 |
 | xp | `api/xp/` | 经验值增减 |
@@ -128,13 +128,13 @@
 
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
-| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；观察详情 AI 鉴定头像使用 `public/xiaodi-ai/` 小迪静帧 |
+| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；观察详情 AI 鉴定头像使用 `public/xiaodi-ai/idle-0.webp` 小迪静帧 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
 | `courses/` | 9 | 技能课程列表 `course-board`、课时侧栏 `lesson-sidebar`（可响应小迪 `course.focus_lesson_step` 聚焦并高亮当前课时步骤；可从 `content.learningGoals` / `content.teacherGuide` 渲染探究问题、学习目标、材料准备、引导提问、观察记录、延伸和家庭分享；课时页会把当前 active step 和 Scratch 步骤内的积木提示游标传给小迪，避免“下一步/卡住了”回跳到第 1 步，且同一步有多个积木动作时先逐个高亮再进入下一步骤；Scratch 课时可响应 `course.highlight_scratch_blocks` 在工作区提示并定位目标积木；底部「基于 Scratch · 作品保存在本平台」只在 `lesson_type=scratch` 时显示）、工作区路由 `lesson-workspace-renderer`（按 `lesson_type` 分发 Scratch / building_3d / playground）、Scratch iframe `scratch-workspace`、大颗粒积木 3D 搭建 `building-3d-workspace`（GLTF / LDraw `.mpd` 双分支；大颗粒新课优先使用 `scripts/ldraw-models/*.ldr` 源模型打包到 `public/courses/ldraw/*.mpd`，模型内 `0 STEP` 驱动分步显隐；学前大颗粒 12 课为真实 DUPLO/LDraw 网格搭法与原创 STEAM 课案，参考资源指向 LEGO Education 官方课程库与 LEGO 官方搭建说明入口；LDraw 模型质量入口统一走 `.agents/skills/image-to-ldraw` 的 `part-metadata.json` 零件端口/碰撞定义和 `validate-assembly.mjs`，assembly 可用 `tubeChecks` 声明管道端口连接和方向约束；配置了模型资源但加载失败时直接显示错误，不静默退回方块；当 `content.building3d` 提供 `slideImageUrls`/`videoUrl`/`slidesPdfUrl`/`finishedImageUrl` 时，工作区顶部出现「课件 / 3D 搭建」Tab：课件 Tab 是 PPT 翻页器（每页一张图），翻到 `videoSlideIndex`(1 基)那页就地用 `<video>` 播放抽出的内嵌动画，右上角「搭建说明」按钮另开 `slidesPdfUrl`，缺图的页有「待导入」占位；只有 `videoUrl` 而无幻灯片图时退化为独立「动画」Tab；无 PPT 图但有 PDF 时课件 Tab 内嵌 PDF；3D 搭建保持 three.js 常驻不随切 Tab 卸载，右侧零件栏顶部展示成品参考图——用于「课件（PPT 含内嵌动画）+ 搭建说明 + 成品图 + LDraw 3D」课时闭环，幻灯片图用 `scripts/normalize-slides.mjs` 从 PowerPoint 导出图整理而来；当 `content.building3d.worksProjectId` 指向某「背书项目」时，顶部多出「作品」Tab `lesson-works-gallery`（就地展示这一课的公开作品，数据来自 `GET /api/projects/[id]/completions`，含封面/作者/点赞，顶部带上传入口、上传后刷新），右侧操作区也保留「上传我的作品」入口 `lesson-work-upload`（仅在打开弹窗时局部挂 `ProjectProvider` 以满足 `CompleteProjectDialog` 的 `useProjects()` 依赖，复用项目侧 `POST /api/projects/[id]/completions` 提交实物照片→AI 审核→社区/个人主页展示），实现「课程教学 + 项目作品墙」的桥接）、游乐场实训 `playground-workspace`（把 `/playground/*` 游戏包成导学课：讲解 + 棋盘示意 + 「去实战」按钮跳回游戏页 + 本课进度条 + 完成课时 +XP；目前支持 `gameKey=gomoku` 五子棋，步骤可用 `visuals[].type=gomoku_board` 配置多张结构化棋盘图解；移动端单栏精简）、五子棋棋盘 SVG `gomoku-board`、步骤富文本 `lesson-rich-text` |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
-| `tutor/` | 6 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider（含场景 override、Scratch 编辑器上下文、scene capability、待发送消息队列与白名单 tool handler 注册/分发），`tool-handler-registry` 负责把后端 tool 名映射到当前页面提供的“聚焦课程步骤 / 聚焦 PBL 阶段”等前端能力，并反推出当前 scene capability 供请求一并上送，避免各页面自己逐个绑定工具名；`scene-capabilities` 同时管理页面动作能力和回复增强能力，`speciesAudio` 仅在物种档案/自然观察记录有鸟类音频时由服务端场景授权，课程场景不自动补鸟鸣；`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）并用 React Query 预取当前小迪会话、`global-tutor-fab` 使用 `<XiaoDi>` AI 8 帧候选作悬浮球，面板头部同一只小迪随 `listening/thinking/speaking` 状态切换，消息 loading 只保留文字提示以避免重复头像动画，并保留流式对话（聊天框可直传图片、场景照片一键发图、Scratch 课时页紧凑位；打开时优先消费预取缓存，⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图；消费 SSE `tool_call` 事件并交给当前场景 handler，支持 PBL 阶段聚焦与课时步骤聚焦；发送 Scratch 课时消息时附带当前选中角色/对象，避免默认说“小猫”）、`tutor-session` 会话 query key/fetch helper、`tutor-message-content` 回复轻量 Markdown 渲染 + Scratch 分类图例/积木形状富文本 + `[project:ID|标题]` 项目 chip + 经 `speciesAudio` 授权的 `[audio:slug|物种名]` 内联鸟鸣播放器、`xiaodi.tsx`+`xiaodi.module.css` 小迪吉祥物动画组件 `<XiaoDi state size onCycleEnd variant />`（默认 7 状态 idle/listening/thinking/speaking/success/error/working；原版每状态 4 帧 `public/xiaodi/<state>-<i>.webp` 逐帧切换，默认 `variant="ai-draft"` 使用 `public/xiaodi-ai/` 全状态 8 帧候选关键帧 + 状态化 CSS 补间：呼吸/前倾/摇摆/点头/弹跳发光/歪头/顿挫；状态切换 160ms 淡入淡出、根布局预载 idle/listening/thinking 首帧、挂载后预热帧集，帧/状态切换前等待目标帧 decode 且保留上一帧，避免加载期透明闪帧；AI 候选 idle/listening/thinking/speaking/error/success/working 分别约 3.6s/2.4s/2.8s/2.8s/1.8s/1.5s/2.6s 一轮；`prefers-reduced-motion` 降级静帧、`onCycleEnd` 支持 success/error 播一轮切回 idle） |
+| `tutor/` | 6 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider（含场景 override、Scratch 编辑器上下文、scene capability、待发送消息队列与白名单 tool handler 注册/分发），`tool-handler-registry` 负责把后端 tool 名映射到当前页面提供的“聚焦课程步骤 / 聚焦 PBL 阶段”等前端能力，并反推出当前 scene capability 供请求一并上送，避免各页面自己逐个绑定工具名；`scene-capabilities` 同时管理页面动作能力和回复增强能力，`speciesAudio` 仅在物种档案/自然观察记录有鸟类音频时由服务端场景授权，课程场景不自动补鸟鸣；`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）并用 React Query 预取当前小迪会话、`global-tutor-fab` 使用 `<XiaoDi>` AI 8 帧候选作悬浮球，面板头部同一只小迪随 `idle/thinking/speaking` 状态切换（窗口打开但未回复时保持安静 idle，避免 listening 常驻动作过重），消息 loading 只保留文字提示以避免重复头像动画，并保留流式对话（聊天框可直传图片，审核拒绝时展示后端安全原因；场景照片一键发图、Scratch 课时页紧凑位；打开时优先消费预取缓存，⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图；消费 SSE `tool_call` 事件并交给当前场景 handler，支持 PBL 阶段聚焦与课时步骤聚焦；发送 Scratch 课时消息时附带当前选中角色/对象，避免默认说“小猫”）、`tutor-session` 会话 query key/fetch helper、`tutor-message-content` 回复轻量 Markdown 渲染 + Scratch 分类图例/积木形状富文本 + `[project:ID|标题]` 项目 chip + 经 `speciesAudio` 授权的 `[audio:slug|物种名]` 内联鸟鸣播放器、`xiaodi.tsx`+`xiaodi.module.css` 小迪吉祥物动画组件 `<XiaoDi state size onCycleEnd variant />`（默认 7 状态 idle/listening/thinking/speaking/success/error/working；`variant="default"` 读取 `public/xiaodi/sprite.webp`，默认 `variant="ai-draft"` 读取 `public/xiaodi-ai/sprite.webp`，运行时每个变体只加载一张 sprite 并用坐标切帧 + 状态化 CSS 补间：呼吸/前倾/摇摆/点头/弹跳发光/歪头/顿挫；状态切换 160ms 淡入淡出、根布局预载默认 AI sprite，切换变体前等待目标 sprite decode 且保留上一姿势，避免加载期透明闪帧；AI 候选 idle/listening/thinking/speaking/error/success/working 分别约 3.6s/2.4s/2.8s/2.8s/1.8s/1.5s/2.6s 一轮；`prefers-reduced-motion` 降级静帧、`onCycleEnd` 支持 success/error 播一轮切回 idle） |
 | `playground/` | 1 | 键盘帮助弹窗 |
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
@@ -251,13 +251,13 @@
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
 | `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts` | 技能课程课时类型（scratch / building_3d / playground / reading / video / quiz）、课时步骤可选结构化图解类型（目前 `gomoku_board` 支持黑白子、候选点、辅助线、获胜线），3D 步骤 `cameraHint` 支持 front/back/side/top/isometric 视角、课程内容可用 `learningGoals` / `teacherGuide` 声明学习目标与教师/家长引导、`building_3d` 内容优先用 `ldrawModelUrl` 指向自托管 LDraw `.mpd` 模型，模型内 `0 STEP` 驱动分步显隐，可选 `slideImageUrls`(PPT 逐页图)/`videoUrl`+`videoSlideIndex`(动画及其所在课件页号)/`slidesPdfUrl`(搭建说明)/`finishedImageUrl` 媒体字段驱动课时工作区的课件翻页器（含页内动画播放）与成品参考图，可选 `worksProjectId` 指向作品墙背书项目（搭完上传实物照，复用项目侧作品提交）；`brickInstances` 仅作为历史/开发兜底，不用于新增大颗粒课程、设备能力判断、Scratch iframe postMessage 协议（含 `EDITOR_CONTEXT` 选中角色/对象快照）、`.sb3` 积木校验；`scratch-hints.ts` 同时负责小迪 Scratch 积木提示规则、课时富文本标记解析与自然语言清洗，区分 Scratch 工具箱可找到的默认积木和拖出后要改的文字/参数，`requiredBlocks.anyOf` 会作为 flyout 定位候选 opcode 下发，并支持 `[[cat]]` / `[[block]]` 渲染成课程同款 Scratch 积木形状 |
-| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `reply-focus.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts`, `tool-registry.ts`, `tool-call-planner.ts`, `scene-capabilities.ts` | AI 导师小迪：…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；课时/阶段 UI 交互使用白名单 tool call，`scene-capabilities.ts` 定义前后端共享的 scene capability 契约（如 `focusCourseLessonStep`、`focusChallengeStage`），`context-builders.ts` 会按场景产出服务端 capability 上限（例如课程课时默认带 `focusCourseLessonStep`、PBL 阶段默认带 `focusChallengeStage`），POST 规划时再与前端当前真实挂载的 handler capability 取交集；`tool-registry.ts` 先按当前 scene 与 capability 限定可用工具，`tool-call-planner.ts` 只在这些可用工具里做 AI 决策，再由 registry 统一校验并生成真实 tool call；`tool-calls.ts` 仅保留工具名称和 payload 类型，不再用正则做“卡住/下一步/反馈”确定性判断；Scratch 课时会结合当前步骤、服务端归一化后的 pending `targetItemIndex` 游标和原始子动作数，决定是停留当前子动作、切到同一步下一个积木动作，还是进入下一课时步骤；`reply-focus.ts` 会把本轮页面工具的当前高亮子动作插到模型场景最前面，确保文本回复和高亮目标一致，避免“然后呢”触发同一步下一个动作时回复却提前讲下一步骤；planner 失败时不触发页面工具，但不影响主回复链路；…
+| `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `reply-focus.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts`, `tool-registry.ts`, `tool-call-planner.ts`, `scene-capabilities.ts` | AI 导师小迪：`engine.ts` 纯文本默认低延迟 `qwen-flash`（`DASHSCOPE_TUTOR_TEXT_MODEL` 可覆盖），图文走 `DASHSCOPE_TUTOR_VISION_MODEL` / `DASHSCOPE_VISION_MODEL`，工具决策 planner 走 `DASHSCOPE_TUTOR_PLANNER_MODEL` / `DASHSCOPE_FLASH_MODEL`；…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；课时/阶段 UI 交互使用白名单 tool call，`scene-capabilities.ts` 定义前后端共享的 scene capability 契约（如 `focusCourseLessonStep`、`focusChallengeStage`），`context-builders.ts` 会按场景产出服务端 capability 上限（例如课程课时默认带 `focusCourseLessonStep`、PBL 阶段默认带 `focusChallengeStage`），POST 规划时再与前端当前真实挂载的 handler capability 取交集；`tool-registry.ts` 先按当前 scene 与 capability 限定可用工具，`tool-call-planner.ts` 只在这些可用工具里做 AI 决策，再由 registry 统一校验并生成真实 tool call；`tool-calls.ts` 仅保留工具名称和 payload 类型，不再用正则做“卡住/下一步/反馈”确定性判断；Scratch 课时会结合当前步骤、服务端归一化后的 pending `targetItemIndex` 游标和原始子动作数，决定是停留当前子动作、切到同一步下一个积木动作，还是进入下一课时步骤；`reply-focus.ts` 会把本轮页面工具的当前高亮子动作插到模型场景最前面，确保文本回复和高亮目标一致，避免“然后呢”触发同一步下一个动作时回复却提前讲下一步骤；planner 失败时不触发页面工具，但不影响主回复链路；…
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 ### 4.10 根级工具文件
 - `lib/schemas.ts` — Zod 验证 Schema（项目、评论、讨论等）
-- `lib/logger.ts` — 结构化日志工具
+- `lib/logger.ts` — 结构化日志工具（`warn` 在服务端始终打印，浏览器生产环境保持静默；`error` 始终打印）
 - `lib/rate-limit.ts` — 内存速率限制器
 - `lib/utils.ts` — `cn()` 样式合并工具
 - `lib/date-utils.ts` — 日期格式化
@@ -316,7 +316,6 @@
 | `audit-function-search-path.mjs` | 只读审计 public schema 所有 routine 的 `search_path` 现状与函数体内未全限定表/视图引用，评估改成 `search_path = ''` 的安全性（配合 `20260627150000` 迁移） |
 | `compress-project-images.mjs` | 压缩目录图片（`COMPRESS_IMAGES_DIR` / `COMPRESS_MAX_SIDE` / `COMPRESS_JPEG_QUALITY`）；`pnpm compress:fruit-images` 压缩水果图集至 1280px |
 | `profile-icons-remove-bg.mjs` | 去除 `public/assets/profile-icons/` WebP 烘焙底色并写入透明通道 |
-| `xiaodi-rembg.py` + `xiaodi-frames.mjs` | 小迪吉祥物动画帧管线：`scripts/xiaodi-src/<state>.jpg`（7 张 1024x512 白底 AI 生成图，一行 4 姿势）先经 rembg(isnet-general-use) AI 去底成 `<state>.rgba.png`（python venv：`python3 -m venv ~/.venvs/xiaodi && pip install rembg onnxruntime pillow numpy`，首跑下载 ~180MB 模型；纯白机器人+白底，阈值法会啃掉机身，必须走 AI 分割），再由 `node scripts/xiaodi-frames.mjs` 切 4 帧、清低 alpha 噪声、过滤 speaking/error 的远离主体小连通块、同状态身高归一后按每帧足部中心+脚底线注册到同一锚点，输出 `public/xiaodi/<state>-<0..3>.webp`（512x512 透明底，共 28 帧 ~1MB）与人工校验图 `tmp/xiaodi-preview.png` |
 | `fetch-bird-media-from-wikimedia.mjs` | 从 Wikimedia 抓取鸟类图片 |
 | `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
 | `fetch-fruit-images.mjs` | 抓取水果/干果**果实图**（优先 iNaturalist 结果期观测 + Wikimedia 果实关键词搜索）；下载后自动压缩至 1280px |
@@ -422,8 +421,8 @@
 | `public/assets/profile-icons/` | 个人主页模块 icon WebP（256px、新手引导、探索地图、时间线、快捷入口 action-*） |
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、植物、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
-| `public/xiaodi/` | 小迪吉祥物动画帧（7 状态 × 4 帧 WebP，512x512 透明底，按脚底线与足部中心统一锚定；由 `scripts/xiaodi-rembg.py` + `scripts/xiaodi-frames.mjs` 生成，供 `components/features/tutor/xiaodi.tsx` 使用） |
-| `public/xiaodi-ai/` | 小迪 AI 生成候选关键帧（7 状态 × 8 帧 WebP，512x512 透明底；由内置生图工具生成、`tmp/imagegen/` 草案经本地 chroma-key 去底、切帧、孤立碎片过滤并按脚底线/足部中心重新锚定得到；默认 `variant="ai-draft"` 使用，`/xiaodi-preview` 可切回原版 4 帧对比） |
+| `public/xiaodi/` | 小迪原版动画 sprite：`sprite.webp`（7 状态 × 4 帧，供 `variant="default"` 预览/回退使用） |
+| `public/xiaodi-ai/` | 小迪 AI 候选动画 sprite：`sprite.webp`（默认 `variant="ai-draft"` 使用，7 状态 × 8 帧）与观察详情头像静帧 `idle-0.webp` |
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer） |
 | `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |

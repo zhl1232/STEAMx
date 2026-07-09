@@ -88,16 +88,33 @@ export async function POST(request: NextRequest) {
       const moderation = await moderateUploadedImage(publicUrl, '上传图片')
       if (!moderation.pass) {
         await supabaseAdmin.storage.from(bucket).remove([data.path])
+        logger.warn('Upload image rejected by moderation', {
+          userId: user.id,
+          bucket,
+          pathPrefix,
+          path: data.path,
+          mime: result.mime,
+          sizeBytes: buffer.byteLength,
+          reason: moderation.reason || null,
+        })
         return NextResponse.json(
-          { error: moderation.reason || '图片内容审核未通过' },
+          { error: moderation.reason || '图片内容审核未通过', code: 'image_content_rejected' },
           { status: 400 }
         )
       }
     } catch (moderationError) {
       await supabaseAdmin.storage.from(bucket).remove([data.path])
-      logger.error('Upload image moderation failed', { error: moderationError, bucket, path: data.path })
+      logger.error('Upload image moderation failed', {
+        error: moderationError,
+        userId: user.id,
+        bucket,
+        pathPrefix,
+        path: data.path,
+        mime: result.mime,
+        sizeBytes: buffer.byteLength,
+      })
       return NextResponse.json(
-        { error: '图片审核暂时不可用，请稍后重试' },
+        { error: '图片审核暂时不可用，请稍后重试', code: 'image_moderation_unavailable' },
         { status: 503 }
       )
     }

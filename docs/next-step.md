@@ -63,8 +63,15 @@
 
 1. **P1：Scratch 定位增强或扫雷非透视提示**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断；或做扫雷安全格/必标雷提示，并确保只使用玩家已揭示的棋盘信息，复用现有「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
 2. **P1：工具调用策略升级**：从确定性意图规则扩展到模型受控工具选择，但仍保持服务端白名单、payload 校验与前端受控 handler。
-3. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
-4. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。
+3. **P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。
+4. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
+5. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。
+
+### 性能诊断
+
+- 小迪聊天链路已支持 timing trace：开发环境默认输出；生产环境可显式设置 `TUTOR_DEBUG_TIMING=1`（服务端阶段日志 / `Server-Timing` / SSE `perf` 事件）与 `NEXT_PUBLIC_TUTOR_DEBUG_TIMING=1`（前端控制台发送、响应头、首事件、首 chunk、完成耗时）。
+- 纯文本小迪默认走低延迟模型 `qwen-flash`；可用 `DASHSCOPE_TUTOR_TEXT_MODEL` 单独覆盖。图文仍走 `DASHSCOPE_TUTOR_VISION_MODEL` / `DASHSCOPE_VISION_MODEL`，工具决策 planner 走 `DASHSCOPE_TUTOR_PLANNER_MODEL` / `DASHSCOPE_FLASH_MODEL`。
+- 排查「思考时间长」时先看前端 `responseHeadersMs` / `firstEventMs` / `firstChunkMs`：若响应头慢，问题在服务端前置准备；若首事件快但首 chunk 慢，问题多在 AI 首 token；若首 chunk 后总耗时慢，问题在模型输出长度或流式传输。
 
 ## 自然观察：地域化与动态预警
 
