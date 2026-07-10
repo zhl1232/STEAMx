@@ -118,7 +118,7 @@ function Peg({
                                 bottom: `${bottom}px`,
                             }}
                         >
-                            <span className="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold text-white/90 drop-shadow-sm">
+                            <span className="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold text-white/90 drop-shadow-xs">
                                 {disk}
                             </span>
                         </div>

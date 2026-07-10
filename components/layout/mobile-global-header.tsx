@@ -104,7 +104,7 @@ export function MobileGlobalHeader({
           {variant === 'logo' ? (
             <Link
               href="/"
-              className="-ml-1 flex min-h-11 items-center space-x-2 rounded-[var(--radius-sm)] py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="-ml-1 flex min-h-11 items-center space-x-2 rounded-sm py-1 pl-1 pr-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <SteamLogo className="h-6 w-6 shrink-0 min-[390px]:h-7 min-[390px]:w-7" />
               <span className="nav-logo-text font-sans text-[17px] font-bold min-[390px]:text-[18px]">
@@ -139,7 +139,7 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-11 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-11 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-hidden focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button

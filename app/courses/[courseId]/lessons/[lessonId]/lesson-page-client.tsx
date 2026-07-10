@@ -18,7 +18,7 @@ import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
 /** 交互式编辑/搭建课需要固定工作区；阅读型 playground 课在移动端应交给页面自然滚动。 */
-const FIXED_LESSON_PAGE_HEIGHT = "max-md:h-[100dvh] md:h-[calc(100dvh-4rem)]";
+const FIXED_LESSON_PAGE_HEIGHT = "max-md:h-dvh md:h-[calc(100dvh-4rem)]";
 const SCROLL_LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
 
 function getHintTargetCount(payload: {
@@ -202,7 +202,7 @@ export function LessonPageClient({
                             ? "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden"
                             : "max-lg:shrink-0 max-lg:overflow-visible",
                         "max-lg:order-2 max-lg:border-b",
-                        "lg:order-none lg:min-h-0 lg:max-h-none lg:shrink-0",
+                        "lg:order-0 lg:min-h-0 lg:max-h-none lg:shrink-0",
                         // playground 课时在移动端用单栏：讲解+实战都由 PlaygroundWorkspace 承载，
                         // 不再额外渲染左侧步骤列表，避免与工作区讲解重复堆叠。
                         lessonWorkspace === "playground" && "max-lg:hidden",
@@ -221,7 +221,7 @@ export function LessonPageClient({
                 </div>
                 <div
                     className={cn(
-                        "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-none",
+                        "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-0",
                         usesFixedMobileWorkspace ? "min-h-0" : "min-h-[60vh] md:min-h-0",
                         // building_3d 在移动端不参与 flex 撑满，3D 画布用固定 dvh 高度，
                         // 避免可滚动布局下 flex-1 高度波动触发 ResizeObserver 反复 setSize 闪烁。

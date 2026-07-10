@@ -25,8 +25,8 @@ export function ExplorationRecordGroupCard({
   return (
     <section
       className={cn(
-        "surface-card overflow-hidden rounded-[var(--radius-md)]",
-        "bg-[hsl(var(--surface-raised)/0.94)] shadow-sm",
+        "surface-card overflow-hidden rounded-md",
+        "bg-[hsl(var(--surface-raised)/0.94)] shadow-xs",
       )}
     >
       <header className="flex items-center gap-2.5 border-b border-[hsl(var(--surface-border)/0.7)] px-3.5 py-3">

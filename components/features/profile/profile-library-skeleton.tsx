@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 function MobileProfileLibrarySkeleton() {
   return (
     <div className="flex min-h-screen flex-col bg-background pb-24 md:hidden">
-      <div className="sticky top-[calc(var(--mobile-global-header-height,3rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+      <div className="sticky top-[calc(var(--mobile-global-header-height,3rem)+env(safe-area-inset-top))] z-30 border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-backdrop-filter:bg-background/80">
         <div className="relative min-h-12 px-4 py-1">
           <Skeleton className="absolute left-4 top-1/2 h-9 w-9 -translate-y-1/2 rounded-sm" />
           <div className="flex min-h-10 items-center pl-10">

@@ -48,7 +48,7 @@ export function ObservationSocialSection({
         )}
       </section>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/88">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/70 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/88">
         <div className="mx-auto flex w-full max-w-5xl items-center gap-2 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2.5">
           <ObservationInteractions
             liked={liked}

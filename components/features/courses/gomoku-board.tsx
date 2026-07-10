@@ -361,7 +361,7 @@ export function GomokuBoard({
                             getPointAriaLabel?.(point) ??
                             `落子到第 ${point.r + 1} 行第 ${point.c + 1} 列`
                         }
-                        className="cursor-pointer fill-transparent transition-colors hover:fill-[hsl(var(--brand-blue)/0.1)] focus:outline-none focus-visible:fill-[hsl(var(--brand-blue)/0.16)]"
+                        className="cursor-pointer fill-transparent transition-colors hover:fill-[hsl(var(--brand-blue)/0.1)] focus:outline-hidden focus-visible:fill-[hsl(var(--brand-blue)/0.16)]"
                         onClick={() => onPointClick?.(point)}
                         onKeyDown={(event) => {
                             if (event.key !== "Enter" && event.key !== " ") return;

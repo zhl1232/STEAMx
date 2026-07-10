@@ -211,7 +211,7 @@ function CommentItem({
       {comment.reply_to_username && (
         <p className="mt-1 text-xs text-muted-foreground">回复 @{comment.reply_to_username}</p>
       )}
-      <p className="mt-1.5 text-sm leading-6 text-foreground/90 whitespace-pre-wrap break-words">{comment.content}</p>
+      <p className="mt-1.5 text-sm leading-6 text-foreground/90 whitespace-pre-wrap wrap-break-word">{comment.content}</p>
       <button
         type="button"
         onClick={() => onReply(Number(comment.id), displayName)}

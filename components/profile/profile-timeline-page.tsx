@@ -87,7 +87,7 @@ function TimelineIcon({ event }: { event: ProfileTimelineEvent }) {
 
 function TimelineEventRow({ event }: { event: ProfileTimelineEvent }) {
   const content = (
-    <article className="group relative grid min-h-[84px] grid-cols-[40px_minmax(0,1fr)] items-center gap-3 rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.44)] px-3.5 py-3 transition hover:border-[hsl(var(--brand-blue)/0.28)] hover:bg-[hsl(var(--surface-raised))] hover:shadow-sm md:grid-cols-[40px_minmax(0,1fr)_96px]">
+    <article className="group relative grid min-h-[84px] grid-cols-[40px_minmax(0,1fr)] items-center gap-3 rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.44)] px-3.5 py-3 transition hover:border-[hsl(var(--brand-blue)/0.28)] hover:bg-[hsl(var(--surface-raised))] hover:shadow-xs md:grid-cols-[40px_minmax(0,1fr)_96px]">
       <TimelineIcon event={event} />
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
@@ -118,7 +118,7 @@ function TimelineEventRow({ event }: { event: ProfileTimelineEvent }) {
   )
 
   return event.href ? (
-    <Link href={event.href} className="block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+    <Link href={event.href} className="block rounded-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
       {content}
     </Link>
   ) : content

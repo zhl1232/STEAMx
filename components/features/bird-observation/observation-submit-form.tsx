@@ -143,15 +143,15 @@ interface ObservationDraft {
 }
 
 const panelClass =
-  "scroll-mt-28 scroll-mb-64 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] p-4 [box-shadow:var(--obs-panel-shadow)] ring-1 ring-[var(--obs-ring)] sm:p-5 md:scroll-mt-24 md:scroll-mb-24"
+  "scroll-mt-28 scroll-mb-64 rounded-sm border border-(--obs-border) bg-(--obs-panel) p-4 [box-shadow:var(--obs-panel-shadow)] ring-1 ring-(--obs-ring) sm:p-5 md:scroll-mt-24 md:scroll-mb-24"
 const subtlePanelClass =
-  "rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-subtle)] p-4"
+  "rounded-sm border border-(--obs-border) bg-(--obs-subtle) p-4"
 const controlClass =
-  "h-11 rounded-sm border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
+  "h-11 rounded-sm border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) shadow-none placeholder:text-(--obs-placeholder) transition-colors focus:border-(--obs-accent)! focus:outline-hidden focus:ring-2 focus:ring-(--obs-focus) focus:ring-offset-0 focus-visible:border-(--obs-accent)! focus-visible:ring-(--obs-focus) focus-visible:ring-offset-0"
 const textareaClass =
-  "rounded-sm border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-4 py-3 text-sm leading-6 text-[var(--obs-text)] shadow-none placeholder:text-[var(--obs-placeholder)] transition-colors focus:!border-[var(--obs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--obs-focus)] focus:ring-offset-0 focus-visible:!border-[var(--obs-accent)] focus-visible:ring-[var(--obs-focus)] focus-visible:ring-offset-0"
+  "rounded-sm border-(--obs-border-strong) bg-(--obs-control) px-4 py-3 text-sm leading-6 text-(--obs-text) shadow-none placeholder:text-(--obs-placeholder) transition-colors focus:border-(--obs-accent)! focus:outline-hidden focus:ring-2 focus:ring-(--obs-focus) focus:ring-offset-0 focus-visible:border-(--obs-accent)! focus-visible:ring-(--obs-focus) focus-visible:ring-offset-0"
 const stepStatusClassNames: Record<StepStatusTone, string> = {
-  neutral: "border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-muted)]",
+  neutral: "border-(--obs-border-strong) bg-(--obs-control) text-(--obs-muted)",
   success: "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-[#3f6b50] dark:bg-[#20352a] dark:text-[#c8efd2]",
   warning: "border-amber-300 bg-amber-50 text-amber-700 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]",
   loading: "border-sky-300 bg-sky-50 text-sky-700 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]",
@@ -181,16 +181,16 @@ function StepHeader({
   return (
     <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
       <div className="flex min-w-0 items-start gap-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--obs-accent)] text-sm font-bold text-white [box-shadow:var(--obs-soft-shadow)]">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-(--obs-accent) text-sm font-bold text-white [box-shadow:var(--obs-soft-shadow)]">
           {index}
         </span>
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-xl font-semibold tracking-tight text-[var(--obs-text)]">{title}</h2>
-            <Icon className="h-4 w-4 text-[var(--obs-accent)]" />
+            <h2 className="text-xl font-semibold tracking-tight text-(--obs-text)">{title}</h2>
+            <Icon className="h-4 w-4 text-(--obs-accent)" />
           </div>
           {description ? (
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--obs-muted)]">{description}</p>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-(--obs-muted)">{description}</p>
           ) : null}
         </div>
       </div>
@@ -237,16 +237,16 @@ function MobileAccordionHeader({
         className="flex w-full items-start justify-between gap-3 text-left"
       >
         <span className="flex min-w-0 items-start gap-3">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--obs-accent)] text-xs font-bold text-white [box-shadow:var(--obs-soft-shadow)]">
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-(--obs-accent) text-xs font-bold text-white [box-shadow:var(--obs-soft-shadow)]">
             {index}
           </span>
           <span className="min-w-0">
             <span className="flex items-center gap-2">
-              <span className="truncate text-base font-semibold text-[var(--obs-text)]">{title}</span>
-              <Icon className="h-4 w-4 shrink-0 text-[var(--obs-accent)]" />
+              <span className="truncate text-base font-semibold text-(--obs-text)">{title}</span>
+              <Icon className="h-4 w-4 shrink-0 text-(--obs-accent)" />
             </span>
             {summary ? (
-              <span className="mt-1 block truncate text-xs leading-5 text-[var(--obs-muted)]">{summary}</span>
+              <span className="mt-1 block truncate text-xs leading-5 text-(--obs-muted)">{summary}</span>
             ) : null}
           </span>
         </span>
@@ -257,7 +257,7 @@ function MobileAccordionHeader({
               {status}
             </span>
           ) : null}
-          <ChevronDown className={cn("mt-1 h-4 w-4 text-[var(--obs-muted-2)] transition-transform", open && "rotate-180")} />
+          <ChevronDown className={cn("mt-1 h-4 w-4 text-(--obs-muted-2) transition-transform", open && "rotate-180")} />
         </span>
       </button>
     </div>
@@ -278,13 +278,13 @@ function MobileStepFooter({
   helper,
 }: MobileStepFooterProps) {
   return (
-    <div className="mt-5 border-t border-[var(--obs-border)] pt-4 md:hidden">
+    <div className="mt-5 border-t border-(--obs-border) pt-4 md:hidden">
       {helper ? (
-        <p className="mb-3 text-xs leading-5 text-[var(--obs-muted)]">{helper}</p>
+        <p className="mb-3 text-xs leading-5 text-(--obs-muted)">{helper}</p>
       ) : null}
       <Button
         type="button"
-        className="h-11 w-full rounded-full bg-[var(--obs-accent)] text-sm font-semibold text-white hover:bg-[var(--obs-accent-strong)] disabled:border disabled:border-[var(--obs-border-strong)] disabled:bg-[var(--obs-control)] disabled:text-[var(--obs-muted-2)]"
+        className="h-11 w-full rounded-full bg-(--obs-accent) text-sm font-semibold text-white hover:bg-(--obs-accent-strong) disabled:border disabled:border-(--obs-border-strong) disabled:bg-(--obs-control) disabled:text-(--obs-muted-2)"
         onClick={onNext}
         disabled={disabled}
       >
@@ -297,7 +297,7 @@ function MobileStepFooter({
 
 function FieldLabel({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) {
   return (
-    <label htmlFor={htmlFor} className="text-sm font-medium text-[var(--obs-text)]">
+    <label htmlFor={htmlFor} className="text-sm font-medium text-(--obs-text)">
       {children}
     </label>
   )
@@ -309,12 +309,12 @@ function QualityRow({ done, label }: { done: boolean; label: string }) {
       <span
         className={cn(
           "grid h-5 w-5 shrink-0 place-items-center rounded-full border",
-          done ? "border-emerald-500 bg-[var(--obs-accent)] text-white" : "border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-muted-2)]",
+          done ? "border-emerald-500 bg-(--obs-accent) text-white" : "border-(--obs-border-strong) bg-(--obs-control) text-(--obs-muted-2)",
         )}
       >
         {done ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Circle className="h-2.5 w-2.5 fill-current" />}
       </span>
-      <span className={done ? "text-[var(--obs-text)]" : "text-[var(--obs-muted-2)]"}>{label}</span>
+      <span className={done ? "text-(--obs-text)" : "text-(--obs-muted-2)"}>{label}</span>
     </div>
   )
 }
@@ -1345,25 +1345,25 @@ export function ObservationSubmitForm({
         className={cn(
           "w-full rounded-xs border p-3 text-left transition",
           active
-            ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] [box-shadow:var(--obs-soft-shadow)]"
-            : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)]",
+            ? "border-(--obs-accent) bg-(--obs-accent-soft) [box-shadow:var(--obs-soft-shadow)]"
+            : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent) hover:bg-(--obs-control-hover)",
         )}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="truncate text-sm font-semibold text-[var(--obs-text)]">{candidate.commonName}</div>
-            <div className="mt-1 truncate text-xs italic text-[var(--obs-muted-2)]">
+            <div className="truncate text-sm font-semibold text-(--obs-text)">{candidate.commonName}</div>
+            <div className="mt-1 truncate text-xs italic text-(--obs-muted-2)">
               {candidate.scientificName || "候选物种"}
             </div>
           </div>
-          <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", active ? "bg-[var(--obs-accent)] text-white" : "bg-[var(--obs-accent-panel)] text-[var(--obs-accent-text)]")}>
+          <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", active ? "bg-(--obs-accent) text-white" : "bg-(--obs-accent-panel) text-(--obs-accent-text)")}>
             {confidence}%
           </span>
         </div>
-        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--obs-border)]">
-          <div className="h-full rounded-full bg-[var(--obs-accent)]" style={{ width: `${confidence}%` }} />
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-(--obs-border)">
+          <div className="h-full rounded-full bg-(--obs-accent)" style={{ width: `${confidence}%` }} />
         </div>
-        <p className="mt-2 line-clamp-2 whitespace-normal break-words text-[13px] leading-6 text-[var(--obs-muted-2)]">
+        <p className="mt-2 line-clamp-2 whitespace-normal wrap-break-word text-[13px] leading-6 text-(--obs-muted-2)">
           {candidate.reason || "图片特征与该候选较接近"}
         </p>
       </button>
@@ -1376,49 +1376,49 @@ export function ObservationSubmitForm({
         <div
           role="status"
           aria-live="polite"
-          className="observation-submit-theme fixed inset-0 z-[70] grid place-items-center bg-black/45 px-6 backdrop-blur-sm"
+          className="observation-submit-theme fixed inset-0 z-70 grid place-items-center bg-black/45 px-6 backdrop-blur-xs"
         >
-          <div className="flex w-full max-w-sm flex-col items-center gap-5 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] px-8 py-10 text-center [box-shadow:var(--obs-panel-shadow)]">
+          <div className="flex w-full max-w-sm flex-col items-center gap-5 rounded-sm border border-(--obs-border) bg-(--obs-panel) px-8 py-10 text-center [box-shadow:var(--obs-panel-shadow)]">
             <div className="relative grid h-16 w-16 place-items-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-[var(--obs-accent-soft)]" />
-              <span className="relative grid h-16 w-16 place-items-center rounded-full bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
+              <span className="absolute inset-0 animate-ping rounded-full bg-(--obs-accent-soft)" />
+              <span className="relative grid h-16 w-16 place-items-center rounded-full bg-(--obs-accent-soft) text-(--obs-accent-text)">
                 <Loader2 className="h-8 w-8 animate-spin" />
               </span>
             </div>
             <div className="space-y-1.5">
-              <p className="text-lg font-semibold text-[var(--obs-text)]">小迪正在识别照片 🌿</p>
-              <p className="text-sm leading-6 text-[var(--obs-muted)]">
+              <p className="text-lg font-semibold text-(--obs-text)">小迪正在识别照片 🌿</p>
+              <p className="text-sm leading-6 text-(--obs-muted)">
                 正在分析图片质量并匹配候选物种，稍等一下就好～
               </p>
             </div>
             {analysisPendingCount > 0 ? (
-              <p className="text-xs text-[var(--obs-muted-2)]">还剩 {analysisPendingCount} 张待识别</p>
+              <p className="text-xs text-(--obs-muted-2)">还剩 {analysisPendingCount} 张待识别</p>
             ) : null}
           </div>
         </div>
       ) : null}
 
       <form onSubmit={handleSubmit} className="observation-submit-theme relative pb-36 md:pb-10">
-        <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:inset-x-[-2rem]" />
+        <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:-inset-x-8" />
 
-        <div className="sticky top-[calc(var(--mobile-global-header-height,0rem)+env(safe-area-inset-top))] z-30 mb-4 rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-panel)] px-3 py-2.5 shadow-[0_12px_30px_-26px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
+        <div className="sticky top-[calc(var(--mobile-global-header-height,0rem)+env(safe-area-inset-top))] z-30 mb-4 rounded-sm border border-(--obs-border) bg-(--obs-panel) px-3 py-2.5 shadow-[0_12px_30px_-26px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
           <div className="flex items-center justify-between gap-3 text-[13px]">
-            <span className="font-semibold text-[var(--obs-text)]">发布准备 {requiredReadyCount}/{requiredChecks.length}</span>
+            <span className="font-semibold text-(--obs-text)">发布准备 {requiredReadyCount}/{requiredChecks.length}</span>
             {submitBlocker ? (
               <button
                 type="button"
                 onClick={() => guideToSubmitBlocker(submitBlocker)}
-                className="text-xs font-semibold text-[var(--obs-accent-text)] underline decoration-[var(--obs-accent)]/35 underline-offset-4"
+                className="text-xs font-semibold text-(--obs-accent-text) underline decoration-(--obs-accent)/35 underline-offset-4"
               >
                 还差{submitMissingLabel}
               </button>
             ) : (
-              <span className="text-xs font-semibold text-[var(--obs-accent-text)]">可以发布</span>
+              <span className="text-xs font-semibold text-(--obs-accent-text)">可以发布</span>
             )}
           </div>
-          <div className="mt-2 h-1 overflow-hidden rounded-full bg-[var(--obs-border)]">
+          <div className="mt-2 h-1 overflow-hidden rounded-full bg-(--obs-border)">
             <div
-              className="h-full rounded-full bg-[var(--obs-accent)] transition-[width] duration-500"
+              className="h-full rounded-full bg-(--obs-accent) transition-[width] duration-500"
               style={{ width: `${requiredReadyValue}%` }}
             />
           </div>
@@ -1448,7 +1448,7 @@ export function ObservationSubmitForm({
                 onToggle={() => toggleMobilePanel("photo")}
               />
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("photo"))}>
-                <p className="mb-3 text-sm leading-6 text-[var(--obs-muted)]">
+                <p className="mb-3 text-sm leading-6 text-(--obs-muted)">
                   每条记录只对应一个观察对象；上传多张照片时，请确保都是同一个观察对象。
                 </p>
                 <ObservationSubmitPhotoSection
@@ -1527,11 +1527,11 @@ export function ObservationSubmitForm({
               {suggestedCandidates.length > 0 ? (
                 <div className={cn(subtlePanelClass, "mb-4 space-y-3")}>
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                      <Info className="h-4 w-4 text-[var(--obs-accent)]" />
+                    <div className="flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                      <Info className="h-4 w-4 text-(--obs-accent)" />
                       AI 鉴定候选
                     </div>
-                    <span className="text-xs text-[var(--obs-muted-2)]">置信度仅供参考</span>
+                    <span className="text-xs text-(--obs-muted-2)">置信度仅供参考</span>
                   </div>
                   <div className="space-y-3 md:hidden">
                     {renderCandidateButton(suggestedCandidates[0])}
@@ -1539,7 +1539,7 @@ export function ObservationSubmitForm({
                       <Button
                         type="button"
                         variant="outline"
-                        className="h-10 w-full rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+                        className="h-10 w-full rounded-full border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
                         onClick={() => setSpeciesSheetOpen(true)}
                       >
                         查看更多候选
@@ -1551,14 +1551,14 @@ export function ObservationSubmitForm({
                   </div>
                 </div>
               ) : analysisReady ? (
-                <div className="mb-4 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-4 py-3 text-sm text-[var(--obs-muted)]">
+                <div className="mb-4 rounded-xs border border-(--obs-border) bg-(--obs-control) px-4 py-3 text-sm text-(--obs-muted)">
                   当前图片没有匹配到可靠的物种候选。你仍可手动提交鉴定，或发布为待鉴定。
                 </div>
               ) : null}
 
               <div className="space-y-3">
                 <div className="relative">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--obs-muted-2)]" />
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--obs-muted-2)" />
                   <Input
                     value={speciesQuery}
                     onChange={(event) => {
@@ -1572,12 +1572,12 @@ export function ObservationSubmitForm({
                     className={cn(controlClass, "pl-10 pr-10")}
                   />
                   {isSearchingSpecies ? (
-                    <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[var(--obs-muted-2)]" />
+                    <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-(--obs-muted-2)" />
                   ) : null}
                 </div>
 
                 {!speciesStepLocked && shouldShowSpeciesResults ? (
-                  <div className="overflow-hidden rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)]">
+                  <div className="overflow-hidden rounded-xs border border-(--obs-border) bg-(--obs-control)">
                     {speciesResults
                       .slice(0, 6)
                       .filter((option) => !selectedSpecies || speciesQuery.trim().length > 0 || option.id !== selectedSpecies.id)
@@ -1591,36 +1591,36 @@ export function ObservationSubmitForm({
                             type="button"
                             onClick={() => handleSpeciesSelect(option)}
                             className={cn(
-                              "flex w-full items-center justify-between gap-3 border-b border-[var(--obs-border)] px-4 py-3 text-left transition last:border-b-0 hover:bg-[var(--obs-control-hover)]",
-                              isSelected && "bg-[var(--obs-accent-soft)] ring-1 ring-inset ring-[var(--obs-focus)]",
+                              "flex w-full items-center justify-between gap-3 border-b border-(--obs-border) px-4 py-3 text-left transition last:border-b-0 hover:bg-(--obs-control-hover)",
+                              isSelected && "bg-(--obs-accent-soft) ring-1 ring-inset ring-(--obs-focus)",
                             )}
                           >
                             <div className="min-w-0">
                               <div className="flex flex-wrap items-center gap-2">
-                                <div className="truncate text-sm font-semibold text-[var(--obs-text)]">{option.commonName}</div>
+                                <div className="truncate text-sm font-semibold text-(--obs-text)">{option.commonName}</div>
                                 {aiCandidate ? (
-                                  <Badge variant="outline" className="border-[var(--obs-accent)] bg-[var(--obs-accent-panel)] text-[var(--obs-accent-text)]">
+                                  <Badge variant="outline" className="border-(--obs-accent) bg-(--obs-accent-panel) text-(--obs-accent-text)">
                                     AI 鉴定 {Math.round(aiCandidate.confidence * 100)}%
                                   </Badge>
                                 ) : null}
                               </div>
                               {option.scientificName ? (
-                                <div className="mt-0.5 truncate text-xs italic text-[var(--obs-muted-2)]">{option.scientificName}</div>
+                                <div className="mt-0.5 truncate text-xs italic text-(--obs-muted-2)">{option.scientificName}</div>
                               ) : null}
                             </div>
                             {isSelected ? (
-                              <span className="rounded-full bg-[var(--obs-accent)] px-2.5 py-1 text-xs font-medium text-white">
+                              <span className="rounded-full bg-(--obs-accent) px-2.5 py-1 text-xs font-medium text-white">
                                 我的鉴定
                               </span>
                             ) : (
-                              <ChevronRight className="h-4 w-4 shrink-0 text-[var(--obs-muted-2)]" />
+                              <ChevronRight className="h-4 w-4 shrink-0 text-(--obs-muted-2)" />
                             )}
                           </button>
                         )
                       })}
                   </div>
                 ) : !speciesStepLocked ? (
-                  <div className="rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-4 py-3 text-sm text-[var(--obs-muted)]">
+                  <div className="rounded-xs border border-(--obs-border) bg-(--obs-control) px-4 py-3 text-sm text-(--obs-muted)">
                     可以直接发布为待鉴定；如要提交自己的鉴定，请在上方搜索物种。
                   </div>
                 ) : null}
@@ -1628,7 +1628,7 @@ export function ObservationSubmitForm({
                 {selectedSpecies ? (
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <label className="flex flex-col gap-1.5 text-sm">
-                      <span className="text-xs font-medium text-[var(--obs-muted)]">生命阶段（可选）</span>
+                      <span className="text-xs font-medium text-(--obs-muted)">生命阶段（可选）</span>
                       <select
                         value={lifecycleStage}
                         onChange={(event) => setLifecycleStage(event.target.value as typeof lifecycleStage)}
@@ -1643,7 +1643,7 @@ export function ObservationSubmitForm({
                       </select>
                     </label>
                     <label className="flex flex-col gap-1.5 text-sm">
-                      <span className="text-xs font-medium text-[var(--obs-muted)]">性别（可选）</span>
+                      <span className="text-xs font-medium text-(--obs-muted)">性别（可选）</span>
                       <select
                         value={sex}
                         onChange={(event) => setSex(event.target.value as typeof sex)}
@@ -1660,13 +1660,13 @@ export function ObservationSubmitForm({
                   </div>
                 ) : null}
 
-                <div className="mt-5 border-t border-[var(--obs-border)] pt-5">
+                <div className="mt-5 border-t border-(--obs-border) pt-5">
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <FieldLabel htmlFor="observationNotes">观察描述</FieldLabel>
                     <button
                       type="button"
                       onClick={() => setTipsSheetOpen(true)}
-                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 text-xs font-medium text-[var(--obs-muted)] md:hidden"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-(--obs-border) bg-(--obs-control) px-3 text-xs font-medium text-(--obs-muted) md:hidden"
                     >
                       <HelpCircle className="h-3.5 w-3.5" />
                       小贴士
@@ -1682,14 +1682,14 @@ export function ObservationSubmitForm({
                     className={textareaClass}
                   />
                   {aiNoteSuggestion ? (
-                    <div className="mt-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-accent-soft)] p-3">
+                    <div className="mt-3 rounded-xs border border-(--obs-border) bg-(--obs-accent-soft) p-3">
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                            <Sparkles className="h-4 w-4 text-[var(--obs-accent)]" />
+                          <div className="flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                            <Sparkles className="h-4 w-4 text-(--obs-accent)" />
                             AI 描述建议
                           </div>
-                          <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-[var(--obs-muted)]">
+                          <p className="mt-2 whitespace-pre-wrap wrap-break-word text-sm leading-6 text-(--obs-muted)">
                             {aiNoteSuggestion}
                           </p>
                         </div>
@@ -1697,7 +1697,7 @@ export function ObservationSubmitForm({
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-9 shrink-0 rounded-full border-[var(--obs-accent)] bg-[var(--obs-control)] px-3 text-[var(--obs-accent-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-accent-text)]"
+                          className="h-9 shrink-0 rounded-full border-(--obs-accent) bg-(--obs-control) px-3 text-(--obs-accent-text) hover:bg-(--obs-control-hover) hover:text-(--obs-accent-text)"
                           onClick={handleApplyAiNoteSuggestion}
                         >
                           {aiNoteActionLabel}
@@ -1705,7 +1705,7 @@ export function ObservationSubmitForm({
                       </div>
                     </div>
                   ) : null}
-                  <div className="mt-2 flex justify-end text-xs text-[var(--obs-muted-2)]">
+                  <div className="mt-2 flex justify-end text-xs text-(--obs-muted-2)">
                     {noteLength}/{NOTE_MAX_LENGTH}
                   </div>
 
@@ -1714,28 +1714,28 @@ export function ObservationSubmitForm({
                     role="switch"
                     aria-checked={isPublic}
                     onClick={() => setIsPublic((current) => !current)}
-                    className="mt-4 flex w-full items-center gap-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 py-3 text-left md:hidden"
+                    className="mt-4 flex w-full items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-left md:hidden"
                   >
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
                       {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-[var(--obs-text)]">
+                      <span className="block truncate text-sm font-semibold text-(--obs-text)">
                         {isPublic ? "公开记录（含准确位置）" : "仅自己可见"}
                       </span>
-                      <span className="mt-0.5 block truncate text-xs text-[var(--obs-muted)]">
+                      <span className="mt-0.5 block truncate text-xs text-(--obs-muted)">
                         {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
                       </span>
                     </span>
                     <span
                       className={cn(
                         "relative h-7 w-12 shrink-0 rounded-full border transition",
-                        isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent)]" : "border-[var(--obs-border-strong)] bg-[var(--obs-subtle)]",
+                        isPublic ? "border-(--obs-accent) bg-(--obs-accent)" : "border-(--obs-border-strong) bg-(--obs-subtle)",
                       )}
                     >
                       <span
                         className={cn(
-                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
+                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-xs transition-transform",
                           isPublic ? "translate-x-6" : "translate-x-1",
                         )}
                       />
@@ -1748,13 +1748,13 @@ export function ObservationSubmitForm({
                       onClick={() => setIsPublic(true)}
                       className={cn(
                         "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
+                        isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
                       )}
                     >
-                      <Globe2 className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
+                      <Globe2 className="h-5 w-5 shrink-0 text-(--obs-accent)" />
                       <span>
-                        <span className="block text-sm font-semibold text-[var(--obs-text)]">公开</span>
-                        <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">所有人可见</span>
+                        <span className="block text-sm font-semibold text-(--obs-text)">公开</span>
+                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">所有人可见</span>
                       </span>
                     </button>
                     <button
@@ -1762,13 +1762,13 @@ export function ObservationSubmitForm({
                       onClick={() => setIsPublic(false)}
                       className={cn(
                         "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        !isPublic ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]" : "border-[var(--obs-border)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)]",
+                        !isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
                       )}
                     >
-                      <ShieldCheck className="h-5 w-5 shrink-0 text-[var(--obs-accent)]" />
+                      <ShieldCheck className="h-5 w-5 shrink-0 text-(--obs-accent)" />
                       <span>
-                        <span className="block text-sm font-semibold text-[var(--obs-text)]">仅自己</span>
-                        <span className="mt-0.5 block text-xs text-[var(--obs-muted-2)]">保存在个人记录</span>
+                        <span className="block text-sm font-semibold text-(--obs-text)">仅自己</span>
+                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">保存在个人记录</span>
                       </span>
                     </button>
                   </div>
@@ -1818,7 +1818,7 @@ export function ObservationSubmitForm({
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedDate">观察日期</FieldLabel>
                       <div className="relative">
-                        <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--obs-muted-2)]" />
+                        <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--obs-muted-2)" />
                         <Input
                           id="observedDate"
                           type="date"
@@ -1827,12 +1827,12 @@ export function ObservationSubmitForm({
                           className={cn(controlClass, "pl-10")}
                         />
                       </div>
-                      {observedAtSource === "photo_exif" ? <p className="text-xs text-[var(--obs-accent-text)]">来自照片拍摄信息</p> : null}
+                      {observedAtSource === "photo_exif" ? <p className="text-xs text-(--obs-accent-text)">来自照片拍摄信息</p> : null}
                     </div>
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedTime">观察时间</FieldLabel>
                       <div className="relative">
-                        <Clock3 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--obs-muted-2)]" />
+                        <Clock3 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--obs-muted-2)" />
                         <Input
                           id="observedTime"
                           type="time"
@@ -1847,7 +1847,7 @@ export function ObservationSubmitForm({
                   <div className="space-y-2">
                     <FieldLabel htmlFor="locationName">观察地点</FieldLabel>
                     <div className="relative">
-                      <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--obs-muted-2)]" />
+                      <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--obs-muted-2)" />
                       <Input
                         id="locationName"
                         value={locationName}
@@ -1855,19 +1855,19 @@ export function ObservationSubmitForm({
                         placeholder="输入地点后从搜索结果选择"
                         className={cn(controlClass, "pl-10 pr-10")}
                       />
-                      {isSearchingPlaces ? <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[var(--obs-muted-2)]" /> : null}
+                      {isSearchingPlaces ? <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-(--obs-muted-2)" /> : null}
                     </div>
                     {placeResults.length > 0 ? (
-                      <div className="overflow-hidden rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)]">
+                      <div className="overflow-hidden rounded-xs border border-(--obs-border) bg-(--obs-control)">
                         {placeResults.map((place) => (
                           <button
                             key={place.id}
                             type="button"
                             onClick={() => handlePlaceSelect(place)}
-                            className="block w-full border-b border-[var(--obs-border)] px-3 py-2 text-left last:border-b-0 hover:bg-[var(--obs-control-hover)]"
+                            className="block w-full border-b border-(--obs-border) px-3 py-2 text-left last:border-b-0 hover:bg-(--obs-control-hover)"
                           >
-                            <span className="block text-sm font-medium text-[var(--obs-text)]">{place.name}</span>
-                            <span className="block truncate text-xs text-[var(--obs-muted)]">{place.address}</span>
+                            <span className="block text-sm font-medium text-(--obs-text)">{place.name}</span>
+                            <span className="block truncate text-xs text-(--obs-muted)">{place.address}</span>
                           </button>
                         ))}
                       </div>
@@ -1885,33 +1885,33 @@ export function ObservationSubmitForm({
                       aria-checked={locationDisclosureConfirmed}
                       onClick={() => setLocationDisclosureConfirmed((current) => !current)}
                       className={cn(
-                        "flex w-full items-start gap-3 rounded-[var(--radius-sm)] border px-3 py-3 text-left transition",
+                        "flex w-full items-start gap-3 rounded-sm border px-3 py-3 text-left transition",
                         locationDisclosureConfirmed
-                          ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)]"
-                          : "border-[var(--obs-border-strong)] bg-[var(--obs-control)] hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)]",
+                          ? "border-(--obs-accent) bg-(--obs-accent-soft)"
+                          : "border-(--obs-border-strong) bg-(--obs-control) hover:border-(--obs-accent) hover:bg-(--obs-control-hover)",
                       )}
                     >
                       <span
                         className={cn(
                           "mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border",
                           locationDisclosureConfirmed
-                            ? "border-[var(--obs-accent)] bg-[var(--obs-accent)] text-white"
-                            : "border-[var(--obs-border-strong)] bg-[var(--obs-panel)] text-[var(--obs-muted-2)]",
+                            ? "border-(--obs-accent) bg-(--obs-accent) text-white"
+                            : "border-(--obs-border-strong) bg-(--obs-panel) text-(--obs-muted-2)",
                         )}
                       >
                         {locationDisclosureConfirmed ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-2.5 w-2.5 fill-current" />}
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-sm font-semibold text-[var(--obs-text)]">
+                        <span className="block text-sm font-semibold text-(--obs-text)">
                           我了解公开记录会展示准确位置
                         </span>
-                        <span className="mt-1 block text-xs leading-5 text-[var(--obs-muted)]">
+                        <span className="mt-1 block text-xs leading-5 text-(--obs-muted)">
                           如果不想公开准确位置，可以在“鉴定与描述”里改为仅自己可见。
                         </span>
                       </span>
                     </button>
                   ) : (
-                    <div className="rounded-[var(--radius-sm)] border border-[var(--obs-border)] bg-[var(--obs-control)] px-3 py-3 text-xs leading-5 text-[var(--obs-muted)]">
+                    <div className="rounded-sm border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-xs leading-5 text-(--obs-muted)">
                       当前记录仅自己可见，不会进入公开观察流。
                     </div>
                   )}
@@ -1919,24 +1919,24 @@ export function ObservationSubmitForm({
                   <button
                     type="button"
                     onClick={() => setLocationSheetOpen(true)}
-                    className="flex w-full items-center gap-3 rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)] p-3 text-left transition hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] md:hidden"
+                    className="flex w-full items-center gap-3 rounded-xs border border-(--obs-border-strong) bg-(--obs-control) p-3 text-left transition hover:border-(--obs-accent) hover:bg-(--obs-control-hover) md:hidden"
                   >
-                    <span className="grid h-14 w-16 shrink-0 place-items-center overflow-hidden rounded-xs border border-[var(--obs-border)] [background:var(--obs-map-bg)] text-[var(--obs-accent)]">
+                    <span className="grid h-14 w-16 shrink-0 place-items-center overflow-hidden rounded-xs border border-(--obs-border) [background:var(--obs-map-bg)] text-(--obs-accent)">
                       <MapPin className="h-6 w-6" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-[var(--obs-text)]">{mobileMapTitle}</span>
-                      <span className="mt-1 block truncate text-xs text-[var(--obs-muted)]">
+                      <span className="block truncate text-sm font-semibold text-(--obs-text)">{mobileMapTitle}</span>
+                      <span className="mt-1 block truncate text-xs text-(--obs-muted)">
                         {mobileMapDescription}
                       </span>
                     </span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-[var(--obs-muted-2)]" />
+                    <ChevronRight className="h-4 w-4 shrink-0 text-(--obs-muted-2)" />
                   </button>
 
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-11 w-full rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)] md:hidden"
+                    className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text) md:hidden"
                     onClick={() => void tryLocate(true)}
                     disabled={isLocating}
                   >
@@ -1960,12 +1960,12 @@ export function ObservationSubmitForm({
                     longitude={longitude}
                     onChange={handleMapChange}
                     onLocationNameSuggestion={handleLocationNameSuggestion}
-                    mapClassName="nature-mini-map h-52 rounded-xs border-[var(--obs-border-strong)] [background:var(--obs-map-bg)] sm:h-64 lg:h-[312px]"
+                    mapClassName="nature-mini-map h-52 rounded-xs border-(--obs-border-strong) [background:var(--obs-map-bg)] sm:h-64 lg:h-[312px]"
                   />
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-11 w-full rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
+                    className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
                     onClick={() => void tryLocate(true)}
                     disabled={isLocating}
                   >
@@ -1998,11 +1998,11 @@ export function ObservationSubmitForm({
               </div>
             </section>
 
-            <div className="hidden items-center gap-3 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-subtle)] p-3 md:flex">
+            <div className="hidden items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-subtle) p-3 md:flex">
               <Button
                 type="submit"
                 disabled={isSubmitting || isAnalyzingImages || !canSubmit}
-                className="h-12 flex-1 rounded-full bg-[var(--obs-accent)] text-base font-semibold text-white hover:bg-[var(--obs-accent-strong)]"
+                className="h-12 flex-1 rounded-full bg-(--obs-accent) text-base font-semibold text-white hover:bg-(--obs-accent-strong)"
               >
                 {isSubmitting ? (
                   <>
@@ -2019,7 +2019,7 @@ export function ObservationSubmitForm({
               <Button
                 type="button"
                 variant="outline"
-                className="h-12 rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-8 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+                className="h-12 rounded-full border-(--obs-border-strong) bg-(--obs-control) px-8 text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
                 onClick={handleSaveDraft}
               >
                 <Save className="mr-2 h-4 w-4" />
@@ -2030,38 +2030,38 @@ export function ObservationSubmitForm({
 
           <aside className="hidden min-w-0 space-y-4 md:block xl:sticky xl:top-24 xl:self-start">
             <section className={panelClass}>
-              <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                <Eye className="h-4 w-4 text-[var(--obs-accent)]" />
+              <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                <Eye className="h-4 w-4 text-(--obs-accent)" />
                 观察预览
               </div>
               <div className="grid gap-4 sm:grid-cols-[176px_minmax(0,1fr)] xl:grid-cols-1">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)]">
+                <div className="relative aspect-4/3 overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control)">
                   {previewImage ? (
                     <OptimizedImage src={previewImage} alt="观察预览" fill variant="cover" className="object-cover" />
                   ) : (
-                    <div className="grid h-full place-items-center [background:var(--obs-photo-bg)] text-[var(--obs-muted-2)]">
+                    <div className="grid h-full place-items-center [background:var(--obs-photo-bg)] text-(--obs-muted-2)">
                       <Camera className="h-9 w-9" />
                     </div>
                   )}
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate text-lg font-semibold text-[var(--obs-text)]">{previewSpeciesName}</h3>
-                  <p className="mt-1 truncate text-sm italic text-[var(--obs-muted)]">{previewScientificName}</p>
-                  <div className="mt-3 space-y-2 text-sm text-[var(--obs-muted)]">
+                  <h3 className="truncate text-lg font-semibold text-(--obs-text)">{previewSpeciesName}</h3>
+                  <p className="mt-1 truncate text-sm italic text-(--obs-muted)">{previewScientificName}</p>
+                  <div className="mt-3 space-y-2 text-sm text-(--obs-muted)">
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 shrink-0 text-[var(--obs-accent)]" />
+                      <MapPin className="h-4 w-4 shrink-0 text-(--obs-accent)" />
                       <span className="truncate">{locationName.trim() || "待填写地点"}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock3 className="h-4 w-4 shrink-0 text-[var(--obs-accent)]" />
+                      <Clock3 className="h-4 w-4 shrink-0 text-(--obs-accent)" />
                       <span>{formatObservedAt(observedAt)}</span>
                     </div>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <Badge variant="outline" className="border-[var(--obs-accent)] bg-[var(--obs-accent-panel)] text-[var(--obs-accent-text)]">
+                    <Badge variant="outline" className="border-(--obs-accent) bg-(--obs-accent-panel) text-(--obs-accent-text)">
                       {precisionLabel}
                     </Badge>
-                    <Badge variant="outline" className="border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-muted)]">
+                    <Badge variant="outline" className="border-(--obs-border-strong) bg-(--obs-control) text-(--obs-muted)">
                       {visibilityLabel}
                     </Badge>
                   </div>
@@ -2070,25 +2070,25 @@ export function ObservationSubmitForm({
             </section>
 
             <section className={panelClass}>
-              <div className="flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
+              <div className="flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
                 <Gift className="h-4 w-4 text-amber-500 dark:text-amber-300" />
                 观察家进度
               </div>
-              <div className="mt-4 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] p-4">
+              <div className="mt-4 rounded-xs border border-(--obs-border) bg-(--obs-control) p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-[var(--obs-text)]">
+                    <p className="text-sm font-semibold text-(--obs-text)">
                       {observerProgressKnown ? `${displayedObservationCount} / ${nextObserverThreshold} 条` : "同步中"}
                     </p>
-                    <p className="mt-1 text-xs text-[var(--obs-muted-2)]">审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
+                    <p className="mt-1 text-xs text-(--obs-muted-2)">审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
                   </div>
-                  <span className="grid h-12 w-12 place-items-center rounded-xs bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]">
+                  <span className="grid h-12 w-12 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
                     <Sparkles className="h-6 w-6" />
                   </span>
                 </div>
-                <div className="mt-4 h-2 overflow-hidden rounded-full bg-[var(--obs-border)]">
+                <div className="mt-4 h-2 overflow-hidden rounded-full bg-(--obs-border)">
                   <div
-                    className="h-full rounded-full bg-[var(--obs-accent)] transition-[width] duration-500"
+                    className="h-full rounded-full bg-(--obs-accent) transition-[width] duration-500"
                     style={{ width: `${observerProgressKnown ? observerProgressValue : 0}%` }}
                   />
                 </div>
@@ -2102,10 +2102,10 @@ export function ObservationSubmitForm({
                         className={cn(
                           "inline-flex h-8 min-w-8 items-center justify-center rounded-full border px-2 text-xs font-semibold tabular-nums",
                           done
-                            ? "border-emerald-500 bg-[var(--obs-accent)] text-white"
+                            ? "border-emerald-500 bg-(--obs-accent) text-white"
                             : current
-                              ? "border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)]"
-                              : "border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-muted-2)]",
+                              ? "border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text)"
+                              : "border-(--obs-border-strong) bg-(--obs-control) text-(--obs-muted-2)",
                         )}
                       >
                         {done ? <CheckCircle2 className="h-4 w-4" /> : threshold}
@@ -2117,11 +2117,11 @@ export function ObservationSubmitForm({
             </section>
 
             <section className={panelClass}>
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                <Target className="h-4 w-4 text-[var(--obs-accent)]" />
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                <Target className="h-4 w-4 text-(--obs-accent)" />
                 野外观察小贴士
               </div>
-              <ul className="space-y-2 text-sm leading-6 text-[var(--obs-muted)]">
+              <ul className="space-y-2 text-sm leading-6 text-(--obs-muted)">
                 <li>尽量在自然光下拍摄，保持画面清晰。</li>
                 <li>拍摄时包含多个角度，如整体、特征部位。</li>
                 <li>记录生境环境，如水域、树林、草地等。</li>
@@ -2130,8 +2130,8 @@ export function ObservationSubmitForm({
             </section>
 
             <section className={panelClass}>
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--obs-text)]">
-                <ClipboardCheck className="h-4 w-4 text-[var(--obs-accent)]" />
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                <ClipboardCheck className="h-4 w-4 text-(--obs-accent)" />
                 数据质量检查
               </div>
               <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
@@ -2143,12 +2143,12 @@ export function ObservationSubmitForm({
           </aside>
         </div>
 
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--obs-border)] bg-[var(--obs-panel)] px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-16px_42px_-34px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-(--obs-border) bg-(--obs-panel) px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-16px_42px_-34px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
           <div className="mx-auto flex w-full max-w-md gap-2">
             <Button
               type="button"
               variant="outline"
-              className="h-12 w-12 shrink-0 rounded-full border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-0 text-[var(--obs-text)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)]"
+              className="h-12 w-12 shrink-0 rounded-full border-(--obs-border-strong) bg-(--obs-control) px-0 text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
               onClick={handleSaveDraft}
               aria-label="保存草稿"
             >
@@ -2161,7 +2161,7 @@ export function ObservationSubmitForm({
               className={cn(
                 "h-12 min-w-0 flex-1 rounded-full text-sm font-semibold transition-colors min-[390px]:text-base",
                 mobileSubmitReady
-                  ? "bg-[var(--obs-accent)] text-[#f7fff8] [box-shadow:var(--obs-soft-shadow)] hover:bg-[var(--obs-accent-strong)]"
+                  ? "bg-(--obs-accent) text-[#f7fff8] [box-shadow:var(--obs-soft-shadow)] hover:bg-(--obs-accent-strong)"
                   : "border border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-100 hover:text-gray-500 dark:border-[#37424a] dark:bg-[#252e35] dark:text-[#aeb8b5] dark:hover:bg-[#252e35] dark:hover:text-[#aeb8b5]",
               )}
             >
@@ -2184,11 +2184,11 @@ export function ObservationSubmitForm({
       <Sheet open={speciesSheetOpen} onOpenChange={setSpeciesSheetOpen}>
         <SheetContent
           side="bottom"
-          className="observation-submit-theme max-h-[72dvh] overflow-y-auto rounded-t-md border-[var(--obs-border)] px-4 pb-6 pt-5 [background:var(--obs-panel)]"
+          className="observation-submit-theme max-h-[72dvh] overflow-y-auto rounded-t-md border-(--obs-border) px-4 pb-6 pt-5 [background:var(--obs-panel)]"
         >
           <SheetHeader className="mb-4 pr-8 text-left">
-            <SheetTitle className="text-[var(--obs-text)]">AI 候选物种</SheetTitle>
-            <SheetDescription className="text-[var(--obs-muted)]">
+            <SheetTitle className="text-(--obs-text)">AI 候选物种</SheetTitle>
+            <SheetDescription className="text-(--obs-muted)">
               选择最接近照片特征的候选，也可以回到表单手动搜索。
             </SheetDescription>
           </SheetHeader>
@@ -2201,11 +2201,11 @@ export function ObservationSubmitForm({
       <Sheet open={locationSheetOpen} onOpenChange={setLocationSheetOpen}>
         <SheetContent
           side="bottom"
-          className="observation-submit-theme flex h-[82dvh] max-h-[760px] flex-col rounded-t-md border-[var(--obs-border)] p-0 [background:var(--obs-panel)]"
+          className="observation-submit-theme flex h-[82dvh] max-h-[760px] flex-col rounded-t-md border-(--obs-border) p-0 [background:var(--obs-panel)]"
         >
           <SheetHeader className="shrink-0 px-4 pb-3 pr-12 pt-5 text-left">
-            <SheetTitle className="text-[var(--obs-text)]">地图选点</SheetTitle>
-            <SheetDescription className="text-[var(--obs-muted)]">
+            <SheetTitle className="text-(--obs-text)">地图选点</SheetTitle>
+            <SheetDescription className="text-(--obs-muted)">
               拖动标记或点击地图，确认观察发生的位置。
             </SheetDescription>
           </SheetHeader>
@@ -2215,21 +2215,21 @@ export function ObservationSubmitForm({
               longitude={longitude}
               onChange={handleMapChange}
               onLocationNameSuggestion={handleLocationNameSuggestion}
-              mapClassName="nature-mini-map h-[34dvh] min-h-[220px] max-h-[320px] rounded-xs border-[var(--obs-border-strong)] [background:var(--obs-map-bg)]"
+              mapClassName="nature-mini-map h-[34dvh] min-h-[220px] max-h-[320px] rounded-xs border-(--obs-border-strong) [background:var(--obs-map-bg)]"
             />
             <div className="mt-4 rounded-xs border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
               公开记录会展示你确认的准确位置。请只选择适合公开的位置。
             </div>
-            <div className="mt-4 rounded-xs border border-[var(--obs-border)] bg-[var(--obs-control)] p-3 text-xs leading-5 text-[var(--obs-muted)]">
-              <div className="truncate font-medium text-[var(--obs-text)]">{locationName.trim() || "地点名称待填写"}</div>
+            <div className="mt-4 rounded-xs border border-(--obs-border) bg-(--obs-control) p-3 text-xs leading-5 text-(--obs-muted)">
+              <div className="truncate font-medium text-(--obs-text)">{locationName.trim() || "地点名称待填写"}</div>
               <div className="mt-1 truncate">{latitude && longitude ? `地图位置已保存 · ${precisionLabel}` : "尚未确认地图位置"}</div>
             </div>
           </div>
-          <SheetFooter className="shrink-0 flex-row gap-2 border-t border-[var(--obs-border)] p-4 [background:var(--obs-panel)]">
+          <SheetFooter className="shrink-0 flex-row gap-2 border-t border-(--obs-border) p-4 [background:var(--obs-panel)]">
             <Button
               type="button"
               variant="outline"
-              className="h-11 flex-1 rounded-full border-[var(--obs-accent)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] hover:bg-[var(--obs-accent-panel)] hover:text-[var(--obs-accent-text)]"
+              className="h-11 flex-1 rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
               onClick={() => void tryLocate(true)}
               disabled={isLocating}
             >
@@ -2238,7 +2238,7 @@ export function ObservationSubmitForm({
             </Button>
             <Button
               type="button"
-              className="h-11 flex-1 rounded-full bg-[var(--obs-accent)] text-white hover:bg-[var(--obs-accent-strong)]"
+              className="h-11 flex-1 rounded-full bg-(--obs-accent) text-white hover:bg-(--obs-accent-strong)"
               onClick={() => setLocationSheetOpen(false)}
             >
               完成
@@ -2250,12 +2250,12 @@ export function ObservationSubmitForm({
       <Sheet open={tipsSheetOpen} onOpenChange={setTipsSheetOpen}>
         <SheetContent
           side="bottom"
-          className="observation-submit-theme rounded-t-md border-[var(--obs-border)] px-4 pb-6 pt-5 [background:var(--obs-panel)]"
+          className="observation-submit-theme rounded-t-md border-(--obs-border) px-4 pb-6 pt-5 [background:var(--obs-panel)]"
         >
           <SheetHeader className="mb-4 pr-8 text-left">
-            <SheetTitle className="text-[var(--obs-text)]">野外观察小贴士</SheetTitle>
+            <SheetTitle className="text-(--obs-text)">野外观察小贴士</SheetTitle>
           </SheetHeader>
-          <ul className="space-y-2 text-sm leading-6 text-[var(--obs-muted)]">
+          <ul className="space-y-2 text-sm leading-6 text-(--obs-muted)">
             <li>尽量在自然光下拍摄，保持画面清晰。</li>
             <li>拍摄时包含多个角度，如整体、特征部位。</li>
             <li>记录生境环境，如水域、树林、草地等。</li>

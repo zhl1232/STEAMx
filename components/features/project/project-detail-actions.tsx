@@ -219,7 +219,7 @@ export function ProjectDetailActions({
         <button
           type="button"
           onClick={handleShare}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[#26364c] transition-colors hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-foreground"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[#26364c] transition-colors hover:bg-muted/70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring dark:text-foreground"
           aria-label="分享项目"
         >
           <Share2 className="h-5 w-5" />
@@ -322,7 +322,7 @@ export function ProjectDetailActions({
             variant="outline"
             onClick={handleCollection}
             className={cn(
-              "h-12 w-[34%] min-w-[116px] shrink-0 rounded-sm border-[hsl(var(--surface-border-strong))] bg-background/86 px-3 text-sm font-semibold text-foreground shadow-sm shadow-[hsl(var(--surface-shadow)/0.08)]",
+              "h-12 w-[34%] min-w-[116px] shrink-0 rounded-sm border-[hsl(var(--surface-border-strong))] bg-background/86 px-3 text-sm font-semibold text-foreground shadow-xs shadow-[hsl(var(--surface-shadow)/0.08)]",
               collected && "border-[hsl(var(--brand-amber)/0.38)] text-[hsl(var(--brand-amber))]",
             )}
           >

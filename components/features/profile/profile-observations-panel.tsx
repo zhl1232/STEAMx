@@ -79,7 +79,7 @@ export function ProfileObservationsPanel({
             <Link
               key={item.topic}
               href={`/nature/species?topic=${item.topic}&status=unobserved`}
-              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/72 p-4 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
+              className="group flex flex-col justify-between overflow-hidden rounded-(--radius-lg) border border-border/70 bg-background/72 p-4 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
@@ -125,10 +125,10 @@ export function ProfileObservationsPanel({
         <Link
           key={observation.id}
           href={`/nature/observations/${observation.id}`}
-          className="surface-panel block overflow-hidden rounded-[var(--radius-lg)] p-4 transition-transform hover:-translate-y-0.5"
+          className="surface-panel block overflow-hidden rounded-(--radius-lg) p-4 transition-transform hover:-translate-y-0.5"
         >
           {observation.mediaUrls[0] ? (
-            <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-lg bg-muted">
+            <div className="relative mb-3 aspect-16/10 overflow-hidden rounded-lg bg-muted">
               <Image
                 src={observation.mediaUrls[0]}
                 alt="观察照片"

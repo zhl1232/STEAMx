@@ -605,7 +605,7 @@ function GomokuTrainingExercise({
             : "第一选已显示";
 
     return (
-        <section className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-card p-3 shadow-sm sm:p-4">
+        <section className="rounded-md border border-[hsl(var(--brand-blue)/0.2)] bg-card p-3 shadow-xs sm:p-4">
             <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                     <div className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--brand-blue))]">
@@ -633,7 +633,7 @@ function GomokuTrainingExercise({
             </div>
 
             <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,300px)_1fr] md:items-start">
-                <div className="surface-subtle rounded-[var(--radius-md)] p-3">
+                <div className="surface-subtle rounded-md p-3">
                     <GomokuBoard
                         blackStones={training.blackStones}
                         whiteStones={training.whiteStones}
@@ -651,7 +651,7 @@ function GomokuTrainingExercise({
                 </div>
 
                 <div className="space-y-3">
-                    <div className="rounded-[var(--radius-sm)] border border-border bg-background/70 p-3">
+                    <div className="rounded-sm border border-border bg-background/70 p-3">
                         <p className="text-xs font-bold text-muted-foreground">
                             {answered ? "复盘解释" : "读棋任务"}
                         </p>
@@ -669,7 +669,7 @@ function GomokuTrainingExercise({
                                 return (
                                     <li
                                         key={pointKey(move)}
-                                        className="flex gap-2 rounded-[var(--radius-sm)] bg-muted/45 p-2 text-xs leading-relaxed text-muted-foreground"
+                                        className="flex gap-2 rounded-sm bg-muted/45 p-2 text-xs leading-relaxed text-muted-foreground"
                                     >
                                         <span
                                             className={cn(
@@ -795,7 +795,7 @@ function GomokuStepVisual({
                 {structuredVisuals.map((visual, index) => (
                     <figure
                         key={`${visual.caption}-${index}`}
-                        className="surface-subtle flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-4"
+                        className="surface-subtle flex flex-col items-center gap-2 rounded-md p-4"
                     >
                         <GomokuBoard
                             blackStones={asStoneList(visual.blackStones)}
@@ -818,7 +818,7 @@ function GomokuStepVisual({
     const config = configs[Math.min(stepIndex, configs.length - 1)] ?? configs[0];
 
     return (
-        <figure className="surface-subtle flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-4">
+        <figure className="surface-subtle flex flex-col items-center gap-2 rounded-md p-4">
             <GomokuBoard
                 blackStones={config.black}
                 whiteStones={config.white}

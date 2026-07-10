@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const statusBadgeVariants = cva(
-  "inline-flex items-center rounded-[var(--radius-sm)] border px-2.5 py-0.5 text-xs font-semibold",
+  "inline-flex items-center rounded-sm border px-2.5 py-0.5 text-xs font-semibold",
   {
     variants: {
       status: {
@@ -39,7 +39,7 @@ export function StatusAlert({
     <div
       role="alert"
       className={cn(
-        "rounded-[var(--radius-md)] border px-4 py-3 text-sm",
+        "rounded-md border px-4 py-3 text-sm",
         status === "success" && "status-success-surface",
         status === "warning" && "status-warning-surface",
         status === "danger" && "status-danger-surface",

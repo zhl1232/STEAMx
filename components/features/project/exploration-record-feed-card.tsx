@@ -138,7 +138,7 @@ export function ExplorationRecordFeedCard({
           "transition-shadow duration-500",
           isNested
             ? "bg-transparent p-3.5"
-            : "surface-card rounded-[var(--radius-md)] p-3.5",
+            : "surface-card rounded-md p-3.5",
           highlighted &&
             (isNested
               ? "bg-[hsl(var(--brand-green)/0.06)] ring-1 ring-inset ring-[hsl(var(--brand-green)/0.35)]"
@@ -196,7 +196,7 @@ export function ExplorationRecordFeedCard({
 
         {images.length > 0 ? (
           <div className="relative mt-3">
-            <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden">
               {images.map((src, index) => (
                 <div
                   key={`${src}-${index}`}

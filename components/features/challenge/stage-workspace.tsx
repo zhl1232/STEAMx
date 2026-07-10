@@ -675,7 +675,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
       </div>
 
       {user ? (
-        <div className="space-y-3 rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--status-info-surface)/0.32)] p-3.5">
+        <div className="space-y-3 rounded-md border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--status-info-surface)/0.32)] p-3.5">
           <div className="flex items-start gap-2.5">
             <Target className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))]" />
             <div className="min-w-0 flex-1">
@@ -714,7 +714,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-start gap-2.5 rounded-[var(--radius-md)] border border-dashed border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-muted)/0.45)] p-3.5 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start gap-2.5 rounded-md border border-dashed border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-muted)/0.45)] p-3.5 sm:flex-row sm:items-center">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold">登录后保存你的项目方向</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">保存后，每个阶段会出现更贴合你目标的推进提示。</p>
@@ -761,7 +761,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                 stageCardRefs.current[index] = node
               }}
               className={cn(
-                "rounded-[var(--radius-md)] border bg-[hsl(var(--surface-muted)/0.5)] transition-colors animate-in fade-in slide-in-from-bottom-2 duration-300",
+                "rounded-md border bg-[hsl(var(--surface-muted)/0.5)] transition-colors animate-in fade-in slide-in-from-bottom-2 duration-300",
                 isOpen ? "border-[hsl(var(--brand-blue)/0.4)]" : "border-transparent",
                 isToolFocused && "border-[hsl(var(--brand-blue)/0.78)] bg-[hsl(var(--status-info-surface)/0.42)] shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.14)]",
               )}
@@ -773,7 +773,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
               >
                 <div
                   className={cn(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] text-[13px] font-bold tabular-nums",
+                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-[13px] font-bold tabular-nums",
                     status === "completed"
                       ? "bg-[hsl(var(--brand-green)/0.16)] text-[hsl(var(--brand-green))]"
                       : isOpen
@@ -814,7 +814,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                   <p className="text-sm leading-6 text-foreground/85">{stage.description}</p>
 
                   {stage.hint && (
-                    <details className="group rounded-[var(--radius-sm)] bg-[hsl(var(--brand-amber)/0.1)] px-3 py-2">
+                    <details className="group rounded-sm bg-[hsl(var(--brand-amber)/0.1)] px-3 py-2">
                       <summary className="flex cursor-pointer list-none items-center gap-1.5 text-[12px] font-medium text-[hsl(var(--brand-amber))]">
                         <Lightbulb className="h-3.5 w-3.5" />
                         看一个提示
@@ -824,7 +824,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                   )}
 
                   {personalStep && (
-                    <div className="space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.28)] p-3">
+                    <div className="space-y-2 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.28)] p-3">
                       <div className="flex items-center gap-1.5 text-xs font-semibold text-[hsl(var(--brand-blue))]">
                         <Sparkles className="h-3.5 w-3.5" />
                         个人化计划
@@ -838,7 +838,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                   )}
 
                   {!user ? (
-                    <div className="flex flex-col items-start gap-2.5 rounded-[var(--radius-sm)] bg-[hsl(var(--surface-raised)/0.7)] p-3.5">
+                    <div className="flex flex-col items-start gap-2.5 rounded-sm bg-[hsl(var(--surface-raised)/0.7)] p-3.5">
                       <p className="text-sm font-medium">登录后即可记录这一步的产出，并找 AI 导师答疑。</p>
                       <Button
                         type="button"
@@ -880,7 +880,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                       {stage.checklist && stage.checklist.length > 0 && (
                         <div
                           className={cn(
-                            "space-y-2 rounded-[var(--radius-sm)] bg-[hsl(var(--surface-raised)/0.7)] p-3 transition-shadow",
+                            "space-y-2 rounded-sm bg-[hsl(var(--surface-raised)/0.7)] p-3 transition-shadow",
                             focusChecklist && "shadow-[0_0_0_2px_hsl(var(--brand-blue)/0.22)]",
                           )}
                         >
@@ -910,7 +910,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
 
                       <div
                         className={cn(
-                          "space-y-2 rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--surface-raised)/0.58)] p-3 transition-shadow",
+                          "space-y-2 rounded-sm border border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--surface-raised)/0.58)] p-3 transition-shadow",
                           focusChecklist && "shadow-[0_0_0_2px_hsl(var(--brand-blue)/0.2)]",
                         )}
                       >
@@ -932,7 +932,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                                 type="button"
                                 onClick={() => void runCoachAction(index, item.action)}
                                 disabled={!isActive || Boolean(runningCoachAction)}
-                                className="rounded-[var(--radius-xs)] border border-[hsl(var(--surface-border)/0.72)] bg-background/72 px-2.5 py-2 text-left transition-colors hover:border-[hsl(var(--brand-blue)/0.42)] hover:bg-[hsl(var(--status-info-surface)/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+                                className="rounded-xs border border-[hsl(var(--surface-border)/0.72)] bg-background/72 px-2.5 py-2 text-left transition-colors hover:border-[hsl(var(--brand-blue)/0.42)] hover:bg-[hsl(var(--status-info-surface)/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
                               >
                                 <span className="flex items-center gap-1.5 text-[12px] font-semibold">
                                   {isRunning ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 text-[hsl(var(--brand-blue))]" />}
@@ -949,7 +949,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                               const result = actionResults[item.action]
                               if (!result) return null
                               return (
-                                <div key={item.action} className="rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface)/0.28)] p-2.5">
+                                <div key={item.action} className="rounded-xs bg-[hsl(var(--status-info-surface)/0.28)] p-2.5">
                                   <div className="flex flex-wrap items-center gap-2">
                                     <p className="text-[12px] font-semibold text-[hsl(var(--brand-blue))]">{result.title}</p>
                                     {result.generatedAt && (
@@ -1004,7 +1004,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                       {(draft.images.length > 0 || uploading.length > 0) && (
                         <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                           {draft.images.map((image, imageIndex) => (
-                            <div key={`${image}-${imageIndex}`} className="relative aspect-square overflow-hidden rounded-[var(--radius-xs)] bg-muted">
+                            <div key={`${image}-${imageIndex}`} className="relative aspect-square overflow-hidden rounded-xs bg-muted">
                               <OptimizedImage src={image} alt={`阶段图 ${imageIndex + 1}`} fill variant="thumbnail" className="object-cover" />
                               {isActive && (
                                 <button
@@ -1018,7 +1018,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                             </div>
                           ))}
                           {uploading.map((item) => (
-                            <div key={item.id} className="relative aspect-square overflow-hidden rounded-[var(--radius-xs)] bg-muted">
+                            <div key={item.id} className="relative aspect-square overflow-hidden rounded-xs bg-muted">
                               <OptimizedImage src={item.preview} alt="上传中" fill variant="thumbnail" className="object-cover opacity-70" />
                               {item.error ? (
                                 <div className="absolute inset-0 flex items-center justify-center bg-[hsl(var(--status-danger)/0.7)] px-1 text-center text-[11px] font-medium text-white">
@@ -1035,7 +1035,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                       )}
 
                       {saved?.aiFeedback && (
-                        <div className="space-y-3 rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.72)] p-3">
+                        <div className="space-y-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.72)] p-3">
                           <div className="flex flex-wrap items-center gap-2">
                             <div className="flex items-center gap-1.5 text-xs font-semibold text-[hsl(var(--brand-blue))]">
                               <Sparkles className="h-3.5 w-3.5" />
@@ -1105,7 +1105,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                             onClick={() => void reviewStage(index)}
                             disabled={reviewingIndex === index}
                             className={cn(
-                              "ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface))] disabled:cursor-not-allowed disabled:opacity-60",
+                              "ml-auto inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--status-info-surface)/0.6)] px-3 py-1.5 text-xs font-medium text-[hsl(var(--brand-blue))] transition-colors hover:nature-media-placeholder disabled:cursor-not-allowed disabled:opacity-60",
                               focusReviewAction && "shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.22)]",
                             )}
                           >

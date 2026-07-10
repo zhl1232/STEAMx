@@ -32,8 +32,8 @@ export function ObservationPhotoFrame({
         sizes={sizes}
         priority={priority}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_48%)]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/28 via-black/8 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.22),transparent_48%)]" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/28 via-black/8 to-transparent" />
       <Image
         src={src}
         alt={alt}

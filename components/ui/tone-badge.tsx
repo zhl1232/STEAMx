@@ -9,37 +9,37 @@ export const categoryToneClasses: Record<CategoryTone, { text: string; border: s
     text: "text-[hsl(var(--tone-science))]",
     border: "border-[hsl(var(--tone-science-border))]",
     bg: "bg-[hsl(var(--tone-science-soft))]",
-    badge: "bg-[hsl(var(--tone-science))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-science))] text-white in-[.black-gold]:text-black",
   },
   tech: {
     text: "text-[hsl(var(--tone-tech))]",
     border: "border-[hsl(var(--tone-tech-border))]",
     bg: "bg-[hsl(var(--tone-tech-soft))]",
-    badge: "bg-[hsl(var(--tone-tech))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-tech))] text-white in-[.black-gold]:text-black",
   },
   engineering: {
     text: "text-[hsl(var(--tone-engineering))]",
     border: "border-[hsl(var(--tone-engineering-border))]",
     bg: "bg-[hsl(var(--tone-engineering-soft))]",
-    badge: "bg-[hsl(var(--tone-engineering))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-engineering))] text-white in-[.black-gold]:text-black",
   },
   art: {
     text: "text-[hsl(var(--tone-art))]",
     border: "border-[hsl(var(--tone-art-border))]",
     bg: "bg-[hsl(var(--tone-art-soft))]",
-    badge: "bg-[hsl(var(--tone-art))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-art))] text-white in-[.black-gold]:text-black",
   },
   math: {
     text: "text-[hsl(var(--tone-math))]",
     border: "border-[hsl(var(--tone-math-border))]",
     bg: "bg-[hsl(var(--tone-math-soft))]",
-    badge: "bg-[hsl(var(--tone-math))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-math))] text-white in-[.black-gold]:text-black",
   },
   playground: {
     text: "text-[hsl(var(--tone-playground))]",
     border: "border-[hsl(var(--tone-playground-border))]",
     bg: "bg-[hsl(var(--tone-playground-soft))]",
-    badge: "bg-[hsl(var(--tone-playground))] text-white [.black-gold_&]:text-black",
+    badge: "bg-[hsl(var(--tone-playground))] text-white in-[.black-gold]:text-black",
   },
 }
 

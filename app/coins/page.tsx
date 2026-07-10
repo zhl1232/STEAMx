@@ -151,9 +151,9 @@ function getActionIconStyle(actionType: string) {
     case "challenge_prize":
       return "bg-blue-100 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300";
     case "balance_baseline":
-      return "bg-slate-100 text-slate-600 dark:bg-white/[0.08] dark:text-slate-300";
+      return "bg-slate-100 text-slate-600 dark:bg-white/8 dark:text-slate-300";
     default:
-      return "bg-muted text-muted-foreground dark:bg-white/[0.06]";
+      return "bg-muted text-muted-foreground dark:bg-white/6";
   }
 }
 
@@ -260,7 +260,7 @@ function CoinLogTimeline({
     return (
       <div className="px-4 py-14">
         <div className="mx-auto flex max-w-md items-center gap-4 rounded-md border border-dashed border-blue-200 bg-blue-50/60 px-5 py-5 text-left dark:border-blue-300/20 dark:bg-blue-400/10">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-white text-blue-500 shadow-sm dark:bg-white/10 dark:text-blue-300">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-white text-blue-500 shadow-xs dark:bg-white/10 dark:text-blue-300">
             <Gift className="h-7 w-7" />
           </div>
           <div>
@@ -276,19 +276,19 @@ function CoinLogTimeline({
     <div className="space-y-6 p-4 sm:p-5">
       {groupedLogs.map((group) => (
         <section key={group.label}>
-          <h4 className="sticky top-0 z-10 mb-3 w-fit rounded-full bg-background/92 px-3 py-1.5 text-xs font-bold text-slate-600 backdrop-blur dark:bg-background/88 dark:text-slate-300">
+          <h4 className="sticky top-0 z-10 mb-3 w-fit rounded-full bg-background/92 px-3 py-1.5 text-xs font-bold text-slate-600 backdrop-blur-sm dark:bg-background/88 dark:text-slate-300">
             {group.label}
           </h4>
           <div className="relative space-y-1.5">
-            <div className="absolute bottom-6 left-[1.375rem] top-6 w-px bg-gradient-to-b from-transparent via-border to-transparent sm:left-[1.625rem]" />
+            <div className="absolute bottom-6 left-5.5 top-6 w-px bg-linear-to-b from-transparent via-border to-transparent sm:left-6.5" />
             {group.items.map((log) => {
               const isPositive = log.amount >= 0;
               const actionIcon = getActionIcon(log.action_type);
               const iconStyle = getActionIconStyle(log.action_type);
 
               return (
-                <div key={log.id} className="group relative flex items-center gap-3 rounded-2xl p-2 transition-all hover:bg-muted/50 dark:hover:bg-white/[0.02] sm:gap-4 sm:p-3">
-                  <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-background shadow-sm ring-1 ring-border/50 sm:h-10 sm:w-10">
+                <div key={log.id} className="group relative flex items-center gap-3 rounded-2xl p-2 transition-all hover:bg-muted/50 dark:hover:bg-white/2 sm:gap-4 sm:p-3">
+                  <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-background shadow-xs ring-1 ring-border/50 sm:h-10 sm:w-10">
                      <div className={cn("flex h-7 w-7 items-center justify-center rounded-full sm:h-8 sm:w-8", iconStyle)}>
                         {actionIcon}
                      </div>
@@ -403,7 +403,7 @@ function WalletSidePanel({
           <span className="pb-1 text-sm font-semibold text-muted-foreground">硬币</span>
         </div>
         <div className="relative mt-5 h-2.5 w-full overflow-hidden rounded-full bg-slate-100 ring-1 ring-inset ring-black/5 dark:bg-white/5 dark:ring-white/5">
-          <div className="relative h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" style={{ width: `${progress}%` }}>
+          <div className="relative h-full rounded-full bg-linear-to-r from-blue-500 to-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" style={{ width: `${progress}%` }}>
             <div className="absolute inset-0 bg-white/20" style={{ backgroundImage: 'linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent)', backgroundSize: '1rem 1rem' }} />
           </div>
         </div>
@@ -412,7 +412,7 @@ function WalletSidePanel({
             {coins.toLocaleString()} / {nextReward.price.toLocaleString()}
           </p>
         ) : null}
-        <Button asChild variant="outline" className="relative mt-6 w-full border-blue-200 bg-white/50 font-bold text-blue-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
+        <Button asChild variant="outline" className="relative mt-6 w-full border-blue-200 bg-white/50 font-bold text-blue-700 shadow-xs backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-blue-300/20 dark:bg-blue-400/10 dark:text-blue-200 dark:hover:bg-blue-400/15">
           <Link href="/shop">
             去商店看看
             <ArrowUpRight className="ml-2 h-4 w-4" />
@@ -525,11 +525,11 @@ export default function CoinsPage() {
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0 space-y-6 lg:space-y-7">
-            <section className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-gradient-to-br from-white via-blue-50/40 to-blue-100/60 px-5 py-7 shadow-[0_32px_64px_-24px_rgba(37,99,235,0.15)] dark:border-blue-800/40 dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-900 md:px-8 md:py-8">
+            <section className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-linear-to-br from-white via-blue-50/40 to-blue-100/60 px-5 py-7 shadow-[0_32px_64px_-24px_rgba(37,99,235,0.15)] dark:border-blue-800/40 dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-900 md:px-8 md:py-8">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="ghost" size="icon" shape="square" className="absolute right-3 top-3 z-20 text-blue-900/40 hover:bg-black/5 hover:text-blue-900/60 dark:text-blue-100/30 dark:hover:bg-white/10 dark:hover:text-blue-100/50">
-                    <HelpCircle className="h-[1.125rem] w-[1.125rem]" />
+                    <HelpCircle className="h-4.5 w-4.5" />
                     <span className="sr-only">硬币规则</span>
                   </Button>
                 </DialogTrigger>
@@ -545,7 +545,7 @@ export default function CoinsPage() {
                 <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl dark:bg-blue-600/10" />
                 <div className="absolute right-10 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-600/10" />
                 <div
-                  className="absolute inset-y-0 left-0 -right-20 bg-cover bg-[right_center] bg-no-repeat opacity-100 dark:opacity-60 sm:-right-10 md:right-0"
+                  className="absolute inset-y-0 left-0 -right-20 bg-cover bg-position-[right_center] bg-no-repeat opacity-100 dark:opacity-60 sm:-right-10 md:right-0"
                   style={{ backgroundImage: "url('/assets/reward-shop-blue-coins-bg.png')" }}
                 />
                 <div
@@ -566,19 +566,19 @@ export default function CoinsPage() {
 
               <div className="relative flex min-h-[180px] flex-col justify-center">
                 <div className="max-w-xl">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/80 px-3.5 py-1.5 text-xs font-bold text-blue-900 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-black/20 dark:text-blue-100">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/80 px-3.5 py-1.5 text-xs font-bold text-blue-900 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-black/20 dark:text-blue-100">
                     <CoinIcon className="h-4 w-4 text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
                     当前硬币余额
                   </div>
                   <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                    <span className="bg-gradient-to-br from-blue-700 via-indigo-600 to-violet-600 bg-clip-text text-7xl font-black leading-[0.85] tracking-tighter text-transparent tabular-nums drop-shadow-sm dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 sm:text-8xl">
+                    <span className="bg-linear-to-br from-blue-700 via-indigo-600 to-violet-600 bg-clip-text text-7xl font-black leading-[0.85] tracking-tighter text-transparent tabular-nums drop-shadow-xs dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 sm:text-8xl">
                       {coins.toLocaleString()}
                     </span>
                     <span className="text-2xl font-bold text-indigo-600/80 dark:text-indigo-400/80">枚</span>
                   </div>
                   <p className="mt-5 max-w-xl text-sm font-medium leading-6 text-slate-600 dark:text-slate-300">硬币可用于兑换商店道具、头像框和个性化权益。</p>
 
-                  <Button asChild size="lg" shape="pill" className="mt-6 w-fit border border-blue-100 bg-white/90 px-8 font-bold text-blue-700 shadow-[0_8px_16px_-6px_rgba(37,99,235,0.2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.3)] dark:border-none dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
+                  <Button asChild size="lg" shape="pill" className="mt-6 w-fit border border-blue-100 bg-white/90 px-8 font-bold text-blue-700 shadow-[0_8px_16px_-6px_rgba(37,99,235,0.2)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.3)] dark:border-none dark:bg-blue-50 dark:text-blue-800 dark:hover:bg-white">
                     <Link href="/shop">
                       <ShoppingBag className="mr-2 h-4 w-4" />
                       去兑换装扮
@@ -590,11 +590,11 @@ export default function CoinsPage() {
 
 
             <section className="surface-panel overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/40 px-5 py-4 dark:border-white/[0.04]">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/40 px-5 py-4 dark:border-white/4">
                 <div>
                   <h2 className="text-lg font-bold">交易记录</h2>
                 </div>
-                <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground dark:bg-white/[0.03]">
+                <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground dark:bg-white/3">
                   共 {displayLogs.length} 条
                 </span>
               </div>

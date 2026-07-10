@@ -32,9 +32,9 @@ export function ObservationSubmitSuccessDialog({
 }: ObservationSubmitSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-2rem)] max-w-md gap-0 overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.86)] bg-background p-0 text-foreground shadow-[0_28px_80px_-48px_hsl(var(--surface-shadow)/0.55)] sm:max-w-lg">
+      <DialogContent className="max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-2rem)] max-w-md gap-0 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.86)] bg-background p-0 text-foreground shadow-[0_28px_80px_-48px_hsl(var(--surface-shadow)/0.55)] sm:max-w-lg">
         <DialogHeader className="border-b border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.48)] px-5 pb-4 pt-5 text-left">
-          <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(var(--primary)/0.28)] bg-[hsl(var(--status-info-surface))] px-3 py-1 text-xs font-semibold text-[hsl(var(--primary))]">
+          <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(var(--primary)/0.28)] nature-media-placeholder px-3 py-1 text-xs font-semibold text-[hsl(var(--primary))]">
             <CheckCircle2 className="h-3.5 w-3.5" />
             已提交
           </div>
@@ -45,7 +45,7 @@ export function ObservationSubmitSuccessDialog({
         </DialogHeader>
 
         <div className="max-h-[calc(100dvh-14rem)] overflow-y-auto px-5 py-5">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.56)]">
+          <div className="relative aspect-16/10 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.56)]">
             {imageUrl ? (
               <OptimizedImage
                 src={imageUrl}
@@ -59,7 +59,7 @@ export function ObservationSubmitSuccessDialog({
                 <Sparkles className="h-10 w-10" />
               </div>
             )}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
+            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent p-4 text-white">
               <p className="text-xs text-white/80">本次记录</p>
               <h2 className="mt-1 line-clamp-1 text-lg font-semibold">
                 {speciesName || "新的自然观察"}
@@ -68,7 +68,7 @@ export function ObservationSubmitSuccessDialog({
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.44)] p-4">
+            <div className="rounded-sm border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-muted)/0.44)] p-4">
               <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                 <Clock3 className="h-3.5 w-3.5" />
                 审核状态
@@ -78,7 +78,7 @@ export function ObservationSubmitSuccessDialog({
                 管理员通过后，其他人才能在自然观察流里看到。
               </p>
             </div>
-            <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--primary)/0.24)] bg-[hsl(var(--status-info-surface)/0.72)] p-4">
+            <div className="rounded-sm border border-[hsl(var(--primary)/0.24)] bg-[hsl(var(--status-info-surface)/0.72)] p-4">
               <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--primary))]">
                 <Sparkles className="h-3.5 w-3.5" />
                 奖励发放

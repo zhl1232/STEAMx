@@ -212,8 +212,8 @@ export function ModeratorApplicationForm() {
             <div className="space-y-5">
                 <Skeleton className="h-48 rounded-xl" />
                 <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-                    <Skeleton className="h-72 rounded-[var(--radius-lg)]" />
-                    <Skeleton className="h-96 rounded-[var(--radius-lg)]" />
+                    <Skeleton className="h-72 rounded-(--radius-lg)" />
+                    <Skeleton className="h-96 rounded-(--radius-lg)" />
                 </div>
             </div>
         );
@@ -269,7 +269,7 @@ export function ModeratorApplicationForm() {
                             审核员是社区治理的重要伙伴，负责审核项目、作品与讨论内容，守护平台的友善与知识价值。
                         </p>
                     </div>
-                    <div className="surface-subtle grid min-h-40 place-items-center rounded-[var(--radius-lg)] border border-border/70 bg-background/70 p-5 shadow-none">
+                    <div className="surface-subtle grid min-h-40 place-items-center rounded-(--radius-lg) border border-border/70 bg-background/70 p-5 shadow-none">
                         <div className="grid h-24 w-24 place-items-center rounded-xl bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
                             <ShieldCheck className="h-12 w-12" />
                         </div>

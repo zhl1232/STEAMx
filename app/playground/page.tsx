@@ -594,14 +594,14 @@ function HeroPanel({ className }: { className?: string }) {
 function PlaygroundHeroVisual() {
     return (
         <div className="surface-subtle relative min-h-[220px] overflow-hidden sm:min-h-[280px] lg:min-h-[320px]">
-            <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.18]" />
+            <div className="pointer-events-none absolute inset-0 opacity-[0.32] bg-[linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] bg-size-[42px_42px] dark:opacity-[0.18]" />
             <div className="pointer-events-none absolute inset-x-6 bottom-2 h-24 rounded-xl bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-blue)/0.22),transparent_68%)] blur-xl dark:bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-green)/0.2),transparent_68%)]" />
             <Image
                 src="/assets/playground-art/playground-hero-foreground.png"
                 alt=""
                 width={1200}
                 height={610}
-                className="absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] object-contain drop-shadow-[0_24px_34px_hsl(var(--surface-shadow)/0.22)] dark:brightness-90 dark:saturate-95 [.black-gold_&]:[filter:sepia(1)_saturate(1.35)_hue-rotate(350deg)_brightness(0.94)]"
+                className="absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] object-contain drop-shadow-[0_24px_34px_hsl(var(--surface-shadow)/0.22)] dark:brightness-90 dark:saturate-95 in-[.black-gold]:filter-[sepia(1)_saturate(1.35)_hue-rotate(350deg)_brightness(0.94)]"
                 sizes="(min-width: 1024px) 48vw, 92vw"
                 priority
                 aria-hidden="true"
@@ -1181,7 +1181,7 @@ function RecommendationPanel({
                                 <span className="block truncate text-sm font-black">{game.name}</span>
                                 <span className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{game.description}</span>
                             </span>
-                            <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-primary px-4 text-sm font-semibold text-primary-foreground">
+                            <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-sm bg-primary px-4 text-sm font-semibold text-primary-foreground">
                                 开始
                             </span>
                         </Link>

@@ -111,7 +111,7 @@ export default function FifteenPuzzlePage() {
                                         ? "bg-transparent"
                                         : game.canMove(index)
                                             ? "bg-cyan-500 text-white shadow-lg hover:-translate-y-0.5"
-                                            : "bg-background text-foreground shadow-sm",
+                                            : "bg-background text-foreground shadow-xs",
                                 )}
                             >
                                 {tile || ""}

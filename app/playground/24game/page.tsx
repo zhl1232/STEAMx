@@ -156,7 +156,7 @@ export default function Game24Page() {
   if (!isMounted) {
     return (
       <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-6">
-        <div className="w-full max-w-2xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur">
+        <div className="w-full max-w-2xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur-sm">
           <div className="mb-5 flex items-center gap-3">
             <div className="h-10 w-10 animate-pulse rounded-md bg-primary/15" />
             <div className="space-y-2">
@@ -278,7 +278,7 @@ export default function Game24Page() {
                   className={cn(
                     "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
                     "placeholder:text-muted-foreground/60",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/40",
+                    "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/40",
                     "transition-colors",
                     error
                       ? "border-red-400 focus-visible:ring-red-400/50"
@@ -305,7 +305,7 @@ export default function Game24Page() {
                     key={`${card.suit}-${card.value}-${index}-quick`}
                     type="button"
                     onClick={() => appendToken(card.label)}
-                    className="min-h-10 rounded-sm bg-background text-sm font-black shadow-sm active:scale-95"
+                    className="min-h-10 rounded-sm bg-background text-sm font-black shadow-xs active:scale-95"
                     aria-label={`输入 ${card.label}`}
                   >
                     {card.label}
@@ -316,7 +316,7 @@ export default function Game24Page() {
                     key={token}
                     type="button"
                     onClick={() => appendToken(token)}
-                    className="min-h-10 rounded-sm bg-background text-sm font-black text-primary shadow-sm active:scale-95"
+                    className="min-h-10 rounded-sm bg-background text-sm font-black text-primary shadow-xs active:scale-95"
                     aria-label={`输入 ${token}`}
                   >
                     {token}
@@ -325,7 +325,7 @@ export default function Game24Page() {
                 <button
                   type="button"
                   onClick={deleteToken}
-                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
                 >
                   删除
                 </button>
@@ -335,7 +335,7 @@ export default function Game24Page() {
                     setExpression("")
                     if (error) setError("")
                   }}
-                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-sm active:scale-95"
+                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
                 >
                   清空
                 </button>

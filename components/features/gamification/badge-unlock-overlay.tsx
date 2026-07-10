@@ -73,7 +73,7 @@ function SingleBadgeCelebration({
       role="dialog"
       aria-modal="true"
       aria-label={`解锁徽章：${badge.name}`}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/18 px-5 backdrop-blur-[2px]"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-slate-950/18 px-5 backdrop-blur-[2px]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.18 }}
@@ -162,7 +162,7 @@ function BadgeUnlockSummary({
       role="dialog"
       aria-modal="true"
       aria-label={`解锁了 ${badges.length} 枚徽章`}
-      className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/28 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-10 backdrop-blur-[2px] sm:items-center sm:pb-5"
+      className="fixed inset-0 z-100 flex items-end justify-center bg-slate-950/28 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-10 backdrop-blur-[2px] sm:items-center sm:pb-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.18 }}

@@ -286,7 +286,7 @@ export function ModeratorApplicationsList() {
                     ))}
                 </div>
                 {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-44 rounded-[var(--radius-lg)]" />
+                    <Skeleton key={i} className="h-44 rounded-(--radius-lg)" />
                 ))}
             </div>
         );
@@ -364,13 +364,13 @@ export function ModeratorApplicationsList() {
                             <article
                                 key={app.id}
                                 className={cn(
-                                    "surface-subtle rounded-[var(--radius-lg)] border p-4 shadow-none sm:p-5",
+                                    "surface-subtle rounded-(--radius-lg) border p-4 shadow-none sm:p-5",
                                     isPending ? "border-[hsl(var(--brand-blue)/0.35)] bg-[hsl(var(--brand-blue)/0.055)]" : "border-border/70 bg-background/72",
                                 )}
                             >
                                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                                     <div className="flex min-w-0 gap-4">
-                                        <Avatar className="h-14 w-14 shrink-0 border-2 border-background shadow-sm">
+                                        <Avatar className="h-14 w-14 shrink-0 border-2 border-background shadow-xs">
                                             <AvatarImage src={app.profiles?.avatar_url || undefined} />
                                             <AvatarFallback>{displayName.slice(0, 1)}</AvatarFallback>
                                         </Avatar>

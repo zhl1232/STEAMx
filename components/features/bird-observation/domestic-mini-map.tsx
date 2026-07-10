@@ -563,11 +563,11 @@ export function DomesticMiniMap({
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" style={{ touchAction: "none" }} />
 
       {/* Zoom controls：放在左下角，避开全局 AI 导师 FAB 所在的右下热区 */}
-      <div className="absolute bottom-3 left-3 z-[7] flex flex-col gap-1">
+      <div className="absolute bottom-3 left-3 z-7 flex flex-col gap-1">
         <button
           type="button"
           onClick={() => handleZoom(1)}
-          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
+          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/92 text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/92 dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
           aria-label="放大"
         >
           +
@@ -575,7 +575,7 @@ export function DomesticMiniMap({
         <button
           type="button"
           onClick={() => handleZoom(-1)}
-          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/[0.92] text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/[0.92] dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
+          className="grid h-10 w-10 place-items-center rounded border border-[#cfe3d5] bg-[#f8fbf4]/92 text-base font-bold text-[#1d2b24] transition-colors hover:bg-[#edf7ef] dark:border-[#274d37] dark:bg-[#1a2a20]/92 dark:text-[#c8efd2] dark:hover:bg-[#253d2e] md:h-8 md:w-8 md:text-sm"
           aria-label="缩小"
         >
           −
@@ -585,7 +585,7 @@ export function DomesticMiniMap({
       {/* Popup */}
       {popup ? (
         <div
-          className={`absolute z-[8] w-[216px] -translate-x-1/2 rounded-xs border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
+          className={`absolute z-8 w-[216px] -translate-x-1/2 rounded-xs border border-white/75 bg-[#f8fbf4]/95 p-2 text-xs text-[#1d2b24] shadow-[0_18px_42px_-18px_rgba(20,62,41,0.45)] backdrop-blur-md dark:border-white/10 dark:bg-[#122018]/95 dark:text-[#d9f4df] ${
             popup.placement === "top" ? "-translate-y-full" : ""
           } ${popup.href ? "" : "pointer-events-none"}`}
           style={{ left: popup.x, top: popup.y }}

@@ -1128,7 +1128,7 @@ export function Building3DWorkspace({
                     <div ref={mountRef} className="h-full w-full" aria-label="3D 搭建图纸" />
                     {loading ? (
                         <div className="absolute inset-0 grid place-items-center bg-[#f8fbff]/80">
-                            <div className="flex items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-sm">
+                            <div className="flex items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-xs">
                                 <Loader2 className="h-4 w-4 animate-spin" />
                                 正在加载 3D 图纸
                             </div>
@@ -1136,7 +1136,7 @@ export function Building3DWorkspace({
                     ) : null}
                     {loadError && !loading ? (
                         <div className="absolute inset-0 grid place-items-center bg-[#f8fbff]/88 p-6">
-                            <div className="max-w-sm rounded-sm border border-border bg-card px-4 py-3 text-center shadow-sm">
+                            <div className="max-w-sm rounded-sm border border-border bg-card px-4 py-3 text-center shadow-xs">
                                 <p className="text-sm font-semibold text-foreground">3D 模型加载失败</p>
                                 <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
                                     {loadError}

@@ -708,7 +708,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
           </span>
         </label>
 
-          <div className="sticky bottom-0 z-20 -mx-5 flex flex-wrap justify-end gap-3 border-t border-border/60 bg-background/92 px-5 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0">
+          <div className="sticky bottom-0 z-20 -mx-5 flex flex-wrap justify-end gap-3 border-t border-border/60 bg-background/92 px-5 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-sm sm:static sm:mx-0 sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0">
             <Button type="button" variant="outline" onClick={() => router.push(`/pbl/${challengeId}`)}>
               返回挑战
             </Button>

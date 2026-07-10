@@ -49,7 +49,7 @@ export function ScratchLoadingOverlay({
                     <p className="text-lg font-semibold text-foreground">
                         {isSwitch ? "正在切换作品" : "正在启动 Scratch 编辑器"}
                     </p>
-                    <p className="min-h-[1.5rem] text-sm text-muted-foreground transition-opacity duration-300">
+                    <p className="min-h-6 text-sm text-muted-foreground transition-opacity duration-300">
                         {isSwitch
                             ? "加载本课 Scratch 项目…"
                             : BOOT_MESSAGES[messageIndex]}

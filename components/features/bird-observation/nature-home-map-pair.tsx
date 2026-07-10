@@ -62,7 +62,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
         {/* h-11 + 负 margin：触控命中区扩到 44px 高且不改变行高，z-[1] 避免被地图画布抢占命中 */}
         <Link
           href="/nature/observations"
-          className="nature-link relative z-[1] -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-xs md:text-sm"
+          className="nature-link relative z-1 -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-xs md:text-sm"
         >
           查看全部
           <ChevronRight className="h-4 w-4" />
@@ -115,13 +115,13 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group block w-[72vw] max-w-[280px] rounded-[var(--radius-xs)] p-2.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-raised))] active:bg-[hsl(var(--status-info-surface)/0.72)] ${
+                        className={`group block w-[72vw] max-w-[280px] rounded-xs p-2.5 transition-colors duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-raised))] active:bg-[hsl(var(--status-info-surface)/0.72)] ${
                           isActive
                             ? "bg-[hsl(var(--status-info-surface)/0.82)]"
                             : "bg-[hsl(var(--surface-raised)/0.72)] hover:bg-[hsl(var(--surface-raised)/0.96)]"
                         }`}
                       >
-                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-xs)] bg-muted/50">
+                        <div className="relative aspect-4/3 w-full overflow-hidden rounded-xs bg-muted/50">
                           {observation.mediaUrls[0] ? (
                             <Image
                               src={observation.mediaUrls[0]}
@@ -175,7 +175,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
                         className={`group flex items-center gap-3 px-4 py-3 transition-colors ${
-                          isActive ? "bg-primary/[0.08]" : "hover:bg-muted/40"
+                          isActive ? "bg-primary/8" : "hover:bg-muted/40"
                         }`}
                       >
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xs bg-muted/50">

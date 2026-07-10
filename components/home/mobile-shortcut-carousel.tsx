@@ -90,7 +90,7 @@ export function MobileShortcutCarousel({ children }: MobileShortcutCarouselProps
     <section className="md:hidden" aria-label="首页快捷入口">
       <div
         ref={viewportRef}
-        className="flex snap-x snap-mandatory overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory overflow-x-auto [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, index) => (
           <div key={index} className="min-w-0 grow-0 shrink-0 basis-full snap-start">
@@ -107,7 +107,7 @@ export function MobileShortcutCarousel({ children }: MobileShortcutCarouselProps
                 key={index}
                 type="button"
                 onClick={() => scrollToSlide(index)}
-                className="flex h-8 items-center justify-center px-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-8 items-center justify-center px-1.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label={`第 ${index + 1} 个快捷入口`}
                 aria-current={active ? "true" : undefined}
               >

@@ -329,7 +329,7 @@ export function ObservationIdentificationsPanel({
                   <select
                     value={lifecycleStage}
                     onChange={(event) => setLifecycleStage(event.target.value as "" | ObservationLifecycleStage)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <option value="">未注明</option>
                     {observationLifecycleStageOptions.map((option) => (
@@ -344,7 +344,7 @@ export function ObservationIdentificationsPanel({
                   <select
                     value={sex}
                     onChange={(event) => setSex(event.target.value as "" | ObservationSex)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <option value="">未注明</option>
                     {observationSexOptions.map((option) => (

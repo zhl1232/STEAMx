@@ -99,7 +99,7 @@ export function getShopMutationErrorMessage(error: unknown): string {
 
 function getItemBadge(item: ShopItem): { label: string; className: string } {
   if ((item.minLevel ?? 0) >= 30) {
-    return { label: "高阶", className: "bg-slate-100 text-slate-700 dark:bg-white/[0.08] dark:text-slate-200" };
+    return { label: "高阶", className: "bg-slate-100 text-slate-700 dark:bg-white/8 dark:text-slate-200" };
   }
   if (item.type === "avatar_frame" && item.price >= 150) {
     return { label: "热门", className: "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300" };
@@ -148,7 +148,7 @@ function ShopHero({
         className="absolute inset-0 bg-cover bg-center opacity-65 dark:opacity-30"
         style={{ backgroundImage: "url('/assets/reward-shop-blue-coins-bg.png')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--surface-raised))] via-[hsl(var(--surface-raised)/0.88)] to-[hsl(var(--surface-raised)/0.22)] dark:from-[hsl(var(--background)/0.94)] dark:via-[hsl(var(--background)/0.78)] dark:to-[hsl(var(--background)/0.22)]" />
+      <div className="absolute inset-0 bg-linear-to-r from-[hsl(var(--surface-raised))] via-[hsl(var(--surface-raised)/0.88)] to-[hsl(var(--surface-raised)/0.22)] dark:from-[hsl(var(--background)/0.94)] dark:via-[hsl(var(--background)/0.78)] dark:to-[hsl(var(--background)/0.22)]" />
 
       <div className="relative p-5 sm:p-6 md:p-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -164,13 +164,13 @@ function ShopHero({
               <h1 className={cn("truncate text-2xl font-black tracking-tight text-slate-950 dark:text-slate-50 sm:text-3xl", getNameColorClassName(previewNameColorId))}>
                 {displayName}
               </h1>
-              <span className="rounded-xs bg-blue-600 px-2.5 py-1 text-sm font-bold text-white shadow-sm">Lv.{level}</span>
+              <span className="rounded-xs bg-blue-600 px-2.5 py-1 text-sm font-bold text-white shadow-xs">Lv.{level}</span>
             </div>
             <p className="mt-2 text-sm text-muted-foreground">校园创客 · 自然观察者</p>
             <div className="mt-4 flex max-w-sm items-center gap-3 text-sm text-muted-foreground">
               <span className="shrink-0">经验 {levelProgress.toLocaleString()} / {levelTotalNeeded.toLocaleString()}</span>
               <div className="h-2 min-w-20 flex-1 overflow-hidden rounded-full bg-blue-100 dark:bg-blue-400/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-400" style={{ width: `${safeProgress}%` }} />
+                <div className="h-full rounded-full bg-linear-to-r from-blue-600 to-cyan-400" style={{ width: `${safeProgress}%` }} />
               </div>
             </div>
           </div>
@@ -202,7 +202,7 @@ function ShopItemVisual({
   }
 
   return (
-    <div className="flex h-20 w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-50 to-cyan-50 px-3 dark:from-blue-400/10 dark:to-cyan-400/10 min-[390px]:h-24 sm:h-28">
+    <div className="flex h-20 w-full items-center justify-center rounded-md bg-linear-to-br from-blue-50 to-cyan-50 px-3 dark:from-blue-400/10 dark:to-cyan-400/10 min-[390px]:h-24 sm:h-28">
       <span className={cn("max-w-full truncate text-xl font-black min-[390px]:text-2xl", getNameColorClassName(item.id))}>
         {displayName}
       </span>
@@ -225,7 +225,7 @@ function ShopItemButton({
   onPurchase: (event: MouseEvent<HTMLButtonElement>) => void;
   onEquip: (event: MouseEvent<HTMLButtonElement>, itemId: string | null) => void;
 }) {
-  const buttonClassName = "h-11 min-w-[4.25rem] rounded-sm px-2 text-xs font-bold sm:h-9 sm:min-w-20 sm:px-3 sm:text-sm";
+  const buttonClassName = "h-11 min-w-17 rounded-sm px-2 text-xs font-bold sm:h-9 sm:min-w-20 sm:px-3 sm:text-sm";
 
   if (state.owned) {
     if (state.equipped) {
@@ -314,7 +314,7 @@ function ShopItemCard({
         }
       }}
       className={cn(
-        "group relative flex min-h-[270px] cursor-pointer flex-col overflow-hidden rounded-lg border bg-[hsl(var(--surface-raised)/0.92)] p-3 shadow-[0_18px_46px_-36px_hsl(var(--surface-shadow)/0.48)] outline-none transition hover:-translate-y-0.5 hover:border-blue-300 focus-visible:ring-2 focus-visible:ring-ring dark:bg-white/[0.04] min-[390px]:min-h-[286px] sm:min-h-[318px] sm:rounded-lg sm:p-4",
+        "group relative flex min-h-[270px] cursor-pointer flex-col overflow-hidden rounded-lg border bg-[hsl(var(--surface-raised)/0.92)] p-3 shadow-[0_18px_46px_-36px_hsl(var(--surface-shadow)/0.48)] outline-hidden transition hover:-translate-y-0.5 hover:border-blue-300 focus-visible:ring-2 focus-visible:ring-ring dark:bg-white/4 min-[390px]:min-h-[286px] sm:min-h-[318px] sm:rounded-lg sm:p-4",
         selected ? "border-blue-500 ring-2 ring-blue-500/20" : "border-border/75",
         state.levelLocked && "saturate-[0.75]",
       )}
@@ -324,11 +324,11 @@ function ShopItemCard({
         {state.equipped ? (
           <span className="rounded-xs bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300">使用中</span>
         ) : state.owned ? (
-          <span className="rounded-xs bg-slate-100 px-2 py-1 text-xs font-bold text-slate-600 dark:bg-white/[0.08] dark:text-slate-300">已拥有</span>
+          <span className="rounded-xs bg-slate-100 px-2 py-1 text-xs font-bold text-slate-600 dark:bg-white/8 dark:text-slate-300">已拥有</span>
         ) : null}
       </div>
 
-      <div className="relative mt-3 flex h-[104px] items-center justify-center rounded-md bg-gradient-to-b from-blue-50/80 to-white dark:from-blue-400/10 dark:to-white/[0.03] min-[390px]:h-[122px] sm:h-[142px]">
+      <div className="relative mt-3 flex h-[104px] items-center justify-center rounded-md bg-linear-to-b from-blue-50/80 to-white dark:from-blue-400/10 dark:to-white/3 min-[390px]:h-[122px] sm:h-[142px]">
         <ShopItemVisual item={item} avatarSrc={avatarSrc} displayName={displayName} />
         {state.levelLocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-md bg-white/70 text-slate-600 backdrop-blur-[2px] dark:bg-slate-950/70 dark:text-slate-200">
@@ -391,7 +391,7 @@ function PreviewPanel({
           <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 dark:bg-blue-400/10 dark:text-blue-300">实时</span>
         </div>
 
-        <div className="rounded-md border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-4 dark:border-blue-300/20 dark:from-blue-400/10 dark:to-white/[0.03]">
+        <div className="rounded-md border border-blue-100 bg-linear-to-br from-blue-50 to-white p-4 dark:border-blue-300/20 dark:from-blue-400/10 dark:to-white/3">
           <div className="flex items-center gap-4">
             <AvatarWithFrame
               avatarFrameId={previewFrameId}
@@ -421,7 +421,7 @@ function PreviewPanel({
         </div>
         <div className="space-y-2">
           {[1, 2, 3].map((rank) => (
-            <div key={rank} className="grid grid-cols-[34px_minmax(0,1fr)_auto] items-center gap-3 rounded-sm border border-border/70 bg-background/70 px-3 py-2.5 dark:bg-white/[0.03]">
+            <div key={rank} className="grid grid-cols-[34px_minmax(0,1fr)_auto] items-center gap-3 rounded-sm border border-border/70 bg-background/70 px-3 py-2.5 dark:bg-white/3">
               <span className={cn("flex h-7 w-7 items-center justify-center rounded-full text-xs font-black", rank === 1 ? "bg-orange-100 text-orange-600" : "bg-blue-100 text-blue-600")}>{rank}</span>
               <div className="flex min-w-0 items-center gap-2">
                 <AvatarWithFrame
@@ -622,7 +622,7 @@ export default function ShopPage() {
         showUserButton={false}
         className="md:hidden"
         rightSlot={(
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-sm font-black text-slate-950 shadow-sm dark:bg-white/[0.04] dark:text-slate-50">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-sm font-black text-slate-950 shadow-xs dark:bg-white/4 dark:text-slate-50">
             <CoinIcon className="h-4 w-4 text-amber-500" />
             {coins.toLocaleString()}
           </span>
@@ -659,7 +659,7 @@ export default function ShopPage() {
             <section className="surface-panel overflow-hidden p-3.5 min-[390px]:p-4 sm:p-5">
               <Tabs value={activeType} onValueChange={(value) => setActiveType(value as ShopItemType)}>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <TabsList className="grid h-auto w-full grid-cols-2 rounded-md bg-muted/60 p-1 sm:max-w-md dark:bg-white/[0.04]">
+                  <TabsList className="grid h-auto w-full grid-cols-2 rounded-md bg-muted/60 p-1 sm:max-w-md dark:bg-white/4">
                     {(["avatar_frame", "name_color"] as const).map((type) => (
                       <TabsTrigger
                         key={type}

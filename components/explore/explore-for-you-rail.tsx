@@ -68,7 +68,7 @@ function ExploreRecommendationCard({
         aria-label={`查看项目：${project.title}`}
       />
 
-      <div className="relative aspect-[4/3] overflow-hidden bg-[hsl(var(--surface-muted))]">
+      <div className="relative aspect-4/3 overflow-hidden bg-[hsl(var(--surface-muted))]">
         {imageSrc && !imageError ? (
           <OptimizedImage
             src={imageSrc}

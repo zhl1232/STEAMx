@@ -1,0 +1,377 @@
+@utility nature-section-card {
+  box-shadow: 0 18px 48px -36px hsl(var(--surface-shadow) / 0.36);
+  border-color: hsl(var(--surface-border) / 0.9);
+  background-color: hsl(var(--surface-raised) / 0.96);
+  @apply rounded-(--radius-sm) border p-4 md:p-5;
+}
+
+@utility nature-icon-accent {
+  color: hsl(var(--primary));
+}
+
+@utility nature-heading {
+  color: hsl(var(--foreground));
+  @apply font-bold leading-7;
+}
+
+@utility nature-text-muted {
+  color: hsl(var(--muted-foreground));
+}
+
+@utility nature-link {
+  color: hsl(var(--primary));
+  @apply text-sm font-semibold transition-colors hover:text-[hsl(var(--primary)/0.85)];
+}
+
+@utility nature-stat-icon {
+  background-color: hsl(var(--status-info-surface));
+  color: hsl(var(--primary));
+  @apply grid h-10 w-10 shrink-0 place-items-center rounded-(--radius-sm);
+}
+
+@utility nature-hero-panel {
+  border-color: hsl(var(--surface-border) / 0.4);
+  background-color: hsl(var(--background));
+  @apply relative isolate overflow-hidden rounded-(--radius-sm) border shadow-[0_24px_70px_-42px_hsl(var(--primary)/0.35)];
+}
+
+@utility nature-segment-track {
+  background-color: hsl(var(--status-info-surface));
+  @apply grid grid-cols-2 rounded-full p-1;
+}
+
+@utility nature-topic-card {
+  border-color: hsl(var(--surface-border) / 0.88);
+  background-color: hsl(var(--surface-raised));
+  box-shadow: 0 14px 36px -30px hsl(var(--surface-shadow) / 0.22);
+  @apply relative block w-[68vw] max-w-[260px] shrink-0 snap-start overflow-hidden rounded-(--radius-sm) border transition-all duration-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.45)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-auto md:max-w-none md:snap-align-none;
+
+  &:hover {
+    border-color: hsl(var(--primary) / 0.35);
+    box-shadow: 0 18px 44px -32px hsl(var(--primary) / 0.18);
+  }
+}
+
+@utility nature-observation-card {
+  border-color: hsl(var(--surface-border) / 0.9);
+  background-color: hsl(var(--surface-raised));
+  box-shadow: 0 16px 44px -34px hsl(var(--primary) / 0.25);
+  @apply block w-[85vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-(--radius-sm) border transition-all duration-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))] active:scale-[0.99] motion-safe:hover:-translate-y-1 md:w-[224px] md:max-w-none md:snap-align-none 2xl:w-auto;
+
+  &:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: 0 24px 60px -38px hsl(var(--primary) / 0.32);
+  }
+}
+
+@utility nature-media-placeholder {
+  background-color: hsl(var(--status-info-surface));
+}
+
+@utility nature-chip {
+  background-color: hsl(var(--status-info-surface));
+  color: hsl(var(--primary));
+  @apply rounded-full px-1.5 py-0.5 text-[10px] font-bold;
+}
+
+@utility nature-interaction-pill {
+  background-color: hsl(var(--status-info-surface) / 0.65);
+  @apply inline-flex min-h-7 items-center gap-1 rounded-full px-2.5 text-xs font-semibold transition-colors group-hover:bg-[hsl(var(--status-info-surface))];
+}
+
+@utility nature-hero-glass {
+  background-color: hsl(var(--surface-muted));
+  border-color: hsl(var(--surface-border) / 0.55);
+  box-shadow: 0 26px 82px -34px hsl(var(--primary) / 0.22);
+  @apply relative isolate overflow-hidden rounded-(--radius-sm) border p-5;
+}
+
+@utility nature-data-card {
+  border-color: hsl(var(--surface-border) / 0.9);
+  background-color: hsl(var(--surface-raised) / 0.94);
+  box-shadow: 0 20px 54px -38px hsl(var(--primary) / 0.18);
+  @apply rounded-(--radius-sm) border p-5;
+}
+
+@utility nature-contribution-card {
+  border-color: hsl(var(--surface-border) / 0.9);
+  background-color: hsl(var(--status-info-surface) / 0.4);
+  box-shadow: 0 16px 42px -34px hsl(var(--primary) / 0.16);
+  @apply relative overflow-hidden rounded-(--radius-sm) border p-5;
+}
+
+@utility nature-empty-state {
+  border-color: hsl(var(--surface-border));
+  background-color: hsl(var(--status-info-surface) / 0.45);
+  @apply rounded-(--radius-sm) border border-dashed text-sm nature-text-muted;
+}
+
+@utility nature-action-link {
+  border-color: hsl(var(--primary) / 0.45);
+  background-color: hsl(var(--surface-raised));
+  color: hsl(var(--primary));
+  @apply inline-flex min-h-11 min-w-[76px] shrink-0 items-center justify-center gap-0.5 rounded-(--radius-sm) border px-3 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))];
+
+  &:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 12px 24px -18px hsl(var(--primary) / 0.45);
+  }
+}
+
+@utility nature-list-row {
+  @apply flex min-h-11 min-w-0 items-center gap-4 rounded-(--radius-sm) p-1 transition-colors hover:bg-[hsl(var(--status-info-surface)/0.55)];
+}
+
+@utility nature-divide {
+  border-color: hsl(var(--surface-border) / 0.85);
+  @apply divide-y;
+}
+
+@utility nature-species-hero {
+  background:
+    radial-gradient(
+      circle at 90% 12%,
+      hsl(var(--brand-blue-soft) / 0.54),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 10% 8%,
+      hsl(var(--status-info-surface) / 0.8),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      hsl(var(--surface-raised) / 0.98) 0%,
+      hsl(var(--surface-muted) / 0.74) 58%,
+      hsl(var(--brand-blue-soft) / 0.42) 100%
+    );
+  box-shadow:
+    0 28px 84px -58px hsl(var(--primary) / 0.46),
+    inset 0 0 0 1px hsl(var(--surface-border) / 0.58),
+    inset 0 1px 0 hsl(var(--surface-raised) / 0.7);
+  @apply rounded-lg;
+}
+
+@utility nature-species-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--surface-raised) / 0.99) 0%,
+    hsl(var(--surface-raised) / 0.94) 45%,
+    hsl(var(--status-info-surface) / 0.46) 100%
+  );
+
+  .dark & {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--surface-raised) / 0.98) 0%,
+      hsl(var(--surface-raised) / 0.9) 48%,
+      hsl(var(--status-info-surface) / 0.34) 100%
+    );
+  }
+}
+
+@utility dark {
+  & .nature-species-hero-overlay {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--surface-raised) / 0.98) 0%,
+      hsl(var(--surface-raised) / 0.9) 48%,
+      hsl(var(--status-info-surface) / 0.34) 100%
+    );
+  }
+}
+
+@utility nature-species-kicker {
+  color: hsl(var(--primary));
+}
+
+@utility nature-species-control-panel {
+  @apply min-w-0;
+}
+
+@utility nature-species-progress-block {
+  border-bottom: 1px solid hsl(var(--surface-border) / 0.48);
+  @apply pb-3;
+}
+
+@utility nature-species-progress-badge {
+  background-color: hsl(var(--status-info-surface));
+  color: hsl(var(--primary));
+  @apply rounded-full px-2.5 py-1 text-xs font-semibold;
+}
+
+@utility nature-species-progress-track {
+  background-color: hsl(var(--status-info-surface) / 0.72);
+  @apply mt-3 h-2 overflow-hidden rounded-full;
+}
+
+@utility nature-species-progress-fill {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary)),
+    hsl(var(--brand-blue) / 0.86)
+  );
+  @apply h-full rounded-full transition-[width] duration-500;
+}
+
+@utility nature-species-search-input {
+  background-color: hsl(var(--surface-raised) / 0.88);
+  color: hsl(var(--foreground));
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--surface-border) / 0.42),
+    inset 0 1px 0 hsl(var(--surface-raised) / 0.8);
+  @apply h-11 min-w-0 flex-1 rounded-(--radius-xs) px-4 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.28)];
+}
+
+@utility nature-species-search-form {
+  @apply mt-3;
+}
+
+@utility nature-species-search-button {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 12px 22px -18px hsl(var(--primary) / 0.62);
+  @apply inline-flex h-11 w-11 shrink-0 items-center justify-center gap-1.5 rounded-(--radius-xs) text-sm font-semibold transition-colors hover:bg-[hsl(var(--primary)/0.92)] sm:w-auto sm:px-3;
+}
+
+@utility nature-species-search-button-label {
+  @apply hidden sm:inline;
+}
+
+@utility nature-species-topic-chip {
+  background-color: hsl(var(--surface-raised) / 0.82);
+  color: hsl(var(--foreground) / 0.82);
+  box-shadow: inset 0 0 0 1px hsl(var(--surface-border) / 0.46);
+  @apply inline-flex min-h-8 items-center rounded-full px-3 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.62)];
+}
+
+@utility nature-species-topic-chip-active {
+  background-color: hsl(var(--status-info-surface));
+  color: hsl(var(--primary));
+  box-shadow:
+    0 12px 24px -20px hsl(var(--primary) / 0.5),
+    inset 0 0 0 1px hsl(var(--primary) / 0.2);
+}
+
+@utility nature-species-filter-stack {
+  @apply mt-3 space-y-3;
+}
+
+@utility nature-species-topic-row {
+  @apply flex flex-wrap gap-2;
+}
+
+@utility nature-species-status-toggle {
+  @apply grid grid-cols-3 gap-2;
+}
+
+@utility nature-species-status-option {
+  color: hsl(var(--foreground) / 0.82);
+  @apply inline-flex min-h-11 flex-col items-center justify-center gap-0.5 rounded-(--radius-xs) px-2 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.5)];
+}
+
+@utility nature-species-status-count {
+  @apply text-[11px] font-semibold leading-none tabular-nums opacity-70;
+}
+
+@utility nature-species-status-option-active {
+  background-color: hsl(var(--status-info-surface) / 0.92);
+  color: hsl(var(--primary));
+  box-shadow:
+    0 14px 28px -22px hsl(var(--primary) / 0.45),
+    inset 0 0 0 1px hsl(var(--primary) / 0.22);
+
+  &.nature-species-status-option-unobserved {
+    background-color: hsl(var(--brand-amber-soft) / 0.88);
+    color: hsl(var(--brand-amber));
+    box-shadow:
+      0 14px 28px -22px hsl(var(--brand-amber) / 0.42),
+      inset 0 0 0 1px hsl(var(--brand-amber) / 0.18);
+  }
+}
+
+@utility nature-species-status-option-unobserved {
+  &.nature-species-status-option-active {
+    background-color: hsl(var(--brand-amber-soft) / 0.88);
+    color: hsl(var(--brand-amber));
+    box-shadow:
+      0 14px 28px -22px hsl(var(--brand-amber) / 0.42),
+      inset 0 0 0 1px hsl(var(--brand-amber) / 0.18);
+  }
+}
+
+@utility nature-species-login-note {
+  background-color: hsl(var(--status-info-surface) / 0.5);
+  color: hsl(var(--muted-foreground));
+  @apply rounded-(--radius-sm) px-3 py-2 text-xs leading-5;
+}
+
+@utility nature-species-card {
+  background-color: hsl(var(--surface-raised) / 0.96);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--surface-border) / 0.36),
+    0 18px 44px -36px hsl(var(--primary) / 0.28),
+    0 1px 2px hsl(var(--surface-shadow) / 0.05);
+  @apply overflow-hidden rounded-lg transition-all motion-reduce:animate-none motion-reduce:opacity-100;
+
+  &:hover {
+    box-shadow:
+      0 26px 58px -38px hsl(var(--primary) / 0.36),
+      inset 0 0 0 1px hsl(var(--primary) / 0.18);
+  }
+}
+
+@utility nature-species-card-media {
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      hsl(var(--status-info-surface) / 0.72),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 84% 16%,
+      hsl(var(--brand-blue-soft) / 0.5),
+      transparent 40%
+    ),
+    linear-gradient(
+      150deg,
+      hsl(var(--status-info-surface) / 0.82),
+      hsl(var(--surface-raised) / 0.9) 52%,
+      hsl(var(--brand-blue-soft) / 0.38)
+    );
+  @apply relative aspect-16/10 overflow-hidden sm:aspect-4/3 2xl:aspect-16/11;
+}
+
+@utility nature-species-badge {
+  @apply inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold;
+}
+
+@utility nature-species-badge-observed {
+  background-color: hsl(var(--status-success-surface) / 0.86);
+  color: hsl(var(--status-success));
+}
+
+@utility nature-species-badge-unobserved {
+  background-color: hsl(var(--status-warning-surface) / 0.86);
+  color: hsl(var(--status-warning));
+}
+
+@utility nature-species-badge-topic {
+  background-color: hsl(var(--status-info-surface) / 0.48);
+  color: hsl(var(--primary));
+}
+
+@utility nature-species-taxonomy {
+  background-color: hsl(var(--status-info-surface) / 0.22);
+  @apply grid min-w-0 grid-cols-2 gap-3 rounded-(--radius-xs) px-3 py-2;
+}
+
+@utility nature-species-taxonomy-cell {
+  @apply min-w-0;
+}
+
+@utility nature-species-clue {
+  background-color: hsl(var(--status-info-surface) / 0.2);
+  @apply flex items-center justify-between gap-3 rounded-(--radius-xs) px-3 py-2 text-xs;
+}

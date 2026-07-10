@@ -784,7 +784,7 @@ function ProfileHero({
             <LevelGuideDialog>
               <button
                 type="button"
-                className="absolute -bottom-1.5 left-1/2 inline-flex h-6 -translate-x-1/2 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-sm backdrop-blur-md transition hover:-translate-y-0.5 hover:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="absolute -bottom-1.5 left-1/2 inline-flex h-6 -translate-x-1/2 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition hover:-translate-y-0.5 hover:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 Lv.{profileContext.level}
               </button>
@@ -793,7 +793,7 @@ function ProfileHero({
 
           <div className="min-w-0">
             {compact ? (
-              <span className="inline-flex h-5 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] px-2.5 text-[10px] font-semibold text-[hsl(var(--brand-blue))] shadow-sm backdrop-blur">
+              <span className="inline-flex h-5 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] px-2.5 text-[10px] font-semibold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-sm">
                 {profileContext.levelTitle}
               </span>
             ) : null}
@@ -811,7 +811,7 @@ function ProfileHero({
                 <EditProfileDialog>
                   <button
                     type="button"
-                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted)/0.72)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted)/0.72)] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                     aria-label="编辑资料"
                   >
                     <Edit3 className="h-4 w-4" />
@@ -858,7 +858,7 @@ function ProfileHero({
             className={cn(
               'grid grid-cols-4 overflow-hidden',
               compact
-                ? 'mt-4 rounded-md border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur'
+                ? 'mt-4 rounded-md border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur-sm'
                 : 'profile-stats-bar mt-8',
             )}
           >
@@ -878,7 +878,7 @@ function ProfileStatTile({ stat, compact, bordered }: { stat: ProfileStat; compa
     <Link
       href={stat.href}
       className={cn(
-        'group flex items-center justify-center transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
+        'group flex items-center justify-center transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
         compact
           ? 'min-h-[58px] flex-col justify-center gap-0.5 px-1 py-2.5 text-center'
           : 'min-h-[60px] gap-3 px-4 py-3.5',
@@ -930,7 +930,7 @@ function ProfileImageIcon({
       className={cn(
         'grid shrink-0 place-items-center rounded-lg',
         variant === 'heroStat'
-          ? 'bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))] ring-1 ring-[hsl(var(--brand-blue)/0.35)] shadow-sm dark:bg-white/20 dark:text-white dark:ring-white/28'
+          ? 'bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))] ring-1 ring-[hsl(var(--brand-blue)/0.35)] shadow-xs dark:bg-white/20 dark:text-white dark:ring-white/28'
           : variant === 'timeline'
             ? 'bg-[hsl(var(--brand-blue))] text-white ring-4 ring-[hsl(var(--surface-raised))] shadow-[0_14px_26px_-20px_hsl(var(--brand-blue)/0.85)]'
             : toneClassName,
@@ -1126,7 +1126,7 @@ function ExperienceBadgesPanel({
           <LevelGuideDialog>
             <button
               type="button"
-              className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="inline-flex min-h-8 shrink-0 items-center gap-0.5 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
             >
               查看规则
               <ChevronRight className="h-3.5 w-3.5" />
@@ -1420,7 +1420,7 @@ function MiniProjectCard({ project, mobile, embedded }: { project: Project; mobi
       <div
         className={cn(
           'relative shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]',
-          embedded ? 'h-16 w-[82px] rounded-sm' : mobile ? 'aspect-[16/10]' : 'aspect-[16/10]',
+          embedded ? 'h-16 w-[82px] rounded-sm' : mobile ? 'aspect-16/10' : 'aspect-16/10',
         )}
       >
         {project.image ? (

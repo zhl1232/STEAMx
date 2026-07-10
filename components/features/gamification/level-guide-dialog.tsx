@@ -182,7 +182,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             value="overview"
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
-            <div className="rounded-md border border-border bg-card p-4 text-card-foreground shadow-sm">
+            <div className="rounded-md border border-border bg-card p-4 text-card-foreground shadow-xs">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">当前等级</p>
@@ -246,7 +246,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             value="earn"
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
-            <div className="rounded-xs border bg-card text-card-foreground shadow-sm">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-xs">
               <div className="p-0">
                 <div className="grid grid-cols-[1fr_auto] gap-4 p-4 font-medium text-sm text-muted-foreground border-b bg-muted/30">
                   <div>获取方式</div>
@@ -295,7 +295,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             className="min-h-0 flex-1 overflow-y-auto py-4 data-[state=inactive]:hidden"
           >
             {/* 顶部进度面板 */}
-            <div className="rounded-xs border bg-card text-card-foreground shadow-sm mb-4 p-4">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-xs mb-4 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <Crown className="h-5 w-5 text-amber-500" />
@@ -323,7 +323,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
             </div>
 
             {/* 权益列表 */}
-            <div className="rounded-xs border bg-card text-card-foreground shadow-sm">
+            <div className="rounded-xs border bg-card text-card-foreground shadow-xs">
               <div className="divide-y">
                 {levelBenefits.map((ms) => {
                   const unlocked = level >= ms.level;

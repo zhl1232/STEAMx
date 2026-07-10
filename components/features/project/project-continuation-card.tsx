@@ -37,12 +37,12 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
 
   return (
     <section className={cn(
-      "overflow-hidden border border-border/70 bg-card/85 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-sm",
+      "overflow-hidden border border-border/70 bg-card/85 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.22)] backdrop-blur-xs",
       compact ? "rounded-lg" : "rounded-xl",
       className,
     )}>
       <div className={cn(
-        "border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20",
+        "border-b border-border/60 bg-linear-to-r from-primary/8 via-background to-secondary/20",
         compact ? "px-5 py-4" : "px-5 py-5 sm:px-7",
       )}>
         <p className="section-kicker">{copy.kicker}</p>
@@ -52,10 +52,10 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
         {project ? (
           <div className={cn(
             "grid gap-5 border border-border/70 bg-background/80 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.24)]",
-            compact ? "rounded-md p-3.5" : "rounded-[var(--radius-lg)] p-4 sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]",
+            compact ? "rounded-md p-3.5" : "rounded-(--radius-lg) p-4 sm:p-5 md:grid-cols-[220px_minmax(0,1fr)]",
           )}>
             <div className={cn(
-              "relative aspect-[16/10] overflow-hidden bg-muted",
+              "relative aspect-16/10 overflow-hidden bg-muted",
               compact ? "rounded-sm" : "rounded-lg",
             )}>
               <OptimizedImage
@@ -110,7 +110,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
         ) : (
           <div className={cn(
             "flex flex-col items-start gap-4 border border-dashed border-border/70 bg-background/65 px-5 py-6",
-            compact ? "rounded-md" : "rounded-[var(--radius-lg)] sm:px-6",
+            compact ? "rounded-md" : "rounded-(--radius-lg) sm:px-6",
           )}>
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
               <Compass className="h-5 w-5" />

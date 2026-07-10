@@ -625,7 +625,7 @@ export function ProjectComments({
                         highlighted={highlightedCommentIds.has(String(comment.id))}
                       />
                       {previewReplies.length > 0 && (
-                        <div className="ml-11 mt-2 rounded-md border border-border/50 bg-muted/[0.22] px-2 sm:ml-14 sm:px-3">
+                        <div className="ml-11 mt-2 rounded-md border border-border/50 bg-muted/22 px-2 sm:ml-14 sm:px-3">
                           {previewReplies.map((reply) => (
                             <div
                               key={reply.id}
@@ -838,7 +838,7 @@ export function ProjectComments({
       {/* 图片预览弹窗 */}
       {previewImageUrl && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4"
           onClick={() => setPreviewImageUrl(null)}
         >
           <button

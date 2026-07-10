@@ -144,7 +144,7 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
                   {(step.description || imageUrl) && (
                     <div className="space-y-2 border-t border-[hsl(var(--surface-border)/0.62)] px-3 pb-3 pt-2">
                       {imageUrl ? (
-                        <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-muted">
+                        <div className="relative aspect-16/10 overflow-hidden rounded-sm bg-muted">
                           <OptimizedImage
                             src={imageUrl}
                             alt={stepTitle}

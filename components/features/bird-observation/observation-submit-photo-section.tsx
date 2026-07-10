@@ -245,9 +245,9 @@ export function ObservationSubmitPhotoSection({
       ) : null}
 
       <div className="grid gap-3 md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]">
-        <div className="overflow-hidden rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)] text-[var(--obs-text)] [box-shadow:var(--obs-panel-shadow)]">
+        <div className="overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) [box-shadow:var(--obs-panel-shadow)]">
           {heroImage ? (
-            <div className="relative aspect-[16/11] min-h-[180px] sm:min-h-[210px] md:aspect-[16/10]">
+            <div className="relative aspect-16/11 min-h-[180px] sm:min-h-[210px] md:aspect-16/10">
             <OptimizedImage
               src={heroImage}
               alt="观察头图"
@@ -255,7 +255,7 @@ export function ObservationSubmitPhotoSection({
               variant="cover"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/72 via-stone-950/10 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-stone-950/72 via-stone-950/10 to-transparent" />
             <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2 sm:left-4 sm:top-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/35 px-3 py-1.5 text-xs font-medium backdrop-blur-md">
                 <Sparkles className="h-3.5 w-3.5" />
@@ -288,30 +288,30 @@ export function ObservationSubmitPhotoSection({
         ) : (
           <button
             type="button"
-            className="group flex aspect-[16/11] min-h-[180px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-[var(--obs-border-strong)] [background:var(--obs-photo-bg)] px-6 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:text-[var(--obs-text)] sm:min-h-[210px] md:aspect-[16/10]"
+            className="group flex aspect-16/11 min-h-[180px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-(--obs-border-strong) [background:var(--obs-photo-bg)] px-6 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:text-(--obs-text) sm:min-h-[210px] md:aspect-16/10"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading || authLoading}
           >
             {isUploading ? (
               <>
                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-500/60 border-t-transparent" />
-                <p className="text-base font-medium text-[var(--obs-text)]">上传中...</p>
-                <p className="text-sm text-[var(--obs-muted-2)]">正在处理 {uploadingCount} 张图片</p>
+                <p className="text-base font-medium text-(--obs-text)">上传中...</p>
+                <p className="text-sm text-(--obs-muted-2)">正在处理 {uploadingCount} 张图片</p>
               </>
             ) : authLoading ? (
               <>
-                <Loader2 className="h-9 w-9 animate-spin text-[var(--obs-accent)]" />
-                <p className="text-base font-medium text-[var(--obs-text)]">正在确认登录状态...</p>
-                <p className="text-sm text-[var(--obs-muted-2)]">稍候即可上传照片</p>
+                <Loader2 className="h-9 w-9 animate-spin text-(--obs-accent)" />
+                <p className="text-base font-medium text-(--obs-text)">正在确认登录状态...</p>
+                <p className="text-sm text-(--obs-muted-2)">稍候即可上传照片</p>
               </>
             ) : (
               <>
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--obs-border-strong)] bg-[var(--obs-accent-soft)] text-[var(--obs-accent-text)] transition-transform duration-300 group-hover:scale-105 group-hover:border-[var(--obs-accent)]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-(--obs-border-strong) bg-(--obs-accent-soft) text-(--obs-accent-text) transition-transform duration-300 group-hover:scale-105 group-hover:border-(--obs-accent)">
                   <Camera className="h-7 w-7" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-semibold tracking-tight text-[var(--obs-text)]">上传或拍摄照片</p>
-                  <p className="text-sm text-[var(--obs-muted-2)]">
+                  <p className="text-lg font-semibold tracking-tight text-(--obs-text)">上传或拍摄照片</p>
+                  <p className="text-sm text-(--obs-muted-2)">
                     支持多选，JPG / PNG / GIF / WebP
                   </p>
                 </div>
@@ -324,17 +324,17 @@ export function ObservationSubmitPhotoSection({
         {evidenceImages.length > 0 ? (
           <button
             type="button"
-            className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-[var(--obs-border-strong)] bg-[var(--obs-control)] px-5 text-center text-[var(--obs-muted)] transition duration-300 hover:border-[var(--obs-accent)] hover:bg-[var(--obs-control-hover)] hover:text-[var(--obs-text)] md:min-h-0"
+            className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-(--obs-border-strong) bg-(--obs-control) px-5 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:bg-(--obs-control-hover) hover:text-(--obs-text) md:min-h-0"
             onClick={() => fileInputRef.current?.click()}
             disabled={!canAddMore || isUploading || authLoading}
           >
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-[var(--obs-accent)] text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-(--obs-accent) text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
               {isUploading || authLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
             </span>
-            <span className="text-base font-semibold text-[var(--obs-text)]">
+            <span className="text-base font-semibold text-(--obs-text)">
               {canAddMore ? "添加更多照片" : "照片已达上限"}
             </span>
-            <span className="text-xs leading-5 text-[var(--obs-muted-2)]">
+            <span className="text-xs leading-5 text-(--obs-muted-2)">
               {evidenceImages.length}/{MAX_IMAGES} · 支持 JPG / PNG
             </span>
           </button>
@@ -346,7 +346,7 @@ export function ObservationSubmitPhotoSection({
           {galleryImages.map((url, index) => {
             const badge = getAnalysisBadge(analysisByImage.get(url)?.status)
             return (
-              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xs border border-[var(--obs-border-strong)] bg-[var(--obs-control)]">
+              <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control)">
                 <div className="relative aspect-square">
                   <OptimizedImage
                     src={url}
@@ -359,7 +359,7 @@ export function ObservationSubmitPhotoSection({
                 {badge ? (
                   <Badge
                     variant="outline"
-                    className={`absolute left-1.5 top-1.5 bg-background/88 backdrop-blur ${badge.className}`}
+                    className={`absolute left-1.5 top-1.5 bg-background/88 backdrop-blur-sm ${badge.className}`}
                   >
                     {badge.label}
                   </Badge>

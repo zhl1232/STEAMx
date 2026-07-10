@@ -1242,7 +1242,7 @@ export function ExploreClient({
                                                         !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
                                                         isActive && tone && cn(
                                                             activeToneBg,
-                                                            "border-transparent shadow-sm max-md:!border-[hsl(var(--brand-blue))] max-md:!bg-[hsl(var(--brand-blue))] max-md:!text-[hsl(var(--brand-blue-foreground))]",
+                                                            "border-transparent shadow-xs max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue))]! max-md:text-[hsl(var(--brand-blue-foreground))]!",
                                                         ),
                                                     )}
                                                 >
@@ -1262,7 +1262,7 @@ export function ExploreClient({
                                     </div>
                                     <div
                                         aria-hidden
-                                        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[hsl(var(--app-canvas))] via-[hsl(var(--app-canvas)/0.88)] to-transparent md:hidden"
+                                        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[hsl(var(--app-canvas))] via-[hsl(var(--app-canvas)/0.88)] to-transparent md:hidden"
                                     />
                                     </div>
                                 </div>
@@ -1452,10 +1452,10 @@ export function ExploreClient({
                                         <span className="text-xs text-muted-foreground">挑战进行中</span>
                                     </div>
                                     <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-                                        <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-[#0b68c9] to-[#9fd4ff]">
+                                        <div className="relative overflow-hidden rounded-sm bg-linear-to-br from-[#0b68c9] to-[#9fd4ff]">
                                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.72),transparent_20%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.34),transparent_24%)]" />
                                             <div className="relative flex h-full min-h-[92px] items-center justify-center">
-                                                <div className="h-0 w-0 rotate-[-16deg] border-b-[18px] border-l-[52px] border-t-[18px] border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.32)]" />
+                                                <div className="h-0 w-0 rotate-[-16deg] border-b-18 border-l-52 border-t-18 border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.32)]" />
                                             </div>
                                         </div>
                                         <div className="min-w-0">

@@ -21,7 +21,7 @@ interface MobilePageHeaderProps {
 }
 
 const headerSurfaceClass =
-  'border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-[backdrop-filter]:bg-background/80'
+  'border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-backdrop-filter:bg-background/80'
 
 export function MobilePageHeader({
   title,
@@ -57,7 +57,7 @@ export function MobilePageHeader({
         onClick={handleBack}
         aria-label={backLabel}
         className={cn(
-          'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           backButtonClassName,
         )}
       >

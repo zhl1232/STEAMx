@@ -45,13 +45,13 @@ export function ObservationMediaGallery({ mediaUrls }: ObservationMediaGalleryPr
       </div>
 
       <Dialog open={selectedIndex != null} onOpenChange={(open) => !open && setSelectedIndex(null)}>
-        <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 border-0 bg-black/96 p-0 shadow-none [&>button:last-child]:right-5 [&>button:last-child]:top-5 [&>button:last-child]:text-white sm:left-[50%] sm:top-[50%] sm:h-[92vh] sm:w-[92vw] sm:max-w-6xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10">
+        <DialogContent className="left-0 top-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 gap-0 border-0 bg-black/96 p-0 shadow-none [&>button:last-child]:right-5 [&>button:last-child]:top-5 [&>button:last-child]:text-white sm:left-[50%] sm:top-[50%] sm:h-[92vh] sm:w-[92vw] sm:max-w-6xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10">
           <DialogTitle className="sr-only">观察照片预览</DialogTitle>
           <DialogDescription className="sr-only">在弹层中查看完整观察照片，无需下载。</DialogDescription>
 
           {selectedUrl ? (
-            <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_45%)]">
-              <div className="absolute left-5 top-5 z-10 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-white/80 backdrop-blur">
+            <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_45%)]">
+              <div className="absolute left-5 top-5 z-10 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-white/80 backdrop-blur-sm">
                 {selectedIndex! + 1} / {mediaUrls.length}
               </div>
 
@@ -62,7 +62,7 @@ export function ObservationMediaGallery({ mediaUrls }: ObservationMediaGalleryPr
                     onClick={() => canGoPrev && setSelectedIndex((value) => (value == null ? value : value - 1))}
                     disabled={!canGoPrev}
                     className={cn(
-                      "absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur transition",
+                      "absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition",
                       canGoPrev ? "hover:bg-black/65" : "cursor-not-allowed opacity-35"
                     )}
                     aria-label="上一张图片"
@@ -75,7 +75,7 @@ export function ObservationMediaGallery({ mediaUrls }: ObservationMediaGalleryPr
                     onClick={() => canGoNext && setSelectedIndex((value) => (value == null ? value : value + 1))}
                     disabled={!canGoNext}
                     className={cn(
-                      "absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur transition",
+                      "absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition",
                       canGoNext ? "hover:bg-black/65" : "cursor-not-allowed opacity-35"
                     )}
                     aria-label="下一张图片"

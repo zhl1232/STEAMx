@@ -70,7 +70,7 @@ function CellOverlay({ state, size }: { state: CellState; size: number }) {
         case "attacking":
             return <div className="absolute inset-0 bg-red-500/15 z-10" />
         case "trying":
-            return <div className="absolute inset-0 bg-blue-400/30 ring ring-blue-400 animate-pulse z-10" />
+            return <div className="absolute inset-0 bg-blue-400/30 ring-3 ring-blue-400 animate-pulse z-10" />
         case "backtracked":
             return <div className="absolute inset-0 bg-muted/30 opacity-40 z-10" />
         case "safe":

@@ -61,7 +61,7 @@ export default function DesignSystemContent() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           <Surface variant="subtle" className="overflow-hidden">
-            <div className="aspect-[16/10] bg-[radial-gradient(circle_at_top_left,rgba(166,193,238,0.4),transparent_42%),linear-gradient(180deg,rgba(15,23,42,0.04),rgba(15,23,42,0.28))]" />
+            <div className="aspect-16/10 bg-[radial-gradient(circle_at_top_left,rgba(166,193,238,0.4),transparent_42%),linear-gradient(180deg,rgba(15,23,42,0.04),rgba(15,23,42,0.28))]" />
             <div className="space-y-4 p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -93,7 +93,7 @@ export default function DesignSystemContent() {
                 <FilterChip tone="green">自然观察</FilterChip>
                 <FilterChip tone="amber">挑战</FilterChip>
               </div>
-              <div className="rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.82)] px-4 py-3 text-sm text-muted-foreground shadow-sm">
+              <div className="rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.82)] px-4 py-3 text-sm text-muted-foreground shadow-xs">
                 搜索框、筛选 chip、主内容面板现在共享同一套圆角、边框和表面层级。
               </div>
             </div>

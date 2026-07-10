@@ -198,7 +198,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                 <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
                   {project.category}
                 </Badge>
-                <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">
+                <Badge variant="secondary" className="status-warning-surface rounded-xs border text-[hsl(var(--status-warning))]">
                   待审核
                 </Badge>
               </div>
@@ -212,7 +212,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                 </span>
               </CardDescription>
             </div>
-            <div className="status-success-surface shrink-0 rounded-[var(--radius-md)] border px-3 py-2 text-sm font-semibold">
+            <div className="status-success-surface shrink-0 rounded-md border px-3 py-2 text-sm font-semibold">
               低风险
             </div>
           </div>
@@ -265,7 +265,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                     <section className="space-y-4">
                       <h3 className="border-b border-border/70 pb-2 text-lg font-semibold">基本信息</h3>
                       {project.image_url && (
-                        <div className="relative h-64 w-full overflow-hidden rounded-[var(--radius-lg)] border border-border/70">
+                        <div className="relative h-64 w-full overflow-hidden rounded-(--radius-lg) border border-border/70">
                           <OptimizedImage
                             src={project.image_url}
                             alt={project.title}
@@ -319,7 +319,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                           {project.project_steps
                             .sort((a, b) => a.sort_order - b.sort_order)
                             .map((step, index) => (
-                              <div key={step.id} className="rounded-[var(--radius-lg)] border border-border/70 bg-background/80 p-4">
+                              <div key={step.id} className="rounded-(--radius-lg) border border-border/70 bg-background/80 p-4">
                                 <h4 className="font-medium mb-2 flex items-center gap-2">
                                   <Badge variant="secondary" className="h-6 w-6 rounded-full p-0 flex items-center justify-center">{index + 1}</Badge>
                                   {step.title}

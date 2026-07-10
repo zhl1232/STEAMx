@@ -106,9 +106,9 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
             <Link
               key={hotspot.locationName}
               href="/nature/map"
-              className="group block overflow-hidden rounded-[var(--radius-sm)] nature-media-placeholder shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
+              className="group block overflow-hidden rounded-sm nature-media-placeholder shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
             >
-              <div className="relative aspect-[16/9] overflow-hidden">
+              <div className="relative aspect-video overflow-hidden">
                 <Image
                   src={getHotspotImage(hotspot, index)}
                   alt=""
@@ -128,7 +128,7 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
                     <p className="line-clamp-1 text-[15px] font-bold leading-5 [text-shadow:0_2px_8px_rgba(0,0,0,0.55)]">{hotspot.locationName}</p>
                     <p className="mt-1 text-xs font-semibold text-white/82 [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">公开记录 {hotspot.observationCount} 条</p>
                   </div>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 nature-icon-accent backdrop-blur transition-transform duration-300 motion-safe:group-hover:translate-x-1">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 nature-icon-accent backdrop-blur-sm transition-transform duration-300 motion-safe:group-hover:translate-x-1">
                     <ChevronRight className="h-4 w-4" />
                   </span>
                 </div>

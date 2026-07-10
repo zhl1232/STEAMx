@@ -194,7 +194,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                   {projectCategory}
                 </Badge>
               )}
-              <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">
+              <Badge variant="secondary" className="status-warning-surface rounded-xs border text-[hsl(var(--status-warning))]">
                 待审核作品
               </Badge>
             </div>

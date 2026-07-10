@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
@@ -27,10 +27,10 @@ const buttonVariants = cva(
                 danger: "bg-[hsl(var(--status-danger))] text-[hsl(var(--status-danger-foreground))] hover:bg-[hsl(var(--status-danger)/0.92)]",
             },
             shape: {
-                default: "rounded-[var(--radius-sm)]",
-                soft: "rounded-[var(--radius-sm)]",
+                default: "rounded-sm",
+                soft: "rounded-sm",
                 pill: "rounded-full",
-                square: "rounded-[var(--radius-xs)]",
+                square: "rounded-xs",
             },
             size: {
                 default: "h-10 px-4 py-2",
@@ -40,9 +40,9 @@ const buttonVariants = cva(
             },
         },
         compoundVariants: [
-            { size: "sm", shape: "default", class: "rounded-[var(--radius-sm)]" },
-            { size: "sm", shape: "soft", class: "rounded-[var(--radius-sm)]" },
-            { size: "lg", shape: "default", class: "rounded-[var(--radius-sm)]" },
+            { size: "sm", shape: "default", class: "rounded-sm" },
+            { size: "sm", shape: "soft", class: "rounded-sm" },
+            { size: "lg", shape: "default", class: "rounded-sm" },
         ],
         defaultVariants: {
             variant: "default",

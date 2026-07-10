@@ -114,7 +114,7 @@ export function ProfileUserListPage({
                 <Link
                   key={profile.id}
                   href={`/users/${profile.id}`}
-                  className="surface-panel block rounded-[var(--radius-lg)] px-4 py-4 transition-transform hover:-translate-y-0.5"
+                  className="surface-panel block rounded-(--radius-lg) px-4 py-4 transition-transform hover:-translate-y-0.5"
                 >
                   <div className="flex items-start gap-4">
                     <AvatarWithFrame

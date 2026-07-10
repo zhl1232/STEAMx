@@ -20,7 +20,7 @@ const DIFFICULTY_LABELS: Record<number, string> = {
 }
 
 const SIZE_CLASSES = {
-    xs: "text-[10px] gap-[1px]",
+    xs: "text-[10px] gap-px",
     sm: "text-xs gap-0.5",
     md: "text-sm gap-1",
     lg: "text-base gap-1",

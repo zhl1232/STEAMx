@@ -1,0 +1,55 @@
+@utility playground-game-page {
+  @apply flex min-h-[calc(100dvh-12rem)] flex-col xl:flex-row;
+}
+
+@utility playground-game-main {
+  @apply flex w-full min-w-0 flex-1 flex-col items-center px-3 py-4 sm:p-6 xl:p-10;
+}
+
+@utility playground-game-center {
+  @apply justify-center;
+}
+
+@utility playground-game-board {
+  background-color: hsl(var(--surface-raised) / 0.9);
+  border-color: hsl(var(--surface-border) / 0.9);
+  box-shadow: 0 24px 68px -48px hsl(var(--surface-shadow) / 0.54);
+  @apply relative w-full max-w-full rounded-lg border p-3 backdrop-blur-sm sm:p-6;
+}
+
+@utility minesweeper-game-main {
+  @apply justify-start px-2 py-3 sm:px-4 sm:py-5 xl:px-6 xl:py-6;
+}
+
+@utility minesweeper-game-shell {
+  background-color: hsl(var(--surface-raised) / 0.74);
+  border-color: hsl(var(--surface-border) / 0.68);
+  box-shadow: 0 18px 52px -44px hsl(var(--surface-shadow) / 0.52);
+  @apply rounded-md p-1 sm:p-3 xl:p-4;
+}
+
+@utility playground-info-panel {
+  background-color: hsl(var(--surface-raised) / 0.88);
+  border-color: hsl(var(--surface-border) / 0.86);
+  @apply rounded-lg border shadow-none backdrop-blur-sm;
+}
+
+@utility gomoku-stone {
+  animation: gomoku-stone-place 140ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility gomoku-win-ring {
+  z-index: 8;
+  width: min(33px, calc(100% / 18.4));
+  height: min(33px, calc(100% / 18.4));
+  border: 2px solid hsl(var(--primary) / 0.92);
+  border-radius: 9999px;
+  background: hsl(var(--primary) / 0.05);
+  box-shadow:
+    0 0 0 1px hsl(var(--primary) / 0.18),
+    0 0 6px 1px hsl(var(--primary) / 0.34),
+    0 0 14px 3px hsl(var(--primary) / 0.2);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.82);
+  animation: gomoku-win-ring-in 180ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

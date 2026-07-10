@@ -22,15 +22,15 @@ const dialogContentVariants = cva(
       size: {
         sm: "max-w-lg p-6 sm:rounded-xs",
         md: "max-w-2xl p-6 sm:rounded-xs",
-        lg: "max-h-[85vh] max-w-3xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
-        xl: "max-h-[90vh] max-w-4xl overflow-y-auto p-6 sm:rounded-[var(--radius-lg)]",
+        lg: "max-h-[85vh] max-w-3xl overflow-y-auto p-6 sm:rounded-(--radius-lg)",
+        xl: "max-h-[90vh] max-w-4xl overflow-y-auto p-6 sm:rounded-(--radius-lg)",
         fullscreenMobile:
-          "h-[100dvh] max-h-[100dvh] w-full max-w-none translate-y-0 top-0 left-0 rounded-none p-0 sm:left-[50%] sm:top-[50%] sm:h-auto sm:max-h-[85vh] sm:max-w-3xl sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-[var(--radius-lg)] sm:p-6",
+          "h-dvh max-h-dvh w-full max-w-none translate-y-0 top-0 left-0 rounded-none p-0 sm:left-[50%] sm:top-[50%] sm:h-auto sm:max-h-[85vh] sm:max-w-3xl sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-(--radius-lg) sm:p-6",
       },
       chrome: {
         standard: "border-border",
         review: "border-border/70 bg-background/98 shadow-xl",
-        media: "border-border/60 bg-background p-0 sm:rounded-[var(--radius-lg)]",
+        media: "border-border/60 bg-background p-0 sm:rounded-(--radius-lg)",
       },
     },
     defaultVariants: {
@@ -74,7 +74,7 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
         <X className="h-4 w-4" />
         <span className="sr-only">关闭</span>
       </DialogPrimitive.Close>

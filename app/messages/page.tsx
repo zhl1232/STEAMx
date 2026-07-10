@@ -90,7 +90,7 @@ function MessagePageSkeleton() {
     <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="消息" fallbackHref="/" />
-        <div className="mobile-subnav sticky top-[var(--mobile-page-header-height)] z-20">
+        <div className="mobile-subnav sticky top-(--mobile-page-header-height) z-20">
           <div className="px-4 pb-3 pt-1">
             <div className="h-10 w-full animate-pulse rounded-full bg-muted" />
           </div>
@@ -184,7 +184,7 @@ function MessagesContent() {
     <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="消息" fallbackHref="/" />
-        <div className="mobile-subnav sticky top-[var(--mobile-page-header-height)] z-20">
+        <div className="mobile-subnav sticky top-(--mobile-page-header-height) z-20">
           <div className="px-4 pb-3 pt-1">
             <div className="segmented-control flex w-full justify-between gap-1">
               {TABS.map(({ key, shortLabel }) => (
@@ -295,7 +295,7 @@ function MessagesContent() {
                     <div
                       className={cn(
                         "surface-card p-3 transition-colors",
-                        !notification.is_read && "border-primary/25 bg-primary/[0.06]",
+                        !notification.is_read && "border-primary/25 bg-primary/6",
                       )}
                     >
                       <div className="flex items-center gap-3">

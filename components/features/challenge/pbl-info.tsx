@@ -76,7 +76,7 @@ export function PblInfo({ challenge }: PblInfoProps) {
           {challenge.drivingQuestion && (
             <div className="mt-5">
               <p className="text-[13px] font-semibold text-[hsl(var(--brand-blue))]">驱动问题</p>
-              <p className="mt-2 max-w-[34rem] text-lg font-semibold leading-8 tracking-tight text-foreground sm:text-[1.35rem] sm:leading-9">
+              <p className="mt-2 max-w-136 text-lg font-semibold leading-8 tracking-tight text-foreground sm:text-[1.35rem] sm:leading-9">
                 {challenge.drivingQuestion}
               </p>
             </div>
@@ -87,13 +87,13 @@ export function PblInfo({ challenge }: PblInfoProps) {
               {challenge.scenario && (
                 <div>
                   <h3 className="text-sm font-semibold">情境</h3>
-                  <p className="mt-2 max-w-[42rem] text-sm leading-7 text-muted-foreground">{challenge.scenario}</p>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">{challenge.scenario}</p>
                 </div>
               )}
               {challenge.expectedOutcome && (
                 <div>
                   <h3 className="text-sm font-semibold">预期目标</h3>
-                  <p className="mt-2 max-w-[42rem] text-sm leading-7 text-muted-foreground">{challenge.expectedOutcome}</p>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">{challenge.expectedOutcome}</p>
                 </div>
               )}
             </div>

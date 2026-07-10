@@ -112,7 +112,7 @@ export function RecommendationPanel(props: {
           type="button"
           onClick={handleRotate}
           disabled={isPending}
-          className="inline-flex min-h-8 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 text-[12px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
+          className="inline-flex min-h-8 items-center gap-1 rounded-sm px-1.5 text-[12px] font-medium text-[hsl(var(--brand-blue))] disabled:cursor-wait disabled:opacity-60"
         >
           <Repeat2 className={cn("h-3.5 w-3.5", isPending && "animate-spin")} />
           换一批

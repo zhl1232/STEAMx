@@ -82,7 +82,7 @@ const TUTOR_CLIENT_TIMING_ENABLED =
 const COMPOSER_MIN_HEIGHT_PX = 56
 const COMPOSER_MAX_HEIGHT_PX = 128
 const composerToolButtonClass =
-  'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-transparent text-foreground/80 transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] hover:text-[hsl(var(--brand-blue))] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
+  'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-transparent text-foreground/80 transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] hover:text-[hsl(var(--brand-blue))] active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
 const composerSendButtonClass =
   'h-10 w-10 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
 const VOICE_WAVE_BARS = [8, 14, 10, 16, 9]
@@ -1290,11 +1290,11 @@ export function GlobalTutorFab({
       {open && (
         <section
           className={cn(
-            'fixed right-4 z-50 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] md:right-6',
+            'fixed right-4 z-50 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] md:right-6',
             hideOnMobile && 'max-lg:hidden',
             fabPlacement === 'compact'
-              ? 'bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-[10.5rem]'
-              : 'bottom-[calc(12rem+env(safe-area-inset-bottom))] md:bottom-24',
+              ? 'bottom-[calc(5rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh_-_6rem_-_env(safe-area-inset-bottom))] md:bottom-42 md:max-h-[calc(100dvh_-_11.5rem)]'
+              : 'bottom-[calc(12rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh_-_13rem_-_env(safe-area-inset-bottom))] md:bottom-24 md:max-h-[calc(100dvh_-_7rem)]',
           )}
         >
           <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
@@ -1372,13 +1372,13 @@ export function GlobalTutorFab({
             </div>
           )}
 
-          <div ref={scrollRef} className="max-h-[min(52vh,420px)] flex-1 space-y-3 overflow-y-auto px-3.5 py-4">
+          <div ref={scrollRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-3.5 py-4">
             {view === 'history' && (
               <>
                 {historyLoading ? (
                   <div className="space-y-2">
                     {[1, 2, 3].map((item) => (
-                      <div key={item} className="h-14 animate-pulse rounded-[var(--radius-sm)] bg-muted" />
+                      <div key={item} className="h-14 animate-pulse rounded-sm bg-muted" />
                     ))}
                   </div>
                 ) : !historyItems || historyItems.length === 0 ? (
@@ -1391,7 +1391,7 @@ export function GlobalTutorFab({
                     return (
                       <div
                         key={item.id}
-                        className="group flex items-stretch overflow-hidden rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.15)] bg-[hsl(var(--surface-raised))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.4)]"
+                        className="group flex items-stretch overflow-hidden rounded-sm border border-[hsl(var(--brand-blue)/0.15)] bg-[hsl(var(--surface-raised))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.4)]"
                       >
                         <button
                           type="button"
@@ -1417,7 +1417,7 @@ export function GlobalTutorFab({
                           disabled={deleting || deletingHistoryId !== null}
                           aria-label={`删除历史对话：${item.title}`}
                           title="删除这条历史对话"
-                          className="my-1.5 mr-1.5 inline-flex w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--status-danger-surface)/0.78)] hover:text-[hsl(var(--status-danger))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--status-danger)/0.25)] disabled:cursor-wait disabled:opacity-55"
+                          className="my-1.5 mr-1.5 inline-flex w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--status-danger-surface)/0.78)] hover:text-[hsl(var(--status-danger))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--status-danger)/0.25)] disabled:cursor-wait disabled:opacity-55"
                         >
                           {deleting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
                         </button>
@@ -1486,7 +1486,7 @@ export function GlobalTutorFab({
                       type="button"
                       onClick={() => void sendMessage(buildStartStagePrompt(stageTitle || '当前阶段'))}
                       disabled={busy}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-xs font-semibold text-[hsl(var(--brand-blue-foreground))] shadow-sm transition-transform hover:scale-[1.03] disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-xs font-semibold text-[hsl(var(--brand-blue-foreground))] shadow-xs transition-transform hover:scale-[1.03] disabled:opacity-50"
                     >
                       <Sparkles className="h-3.5 w-3.5" />
                       带我开始这一步
@@ -1553,7 +1553,7 @@ export function GlobalTutorFab({
             )}
 
             {view === 'chat' && quota && !quota.canChat && (
-              <div className="rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
+              <div className="rounded-sm border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
                 今日免费次数或本月代币已用完。开通会员每月可获 {MEMBER_AI_MONTHLY_CREDITS} 代币，绝大多数时间够用～
               </div>
             )}
@@ -1605,13 +1605,13 @@ export function GlobalTutorFab({
               {pendingImages.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   {pendingImages.map((image) => (
-                    <span key={image} className="relative h-12 w-12 shrink-0 overflow-hidden rounded-[var(--radius-xs)] bg-muted">
+                    <span key={image} className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xs bg-muted">
                       <OptimizedImage src={image} alt="待发图片" fill variant="thumbnail" className="object-cover" />
                       <button
                         type="button"
                         onClick={() => removePendingImage(image)}
                         aria-label="移除图片"
-                        className="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-bl-[var(--radius-xs)] bg-black/55 text-white"
+                        className="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-bl-xs bg-black/55 text-white"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -1632,7 +1632,7 @@ export function GlobalTutorFab({
                         onClick={() => addSuggestedImage(image)}
                         disabled={busy}
                         aria-label="把这张照片发给小迪"
-                        className="relative h-10 w-10 shrink-0 overflow-hidden rounded-[var(--radius-xs)] bg-muted ring-1 ring-[hsl(var(--brand-blue)/0.2)] transition-transform hover:scale-105 disabled:opacity-50"
+                        className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xs bg-muted ring-1 ring-[hsl(var(--brand-blue)/0.2)] transition-transform hover:scale-105 disabled:opacity-50"
                       >
                         <OptimizedImage src={image} alt="场景照片" fill variant="thumbnail" className="object-cover" />
                       </button>
@@ -1642,7 +1642,7 @@ export function GlobalTutorFab({
               {activeVoiceFeedback ? (
                 <VoiceFeedbackBar feedback={activeVoiceFeedback} onStopSpeech={stopSpeechPlayback} />
               ) : null}
-              <div className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--background)/0.86)] px-2.5 pb-2 pt-2.5 shadow-[0_18px_38px_-30px_hsl(var(--brand-blue)/0.8),inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.52)] transition-[border-color,box-shadow] focus-within:border-[hsl(var(--brand-blue)/0.48)] focus-within:shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.11),0_20px_42px_-32px_hsl(var(--brand-blue)/0.86)]">
+              <div className="rounded-md border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--background)/0.86)] px-2.5 pb-2 pt-2.5 shadow-[0_18px_38px_-30px_hsl(var(--brand-blue)/0.8),inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.52)] transition-[border-color,box-shadow] focus-within:border-[hsl(var(--brand-blue)/0.48)] focus-within:shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.11),0_20px_42px_-32px_hsl(var(--brand-blue)/0.86)]">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -1656,9 +1656,9 @@ export function GlobalTutorFab({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  rows={2}
+                  rows={1}
                   placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问小迪一个问题…'}
-                  className="min-h-[56px] max-h-[128px] w-full resize-none border-0 bg-transparent px-1.5 py-1 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground/55 focus-visible:outline-none disabled:bg-transparent disabled:opacity-50"
+                  className="min-h-9 max-h-[128px] w-full resize-none border-0 bg-transparent px-1.5 py-1 text-sm leading-5 text-foreground outline-hidden placeholder:text-muted-foreground/55 focus-visible:outline-hidden disabled:bg-transparent disabled:opacity-50"
                   disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
                 />
                 <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
@@ -1763,7 +1763,7 @@ export function GlobalTutorFab({
         <div
           role="status"
           className={cn(
-            'fixed right-3 z-50 max-w-[11.5rem] rounded-[var(--radius-sm)] border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground/86 shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)] md:hidden',
+            'fixed right-3 z-50 max-w-46 rounded-sm border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground/86 shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)] md:hidden',
             hideOnMobile && 'hidden',
             fabPlacement === 'compact'
               ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
@@ -1786,7 +1786,7 @@ export function GlobalTutorFab({
         onPointerCancel={handleFabPointerEnd}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
-          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
           open
             ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
             : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
@@ -1828,7 +1828,7 @@ function VoiceFeedbackBar({
       role="status"
       aria-live="polite"
       className={cn(
-        'flex min-w-0 items-center gap-2 rounded-[var(--radius-sm)] border px-3 py-2 text-xs shadow-[0_14px_30px_-24px_hsl(var(--brand-blue)/0.68)]',
+        'flex min-w-0 items-center gap-2 rounded-sm border px-3 py-2 text-xs shadow-[0_14px_30px_-24px_hsl(var(--brand-blue)/0.68)]',
         isRecording
           ? 'border-[hsl(var(--status-danger)/0.2)] bg-[hsl(var(--status-danger-surface)/0.62)] text-[hsl(var(--status-danger))]'
           : 'border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.58)] text-[hsl(var(--brand-blue))]',
@@ -1869,7 +1869,7 @@ function VoiceFeedbackBar({
           onClick={onStopSpeech}
           aria-label="停止朗读"
           title="停止朗读"
-          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--surface-raised)/0.9)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--surface-raised))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)]"
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--surface-raised)/0.9)] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--surface-raised))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)]"
         >
           <VolumeX className="h-3.5 w-3.5" />
         </button>
@@ -1906,14 +1906,14 @@ function UserBubble({ message }: { message: TutorChatMessage }) {
     <div className="flex justify-end">
       <div className="max-w-[80%] space-y-1.5">
         {message.content ? (
-          <div className="whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tr-sm bg-[hsl(var(--brand-blue))] px-3 py-2 text-[13px] leading-6 text-[hsl(var(--brand-blue-foreground))]">
+          <div className="whitespace-pre-wrap rounded-sm rounded-tr-sm bg-[hsl(var(--brand-blue))] px-3 py-2 text-[13px] leading-6 text-[hsl(var(--brand-blue-foreground))]">
             {message.content}
           </div>
         ) : null}
         {message.images && message.images.length > 0 && (
           <div className="flex flex-wrap justify-end gap-1.5">
             {message.images.map((image, idx) => (
-              <span key={idx} className="relative h-12 w-12 overflow-hidden rounded-[var(--radius-xs)] bg-muted">
+              <span key={idx} className="relative h-12 w-12 overflow-hidden rounded-xs bg-muted">
                 <OptimizedImage src={image} alt="产出图" fill variant="thumbnail" className="object-cover" />
               </span>
             ))}
@@ -1968,7 +1968,7 @@ function TutorBubble({ children, error, action }: { children: ReactNode; error?:
     <div className="flex items-start gap-1.5">
       <div
         className={cn(
-          'max-w-[80%] whitespace-pre-wrap rounded-[var(--radius-sm)] rounded-tl-sm px-3 py-2 text-[13px] leading-6',
+          'max-w-[80%] whitespace-pre-wrap rounded-sm rounded-tl-sm px-3 py-2 text-[13px] leading-6',
           error
             ? 'bg-[hsl(var(--status-danger-surface)/0.7)] text-[hsl(var(--status-danger))]'
             : 'bg-[hsl(var(--surface-raised))] text-foreground/88',

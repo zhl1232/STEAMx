@@ -262,7 +262,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         className={cn(
                             "relative flex h-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-sm border p-2 text-center transition-all duration-200 group hover:shadow-md sm:gap-2 sm:p-3",
                             isUnlocked
-                                ? "bg-gradient-to-br from-white/80 via-white/60 to-white/35 border-white/70 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.35)] hover:border-primary/30 dark:from-slate-800/96 dark:via-slate-900/94 dark:to-slate-950/92 dark:border-white/12 dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78)] dark:hover:border-primary/25"
+                                ? "bg-linear-to-br from-white/80 via-white/60 to-white/35 border-white/70 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.35)] hover:border-primary/30 dark:from-slate-800/96 dark:via-slate-900/94 dark:to-slate-950/92 dark:border-white/12 dark:shadow-[0_16px_32px_-20px_rgba(0,0,0,0.78)] dark:hover:border-primary/25"
                                 : "bg-white/55 border-slate-200/80 opacity-95 dark:bg-slate-950/82 dark:border-white/8 dark:opacity-100",
                         )}
                     >
@@ -359,7 +359,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                 <section
                     key={seriesKey}
                     className={cn(
-                        "relative rounded-[var(--radius-lg)] border p-3 shadow-sm backdrop-blur-sm dark:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.72)] sm:p-4",
+                        "relative rounded-(--radius-lg) border p-3 shadow-xs backdrop-blur-xs dark:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.72)] sm:p-4",
                         theme?.section ?? "border-border/70 bg-background/95 dark:border-white/10 dark:bg-slate-900/95"
                     )}
                 >
@@ -367,7 +367,7 @@ export function BadgeGalleryDialog({ badges, unlockedBadges, userBadgeDetails, c
                         <div className="min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
                                 <h3 className="text-sm font-semibold tracking-tight text-foreground sm:text-base">{label}</h3>
-                                <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-medium shadow-sm sm:text-[11px]", theme?.chip ?? "border-border/70 bg-muted/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70")}>
+                                <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-medium shadow-xs sm:text-[11px]", theme?.chip ?? "border-border/70 bg-muted/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70")}>
                                     {progressText}
                                 </span>
                                 {completed ? (

@@ -41,7 +41,7 @@ export default function AppearanceSettingsPage() {
               onClick={() => setTheme(opt.value)}
               className={cn(
                 "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5",
-                selected && "border-primary/40 bg-primary/[0.08]",
+                selected && "border-primary/40 bg-primary/8",
               )}
             >
               <div className="flex items-start gap-3">
@@ -75,7 +75,7 @@ export default function AppearanceSettingsPage() {
           disabled={!blackGoldUnlocked}
           className={cn(
             "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70",
-            currentTheme === "black-gold" && "border-amber-500/40 bg-amber-500/[0.08]",
+            currentTheme === "black-gold" && "border-amber-500/40 bg-amber-500/8",
           )}
         >
           <div className="flex items-start gap-3">

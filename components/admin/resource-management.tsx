@@ -258,7 +258,7 @@ export function ResourceManagement() {
             <p className="text-muted-foreground">暂无资料卡</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/95">
+          <div className="overflow-hidden rounded-(--radius-lg) border border-border/70 bg-background/95">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>

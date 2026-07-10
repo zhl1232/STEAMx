@@ -34,7 +34,7 @@ export function AvatarWithFrame({
       frameClass,
       className,
     )}>
-      <Avatar className={cn(avatarClassName, "!h-full !w-full shrink-0 rounded-full ring-2 ring-background")}>
+      <Avatar className={cn(avatarClassName, "h-full! w-full! shrink-0 rounded-full ring-2 ring-background")}>
         <AvatarImage src={src ?? undefined} alt={alt} />
         <AvatarFallback>{fallback}</AvatarFallback>
       </Avatar>

@@ -141,14 +141,14 @@ export function SwipeablePhotoViewer({
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.18 }}
-          className="pointer-events-none absolute right-3 top-3 z-20 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm"
+          className="pointer-events-none absolute right-3 top-3 z-20 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-xs"
         >
           {index + 1}/{count}
         </motion.div>
       ) : null}
 
       {showSwipeHint && count > 1 ? (
-        <div className="pointer-events-none absolute bottom-3 right-3 z-20 rounded-full border border-white/20 bg-black/35 px-2.5 py-1 text-[10px] text-white/80 backdrop-blur">
+        <div className="pointer-events-none absolute bottom-3 right-3 z-20 rounded-full border border-white/20 bg-black/35 px-2.5 py-1 text-[10px] text-white/80 backdrop-blur-sm">
           左右滑动
         </div>
       ) : null}

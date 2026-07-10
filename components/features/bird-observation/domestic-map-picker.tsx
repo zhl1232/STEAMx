@@ -366,8 +366,8 @@ export function DomesticMapPicker({
         </div>
         {!isReady ? (
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-md border border-transparent">
-            <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(28deg,transparent_0_44%,rgba(143,211,156,0.18)_45%_47%,transparent_48%_100%),linear-gradient(150deg,transparent_0_52%,rgba(105,181,132,0.16)_53%_55%,transparent_56%_100%),radial-gradient(circle_at_64%_42%,rgba(77,199,112,0.28),transparent_9%)]" />
-            <div className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--obs-accent)] [box-shadow:var(--obs-soft-shadow)]">
+            <div className="absolute inset-0 opacity-70 bg-[linear-gradient(28deg,transparent_0_44%,rgba(143,211,156,0.18)_45%_47%,transparent_48%_100%),linear-gradient(150deg,transparent_0_52%,rgba(105,181,132,0.16)_53%_55%,transparent_56%_100%),radial-gradient(circle_at_64%_42%,rgba(77,199,112,0.28),transparent_9%)]" />
+            <div className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--obs-accent) [box-shadow:var(--obs-soft-shadow)]">
               <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
             </div>
           </div>

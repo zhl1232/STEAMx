@@ -109,7 +109,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
               {resource.title}
             </h1>
             {resource.summary ? (
-              <p className="mt-3 max-w-[42rem] text-sm leading-7 text-muted-foreground">
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
                 {resource.summary}
               </p>
             ) : null}

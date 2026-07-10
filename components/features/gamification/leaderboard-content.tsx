@@ -57,19 +57,19 @@ type LeaderboardConfig = {
 const RANK_STYLES: Record<number, { badge: string; card: string; value: string; label: string }> = {
     1: {
         badge: "from-amber-300 to-orange-500 text-white shadow-orange-500/25",
-        card: "border-amber-300/80 bg-gradient-to-br from-amber-50 via-white to-orange-50 shadow-amber-500/10 dark:border-amber-400/30 dark:from-amber-500/10 dark:via-white/[0.04] dark:to-orange-500/10",
+        card: "border-amber-300/80 bg-linear-to-br from-amber-50 via-white to-orange-50 shadow-amber-500/10 dark:border-amber-400/30 dark:from-amber-500/10 dark:via-white/4 dark:to-orange-500/10",
         value: "text-orange-500 dark:text-amber-300",
         label: "冠军",
     },
     2: {
         badge: "from-slate-200 to-blue-300 text-slate-700 shadow-blue-400/20",
-        card: "border-blue-200/80 bg-gradient-to-br from-blue-50 via-white to-slate-50 shadow-blue-500/10 dark:border-blue-300/25 dark:from-blue-500/10 dark:via-white/[0.04] dark:to-slate-500/10",
+        card: "border-blue-200/80 bg-linear-to-br from-blue-50 via-white to-slate-50 shadow-blue-500/10 dark:border-blue-300/25 dark:from-blue-500/10 dark:via-white/4 dark:to-slate-500/10",
         value: "text-blue-600 dark:text-blue-300",
         label: "亚军",
     },
     3: {
         badge: "from-orange-200 to-orange-500 text-white shadow-orange-500/20",
-        card: "border-orange-200/80 bg-gradient-to-br from-orange-50 via-white to-rose-50 shadow-orange-500/10 dark:border-orange-300/25 dark:from-orange-500/10 dark:via-white/[0.04] dark:to-rose-500/10",
+        card: "border-orange-200/80 bg-linear-to-br from-orange-50 via-white to-rose-50 shadow-orange-500/10 dark:border-orange-300/25 dark:from-orange-500/10 dark:via-white/4 dark:to-rose-500/10",
         value: "text-orange-600 dark:text-orange-300",
         label: "季军",
     },
@@ -98,7 +98,7 @@ function getGrowthTaskPreview(tasks: ProfileGrowthTask[]) {
 
 function LeaderboardGrowthGraduatedCard() {
     return (
-        <div className="rounded-md border border-blue-100 bg-gradient-to-br from-blue-50/90 to-white p-4 dark:border-blue-400/20 dark:from-blue-500/10 dark:to-white/[0.02]">
+        <div className="rounded-md border border-blue-100 bg-linear-to-br from-blue-50/90 to-white p-4 dark:border-blue-400/20 dark:from-blue-500/10 dark:to-white/2">
             <div className="flex items-start gap-2">
                 <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
                 <div className="min-w-0">
@@ -224,7 +224,7 @@ function RankBadge({ rank }: { rank: number }) {
         return (
             <span
                 className={cn(
-                    "inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-xs font-black shadow-lg sm:h-9 sm:w-9 sm:text-sm",
+                    "inline-flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-br text-xs font-black shadow-lg sm:h-9 sm:w-9 sm:text-sm",
                     RANK_STYLES[rank].badge,
                 )}
             >
@@ -234,7 +234,7 @@ function RankBadge({ rank }: { rank: number }) {
     }
 
     return (
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600 dark:bg-white/[0.08] dark:text-slate-300 sm:h-9 sm:w-9 sm:text-sm">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600 dark:bg-white/8 dark:text-slate-300 sm:h-9 sm:w-9 sm:text-sm">
             {rank}
         </span>
     );
@@ -260,14 +260,14 @@ function PodiumCard({
                 "relative flex min-h-[136px] flex-col items-center justify-between overflow-visible rounded-lg border px-1.5 pb-2.5 pt-5 text-center shadow-[0_26px_56px_-42px_hsl(var(--surface-shadow)/0.58)] md:min-h-[214px] md:rounded-lg md:px-4 md:pb-5 md:pt-9",
                 style.card,
                 isChampion && "md:-translate-y-4 md:min-h-[232px] md:pb-6 md:pt-10",
-                !user && "border-dashed bg-gradient-to-br from-white via-slate-50 to-blue-50/70 opacity-95 dark:from-white/[0.05] dark:via-white/[0.03] dark:to-blue-400/10",
+                !user && "border-dashed bg-linear-to-br from-white via-slate-50 to-blue-50/70 opacity-95 dark:from-white/5 dark:via-white/3 dark:to-blue-400/10",
             )}
         >
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
                 <RankBadge rank={rank} />
             </div>
             <div className="pointer-events-none absolute -right-4 -top-8 h-24 w-24 rounded-full bg-white/60 blur-2xl dark:bg-white/10 md:-right-8" />
-            <div className="pointer-events-none absolute inset-x-5 bottom-3 h-8 rounded-full bg-gradient-to-r from-transparent via-white/70 to-transparent blur-xl dark:via-white/10" />
+            <div className="pointer-events-none absolute inset-x-5 bottom-3 h-8 rounded-full bg-linear-to-r from-transparent via-white/70 to-transparent blur-xl dark:via-white/10" />
 
             {user ? (
                 <>
@@ -300,20 +300,20 @@ function PodiumCard({
                 </>
             ) : (
                 <>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-dashed border-blue-200 bg-white/80 text-blue-500 shadow-sm dark:border-blue-300/25 dark:bg-white/[0.06] dark:text-blue-300 md:h-16 md:w-16">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-dashed border-blue-200 bg-white/80 text-blue-500 shadow-xs dark:border-blue-300/25 dark:bg-white/6 dark:text-blue-300 md:h-16 md:w-16">
                         {rank === 1 ? <Trophy className="h-5 w-5 md:h-7 md:w-7" /> : <UserRoundPlus className="h-5 w-5 md:h-7 md:w-7" />}
                     </div>
                     <div className="mt-2 md:mt-4">
                         <div className="text-xs font-black text-slate-700 dark:text-slate-200 md:text-base">虚位以待</div>
-                        <div className="mt-2 hidden items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-border/70 dark:bg-white/[0.05] md:inline-flex">
+                        <div className="mt-2 hidden items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-border/70 dark:bg-white/5 md:inline-flex">
                             <LockKeyhole className="h-3.5 w-3.5" />
                             第 {rank} 名席位
                         </div>
                     </div>
-                    <p className="mt-4 hidden max-w-[13rem] text-sm leading-6 text-muted-foreground md:block">
+                    <p className="mt-4 hidden max-w-52 text-sm leading-6 text-muted-foreground md:block">
                         完成记录、挑战或互动后，就能登上这里。
                     </p>
-                    <div className="mt-4 hidden h-12 w-full max-w-[9rem] rounded-t-lg border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10 md:block" />
+                    <div className="mt-4 hidden h-12 w-full max-w-36 rounded-t-lg border border-dashed border-blue-200/80 bg-blue-50/70 dark:border-blue-300/20 dark:bg-blue-400/10 md:block" />
                 </>
             )}
         </article>
@@ -346,7 +346,7 @@ function LeaderboardRow({
     return (
         <div
             className={cn(
-                "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/50 px-4 py-3.5 transition-colors last:border-b-0 hover:bg-blue-50/50 dark:hover:bg-white/[0.04] sm:grid-cols-[64px_minmax(0,1fr)_96px_132px] xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5",
+                "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/50 px-4 py-3.5 transition-colors last:border-b-0 hover:bg-blue-50/50 dark:hover:bg-white/4 sm:grid-cols-[64px_minmax(0,1fr)_96px_132px] xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5",
                 user.isCurrentUser && "bg-blue-50/90 ring-1 ring-inset ring-blue-200/80 dark:bg-blue-400/10 dark:ring-blue-300/20",
             )}
         >
@@ -359,7 +359,7 @@ function LeaderboardRow({
                     src={user.avatar}
                     fallback={user.name[0] ?? "?"}
                     avatarFrameId={user.avatarFrameId}
-                    className="h-11 w-11 shrink-0 border-2 border-background shadow-sm xl:h-12 xl:w-12"
+                    className="h-11 w-11 shrink-0 border-2 border-background shadow-xs xl:h-12 xl:w-12"
                     avatarClassName="h-11 w-11 xl:h-12 xl:w-12"
                 />
                 <div className="min-w-0">
@@ -426,7 +426,7 @@ function CurrentUserStrip({
     valueLabel: string;
 }) {
     return (
-        <div className="mt-4 overflow-hidden rounded-md border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 shadow-[0_18px_44px_-34px_rgba(37,99,235,0.55)] dark:border-blue-300/20 dark:from-blue-400/10 dark:to-cyan-400/10">
+        <div className="mt-4 overflow-hidden rounded-md border border-blue-200 bg-linear-to-r from-blue-50 to-cyan-50 shadow-[0_18px_44px_-34px_rgba(37,99,235,0.55)] dark:border-blue-300/20 dark:from-blue-400/10 dark:to-cyan-400/10">
             <div className="grid grid-cols-[72px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5">
                 <div>
                     <div className="text-xs font-semibold text-blue-600 dark:text-blue-300">我的排名</div>
@@ -508,7 +508,7 @@ function LeaderboardGrowthTaskList({
                 <button
                     type="button"
                     onClick={onReloadGrowthTasks}
-                    className="mt-3 rounded-full bg-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-orange-600"
+                    className="mt-3 rounded-full bg-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-xs transition hover:bg-orange-600"
                 >
                     重试
                 </button>
@@ -523,7 +523,7 @@ function LeaderboardGrowthTaskList({
     const previewTasks = getGrowthTaskPreview(tasks ?? []);
 
     if (previewTasks.length === 0) {
-        return <div className="rounded-md border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/[0.03]">暂无新手引导数据</div>;
+        return <div className="rounded-md border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground dark:bg-white/3">暂无新手引导数据</div>;
     }
 
     return (
@@ -554,7 +554,7 @@ function LeaderboardGrowthTaskList({
                                     type="button"
                                     disabled={isClaiming}
                                     onClick={() => onClaimGrowthTask(task.id)}
-                                    className="inline-flex h-7 min-w-14 items-center justify-center rounded-full bg-blue-600 px-3 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                    className="inline-flex h-7 min-w-14 items-center justify-center rounded-full bg-blue-600 px-3 text-xs font-bold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
                                 >
                                     {isClaiming ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "领取"}
                                 </button>
@@ -609,7 +609,7 @@ function LeaderboardSidePanel({
                 <LevelGuideDialog defaultTab="earn">
                     <button
                         type="button"
-                        className="mt-4 inline-flex min-h-9 items-center rounded-full border border-blue-200 bg-blue-50/70 px-4 text-sm font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300 dark:hover:bg-blue-400/15"
+                        className="mt-4 inline-flex min-h-9 items-center rounded-full border border-blue-200 bg-blue-50/70 px-4 text-sm font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100/80 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/30 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300 dark:hover:bg-blue-400/15"
                     >
                         查看成长体系
                         <ChevronRight className="ml-1 h-4 w-4" />
@@ -808,7 +808,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                 <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as LeaderboardType)} className="w-full">
                     <div className="surface-panel p-2.5 sm:p-4 lg:p-5">
                         <div className="flex flex-col gap-2.5 sm:gap-3 xl:flex-row xl:items-start xl:justify-between">
-                            <TabsList className={cn("grid h-auto w-full grid-cols-4 rounded-lg bg-muted/60 p-1 dark:bg-white/[0.04] sm:max-w-[560px] sm:rounded-md xl:max-w-[600px]", compact && "mb-0")}>
+                            <TabsList className={cn("grid h-auto w-full grid-cols-4 rounded-lg bg-muted/60 p-1 dark:bg-white/4 sm:max-w-[560px] sm:rounded-md xl:max-w-[600px]", compact && "mb-0")}>
                                 {LEADERBOARD_TABS.map((tab) => {
                                     const tabConfig = getTabConfig(tab);
                                     return (
@@ -826,7 +826,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
 
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center xl:justify-end">
                                 {currentTab === "xp" ? (
-                                    <div className="inline-grid w-full grid-cols-3 rounded-full border border-border/70 bg-background/70 p-1 text-sm shadow-sm dark:bg-white/[0.03] sm:w-auto" role="group" aria-label="经验时间范围">
+                                    <div className="inline-grid w-full grid-cols-3 rounded-full border border-border/70 bg-background/70 p-1 text-sm shadow-xs dark:bg-white/3 sm:w-auto" role="group" aria-label="经验时间范围">
                                         {(["weekly", "monthly", "alltime"] as const).map((range) => (
                                             <button
                                                 key={range}
@@ -834,7 +834,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                                                 onClick={() => setXpTimeRange(range)}
                                                 className={cn(
                                                     "min-h-8 rounded-full px-3 font-semibold text-muted-foreground transition-colors hover:text-foreground sm:min-h-9 sm:px-4",
-                                                    xpTimeRange === range && "bg-blue-600 text-white shadow-sm hover:text-white",
+                                                    xpTimeRange === range && "bg-blue-600 text-white shadow-xs hover:text-white",
                                                 )}
                                             >
                                                 {XP_TIME_RANGE_LABEL[range]}
@@ -842,7 +842,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="inline-flex min-h-10 items-center self-start rounded-full border border-border/70 bg-background/70 px-3 text-sm font-semibold text-muted-foreground shadow-sm dark:bg-white/[0.03] sm:min-h-11 sm:px-4">
+                                    <div className="inline-flex min-h-10 items-center self-start rounded-full border border-border/70 bg-background/70 px-3 text-sm font-semibold text-muted-foreground shadow-xs dark:bg-white/3 sm:min-h-11 sm:px-4">
                                         按已通过记录统计
                                     </div>
                                 )}

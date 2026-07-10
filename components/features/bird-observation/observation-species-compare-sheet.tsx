@@ -141,11 +141,11 @@ export function ObservationSpeciesCompareSheet({
               ) : undefined}
             >
               {isLoading ? (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40">
+                <div className="flex aspect-4/3 items-center justify-center rounded-sm bg-muted/40">
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               ) : error ? (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 px-4 text-center text-sm text-muted-foreground">
+                <div className="flex aspect-4/3 items-center justify-center rounded-sm bg-muted/40 px-4 text-center text-sm text-muted-foreground">
                   {error}
                 </div>
               ) : referenceImages.length > 0 ? (
@@ -156,7 +156,7 @@ export function ObservationSpeciesCompareSheet({
                   alt={species?.commonName ?? target?.commonName ?? "参考图"}
                 />
               ) : (
-                <div className="flex aspect-[4/3] items-center justify-center rounded-sm bg-muted/40 text-sm text-muted-foreground">
+                <div className="flex aspect-4/3 items-center justify-center rounded-sm bg-muted/40 text-sm text-muted-foreground">
                   暂无参考图
                 </div>
               )}
@@ -208,7 +208,7 @@ function CompareImageViewer({
 
   if (!activeUrl) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-border/60 bg-muted/40 text-sm text-muted-foreground">
+      <div className="flex aspect-4/3 items-center justify-center rounded-sm border border-border/60 bg-muted/40 text-sm text-muted-foreground">
         {emptyLabel}
       </div>
     )
@@ -216,7 +216,7 @@ function CompareImageViewer({
 
   return (
     <div>
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border/60 bg-muted/40">
+      <div className="relative aspect-4/3 w-full overflow-hidden rounded-sm border border-border/60 bg-muted/40">
         <OptimizedImage
           key={activeUrl}
           src={activeUrl}
@@ -227,14 +227,14 @@ function CompareImageViewer({
           sizes="(max-width: 640px) 100vw, 45vw"
         />
         {imageUrls.length > 1 ? (
-          <div className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
+          <div className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-xs">
             {activeIndex + 1}/{imageUrls.length}
           </div>
         ) : null}
       </div>
 
       {imageUrls.length > 1 ? (
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden">
           {imageUrls.map((url, index) => (
             <button
               key={`${url}-${index}`}

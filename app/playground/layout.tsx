@@ -295,7 +295,7 @@ function SettingsDialog({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-foreground/30 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 bg-foreground/30 backdrop-blur-xs"
                         onClick={onClose}
                     />
                     <motion.div
@@ -329,7 +329,7 @@ function SettingsDialog({
                                     const hasData = getPlaygroundItem(key) !== null
                                     const isPending = pendingAction === key || pendingAction === "all"
                                     return (
-                                        <div key={key} className="flex items-center justify-between rounded-[var(--radius-sm)] px-2.5 py-2 hover:bg-muted/50">
+                                        <div key={key} className="flex items-center justify-between rounded-sm px-2.5 py-2 hover:bg-muted/50">
                                             <span className="text-xs font-semibold">{label}</span>
                                             <Button
                                                 type="button"
@@ -413,14 +413,14 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
     const navItems = [{ name: "首页", href: "/playground", icon: Home }, ...games]
 
     return (
-        <div className="surface-panel sticky top-[var(--mobile-global-header-height,0px)] z-30 rounded-none border-x-0 border-t-0 lg:hidden">
+        <div className="surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
             <div className="flex min-h-14 items-center justify-between gap-3 px-4">
                 {isHome ? (
                     <div className="w-11" />
                 ) : (
                     <Link
                         href="/playground"
-                        className="grid h-11 w-11 place-items-center rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border))] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                        className="grid h-11 w-11 place-items-center rounded-sm border border-[hsl(var(--surface-border))] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                         aria-label="返回游乐场首页"
                     >
                         <Home className="h-5 w-5" />
@@ -450,9 +450,9 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-[var(--radius-sm)] px-4 text-sm font-bold transition-colors",
+                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-sm px-4 text-sm font-bold transition-colors",
                                     active
-                                        ? "bg-primary text-primary-foreground shadow-sm"
+                                        ? "bg-primary text-primary-foreground shadow-xs"
                                         : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
                                 )}
                             >
@@ -492,7 +492,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                         className={cn(
                             "flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-bold transition-colors",
                             pathname === "/playground"
-                                ? "bg-primary text-primary-foreground shadow-sm"
+                                ? "bg-primary text-primary-foreground shadow-xs"
                                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
                         )}
                     >
@@ -513,7 +513,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                                 )}
                             >
-                                <span className="surface-subtle grid h-8 w-8 shrink-0 place-items-center rounded-[var(--radius-sm)]">
+                                <span className="surface-subtle grid h-8 w-8 shrink-0 place-items-center rounded-sm">
                                     <game.icon className={cn("h-[18px] w-[18px]", active ? game.color : "text-muted-foreground group-hover:text-primary")} />
                                 </span>
                                 <span className="min-w-0 flex-1">
@@ -579,10 +579,10 @@ function MissionHintCard({
     const toneClass = categoryToneClasses[tone]
 
     return (
-        <div className={cn("flex min-w-0 items-start gap-3 rounded-[var(--radius-sm)] px-3 py-3", toneClass.bg)}>
+        <div className={cn("flex min-w-0 items-start gap-3 rounded-sm px-3 py-3", toneClass.bg)}>
             <span
                 className={cn(
-                    "grid h-10 w-10 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-background/80",
+                    "grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-background/80",
                     toneClass.text,
                 )}
             >

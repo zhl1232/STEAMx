@@ -264,7 +264,7 @@ export function ProjectRecordsClient({
             </FeedTabButton>
           </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="control-field ml-auto h-8 w-[108px] rounded-full text-xs shadow-sm">
+            <SelectTrigger className="control-field ml-auto h-8 w-[108px] rounded-full text-xs shadow-xs">
               <SelectValue placeholder="全部类型" />
             </SelectTrigger>
             <SelectContent>
@@ -370,7 +370,7 @@ export function ProjectRecordsClient({
 }
 
 function RecordsPageShell({ children }: { children: React.ReactNode }) {
-  return <div className="relative min-h-[100dvh] bg-[hsl(var(--app-canvas))] pb-12">{children}</div>
+  return <div className="relative min-h-dvh bg-[hsl(var(--app-canvas))] pb-12">{children}</div>
 }
 
 function RecordsPageContent({ children }: { children: React.ReactNode }) {

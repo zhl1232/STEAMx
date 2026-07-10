@@ -46,7 +46,7 @@
 
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
-- `app/globals.css` — 全局样式与 CSS 变量；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
+- `app/globals.css` — 全局样式与 CSS 变量；Tailwind CSS 4 CSS-first 配置入口（`@theme` / `@utility` / `@plugin`）；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
@@ -391,12 +391,12 @@
 
 | 文件 | 用途 |
 |------|------|
-| `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.110.x / TypeScript 7.0.x；Lint 策略已切到 Oxlint，不再保留 ESLint 链路 |
+| `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.110.x / TypeScript 7.0.x / Tailwind CSS 4.3.x；Lint 策略已切到 Oxlint，不再保留 ESLint 链路 |
 | `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理 |
 | `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式、`allowedDevOrigins`；内网/手机访问开发服务可用 `NEXT_ALLOWED_DEV_ORIGINS=ip1,ip2` 追加允许来源） |
-| `tailwind.config.ts` | Tailwind CSS 配置（自定义主题） |
-| `postcss.config.js` | PostCSS 配置 |
+| `app/globals.css` | Tailwind CSS 4 CSS-first 配置（`@import 'tailwindcss'`、`@plugin 'tailwindcss-animate'`、自定义 theme/utility） |
+| `postcss.config.js` | PostCSS 配置（Tailwind v4 使用 `@tailwindcss/postcss`） |
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |
 | `renovate.json` | Renovate 自动依赖更新 |

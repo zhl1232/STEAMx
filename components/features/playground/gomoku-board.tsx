@@ -227,11 +227,11 @@ export function GomokuBoard({
             }
         >
             <div
-                className="aspect-square w-full max-w-[675px] mx-auto rounded-md border border-amber-900/20 bg-gradient-to-br from-amber-100 to-amber-200/80 shadow-inner dark:border-amber-200/10 dark:from-amber-950/40 dark:to-amber-900/30"
+                className="aspect-square w-full max-w-[675px] mx-auto rounded-md border border-amber-900/20 bg-linear-to-br from-amber-100 to-amber-200/80 shadow-inner dark:border-amber-200/10 dark:from-amber-950/40 dark:to-amber-900/30"
                 style={boardStyle}
             >
                 <div className="relative h-full w-full">
-                    <div className="absolute inset-[var(--gomoku-edge)]">
+                    <div className="absolute inset-(--gomoku-edge)">
                         {BOARD_LINES.map((index) => (
                             <span
                                 key={`v-${index}`}
@@ -294,15 +294,15 @@ export function GomokuBoard({
                                     }}
                                     className={cn(
                                         "group absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full transition",
-                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-amber-100 dark:focus-visible:ring-offset-amber-950",
+                                        "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-amber-100 dark:focus-visible:ring-offset-amber-950",
                                         selected ? "z-20" : "z-10",
                                         disabled || occupied ? "cursor-default" : "cursor-pointer",
                                     )}
                                 >
                                     {cell.value === "black" ? (
-                                        <span className="gomoku-stone h-[72%] w-[72%] rounded-full border border-gray-700 bg-gray-900 shadow-sm shadow-black/40 dark:border-gray-300 dark:bg-gray-100 sm:shadow-md" />
+                                        <span className="gomoku-stone h-[72%] w-[72%] rounded-full border border-gray-700 bg-gray-900 shadow-xs shadow-black/40 dark:border-gray-300 dark:bg-gray-100 sm:shadow-md" />
                                     ) : cell.value === "white" ? (
-                                        <span className="gomoku-stone h-[72%] w-[72%] rounded-full border border-gray-400 bg-gradient-to-br from-white to-gray-100 shadow-sm shadow-black/25 dark:from-gray-800 dark:to-gray-900 dark:border-gray-500 sm:border-2 sm:shadow-md" />
+                                        <span className="gomoku-stone h-[72%] w-[72%] rounded-full border border-gray-400 bg-linear-to-br from-white to-gray-100 shadow-xs shadow-black/25 dark:from-gray-800 dark:to-gray-900 dark:border-gray-500 sm:border-2 sm:shadow-md" />
                                     ) : selected ? (
                                         <span className="relative h-[78%] w-[78%] rounded-full border-2 border-primary bg-primary/15 shadow-[0_0_0_4px_hsl(var(--primary)/0.14)]">
                                             <span

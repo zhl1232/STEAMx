@@ -31,7 +31,7 @@ const getNumberColor = (num: number) => {
 
 export function BoardIllustration({ grid, circles = [], highlights = [], className = "", cellSize = "w-8 h-8", style }: BoardIllustrationProps) {
   return (
-    <div className={`inline-flex flex-col border-[2px] border-muted-foreground/30 bg-muted/20 p-0.5 rounded-xs shadow-sm ${className}`} style={style}>
+    <div className={`inline-flex flex-col border-2 border-muted-foreground/30 bg-muted/20 p-0.5 rounded-xs shadow-xs ${className}`} style={style}>
       {grid.map((row, rIdx) => (
         <div key={rIdx} className="flex">
           {row.map((cell, cIdx) => {
@@ -63,7 +63,7 @@ export function BoardIllustration({ grid, circles = [], highlights = [], classNa
                   {cell === "flag" && <Flag size={14} className="text-destructive fill-destructive drop-shadow-[0_0_2px_rgba(255,255,255,1)] dark:drop-shadow-none" />}
                 </div>
                 {circle && (
-                  <div className={`absolute inset-0 m-0.5 border-[2.5px] rounded-full pointer-events-none z-20 ${circle.color} shadow-sm`} />
+                  <div className={`absolute inset-0 m-0.5 border-[2.5px] rounded-full pointer-events-none z-20 ${circle.color} shadow-xs`} />
                 )}
               </div>
             )

@@ -234,7 +234,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
                     {challenge.description}
                   </p>
                   {challengeMetaText && (
-                    <p className="inline-block max-w-full rounded-[var(--radius-xs)] bg-black/24 px-2.5 py-1 text-[12px] font-semibold leading-5 text-white shadow-[0_12px_30px_-18px_rgba(0,0,0,0.7)] ring-1 ring-inset ring-white/30 backdrop-blur-xl [text-shadow:0_1px_2px_rgba(0,0,0,0.65)] sm:mt-3.5 sm:bg-transparent sm:px-0 sm:py-0 sm:text-[13px] sm:font-medium sm:leading-6 sm:text-white/75 sm:shadow-none sm:ring-0 sm:backdrop-blur-0 sm:[text-shadow:none]">
+                    <p className="inline-block max-w-full rounded-xs bg-black/24 px-2.5 py-1 text-[12px] font-semibold leading-5 text-white shadow-[0_12px_30px_-18px_rgba(0,0,0,0.7)] ring-1 ring-inset ring-white/30 backdrop-blur-xl [text-shadow:0_1px_2px_rgba(0,0,0,0.65)] sm:mt-3.5 sm:bg-transparent sm:px-0 sm:py-0 sm:text-[13px] sm:font-medium sm:leading-6 sm:text-white/75 sm:shadow-none sm:ring-0 sm:backdrop-blur-0 sm:text-shadow-none">
                       {challengeMetaText}
                     </p>
                   )}
@@ -336,7 +336,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
                       {isTimed ? "报名挑战" : "开始挑战"}
                     </Button>
                   ) : (
-                    <p className="flex items-center gap-1.5 rounded-[var(--radius-sm)] bg-[hsl(var(--status-success-surface)/0.65)] px-3 py-2 text-xs font-medium text-[hsl(var(--brand-green))]">
+                    <p className="flex items-center gap-1.5 rounded-sm bg-[hsl(var(--status-success-surface)/0.65)] px-3 py-2 text-xs font-medium text-[hsl(var(--brand-green))]">
                       <CheckCircle className="h-3.5 w-3.5" />
                       {isTimed ? "已报名，可继续记录过程" : "已加入，可继续记录过程"}
                     </p>
@@ -361,7 +361,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
 
       {!isEnded && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--surface-border)/0.72)] bg-background/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2.5 shadow-[0_-20px_50px_-36px_hsl(var(--surface-shadow)/0.55)] backdrop-blur-xl md:hidden">
-          <div className="mx-auto max-w-[var(--shell-standard)]">
+          <div className="mx-auto max-w-(--shell-standard)">
             <div className={hasStages ? "grid grid-cols-[0.92fr_1.08fr] gap-2" : "grid grid-cols-1"}>
               {hasStages && (
                 <Button

@@ -117,7 +117,7 @@ export default function XiaodiSettingsPage() {
               >
                 <span
                   className={cn(
-                    "absolute top-1 h-5 w-5 rounded-full bg-background shadow-sm transition-transform",
+                    "absolute top-1 h-5 w-5 rounded-full bg-background shadow-xs transition-transform",
                     enabled ? "translate-x-6" : "translate-x-1",
                   )}
                 />

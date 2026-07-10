@@ -159,7 +159,7 @@ function LessonGuidePanel({
     if (learningGoals.length === 0 && !guide) return null;
 
     return (
-        <section className="mb-3 space-y-2 rounded-[var(--radius-sm)] border border-border bg-muted/30 p-3">
+        <section className="mb-3 space-y-2 rounded-sm border border-border bg-muted/30 p-3">
             {guide?.inquiryQuestion ? (
                 <div>
                     <p className="flex items-center gap-1.5 text-xs font-bold text-[hsl(var(--brand-blue))]">
@@ -278,7 +278,7 @@ function LessonStepItem({
                 type="button"
                 onClick={onClick}
                 className={cn(
-                    "w-full rounded-[var(--radius-sm)] px-3 py-2 text-left transition",
+                    "w-full rounded-sm px-3 py-2 text-left transition",
                     active
                         ? "bg-[hsl(var(--brand-blue)/0.12)] ring-1 ring-[hsl(var(--brand-blue)/0.35)]"
                         : "hover:bg-muted/60",

@@ -171,7 +171,7 @@ function SecuritySettingsContent() {
     >
       <div className="space-y-4">
         {recoveryMode ? (
-          <div className="surface-subtle border-primary/20 bg-primary/[0.08] px-4 py-4 text-sm leading-6 text-foreground/90">
+          <div className="surface-subtle border-primary/20 bg-primary/8 px-4 py-4 text-sm leading-6 text-foreground/90">
             请先设置新密码，设置成功后即可继续使用账号。
           </div>
         ) : null}

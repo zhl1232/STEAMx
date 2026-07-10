@@ -203,7 +203,7 @@ function CompletionCommentItem({
       {comment.reply_to_username ? (
         <p className="mt-0.5 text-[11px] text-muted-foreground">回复 @{comment.reply_to_username}</p>
       ) : null}
-      <p className="mt-1 text-sm leading-5 text-foreground whitespace-pre-wrap break-words">{comment.content}</p>
+      <p className="mt-1 text-sm leading-5 text-foreground whitespace-pre-wrap wrap-break-word">{comment.content}</p>
     </div>
   )
 }

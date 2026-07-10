@@ -82,10 +82,10 @@ function CourseCard({ course }: { course: CourseListItem }) {
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/courses/${course.id}`}
-                className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
+                className="absolute inset-0 z-10 rounded-sm"
                 aria-label={`进入技能课程：${course.title}`}
             />
-            <div className="relative min-h-[96px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
+            <div className="relative min-h-[96px] overflow-hidden rounded-xs nature-media-placeholder min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-sm">
                 <OptimizedImage
                     src={imageSrc}
                     alt={course.title}
@@ -93,7 +93,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     variant="thumbnail"
                     className="object-cover transition duration-500 group-hover:scale-105"
                 />
-                <span className="absolute left-2 top-2 rounded-[var(--radius-xs)] bg-[hsl(var(--brand-blue))] px-2 py-1 text-[11px] font-semibold text-white shadow-sm">
+                <span className="absolute left-2 top-2 rounded-xs bg-[hsl(var(--brand-blue))] px-2 py-1 text-[11px] font-semibold text-white shadow-xs">
                     课程
                 </span>
             </div>
@@ -130,7 +130,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
             </div>
             <span
                 className={cn(
-                    "pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center gap-1 rounded-[var(--radius-sm)]",
+                    "pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center gap-1 rounded-sm",
                     "bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))]",
                     "md:inline-flex",
                 )}

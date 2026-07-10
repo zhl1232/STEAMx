@@ -151,7 +151,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                 <CardContent className="p-0">
                   <div className="flex flex-col gap-4 p-4 sm:p-5">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-                      <div className="relative h-40 w-full overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-muted sm:h-36 lg:h-32 lg:w-48 lg:shrink-0">
+                      <div className="relative h-40 w-full overflow-hidden rounded-(--radius-lg) border border-border/70 bg-muted sm:h-36 lg:h-32 lg:w-48 lg:shrink-0">
                         {project.image_url ? (
                           <OptimizedImage
                             src={project.image_url}
@@ -219,7 +219,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                     </div>
 
                     {isExpanded && (
-                      <div className="rounded-[var(--radius-lg)] border border-border/70 bg-muted/20 p-4 sm:p-5">
+                      <div className="rounded-(--radius-lg) border border-border/70 bg-muted/20 p-4 sm:p-5">
                         {isLoading && !detail ? (
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <Loader2 className="h-4 w-4 animate-spin" />

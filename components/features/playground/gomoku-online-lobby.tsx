@@ -151,7 +151,7 @@ export function GomokuOnlineLobby({
                                 className={cn(
                                     "rounded-full px-3 py-1 text-xs font-medium transition-colors",
                                     hostColor === color
-                                        ? "bg-primary text-primary-foreground shadow-sm"
+                                        ? "bg-primary text-primary-foreground shadow-xs"
                                         : "text-muted-foreground hover:text-foreground",
                                 )}
                                 aria-pressed={hostColor === color}

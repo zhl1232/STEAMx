@@ -23,7 +23,7 @@ export function PageStatus({
     <div className={cn("page-shell py-10 md:py-14", className)}>
       <div className="mx-auto max-w-2xl">
         <section className="surface-panel overflow-hidden">
-          <div className="border-b border-border/60 bg-gradient-to-r from-primary/8 via-background to-secondary/20 px-6 py-6">
+          <div className="border-b border-border/60 bg-linear-to-r from-primary/8 via-background to-secondary/20 px-6 py-6">
             <p className="section-kicker">{kicker}</p>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">{title}</h1>
             <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">{description}</p>

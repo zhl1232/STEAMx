@@ -74,7 +74,7 @@ export function ScratchCategoryChip({
         <span
             aria-label={`Scratch 分类：${label}`}
             role="img"
-            className="mx-[1px] inline-flex min-h-[22px] items-center gap-1 rounded-[6px] border border-black/10 bg-[hsl(var(--background))] px-1.5 py-0.5 text-[13px] font-extrabold leading-none text-[hsl(var(--foreground))] shadow-[0_1px_2px_rgba(15,23,42,0.12)] align-[-0.25em]"
+            className="mx-px inline-flex min-h-[22px] items-center gap-1 rounded-[6px] border border-black/10 bg-[hsl(var(--background))] px-1.5 py-0.5 text-[13px] font-extrabold leading-none text-[hsl(var(--foreground))] shadow-[0_1px_2px_rgba(15,23,42,0.12)] align-[-0.25em]"
         >
             <span
                 aria-hidden

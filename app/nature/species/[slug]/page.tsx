@@ -179,12 +179,12 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           <SpeciesImageGallery imageUrls={galleryImageUrls} speciesName={species.commonName} />
         </div>
       ) : (
-        <div className="relative aspect-[4/3] min-h-[220px] min-w-0 overflow-hidden rounded-lg border border-border/70 bg-muted/40 shadow-sm sm:aspect-[1.42] lg:aspect-[1.34]">
-          <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,_rgba(110,231,183,0.35),_transparent_45%),linear-gradient(160deg,_rgba(240,253,250,0.95),_rgba(240,249,255,0.92)_52%,_rgba(250,245,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_transparent_38%),linear-gradient(160deg,_rgba(6,20,18,0.96),_rgba(11,27,34,0.94)_52%,_rgba(26,18,38,0.92))]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-background/70 text-emerald-700 shadow-sm dark:bg-background/10 dark:text-emerald-300">
+        <div className="relative aspect-4/3 min-h-[220px] min-w-0 overflow-hidden rounded-lg border border-border/70 bg-muted/40 shadow-xs sm:aspect-[1.42] lg:aspect-[1.34]">
+          <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,rgba(110,231,183,0.35),transparent_45%),linear-gradient(160deg,rgba(240,253,250,0.95),rgba(240,249,255,0.92)_52%,rgba(250,245,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.22),transparent_38%),linear-gradient(160deg,rgba(6,20,18,0.96),rgba(11,27,34,0.94)_52%,rgba(26,18,38,0.92))]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-background/70 text-emerald-700 shadow-xs dark:bg-background/10 dark:text-emerald-300">
               <Feather className="h-7 w-7" />
             </div>
-            <div className="rounded-md border border-border/60 bg-background/72 px-3 py-2 backdrop-blur dark:bg-background/10">
+            <div className="rounded-md border border-border/60 bg-background/72 px-3 py-2 backdrop-blur-sm dark:bg-background/10">
               {commonNamePinyin ? (
                 <div className="mb-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
               ) : null}
@@ -346,7 +346,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
         className="mb-0 md:hidden"
       />
 
-      <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
+      <div className="md:surface-panel overflow-hidden md:rounded-(--radius-lg)">
         <div className="px-4 pb-5 pt-2 sm:p-7">
           <div
             className={
@@ -357,7 +357,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           >
             <div className={hasObservationStats ? "lg:row-start-1 lg:col-start-1" : ""}>{galleryBlock}</div>
             {hasObservationStats ? (
-              <div className="order-last lg:order-none lg:row-start-1 lg:col-start-2">{statsBlock}</div>
+              <div className="order-last lg:order-0 lg:row-start-1 lg:col-start-2">{statsBlock}</div>
             ) : null}
             <div className={hasObservationStats ? "lg:col-span-2 lg:row-start-2" : ""}>{detailsBlock}</div>
           </div>

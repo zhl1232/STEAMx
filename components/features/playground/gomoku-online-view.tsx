@@ -147,7 +147,7 @@ export function GomokuOnlineView({
                                 : "border-border/60",
                         )}
                     >
-                        <div className="w-4 h-4 rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-400 dark:border-gray-500" />
+                        <div className="w-4 h-4 rounded-full bg-linear-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-400 dark:border-gray-500" />
                     </div>
                     <span className="text-xs text-muted-foreground ml-1">
                         {statusText}

@@ -812,7 +812,7 @@ function ShareForm() {
                                     <p className="mt-1 text-xs text-muted-foreground">{requiredDoneCount}/5 项信息已完善</p>
                                 </div>
                                 <div className="p-4">
-                                    <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-muted/50">
+                                    <div className="relative aspect-16/10 overflow-hidden rounded-md bg-muted/50">
                                         {formData.coverImage ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={formData.coverImage} alt="" className="h-full w-full object-cover" />
@@ -834,7 +834,7 @@ function ShareForm() {
                     </aside>
 
                 {/* 操作按钮 */}
-                <div className="sticky bottom-0 z-20 -mx-4 flex flex-col gap-3 border-t border-border/60 bg-background/92 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0 lg:col-span-2">
+                <div className="sticky bottom-0 z-20 -mx-4 flex flex-col gap-3 border-t border-border/60 bg-background/92 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-sm sm:static sm:mx-0 sm:flex-row sm:items-center sm:justify-between sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-0 lg:col-span-2">
                     <Button
                         type="button"
                         variant="outline"

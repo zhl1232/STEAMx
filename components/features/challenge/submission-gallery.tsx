@@ -225,7 +225,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
       </div>
 
       <Dialog open={!!selectedSubmission} onOpenChange={(open) => !open && setSelectedSubmission(null)}>
-        <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 overflow-y-auto gap-0 border-0 bg-background p-0 [&>button:last-child]:hidden sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-full sm:max-w-5xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-border/70 sm:shadow-[0_28px_70px_-38px_rgba(15,23,42,0.45)]">
+        <DialogContent className="left-0 top-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 overflow-y-auto gap-0 border-0 bg-background p-0 [&>button:last-child]:hidden sm:left-[50%] sm:top-[50%] sm:h-auto sm:w-full sm:max-w-5xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-border/70 sm:shadow-[0_28px_70px_-38px_rgba(15,23,42,0.45)]">
           <DialogTitle className="sr-only">{selectedSubmission?.title}</DialogTitle>
           <DialogDescription className="sr-only">查看挑战作品详情</DialogDescription>
           {selectedSubmission ? (
@@ -256,7 +256,7 @@ function SubmissionDetail({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur sm:right-4 sm:top-4 sm:h-9 sm:w-9"
+          className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm sm:right-4 sm:top-4 sm:h-9 sm:w-9"
         >
           <X className="h-4 w-4" />
         </button>

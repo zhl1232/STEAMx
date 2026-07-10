@@ -25,17 +25,17 @@ export default function LeaderboardPage() {
             </div>
 
             <main className="app-shell-wide pt-4 md:px-8 md:pt-8">
-                <section className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-5 shadow-[0_28px_78px_-50px_hsl(var(--surface-shadow)/0.58)] backdrop-blur sm:rounded-xl sm:px-7 sm:py-8 md:px-9 lg:px-10 xl:px-12">
+                <section className="relative overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--surface-border)/0.9)] bg-[hsl(var(--surface-raised)/0.9)] px-4 py-5 shadow-[0_28px_78px_-50px_hsl(var(--surface-shadow)/0.58)] backdrop-blur-sm sm:rounded-xl sm:px-7 sm:py-8 md:px-9 lg:px-10 xl:px-12">
                     <div
-                        className="absolute inset-0 bg-cover bg-[position:58%_center] bg-no-repeat opacity-95 dark:opacity-35 md:bg-center"
+                        className="absolute inset-0 bg-cover bg-position-[58%_center] bg-no-repeat opacity-95 dark:opacity-35 md:bg-center"
                         style={{ backgroundImage: "url('/assets/leaderboard-community-honor-bg.webp')" }}
                     />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_6%,hsl(var(--brand-blue)/0.12),transparent_36%),linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.9)_34%,hsl(var(--surface-raised)/0.52)_62%,hsl(var(--surface-raised)/0.18)_100%)] dark:bg-[radial-gradient(circle_at_78%_6%,hsl(var(--brand-blue)/0.2),transparent_36%),linear-gradient(90deg,hsl(var(--background)/0.96)_0%,hsl(var(--background)/0.82)_42%,hsl(var(--background)/0.42)_100%)]" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/35 to-transparent dark:from-white/[0.04]" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-white/35 to-transparent dark:from-white/4" />
 
                     <div className="relative flex md:min-h-[250px] md:items-center xl:min-h-[274px]">
                         <div className="max-w-3xl self-center">
-                            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3 py-1 text-xs font-semibold text-blue-700 shadow-xs dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
                                 <Trophy className="h-3.5 w-3.5" />
                                 社区荣誉榜
                             </div>

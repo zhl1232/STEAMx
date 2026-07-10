@@ -207,7 +207,7 @@ export function PracticeBoard({
               type="button"
               onClick={() => setIsFlagMode(false)}
               className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xs text-xs font-bold transition-all duration-200 ${!isFlagMode
-                  ? "bg-background text-foreground shadow-sm"
+                  ? "bg-background text-foreground shadow-xs"
                   : "text-muted-foreground hover:text-foreground"
                 }`}
             >
@@ -218,7 +218,7 @@ export function PracticeBoard({
               type="button"
               onClick={() => setIsFlagMode(true)}
               className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xs text-xs font-bold transition-all duration-200 ${isFlagMode
-                  ? "bg-destructive/10 text-destructive shadow-sm"
+                  ? "bg-destructive/10 text-destructive shadow-xs"
                   : "text-muted-foreground hover:text-foreground"
                 }`}
             >

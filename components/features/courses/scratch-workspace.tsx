@@ -661,7 +661,7 @@ export function ScratchWorkspace({
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
             {!playerOnly ? (
                 <>
-                    <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-1.5 backdrop-blur-sm">
+                    <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-1.5 backdrop-blur-xs">
                         <Button
                             type="button"
                             size="sm"
@@ -764,9 +764,9 @@ export function ScratchWorkspace({
                                                 key={`${item.findLabel}-${item.editHint ?? ""}-${index}`}
                                                 aria-current={active ? "step" : undefined}
                                                 className={cn(
-                                                    "rounded-[var(--radius-sm)] border px-2.5 py-1.5",
+                                                    "rounded-sm border px-2.5 py-1.5",
                                                     active
-                                                        ? "border-[hsl(var(--brand-amber)/0.55)] bg-background shadow-sm ring-1 ring-[hsl(var(--brand-amber)/0.22)]"
+                                                        ? "border-[hsl(var(--brand-amber)/0.55)] bg-background shadow-xs ring-1 ring-[hsl(var(--brand-amber)/0.22)]"
                                                         : "border-[hsl(var(--brand-amber)/0.24)] bg-background/82",
                                                 )}
                                             >

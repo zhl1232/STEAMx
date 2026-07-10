@@ -36,10 +36,10 @@ export function CompactChallengeCard({
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/pbl/${challenge.id}`}
-                className="absolute inset-0 z-10 rounded-[var(--radius-sm)]"
+                className="absolute inset-0 z-10 rounded-sm"
                 aria-label={`进入挑战：${challenge.title}`}
             />
-            <div className="relative min-h-[96px] overflow-hidden rounded-[var(--radius-xs)] bg-[hsl(var(--status-info-surface))] min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-[var(--radius-sm)]">
+            <div className="relative min-h-[96px] overflow-hidden rounded-xs nature-media-placeholder min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px] md:rounded-sm">
                 <OptimizedImage
                     src={imageSrc}
                     alt={challenge.title}
@@ -48,7 +48,7 @@ export function CompactChallengeCard({
                     className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 {challenge.challengeType === "timed" && !ended ? (
-                    <span className="absolute left-2 top-2 rounded-[var(--radius-xs)] bg-[hsl(var(--surface-shadow)/0.92)] px-2 py-1 text-[11px] font-semibold text-white shadow-sm">
+                    <span className="absolute left-2 top-2 rounded-xs bg-[hsl(var(--surface-shadow)/0.92)] px-2 py-1 text-[11px] font-semibold text-white shadow-xs">
                         {challenge.daysLeft > 0 ? `剩余 ${challenge.daysLeft} 天` : "即将截止"}
                     </span>
                 ) : null}
@@ -60,7 +60,7 @@ export function CompactChallengeCard({
             </div>
 
             <div className="pointer-events-none relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1">
-                <h3 className="line-clamp-2 whitespace-normal break-words text-[15px] font-black leading-[1.45] text-foreground transition group-hover:text-[hsl(var(--nav-active))] min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
+                <h3 className="line-clamp-2 whitespace-normal wrap-break-word text-[15px] font-black leading-[1.45] text-foreground transition group-hover:text-[hsl(var(--nav-active))] min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
                     {challenge.title}
                 </h3>
                 <p className="mt-1 hidden text-[13px] leading-5 text-muted-foreground xl:line-clamp-1">
@@ -85,7 +85,7 @@ export function CompactChallengeCard({
             </div>
 
             {action && !ended ? (
-                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-[var(--radius-sm)] bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] md:inline-flex">
+                <span className="pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center rounded-sm bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_28px_-20px_hsl(var(--brand-blue)/0.78)] md:inline-flex">
                     参与挑战
                 </span>
             ) : null}
@@ -187,7 +187,7 @@ export function ChallengeBoard({
                             <ChallengeRailSection title="已结束挑战" challenges={ended} ended onMore={() => {}} showMore={false} />
                         ) : null}
                         {!hasChallenges ? (
-                            <div className="surface-card rounded-[var(--radius-sm)] px-6 py-14 text-center">
+                            <div className="surface-card rounded-sm px-6 py-14 text-center">
                                 <p className="text-lg font-bold">暂无挑战</p>
                                 <p className="mt-2 text-sm text-muted-foreground">敬请期待新的挑战。</p>
                             </div>
@@ -235,7 +235,7 @@ export function ChallengeRail({
             {isLoading ? (
                 <div className="space-y-3">
                     {[1, 2, 3].map((item) => (
-                        <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-[var(--radius-md)] border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] p-2">
+                        <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-md border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] p-2">
                             <div className="h-[98px] animate-pulse rounded-sm bg-muted" />
                             <div className="space-y-3 py-2">
                                 <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
@@ -253,7 +253,7 @@ export function ChallengeRail({
                     <ChallengeRailSection title="长期挑战" challenges={evergreen} onMore={onMore} action={action} />
                     <ChallengeRailSection title="已结束挑战" challenges={ended} ended onMore={onMore} />
                     {activeTimed.length === 0 && evergreen.length === 0 && ended.length === 0 ? (
-                        <div className="rounded-[var(--radius-md)] border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] px-5 py-10 text-center text-sm text-muted-foreground">
+                        <div className="rounded-md border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] px-5 py-10 text-center text-sm text-muted-foreground">
                             暂无挑战
                         </div>
                     ) : null}

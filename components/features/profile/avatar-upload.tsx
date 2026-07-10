@@ -87,9 +87,9 @@ export function AvatarUpload({
           <button
             type="button"
             disabled={disabled}
-            className="relative group cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="relative group cursor-pointer rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-background shadow-lg bg-gradient-to-tr from-primary to-secondary flex items-center justify-center transition-all group-hover:opacity-90 relative">
+            <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-background shadow-lg bg-linear-to-tr from-primary to-secondary flex items-center justify-center transition-all group-hover:opacity-90 relative">
               {value ? (
                 <OptimizedImage
                   src={value}
@@ -111,7 +111,7 @@ export function AvatarUpload({
             </div>
             {showCameraBadge && (
               <span
-                className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground shadow"
+                className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground shadow-sm"
                 aria-hidden
               >
                 <Camera className="h-4 w-4" />
@@ -133,7 +133,7 @@ export function AvatarUpload({
                   type="button"
                   onClick={handlePersistedUploadClick}
                   className={cn(
-                    "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                    "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                     value === persistedUploadUrl
                       ? "border-primary ring-2 ring-primary ring-offset-2 ring-offset-background"
                       : "border-transparent hover:border-muted-foreground/30"
@@ -161,7 +161,7 @@ export function AvatarUpload({
                     type="button"
                     onClick={() => handlePresetClick(filename)}
                     className={cn(
-                      "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                      "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                       isSelected
                         ? "border-primary ring-2 ring-primary ring-offset-2 ring-offset-background"
                         : "border-transparent hover:border-muted-foreground/30"
@@ -185,7 +185,7 @@ export function AvatarUpload({
             <button
               type="button"
               onClick={handleCustomUploadClick}
-              className="flex w-full flex-col items-center justify-center gap-1 rounded-xs border border-input bg-background py-8 transition-colors hover:bg-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="flex w-full flex-col items-center justify-center gap-1 rounded-xs border border-input bg-background py-8 transition-colors hover:bg-muted/50 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <Plus className="h-10 w-10 text-muted-foreground" />
               <span className="text-sm font-medium text-foreground">自定义上传</span>

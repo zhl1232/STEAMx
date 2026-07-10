@@ -20,7 +20,7 @@ export default function LoginPage() {
         </Link>
         <Link
           href="/explore"
-          className="inline-flex items-center gap-2 rounded-[var(--radius-sm)] border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm transition-colors hover:bg-muted hover:text-foreground"
+          className="inline-flex items-center gap-2 rounded-sm border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground shadow-xs transition-colors hover:bg-muted hover:text-foreground"
         >
           先去探索
           <ArrowRight className="h-4 w-4" />
@@ -80,7 +80,7 @@ export default function LoginPage() {
               className="object-cover object-bottom opacity-[0.12]"
               sizes="(min-width: 1024px) 52vw, 100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/95 to-card/20" />
+            <div className="absolute inset-0 bg-linear-to-t from-card via-card/95 to-card/20" />
           </div>
           <div className="pointer-events-none absolute right-8 top-8 hidden h-24 w-24 rotate-6 rounded-xl border border-primary/10 bg-background/56 shadow-[0_18px_38px_-30px_hsl(var(--surface-shadow)/0.44)] lg:grid lg:place-items-center">
             <FolderOpen className="h-9 w-9 text-primary/70" />

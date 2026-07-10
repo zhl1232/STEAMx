@@ -95,7 +95,7 @@ describe("playground GomokuBoard", () => {
         ).toBeInTheDocument();
     });
 
-    it("draws one small ring on each winning stone without button ring classes", () => {
+    it("draws one small ring-3 on each winning stone without button ring-3 classes", () => {
         const board = createEmptyBoard();
         const winLine = Array.from({ length: 5 }, (_, index) => {
             const point = { row: 7, col: 3 + index };

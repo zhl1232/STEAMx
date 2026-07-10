@@ -43,11 +43,11 @@ export function LoginDialog({
   if (!mounted || !open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[90]">
+    <div className="fixed inset-0 z-90">
       <button
         type="button"
         aria-label="关闭登录层"
-        className="absolute inset-0 bg-slate-950/30 backdrop-blur-sm"
+        className="absolute inset-0 bg-slate-950/30 backdrop-blur-xs"
         onClick={() => onOpenChange(false)}
       />
 

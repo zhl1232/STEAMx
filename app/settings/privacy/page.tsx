@@ -93,7 +93,7 @@ export default function PrivacySettingsPage() {
                     disabled={isSaving}
                     className={cn(
                       "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5 disabled:opacity-70",
-                      active && "border-primary/40 bg-primary/[0.08]",
+                      active && "border-primary/40 bg-primary/8",
                     )}
                   >
                     <div className="flex items-start gap-3">

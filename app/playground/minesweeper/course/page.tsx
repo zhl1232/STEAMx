@@ -642,7 +642,7 @@ export default function CoursePage() {
       </div>
 
       {/* 正文：讲解 + 图 + 练习 */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 md:py-8 max-w-3xl mx-auto w-full text-base sm:text-[inherit]">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 md:py-8 max-w-3xl mx-auto w-full text-base sm:text-inherit">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentLesson}

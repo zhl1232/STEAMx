@@ -167,7 +167,7 @@ function CommentCardComponent({
   return (
     <div
       className={cn(
-        "group flex gap-3 rounded-lg px-2 py-1 transition-colors [transition-duration:2800ms] sm:px-3",
+        "group flex gap-3 rounded-lg px-2 py-1 transition-colors duration-2800 sm:px-3",
         highlighted && "bg-sky-50/90 ring-1 ring-sky-200/80 dark:bg-sky-500/10 dark:ring-sky-400/30",
         compact ? "py-3" : "py-4 sm:py-5 sm:gap-4",
         !noBorder && "border-b border-border/60 last:border-0",
@@ -215,7 +215,7 @@ function CommentCardComponent({
               ref={editRef}
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className="w-full rounded-xs border bg-background px-3 py-2 text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/40"
+              className="w-full rounded-xs border bg-background px-3 py-2 text-sm leading-relaxed resize-none focus:outline-hidden focus:ring-2 focus:ring-primary/40"
               rows={3}
               maxLength={2000}
               disabled={isSaving}
@@ -245,7 +245,7 @@ function CommentCardComponent({
             </div>
           </div>
         ) : (
-          <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
+          <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap wrap-break-word">
             {comment.reply_to_username && (
               <span className="inline-block bg-primary/10 text-primary px-1 rounded text-xs mr-1.5 align-middle">
                 回复 @{comment.reply_to_username}

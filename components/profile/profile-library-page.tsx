@@ -450,7 +450,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
               className="object-cover opacity-70 dark:opacity-34"
               sizes="(min-width: 1840px) 1776px, (min-width: 768px) calc(100vw - 4rem), 100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/94 via-background/78 to-background/32" />
+            <div className="absolute inset-0 bg-linear-to-r from-background/94 via-background/78 to-background/32" />
           </div>
           <div className="relative grid min-h-[254px] gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)] lg:items-end xl:px-8">
             <div className="flex items-start gap-3">
@@ -475,7 +475,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                 { label: '已完成', value: completedProjectsCount, icon: CheckCircle2 },
                 { label: '观察记录', value: observationsLoaded ? observationsTotal : uniqueSpeciesCount, icon: Feather },
               ].map((item) => (
-                <div key={item.label} className="rounded-md border border-border/70 bg-background/78 px-4 py-3 backdrop-blur">
+                <div key={item.label} className="rounded-md border border-border/70 bg-background/78 px-4 py-3 backdrop-blur-sm">
                   <item.icon className="h-4 w-4 text-primary" />
                   <p className="mt-2 text-xl font-semibold tabular-nums">{item.value}</p>
                   <p className="mt-1 text-xs text-muted-foreground">{item.label}</p>
@@ -622,7 +622,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                         >
                           {completionStatus?.status === 'pending' ? (
                             <div className="absolute left-2 top-2 z-10">
-                              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-sm dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-xs dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
                                 作品待审核
                               </span>
                             </div>
@@ -630,7 +630,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                           {completionStatus?.status === 'rejected' ? (
                             <div className="absolute left-2 top-2 z-10">
                               <span
-                                className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-sm dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
+                                className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-xs dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
                                 title={completionStatus.rejectionReason}
                               >
                                 作品未通过

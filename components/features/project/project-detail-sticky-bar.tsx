@@ -62,7 +62,7 @@ export function ProjectDetailStickyBar({
               key={targetId}
               type="button"
               onClick={() => scrollTo(targetId)}
-              className="h-8 rounded-xs px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-8 rounded-xs px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
             >
               {label}
             </button>

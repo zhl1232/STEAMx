@@ -180,7 +180,7 @@ function getShowcaseProjects(projects: Project[]) {
 
 function HomeHero({ image }: { image: string }) {
   return (
-    <section className="surface-card relative overflow-hidden rounded-lg md:rounded-md">
+    <section className="surface-card relative overflow-hidden rounded-sm">
       <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] lg:min-h-[260px]">
         <Image
           src={image}
@@ -202,7 +202,7 @@ function HomeHero({ image }: { image: string }) {
           className="hidden object-cover object-center dark:brightness-90 md:block"
         />
         <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/40 to-transparent md:hidden" />
 
         <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] md:justify-center md:px-10 md:py-7 lg:min-h-[260px]">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[600px] lg:max-w-[680px]">
@@ -294,7 +294,7 @@ function MobileLeaderboardEntry({ className }: { className?: string }) {
           alt=""
           fill
           sizes="220px"
-          className="object-contain object-right-bottom drop-shadow-[0_16px_22px_rgba(146,64,14,0.2)] transition duration-500 group-hover:scale-[1.04]"
+          className="object-contain object-bottom-right drop-shadow-[0_16px_22px_rgba(146,64,14,0.2)] transition duration-500 group-hover:scale-[1.04]"
         />
       </span>
       <span className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.88)_48%,hsl(var(--surface-raised)/0.18)_74%,transparent_100%)]" />
@@ -415,7 +415,7 @@ function ProjectSection({ projects }: { projects: Project[] }) {
         </div>
         <Link
           href="/explore"
-          className="-my-3 inline-flex min-h-11 items-center gap-1 rounded-[var(--radius-sm)] px-1.5 py-3 text-[13px] font-medium text-[hsl(var(--brand-blue))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="-my-3 inline-flex min-h-11 items-center gap-1 rounded-sm px-1.5 py-3 text-[13px] font-medium text-[hsl(var(--brand-blue))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           查看全部
           <ArrowRight className="h-4 w-4" />

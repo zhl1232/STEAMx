@@ -591,13 +591,13 @@ export function BadgeIcon({ icon, tier, seriesKey, className, size = "md", showG
       <Shape uid={uid} />
       {seriesVisual && !locked ? (
         <div
-          className="absolute inset-[16%] z-[1] rounded-[38%] opacity-90 blur-[3px] transition-transform duration-500 group-hover:scale-[1.05]"
+          className="absolute inset-[16%] z-1 rounded-[38%] opacity-90 blur-[3px] transition-transform duration-500 group-hover:scale-[1.05]"
           style={{ backgroundImage: seriesVisual.accentImage }}
         />
       ) : null}
       <div
         className={cn(
-          "absolute inset-[18%] z-[1] overflow-hidden rounded-full border backdrop-blur-[1px] transition-transform duration-500 group-hover:scale-[1.04]",
+          "absolute inset-[18%] z-1 overflow-hidden rounded-full border backdrop-blur-[1px] transition-transform duration-500 group-hover:scale-[1.04]",
           colorStyle.ring,
           seriesVisual?.ringClass
         )}

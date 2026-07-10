@@ -101,7 +101,7 @@ export function ChallengeSubmissionReviewCard({
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className="rounded-sm bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">挑战作品</Badge>
-            <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">待审核</Badge>
+            <Badge variant="secondary" className="status-warning-surface rounded-xs border text-[hsl(var(--status-warning))]">待审核</Badge>
             <Badge variant="outline">{submission.is_public ? '公开' : '未公开'}</Badge>
           </div>
           <h3 className="line-clamp-2 text-lg font-semibold leading-snug">{submission.title}</h3>

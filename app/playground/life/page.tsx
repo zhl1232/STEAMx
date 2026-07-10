@@ -586,7 +586,7 @@ export default function GameOfLifePage() {
                 {/* Canvas Grid */}
                 <div
                     ref={containerRef}
-                    className="w-full max-w-5xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur p-1 sm:p-2 shadow-inner"
+                    className="w-full max-w-5xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.88)] backdrop-blur-sm p-1 sm:p-2 shadow-inner"
                 >
                     <canvas
                         ref={canvasRef}

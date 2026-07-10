@@ -468,7 +468,7 @@ export function ObservationDetailActivity({
       </div>
 
       {(isPublic || user?.id === ownerId) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/80 bg-background/95 shadow-[0_-2px_10px_rgba(15,23,42,0.05)] backdrop-blur supports-[backdrop-filter]:bg-background/90 dark:shadow-[0_-2px_12px_rgba(0,0,0,0.28)]">
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/80 bg-background/95 shadow-[0_-2px_10px_rgba(15,23,42,0.05)] backdrop-blur-sm supports-backdrop-filter:bg-background/90 dark:shadow-[0_-2px_12px_rgba(0,0,0,0.28)]">
           <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2.5">
             <form
               className="relative min-w-0 flex-1"
@@ -486,7 +486,7 @@ export function ObservationDetailActivity({
                 onChange={(event) => setCommentDraft(event.target.value)}
                 rows={1}
                 placeholder="写下你的分析或评论…"
-                className="max-h-24 min-h-10 w-full resize-none rounded-full border-0 bg-muted/70 py-2.5 pl-4 pr-11 text-sm leading-6 shadow-inner placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)] focus-visible:ring-offset-0"
+                className="max-h-24 min-h-10 w-full resize-none rounded-full border-0 bg-muted/70 py-2.5 pl-4 pr-11 text-sm leading-6 shadow-inner placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)] focus-visible:ring-offset-0"
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault()
@@ -517,7 +517,7 @@ export function ObservationDetailActivity({
               type="button"
               className={cn(
                 natureActionButtonClass("primary"),
-                "h-10 shrink-0 whitespace-nowrap px-4 text-sm shadow-sm",
+                "h-10 shrink-0 whitespace-nowrap px-4 text-sm shadow-xs",
               )}
               onClick={openIdentificationSheet}
             >
@@ -584,7 +584,7 @@ export function ObservationDetailActivity({
                   <select
                     value={lifecycleStage}
                     onChange={(event) => setLifecycleStage(event.target.value as "" | ObservationLifecycleStage)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                   >
                     <option value="">未注明</option>
                     {observationLifecycleStageOptions.map((option) => (
@@ -599,7 +599,7 @@ export function ObservationDetailActivity({
                   <select
                     value={sex}
                     onChange={(event) => setSex(event.target.value as "" | ObservationSex)}
-                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
+                    className="h-11 rounded-sm border border-border/70 bg-background px-3 text-sm text-foreground shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                   >
                     <option value="">未注明</option>
                     {observationSexOptions.map((option) => (
@@ -636,7 +636,7 @@ export function ObservationDetailActivity({
             ) : null}
 
             {results.length > 0 ? (
-              <ul className="overflow-hidden rounded-sm border border-border/70 bg-background shadow-sm" role="listbox">
+              <ul className="overflow-hidden rounded-sm border border-border/70 bg-background shadow-xs" role="listbox">
                 {results.map((result) => {
                   const isActive = selected?.id === result.id
                   return (
@@ -817,7 +817,7 @@ function ActivityTimelineItem({
             variant="outline"
             size="sm"
             className={cn(
-              "h-8 gap-1 border px-3 text-xs shadow-sm transition-colors",
+              "h-8 gap-1 border px-3 text-xs shadow-xs transition-colors",
               alreadyAgreed
                 ? "border-emerald-200/80 bg-emerald-50 text-emerald-800 hover:bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200"
                 : "border-border/80 bg-muted/50 hover:bg-muted",
@@ -833,7 +833,7 @@ function ActivityTimelineItem({
               type="button"
               variant="outline"
               size="sm"
-              className="h-8 gap-1 border border-border/80 bg-muted/50 px-3 text-xs shadow-sm hover:bg-muted"
+              className="h-8 gap-1 border border-border/80 bg-muted/50 px-3 text-xs shadow-xs hover:bg-muted"
               onClick={() => onCompare(identification)}
             >
               <ArrowLeftRight className="h-3.5 w-3.5" />

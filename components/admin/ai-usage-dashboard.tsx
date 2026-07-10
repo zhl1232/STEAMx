@@ -156,7 +156,7 @@ export function AiUsageDashboard() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-[var(--radius-sm)] border bg-[hsl(var(--surface-muted)/0.4)] px-3 py-2">
+    <div className="rounded-sm border bg-[hsl(var(--surface-muted)/0.4)] px-3 py-2">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="text-lg font-semibold tabular-nums">{value}</p>
     </div>

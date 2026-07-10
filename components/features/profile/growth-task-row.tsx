@@ -23,14 +23,14 @@ export function GrowthTaskRow({ task, claimPending = false, onClaim, compact = f
 
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
-          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
             <span className={cn('block font-semibold text-foreground', compact ? 'text-xs leading-5' : 'text-sm')}>{task.label}</span>
           </Link>
           <span className={cn('shrink-0 font-semibold text-[hsl(var(--brand-green))]', compact ? 'text-[11px]' : 'text-xs')}>{task.reward}</span>
         </div>
 
         <div className={cn('flex items-center gap-3', compact ? 'mt-1.5' : 'mt-2')}>
-          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+          <Link href={task.href} className="min-w-0 flex-1 rounded-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
             <span className="block h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-border))]">
               <span className="block h-full rounded-full bg-[hsl(var(--brand-blue))]" style={{ width: `${task.progress}%` }} />
             </span>

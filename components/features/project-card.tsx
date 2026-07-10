@@ -70,10 +70,10 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         className={cn(
                             "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
                             isVerticalCompact
-                                ? "aspect-[16/10] rounded-none"
+                                ? "aspect-16/10 rounded-none"
                                 : isDenseCompact
-                                    ? "h-full min-h-[92px] rounded-sm sm:aspect-[16/8.5] sm:h-auto sm:min-h-0 sm:rounded-none"
-                                    : "aspect-square rounded-sm sm:aspect-[16/8.5] sm:rounded-none",
+                                    ? "h-full min-h-[92px] rounded-sm sm:aspect-16/8.5 sm:h-auto sm:min-h-0 sm:rounded-none"
+                                    : "aspect-square rounded-sm sm:aspect-16/8.5 sm:rounded-none",
                         )}
                     >
                         {imageSrc && !imageError ? (
@@ -91,9 +91,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 <ImageOff className="h-8 w-8 text-muted-foreground/70 sm:h-9 sm:w-9" />
                             </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                         {project.difficulty_stars && !isDenseCompact ? (
-                            <div className="absolute bottom-1.5 right-1.5 rounded-full bg-black/45 px-2 py-0.5 backdrop-blur-sm">
+                            <div className="absolute bottom-1.5 right-1.5 rounded-full bg-black/45 px-2 py-0.5 backdrop-blur-xs">
                                 <DifficultyStars stars={project.difficulty_stars} size="xs" tone="white" />
                             </div>
                         ) : null}
@@ -203,7 +203,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         aria-label={`查看重点推荐项目：${project.title}`}
                     />
 
-                    <div className="pointer-events-none relative aspect-[16/9] w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
+                    <div className="pointer-events-none relative aspect-video w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
                         {imageSrc && !imageError ? (
                             <OptimizedImage
                                 src={imageSrc}
@@ -219,22 +219,22 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 <ImageOff className="h-10 w-10 text-muted-foreground/70" />
                             </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/68 via-slate-950/12 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-slate-950/68 via-slate-950/12 to-transparent" />
 
                         {showStatus && project.status && (
                             <div className="absolute left-3 top-3 z-10">
                                 {project.status === 'pending' && (
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-sm dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-xs dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
                                         待审核
                                     </span>
                                 )}
                                 {project.status === 'approved' && (
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-green-300 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800 shadow-sm dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-green-300 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800 shadow-xs dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
                                         已发布
                                     </span>
                                 )}
                                 {project.status === 'rejected' && (
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-sm dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-xs dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
                                         已拒绝
                                     </span>
                                 )}
@@ -318,7 +318,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     aria-label={`查看项目：${project.title}`}
                 />
 
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted pointer-events-none">
+                <div className="relative aspect-16/10 w-full overflow-hidden bg-muted pointer-events-none">
                     {imageSrc && !imageError ? (
                         <OptimizedImage
                             src={imageSrc}
@@ -334,23 +334,23 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <ImageOff className="h-12 w-12 text-muted-foreground/50" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
 
                     {/* 状态Badge - 左上角 */}
                     {showStatus && project.status && (
                         <div className="absolute top-2 left-2 z-10">
                             {project.status === 'pending' && (
-                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-300 shadow-sm dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
+                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-300 shadow-xs dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
                                     ⏳ 待审核
                                 </span>
                             )}
                             {project.status === 'approved' && (
-                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-800 border border-green-300 shadow-sm dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-800 border border-green-300 shadow-xs dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
                                     ✓ 已发布
                                 </span>
                             )}
                             {project.status === 'rejected' && (
-                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-red-100 text-red-800 border border-red-300 shadow-sm dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
+                                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold bg-red-100 text-red-800 border border-red-300 shadow-xs dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
                                     ✕ 已拒绝
                                 </span>
                             )}
@@ -378,7 +378,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     </div>
                 </div>
 
-                <div className="relative flex flex-col gap-4 bg-gradient-to-br from-background via-background to-muted/20 p-4 pointer-events-none">
+                <div className="relative flex flex-col gap-4 bg-linear-to-br from-background via-background to-muted/20 p-4 pointer-events-none">
                     <div className="space-y-2">
                         <h3 className="flex-1 text-base font-semibold leading-snug transition-colors group-hover:text-primary">
                             <SearchHighlight text={project.title} query={searchQuery} />

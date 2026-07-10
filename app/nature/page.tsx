@@ -76,7 +76,7 @@ const topicCardBase: TopicCardBase[] = [
     href: "/nature/species?topic=birds",
     image: topicCardImages.birds,
     icon: Feather,
-    tint: "from-[#e9f6ff]/90 via-[#bfe5f6]/[0.34] to-transparent dark:from-[#123b64]/95 dark:via-[#1e5f91]/[0.72] dark:to-[#071d32]/[0.42]",
+    tint: "from-[#e9f6ff]/90 via-[#bfe5f6]/34 to-transparent dark:from-[#123b64]/95 dark:via-[#1e5f91]/72 dark:to-[#071d32]/42",
   },
   {
     key: "insects",
@@ -85,7 +85,7 @@ const topicCardBase: TopicCardBase[] = [
     href: "/nature/species?topic=insects",
     image: topicCardImages.insects,
     icon: Bug,
-    tint: "from-[#e5fbf2]/90 via-[#9ee8d0]/[0.34] to-transparent dark:from-[#07405a]/85 dark:via-[#1684a6]/[0.48] dark:to-[#081f2a]/[0.22]",
+    tint: "from-[#e5fbf2]/90 via-[#9ee8d0]/34 to-transparent dark:from-[#07405a]/85 dark:via-[#1684a6]/48 dark:to-[#081f2a]/22",
   },
   {
     key: "plants",
@@ -94,7 +94,7 @@ const topicCardBase: TopicCardBase[] = [
     href: "/nature/species?topic=plants",
     image: topicCardImages.plants,
     icon: Trees,
-    tint: "from-[#eff8d8]/90 via-[#cdeba0]/[0.36] to-transparent dark:from-[#243f12]/[0.94] dark:via-[#51721c]/[0.66] dark:to-[#17230c]/[0.38]",
+    tint: "from-[#eff8d8]/90 via-[#cdeba0]/36 to-transparent dark:from-[#243f12]/94 dark:via-[#51721c]/66 dark:to-[#17230c]/38",
   },
   {
     key: "fungi",
@@ -102,7 +102,7 @@ const topicCardBase: TopicCardBase[] = [
     subtitle: "神秘而重要的分解者",
     image: topicCardImages.fungi,
     icon: Leaf,
-    tint: "from-[#fff3d8]/90 via-[#edc06e]/[0.32] to-transparent dark:from-[#51380f]/85 dark:via-[#a0712f]/[0.44] dark:to-[#1f1507]/[0.24]",
+    tint: "from-[#fff3d8]/90 via-[#edc06e]/32 to-transparent dark:from-[#51380f]/85 dark:via-[#a0712f]/44 dark:to-[#1f1507]/24",
   },
 ];
 
@@ -166,7 +166,7 @@ function MobileNatureHeader({ submitHref }: { submitHref: string }) {
       showUserButton={false}
       className={mobileHeaderClassName}
       rightSlot={
-        <Button asChild tone="brand" size="sm" className="!h-8 !min-h-8 gap-1 px-2.5 text-xs font-semibold min-[390px]:!h-9 min-[390px]:!min-h-9 min-[390px]:px-3 min-[390px]:text-sm">
+        <Button asChild tone="brand" size="sm" className="h-8! min-h-8! gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9! min-[390px]:min-h-9! min-[390px]:px-3 min-[390px]:text-sm">
           <Link href={submitHref}>
             <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
             发布观察
@@ -195,7 +195,7 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
           <h1 className="hidden text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:block md:text-[58px] lg:text-[62px]">
             自然观察
           </h1>
-          <p className="max-w-md text-[15px] font-semibold leading-6 text-white/[0.96] [text-shadow:0_2px_5px_rgba(0,0,0,0.7)] line-clamp-2 md:mt-4 md:max-w-3xl md:text-[22px] md:leading-7">
+          <p className="max-w-md text-[15px] font-semibold leading-6 text-white/96 [text-shadow:0_2px_5px_rgba(0,0,0,0.7)] line-clamp-2 md:mt-4 md:max-w-3xl md:text-[22px] md:leading-7">
             记录身边的生命，和社区一起守护环境
           </p>
           <Button
@@ -240,10 +240,10 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         unoptimized={topicImage.unoptimized}
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
-        className="object-cover object-right opacity-95 brightness-[1.02] saturate-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [mask-image:linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] dark:opacity-85 dark:brightness-[0.88] dark:saturate-[0.92] motion-safe:group-hover:scale-[1.03]"
+        className="object-cover object-right opacity-95 brightness-[1.02] saturate-[1.02] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mask-[linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] [-webkit-mask-image:linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)] dark:opacity-85 dark:brightness-[0.88] dark:saturate-[0.92] motion-safe:group-hover:scale-[1.03]"
         sizes="(max-width: 768px) 68vw, 20vw"
       />
-      <div className={`absolute inset-0 bg-gradient-to-r ${topic.tint}`} />
+      <div className={`absolute inset-0 bg-linear-to-r ${topic.tint}`} />
       <div className="absolute inset-0 bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.94)_0%,hsl(var(--surface-raised)/0.82)_36%,hsl(var(--surface-raised)/0.34)_52%,transparent_70%)] dark:bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--surface-raised)/0.78)_38%,hsl(var(--surface-raised)/0.28)_54%,transparent_72%)]" />
       <div className="relative z-10 flex h-full min-h-[132px] flex-col justify-between p-3.5 md:min-h-[188px] md:p-5">
         <div>
@@ -260,13 +260,13 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
           </div>
           {topic.href ? (
             <span
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:border-[hsl(var(--primary)/0.5)] group-hover:bg-[hsl(var(--primary))] group-hover:text-[hsl(var(--primary-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[hsl(var(--surface-border))] bg-background text-foreground shadow-[0_4px_12px_-6px_hsl(var(--surface-shadow)/0.35)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-[hsl(var(--primary)/0.5)] group-hover:bg-[hsl(var(--primary))] group-hover:text-[hsl(var(--primary-foreground))] motion-safe:group-hover:translate-x-0.5 md:h-9 md:w-9"
               aria-hidden
             >
               <ArrowRight className="h-4 w-4" />
             </span>
           ) : (
-            <span className="shrink-0 rounded-full bg-[hsl(var(--status-info-surface))] px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--primary))]">
+            <span className="shrink-0 rounded-full nature-media-placeholder px-2 py-0.5 text-[10px] font-semibold text-[hsl(var(--primary))]">
               即将上线
             </span>
           )}

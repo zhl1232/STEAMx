@@ -1,70 +1,66 @@
 /* 社区频道样式 */
 
-@layer components {
-  .community-hero-title {
-    color: hsl(var(--community-hero-fg));
-    @apply font-black leading-none tracking-normal text-[32px] min-[390px]:text-[36px] md:text-[44px] xl:text-[52px];
-  }
+@utility community-hero-title {
+  color: hsl(var(--community-hero-fg));
+  @apply font-black leading-none tracking-normal text-[32px] min-[390px]:text-[36px] md:text-[44px] xl:text-[52px];
+}
 
-  .community-hero-lead {
-    color: hsl(var(--community-hero-muted));
-    @apply mt-4 max-w-[15rem] text-[17px] font-medium leading-7 min-[390px]:max-w-[17rem] md:max-w-[34rem] md:text-[18px];
-  }
+@utility community-hero-lead {
+  color: hsl(var(--community-hero-muted));
+  @apply mt-4 max-w-60 text-[17px] font-medium leading-7 min-[390px]:max-w-68 md:max-w-136 md:text-[18px];
+}
 
-  .community-tab {
-    color: hsl(var(--muted-foreground));
-    @apply relative h-[44px] whitespace-nowrap px-1 text-[17px] font-semibold transition md:h-[58px] md:text-[18px];
-  }
+@utility community-tab {
+  color: hsl(var(--muted-foreground));
+  @apply relative h-[44px] whitespace-nowrap px-1 text-[17px] font-semibold transition md:h-[58px] md:text-[18px];
 
-  .community-tab:hover {
+  &:hover {
     color: hsl(var(--nav-active));
   }
+}
 
-  .community-tab-active {
-    color: hsl(var(--nav-active));
-  }
+@utility community-tab-active {
+  color: hsl(var(--nav-active));
 
-  .community-tab-active::after {
+  &::after {
     background-color: hsl(var(--community-accent));
     @apply absolute inset-x-0 bottom-0 h-[3px] rounded-full content-[''];
   }
+}
 
-  .community-challenge-card {
-    border-color: hsl(var(--surface-border) / 0.62);
-    background-color: hsl(var(--surface-raised) / 0.96);
-    box-shadow: 0 14px 34px -28px hsl(var(--surface-shadow) / 0.32);
-    @apply relative grid grid-cols-[116px_minmax(0,1fr)] gap-3 overflow-hidden rounded-[var(--radius-sm)] border p-2.5 transition hover:border-[hsl(var(--brand-blue)/0.35)] hover:bg-[hsl(var(--surface-raised))] min-[390px]:grid-cols-[124px_minmax(0,1fr)] min-[420px]:grid-cols-[136px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4 md:p-3;
-  }
+@utility community-challenge-card {
+  border-color: hsl(var(--surface-border) / 0.62);
+  background-color: hsl(var(--surface-raised) / 0.96);
+  box-shadow: 0 14px 34px -28px hsl(var(--surface-shadow) / 0.32);
+  @apply relative grid grid-cols-[116px_minmax(0,1fr)] gap-3 overflow-hidden rounded-(--radius-sm) border p-2.5 transition hover:border-[hsl(var(--brand-blue)/0.35)] hover:bg-[hsl(var(--surface-raised))] min-[390px]:grid-cols-[124px_minmax(0,1fr)] min-[420px]:grid-cols-[136px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4 md:p-3;
 
   @media (min-width: 768px) {
-    .community-challenge-card {
-      border-color: hsl(var(--surface-border) / 0.9);
-      background-color: hsl(var(--surface-raised) / 0.82);
-      box-shadow: 0 14px 34px -30px hsl(var(--surface-shadow) / 0.35);
-    }
+    border-color: hsl(var(--surface-border) / 0.9);
+    background-color: hsl(var(--surface-raised) / 0.82);
+    box-shadow: 0 14px 34px -30px hsl(var(--surface-shadow) / 0.35);
   }
+}
 
-  .community-nature-cta {
-    @apply flex items-center justify-between rounded-[var(--radius-lg)] px-3.5 py-3 text-sm font-medium shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.14)] transition-colors;
-    background-color: hsl(var(--status-success-surface) / 0.88);
-    color: hsl(var(--status-success));
-  }
+@utility community-nature-cta {
+  @apply flex items-center justify-between rounded-(--radius-lg) px-3.5 py-3 text-sm font-medium shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.14)] transition-colors;
+  background-color: hsl(var(--status-success-surface) / 0.88);
+  color: hsl(var(--status-success));
 
-  .community-nature-cta:hover {
+  &:hover {
     background-color: hsl(var(--status-success-surface));
   }
+}
 
-  .community-related-project-link {
-    @apply rounded-[var(--radius-lg)] px-3.5 py-3 shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.16)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface-raised) / 0.82),
-      hsl(var(--brand-blue) / 0.12),
-      hsl(var(--chart-2) / 0.08)
-    );
-  }
+@utility community-related-project-link {
+  @apply rounded-(--radius-lg) px-3.5 py-3 shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.16)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface-raised) / 0.82),
+    hsl(var(--brand-blue) / 0.12),
+    hsl(var(--chart-2) / 0.08)
+  );
 
-  .dark .community-related-project-link {
+  .dark & {
     background: linear-gradient(
       135deg,
       hsl(var(--surface-raised) / 0.78),
@@ -73,13 +69,24 @@
     );
   }
 
-  .community-related-project-link:hover {
+  &:hover {
     box-shadow: 0 20px 50px -34px hsl(var(--brand-blue) / 0.26);
     background: linear-gradient(
       135deg,
       hsl(var(--surface-raised) / 0.9),
       hsl(var(--brand-blue) / 0.16),
       hsl(var(--chart-2) / 0.1)
+    );
+  }
+}
+
+@utility dark {
+  & .community-related-project-link {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--surface-raised) / 0.78),
+      hsl(var(--brand-blue) / 0.1),
+      hsl(var(--chart-2) / 0.08)
     );
   }
 }

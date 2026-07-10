@@ -61,13 +61,13 @@ export function BottomNav() {
             <div className="bottom-nav-bar">
                 {navItems.map((item) => {
                     const activePillClass = "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
-                    const inactivePillClass = "text-muted-foreground hover:bg-[hsl(var(--status-info-surface))] hover:text-[hsl(var(--nav-active))]";
+                    const inactivePillClass = "text-muted-foreground hover:nature-media-placeholder hover:text-[hsl(var(--nav-active))]";
                     const content = (
                         <motion.div
                             whileTap={{ scale: 0.85 }}
                             transition={{ type: "spring", stiffness: 400, damping: 17 }}
                             className={cn(
-                                "mx-auto flex min-w-[2.875rem] max-w-full flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] px-2 py-1.5 transition-colors",
+                                "mx-auto flex min-w-11.5 max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
                                 item.active ? activePillClass : inactivePillClass,
                             )}
                         >

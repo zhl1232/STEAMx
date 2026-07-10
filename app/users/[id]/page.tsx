@@ -42,24 +42,24 @@ function groupBadgesBySeries() {
 
 function getSeriesPanelClass(seriesKey: string) {
   if (seriesKey === "rare") {
-    return "border-pink-200/70 bg-gradient-to-br from-pink-50/90 via-background to-rose-50/70 dark:border-fuchsia-400/20 dark:from-fuchsia-950/35 dark:via-slate-950 dark:to-rose-950/25";
+    return "border-pink-200/70 bg-linear-to-br from-pink-50/90 via-background to-rose-50/70 dark:border-fuchsia-400/20 dark:from-fuchsia-950/35 dark:via-slate-950 dark:to-rose-950/25";
   }
   if (seriesKey === "bird_observer" || seriesKey === "species_collector") {
-    return "border-emerald-200/70 bg-gradient-to-br from-emerald-50/90 via-background to-teal-50/70 dark:border-emerald-400/20 dark:from-emerald-950/35 dark:via-slate-950 dark:to-teal-950/25";
+    return "border-emerald-200/70 bg-linear-to-br from-emerald-50/90 via-background to-teal-50/70 dark:border-emerald-400/20 dark:from-emerald-950/35 dark:via-slate-950 dark:to-teal-950/25";
   }
   if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life" || seriesKey === "circuit") {
-    return "border-cyan-200/70 bg-gradient-to-br from-cyan-50/90 via-background to-sky-50/70 dark:border-cyan-400/20 dark:from-cyan-950/35 dark:via-slate-950 dark:to-sky-950/25";
+    return "border-cyan-200/70 bg-linear-to-br from-cyan-50/90 via-background to-sky-50/70 dark:border-cyan-400/20 dark:from-cyan-950/35 dark:via-slate-950 dark:to-sky-950/25";
   }
   if (seriesKey === "art_expert") {
-    return "border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-background to-amber-50/65 dark:border-rose-400/20 dark:from-rose-950/35 dark:via-slate-950 dark:to-amber-950/20";
+    return "border-rose-200/70 bg-linear-to-br from-rose-50/90 via-background to-amber-50/65 dark:border-rose-400/20 dark:from-rose-950/35 dark:via-slate-950 dark:to-amber-950/20";
   }
   if (seriesKey === "challenge" || seriesKey === "streak" || seriesKey === "minesweeper") {
-    return "border-orange-200/70 bg-gradient-to-br from-orange-50/90 via-background to-red-50/65 dark:border-orange-400/20 dark:from-orange-950/35 dark:via-slate-950 dark:to-red-950/20";
+    return "border-orange-200/70 bg-linear-to-br from-orange-50/90 via-background to-red-50/65 dark:border-orange-400/20 dark:from-orange-950/35 dark:via-slate-950 dark:to-red-950/20";
   }
   if (seriesKey === "game24" || seriesKey === "game2048" || seriesKey === "sudoku" || seriesKey === "gomoku" || seriesKey === "hanoi" || seriesKey === "nqueens") {
-    return "border-violet-200/70 bg-gradient-to-br from-violet-50/90 via-background to-indigo-50/70 dark:border-violet-400/20 dark:from-violet-950/35 dark:via-slate-950 dark:to-indigo-950/25";
+    return "border-violet-200/70 bg-linear-to-br from-violet-50/90 via-background to-indigo-50/70 dark:border-violet-400/20 dark:from-violet-950/35 dark:via-slate-950 dark:to-indigo-950/25";
   }
-  return "border-border/60 bg-gradient-to-br from-background via-background to-muted/40 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900/80";
+  return "border-border/60 bg-linear-to-br from-background via-background to-muted/40 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900/80";
 }
 
 function getSeriesStatusClass(isComplete: boolean) {
@@ -83,7 +83,7 @@ function getUnlockBadgeClass(isUnlocked: boolean) {
     return "h-5 border-emerald-200/80 bg-emerald-500/10 text-[10px] text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/12 dark:text-emerald-200";
   }
 
-  return "h-5 border-border/70 bg-background/65 text-[10px] text-muted-foreground dark:border-white/10 dark:bg-white/[0.04] dark:text-white/65";
+  return "h-5 border-border/70 bg-background/65 text-[10px] text-muted-foreground dark:border-white/10 dark:bg-white/4 dark:text-white/65";
 }
 
 function formatJoinDate(date: string) {
@@ -164,7 +164,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
       <div className="space-y-6">
         <section className="surface-panel overflow-hidden">
-          <div className="relative overflow-hidden bg-gradient-to-r from-background via-background/95 to-primary/[0.08] px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+          <div className="relative overflow-hidden bg-linear-to-r from-background via-background/95 to-primary/8 px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
             <div className="absolute inset-y-0 right-0 hidden w-44 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_68%)] lg:block" />
             <div className="relative">
               <p className="section-kicker">公开主页</p>
@@ -174,12 +174,12 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                     {profile.avatar_url ? (
                       <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/18 to-secondary/18 text-4xl font-bold text-primary">
+                      <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-primary/18 to-secondary/18 text-4xl font-bold text-primary">
                         {userName[0].toUpperCase()}
                       </div>
                     )}
                   </div>
-                  <div className="mt-3 rounded-full border border-border/70 bg-background/92 px-3 py-1 text-sm font-bold shadow-sm">
+                  <div className="mt-3 rounded-full border border-border/70 bg-background/92 px-3 py-1 text-sm font-bold shadow-xs">
                     Lv.{level}
                   </div>
                 </div>
@@ -224,10 +224,10 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
         <Tabs defaultValue="projects" className="space-y-6">
           <TabsList className="segmented-control grid h-auto w-full max-w-[420px] grid-cols-2 rounded-full bg-transparent p-1">
-            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
+            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
               项目 ({projectsTotalCount})
             </TabsTrigger>
-            <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">
+            <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
               徽章 ({unlockedBadgeIds.size})
             </TabsTrigger>
           </TabsList>
@@ -262,7 +262,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                       <Badge
                         variant="outline"
                         className={cn(
-                          "h-6 rounded-full px-2.5 text-[10px] shadow-sm",
+                          "h-6 rounded-full px-2.5 text-[10px] shadow-xs",
                           getSeriesStatusClass(unlockedCount === badgesInSeries.length),
                         )}
                       >

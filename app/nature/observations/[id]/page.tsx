@@ -114,12 +114,12 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
         }
       />
 
-      <div className="md:surface-panel overflow-hidden md:rounded-[var(--radius-lg)]">
+      <div className="md:surface-panel overflow-hidden md:rounded-(--radius-lg)">
         <div className="-mx-4 md:mx-0">
           {hasMedia ? (
             <ObservationMediaCarousel mediaUrls={observation.mediaUrls} alt={headline.title} />
           ) : (
-            <div className="flex aspect-[4/3] min-h-[200px] items-end bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_42%),linear-gradient(160deg,rgba(248,250,252,0.96),rgba(238,242,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.14),transparent_44%),linear-gradient(160deg,rgba(8,14,22,0.94),rgba(12,20,30,0.9))] sm:aspect-[16/10]">
+            <div className="flex aspect-4/3 min-h-[200px] items-end bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.18),transparent_42%),linear-gradient(160deg,rgba(248,250,252,0.96),rgba(238,242,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.14),transparent_44%),linear-gradient(160deg,rgba(8,14,22,0.94),rgba(12,20,30,0.9))] sm:aspect-16/10">
               <p className="text-sm text-muted-foreground">暂未上传观察照片</p>
             </div>
           )}
@@ -168,7 +168,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                 <Link
                   href={primarySpeciesHref}
                   aria-label={`查看${headline.title}物种百科`}
-                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
+                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
                 >
                   <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
                   {headline.scientificName ? (
@@ -257,7 +257,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
                     target="_blank"
                     rel="noreferrer"
                     aria-label="打开导航"
-                    className="absolute right-2 top-2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/94 text-foreground shadow-sm backdrop-blur transition-colors hover:bg-background"
+                    className="absolute right-2 top-2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/94 text-foreground shadow-xs backdrop-blur-sm transition-colors hover:bg-background"
                   >
                     <Navigation className="h-4 w-4" />
                   </a>

@@ -135,7 +135,7 @@ export function ObservationReviewCard({ observation, onReview }: ObservationRevi
             <Badge variant="outline" className="rounded-sm bg-emerald-50 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300">
               {formatLabel(observation.nature_topic, topicLabels, '自然观察')}
             </Badge>
-            <Badge variant="secondary" className="status-warning-surface rounded-[var(--radius-xs)] border text-[hsl(var(--status-warning))]">
+            <Badge variant="secondary" className="status-warning-surface rounded-xs border text-[hsl(var(--status-warning))]">
               待审核观察
             </Badge>
             <Badge variant="outline">{observation.is_public ? '公开' : '仅自己可见'}</Badge>

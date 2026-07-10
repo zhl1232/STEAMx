@@ -86,7 +86,7 @@ export default function SettingsPage() {
                         {group.title}
                       </h2>
                     </div>
-                    <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border/70 bg-background/75">
+                    <div className="overflow-hidden rounded-(--radius-lg) border border-border/70 bg-background/75">
                       {group.items.map((item, itemIdx) => (
                         <div key={item.label}>
                           <Link
@@ -101,7 +101,7 @@ export default function SettingsPage() {
                             </div>
                             <ChevronRight className="h-4 w-4 text-muted-foreground" />
                           </Link>
-                          {itemIdx < group.items.length - 1 && <Separator className="ml-[4.5rem]" />}
+                          {itemIdx < group.items.length - 1 && <Separator className="ml-18" />}
                         </div>
                       ))}
                     </div>

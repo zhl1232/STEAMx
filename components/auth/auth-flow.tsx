@@ -472,7 +472,7 @@ export function AuthFlow({
     <div className={cn(
       'relative overflow-hidden border bg-card shadow-[0_24px_70px_-48px_hsl(var(--surface-shadow)/0.44)]',
       presentation === 'page'
-        ? 'mx-auto w-full max-w-md rounded-[var(--radius-lg)] lg:max-w-none'
+        ? 'mx-auto w-full max-w-md rounded-(--radius-lg) lg:max-w-none'
         : 'rounded-t-xl border-b-0 md:rounded-xl md:border-b'
     )}>
       <div className={cn(
@@ -488,7 +488,7 @@ export function AuthFlow({
                 {resolvedTitle}
               </h1>
               {resolvedDescription && (
-                <p id={descriptionId} className="max-w-[34rem] text-sm leading-6 text-muted-foreground">
+                <p id={descriptionId} className="max-w-136 text-sm leading-6 text-muted-foreground">
                   {resolvedDescription}
                 </p>
               )}
@@ -506,7 +506,7 @@ export function AuthFlow({
           </div>
 
           {error && (
-            <div className="rounded-lg border border-destructive/25 bg-background p-4 text-destructive shadow-sm">
+            <div className="rounded-lg border border-destructive/25 bg-background p-4 text-destructive shadow-xs">
               <div className="flex items-start gap-3">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                 <p className="text-sm leading-6">{error}</p>
@@ -515,7 +515,7 @@ export function AuthFlow({
           )}
 
           {message && (
-            <div className="rounded-lg border border-emerald-500/25 bg-background p-4 text-emerald-700 shadow-sm dark:text-emerald-300">
+            <div className="rounded-lg border border-emerald-500/25 bg-background p-4 text-emerald-700 shadow-xs dark:text-emerald-300">
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <p className="text-sm leading-6">{message}</p>
@@ -545,7 +545,7 @@ export function AuthFlow({
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-lg border border-border/80 bg-background p-4 shadow-sm">
+                  <div className="rounded-lg border border-border/80 bg-background p-4 shadow-xs">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold text-foreground">输入短信验证码</p>
@@ -558,7 +558,7 @@ export function AuthFlow({
                           setOtp('')
                           setMessage(null)
                         }}
-                        className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
+                        className="inline-flex items-center gap-1 rounded-sm px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10"
                       >
                         <Pencil className="h-3.5 w-3.5" />
                         修改
@@ -603,7 +603,7 @@ export function AuthFlow({
                       className={cn(
                         'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                         emailMode === 'sign_in'
-                          ? 'bg-background text-foreground shadow-sm'
+                          ? 'bg-background text-foreground shadow-xs'
                           : 'text-muted-foreground hover:text-foreground'
                       )}
                     >
@@ -615,7 +615,7 @@ export function AuthFlow({
                       className={cn(
                         'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                         emailMode === 'sign_up'
-                          ? 'bg-background text-foreground shadow-sm'
+                          ? 'bg-background text-foreground shadow-xs'
                           : 'text-muted-foreground hover:text-foreground'
                       )}
                     >
@@ -684,7 +684,7 @@ export function AuthFlow({
                 )}
 
                 {emailMode === 'sign_up' && isSignUpPhoneIdentifier && !isResetMode && (
-                  <div className="flex items-start gap-2 rounded-lg border border-primary/20 bg-background px-4 py-3 text-xs leading-5 text-muted-foreground shadow-sm">
+                  <div className="flex items-start gap-2 rounded-lg border border-primary/20 bg-background px-4 py-3 text-xs leading-5 text-muted-foreground shadow-xs">
                     <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     手机号注册免密码，验证码完成。
                   </div>

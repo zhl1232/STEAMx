@@ -263,7 +263,7 @@ export function MobileProfilePage({
                 className="object-cover opacity-42 dark:opacity-22"
                 sizes="100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-background/92 via-background/74 to-background/18" />
+              <div className="absolute inset-0 bg-linear-to-r from-background/92 via-background/74 to-background/18" />
               <div className="relative">
                 <p className="section-kicker">内容库</p>
 
@@ -274,7 +274,7 @@ export function MobileProfilePage({
                     ["完成", completedProjectsCount],
                     ["观察", observationsLoaded ? observationsTotal : uniqueSpeciesCount],
                   ].map(([label, value]) => (
-                    <div key={label} className="rounded-md border border-border/70 bg-background/76 px-2 py-2 text-center backdrop-blur">
+                    <div key={label} className="rounded-md border border-border/70 bg-background/76 px-2 py-2 text-center backdrop-blur-sm">
                       <p className="text-base font-semibold tabular-nums">{value}</p>
                       <p className="mt-0.5 text-[10px] text-muted-foreground">{label}</p>
                     </div>

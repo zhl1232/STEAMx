@@ -179,7 +179,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
                     name="q"
                     defaultValue={query || ""}
                     placeholder="搜索物种名称、学名或科属"
-                    className="block w-full rounded-md border border-[hsl(var(--surface-border))] bg-background/70 py-2.5 pl-10 pr-3 text-sm text-foreground shadow-sm transition-all placeholder:text-muted-foreground/80 hover:bg-background focus:border-[hsl(var(--brand-blue)/0.6)] focus:bg-background focus:outline-none focus:ring-[3px] focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                    className="block w-full rounded-md border border-[hsl(var(--surface-border))] bg-background/70 py-2.5 pl-10 pr-3 text-sm text-foreground shadow-xs transition-all placeholder:text-muted-foreground/80 hover:bg-background focus:border-[hsl(var(--brand-blue)/0.6)] focus:bg-background focus:outline-hidden focus:ring-[3px] focus:ring-[hsl(var(--brand-blue)/0.12)]"
                     autoComplete="off"
                   />
                 </div>
@@ -299,7 +299,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
 
       {species.length === 0 ? (
         <div className="nature-empty-state mt-6 flex flex-col items-center gap-4 px-6 py-14 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius-sm)] border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.8)] text-[hsl(var(--primary))]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-sm border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.8)] text-[hsl(var(--primary))]">
             <Search className="h-6 w-6" aria-hidden />
           </div>
           <div className="max-w-md space-y-2">

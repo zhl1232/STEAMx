@@ -174,7 +174,7 @@ function GomokuPageInner() {
                                         className={cn(
                                             "min-h-11 rounded-full px-3 py-1 text-[11px] font-medium transition-colors sm:min-h-0 sm:px-3 sm:text-xs",
                                             level === value
-                                                ? "bg-primary text-primary-foreground shadow-sm"
+                                                ? "bg-primary text-primary-foreground shadow-xs"
                                                 : "text-muted-foreground hover:text-foreground"
                                         )}
                                         aria-pressed={level === value}
@@ -222,7 +222,7 @@ function GomokuPageInner() {
                                 : "border-border/60"
                         )}
                     >
-                        <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-400 dark:border-gray-500" />
+                        <div className="w-3.5 h-3.5 rounded-full bg-linear-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-400 dark:border-gray-500" />
                     </div>
                     <span className="text-xs text-muted-foreground ml-1">
                         {status === "idle" && "先点交点定位，再点一次确认"}
@@ -282,7 +282,7 @@ function GomokuPageInner() {
                                             : "border-border/60"
                                     )}
                                 >
-                                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-md border-2 border-gray-400 dark:border-gray-500" />
+                                    <div className="w-5 h-5 rounded-full bg-linear-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-md border-2 border-gray-400 dark:border-gray-500" />
                                 </div>
                                 <div className="ml-2 text-xs text-muted-foreground">
                                     {status === "idle" && "在任意交点落子开始对局"}

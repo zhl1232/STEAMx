@@ -286,7 +286,7 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
   ]
 
   return (
-    <div className="group flex min-h-[60px] items-start gap-2 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-sm shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:items-center sm:gap-2.5 sm:p-2.5">
+    <div className="group flex min-h-[60px] items-start gap-2 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-2 shadow-xs shadow-[hsl(var(--surface-shadow)/0.035)] sm:min-h-[64px] sm:items-center sm:gap-2.5 sm:p-2.5">
       <div className="shrink-0">
         <div className="grid h-8 w-8 place-items-center rounded-xs bg-[hsl(var(--surface-muted))] sm:h-9 sm:w-9 sm:rounded-sm">
           <Box className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:h-[18px] sm:w-[18px]" strokeWidth={1.8} />
@@ -294,9 +294,9 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
         <div className="min-w-0 flex-1">
-          <p className="line-clamp-2 break-words text-xs font-semibold leading-tight [overflow-wrap:anywhere] sm:text-sm">{meta.name}</p>
+          <p className="line-clamp-2 wrap-break-word text-xs font-semibold leading-tight wrap-anywhere sm:text-sm">{meta.name}</p>
           {meta.note ? (
-            <p className="mt-0.5 line-clamp-2 text-[11px] leading-3.5 text-muted-foreground [overflow-wrap:anywhere] sm:truncate sm:text-xs sm:leading-4">
+            <p className="mt-0.5 line-clamp-2 text-[11px] leading-3.5 text-muted-foreground wrap-anywhere sm:truncate sm:text-xs sm:leading-4">
               {meta.note}
             </p>
           ) : null}
@@ -429,7 +429,7 @@ function MobileRelatedProjects({
         href={href}
         className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border)/0.84)] bg-background/78 p-2.5"
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-muted">
+        <div className="relative aspect-4/3 overflow-hidden rounded-sm bg-muted">
           <OptimizedImage
             src={project.image}
             alt={project.title}
@@ -607,7 +607,7 @@ function StepItem({
       </div>
       <article
         className={cn(
-          "group min-w-0 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-3 shadow-sm shadow-[hsl(var(--surface-shadow)/0.04)]",
+          "group min-w-0 rounded-sm border border-[hsl(var(--surface-border))] bg-background/78 p-3 shadow-xs shadow-[hsl(var(--surface-shadow)/0.04)]",
           hasImage ? "grid grid-cols-[88px_minmax(0,1fr)] items-start gap-3 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-center" : "px-4 py-3",
         )}
       >
@@ -623,12 +623,12 @@ function StepItem({
           </div>
         ) : null}
         <div className="min-w-0">
-          <h3 className="break-words font-sans text-base font-bold leading-5 [overflow-wrap:anywhere]">
+          <h3 className="wrap-break-word font-sans text-base font-bold leading-5 wrap-anywhere">
             {stepTitle}
           </h3>
           <p
             className={cn(
-              "mt-1 break-words text-sm leading-6 text-muted-foreground [overflow-wrap:anywhere]",
+              "mt-1 wrap-break-word text-sm leading-6 text-muted-foreground wrap-anywhere",
               hasImage && "sm:line-clamp-2",
             )}
           >
@@ -883,7 +883,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/14" />
+                <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/14" />
                 <div className="absolute bottom-3 right-4 rounded-full bg-black/48 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md">
                   1/{heroGalleryCount}
                 </div>
@@ -960,7 +960,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           <main className="min-w-0 space-y-6">
             <section className="surface-panel hidden overflow-hidden rounded-lg md:block">
               <div className="lg:flex lg:items-stretch">
-                <div className="relative min-w-0 overflow-hidden bg-muted aspect-[16/9] sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none">
+                <div className="relative min-w-0 overflow-hidden bg-muted aspect-video sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none">
                   <OptimizedImage
                     src={project.image}
                     alt={project.title}
@@ -1057,7 +1057,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               </div>
             ) : null}
 
-            <section className="hidden items-start gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-sm shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
+            <section className="hidden items-start gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.045)] px-3 py-2.5 text-sm shadow-xs shadow-[hsl(var(--surface-shadow)/0.025)] sm:px-5 sm:py-4 md:flex">
               <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))] sm:h-7 sm:w-7">
                 <ShieldCheck className="h-4 w-4" />
               </span>

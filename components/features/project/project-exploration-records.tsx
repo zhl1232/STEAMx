@@ -34,8 +34,8 @@ function ExplorationRecordCard({
       href={href}
       onKeyDown={handleKeyDown}
       className={cn(
-        "block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-sm shadow-[hsl(var(--surface-shadow)/0.06)]",
-        "cursor-pointer transition-shadow hover:shadow-md hover:border-[hsl(var(--brand-green)/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.45)]",
+        "block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.86)] bg-background/86 shadow-xs shadow-[hsl(var(--surface-shadow)/0.06)]",
+        "cursor-pointer transition-shadow hover:shadow-md hover:border-[hsl(var(--brand-green)/0.35)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-green)/0.45)]",
         className,
       )}
     >
@@ -60,7 +60,7 @@ function ExplorationRecordCard({
               <p className="text-[10px] leading-3 text-muted-foreground">{completion.completedAt}</p>
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-muted">
+          <div className="relative aspect-4/3 overflow-hidden rounded-sm bg-muted">
             {completion.proofImages[0] ? (
               <OptimizedImage
                 src={completion.proofImages[0]}
@@ -125,7 +125,7 @@ export function ProjectExplorationRecordsHorizontal({
   }
 
   return (
-    <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden">
       {completions.slice(0, limit).map((completion) => (
         <ExplorationRecordCard
           key={completion.id}

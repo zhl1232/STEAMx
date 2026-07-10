@@ -43,7 +43,7 @@ function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
 
         <div className={`mt-4 ${compact ? "grid grid-cols-[78px_minmax(0,1fr)] gap-4" : "flex min-h-[156px] flex-wrap items-start gap-6"}`}>
           <div className="relative shrink-0 pt-1">
-            <SkeletonBlock className={`${compact ? "h-[76px] w-[76px]" : "h-[112px] w-[112px]"} rounded-full border-[4px] border-background`} />
+            <SkeletonBlock className={`${compact ? "h-[76px] w-[76px]" : "h-[112px] w-[112px]"} rounded-full border-4 border-background`} />
             <SkeletonBlock className="absolute -bottom-1.5 left-1/2 h-7 w-16 -translate-x-1/2 rounded-full bg-muted/90" />
           </div>
 
@@ -377,7 +377,7 @@ function PublicMobileProfileSkeleton() {
                   </div>
                 </div>
 
-                <div className="mt-5 w-full overflow-hidden rounded-md border border-border/50 bg-background/60 backdrop-blur-sm">
+                <div className="mt-5 w-full overflow-hidden rounded-md border border-border/50 bg-background/60 backdrop-blur-xs">
                   <div className="grid grid-cols-4 divide-x divide-border/40">
                     {Array.from({ length: 4 }).map((_, index) => (
                       <div key={index} className="px-2 py-3 text-center">
@@ -417,7 +417,7 @@ function PublicMobileProfileSkeleton() {
       <div className="space-y-4 px-4 py-4">
         <section className="surface-panel rounded-xl p-5">
           <SkeletonBlock className="h-5 w-28 rounded-full bg-muted/90" />
-          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-[var(--radius-lg)] bg-muted/85" />
+          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-(--radius-lg) bg-muted/85" />
         </section>
       </div>
     </div>
@@ -469,7 +469,7 @@ function PublicDesktopProfileSkeleton() {
 
             <section className="surface-panel p-6">
               <SkeletonBlock className="h-5 w-28 rounded-full" />
-              <SkeletonBlock className="mt-4 h-[320px] w-full rounded-[var(--radius-lg)]" />
+              <SkeletonBlock className="mt-4 h-[320px] w-full rounded-(--radius-lg)" />
             </section>
           </div>
 

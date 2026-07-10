@@ -154,14 +154,14 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
 
   const wrapperClass = variant === "fixed"
     ? cn(
-      "fixed left-0 right-0 z-40 border-t border-border/80 bg-background/95 px-4 pt-3 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:sticky md:bottom-0 md:border-t-0 md:py-3 md:shadow-none",
+      "fixed left-0 right-0 z-40 border-t border-border/80 bg-background/95 px-4 pt-3 shadow-[0_-1px_0_0_rgba(0,0,0,0.06),0_-4px_12px_rgba(0,0,0,0.04)] backdrop-blur-sm supports-backdrop-filter:bg-background/60 dark:border-border dark:shadow-[0_-1px_0_0_rgba(255,255,255,0.06),0_-4px_12px_rgba(0,0,0,0.2)] md:sticky md:bottom-0 md:border-t-0 md:py-3 md:shadow-none",
       portalFixed && "md:hidden",
       fixedPlacement === "screen"
         ? "bottom-0 pb-[calc(0.65rem+env(safe-area-inset-bottom))]"
         : "bottom-[calc(4rem+env(safe-area-inset-bottom))] pb-3",
     )
     : variant === "inline"
-      ? "rounded-[var(--radius-lg)] border border-border/70 bg-background/85 px-4 py-4 shadow-sm shadow-black/5"
+      ? "rounded-(--radius-lg) border border-border/70 bg-background/85 px-4 py-4 shadow-xs shadow-black/5"
       : "shrink-0 border-t bg-background px-4 py-3";
 
   const content = (
@@ -172,7 +172,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
             src={profile?.avatar_url || getDefaultAvatarPath(user?.id)}
             fallback={profile?.display_name?.[0]?.toUpperCase() || "U"}
             avatarFrameId={profile?.equipped_avatar_frame_id}
-            className={cn("border shadow-sm shrink-0", isExpanded ? "h-9 w-9 mt-0.5" : "h-8 w-8")}
+            className={cn("border shadow-xs shrink-0", isExpanded ? "h-9 w-9 mt-0.5" : "h-8 w-8")}
             avatarClassName={isExpanded ? "h-9 w-9" : "h-8 w-8"}
           />
 
@@ -224,7 +224,7 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
                         if (onCancelReply) onCancelReply();
                       }
                     }}
-                    className="py-3 px-4 w-full bg-transparent text-sm placeholder:text-muted-foreground focus-visible:outline-none resize-none leading-normal min-h-[80px] max-h-[200px]"
+                    className="py-3 px-4 w-full bg-transparent text-sm placeholder:text-muted-foreground focus-visible:outline-hidden resize-none leading-normal min-h-[80px] max-h-[200px]"
                   />
                 </>
               ) : (

@@ -73,7 +73,7 @@ export default function BadgesPreviewPage() {
             {BADGES.map((badge) => (
               <div 
                 key={badge.id} 
-                className="flex flex-col items-center text-center gap-3 p-4 border rounded-sm bg-slate-50 dark:bg-slate-900 shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col items-center text-center gap-3 p-4 border rounded-sm bg-slate-50 dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow"
               >
                 <BadgeIcon 
                   icon={badge.icon} 

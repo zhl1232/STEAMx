@@ -67,7 +67,7 @@ export function ProfileHeader({
     <section className="surface-panel overflow-hidden">
       <div className="relative overflow-hidden px-4 pb-4 pt-4">
         <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-muted)/0.72),transparent_72%)]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
 
         <div className="relative">
           <div className="flex items-center justify-between gap-2">
@@ -113,7 +113,7 @@ export function ProfileHeader({
               <LevelGuideDialog>
                 <button
                   type="button"
-                  className="absolute -bottom-1.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full border border-primary/20 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:-translate-x-1/2 hover:border-primary/35 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="absolute -bottom-1.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full border border-primary/20 bg-background/95 px-2.5 py-0.5 text-[11px] font-semibold text-foreground shadow-xs backdrop-blur-xs ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:-translate-x-1/2 hover:border-primary/35 hover:bg-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                 >
                   <Zap className="h-3 w-3 text-primary" />
                   Lv.{level}
@@ -134,20 +134,20 @@ export function ProfileHeader({
 
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                 <EditProfileDialog>
-                  <Button variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-sm">
+                  <Button variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-xs">
                     编辑资料
                   </Button>
                 </EditProfileDialog>
 
                 {canReview ? (
-                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-xs">
                     <Link href="/admin">
                       <LayoutDashboard className="mr-1.5 h-3.5 w-3.5" />
                       管理后台
                     </Link>
                   </Button>
                 ) : canApplyModerator ? (
-                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-sm">
+                  <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-xs">
                     <Link href="/moderator/apply">
                       <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
                       申请审核员
@@ -157,14 +157,14 @@ export function ProfileHeader({
               </div>
             </div>
 
-              <div className="mt-5 w-full overflow-hidden rounded-md border border-border/70 bg-background/70 backdrop-blur-sm">
+              <div className="mt-5 w-full overflow-hidden rounded-md border border-border/70 bg-background/70 backdrop-blur-xs">
               <div className="grid grid-cols-4 divide-x divide-border/40">
                 {stats.map((stat) => (
                   stat.href ? (
                     <Link
                       key={stat.key}
                       href={stat.href}
-                      className="group px-2 py-3 text-center transition-all hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+                      className="group px-2 py-3 text-center transition-all hover:bg-background/70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
                     >
                       <div className="text-[15px] font-semibold tabular-nums text-foreground">{stat.value}</div>
                       <div className="mt-0.5 inline-flex items-center justify-center gap-1 text-[10px] text-muted-foreground/80">

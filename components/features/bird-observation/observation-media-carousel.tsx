@@ -99,7 +99,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
           priority
           showCounter
           onTap={() => setPreviewOpen(true)}
-          className="aspect-[4/3] min-h-[220px] bg-muted/40 sm:aspect-[16/10] lg:aspect-[1.2]"
+          className="aspect-4/3 min-h-[220px] bg-muted/40 sm:aspect-16/10 lg:aspect-[1.2]"
           sizes="(max-width: 1024px) 100vw, 900px"
         />
       </div>
@@ -107,7 +107,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
       {mediaUrls.length > 1 ? (
         <div
           ref={railRef}
-          className="mt-3 flex gap-2 overflow-x-auto scroll-smooth px-8 pb-1 [scrollbar-width:none] md:px-0 [&::-webkit-scrollbar]:hidden"
+          className="mt-3 flex gap-2 overflow-x-auto scroll-smooth px-8 pb-1 scrollbar-none md:px-0 [&::-webkit-scrollbar]:hidden"
           aria-label="观察照片缩略图"
         >
           {mediaUrls.map((url, index) => (
@@ -118,7 +118,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
               className={cn(
                 "relative h-16 w-16 shrink-0 overflow-hidden rounded-xs border-2 transition-all duration-200 sm:h-[72px] sm:w-[72px]",
                 index === activeIndex
-                  ? "scale-[1.02] border-[hsl(var(--primary))] shadow-sm"
+                  ? "scale-[1.02] border-[hsl(var(--primary))] shadow-xs"
                   : "border-border/70 opacity-80 hover:opacity-100",
               )}
             >
@@ -129,7 +129,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
       ) : null}
 
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-        <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 border-0 bg-black/96 p-0 shadow-none [&>button:last-child]:right-5 [&>button:last-child]:top-5 [&>button:last-child]:text-white sm:left-[50%] sm:top-[50%] sm:h-[92vh] sm:w-[92vw] sm:max-w-6xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10">
+        <DialogContent className="left-0 top-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 gap-0 border-0 bg-black/96 p-0 shadow-none [&>button:last-child]:right-5 [&>button:last-child]:top-5 [&>button:last-child]:text-white sm:left-[50%] sm:top-[50%] sm:h-[92vh] sm:w-[92vw] sm:max-w-6xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10">
           <DialogTitle className="sr-only">观察照片预览</DialogTitle>
           <DialogDescription className="sr-only">在弹层中查看完整观察照片。</DialogDescription>
           <div
@@ -142,7 +142,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-5 top-5 z-10 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-white/80 backdrop-blur"
+              className="absolute left-5 top-5 z-10 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-white/80 backdrop-blur-sm"
             >
               {activeIndex + 1} / {mediaUrls.length}
             </motion.div>
@@ -151,7 +151,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
                 <button
                   type="button"
                   onClick={() => shiftImage(-1)}
-                  className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur transition hover:bg-black/65"
+                  className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition hover:bg-black/65"
                   aria-label="上一张"
                 >
                   <ChevronLeft className="h-5 w-5" />
@@ -159,7 +159,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
                 <button
                   type="button"
                   onClick={() => shiftImage(1)}
-                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur transition hover:bg-black/65"
+                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition hover:bg-black/65"
                   aria-label="下一张"
                 >
                   <ChevronRight className="h-5 w-5" />

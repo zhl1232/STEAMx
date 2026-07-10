@@ -1,33 +1,48 @@
 /* 观察提交表单专用变量主题 */
 
-@layer components {
-  .observation-submit-theme {
-    --obs-panel: hsl(var(--surface-raised) / 0.96);
-    --obs-subtle: hsl(var(--surface-muted) / 0.72);
-    --obs-control: hsl(var(--background) / 0.92);
-    --obs-control-hover: hsl(var(--surface-muted) / 0.88);
-    --obs-border: hsl(var(--surface-border) / 0.78);
-    --obs-border-strong: hsl(var(--surface-border) / 0.78);
-    --obs-text: hsl(var(--foreground));
-    --obs-muted: hsl(var(--muted-foreground));
-    --obs-muted-2: hsl(var(--muted-foreground) / 0.78);
-    --obs-placeholder: hsl(var(--muted-foreground) / 0.62);
-    --obs-accent: hsl(var(--primary));
-    --obs-accent-strong: hsl(var(--primary) / 0.88);
-    --obs-accent-soft: hsl(var(--status-info-surface) / 0.9);
-    --obs-accent-panel: hsl(var(--status-info-surface));
-    --obs-accent-text: hsl(var(--primary));
-    --obs-focus: hsl(var(--primary) / 0.22);
-    --obs-ring: hsl(var(--primary) / 0.06);
-    --obs-panel-shadow: 0 18px 48px -38px hsl(var(--surface-shadow) / 0.24);
-    --obs-soft-shadow: 0 12px 28px -22px hsl(var(--primary) / 0.28);
-    --obs-glow-a: hsl(var(--primary) / 0.08);
-    --obs-glow-b: hsl(var(--brand-amber) / 0.08);
-    --obs-photo-bg: linear-gradient(180deg, hsl(var(--surface-raised) / 0.98), hsl(var(--status-info-surface) / 0.56));
-    --obs-map-bg: linear-gradient(135deg, hsl(var(--status-info-surface) / 0.78), hsl(var(--surface-raised) / 0.96));
-  }
+@utility observation-submit-theme {
+  --obs-panel: hsl(var(--surface-raised) / 0.96);
+  --obs-subtle: hsl(var(--surface-muted) / 0.72);
+  --obs-control: hsl(var(--background) / 0.92);
+  --obs-control-hover: hsl(var(--surface-muted) / 0.88);
+  --obs-border: hsl(var(--surface-border) / 0.78);
+  --obs-border-strong: hsl(var(--surface-border) / 0.78);
+  --obs-text: hsl(var(--foreground));
+  --obs-muted: hsl(var(--muted-foreground));
+  --obs-muted-2: hsl(var(--muted-foreground) / 0.78);
+  --obs-placeholder: hsl(var(--muted-foreground) / 0.62);
+  --obs-accent: hsl(var(--primary));
+  --obs-accent-strong: hsl(var(--primary) / 0.88);
+  --obs-accent-soft: hsl(var(--status-info-surface) / 0.9);
+  --obs-accent-panel: hsl(var(--status-info-surface));
+  --obs-accent-text: hsl(var(--primary));
+  --obs-focus: hsl(var(--primary) / 0.22);
+  --obs-ring: hsl(var(--primary) / 0.06);
+  --obs-panel-shadow: 0 18px 48px -38px hsl(var(--surface-shadow) / 0.24);
+  --obs-soft-shadow: 0 12px 28px -22px hsl(var(--primary) / 0.28);
+  --obs-glow-a: hsl(var(--primary) / 0.08);
+  --obs-glow-b: hsl(var(--brand-amber) / 0.08);
+  --obs-photo-bg: linear-gradient(
+    180deg,
+    hsl(var(--surface-raised) / 0.98),
+    hsl(var(--status-info-surface) / 0.56)
+  );
+  --obs-map-bg: linear-gradient(
+    135deg,
+    hsl(var(--status-info-surface) / 0.78),
+    hsl(var(--surface-raised) / 0.96)
+  );
 
-  .dark .observation-submit-theme {
+  .dark & {
+    --obs-panel-shadow: 0 18px 52px -36px hsl(var(--surface-shadow) / 0.72);
+    --obs-soft-shadow: 0 12px 28px -22px hsl(var(--primary) / 0.42);
+    --obs-glow-a: hsl(var(--primary) / 0.07);
+    --obs-glow-b: hsl(var(--brand-amber) / 0.06);
+  }
+}
+
+@utility dark {
+  & .observation-submit-theme {
     --obs-panel-shadow: 0 18px 52px -36px hsl(var(--surface-shadow) / 0.72);
     --obs-soft-shadow: 0 12px 28px -22px hsl(var(--primary) / 0.42);
     --obs-glow-a: hsl(var(--primary) / 0.07);

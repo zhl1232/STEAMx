@@ -431,7 +431,7 @@ export default function EditProjectPage() {
                                             key={star}
                                             type="button"
                                             onClick={() => setFormData({ ...formData, difficulty_stars: star })}
-                                            className="focus:outline-none transition-transform hover:scale-110"
+                                            className="focus:outline-hidden transition-transform hover:scale-110"
                                         >
                                             <Star
                                                 className={`h-6 w-6 ${star <= formData.difficulty_stars
@@ -544,7 +544,7 @@ export default function EditProjectPage() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                         {formData.project_steps.map((step, index) => (
-                            <div key={index} className="relative rounded-[var(--radius-lg)] border border-border/70 bg-background/80 p-4">
+                            <div key={index} className="relative rounded-(--radius-lg) border border-border/70 bg-background/80 p-4">
                                 <div className="absolute right-4 top-4">
                                     <Button
                                         size="icon"

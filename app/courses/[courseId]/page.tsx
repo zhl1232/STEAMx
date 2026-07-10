@@ -117,7 +117,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 </Link>
 
                 {/* Hero 卡：左文右图，五子棋课用棋盘 SVG，其它课用位图 */}
-                <section className="surface-card overflow-hidden rounded-[var(--radius-xl)]">
+                <section className="surface-card overflow-hidden rounded-xl">
                     <div className="grid gap-0 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
                         {/* 移动端：棋盘在上、文字在下；桌面端：文字在左、棋盘在右 */}
                         <div className="relative order-first min-h-[200px] border-border md:order-2 md:min-h-[260px] md:border-l lg:min-h-[320px]">
@@ -225,7 +225,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                 <li key={lesson.id}>
                                     <Link
                                         href={`/courses/${course.id}/lessons/${lesson.id}`}
-                                        className="surface-card surface-card-interactive group flex items-center gap-3 rounded-[var(--radius-md)] p-3.5 md:gap-4 md:p-4"
+                                        className="surface-card surface-card-interactive group flex items-center gap-3 rounded-md p-3.5 md:gap-4 md:p-4"
                                     >
                                         <LessonIndexBadge
                                             index={index}
@@ -291,10 +291,10 @@ function LessonIndexBadge({
             <span
                 aria-hidden
                 className={cn(
-                    "grid h-11 w-11 shrink-0 place-items-center rounded-full text-sm font-black shadow-sm md:h-12 md:w-12",
+                    "grid h-11 w-11 shrink-0 place-items-center rounded-full text-sm font-black shadow-xs md:h-12 md:w-12",
                     isBlack
-                        ? "bg-gradient-to-br from-slate-800 to-slate-950 text-white ring-1 ring-slate-900/20 dark:from-slate-100 dark:to-white dark:text-slate-900 dark:ring-slate-100/30"
-                        : "bg-gradient-to-br from-white to-slate-100 text-slate-900 ring-1 ring-slate-300 dark:from-slate-700 dark:to-slate-800 dark:text-slate-100 dark:ring-slate-600",
+                        ? "bg-linear-to-br from-slate-800 to-slate-950 text-white ring-1 ring-slate-900/20 dark:from-slate-100 dark:to-white dark:text-slate-900 dark:ring-slate-100/30"
+                        : "bg-linear-to-br from-white to-slate-100 text-slate-900 ring-1 ring-slate-300 dark:from-slate-700 dark:to-slate-800 dark:text-slate-100 dark:ring-slate-600",
                 )}
             >
                 {index + 1}

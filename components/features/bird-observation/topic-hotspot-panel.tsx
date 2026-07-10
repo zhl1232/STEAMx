@@ -78,7 +78,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
                   const nextIndex = validLocations.findIndex((item) => item.locationName === location.locationName)
                   if (nextIndex >= 0) setActiveIndex(nextIndex)
                 }}
-                className="block w-full rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="block w-full rounded-sm text-left focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{location.locationName}</span>

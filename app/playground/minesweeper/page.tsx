@@ -142,7 +142,7 @@ export default function MinesweeperPage() {
                             <div className="flex shrink-0 items-center gap-1 rounded-sm border border-border/50 bg-muted/60 p-0.5">
                                 <button
                                     onClick={() => setIsFlagMode(false)}
-                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${!isFlagMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${!isFlagMode ? "bg-background text-foreground shadow-xs" : "text-muted-foreground"}`}
                                     aria-label="挖掘模式"
                                     aria-pressed={!isFlagMode}
                                 >
@@ -151,7 +151,7 @@ export default function MinesweeperPage() {
                                 </button>
                                 <button
                                     onClick={() => setIsFlagMode(true)}
-                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm" : "text-muted-foreground"}`}
+                                    className={`flex h-10 min-w-12 items-center justify-center gap-1 rounded-xs px-2 text-sm font-bold transition-all ${isFlagMode ? "bg-destructive/10 text-destructive shadow-xs" : "text-muted-foreground"}`}
                                     aria-label="标记模式"
                                     aria-pressed={isFlagMode}
                                 >
@@ -199,14 +199,14 @@ export default function MinesweeperPage() {
                             <div className="flex items-center gap-1 rounded-sm border border-border/50 bg-muted/60 p-1">
                                 <button
                                     onClick={() => setIsFlagMode(false)}
-                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${!isFlagMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${!isFlagMode ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`}
                                 >
                                     <MousePointerClick className="w-4 h-4" />
                                     <span>挖掘</span>
                                 </button>
                                 <button
                                     onClick={() => setIsFlagMode(true)}
-                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-xs" : "text-muted-foreground hover:text-foreground"}`}
                                 >
                                     <Flag className="w-4 h-4" />
                                     <span>标记</span>
@@ -318,7 +318,7 @@ export default function MinesweeperPage() {
                                                     ? cell.isMine
                                                         ? "bg-destructive text-destructive-foreground shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-destructive/80"
                                                         : "bg-background/80 text-foreground shadow-inner border-border/40"
-                                                    : "bg-gradient-to-br from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 border-primary/20 border-t-primary/30 border-l-primary/30 shadow-sm hover:scale-[1.02] active:scale-95"
+                                                    : "bg-linear-to-br from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 border-primary/20 border-t-primary/30 border-l-primary/30 shadow-xs hover:scale-[1.02] active:scale-95"
                                                 }
                       `}
                                         >
@@ -326,12 +326,12 @@ export default function MinesweeperPage() {
                                                 cell.isMine ? (
                                                     <Bomb size={20} />
                                                 ) : (
-                                                    <span className={`${getNumberColor(cell.neighborMines)} drop-shadow-sm`}>
+                                                    <span className={`${getNumberColor(cell.neighborMines)} drop-shadow-xs`}>
                                                         {cell.neighborMines > 0 ? cell.neighborMines : ""}
                                                     </span>
                                                 )
                                             ) : cell.isFlagged ? (
-                                                <Flag size={18} className="text-destructive transition-transform scale-110 drop-shadow-sm" />
+                                                <Flag size={18} className="text-destructive transition-transform scale-110 drop-shadow-xs" />
                                             ) : (
                                                 ""
                                             )}

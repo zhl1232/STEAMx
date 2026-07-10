@@ -582,10 +582,10 @@ export default function AdminPage() {
       </div>
 
       <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-        <div className="mb-7 overflow-hidden rounded-[var(--radius-lg)] border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
+        <div className="mb-7 overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 items-center gap-4">
-              <Avatar className="h-16 w-16 shrink-0 border-4 border-background shadow-sm sm:h-20 sm:w-20">
+              <Avatar className="h-16 w-16 shrink-0 border-4 border-background shadow-xs sm:h-20 sm:w-20">
                 <AvatarImage src={profile?.avatar_url || undefined} />
                 <AvatarFallback className="bg-[hsl(var(--brand-blue)/0.12)] text-lg font-bold text-[hsl(var(--brand-blue))]">
                   {adminName.slice(0, 1)}
@@ -660,19 +660,19 @@ export default function AdminPage() {
         </div>
 
         <Tabs defaultValue="pending" className="space-y-6">
-          <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-[var(--radius-lg)] bg-transparent p-1">
-            <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核项目 ({pendingProjects.length})</TabsTrigger>
-            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">探索记录审核 ({pendingCompletions.length})</TabsTrigger>
-            <TabsTrigger value="pending-observations" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">自然观察审核 ({pendingObservations.length})</TabsTrigger>
-            <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
-            <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">举报管理</TabsTrigger>
-            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">所有项目</TabsTrigger>
-            {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">审核员申请</TabsTrigger>}
-            <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">挑战</TabsTrigger>
-            <TabsTrigger value="courses" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">技能课程</TabsTrigger>
-            <TabsTrigger value="resources" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">资料卡</TabsTrigger>
-            <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">标签管理</TabsTrigger>
-            <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm">用户管理</TabsTrigger>
+          <TabsList className="segmented-control h-auto flex-wrap justify-start rounded-(--radius-lg) bg-transparent p-1">
+            <TabsTrigger value="pending" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">待审核项目 ({pendingProjects.length})</TabsTrigger>
+            <TabsTrigger value="pending-completions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">探索记录审核 ({pendingCompletions.length})</TabsTrigger>
+            <TabsTrigger value="pending-observations" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">自然观察审核 ({pendingObservations.length})</TabsTrigger>
+            <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
+            <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">举报管理</TabsTrigger>
+            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">所有项目</TabsTrigger>
+            {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">审核员申请</TabsTrigger>}
+            <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">挑战</TabsTrigger>
+            <TabsTrigger value="courses" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">技能课程</TabsTrigger>
+            <TabsTrigger value="resources" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">资料卡</TabsTrigger>
+            <TabsTrigger value="tags" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">标签管理</TabsTrigger>
+            <TabsTrigger value="users" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">用户管理</TabsTrigger>
           </TabsList>
 
           <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">

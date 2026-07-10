@@ -224,7 +224,7 @@ export default function ConversationPage() {
             </div>
           </div>
 
-          <div className="border-t border-border/60 bg-background/70 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-sm">
+          <div className="border-t border-border/60 bg-background/70 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xs">
             <div className="flex gap-2">
               <Input
                 placeholder={
@@ -292,7 +292,7 @@ function MessageBubble({ message, isMe }: { message: Message; isMe: boolean }) {
           isMe ? "bg-primary text-primary-foreground" : "bg-[hsl(var(--surface-muted))] text-foreground"
         }`}
       >
-        <p className="break-words whitespace-pre-wrap text-sm">{message.content}</p>
+        <p className="wrap-break-word whitespace-pre-wrap text-sm">{message.content}</p>
         <p
           className={`mt-1 text-[10px] ${
             isMe ? "text-primary-foreground/80" : "text-muted-foreground"
