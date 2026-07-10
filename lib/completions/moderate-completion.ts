@@ -9,7 +9,8 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 type CompletionRow = {
   id: number
   user_id: string
-  project_id: number
+  project_id: number | null
+  course_lesson_id: number | null
   record_kind: string | null
   status: string | null
   proof_images: string[] | null
@@ -27,7 +28,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
 
   const { data: completion, error: fetchError } = await supabaseAdmin
     .from('completed_projects')
-    .select('id, user_id, project_id, record_kind, status, proof_images, notes, exploration_id')
+    .select('id, user_id, project_id, course_lesson_id, record_kind, status, proof_images, notes, exploration_id')
     .eq('id', completionId)
     .maybeSingle()
 
@@ -88,7 +89,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
       if (approveError) throw approveError
     }
 
-    if (recordKind === 'final') {
+    if (recordKind === 'final' && row.project_id) {
       await supabaseAdmin
         .from('project_explorations')
         .update({
@@ -100,7 +101,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
         .eq('user_id', row.user_id)
         .eq('project_id', row.project_id)
         .eq('status', 'active')
-    } else if (row.exploration_id) {
+    } else if (recordKind !== 'final' && row.exploration_id) {
       await supabaseAdmin
         .from('project_explorations')
         .update({ last_activity_at: new Date().toISOString(), updated_at: new Date().toISOString() } as never)

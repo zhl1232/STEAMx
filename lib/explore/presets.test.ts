@@ -12,8 +12,9 @@ import {
 } from '@/lib/explore/presets'
 
 describe('explore presets', () => {
-    it('exposes two list tabs without browse chip', () => {
+    it('exposes popular, latest, and beginner project tabs', () => {
         expect(EXPLORE_PRESETS.map((preset) => preset.id)).toEqual([
+            'browse',
             'latest',
             'beginner-friendly',
         ])
@@ -49,20 +50,23 @@ describe('explore presets', () => {
     })
 
     it('builds distinct preset search params', () => {
-        const latest = buildPresetSearchParams(EXPLORE_PRESETS[0])
-        const beginner = buildPresetSearchParams(EXPLORE_PRESETS[1])
+        const popular = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'browse')!)
+        const latest = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'latest')!)
+        const beginner = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'beginner-friendly')!)
 
-        expect(latest.toString()).toBe('')
+        expect(popular.toString()).toBe('')
+        expect(latest.get('sortBy')).toBe('latest')
         expect(beginner.get('difficulty')).toBe('1-2')
-        expect(beginner.get('sortBy')).toBe('popular')
+        expect(beginner.get('sortBy')).toBeNull()
         expect(new Set([
+            serializeExploreFilterParams(popular),
             serializeExploreFilterParams(latest),
             serializeExploreFilterParams(beginner),
-        ]).size).toBe(2)
+        ]).size).toBe(3)
     })
 
-    it('does not highlight default browse state', () => {
-        expect(resolveHighlightedPresetId('browse')).toBeNull()
+    it('highlights the default popular project tab', () => {
+        expect(resolveHighlightedPresetId('browse')).toBe('browse')
         expect(resolveHighlightedPresetId('latest')).toBe('latest')
     })
 
@@ -74,9 +78,10 @@ describe('explore presets', () => {
         })).toBe('beginner-friendly')
     })
 
-    it('defaults to latest and downgrades old weekly URLs to popular', () => {
-        expect(parseExploreSortBy(null)).toBe('latest')
+    it('defaults to popular and keeps explicit latest URLs', () => {
+        expect(parseExploreSortBy(null)).toBe('popular')
         expect(parseExploreSortBy('weekly')).toBe('popular')
+        expect(parseExploreSortBy('latest')).toBe('latest')
     })
 
     it('enters results mode for explicit filters but keeps preset tabs in explore mode', () => {

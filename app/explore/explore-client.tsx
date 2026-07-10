@@ -17,10 +17,6 @@ import {
     X,
 } from 'lucide-react'
 import {
-    ExploreForYouRail,
-    type ExploreForYouRailState,
-} from '@/components/explore/explore-for-you-rail'
-import {
     COMPACT_VERTICAL_PROJECT_CARD_CLASS,
     COMPACT_VERTICAL_PROJECT_GRID_CLASS,
 } from '@/components/features/compact-project-grid-styles'
@@ -215,7 +211,7 @@ function normalizeSortBy(value: string | null | undefined): SortBy {
     return parseExploreSortBy(value)
 }
 
-/** 仅依据 URL：无 `sortBy` 时用探索页默认（最新上架），避免客户端改 URL 后排序与地址栏不一致 */
+/** 仅依据 URL：无 `sortBy` 时使用默认热门推荐。 */
 function sortFromSearchParam(raw: string | null): SortBy {
     if (raw === null || raw === '') return normalizeSortBy(undefined)
     return normalizeSortBy(raw)
@@ -241,8 +237,6 @@ interface ExploreClientProps {
     /** 服务端按标签在项目中的出现次数排序；为空时侧栏回退为 `availableTags` 前若干项 */
     popularTags?: string[]
     tagScope?: ExploreTagScope
-    /** 公共「热门推荐」横滑区 SSR 数据；无推荐时为 null */
-    initialForYou?: ExploreForYouRailState | null
 }
 
 export function ExploreClient({
@@ -254,12 +248,10 @@ export function ExploreClient({
     availableTags,
     popularTags: popularTagsProp,
     tagScope,
-    initialForYou = null,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
     const { toast } = useToast()
     const { clearLikesDeltaForProjects } = useProjects()
-    const [forYouData, setForYouData] = useState<ExploreForYouRailState | null>(initialForYou)
 
     const displayCategories = propCategories || defaultCategories
     const resolvedAvailableTags = availableTags || EMPTY_TAGS
@@ -347,10 +339,6 @@ export function ExploreClient({
             observer.current?.disconnect()
         }
     }, [])
-
-    useEffect(() => {
-        setForYouData(initialForYou)
-    }, [initialForYou])
 
     const isAbortError = useCallback((error: unknown) => {
         return (error instanceof DOMException && error.name === 'AbortError')
@@ -499,7 +487,7 @@ export function ExploreClient({
         if (subCategory) params.set('subCategory', subCategory)
         if (difficulty !== 'all') params.set('difficulty', difficulty)
         if (tags.length > 0) params.set('tags', tags.join(','))
-        if (sortBy !== 'latest') params.set('sortBy', sortBy)
+        if (sortBy !== 'popular') params.set('sortBy', sortBy)
 
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, selectedSortBy])
@@ -815,7 +803,7 @@ export function ExploreClient({
         setSelectedSubCategory("")
         setSelectedDifficulty("all")
         setSelectedTags([])
-        setSelectedSortBy("latest")
+        setSelectedSortBy("popular")
         setDraftSubCategory("")
         setDraftDifficulty("all")
         setDraftTags([])
@@ -952,7 +940,9 @@ export function ExploreClient({
     }
 
     const activePresetId = detectActivePreset(getFilterState())
-    const activeListTabId = activePresetId === 'latest' || activePresetId === 'beginner-friendly'
+    const activeListTabId = activePresetId === 'browse'
+        || activePresetId === 'latest'
+        || activePresetId === 'beginner-friendly'
         ? activePresetId
         : null
     const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
@@ -1272,15 +1262,8 @@ export function ExploreClient({
 
                             <div className={cn(
                                 "pb-4 pt-0 md:p-5",
-                                !isResultsMode && forYouData && "flex flex-col gap-2.5",
                                 isResultsMode && "md:pt-4",
                             )}>
-                                {!isResultsMode && forYouData ? (
-                                    <ExploreForYouRail
-                                        initialData={forYouData}
-                                    />
-                                ) : null}
-
                                 <div className={cn(
                                     "relative",
                                     !isResultsMode && "pb-5 pt-0.5 md:pb-0 md:pt-0",

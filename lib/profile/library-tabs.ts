@@ -1,9 +1,9 @@
 export const PROFILE_LIBRARY_TABS = [
   'works',
+  'published',
   'collected',
   'likes',
   'exploring',
-  'completed',
   'observations',
 ] as const
 
@@ -30,13 +30,15 @@ export function parseProfileLibraryTab(value: string | string[] | null | undefin
 }
 
 export function toDesktopProfileLibraryTab(tab: ProfileLibraryTab): DesktopProfileLibraryTab {
-  if (tab === 'works') return 'my-projects'
+  if (tab === 'works') return 'completed'
+  if (tab === 'published') return 'my-projects'
   if (tab === 'likes') return 'liked'
   return tab
 }
 
 export function toProfileLibraryTab(tab: DesktopProfileLibraryTab): ProfileLibraryTab {
-  if (tab === 'my-projects') return 'works'
+  if (tab === 'my-projects') return 'published'
+  if (tab === 'completed') return 'works'
   if (tab === 'liked') return 'likes'
   return tab
 }

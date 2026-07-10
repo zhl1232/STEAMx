@@ -105,6 +105,10 @@ export interface LessonContent {
   building3d?: Building3DLessonContent
   /** 游乐场实训课配置；仅 lesson_type=playground 时由实训工作区读取 */
   playground?: PlaygroundLessonContent
+  /** Whether this lesson produces a publishable work. */
+  workSubmission?: {
+    enabled: boolean
+  }
   [key: string]: unknown
 }
 
@@ -185,11 +189,6 @@ export interface Building3DLessonContent {
   slidesPdfUrl?: string
   /** 成品参考照片（真实积木拼好的样子）。 */
   finishedImageUrl?: string
-  /**
-   * 「作品墙」背书项目 ID：搭完后让学员拍实物照上传到该项目（复用 /api/projects/[id]/completions），
-   * 进社区/个人主页展示。课程工作区据此显示「上传作品」入口。见 building-3d-workspace 的 LessonWorkUpload。
-   */
-  worksProjectId?: number
   parts: Building3DPart[]
   steps3d: Building3DStep[]
   /** 历史/开发兜底：未提供模型文件时由 3D 工作区直接渲染。新增大颗粒课程应使用 ldrawModelUrl。 */

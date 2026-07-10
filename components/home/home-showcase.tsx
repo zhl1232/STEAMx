@@ -2,30 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Clock3,
   FlaskConical,
   Heart,
   Leaf,
   Lightbulb,
-  Flame,
+  MapPin,
   UsersRound,
 } from "lucide-react";
 
 import { MobileShortcutCarousel } from "@/components/home/mobile-shortcut-carousel";
-import { RecommendationPanel } from "@/components/home/recommendation-panel";
+import { HomeWorksSection } from "@/components/home/home-works-section";
 import { buttonVariants } from "@/components/ui/button";
-import { Surface } from "@/components/ui/surface";
 import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { SteamLogo } from "@/components/layout/logo";
-import {
-  COMPACT_VERTICAL_PROJECT_CARD_CLASS,
-  COMPACT_VERTICAL_PROJECT_GRID_CLASS,
-} from "@/components/features/compact-project-grid-styles";
-import { ProjectCard } from "@/components/features/project-card";
 import { CATEGORY_META } from "@/lib/config/categories";
+import { formatRelativeTime } from "@/lib/date-utils";
 import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
 import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/home/community-feed";
-import { type HomepageRecommendationMode } from "@/lib/home/recommendations";
-import { type Project } from "@/lib/mappers/types";
+import { type ObservationEvent, type Work } from "@/lib/mappers/types";
+import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -82,101 +78,12 @@ function formatCategoryTileCountLabel(source: HomeCategoryCountSource, counts: H
   return `${nf.format(counts[source.category])} 个项目`;
 }
 
-const fallbackProjects: Project[] = [
-  {
-    id: "home-water-rocket",
-    title: "自制水火箭",
-    author: "小科学家",
-    author_id: "home",
-    image: "/projects/generated/project-0010.webp",
-    category: "工程",
-    likes: 1200,
-    comments_count: 128,
-  },
-  {
-    id: "home-campus-bird",
-    title: "校园鸟类观察",
-    author: "自然小队",
-    author_id: "home",
-    image: "/birds/images/tarsiger-cyanurus.jpg",
-    category: "科学",
-    likes: 862,
-    comments_count: 95,
-  },
-  {
-    id: "home-geometry-art",
-    title: "几何艺术装置",
-    author: "创意工坊",
-    author_id: "home",
-    image: "/projects/generated/project-0337.webp",
-    category: "艺术",
-    likes: 673,
-    comments_count: 72,
-  },
-  {
-    id: "home-led",
-    title: "电路小实验：让 LED 发光",
-    author: "电学小子",
-    author_id: "home",
-    image: "/projects/generated/project-0143.webp",
-    category: "技术",
-    likes: 1500,
-    comments_count: 160,
-  },
-  {
-    id: "home-paper-bridge",
-    title: "纸桥承重挑战",
-    author: "工程达人",
-    author_id: "home",
-    image: "/projects/generated/project-0227.webp",
-    category: "工程",
-    likes: 1100,
-    comments_count: 108,
-  },
-  {
-    id: "home-math-curve",
-    title: "数学曲线绘图机",
-    author: "数感实验室",
-    author_id: "home",
-    image: "/projects/generated/project-0268.webp",
-    category: "数学",
-    likes: 920,
-    comments_count: 84,
-  },
-];
-
 const homeHeroFeatures = [
   { icon: FlaskConical, label: "动手实践", color: "text-[hsl(var(--brand-blue))]" },
   { icon: Lightbulb, label: "跨学科融合", color: "text-[hsl(var(--brand-amber))]" },
   { icon: UsersRound, label: "社区协作", color: "text-[hsl(var(--tone-science))]" },
   { icon: Leaf, label: "自然探索", color: "text-[hsl(var(--brand-green))]" },
 ] as const;
-
-function projectHref(project: Project) {
-  return typeof project.id === "string" && project.id.startsWith("home-") ? "/explore" : `/project/${project.id}`;
-}
-
-function getShowcaseProjects(projects: Project[]) {
-  return fallbackProjects.map((fallback, index) => {
-    const project = projects[index];
-    if (!project) {
-      return fallback;
-    }
-
-    return {
-      ...fallback,
-      ...project,
-      title: project.title?.trim() || fallback.title,
-      author: project.author?.trim() || fallback.author,
-      author_id: project.author_id?.trim() || fallback.author_id,
-      image: project.image?.trim() || fallback.image,
-      category: project.category?.trim() || fallback.category,
-      likes: project.likes ?? 0,
-      views_count: project.views_count ?? 0,
-      comments_count: project.comments_count ?? 0,
-    };
-  });
-}
 
 function HomeHero({ image }: { image: string }) {
   return (
@@ -317,7 +224,7 @@ function MobileLeaderboardEntry({ className }: { className?: string }) {
 
 function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:gap-3 min-[1640px]:grid-cols-6">
+    <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:grid-cols-6 lg:gap-3">
       {homeCategoryTiles.map((category) => {
         const meta = CATEGORY_META[category.metaKey];
         const Icon = meta.icon;
@@ -345,6 +252,29 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
         );
       })}
     </div>
+  );
+}
+
+function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
+  return (
+    <section aria-labelledby="home-start-heading">
+      <div className="mb-2 flex items-center justify-between md:mb-3">
+        <div>
+          <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-blue))] md:block">选择一个方向</p>
+          <h2 id="home-start-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
+            从这里开始
+          </h2>
+        </div>
+        <Link
+          href="/explore"
+          className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))]"
+        >
+          全部项目
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+      <CategoryGrid categoryTileCounts={categoryTileCounts} />
+    </section>
   );
 }
 
@@ -381,52 +311,87 @@ function NatureChannel({ className }: { className?: string }) {
   );
 }
 
-function HomeProjectCard({ project, index }: { project: Project; index: number }) {
+function HomeObservationCard({ observation, priority }: { observation: ObservationEvent; priority: boolean }) {
+  const image = observation.mediaUrls[0];
+  const title = getObservationDisplayTitle(observation.species);
+
   return (
-    <ProjectCard
-      project={project}
-      href={projectHref(project)}
-      priority={index < 4}
-      variant="compact"
-      compactLayout="vertical"
-      className={cn(
-        COMPACT_VERTICAL_PROJECT_CARD_CLASS,
-        "md:[&>div>div:first-of-type]:aspect-[16/8.8] lg:[&>div>div:last-child]:gap-1.5 lg:[&>div>div:last-child]:p-3",
-      )}
-    />
+    <Link
+      href={`/nature/observations/${observation.id}?from=${encodeURIComponent("/")}`}
+      className="group grid min-h-[112px] grid-cols-[108px_minmax(0,1fr)] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))] sm:grid-cols-[124px_minmax(0,1fr)] lg:grid-cols-[112px_minmax(0,1fr)]"
+    >
+      <div className="relative min-h-[112px] bg-[hsl(var(--surface-muted))]">
+        {image ? (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="140px"
+            quality={60}
+            priority={priority}
+            className="object-cover transition duration-500 group-hover:scale-[1.035]"
+          />
+        ) : (
+          <div className="grid h-full place-items-center text-[hsl(var(--brand-green))]">
+            <Leaf className="h-7 w-7" />
+          </div>
+        )}
+      </div>
+      <div className="min-w-0 p-3">
+        <h3 className="truncate text-sm font-bold text-foreground">{title}</h3>
+        <p className="mt-1 truncate text-xs text-muted-foreground">
+          {observation.authorDisplayName || "自然观察者"}
+        </p>
+        <div className="mt-3 space-y-1 text-[11px] text-muted-foreground">
+          <p className="flex items-center gap-1 truncate">
+            <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--brand-green))]" />
+            <span className="truncate">{observation.locationName || "未标注地点"}</span>
+          </p>
+          <p className="flex items-center gap-1">
+            <Clock3 className="h-3 w-3 shrink-0" />
+            {formatRelativeTime(observation.createdAt)}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 }
 
-function ProjectSection({ projects }: { projects: Project[] }) {
-  const visible = getShowcaseProjects(projects);
-
+function HomeNatureSection({ observations }: { observations: ObservationEvent[] }) {
   return (
-    <Surface
-      className={cn(
-        "overflow-hidden py-1",
-        "max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:rounded-none",
-        "md:p-5",
-      )}
-    >
-      <div className="mb-2 flex items-center justify-between md:mb-4">
-        <div className="flex items-center gap-2">
-          <Flame className="h-5 w-5 shrink-0 text-[hsl(var(--brand-amber))] md:h-6 md:w-6" aria-hidden />
-          <h2 className="font-sans text-[17px] font-extrabold tracking-normal text-foreground md:text-[20px]">热门项目</h2>
+    <section className="min-w-0" aria-labelledby="home-nature-heading">
+      <div className="mb-2 flex items-center justify-between md:mb-3">
+        <div>
+          <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-green))] md:block">身边的真实发现</p>
+          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
+            自然新发现
+          </h2>
         </div>
         <Link
-          href="/explore"
-          className="-my-3 inline-flex min-h-11 items-center gap-1 rounded-sm px-1.5 py-3 text-[13px] font-medium text-[hsl(var(--brand-blue))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          href="/nature/observations"
+          className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-green))]"
         >
-          查看全部
+          全部观察
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className={cn(COMPACT_VERTICAL_PROJECT_GRID_CLASS, "min-[1180px]:grid-cols-3")}>
-        {visible.map((project, index) => (
-          <HomeProjectCard key={project.id} project={project} index={index} />
-        ))}
-      </div>
-    </Surface>
+      {observations.length > 0 ? (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          {observations.slice(0, 3).map((observation, index) => (
+            <HomeObservationCard key={observation.id} observation={observation} priority={index === 0} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
+          <div>
+            <p className="text-sm font-semibold text-foreground">还没有新的自然记录</p>
+            <Link href="/nature/submit" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-[hsl(var(--brand-green))]">
+              发布一次观察
+            </Link>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -571,21 +536,19 @@ function HomeFooter() {
 }
 
 export function HomeShowcase({
-  recentHotProjects,
+  works,
+  worksNextOffset,
+  worksHasMore,
+  recentNatureObservations,
   communityFeed,
   categoryTileCounts,
-  initialRecommendations,
-  initialRecommendationMode,
-  initialRecommendationNextOffset,
-  initialRecommendationHasMore,
 }: {
-  recentHotProjects: Project[];
+  works: Work[];
+  worksNextOffset: number;
+  worksHasMore: boolean;
+  recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
   categoryTileCounts: HomeCategoryTileCounts;
-  initialRecommendations: Project[];
-  initialRecommendationMode: HomepageRecommendationMode;
-  initialRecommendationNextOffset: number;
-  initialRecommendationHasMore: boolean;
 }) {
   return (
     <div className="app-canvas min-h-screen">
@@ -596,25 +559,13 @@ export function HomeShowcase({
           <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
         </MobileShortcutCarousel>
 
-        <div className="grid gap-2.5 md:gap-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 min-[1480px]:grid-cols-[minmax(0,1fr)_340px] min-[1640px]:grid-cols-[minmax(0,1fr)_380px]">
-          <CategoryGrid categoryTileCounts={categoryTileCounts} />
-          <div className="hidden md:block lg:min-h-full">
-            <NatureChannel />
-          </div>
-        </div>
+        <StartExploreSection categoryTileCounts={categoryTileCounts} />
 
-        <div className="grid items-start gap-2.5 md:gap-5 lg:grid-cols-[minmax(0,1fr)_300px] min-[1480px]:grid-cols-[minmax(0,1fr)_360px] min-[1640px]:grid-cols-[minmax(0,1fr)_400px]">
-          <ProjectSection projects={recentHotProjects} />
-          <div className="hidden lg:block">
-            <RecommendationPanel
-              className="h-auto"
-              initialProjects={initialRecommendations}
-              initialMode={initialRecommendationMode}
-              initialNextOffset={initialRecommendationNextOffset}
-              initialHasMore={initialRecommendationHasMore}
-              excludeProjectIds={recentHotProjects.map((project) => project.id)}
-            />
-          </div>
+        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]">
+          <HomeWorksSection
+            initialData={{ works, nextOffset: worksNextOffset, hasMore: worksHasMore }}
+          />
+          <HomeNatureSection observations={recentNatureObservations} />
         </div>
 
         <div className="hidden md:block">

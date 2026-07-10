@@ -11,8 +11,7 @@
  *   5. 可选 --upload 推到阿里云 OSS（courses/<slug>/...）；
  *   6. 产出 building3d 内容草稿 scripts/courseware/<slug>.json（含 slideImageUrls / videoUrl /
  *      videoSlideIndex / slidesPdfUrl / finishedImageUrl；steps/steps3d/ldrawModelUrl 留空待人工/LLM 补）。
- *   7. （有 --course/--lesson 时，默认）生成「作品墙」幂等迁移 supabase/migrations/<ts>_<slug>_works_project.sql：
- *      建/更新背书项目（打乐高/得宝标签）+ 用 jsonb_set 回填课时 content.building3d.worksProjectId。
+ *   7. 在课时内容中启用作品发布，不再创建背书项目。
  *
  * 注意：steps 教学文案与 LDraw 3D 模型不在本脚本职责内（需 LLM/人工创作 + 建模）。
  *
@@ -32,9 +31,6 @@
  *   --absolute               内容里用绝对 CDN URL（--upload 时自动开启）
  *   --base-url=<url>         覆盖 NEXT_PUBLIC_ASSETS_BASE_URL
  *   --concurrency=16         上传并发
- *   --no-works               不生成「作品墙」背书项目迁移
- *   --works-tags=乐高,得宝   背书项目标签（逗号分隔，默认 乐高,得宝,大颗粒,积木,作品展示）
- *   --works-title="我的XX"   背书项目标题（默认「我的<课时标题>」）
  *   --build-slides-from-source  优先尝试从 PPT 自动重建 slides（先生成到临时目录，成功后替换旧 slide-*）
  *   --dry-run                只打印计划，不写文件/不上传
  *
@@ -99,11 +95,6 @@ const concurrency = Number(flag("concurrency", 16)) || 16;
 const videoSlideOverride = flags.has("video-slide") ? Number(flag("video-slide")) : undefined;
 const slidesDir = flag("slides-dir") ? resolve(flag("slides-dir")) : null;
 const buildSlidesFromSource = bool("build-slides-from-source");
-const makeWorks = !bool("no-works");
-const worksTags = (flag("works-tags") || "乐高,得宝,大颗粒,积木,作品展示")
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
 
 if (!existsSync(sourceDir) || !statSync(sourceDir).isDirectory()) {
     console.error(`课件文件夹不存在或不是目录：${sourceDir}`);
@@ -504,6 +495,7 @@ const manifest = {
     steps: [],
     content: {
         summary: flag("lesson") ? `${flag("lesson")}：跟着课件与图纸分步搭建。` : "",
+        workSubmission: { enabled: true },
         building3d,
     },
     _todo: [
@@ -511,7 +503,7 @@ const manifest = {
         "用搭建说明做 LDraw 模型并放到 scripts/ldraw-models/<slug>.ldr，再 pack-ldraw-model.mjs 打包",
         "确认 videoSlideIndex 是否正确（动画所在课件页）",
         "用幂等 upsert 把 content 写入课程（不要每课写一条 migration）",
-        "先让课时内容入库，再 db:push 自动生成的 *_works_project.sql（建作品墙 + 回填 worksProjectId）",
+        "确认 workSubmission.enabled=true，并用幂等 upsert 把内容写入课时",
     ],
 };
 
@@ -520,110 +512,11 @@ mkdirSync(manifestDir, { recursive: true });
 const manifestPath = join(manifestDir, `${slug}.json`);
 writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n", "utf8");
 
-// ── 7) 生成「作品墙」背书项目迁移（步骤 5 自动化） ──
-const courseTitle = flag("course");
-const lessonTitle = flag("lesson");
-let worksMigrationPath = null;
-if (makeWorks && courseTitle && lessonTitle) {
-    const sqlLit = (s) => String(s).replace(/'/g, "''");
-    const worksTitle = flag("works-title") || `我的${lessonTitle}`;
-    const coverUrl = assets.finished ? `${urlBase}/${assets.finished}` : `/courses/${slug}/finished.png`;
-    const description = `跟着「${courseTitle}」课程搭出你的${lessonTitle}后，拍下作品上传到这里，和小伙伴们比一比谁搭得更好！欢迎写下你搭建时的小发现或遇到的难题。`;
-    const tagsSql = `ARRAY[${worksTags.map((t) => `'${sqlLit(t)}'`).join(", ")}]`;
-
-    const ts = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14); // YYYYMMDDHHMMSS
-    const migName = `${ts}_${slug.replace(/-/g, "_")}_works_project.sql`;
-    const sql = `-- 自动生成：${slug} 课时「作品墙」背书项目（import-courseware.mjs 步骤 5）。
--- 课程教学留在课程，作品上传复用项目侧能力：建背书项目当作品墙，并把它写回课时 worksProjectId。
--- 幂等：项目按标题查重；课时字段用 jsonb_set 合并。注意先让课时内容入库，再 db:push 本迁移。
-
-DO $$
-DECLARE
-    v_author_id UUID;
-    v_category_id INT;
-    v_sub_id INT;
-    v_project_id BIGINT;
-    v_project_title TEXT := '${sqlLit(worksTitle)}';
-BEGIN
-    SELECT id INTO v_author_id FROM public.profiles WHERE role = 'admin' ORDER BY created_at ASC LIMIT 1;
-    IF v_author_id IS NULL THEN
-        SELECT id INTO v_author_id FROM public.profiles ORDER BY created_at ASC LIMIT 1;
-    END IF;
-    IF v_author_id IS NULL THEN
-        RAISE NOTICE '跳过：profiles 表暂无用户，无法创建背书项目';
-        RETURN;
-    END IF;
-
-    SELECT id INTO v_category_id FROM public.categories WHERE name = '工程' LIMIT 1;
-    IF v_category_id IS NULL THEN
-        RAISE EXCEPTION '找不到分类: 工程';
-    END IF;
-    SELECT id INTO v_sub_id FROM public.sub_categories
-     WHERE category_id = v_category_id AND name = '模型制作' LIMIT 1;
-    IF v_sub_id IS NULL THEN
-        RAISE EXCEPTION '找不到子分类: 模型制作';
-    END IF;
-
-    SELECT id INTO v_project_id FROM public.projects WHERE title = v_project_title LIMIT 1;
-
-    IF v_project_id IS NULL THEN
-        INSERT INTO public.projects (
-            title, description, author_id, image_url,
-            category, sub_category_id, difficulty, difficulty_stars,
-            status, steam_weights, tags
-        ) VALUES (
-            v_project_title,
-            '${sqlLit(description)}',
-            v_author_id,
-            '${sqlLit(coverUrl)}',
-            '工程',
-            v_sub_id,
-            'easy',
-            2,
-            'approved',
-            '{"S":5,"T":5,"E":40,"A":20,"M":10}'::jsonb,
-            ${tagsSql}
-        )
-        RETURNING id INTO v_project_id;
-    ELSE
-        UPDATE public.projects
-           SET description = '${sqlLit(description)}',
-               image_url = '${sqlLit(coverUrl)}',
-               category = '工程',
-               sub_category_id = v_sub_id,
-               status = 'approved',
-               tags = ${tagsSql},
-               updated_at = NOW()
-         WHERE id = v_project_id;
-    END IF;
-
-    UPDATE public.course_lessons AS l
-       SET content = jsonb_set(l.content, '{building3d,worksProjectId}', to_jsonb(v_project_id), true)
-      FROM public.courses AS c
-     WHERE l.course_id = c.id
-       AND c.title = '${sqlLit(courseTitle)}'
-       AND l.title = '${sqlLit(lessonTitle)}';
-
-    RAISE NOTICE '作品墙项目 id=% 已就绪并写回课时「${sqlLit(lessonTitle)}」', v_project_id;
-END $$;
-`;
-    worksMigrationPath = join(ROOT, "supabase/migrations", migName);
-    writeFileSync(worksMigrationPath, sql, "utf8");
-} else if (makeWorks) {
-    console.warn("\n⚠️ 未提供 --course/--lesson，跳过作品墙迁移生成（无法回填 worksProjectId）。");
-}
-
 console.log("\n✅ 资源管线完成");
 console.log(`   素材目录：public/courses/${slug}/（slides ${slideFiles.length} 张 .${slideExt}）`);
 console.log(`   内容草稿：scripts/courseware/${slug}.json`);
-if (worksMigrationPath) {
-    console.log(`   作品墙迁移：supabase/migrations/${basename(worksMigrationPath)}（建背书项目 + 回填 worksProjectId）`);
-}
 if (detectedVideoSlide) console.log(`   视频页：第 ${detectedVideoSlide} 页`);
 console.log("\n下一步（脚本搞不定，需创作）：");
 console.log("   1) 补 steps / steps3d 教学文案（可让 LLM 读 PDF 起草，人审）");
 console.log("   2) 按搭建说明做 LDraw 模型 → scripts/ldraw-models/" + slug + ".ldr → pack-ldraw-model.mjs");
 console.log("   3) 幂等 upsert 入库（迁移只管 schema，内容走 manifest）");
-if (worksMigrationPath) {
-    console.log("   4) 课时内容入库后，db:push 作品墙迁移（搭完即可上传作品）");
-}

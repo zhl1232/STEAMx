@@ -74,6 +74,26 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   try {
     await requireRole(supabase, ['moderator', 'admin'])
 
+    const { data: lessons, error: lessonError } = await supabase
+      .from('course_lessons')
+      .select('id')
+      .eq('course_id', id)
+    if (lessonError) throw lessonError
+    const lessonIds = ((lessons || []) as { id: number }[]).map((lesson) => lesson.id)
+    if (lessonIds.length > 0) {
+      const { count, error: workError } = await supabase
+        .from('completed_projects')
+        .select('id', { count: 'exact', head: true })
+        .in('course_lesson_id', lessonIds)
+      if (workError) throw workError
+      if ((count ?? 0) > 0) {
+        return NextResponse.json(
+          { error: '课程已有学员作品，请改为归档，不能直接删除' },
+          { status: 409 },
+        )
+      }
+    }
+
     const { error } = await supabase.from('courses').delete().eq('id', id)
     if (error) throw error
 

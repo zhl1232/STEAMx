@@ -27,6 +27,10 @@ vi.mock('@/components/features/courses/playground-workspace', () => ({
   ),
 }))
 
+vi.mock('@/components/features/courses/lesson-work-upload', () => ({
+  LessonWorkUpload: () => <div data-testid="lesson-work-upload" />,
+}))
+
 vi.mock('@/lib/courses/device', () => ({
   canUseScratchEditor: () => true,
 }))

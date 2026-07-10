@@ -1,6 +1,7 @@
 import { logger } from '@/lib/logger'
-import { mapDbProject, type Project } from '@/lib/mappers/types'
+import { mapDbProject, type Project, type Work } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import { getUserWorks } from '@/lib/works/data'
 
 export interface PublicProfile {
   id: string
@@ -17,10 +18,13 @@ export interface PublicUserProfileData {
   profile: PublicProfile
   projects: Project[]
   projectsTotalCount: number
+  works: Work[]
+  worksTotalCount: number
   followerCount: number
   followingCount: number
   badgeIds: string[]
   hasMoreProjects: boolean
+  hasMoreWorks: boolean
 }
 
 export const PUBLIC_PROFILE_PROJECTS_PAGE_SIZE = 12
@@ -63,6 +67,7 @@ export async function getPublicUserProfile(
     followerResult,
     followingResult,
     badgeResult,
+    worksResult,
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -88,6 +93,7 @@ export async function getPublicUserProfile(
       .from('user_badges')
       .select('badge_id')
       .eq('user_id', userId),
+    getUserWorks({ userId, page, pageSize, publicOnly: true }),
   ])
 
   if (profileResult.error) {
@@ -123,9 +129,12 @@ export async function getPublicUserProfile(
     profile: profileResult.data as PublicProfile,
     projects,
     projectsTotalCount,
+    works: worksResult.works,
+    worksTotalCount: worksResult.total,
     followerCount: followerResult.count || 0,
     followingCount: followingResult.count || 0,
     badgeIds: ((badgeResult.data as { badge_id: string }[] | null) || []).map((row) => row.badge_id),
     hasMoreProjects: projectsTotalCount > to + 1,
+    hasMoreWorks: worksResult.hasMore,
   }
 }

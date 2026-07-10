@@ -1,4 +1,4 @@
-import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import {
   buildExploringActivityMap,
@@ -13,6 +13,8 @@ import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 export type ProfileHomeData = {
   myProjects: Project[]
   myProjectsTotalCount: number
+  myWorks: Work[]
+  myWorksTotalCount: number
   followerCount: number
   followingCount: number
   totalLikesReceived: number
@@ -83,6 +85,8 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
     return {
       myProjects: summary.myProjects,
       myProjectsTotalCount: summary.myProjectsTotalCount,
+      myWorks: summary.myWorks,
+      myWorksTotalCount: summary.myWorksTotalCount,
       followerCount: summary.followerCount,
       followingCount: summary.followingCount,
       totalLikesReceived: summary.totalLikesReceived,

@@ -1,11 +1,13 @@
 import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
+import { getRecentNatureObservationsForMap } from "@/lib/api/nature-observation-homepage";
 import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
 import { getHomepageCommunityFeed, type HomeCommunityFeedItem } from "@/lib/home/community-feed";
 import { logger } from "@/lib/logger";
 import { getRecommendationViewerKey } from "@/lib/recommendations/viewer";
-import { type Project } from "@/lib/mappers/types";
+import { type ObservationEvent, type Project, type Work } from "@/lib/mappers/types";
 import { callRpc } from "@/lib/supabase/rpc";
 import { createClient } from "@/lib/supabase/server";
+import { getTrendingWorks } from "@/lib/works/data";
 
 export type HomepageRecommendationMode = "personalized" | "popular-fallback";
 
@@ -16,8 +18,11 @@ export interface HomepageRecommendationResult {
   mode: HomepageRecommendationMode;
 }
 
-export interface HomepageShowcaseData extends HomepageRecommendationResult {
-  recentHotProjects: Project[];
+export interface HomepageShowcaseData {
+  works: Work[];
+  worksNextOffset: number;
+  worksHasMore: boolean;
+  recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
   categoryTileCounts: HomeCategoryTileCounts;
 }
@@ -36,8 +41,7 @@ type RecommendationBatch = {
 
 type RecommendationBatchFetcher = (args: { limit: number; offset: number }) => Promise<RecommendationBatch>;
 
-const HOMEPAGE_HOT_CATEGORIES = ["科学", "技术", "工程", "艺术", "数学"] as const;
-const RECENT_HOT_LIMIT = HOMEPAGE_HOT_CATEGORIES.length + 1;
+const RECENT_HOT_LIMIT = 6;
 const SIDEBAR_RECOMMENDATION_LIMIT = 8;
 const MAX_SCAN_ROUNDS = 6;
 
@@ -129,30 +133,6 @@ export function selectCategoryBalancedProjects(args: {
   }
 
   return selected;
-}
-
-async function getCategoryBalancedHotProjects(): Promise<Project[]> {
-  const categoryResults = await Promise.all(
-    HOMEPAGE_HOT_CATEGORIES.map((category) =>
-      getProjects({ category }, { page: 0, pageSize: 1, sortBy: "popular" }),
-    ),
-  );
-
-  const categoryProjects = categoryResults.flatMap((result) => result.projects.slice(0, 1));
-  const fallbackProjects: Project[] = [];
-
-  for (let page = 0; page < MAX_SCAN_ROUNDS && categoryProjects.length + fallbackProjects.length < RECENT_HOT_LIMIT; page += 1) {
-    const result = await getProjects({}, { page, pageSize: RECENT_HOT_LIMIT, sortBy: "popular" });
-    fallbackProjects.push(...result.projects);
-
-    if (!result.hasMore) break;
-  }
-
-  return selectCategoryBalancedProjects({
-    categoryProjects,
-    fallbackProjects,
-    limit: RECENT_HOT_LIMIT,
-  });
 }
 
 async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> {
@@ -350,24 +330,22 @@ export async function getHomepageRecommendations(args: {
 }
 
 export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
-  const [recentHotProjects, preferenceContext, communityFeed, categoryTileCounts] = await Promise.all([
-    getCategoryBalancedHotProjects(),
-    getHomepageUserPreferences(),
+  const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts] = await Promise.all([
+    getTrendingWorks(4).catch((error) => {
+      logger.warn("Failed to load homepage works", { error });
+      return { works: [], nextOffset: 0, hasMore: false };
+    }),
+    getRecentNatureObservationsForMap(3),
     getHomepageCommunityFeed(),
     getHomepageCategoryTileCounts(),
   ]);
 
-  const recommendations = await getHomepageRecommendations({
-    limit: SIDEBAR_RECOMMENDATION_LIMIT,
-    offset: 0,
-    excludeIds: recentHotProjects.map((project) => project.id),
-    preferenceContext,
-  });
-
   return {
-    recentHotProjects,
+    works: worksResult.works,
+    worksNextOffset: worksResult.nextOffset,
+    worksHasMore: worksResult.hasMore,
+    recentNatureObservations,
     communityFeed,
     categoryTileCounts,
-    ...recommendations,
   };
 }

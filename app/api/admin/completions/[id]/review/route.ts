@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateOptionalString, validateNumber } from '@/lib/api/validation'
-import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
-
-const COMPLETION_XP = 20
+import { awardCompletionXp } from '@/lib/completions/approve'
+import { callRpc } from '@/lib/supabase/rpc'
 
 /**
  * POST /api/admin/completions/[id]/review
@@ -90,53 +88,5 @@ export async function POST(
     }
   } catch (error) {
     return handleApiError(error)
-  }
-}
-
-async function awardCompletionXp(completionId: number) {
-  if (!supabaseAdmin) {
-    throw new Error('supabaseAdmin not configured, cannot award XP')
-  }
-
-  const { data: completion, error: completionError } = await supabaseAdmin
-    .from('completed_projects')
-    .select('user_id, project_id')
-    .eq('id', completionId)
-    .maybeSingle()
-
-  if (completionError) {
-    throw completionError
-  }
-
-  if (!completion) return
-
-  // Insert XP log with ON CONFLICT DO NOTHING (unique index prevents duplicates)
-  const { data: inserted, error: xpLogError } = await supabaseAdmin
-    .from('xp_logs')
-    .upsert({
-      user_id: completion.user_id,
-      action_type: 'complete_project',
-      resource_id: String(completion.project_id),
-      xp_amount: COMPLETION_XP,
-    } as never, { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true })
-    .select('id')
-
-  if (xpLogError) {
-    throw xpLogError
-  }
-
-  if (!inserted || inserted.length === 0) {
-    logger.info('XP already awarded, skipping', { completionId })
-    return
-  }
-
-  // Increment user XP atomically
-  const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
-    p_user_id: completion.user_id,
-    p_amount: COMPLETION_XP,
-  })
-
-  if (incrementError) {
-    throw incrementError
   }
 }

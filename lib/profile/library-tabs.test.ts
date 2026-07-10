@@ -9,7 +9,7 @@ import {
 describe('profile library tabs', () => {
   it('accepts supported tab values', () => {
     expect(parseProfileLibraryTab('exploring')).toBe('exploring')
-    expect(parseProfileLibraryTab(['completed', 'works'])).toBe('completed')
+    expect(parseProfileLibraryTab(['published', 'works'])).toBe('published')
   })
 
   it('falls back to exploring for missing or invalid values', () => {
@@ -19,10 +19,12 @@ describe('profile library tabs', () => {
   })
 
   it('maps between mobile/url and desktop tab names', () => {
-    expect(toDesktopProfileLibraryTab('works')).toBe('my-projects')
+    expect(toDesktopProfileLibraryTab('works')).toBe('completed')
+    expect(toDesktopProfileLibraryTab('published')).toBe('my-projects')
     expect(toDesktopProfileLibraryTab('likes')).toBe('liked')
     expect(toDesktopProfileLibraryTab('exploring')).toBe('exploring')
-    expect(toProfileLibraryTab('my-projects')).toBe('works')
+    expect(toProfileLibraryTab('my-projects')).toBe('published')
+    expect(toProfileLibraryTab('completed')).toBe('works')
     expect(toProfileLibraryTab('liked')).toBe('likes')
   })
 })

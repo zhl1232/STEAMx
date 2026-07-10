@@ -12,24 +12,22 @@ export const metadata = buildPageMetadata({
 
 export default async function Home() {
   const {
-    recentHotProjects,
+    works,
+    worksNextOffset,
+    worksHasMore,
+    recentNatureObservations,
     communityFeed,
     categoryTileCounts,
-    projects: initialRecommendations,
-    nextOffset: initialRecommendationNextOffset,
-    hasMore: initialRecommendationHasMore,
-    mode: initialRecommendationMode,
   } = await getHomepageShowcaseData();
 
   return (
     <HomeShowcase
-      recentHotProjects={recentHotProjects}
+      works={works}
+      worksNextOffset={worksNextOffset}
+      worksHasMore={worksHasMore}
+      recentNatureObservations={recentNatureObservations}
       communityFeed={communityFeed}
       categoryTileCounts={categoryTileCounts}
-      initialRecommendations={initialRecommendations}
-      initialRecommendationMode={initialRecommendationMode}
-      initialRecommendationNextOffset={initialRecommendationNextOffset}
-      initialRecommendationHasMore={initialRecommendationHasMore}
     />
   );
 }

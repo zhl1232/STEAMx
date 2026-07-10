@@ -11,7 +11,7 @@ export async function awardCompletionXp(completionId: number) {
 
   const { data: completion, error: completionError } = await supabaseAdmin
     .from('completed_projects')
-    .select('user_id, project_id, record_kind')
+    .select('user_id, project_id, course_lesson_id, record_kind')
     .eq('id', completionId)
     .maybeSingle()
 
@@ -21,13 +21,20 @@ export async function awardCompletionXp(completionId: number) {
   const recordKind = (completion as { record_kind?: string }).record_kind ?? 'final'
   if (recordKind !== 'final') return
 
+  const source = completion.course_lesson_id
+    ? { actionType: 'publish_course_work', resourceId: String(completion.course_lesson_id) }
+    : completion.project_id
+      ? { actionType: 'complete_project', resourceId: String(completion.project_id) }
+      : null
+  if (!source) return
+
   const { data: inserted, error: xpLogError } = await supabaseAdmin
     .from('xp_logs')
     .upsert(
       {
         user_id: completion.user_id,
-        action_type: 'complete_project',
-        resource_id: String(completion.project_id),
+        action_type: source.actionType,
+        resource_id: source.resourceId,
         xp_amount: COMPLETION_XP,
       } as never,
       { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true },

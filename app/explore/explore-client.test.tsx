@@ -37,10 +37,6 @@ vi.mock('@/lib/context/project-context', () => ({
     }),
 }))
 
-vi.mock('@/components/explore/explore-for-you-rail', () => ({
-    ExploreForYouRail: () => <div data-testid="explore-for-you-rail">热门推荐</div>,
-}))
-
 vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => mockAuth,
 }))
@@ -239,24 +235,6 @@ describe('ExploreClient', () => {
         expect(screen.getByRole('link', { name: '查看探索记录' })).toHaveAttribute('href', '/profile/library')
     })
 
-    it('shows the popular recommendation rail for anonymous users with initial recommendations', () => {
-        render(
-            <ExploreClient
-                initialProjects={[makeProject(1, '初始项目')]}
-                initialHasMore={false}
-                categories={['全部', '科学']}
-                initialForYou={{
-                    projects: [makeProject(42, '为你推荐')],
-                    mode: 'popular-fallback',
-                    nextOffset: 8,
-                    hasMore: true,
-                }}
-            />,
-        )
-
-        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
-    })
-
     it('keeps completed projects in a syncing state until stats load', () => {
         mockAuth = {
             user: { id: 'user-1' },
@@ -440,7 +418,7 @@ describe('ExploreClient', () => {
         expect(screen.getByRole('button', { name: '折射' })).toBeInTheDocument()
     })
 
-    it('hides explore rails and shows results chrome after category filtering', async () => {
+    it('shows results chrome after category filtering', async () => {
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({
             ok: true,
@@ -459,22 +437,14 @@ describe('ExploreClient', () => {
                 initialHasMore={false}
                 initialTotal={1}
                 categories={['全部', '科学']}
-                initialForYou={{
-                    projects: [makeProject(42, '为你推荐')],
-                    mode: 'popular-fallback',
-                    nextOffset: 8,
-                    hasMore: true,
-                }}
             />,
         )
 
-        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '最新上架' })).toBeInTheDocument()
 
         await user.click(screen.getByRole('button', { name: /科学/ }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        expect(screen.queryByTestId('explore-for-you-rail')).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
         expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
@@ -493,7 +463,8 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.queryByRole('button', { name: '本周热门' })).not.toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '最新上架' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '最新上架' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'false')
     })
 
@@ -516,22 +487,14 @@ describe('ExploreClient', () => {
                 initialProjects={[makeProject(1, '初始项目')]}
                 initialHasMore={false}
                 categories={['全部', '科学']}
-                initialForYou={{
-                    projects: [makeProject(42, '为你推荐')],
-                    mode: 'popular-fallback',
-                    nextOffset: 8,
-                    hasMore: true,
-                }}
             />,
         )
 
-        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'true')
 
         await user.click(screen.getByRole('button', { name: '最新上架' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        expect(screen.getByTestId('explore-for-you-rail')).toBeInTheDocument()
         expect(await screen.findByText('最新项目')).toBeInTheDocument()
     })
 })

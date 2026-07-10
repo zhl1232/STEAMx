@@ -25,7 +25,7 @@ const baseProps = {
   totalLikesReceived: 0,
   likedProjectsList: [],
   collectedProjectsList: [],
-  completedProjectsList: [],
+  worksList: [],
   followerCount: 0,
   followingCount: 0,
   likedProjectsCount: 0,

@@ -30,7 +30,7 @@ sudo apt install -y libreoffice poppler-utils fonts-noto-cjk fonts-wqy-zenhei
 - [ ] 2. 教学文案：读 PDF/PPT 起草 steps + steps3d，人审
 - [ ] 3. LDraw 模型：按搭建说明建模 + 几何自检 + 打包
 - [ ] 4. 入库：幂等 upsert 写 content（迁移只管 schema）
-- [ ] 5. 作品墙：建背书项目（打乐高/得宝标签）+ 回填 worksProjectId（孩子能晒实物作品）
+- [ ] 5. 作品墙：为有明确产出的课时启用 `content.workSubmission.enabled`（孩子可直接晒作品）
 ```
 
 ### 步骤 1 — 资源管线（确定性，跑脚本）
@@ -54,7 +54,7 @@ node scripts/import-courseware.mjs "<课件文件夹>" --slug=<slug> \
 - `content.building3d.steps3d[]`：`title` / `description` / `partIds`(本步显隐零件) / `cameraHint`(front|side|top|isometric)。
 - `content.building3d.parts[]`：零件清单 `id`/`name`/`color`/`quantity`。
 - 核对 `videoSlideIndex`（动画所在课件页）。
-- `content.building3d.worksProjectId`：作品墙背书项目 ID，见步骤 5（脚本草稿先留空）。
+- `content.workSubmission.enabled`：是否允许学员直接向本课发布作品；Scratch / building_3d 等有明确产出的课时默认设为 `true`。
 
 类型定义见 `lib/courses/types.ts` 的 `Building3DLessonContent`。
 
@@ -78,13 +78,17 @@ node scripts/pack-ldraw-model.mjs scripts/ldraw-models/<slug>.ldr <slug>
 
 ### 步骤 5 — 作品墙（搭完晒作品）
 
-课程负责教学，作品上传复用项目侧能力（A1 桥接）：给课时挂一个「背书项目」当作品墙，学员在工作区点「上传我的作品」→ `POST /api/projects/[id]/completions` 提交实物照（含 AI 审核/社区展示），工作区还会多出「作品」Tab（`lesson-works-gallery` 就地展示），项目详情页自动出现「回到课程」入口。
+课程作品直接归属课时，不再为每节课创建「背书项目」。有明确产出的课时在 content 根级写入：
 
-**已自动化**：步骤 1 传了 `--course/--lesson` 时，`import-courseware.mjs` 会顺手生成 `supabase/migrations/<ts>_<slug>_works_project.sql`（`--no-works` 可关、`--works-tags=` 可改标签）。**先让课时内容入库，再 `db:push` 这条迁移**（否则回填 UPDATE 命中 0 行；迁移已应用就别再改，按教训新建补丁）。手写样板见 `supabase/migrations/20260628170000_eiffel_works_project.sql`（+ `..180000_eiffel_works_project_tags.sql`）。这条迁移做三件事：
+```json
+{
+  "workSubmission": { "enabled": true }
+}
+```
 
-1. **建/更新背书项目**（按标题查重）：`status='approved'`、分类「工程/模型制作」、`image_url` 用成品图；**积木课打 `乐高`/`得宝` 标签**（探索页可按积木类型筛）。
-2. **回填课时** `content.building3d.worksProjectId = <项目 id>`（`jsonb_set`）。
-3. 仅此而已——「作品」Tab、上传入口、项目↔课程互链都靠 `worksProjectId` 自动生效（`getCourseLessonByWorksProjectId` 反查，不限某节课）。
+启用后，学员在工作区点「上传我的作品」，由 `POST /api/courses/[courseId]/lessons/[lessonId]/works` 提交实物照片或 Scratch 成果；公开作品通过课时「作品」Tab、个人主页和探索页作品墙展示，详情统一跳转 `/works/[id]`。
+
+`import-courseware.mjs` 产出的 building_3d 草稿已默认启用 `workSubmission`，不生成项目或数据库迁移。若某课只有阅读、观看或测验而没有可发布产出，人工将 `enabled` 改为 `false`。
 
 > 链接一律站内同标签页跳转，不要 `target=_blank`；组件已做移动端兼容。
 

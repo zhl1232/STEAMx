@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { Project } from '@/lib/mappers/types'
+import type { Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import type { ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
@@ -107,6 +107,10 @@ describe('isExploreVacuum', () => {
 
   it('returns false when any content exists', () => {
     expect(isExploreVacuum({ ...emptyInput, myProjects: [makeProject(1, 'A')] })).toBe(false)
+    expect(isExploreVacuum({
+      ...emptyInput,
+      myWorks: [{ id: 1 }] as Work[],
+    })).toBe(false)
   })
 
   it('treats all-zero radar as empty but non-zero radar as existing progress', () => {

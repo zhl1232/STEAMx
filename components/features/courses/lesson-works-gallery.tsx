@@ -1,40 +1,43 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { Heart, ImageOff, Loader2, Sparkles } from "lucide-react";
+import { Heart, ImageOff, Loader2, RefreshCw, Sparkles } from "lucide-react";
 
 import { LessonWorkUpload } from "@/components/features/courses/lesson-work-upload";
-import type { ProjectCompletion } from "@/lib/mappers/types";
+import { Button } from "@/components/ui/button";
+import type { Work } from "@/lib/mappers/types";
 
 /**
- * 课时「作品」Tab：就地展示这一课的公开作品（提交到背书项目并通过审核的终稿），
- * 顶部带「上传我的作品」入口，上传成功后刷新。数据来自 GET /api/projects/[id]/completions。
+ * 课时「作品」Tab：展示直接归属于当前课时的公开作品。
  */
 export function LessonWorksGallery({
-    projectId,
-    projectTitle,
+    courseId,
+    lessonId,
+    lessonTitle,
 }: {
-    projectId: number;
-    projectTitle: string;
+    courseId: number;
+    lessonId: number;
+    lessonTitle: string;
 }) {
-    const [items, setItems] = useState<ProjectCompletion[] | null>(null);
+    const [items, setItems] = useState<Work[] | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const load = useCallback(async () => {
         setError(null);
         try {
-            const res = await fetch(`/api/projects/${projectId}/completions`);
+            const res = await fetch(`/api/courses/${courseId}/lessons/${lessonId}/works`);
             const data = (await res.json().catch(() => ({}))) as {
-                completions?: ProjectCompletion[];
+                works?: Work[];
                 error?: string;
             };
             if (!res.ok) throw new Error(data.error || "加载失败");
-            setItems(Array.isArray(data.completions) ? data.completions : []);
+            setItems(Array.isArray(data.works) ? data.works : []);
         } catch (e) {
             setError(e instanceof Error ? e.message : "加载失败");
             setItems([]);
         }
-    }, [projectId]);
+    }, [courseId, lessonId]);
 
     useEffect(() => {
         void load();
@@ -54,8 +57,9 @@ export function LessonWorksGallery({
                 </div>
                 <div className="w-44 shrink-0">
                     <LessonWorkUpload
-                        projectId={projectId}
-                        projectTitle={projectTitle}
+                        courseId={courseId}
+                        lessonId={lessonId}
+                        lessonTitle={lessonTitle}
                         onUploaded={() => void load()}
                     />
                 </div>
@@ -74,10 +78,8 @@ export function LessonWorksGallery({
                         {items.map((item) => {
                             const cover = item.proofImages?.[0];
                             return (
-                                <li
-                                    key={item.id}
-                                    className="overflow-hidden rounded-sm border border-border bg-card"
-                                >
+                                <li key={item.id}>
+                                  <Link href={`/works/${item.id}`} className="group block overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]">
                                     <div className="relative aspect-square bg-muted">
                                         {cover ? (
                                             /* eslint-disable-next-line @next/next/no-img-element */
@@ -85,7 +87,7 @@ export function LessonWorksGallery({
                                                 src={cover}
                                                 alt={`${item.author} 的作品`}
                                                 loading="lazy"
-                                                className="h-full w-full object-cover"
+                                                className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                                             />
                                         ) : (
                                             <div className="grid h-full place-items-center text-muted-foreground">
@@ -109,6 +111,7 @@ export function LessonWorksGallery({
                                             </p>
                                         ) : null}
                                     </div>
+                                  </Link>
                                 </li>
                             );
                         })}
@@ -117,10 +120,18 @@ export function LessonWorksGallery({
                     <div className="grid h-full place-items-center">
                         <div className="max-w-xs rounded-sm border border-dashed border-border bg-card px-6 py-8 text-center">
                             <Sparkles className="mx-auto h-8 w-8 text-muted-foreground/50" />
-                            <p className="mt-2 text-sm font-semibold text-foreground">还没有作品</p>
-                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                                {error ? error : "搭好你的作品，拍照上传，做这一课的第一个分享者吧！"}
+                            <p className="mt-2 text-sm font-semibold text-foreground">
+                                {error ? "作品加载失败" : "还没有作品"}
                             </p>
+                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                {error ? "作品暂时无法加载，请稍后重试。" : "搭好你的作品，拍照上传，做这一课的第一个分享者吧！"}
+                            </p>
+                            {error ? (
+                                <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => void load()}>
+                                    <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+                                    重新加载
+                                </Button>
+                            ) : null}
                         </div>
                     </div>
                 )}

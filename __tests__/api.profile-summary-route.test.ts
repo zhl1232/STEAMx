@@ -7,6 +7,7 @@ import { requireAuth } from '@/lib/api/auth'
 import { getNaturalObservationProgressSummary } from '@/lib/api/nature-observation-progress'
 import { getSteamRadarWithGuidanceSafe } from '@/lib/profile/steam-radar'
 import { createClient } from '@/lib/supabase/server'
+import { getUserWorks } from '@/lib/works/data'
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
@@ -28,6 +29,10 @@ vi.mock('@/lib/profile/steam-radar', () => ({
   getSteamRadarWithGuidanceSafe: vi.fn(),
 }))
 
+vi.mock('@/lib/works/data', () => ({
+  getUserWorks: vi.fn(),
+}))
+
 describe('GET /api/profile/summary', () => {
   const createClientMock = createClient as Mock<typeof createClient>
   const requireAuthMock = requireAuth as Mock<typeof requireAuth>
@@ -37,6 +42,7 @@ describe('GET /api/profile/summary', () => {
   const getSteamRadarWithGuidanceSafeMock = getSteamRadarWithGuidanceSafe as Mock<
     typeof getSteamRadarWithGuidanceSafe
   >
+  const getUserWorksMock = getUserWorks as Mock<typeof getUserWorks>
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -111,20 +117,6 @@ describe('GET /api/profile/summary', () => {
         }
       }
 
-      if (table === 'completed_projects') {
-        return {
-          select: vi.fn(() => ({
-            eq: vi.fn().mockResolvedValue({
-              data: [
-                { project_id: 201, status: 'approved', record_kind: 'final' },
-                { project_id: 202, status: 'rejected', record_kind: 'final' },
-              ],
-              error: null,
-            }),
-          })),
-        }
-      }
-
       throw new Error(`Unexpected table: ${table}`)
     })
 
@@ -139,6 +131,11 @@ describe('GET /api/profile/summary', () => {
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
     getNaturalObservationProgressSummaryMock.mockResolvedValue(null as never)
     getSteamRadarWithGuidanceSafeMock.mockResolvedValue(null)
+    getUserWorksMock.mockResolvedValue({
+      works: [{ id: 301, author: '测试用户', source: { type: 'project', id: 101, title: 'Bird Feeder' } }],
+      total: 1,
+      hasMore: false,
+    } as never)
 
     const response = await GET()
 
@@ -160,6 +157,10 @@ describe('GET /api/profile/summary', () => {
         },
       ],
       myProjectsTotalCount: 1,
+      myWorks: [
+        { id: 301, author: '测试用户', source: { type: 'project', id: 101, title: 'Bird Feeder' } },
+      ],
+      myWorksTotalCount: 1,
       followerCount: 7,
       followingCount: 5,
       likedProjectsCount: 4,

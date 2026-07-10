@@ -11,6 +11,7 @@ import { fetchPackedLdrawText, parsePackedLdrawModelText, splitPackedMpd } from 
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
+import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import type {
     Building3DBrickInstance,
     Building3DLessonContent,
@@ -31,12 +32,12 @@ type LoadedThree = {
 
 const DEFAULT_LDRAW_COLOR_URL = "/courses/ldraw/LDConfig.ldr";
 
-// 「上传作品」入口较重（含项目上下文 + 作品提交弹窗），仅在有背书项目的课时按需加载。
+// 「上传作品」入口较重，仅在产出作品的课时按需加载。
 const LessonWorkUpload = dynamic(
     () => import("@/components/features/courses/lesson-work-upload").then((m) => m.LessonWorkUpload),
     { ssr: false },
 );
-// 「作品」Tab 画廊：就地展示这一课的作品，仅在有背书项目时按需加载。
+// 「作品」Tab 画廊：就地展示这一课的作品。
 const LessonWorksGallery = dynamic(
     () => import("@/components/features/courses/lesson-works-gallery").then((m) => m.LessonWorksGallery),
     { ssr: false },
@@ -160,10 +161,6 @@ function normalizeBuildingContent(lesson: CourseLessonRow): Building3DLessonCont
         slideImageUrls: slideImageUrls?.map((url) => resolveAssetDisplayUrl(url) ?? url),
         slidesPdfUrl: resolveAssetDisplayUrl(typeof content?.slidesPdfUrl === "string" ? content.slidesPdfUrl : undefined) ?? undefined,
         finishedImageUrl: resolveAssetDisplayUrl(typeof content?.finishedImageUrl === "string" ? content.finishedImageUrl : undefined) ?? undefined,
-        worksProjectId:
-            typeof content?.worksProjectId === "number" && Number.isFinite(content.worksProjectId)
-                ? content.worksProjectId
-                : undefined,
         parts,
         steps3d,
         brickInstances: normalizeBrickInstances(content?.brickInstances),
@@ -641,7 +638,7 @@ export function Building3DWorkspace({
         content.videoSlideIndex && content.videoSlideIndex >= 1 && content.videoSlideIndex <= slideCount
             ? content.videoSlideIndex - 1
             : -1;
-    const hasWorks = Boolean(content.worksProjectId);
+    const hasWorks = isWorkSubmissionEnabled(lesson);
     const [view, setView] = useState<"build" | "video" | "slides" | "works">(
         hasSlides ? "slides" : standaloneVideo ? "video" : "build",
     );
@@ -656,7 +653,10 @@ export function Building3DWorkspace({
 
     useEffect(() => {
         setLdrawEditEnabled(new URLSearchParams(window.location.search).get("ldrawEdit") === "1");
-    }, []);
+        if (hasWorks && new URLSearchParams(window.location.search).get("view") === "works") {
+            setView("works");
+        }
+    }, [hasWorks]);
 
     useEffect(() => {
         let cancelled = false;
@@ -1007,10 +1007,11 @@ export function Building3DWorkspace({
                 </div>
             ) : null}
 
-            {view === "works" && content.worksProjectId ? (
+            {view === "works" && hasWorks ? (
                 <LessonWorksGallery
-                    projectId={content.worksProjectId}
-                    projectTitle={lesson.title}
+                    courseId={courseId}
+                    lessonId={lesson.id}
+                    lessonTitle={lesson.title}
                 />
             ) : null}
 
@@ -1259,10 +1260,11 @@ export function Building3DWorkspace({
                                     </Button>
                                 )}
                             </div>
-                            {content.worksProjectId ? (
+                            {hasWorks ? (
                                 <LessonWorkUpload
-                                    projectId={content.worksProjectId}
-                                    projectTitle={lesson.title}
+                                    courseId={courseId}
+                                    lessonId={lesson.id}
+                                    lessonTitle={lesson.title}
                                 />
                             ) : null}
                         </div>

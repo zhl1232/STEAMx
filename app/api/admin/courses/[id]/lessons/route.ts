@@ -26,11 +26,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       throw new ValidationError('lesson_type must be a valid lesson type slug')
     }
 
+    const content = body.content && typeof body.content === 'object' ? body.content : {}
+    const workSubmissionEnabled = typeof body.work_submission_enabled === 'boolean'
+      ? body.work_submission_enabled
+      : lessonType === 'scratch' || lessonType === 'building_3d'
     const insertData = {
       course_id: courseId,
       title,
       lesson_type: lessonType,
-      content: body.content ?? {},
+      content: { ...content, workSubmission: { enabled: workSubmissionEnabled } },
       steps: body.steps ?? [],
       resources: body.resources ?? [],
       starter_project_path: body.starter_project_path ?? null,

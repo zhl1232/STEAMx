@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { getNaturalObservationProgressSummary } from '@/lib/api/nature-observation-progress'
-import { getTrackedCompletedProjectIds } from '@/lib/completion-records'
 import { logger } from '@/lib/logger'
 import { type DbProject, mapProject } from '@/lib/mappers/project'
 import { getSteamRadarWithGuidanceSafe } from '@/lib/profile/steam-radar'
 import { createClient } from '@/lib/supabase/server'
+import { getUserWorks } from '@/lib/works/data'
 
 const PROFILE_WORKS_PAGE_SIZE = 8
 
@@ -22,10 +22,10 @@ export async function GET() {
       followingResponse,
       likesResponse,
       collectionsResponse,
-      completionRowsResponse,
       likesReceivedResponse,
       naturalObservationProgress,
       radar,
+      worksResult,
     ] = await Promise.all([
       supabase
         .from('projects')
@@ -49,13 +49,10 @@ export async function GET() {
         .from('collections')
         .select('project_id', { count: 'exact', head: true })
         .eq('user_id', user.id),
-      supabase
-        .from('completed_projects')
-        .select('project_id, status, record_kind')
-        .eq('user_id', user.id),
       supabase.rpc('sum_author_project_likes' as never, { p_author_id: user.id } as never),
       getNaturalObservationProgressSummary(supabase, user.id),
       getSteamRadarWithGuidanceSafe(supabase, user.id, 'GET /api/profile/summary'),
+      getUserWorks({ userId: user.id, pageSize: PROFILE_WORKS_PAGE_SIZE }),
     ])
 
     if (myProjectsResponse.error) throw myProjectsResponse.error
@@ -63,27 +60,21 @@ export async function GET() {
     if (followingResponse.error) throw followingResponse.error
     if (likesResponse.error) throw likesResponse.error
     if (collectionsResponse.error) throw collectionsResponse.error
-    if (completionRowsResponse.error) throw completionRowsResponse.error
     if (likesReceivedResponse.error) throw likesReceivedResponse.error
 
     const myProjects = ((myProjectsResponse.data as DbProject[] | null) || []).map((project) => mapProject(project))
-    const completedProjectsCount = getTrackedCompletedProjectIds(
-      (completionRowsResponse.data as {
-        project_id: number
-        status?: string | null
-        record_kind?: string | null
-      }[] | null) || [],
-    ).length
     const totalLikesReceived = Number(likesReceivedResponse.data ?? 0)
 
     return NextResponse.json({
       myProjects,
       myProjectsTotalCount: myProjectsResponse.count || 0,
+      myWorks: worksResult.works,
+      myWorksTotalCount: worksResult.total,
       followerCount: followersResponse.count || 0,
       followingCount: followingResponse.count || 0,
       likedProjectsCount: likesResponse.count || 0,
       collectedProjectsCount: collectionsResponse.count || 0,
-      completedProjectsCount,
+      completedProjectsCount: worksResult.total,
       totalLikesReceived,
       naturalObservationProgress,
       radar,

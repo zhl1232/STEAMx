@@ -101,24 +101,27 @@ export async function getLessonInCourse(
   return { course, lesson }
 }
 
-/**
- * 按背书项目 ID 反查它所属的课程课时（即 content.building3d.worksProjectId 指向该项目的课时）。
- * 用于项目详情页展示「回到课程」入口。仅返回已发布课程。
- */
+/** Resolve both legacy course work projects and the pre-migration JSON bridge. */
 export async function getCourseLessonByWorksProjectId(
   supabase: DbClient,
   projectId: number
 ): Promise<{ courseId: number; lessonId: number; courseTitle: string; lessonTitle: string } | null> {
   if (!Number.isInteger(projectId) || projectId <= 0) return null
 
-  const { data: lessonRow, error } = await supabase
-    .from('course_lessons')
-    .select('id, course_id, title')
-    // jsonb 路径过滤：worksProjectId 存在于 content.building3d 下（`as 'content'` 仅为绕过列名类型约束，
-    // 运行时 PostgREST 仍按完整 jsonb 路径过滤）。
-    .eq('content->building3d->>worksProjectId' as 'content', String(projectId))
-    .limit(1)
+  const { data: legacy } = await supabase
+    .from('legacy_course_work_projects')
+    .select('lesson_id')
+    .eq('project_id', projectId)
     .maybeSingle()
+
+  const legacyLessonId = (legacy as { lesson_id?: number } | null)?.lesson_id
+  const lessonQuery = supabase.from('course_lessons').select('id, course_id, title')
+  const { data: lessonRow, error } = legacyLessonId
+    ? await lessonQuery.eq('id', legacyLessonId).maybeSingle()
+    : await lessonQuery
+        .eq('content->building3d->>worksProjectId' as 'content', String(projectId))
+        .limit(1)
+        .maybeSingle()
 
   if (error || !lessonRow) return null
   const lesson = lessonRow as { id: number; course_id: number; title: string }

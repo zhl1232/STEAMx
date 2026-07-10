@@ -14,6 +14,7 @@ import { PageStatus } from "@/components/ui/page-status";
 import { getPublicUserProfile } from "@/lib/api/public-user-profile";
 import { PublicProfileActions } from "./public-profile-actions";
 import { PublicProfileProjects } from "./public-profile-projects";
+import { PublicProfileWorks } from "./public-profile-works";
 
 interface PublicProfilePageProps {
   params: Promise<{ id?: string }>;
@@ -136,16 +137,19 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     profile,
     projects,
     projectsTotalCount,
+    works,
+    worksTotalCount,
     followerCount,
     followingCount,
     badgeIds,
     hasMoreProjects,
+    hasMoreWorks,
   } = data;
   const level = Math.floor(Math.sqrt((profile.xp || 0) / 100)) + 1;
   const userName = profile.display_name || "匿名用户";
   const joinedAt = formatJoinDate(profile.created_at);
   const overviewStats = [
-    { label: "项目", value: projectsTotalCount },
+    { label: "作品", value: worksTotalCount },
     { label: "粉丝", value: followerCount },
     { label: "关注", value: followingCount },
   ];
@@ -222,15 +226,22 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
           </div>
         </section>
 
-        <Tabs defaultValue="projects" className="space-y-6">
-          <TabsList className="segmented-control grid h-auto w-full max-w-[420px] grid-cols-2 rounded-full bg-transparent p-1">
+        <Tabs defaultValue="works" className="space-y-6">
+          <TabsList className="segmented-control grid h-auto w-full max-w-[560px] grid-cols-3 rounded-full bg-transparent p-1">
+            <TabsTrigger value="works" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
+              作品 ({worksTotalCount})
+            </TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
-              项目 ({projectsTotalCount})
+              发布的项目 ({projectsTotalCount})
             </TabsTrigger>
             <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
               徽章 ({unlockedBadgeIds.size})
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="works" className="space-y-6">
+            <PublicProfileWorks userId={userId} initialWorks={works} initialHasMore={hasMoreWorks} />
+          </TabsContent>
 
           <TabsContent value="projects" className="space-y-6">
             <PublicProfileProjects

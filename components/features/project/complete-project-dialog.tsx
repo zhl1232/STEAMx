@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useAuth } from '@/lib/context/auth-context';
-import { useProjects } from '@/lib/context/project-context';
+import { useOptionalProjects } from '@/lib/context/project-context';
 import { uploadFileSecureWithProgress } from "@/lib/utils/upload";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -40,8 +40,9 @@ interface UploadingImage {
 type VideoUploadStatus = "idle" | "validating" | "uploading" | "compressing" | "done" | "error";
 
 interface CompleteProjectDialogProps {
-    projectId: number | string;
+    projectId?: number | string;
     projectTitle: string;
+    submitEndpoint?: string;
     challengeId?: number | null;
     mode?: "progress" | "final";
     recordType?: string;
@@ -121,6 +122,7 @@ function uploadVideoWithProgress(
 export function CompleteProjectDialog({
     projectId,
     projectTitle,
+    submitEndpoint,
     challengeId,
     mode = "final",
     recordType,
@@ -131,7 +133,7 @@ export function CompleteProjectDialog({
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
     const { toast } = useToast();
-    const { submitExplorationPost } = useProjects();
+    const { submitExplorationPost } = useOptionalProjects();
     const isProgress = mode === "progress";
 
     const [step, setStep] = useState<1 | 2>(1);
@@ -384,21 +386,30 @@ export function CompleteProjectDialog({
 
         try {
             const nonEmptyCaptions = imageCaptions.some((c) => c.trim().length > 0);
-            await submitExplorationPost(
-                projectId,
-                {
-                    images: proofImages,
-                    videoUrl: videoUrl || undefined,
-                    notes: notes || undefined,
-                    isPublic,
-                    imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
-                },
-                {
+            const proof = {
+                images: proofImages,
+                videoUrl: videoUrl || undefined,
+                notes: notes || undefined,
+                isPublic,
+                imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
+            };
+
+            if (submitEndpoint) {
+                const response = await fetch(submitEndpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(proof),
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(payload?.error || "提交失败");
+            } else {
+                if (projectId === undefined) throw new Error("缺少作品来源");
+                await submitExplorationPost(projectId, proof, {
                     kind: mode,
                     recordType,
                     stageLabel,
-                },
-            );
+                });
+            }
 
             if (!isProgress) {
                 try {

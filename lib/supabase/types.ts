@@ -663,13 +663,15 @@ export interface Database {
         Row: {
           id: number
           user_id: string
-          project_id: number
+          project_id: number | null
+          course_lesson_id: number | null
           completed_at: string
           proof_images: string[]
           proof_video_url: string | null
           notes: string | null
           is_public: boolean
           likes_count: number
+          coins_count: number
           proof_captions: string[] | null
           status: string
           reviewed_by: string | null
@@ -684,13 +686,15 @@ export interface Database {
         Insert: {
           id?: number
           user_id: string
-          project_id: number
+          project_id?: number | null
+          course_lesson_id?: number | null
           completed_at?: string
           proof_images?: string[]
           proof_video_url?: string | null
           notes?: string | null
           is_public?: boolean
           likes_count?: number
+          coins_count?: number
           proof_captions?: string[] | null
           status?: string
           reviewed_by?: string | null
@@ -705,13 +709,15 @@ export interface Database {
         Update: {
           id?: number
           user_id?: string
-          project_id?: number
+          project_id?: number | null
+          course_lesson_id?: number | null
           completed_at?: string
           proof_images?: string[]
           proof_video_url?: string | null
           notes?: string | null
           is_public?: boolean
           likes_count?: number
+          coins_count?: number
           proof_captions?: string[] | null
           status?: string
           reviewed_by?: string | null
@@ -731,6 +737,12 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "completed_projects_course_lesson_id_fkey"
+            columns: ["course_lesson_id"]
+            referencedRelation: "course_lessons"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "completed_projects_reviewed_by_fkey_profiles"
             columns: ["reviewed_by"]
             referencedRelation: "profiles"
@@ -742,6 +754,37 @@ export interface Database {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
+        ]
+      }
+      legacy_course_work_projects: {
+        Row: {
+          project_id: number
+          lesson_id: number
+          created_at: string
+        }
+        Insert: {
+          project_id: number
+          lesson_id: number
+          created_at?: string
+        }
+        Update: {
+          project_id?: number
+          lesson_id?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legacy_course_work_projects_project_id_fkey"
+            columns: ["project_id"]
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "legacy_course_work_projects_lesson_id_fkey"
+            columns: ["lesson_id"]
+            referencedRelation: "course_lessons"
+            referencedColumns: ["id"]
+          },
         ]
       }
       project_explorations: {
@@ -2379,6 +2422,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_trending_works: {
+        Args: { p_limit?: number; p_offset?: number }
+        Returns: { work_id: number; score: number }[]
+      }
       upsert_observation_identification: {
         Args: {
           p_observation_id: number

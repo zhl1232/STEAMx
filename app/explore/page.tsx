@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
-import { getExploreForYouInitialData } from '@/lib/explore/recommendations'
 import { parseExploreSortBy } from '@/lib/explore/presets'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -47,7 +46,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   const sortBy = parseExploreSortBy(firstParam(params.sortBy))
   const viewerKey = await getRecommendationViewerKey()
 
-  const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore, total }, initialForYou] =
+  const [{ categories, availableTags, popularTags, tagScope }, { projects, hasMore, total }] =
     await Promise.all([
       getExploreFilterOptions(),
       getProjects(filters, {
@@ -60,7 +59,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         // 按筛选条件最终决定（选了 category/tags/search 会自动降级回单类语义）。
         blendPopular: sortBy === 'popular',
       }),
-      getExploreForYouInitialData(),
     ])
 
   return (
@@ -73,7 +71,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       availableTags={availableTags}
       popularTags={popularTags}
       tagScope={tagScope}
-      initialForYou={initialForYou}
     />
   )
 }

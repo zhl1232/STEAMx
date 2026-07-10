@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import {
   AlertTriangle,
@@ -718,12 +718,17 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const { id } = await params
   const resolvedSearchParams = searchParams ? await searchParams : undefined
 
+  const supabase = await createClient()
+  const legacyCourseLink = await getCourseLessonByWorksProjectId(supabase, Number(id))
+  if (legacyCourseLink) {
+    redirect(`/courses/${legacyCourseLink.courseId}/lessons/${legacyCourseLink.lessonId}?view=works`)
+  }
+
   const project = await getProjectById(id)
   if (!project) {
     notFound()
   }
 
-  const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -764,7 +769,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
       : Promise.resolve(null),
     fromExplore ? Promise.resolve([]) : getRelatedProjects(project.id, project.category, 1),
     getProjectAuthorSummary(project.author_id, project.author),
-    getCourseLessonByWorksProjectId(supabase, Number(project.id)),
+    Promise.resolve(null as Awaited<ReturnType<typeof getCourseLessonByWorksProjectId>>),
   ])
 
   const {

@@ -4,14 +4,15 @@ export type SortBy = 'latest' | 'popular'
 export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest'
 
 export type ExplorePreset = {
-    id: Exclude<ExplorePresetId, 'browse'>
+    id: ExplorePresetId
     label: string
     sortBy: SortBy
     difficulty: string
 }
 
-/** 主列表只保留两个切换入口：默认最新上架，另一个为新手推荐。 */
+/** 项目内容列表与上方作品墙分工：推荐、最新和新手入口都保留。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
+    { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'latest', label: '最新上架', sortBy: 'latest', difficulty: 'all' },
     { id: 'beginner-friendly', label: '新手推荐', sortBy: 'popular', difficulty: '1-2' },
 ]
@@ -26,9 +27,8 @@ export type ExploreFilterState = {
 }
 
 export function parseExploreSortBy(raw: string | null | undefined): SortBy {
-    if (raw === 'popular') return 'popular'
-    if (raw === 'weekly') return 'popular'
-    return 'latest'
+    if (raw === 'latest') return 'latest'
+    return 'popular'
 }
 
 export const EXPLORE_RESULTS_SORT_OPTIONS = [
@@ -39,7 +39,9 @@ export const EXPLORE_RESULTS_SORT_OPTIONS = [
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
 export function isExploreResultsMode(state: ExploreFilterState): boolean {
     const activePresetId = detectActivePreset(state)
-    const activeListTabId = activePresetId === 'latest' || activePresetId === 'beginner-friendly'
+    const activeListTabId = activePresetId === 'browse'
+        || activePresetId === 'latest'
+        || activePresetId === 'beginner-friendly'
         ? activePresetId
         : null
     const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
@@ -73,11 +75,7 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
     return null
 }
 
-/** 默认热门（browse）不高亮任何 chip */
 export function resolveHighlightedPresetId(urlPreset: ExplorePresetId | null): ExplorePresetId | null {
-    if (urlPreset === null || urlPreset === 'browse') {
-        return null
-    }
     return urlPreset
 }
 
@@ -102,7 +100,7 @@ export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams 
     if (preset.difficulty !== 'all') {
         params.set('difficulty', preset.difficulty)
     }
-    if (preset.sortBy !== 'latest') {
+    if (preset.sortBy !== 'popular') {
         params.set('sortBy', preset.sortBy)
     }
     return params

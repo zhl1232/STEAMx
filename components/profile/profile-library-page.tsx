@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import { ProjectCard } from '@/components/features/project-card'
+import { WorkCardGrid } from '@/components/features/works/work-card-grid'
 import { ProfileLibrarySkeleton } from '@/components/features/profile/profile-library-skeleton'
 import { ProjectListSkeleton } from '@/components/features/profile/project-list-skeleton'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -13,7 +14,7 @@ import { CheckCircle2, ChevronLeft, Feather, FolderOpen, Heart, Rocket } from 'l
 import { useState, useEffect, useEffectEvent } from 'react'
 import { useProfileSummary } from '@/hooks/profile/use-profile-summary'
 
-import type { Project } from '@/lib/mappers/types'
+import type { Project, Work } from '@/lib/mappers/types'
 import { MobileProfilePage } from '@/components/profile/mobile-profile-page'
 import { cn } from '@/lib/utils'
 import { logger } from '@/lib/logger'
@@ -76,9 +77,8 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
   const [myProjectsTotalCount, setMyProjectsTotalCount] = useState(0)
   const [likedProjectsList, setLikedProjectsList] = useState<Project[]>([])
   const [collectedProjectsList, setCollectedProjectsList] = useState<Project[]>([])
-  const [completedProjectsList, setCompletedProjectsList] = useState<Project[]>([])
+  const [worksList, setWorksList] = useState<Work[]>([])
   const [exploringProjectsList, setExploringProjectsList] = useState<Project[]>([])
-  const [completionStatusMap, setCompletionStatusMap] = useState<Map<number, { status: string; rejectionReason?: string }>>(new Map())
   const [followerCount, setFollowerCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
   const [likedProjectsCount, setLikedProjectsCount] = useState(0)
@@ -115,7 +115,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
   )
   const shouldLoadLikedProjects = activeTab === 'liked' || mobileProfileTab === 'likes'
   const shouldLoadCollectedProjects = activeTab === 'collected' || mobileProfileTab === 'collected'
-  const shouldLoadCompletedProjects = activeTab === 'completed' || mobileProfileTab === 'completed'
+  const shouldLoadCompletedProjects = activeTab === 'completed' || mobileProfileTab === 'works'
   const shouldLoadExploringProjects = activeTab === 'exploring' || mobileProfileTab === 'exploring'
   const showLoadError = useEffectEvent((description: string) => {
     toast({
@@ -165,8 +165,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
     setSteamRadar(profileSummary.steamRadar)
     setLikedProjectsList([])
     setCollectedProjectsList([])
-    setCompletedProjectsList([])
-    setCompletionStatusMap(new Map())
+    setWorksList([])
     setLikedProjectsLoaded(false)
     setCollectedProjectsLoaded(false)
     setCompletedProjectsLoaded(false)
@@ -311,38 +310,27 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
 
   useEffect(() => {
     if (!user || isProjectsDataLoading || !shouldLoadCompletedProjects || completedProjectsLoaded) return
-    if (completedProjectsCount === 0) {
-      setCompletionStatusMap(new Map())
-      setCompletedProjectsList([])
-      setCompletedProjectsLoaded(true)
-      return
-    }
-
     let cancelled = false
     setIsCompletedProjectsLoading(true)
 
     const loadCompletedProjects = async () => {
       try {
-        const response = await fetch('/api/profile/projects?type=completed')
+        const response = await fetch('/api/profile/works?pageSize=24')
         const payload = await response.json().catch(() => ({}))
 
         if (!response.ok) {
-          throw new Error(payload?.error || '完成项目加载失败')
+          throw new Error(payload?.error || '作品加载失败')
         }
 
         if (cancelled) return
 
-        setCompletedProjectsList((payload?.projects as Project[]) || [])
-        setCompletionStatusMap(
-          new Map(
-            ((payload?.completionStatusEntries as [number, { status: string; rejectionReason?: string }][] | undefined) || []),
-          ),
-        )
+        setWorksList((payload?.works as Work[]) || [])
+        setCompletedProjectsCount(Number(payload?.total) || 0)
         setCompletedProjectsLoaded(true)
       } catch (err) {
         if (cancelled) return
-        logger.error('Exception in loadCompletedProjects', { error: err })
-        showLoadError(getErrorMessage(err, '无法加载完成项目，请稍后重试'))
+        logger.error('Exception in loadWorks', { error: err })
+        showLoadError(getErrorMessage(err, '无法加载作品，请稍后重试'))
       } finally {
         if (!cancelled) {
           setIsCompletedProjectsLoading(false)
@@ -417,8 +405,8 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
     },
     { key: 'collected', label: '收藏', count: collectedProjectsCount },
     { key: 'liked', label: '点赞', count: likedProjectsCount },
-    { key: 'completed', label: '已完成', count: completedProjectsCount },
-    { key: 'my-projects', label: '我的创作', count: myProjectsTotalCount },
+    { key: 'completed', label: '我的作品', count: completedProjectsCount },
+    { key: 'my-projects', label: '发布的项目', count: myProjectsTotalCount },
   ] satisfies Array<{ key: DesktopProfileLibraryTab; label: string; count: number | null }>
   const showDesktopProjectSkeleton =
     (isProjectsDataLoading && activeTab === 'my-projects') ||
@@ -470,9 +458,9 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
 
             <div className="grid w-full grid-cols-2 gap-2 lg:justify-self-end">
               {[
-                { label: '我的创作', value: myProjectsTotalCount, icon: FolderOpen },
+                { label: '发布项目', value: myProjectsTotalCount, icon: FolderOpen },
                 { label: '收藏', value: collectedProjectsCount, icon: Heart },
-                { label: '已完成', value: completedProjectsCount, icon: CheckCircle2 },
+                { label: '我的作品', value: completedProjectsCount, icon: CheckCircle2 },
                 { label: '观察记录', value: observationsLoaded ? observationsTotal : uniqueSpeciesCount, icon: Feather },
               ].map((item) => (
                 <div key={item.label} className="rounded-md border border-border/70 bg-background/78 px-4 py-3 backdrop-blur-sm">
@@ -511,7 +499,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                 <>
                   {activeTab === 'my-projects' && myProjects.length === 0 ? (
                     <DesktopProfileEmptyState
-                      title="还没有发布作品"
+                      title="还没有发布项目"
                       description="把你的第一个项目整理出来。"
                       href="/project"
                       actionLabel="去分享"
@@ -599,48 +587,17 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                       </div>
                     ))}
 
-                  {activeTab === 'completed' && completedProjectsList.length === 0 ? (
+                  {activeTab === 'completed' && worksList.length === 0 ? (
                     <DesktopProfileEmptyState
-                      title="还没有完成项目"
-                      description="从一个小项目开始。"
+                      title="还没有作品"
+                      description="完成项目或课程后，把成果发布到这里。"
                       href="/explore"
-                      actionLabel="开始项目"
+                      actionLabel="去探索"
                     />
                   ) : null}
-                  {activeTab === 'completed' &&
-                    completedProjectsList.map((project, index) => {
-                      const completionStatus = completionStatusMap.get(Number(project.id))
-                      return (
-                        <div
-                          key={project.id}
-                          className="relative"
-                          style={
-                            index >= 4
-                              ? { contentVisibility: 'auto', containIntrinsicSize: '360px 420px' }
-                              : undefined
-                          }
-                        >
-                          {completionStatus?.status === 'pending' ? (
-                            <div className="absolute left-2 top-2 z-10">
-                              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-800 shadow-xs dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
-                                作品待审核
-                              </span>
-                            </div>
-                          ) : null}
-                          {completionStatus?.status === 'rejected' ? (
-                            <div className="absolute left-2 top-2 z-10">
-                              <span
-                                className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 shadow-xs dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
-                                title={completionStatus.rejectionReason}
-                              >
-                                作品未通过
-                              </span>
-                            </div>
-                          ) : null}
-                          <ProjectCard project={project} />
-                        </div>
-                      )
-                    })}
+                  {activeTab === 'completed' && worksList.length > 0 ? (
+                    <WorkCardGrid works={worksList} className="col-span-full" />
+                  ) : null}
 
                   {activeTab === 'observations' ? (
                     <ProfileObservationsPanel
@@ -681,9 +638,8 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
       totalLikesReceived={totalLikesReceived}
       likedProjectsList={likedProjectsList}
       collectedProjectsList={collectedProjectsList}
-      completedProjectsList={completedProjectsList}
+      worksList={worksList}
       exploringProjectsList={exploringProjectsList}
-      completionStatusMap={completionStatusMap}
       followerCount={followerCount}
       followingCount={followingCount}
       likedProjectsCount={likedProjectsCount}

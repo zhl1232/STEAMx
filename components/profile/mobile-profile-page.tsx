@@ -10,10 +10,11 @@ import { ProjectListSkeleton } from "@/components/features/profile/project-list-
 import { ProfileLibrarySkeleton } from "@/components/features/profile/profile-library-skeleton";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProjectList } from "@/components/profile/project-list";
+import { WorkCardGrid } from "@/components/features/works/work-card-grid";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
-import { Project, Profile, type ObservationEvent } from "@/lib/mappers/types";
+import { Project, Profile, type ObservationEvent, type Work } from "@/lib/mappers/types";
 import type { NaturalObservationProgressSummary } from "@/lib/observations/progress";
 import type { ProfileLibraryTab } from "@/lib/profile/library-tabs";
 import type { SteamRadarWithGuidance } from "@/lib/profile/steam-radar";
@@ -63,9 +64,8 @@ interface MobileProfilePageProps {
   totalLikesReceived: number;
   likedProjectsList: Project[];
   collectedProjectsList: Project[];
-  completedProjectsList: Project[];
+  worksList: Work[];
   exploringProjectsList?: Project[];
-  completionStatusMap?: Map<number, { status: string; rejectionReason?: string }>;
   followerCount: number;
   followingCount: number;
   likedProjectsCount: number;
@@ -90,12 +90,12 @@ interface MobileProfilePageProps {
 }
 
 const PROFILE_TABS = [
+  { value: "works", label: "我的作品" },
+  { value: "published", label: "发布的项目" },
   { value: "exploring", label: "探索中" },
   { value: "observations", label: "观察记录" },
   { value: "collected", label: "收藏" },
   { value: "likes", label: "点赞" },
-  { value: "completed", label: "已完成" },
-  { value: "works", label: "我的创作" },
 ] as const;
 
 export function MobileProfilePage({
@@ -106,9 +106,8 @@ export function MobileProfilePage({
   totalLikesReceived,
   likedProjectsList,
   collectedProjectsList,
-  completedProjectsList,
+  worksList,
   exploringProjectsList = [],
-  completionStatusMap,
   followerCount,
   followingCount,
   likedProjectsCount,
@@ -141,11 +140,11 @@ export function MobileProfilePage({
 
   const tabCounts = useMemo(
     () => ({
-      works: myProjectsCount,
+      works: completedProjectsCount,
+      published: myProjectsCount,
       collected: collectedProjectsCount,
       likes: likedProjectsCount,
       exploring: exploringProjectsList.length,
-      completed: completedProjectsCount,
       observations: observationsLoaded ? observationsTotal : null,
     }),
     [
@@ -269,9 +268,9 @@ export function MobileProfilePage({
 
                 <div className="mt-10 grid grid-cols-4 gap-2">
                   {[
-                    ["我的创作", myProjectsCount],
+                    ["我的作品", completedProjectsCount],
+                    ["发布项目", myProjectsCount],
                     ["收藏", collectedProjectsCount],
-                    ["完成", completedProjectsCount],
                     ["观察", observationsLoaded ? observationsTotal : uniqueSpeciesCount],
                   ].map(([label, value]) => (
                     <div key={label} className="rounded-md border border-border/70 bg-background/76 px-2 py-2 text-center backdrop-blur-sm">
@@ -320,13 +319,24 @@ export function MobileProfilePage({
 
       <div className="px-4 py-4">
         {activeTab === "works" ? (
+          worksList.length > 0 ? (
+            <WorkCardGrid works={worksList} />
+          ) : (
+            <div className="surface-subtle px-5 py-10 text-center">
+              <h3 className="text-base font-semibold">暂无作品</h3>
+              <p className="mt-2 text-sm text-muted-foreground">完成项目或课程后，把成果发布到这里。</p>
+            </div>
+          )
+        ) : null}
+
+        {activeTab === "published" ? (
           <>
             <ProjectList
               projects={visibleMyProjects}
               emptyState={{
                 icon: <PenBox className="h-10 w-10" />,
-                title: "暂无作品",
-                desc: "分享你的第一个创意作品",
+                title: "还没有发布项目",
+                desc: "把你的第一个项目整理出来",
                 btnText: "去分享",
                 href: "/share",
               }}
@@ -377,19 +387,6 @@ export function MobileProfilePage({
             emptyState={{
               title: "暂无探索中",
               desc: "在项目详情点击「开始探索」",
-              btnText: "去探索",
-              href: "/explore",
-            }}
-          />
-        ) : null}
-
-        {activeTab === "completed" ? (
-          <ProjectList
-            projects={completedProjectsList}
-            completionStatusMap={completionStatusMap}
-            emptyState={{
-              title: "暂无完成",
-              desc: "动手完成一个项目吧",
               btnText: "去探索",
               href: "/explore",
             }}

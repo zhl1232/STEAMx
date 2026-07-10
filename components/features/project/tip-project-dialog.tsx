@@ -19,6 +19,7 @@ interface TipProjectDialogProps {
   projectTitle: string
   projectOwnerId: string
   projectId: string | number
+  resourceType?: 'project' | 'completion'
 }
 
 type TipTarget = {
@@ -33,6 +34,7 @@ export function TipProjectDialog({
   projectTitle,
   projectOwnerId,
   projectId,
+  resourceType = 'project',
 }: TipProjectDialogProps) {
   const { user, refreshProfile } = useAuth()
   const { coins = 0 } = useGamification()
@@ -44,8 +46,8 @@ export function TipProjectDialog({
   const target: TipTarget | null = user && projectOwnerId !== user.id
     ? {
         id: Number(projectId),
-        label: '项目作者',
-        desc: '投币支持本项目',
+        label: resourceType === 'completion' ? '作品作者' : '项目作者',
+        desc: resourceType === 'completion' ? '投币支持这件作品' : '投币支持本项目',
       }
     : null
 
@@ -60,7 +62,7 @@ export function TipProjectDialog({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          resourceType: "project",
+          resourceType,
           resourceId: target.id,
           amount,
         }),
@@ -75,7 +77,7 @@ export function TipProjectDialog({
         throw new Error(res?.error || "tip_failed")
       }
 
-      queryClient.invalidateQueries({ queryKey: ["tip_my", "project", target.id] })
+      queryClient.invalidateQueries({ queryKey: ["tip_my", resourceType, target.id] })
       queryClient.invalidateQueries({ queryKey: ["coin_logs"] })
       refreshProfile()
       router.refresh()
@@ -100,10 +102,10 @@ export function TipProjectDialog({
       <DialogContent className="max-w-sm">
         <DialogTitle className="flex items-center gap-2">
           <CoinIcon className="h-5 w-5 text-amber-500" />
-          投币支持项目
+          {resourceType === 'completion' ? '投币支持作品' : '投币支持项目'}
         </DialogTitle>
         <p className="text-sm text-muted-foreground">
-          投币给「{projectTitle}」的项目作者。每人对本项目最多投 2 硬币。
+          投币给「{projectTitle}」的{resourceType === 'completion' ? '作品作者' : '项目作者'}。每人最多投 2 硬币。
           <br />
           当前余额：<strong>{coins}</strong> 硬币
         </p>
@@ -120,6 +122,7 @@ export function TipProjectDialog({
               target={target}
               coins={coins}
               onTip={handleTip}
+              resourceType={resourceType}
             />
           </ul>
         )}
@@ -132,17 +135,19 @@ function TipRow({
   target,
   coins,
   onTip,
+  resourceType,
 }: {
   target: TipTarget
   coins: number
   onTip: (target: TipTarget, amount: number) => void | Promise<void>
+  resourceType: 'project' | 'completion'
 }) {
   // 查询我看这个资源已经投了多少
   const { data: myTipped = 0 } = useQuery({
-    queryKey: ["tip_my", "project", target.id],
+    queryKey: ["tip_my", resourceType, target.id],
     queryFn: async () => {
       const params = new URLSearchParams({
-        resourceType: "project",
+        resourceType,
         resourceId: String(target.id),
       })
       const response = await fetch(`/api/tips/my?${params.toString()}`)

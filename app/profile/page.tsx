@@ -51,7 +51,7 @@ import { BADGES, useGamification } from '@/lib/context/gamification-context'
 import { type Notification, useOptionalNotifications } from '@/lib/context/notification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
 import { logger } from '@/lib/logger'
-import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import { getNotificationTargetHref } from '@/lib/notifications/navigation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
@@ -210,7 +210,8 @@ export default function ProfilePage() {
   })
 
   const myProjects = profileHomeData?.myProjects ?? []
-  const myProjectsTotalCount = profileHomeData?.myProjectsTotalCount ?? 0
+  const myWorks = profileHomeData?.myWorks ?? []
+  const myWorksTotalCount = profileHomeData?.myWorksTotalCount ?? 0
   const followerCount = profileHomeData?.followerCount ?? 0
   const followingCount = profileHomeData?.followingCount ?? 0
   const totalLikesReceived = profileHomeData?.totalLikesReceived ?? 0
@@ -341,7 +342,7 @@ export default function ProfilePage() {
   const featuredBadges =
     unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
   const stats: ProfileStat[] = [
-    { key: 'works', label: '作品', value: myProjectsTotalCount, href: '/profile/library', icon: 'projects' },
+    { key: 'works', label: '作品', value: myWorksTotalCount, href: '/profile/library', icon: 'projects' },
     { key: 'followers', label: '粉丝', value: followerCount, href: '/profile/followers', icon: 'followers' },
     { key: 'following', label: '关注', value: followingCount, href: '/profile/following', icon: 'following' },
     { key: 'likes', label: '获赞', value: totalLikesReceived, href: '/profile/likes', icon: 'likes' },
@@ -352,6 +353,7 @@ export default function ProfilePage() {
     exploringProjects,
     steamRadar,
     myProjects,
+    myWorks,
     myObservations,
     profileTimelineEvents,
     growthTasks: resolvedGrowthTasks,
@@ -386,6 +388,7 @@ export default function ProfilePage() {
     unlockedBadges,
     userBadgeDetails,
     myProjects,
+    myWorks,
     steamRadar,
     myObservations,
     observationsTotal,
@@ -418,6 +421,7 @@ function DesktopProfilePage({
   unlockedBadges,
   userBadgeDetails,
   myProjects,
+  myWorks,
   steamRadar,
   myObservations,
   observationsTotal,
@@ -441,6 +445,7 @@ function DesktopProfilePage({
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   myProjects: Project[]
+  myWorks: Work[]
   steamRadar: SteamRadarWithGuidance | null
   myObservations: ObservationEvent[]
   observationsTotal: number
@@ -449,7 +454,7 @@ function DesktopProfilePage({
   studyCheckInState: StudyCheckInLoadState
   profile: ReturnType<typeof useAuth>['profile']
 }) {
-  const isExploreVacuum = isProfileExploreVacuum({ steamRadar, myProjects, myObservations })
+  const isExploreVacuum = isProfileExploreVacuum({ steamRadar, myProjects, myWorks, myObservations })
   const hasRadarValue = hasSteamRadarValue(steamRadar)
   const primaryPlanCard = (
     <PrimaryPlanCard
@@ -499,7 +504,7 @@ function DesktopProfilePage({
                 <section className="surface-panel rounded-lg p-6">
                   <SectionTitle iconName="projects" title="作品与观察" actionHref="/profile/library" actionLabel="查看内容库" />
                   <div className="mt-4 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-                    <ProjectShowcase projects={myProjects} emptyDensity="compact" embedded />
+                    <WorkShowcase works={myWorks} />
                     <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" embedded />
                   </div>
                 </section>
@@ -1360,101 +1365,58 @@ function GrowthTasksPanel({
   )
 }
 
-function ProjectShowcase({
-  projects,
-  mobile = false,
-  emptyDensity = 'default',
-  embedded = false,
-}: {
-  projects: Project[]
-  mobile?: boolean
-  emptyDensity?: 'default' | 'compact'
-  embedded?: boolean
-}) {
-  if (projects.length === 0) {
+function WorkShowcase({ works }: { works: Work[] }) {
+  if (works.length === 0) {
     return (
-        <EmptyBlock
-          icon={Rocket}
-          iconName="emptyProjects"
-          title="你的创意实验室空空如也"
-          description="把今天完成的小实验、模型或观察整理成作品，点亮你的第一个展示位。"
-          href="/project"
-          action="启动第一个 STEAM 项目"
-          density={emptyDensity}
-          mobile={mobile}
-        />
+      <EmptyBlock
+        icon={Rocket}
+        iconName="emptyProjects"
+        title="还没有作品"
+        description="完成一个项目或课程，把成果整理成你的第一件作品。"
+        href="/explore"
+        action="去完成一个项目"
+        density="compact"
+      />
     )
   }
 
-  const visibleProjects = projects.slice(0, mobile ? 6 : embedded ? 3 : 8)
-
   return (
-    <div className={cn('mt-4', mobile ? '-mx-1 overflow-x-auto px-1' : '')}>
-      <div
-        className={cn(
-          mobile
-            ? 'flex w-max gap-3 pb-1'
-            : embedded
-              ? 'space-y-3'
-              : 'grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4',
-        )}
-      >
-        {visibleProjects.map((project) => (
-          <MiniProjectCard key={project.id} project={project} mobile={mobile} embedded={embedded} />
-        ))}
-      </div>
+    <div className="space-y-3">
+      {works.slice(0, 3).map((work) => {
+        const image = work.proofImages[0]
+        return (
+          <Link
+            key={work.id}
+            href={`/works/${work.id}`}
+            className="group grid grid-cols-[82px_minmax(0,1fr)] items-center rounded-md p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]"
+          >
+            <div className="relative h-16 w-[82px] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
+              {image ? (
+                <OptimizedImage
+                  src={image}
+                  alt={`${work.author} 的作品`}
+                  fill
+                  variant="thumbnail"
+                  className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                />
+              ) : null}
+            </div>
+            <div className="min-w-0 px-3 py-1">
+              <h3 className="truncate text-sm font-semibold text-foreground">
+                {work.source?.title || '探索作品'}
+              </h3>
+              <p className="mt-1 truncate text-xs text-muted-foreground">
+                {work.source?.type === 'course_lesson' ? work.source.courseTitle : '项目作品'}
+              </p>
+              <div className="mt-2 flex items-center gap-3 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1"><Heart className="h-3 w-3" />{work.likes}</span>
+                <span className="inline-flex items-center gap-1"><MessageCircle className="h-3 w-3" />{work.commentsCount ?? 0}</span>
+              </div>
+            </div>
+          </Link>
+        )
+      })}
     </div>
-  )
-}
-
-function MiniProjectCard({ project, mobile, embedded }: { project: Project; mobile: boolean; embedded?: boolean }) {
-  return (
-    <Link
-      href={`/project/${project.id}`}
-      className={cn(
-        'group overflow-hidden transition duration-200 hover:bg-[hsl(var(--surface-muted)/0.68)]',
-        mobile ? 'w-[176px]' : '',
-        embedded ? 'grid grid-cols-[82px_minmax(0,1fr)] items-center rounded-md p-1.5' : 'surface-card flex h-full flex-col hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md',
-      )}
-    >
-      <div
-        className={cn(
-          'relative shrink-0 overflow-hidden bg-[hsl(var(--surface-muted))]',
-          embedded ? 'h-16 w-[82px] rounded-sm' : mobile ? 'aspect-16/10' : 'aspect-16/10',
-        )}
-      >
-        {project.image ? (
-          <OptimizedImage
-            src={project.image}
-            alt={project.title}
-            fill
-            variant="card"
-            className="object-cover transition duration-300 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="grid h-full place-items-center text-muted-foreground/80">
-            <FolderOpen className="h-8 w-8" />
-          </div>
-        )}
-      </div>
-      <div className={cn('flex min-h-0 flex-1 flex-col', embedded ? 'px-3 py-1' : mobile ? 'p-3' : 'px-3.5 pb-3 pt-2.5')}>
-        <h3 className="truncate font-sans text-[13px] font-medium leading-snug tracking-tight text-foreground">
-          {project.title}
-        </h3>
-        <div className={cn('flex items-center justify-between gap-2 text-[11px] tabular-nums text-muted-foreground', embedded ? 'mt-2' : 'mt-2.5 border-t border-[hsl(var(--surface-border))]/80 pt-2')}>
-          <span className="inline-flex w-full justify-end items-center gap-2 text-muted-foreground/90">
-            <span className="inline-flex items-center gap-0.5">
-              <Eye className="h-3 w-3 opacity-70" aria-hidden />
-              {formatCompactNumber(project.views_count || 0)}
-            </span>
-            <span className="inline-flex items-center gap-0.5">
-              <Heart className="h-3 w-3 opacity-70" aria-hidden />
-              {formatCompactNumber(project.likes || 0)}
-            </span>
-          </span>
-        </div>
-      </div>
-    </Link>
   )
 }
 

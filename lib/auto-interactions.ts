@@ -222,7 +222,7 @@ async function resolveTargetContext(
   if (targetType === 'completion') {
     const { data, error } = await supabase
       .from('completed_projects')
-      .select('id, user_id, project_id, notes, is_public, status, record_type, stage_label')
+      .select('id, user_id, project_id, course_lesson_id, notes, is_public, status, record_type, stage_label')
       .eq('id', targetId)
       .maybeSingle()
 
@@ -230,7 +230,8 @@ async function resolveTargetContext(
     const completion = data as {
       id: number
       user_id: string
-      project_id: number
+      project_id: number | null
+      course_lesson_id: number | null
       notes?: string | null
       is_public?: boolean | null
       status?: string | null
@@ -241,24 +242,34 @@ async function resolveTargetContext(
     if (!completion || completion.status !== 'approved' || completion.is_public !== true) return null
     if (await isAutoInteractionAccount(completion.user_id)) return null
 
-    const { data: projectData, error: projectError } = await supabase
-      .from('projects')
-      .select('title, status')
-      .eq('id', completion.project_id)
-      .maybeSingle()
-
-    if (projectError) throw projectError
-    const project = projectData as { title?: string | null; status?: string | null } | null
+    let sourceTitle: string | null = null
+    if (completion.project_id) {
+      const { data: projectData, error: projectError } = await supabase
+        .from('projects')
+        .select('title, status')
+        .eq('id', completion.project_id)
+        .maybeSingle()
+      if (projectError) throw projectError
+      sourceTitle = (projectData as { title?: string | null } | null)?.title ?? null
+    } else if (completion.course_lesson_id) {
+      const { data: lessonData, error: lessonError } = await supabase
+        .from('course_lessons')
+        .select('title')
+        .eq('id', completion.course_lesson_id)
+        .maybeSingle()
+      if (lessonError) throw lessonError
+      sourceTitle = (lessonData as { title?: string | null } | null)?.title ?? null
+    }
 
     return {
       targetType,
       targetId,
       sourceAuthorId: completion.user_id,
-      projectId: completion.project_id,
-      notificationTitle: project?.title,
+      projectId: completion.project_id ?? undefined,
+      notificationTitle: sourceTitle,
       replyContext: {
         targetType,
-        title: project?.title,
+        title: sourceTitle,
         notes: completion.notes,
         recordType: completion.record_type,
         stageLabel: completion.stage_label,

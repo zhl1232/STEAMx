@@ -543,13 +543,31 @@ export interface Profile {
     role: 'user' | 'teacher' | 'moderator' | 'admin'
 }
 
-/**
- * 项目完成记录类型
- */
-export interface ProjectCompletion {
+export type WorkSource =
+    | {
+        type: 'project'
+        id: number
+        title: string
+        href: string
+        image?: string
+      }
+    | {
+        type: 'course_lesson'
+        id: number
+        title: string
+        href: string
+        image?: string
+        courseId: number
+        courseTitle: string
+      }
+
+/** 项目或课程课时产出的统一作品。 */
+export interface Work {
     id: number
     userId: string
-    projectId: string | number
+    projectId: string | number | null
+    courseLessonId?: number
+    source?: WorkSource
     author: string
     avatar?: string
     avatarFrameId?: string | null
@@ -565,6 +583,7 @@ export interface ProjectCompletion {
     notes?: string
     isPublic: boolean
     likes: number
+    coins: number
     status?: 'pending' | 'approved' | 'rejected'
     rejectionReason?: string
     recordKind?: 'progress' | 'final'
@@ -572,6 +591,9 @@ export interface ProjectCompletion {
     stageLabel?: string
     explorationStartedAt?: string
 }
+
+/** @deprecated Prefer Work. Kept while project record components are migrated. */
+export type ProjectCompletion = Work
 
 // ============================================================
 // 类型映射函数
@@ -877,11 +899,12 @@ export function mapDbCompletion(
     dbCompletion: DbCompletedProject & {
         profiles?: Pick<DbProfile, 'display_name' | 'avatar_url' | 'equipped_avatar_frame_id'> & { equipped_name_color_id?: string | null; xp?: number | null } | null
     }
-): ProjectCompletion {
+): Work {
     return {
         id: dbCompletion.id,
         userId: dbCompletion.user_id,
         projectId: dbCompletion.project_id,
+        courseLessonId: dbCompletion.course_lesson_id ?? undefined,
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,
@@ -897,6 +920,7 @@ export function mapDbCompletion(
         notes: dbCompletion.notes || undefined,
         isPublic: dbCompletion.is_public ?? true,
         likes: dbCompletion.likes_count ?? 0,
+        coins: dbCompletion.coins_count ?? 0,
         status: (dbCompletion.status as 'pending' | 'approved' | 'rejected') || undefined,
         rejectionReason: dbCompletion.rejection_reason || undefined,
         recordKind: ((dbCompletion as { record_kind?: string }).record_kind === 'progress'

@@ -47,14 +47,23 @@ export async function POST(request: NextRequest) {
       recipientUserId = completion.user_id
       projectId = completion.project_id
 
-      const { data: project, error: projectError } = await supabase
-        .from('projects')
-        .select('title')
-        .eq('id', completion.project_id)
-        .maybeSingle()
-
-      if (projectError) throw projectError
-      projectTitle = (project as { title?: string | null } | null)?.title || projectTitle
+      if (completion.project_id) {
+        const { data: project, error: projectError } = await supabase
+          .from('projects')
+          .select('title')
+          .eq('id', completion.project_id)
+          .maybeSingle()
+        if (projectError) throw projectError
+        projectTitle = (project as { title?: string | null } | null)?.title || projectTitle
+      } else if (completion.course_lesson_id) {
+        const { data: lesson, error: lessonError } = await supabase
+          .from('course_lessons')
+          .select('title')
+          .eq('id', completion.course_lesson_id)
+          .maybeSingle()
+        if (lessonError) throw lessonError
+        projectTitle = (lesson as { title?: string | null } | null)?.title || '课程作品'
+      }
     }
 
     const { data, error } = await supabase.rpc('tip_resource', {
@@ -70,7 +79,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: result?.error || 'tip_failed' }, { status: 422 })
     }
 
-    if (recipientUserId && recipientUserId !== user.id && projectId) {
+    if (recipientUserId && recipientUserId !== user.id) {
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('display_name, avatar_url')
@@ -89,8 +98,8 @@ export async function POST(request: NextRequest) {
           user_id: recipientUserId,
           type: 'tip',
           content: `${actorName} 给你的《${projectTitle}》投了 ${amount} 枚币`,
-          related_type: 'project',
-          related_id: projectId,
+          related_type: resourceType,
+          related_id: resourceId,
           project_id: projectId,
           from_user_id: user.id,
           from_username: actorName,

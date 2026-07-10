@@ -5,6 +5,7 @@ import { Plus, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Dialog,
     DialogContent,
@@ -77,6 +78,7 @@ const EMPTY_LESSON = {
     lesson_type: "scratch",
     sort_order: 0,
     duration_minutes: 30,
+    work_submission_enabled: true,
 };
 
 export function CourseManagement() {
@@ -383,6 +385,7 @@ export function CourseManagement() {
                                                 setLessonForm((f) => ({
                                                     ...f,
                                                     lesson_type: v,
+                                                    work_submission_enabled: v === "scratch" || v === "building_3d",
                                                 }))
                                             }
                                         >
@@ -397,6 +400,19 @@ export function CourseManagement() {
                                                 ))}
                                             </SelectContent>
                                         </Select>
+                                    </div>
+                                    <div className="flex items-center gap-2 rounded-sm border border-border p-3">
+                                        <Checkbox
+                                            id="lesson-work-submission"
+                                            checked={lessonForm.work_submission_enabled}
+                                            onCheckedChange={(checked) => setLessonForm((form) => ({
+                                                ...form,
+                                                work_submission_enabled: checked === true,
+                                            }))}
+                                        />
+                                        <Label htmlFor="lesson-work-submission" className="cursor-pointer font-normal">
+                                            允许学员发布本课作品
+                                        </Label>
                                     </div>
                                     <div>
                                         <Label>时长（分钟）</Label>

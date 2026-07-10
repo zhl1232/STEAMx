@@ -1,4 +1,4 @@
-import type { ObservationEvent, Project } from '@/lib/mappers/types'
+import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
@@ -31,18 +31,22 @@ export type ProfileNextActionInput = {
   exploringProjects: Project[]
   steamRadar: SteamRadarWithGuidance | null
   myProjects: Project[]
+  myWorks?: Work[]
   myObservations: ObservationEvent[]
   profileTimelineEvents: ProfileTimelineEvent[] | null
   growthTasks?: ProfileGrowthTask[]
   naturalObservationProgress?: NaturalObservationProgressSummary | null
 }
 
-export function isExploreVacuum(input: Pick<ProfileNextActionInput, 'steamRadar' | 'myProjects' | 'myObservations'>) {
+export function isExploreVacuum(input: Pick<ProfileNextActionInput, 'steamRadar' | 'myProjects' | 'myWorks' | 'myObservations'>) {
   const hasRadarProgress = input.steamRadar
     ? Object.values(input.steamRadar).some((item) => (item?.display ?? 0) > 0)
     : false
 
-  return !hasRadarProgress && input.myProjects.length === 0 && input.myObservations.length === 0
+  return !hasRadarProgress
+    && input.myProjects.length === 0
+    && (input.myWorks?.length ?? 0) === 0
+    && input.myObservations.length === 0
 }
 
 const STEAM_DIMENSIONS = [
