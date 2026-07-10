@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export function SteamLogo({ className }: { className?: string }) {
     return (
-        <img
+        <Image
             src="/logo.png"
             alt="STEAM 探索"
             width={64}

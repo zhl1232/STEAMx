@@ -391,13 +391,12 @@
 
 | 文件 | 用途 |
 |------|------|
-| `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.108.x |
+| `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.110.x / TypeScript 7.0.x；Lint 策略已切到 Oxlint，不再保留 ESLint 链路 |
 | `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理 |
 | `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式、`allowedDevOrigins`；内网/手机访问开发服务可用 `NEXT_ALLOWED_DEV_ORIGINS=ip1,ip2` 追加允许来源） |
 | `tailwind.config.ts` | Tailwind CSS 配置（自定义主题） |
 | `postcss.config.js` | PostCSS 配置 |
-| `eslint.config.mjs` | ESLint 配置；忽略 `packages/scratch-host/dist/**` 构建产物，只 lint 源码 |
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |
 | `renovate.json` | Renovate 自动依赖更新 |
@@ -409,8 +408,8 @@
 | 命令 | 说明 |
 |------|------|
 | `pnpm type-check` | TypeScript 类型检查（`tsgo --noEmit`，`@typescript/native-preview` 原生编译器）；CI 使用此命令 |
-| `pnpm type-check:tsc` | 同上，但使用经典 `tsc --noEmit`（与 `tsgo` 的 lib 定义可能不完全一致） |
-| `pnpm lint` / `pnpm lint:eslint` | oxlint 快速检查产品源码（`app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板）/ ESLint 全量 Next.js 规则 |
+| `pnpm type-check:tsc` | 同上，但使用 `typescript` 包提供的 `tsc --noEmit`（与 `tsgo` 的 lib 定义可能不完全一致） |
+| `pnpm lint` | Oxlint 快速检查产品源码（显式启用 React / Next.js 插件，覆盖 Hooks、Next、TypeScript 常用规则；检查 `app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板） |
 | `pnpm test` / `pnpm test:e2e` | Vitest 单元测试 / Playwright E2E |
 
 ---

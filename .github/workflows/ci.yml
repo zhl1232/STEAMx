@@ -34,9 +34,6 @@ jobs:
       - name: Lint code base (oxlint)
         run: pnpm run lint
 
-      - name: Lint code base (eslint, full Next.js rules)
-        run: pnpm run lint:eslint
-
       - name: TypeScript type check (tsgo)
         run: pnpm run type-check
 

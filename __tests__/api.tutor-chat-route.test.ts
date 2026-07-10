@@ -464,8 +464,8 @@ describe('/api/tutor/chat route', () => {
   it('emits a friendly SSE error and refunds credits when the model stream fails', async () => {
     const { client, messageInsert } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    streamChatWithTutorMock.mockImplementation(async function* () {
-      yield await Promise.reject(new Error('upstream unavailable'))
+    streamChatWithTutorMock.mockImplementation(async function* (): AsyncGenerator<string, string, undefined> {
+      throw new Error('upstream unavailable')
     })
 
     const response = await POST(createPostRequest({ content: '帮我看看' }))
