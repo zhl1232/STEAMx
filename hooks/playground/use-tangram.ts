@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type TangramPieceId = "large-a" | "large-b" | "medium" | "small-a" | "small-b" | "square" | "parallelogram"
 export type TangramShapeKind = "large" | "medium" | "small" | "square" | "parallelogram"
@@ -328,9 +329,7 @@ export function useTangram() {
     const solvedRecordedRef = useRef(false)
     const level = TANGRAM_LEVELS[levelIndex]
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
         if (status !== "playing") return

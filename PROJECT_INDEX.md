@@ -120,7 +120,7 @@
 
 ### 3.3 首页 (`components/home/`)
 - `home-showcase.tsx` — 首页主体：Hero、分类入口、自然频道、6 个热门项目、个性推荐、社区动态与本周挑战；桌面 `lg+` 将自然频道和个性推荐提前到右侧栏以增强信息效率，分类入口与热门项目采用更紧凑的仪表盘密度，热门项目在常见桌面宽度三列展示；Hero 提供「开始探索项目 / 进入创造营」双 CTA；移动端将自然观察与排行榜合并为手动横向 snap 快捷入口，320px 窄屏隐藏 Hero 底部特性标签并缩短 Hero；自然观察频道图在中宽/宽屏保持鸟主体可见；页脚移除假二维码与过期活动信息
-- `mobile-shortcut-carousel.tsx` — 首页移动端自然频道/排行榜快捷卡横向 snap 轮播；滚动和点击分页点时同步当前指示点
+- `mobile-shortcut-carousel.tsx` — 首页移动端自然频道/排行榜快捷卡横向 snap 轮播；整卡全宽（不再露半张 peek），滚动和点击分页点时同步当前指示点；分页点视觉更紧、触控热区更大
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
 
@@ -134,7 +134,7 @@
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步 |
 | `moderator/` | 2 | 审核员申请表单 |
-| `tutor/` | 7 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider（含场景 override、Scratch 编辑器上下文、scene capability、待发送消息队列与白名单 tool handler 注册/分发），`tool-handler-registry` 负责把后端 tool 名映射到当前页面提供的“聚焦课程步骤 / 聚焦 PBL 阶段”等前端能力，并反推出当前 scene capability 供请求一并上送，避免各页面自己逐个绑定工具名；`scene-capabilities` 同时管理页面动作能力和回复增强能力，`speciesAudio` 仅在物种档案/自然观察记录有鸟类音频时由服务端场景授权，课程场景不自动补鸟鸣；`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）并用 React Query 预取当前小迪会话、`global-tutor-fab` 使用 `<XiaoDi>` AI 8 帧候选作悬浮球，面板头部同一只小迪随 `idle/listening/thinking/speaking` 状态切换（录音时 listening、转写和请求时 thinking、流式输出和语音朗读时 speaking），并保留流式对话（聊天框可直传图片，审核拒绝时展示后端安全原因；面板内语音按钮经 `tutor-voice` 采集 16k PCM 后调用后端转写并回填输入框，录音/识别/准备朗读/朗读期间显示声波或加载状态反馈与录音计时；移动端关闭态可长按小迪直接录音，松手转写后自动发送，并按本设备偏好播报这次回复，关闭态也显示语音状态浮层；小迪头上会按节流偶尔显示“长按说话”提示；小迪回复可逐条手动朗读，⋯ 菜单含默认开启的“自动朗读新回复”总开关，完整语音偏好在 `/settings/xiaodi` 调整，TTS 默认音色为更中性的 `Ethan` 且可用环境变量覆盖，音频使用临时 blob URL 播放并及时释放；场景照片一键发图、Scratch 课时页紧凑位；打开时优先消费预取缓存，⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图，并可删除历史对话（归属校验后级联清理消息）；消费 SSE `tool_call` 事件并交给当前场景 handler，支持 PBL 阶段聚焦与课时步骤聚焦；发送 Scratch 课时消息时附带当前选中角色/对象，避免默认说“小猫”）、`tutor-session` 会话 query key/fetch helper、`tutor-message-content` 回复轻量 Markdown 渲染 + Scratch 分类图例/积木形状富文本 + `[project:ID|标题]` 项目 chip + 经 `speciesAudio` 授权的 `[audio:slug|物种名]` 内联鸟鸣播放器、`xiaodi.tsx`+`xiaodi.module.css` 小迪吉祥物动画组件 `<XiaoDi state size onCycleEnd variant />`（默认 7 状态 idle/listening/thinking/speaking/success/error/working；`variant="default"` 读取 `public/xiaodi/sprite.webp`，默认 `variant="ai-draft"` 读取 `public/xiaodi-ai/sprite.webp`，运行时每个变体只加载一张 sprite 并用坐标切帧 + 状态化 CSS 补间：呼吸/前倾/摇摆/点头/弹跳发光/歪头/顿挫；状态切换 160ms 淡入淡出、根布局预载默认 AI sprite，切换变体前等待目标 sprite decode 且保留上一姿势，避免加载期透明闪帧；AI 候选 idle/listening/thinking/speaking/error/success/working 分别约 3.6s/2.4s/2.8s/2.8s/1.8s/1.5s/2.6s 一轮；`prefers-reduced-motion` 降级静帧、`onCycleEnd` 支持 success/error 播一轮切回 idle） |
+| `tutor/` | 7 | 全局 AI 导师「小迪」（吉祥物史迪姆）：`tutor-context` Provider（含场景 override、Scratch 编辑器上下文、scene capability、待发送消息队列与白名单 tool handler 注册/分发），`tool-handler-registry` 负责把后端 tool 名映射到当前页面提供的“聚焦课程步骤 / 聚焦 PBL 阶段”等前端能力，并反推出当前 scene capability 供请求一并上送，避免各页面自己逐个绑定工具名；`scene-capabilities` 同时管理页面动作能力和回复增强能力，`speciesAudio` 仅在物种档案/自然观察记录有鸟类音频时由服务端场景授权，课程场景不自动补鸟鸣；`global-tutor-mount` 按路由感知场景（含课时页 `lessonId`）并用 React Query 预取当前小迪会话、`global-tutor-fab` 使用 `<XiaoDi>` AI 8 帧候选作悬浮球，面板头部同一只小迪随 `idle/listening/thinking/speaking` 状态切换（录音时 listening、转写和请求时 thinking、流式输出和语音朗读时 speaking），并保留流式对话（输入区为上文本下工具栏：左传图 `+`、右语音/发送，多行 textarea 默认约 2 行并随内容增高至上限；聊天框可直传图片，审核拒绝时展示后端安全原因；面板内语音按钮经 `tutor-voice` 采集 16k PCM 后调用后端转写并回填输入框，录音/识别/准备朗读/朗读期间显示声波或加载状态反馈与录音计时；移动端关闭态可长按小迪直接录音，松手转写后自动发送，并按本设备偏好播报这次回复，关闭态也显示语音状态浮层；小迪头上会按节流偶尔显示“长按说话”提示；小迪回复可逐条手动朗读，⋯ 菜单含默认开启的“自动朗读新回复”总开关，完整语音偏好在 `/settings/xiaodi` 调整，TTS 默认音色为更中性的 `Ethan` 且可用环境变量覆盖，音频使用临时 blob URL 播放并及时释放；场景照片一键发图、Scratch 课时页紧凑位；打开时优先消费预取缓存，⋯菜单含「开启新对话」与「历史对话」，归档线程列表+只读回看视图，并可删除历史对话（归属校验后级联清理消息）；消费 SSE `tool_call` 事件并交给当前场景 handler，支持 PBL 阶段聚焦与课时步骤聚焦；发送 Scratch 课时消息时附带当前选中角色/对象，避免默认说“小猫”）、`tutor-session` 会话 query key/fetch helper、`tutor-message-content` 回复轻量 Markdown 渲染 + Scratch 分类图例/积木形状富文本 + `[project:ID|标题]` 项目 chip + 经 `speciesAudio` 授权的 `[audio:slug|物种名]` 内联鸟鸣播放器、`xiaodi.tsx`+`xiaodi.module.css` 小迪吉祥物动画组件 `<XiaoDi state size onCycleEnd variant />`（默认 7 状态 idle/listening/thinking/speaking/success/error/working；`variant="default"` 读取 `public/xiaodi/sprite.webp`，默认 `variant="ai-draft"` 读取 `public/xiaodi-ai/sprite.webp`，运行时每个变体只加载一张 sprite 并用坐标切帧 + 状态化 CSS 补间：呼吸/前倾/摇摆/点头/弹跳发光/歪头/顿挫；状态切换 160ms 淡入淡出、根布局预载默认 AI sprite，切换变体前等待目标 sprite decode 且保留上一姿势，避免加载期透明闪帧；AI 候选 idle/listening/thinking/speaking/error/success/working 分别约 3.6s/2.4s/2.8s/2.8s/1.8s/1.5s/2.6s 一轮；`prefers-reduced-motion` 降级静帧、`onCycleEnd` 支持 success/error 播一轮切回 idle） |
 | `playground/` | 1 | 键盘帮助弹窗 |
 | `project/` | 9 | 完成项目弹窗、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
@@ -170,7 +170,7 @@
 - `auth-context.tsx` — 认证状态（用户、角色、登录/登出）
 - `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
-- `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）
+- `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）；`checkBadges` 同批多徽章乐观更新基于最新 ref，失败只回滚当前徽章
 - `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket；Realtime 失败后自动断开并保留 HTTP 兜底，页面回到前台兜底刷一次）
 - `login-prompt-context.tsx` — 未登录操作引导弹窗
 
@@ -182,7 +182,7 @@
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
 - `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度；植物物种图集同时读取树木与水果 manifest；物种封面优先使用本地 `public/` 文件，缺失时再回退 OSS；数据库封面为空时回退 manifest 首张图）
 - `nature-observation-progress.ts` — 用户自然观察进度摘要：按专题汇总已观察/待观察物种，并提供个人页待观察预览
-- `nature-observation-observed-species.ts` — 已观察物种统计：审核通过记录上优先取社群共识物种，否则取 AI 置信度 ≥ 0.8 的鉴定结果
+- `nature-observation-observed-species.ts` — 已观察物种统计：审核通过记录上优先取社群共识物种，否则取 AI 置信度 ≥ 0.8 的鉴定结果；`get_user_stats_summary.speciesObserved` 与此口径对齐（游戏化/小迪画像同源）
 - `observation-gamification.ts` — 观察游戏化逻辑
 - `lib/observations/submit-topic.ts` — 观察提交专题（birds/plants/insects）归一化与文案
 - `lib/observations/traits.ts` — 观察生命阶段/性别枚举、选项与展示文案
@@ -205,7 +205,7 @@
 - `subcategory-steam-weights.ts` — 子分类权重映射
 
 ### 4.5 游戏化 (`lib/gamification/`)
-- `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位可用 `BADGE_TIER_LABELS` 作说明文本；资料页精选徽章每个阶梯系列只取最高已解锁档，徽章图鉴展示全量档位；连续打卡白金 `streak_platinum`（百日恒心）为连续登录 100 天；社区 `social` 阶梯统计发帖/评论/回复；自然观察合并为观察记录 `bird_observer` 与物种收集 `species_collector` 两条阶梯；游乐场收敛为跨游戏阶梯 `playground_explorer` / `playground_victories` 与 7 枚高难度彩蛋 `playground_star`（如 `tangram_all` 按当前 4 个剪影判定）
+- `badges.ts` — 全部徽章定义（独立/阶梯/系列）；阶梯系列用 `tierNames` 独立成就名，档位可用 `BADGE_TIER_LABELS` 作说明文本；资料页精选徽章每个阶梯系列只取最高已解锁档，徽章图鉴展示全量档位；连续打卡白金 `streak_platinum`（百日恒心）为连续登录 100 天；社区 `social` 阶梯统计发帖/评论/回复；自然观察合并为观察记录 `bird_observer` 与物种收集 `species_collector` 两条阶梯；游乐场收敛为跨游戏阶梯 `playground_explorer` / `playground_victories` 与 7 枚高难度彩蛋 `playground_star`（如 `tangram_all` 按当前 4 个剪影判定）；内测徽章 `beta_tester`（测试先锋）由 `GRANT_BETA_TESTER_BADGE` 控制，当前对所有登录用户自动发放，结束后改 `false` 停发新人（已获得者保留）
 - `playground-badges.ts` — 从 `playground_stats.stats` 云端 JSON 解析各游戏战绩为 `UserStats`（含 `playgroundGamesPlayed` / `playgroundWinsTotal` 聚合），并为 `/api/playground/badges/sync` 补发游乐场阶梯与彩蛋徽章；保留游戏页前端即时 `checkBadges` 只用于当场反馈
 - `experience-rules.ts` — XP 经验规则与等级表；每日登录同步由 `DailyCheckInSync` 调用 `daily_check_in`，成功后触发连续打卡徽章检查
 - `observation-events.ts` — 观察事件类型
@@ -245,7 +245,7 @@
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
-| `lib/playground/` | `catalog.ts`, `storage.ts`, `minesweeper-stats.ts`, `gomoku-online.ts` | 游戏目录、本地/云端成绩存储；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times`；在线五子棋共享房间/棋盘类型、空棋盘构造和房间码生成，落子权威逻辑由数据库 RPC `gomoku_place_stone` 执行 |
+| `lib/playground/` | `catalog.ts`, `storage.ts`, `use-playground-stats-loader.ts`, `minesweeper-stats.ts`, `gomoku-online.ts` | 游戏目录、战绩存储（登录用户以 `playground_stats` 云端为唯一持久化，会话内存镜像，遗留 localStorage 仅登录时一次性迁入后清除；未登录仅会话内存）；`usePlaygroundStatsLoader` 在云同步后重载各游戏战绩；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times`；在线五子棋共享房间/棋盘类型、空棋盘构造和房间码生成，落子权威逻辑由数据库 RPC `gomoku_place_stone` 执行 |
 | `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
@@ -279,9 +279,9 @@
 | `use-moderator-eligibility` | `hooks/use-moderator-eligibility.ts` | 审核员资格检查 |
 | `use-observation-interactions` | `hooks/use-observation-interactions.ts` | 观察记录互动（点赞等） |
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
-| `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级） |
+| `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级）；徽章列表仅在查询成功后才触发自动 `checkBadges` |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏、数字华容道、记忆翻牌、速算闪电战、迷宫探险、七巧板）；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底，避免线上 WebSocket 不可用时持续重连刷错；各游戏 `stats` 初始化统一用空 stats（`EMPTY_STATS` 或显式空对象/数组字段），真实本地战绩在 `useEffect` 挂载后从 localStorage 异步加载，避免 SSR=0/CSR=真实值 造成 hydration mismatch（扫雷原本就是此模式） |
+| `use-2048` 等 | `hooks/playground/` | 13 个游戏逻辑 Hook + `use-playground-sync`（登录后以云端 `playground_stats` 为唯一持久化，战绩变更 debounce 上传并 `invalidateQueries` 刷新徽章缓存；遗留 localStorage 仅一次性迁入）；各游戏经 `usePlaygroundStatsLoader` 在云同步后重载战绩；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底；各游戏 `stats` 初始化统一用空 stats，真实战绩挂载后从内存镜像异步加载，避免 hydration mismatch |
 
 ---
 

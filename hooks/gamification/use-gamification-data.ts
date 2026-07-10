@@ -61,7 +61,8 @@ export function useGamificationData() {
     const xp = profile?.xp || 0;
 
     // 2. Fetch Unlocked Badges with Timestamp
-    const { data: badgeData, isFetched: badgesLoaded } = useQuery({
+    // 仅在查询成功后才视为已加载，避免失败时空 Set 触发误发徽章
+    const { data: badgeData, isSuccess: badgesLoaded } = useQuery({
         queryKey: ['gamification', 'badges', user?.id],
         queryFn: async () => {
             const { data } = await supabase

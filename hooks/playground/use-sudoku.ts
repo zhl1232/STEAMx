@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -322,9 +323,7 @@ export function useSudoku() {
     const hasStartedRef = useRef(false)
     const checkingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     // ── Timer helpers ─────────────────────────────────────────────────
 

@@ -8,6 +8,7 @@ import {
     getPlaygroundItem,
     setPlaygroundItem,
 } from "@/lib/playground/storage";
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader";
 import { createClient } from "@/lib/supabase/client";
 import {
     GOMOKU_BOARD_SIZE,
@@ -148,9 +149,9 @@ export function useGomokuOnline() {
     // 已记账 matchId 集合（持久化），避免重入/新标签页重复记账
     const recordedRef = useRef<Set<string>>(loadRecordedIds());
 
-    useEffect(() => {
+    usePlaygroundStatsLoader(() => {
         setStats(loadStats());
-    }, []);
+    });
 
     // 判断某 matchId 是否已记账（内存优先，命中即返回；否则回查 localStorage 以覆盖跨标签页）
     const isRecorded = useCallback((matchId: string): boolean => {

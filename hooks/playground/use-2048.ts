@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage";
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader";
 
 export type Game2048Status = 'idle' | 'playing' | 'won' | 'gameover';
 
@@ -224,10 +225,10 @@ export function use2048(options?: Use2048Options) {
     const [isNewRecord, setIsNewRecord] = useState(false);
     const [canUndo, setCanUndo] = useState(false);
 
-    useEffect(() => {
+    usePlaygroundStatsLoader(() => {
         if (initialGame?.stats) return;
         setStats(loadStats());
-    }, [initialGame?.stats]);
+    });
 
     const idCounterRef = useRef(1);
     const scoreRef = useRef(initialGame?.score ?? 0);

@@ -1,34 +1,43 @@
 import { beforeEach, describe, expect, it } from "vitest"
 import {
+  clearPlaygroundLocalStorage,
+  clearPlaygroundMemoryStore,
   collectAllStats,
   getPlaygroundItem,
   mergeCloudWithLocal,
+  peekLegacyLocalPlaygroundStats,
   setPlaygroundItem,
 } from "@/lib/playground/storage"
 
 describe("playground storage", () => {
   beforeEach(() => {
     window.localStorage.clear()
+    clearPlaygroundMemoryStore()
   })
 
-  it("clears corrupted local payloads instead of keeping dirty data", () => {
-    window.localStorage.setItem("gomoku_records", "{broken")
+  it("stores stats in memory instead of localStorage", () => {
+    setPlaygroundItem("gomoku_records", { totalGames: 3, wins: 2 })
 
-    expect(getPlaygroundItem("gomoku_records")).toBeNull()
+    expect(getPlaygroundItem("gomoku_records")).toEqual({ totalGames: 3, wins: 2 })
     expect(window.localStorage.getItem("gomoku_records")).toBeNull()
   })
 
-  it("collectAllStats omits invalid top-level values", () => {
+  it("collectAllStats reads from memory and ignores invalid legacy local values", () => {
     window.localStorage.setItem("game_24_stats", JSON.stringify(24))
     setPlaygroundItem("gomoku_records", { totalGames: 3, wins: 2 })
 
     expect(collectAllStats()).toEqual({
       gomoku_records: { totalGames: 3, wins: 2 },
     })
-    expect(window.localStorage.getItem("game_24_stats")).toBeNull()
+    expect(peekLegacyLocalPlaygroundStats()).toEqual({})
   })
 
-  it("drops invalid cloud payloads during merge", () => {
+  it("merges cloud with legacy localStorage into memory and clears localStorage", () => {
+    window.localStorage.setItem(
+      "gomoku_records",
+      JSON.stringify({ totalGames: 2, wins: 1 }),
+    )
+
     const merged = mergeCloudWithLocal({
       game_24_stats: 24,
       gomoku_records: { totalGames: 5, wins: 3 },
@@ -37,9 +46,14 @@ describe("playground storage", () => {
     expect(merged).toEqual({
       gomoku_records: { totalGames: 5, wins: 3 },
     })
+    expect(getPlaygroundItem("gomoku_records")).toEqual({ totalGames: 5, wins: 3 })
+    expect(window.localStorage.getItem("gomoku_records")).toBeNull()
     expect(window.localStorage.getItem("game_24_stats")).toBeNull()
-    expect(window.localStorage.getItem("gomoku_records")).toBe(
-      JSON.stringify({ totalGames: 5, wins: 3 }),
-    )
+  })
+
+  it("clearPlaygroundLocalStorage removes registered keys", () => {
+    window.localStorage.setItem("sudoku_stats", JSON.stringify({ totalGames: 1 }))
+    clearPlaygroundLocalStorage()
+    expect(window.localStorage.getItem("sudoku_stats")).toBeNull()
   })
 })

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type MathQuestion = {
     text: string
@@ -63,9 +64,7 @@ export function useQuickMath() {
     const [status, setStatus] = useState<"idle" | "playing" | "finished">("idle")
     const [stats, setStats] = useState<QuickMathStats>(() => ({ ...EMPTY_STATS }))
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     const finishRound = useCallback(() => {
         setStatus("finished")

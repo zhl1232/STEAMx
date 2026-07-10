@@ -6,6 +6,7 @@ import {
     type MinesweeperStats,
 } from "@/lib/playground/minesweeper-stats";
 import { setPlaygroundItem } from "@/lib/playground/storage";
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader";
 
 export type CellState = {
     row: number;
@@ -90,9 +91,9 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         initBoard(difficulty);
     }, [difficulty, initBoard]);
 
-    useEffect(() => {
+    usePlaygroundStatsLoader(() => {
         setStats(readMergedMinesweeperStats());
-    }, []);
+    });
 
     // 计时器（用 ref 同步时间，方便 checkWinCondition 读取准确值）
     useEffect(() => {

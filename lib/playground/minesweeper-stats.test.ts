@@ -5,16 +5,21 @@ import {
   MINESWEEPER_STATS_KEY,
   readMergedMinesweeperStats,
 } from "@/lib/playground/minesweeper-stats"
+import {
+  clearPlaygroundMemoryStore,
+  setPlaygroundItem,
+} from "@/lib/playground/storage"
 
 describe("readMergedMinesweeperStats", () => {
   beforeEach(() => {
     window.localStorage.clear()
+    clearPlaygroundMemoryStore()
   })
 
   it("returns legacy best-time records when structured stats are missing", () => {
-    window.localStorage.setItem(
+    setPlaygroundItem(
       MINESWEEPER_BEST_TIMES_KEY,
-      JSON.stringify({ beginner: 45, expert: 120 }),
+      { beginner: 45, expert: 120 },
     )
 
     expect(readMergedMinesweeperStats()).toMatchObject({
@@ -26,19 +31,13 @@ describe("readMergedMinesweeperStats", () => {
   })
 
   it("merges structured stats with legacy best-time records", () => {
-    window.localStorage.setItem(
-      MINESWEEPER_STATS_KEY,
-      JSON.stringify({
-        totalGames: 5,
-        wins: 3,
-        winsByDifficulty: { beginner: 2 },
-        bestTimes: { beginner: 60 },
-      }),
-    )
-    window.localStorage.setItem(
-      MINESWEEPER_BEST_TIMES_KEY,
-      JSON.stringify({ expert: 120 }),
-    )
+    setPlaygroundItem(MINESWEEPER_STATS_KEY, {
+      totalGames: 5,
+      wins: 3,
+      winsByDifficulty: { beginner: 2 },
+      bestTimes: { beginner: 60 },
+    })
+    setPlaygroundItem(MINESWEEPER_BEST_TIMES_KEY, { expert: 120 })
 
     expect(readMergedMinesweeperStats()).toMatchObject({
       totalGames: 5,

@@ -205,7 +205,21 @@ describe('GamificationContext', () => {
             screen.getByText('Check Badges').click()
         })
 
-        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledTimes(1)
+        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledTimes(2)
+        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledWith(
+            'first_step',
+            expect.objectContaining({
+                onSuccess: expect.any(Function),
+                onError: expect.any(Function),
+            }),
+        )
+        expect(mockUnlockBadgeMutation.mutate).toHaveBeenCalledWith(
+            'beta_tester',
+            expect.objectContaining({
+                onSuccess: expect.any(Function),
+                onError: expect.any(Function),
+            }),
+        )
         expect(mockLoggerWarn).toHaveBeenCalledWith(
             'Badge definition missing in database: first_step',
             expect.objectContaining({

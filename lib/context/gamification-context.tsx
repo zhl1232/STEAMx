@@ -205,11 +205,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         if (!user) return;
 
         // Use the ref value to avoid recreating this function when badges change
-        const currentUnlocked = unlockedBadgesRef.current;
         const processing = processingBadgesRef.current;
         const unavailable = unavailableBadgesRef.current;
 
         BADGES.forEach((badge) => {
+            const currentUnlocked = unlockedBadgesRef.current;
             if (!currentUnlocked.has(badge.id) && !processing.has(badge.id) && !unavailable.has(badge.id)) {
                 try {
                     if (badge.condition(stats)) {
@@ -218,7 +218,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
                         // Optimistically mark as unlocked locally immediately
                         // to prevent multiple fire/infinite loops while mutation is pending
-                        const updated = new Set(currentUnlocked);
+                        const updated = new Set(unlockedBadgesRef.current);
                         updated.add(badge.id);
                         unlockedBadgesRef.current = updated;
 
@@ -242,8 +242,9 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
                                 } else {
                                     logger.error(error, { context: `Failed to unlock badge ${badge.id}` });
                                 }
-                                currentUnlocked.delete(badge.id);
-                                unlockedBadgesRef.current = new Set(currentUnlocked);
+                                const rolledBack = new Set(unlockedBadgesRef.current);
+                                rolledBack.delete(badge.id);
+                                unlockedBadgesRef.current = rolledBack;
                             }
                         });
                     }

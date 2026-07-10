@@ -159,13 +159,19 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats({ level: 5 }))).toBe(true);
     });
 
-    test("rare badges have condition that always returns false", () => {
-        const rareIds = ["early_bird", "bug_hunter", "contributor", "beta_tester", "anniversary"];
+    test("manual rare badges have condition that always returns false", () => {
+        const rareIds = ["early_bird", "bug_hunter", "contributor", "anniversary"];
         for (const id of rareIds) {
             const badge = BADGES.find((b) => b.id === id);
             expect(badge).toBeDefined();
             expect(badge!.condition(createStats({ projectsCompleted: 999, level: 100 }))).toBe(false);
         }
+    });
+
+    test("beta_tester is granted to all users during open beta", () => {
+        const badge = BADGES.find((b) => b.id === "beta_tester");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats())).toBe(true);
     });
 
     test("streak_platinum requires consecutiveDays >= 100", () => {

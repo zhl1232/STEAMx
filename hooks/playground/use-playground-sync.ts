@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/lib/context/auth-context';
 import { createClient } from "@/lib/supabase/client";
 import {
   PLAYGROUND_CHANGE_EVENT,
+  clearPlaygroundMemoryStore,
   collectAllStats,
   mergeCloudWithLocal,
 } from "@/lib/playground/storage";
@@ -14,27 +16,32 @@ const DEBOUNCE_MS = 3000;
 /**
  * Cloud-sync hook for Playground game stats.
  *
- * - On mount (authenticated): fetches cloud data, merges with localStorage,
- *   writes the merged result back to both.
- * - On `playground-stats-change` events: debounced upsert to cloud.
- * - Unauthenticated users are unaffected (pure localStorage, same as before).
+ * - 登录后：拉取云端 → 合并遗留 localStorage/会话内存 → 写入内存与云端 → 清除 localStorage
+ * - 战绩变更：debounce 后 upsert 云端，并立即刷新徽章缓存
+ * - 未登录：仅会话内存，不落盘
  */
 export function usePlaygroundSync() {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const supabaseRef = useRef(createClient());
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const syncedRef = useRef(false);
 
   const syncBadgesFromCloud = useCallback(async () => {
+    if (!user?.id) return;
     try {
       const response = await fetch("/api/playground/badges/sync", { method: "POST" });
       if (!response.ok) {
         console.error("[PlaygroundSync] badge sync failed", response.status);
+        return;
       }
+      await queryClient.invalidateQueries({
+        queryKey: ["gamification", "badges", user.id],
+      });
     } catch (error) {
       console.error("[PlaygroundSync] badge sync error", error);
     }
-  }, []);
+  }, [queryClient, user?.id]);
 
   const uploadToCloud = useCallback(
     async (userId: string, options?: { throwOnError?: boolean }) => {
@@ -66,6 +73,12 @@ export function usePlaygroundSync() {
   useEffect(() => {
     if (!user?.id) {
       syncedRef.current = false;
+      clearPlaygroundMemoryStore();
+      window.dispatchEvent(
+        new CustomEvent(PLAYGROUND_CHANGE_EVENT, {
+          detail: { source: "logout", skipUpload: true },
+        }),
+      );
       return;
     }
     if (syncedRef.current) return;
@@ -90,7 +103,6 @@ export function usePlaygroundSync() {
           (data?.stats as Record<string, unknown> | null) ?? {};
         const merged = mergeCloudWithLocal(cloudBlob);
 
-        // Write merged result back to cloud
         const { error: upsertError } = await supabaseRef.current
           .from("playground_stats")
           .upsert(
@@ -150,20 +162,19 @@ export function usePlaygroundSync() {
       window.removeEventListener(PLAYGROUND_CHANGE_EVENT, handler);
       if (timerRef.current) {
         clearTimeout(timerRef.current);
-        // Flush pending upload on unmount
         void uploadToCloud(userId);
       }
     };
   }, [user?.id, uploadToCloud]);
 
-  /** Immediately upload current localStorage snapshot to cloud (bypasses debounce). */
+  /** Immediately upload current memory snapshot to cloud (bypasses debounce). */
   const flushToCloud = useCallback(async () => {
     if (!user?.id) return;
     if (timerRef.current) clearTimeout(timerRef.current);
     await uploadToCloud(user.id, { throwOnError: true });
   }, [user?.id, uploadToCloud]);
 
-  /** Delete all playground cloud data. */
+  /** Delete all playground cloud data and clear memory. */
   const clearCloud = useCallback(async () => {
     if (!user?.id) return;
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -175,6 +186,12 @@ export function usePlaygroundSync() {
       console.error("[PlaygroundSync] clear failed", error.message);
       throw new Error("云端清理失败，请稍后重试");
     }
+    clearPlaygroundMemoryStore();
+    window.dispatchEvent(
+      new CustomEvent(PLAYGROUND_CHANGE_EVENT, {
+        detail: { source: "clear-cloud", skipUpload: true },
+      }),
+    );
   }, [user?.id]);
 
   return { clearCloud, flushToCloud };

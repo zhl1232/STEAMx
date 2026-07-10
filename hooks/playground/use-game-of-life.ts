@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type GameOfLifeStatus = "idle" | "running" | "paused"
 
@@ -401,9 +402,7 @@ export function useGameOfLife(rows = DEFAULT_ROWS, cols = DEFAULT_COLS) {
     const generationRef = useRef(generation)
     const sessionCountedRef = useRef(false)
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     gridRef.current = grid
     generationRef.current = generation

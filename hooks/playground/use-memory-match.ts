@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type MemoryDifficulty = "easy" | "normal" | "hard"
 
@@ -78,9 +79,7 @@ export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
     const [status, setStatus] = useState<"playing" | "won">("playing")
     const [stats, setStats] = useState<MemoryStats>(() => ({ ...EMPTY_STATS }))
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
         setCards(createMemoryDeck(initialDifficulty))

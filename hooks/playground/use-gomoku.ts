@@ -16,6 +16,7 @@ import type {
     WinnerInfo,
 } from "@/lib/playground/gomoku-engine"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type {
     GomokuCell,
@@ -63,9 +64,7 @@ export function useGomoku(
         ...EMPTY_GOMOKU_STATS,
     }))
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     const aiPlayer: GomokuPlayer = "white"
     const isAiTurn =

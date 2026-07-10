@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -102,9 +103,7 @@ export function useHanoi() {
     const autoIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const solveStepsRef = useRef<SolveStep[]>([])
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
     const solveIndexRef = useRef(0)
     const speedRef = useRef<HanoiSpeed>(speed)
     const pegsRef = useRef(pegs)

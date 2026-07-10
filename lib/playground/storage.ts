@@ -1,8 +1,9 @@
 /**
  * Shared storage layer for Playground games.
  *
- * Wraps localStorage read/write with a CustomEvent dispatch so the
- * cloud-sync hook can pick up changes without polling.
+ * 登录用户：内存镜像 + 云端 `playground_stats` 为唯一持久化（不再写 localStorage）。
+ * 未登录：仅会话内存，刷新即清空。
+ * 首次登录仍会读取遗留 localStorage 并入云端，随后清除。
  */
 
 // ── Key registry ─────────────────────────────────────────────────────
@@ -29,6 +30,8 @@ export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];
 
 export const PLAYGROUND_CHANGE_EVENT = "playground-stats-change";
 
+const memoryStore = new Map<string, unknown>();
+
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
     typeof value === "object" &&
@@ -37,9 +40,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   );
 }
 
-// ── Read / Write helpers ─────────────────────────────────────────────
-
-export function getPlaygroundItem<T = unknown>(key: string): T | null {
+function readLocalStorageRaw(key: string): unknown | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(key);
@@ -51,35 +52,74 @@ export function getPlaygroundItem<T = unknown>(key: string): T | null {
       return null;
     }
 
-    return parsed as T;
+    return parsed;
   } catch {
     window.localStorage.removeItem(key);
     return null;
   }
 }
 
+/** 读取遗留 localStorage 快照（仅用于登录后一次性迁入云端）。 */
+export function peekLegacyLocalPlaygroundStats(): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const { key } of PLAYGROUND_KEYS) {
+    const data = readLocalStorageRaw(key);
+    if (data !== null) {
+      result[key] = data;
+    }
+  }
+  return result;
+}
+
+export function clearPlaygroundLocalStorage(): void {
+  if (typeof window === "undefined") return;
+  for (const { key } of PLAYGROUND_KEYS) {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
+export function clearPlaygroundMemoryStore(): void {
+  memoryStore.clear();
+}
+
+// ── Read / Write helpers ─────────────────────────────────────────────
+
+export function getPlaygroundItem<T = unknown>(key: string): T | null {
+  if (typeof window === "undefined") return null;
+
+  if (memoryStore.has(key)) {
+    const value = memoryStore.get(key);
+    return isPlainObject(value) ? (value as T) : null;
+  }
+
+  return null;
+}
+
 export function setPlaygroundItem(key: string, value: unknown): void {
   if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-    window.dispatchEvent(
-      new CustomEvent(PLAYGROUND_CHANGE_EVENT, { detail: { key } }),
-    );
-  } catch {
-    /* quota exceeded – ignore */
-  }
+  if (!isPlainObject(value)) return;
+
+  memoryStore.set(key, value);
+  window.dispatchEvent(
+    new CustomEvent(PLAYGROUND_CHANGE_EVENT, { detail: { key } }),
+  );
 }
 
 export function removePlaygroundItem(key: string): void {
   if (typeof window === "undefined") return;
+  memoryStore.delete(key);
   try {
     window.localStorage.removeItem(key);
-    window.dispatchEvent(
-      new CustomEvent(PLAYGROUND_CHANGE_EVENT, { detail: { key } }),
-    );
   } catch {
     /* ignore */
   }
+  window.dispatchEvent(
+    new CustomEvent(PLAYGROUND_CHANGE_EVENT, { detail: { key } }),
+  );
 }
 
 // ── Collect all playground stats into a single object ────────────────
@@ -197,28 +237,29 @@ export function mergeGameStats(
 }
 
 /**
- * Merge a complete cloud blob with the current localStorage state.
- * Returns the merged blob and writes each key back to localStorage.
+ * 将云端 blob 与遗留 localStorage / 当前内存合并，写入内存并清除 localStorage。
  */
 export function mergeCloudWithLocal(
   cloudBlob: Record<string, unknown>,
 ): Record<string, unknown> {
+  const legacyLocal = peekLegacyLocalPlaygroundStats();
   const merged: Record<string, unknown> = {};
 
   for (const { key } of PLAYGROUND_KEYS) {
-    const local = getPlaygroundItem(key);
+    const memory = memoryStore.has(key) ? memoryStore.get(key) : null;
+    const legacy = (legacyLocal[key] ?? null) as unknown;
     const cloud = (cloudBlob[key] ?? null) as unknown;
-    const result = mergeGameStats(local, cloud);
-    if (result != null) {
+
+    const withLegacy = mergeGameStats(legacy, cloud);
+    const result = mergeGameStats(memory, withLegacy);
+    if (result != null && isPlainObject(result)) {
       merged[key] = result;
-      // Write merged result back to localStorage (without dispatching sync event)
-      try {
-        window.localStorage.setItem(key, JSON.stringify(result));
-      } catch {
-        /* ignore */
-      }
+      memoryStore.set(key, result);
+    } else {
+      memoryStore.delete(key);
     }
   }
 
+  clearPlaygroundLocalStorage();
   return merged;
 }

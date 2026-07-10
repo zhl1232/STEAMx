@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -261,9 +262,7 @@ export function useNQueens() {
     const statusRef = useRef<NQueensStatus>(status)
     const timeRef = useRef(0)
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     speedRef.current = speed
     statusRef.current = status

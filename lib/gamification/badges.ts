@@ -233,11 +233,17 @@ const SINGLE_BADGES: Badge[] = [
     { id: "tangram_all", name: "七巧大师", description: "完成全部 4 个七巧板剪影", icon: "sparkles", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.tangramSolved ?? 0) >= 4 },
 ];
 
+/**
+ * 内测期间对所有登录用户自动发放「测试先锋」。
+ * 结束后改为 false：新用户不再获得，已获得者保留。
+ */
+export const GRANT_BETA_TESTER_BADGE = true;
+
 const RARE_BADGES: Badge[] = [
     { id: "early_bird", name: "平台先驱", description: "前 100 名注册用户", icon: "rocket", kind: "single", seriesKey: "rare", condition: () => false },
     { id: "bug_hunter", name: "漏洞猎人", description: "发现并报告平台 Bug", icon: "bug", kind: "single", seriesKey: "rare", condition: () => false },
     { id: "contributor", name: "贡献者", description: "为平台做出特殊贡献", icon: "hand_heart", kind: "single", seriesKey: "rare", condition: () => false },
-    { id: "beta_tester", name: "测试先锋", description: "参与平台内测", icon: "flask", kind: "single", seriesKey: "rare", condition: () => false },
+    { id: "beta_tester", name: "测试先锋", description: "参与平台内测", icon: "flask", kind: "single", seriesKey: "rare", condition: () => GRANT_BETA_TESTER_BADGE },
     { id: "anniversary", name: "周年纪念", description: "平台一周年纪念徽章", icon: "cake", kind: "single", seriesKey: "rare", condition: () => false },
 ];
 

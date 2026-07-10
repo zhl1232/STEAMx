@@ -7,11 +7,11 @@ import {
   ArrowLeft,
   ChevronDown,
   History,
-  ImagePlus,
   Loader2,
   MessageSquarePlus,
   Mic,
   MoreHorizontal,
+  Plus,
   Send,
   Sparkles,
   Square,
@@ -75,10 +75,12 @@ const TUTOR_LONG_PRESS_RECORDING_MS = 380
 const TUTOR_LONG_PRESS_HINT_VISIBLE_MS = 6500
 const TUTOR_CLIENT_TIMING_ENABLED =
   process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_TUTOR_DEBUG_TIMING === '1'
+const COMPOSER_MIN_HEIGHT_PX = 56
+const COMPOSER_MAX_HEIGHT_PX = 128
 const composerToolButtonClass =
-  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-transparent text-[hsl(var(--brand-blue))] transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
+  'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-transparent text-foreground/80 transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] hover:text-[hsl(var(--brand-blue))] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
 const composerSendButtonClass =
-  'h-11 w-11 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
+  'h-10 w-10 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
 const VOICE_WAVE_BARS = [8, 14, 10, 16, 9]
 
 function getTutorUploadToast(error: unknown): { title: string; description: string } {
@@ -242,6 +244,7 @@ export function GlobalTutorFab({
   const [deletingHistoryId, setDeletingHistoryId] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const composerTextareaRef = useRef<HTMLTextAreaElement>(null)
   const recorderRef = useRef<TutorPcmRecorder | null>(null)
   const recordingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -1001,8 +1004,19 @@ export function GlobalTutorFab({
     void sendMessage(text, images)
   }
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+  const resizeComposer = useCallback(() => {
+    const el = composerTextareaRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${Math.min(Math.max(el.scrollHeight, COMPOSER_MIN_HEIGHT_PX), COMPOSER_MAX_HEIGHT_PX)}px`
+  }, [])
+
+  useEffect(() => {
+    resizeComposer()
+  }, [input, resizeComposer])
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
       event.preventDefault()
       submitComposer()
     }
@@ -1568,7 +1582,7 @@ export function GlobalTutorFab({
               {activeVoiceFeedback ? (
                 <VoiceFeedbackBar feedback={activeVoiceFeedback} onStopSpeech={stopSpeechPlayback} />
               ) : null}
-              <div className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--background)/0.86)] p-1 shadow-[0_18px_38px_-30px_hsl(var(--brand-blue)/0.8),inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.52)] transition-[border-color,box-shadow] focus-within:border-[hsl(var(--brand-blue)/0.48)] focus-within:shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.11),0_20px_42px_-32px_hsl(var(--brand-blue)/0.86)]">
+              <div className="rounded-[var(--radius-md)] border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--background)/0.86)] px-2.5 pb-2 pt-2.5 shadow-[0_18px_38px_-30px_hsl(var(--brand-blue)/0.8),inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.52)] transition-[border-color,box-shadow] focus-within:border-[hsl(var(--brand-blue)/0.48)] focus-within:shadow-[0_0_0_3px_hsl(var(--brand-blue)/0.11),0_20px_42px_-32px_hsl(var(--brand-blue)/0.86)]">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -1577,18 +1591,28 @@ export function GlobalTutorFab({
                   hidden
                   onChange={(e) => void handleFilePick(e)}
                 />
-                <div className="flex min-w-0 items-center gap-1">
+                <textarea
+                  ref={composerTextareaRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  rows={2}
+                  placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问小迪一个问题…'}
+                  className="min-h-[56px] max-h-[128px] w-full resize-none border-0 bg-transparent px-1.5 py-1 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground/55 focus-visible:outline-none disabled:bg-transparent disabled:opacity-50"
+                  disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
+                />
+                <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={busy || uploadingImage || pendingImages.length >= MAX_CHAT_IMAGES || (quota != null && !quota.canChat)}
+                    aria-label="发图片给小迪"
+                    title="发图片给小迪"
+                    className={composerToolButtonClass}
+                  >
+                    {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-5 w-5" strokeWidth={2} />}
+                  </button>
                   <div className="flex shrink-0 items-center gap-0.5">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={busy || uploadingImage || pendingImages.length >= MAX_CHAT_IMAGES || (quota != null && !quota.canChat)}
-                      aria-label="发图片给小迪"
-                      title="发图片给小迪"
-                      className={composerToolButtonClass}
-                    >
-                      {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                    </button>
                     <button
                       type="button"
                       onClick={toggleVoiceRecording}
@@ -1611,27 +1635,19 @@ export function GlobalTutorFab({
                         <Mic className="h-4 w-4" />
                       )}
                     </button>
+                    <Button
+                      type="button"
+                      size="icon"
+                      shape="pill"
+                      onClick={submitComposer}
+                      disabled={busy || uploadingImage || recordingVoice || transcribingVoice || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
+                      aria-label="发送"
+                      title="发送"
+                      className={composerSendButtonClass}
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问小迪一个问题…'}
-                    className="h-11 min-w-0 flex-1 border-0 bg-transparent px-2 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground/55 focus-visible:outline-none disabled:bg-transparent disabled:opacity-50"
-                    disabled={busy || recordingVoice || transcribingVoice || (quota != null && !quota.canChat)}
-                  />
-                  <Button
-                    type="button"
-                    size="icon"
-                    shape="pill"
-                    onClick={submitComposer}
-                    disabled={busy || uploadingImage || recordingVoice || transcribingVoice || (!input.trim() && pendingImages.length === 0) || (quota != null && !quota.canChat)}
-                    aria-label="发送"
-                    title="发送"
-                    className={composerSendButtonClass}
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
               {showReviewAction && onReview ? (

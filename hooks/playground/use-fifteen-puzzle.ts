@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 export type FifteenSize = 3 | 4 | 5
 
@@ -105,9 +106,7 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     const [status, setStatus] = useState<"playing" | "solved">("playing")
     const [stats, setStats] = useState<FifteenStats>(() => ({ ...EMPTY_STATS }))
 
-    useEffect(() => {
-        setStats(loadStats())
-    }, [])
+    usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
         setBoard(shuffledBoard(initialSize))

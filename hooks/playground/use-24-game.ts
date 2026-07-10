@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
+import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -340,9 +341,7 @@ export function use24Game(timerDuration = 60) {
   const [solutions, setSolutions] = useState<string[]>([])
   const [stats, setStats] = useState<Game24Stats>(() => ({ ...EMPTY_STATS }))
 
-  useEffect(() => {
-    setStats(loadStats())
-  }, [])
+  usePlaygroundStatsLoader(() => setStats(loadStats()))
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const solutionsRef = useRef<string[]>(initialRound.solutions)
