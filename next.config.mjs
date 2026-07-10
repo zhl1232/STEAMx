@@ -105,9 +105,66 @@ const nextConfig = {
       },
     ]
   },
+  async headers() {
+    return [
+      {
+        // scratch-gui.js 的文件名固定，避免用户长期缓存旧编辑器；其它运行时文件也复用一天。
+        source: '/scratch/scratch-gui.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
+        source: '/scratch/vendor/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
+        // Scratch 造型/声音等素材：内容按 md5 寻址，可长期缓存
+        source: '/scratch/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/internalapi/asset/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/scratch/chunks/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ]
+  },
   async rewrites() {
     const scratchAssetDestination = buildScratchAssetDestination()
     return [
+      {
+        // scratch-storage FetchWorker 默认去 /chunks/xxx，产物在 /scratch/chunks/
+        // 注意：:param 前必须有分隔符，不能写成 fetch-worker:path*
+        source: '/chunks/:file',
+        destination: '/scratch/chunks/:file',
+      },
       {
         source: '/internalapi/asset/:md5ext/get/',
         destination: scratchAssetDestination,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
+import { prefetchScratchAssets } from './asset-prefetch.js'
 import { getAssetHost } from './asset-host.js'
 import {
   initHostMessageListener,
@@ -11,6 +12,8 @@ import { patchScratchStorageForEmbed } from './storage-patch.js'
 import { withGuiSyncBridge } from './with-gui-sync-bridge.jsx'
 
 initHostMessageListener()
+// 尽早预取默认工程素材，与 GUI 脚本解析并行
+prefetchScratchAssets()
 
 function isPlayerOnlyFromUrl() {
   if (typeof window === 'undefined') return false

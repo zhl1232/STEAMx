@@ -65,12 +65,44 @@ export default async function CourseDetailPage({ params }: PageProps) {
         <div className="min-h-screen app-canvas-community">
             {hasScratchLesson ? (
                 <>
+                    {process.env.NEXT_PUBLIC_ASSETS_BASE_URL ? (
+                        <link
+                            rel="preconnect"
+                            href={process.env.NEXT_PUBLIC_ASSETS_BASE_URL}
+                            crossOrigin="anonymous"
+                        />
+                    ) : null}
                     <link rel="prefetch" href="/scratch/index.html" />
-                    <link rel="prefetch" href="/scratch/scratch-gui.js" />
-                    <link rel="prefetch" href="/scratch/vendor/react.production.min.js" />
-                    <link rel="prefetch" href="/scratch/vendor/react-dom.production.min.js" />
-                    <link rel="prefetch" href="/scratch/vendor/redux.min.js" />
-                    <link rel="prefetch" href="/scratch/vendor/react-redux.min.js" />
+                    <link
+                        rel="preload"
+                        href="/scratch/scratch-gui.js"
+                        as="script"
+                        fetchPriority="high"
+                    />
+                    <link
+                        rel="preload"
+                        href="/scratch/vendor/react.production.min.js"
+                        as="script"
+                    />
+                    <link
+                        rel="preload"
+                        href="/scratch/vendor/react-dom.production.min.js"
+                        as="script"
+                    />
+                    <link
+                        rel="preload"
+                        href="/scratch/vendor/redux.min.js"
+                        as="script"
+                    />
+                    <link
+                        rel="preload"
+                        href="/scratch/vendor/react-redux.min.js"
+                        as="script"
+                    />
+                    <link
+                        rel="prefetch"
+                        href="/scratch/chunks/fetch-worker.7a0adc94df277ffeb963.js"
+                    />
                 </>
             ) : null}
             <MobileGlobalHeader variant="title" title={course.title} />

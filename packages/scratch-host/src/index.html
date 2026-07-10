@@ -8,6 +8,23 @@
       if (new URLSearchParams(location.search).get("embed") === "1") {
         document.documentElement.dataset.embed = "1";
       }
+      // 比 host bundle 更早预取默认造型/声音（与 vendor/GUI 下载并行）
+      ;(function prefetchDefaultScratchAssets() {
+        var ids = [
+          "bcf454acf82e4504149f7ffe07081dbc.svg",
+          "0fb9be3e8397c983338cb71dc84d0b25.svg",
+          "83a9787d4cb6f3b7632b4ddfebf74367.wav",
+          "83c36d806dc92327b9e7049a565c6bff.wav",
+          "cd21514d0531fdffb22204e0ec5ed84a.svg",
+        ];
+        for (var i = 0; i < ids.length; i++) {
+          try {
+            fetch("/internalapi/asset/" + ids[i] + "/get/", {
+              credentials: "same-origin",
+            }).catch(function () {});
+          } catch (e) {}
+        }
+      })();
     </script>
     <script src="vendor/react.production.min.js"></script>
     <script src="vendor/react-dom.production.min.js"></script>

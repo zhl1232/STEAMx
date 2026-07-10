@@ -43,6 +43,16 @@ function patchScratchGuiAssetUrls(scratchDir) {
       changed = true
     }
   }
+
+  // scratch-storage 嵌套 webpack 的 publicPath 是 "/"，Worker 会请求
+  // /chunks/fetch-worker-*.js；实际文件在 /scratch/chunks/。改成 /scratch/。
+  const nestedPublicPath = /(\.[pP]\s*=\s*)"\/"/g
+  if (nestedPublicPath.test(content)) {
+    content = content.replace(nestedPublicPath, '$1"/scratch/"')
+    changed = true
+    console.log('Patched scratch-gui.js nested webpack publicPath → /scratch/')
+  }
+
   if (changed) {
     writeFileSync(guiPath, content)
     console.log('Patched scratch-gui.js asset URLs → /internalapi/asset/')

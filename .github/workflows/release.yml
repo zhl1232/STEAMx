@@ -20,6 +20,11 @@ jobs:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_ASSETS_BASE_URL: ${{ secrets.NEXT_PUBLIC_ASSETS_BASE_URL }}
+      NGINX_SERVER_NAME: ${{ vars.NGINX_SERVER_NAME || 'steamx.cc www.steamx.cc' }}
+      NGINX_SSL_CERTIFICATE: ${{ vars.NGINX_SSL_CERTIFICATE || '/etc/letsencrypt/live/steamx.cc/fullchain.pem' }}
+      NGINX_SSL_CERTIFICATE_KEY: ${{ vars.NGINX_SSL_CERTIFICATE_KEY || '/etc/letsencrypt/live/steamx.cc/privkey.pem' }}
+      NGINX_SITE_PATH: ${{ vars.NGINX_SITE_PATH || '/etc/nginx/sites-available/steam-app' }}
+      NGINX_SITE_ENABLED_PATH: ${{ vars.NGINX_SITE_ENABLED_PATH || '/etc/nginx/sites-enabled/steam-app' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,6 +69,21 @@ jobs:
           ls -lh steam-app.tar.gz
           df -h /
 
+      - name: Render Nginx config
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${NGINX_SERVER_NAME:?Missing NGINX_SERVER_NAME}"
+          : "${NGINX_SSL_CERTIFICATE:?Missing NGINX_SSL_CERTIFICATE}"
+          : "${NGINX_SSL_CERTIFICATE_KEY:?Missing NGINX_SSL_CERTIFICATE_KEY}"
+          cp deploy/nginx.conf nginx.conf
+          perl -0pi -e 's#__NGINX_SERVER_NAMES__#$ENV{NGINX_SERVER_NAME}#g; s#__NGINX_SSL_CERTIFICATE__#$ENV{NGINX_SSL_CERTIFICATE}#g; s#__NGINX_SSL_CERTIFICATE_KEY__#$ENV{NGINX_SSL_CERTIFICATE_KEY}#g' nginx.conf
+          if grep -q "__NGINX_" nginx.conf; then
+            echo "Rendered nginx.conf still contains template placeholders" >&2
+            exit 1
+          fi
+          chmod 644 nginx.conf
+
       - name: Copy image to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -85,6 +105,16 @@ jobs:
           target: /tmp/
           strip_components: 1
 
+      - name: Copy Nginx config to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: nginx.conf
+          target: /tmp/
+
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         with:
@@ -93,10 +123,42 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
+            run_root() {
+              if [ "$(id -u)" -eq 0 ]; then
+                "$@"
+              else
+                sudo -n "$@"
+              fi
+            }
+
             gunzip -c /tmp/steam-app.tar.gz | docker load
             rm -f /tmp/steam-app.tar.gz
             cp /tmp/docker-compose.yml /opt/steam-app/docker-compose.yml
             rm -f /tmp/docker-compose.yml
+            nginx_site_path="${{ env.NGINX_SITE_PATH }}"
+            nginx_site_enabled_path="${{ env.NGINX_SITE_ENABLED_PATH }}"
+            nginx_backup_path=""
+            if [ -f /tmp/nginx.conf ]; then
+              if run_root test -f "$nginx_site_path"; then
+                nginx_backup_path="${nginx_site_path}.bak.$(date +%Y%m%d%H%M%S)"
+                run_root cp "$nginx_site_path" "$nginx_backup_path"
+              fi
+              run_root install -D -m 0644 /tmp/nginx.conf "$nginx_site_path"
+              if [ "$nginx_site_enabled_path" != "$nginx_site_path" ]; then
+                run_root ln -sfn "$nginx_site_path" "$nginx_site_enabled_path"
+              fi
+              if ! run_root nginx -t; then
+                if [ -n "$nginx_backup_path" ]; then
+                  run_root cp "$nginx_backup_path" "$nginx_site_path"
+                  run_root nginx -t || true
+                else
+                  run_root rm -f "$nginx_site_path" "$nginx_site_enabled_path"
+                fi
+                exit 1
+              fi
+              run_root systemctl reload nginx
+              rm -f /tmp/nginx.conf
+            fi
             cd /opt/steam-app
             missing_runtime=""
             for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY DASHSCOPE_API_KEY; do

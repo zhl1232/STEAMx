@@ -84,7 +84,9 @@ async function respondWithLocalAsset(
 
   const cacheControl = isLdrawLibraryPath(pathname)
     ? 'no-cache, must-revalidate'
-    : 'public, max-age=86400'
+    : pathname.startsWith(SCRATCH_ASSET_PREFIX)
+      ? 'public, max-age=31536000, immutable'
+      : 'public, max-age=86400'
 
   return new Response(local.data, {
     status: 200,
@@ -121,11 +123,13 @@ async function proxyAsset(
   }
 
   const upstreamUrl = `${baseUrl}${pathname}${request.nextUrl.search}`
+  const isScratchAsset = pathname.startsWith(SCRATCH_ASSET_PREFIX)
   let upstream: Response
   try {
     upstream = await fetch(upstreamUrl, {
       method,
-      cache: 'no-store',
+      // Scratch 素材按 md5 寻址，允许 CDN/Next 缓存；其它资源仍 no-store 防盗链抖动
+      cache: isScratchAsset ? 'force-cache' : 'no-store',
       headers: {
         Referer: getAssetReferer(),
       },
@@ -164,8 +168,15 @@ async function proxyAsset(
   if (!headers.has('cache-control')) {
     headers.set(
       'cache-control',
-      isLdrawLibraryPath(pathname) ? 'no-cache, must-revalidate' : 'public, max-age=86400',
+      isLdrawLibraryPath(pathname)
+        ? 'no-cache, must-revalidate'
+        : isScratchAsset
+          ? 'public, max-age=31536000, immutable'
+          : 'public, max-age=86400',
     )
+  } else if (isScratchAsset) {
+    // 覆盖上游过短缓存，造型/声音按 md5 可长期缓存
+    headers.set('cache-control', 'public, max-age=31536000, immutable')
   }
 
   return new Response(method === 'HEAD' ? null : upstream.body, {
