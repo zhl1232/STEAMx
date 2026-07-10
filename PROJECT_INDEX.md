@@ -114,7 +114,7 @@
 - `notification-bell.tsx` — 通知铃铛
 - `share-button.tsx` — 分享按钮
 - `login-dialog.tsx` — 登录引导弹窗
-- `logo.tsx` — 品牌 Logo
+- `logo.tsx` — 品牌 Logo（`public/logo.png` 透明圆形标）
 - `theme-provider.tsx` / `theme-toggle.tsx` — 主题切换
 - `error-boundary.tsx` — 错误边界
 
@@ -430,4 +430,5 @@
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/fruits/` | 水果与干果物种图片（并入植物专题，已纳入 OSS 同步与 `/api/assets` 代理白名单；`images/` 本地目录 gitignore） |
 | `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/*.webp` 根层旧封面、`public/projects/generated/*.webp` 与 `public/projects/steps/` 已迁 OSS，配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer |
-| `public/icon*.png` | PWA 图标 |
+| `public/logo.png` | 品牌 Logo（透明底圆形标，导航/登录等处使用） |
+| `public/icon-192x192.png` / `public/icon-512x512.png` | PWA 图标（与品牌 Logo 同源）；`app/icon.png` / `app/apple-icon.png` 为站点 favicon / Apple Touch Icon |
