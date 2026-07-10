@@ -68,6 +68,9 @@ export type StudentProfileSnapshot = {
   radarSummary: string
   statsSummary: string
   recentActivity: string
+  learningSignalsSummary?: string
+  /** Safe disclosure summary for questions like "can you see my profile/radar?" */
+  dataAccessSummary?: string
   text: string
 }
 
